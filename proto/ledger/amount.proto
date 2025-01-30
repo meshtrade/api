@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package ledger;
+
+option go_package = "github.com/meshtrade/api/go/fee";
+
+import "ledger/token.proto";
+import "num/decimal.proto";
+
+/*
+Amount is an amount of a particular token.
+*/
+message Amount {
+  /*
+  Token is the unit of account of this Amount.
+  */
+  ledger.Token token = 1;
+
+  /*
+  Value is the amount of Token that this Amount is.
+  */
+  num.Decimal value = 2;
+}

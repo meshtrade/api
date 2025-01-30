@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package ledger;
+
+option go_package = "github.com/meshtrade/api/go/fee";
+
+import "ledger/network.proto";
+
+/*
+Token is the unit of account for a particular asset on a specific blockchain network.
+*/
+message Token {
+  /*
+  Code is the code of the token.
+  Examples: "mZAR", "USDC" or "BTC"
+  */
+  string code = 1;
+
+  /*
+  Issuer is the issuing entity of the token.
+  */
+  string issuer = 2;
+
+  /*
+  Network is the he blockchain network on which the token exists.
+  */
+  ledger.Network network = 3;
+}

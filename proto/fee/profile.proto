@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package fee;
+
+option go_package = "github.com/meshtrade/api/go/fee";
+
+/*
+Profile is the fee profile associated with a particular instrument.
+It is used to determine what rate is charged for different things.
+*/
+message Profile {
+  /*
+  InstrumentID refers to the instrument against which this fee profile applied.
+  */
+  string instrumentID = 1;
+}

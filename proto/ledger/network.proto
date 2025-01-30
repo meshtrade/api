@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package ledger;
+
+option go_package = "github.com/meshtrade/api/go/fee";
+
+/*
+Network represents the various blockchain networks supported by Mesh.
+*/
+enum Network {
+  // 0 not used to prevent unexpected default value behaviour
+  UNDEFINED_NETWORK = 0;
+
+  // The Stellar blockchain network. https://stellar.org
+  STELLAR_NETWORK = 1;
+}

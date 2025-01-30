@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package num;
+
+option go_package = "github.com/meshtrade/api/go/fee";
+
+message Decimal {
+  string value = 1;
+}
