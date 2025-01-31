@@ -5,10 +5,9 @@ package fee;
 option go_package = "github.com/meshtrade/api/go/fee";
 
 /*
-Profile is the fee profile associated with a particular instrument.
-It is used to determine what rate is charged for different things.
+Fee is a fee.
 */
-message Profile {
+message Fee {
   /*
   InstrumentID refers to the instrument against which this fee profile applied.
   */

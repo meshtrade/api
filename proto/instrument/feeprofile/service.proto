@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package feeprofile;
+
+option go_package = "github.com/meshtrade/api/go/feeprofile";
+
+import "instrument/feeprofile/feeProfile.proto";
+
+/*
+Service is the Fee Profile Service.
+*/
+service Service {
+  rpc Create(CreateRequest) returns (feeprofile.FeeProfile);
+  rpc Get(GetRequest) returns (feeprofile.FeeProfile);
+}
+
+/*
+CreateRequest is Create method request on the Fee Profile Service.
+*/
+message CreateRequest {
+  /*
+  FeeProfile is the FeeProfile to be created.
+  */
+  feeprofile.FeeProfile feeProfile = 1;
+}
+
+/*
+GetRequest is Get method request on the Fee Profile Service.
+*/
+message GetRequest {
+  string id = 1;
+}

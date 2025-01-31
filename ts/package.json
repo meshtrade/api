@@ -1,7 +1,7 @@
 {
   "name": "@mesh/ts-api",
   "version": "1.0.0",
-  "type": "module",
+  "type": "commonjs",
   "exports": {
     "./*": "./dist/*"
   },
