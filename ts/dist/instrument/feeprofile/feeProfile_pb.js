@@ -75,7 +75,8 @@ proto.feeprofile.FeeProfile.prototype.toObject = function(opt_includeInstance) {
  */
 proto.feeprofile.FeeProfile.toObject = function(includeInstance, msg) {
   var f, obj = {
-instrumentid: jspb.Message.getFieldWithDefault(msg, 1, "")
+instrumentid: jspb.Message.getFieldWithDefault(msg, 1, ""),
+hey: jspb.Message.getFieldWithDefault(msg, 2, "")
   };
 
   if (includeInstance) {
@@ -116,6 +117,10 @@ proto.feeprofile.FeeProfile.deserializeBinaryFromReader = function(msg, reader) 
       var value = /** @type {string} */ (reader.readString());
       msg.setInstrumentid(value);
       break;
+    case 2:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setHey(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -152,6 +157,13 @@ proto.feeprofile.FeeProfile.serializeBinaryToWriter = function(message, writer) 
       f
     );
   }
+  f = message.getHey();
+  if (f.length > 0) {
+    writer.writeString(
+      2,
+      f
+    );
+  }
 };
 
 
@@ -170,6 +182,24 @@ proto.feeprofile.FeeProfile.prototype.getInstrumentid = function() {
  */
 proto.feeprofile.FeeProfile.prototype.setInstrumentid = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
+};
+
+
+/**
+ * optional string hey = 2;
+ * @return {string}
+ */
+proto.feeprofile.FeeProfile.prototype.getHey = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.feeprofile.FeeProfile} returns this
+ */
+proto.feeprofile.FeeProfile.prototype.setHey = function(value) {
+  return jspb.Message.setProto3StringField(this, 2, value);
 };
 
 

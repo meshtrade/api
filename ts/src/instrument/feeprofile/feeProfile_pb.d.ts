@@ -6,6 +6,9 @@ export class FeeProfile extends jspb.Message {
   getInstrumentid(): string;
   setInstrumentid(value: string): FeeProfile;
 
+  getHey(): string;
+  setHey(value: string): FeeProfile;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): FeeProfile.AsObject;
   static toObject(includeInstance: boolean, msg: FeeProfile): FeeProfile.AsObject;
@@ -17,6 +20,7 @@ export class FeeProfile extends jspb.Message {
 export namespace FeeProfile {
   export type AsObject = {
     instrumentid: string,
+    hey: string,
   }
 }
 
