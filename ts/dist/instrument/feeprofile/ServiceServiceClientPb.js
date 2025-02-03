@@ -15,15 +15,17 @@ exports.ServiceClient = void 0;
 // @ts-nocheck
 var grpcWeb = require("grpc-web");
 var instrument_feeprofile_service_pb = require("../../instrument/feeprofile/service_pb"); // proto import: "instrument/feeprofile/service.proto"
-var instrument_feeprofile_feeProfile_pb = require("../../instrument/feeprofile/feeProfile_pb"); // proto import: "instrument/feeprofile/feeProfile.proto"
 var ServiceClient = /** @class */ (function () {
     function ServiceClient(hostname, credentials, options) {
-        this.methodDescriptorCreate = new grpcWeb.MethodDescriptor('/feeprofile.Service/Create', grpcWeb.MethodType.UNARY, instrument_feeprofile_service_pb.CreateRequest, instrument_feeprofile_feeProfile_pb.FeeProfile, function (request) {
+        this.methodDescriptorCreate = new grpcWeb.MethodDescriptor('/feeprofile.Service/Create', grpcWeb.MethodType.UNARY, instrument_feeprofile_service_pb.CreateRequest, instrument_feeprofile_service_pb.CreateResponse, function (request) {
             return request.serializeBinary();
-        }, instrument_feeprofile_feeProfile_pb.FeeProfile.deserializeBinary);
-        this.methodDescriptorGet = new grpcWeb.MethodDescriptor('/feeprofile.Service/Get', grpcWeb.MethodType.UNARY, instrument_feeprofile_service_pb.GetRequest, instrument_feeprofile_feeProfile_pb.FeeProfile, function (request) {
+        }, instrument_feeprofile_service_pb.CreateResponse.deserializeBinary);
+        this.methodDescriptorUpdate = new grpcWeb.MethodDescriptor('/feeprofile.Service/Update', grpcWeb.MethodType.UNARY, instrument_feeprofile_service_pb.UpdateRequest, instrument_feeprofile_service_pb.UpdateResponse, function (request) {
             return request.serializeBinary();
-        }, instrument_feeprofile_feeProfile_pb.FeeProfile.deserializeBinary);
+        }, instrument_feeprofile_service_pb.UpdateResponse.deserializeBinary);
+        this.methodDescriptorGet = new grpcWeb.MethodDescriptor('/feeprofile.Service/Get', grpcWeb.MethodType.UNARY, instrument_feeprofile_service_pb.GetRequest, instrument_feeprofile_service_pb.GetResponse, function (request) {
+            return request.serializeBinary();
+        }, instrument_feeprofile_service_pb.GetResponse.deserializeBinary);
         if (!options)
             options = {};
         if (!credentials)
@@ -41,6 +43,14 @@ var ServiceClient = /** @class */ (function () {
         }
         return this.client_.unaryCall(this.hostname_ +
             '/feeprofile.Service/Create', request, metadata || {}, this.methodDescriptorCreate);
+    };
+    ServiceClient.prototype.update = function (request, metadata, callback) {
+        if (callback !== undefined) {
+            return this.client_.rpcCall(this.hostname_ +
+                '/feeprofile.Service/Update', request, metadata || {}, this.methodDescriptorUpdate, callback);
+        }
+        return this.client_.unaryCall(this.hostname_ +
+            '/feeprofile.Service/Update', request, metadata || {}, this.methodDescriptorUpdate);
     };
     ServiceClient.prototype.get = function (request, metadata, callback) {
         if (callback !== undefined) {

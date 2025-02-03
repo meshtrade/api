@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package fee;
+
+option go_package = "github.com/meshtrade/api/go/instrument/fee";
+
+
+/* 
+State is the state of a Fee in its state diagram.
+*/
+enum State {
+  UNDEFINED_STATE = 0; // 0 not used to prevent unexpected default value behaviour.
+  UPCOMING_STATE = 1;
+  DUE_STATE = 2;
+  PAYMENT_IN_PROGRESS_STATE = 3;
+  FAILED_STATE = 4;
+  CANCELLED_STATE = 5;
+  PAID_STATE = 6;
+}

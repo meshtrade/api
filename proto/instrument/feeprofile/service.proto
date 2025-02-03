@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package feeprofile;
 
-option go_package = "github.com/meshtrade/api/go/feeprofile";
+option go_package = "github.com/meshtrade/api/go/instrument/feeprofile";
 
 import "instrument/feeprofile/feeProfile.proto";
 
@@ -10,12 +10,13 @@ import "instrument/feeprofile/feeProfile.proto";
 Service is the Fee Profile Service.
 */
 service Service {
-  rpc Create(CreateRequest) returns (feeprofile.FeeProfile);
-  rpc Get(GetRequest) returns (feeprofile.FeeProfile);
+  rpc Create(CreateRequest) returns (CreateResponse);
+  rpc Update(UpdateRequest) returns (UpdateResponse);
+  rpc Get(GetRequest) returns (GetResponse);
 }
 
 /*
-CreateRequest is Create method request on the Fee Profile Service.
+CreateRequest is the Create method request on the Fee Profile Service.
 */
 message CreateRequest {
   /*
@@ -25,8 +26,51 @@ message CreateRequest {
 }
 
 /*
-GetRequest is Get method request on the Fee Profile Service.
+CreateResponse is the Create method response on the Fee Profile Service.
+*/
+message CreateResponse {
+  /*
+  FeeProfile is the FeeProfile that was created.
+  */
+  feeprofile.FeeProfile feeProfile = 1;
+}
+
+/*
+UpdateRequest is the Update method request on the Fee Profile Service.
+*/
+message UpdateRequest {
+  /*
+  FeeProfile is the FeeProfile to be updated.
+  */
+  feeprofile.FeeProfile feeProfile = 1;
+}
+
+/*
+UpdateResponse is the Update method response on the Fee Profile Service.
+*/
+message UpdateResponse {
+  /*
+  FeeProfile is the FeeProfile that was updated.
+  */
+  feeprofile.FeeProfile feeProfile = 1;
+}
+
+/*
+GetRequest is the Get method request on the Fee Profile Service.
 */
 message GetRequest {
-  string id = 1;
+  /*
+InstrumentID refers to the Instrument for which the fee profile is retrieved.
+*/
+  string instrumentID = 1;
+}
+
+/*
+GetResposne is the Get method response on the Fee Profile Service.
+*/
+message GetResponse {
+  /*
+  FeeProfile is the FeeProfile that was retrieved.
+  */
+  feeprofile.FeeProfile feeProfile = 1;
 }

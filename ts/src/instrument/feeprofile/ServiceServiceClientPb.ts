@@ -18,7 +18,6 @@
 import * as grpcWeb from 'grpc-web';
 
 import * as instrument_feeprofile_service_pb from '../../instrument/feeprofile/service_pb'; // proto import: "instrument/feeprofile/service.proto"
-import * as instrument_feeprofile_feeProfile_pb from '../../instrument/feeprofile/feeProfile_pb'; // proto import: "instrument/feeprofile/feeProfile.proto"
 
 
 export class ServiceClient {
@@ -44,28 +43,28 @@ export class ServiceClient {
     '/feeprofile.Service/Create',
     grpcWeb.MethodType.UNARY,
     instrument_feeprofile_service_pb.CreateRequest,
-    instrument_feeprofile_feeProfile_pb.FeeProfile,
+    instrument_feeprofile_service_pb.CreateResponse,
     (request: instrument_feeprofile_service_pb.CreateRequest) => {
       return request.serializeBinary();
     },
-    instrument_feeprofile_feeProfile_pb.FeeProfile.deserializeBinary
+    instrument_feeprofile_service_pb.CreateResponse.deserializeBinary
   );
 
   create(
     request: instrument_feeprofile_service_pb.CreateRequest,
-    metadata?: grpcWeb.Metadata | null): Promise<instrument_feeprofile_feeProfile_pb.FeeProfile>;
+    metadata?: grpcWeb.Metadata | null): Promise<instrument_feeprofile_service_pb.CreateResponse>;
 
   create(
     request: instrument_feeprofile_service_pb.CreateRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: instrument_feeprofile_feeProfile_pb.FeeProfile) => void): grpcWeb.ClientReadableStream<instrument_feeprofile_feeProfile_pb.FeeProfile>;
+               response: instrument_feeprofile_service_pb.CreateResponse) => void): grpcWeb.ClientReadableStream<instrument_feeprofile_service_pb.CreateResponse>;
 
   create(
     request: instrument_feeprofile_service_pb.CreateRequest,
     metadata?: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: instrument_feeprofile_feeProfile_pb.FeeProfile) => void) {
+               response: instrument_feeprofile_service_pb.CreateResponse) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
@@ -83,32 +82,75 @@ export class ServiceClient {
     this.methodDescriptorCreate);
   }
 
+  methodDescriptorUpdate = new grpcWeb.MethodDescriptor(
+    '/feeprofile.Service/Update',
+    grpcWeb.MethodType.UNARY,
+    instrument_feeprofile_service_pb.UpdateRequest,
+    instrument_feeprofile_service_pb.UpdateResponse,
+    (request: instrument_feeprofile_service_pb.UpdateRequest) => {
+      return request.serializeBinary();
+    },
+    instrument_feeprofile_service_pb.UpdateResponse.deserializeBinary
+  );
+
+  update(
+    request: instrument_feeprofile_service_pb.UpdateRequest,
+    metadata?: grpcWeb.Metadata | null): Promise<instrument_feeprofile_service_pb.UpdateResponse>;
+
+  update(
+    request: instrument_feeprofile_service_pb.UpdateRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: instrument_feeprofile_service_pb.UpdateResponse) => void): grpcWeb.ClientReadableStream<instrument_feeprofile_service_pb.UpdateResponse>;
+
+  update(
+    request: instrument_feeprofile_service_pb.UpdateRequest,
+    metadata?: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: instrument_feeprofile_service_pb.UpdateResponse) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/feeprofile.Service/Update',
+        request,
+        metadata || {},
+        this.methodDescriptorUpdate,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/feeprofile.Service/Update',
+    request,
+    metadata || {},
+    this.methodDescriptorUpdate);
+  }
+
   methodDescriptorGet = new grpcWeb.MethodDescriptor(
     '/feeprofile.Service/Get',
     grpcWeb.MethodType.UNARY,
     instrument_feeprofile_service_pb.GetRequest,
-    instrument_feeprofile_feeProfile_pb.FeeProfile,
+    instrument_feeprofile_service_pb.GetResponse,
     (request: instrument_feeprofile_service_pb.GetRequest) => {
       return request.serializeBinary();
     },
-    instrument_feeprofile_feeProfile_pb.FeeProfile.deserializeBinary
+    instrument_feeprofile_service_pb.GetResponse.deserializeBinary
   );
 
   get(
     request: instrument_feeprofile_service_pb.GetRequest,
-    metadata?: grpcWeb.Metadata | null): Promise<instrument_feeprofile_feeProfile_pb.FeeProfile>;
+    metadata?: grpcWeb.Metadata | null): Promise<instrument_feeprofile_service_pb.GetResponse>;
 
   get(
     request: instrument_feeprofile_service_pb.GetRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: instrument_feeprofile_feeProfile_pb.FeeProfile) => void): grpcWeb.ClientReadableStream<instrument_feeprofile_feeProfile_pb.FeeProfile>;
+               response: instrument_feeprofile_service_pb.GetResponse) => void): grpcWeb.ClientReadableStream<instrument_feeprofile_service_pb.GetResponse>;
 
   get(
     request: instrument_feeprofile_service_pb.GetRequest,
     metadata?: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: instrument_feeprofile_feeProfile_pb.FeeProfile) => void) {
+               response: instrument_feeprofile_service_pb.GetResponse) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +

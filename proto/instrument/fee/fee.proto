@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package fee;
+
+option go_package = "github.com/meshtrade/api/go/instrument/fee";
+
+import "instrument/fee/state.proto";
+import "instrument/fee/category.proto";
+import "instrument/fee/data.proto";
+import "ledger/amount.proto";
+import "google/protobuf/timestamp.proto";
+
+/*
+Fee represents a financial charge associated with an Instrument,
+imposed by the Instrument Issuer.
+A Fee is generated using a FeeProfile, which determines its amount
+and other related fields.
+Only Mesh is authorized to create and update Fee records.
+*/
+message Fee {
+  /*
+  InstrumentName refers to the instrument against which this Fee applied.
+  */
+  string instrumentName = 1;
+
+  /*
+  Description is a detailed business rationale for the existence of this Fee.
+  It explains the purpose and context behind the charge.
+  */
+  string description = 2;
+
+  /*
+  State is the payment status.
+  */
+  fee.State state = 3;
+
+  /*
+  AmountInclVat is the total amount charged, inclusive of VAT.
+  This field captures the gross charge that the instrument issuer must pay.
+  */
+  ledger.Amount amountInclVat = 4;
+
+  /*
+  VATAmount is the portion of the AmountInclVat that constitutes VAT.
+  */
+  string vatAmount = 5;
+
+  /*
+  Category is the type of Fee being applied. It categorizes fees based on
+  their purpose and the services they correspond to. Supported categories
+  include:
+    - Tokenisation: Fee for tokenizing assets.
+    - Listing: Fee for listing the instrument on a platform.
+    - PrimaryMarketSettlement: Fee related to primary market transaction
+    settlements.
+    - AUM: Assets Under Management fee.
+  */
+  fee.Category category = 6;
+
+  /*
+  PaymentDate is the on which the Fee was paid.
+  */
+  google.protobuf.Timestamp paymentDate = 7;
+
+  /*
+  Data is the additional contextual information related to calculation, 
+  taxation and billing of the Fee.
+  */
+  fee.Data data = 9;
+}

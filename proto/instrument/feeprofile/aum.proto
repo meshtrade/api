@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package feeprofile;
+
+option go_package = "github.com/meshtrade/api/go/instrument/feeprofile";
+
+import "num/decimal.proto";
+
+/*
+NOT COMPLETE
+AUM (Assets Under Management) configures the fees related to the
+management of the Instrument on Mesh.
+These fees are typically based on the total value of assets being
+managed on Mesh, or a flat amount.
+*/
+message AUM {
+  /*
+  Rate is fee rate applied to the total value of assets on Mesh
+  to calculate the Fee.AmountExclVAT.
+  */
+  num.Decimal rate = 1;
+
+  // FIXME: Model variable or flat AUM fees, with a manual or
+  // oracle generated billing schedule with due dates.
+}

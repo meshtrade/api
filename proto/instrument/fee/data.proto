@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package fee;
+
+option go_package = "github.com/meshtrade/api/go/instrument/fee";
+
+import "instrument/fee/dataAmount.proto";
+import "instrument/fee/dataRate.proto";
+import "instrument/fee/dataPerUnit.proto";
+
+/*
+Data is the generic calculation data that is attached to a Fee for reference.
+
+@bson-marshalled
+*/
+message Data {
+    oneof Data {
+        fee.AmountData amountData = 1;
+        fee.RateData rateData = 2;
+        fee.PerUnitData perUnitData = 3;
+    }
+}

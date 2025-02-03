@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package fee;
+
+option go_package = "github.com/meshtrade/api/go/instrument/fee";
+
+import "ledger/amount.proto";
+import "num/decimal.proto";
+
+/*
+PerUnitData is the additional calculation data for a Fee
+calculated using a variable amount of tokens and a set
+amount per token.
+For example, this is used for minting and burning fees where
+the Fee amount is depending on the number of tokens minted
+or burned, and the fee per token minted or burned.
+*/
+message PerUnitData {
+  /*
+  NoUnits is the number of tokens for which a set fee amount
+  is charged and is used to calculate the Fee.AmountExclVAT.
+  */
+  num.Decimal noUnits = 1;
+
+  /*
+  PerUnitAmount is the fee amount per token that gets
+  multiplied with the NoUnits to calculate the
+  Fee.AmountExclVAT.
+  */
+  ledger.Amount perUnitAmount = 2;
+
+  /*
+  AmountExclVAT is the VAT exclusive amount used to calculate
+  Fee.VatAmount and the resulting Fee.AmountInclVAT.
+  */
+  ledger.Amount amountExclVAT = 3;
+
+  /*
+  VATRate is the rate used to calculate Fee.VatAmount.
+  */
+  num.Decimal vatRate = 4;
+}

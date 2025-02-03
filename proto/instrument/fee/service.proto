@@ -1,0 +1,99 @@
+syntax = "proto3";
+
+package fee;
+
+option go_package = "github.com/meshtrade/api/go/instrument/fee";
+
+import "instrument/fee/fee.proto";
+import "ledger/amount.proto";
+import "search/criterion.proto";
+
+/*
+Service is the Fee Service.
+*/
+service Service {
+  rpc Get(GetRequest) returns (GetResponse);
+  rpc List(ListRequest) returns (ListResponse);
+  rpc CalculateMintingFees(CalculateMintingFeesRequest) returns (CalculateMintingFeesResponse);
+  rpc CalculateBurnignFees(CalculateBurningFeesRequest) returns (CalculateBurningFeesResponse);
+}
+
+/*
+GetRequest is the Get method request on the Fee Service.
+*/
+message GetRequest {
+  /*
+  Criteria is the search criteria that specifies which Fee to retrieve.
+  */
+  repeated search.Criterion criteria = 1;
+}
+
+/*
+GetResponse is the Get method response on the Fee Service.
+*/
+message GetResponse {
+  /*
+  Fee is the Fee that was retrieved.
+  */
+  fee.Fee fee = 1;
+}
+
+/*
+ListRequest is the List method request on the Fee Service.
+*/
+message ListRequest {
+  /*
+  Criteria is the search criteria that specifies which Fee list to retrieve.
+  */
+  repeated search.Criterion criteria = 1;
+}
+
+/*
+ListResponse is the List method response on the Fee Service.
+*/
+message ListResponse {
+  /*
+  Fees are the list of fees that were retrieved.
+  */
+  repeated fee.Fee fees = 1;
+}
+
+/*
+CalculateMintingFeesRequest is the CalculateMintingFees method request on the Fee Service.
+*/
+message CalculateMintingFeesRequest {
+  /*
+  Amount is the mint Amount for which fees are calculated.
+  */
+  ledger.Amount Amount = 1;
+}
+
+/*
+CalculateMintingFeesResponse is the CalculateMintingFees method response on the Fee Service.
+*/
+message CalculateMintingFeesResponse {
+  /*
+  Fees are the fees calculated for the requested mint amount.
+  */
+  repeated fee.Fee Fees = 1;
+}
+
+/*
+CalculateBurningFeesRequest is the CalculateBurningFees method request on the Fee Service.
+*/
+message CalculateBurningFeesRequest {
+  /*
+  Amount is the burn Amount for which fees are calculated.
+  */
+  ledger.Amount Amount = 1;
+}
+
+/*
+CalculateBurningFeesResponse is the CalculateBurningFees method response on the Fee Service.
+*/
+message CalculateBurningFeesResponse {
+  /*
+  Fees are the fees calculated for the requested burn amount.
+  */
+  repeated fee.Fee Fees = 1;
+}

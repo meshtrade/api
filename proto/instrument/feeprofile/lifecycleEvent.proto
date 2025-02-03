@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package feeprofile;
+
+option go_package = "github.com/meshtrade/api/go/instrument/feeprofile";
+
+import "instrument/feeProfile/lifecycleEventFeeTrigger.proto";
+import "instrument/feeProfile/lifecycleEventFeeCalculationConfig.proto";
+
+/*
+LifecycleEvents configures the fees associated with various stages in the
+Instrument's lifecycle.
+Lifecycle events are significant milestones or actions that may incur
+fees, such as:
+  - Listing: Fees for listing the Instrument on Mesh.
+  - Primary Market Settlement: Fees related to the settlement of
+  transactions in the primary market.
+
+Multiple lifecycle events can be configured and managed within a single
+FeeProfile.
+*/
+message LifecycleEvent {
+  /*
+  Name is the unique description of the Fee charged on this LifecycleEvent.
+  */
+  string name = 1;
+
+  /*
+  Trigger is the Instrument lifecycle event that leads to a Fee being charged.
+  */
+  feeprofile.LifecycleEventFeeTrigger trigger = 2;
+
+  /*
+  CalculationConfig defines how the Fee on this lifecycle event is calculated.
+  Implementations include:
+    - Amount: The Fee amount is fixed and pre-determined.
+    - Rate: The Fee amount is variable are calculated as a percentage of a
+    base amount. The base amount used is contextual to the lifecycle event.
+  */
+  feeprofile.LifecycleEventFeeCalculationConfig calculationConfig = 3;
+}

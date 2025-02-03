@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package search;
+
+option go_package = "github.com/meshtrade/api/go/search";
+
+// BoolExactCriterion is an exact bool search criterion
+message BoolExactCriterion {
+    /*
+    Field is the field that the search is performed against.
+    */
+    string field = 1;
+
+    /*
+    Bool is the bool that should match the value in the Field.
+    */
+    bool bool = 2;
+}

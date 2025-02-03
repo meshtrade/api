@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package search;
+
+option go_package = "github.com/meshtrade/api/go/search";
+
+import "search/boolExactCriterion.proto";
+import "search/textExactCriterion.proto";
+import "search/textNEExactCriterion.proto";
+import "search/textSubstringCriterion.proto";
+import "search/textListCriterion.proto";
+import "search/textNINListCriterion.proto";
+import "search/uint32ExactCriterion.proto";
+import "search/uint32NEExactCriterion.proto";
+import "search/uint32ListCriterion.proto";
+import "search/dateRangeCriterion.proto";
+
+// Criterion is a placeholder for generic search criterion
+message Criterion {
+  oneof criterion {
+    search.BoolExactCriterion boolExactCriterion = 1;
+    search.TextExactCriterion textExactCriterion = 2;
+    search.TextNEExactCriterion textNEExactCriterion = 3;
+    search.TextSubstringCriterion textSubstringCriterion = 4;
+    search.TextListCriterion textListCriterion = 5;
+    search.TextNINListCriterion textNINListCriterion = 6;
+    search.Uint32ExactCriterion uint32ExactCriterion = 7;
+    search.Uint32ExactCriterion uint32NEExactCriterion = 8;
+    search.Uint32ListCriterion uint32ListCriterion = 9;
+    search.DateRangeCriterion dateRangeCriterion = 10;
+    search.ORCriterion orCriterion = 11;
+  }
+}
+
+// ORCriterion allows the construction of an OR list of criterion.
+message ORCriterion {
+  // criteria is a list of search.Criterion that are used to construct an OR
+  // list
+  repeated search.Criterion criteria = 1;
+}
