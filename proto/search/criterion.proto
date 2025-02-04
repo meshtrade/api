@@ -25,7 +25,7 @@ message Criterion {
     search.TextListCriterion textListCriterion = 5;
     search.TextNINListCriterion textNINListCriterion = 6;
     search.Uint32ExactCriterion uint32ExactCriterion = 7;
-    search.Uint32ExactCriterion uint32NEExactCriterion = 8;
+    search.Uint32NEExactCriterion uint32NEExactCriterion = 8;
     search.Uint32ListCriterion uint32ListCriterion = 9;
     search.DateRangeCriterion dateRangeCriterion = 10;
     search.ORCriterion orCriterion = 11;

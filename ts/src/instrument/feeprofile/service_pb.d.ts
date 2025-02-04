@@ -84,8 +84,8 @@ export namespace UpdateResponse {
 }
 
 export class GetRequest extends jspb.Message {
-  getInstrumentid(): string;
-  setInstrumentid(value: string): GetRequest;
+  getInstrumentname(): string;
+  setInstrumentname(value: string): GetRequest;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): GetRequest.AsObject;
@@ -97,7 +97,7 @@ export class GetRequest extends jspb.Message {
 
 export namespace GetRequest {
   export type AsObject = {
-    instrumentid: string,
+    instrumentname: string,
   }
 }
 

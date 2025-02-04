@@ -1,18 +1,18 @@
 import * as jspb from 'google-protobuf'
 
-import * as instrument_feeProfile_lifecycleEventFeeTrigger_pb from '../../instrument/feeProfile/lifecycleEventFeeTrigger_pb'; // proto import: "instrument/feeProfile/lifecycleEventFeeTrigger.proto"
-import * as instrument_feeProfile_lifecycleEventFeeCalculationConfig_pb from '../../instrument/feeProfile/lifecycleEventFeeCalculationConfig_pb'; // proto import: "instrument/feeProfile/lifecycleEventFeeCalculationConfig.proto"
+import * as instrument_feeProfile_lifecycleEventCategory_pb from '../../instrument/feeProfile/lifecycleEventCategory_pb'; // proto import: "instrument/feeProfile/lifecycleEventCategory.proto"
+import * as instrument_feeProfile_lifecycleEventCalculationConfig_pb from '../../instrument/feeProfile/lifecycleEventCalculationConfig_pb'; // proto import: "instrument/feeProfile/lifecycleEventCalculationConfig.proto"
 
 
 export class LifecycleEvent extends jspb.Message {
-  getName(): string;
-  setName(value: string): LifecycleEvent;
+  getDescription(): string;
+  setDescription(value: string): LifecycleEvent;
 
-  getTrigger(): instrument_feeProfile_lifecycleEventFeeTrigger_pb.LifecycleEventFeeTrigger;
-  setTrigger(value: instrument_feeProfile_lifecycleEventFeeTrigger_pb.LifecycleEventFeeTrigger): LifecycleEvent;
+  getCategory(): instrument_feeProfile_lifecycleEventCategory_pb.LifecycleEventCategory;
+  setCategory(value: instrument_feeProfile_lifecycleEventCategory_pb.LifecycleEventCategory): LifecycleEvent;
 
-  getCalculationconfig(): instrument_feeProfile_lifecycleEventFeeCalculationConfig_pb.LifecycleEventFeeCalculationConfig | undefined;
-  setCalculationconfig(value?: instrument_feeProfile_lifecycleEventFeeCalculationConfig_pb.LifecycleEventFeeCalculationConfig): LifecycleEvent;
+  getCalculationconfig(): instrument_feeProfile_lifecycleEventCalculationConfig_pb.LifecycleEventCalculationConfig | undefined;
+  setCalculationconfig(value?: instrument_feeProfile_lifecycleEventCalculationConfig_pb.LifecycleEventCalculationConfig): LifecycleEvent;
   hasCalculationconfig(): boolean;
   clearCalculationconfig(): LifecycleEvent;
 
@@ -26,9 +26,9 @@ export class LifecycleEvent extends jspb.Message {
 
 export namespace LifecycleEvent {
   export type AsObject = {
-    name: string,
-    trigger: instrument_feeProfile_lifecycleEventFeeTrigger_pb.LifecycleEventFeeTrigger,
-    calculationconfig?: instrument_feeProfile_lifecycleEventFeeCalculationConfig_pb.LifecycleEventFeeCalculationConfig.AsObject,
+    description: string,
+    category: instrument_feeProfile_lifecycleEventCategory_pb.LifecycleEventCategory,
+    calculationconfig?: instrument_feeProfile_lifecycleEventCalculationConfig_pb.LifecycleEventCalculationConfig.AsObject,
   }
 }
 

@@ -48,8 +48,8 @@ export class Criterion extends jspb.Message {
   hasUint32exactcriterion(): boolean;
   clearUint32exactcriterion(): Criterion;
 
-  getUint32neexactcriterion(): search_uint32ExactCriterion_pb.Uint32ExactCriterion | undefined;
-  setUint32neexactcriterion(value?: search_uint32ExactCriterion_pb.Uint32ExactCriterion): Criterion;
+  getUint32neexactcriterion(): search_uint32NEExactCriterion_pb.Uint32NEExactCriterion | undefined;
+  setUint32neexactcriterion(value?: search_uint32NEExactCriterion_pb.Uint32NEExactCriterion): Criterion;
   hasUint32neexactcriterion(): boolean;
   clearUint32neexactcriterion(): Criterion;
 
@@ -87,7 +87,7 @@ export namespace Criterion {
     textlistcriterion?: search_textListCriterion_pb.TextListCriterion.AsObject,
     textninlistcriterion?: search_textNINListCriterion_pb.TextNINListCriterion.AsObject,
     uint32exactcriterion?: search_uint32ExactCriterion_pb.Uint32ExactCriterion.AsObject,
-    uint32neexactcriterion?: search_uint32ExactCriterion_pb.Uint32ExactCriterion.AsObject,
+    uint32neexactcriterion?: search_uint32NEExactCriterion_pb.Uint32NEExactCriterion.AsObject,
     uint32listcriterion?: search_uint32ListCriterion_pb.Uint32ListCriterion.AsObject,
     daterangecriterion?: search_dateRangeCriterion_pb.DateRangeCriterion.AsObject,
     orcriterion?: ORCriterion.AsObject,

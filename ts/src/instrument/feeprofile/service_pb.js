@@ -791,7 +791,7 @@ proto.feeprofile.GetRequest.prototype.toObject = function(opt_includeInstance) {
  */
 proto.feeprofile.GetRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-instrumentid: jspb.Message.getFieldWithDefault(msg, 1, "")
+instrumentname: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
 
   if (includeInstance) {
@@ -830,7 +830,7 @@ proto.feeprofile.GetRequest.deserializeBinaryFromReader = function(msg, reader) 
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.setInstrumentid(value);
+      msg.setInstrumentname(value);
       break;
     default:
       reader.skipField();
@@ -861,7 +861,7 @@ proto.feeprofile.GetRequest.prototype.serializeBinary = function() {
  */
 proto.feeprofile.GetRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getInstrumentid();
+  f = message.getInstrumentname();
   if (f.length > 0) {
     writer.writeString(
       1,
@@ -872,10 +872,10 @@ proto.feeprofile.GetRequest.serializeBinaryToWriter = function(message, writer) 
 
 
 /**
- * optional string instrumentID = 1;
+ * optional string instrumentName = 1;
  * @return {string}
  */
-proto.feeprofile.GetRequest.prototype.getInstrumentid = function() {
+proto.feeprofile.GetRequest.prototype.getInstrumentname = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
@@ -884,7 +884,7 @@ proto.feeprofile.GetRequest.prototype.getInstrumentid = function() {
  * @param {string} value
  * @return {!proto.feeprofile.GetRequest} returns this
  */
-proto.feeprofile.GetRequest.prototype.setInstrumentid = function(value) {
+proto.feeprofile.GetRequest.prototype.setInstrumentname = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 

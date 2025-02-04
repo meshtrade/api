@@ -4,8 +4,8 @@ package feeprofile;
 
 option go_package = "github.com/meshtrade/api/go/instrument/feeprofile";
 
-import "instrument/feeProfile/lifecycleEventFeeTrigger.proto";
-import "instrument/feeProfile/lifecycleEventFeeCalculationConfig.proto";
+import "instrument/feeProfile/lifecycleEventCategory.proto";
+import "instrument/feeProfile/lifecycleEventCalculationConfig.proto";
 
 /*
 LifecycleEvents configures the fees associated with various stages in the
@@ -20,15 +20,18 @@ Multiple lifecycle events can be configured and managed within a single
 FeeProfile.
 */
 message LifecycleEvent {
-  /*
-  Name is the unique description of the Fee charged on this LifecycleEvent.
-  */
-  string name = 1;
 
   /*
-  Trigger is the Instrument lifecycle event that leads to a Fee being charged.
+  Description is the description of the Fee charged on this LifecycleEvent.
+  The description must be unique is the sense that the same description
+  cannot be used more than once for a single trigger.
   */
-  feeprofile.LifecycleEventFeeTrigger trigger = 2;
+  string description = 1;
+
+  /*
+  Category is the Instrument lifecycle event type that leads to a Fee being charged.
+  */
+  feeprofile.LifecycleEventCategory category = 2;
 
   /*
   CalculationConfig defines how the Fee on this lifecycle event is calculated.
@@ -37,5 +40,5 @@ message LifecycleEvent {
     - Rate: The Fee amount is variable are calculated as a percentage of a
     base amount. The base amount used is contextual to the lifecycle event.
   */
-  feeprofile.LifecycleEventFeeCalculationConfig calculationConfig = 3;
+  feeprofile.LifecycleEventCalculationConfig calculationConfig = 3;
 }

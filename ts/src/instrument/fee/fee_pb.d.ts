@@ -1,7 +1,5 @@
 import * as jspb from 'google-protobuf'
 
-import * as instrument_fee_state_pb from '../../instrument/fee/state_pb'; // proto import: "instrument/fee/state.proto"
-import * as instrument_fee_category_pb from '../../instrument/fee/category_pb'; // proto import: "instrument/fee/category.proto"
 import * as instrument_fee_data_pb from '../../instrument/fee/data_pb'; // proto import: "instrument/fee/data.proto"
 import * as ledger_amount_pb from '../../ledger/amount_pb'; // proto import: "ledger/amount.proto"
 import * as google_protobuf_timestamp_pb from 'google-protobuf/google/protobuf/timestamp_pb'; // proto import: "google/protobuf/timestamp.proto"
@@ -14,8 +12,11 @@ export class Fee extends jspb.Message {
   getInstrumentname(): string;
   setInstrumentname(value: string): Fee;
 
-  getState(): instrument_fee_state_pb.State;
-  setState(value: instrument_fee_state_pb.State): Fee;
+  getState(): State;
+  setState(value: State): Fee;
+
+  getDescription(): string;
+  setDescription(value: string): Fee;
 
   getAmountinclvat(): ledger_amount_pb.Amount | undefined;
   setAmountinclvat(value?: ledger_amount_pb.Amount): Fee;
@@ -25,8 +26,8 @@ export class Fee extends jspb.Message {
   getVatamount(): string;
   setVatamount(value: string): Fee;
 
-  getCategory(): instrument_fee_category_pb.Category;
-  setCategory(value: instrument_fee_category_pb.Category): Fee;
+  getCategory(): Category;
+  setCategory(value: Category): Fee;
 
   getPaymentdate(): google_protobuf_timestamp_pb.Timestamp | undefined;
   setPaymentdate(value?: google_protobuf_timestamp_pb.Timestamp): Fee;
@@ -50,12 +51,29 @@ export namespace Fee {
   export type AsObject = {
     name: string,
     instrumentname: string,
-    state: instrument_fee_state_pb.State,
+    state: State,
+    description: string,
     amountinclvat?: ledger_amount_pb.Amount.AsObject,
     vatamount: string,
-    category: instrument_fee_category_pb.Category,
+    category: Category,
     paymentdate?: google_protobuf_timestamp_pb.Timestamp.AsObject,
     data?: instrument_fee_data_pb.Data.AsObject,
   }
 }
 
+export enum State { 
+  UNDEFINED_STATE = 0,
+  UPCOMING_STATE = 1,
+  DUE_STATE = 2,
+  PAYMENT_IN_PROGRESS_STATE = 3,
+  FAILED_STATE = 4,
+  CANCELLED_STATE = 5,
+  PAID_STATE = 6,
+}
+export enum Category { 
+  UNDEFINED_CATEGORY = 0,
+  TOKENISATION_CATEGORY = 1,
+  LISTING_CATEGORY = 2,
+  PRIMARY_MARKET_SETTLEMENT_CATEGORY = 3,
+  AUM_CATEGORY = 4,
+}

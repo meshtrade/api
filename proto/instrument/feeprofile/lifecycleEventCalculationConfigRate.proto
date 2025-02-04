@@ -7,7 +7,7 @@ option go_package = "github.com/meshtrade/api/go/instrument/feeprofile";
 import "num/decimal.proto";
 
 /*
-RateLifecycleEventFeeCalculationConfig is the calculation configuration for a Fee
+RateLifecycleEventCalculationConfig is the calculation configuration for a Fee
 calculated using a percentage rate and a variable base
 amount.
 This is used for fees that depend on base amount like the
@@ -15,7 +15,7 @@ primary market settlement amount or subscription order book
 target raise not yet known with certainty at the time of
 setting up the Instrument's FeeProfile.
 */
-message RateLifecycleEventFeeCalculationConfig {
+message RateLifecycleEventCalculationConfig {
   /*
   Rate is the rate used to calculate Fee amount when mulitplied to
   a base amount specific to the lifecycle event.

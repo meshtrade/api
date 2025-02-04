@@ -1,4 +1,4 @@
-// source: instrument/fee/state.proto
+// source: instrument/feeprofile/lifecycleEventCategory.proto
 /**
  * @fileoverview
  * @enhanceable
@@ -21,18 +21,14 @@ var global =
     (function () { return this; }).call(null) ||
     Function('return this')();
 
-goog.exportSymbol('proto.fee.State', null, global);
+goog.exportSymbol('proto.feeprofile.LifecycleEventCategory', null, global);
 /**
  * @enum {number}
  */
-proto.fee.State = {
-  UNDEFINED_STATE: 0,
-  UPCOMING_STATE: 1,
-  DUE_STATE: 2,
-  PAYMENT_IN_PROGRESS_STATE: 3,
-  FAILED_STATE: 4,
-  CANCELLED_STATE: 5,
-  PAID_STATE: 6
+proto.feeprofile.LifecycleEventCategory = {
+  UNDEFINED_LIFECYCLE_EVENT_CATEGORY: 0,
+  LISTING_LIFECYCLE_EVENT_CATEGORY: 1,
+  PRIMARY_MARKET_SETTLEMENT_LIFECYCLE_EVENT_CATEGORY: 2
 };
 
-goog.object.extend(exports, proto.fee);
+goog.object.extend(exports, proto.feeprofile);

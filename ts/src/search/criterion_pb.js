@@ -160,7 +160,7 @@ textsubstringcriterion: (f = msg.getTextsubstringcriterion()) && search_textSubs
 textlistcriterion: (f = msg.getTextlistcriterion()) && search_textListCriterion_pb.TextListCriterion.toObject(includeInstance, f),
 textninlistcriterion: (f = msg.getTextninlistcriterion()) && search_textNINListCriterion_pb.TextNINListCriterion.toObject(includeInstance, f),
 uint32exactcriterion: (f = msg.getUint32exactcriterion()) && search_uint32ExactCriterion_pb.Uint32ExactCriterion.toObject(includeInstance, f),
-uint32neexactcriterion: (f = msg.getUint32neexactcriterion()) && search_uint32ExactCriterion_pb.Uint32ExactCriterion.toObject(includeInstance, f),
+uint32neexactcriterion: (f = msg.getUint32neexactcriterion()) && search_uint32NEExactCriterion_pb.Uint32NEExactCriterion.toObject(includeInstance, f),
 uint32listcriterion: (f = msg.getUint32listcriterion()) && search_uint32ListCriterion_pb.Uint32ListCriterion.toObject(includeInstance, f),
 daterangecriterion: (f = msg.getDaterangecriterion()) && search_dateRangeCriterion_pb.DateRangeCriterion.toObject(includeInstance, f),
 orcriterion: (f = msg.getOrcriterion()) && proto.search.ORCriterion.toObject(includeInstance, f)
@@ -236,8 +236,8 @@ proto.search.Criterion.deserializeBinaryFromReader = function(msg, reader) {
       msg.setUint32exactcriterion(value);
       break;
     case 8:
-      var value = new search_uint32ExactCriterion_pb.Uint32ExactCriterion;
-      reader.readMessage(value,search_uint32ExactCriterion_pb.Uint32ExactCriterion.deserializeBinaryFromReader);
+      var value = new search_uint32NEExactCriterion_pb.Uint32NEExactCriterion;
+      reader.readMessage(value,search_uint32NEExactCriterion_pb.Uint32NEExactCriterion.deserializeBinaryFromReader);
       msg.setUint32neexactcriterion(value);
       break;
     case 9:
@@ -345,7 +345,7 @@ proto.search.Criterion.serializeBinaryToWriter = function(message, writer) {
     writer.writeMessage(
       8,
       f,
-      search_uint32ExactCriterion_pb.Uint32ExactCriterion.serializeBinaryToWriter
+      search_uint32NEExactCriterion_pb.Uint32NEExactCriterion.serializeBinaryToWriter
     );
   }
   f = message.getUint32listcriterion();
@@ -635,17 +635,17 @@ proto.search.Criterion.prototype.hasUint32exactcriterion = function() {
 
 
 /**
- * optional Uint32ExactCriterion uint32NEExactCriterion = 8;
- * @return {?proto.search.Uint32ExactCriterion}
+ * optional Uint32NEExactCriterion uint32NEExactCriterion = 8;
+ * @return {?proto.search.Uint32NEExactCriterion}
  */
 proto.search.Criterion.prototype.getUint32neexactcriterion = function() {
-  return /** @type{?proto.search.Uint32ExactCriterion} */ (
-    jspb.Message.getWrapperField(this, search_uint32ExactCriterion_pb.Uint32ExactCriterion, 8));
+  return /** @type{?proto.search.Uint32NEExactCriterion} */ (
+    jspb.Message.getWrapperField(this, search_uint32NEExactCriterion_pb.Uint32NEExactCriterion, 8));
 };
 
 
 /**
- * @param {?proto.search.Uint32ExactCriterion|undefined} value
+ * @param {?proto.search.Uint32NEExactCriterion|undefined} value
  * @return {!proto.search.Criterion} returns this
 */
 proto.search.Criterion.prototype.setUint32neexactcriterion = function(value) {

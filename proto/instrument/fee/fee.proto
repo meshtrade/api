@@ -4,8 +4,6 @@ package fee;
 
 option go_package = "github.com/meshtrade/api/go/instrument/fee";
 
-import "instrument/fee/state.proto";
-import "instrument/fee/category.proto";
 import "instrument/fee/data.proto";
 import "ledger/amount.proto";
 import "google/protobuf/timestamp.proto";
@@ -19,8 +17,7 @@ Only Mesh is authorized to create and update Fee records.
 */
 message Fee {
   /*
-  Name is the business-related description of this Fee.
-  It explains the purpose and context behind the charge.
+  Name is a universally unique identifier set in the application layer.
   */
   string name = 1;
 
@@ -32,18 +29,24 @@ message Fee {
   /*
   State is the payment status.
   */
-  fee.State state = 3;
+  State state = 3;
+
+  /*
+  Description is the description of this Fee.
+  It explains the purpose and context behind the charge.
+  */
+  string description = 4;
 
   /*
   AmountInclVAT is the total amount charged, inclusive of VAT.
   This field captures the gross charge that the instrument issuer must pay.
   */
-  ledger.Amount amountInclVAT = 4;
+  ledger.Amount amountInclVAT = 5;
 
   /*
   VATAmount is the portion of the AmountInclVAT that constitutes VAT.
   */
-  string vatAmount = 5;
+  string vatAmount = 6;
 
   /*
   Category is the type of Fee being applied. It categorises fees based on
@@ -55,16 +58,40 @@ message Fee {
     settlements.
     - AUM: Assets Under Management fee.
   */
-  fee.Category category = 6;
+  Category category = 7;
 
   /*
   PaymentDate is the date on which the Fee was paid.
   */
-  google.protobuf.Timestamp paymentDate = 7;
+  google.protobuf.Timestamp paymentDate = 8;
 
   /*
   Data is the additional contextual information related to calculation, 
   taxation and billing of the Fee.
   */
   fee.Data data = 9;
+}
+
+/* 
+State is the state of a Fee in its state diagram.
+*/
+enum State {
+  UNDEFINED_STATE = 0; // 0 not used to prevent unexpected default value behaviour.
+  UPCOMING_STATE = 1;
+  DUE_STATE = 2;
+  PAYMENT_IN_PROGRESS_STATE = 3;
+  FAILED_STATE = 4;
+  CANCELLED_STATE = 5;
+  PAID_STATE = 6;
+}
+
+/* 
+Category defines the different types of Fees that can be applied to an instrument.
+*/
+enum Category {
+  UNDEFINED_CATEGORY = 0; // 0 not used to prevent unexpected default value behaviour.
+  TOKENISATION_CATEGORY = 1;
+  LISTING_CATEGORY = 2;
+  PRIMARY_MARKET_SETTLEMENT_CATEGORY = 3;
+  AUM_CATEGORY = 4;
 }

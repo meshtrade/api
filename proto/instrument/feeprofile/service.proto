@@ -60,9 +60,9 @@ GetRequest is the Get method request on the Fee Profile Service.
 */
 message GetRequest {
   /*
-InstrumentID refers to the Instrument for which the fee profile is retrieved.
+InstrumentName refers to the Instrument for which the fee profile is retrieved.
 */
-  string instrumentID = 1;
+  string instrumentName = 1;
 }
 
 /*
