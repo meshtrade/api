@@ -85,8 +85,8 @@ proto.fee.Fee.prototype.toObject = function(opt_includeInstance) {
  */
 proto.fee.Fee.toObject = function(includeInstance, msg) {
   var f, obj = {
-instrumentname: jspb.Message.getFieldWithDefault(msg, 1, ""),
-description: jspb.Message.getFieldWithDefault(msg, 2, ""),
+name: jspb.Message.getFieldWithDefault(msg, 1, ""),
+instrumentname: jspb.Message.getFieldWithDefault(msg, 2, ""),
 state: jspb.Message.getFieldWithDefault(msg, 3, 0),
 amountinclvat: (f = msg.getAmountinclvat()) && ledger_amount_pb.Amount.toObject(includeInstance, f),
 vatamount: jspb.Message.getFieldWithDefault(msg, 5, ""),
@@ -131,11 +131,11 @@ proto.fee.Fee.deserializeBinaryFromReader = function(msg, reader) {
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.setInstrumentname(value);
+      msg.setName(value);
       break;
     case 2:
       var value = /** @type {string} */ (reader.readString());
-      msg.setDescription(value);
+      msg.setInstrumentname(value);
       break;
     case 3:
       var value = /** @type {!proto.fee.State} */ (reader.readEnum());
@@ -193,14 +193,14 @@ proto.fee.Fee.prototype.serializeBinary = function() {
  */
 proto.fee.Fee.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getInstrumentname();
+  f = message.getName();
   if (f.length > 0) {
     writer.writeString(
       1,
       f
     );
   }
-  f = message.getDescription();
+  f = message.getInstrumentname();
   if (f.length > 0) {
     writer.writeString(
       2,
@@ -256,10 +256,10 @@ proto.fee.Fee.serializeBinaryToWriter = function(message, writer) {
 
 
 /**
- * optional string instrumentName = 1;
+ * optional string name = 1;
  * @return {string}
  */
-proto.fee.Fee.prototype.getInstrumentname = function() {
+proto.fee.Fee.prototype.getName = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
@@ -268,16 +268,16 @@ proto.fee.Fee.prototype.getInstrumentname = function() {
  * @param {string} value
  * @return {!proto.fee.Fee} returns this
  */
-proto.fee.Fee.prototype.setInstrumentname = function(value) {
+proto.fee.Fee.prototype.setName = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
 /**
- * optional string description = 2;
+ * optional string instrumentName = 2;
  * @return {string}
  */
-proto.fee.Fee.prototype.getDescription = function() {
+proto.fee.Fee.prototype.getInstrumentname = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
@@ -286,7 +286,7 @@ proto.fee.Fee.prototype.getDescription = function() {
  * @param {string} value
  * @return {!proto.fee.Fee} returns this
  */
-proto.fee.Fee.prototype.setDescription = function(value) {
+proto.fee.Fee.prototype.setInstrumentname = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
 
@@ -310,7 +310,7 @@ proto.fee.Fee.prototype.setState = function(value) {
 
 
 /**
- * optional ledger.Amount amountInclVat = 4;
+ * optional ledger.Amount amountInclVAT = 4;
  * @return {?proto.ledger.Amount}
  */
 proto.fee.Fee.prototype.getAmountinclvat = function() {

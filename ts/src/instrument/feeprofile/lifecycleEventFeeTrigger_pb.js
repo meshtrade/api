@@ -27,7 +27,7 @@ goog.exportSymbol('proto.feeprofile.LifecycleEventFeeTrigger', null, global);
  */
 proto.feeprofile.LifecycleEventFeeTrigger = {
   UNDEFINED_LIFECYCLE_EVENT_FEE_TRIGGER: 0,
-  LISTING_SETTLEMENT_LIFECYCLE_EVENT_FEE_TRIGGER: 1,
+  LISTING_LIFECYCLE_EVENT_FEE_TRIGGER: 1,
   PRIMARY_MARKET_SETTLEMENT_LIFECYCLE_EVENT_FEE_TRIGGER: 2
 };
 

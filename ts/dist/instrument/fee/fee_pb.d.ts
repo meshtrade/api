@@ -8,11 +8,11 @@ import * as google_protobuf_timestamp_pb from 'google-protobuf/google/protobuf/t
 
 
 export class Fee extends jspb.Message {
+  getName(): string;
+  setName(value: string): Fee;
+
   getInstrumentname(): string;
   setInstrumentname(value: string): Fee;
-
-  getDescription(): string;
-  setDescription(value: string): Fee;
 
   getState(): instrument_fee_state_pb.State;
   setState(value: instrument_fee_state_pb.State): Fee;
@@ -48,8 +48,8 @@ export class Fee extends jspb.Message {
 
 export namespace Fee {
   export type AsObject = {
+    name: string,
     instrumentname: string,
-    description: string,
     state: instrument_fee_state_pb.State,
     amountinclvat?: ledger_amount_pb.Amount.AsObject,
     vatamount: string,
