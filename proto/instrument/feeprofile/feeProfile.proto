@@ -17,7 +17,8 @@ to the Issuer.
 */
 message FeeProfile {
   /*
-  InstrumentName refers to the instrument against which this Fee applied.
+  InstrumentName refers to the instrument against which this FeeProfile
+  is applied.
   */
   string instrumentName = 1;
 

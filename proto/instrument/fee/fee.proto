@@ -19,15 +19,15 @@ Only Mesh is authorized to create and update Fee records.
 */
 message Fee {
   /*
-  InstrumentName refers to the instrument against which this Fee applied.
-  */
-  string instrumentName = 1;
-
-  /*
-  Description is a detailed business rationale for the existence of this Fee.
+  Name is the business-related description of this Fee.
   It explains the purpose and context behind the charge.
   */
-  string description = 2;
+  string name = 1;
+
+  /*
+  InstrumentName refers to the instrument against which this Fee applied.
+  */
+  string instrumentName = 2;
 
   /*
   State is the payment status.
@@ -35,18 +35,18 @@ message Fee {
   fee.State state = 3;
 
   /*
-  AmountInclVat is the total amount charged, inclusive of VAT.
+  AmountInclVAT is the total amount charged, inclusive of VAT.
   This field captures the gross charge that the instrument issuer must pay.
   */
-  ledger.Amount amountInclVat = 4;
+  ledger.Amount amountInclVAT = 4;
 
   /*
-  VATAmount is the portion of the AmountInclVat that constitutes VAT.
+  VATAmount is the portion of the AmountInclVAT that constitutes VAT.
   */
   string vatAmount = 5;
 
   /*
-  Category is the type of Fee being applied. It categorizes fees based on
+  Category is the type of Fee being applied. It categorises fees based on
   their purpose and the services they correspond to. Supported categories
   include:
     - Tokenisation: Fee for tokenizing assets.
@@ -58,7 +58,7 @@ message Fee {
   fee.Category category = 6;
 
   /*
-  PaymentDate is the on which the Fee was paid.
+  PaymentDate is the date on which the Fee was paid.
   */
   google.protobuf.Timestamp paymentDate = 7;
 

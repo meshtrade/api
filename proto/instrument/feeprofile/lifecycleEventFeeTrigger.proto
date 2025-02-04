@@ -9,6 +9,6 @@ LifecycleEventFeeTrigger defines the different types of lifecycle events that ca
 */
 enum LifecycleEventFeeTrigger {
   UNDEFINED_LIFECYCLE_EVENT_FEE_TRIGGER = 0; // 0 not used to prevent unexpected default value behaviour.
-  LISTING_SETTLEMENT_LIFECYCLE_EVENT_FEE_TRIGGER = 1;
+  LISTING_LIFECYCLE_EVENT_FEE_TRIGGER = 1;
   PRIMARY_MARKET_SETTLEMENT_LIFECYCLE_EVENT_FEE_TRIGGER = 2;
 }

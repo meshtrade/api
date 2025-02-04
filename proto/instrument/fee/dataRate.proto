@@ -11,23 +11,23 @@ import "num/decimal.proto";
 RateData is the additional calculation data for a Fee
 calculated using a percentage rate and a variable base
 amount.
-This is used for fees that depend on base amount like the
+This is used for fees that depend on a base amount like the
 primary market settlement amount or subscription order book
-target raise not yet known with certainty at the time of
+target raise, not yet known with certainty at the time of
 setting up the Instrument's FeeProfile.
 */
 message RateData {
   /*
   Rate is the rate applied to the BaseAmount to calculate the
-  resulting Fee.AmountExclVAT.
+  resulting AmountExclVAT.
   */
   num.Decimal rate = 1;
 
   /*
   BaseAmount is the variable amount that gets multiplied with
-  the Rate to calculate the Fee.AmountExclVAT.
+  the Rate to calculate the AmountExclVAT.
   For example, this might be the primary market settlement
-  amount or subscription order book target raise
+  amount or subscription order book target raise.
   */
   ledger.Amount baseAmount = 2;
 
