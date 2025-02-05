@@ -25,7 +25,7 @@ export declare class ServiceClient {
     methodDescriptorUpdate: grpcWeb.MethodDescriptor<instrument_feeprofile_service_pb.UpdateRequest, instrument_feeprofile_service_pb.UpdateResponse>;
     update(request: instrument_feeprofile_service_pb.UpdateRequest, metadata?: grpcWeb.Metadata | null): Promise<instrument_feeprofile_service_pb.UpdateResponse>;
     update(request: instrument_feeprofile_service_pb.UpdateRequest, metadata: grpcWeb.Metadata | null, callback: (err: grpcWeb.RpcError, response: instrument_feeprofile_service_pb.UpdateResponse) => void): grpcWeb.ClientReadableStream<instrument_feeprofile_service_pb.UpdateResponse>;
-    methodDescriptorGet: grpcWeb.MethodDescriptor<instrument_feeprofile_service_pb.GetRequest, instrument_feeprofile_service_pb.GetResponse>;
-    get(request: instrument_feeprofile_service_pb.GetRequest, metadata?: grpcWeb.Metadata | null): Promise<instrument_feeprofile_service_pb.GetResponse>;
-    get(request: instrument_feeprofile_service_pb.GetRequest, metadata: grpcWeb.Metadata | null, callback: (err: grpcWeb.RpcError, response: instrument_feeprofile_service_pb.GetResponse) => void): grpcWeb.ClientReadableStream<instrument_feeprofile_service_pb.GetResponse>;
+    methodDescriptorList: grpcWeb.MethodDescriptor<instrument_feeprofile_service_pb.ListRequest, instrument_feeprofile_service_pb.ListResponse>;
+    list(request: instrument_feeprofile_service_pb.ListRequest, metadata?: grpcWeb.Metadata | null): Promise<instrument_feeprofile_service_pb.ListResponse>;
+    list(request: instrument_feeprofile_service_pb.ListRequest, metadata: grpcWeb.Metadata | null, callback: (err: grpcWeb.RpcError, response: instrument_feeprofile_service_pb.ListResponse) => void): grpcWeb.ClientReadableStream<instrument_feeprofile_service_pb.ListResponse>;
 }

@@ -1,6 +1,7 @@
 import * as jspb from 'google-protobuf'
 
 import * as instrument_feeprofile_feeProfile_pb from '../../instrument/feeprofile/feeProfile_pb'; // proto import: "instrument/feeprofile/feeProfile.proto"
+import * as search_criterion_pb from '../../search/criterion_pb'; // proto import: "search/criterion.proto"
 
 
 export class CreateRequest extends jspb.Message {
@@ -83,41 +84,43 @@ export namespace UpdateResponse {
   }
 }
 
-export class GetRequest extends jspb.Message {
-  getInstrumentname(): string;
-  setInstrumentname(value: string): GetRequest;
+export class ListRequest extends jspb.Message {
+  getCriteriaList(): Array<search_criterion_pb.Criterion>;
+  setCriteriaList(value: Array<search_criterion_pb.Criterion>): ListRequest;
+  clearCriteriaList(): ListRequest;
+  addCriteria(value?: search_criterion_pb.Criterion, index?: number): search_criterion_pb.Criterion;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): GetRequest.AsObject;
-  static toObject(includeInstance: boolean, msg: GetRequest): GetRequest.AsObject;
-  static serializeBinaryToWriter(message: GetRequest, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): GetRequest;
-  static deserializeBinaryFromReader(message: GetRequest, reader: jspb.BinaryReader): GetRequest;
+  toObject(includeInstance?: boolean): ListRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: ListRequest): ListRequest.AsObject;
+  static serializeBinaryToWriter(message: ListRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ListRequest;
+  static deserializeBinaryFromReader(message: ListRequest, reader: jspb.BinaryReader): ListRequest;
 }
 
-export namespace GetRequest {
+export namespace ListRequest {
   export type AsObject = {
-    instrumentname: string,
+    criteriaList: Array<search_criterion_pb.Criterion.AsObject>,
   }
 }
 
-export class GetResponse extends jspb.Message {
-  getFeeprofile(): instrument_feeprofile_feeProfile_pb.FeeProfile | undefined;
-  setFeeprofile(value?: instrument_feeprofile_feeProfile_pb.FeeProfile): GetResponse;
-  hasFeeprofile(): boolean;
-  clearFeeprofile(): GetResponse;
+export class ListResponse extends jspb.Message {
+  getFeeprofilesList(): Array<instrument_feeprofile_feeProfile_pb.FeeProfile>;
+  setFeeprofilesList(value: Array<instrument_feeprofile_feeProfile_pb.FeeProfile>): ListResponse;
+  clearFeeprofilesList(): ListResponse;
+  addFeeprofiles(value?: instrument_feeprofile_feeProfile_pb.FeeProfile, index?: number): instrument_feeprofile_feeProfile_pb.FeeProfile;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): GetResponse.AsObject;
-  static toObject(includeInstance: boolean, msg: GetResponse): GetResponse.AsObject;
-  static serializeBinaryToWriter(message: GetResponse, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): GetResponse;
-  static deserializeBinaryFromReader(message: GetResponse, reader: jspb.BinaryReader): GetResponse;
+  toObject(includeInstance?: boolean): ListResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: ListResponse): ListResponse.AsObject;
+  static serializeBinaryToWriter(message: ListResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ListResponse;
+  static deserializeBinaryFromReader(message: ListResponse, reader: jspb.BinaryReader): ListResponse;
 }
 
-export namespace GetResponse {
+export namespace ListResponse {
   export type AsObject = {
-    feeprofile?: instrument_feeprofile_feeProfile_pb.FeeProfile.AsObject,
+    feeprofilesList: Array<instrument_feeprofile_feeProfile_pb.FeeProfile.AsObject>,
   }
 }
 

@@ -6,8 +6,8 @@ import * as google_protobuf_timestamp_pb from 'google-protobuf/google/protobuf/t
 
 
 export class Fee extends jspb.Message {
-  getName(): string;
-  setName(value: string): Fee;
+  getId(): string;
+  setId(value: string): Fee;
 
   getInstrumentname(): string;
   setInstrumentname(value: string): Fee;
@@ -49,7 +49,7 @@ export class Fee extends jspb.Message {
 
 export namespace Fee {
   export type AsObject = {
-    name: string,
+    id: string,
     instrumentname: string,
     state: State,
     description: string,

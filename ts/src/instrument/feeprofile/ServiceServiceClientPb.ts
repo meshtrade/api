@@ -125,47 +125,47 @@ export class ServiceClient {
     this.methodDescriptorUpdate);
   }
 
-  methodDescriptorGet = new grpcWeb.MethodDescriptor(
-    '/feeprofile.Service/Get',
+  methodDescriptorList = new grpcWeb.MethodDescriptor(
+    '/feeprofile.Service/List',
     grpcWeb.MethodType.UNARY,
-    instrument_feeprofile_service_pb.GetRequest,
-    instrument_feeprofile_service_pb.GetResponse,
-    (request: instrument_feeprofile_service_pb.GetRequest) => {
+    instrument_feeprofile_service_pb.ListRequest,
+    instrument_feeprofile_service_pb.ListResponse,
+    (request: instrument_feeprofile_service_pb.ListRequest) => {
       return request.serializeBinary();
     },
-    instrument_feeprofile_service_pb.GetResponse.deserializeBinary
+    instrument_feeprofile_service_pb.ListResponse.deserializeBinary
   );
 
-  get(
-    request: instrument_feeprofile_service_pb.GetRequest,
-    metadata?: grpcWeb.Metadata | null): Promise<instrument_feeprofile_service_pb.GetResponse>;
+  list(
+    request: instrument_feeprofile_service_pb.ListRequest,
+    metadata?: grpcWeb.Metadata | null): Promise<instrument_feeprofile_service_pb.ListResponse>;
 
-  get(
-    request: instrument_feeprofile_service_pb.GetRequest,
+  list(
+    request: instrument_feeprofile_service_pb.ListRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: instrument_feeprofile_service_pb.GetResponse) => void): grpcWeb.ClientReadableStream<instrument_feeprofile_service_pb.GetResponse>;
+               response: instrument_feeprofile_service_pb.ListResponse) => void): grpcWeb.ClientReadableStream<instrument_feeprofile_service_pb.ListResponse>;
 
-  get(
-    request: instrument_feeprofile_service_pb.GetRequest,
+  list(
+    request: instrument_feeprofile_service_pb.ListRequest,
     metadata?: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: instrument_feeprofile_service_pb.GetResponse) => void) {
+               response: instrument_feeprofile_service_pb.ListResponse) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/feeprofile.Service/Get',
+          '/feeprofile.Service/List',
         request,
         metadata || {},
-        this.methodDescriptorGet,
+        this.methodDescriptorList,
         callback);
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/feeprofile.Service/Get',
+      '/feeprofile.Service/List',
     request,
     metadata || {},
-    this.methodDescriptorGet);
+    this.methodDescriptorList);
   }
 
 }

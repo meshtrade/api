@@ -5,6 +5,7 @@ package feeprofile;
 option go_package = "github.com/meshtrade/api/go/instrument/feeprofile";
 
 import "instrument/feeprofile/feeProfile.proto";
+import "search/criterion.proto";
 
 /*
 Service is the Fee Profile Service.
@@ -12,7 +13,7 @@ Service is the Fee Profile Service.
 service Service {
   rpc Create(CreateRequest) returns (CreateResponse);
   rpc Update(UpdateRequest) returns (UpdateResponse);
-  rpc Get(GetRequest) returns (GetResponse);
+  rpc List(ListRequest) returns (ListResponse);
 }
 
 /*
@@ -56,21 +57,21 @@ message UpdateResponse {
 }
 
 /*
-GetRequest is the Get method request on the Fee Profile Service.
+ListRequest is the List method request on the Fee Profile Service.
 */
-message GetRequest {
+message ListRequest {
   /*
-InstrumentName refers to the Instrument for which the fee profile is retrieved.
-*/
-  string instrumentName = 1;
+  Criteria is the search criteria that specifies which fee profiles to retrieve.
+  */
+  repeated search.Criterion criteria = 1;
 }
 
 /*
-GetResposne is the Get method response on the Fee Profile Service.
+ListResponse is the List method response on the Fee Profile Service.
 */
-message GetResponse {
+message ListResponse {
   /*
-  FeeProfile is the FeeProfile that was retrieved.
+  FeeProfiles are the list of fee profiles that were retrieved.
   */
-  feeprofile.FeeProfile feeProfile = 1;
+  repeated feeprofile.FeeProfile feeProfiles = 1;
 }

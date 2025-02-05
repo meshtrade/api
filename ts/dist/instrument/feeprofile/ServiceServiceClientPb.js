@@ -23,9 +23,9 @@ var ServiceClient = /** @class */ (function () {
         this.methodDescriptorUpdate = new grpcWeb.MethodDescriptor('/feeprofile.Service/Update', grpcWeb.MethodType.UNARY, instrument_feeprofile_service_pb.UpdateRequest, instrument_feeprofile_service_pb.UpdateResponse, function (request) {
             return request.serializeBinary();
         }, instrument_feeprofile_service_pb.UpdateResponse.deserializeBinary);
-        this.methodDescriptorGet = new grpcWeb.MethodDescriptor('/feeprofile.Service/Get', grpcWeb.MethodType.UNARY, instrument_feeprofile_service_pb.GetRequest, instrument_feeprofile_service_pb.GetResponse, function (request) {
+        this.methodDescriptorList = new grpcWeb.MethodDescriptor('/feeprofile.Service/List', grpcWeb.MethodType.UNARY, instrument_feeprofile_service_pb.ListRequest, instrument_feeprofile_service_pb.ListResponse, function (request) {
             return request.serializeBinary();
-        }, instrument_feeprofile_service_pb.GetResponse.deserializeBinary);
+        }, instrument_feeprofile_service_pb.ListResponse.deserializeBinary);
         if (!options)
             options = {};
         if (!credentials)
@@ -52,13 +52,13 @@ var ServiceClient = /** @class */ (function () {
         return this.client_.unaryCall(this.hostname_ +
             '/feeprofile.Service/Update', request, metadata || {}, this.methodDescriptorUpdate);
     };
-    ServiceClient.prototype.get = function (request, metadata, callback) {
+    ServiceClient.prototype.list = function (request, metadata, callback) {
         if (callback !== undefined) {
             return this.client_.rpcCall(this.hostname_ +
-                '/feeprofile.Service/Get', request, metadata || {}, this.methodDescriptorGet, callback);
+                '/feeprofile.Service/List', request, metadata || {}, this.methodDescriptorList, callback);
         }
         return this.client_.unaryCall(this.hostname_ +
-            '/feeprofile.Service/Get', request, metadata || {}, this.methodDescriptorGet);
+            '/feeprofile.Service/List', request, metadata || {}, this.methodDescriptorList);
     };
     return ServiceClient;
 }());

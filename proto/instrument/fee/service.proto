@@ -43,7 +43,7 @@ ListRequest is the List method request on the Fee Service.
 */
 message ListRequest {
   /*
-  Criteria is the search criteria that specifies which Fee list to retrieve.
+  Criteria is the search criteria that specifies which fees to retrieve.
   */
   repeated search.Criterion criteria = 1;
 }

@@ -17,9 +17,9 @@ Only Mesh is authorized to create and update Fee records.
 */
 message Fee {
   /*
-  Name is a universally unique identifier set in the application layer.
+  ID is a universally unique identifier set in the application layer.
   */
-  string name = 1;
+  string id = 1;
 
   /*
   InstrumentName refers to the instrument against which this Fee applied.
