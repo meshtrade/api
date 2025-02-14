@@ -7,7 +7,7 @@
 package fee
 
 import (
-	fee "github.com/meshtrade/api/go/fee"
+	ledger "github.com/meshtrade/api/go/ledger"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -161,7 +161,7 @@ type Fee struct {
 	Description string `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
 	// AmountInclVAT is the total amount charged, inclusive of VAT.
 	// This field captures the gross charge that the instrument issuer must pay.
-	AmountInclVAT *fee.Amount `protobuf:"bytes,5,opt,name=amountInclVAT,proto3" json:"amountInclVAT,omitempty"`
+	AmountInclVAT *ledger.Amount `protobuf:"bytes,5,opt,name=amountInclVAT,proto3" json:"amountInclVAT,omitempty"`
 	// VATAmount is the portion of the AmountInclVAT that constitutes VAT.
 	VatAmount string `protobuf:"bytes,6,opt,name=vatAmount,proto3" json:"vatAmount,omitempty"`
 	// Category is the type of Fee being applied. It categorises fees based on
@@ -240,7 +240,7 @@ func (x *Fee) GetDescription() string {
 	return ""
 }
 
-func (x *Fee) GetAmountInclVAT() *fee.Amount {
+func (x *Fee) GetAmountInclVAT() *ledger.Amount {
 	if x != nil {
 		return x.AmountInclVAT
 	}
@@ -349,7 +349,7 @@ var file_instrument_fee_fee_proto_goTypes = []interface{}{
 	(State)(0),                    // 0: fee.State
 	(Category)(0),                 // 1: fee.Category
 	(*Fee)(nil),                   // 2: fee.Fee
-	(*fee.Amount)(nil),            // 3: ledger.Amount
+	(*ledger.Amount)(nil),         // 3: ledger.Amount
 	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
 	(*Data)(nil),                  // 5: fee.Data
 }

@@ -7,7 +7,7 @@
 package fee
 
 import (
-	fee "github.com/meshtrade/api/go/fee"
+	ledger "github.com/meshtrade/api/go/ledger"
 	num "github.com/meshtrade/api/go/num"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -33,7 +33,7 @@ type AmountData struct {
 
 	// AmountExclVAT is the VAT exclusive amount used to calculate
 	// Fee.VatAmount and the resulting Fee.AmountInclVAT.
-	AmountExclVAT *fee.Amount `protobuf:"bytes,1,opt,name=amountExclVAT,proto3" json:"amountExclVAT,omitempty"`
+	AmountExclVAT *ledger.Amount `protobuf:"bytes,1,opt,name=amountExclVAT,proto3" json:"amountExclVAT,omitempty"`
 	// VATRate is the rate used to calculate Fee.VatAmount.
 	VatRate *num.Decimal `protobuf:"bytes,2,opt,name=vatRate,proto3" json:"vatRate,omitempty"`
 }
@@ -70,7 +70,7 @@ func (*AmountData) Descriptor() ([]byte, []int) {
 	return file_instrument_fee_dataAmount_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *AmountData) GetAmountExclVAT() *fee.Amount {
+func (x *AmountData) GetAmountExclVAT() *ledger.Amount {
 	if x != nil {
 		return x.AmountExclVAT
 	}
@@ -118,9 +118,9 @@ func file_instrument_fee_dataAmount_proto_rawDescGZIP() []byte {
 
 var file_instrument_fee_dataAmount_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_instrument_fee_dataAmount_proto_goTypes = []interface{}{
-	(*AmountData)(nil),  // 0: fee.AmountData
-	(*fee.Amount)(nil),  // 1: ledger.Amount
-	(*num.Decimal)(nil), // 2: num.Decimal
+	(*AmountData)(nil),    // 0: fee.AmountData
+	(*ledger.Amount)(nil), // 1: ledger.Amount
+	(*num.Decimal)(nil),   // 2: num.Decimal
 }
 var file_instrument_fee_dataAmount_proto_depIdxs = []int32{
 	1, // 0: fee.AmountData.amountExclVAT:type_name -> ledger.Amount

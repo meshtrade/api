@@ -7,7 +7,7 @@
 package feeprofile
 
 import (
-	fee "github.com/meshtrade/api/go/fee"
+	ledger "github.com/meshtrade/api/go/ledger"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -30,11 +30,11 @@ type Tokenisation struct {
 
 	// FirstTimeMintingAmount is the fee amount charged when
 	// minting tokens of the Instrument for the first time.
-	FirstTimeMintingAmount *fee.Amount `protobuf:"bytes,1,opt,name=firstTimeMintingAmount,proto3" json:"firstTimeMintingAmount,omitempty"`
+	FirstTimeMintingAmount *ledger.Amount `protobuf:"bytes,1,opt,name=firstTimeMintingAmount,proto3" json:"firstTimeMintingAmount,omitempty"`
 	// MintingAmount is minting fee charged per token minted.
-	MintingAmount *fee.Amount `protobuf:"bytes,2,opt,name=mintingAmount,proto3" json:"mintingAmount,omitempty"`
+	MintingAmount *ledger.Amount `protobuf:"bytes,2,opt,name=mintingAmount,proto3" json:"mintingAmount,omitempty"`
 	// BurningAmount is minting fee charged per token burned.
-	BurningAmount *fee.Amount `protobuf:"bytes,3,opt,name=burningAmount,proto3" json:"burningAmount,omitempty"`
+	BurningAmount *ledger.Amount `protobuf:"bytes,3,opt,name=burningAmount,proto3" json:"burningAmount,omitempty"`
 }
 
 func (x *Tokenisation) Reset() {
@@ -69,21 +69,21 @@ func (*Tokenisation) Descriptor() ([]byte, []int) {
 	return file_instrument_feeprofile_tokenisation_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *Tokenisation) GetFirstTimeMintingAmount() *fee.Amount {
+func (x *Tokenisation) GetFirstTimeMintingAmount() *ledger.Amount {
 	if x != nil {
 		return x.FirstTimeMintingAmount
 	}
 	return nil
 }
 
-func (x *Tokenisation) GetMintingAmount() *fee.Amount {
+func (x *Tokenisation) GetMintingAmount() *ledger.Amount {
 	if x != nil {
 		return x.MintingAmount
 	}
 	return nil
 }
 
-func (x *Tokenisation) GetBurningAmount() *fee.Amount {
+func (x *Tokenisation) GetBurningAmount() *ledger.Amount {
 	if x != nil {
 		return x.BurningAmount
 	}
@@ -130,8 +130,8 @@ func file_instrument_feeprofile_tokenisation_proto_rawDescGZIP() []byte {
 
 var file_instrument_feeprofile_tokenisation_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_instrument_feeprofile_tokenisation_proto_goTypes = []interface{}{
-	(*Tokenisation)(nil), // 0: feeprofile.Tokenisation
-	(*fee.Amount)(nil),   // 1: ledger.Amount
+	(*Tokenisation)(nil),  // 0: feeprofile.Tokenisation
+	(*ledger.Amount)(nil), // 1: ledger.Amount
 }
 var file_instrument_feeprofile_tokenisation_proto_depIdxs = []int32{
 	1, // 0: feeprofile.Tokenisation.firstTimeMintingAmount:type_name -> ledger.Amount

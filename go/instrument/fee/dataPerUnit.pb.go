@@ -7,7 +7,7 @@
 package fee
 
 import (
-	fee "github.com/meshtrade/api/go/fee"
+	ledger "github.com/meshtrade/api/go/ledger"
 	num "github.com/meshtrade/api/go/num"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -38,10 +38,10 @@ type PerUnitData struct {
 	NoUnits *num.Decimal `protobuf:"bytes,1,opt,name=noUnits,proto3" json:"noUnits,omitempty"`
 	// PerUnitAmount is the fee amount per token that gets
 	// multiplied with the NoUnits to calculate the AmountExclVAT.
-	PerUnitAmount *fee.Amount `protobuf:"bytes,2,opt,name=perUnitAmount,proto3" json:"perUnitAmount,omitempty"`
+	PerUnitAmount *ledger.Amount `protobuf:"bytes,2,opt,name=perUnitAmount,proto3" json:"perUnitAmount,omitempty"`
 	// AmountExclVAT is the VAT exclusive amount used to calculate
 	// Fee.VatAmount and the resulting Fee.AmountInclVAT.
-	AmountExclVAT *fee.Amount `protobuf:"bytes,3,opt,name=amountExclVAT,proto3" json:"amountExclVAT,omitempty"`
+	AmountExclVAT *ledger.Amount `protobuf:"bytes,3,opt,name=amountExclVAT,proto3" json:"amountExclVAT,omitempty"`
 	// VATRate is the rate used to calculate Fee.VatAmount.
 	VatRate *num.Decimal `protobuf:"bytes,4,opt,name=vatRate,proto3" json:"vatRate,omitempty"`
 }
@@ -85,14 +85,14 @@ func (x *PerUnitData) GetNoUnits() *num.Decimal {
 	return nil
 }
 
-func (x *PerUnitData) GetPerUnitAmount() *fee.Amount {
+func (x *PerUnitData) GetPerUnitAmount() *ledger.Amount {
 	if x != nil {
 		return x.PerUnitAmount
 	}
 	return nil
 }
 
-func (x *PerUnitData) GetAmountExclVAT() *fee.Amount {
+func (x *PerUnitData) GetAmountExclVAT() *ledger.Amount {
 	if x != nil {
 		return x.AmountExclVAT
 	}
@@ -147,9 +147,9 @@ func file_instrument_fee_dataPerUnit_proto_rawDescGZIP() []byte {
 
 var file_instrument_fee_dataPerUnit_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_instrument_fee_dataPerUnit_proto_goTypes = []interface{}{
-	(*PerUnitData)(nil), // 0: fee.PerUnitData
-	(*num.Decimal)(nil), // 1: num.Decimal
-	(*fee.Amount)(nil),  // 2: ledger.Amount
+	(*PerUnitData)(nil),   // 0: fee.PerUnitData
+	(*num.Decimal)(nil),   // 1: num.Decimal
+	(*ledger.Amount)(nil), // 2: ledger.Amount
 }
 var file_instrument_fee_dataPerUnit_proto_depIdxs = []int32{
 	1, // 0: fee.PerUnitData.noUnits:type_name -> num.Decimal

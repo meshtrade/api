@@ -7,7 +7,7 @@
 package fee
 
 import (
-	fee "github.com/meshtrade/api/go/fee"
+	ledger "github.com/meshtrade/api/go/ledger"
 	search "github.com/meshtrade/api/go/search"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -225,7 +225,7 @@ type CalculateMintingFeesRequest struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Amount is the mint Amount for which fees are calculated.
-	Amount *fee.Amount `protobuf:"bytes,1,opt,name=Amount,proto3" json:"Amount,omitempty"`
+	Amount *ledger.Amount `protobuf:"bytes,1,opt,name=Amount,proto3" json:"Amount,omitempty"`
 }
 
 func (x *CalculateMintingFeesRequest) Reset() {
@@ -260,7 +260,7 @@ func (*CalculateMintingFeesRequest) Descriptor() ([]byte, []int) {
 	return file_instrument_fee_service_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *CalculateMintingFeesRequest) GetAmount() *fee.Amount {
+func (x *CalculateMintingFeesRequest) GetAmount() *ledger.Amount {
 	if x != nil {
 		return x.Amount
 	}
@@ -323,7 +323,7 @@ type CalculateBurningFeesRequest struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Amount is the burn Amount for which fees are calculated.
-	Amount *fee.Amount `protobuf:"bytes,1,opt,name=Amount,proto3" json:"Amount,omitempty"`
+	Amount *ledger.Amount `protobuf:"bytes,1,opt,name=Amount,proto3" json:"Amount,omitempty"`
 }
 
 func (x *CalculateBurningFeesRequest) Reset() {
@@ -358,7 +358,7 @@ func (*CalculateBurningFeesRequest) Descriptor() ([]byte, []int) {
 	return file_instrument_fee_service_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *CalculateBurningFeesRequest) GetAmount() *fee.Amount {
+func (x *CalculateBurningFeesRequest) GetAmount() *ledger.Amount {
 	if x != nil {
 		return x.Amount
 	}
@@ -501,7 +501,7 @@ var file_instrument_fee_service_proto_goTypes = []interface{}{
 	(*CalculateBurningFeesResponse)(nil), // 7: fee.CalculateBurningFeesResponse
 	(*search.Criterion)(nil),             // 8: search.Criterion
 	(*Fee)(nil),                          // 9: fee.Fee
-	(*fee.Amount)(nil),                   // 10: ledger.Amount
+	(*ledger.Amount)(nil),                // 10: ledger.Amount
 }
 var file_instrument_fee_service_proto_depIdxs = []int32{
 	8,  // 0: fee.GetRequest.criteria:type_name -> search.Criterion

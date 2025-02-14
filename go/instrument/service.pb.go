@@ -7,7 +7,7 @@
 package instrument
 
 import (
-	fee "github.com/meshtrade/api/go/fee"
+	ledger "github.com/meshtrade/api/go/ledger"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -28,7 +28,7 @@ type MintRequest struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Amount is the amount to be minted.
-	Amount *fee.Amount `protobuf:"bytes,1,opt,name=amount,proto3" json:"amount,omitempty"`
+	Amount *ledger.Amount `protobuf:"bytes,1,opt,name=amount,proto3" json:"amount,omitempty"`
 	// FeeAccountNumber refers to the account from which fees are paid.
 	FeeAccountNumber string `protobuf:"bytes,2,opt,name=feeAccountNumber,proto3" json:"feeAccountNumber,omitempty"`
 	// DestinationAccountNumber refers to the account for which instrument tokens are minted.
@@ -67,7 +67,7 @@ func (*MintRequest) Descriptor() ([]byte, []int) {
 	return file_instrument_service_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *MintRequest) GetAmount() *fee.Amount {
+func (x *MintRequest) GetAmount() *ledger.Amount {
 	if x != nil {
 		return x.Amount
 	}
@@ -144,7 +144,7 @@ type BurnRequest struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Amount is the amount to be burned.
-	Amount *fee.Amount `protobuf:"bytes,1,opt,name=amount,proto3" json:"amount,omitempty"`
+	Amount *ledger.Amount `protobuf:"bytes,1,opt,name=amount,proto3" json:"amount,omitempty"`
 	// FeeAccountNumber refers to the account from which fees are paid.
 	FeeAccountNumber string `protobuf:"bytes,2,opt,name=feeAccountNumber,proto3" json:"feeAccountNumber,omitempty"`
 	// SourceAccountNumber refers to the account from which instrument tokens are burned.
@@ -183,7 +183,7 @@ func (*BurnRequest) Descriptor() ([]byte, []int) {
 	return file_instrument_service_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *BurnRequest) GetAmount() *fee.Amount {
+func (x *BurnRequest) GetAmount() *ledger.Amount {
 	if x != nil {
 		return x.Amount
 	}
@@ -313,11 +313,11 @@ func file_instrument_service_proto_rawDescGZIP() []byte {
 
 var file_instrument_service_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_instrument_service_proto_goTypes = []interface{}{
-	(*MintRequest)(nil),  // 0: instrument.MintRequest
-	(*MintResponse)(nil), // 1: instrument.MintResponse
-	(*BurnRequest)(nil),  // 2: instrument.BurnRequest
-	(*BurnResponse)(nil), // 3: instrument.BurnResponse
-	(*fee.Amount)(nil),   // 4: ledger.Amount
+	(*MintRequest)(nil),   // 0: instrument.MintRequest
+	(*MintResponse)(nil),  // 1: instrument.MintResponse
+	(*BurnRequest)(nil),   // 2: instrument.BurnRequest
+	(*BurnResponse)(nil),  // 3: instrument.BurnResponse
+	(*ledger.Amount)(nil), // 4: ledger.Amount
 }
 var file_instrument_service_proto_depIdxs = []int32{
 	4, // 0: instrument.MintRequest.amount:type_name -> ledger.Amount

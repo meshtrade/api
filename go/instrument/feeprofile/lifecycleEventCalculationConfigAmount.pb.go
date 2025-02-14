@@ -7,7 +7,7 @@
 package feeprofile
 
 import (
-	fee "github.com/meshtrade/api/go/fee"
+	ledger "github.com/meshtrade/api/go/ledger"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -31,7 +31,7 @@ type AmountLifecycleEventCalculationConfig struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Amount is the fixed (pre-tax) fee amount charged on the lifecycle event.
-	Amount *fee.Amount `protobuf:"bytes,1,opt,name=amount,proto3" json:"amount,omitempty"`
+	Amount *ledger.Amount `protobuf:"bytes,1,opt,name=amount,proto3" json:"amount,omitempty"`
 }
 
 func (x *AmountLifecycleEventCalculationConfig) Reset() {
@@ -66,7 +66,7 @@ func (*AmountLifecycleEventCalculationConfig) Descriptor() ([]byte, []int) {
 	return file_instrument_feeprofile_lifecycleEventCalculationConfigAmount_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *AmountLifecycleEventCalculationConfig) GetAmount() *fee.Amount {
+func (x *AmountLifecycleEventCalculationConfig) GetAmount() *ledger.Amount {
 	if x != nil {
 		return x.Amount
 	}
@@ -109,7 +109,7 @@ func file_instrument_feeprofile_lifecycleEventCalculationConfigAmount_proto_rawD
 var file_instrument_feeprofile_lifecycleEventCalculationConfigAmount_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_instrument_feeprofile_lifecycleEventCalculationConfigAmount_proto_goTypes = []interface{}{
 	(*AmountLifecycleEventCalculationConfig)(nil), // 0: feeprofile.AmountLifecycleEventCalculationConfig
-	(*fee.Amount)(nil),                            // 1: ledger.Amount
+	(*ledger.Amount)(nil),                         // 1: ledger.Amount
 }
 var file_instrument_feeprofile_lifecycleEventCalculationConfigAmount_proto_depIdxs = []int32{
 	1, // 0: feeprofile.AmountLifecycleEventCalculationConfig.amount:type_name -> ledger.Amount

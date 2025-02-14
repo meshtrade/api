@@ -7,7 +7,7 @@
 package fee
 
 import (
-	fee "github.com/meshtrade/api/go/fee"
+	ledger "github.com/meshtrade/api/go/ledger"
 	num "github.com/meshtrade/api/go/num"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -41,10 +41,10 @@ type RateData struct {
 	// the Rate to calculate the AmountExclVAT.
 	// For example, this might be the primary market settlement
 	// amount or subscription order book target raise.
-	BaseAmount *fee.Amount `protobuf:"bytes,2,opt,name=baseAmount,proto3" json:"baseAmount,omitempty"`
+	BaseAmount *ledger.Amount `protobuf:"bytes,2,opt,name=baseAmount,proto3" json:"baseAmount,omitempty"`
 	// AmountExclVAT is the VAT exclusive amount used to calculate
 	// Fee.VatAmount and the resulting Fee.AmountInclVAT.
-	AmountExclVAT *fee.Amount `protobuf:"bytes,3,opt,name=amountExclVAT,proto3" json:"amountExclVAT,omitempty"`
+	AmountExclVAT *ledger.Amount `protobuf:"bytes,3,opt,name=amountExclVAT,proto3" json:"amountExclVAT,omitempty"`
 	// VATRate is the rate used to calculate Fee.VatAmount.
 	VatRate *num.Decimal `protobuf:"bytes,4,opt,name=vatRate,proto3" json:"vatRate,omitempty"`
 }
@@ -88,14 +88,14 @@ func (x *RateData) GetRate() *num.Decimal {
 	return nil
 }
 
-func (x *RateData) GetBaseAmount() *fee.Amount {
+func (x *RateData) GetBaseAmount() *ledger.Amount {
 	if x != nil {
 		return x.BaseAmount
 	}
 	return nil
 }
 
-func (x *RateData) GetAmountExclVAT() *fee.Amount {
+func (x *RateData) GetAmountExclVAT() *ledger.Amount {
 	if x != nil {
 		return x.AmountExclVAT
 	}
@@ -148,9 +148,9 @@ func file_instrument_fee_dataRate_proto_rawDescGZIP() []byte {
 
 var file_instrument_fee_dataRate_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_instrument_fee_dataRate_proto_goTypes = []interface{}{
-	(*RateData)(nil),    // 0: fee.RateData
-	(*num.Decimal)(nil), // 1: num.Decimal
-	(*fee.Amount)(nil),  // 2: ledger.Amount
+	(*RateData)(nil),      // 0: fee.RateData
+	(*num.Decimal)(nil),   // 1: num.Decimal
+	(*ledger.Amount)(nil), // 2: ledger.Amount
 }
 var file_instrument_fee_dataRate_proto_depIdxs = []int32{
 	1, // 0: fee.RateData.rate:type_name -> num.Decimal
