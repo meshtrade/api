@@ -12,6 +12,8 @@ AmountData is the additional calculation data for a Fee
 of a fixed amount.
 This is used for flat fees that do not depend on a variable
 base amount and percentage for calculation.
+
+@bson-marshalled
 */
 message AmountData {
   /*

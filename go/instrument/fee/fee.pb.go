@@ -145,6 +145,8 @@ func (Category) EnumDescriptor() ([]byte, []int) {
 // A Fee is generated using a FeeProfile, which determines its amount
 // and other related fields.
 // Only Mesh is authorized to create and update Fee records.
+//
+// @bson-marshalled
 type Fee struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

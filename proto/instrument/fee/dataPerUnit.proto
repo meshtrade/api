@@ -14,6 +14,8 @@ amount per token.
 For example, this is used for minting and burning fees where
 the Fee amount depends on the number of tokens minted
 or burned, and the fee amount per token minted or burned.
+
+@bson-marshalled
 */
 message PerUnitData {
   /*

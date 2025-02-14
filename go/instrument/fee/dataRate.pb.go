@@ -29,6 +29,8 @@ const (
 // primary market settlement amount or subscription order book
 // target raise, not yet known with certainty at the time of
 // setting up the Instrument's FeeProfile.
+//
+// @bson-marshalled
 type RateData struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

@@ -26,6 +26,8 @@ const (
 // of a fixed amount.
 // This is used for flat fees that do not depend on a variable
 // base amount and percentage for calculation.
+//
+// @bson-marshalled
 type AmountData struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

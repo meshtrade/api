@@ -25,6 +25,7 @@ const (
 // lifecycle Fee with a fixed amount.
 // This is used for flat lifecycle event fees that do not depend on a
 // variable base amount and percentage for calculation.
+// @bson-marshalled
 type AmountLifecycleEventCalculationConfig struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

@@ -4,8 +4,8 @@ package feeprofile;
 
 option go_package = "github.com/meshtrade/api/go/instrument/feeprofile";
 
-import "instrument/feeProfile/lifecycleEventCategory.proto";
-import "instrument/feeProfile/lifecycleEventCalculationConfig.proto";
+import "instrument/feeprofile/lifecycleEventCategory.proto";
+import "instrument/feeprofile/lifecycleEventCalculationConfig.proto";
 
 /*
 LifecycleEvents configures the fees associated with various stages in the

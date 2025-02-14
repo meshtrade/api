@@ -28,6 +28,8 @@ const (
 // For example, this is used for minting and burning fees where
 // the Fee amount depends on the number of tokens minted
 // or burned, and the fee amount per token minted or burned.
+//
+// @bson-marshalled
 type PerUnitData struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
