@@ -29,7 +29,7 @@ message Fee {
   string instrumentName = 2;
 
   /*
-  State is the payment status.
+  State is the fee status.
   */
   State state = 3;
 
