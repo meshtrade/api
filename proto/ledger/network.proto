@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package ledger;
 
-option go_package = "github.com/meshtrade/api/go/fee";
+option go_package = "github.com/meshtrade/api/go/ledger";
 
 /*
 Network represents the various blockchain networks supported by Mesh.
