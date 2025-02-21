@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package ledger;
 
-option go_package = "github.com/meshtrade/api/go/fee";
+option go_package = "github.com/meshtrade/api/go/ledger";
 
 import "ledger/token.proto";
 import "num/decimal.proto";
