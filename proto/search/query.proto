@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package search;
+
+option go_package = "github.com/meshtrade/api/go/search";
+
+import "search/sorting.proto";
+
+// Query is used to configure a Search for data.
+message Query {
+    // Limit is the requested maximum page size.
+    uint64 limit = 1;
+
+    // Offset is the point from which a Limit sized page of results should be returned.
+    uint64 offset = 2;
+
+    // Sorting is a list of Sorting requests.
+    repeated search.Sorting sorting = 3;
+}

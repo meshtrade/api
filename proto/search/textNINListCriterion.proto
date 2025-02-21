@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package search;
+
+option go_package = "github.com/meshtrade/api/go/search";
+
+// TextNINListCriterion is a list of strings that a field should not be equal to.
+message TextNINListCriterion {
+  /*
+  Field is the field that the search is performed against.
+  */
+  string field = 1;
+
+  /*
+  List is the list of string values that field CANNOT be equal to.
+  i.e. looking for entities where the value in Field is not in this List.
+  */
+  repeated string list = 2;
+}

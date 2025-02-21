@@ -2,20 +2,22 @@ syntax = "proto3";
 
 package feeprofile;
 
-option go_package = "github.com/meshtrade/api/go/feeprofile";
+option go_package = "github.com/meshtrade/api/go/instrument/feeprofile";
 
 import "instrument/feeprofile/feeProfile.proto";
+import "search/criterion.proto";
 
 /*
 Service is the Fee Profile Service.
 */
 service Service {
-  rpc Create(CreateRequest) returns (feeprofile.FeeProfile);
-  rpc Get(GetRequest) returns (feeprofile.FeeProfile);
+  rpc Create(CreateRequest) returns (CreateResponse);
+  rpc Update(UpdateRequest) returns (UpdateResponse);
+  rpc List(ListRequest) returns (ListResponse);
 }
 
 /*
-CreateRequest is Create method request on the Fee Profile Service.
+CreateRequest is the Create method request on the Fee Profile Service.
 */
 message CreateRequest {
   /*
@@ -25,8 +27,51 @@ message CreateRequest {
 }
 
 /*
-GetRequest is Get method request on the Fee Profile Service.
+CreateResponse is the Create method response on the Fee Profile Service.
 */
-message GetRequest {
-  string id = 1;
+message CreateResponse {
+  /*
+  FeeProfile is the FeeProfile that was created.
+  */
+  feeprofile.FeeProfile feeProfile = 1;
+}
+
+/*
+UpdateRequest is the Update method request on the Fee Profile Service.
+*/
+message UpdateRequest {
+  /*
+  FeeProfile is the FeeProfile to be updated.
+  */
+  feeprofile.FeeProfile feeProfile = 1;
+}
+
+/*
+UpdateResponse is the Update method response on the Fee Profile Service.
+*/
+message UpdateResponse {
+  /*
+  FeeProfile is the FeeProfile that was updated.
+  */
+  feeprofile.FeeProfile feeProfile = 1;
+}
+
+/*
+ListRequest is the List method request on the Fee Profile Service.
+*/
+message ListRequest {
+  /*
+  Criteria is the search criteria that specifies which fee profiles to retrieve.
+  */
+  repeated search.Criterion criteria = 1;
+}
+
+/*
+ListResponse is the List method response on the Fee Profile Service.
+*/
+message ListResponse {
+  /*
+  FeeProfiles are the list of fee profiles that were retrieved.
+  */
+  repeated feeprofile.FeeProfile feeProfiles = 1;
 }

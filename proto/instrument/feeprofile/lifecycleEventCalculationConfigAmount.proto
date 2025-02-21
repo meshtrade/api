@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package feeprofile;
+
+option go_package = "github.com/meshtrade/api/go/instrument/feeprofile";
+
+import "ledger/amount.proto";
+
+/*
+AmountLifecycleEventCalculationConfig is the calculation data for a
+lifecycle Fee with a fixed amount.
+This is used for flat lifecycle event fees that do not depend on a
+variable base amount and percentage for calculation.
+*/
+message AmountLifecycleEventCalculationConfig {
+
+  /*
+  Amount is the fixed (pre-tax) fee amount charged on the lifecycle event.
+  */
+  ledger.Amount amount = 1;
+}

@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package feeprofile;
+
+option go_package = "github.com/meshtrade/api/go/instrument/feeprofile";
+
+import "ledger/amount.proto";
+
+/*
+Tokenisation configures the fees related to the tokenisation
+processes of the Instrument.
+*/
+message Tokenisation {
+  /*
+  FirstTimeMintingAmount is the fee amount charged when
+  minting tokens of the Instrument for the first time.
+  */
+  ledger.Amount firstTimeMintingAmount = 1;
+
+  /*
+  MintingAmount is minting fee charged per token minted.
+  */
+  ledger.Amount mintingAmount = 2;
+
+  /*
+  BurningAmount is minting fee charged per token burned.
+  */
+  ledger.Amount burningAmount = 3;
+}

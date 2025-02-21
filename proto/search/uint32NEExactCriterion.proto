@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package search;
+
+option go_package = "github.com/meshtrade/api/go/search";
+
+// Uint32NEExactCriterion is a NOT EQUAL exact uint32 search criterion
+message Uint32NEExactCriterion {
+    /*
+    Field is the field that the search is performed against.
+    */
+    string field = 1;
+
+    /*
+    Uint32 is the uint32 that should NOT match the value in the Field.
+    */
+    uint32 uint32 = 2;
+}
