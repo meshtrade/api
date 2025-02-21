@@ -15,7 +15,7 @@ service Service {
   rpc Get(GetRequest) returns (GetResponse);
   rpc List(ListRequest) returns (ListResponse);
   rpc CalculateMintingFees(CalculateMintingFeesRequest) returns (CalculateMintingFeesResponse);
-  rpc CalculateBurnignFees(CalculateBurningFeesRequest) returns (CalculateBurningFeesResponse);
+  rpc CalculateBurningFees(CalculateBurningFeesRequest) returns (CalculateBurningFeesResponse);
 }
 
 /*
