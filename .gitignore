@@ -1,0 +1,4 @@
+*.meshgo.go
+*.pb.go
+*.d.ts
+*.js
