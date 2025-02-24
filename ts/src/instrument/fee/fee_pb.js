@@ -88,7 +88,7 @@ instrumentname: jspb.Message.getFieldWithDefault(msg, 2, ""),
 state: jspb.Message.getFieldWithDefault(msg, 3, 0),
 description: jspb.Message.getFieldWithDefault(msg, 4, ""),
 amountinclvat: (f = msg.getAmountinclvat()) && ledger_amount_pb.Amount.toObject(includeInstance, f),
-vatamount: jspb.Message.getFieldWithDefault(msg, 6, ""),
+vatamount: (f = msg.getVatamount()) && ledger_amount_pb.Amount.toObject(includeInstance, f),
 category: jspb.Message.getFieldWithDefault(msg, 7, 0),
 paymentdate: (f = msg.getPaymentdate()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
 data: (f = msg.getData()) && instrument_fee_data_pb.Data.toObject(includeInstance, f)
@@ -150,7 +150,8 @@ proto.fee.Fee.deserializeBinaryFromReader = function(msg, reader) {
       msg.setAmountinclvat(value);
       break;
     case 6:
-      var value = /** @type {string} */ (reader.readString());
+      var value = new ledger_amount_pb.Amount;
+      reader.readMessage(value,ledger_amount_pb.Amount.deserializeBinaryFromReader);
       msg.setVatamount(value);
       break;
     case 7:
@@ -233,10 +234,11 @@ proto.fee.Fee.serializeBinaryToWriter = function(message, writer) {
     );
   }
   f = message.getVatamount();
-  if (f.length > 0) {
-    writer.writeString(
+  if (f != null) {
+    writer.writeMessage(
       6,
-      f
+      f,
+      ledger_amount_pb.Amount.serializeBinaryToWriter
     );
   }
   f = message.getCategory();
@@ -375,20 +377,39 @@ proto.fee.Fee.prototype.hasAmountinclvat = function() {
 
 
 /**
- * optional string vatAmount = 6;
- * @return {string}
+ * optional ledger.Amount vatAmount = 6;
+ * @return {?proto.ledger.Amount}
  */
 proto.fee.Fee.prototype.getVatamount = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
+  return /** @type{?proto.ledger.Amount} */ (
+    jspb.Message.getWrapperField(this, ledger_amount_pb.Amount, 6));
 };
 
 
 /**
- * @param {string} value
+ * @param {?proto.ledger.Amount|undefined} value
+ * @return {!proto.fee.Fee} returns this
+*/
+proto.fee.Fee.prototype.setVatamount = function(value) {
+  return jspb.Message.setWrapperField(this, 6, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
  * @return {!proto.fee.Fee} returns this
  */
-proto.fee.Fee.prototype.setVatamount = function(value) {
-  return jspb.Message.setProto3StringField(this, 6, value);
+proto.fee.Fee.prototype.clearVatamount = function() {
+  return this.setVatamount(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.fee.Fee.prototype.hasVatamount = function() {
+  return jspb.Message.getField(this, 6) != null;
 };
 
 

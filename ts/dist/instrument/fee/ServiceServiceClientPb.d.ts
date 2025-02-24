@@ -28,7 +28,7 @@ export declare class ServiceClient {
     methodDescriptorCalculateMintingFees: grpcWeb.MethodDescriptor<instrument_fee_service_pb.CalculateMintingFeesRequest, instrument_fee_service_pb.CalculateMintingFeesResponse>;
     calculateMintingFees(request: instrument_fee_service_pb.CalculateMintingFeesRequest, metadata?: grpcWeb.Metadata | null): Promise<instrument_fee_service_pb.CalculateMintingFeesResponse>;
     calculateMintingFees(request: instrument_fee_service_pb.CalculateMintingFeesRequest, metadata: grpcWeb.Metadata | null, callback: (err: grpcWeb.RpcError, response: instrument_fee_service_pb.CalculateMintingFeesResponse) => void): grpcWeb.ClientReadableStream<instrument_fee_service_pb.CalculateMintingFeesResponse>;
-    methodDescriptorCalculateBurnignFees: grpcWeb.MethodDescriptor<instrument_fee_service_pb.CalculateBurningFeesRequest, instrument_fee_service_pb.CalculateBurningFeesResponse>;
-    calculateBurnignFees(request: instrument_fee_service_pb.CalculateBurningFeesRequest, metadata?: grpcWeb.Metadata | null): Promise<instrument_fee_service_pb.CalculateBurningFeesResponse>;
-    calculateBurnignFees(request: instrument_fee_service_pb.CalculateBurningFeesRequest, metadata: grpcWeb.Metadata | null, callback: (err: grpcWeb.RpcError, response: instrument_fee_service_pb.CalculateBurningFeesResponse) => void): grpcWeb.ClientReadableStream<instrument_fee_service_pb.CalculateBurningFeesResponse>;
+    methodDescriptorCalculateBurningFees: grpcWeb.MethodDescriptor<instrument_fee_service_pb.CalculateBurningFeesRequest, instrument_fee_service_pb.CalculateBurningFeesResponse>;
+    calculateBurningFees(request: instrument_fee_service_pb.CalculateBurningFeesRequest, metadata?: grpcWeb.Metadata | null): Promise<instrument_fee_service_pb.CalculateBurningFeesResponse>;
+    calculateBurningFees(request: instrument_fee_service_pb.CalculateBurningFeesRequest, metadata: grpcWeb.Metadata | null, callback: (err: grpcWeb.RpcError, response: instrument_fee_service_pb.CalculateBurningFeesResponse) => void): grpcWeb.ClientReadableStream<instrument_fee_service_pb.CalculateBurningFeesResponse>;
 }

@@ -168,8 +168,8 @@ export class ServiceClient {
     this.methodDescriptorCalculateMintingFees);
   }
 
-  methodDescriptorCalculateBurnignFees = new grpcWeb.MethodDescriptor(
-    '/fee.Service/CalculateBurnignFees',
+  methodDescriptorCalculateBurningFees = new grpcWeb.MethodDescriptor(
+    '/fee.Service/CalculateBurningFees',
     grpcWeb.MethodType.UNARY,
     instrument_fee_service_pb.CalculateBurningFeesRequest,
     instrument_fee_service_pb.CalculateBurningFeesResponse,
@@ -179,17 +179,17 @@ export class ServiceClient {
     instrument_fee_service_pb.CalculateBurningFeesResponse.deserializeBinary
   );
 
-  calculateBurnignFees(
+  calculateBurningFees(
     request: instrument_fee_service_pb.CalculateBurningFeesRequest,
     metadata?: grpcWeb.Metadata | null): Promise<instrument_fee_service_pb.CalculateBurningFeesResponse>;
 
-  calculateBurnignFees(
+  calculateBurningFees(
     request: instrument_fee_service_pb.CalculateBurningFeesRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
                response: instrument_fee_service_pb.CalculateBurningFeesResponse) => void): grpcWeb.ClientReadableStream<instrument_fee_service_pb.CalculateBurningFeesResponse>;
 
-  calculateBurnignFees(
+  calculateBurningFees(
     request: instrument_fee_service_pb.CalculateBurningFeesRequest,
     metadata?: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
@@ -197,18 +197,18 @@ export class ServiceClient {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/fee.Service/CalculateBurnignFees',
+          '/fee.Service/CalculateBurningFees',
         request,
         metadata || {},
-        this.methodDescriptorCalculateBurnignFees,
+        this.methodDescriptorCalculateBurningFees,
         callback);
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/fee.Service/CalculateBurnignFees',
+      '/fee.Service/CalculateBurningFees',
     request,
     metadata || {},
-    this.methodDescriptorCalculateBurnignFees);
+    this.methodDescriptorCalculateBurningFees);
   }
 
 }

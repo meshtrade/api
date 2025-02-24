@@ -26,7 +26,7 @@ var ServiceClient = /** @class */ (function () {
         this.methodDescriptorCalculateMintingFees = new grpcWeb.MethodDescriptor('/fee.Service/CalculateMintingFees', grpcWeb.MethodType.UNARY, instrument_fee_service_pb.CalculateMintingFeesRequest, instrument_fee_service_pb.CalculateMintingFeesResponse, function (request) {
             return request.serializeBinary();
         }, instrument_fee_service_pb.CalculateMintingFeesResponse.deserializeBinary);
-        this.methodDescriptorCalculateBurnignFees = new grpcWeb.MethodDescriptor('/fee.Service/CalculateBurnignFees', grpcWeb.MethodType.UNARY, instrument_fee_service_pb.CalculateBurningFeesRequest, instrument_fee_service_pb.CalculateBurningFeesResponse, function (request) {
+        this.methodDescriptorCalculateBurningFees = new grpcWeb.MethodDescriptor('/fee.Service/CalculateBurningFees', grpcWeb.MethodType.UNARY, instrument_fee_service_pb.CalculateBurningFeesRequest, instrument_fee_service_pb.CalculateBurningFeesResponse, function (request) {
             return request.serializeBinary();
         }, instrument_fee_service_pb.CalculateBurningFeesResponse.deserializeBinary);
         if (!options)
@@ -63,13 +63,13 @@ var ServiceClient = /** @class */ (function () {
         return this.client_.unaryCall(this.hostname_ +
             '/fee.Service/CalculateMintingFees', request, metadata || {}, this.methodDescriptorCalculateMintingFees);
     };
-    ServiceClient.prototype.calculateBurnignFees = function (request, metadata, callback) {
+    ServiceClient.prototype.calculateBurningFees = function (request, metadata, callback) {
         if (callback !== undefined) {
             return this.client_.rpcCall(this.hostname_ +
-                '/fee.Service/CalculateBurnignFees', request, metadata || {}, this.methodDescriptorCalculateBurnignFees, callback);
+                '/fee.Service/CalculateBurningFees', request, metadata || {}, this.methodDescriptorCalculateBurningFees, callback);
         }
         return this.client_.unaryCall(this.hostname_ +
-            '/fee.Service/CalculateBurnignFees', request, metadata || {}, this.methodDescriptorCalculateBurnignFees);
+            '/fee.Service/CalculateBurningFees', request, metadata || {}, this.methodDescriptorCalculateBurningFees);
     };
     return ServiceClient;
 }());

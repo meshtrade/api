@@ -48,7 +48,7 @@ message Fee {
   /*
   VATAmount is the portion of the AmountInclVAT that constitutes VAT.
   */
-  string vatAmount = 6;
+  ledger.Amount vatAmount = 6;
 
   /*
   Category is the type of Fee being applied. It categorises fees based on

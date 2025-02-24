@@ -10,8 +10,6 @@ import "instrument/feeprofile/lifecycleEventCalculationConfigRate.proto";
 /*
 LifecycleEventCalculationConfig is the calculation configuration that is use to calculate
 the Fee amount.
-
-@bson-marshalled
 */
 message LifecycleEventCalculationConfig {
     oneof LifecycleEventCalculationConfig {

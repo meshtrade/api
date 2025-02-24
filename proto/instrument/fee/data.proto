@@ -10,8 +10,6 @@ import "instrument/fee/dataPerUnit.proto";
 
 /*
 Data is the generic calculation data that is attached to a Fee for reference.
-
-@bson-marshalled
 */
 message Data {
     oneof Data {

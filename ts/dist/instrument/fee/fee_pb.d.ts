@@ -23,8 +23,10 @@ export class Fee extends jspb.Message {
   hasAmountinclvat(): boolean;
   clearAmountinclvat(): Fee;
 
-  getVatamount(): string;
-  setVatamount(value: string): Fee;
+  getVatamount(): ledger_amount_pb.Amount | undefined;
+  setVatamount(value?: ledger_amount_pb.Amount): Fee;
+  hasVatamount(): boolean;
+  clearVatamount(): Fee;
 
   getCategory(): Category;
   setCategory(value: Category): Fee;
@@ -54,7 +56,7 @@ export namespace Fee {
     state: State,
     description: string,
     amountinclvat?: ledger_amount_pb.Amount.AsObject,
-    vatamount: string,
+    vatamount?: ledger_amount_pb.Amount.AsObject,
     category: Category,
     paymentdate?: google_protobuf_timestamp_pb.Timestamp.AsObject,
     data?: instrument_fee_data_pb.Data.AsObject,
