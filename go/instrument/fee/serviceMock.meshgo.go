@@ -21,8 +21,8 @@ type MockService struct {
 	ListFuncInvocations                 int
 	CalculateMintingFeesFunc            func(t *testing.T, m *MockService, ctx context.Context, request *CalculateMintingFeesRequest) (*CalculateMintingFeesResponse, error)
 	CalculateMintingFeesFuncInvocations int
-	CalculateBurnignFeesFunc            func(t *testing.T, m *MockService, ctx context.Context, request *CalculateBurningFeesRequest) (*CalculateBurningFeesResponse, error)
-	CalculateBurnignFeesFuncInvocations int
+	CalculateBurningFeesFunc            func(t *testing.T, m *MockService, ctx context.Context, request *CalculateBurningFeesRequest) (*CalculateBurningFeesResponse, error)
+	CalculateBurningFeesFuncInvocations int
 }
 
 func (m *MockService) Get(ctx context.Context, request *GetRequest) (*GetResponse, error) {
@@ -55,12 +55,12 @@ func (m *MockService) CalculateMintingFees(ctx context.Context, request *Calcula
 	return m.CalculateMintingFeesFunc(m.T, m, ctx, request)
 }
 
-func (m *MockService) CalculateBurnignFees(ctx context.Context, request *CalculateBurningFeesRequest) (*CalculateBurningFeesResponse, error) {
+func (m *MockService) CalculateBurningFees(ctx context.Context, request *CalculateBurningFeesRequest) (*CalculateBurningFeesResponse, error) {
 	m.mutex.Lock()
-	m.CalculateBurnignFeesFuncInvocations++
+	m.CalculateBurningFeesFuncInvocations++
 	m.mutex.Unlock()
-	if m.CalculateBurnignFeesFunc == nil {
+	if m.CalculateBurningFeesFunc == nil {
 		return nil, nil
 	}
-	return m.CalculateBurnignFeesFunc(m.T, m, ctx, request)
+	return m.CalculateBurningFeesFunc(m.T, m, ctx, request)
 }

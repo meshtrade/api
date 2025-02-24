@@ -22,7 +22,7 @@ const (
 	Service_Get_FullMethodName                  = "/fee.Service/Get"
 	Service_List_FullMethodName                 = "/fee.Service/List"
 	Service_CalculateMintingFees_FullMethodName = "/fee.Service/CalculateMintingFees"
-	Service_CalculateBurnignFees_FullMethodName = "/fee.Service/CalculateBurnignFees"
+	Service_CalculateBurningFees_FullMethodName = "/fee.Service/CalculateBurningFees"
 )
 
 // ServiceClient is the client API for Service service.
@@ -34,7 +34,7 @@ type ServiceClient interface {
 	Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error)
 	List(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error)
 	CalculateMintingFees(ctx context.Context, in *CalculateMintingFeesRequest, opts ...grpc.CallOption) (*CalculateMintingFeesResponse, error)
-	CalculateBurnignFees(ctx context.Context, in *CalculateBurningFeesRequest, opts ...grpc.CallOption) (*CalculateBurningFeesResponse, error)
+	CalculateBurningFees(ctx context.Context, in *CalculateBurningFeesRequest, opts ...grpc.CallOption) (*CalculateBurningFeesResponse, error)
 }
 
 type serviceClient struct {
@@ -75,10 +75,10 @@ func (c *serviceClient) CalculateMintingFees(ctx context.Context, in *CalculateM
 	return out, nil
 }
 
-func (c *serviceClient) CalculateBurnignFees(ctx context.Context, in *CalculateBurningFeesRequest, opts ...grpc.CallOption) (*CalculateBurningFeesResponse, error) {
+func (c *serviceClient) CalculateBurningFees(ctx context.Context, in *CalculateBurningFeesRequest, opts ...grpc.CallOption) (*CalculateBurningFeesResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CalculateBurningFeesResponse)
-	err := c.cc.Invoke(ctx, Service_CalculateBurnignFees_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, Service_CalculateBurningFees_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -94,7 +94,7 @@ type ServiceServer interface {
 	Get(context.Context, *GetRequest) (*GetResponse, error)
 	List(context.Context, *ListRequest) (*ListResponse, error)
 	CalculateMintingFees(context.Context, *CalculateMintingFeesRequest) (*CalculateMintingFeesResponse, error)
-	CalculateBurnignFees(context.Context, *CalculateBurningFeesRequest) (*CalculateBurningFeesResponse, error)
+	CalculateBurningFees(context.Context, *CalculateBurningFeesRequest) (*CalculateBurningFeesResponse, error)
 	mustEmbedUnimplementedServiceServer()
 }
 
@@ -114,8 +114,8 @@ func (UnimplementedServiceServer) List(context.Context, *ListRequest) (*ListResp
 func (UnimplementedServiceServer) CalculateMintingFees(context.Context, *CalculateMintingFeesRequest) (*CalculateMintingFeesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CalculateMintingFees not implemented")
 }
-func (UnimplementedServiceServer) CalculateBurnignFees(context.Context, *CalculateBurningFeesRequest) (*CalculateBurningFeesResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CalculateBurnignFees not implemented")
+func (UnimplementedServiceServer) CalculateBurningFees(context.Context, *CalculateBurningFeesRequest) (*CalculateBurningFeesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CalculateBurningFees not implemented")
 }
 func (UnimplementedServiceServer) mustEmbedUnimplementedServiceServer() {}
 func (UnimplementedServiceServer) testEmbeddedByValue()                 {}
@@ -192,20 +192,20 @@ func _Service_CalculateMintingFees_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Service_CalculateBurnignFees_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Service_CalculateBurningFees_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CalculateBurningFeesRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ServiceServer).CalculateBurnignFees(ctx, in)
+		return srv.(ServiceServer).CalculateBurningFees(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Service_CalculateBurnignFees_FullMethodName,
+		FullMethod: Service_CalculateBurningFees_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ServiceServer).CalculateBurnignFees(ctx, req.(*CalculateBurningFeesRequest))
+		return srv.(ServiceServer).CalculateBurningFees(ctx, req.(*CalculateBurningFeesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -230,8 +230,8 @@ var Service_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Service_CalculateMintingFees_Handler,
 		},
 		{
-			MethodName: "CalculateBurnignFees",
-			Handler:    _Service_CalculateBurnignFees_Handler,
+			MethodName: "CalculateBurningFees",
+			Handler:    _Service_CalculateBurningFees_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

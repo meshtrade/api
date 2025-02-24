@@ -14,7 +14,7 @@ type Service interface {
 
 	CalculateMintingFees(ctx context.Context, request *CalculateMintingFeesRequest) (*CalculateMintingFeesResponse, error)
 
-	CalculateBurnignFees(ctx context.Context, request *CalculateBurningFeesRequest) (*CalculateBurningFeesResponse, error)
+	CalculateBurningFees(ctx context.Context, request *CalculateBurningFeesRequest) (*CalculateBurningFeesResponse, error)
 }
 
 const ServiceServiceProviderName = "fee-Service"
