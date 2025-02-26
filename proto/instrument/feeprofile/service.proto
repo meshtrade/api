@@ -4,8 +4,8 @@ package feeprofile;
 
 option go_package = "github.com/meshtrade/api/go/instrument/feeprofile";
 
-import "instrument/feeprofile/feeProfile.proto";
-import "search/criterion.proto";
+import "api/proto/instrument/feeprofile/feeProfile.proto";
+import "api/proto/search/criterion.proto";
 
 /*
 Service is the Fee Profile Service.

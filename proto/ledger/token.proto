@@ -4,7 +4,7 @@ package ledger;
 
 option go_package = "github.com/meshtrade/api/go/ledger";
 
-import "ledger/network.proto";
+import "api/proto/ledger/network.proto";
 
 /*
 Token is the unit of account for a particular asset on a specific blockchain network.

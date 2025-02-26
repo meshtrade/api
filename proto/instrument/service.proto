@@ -4,7 +4,7 @@ package instrument;
 
 option go_package = "github.com/meshtrade/api/go/instrument";
 
-import "ledger/amount.proto";
+import "api/proto/ledger/amount.proto";
 
 /*
 Service is the Instrument Service.
