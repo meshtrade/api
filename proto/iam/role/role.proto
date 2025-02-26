@@ -4,7 +4,7 @@ package role;
 
 option go_package = "github.com/meshtrade/api/go/iam/role";
 
-import "iam/role/permission.proto";
+import "api/proto/iam/role/permission.proto";
 
 /*
 Role is a collection of permissions.
