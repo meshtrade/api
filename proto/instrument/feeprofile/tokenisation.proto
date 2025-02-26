@@ -4,7 +4,7 @@ package feeprofile;
 
 option go_package = "github.com/meshtrade/api/go/instrument/feeprofile";
 
-import "api/proto/ledger/amount.proto";
+import "ledger/amount.proto";
 
 /*
 Tokenisation configures the fees related to the tokenisation

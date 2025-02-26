@@ -4,8 +4,8 @@ package fee;
 
 option go_package = "github.com/meshtrade/api/go/instrument/fee";
 
-import "api/proto/ledger/amount.proto";
-import "api/proto/num/decimal.proto";
+import "ledger/amount.proto";
+import "num/decimal.proto";
 
 /*
 RateData is the additional calculation data for a Fee

@@ -4,7 +4,7 @@ package search;
 
 option go_package = "github.com/meshtrade/api/go/search";
 
-import "api/proto/search/sorting.proto";
+import "search/sorting.proto";
 
 // Query is used to configure a Search for data.
 message Query {

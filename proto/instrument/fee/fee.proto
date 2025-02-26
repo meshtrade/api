@@ -4,8 +4,8 @@ package fee;
 
 option go_package = "github.com/meshtrade/api/go/instrument/fee";
 
-import "api/proto/instrument/fee/data.proto";
-import "api/proto/ledger/amount.proto";
+import "instrument/fee/data.proto";
+import "ledger/amount.proto";
 import "google/protobuf/timestamp.proto";
 
 /*
