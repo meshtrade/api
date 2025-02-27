@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v5.28.0
-// source: instrument/fee/service.proto
+// source: api/proto/instrument/fee/service.proto
 
 package fee
 
@@ -19,10 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Service_Get_FullMethodName                  = "/fee.Service/Get"
-	Service_List_FullMethodName                 = "/fee.Service/List"
-	Service_CalculateMintingFees_FullMethodName = "/fee.Service/CalculateMintingFees"
-	Service_CalculateBurningFees_FullMethodName = "/fee.Service/CalculateBurningFees"
+	Service_Get_FullMethodName                  = "/api.instrument.fee.Service/Get"
+	Service_List_FullMethodName                 = "/api.instrument.fee.Service/List"
+	Service_CalculateMintingFees_FullMethodName = "/api.instrument.fee.Service/CalculateMintingFees"
+	Service_CalculateBurningFees_FullMethodName = "/api.instrument.fee.Service/CalculateBurningFees"
 )
 
 // ServiceClient is the client API for Service service.
@@ -214,7 +214,7 @@ func _Service_CalculateBurningFees_Handler(srv interface{}, ctx context.Context,
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Service_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "fee.Service",
+	ServiceName: "api.instrument.fee.Service",
 	HandlerType: (*ServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -235,5 +235,5 @@ var Service_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "instrument/fee/service.proto",
+	Metadata: "api/proto/instrument/fee/service.proto",
 }

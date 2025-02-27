@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.33.0
 // 	protoc        v5.28.0
-// source: search/uint32ExactCriterion.proto
+// source: api/proto/search/uint32ExactCriterion.proto
 
 package search
 
@@ -35,7 +35,7 @@ type Uint32ExactCriterion struct {
 func (x *Uint32ExactCriterion) Reset() {
 	*x = Uint32ExactCriterion{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_search_uint32ExactCriterion_proto_msgTypes[0]
+		mi := &file_api_proto_search_uint32ExactCriterion_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -48,7 +48,7 @@ func (x *Uint32ExactCriterion) String() string {
 func (*Uint32ExactCriterion) ProtoMessage() {}
 
 func (x *Uint32ExactCriterion) ProtoReflect() protoreflect.Message {
-	mi := &file_search_uint32ExactCriterion_proto_msgTypes[0]
+	mi := &file_api_proto_search_uint32ExactCriterion_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -61,7 +61,7 @@ func (x *Uint32ExactCriterion) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Uint32ExactCriterion.ProtoReflect.Descriptor instead.
 func (*Uint32ExactCriterion) Descriptor() ([]byte, []int) {
-	return file_search_uint32ExactCriterion_proto_rawDescGZIP(), []int{0}
+	return file_api_proto_search_uint32ExactCriterion_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Uint32ExactCriterion) GetField() string {
@@ -78,38 +78,39 @@ func (x *Uint32ExactCriterion) GetUint32() uint32 {
 	return 0
 }
 
-var File_search_uint32ExactCriterion_proto protoreflect.FileDescriptor
+var File_api_proto_search_uint32ExactCriterion_proto protoreflect.FileDescriptor
 
-var file_search_uint32ExactCriterion_proto_rawDesc = []byte{
-	0x0a, 0x21, 0x73, 0x65, 0x61, 0x72, 0x63, 0x68, 0x2f, 0x75, 0x69, 0x6e, 0x74, 0x33, 0x32, 0x45,
-	0x78, 0x61, 0x63, 0x74, 0x43, 0x72, 0x69, 0x74, 0x65, 0x72, 0x69, 0x6f, 0x6e, 0x2e, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x12, 0x06, 0x73, 0x65, 0x61, 0x72, 0x63, 0x68, 0x22, 0x44, 0x0a, 0x14, 0x55,
-	0x69, 0x6e, 0x74, 0x33, 0x32, 0x45, 0x78, 0x61, 0x63, 0x74, 0x43, 0x72, 0x69, 0x74, 0x65, 0x72,
-	0x69, 0x6f, 0x6e, 0x12, 0x14, 0x0a, 0x05, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x05, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x12, 0x16, 0x0a, 0x06, 0x75, 0x69, 0x6e,
-	0x74, 0x33, 0x32, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x06, 0x75, 0x69, 0x6e, 0x74, 0x33,
-	0x32, 0x42, 0x24, 0x5a, 0x22, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f,
-	0x6d, 0x65, 0x73, 0x68, 0x74, 0x72, 0x61, 0x64, 0x65, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x67, 0x6f,
-	0x2f, 0x73, 0x65, 0x61, 0x72, 0x63, 0x68, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+var file_api_proto_search_uint32ExactCriterion_proto_rawDesc = []byte{
+	0x0a, 0x2b, 0x61, 0x70, 0x69, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x73, 0x65, 0x61, 0x72,
+	0x63, 0x68, 0x2f, 0x75, 0x69, 0x6e, 0x74, 0x33, 0x32, 0x45, 0x78, 0x61, 0x63, 0x74, 0x43, 0x72,
+	0x69, 0x74, 0x65, 0x72, 0x69, 0x6f, 0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x0a, 0x61,
+	0x70, 0x69, 0x2e, 0x73, 0x65, 0x61, 0x72, 0x63, 0x68, 0x22, 0x44, 0x0a, 0x14, 0x55, 0x69, 0x6e,
+	0x74, 0x33, 0x32, 0x45, 0x78, 0x61, 0x63, 0x74, 0x43, 0x72, 0x69, 0x74, 0x65, 0x72, 0x69, 0x6f,
+	0x6e, 0x12, 0x14, 0x0a, 0x05, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x05, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x12, 0x16, 0x0a, 0x06, 0x75, 0x69, 0x6e, 0x74, 0x33,
+	0x32, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x06, 0x75, 0x69, 0x6e, 0x74, 0x33, 0x32, 0x42,
+	0x24, 0x5a, 0x22, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x6d, 0x65,
+	0x73, 0x68, 0x74, 0x72, 0x61, 0x64, 0x65, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x67, 0x6f, 0x2f, 0x73,
+	0x65, 0x61, 0x72, 0x63, 0x68, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
-	file_search_uint32ExactCriterion_proto_rawDescOnce sync.Once
-	file_search_uint32ExactCriterion_proto_rawDescData = file_search_uint32ExactCriterion_proto_rawDesc
+	file_api_proto_search_uint32ExactCriterion_proto_rawDescOnce sync.Once
+	file_api_proto_search_uint32ExactCriterion_proto_rawDescData = file_api_proto_search_uint32ExactCriterion_proto_rawDesc
 )
 
-func file_search_uint32ExactCriterion_proto_rawDescGZIP() []byte {
-	file_search_uint32ExactCriterion_proto_rawDescOnce.Do(func() {
-		file_search_uint32ExactCriterion_proto_rawDescData = protoimpl.X.CompressGZIP(file_search_uint32ExactCriterion_proto_rawDescData)
+func file_api_proto_search_uint32ExactCriterion_proto_rawDescGZIP() []byte {
+	file_api_proto_search_uint32ExactCriterion_proto_rawDescOnce.Do(func() {
+		file_api_proto_search_uint32ExactCriterion_proto_rawDescData = protoimpl.X.CompressGZIP(file_api_proto_search_uint32ExactCriterion_proto_rawDescData)
 	})
-	return file_search_uint32ExactCriterion_proto_rawDescData
+	return file_api_proto_search_uint32ExactCriterion_proto_rawDescData
 }
 
-var file_search_uint32ExactCriterion_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_search_uint32ExactCriterion_proto_goTypes = []interface{}{
-	(*Uint32ExactCriterion)(nil), // 0: search.Uint32ExactCriterion
+var file_api_proto_search_uint32ExactCriterion_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_api_proto_search_uint32ExactCriterion_proto_goTypes = []interface{}{
+	(*Uint32ExactCriterion)(nil), // 0: api.search.Uint32ExactCriterion
 }
-var file_search_uint32ExactCriterion_proto_depIdxs = []int32{
+var file_api_proto_search_uint32ExactCriterion_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
 	0, // [0:0] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -117,13 +118,13 @@ var file_search_uint32ExactCriterion_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_search_uint32ExactCriterion_proto_init() }
-func file_search_uint32ExactCriterion_proto_init() {
-	if File_search_uint32ExactCriterion_proto != nil {
+func init() { file_api_proto_search_uint32ExactCriterion_proto_init() }
+func file_api_proto_search_uint32ExactCriterion_proto_init() {
+	if File_api_proto_search_uint32ExactCriterion_proto != nil {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_search_uint32ExactCriterion_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_api_proto_search_uint32ExactCriterion_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Uint32ExactCriterion); i {
 			case 0:
 				return &v.state
@@ -140,18 +141,18 @@ func file_search_uint32ExactCriterion_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: file_search_uint32ExactCriterion_proto_rawDesc,
+			RawDescriptor: file_api_proto_search_uint32ExactCriterion_proto_rawDesc,
 			NumEnums:      0,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_search_uint32ExactCriterion_proto_goTypes,
-		DependencyIndexes: file_search_uint32ExactCriterion_proto_depIdxs,
-		MessageInfos:      file_search_uint32ExactCriterion_proto_msgTypes,
+		GoTypes:           file_api_proto_search_uint32ExactCriterion_proto_goTypes,
+		DependencyIndexes: file_api_proto_search_uint32ExactCriterion_proto_depIdxs,
+		MessageInfos:      file_api_proto_search_uint32ExactCriterion_proto_msgTypes,
 	}.Build()
-	File_search_uint32ExactCriterion_proto = out.File
-	file_search_uint32ExactCriterion_proto_rawDesc = nil
-	file_search_uint32ExactCriterion_proto_goTypes = nil
-	file_search_uint32ExactCriterion_proto_depIdxs = nil
+	File_api_proto_search_uint32ExactCriterion_proto = out.File
+	file_api_proto_search_uint32ExactCriterion_proto_rawDesc = nil
+	file_api_proto_search_uint32ExactCriterion_proto_goTypes = nil
+	file_api_proto_search_uint32ExactCriterion_proto_depIdxs = nil
 }

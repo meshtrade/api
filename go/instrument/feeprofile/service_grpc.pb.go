@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v5.28.0
-// source: instrument/feeprofile/service.proto
+// source: api/proto/instrument/feeprofile/service.proto
 
 package feeprofile
 
@@ -19,9 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Service_Create_FullMethodName = "/feeprofile.Service/Create"
-	Service_Update_FullMethodName = "/feeprofile.Service/Update"
-	Service_List_FullMethodName   = "/feeprofile.Service/List"
+	Service_Create_FullMethodName = "/api.instrument.feeprofile.Service/Create"
+	Service_Update_FullMethodName = "/api.instrument.feeprofile.Service/Update"
+	Service_List_FullMethodName   = "/api.instrument.feeprofile.Service/List"
 )
 
 // ServiceClient is the client API for Service service.
@@ -180,7 +180,7 @@ func _Service_List_Handler(srv interface{}, ctx context.Context, dec func(interf
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Service_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "feeprofile.Service",
+	ServiceName: "api.instrument.feeprofile.Service",
 	HandlerType: (*ServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -197,5 +197,5 @@ var Service_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "instrument/feeprofile/service.proto",
+	Metadata: "api/proto/instrument/feeprofile/service.proto",
 }

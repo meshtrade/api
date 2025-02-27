@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v5.28.0
-// source: instrument/service.proto
+// source: api/proto/instrument/service.proto
 
 package instrument
 
@@ -19,8 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Service_Mint_FullMethodName = "/instrument.Service/Mint"
-	Service_Burn_FullMethodName = "/instrument.Service/Burn"
+	Service_Mint_FullMethodName = "/api.instrument.Service/Mint"
+	Service_Burn_FullMethodName = "/api.instrument.Service/Burn"
 )
 
 // ServiceClient is the client API for Service service.
@@ -146,7 +146,7 @@ func _Service_Burn_Handler(srv interface{}, ctx context.Context, dec func(interf
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Service_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "instrument.Service",
+	ServiceName: "api.instrument.Service",
 	HandlerType: (*ServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -159,5 +159,5 @@ var Service_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "instrument/service.proto",
+	Metadata: "api/proto/instrument/service.proto",
 }
