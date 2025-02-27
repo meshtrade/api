@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package role;
+package api.role;
 
 option go_package = "github.com/meshtrade/api/go/iam/role";
 

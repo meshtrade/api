@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package search;
+package api.search;
 
 option go_package = "github.com/meshtrade/api/go/search";
 
@@ -15,5 +15,5 @@ message Query {
     uint64 offset = 2;
 
     // Sorting is a list of Sorting requests.
-    repeated search.Sorting sorting = 3;
+    repeated api.search.Sorting sorting = 3;
 }

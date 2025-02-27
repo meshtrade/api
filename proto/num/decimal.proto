@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package num;
+package api.num;
 
 option go_package = "github.com/meshtrade/api/go/num";
 

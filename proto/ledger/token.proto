@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package ledger;
+package api.ledger;
 
 option go_package = "github.com/meshtrade/api/go/ledger";
 
@@ -24,5 +24,5 @@ message Token {
   /*
   Network is the he blockchain network on which the token exists.
   */
-  ledger.Network network = 3;
+  api.ledger.Network network = 3;
 }

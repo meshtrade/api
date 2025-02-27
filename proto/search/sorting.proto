@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package search;
+package api.search;
 
 option go_package = "github.com/meshtrade/api/go/search";
 
@@ -19,5 +19,5 @@ message Sorting {
   string field = 1;
 
   // Order is the SortingOrder in which sorting should be applied to the Field
-  search.SortingOrder order = 2;
+  api.search.SortingOrder order = 2;
   }

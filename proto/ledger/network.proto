@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package ledger;
+package api.ledger;
 
 option go_package = "github.com/meshtrade/api/go/ledger";
 

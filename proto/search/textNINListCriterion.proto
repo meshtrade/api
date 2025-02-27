@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package search;
+package api.search;
 
 option go_package = "github.com/meshtrade/api/go/search";
 

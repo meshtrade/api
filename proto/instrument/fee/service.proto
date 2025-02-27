@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package fee;
+package api.instrument.fee;
 
 option go_package = "github.com/meshtrade/api/go/instrument/fee";
 
@@ -25,7 +25,7 @@ message GetRequest {
   /*
   Criteria is the search criteria that specifies which Fee to retrieve.
   */
-  repeated search.Criterion criteria = 1;
+  repeated api.search.Criterion criteria = 1;
 }
 
 /*
@@ -35,7 +35,7 @@ message GetResponse {
   /*
   Fee is the Fee that was retrieved.
   */
-  fee.Fee fee = 1;
+  api.instrument.fee.Fee fee = 1;
 }
 
 /*
@@ -45,7 +45,7 @@ message ListRequest {
   /*
   Criteria is the search criteria that specifies which fees to retrieve.
   */
-  repeated search.Criterion criteria = 1;
+  repeated api.search.Criterion criteria = 1;
 }
 
 /*
@@ -55,7 +55,7 @@ message ListResponse {
   /*
   Fees are the list of fees that were retrieved.
   */
-  repeated fee.Fee fees = 1;
+  repeated api.instrument.fee.Fee fees = 1;
 }
 
 /*
@@ -65,7 +65,7 @@ message CalculateMintingFeesRequest {
   /*
   Amount is the mint Amount for which fees are calculated.
   */
-  ledger.Amount Amount = 1;
+  api.ledger.Amount Amount = 1;
 }
 
 /*
@@ -75,7 +75,7 @@ message CalculateMintingFeesResponse {
   /*
   Fees are the fees calculated for the requested mint amount.
   */
-  repeated fee.Fee Fees = 1;
+  repeated api.instrument.fee.Fee Fees = 1;
 }
 
 /*
@@ -85,7 +85,7 @@ message CalculateBurningFeesRequest {
   /*
   Amount is the burn Amount for which fees are calculated.
   */
-  ledger.Amount Amount = 1;
+  api.ledger.Amount Amount = 1;
 }
 
 /*
@@ -95,5 +95,5 @@ message CalculateBurningFeesResponse {
   /*
   Fees are the fees calculated for the requested burn amount.
   */
-  repeated fee.Fee Fees = 1;
+  repeated api.instrument.fee.Fee Fees = 1;
 }

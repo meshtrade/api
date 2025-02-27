@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package fee;
+package api.instrument.fee;
 
 option go_package = "github.com/meshtrade/api/go/instrument/fee";
 
@@ -23,7 +23,7 @@ message RateData {
   Rate is the rate applied to the BaseAmount to calculate the
   resulting AmountExclVAT.
   */
-  num.Decimal rate = 1;
+  api.num.Decimal rate = 1;
 
   /*
   BaseAmount is the variable amount that gets multiplied with
@@ -31,16 +31,16 @@ message RateData {
   For example, this might be the primary market settlement
   amount or subscription order book target raise.
   */
-  ledger.Amount baseAmount = 2;
+  api.ledger.Amount baseAmount = 2;
 
   /*
   AmountExclVAT is the VAT exclusive amount used to calculate
   Fee.VatAmount and the resulting Fee.AmountInclVAT.
   */
-  ledger.Amount amountExclVAT = 3;
+  api.ledger.Amount amountExclVAT = 3;
 
   /*
   VATRate is the rate used to calculate Fee.VatAmount.
   */
-  num.Decimal vatRate = 4;
+  api.num.Decimal vatRate = 4;
 }

@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package fee;
+package api.instrument.fee;
 
 option go_package = "github.com/meshtrade/api/go/instrument/fee";
 
@@ -20,10 +20,10 @@ message AmountData {
   AmountExclVAT is the VAT exclusive amount used to calculate
   Fee.VatAmount and the resulting Fee.AmountInclVAT.
   */
-  ledger.Amount amountExclVAT = 1;
+  api.ledger.Amount amountExclVAT = 1;
 
   /*
   VATRate is the rate used to calculate Fee.VatAmount.
   */
-  num.Decimal vatRate = 2;
+  api.num.Decimal vatRate = 2;
 }

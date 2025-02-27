@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package feeprofile;
+package api.instrument.feeprofile;
 
 option go_package = "github.com/meshtrade/api/go/instrument/feeprofile";
 
@@ -18,5 +18,5 @@ message AmountLifecycleEventCalculationConfig {
   /*
   Amount is the fixed (pre-tax) fee amount charged on the lifecycle event.
   */
-  ledger.Amount amount = 1;
+  api.ledger.Amount amount = 1;
 }

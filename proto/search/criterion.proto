@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package search;
+package api.search;
 
 option go_package = "github.com/meshtrade/api/go/search";
 
@@ -18,17 +18,17 @@ import "api/proto/search/dateRangeCriterion.proto";
 // Criterion is a placeholder for generic search criterion
 message Criterion {
   oneof criterion {
-    search.BoolExactCriterion boolExactCriterion = 1;
-    search.TextExactCriterion textExactCriterion = 2;
-    search.TextNEExactCriterion textNEExactCriterion = 3;
-    search.TextSubstringCriterion textSubstringCriterion = 4;
-    search.TextListCriterion textListCriterion = 5;
-    search.TextNINListCriterion textNINListCriterion = 6;
-    search.Uint32ExactCriterion uint32ExactCriterion = 7;
-    search.Uint32NEExactCriterion uint32NEExactCriterion = 8;
-    search.Uint32ListCriterion uint32ListCriterion = 9;
-    search.DateRangeCriterion dateRangeCriterion = 10;
-    search.ORCriterion orCriterion = 11;
+    api.search.BoolExactCriterion boolExactCriterion = 1;
+    api.search.TextExactCriterion textExactCriterion = 2;
+    api.search.TextNEExactCriterion textNEExactCriterion = 3;
+    api.search.TextSubstringCriterion textSubstringCriterion = 4;
+    api.search.TextListCriterion textListCriterion = 5;
+    api.search.TextNINListCriterion textNINListCriterion = 6;
+    api.search.Uint32ExactCriterion uint32ExactCriterion = 7;
+    api.search.Uint32NEExactCriterion uint32NEExactCriterion = 8;
+    api.search.Uint32ListCriterion uint32ListCriterion = 9;
+    api.search.DateRangeCriterion dateRangeCriterion = 10;
+    api.search.ORCriterion orCriterion = 11;
   }
 }
 
@@ -36,5 +36,5 @@ message Criterion {
 message ORCriterion {
   // criteria is a list of search.Criterion that are used to construct an OR
   // list
-  repeated search.Criterion criteria = 1;
+  repeated api.search.Criterion criteria = 1;
 }

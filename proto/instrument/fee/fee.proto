@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package fee;
+package api.instrument.fee;
 
 option go_package = "github.com/meshtrade/api/go/instrument/fee";
 
@@ -43,12 +43,12 @@ message Fee {
   AmountInclVAT is the total amount charged, inclusive of VAT.
   This field captures the gross charge that the instrument issuer must pay.
   */
-  ledger.Amount amountInclVAT = 5;
+  api.ledger.Amount amountInclVAT = 5;
 
   /*
   VATAmount is the portion of the AmountInclVAT that constitutes VAT.
   */
-  ledger.Amount vatAmount = 6;
+  api.ledger.Amount vatAmount = 6;
 
   /*
   Category is the type of Fee being applied. It categorises fees based on
@@ -71,7 +71,7 @@ message Fee {
   Data is the additional contextual information related to calculation, 
   taxation and billing of the Fee.
   */
-  fee.Data data = 9;
+  api.instrument.fee.Data data = 9;
 }
 
 /* 

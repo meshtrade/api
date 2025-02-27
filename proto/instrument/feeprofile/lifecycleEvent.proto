@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package feeprofile;
+package api.instrument.feeprofile;
 
 option go_package = "github.com/meshtrade/api/go/instrument/feeprofile";
 
@@ -31,7 +31,7 @@ message LifecycleEvent {
   /*
   Category is the Instrument lifecycle event type that leads to a Fee being charged.
   */
-  feeprofile.LifecycleEventCategory category = 2;
+  api.instrument.feeprofile.LifecycleEventCategory category = 2;
 
   /*
   CalculationConfig defines how the Fee on this lifecycle event is calculated.
@@ -40,5 +40,5 @@ message LifecycleEvent {
     - Rate: The Fee amount is variable are calculated as a percentage of a
     base amount. The base amount used is contextual to the lifecycle event.
   */
-  feeprofile.LifecycleEventCalculationConfig calculationConfig = 3;
+  api.instrument.feeprofile.LifecycleEventCalculationConfig calculationConfig = 3;
 }

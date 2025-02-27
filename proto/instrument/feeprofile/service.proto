@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package feeprofile;
+package api.instrument.feeprofile;
 
 option go_package = "github.com/meshtrade/api/go/instrument/feeprofile";
 
@@ -23,7 +23,7 @@ message CreateRequest {
   /*
   FeeProfile is the FeeProfile to be created.
   */
-  feeprofile.FeeProfile feeProfile = 1;
+  api.instrument.feeprofile.FeeProfile feeProfile = 1;
 }
 
 /*
@@ -33,7 +33,7 @@ message CreateResponse {
   /*
   FeeProfile is the FeeProfile that was created.
   */
-  feeprofile.FeeProfile feeProfile = 1;
+  api.instrument.feeprofile.FeeProfile feeProfile = 1;
 }
 
 /*
@@ -43,7 +43,7 @@ message UpdateRequest {
   /*
   FeeProfile is the FeeProfile to be updated.
   */
-  feeprofile.FeeProfile feeProfile = 1;
+  api.instrument.feeprofile.FeeProfile feeProfile = 1;
 }
 
 /*
@@ -53,7 +53,7 @@ message UpdateResponse {
   /*
   FeeProfile is the FeeProfile that was updated.
   */
-  feeprofile.FeeProfile feeProfile = 1;
+  api.instrument.feeprofile.FeeProfile feeProfile = 1;
 }
 
 /*
@@ -63,7 +63,7 @@ message ListRequest {
   /*
   Criteria is the search criteria that specifies which fee profiles to retrieve.
   */
-  repeated search.Criterion criteria = 1;
+  repeated api.search.Criterion criteria = 1;
 }
 
 /*
@@ -73,5 +73,5 @@ message ListResponse {
   /*
   FeeProfiles are the list of fee profiles that were retrieved.
   */
-  repeated feeprofile.FeeProfile feeProfiles = 1;
+  repeated api.instrument.feeprofile.FeeProfile feeProfiles = 1;
 }

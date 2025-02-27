@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package feeprofile;
+package api.feeprofile;
 
 option go_package = "github.com/meshtrade/api/go/instrument/feeprofile";
 
@@ -18,7 +18,7 @@ message AUM {
   Rate is fee rate applied to the total value of assets on Mesh
   to calculate the Fee.AmountExclVAT.
   */
-  num.Decimal rate = 1;
+  api.num.Decimal rate = 1;
 
   // FIXME: Model variable or flat AUM fees, with a manual or
   // oracle generated billing schedule with due dates.

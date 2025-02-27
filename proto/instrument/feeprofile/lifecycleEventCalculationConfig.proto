@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package feeprofile;
+package api.instrument.feeprofile;
 
 option go_package = "github.com/meshtrade/api/go/instrument/feeprofile";
 
@@ -13,7 +13,7 @@ the Fee amount.
 */
 message LifecycleEventCalculationConfig {
     oneof LifecycleEventCalculationConfig {
-        feeprofile.AmountLifecycleEventCalculationConfig amountLifecycleEventCalculationConfig = 1;
-        feeprofile.RateLifecycleEventCalculationConfig rateLifecycleEventCalculationConfig = 2;
+        api.instrument.feeprofile.AmountLifecycleEventCalculationConfig amountLifecycleEventCalculationConfig = 1;
+        api.instrument.feeprofile.RateLifecycleEventCalculationConfig rateLifecycleEventCalculationConfig = 2;
     }
 }

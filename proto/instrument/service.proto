@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package instrument;
+package api.instrument;
 
 option go_package = "github.com/meshtrade/api/go/instrument";
 
@@ -21,7 +21,7 @@ message MintRequest {
     /*
     Amount is the amount to be minted.
     */
-    ledger.Amount amount = 1;
+    api.ledger.Amount amount = 1;
 
     /*
     FeeAccountNumber refers to the account from which fees are paid.
@@ -51,7 +51,7 @@ message BurnRequest {
     /*
     Amount is the amount to be burned.
     */
-    ledger.Amount amount = 1;
+    api.ledger.Amount amount = 1;
 
     /*
     FeeAccountNumber refers to the account from which fees are paid.

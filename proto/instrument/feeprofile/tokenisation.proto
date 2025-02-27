@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package feeprofile;
+package api.instrument.feeprofile;
 
 option go_package = "github.com/meshtrade/api/go/instrument/feeprofile";
 
@@ -15,15 +15,15 @@ message Tokenisation {
   FirstTimeMintingAmount is the fee amount charged when
   minting tokens of the Instrument for the first time.
   */
-  ledger.Amount firstTimeMintingAmount = 1;
+  api.ledger.Amount firstTimeMintingAmount = 1;
 
   /*
   MintingAmount is minting fee charged per token minted.
   */
-  ledger.Amount mintingAmount = 2;
+  api.ledger.Amount mintingAmount = 2;
 
   /*
   BurningAmount is minting fee charged per token burned.
   */
-  ledger.Amount burningAmount = 3;
+  api.ledger.Amount burningAmount = 3;
 }

@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package ledger;
+package api.ledger;
 
 option go_package = "github.com/meshtrade/api/go/ledger";
 
@@ -14,10 +14,10 @@ message Amount {
   /*
   Token is the unit of account of this Amount.
   */
-  ledger.Token token = 1;
+  api.ledger.Token token = 1;
 
   /*
   Value is the amount of Token that this Amount is.
   */
-  num.Decimal value = 2;
+  api.num.Decimal value = 2;
 }
