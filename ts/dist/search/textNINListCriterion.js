@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.newTextNINListCriterion = newTextNINListCriterion;
-var criterion_pb_1 = require("./criterion_pb");
-var textNINListCriterion_pb_1 = require("./textNINListCriterion_pb");
+const criterion_pb_1 = require("./criterion_pb");
+const textNINListCriterion_pb_1 = require("./textNINListCriterion_pb");
 /**
  * Convenience function to construct a wrapped new TextNINListCriterion.
  *

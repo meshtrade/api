@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.newTextListCriterion = newTextListCriterion;
-var criterion_pb_1 = require("./criterion_pb");
-var textListCriterion_pb_1 = require("./textListCriterion_pb");
+const criterion_pb_1 = require("./criterion_pb");
+const textListCriterion_pb_1 = require("./textListCriterion_pb");
 /**
  * Convenience function to construct a wrapped new TextListCriterion.
  *

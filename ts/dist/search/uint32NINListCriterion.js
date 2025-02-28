@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.newUint32NINListCriterion = newUint32NINListCriterion;
-var criterion_pb_1 = require("./criterion_pb");
-var uint32NINListCriterion_pb_1 = require("./uint32NINListCriterion_pb");
+const criterion_pb_1 = require("./criterion_pb");
+const uint32NINListCriterion_pb_1 = require("./uint32NINListCriterion_pb");
 /**
  * Convenience function to construct a wrapped new Uint32NINListCriterion.
  *

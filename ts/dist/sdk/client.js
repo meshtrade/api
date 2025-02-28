@@ -1,31 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Client = void 0;
-var ServiceServiceClientPb_1 = require("../instrument/feeprofile/ServiceServiceClientPb");
-var InstrumentDomain = /** @class */ (function () {
-    function InstrumentDomain() {
+const ServiceServiceClientPb_1 = require("../instrument/feeprofile/ServiceServiceClientPb");
+class InstrumentDomain {
+    constructor() {
         this._feeProfile = new ServiceServiceClientPb_1.ServiceClient("");
     }
-    Object.defineProperty(InstrumentDomain.prototype, "feeProfile", {
-        get: function () {
-            return this._feeProfile;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    return InstrumentDomain;
-}());
-var Client = /** @class */ (function () {
-    function Client() {
+    get feeProfile() {
+        return this._feeProfile;
+    }
+}
+class Client {
+    constructor() {
         this._instrument = new InstrumentDomain();
     }
-    Object.defineProperty(Client.prototype, "instrument", {
-        get: function () {
-            return this._instrument;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    return Client;
-}());
+    get instrument() {
+        return this._instrument;
+    }
+}
 exports.Client = Client;

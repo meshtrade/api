@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.newORCriterion = newORCriterion;
-var criterion_pb_1 = require("./criterion_pb");
+const criterion_pb_1 = require("./criterion_pb");
 /**
  * Convenience function to construct a wrapped new ORCriterion.
  *

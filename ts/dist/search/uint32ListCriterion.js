@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.newUint32ListCriterion = newUint32ListCriterion;
-var criterion_pb_1 = require("./criterion_pb");
-var uint32ListCriterion_pb_1 = require("./uint32ListCriterion_pb");
+const criterion_pb_1 = require("./criterion_pb");
+const uint32ListCriterion_pb_1 = require("./uint32ListCriterion_pb");
 /**
  * Convenience function to construct a wrapped new Uint32ListCriterion.
  *

@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.newTextSubstringCriterion = newTextSubstringCriterion;
-var criterion_pb_1 = require("./criterion_pb");
-var textSubstringCriterion_pb_1 = require("./textSubstringCriterion_pb");
+const criterion_pb_1 = require("./criterion_pb");
+const textSubstringCriterion_pb_1 = require("./textSubstringCriterion_pb");
 /**
  * Convenience function to construct a wrapped new TextSubstringCriterion.
  *

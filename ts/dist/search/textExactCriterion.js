@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.newTextExactCriterion = newTextExactCriterion;
-var criterion_pb_1 = require("./criterion_pb");
-var textExactCriterion_pb_1 = require("./textExactCriterion_pb");
+const criterion_pb_1 = require("./criterion_pb");
+const textExactCriterion_pb_1 = require("./textExactCriterion_pb");
 /**
  * Convenience function to construct a wrapped new TextExactCriterion.
  *

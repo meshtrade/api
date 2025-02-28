@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.newUint32NEExactCriterion = newUint32NEExactCriterion;
-var criterion_pb_1 = require("./criterion_pb");
-var uint32NEExactCriterion_pb_1 = require("./uint32NEExactCriterion_pb");
+const criterion_pb_1 = require("./criterion_pb");
+const uint32NEExactCriterion_pb_1 = require("./uint32NEExactCriterion_pb");
 /**
  * Convenience function to construct a wrapped new Uint32NEExactCriterion.
  *

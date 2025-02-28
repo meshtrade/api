@@ -9,9 +9,9 @@
       "import": "./dist/search/index.js"
     },
     "./*": {
-      "types": "./dist/*",
-      "require": "./dist/*",
-      "import": "./dist/*"
+      "types": "./dist/*.d.ts",
+      "require": "./dist/*.js",
+      "import": "./dist/*.js"
     }
   },
   "typesVersions": {

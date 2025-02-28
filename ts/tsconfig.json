@@ -1,11 +1,16 @@
 {
   "compilerOptions": {
-    "moduleResolution": "node",
-    "module": "CommonJS",
+    "module": "node16",
+    "target": "ES6",
+    "moduleResolution": "node16",
     "declaration": true,
     "outDir": "./dist",
     "strictNullChecks": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "incremental": false,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "rootDir": "./src"
   },
   "include": [
     "src/**/*"

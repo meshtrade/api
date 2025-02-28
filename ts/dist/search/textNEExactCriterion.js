@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.newTextNEExactCriterion = newTextNEExactCriterion;
-var criterion_pb_1 = require("./criterion_pb");
-var textNEExactCriterion_pb_1 = require("./textNEExactCriterion_pb");
+const criterion_pb_1 = require("./criterion_pb");
+const textNEExactCriterion_pb_1 = require("./textNEExactCriterion_pb");
 /**
  * Convenience function to construct a wrapped new TextNEExactCriterion.
  *

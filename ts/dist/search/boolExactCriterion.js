@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.newBoolExactCriterion = newBoolExactCriterion;
-var criterion_pb_1 = require("./criterion_pb");
-var boolExactCriterion_pb_1 = require("./boolExactCriterion_pb");
+const criterion_pb_1 = require("./criterion_pb");
+const boolExactCriterion_pb_1 = require("./boolExactCriterion_pb");
 /**
  * Convenience function to construct a wrapped new BoolExactCriterion.
  *
