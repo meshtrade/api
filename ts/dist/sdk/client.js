@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Client = void 0;
-const ServiceServiceClientPb_1 = require("../instrument/feeprofile/ServiceServiceClientPb");
+const service_grpc_web_pb_1 = require("../instrument/feeprofile/service_grpc_web_pb");
 class InstrumentDomain {
     constructor() {
-        this._feeProfile = new ServiceServiceClientPb_1.ServiceClient("");
+        this._feeProfile = new service_grpc_web_pb_1.ServicePromiseClient("");
     }
     get feeProfile() {
         return this._feeProfile;

@@ -10,4 +10,7 @@ import { Criterion } from "./criterion_pb";
  * // results in the mongo db query {"id": {"$ne":"someID"}}
  * const textNEExactCriterion = newTextNEExactCriterion("id", "someID");
  */
-export declare function newTextNEExactCriterion(field: string, value: string): Criterion;
+export declare function newTextNEExactCriterion(
+  field: string,
+  value: string,
+): Criterion;

@@ -1,4 +1,4 @@
-import { ServiceClient as FeeProfileServiceClient } from "../instrument/feeprofile/ServiceServiceClientPb";
+import { ServicePromiseClient as FeeProfileServiceClient } from "../instrument/feeprofile/service_grpc_web_pb";
 
 class InstrumentDomain {
   private _feeProfile: FeeProfileServiceClient;
