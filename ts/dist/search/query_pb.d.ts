@@ -1,6 +1,6 @@
 import * as jspb from 'google-protobuf'
 
-import * as search_sorting_pb from '../search/sorting_pb'; // proto import: "search/sorting.proto"
+import * as api_proto_search_sorting_pb from '../search/sorting_pb'; // proto import: "api/proto/search/sorting.proto"
 
 
 export class Query extends jspb.Message {
@@ -10,10 +10,10 @@ export class Query extends jspb.Message {
   getOffset(): number;
   setOffset(value: number): Query;
 
-  getSortingList(): Array<search_sorting_pb.Sorting>;
-  setSortingList(value: Array<search_sorting_pb.Sorting>): Query;
+  getSortingList(): Array<api_proto_search_sorting_pb.Sorting>;
+  setSortingList(value: Array<api_proto_search_sorting_pb.Sorting>): Query;
   clearSortingList(): Query;
-  addSorting(value?: search_sorting_pb.Sorting, index?: number): search_sorting_pb.Sorting;
+  addSorting(value?: api_proto_search_sorting_pb.Sorting, index?: number): api_proto_search_sorting_pb.Sorting;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): Query.AsObject;
@@ -27,7 +27,7 @@ export namespace Query {
   export type AsObject = {
     limit: number,
     offset: number,
-    sortingList: Array<search_sorting_pb.Sorting.AsObject>,
+    sortingList: Array<api_proto_search_sorting_pb.Sorting.AsObject>,
   }
 }
 

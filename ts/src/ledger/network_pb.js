@@ -1,4 +1,4 @@
-// source: ledger/network.proto
+// source: api/proto/ledger/network.proto
 /**
  * @fileoverview
  * @enhanceable
@@ -21,13 +21,13 @@ var global =
     (function () { return this; }).call(null) ||
     Function('return this')();
 
-goog.exportSymbol('proto.ledger.Network', null, global);
+goog.exportSymbol('proto.api.ledger.Network', null, global);
 /**
  * @enum {number}
  */
-proto.ledger.Network = {
+proto.api.ledger.Network = {
   UNDEFINED_NETWORK: 0,
   STELLAR_NETWORK: 1
 };
 
-goog.object.extend(exports, proto.ledger);
+goog.object.extend(exports, proto.api.ledger);

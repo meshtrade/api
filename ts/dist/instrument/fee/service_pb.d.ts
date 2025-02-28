@@ -1,15 +1,15 @@
 import * as jspb from 'google-protobuf'
 
-import * as instrument_fee_fee_pb from '../../instrument/fee/fee_pb'; // proto import: "instrument/fee/fee.proto"
-import * as ledger_amount_pb from '../../ledger/amount_pb'; // proto import: "ledger/amount.proto"
-import * as search_criterion_pb from '../../search/criterion_pb'; // proto import: "search/criterion.proto"
+import * as api_proto_instrument_fee_fee_pb from '../../instrument/fee/fee_pb'; // proto import: "api/proto/instrument/fee/fee.proto"
+import * as api_proto_ledger_amount_pb from '../../ledger/amount_pb'; // proto import: "api/proto/ledger/amount.proto"
+import * as api_proto_search_criterion_pb from '../../search/criterion_pb'; // proto import: "api/proto/search/criterion.proto"
 
 
 export class GetRequest extends jspb.Message {
-  getCriteriaList(): Array<search_criterion_pb.Criterion>;
-  setCriteriaList(value: Array<search_criterion_pb.Criterion>): GetRequest;
+  getCriteriaList(): Array<api_proto_search_criterion_pb.Criterion>;
+  setCriteriaList(value: Array<api_proto_search_criterion_pb.Criterion>): GetRequest;
   clearCriteriaList(): GetRequest;
-  addCriteria(value?: search_criterion_pb.Criterion, index?: number): search_criterion_pb.Criterion;
+  addCriteria(value?: api_proto_search_criterion_pb.Criterion, index?: number): api_proto_search_criterion_pb.Criterion;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): GetRequest.AsObject;
@@ -21,13 +21,13 @@ export class GetRequest extends jspb.Message {
 
 export namespace GetRequest {
   export type AsObject = {
-    criteriaList: Array<search_criterion_pb.Criterion.AsObject>,
+    criteriaList: Array<api_proto_search_criterion_pb.Criterion.AsObject>,
   }
 }
 
 export class GetResponse extends jspb.Message {
-  getFee(): instrument_fee_fee_pb.Fee | undefined;
-  setFee(value?: instrument_fee_fee_pb.Fee): GetResponse;
+  getFee(): api_proto_instrument_fee_fee_pb.Fee | undefined;
+  setFee(value?: api_proto_instrument_fee_fee_pb.Fee): GetResponse;
   hasFee(): boolean;
   clearFee(): GetResponse;
 
@@ -41,15 +41,15 @@ export class GetResponse extends jspb.Message {
 
 export namespace GetResponse {
   export type AsObject = {
-    fee?: instrument_fee_fee_pb.Fee.AsObject,
+    fee?: api_proto_instrument_fee_fee_pb.Fee.AsObject,
   }
 }
 
 export class ListRequest extends jspb.Message {
-  getCriteriaList(): Array<search_criterion_pb.Criterion>;
-  setCriteriaList(value: Array<search_criterion_pb.Criterion>): ListRequest;
+  getCriteriaList(): Array<api_proto_search_criterion_pb.Criterion>;
+  setCriteriaList(value: Array<api_proto_search_criterion_pb.Criterion>): ListRequest;
   clearCriteriaList(): ListRequest;
-  addCriteria(value?: search_criterion_pb.Criterion, index?: number): search_criterion_pb.Criterion;
+  addCriteria(value?: api_proto_search_criterion_pb.Criterion, index?: number): api_proto_search_criterion_pb.Criterion;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): ListRequest.AsObject;
@@ -61,15 +61,15 @@ export class ListRequest extends jspb.Message {
 
 export namespace ListRequest {
   export type AsObject = {
-    criteriaList: Array<search_criterion_pb.Criterion.AsObject>,
+    criteriaList: Array<api_proto_search_criterion_pb.Criterion.AsObject>,
   }
 }
 
 export class ListResponse extends jspb.Message {
-  getFeesList(): Array<instrument_fee_fee_pb.Fee>;
-  setFeesList(value: Array<instrument_fee_fee_pb.Fee>): ListResponse;
+  getFeesList(): Array<api_proto_instrument_fee_fee_pb.Fee>;
+  setFeesList(value: Array<api_proto_instrument_fee_fee_pb.Fee>): ListResponse;
   clearFeesList(): ListResponse;
-  addFees(value?: instrument_fee_fee_pb.Fee, index?: number): instrument_fee_fee_pb.Fee;
+  addFees(value?: api_proto_instrument_fee_fee_pb.Fee, index?: number): api_proto_instrument_fee_fee_pb.Fee;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): ListResponse.AsObject;
@@ -81,13 +81,13 @@ export class ListResponse extends jspb.Message {
 
 export namespace ListResponse {
   export type AsObject = {
-    feesList: Array<instrument_fee_fee_pb.Fee.AsObject>,
+    feesList: Array<api_proto_instrument_fee_fee_pb.Fee.AsObject>,
   }
 }
 
 export class CalculateMintingFeesRequest extends jspb.Message {
-  getAmount(): ledger_amount_pb.Amount | undefined;
-  setAmount(value?: ledger_amount_pb.Amount): CalculateMintingFeesRequest;
+  getAmount(): api_proto_ledger_amount_pb.Amount | undefined;
+  setAmount(value?: api_proto_ledger_amount_pb.Amount): CalculateMintingFeesRequest;
   hasAmount(): boolean;
   clearAmount(): CalculateMintingFeesRequest;
 
@@ -101,15 +101,15 @@ export class CalculateMintingFeesRequest extends jspb.Message {
 
 export namespace CalculateMintingFeesRequest {
   export type AsObject = {
-    amount?: ledger_amount_pb.Amount.AsObject,
+    amount?: api_proto_ledger_amount_pb.Amount.AsObject,
   }
 }
 
 export class CalculateMintingFeesResponse extends jspb.Message {
-  getFeesList(): Array<instrument_fee_fee_pb.Fee>;
-  setFeesList(value: Array<instrument_fee_fee_pb.Fee>): CalculateMintingFeesResponse;
+  getFeesList(): Array<api_proto_instrument_fee_fee_pb.Fee>;
+  setFeesList(value: Array<api_proto_instrument_fee_fee_pb.Fee>): CalculateMintingFeesResponse;
   clearFeesList(): CalculateMintingFeesResponse;
-  addFees(value?: instrument_fee_fee_pb.Fee, index?: number): instrument_fee_fee_pb.Fee;
+  addFees(value?: api_proto_instrument_fee_fee_pb.Fee, index?: number): api_proto_instrument_fee_fee_pb.Fee;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): CalculateMintingFeesResponse.AsObject;
@@ -121,13 +121,13 @@ export class CalculateMintingFeesResponse extends jspb.Message {
 
 export namespace CalculateMintingFeesResponse {
   export type AsObject = {
-    feesList: Array<instrument_fee_fee_pb.Fee.AsObject>,
+    feesList: Array<api_proto_instrument_fee_fee_pb.Fee.AsObject>,
   }
 }
 
 export class CalculateBurningFeesRequest extends jspb.Message {
-  getAmount(): ledger_amount_pb.Amount | undefined;
-  setAmount(value?: ledger_amount_pb.Amount): CalculateBurningFeesRequest;
+  getAmount(): api_proto_ledger_amount_pb.Amount | undefined;
+  setAmount(value?: api_proto_ledger_amount_pb.Amount): CalculateBurningFeesRequest;
   hasAmount(): boolean;
   clearAmount(): CalculateBurningFeesRequest;
 
@@ -141,15 +141,15 @@ export class CalculateBurningFeesRequest extends jspb.Message {
 
 export namespace CalculateBurningFeesRequest {
   export type AsObject = {
-    amount?: ledger_amount_pb.Amount.AsObject,
+    amount?: api_proto_ledger_amount_pb.Amount.AsObject,
   }
 }
 
 export class CalculateBurningFeesResponse extends jspb.Message {
-  getFeesList(): Array<instrument_fee_fee_pb.Fee>;
-  setFeesList(value: Array<instrument_fee_fee_pb.Fee>): CalculateBurningFeesResponse;
+  getFeesList(): Array<api_proto_instrument_fee_fee_pb.Fee>;
+  setFeesList(value: Array<api_proto_instrument_fee_fee_pb.Fee>): CalculateBurningFeesResponse;
   clearFeesList(): CalculateBurningFeesResponse;
-  addFees(value?: instrument_fee_fee_pb.Fee, index?: number): instrument_fee_fee_pb.Fee;
+  addFees(value?: api_proto_instrument_fee_fee_pb.Fee, index?: number): api_proto_instrument_fee_fee_pb.Fee;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): CalculateBurningFeesResponse.AsObject;
@@ -161,7 +161,7 @@ export class CalculateBurningFeesResponse extends jspb.Message {
 
 export namespace CalculateBurningFeesResponse {
   export type AsObject = {
-    feesList: Array<instrument_fee_fee_pb.Fee.AsObject>,
+    feesList: Array<api_proto_instrument_fee_fee_pb.Fee.AsObject>,
   }
 }
 

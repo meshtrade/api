@@ -1,11 +1,11 @@
 import * as jspb from 'google-protobuf'
 
-import * as ledger_amount_pb from '../../ledger/amount_pb'; // proto import: "ledger/amount.proto"
+import * as api_proto_ledger_amount_pb from '../../ledger/amount_pb'; // proto import: "api/proto/ledger/amount.proto"
 
 
 export class AmountLifecycleEventCalculationConfig extends jspb.Message {
-  getAmount(): ledger_amount_pb.Amount | undefined;
-  setAmount(value?: ledger_amount_pb.Amount): AmountLifecycleEventCalculationConfig;
+  getAmount(): api_proto_ledger_amount_pb.Amount | undefined;
+  setAmount(value?: api_proto_ledger_amount_pb.Amount): AmountLifecycleEventCalculationConfig;
   hasAmount(): boolean;
   clearAmount(): AmountLifecycleEventCalculationConfig;
 
@@ -19,7 +19,7 @@ export class AmountLifecycleEventCalculationConfig extends jspb.Message {
 
 export namespace AmountLifecycleEventCalculationConfig {
   export type AsObject = {
-    amount?: ledger_amount_pb.Amount.AsObject,
+    amount?: api_proto_ledger_amount_pb.Amount.AsObject,
   }
 }
 

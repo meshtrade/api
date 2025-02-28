@@ -1,23 +1,23 @@
 import * as jspb from 'google-protobuf'
 
-import * as instrument_fee_dataAmount_pb from '../../instrument/fee/dataAmount_pb'; // proto import: "instrument/fee/dataAmount.proto"
-import * as instrument_fee_dataRate_pb from '../../instrument/fee/dataRate_pb'; // proto import: "instrument/fee/dataRate.proto"
-import * as instrument_fee_dataPerUnit_pb from '../../instrument/fee/dataPerUnit_pb'; // proto import: "instrument/fee/dataPerUnit.proto"
+import * as api_proto_instrument_fee_dataAmount_pb from '../../instrument/fee/dataAmount_pb'; // proto import: "api/proto/instrument/fee/dataAmount.proto"
+import * as api_proto_instrument_fee_dataRate_pb from '../../instrument/fee/dataRate_pb'; // proto import: "api/proto/instrument/fee/dataRate.proto"
+import * as api_proto_instrument_fee_dataPerUnit_pb from '../../instrument/fee/dataPerUnit_pb'; // proto import: "api/proto/instrument/fee/dataPerUnit.proto"
 
 
 export class Data extends jspb.Message {
-  getAmountdata(): instrument_fee_dataAmount_pb.AmountData | undefined;
-  setAmountdata(value?: instrument_fee_dataAmount_pb.AmountData): Data;
+  getAmountdata(): api_proto_instrument_fee_dataAmount_pb.AmountData | undefined;
+  setAmountdata(value?: api_proto_instrument_fee_dataAmount_pb.AmountData): Data;
   hasAmountdata(): boolean;
   clearAmountdata(): Data;
 
-  getRatedata(): instrument_fee_dataRate_pb.RateData | undefined;
-  setRatedata(value?: instrument_fee_dataRate_pb.RateData): Data;
+  getRatedata(): api_proto_instrument_fee_dataRate_pb.RateData | undefined;
+  setRatedata(value?: api_proto_instrument_fee_dataRate_pb.RateData): Data;
   hasRatedata(): boolean;
   clearRatedata(): Data;
 
-  getPerunitdata(): instrument_fee_dataPerUnit_pb.PerUnitData | undefined;
-  setPerunitdata(value?: instrument_fee_dataPerUnit_pb.PerUnitData): Data;
+  getPerunitdata(): api_proto_instrument_fee_dataPerUnit_pb.PerUnitData | undefined;
+  setPerunitdata(value?: api_proto_instrument_fee_dataPerUnit_pb.PerUnitData): Data;
   hasPerunitdata(): boolean;
   clearPerunitdata(): Data;
 
@@ -33,9 +33,9 @@ export class Data extends jspb.Message {
 
 export namespace Data {
   export type AsObject = {
-    amountdata?: instrument_fee_dataAmount_pb.AmountData.AsObject,
-    ratedata?: instrument_fee_dataRate_pb.RateData.AsObject,
-    perunitdata?: instrument_fee_dataPerUnit_pb.PerUnitData.AsObject,
+    amountdata?: api_proto_instrument_fee_dataAmount_pb.AmountData.AsObject,
+    ratedata?: api_proto_instrument_fee_dataRate_pb.RateData.AsObject,
+    perunitdata?: api_proto_instrument_fee_dataPerUnit_pb.PerUnitData.AsObject,
   }
 
   export enum DataCase { 

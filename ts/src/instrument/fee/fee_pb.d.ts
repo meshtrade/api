@@ -1,7 +1,7 @@
 import * as jspb from 'google-protobuf'
 
-import * as instrument_fee_data_pb from '../../instrument/fee/data_pb'; // proto import: "instrument/fee/data.proto"
-import * as ledger_amount_pb from '../../ledger/amount_pb'; // proto import: "ledger/amount.proto"
+import * as api_proto_instrument_fee_data_pb from '../../instrument/fee/data_pb'; // proto import: "api/proto/instrument/fee/data.proto"
+import * as api_proto_ledger_amount_pb from '../../ledger/amount_pb'; // proto import: "api/proto/ledger/amount.proto"
 import * as google_protobuf_timestamp_pb from 'google-protobuf/google/protobuf/timestamp_pb'; // proto import: "google/protobuf/timestamp.proto"
 
 
@@ -18,13 +18,13 @@ export class Fee extends jspb.Message {
   getDescription(): string;
   setDescription(value: string): Fee;
 
-  getAmountinclvat(): ledger_amount_pb.Amount | undefined;
-  setAmountinclvat(value?: ledger_amount_pb.Amount): Fee;
+  getAmountinclvat(): api_proto_ledger_amount_pb.Amount | undefined;
+  setAmountinclvat(value?: api_proto_ledger_amount_pb.Amount): Fee;
   hasAmountinclvat(): boolean;
   clearAmountinclvat(): Fee;
 
-  getVatamount(): ledger_amount_pb.Amount | undefined;
-  setVatamount(value?: ledger_amount_pb.Amount): Fee;
+  getVatamount(): api_proto_ledger_amount_pb.Amount | undefined;
+  setVatamount(value?: api_proto_ledger_amount_pb.Amount): Fee;
   hasVatamount(): boolean;
   clearVatamount(): Fee;
 
@@ -36,8 +36,8 @@ export class Fee extends jspb.Message {
   hasPaymentdate(): boolean;
   clearPaymentdate(): Fee;
 
-  getData(): instrument_fee_data_pb.Data | undefined;
-  setData(value?: instrument_fee_data_pb.Data): Fee;
+  getData(): api_proto_instrument_fee_data_pb.Data | undefined;
+  setData(value?: api_proto_instrument_fee_data_pb.Data): Fee;
   hasData(): boolean;
   clearData(): Fee;
 
@@ -55,11 +55,11 @@ export namespace Fee {
     instrumentname: string,
     state: State,
     description: string,
-    amountinclvat?: ledger_amount_pb.Amount.AsObject,
-    vatamount?: ledger_amount_pb.Amount.AsObject,
+    amountinclvat?: api_proto_ledger_amount_pb.Amount.AsObject,
+    vatamount?: api_proto_ledger_amount_pb.Amount.AsObject,
     category: Category,
     paymentdate?: google_protobuf_timestamp_pb.Timestamp.AsObject,
-    data?: instrument_fee_data_pb.Data.AsObject,
+    data?: api_proto_instrument_fee_data_pb.Data.AsObject,
   }
 }
 

@@ -1,72 +1,78 @@
 import * as jspb from 'google-protobuf'
 
-import * as search_boolExactCriterion_pb from '../search/boolExactCriterion_pb'; // proto import: "search/boolExactCriterion.proto"
-import * as search_textExactCriterion_pb from '../search/textExactCriterion_pb'; // proto import: "search/textExactCriterion.proto"
-import * as search_textNEExactCriterion_pb from '../search/textNEExactCriterion_pb'; // proto import: "search/textNEExactCriterion.proto"
-import * as search_textSubstringCriterion_pb from '../search/textSubstringCriterion_pb'; // proto import: "search/textSubstringCriterion.proto"
-import * as search_textListCriterion_pb from '../search/textListCriterion_pb'; // proto import: "search/textListCriterion.proto"
-import * as search_textNINListCriterion_pb from '../search/textNINListCriterion_pb'; // proto import: "search/textNINListCriterion.proto"
-import * as search_uint32ExactCriterion_pb from '../search/uint32ExactCriterion_pb'; // proto import: "search/uint32ExactCriterion.proto"
-import * as search_uint32NEExactCriterion_pb from '../search/uint32NEExactCriterion_pb'; // proto import: "search/uint32NEExactCriterion.proto"
-import * as search_uint32ListCriterion_pb from '../search/uint32ListCriterion_pb'; // proto import: "search/uint32ListCriterion.proto"
-import * as search_dateRangeCriterion_pb from '../search/dateRangeCriterion_pb'; // proto import: "search/dateRangeCriterion.proto"
+import * as api_proto_search_boolExactCriterion_pb from '../search/boolExactCriterion_pb'; // proto import: "api/proto/search/boolExactCriterion.proto"
+import * as api_proto_search_textExactCriterion_pb from '../search/textExactCriterion_pb'; // proto import: "api/proto/search/textExactCriterion.proto"
+import * as api_proto_search_textNEExactCriterion_pb from '../search/textNEExactCriterion_pb'; // proto import: "api/proto/search/textNEExactCriterion.proto"
+import * as api_proto_search_textSubstringCriterion_pb from '../search/textSubstringCriterion_pb'; // proto import: "api/proto/search/textSubstringCriterion.proto"
+import * as api_proto_search_textListCriterion_pb from '../search/textListCriterion_pb'; // proto import: "api/proto/search/textListCriterion.proto"
+import * as api_proto_search_textNINListCriterion_pb from '../search/textNINListCriterion_pb'; // proto import: "api/proto/search/textNINListCriterion.proto"
+import * as api_proto_search_uint32ExactCriterion_pb from '../search/uint32ExactCriterion_pb'; // proto import: "api/proto/search/uint32ExactCriterion.proto"
+import * as api_proto_search_uint32NEExactCriterion_pb from '../search/uint32NEExactCriterion_pb'; // proto import: "api/proto/search/uint32NEExactCriterion.proto"
+import * as api_proto_search_uint32ListCriterion_pb from '../search/uint32ListCriterion_pb'; // proto import: "api/proto/search/uint32ListCriterion.proto"
+import * as api_proto_search_uint32NINListCriterion_pb from '../search/uint32NINListCriterion_pb'; // proto import: "api/proto/search/uint32NINListCriterion.proto"
+import * as api_proto_search_dateRangeCriterion_pb from '../search/dateRangeCriterion_pb'; // proto import: "api/proto/search/dateRangeCriterion.proto"
 
 
 export class Criterion extends jspb.Message {
-  getBoolexactcriterion(): search_boolExactCriterion_pb.BoolExactCriterion | undefined;
-  setBoolexactcriterion(value?: search_boolExactCriterion_pb.BoolExactCriterion): Criterion;
-  hasBoolexactcriterion(): boolean;
-  clearBoolexactcriterion(): Criterion;
-
-  getTextexactcriterion(): search_textExactCriterion_pb.TextExactCriterion | undefined;
-  setTextexactcriterion(value?: search_textExactCriterion_pb.TextExactCriterion): Criterion;
-  hasTextexactcriterion(): boolean;
-  clearTextexactcriterion(): Criterion;
-
-  getTextneexactcriterion(): search_textNEExactCriterion_pb.TextNEExactCriterion | undefined;
-  setTextneexactcriterion(value?: search_textNEExactCriterion_pb.TextNEExactCriterion): Criterion;
-  hasTextneexactcriterion(): boolean;
-  clearTextneexactcriterion(): Criterion;
-
-  getTextsubstringcriterion(): search_textSubstringCriterion_pb.TextSubstringCriterion | undefined;
-  setTextsubstringcriterion(value?: search_textSubstringCriterion_pb.TextSubstringCriterion): Criterion;
-  hasTextsubstringcriterion(): boolean;
-  clearTextsubstringcriterion(): Criterion;
-
-  getTextlistcriterion(): search_textListCriterion_pb.TextListCriterion | undefined;
-  setTextlistcriterion(value?: search_textListCriterion_pb.TextListCriterion): Criterion;
-  hasTextlistcriterion(): boolean;
-  clearTextlistcriterion(): Criterion;
-
-  getTextninlistcriterion(): search_textNINListCriterion_pb.TextNINListCriterion | undefined;
-  setTextninlistcriterion(value?: search_textNINListCriterion_pb.TextNINListCriterion): Criterion;
-  hasTextninlistcriterion(): boolean;
-  clearTextninlistcriterion(): Criterion;
-
-  getUint32exactcriterion(): search_uint32ExactCriterion_pb.Uint32ExactCriterion | undefined;
-  setUint32exactcriterion(value?: search_uint32ExactCriterion_pb.Uint32ExactCriterion): Criterion;
-  hasUint32exactcriterion(): boolean;
-  clearUint32exactcriterion(): Criterion;
-
-  getUint32neexactcriterion(): search_uint32NEExactCriterion_pb.Uint32NEExactCriterion | undefined;
-  setUint32neexactcriterion(value?: search_uint32NEExactCriterion_pb.Uint32NEExactCriterion): Criterion;
-  hasUint32neexactcriterion(): boolean;
-  clearUint32neexactcriterion(): Criterion;
-
-  getUint32listcriterion(): search_uint32ListCriterion_pb.Uint32ListCriterion | undefined;
-  setUint32listcriterion(value?: search_uint32ListCriterion_pb.Uint32ListCriterion): Criterion;
-  hasUint32listcriterion(): boolean;
-  clearUint32listcriterion(): Criterion;
-
-  getDaterangecriterion(): search_dateRangeCriterion_pb.DateRangeCriterion | undefined;
-  setDaterangecriterion(value?: search_dateRangeCriterion_pb.DateRangeCriterion): Criterion;
-  hasDaterangecriterion(): boolean;
-  clearDaterangecriterion(): Criterion;
-
   getOrcriterion(): ORCriterion | undefined;
   setOrcriterion(value?: ORCriterion): Criterion;
   hasOrcriterion(): boolean;
   clearOrcriterion(): Criterion;
+
+  getBoolexactcriterion(): api_proto_search_boolExactCriterion_pb.BoolExactCriterion | undefined;
+  setBoolexactcriterion(value?: api_proto_search_boolExactCriterion_pb.BoolExactCriterion): Criterion;
+  hasBoolexactcriterion(): boolean;
+  clearBoolexactcriterion(): Criterion;
+
+  getTextexactcriterion(): api_proto_search_textExactCriterion_pb.TextExactCriterion | undefined;
+  setTextexactcriterion(value?: api_proto_search_textExactCriterion_pb.TextExactCriterion): Criterion;
+  hasTextexactcriterion(): boolean;
+  clearTextexactcriterion(): Criterion;
+
+  getTextneexactcriterion(): api_proto_search_textNEExactCriterion_pb.TextNEExactCriterion | undefined;
+  setTextneexactcriterion(value?: api_proto_search_textNEExactCriterion_pb.TextNEExactCriterion): Criterion;
+  hasTextneexactcriterion(): boolean;
+  clearTextneexactcriterion(): Criterion;
+
+  getTextsubstringcriterion(): api_proto_search_textSubstringCriterion_pb.TextSubstringCriterion | undefined;
+  setTextsubstringcriterion(value?: api_proto_search_textSubstringCriterion_pb.TextSubstringCriterion): Criterion;
+  hasTextsubstringcriterion(): boolean;
+  clearTextsubstringcriterion(): Criterion;
+
+  getTextlistcriterion(): api_proto_search_textListCriterion_pb.TextListCriterion | undefined;
+  setTextlistcriterion(value?: api_proto_search_textListCriterion_pb.TextListCriterion): Criterion;
+  hasTextlistcriterion(): boolean;
+  clearTextlistcriterion(): Criterion;
+
+  getTextninlistcriterion(): api_proto_search_textNINListCriterion_pb.TextNINListCriterion | undefined;
+  setTextninlistcriterion(value?: api_proto_search_textNINListCriterion_pb.TextNINListCriterion): Criterion;
+  hasTextninlistcriterion(): boolean;
+  clearTextninlistcriterion(): Criterion;
+
+  getUint32exactcriterion(): api_proto_search_uint32ExactCriterion_pb.Uint32ExactCriterion | undefined;
+  setUint32exactcriterion(value?: api_proto_search_uint32ExactCriterion_pb.Uint32ExactCriterion): Criterion;
+  hasUint32exactcriterion(): boolean;
+  clearUint32exactcriterion(): Criterion;
+
+  getUint32neexactcriterion(): api_proto_search_uint32NEExactCriterion_pb.Uint32NEExactCriterion | undefined;
+  setUint32neexactcriterion(value?: api_proto_search_uint32NEExactCriterion_pb.Uint32NEExactCriterion): Criterion;
+  hasUint32neexactcriterion(): boolean;
+  clearUint32neexactcriterion(): Criterion;
+
+  getUint32listcriterion(): api_proto_search_uint32ListCriterion_pb.Uint32ListCriterion | undefined;
+  setUint32listcriterion(value?: api_proto_search_uint32ListCriterion_pb.Uint32ListCriterion): Criterion;
+  hasUint32listcriterion(): boolean;
+  clearUint32listcriterion(): Criterion;
+
+  getUint32ninlistcriterion(): api_proto_search_uint32NINListCriterion_pb.Uint32NINListCriterion | undefined;
+  setUint32ninlistcriterion(value?: api_proto_search_uint32NINListCriterion_pb.Uint32NINListCriterion): Criterion;
+  hasUint32ninlistcriterion(): boolean;
+  clearUint32ninlistcriterion(): Criterion;
+
+  getDaterangecriterion(): api_proto_search_dateRangeCriterion_pb.DateRangeCriterion | undefined;
+  setDaterangecriterion(value?: api_proto_search_dateRangeCriterion_pb.DateRangeCriterion): Criterion;
+  hasDaterangecriterion(): boolean;
+  clearDaterangecriterion(): Criterion;
 
   getCriterionCase(): Criterion.CriterionCase;
 
@@ -80,32 +86,34 @@ export class Criterion extends jspb.Message {
 
 export namespace Criterion {
   export type AsObject = {
-    boolexactcriterion?: search_boolExactCriterion_pb.BoolExactCriterion.AsObject,
-    textexactcriterion?: search_textExactCriterion_pb.TextExactCriterion.AsObject,
-    textneexactcriterion?: search_textNEExactCriterion_pb.TextNEExactCriterion.AsObject,
-    textsubstringcriterion?: search_textSubstringCriterion_pb.TextSubstringCriterion.AsObject,
-    textlistcriterion?: search_textListCriterion_pb.TextListCriterion.AsObject,
-    textninlistcriterion?: search_textNINListCriterion_pb.TextNINListCriterion.AsObject,
-    uint32exactcriterion?: search_uint32ExactCriterion_pb.Uint32ExactCriterion.AsObject,
-    uint32neexactcriterion?: search_uint32NEExactCriterion_pb.Uint32NEExactCriterion.AsObject,
-    uint32listcriterion?: search_uint32ListCriterion_pb.Uint32ListCriterion.AsObject,
-    daterangecriterion?: search_dateRangeCriterion_pb.DateRangeCriterion.AsObject,
     orcriterion?: ORCriterion.AsObject,
+    boolexactcriterion?: api_proto_search_boolExactCriterion_pb.BoolExactCriterion.AsObject,
+    textexactcriterion?: api_proto_search_textExactCriterion_pb.TextExactCriterion.AsObject,
+    textneexactcriterion?: api_proto_search_textNEExactCriterion_pb.TextNEExactCriterion.AsObject,
+    textsubstringcriterion?: api_proto_search_textSubstringCriterion_pb.TextSubstringCriterion.AsObject,
+    textlistcriterion?: api_proto_search_textListCriterion_pb.TextListCriterion.AsObject,
+    textninlistcriterion?: api_proto_search_textNINListCriterion_pb.TextNINListCriterion.AsObject,
+    uint32exactcriterion?: api_proto_search_uint32ExactCriterion_pb.Uint32ExactCriterion.AsObject,
+    uint32neexactcriterion?: api_proto_search_uint32NEExactCriterion_pb.Uint32NEExactCriterion.AsObject,
+    uint32listcriterion?: api_proto_search_uint32ListCriterion_pb.Uint32ListCriterion.AsObject,
+    uint32ninlistcriterion?: api_proto_search_uint32NINListCriterion_pb.Uint32NINListCriterion.AsObject,
+    daterangecriterion?: api_proto_search_dateRangeCriterion_pb.DateRangeCriterion.AsObject,
   }
 
   export enum CriterionCase { 
     CRITERION_NOT_SET = 0,
-    BOOLEXACTCRITERION = 1,
-    TEXTEXACTCRITERION = 2,
-    TEXTNEEXACTCRITERION = 3,
-    TEXTSUBSTRINGCRITERION = 4,
-    TEXTLISTCRITERION = 5,
-    TEXTNINLISTCRITERION = 6,
-    UINT32EXACTCRITERION = 7,
-    UINT32NEEXACTCRITERION = 8,
-    UINT32LISTCRITERION = 9,
-    DATERANGECRITERION = 10,
-    ORCRITERION = 11,
+    ORCRITERION = 1,
+    BOOLEXACTCRITERION = 2,
+    TEXTEXACTCRITERION = 3,
+    TEXTNEEXACTCRITERION = 4,
+    TEXTSUBSTRINGCRITERION = 5,
+    TEXTLISTCRITERION = 6,
+    TEXTNINLISTCRITERION = 7,
+    UINT32EXACTCRITERION = 8,
+    UINT32NEEXACTCRITERION = 9,
+    UINT32LISTCRITERION = 10,
+    UINT32NINLISTCRITERION = 11,
+    DATERANGECRITERION = 12,
   }
 }
 

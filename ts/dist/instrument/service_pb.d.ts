@@ -1,11 +1,11 @@
 import * as jspb from 'google-protobuf'
 
-import * as ledger_amount_pb from '../ledger/amount_pb'; // proto import: "ledger/amount.proto"
+import * as api_proto_ledger_amount_pb from '../ledger/amount_pb'; // proto import: "api/proto/ledger/amount.proto"
 
 
 export class MintRequest extends jspb.Message {
-  getAmount(): ledger_amount_pb.Amount | undefined;
-  setAmount(value?: ledger_amount_pb.Amount): MintRequest;
+  getAmount(): api_proto_ledger_amount_pb.Amount | undefined;
+  setAmount(value?: api_proto_ledger_amount_pb.Amount): MintRequest;
   hasAmount(): boolean;
   clearAmount(): MintRequest;
 
@@ -25,7 +25,7 @@ export class MintRequest extends jspb.Message {
 
 export namespace MintRequest {
   export type AsObject = {
-    amount?: ledger_amount_pb.Amount.AsObject,
+    amount?: api_proto_ledger_amount_pb.Amount.AsObject,
     feeaccountnumber: string,
     destinationaccountnumber: string,
   }
@@ -50,8 +50,8 @@ export namespace MintResponse {
 }
 
 export class BurnRequest extends jspb.Message {
-  getAmount(): ledger_amount_pb.Amount | undefined;
-  setAmount(value?: ledger_amount_pb.Amount): BurnRequest;
+  getAmount(): api_proto_ledger_amount_pb.Amount | undefined;
+  setAmount(value?: api_proto_ledger_amount_pb.Amount): BurnRequest;
   hasAmount(): boolean;
   clearAmount(): BurnRequest;
 
@@ -71,7 +71,7 @@ export class BurnRequest extends jspb.Message {
 
 export namespace BurnRequest {
   export type AsObject = {
-    amount?: ledger_amount_pb.Amount.AsObject,
+    amount?: api_proto_ledger_amount_pb.Amount.AsObject,
     feeaccountnumber: string,
     sourceaccountnumber: string,
   }

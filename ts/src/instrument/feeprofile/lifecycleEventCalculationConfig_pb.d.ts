@@ -1,17 +1,17 @@
 import * as jspb from 'google-protobuf'
 
-import * as instrument_feeprofile_lifecycleEventCalculationConfigAmount_pb from '../../instrument/feeprofile/lifecycleEventCalculationConfigAmount_pb'; // proto import: "instrument/feeprofile/lifecycleEventCalculationConfigAmount.proto"
-import * as instrument_feeprofile_lifecycleEventCalculationConfigRate_pb from '../../instrument/feeprofile/lifecycleEventCalculationConfigRate_pb'; // proto import: "instrument/feeprofile/lifecycleEventCalculationConfigRate.proto"
+import * as api_proto_instrument_feeprofile_lifecycleEventCalculationConfigAmount_pb from '../../instrument/feeprofile/lifecycleEventCalculationConfigAmount_pb'; // proto import: "api/proto/instrument/feeprofile/lifecycleEventCalculationConfigAmount.proto"
+import * as api_proto_instrument_feeprofile_lifecycleEventCalculationConfigRate_pb from '../../instrument/feeprofile/lifecycleEventCalculationConfigRate_pb'; // proto import: "api/proto/instrument/feeprofile/lifecycleEventCalculationConfigRate.proto"
 
 
 export class LifecycleEventCalculationConfig extends jspb.Message {
-  getAmountlifecycleeventcalculationconfig(): instrument_feeprofile_lifecycleEventCalculationConfigAmount_pb.AmountLifecycleEventCalculationConfig | undefined;
-  setAmountlifecycleeventcalculationconfig(value?: instrument_feeprofile_lifecycleEventCalculationConfigAmount_pb.AmountLifecycleEventCalculationConfig): LifecycleEventCalculationConfig;
+  getAmountlifecycleeventcalculationconfig(): api_proto_instrument_feeprofile_lifecycleEventCalculationConfigAmount_pb.AmountLifecycleEventCalculationConfig | undefined;
+  setAmountlifecycleeventcalculationconfig(value?: api_proto_instrument_feeprofile_lifecycleEventCalculationConfigAmount_pb.AmountLifecycleEventCalculationConfig): LifecycleEventCalculationConfig;
   hasAmountlifecycleeventcalculationconfig(): boolean;
   clearAmountlifecycleeventcalculationconfig(): LifecycleEventCalculationConfig;
 
-  getRatelifecycleeventcalculationconfig(): instrument_feeprofile_lifecycleEventCalculationConfigRate_pb.RateLifecycleEventCalculationConfig | undefined;
-  setRatelifecycleeventcalculationconfig(value?: instrument_feeprofile_lifecycleEventCalculationConfigRate_pb.RateLifecycleEventCalculationConfig): LifecycleEventCalculationConfig;
+  getRatelifecycleeventcalculationconfig(): api_proto_instrument_feeprofile_lifecycleEventCalculationConfigRate_pb.RateLifecycleEventCalculationConfig | undefined;
+  setRatelifecycleeventcalculationconfig(value?: api_proto_instrument_feeprofile_lifecycleEventCalculationConfigRate_pb.RateLifecycleEventCalculationConfig): LifecycleEventCalculationConfig;
   hasRatelifecycleeventcalculationconfig(): boolean;
   clearRatelifecycleeventcalculationconfig(): LifecycleEventCalculationConfig;
 
@@ -27,8 +27,8 @@ export class LifecycleEventCalculationConfig extends jspb.Message {
 
 export namespace LifecycleEventCalculationConfig {
   export type AsObject = {
-    amountlifecycleeventcalculationconfig?: instrument_feeprofile_lifecycleEventCalculationConfigAmount_pb.AmountLifecycleEventCalculationConfig.AsObject,
-    ratelifecycleeventcalculationconfig?: instrument_feeprofile_lifecycleEventCalculationConfigRate_pb.RateLifecycleEventCalculationConfig.AsObject,
+    amountlifecycleeventcalculationconfig?: api_proto_instrument_feeprofile_lifecycleEventCalculationConfigAmount_pb.AmountLifecycleEventCalculationConfig.AsObject,
+    ratelifecycleeventcalculationconfig?: api_proto_instrument_feeprofile_lifecycleEventCalculationConfigRate_pb.RateLifecycleEventCalculationConfig.AsObject,
   }
 
   export enum LifecycleeventcalculationconfigCase { 

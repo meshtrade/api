@@ -1,12 +1,12 @@
 import * as jspb from 'google-protobuf'
 
-import * as instrument_feeprofile_feeProfile_pb from '../../instrument/feeprofile/feeProfile_pb'; // proto import: "instrument/feeprofile/feeProfile.proto"
-import * as search_criterion_pb from '../../search/criterion_pb'; // proto import: "search/criterion.proto"
+import * as api_proto_instrument_feeprofile_feeProfile_pb from '../../instrument/feeprofile/feeProfile_pb'; // proto import: "api/proto/instrument/feeprofile/feeProfile.proto"
+import * as api_proto_search_criterion_pb from '../../search/criterion_pb'; // proto import: "api/proto/search/criterion.proto"
 
 
 export class CreateRequest extends jspb.Message {
-  getFeeprofile(): instrument_feeprofile_feeProfile_pb.FeeProfile | undefined;
-  setFeeprofile(value?: instrument_feeprofile_feeProfile_pb.FeeProfile): CreateRequest;
+  getFeeprofile(): api_proto_instrument_feeprofile_feeProfile_pb.FeeProfile | undefined;
+  setFeeprofile(value?: api_proto_instrument_feeprofile_feeProfile_pb.FeeProfile): CreateRequest;
   hasFeeprofile(): boolean;
   clearFeeprofile(): CreateRequest;
 
@@ -20,13 +20,13 @@ export class CreateRequest extends jspb.Message {
 
 export namespace CreateRequest {
   export type AsObject = {
-    feeprofile?: instrument_feeprofile_feeProfile_pb.FeeProfile.AsObject,
+    feeprofile?: api_proto_instrument_feeprofile_feeProfile_pb.FeeProfile.AsObject,
   }
 }
 
 export class CreateResponse extends jspb.Message {
-  getFeeprofile(): instrument_feeprofile_feeProfile_pb.FeeProfile | undefined;
-  setFeeprofile(value?: instrument_feeprofile_feeProfile_pb.FeeProfile): CreateResponse;
+  getFeeprofile(): api_proto_instrument_feeprofile_feeProfile_pb.FeeProfile | undefined;
+  setFeeprofile(value?: api_proto_instrument_feeprofile_feeProfile_pb.FeeProfile): CreateResponse;
   hasFeeprofile(): boolean;
   clearFeeprofile(): CreateResponse;
 
@@ -40,13 +40,13 @@ export class CreateResponse extends jspb.Message {
 
 export namespace CreateResponse {
   export type AsObject = {
-    feeprofile?: instrument_feeprofile_feeProfile_pb.FeeProfile.AsObject,
+    feeprofile?: api_proto_instrument_feeprofile_feeProfile_pb.FeeProfile.AsObject,
   }
 }
 
 export class UpdateRequest extends jspb.Message {
-  getFeeprofile(): instrument_feeprofile_feeProfile_pb.FeeProfile | undefined;
-  setFeeprofile(value?: instrument_feeprofile_feeProfile_pb.FeeProfile): UpdateRequest;
+  getFeeprofile(): api_proto_instrument_feeprofile_feeProfile_pb.FeeProfile | undefined;
+  setFeeprofile(value?: api_proto_instrument_feeprofile_feeProfile_pb.FeeProfile): UpdateRequest;
   hasFeeprofile(): boolean;
   clearFeeprofile(): UpdateRequest;
 
@@ -60,13 +60,13 @@ export class UpdateRequest extends jspb.Message {
 
 export namespace UpdateRequest {
   export type AsObject = {
-    feeprofile?: instrument_feeprofile_feeProfile_pb.FeeProfile.AsObject,
+    feeprofile?: api_proto_instrument_feeprofile_feeProfile_pb.FeeProfile.AsObject,
   }
 }
 
 export class UpdateResponse extends jspb.Message {
-  getFeeprofile(): instrument_feeprofile_feeProfile_pb.FeeProfile | undefined;
-  setFeeprofile(value?: instrument_feeprofile_feeProfile_pb.FeeProfile): UpdateResponse;
+  getFeeprofile(): api_proto_instrument_feeprofile_feeProfile_pb.FeeProfile | undefined;
+  setFeeprofile(value?: api_proto_instrument_feeprofile_feeProfile_pb.FeeProfile): UpdateResponse;
   hasFeeprofile(): boolean;
   clearFeeprofile(): UpdateResponse;
 
@@ -80,15 +80,15 @@ export class UpdateResponse extends jspb.Message {
 
 export namespace UpdateResponse {
   export type AsObject = {
-    feeprofile?: instrument_feeprofile_feeProfile_pb.FeeProfile.AsObject,
+    feeprofile?: api_proto_instrument_feeprofile_feeProfile_pb.FeeProfile.AsObject,
   }
 }
 
 export class ListRequest extends jspb.Message {
-  getCriteriaList(): Array<search_criterion_pb.Criterion>;
-  setCriteriaList(value: Array<search_criterion_pb.Criterion>): ListRequest;
+  getCriteriaList(): Array<api_proto_search_criterion_pb.Criterion>;
+  setCriteriaList(value: Array<api_proto_search_criterion_pb.Criterion>): ListRequest;
   clearCriteriaList(): ListRequest;
-  addCriteria(value?: search_criterion_pb.Criterion, index?: number): search_criterion_pb.Criterion;
+  addCriteria(value?: api_proto_search_criterion_pb.Criterion, index?: number): api_proto_search_criterion_pb.Criterion;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): ListRequest.AsObject;
@@ -100,15 +100,15 @@ export class ListRequest extends jspb.Message {
 
 export namespace ListRequest {
   export type AsObject = {
-    criteriaList: Array<search_criterion_pb.Criterion.AsObject>,
+    criteriaList: Array<api_proto_search_criterion_pb.Criterion.AsObject>,
   }
 }
 
 export class ListResponse extends jspb.Message {
-  getFeeprofilesList(): Array<instrument_feeprofile_feeProfile_pb.FeeProfile>;
-  setFeeprofilesList(value: Array<instrument_feeprofile_feeProfile_pb.FeeProfile>): ListResponse;
+  getFeeprofilesList(): Array<api_proto_instrument_feeprofile_feeProfile_pb.FeeProfile>;
+  setFeeprofilesList(value: Array<api_proto_instrument_feeprofile_feeProfile_pb.FeeProfile>): ListResponse;
   clearFeeprofilesList(): ListResponse;
-  addFeeprofiles(value?: instrument_feeprofile_feeProfile_pb.FeeProfile, index?: number): instrument_feeprofile_feeProfile_pb.FeeProfile;
+  addFeeprofiles(value?: api_proto_instrument_feeprofile_feeProfile_pb.FeeProfile, index?: number): api_proto_instrument_feeprofile_feeProfile_pb.FeeProfile;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): ListResponse.AsObject;
@@ -120,7 +120,7 @@ export class ListResponse extends jspb.Message {
 
 export namespace ListResponse {
   export type AsObject = {
-    feeprofilesList: Array<instrument_feeprofile_feeProfile_pb.FeeProfile.AsObject>,
+    feeprofilesList: Array<api_proto_instrument_feeprofile_feeProfile_pb.FeeProfile.AsObject>,
   }
 }
 

@@ -1,6 +1,6 @@
 import * as jspb from 'google-protobuf'
 
-import * as ledger_network_pb from '../ledger/network_pb'; // proto import: "ledger/network.proto"
+import * as api_proto_ledger_network_pb from '../ledger/network_pb'; // proto import: "api/proto/ledger/network.proto"
 
 
 export class Token extends jspb.Message {
@@ -10,8 +10,8 @@ export class Token extends jspb.Message {
   getIssuer(): string;
   setIssuer(value: string): Token;
 
-  getNetwork(): ledger_network_pb.Network;
-  setNetwork(value: ledger_network_pb.Network): Token;
+  getNetwork(): api_proto_ledger_network_pb.Network;
+  setNetwork(value: api_proto_ledger_network_pb.Network): Token;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): Token.AsObject;
@@ -25,7 +25,7 @@ export namespace Token {
   export type AsObject = {
     code: string,
     issuer: string,
-    network: ledger_network_pb.Network,
+    network: api_proto_ledger_network_pb.Network,
   }
 }
 

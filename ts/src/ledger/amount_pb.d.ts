@@ -1,17 +1,17 @@
 import * as jspb from 'google-protobuf'
 
-import * as ledger_token_pb from '../ledger/token_pb'; // proto import: "ledger/token.proto"
-import * as num_decimal_pb from '../num/decimal_pb'; // proto import: "num/decimal.proto"
+import * as api_proto_ledger_token_pb from '../ledger/token_pb'; // proto import: "api/proto/ledger/token.proto"
+import * as api_proto_num_decimal_pb from '../num/decimal_pb'; // proto import: "api/proto/num/decimal.proto"
 
 
 export class Amount extends jspb.Message {
-  getToken(): ledger_token_pb.Token | undefined;
-  setToken(value?: ledger_token_pb.Token): Amount;
+  getToken(): api_proto_ledger_token_pb.Token | undefined;
+  setToken(value?: api_proto_ledger_token_pb.Token): Amount;
   hasToken(): boolean;
   clearToken(): Amount;
 
-  getValue(): num_decimal_pb.Decimal | undefined;
-  setValue(value?: num_decimal_pb.Decimal): Amount;
+  getValue(): api_proto_num_decimal_pb.Decimal | undefined;
+  setValue(value?: api_proto_num_decimal_pb.Decimal): Amount;
   hasValue(): boolean;
   clearValue(): Amount;
 
@@ -25,8 +25,8 @@ export class Amount extends jspb.Message {
 
 export namespace Amount {
   export type AsObject = {
-    token?: ledger_token_pb.Token.AsObject,
-    value?: num_decimal_pb.Decimal.AsObject,
+    token?: api_proto_ledger_token_pb.Token.AsObject,
+    value?: api_proto_num_decimal_pb.Decimal.AsObject,
   }
 }
 

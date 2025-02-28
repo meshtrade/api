@@ -1,16 +1,16 @@
 import * as jspb from 'google-protobuf'
 
-import * as iam_role_permission_pb from '../../iam/role/permission_pb'; // proto import: "iam/role/permission.proto"
+import * as api_proto_iam_role_permission_pb from '../../iam/role/permission_pb'; // proto import: "api/proto/iam/role/permission.proto"
 
 
 export class Role extends jspb.Message {
   getName(): string;
   setName(value: string): Role;
 
-  getPermissionsList(): Array<iam_role_permission_pb.Permission>;
-  setPermissionsList(value: Array<iam_role_permission_pb.Permission>): Role;
+  getPermissionsList(): Array<api_proto_iam_role_permission_pb.Permission>;
+  setPermissionsList(value: Array<api_proto_iam_role_permission_pb.Permission>): Role;
   clearPermissionsList(): Role;
-  addPermissions(value?: iam_role_permission_pb.Permission, index?: number): iam_role_permission_pb.Permission;
+  addPermissions(value?: api_proto_iam_role_permission_pb.Permission, index?: number): api_proto_iam_role_permission_pb.Permission;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): Role.AsObject;
@@ -23,7 +23,7 @@ export class Role extends jspb.Message {
 export namespace Role {
   export type AsObject = {
     name: string,
-    permissionsList: Array<iam_role_permission_pb.Permission.AsObject>,
+    permissionsList: Array<api_proto_iam_role_permission_pb.Permission.AsObject>,
   }
 }
 

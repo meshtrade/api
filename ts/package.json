@@ -3,7 +3,16 @@
   "version": "1.0.0",
   "type": "commonjs",
   "exports": {
-    "./*": "./dist/*"
+    "./search": {
+      "types": "./dist/search/index.d.ts",
+      "require": "./dist/search/index.js",
+      "import": "./dist/search/index.js"
+    },
+    "./*": {
+      "types": "./dist/*",
+      "require": "./dist/*",
+      "import": "./dist/*"
+    }
   },
   "typesVersions": {
     "*": {

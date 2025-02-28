@@ -1,11 +1,11 @@
 import * as jspb from 'google-protobuf'
 
-import * as num_decimal_pb from '../../num/decimal_pb'; // proto import: "num/decimal.proto"
+import * as api_proto_num_decimal_pb from '../../num/decimal_pb'; // proto import: "api/proto/num/decimal.proto"
 
 
 export class AUM extends jspb.Message {
-  getRate(): num_decimal_pb.Decimal | undefined;
-  setRate(value?: num_decimal_pb.Decimal): AUM;
+  getRate(): api_proto_num_decimal_pb.Decimal | undefined;
+  setRate(value?: api_proto_num_decimal_pb.Decimal): AUM;
   hasRate(): boolean;
   clearRate(): AUM;
 
@@ -19,7 +19,7 @@ export class AUM extends jspb.Message {
 
 export namespace AUM {
   export type AsObject = {
-    rate?: num_decimal_pb.Decimal.AsObject,
+    rate?: api_proto_num_decimal_pb.Decimal.AsObject,
   }
 }
 

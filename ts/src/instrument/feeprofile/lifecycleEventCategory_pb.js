@@ -1,4 +1,4 @@
-// source: instrument/feeprofile/lifecycleEventCategory.proto
+// source: api/proto/instrument/feeprofile/lifecycleEventCategory.proto
 /**
  * @fileoverview
  * @enhanceable
@@ -21,14 +21,14 @@ var global =
     (function () { return this; }).call(null) ||
     Function('return this')();
 
-goog.exportSymbol('proto.feeprofile.LifecycleEventCategory', null, global);
+goog.exportSymbol('proto.api.instrument.feeprofile.LifecycleEventCategory', null, global);
 /**
  * @enum {number}
  */
-proto.feeprofile.LifecycleEventCategory = {
+proto.api.instrument.feeprofile.LifecycleEventCategory = {
   UNDEFINED_LIFECYCLE_EVENT_CATEGORY: 0,
   LISTING_LIFECYCLE_EVENT_CATEGORY: 1,
   PRIMARY_MARKET_SETTLEMENT_LIFECYCLE_EVENT_CATEGORY: 2
 };
 
-goog.object.extend(exports, proto.feeprofile);
+goog.object.extend(exports, proto.api.instrument.feeprofile);

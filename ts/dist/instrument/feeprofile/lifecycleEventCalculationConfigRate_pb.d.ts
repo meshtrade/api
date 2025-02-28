@@ -1,11 +1,11 @@
 import * as jspb from 'google-protobuf'
 
-import * as num_decimal_pb from '../../num/decimal_pb'; // proto import: "num/decimal.proto"
+import * as api_proto_num_decimal_pb from '../../num/decimal_pb'; // proto import: "api/proto/num/decimal.proto"
 
 
 export class RateLifecycleEventCalculationConfig extends jspb.Message {
-  getRate(): num_decimal_pb.Decimal | undefined;
-  setRate(value?: num_decimal_pb.Decimal): RateLifecycleEventCalculationConfig;
+  getRate(): api_proto_num_decimal_pb.Decimal | undefined;
+  setRate(value?: api_proto_num_decimal_pb.Decimal): RateLifecycleEventCalculationConfig;
   hasRate(): boolean;
   clearRate(): RateLifecycleEventCalculationConfig;
 
@@ -19,7 +19,7 @@ export class RateLifecycleEventCalculationConfig extends jspb.Message {
 
 export namespace RateLifecycleEventCalculationConfig {
   export type AsObject = {
-    rate?: num_decimal_pb.Decimal.AsObject,
+    rate?: api_proto_num_decimal_pb.Decimal.AsObject,
   }
 }
 
