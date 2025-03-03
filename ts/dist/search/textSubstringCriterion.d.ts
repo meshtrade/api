@@ -10,7 +10,4 @@ import { Criterion } from "./criterion_pb";
  * // results in the mongo db query {"someField": {"$regex": ".*someText.*", "$options": "i"}}
  * const textSubstringCriterion = newTextSubstringCriterion("someField", "someText");
  */
-export declare function newTextSubstringCriterion(
-  field: string,
-  value: string,
-): Criterion;
+export declare function newTextSubstringCriterion(field: string, value: string): Criterion;

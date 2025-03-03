@@ -10,7 +10,4 @@ import { Criterion } from "./criterion_pb";
  * // results in the mongo db query {"id": "someID"}
  * const textExactCriterion = newTextExactCriterion("id", "someID");
  */
-export declare function newTextExactCriterion(
-  field: string,
-  value: string,
-): Criterion;
+export declare function newTextExactCriterion(field: string, value: string): Criterion;

@@ -88,7 +88,7 @@ proto.api.instrument.feeprofile.FeeProfile.prototype.toObject = function(opt_inc
  */
 proto.api.instrument.feeprofile.FeeProfile.toObject = function(includeInstance, msg) {
   var f, obj = {
-instrumentname: jspb.Message.getFieldWithDefault(msg, 1, ""),
+instrumentid: jspb.Message.getFieldWithDefault(msg, 1, ""),
 tokenisation: (f = msg.getTokenisation()) && api_proto_instrument_feeprofile_tokenisation_pb.Tokenisation.toObject(includeInstance, f),
 lifecycleeventsList: jspb.Message.toObjectList(msg.getLifecycleeventsList(),
     api_proto_instrument_feeprofile_lifecycleEvent_pb.LifecycleEvent.toObject, includeInstance),
@@ -131,7 +131,7 @@ proto.api.instrument.feeprofile.FeeProfile.deserializeBinaryFromReader = functio
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.setInstrumentname(value);
+      msg.setInstrumentid(value);
       break;
     case 2:
       var value = new api_proto_instrument_feeprofile_tokenisation_pb.Tokenisation;
@@ -177,7 +177,7 @@ proto.api.instrument.feeprofile.FeeProfile.prototype.serializeBinary = function(
  */
 proto.api.instrument.feeprofile.FeeProfile.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getInstrumentname();
+  f = message.getInstrumentid();
   if (f.length > 0) {
     writer.writeString(
       1,
@@ -212,10 +212,10 @@ proto.api.instrument.feeprofile.FeeProfile.serializeBinaryToWriter = function(me
 
 
 /**
- * optional string instrumentName = 1;
+ * optional string instrumentID = 1;
  * @return {string}
  */
-proto.api.instrument.feeprofile.FeeProfile.prototype.getInstrumentname = function() {
+proto.api.instrument.feeprofile.FeeProfile.prototype.getInstrumentid = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
@@ -224,7 +224,7 @@ proto.api.instrument.feeprofile.FeeProfile.prototype.getInstrumentname = functio
  * @param {string} value
  * @return {!proto.api.instrument.feeprofile.FeeProfile} returns this
  */
-proto.api.instrument.feeprofile.FeeProfile.prototype.setInstrumentname = function(value) {
+proto.api.instrument.feeprofile.FeeProfile.prototype.setInstrumentid = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 

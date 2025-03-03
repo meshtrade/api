@@ -10,7 +10,4 @@ import { Criterion } from "./criterion_pb";
  * // results in the mongo db query {"id": {"$in":["someID1", "someID2"]}}
  * const textListCriterion = newTextListCriterion("id", ["someID1", "someID2"]);
  */
-export declare function newTextListCriterion(
-  field: string,
-  list: string[],
-): Criterion;
+export declare function newTextListCriterion(field: string, list: string[]): Criterion;

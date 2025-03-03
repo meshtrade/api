@@ -6,8 +6,8 @@ import * as api_proto_instrument_feeprofile_aum_pb from '../../instrument/feepro
 
 
 export class FeeProfile extends jspb.Message {
-  getInstrumentname(): string;
-  setInstrumentname(value: string): FeeProfile;
+  getInstrumentid(): string;
+  setInstrumentid(value: string): FeeProfile;
 
   getTokenisation(): api_proto_instrument_feeprofile_tokenisation_pb.Tokenisation | undefined;
   setTokenisation(value?: api_proto_instrument_feeprofile_tokenisation_pb.Tokenisation): FeeProfile;
@@ -34,7 +34,7 @@ export class FeeProfile extends jspb.Message {
 
 export namespace FeeProfile {
   export type AsObject = {
-    instrumentname: string,
+    instrumentid: string,
     tokenisation?: api_proto_instrument_feeprofile_tokenisation_pb.Tokenisation.AsObject,
     lifecycleeventsList: Array<api_proto_instrument_feeprofile_lifecycleEvent_pb.LifecycleEvent.AsObject>,
     aum?: api_proto_instrument_feeprofile_aum_pb.AUM.AsObject,
