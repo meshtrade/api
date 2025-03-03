@@ -10,7 +10,4 @@ import { Criterion } from "./criterion_pb";
  * // results in the mongo db query {"id": "someID"}
  * const boolExactCriterion = newBoolExactCriterion("id", "someID");
  */
-export declare function newBoolExactCriterion(
-  field: string,
-  value: boolean,
-): Criterion;
+export declare function newBoolExactCriterion(field: string, value: boolean): Criterion;

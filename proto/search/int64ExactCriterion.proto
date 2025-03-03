@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package api.search;
+
+option go_package = "github.com/meshtrade/api/go/search";
+
+// Int64ExactCriterion is an exact int64 search criterion
+message Int64ExactCriterion {
+    /*
+    Field is the field that the search is performed against.
+    */
+    string field = 1;
+
+    /*
+    Int64 is the int64 that should match the value in the Field.
+    */
+    int64 int64 = 2;
+}

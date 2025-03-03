@@ -10,7 +10,4 @@ import { Criterion } from "./criterion_pb";
  * // results in the mongo db query {"id": {"$in":[1, 2]}}
  * const uint32ListCriterion = newUint32ListCriterion("id", [1, 2]);
  */
-export declare function newUint32ListCriterion(
-  field: string,
-  list: number[],
-): Criterion;
+export declare function newUint32ListCriterion(field: string, list: number[]): Criterion;

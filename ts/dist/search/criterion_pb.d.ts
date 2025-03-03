@@ -11,6 +11,7 @@ import * as api_proto_search_uint32NEExactCriterion_pb from '../search/uint32NEE
 import * as api_proto_search_uint32ListCriterion_pb from '../search/uint32ListCriterion_pb'; // proto import: "api/proto/search/uint32ListCriterion.proto"
 import * as api_proto_search_uint32NINListCriterion_pb from '../search/uint32NINListCriterion_pb'; // proto import: "api/proto/search/uint32NINListCriterion.proto"
 import * as api_proto_search_dateRangeCriterion_pb from '../search/dateRangeCriterion_pb'; // proto import: "api/proto/search/dateRangeCriterion.proto"
+import * as api_proto_search_int64ExactCriterion_pb from '../search/int64ExactCriterion_pb'; // proto import: "api/proto/search/int64ExactCriterion.proto"
 
 
 export class Criterion extends jspb.Message {
@@ -74,6 +75,11 @@ export class Criterion extends jspb.Message {
   hasDaterangecriterion(): boolean;
   clearDaterangecriterion(): Criterion;
 
+  getInt64exactcriterion(): api_proto_search_int64ExactCriterion_pb.Int64ExactCriterion | undefined;
+  setInt64exactcriterion(value?: api_proto_search_int64ExactCriterion_pb.Int64ExactCriterion): Criterion;
+  hasInt64exactcriterion(): boolean;
+  clearInt64exactcriterion(): Criterion;
+
   getCriterionCase(): Criterion.CriterionCase;
 
   serializeBinary(): Uint8Array;
@@ -98,6 +104,7 @@ export namespace Criterion {
     uint32listcriterion?: api_proto_search_uint32ListCriterion_pb.Uint32ListCriterion.AsObject,
     uint32ninlistcriterion?: api_proto_search_uint32NINListCriterion_pb.Uint32NINListCriterion.AsObject,
     daterangecriterion?: api_proto_search_dateRangeCriterion_pb.DateRangeCriterion.AsObject,
+    int64exactcriterion?: api_proto_search_int64ExactCriterion_pb.Int64ExactCriterion.AsObject,
   }
 
   export enum CriterionCase { 
@@ -114,6 +121,7 @@ export namespace Criterion {
     UINT32LISTCRITERION = 10,
     UINT32NINLISTCRITERION = 11,
     DATERANGECRITERION = 12,
+    INT64EXACTCRITERION = 13,
   }
 }
 

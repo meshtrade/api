@@ -15,6 +15,7 @@ import "api/proto/search/uint32NEExactCriterion.proto";
 import "api/proto/search/uint32ListCriterion.proto";
 import "api/proto/search/uint32NINListCriterion.proto";
 import "api/proto/search/dateRangeCriterion.proto";
+import "api/proto/search/int64ExactCriterion.proto";
 
 // Criterion is a placeholder for generic search criterion
 message Criterion {
@@ -31,6 +32,7 @@ message Criterion {
     api.search.Uint32ListCriterion uint32ListCriterion = 10;
     api.search.Uint32NINListCriterion uint32NINListCriterion = 11;
     api.search.DateRangeCriterion dateRangeCriterion = 12;
+    api.search.Int64ExactCriterion int64ExactCriterion = 13;
   }
 }
 
