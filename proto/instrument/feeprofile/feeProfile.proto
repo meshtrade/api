@@ -17,10 +17,10 @@ to the Issuer.
 */
 message FeeProfile {
   /*
-  InstrumentName refers to the instrument against which this FeeProfile
+  InstrumentID references the instrument against which this FeeProfile
   is applied.
   */
-  string instrumentName = 1;
+  string instrumentID = 1;
 
   /*
   Tokenisation configures the fees related to the tokenisation processes
