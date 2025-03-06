@@ -1,12 +1,7 @@
-import { ServicePromiseClient as FeeProfileServiceClient } from "../instrument/feeprofile/service_grpc_web_pb";
-declare class InstrumentDomain {
-    private _feeProfile;
-    constructor();
-    get feeProfile(): FeeProfileServiceClient;
-}
+import { ConfigOpts } from "./config";
+import { Instrument } from "./services";
 export declare class Client {
     private _instrument;
-    constructor();
-    get instrument(): InstrumentDomain;
+    constructor(config?: ConfigOpts);
+    get instrument(): Instrument;
 }
-export {};

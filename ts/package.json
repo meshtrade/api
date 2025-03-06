@@ -8,6 +8,11 @@
       "require": "./dist/search/index.js",
       "import": "./dist/search/index.js"
     },
+    "./config": {
+      "types": "./dist/config/index.d.ts",
+      "require": "./dist/config/index.js",
+      "import": "./dist/config/index.js"
+    },
     "./*": {
       "types": "./dist/*.d.ts",
       "require": "./dist/*.js",
