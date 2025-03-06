@@ -1,5 +1,3 @@
 import { Instrument } from "./instrument";
 
-export {
-    Instrument
-}
+export { Instrument };

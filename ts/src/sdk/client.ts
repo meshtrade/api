@@ -17,8 +17,8 @@ export class Client {
       {
         withCredentials: true,
         unaryInterceptors: [new LoggingInterceptor()],
-      }
-    ]
+      },
+    ];
 
     // construct services
     this._instrument = new Instrument(args);

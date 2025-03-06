@@ -4,20 +4,20 @@ import { ServicePromiseClient as FeeServiceClient } from "../../instrument/fee/s
 import { ServiceConstructorArgs } from "../service";
 
 export class Instrument extends InstrumentServiceClient {
-    private _fee: FeeServiceClient;
-    private _feeProfile: FeeProfileServiceClient;
+  private _fee: FeeServiceClient;
+  private _feeProfile: FeeProfileServiceClient;
 
-    constructor(args: ServiceConstructorArgs) {
-        super(...args);
-        this._feeProfile = new FeeProfileServiceClient(...args);
-        this._fee = new FeeServiceClient(...args);
-    }
+  constructor(args: ServiceConstructorArgs) {
+    super(...args);
+    this._feeProfile = new FeeProfileServiceClient(...args);
+    this._fee = new FeeServiceClient(...args);
+  }
 
-    public get feeProfile(): FeeProfileServiceClient {
-        return this._feeProfile;
-    }
+  public get feeProfile(): FeeProfileServiceClient {
+    return this._feeProfile;
+  }
 
-    public get fee(): FeeServiceClient {
-        return this._fee;
-    }
+  public get fee(): FeeServiceClient {
+    return this._fee;
+  }
 }

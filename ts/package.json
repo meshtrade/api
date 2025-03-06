@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "type": "commonjs",
   "exports": {
+    "./instrument/fee": {
+      "types": "./dist/instrument/fee/index.d.ts",
+      "require": "./dist/instrument/fee/index.js",
+      "import": "./dist/instrument/fee/index.js"
+    },
     "./sdk": {
       "types": "./dist/sdk/index.d.ts",
       "require": "./dist/sdk/index.js",
