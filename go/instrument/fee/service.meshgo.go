@@ -17,4 +17,4 @@ type Service interface {
 	CalculateBurningFees(ctx context.Context, request *CalculateBurningFeesRequest) (*CalculateBurningFeesResponse, error)
 }
 
-const ServiceServiceProviderName = "fee-Service"
+const ServiceServiceProviderName = "api-instrument-fee-Service"

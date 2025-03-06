@@ -13,4 +13,4 @@ type Service interface {
 	Burn(ctx context.Context, request *BurnRequest) (*BurnResponse, error)
 }
 
-const ServiceServiceProviderName = "instrument-Service"
+const ServiceServiceProviderName = "api-instrument-Service"

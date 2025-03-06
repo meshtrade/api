@@ -15,4 +15,4 @@ type Service interface {
 	List(ctx context.Context, request *ListRequest) (*ListResponse, error)
 }
 
-const ServiceServiceProviderName = "feeprofile-Service"
+const ServiceServiceProviderName = "api-instrument-feeprofile-Service"
