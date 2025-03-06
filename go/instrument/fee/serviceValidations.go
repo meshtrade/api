@@ -8,8 +8,8 @@ import (
 func (r *GetRequest) Validate() error {
 	reasons := []string{}
 
-	if r.Criteria == nil {
-		reasons = append(reasons, "FeeProfile is required")
+	if len(r.GetCriteria()) == 0 {
+		reasons = append(reasons, "at least 1 criteria is required")
 	}
 
 	if len(reasons) > 0 {
@@ -22,10 +22,6 @@ func (r *GetRequest) Validate() error {
 func (r *ListRequest) Validate() error {
 	reasons := []string{}
 
-	if r.Criteria == nil {
-		reasons = append(reasons, "Fee is required")
-	}
-
 	if len(reasons) > 0 {
 		return fmt.Errorf("validation failed: %s ", strings.Join(reasons, "; "))
 	}
@@ -36,8 +32,9 @@ func (r *ListRequest) Validate() error {
 func (r *CalculateMintingFeesRequest) Validate() error {
 	reasons := []string{}
 
-	if r.Amount == nil {
-		reasons = append(reasons, "Amount is required")
+	amount := r.GetAmount()
+	if amount == nil || amount.IsUndefined() || amount.GetValue().IsZero() {
+		reasons = append(reasons, "amount must be provided and be > 0")
 	}
 
 	if len(reasons) > 0 {
