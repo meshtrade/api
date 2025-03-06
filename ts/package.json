@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "type": "commonjs",
   "exports": {
+    "./sdk": {
+      "types": "./dist/sdk/index.d.ts",
+      "require": "./dist/sdk/index.js",
+      "import": "./dist/sdk/index.js"
+    },
     "./search": {
       "types": "./dist/search/index.d.ts",
       "require": "./dist/search/index.js",
