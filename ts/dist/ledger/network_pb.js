@@ -27,7 +27,13 @@ goog.exportSymbol('proto.api.ledger.Network', null, global);
  */
 proto.api.ledger.Network = {
   UNDEFINED_NETWORK: 0,
-  STELLAR_NETWORK: 1
+  STELLAR_NETWORK: 1,
+  BITCOIN_NETWORK: 2,
+  LITECOIN_NETWORK: 3,
+  ETHEREUM_NETWORK: 4,
+  RIPPLE_NETWORK: 5,
+  SA_STOCK_BROKERS_NETWORK: 6,
+  NULL_NETWORK: 7
 };
 
 goog.object.extend(exports, proto.api.ledger);
