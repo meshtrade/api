@@ -1,3 +1,5 @@
+/* eslint-disable */
+// @ts-nocheck
 import * as jspb from 'google-protobuf'
 
 import * as api_proto_instrument_feeprofile_lifecycleEventCalculationConfigAmount_pb from '../../instrument/feeprofile/lifecycleEventCalculationConfigAmount_pb'; // proto import: "api/proto/instrument/feeprofile/lifecycleEventCalculationConfigAmount.proto"

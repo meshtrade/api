@@ -1,3 +1,5 @@
+/* eslint-disable */
+// @ts-nocheck
 // source: api/proto/search/textNINListCriterion.proto
 /**
  * @fileoverview

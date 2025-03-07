@@ -1,3 +1,5 @@
+/* eslint-disable */
+// @ts-nocheck
 import * as jspb from 'google-protobuf'
 
 import * as api_proto_instrument_feeprofile_lifecycleEventCategory_pb from '../../instrument/feeprofile/lifecycleEventCategory_pb'; // proto import: "api/proto/instrument/feeprofile/lifecycleEventCategory.proto"

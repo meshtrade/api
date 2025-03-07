@@ -1,3 +1,5 @@
+/* eslint-disable */
+// @ts-nocheck
 // source: api/proto/instrument/fee/fee.proto
 /**
  * @fileoverview

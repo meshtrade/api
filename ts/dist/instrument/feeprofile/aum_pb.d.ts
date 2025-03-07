@@ -1,3 +1,5 @@
+/* eslint-disable */
+// @ts-nocheck
 import * as jspb from 'google-protobuf'
 
 import * as api_proto_num_decimal_pb from '../../num/decimal_pb'; // proto import: "api/proto/num/decimal.proto"

@@ -1,3 +1,5 @@
+/* eslint-disable */
+// @ts-nocheck
 import * as jspb from 'google-protobuf'
 
 import * as api_proto_ledger_network_pb from '../ledger/network_pb'; // proto import: "api/proto/ledger/network.proto"

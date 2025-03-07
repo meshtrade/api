@@ -1,3 +1,5 @@
+/* eslint-disable */
+// @ts-nocheck
 // source: api/proto/iam/role/permission.proto
 /**
  * @fileoverview

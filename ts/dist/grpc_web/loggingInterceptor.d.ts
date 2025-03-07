@@ -1,3 +1,5 @@
+/* eslint-disable */
+// @ts-nocheck
 import { UnaryInterceptor, Request, UnaryResponse } from "grpc-web";
 /**
  * `LoggingInterceptor` is a class responsible for intercepting requests and logging out requests and responses.

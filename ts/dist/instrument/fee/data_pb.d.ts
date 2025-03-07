@@ -1,3 +1,5 @@
+/* eslint-disable */
+// @ts-nocheck
 import * as jspb from 'google-protobuf'
 
 import * as api_proto_instrument_fee_dataAmount_pb from '../../instrument/fee/dataAmount_pb'; // proto import: "api/proto/instrument/fee/dataAmount.proto"

@@ -1,3 +1,5 @@
+/* eslint-disable */
+// @ts-nocheck
 import * as jspb from 'google-protobuf'
 
 import * as api_proto_search_boolExactCriterion_pb from '../search/boolExactCriterion_pb'; // proto import: "api/proto/search/boolExactCriterion.proto"

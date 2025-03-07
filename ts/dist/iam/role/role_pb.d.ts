@@ -1,3 +1,5 @@
+/* eslint-disable */
+// @ts-nocheck
 import * as jspb from 'google-protobuf'
 
 import * as api_proto_iam_role_permission_pb from '../../iam/role/permission_pb'; // proto import: "api/proto/iam/role/permission.proto"

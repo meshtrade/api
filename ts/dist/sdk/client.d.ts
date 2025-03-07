@@ -1,3 +1,5 @@
+/* eslint-disable */
+// @ts-nocheck
 import { ConfigOpts } from "./config";
 import { Instrument } from "./services";
 export declare class Client {

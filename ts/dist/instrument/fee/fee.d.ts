@@ -1,3 +1,5 @@
+/* eslint-disable */
+// @ts-nocheck
 import { State as FeeState } from "./fee_pb";
 export declare const allFeeStates: FeeState[];
 /**

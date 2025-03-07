@@ -1,3 +1,5 @@
+/* eslint-disable */
+// @ts-nocheck
 // source: api/proto/search/uint32ExactCriterion.proto
 /**
  * @fileoverview

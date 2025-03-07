@@ -1,3 +1,5 @@
+/* eslint-disable */
+// @ts-nocheck
 /**
  * @fileoverview gRPC-Web generated client stub for api.instrument.fee
  * @enhanceable

@@ -1,3 +1,5 @@
+/* eslint-disable */
+// @ts-nocheck
 // source: api/proto/instrument/feeprofile/service.proto
 /**
  * @fileoverview

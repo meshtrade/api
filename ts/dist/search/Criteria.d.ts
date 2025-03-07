@@ -1,3 +1,5 @@
+/* eslint-disable */
+// @ts-nocheck
 import { Criterion } from "./criterion_pb";
 export declare class Criteria {
     criteriaMap: Record<string, Criterion>;

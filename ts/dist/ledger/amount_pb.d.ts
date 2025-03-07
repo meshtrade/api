@@ -1,3 +1,5 @@
+/* eslint-disable */
+// @ts-nocheck
 import * as jspb from 'google-protobuf'
 
 import * as api_proto_ledger_token_pb from '../ledger/token_pb'; // proto import: "api/proto/ledger/token.proto"

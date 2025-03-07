@@ -1,3 +1,5 @@
+/* eslint-disable */
+// @ts-nocheck
 import * as grpcWeb from 'grpc-web';
 
 import * as api_proto_instrument_fee_service_pb from '../../instrument/fee/service_pb'; // proto import: "api/proto/instrument/fee/service.proto"
