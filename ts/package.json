@@ -13,6 +13,11 @@
       "require": "./dist/num/index.js",
       "import": "./dist/num/index.js"
     },
+    "./ledger": {
+      "types": "./dist/ledger/index.d.ts",
+      "require": "./dist/ledger/index.js",
+      "import": "./dist/ledger/index.js"
+    },
     "./sdk": {
       "types": "./dist/sdk/index.d.ts",
       "require": "./dist/sdk/index.js",
