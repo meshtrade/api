@@ -36,10 +36,6 @@ func (r *UpdateRequest) Validate() error {
 func (r *ListRequest) Validate() error {
 	reasons := []string{}
 
-	if r.Criteria == nil {
-		reasons = append(reasons, "Criteria is required")
-	}
-
 	if len(reasons) > 0 {
 		return fmt.Errorf("validation failed: %s ", strings.Join(reasons, "; "))
 	}
