@@ -11,7 +11,6 @@ var APIServerURL;
     APIServerURL["Staging"] = "https://staging-service-mesh-api-gateway-lb-frontend.mesh.trade";
     APIServerURL["Production"] = "https://production-service-mesh-api-gateway-lb-frontend.mesh.trade";
 })(APIServerURL || (exports.APIServerURL = APIServerURL = {}));
-;
 function APIServerURLFromEnvironment(env) {
     switch (env) {
         case environment_pb_1.Environment.LOCAL_ENVIRONMENT:

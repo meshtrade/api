@@ -15,7 +15,7 @@ class Client {
             {
                 withCredentials: true,
                 unaryInterceptors: [new grpc_web_1.LoggingInterceptor()],
-            }
+            },
         ];
         // construct services
         this._instrument = new services_1.Instrument(args);

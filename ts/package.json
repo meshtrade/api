@@ -8,6 +8,11 @@
       "require": "./dist/instrument/fee/index.js",
       "import": "./dist/instrument/fee/index.js"
     },
+    "./num": {
+      "types": "./dist/num/index.d.ts",
+      "require": "./dist/num/index.js",
+      "import": "./dist/num/index.js"
+    },
     "./sdk": {
       "types": "./dist/sdk/index.d.ts",
       "require": "./dist/sdk/index.js",
