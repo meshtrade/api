@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1e\x61pi/proto/ledger/network.proto\x12\napi.ledger*\xba\x01\n\x07Network\x12\x15\n\x11UNDEFINED_NETWORK\x10\x00\x12\x13\n\x0fSTELLAR_NETWORK\x10\x01\x12\x13\n\x0f\x42ITCOIN_NETWORK\x10\x02\x12\x14\n\x10LITECOIN_NETWORK\x10\x03\x12\x14\n\x10\x45THEREUM_NETWORK\x10\x04\x12\x12\n\x0eRIPPLE_NETWORK\x10\x05\x12\x1c\n\x18SA_STOCK_BROKERS_NETWORK\x10\x06\x12\x10\n\x0cNULL_NETWORK\x10\x07\x42$Z\"github.com/meshtrade/api/go/ledgerb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1e\x61pi/proto/ledger/network.proto\x12\napi.ledger*\xba\x01\n\x07Network\x12\x15\n\x11UNDEFINED_NETWORK\x10\x00\x12\x13\n\x0fSTELLAR_NETWORK\x10\x03\x12\x13\n\x0f\x42ITCOIN_NETWORK\x10\x05\x12\x14\n\x10LITECOIN_NETWORK\x10\x07\x12\x14\n\x10\x45THEREUM_NETWORK\x10\t\x12\x12\n\x0eRIPPLE_NETWORK\x10\x0b\x12\x1c\n\x18SA_STOCK_BROKERS_NETWORK\x10\x0f\x12\x10\n\x0cNULL_NETWORK\x10\x10\x42$Z\"github.com/meshtrade/api/go/ledgerb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)

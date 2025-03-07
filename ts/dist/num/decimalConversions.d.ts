@@ -10,9 +10,7 @@ import { Decimal } from "./decimal_pb";
  * This function uses the string representation of the BigNumber
  * to construct a Decimal object.
  */
-export declare function bigNumberToDecimal(
-  bigNumberToConvert: BigNumber,
-): Decimal;
+export declare function bigNumberToDecimal(bigNumberToConvert: BigNumber): Decimal;
 /**
  * Converts a Decimal object to a BigNumber instance.
  *

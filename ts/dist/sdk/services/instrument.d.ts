@@ -3,9 +3,9 @@ import { ServicePromiseClient as FeeProfileServiceClient } from "../../instrumen
 import { ServicePromiseClient as FeeServiceClient } from "../../instrument/fee/service_grpc_web_pb";
 import { ServiceConstructorArgs } from "../service";
 export declare class Instrument extends InstrumentServiceClient {
-  private _fee;
-  private _feeProfile;
-  constructor(args: ServiceConstructorArgs);
-  get feeProfile(): FeeProfileServiceClient;
-  get fee(): FeeServiceClient;
+    private _fee;
+    private _feeProfile;
+    constructor(args: ServiceConstructorArgs);
+    get feeProfile(): FeeProfileServiceClient;
+    get fee(): FeeServiceClient;
 }

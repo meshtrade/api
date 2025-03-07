@@ -1,6 +1,8 @@
 package ledger
 
 import (
+	"fmt"
+
 	"github.com/meshtrade/api/go/num"
 	"github.com/meshtrade/api/go/search"
 	"github.com/shopspring/decimal"
@@ -46,4 +48,8 @@ func (t *Token) ToCriterion() []*search.Criterion {
 		search.NewTextExactCriterion("token.issuer", t.Issuer),
 		search.NewUint32ExactCriterion("token.network", uint32(t.Network)),
 	}
+}
+
+func (t *Token) PrettyString() string {
+	return fmt.Sprintf("%s by %s", t.GetCode(), t.GetIssuer())
 }

@@ -10,7 +10,4 @@ import { Criterion } from "./criterion_pb";
  * // results in the mongo db query {"id": {"$ne":33}}
  * const uint32NEExactCriterion = newUint32NEExactCriterion("id", 33);
  */
-export declare function newUint32NEExactCriterion(
-  field: string,
-  value: number,
-): Criterion;
+export declare function newUint32NEExactCriterion(field: string, value: number): Criterion;
