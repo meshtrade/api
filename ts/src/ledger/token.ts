@@ -1,7 +1,4 @@
-import {
-  newTextExactCriterion,
-  newUint32ExactCriterion,
-} from "../search";
+import { newTextExactCriterion, newUint32ExactCriterion } from "../search";
 import { Criterion } from "../search/criterion_pb";
 import { Network } from "./network_pb";
 import { Token } from "./token_pb";
@@ -22,7 +19,7 @@ export function tokensAreEqual(t?: Token, t2?: Token): boolean {
     (t?.getCode() ?? "") === (t2?.getCode() ?? "") &&
     (t?.getIssuer() ?? "") === (t2?.getIssuer() ?? "") &&
     (t?.getNetwork() ?? Network.UNDEFINED_NETWORK) ===
-    (t2?.getNetwork() ?? Network.UNDEFINED_NETWORK)
+      (t2?.getNetwork() ?? Network.UNDEFINED_NETWORK)
   );
 }
 

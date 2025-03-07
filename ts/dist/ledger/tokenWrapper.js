@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TokenWrapper = void 0;
-const bignumber_js_1 = require("bignumber.js");
 const token_pb_1 = require("./token_pb");
 const amount_1 = require("./amount");
 const network_pb_1 = require("./network_pb");
@@ -62,15 +61,12 @@ class TokenWrapper {
      * This method accepts a value of type BigNumber or Decimal and returns a new Amount
      * instance created from this value, associated with the wrapped Token.
      *
-     * @param {BigNumber | Decimal} value - The value to convert into a Amount. It can be either a BigNumber or a Decimal.
+     * @param {BigNumber | Decimal | string | undefined} value - The amount in BigNumber, num.Decimal or string format.
      *
      * @returns {Amount} A new Amount instance based on the provided value and the wrapped Token.
      */
     newAmountOf(value) {
-        if (bignumber_js_1.BigNumber.isBigNumber(value)) {
-            return (0, amount_1.newAmountFromBigNumber)(value, this._token);
-        }
-        return (0, amount_1.newAmountFromDecimal)(value, this._token);
+        return (0, amount_1.newAmountOfToken)(value, this._token);
     }
     isEqualTo(t2) {
         return (this.code === t2.getCode() &&

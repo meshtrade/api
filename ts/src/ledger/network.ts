@@ -1,9 +1,9 @@
 import { Network } from "./network_pb";
 
 // Get all Networks as enum values
-export const allNetworks: Network[] = Object.values(
-  Network,
-).filter((value) => typeof value === "number") as Network[];
+export const allNetworks: Network[] = Object.values(Network).filter(
+  (value) => typeof value === "number",
+) as Network[];
 
 // Define explicit mappings between Network enums and custom string representations
 const networkToStringMapping: {
@@ -40,7 +40,7 @@ class UnsupportedNetworkError extends Error {
  * @param {Network} Network - The Network to convert.
  * @returns {string} The custom string representation of the Network.
  */
-export function NetworkToString(Network: Network): string {
+export function networkToString(Network: Network): string {
   if (Network in networkToStringMapping) {
     return networkToStringMapping[Network];
   } else {
@@ -109,8 +109,7 @@ const networkToBEStringMapping: {
   [Network.LITECOIN_NETWORK]: "LITECOIN_NETWORK",
   [Network.ETHEREUM_NETWORK]: "ETHEREUM_NETWORK",
   [Network.RIPPLE_NETWORK]: "RIPPLE_NETWORK",
-  [Network.SA_STOCK_BROKERS_NETWORK]:
-    "SA_STOCK_BROKERS_NETWORK",
+  [Network.SA_STOCK_BROKERS_NETWORK]: "SA_STOCK_BROKERS_NETWORK",
   [Network.NULL_NETWORK]: "NULL_NETWORK",
 };
 
@@ -119,7 +118,7 @@ const networkToBEStringMapping: {
  * @param {Network} Network - The Network to convert.
  * @returns {string} The custom string representation of the Network.
  */
-export function NetworkToBEString(Network: Network): string {
+export function networkToBEString(Network: Network): string {
   if (Network in networkToBEStringMapping) {
     return networkToBEStringMapping[Network];
   } else {

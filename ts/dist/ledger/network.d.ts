@@ -5,7 +5,7 @@ export declare const allNetworks: Network[];
  * @param {Network} Network - The Network to convert.
  * @returns {string} The custom string representation of the Network.
  */
-export declare function NetworkToString(Network: Network): string;
+export declare function networkToString(Network: Network): string;
 /**
  * Converts a custom string representation to a Network enum instance.
  * @param {string} NetworkStr - The custom string representation of the Network.
@@ -24,4 +24,4 @@ export declare function getNetworkNoDecimalPlaces(network: Network): number;
  * @param {Network} Network - The Network to convert.
  * @returns {string} The custom string representation of the Network.
  */
-export declare function NetworkToBEString(Network: Network): string;
+export declare function networkToBEString(Network: Network): string;

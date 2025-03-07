@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.allNetworks = void 0;
-exports.NetworkToString = NetworkToString;
+exports.networkToString = networkToString;
 exports.stringToNetwork = stringToNetwork;
 exports.getNetworkNoDecimalPlaces = getNetworkNoDecimalPlaces;
-exports.NetworkToBEString = NetworkToBEString;
+exports.networkToBEString = networkToBEString;
 const network_pb_1 = require("./network_pb");
 // Get all Networks as enum values
 exports.allNetworks = Object.values(network_pb_1.Network).filter((value) => typeof value === "number");
@@ -36,7 +36,7 @@ class UnsupportedNetworkError extends Error {
  * @param {Network} Network - The Network to convert.
  * @returns {string} The custom string representation of the Network.
  */
-function NetworkToString(Network) {
+function networkToString(Network) {
     if (Network in networkToStringMapping) {
         return networkToStringMapping[Network];
     }
@@ -105,7 +105,7 @@ const networkToBEStringMapping = {
  * @param {Network} Network - The Network to convert.
  * @returns {string} The custom string representation of the Network.
  */
-function NetworkToBEString(Network) {
+function networkToBEString(Network) {
     if (Network in networkToBEStringMapping) {
         return networkToBEStringMapping[Network];
     }

@@ -41,10 +41,10 @@ export declare class TokenWrapper {
      * This method accepts a value of type BigNumber or Decimal and returns a new Amount
      * instance created from this value, associated with the wrapped Token.
      *
-     * @param {BigNumber | Decimal} value - The value to convert into a Amount. It can be either a BigNumber or a Decimal.
+     * @param {BigNumber | Decimal | string | undefined} value - The amount in BigNumber, num.Decimal or string format.
      *
      * @returns {Amount} A new Amount instance based on the provided value and the wrapped Token.
      */
-    newAmountOf(value: BigNumber | Decimal): Amount;
+    newAmountOf(value: BigNumber | Decimal | string | undefined): Amount;
     isEqualTo(t2: Token | TokenWrapper): boolean;
 }
