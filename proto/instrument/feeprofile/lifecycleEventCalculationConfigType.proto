@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package financial;
+
+option go_package = "github.com/meshtrade/mesh/common/go/pkg/financial";
+
+/*
+LifecycleEventCalculationConfigType is a convenience enum that lists all possible calculation configuration types.
+*/
+enum LifecycleEventCalculationConfigType {
+    UNDEFINED_LIFECYCLE_EVENTS_CALCULATION_CONFIG_TYPE = 0; // 0 not used to prevent unexpected default value behaviour.
+    AMOUNT_LIFECYCLE_EVENTS_CALCULATION_CONFIG_TYPE = 1;
+    RATE_LIFECYCLE_EVENTS_CALCULATION_CONFIG_TYPE = 2;
+}
