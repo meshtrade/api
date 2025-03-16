@@ -23,7 +23,8 @@ class UnsupportedLifecycleEventCalculationConfigTypeError extends Error {
     constructor(lifecycleEventCalculationConfigType) {
         const message = `Unsupported LifecycleEventCalculationConfigType: ${lifecycleEventCalculationConfigType}`;
         super(message);
-        this.lifecycleEventCalculationConfigType = lifecycleEventCalculationConfigType;
+        this.lifecycleEventCalculationConfigType =
+            lifecycleEventCalculationConfigType;
     }
 }
 /**
@@ -32,7 +33,8 @@ class UnsupportedLifecycleEventCalculationConfigTypeError extends Error {
  * @returns {string} The custom string representation of the schedule configuration type.
  */
 function lifecycleEventCalculationConfigTypeToString(lifecycleEventCalculationConfigType) {
-    if (lifecycleEventCalculationConfigType in lifecycleEventCalculationConfigTypeToStringMapping) {
+    if (lifecycleEventCalculationConfigType in
+        lifecycleEventCalculationConfigTypeToStringMapping) {
         return lifecycleEventCalculationConfigTypeToStringMapping[lifecycleEventCalculationConfigType];
     }
     else {
@@ -43,7 +45,8 @@ class UnsupportedLifecycleEventCalculationConfigTypeStringError extends Error {
     constructor(lifecycleEventCalculationConfigTypeStr) {
         const message = `Unsupported schedule configuration type string: ${lifecycleEventCalculationConfigTypeStr}`;
         super(message);
-        this.lifecycleEventCalculationConfigTypeStr = lifecycleEventCalculationConfigTypeStr;
+        this.lifecycleEventCalculationConfigTypeStr =
+            lifecycleEventCalculationConfigTypeStr;
     }
 }
 /**
@@ -52,7 +55,8 @@ class UnsupportedLifecycleEventCalculationConfigTypeStringError extends Error {
  * @returns {LifecycleEventCalculationConfigType} The corresponding LifecycleEventCalculationConfigType enum instance.
  */
 function stringToLifecycleEventCalculationConfigType(lifecycleEventCalculationConfigTypeStr) {
-    if (lifecycleEventCalculationConfigTypeStr in stringToLifecycleEventCalculationConfigTypeMapping) {
+    if (lifecycleEventCalculationConfigTypeStr in
+        stringToLifecycleEventCalculationConfigTypeMapping) {
         return stringToLifecycleEventCalculationConfigTypeMapping[lifecycleEventCalculationConfigTypeStr];
     }
     else {

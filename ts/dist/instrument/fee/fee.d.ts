@@ -1,6 +1,6 @@
 /* eslint-disable */
 // @ts-nocheck
-import { State as FeeState } from "./fee_pb";
+import { State as FeeState, Category as FeeCategory } from "./fee_pb";
 export declare const allFeeStates: FeeState[];
 /**
  * Converts a FeeState enum instance to a custom string representation.
@@ -14,3 +14,16 @@ export declare function feeStateToString(feeState: FeeState): string;
  * @returns {FeeState} The corresponding FeeState enum instance.
  */
 export declare function stringToFeeState(feeStateStr: string): FeeState;
+export declare const allFeeCategories: FeeCategory[];
+/**
+ * Converts a FeeCategory enum instance to a custom string representation.
+ * @param {FeeCategory} feeCategory - The fee category to convert.
+ * @returns {string} The custom string representation of the fee category.
+ */
+export declare function feeCategoryToString(feeCategory: FeeCategory): string;
+/**
+ * Converts a custom string representation to a FeeCategory enum instance.
+ * @param {string} feeCategoryStr - The custom string representation of the fee category.
+ * @returns {FeeCategory} The corresponding FeeCategory enum instance.
+ */
+export declare function stringToFeeCategory(feeCategoryStr: string): FeeCategory;

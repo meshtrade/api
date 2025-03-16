@@ -1,9 +1,10 @@
-import { LifecycleEventCategory } from "./lifecycleEventCategory_pb"
+import { LifecycleEventCategory } from "./lifecycleEventCategory_pb";
 
 // Get all lifecycleEventCategories as enum values
-export const allLifecycleEventCategories: LifecycleEventCategory[] = Object.values(
-  LifecycleEventCategory,
-).filter((value) => typeof value === "number") as LifecycleEventCategory[];
+export const allLifecycleEventCategories: LifecycleEventCategory[] =
+  Object.values(LifecycleEventCategory).filter(
+    (value) => typeof value === "number",
+  ) as LifecycleEventCategory[];
 
 // Define explicit mappings between LifecycleEventCategory enums and custom string representations
 const lifecycleEventCategoryToStringMapping: {
@@ -11,11 +12,17 @@ const lifecycleEventCategoryToStringMapping: {
 } = {
   [LifecycleEventCategory.UNDEFINED_LIFECYCLE_EVENT_CATEGORY]: "-",
   [LifecycleEventCategory.LISTING_LIFECYCLE_EVENT_CATEGORY]: "Listing",
-  [LifecycleEventCategory.PRIMARY_MARKET_SETTLEMENT_LIFECYCLE_EVENT_CATEGORY]: "Primary Market Settlement",
+  [LifecycleEventCategory.PRIMARY_MARKET_SETTLEMENT_LIFECYCLE_EVENT_CATEGORY]:
+    "Primary Market Settlement",
 };
 // Reverse mapping from string to LifecycleEventCategory enum
-const stringToLifecycleEventCategoryMapping: Record<string, LifecycleEventCategory> = {};
-for (const [key, value] of Object.entries(lifecycleEventCategoryToStringMapping)) {
+const stringToLifecycleEventCategoryMapping: Record<
+  string,
+  LifecycleEventCategory
+> = {};
+for (const [key, value] of Object.entries(
+  lifecycleEventCategoryToStringMapping,
+)) {
   stringToLifecycleEventCategoryMapping[value] = Number(key);
 }
 
@@ -34,7 +41,9 @@ class UnsupportedLifecycleEventCategoryError extends Error {
  * @param {LifecycleEventCategory} lifecycleEventCategory - The lifecycleEventCategory to convert.
  * @returns {string} The custom string representation of the lifecycleEventCategory.
  */
-export function lifecycleEventCategoryToString(lifecycleEventCategory: LifecycleEventCategory): string {
+export function lifecycleEventCategoryToString(
+  lifecycleEventCategory: LifecycleEventCategory,
+): string {
   if (lifecycleEventCategory in lifecycleEventCategoryToStringMapping) {
     return lifecycleEventCategoryToStringMapping[lifecycleEventCategory];
   } else {
@@ -57,10 +66,14 @@ class UnsupportedLifecycleEventCategoryStringError extends Error {
  * @param {string} lifecycleEventCategoryStr - The custom string representation of the lifecycleEventCategory.
  * @returns {LifecycleEventCategory} The corresponding LifecycleEventCategory enum instance.
  */
-export function stringToLifecycleEventCategory(lifecycleEventCategoryStr: string): LifecycleEventCategory {
+export function stringToLifecycleEventCategory(
+  lifecycleEventCategoryStr: string,
+): LifecycleEventCategory {
   if (lifecycleEventCategoryStr in stringToLifecycleEventCategoryMapping) {
     return stringToLifecycleEventCategoryMapping[lifecycleEventCategoryStr];
   } else {
-    throw new UnsupportedLifecycleEventCategoryStringError(lifecycleEventCategoryStr);
+    throw new UnsupportedLifecycleEventCategoryStringError(
+      lifecycleEventCategoryStr,
+    );
   }
 }

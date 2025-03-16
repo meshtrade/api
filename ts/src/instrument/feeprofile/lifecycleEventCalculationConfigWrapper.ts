@@ -11,7 +11,9 @@ export class LifecycleEventCalculationConfigWrapper {
    * Constructs a new LifecycleEventCalculationConfigWrapper instance.
    * @param {LifecycleEventCalculationConfig} lifecycleEventCalculationConfig - The schedule configuration  instance to wrap.
    */
-  constructor(lifecycleEventCalculationConfig?: LifecycleEventCalculationConfig) {
+  constructor(
+    lifecycleEventCalculationConfig?: LifecycleEventCalculationConfig,
+  ) {
     this._lifecycleEventCalculationConfig =
       lifecycleEventCalculationConfig ?? new LifecycleEventCalculationConfig();
   }
