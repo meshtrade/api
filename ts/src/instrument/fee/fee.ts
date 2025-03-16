@@ -1,7 +1,4 @@
-import {
-  State as FeeState,
-  Category as FeeCategory,
-} from "./fee_pb";
+import { State as FeeState, Category as FeeCategory } from "./fee_pb";
 
 // ---- FEE STATE ----
 // Get all fee state as enum values
@@ -76,9 +73,9 @@ export function stringToFeeState(feeStateStr: string): FeeState {
 
 // ---- FEE CATEGORY ----
 // Get all fee category as enum values
-export const allFeeCategories: FeeCategory[] = Object.values(FeeCategory).filter(
-  (value) => typeof value === "number",
-) as FeeCategory[];
+export const allFeeCategories: FeeCategory[] = Object.values(
+  FeeCategory,
+).filter((value) => typeof value === "number") as FeeCategory[];
 
 // Define explicit mappings between FeeCategory enums and custom string representations
 const feeCategoryToStringMapping: {
