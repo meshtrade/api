@@ -6,6 +6,7 @@ require (
 	github.com/rs/zerolog v1.33.0
 	github.com/shopspring/decimal v1.4.0
 	github.com/stretchr/testify v1.10.0
+	go.mongodb.org/mongo-driver v1.17.3
 	go.opentelemetry.io/otel/trace v1.34.0
 	google.golang.org/grpc v1.70.0
 	google.golang.org/protobuf v1.36.4

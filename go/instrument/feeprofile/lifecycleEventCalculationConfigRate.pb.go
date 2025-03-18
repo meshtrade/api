@@ -28,6 +28,7 @@ const (
 // primary market settlement amount or subscription order book
 // target raise not yet known with certainty at the time of
 // setting up the Instrument's FeeProfile.
+//
 // @bson-marshalled
 type RateLifecycleEventCalculationConfig struct {
 	state         protoimpl.MessageState

@@ -14,6 +14,7 @@ This is used for fees that depend on base amount like the
 primary market settlement amount or subscription order book
 target raise not yet known with certainty at the time of
 setting up the Instrument's FeeProfile.
+
 @bson-marshalled
 */
 message RateLifecycleEventCalculationConfig {

@@ -22,6 +22,8 @@ const (
 
 // LifecycleEventCalculationConfig is the calculation configuration that is use to calculate
 // the Fee amount.
+//
+// @bson-marshalled
 type LifecycleEventCalculationConfig struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
