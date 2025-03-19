@@ -19,14 +19,14 @@ var _ bson.Marshaler = &AmountLifecycleEventCalculationConfig{}
 func (a *AmountLifecycleEventCalculationConfig) MarshalBSONValue() (bsontype.Type, []byte, error) {
 	// if this AmountLifecycleEventCalculationConfig is nil then return the bson null type and no data
 	if a == nil {
-		return bsontype.Null, nil, nil
+		return bson.TypeNull, nil, nil
 	}
 
 	// otherwise call the MarshalBSON method to get data and a possible error
 	bsonData, err := a.MarshalBSON()
 
 	// then return the bson embedded document type along with the associated data and error
-	return bsontype.EmbeddedDocument, bsonData, err
+	return bson.TypeEmbeddedDocument, bsonData, err
 }
 
 // MarshalBSON controls the marshalling of a AmountLifecycleEventCalculationConfig to BSON for persistence to mongo db

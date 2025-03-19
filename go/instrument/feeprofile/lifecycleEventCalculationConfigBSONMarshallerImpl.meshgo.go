@@ -18,14 +18,14 @@ var _ bson.Marshaler = &LifecycleEventCalculationConfig{}
 func (l *LifecycleEventCalculationConfig) MarshalBSONValue() (bsontype.Type, []byte, error) {
 	// if this LifecycleEventCalculationConfig is nil then return the bson null type and no data
 	if l == nil {
-		return bsontype.Null, nil, nil
+		return bson.TypeNull, nil, nil
 	}
 
 	// otherwise call the MarshalBSON method to get data and a possible error
 	bsonData, err := l.MarshalBSON()
 
 	// then return the bson embedded document type along with the associated data and error
-	return bsontype.EmbeddedDocument, bsonData, err
+	return bson.TypeEmbeddedDocument, bsonData, err
 }
 
 // MarshalBSON controls the marshalling of a LifecycleEventCalculationConfig to BSON for persistence to mongo db
@@ -54,7 +54,9 @@ var _ bson.Unmarshaler = &LifecycleEventCalculationConfig{}
 // MarshalBSON controls the unmarshalling of a LifecycleEventCalculationConfig from BSON
 func (l *LifecycleEventCalculationConfig) UnmarshalBSON(data []byte) error {
 	// perform an unmarshal to get the @type
-	typeHolder := new(struct{ AtType string })
+	typeHolder := new(struct {
+		AtType string `bson:"@type"`
+	})
 	if err := bson.Unmarshal(data, &typeHolder); err != nil {
 		return fmt.Errorf("error unmarshalling to get @type for implementation of LifecycleEventCalculationConfig: %w", err)
 	}

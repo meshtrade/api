@@ -19,14 +19,14 @@ var _ bson.Marshaler = &RateData{}
 func (r *RateData) MarshalBSONValue() (bsontype.Type, []byte, error) {
 	// if this RateData is nil then return the bson null type and no data
 	if r == nil {
-		return bsontype.Null, nil, nil
+		return bson.TypeNull, nil, nil
 	}
 
 	// otherwise call the MarshalBSON method to get data and a possible error
 	bsonData, err := r.MarshalBSON()
 
 	// then return the bson embedded document type along with the associated data and error
-	return bsontype.EmbeddedDocument, bsonData, err
+	return bson.TypeEmbeddedDocument, bsonData, err
 }
 
 // MarshalBSON controls the marshalling of a RateData to BSON for persistence to mongo db
