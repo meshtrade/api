@@ -88,3 +88,20 @@ func (g *ServiceGRPCAdaptor) List(ctx context.Context, request *ListRequest) (*L
 
 	return listResponse, nil
 }
+
+// Get exposes the Get method of the given implementation of the Service interface over gRPC
+func (g *ServiceGRPCAdaptor) Get(ctx context.Context, request *GetRequest) (*GetResponse, error) {
+	ctx, span := g.tracer.Start(
+		ctx,
+		ServiceServiceProviderName+"GRPCAdaptor.Get",
+	)
+	defer span.End()
+
+	// call given implementation of the adapted service provider interface
+	getResponse, err := g.service.Get(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+
+	return getResponse, nil
+}

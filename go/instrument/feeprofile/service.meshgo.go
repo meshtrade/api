@@ -13,6 +13,8 @@ type Service interface {
 	Update(ctx context.Context, request *UpdateRequest) (*UpdateResponse, error)
 
 	List(ctx context.Context, request *ListRequest) (*ListResponse, error)
+
+	Get(ctx context.Context, request *GetRequest) (*GetResponse, error)
 }
 
 const ServiceServiceProviderName = "api-instrument-feeprofile-Service"

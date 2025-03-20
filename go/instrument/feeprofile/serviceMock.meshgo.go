@@ -21,6 +21,8 @@ type MockService struct {
 	UpdateFuncInvocations int
 	ListFunc              func(t *testing.T, m *MockService, ctx context.Context, request *ListRequest) (*ListResponse, error)
 	ListFuncInvocations   int
+	GetFunc               func(t *testing.T, m *MockService, ctx context.Context, request *GetRequest) (*GetResponse, error)
+	GetFuncInvocations    int
 }
 
 func (m *MockService) Create(ctx context.Context, request *CreateRequest) (*CreateResponse, error) {
@@ -51,4 +53,14 @@ func (m *MockService) List(ctx context.Context, request *ListRequest) (*ListResp
 		return nil, nil
 	}
 	return m.ListFunc(m.T, m, ctx, request)
+}
+
+func (m *MockService) Get(ctx context.Context, request *GetRequest) (*GetResponse, error) {
+	m.mutex.Lock()
+	m.GetFuncInvocations++
+	m.mutex.Unlock()
+	if m.GetFunc == nil {
+		return nil, nil
+	}
+	return m.GetFunc(m.T, m, ctx, request)
 }

@@ -29,6 +29,13 @@ export class ServiceClient {
                response: api_proto_instrument_feeprofile_service_pb.ListResponse) => void
   ): grpcWeb.ClientReadableStream<api_proto_instrument_feeprofile_service_pb.ListResponse>;
 
+  get(
+    request: api_proto_instrument_feeprofile_service_pb.GetRequest,
+    metadata: grpcWeb.Metadata | undefined,
+    callback: (err: grpcWeb.RpcError,
+               response: api_proto_instrument_feeprofile_service_pb.GetResponse) => void
+  ): grpcWeb.ClientReadableStream<api_proto_instrument_feeprofile_service_pb.GetResponse>;
+
 }
 
 export class ServicePromiseClient {
@@ -50,6 +57,11 @@ export class ServicePromiseClient {
     request: api_proto_instrument_feeprofile_service_pb.ListRequest,
     metadata?: grpcWeb.Metadata
   ): Promise<api_proto_instrument_feeprofile_service_pb.ListResponse>;
+
+  get(
+    request: api_proto_instrument_feeprofile_service_pb.GetRequest,
+    metadata?: grpcWeb.Metadata
+  ): Promise<api_proto_instrument_feeprofile_service_pb.GetResponse>;
 
 }
 

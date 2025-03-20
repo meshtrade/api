@@ -79,3 +79,20 @@ func (g *GRPCClientService) List(ctx context.Context, request *ListRequest) (*Li
 
 	return listResponse, nil
 }
+
+func (g *GRPCClientService) Get(ctx context.Context, request *GetRequest) (*GetResponse, error) {
+	ctx, span := g.tracer.Start(
+		ctx,
+		ServiceServiceProviderName+"Get",
+	)
+	defer span.End()
+
+	// call given implementation of the adapted service provider interface
+	getResponse, err := g.grpcClient.Get(ctx, request)
+	if err != nil {
+		log.Ctx(ctx).Error().Err(err).Msg("could not Get")
+		return nil, fmt.Errorf("could not Get: %s", err)
+	}
+
+	return getResponse, nil
+}

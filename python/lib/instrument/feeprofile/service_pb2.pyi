@@ -1,5 +1,6 @@
 from api.python.lib.instrument.feeprofile import feeProfile_pb2 as _feeProfile_pb2
 from api.python.lib.search import criterion_pb2 as _criterion_pb2
+from api.python.lib.search import query_pb2 as _query_pb2
 from google.protobuf.internal import containers as _containers
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
@@ -32,13 +33,29 @@ class UpdateResponse(_message.Message):
     def __init__(self, feeProfile: _Optional[_Union[_feeProfile_pb2.FeeProfile, _Mapping]] = ...) -> None: ...
 
 class ListRequest(_message.Message):
+    __slots__ = ("criteria", "query")
+    CRITERIA_FIELD_NUMBER: _ClassVar[int]
+    QUERY_FIELD_NUMBER: _ClassVar[int]
+    criteria: _containers.RepeatedCompositeFieldContainer[_criterion_pb2.Criterion]
+    query: _query_pb2.Query
+    def __init__(self, criteria: _Optional[_Iterable[_Union[_criterion_pb2.Criterion, _Mapping]]] = ..., query: _Optional[_Union[_query_pb2.Query, _Mapping]] = ...) -> None: ...
+
+class ListResponse(_message.Message):
+    __slots__ = ("feeProfiles", "total")
+    FEEPROFILES_FIELD_NUMBER: _ClassVar[int]
+    TOTAL_FIELD_NUMBER: _ClassVar[int]
+    feeProfiles: _containers.RepeatedCompositeFieldContainer[_feeProfile_pb2.FeeProfile]
+    total: int
+    def __init__(self, feeProfiles: _Optional[_Iterable[_Union[_feeProfile_pb2.FeeProfile, _Mapping]]] = ..., total: _Optional[int] = ...) -> None: ...
+
+class GetRequest(_message.Message):
     __slots__ = ("criteria",)
     CRITERIA_FIELD_NUMBER: _ClassVar[int]
     criteria: _containers.RepeatedCompositeFieldContainer[_criterion_pb2.Criterion]
     def __init__(self, criteria: _Optional[_Iterable[_Union[_criterion_pb2.Criterion, _Mapping]]] = ...) -> None: ...
 
-class ListResponse(_message.Message):
-    __slots__ = ("feeProfiles",)
-    FEEPROFILES_FIELD_NUMBER: _ClassVar[int]
-    feeProfiles: _containers.RepeatedCompositeFieldContainer[_feeProfile_pb2.FeeProfile]
-    def __init__(self, feeProfiles: _Optional[_Iterable[_Union[_feeProfile_pb2.FeeProfile, _Mapping]]] = ...) -> None: ...
+class GetResponse(_message.Message):
+    __slots__ = ("feeProfile",)
+    FEEPROFILE_FIELD_NUMBER: _ClassVar[int]
+    feeProfile: _feeProfile_pb2.FeeProfile
+    def __init__(self, feeProfile: _Optional[_Union[_feeProfile_pb2.FeeProfile, _Mapping]] = ...) -> None: ...

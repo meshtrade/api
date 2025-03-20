@@ -28,6 +28,13 @@ var (
 		Description:     "Provides permission to call the Service.List method",
 	}
 
+	// GetPermission provides permission to call the Get method on the Service service provider
+	GetPermission = role.Permission{
+		ServiceProvider: ServiceServiceProviderName,
+		Service:         "Get",
+		Description:     "Provides permission to call the Service.Get method",
+	}
+
 	// ServiceAdminRole provides access to all methods on the Service service provider.
 	ServiceAdminRole = role.Role{
 		Name: "ServiceAdmin",
@@ -35,6 +42,7 @@ var (
 			&CreatePermission,
 			&UpdatePermission,
 			&ListPermission,
+			&GetPermission,
 		},
 	}
 )

@@ -25,6 +25,8 @@ grpc.web = require('grpc-web');
 var api_proto_instrument_feeprofile_feeProfile_pb = require('../../instrument/feeprofile/feeProfile_pb.js')
 
 var api_proto_search_criterion_pb = require('../../search/criterion_pb.js')
+
+var api_proto_search_query_pb = require('../../search/query_pb.js')
 const proto = {};
 proto.api = {};
 proto.api.instrument = {};
@@ -262,6 +264,67 @@ proto.api.instrument.feeprofile.ServicePromiseClient.prototype.list =
       request,
       metadata || {},
       methodDescriptor_Service_List);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.api.instrument.feeprofile.GetRequest,
+ *   !proto.api.instrument.feeprofile.GetResponse>}
+ */
+const methodDescriptor_Service_Get = new grpc.web.MethodDescriptor(
+  '/api.instrument.feeprofile.Service/Get',
+  grpc.web.MethodType.UNARY,
+  proto.api.instrument.feeprofile.GetRequest,
+  proto.api.instrument.feeprofile.GetResponse,
+  /**
+   * @param {!proto.api.instrument.feeprofile.GetRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.api.instrument.feeprofile.GetResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.api.instrument.feeprofile.GetRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.api.instrument.feeprofile.GetResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.api.instrument.feeprofile.GetResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.api.instrument.feeprofile.ServiceClient.prototype.get =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/api.instrument.feeprofile.Service/Get',
+      request,
+      metadata || {},
+      methodDescriptor_Service_Get,
+      callback);
+};
+
+
+/**
+ * @param {!proto.api.instrument.feeprofile.GetRequest} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.api.instrument.feeprofile.GetResponse>}
+ *     Promise that resolves to the response
+ */
+proto.api.instrument.feeprofile.ServicePromiseClient.prototype.get =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/api.instrument.feeprofile.Service/Get',
+      request,
+      metadata || {},
+      methodDescriptor_Service_Get);
 };
 
 

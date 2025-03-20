@@ -51,6 +51,11 @@ class ServiceStub(object):
                 request_serializer=api_dot_proto_dot_instrument_dot_feeprofile_dot_service__pb2.ListRequest.SerializeToString,
                 response_deserializer=api_dot_proto_dot_instrument_dot_feeprofile_dot_service__pb2.ListResponse.FromString,
                 _registered_method=True)
+        self.Get = channel.unary_unary(
+                '/api.instrument.feeprofile.Service/Get',
+                request_serializer=api_dot_proto_dot_instrument_dot_feeprofile_dot_service__pb2.GetRequest.SerializeToString,
+                response_deserializer=api_dot_proto_dot_instrument_dot_feeprofile_dot_service__pb2.GetResponse.FromString,
+                _registered_method=True)
 
 
 class ServiceServicer(object):
@@ -76,6 +81,12 @@ class ServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def Get(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_ServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -93,6 +104,11 @@ def add_ServiceServicer_to_server(servicer, server):
                     servicer.List,
                     request_deserializer=api_dot_proto_dot_instrument_dot_feeprofile_dot_service__pb2.ListRequest.FromString,
                     response_serializer=api_dot_proto_dot_instrument_dot_feeprofile_dot_service__pb2.ListResponse.SerializeToString,
+            ),
+            'Get': grpc.unary_unary_rpc_method_handler(
+                    servicer.Get,
+                    request_deserializer=api_dot_proto_dot_instrument_dot_feeprofile_dot_service__pb2.GetRequest.FromString,
+                    response_serializer=api_dot_proto_dot_instrument_dot_feeprofile_dot_service__pb2.GetResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -178,6 +194,33 @@ class Service(object):
             '/api.instrument.feeprofile.Service/List',
             api_dot_proto_dot_instrument_dot_feeprofile_dot_service__pb2.ListRequest.SerializeToString,
             api_dot_proto_dot_instrument_dot_feeprofile_dot_service__pb2.ListResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def Get(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/api.instrument.feeprofile.Service/Get',
+            api_dot_proto_dot_instrument_dot_feeprofile_dot_service__pb2.GetRequest.SerializeToString,
+            api_dot_proto_dot_instrument_dot_feeprofile_dot_service__pb2.GetResponse.FromString,
             options,
             channel_credentials,
             insecure,
