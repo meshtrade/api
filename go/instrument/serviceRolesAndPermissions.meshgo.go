@@ -8,25 +8,31 @@ import (
 
 var (
 	// MintPermission provides permission to call the Mint method on the Service service provider
-	MintPermission = role.Permission{
+	MintPermission = &role.Permission{
 		ServiceProvider: ServiceServiceProviderName,
 		Service:         "Mint",
 		Description:     "Provides permission to call the Service.Mint method",
 	}
 
 	// BurnPermission provides permission to call the Burn method on the Service service provider
-	BurnPermission = role.Permission{
+	BurnPermission = &role.Permission{
 		ServiceProvider: ServiceServiceProviderName,
 		Service:         "Burn",
 		Description:     "Provides permission to call the Service.Burn method",
+	}
+
+	// ServiceReaderRole contains read only service permissions for the Service
+	ServiceReaderRole = role.Role{
+		Name:        "ServiceReader",
+		Permissions: []*role.Permission{},
 	}
 
 	// ServiceAdminRole provides access to all methods on the Service service provider.
 	ServiceAdminRole = role.Role{
 		Name: "ServiceAdmin",
 		Permissions: []*role.Permission{
-			&MintPermission,
-			&BurnPermission,
+			MintPermission,
+			BurnPermission,
 		},
 	}
 )

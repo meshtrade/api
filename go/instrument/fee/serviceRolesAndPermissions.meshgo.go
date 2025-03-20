@@ -8,41 +8,50 @@ import (
 
 var (
 	// GetPermission provides permission to call the Get method on the Service service provider
-	GetPermission = role.Permission{
+	GetPermission = &role.Permission{
 		ServiceProvider: ServiceServiceProviderName,
 		Service:         "Get",
 		Description:     "Provides permission to call the Service.Get method",
 	}
 
 	// ListPermission provides permission to call the List method on the Service service provider
-	ListPermission = role.Permission{
+	ListPermission = &role.Permission{
 		ServiceProvider: ServiceServiceProviderName,
 		Service:         "List",
 		Description:     "Provides permission to call the Service.List method",
 	}
 
 	// CalculateMintingFeesPermission provides permission to call the CalculateMintingFees method on the Service service provider
-	CalculateMintingFeesPermission = role.Permission{
+	CalculateMintingFeesPermission = &role.Permission{
 		ServiceProvider: ServiceServiceProviderName,
 		Service:         "CalculateMintingFees",
 		Description:     "Provides permission to call the Service.CalculateMintingFees method",
 	}
 
 	// CalculateBurningFeesPermission provides permission to call the CalculateBurningFees method on the Service service provider
-	CalculateBurningFeesPermission = role.Permission{
+	CalculateBurningFeesPermission = &role.Permission{
 		ServiceProvider: ServiceServiceProviderName,
 		Service:         "CalculateBurningFees",
 		Description:     "Provides permission to call the Service.CalculateBurningFees method",
+	}
+
+	// ServiceReaderRole contains read only service permissions for the Service
+	ServiceReaderRole = role.Role{
+		Name: "ServiceReader",
+		Permissions: []*role.Permission{
+			GetPermission,
+			ListPermission,
+		},
 	}
 
 	// ServiceAdminRole provides access to all methods on the Service service provider.
 	ServiceAdminRole = role.Role{
 		Name: "ServiceAdmin",
 		Permissions: []*role.Permission{
-			&GetPermission,
-			&ListPermission,
-			&CalculateMintingFeesPermission,
-			&CalculateBurningFeesPermission,
+			GetPermission,
+			ListPermission,
+			CalculateMintingFeesPermission,
+			CalculateBurningFeesPermission,
 		},
 	}
 )
