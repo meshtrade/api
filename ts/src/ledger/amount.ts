@@ -49,9 +49,11 @@ export function newAmountOfToken(
   let value: BigNumber = new BigNumber("0");
   if (!amount) {
     value = new BigNumber("0");
+  } else if (amount instanceof BigNumber) {
+    value = amount;
   } else if (amount instanceof Decimal) {
     value = decimalToBigNumber(amount);
-  } else if (amount instanceof String) {
+  } else {
     if (isNaN(Number(amount))) {
       value = new BigNumber("0");
     } else {

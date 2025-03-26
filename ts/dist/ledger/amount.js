@@ -42,10 +42,13 @@ function newAmountOfToken(amount, token) {
     if (!amount) {
         value = new bignumber_js_1.BigNumber("0");
     }
+    else if (amount instanceof bignumber_js_1.BigNumber) {
+        value = amount;
+    }
     else if (amount instanceof decimal_pb_1.Decimal) {
         value = (0, num_1.decimalToBigNumber)(amount);
     }
-    else if (amount instanceof String) {
+    else {
         if (isNaN(Number(amount))) {
             value = new bignumber_js_1.BigNumber("0");
         }
