@@ -2,6 +2,7 @@ from api.python.lib.instrument.fee import fee_pb2 as _fee_pb2
 from api.python.lib.ledger import amount_pb2 as _amount_pb2
 from api.python.lib.search import criterion_pb2 as _criterion_pb2
 from api.python.lib.search import query_pb2 as _query_pb2
+from api.python.lib.instrument.feeprofile import lifecycleEventCategory_pb2 as _lifecycleEventCategory_pb2
 from google.protobuf.internal import containers as _containers
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
@@ -62,10 +63,12 @@ class CalculateBurningFeesResponse(_message.Message):
     def __init__(self, Fees: _Optional[_Iterable[_Union[_fee_pb2.Fee, _Mapping]]] = ...) -> None: ...
 
 class CalculateLifecycleFeesRequest(_message.Message):
-    __slots__ = ("instrumentName",)
+    __slots__ = ("instrumentName", "lifecycleEventCategory")
     INSTRUMENTNAME_FIELD_NUMBER: _ClassVar[int]
+    LIFECYCLEEVENTCATEGORY_FIELD_NUMBER: _ClassVar[int]
     instrumentName: str
-    def __init__(self, instrumentName: _Optional[str] = ...) -> None: ...
+    lifecycleEventCategory: _lifecycleEventCategory_pb2.LifecycleEventCategory
+    def __init__(self, instrumentName: _Optional[str] = ..., lifecycleEventCategory: _Optional[_Union[_lifecycleEventCategory_pb2.LifecycleEventCategory, str]] = ...) -> None: ...
 
 class CalculateLifecycleFeesResponse(_message.Message):
     __slots__ = ("Fees",)

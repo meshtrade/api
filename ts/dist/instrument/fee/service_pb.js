@@ -31,6 +31,8 @@ var api_proto_search_criterion_pb = require('../../search/criterion_pb.js');
 goog.object.extend(proto, api_proto_search_criterion_pb);
 var api_proto_search_query_pb = require('../../search/query_pb.js');
 goog.object.extend(proto, api_proto_search_query_pb);
+var api_proto_instrument_feeprofile_lifecycleEventCategory_pb = require('../../instrument/feeprofile/lifecycleEventCategory_pb.js');
+goog.object.extend(proto, api_proto_instrument_feeprofile_lifecycleEventCategory_pb);
 goog.exportSymbol('proto.api.instrument.fee.CalculateBurningFeesRequest', null, global);
 goog.exportSymbol('proto.api.instrument.fee.CalculateBurningFeesResponse', null, global);
 goog.exportSymbol('proto.api.instrument.fee.CalculateLifecycleFeesRequest', null, global);
@@ -1661,7 +1663,8 @@ proto.api.instrument.fee.CalculateLifecycleFeesRequest.prototype.toObject = func
  */
 proto.api.instrument.fee.CalculateLifecycleFeesRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-instrumentname: jspb.Message.getFieldWithDefault(msg, 1, "")
+instrumentname: jspb.Message.getFieldWithDefault(msg, 1, ""),
+lifecycleeventcategory: jspb.Message.getFieldWithDefault(msg, 2, 0)
   };
 
   if (includeInstance) {
@@ -1702,6 +1705,10 @@ proto.api.instrument.fee.CalculateLifecycleFeesRequest.deserializeBinaryFromRead
       var value = /** @type {string} */ (reader.readString());
       msg.setInstrumentname(value);
       break;
+    case 2:
+      var value = /** @type {!proto.api.instrument.feeprofile.LifecycleEventCategory} */ (reader.readEnum());
+      msg.setLifecycleeventcategory(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -1738,6 +1745,13 @@ proto.api.instrument.fee.CalculateLifecycleFeesRequest.serializeBinaryToWriter =
       f
     );
   }
+  f = message.getLifecycleeventcategory();
+  if (f !== 0.0) {
+    writer.writeEnum(
+      2,
+      f
+    );
+  }
 };
 
 
@@ -1756,6 +1770,24 @@ proto.api.instrument.fee.CalculateLifecycleFeesRequest.prototype.getInstrumentna
  */
 proto.api.instrument.fee.CalculateLifecycleFeesRequest.prototype.setInstrumentname = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
+};
+
+
+/**
+ * optional api.instrument.feeprofile.LifecycleEventCategory lifecycleEventCategory = 2;
+ * @return {!proto.api.instrument.feeprofile.LifecycleEventCategory}
+ */
+proto.api.instrument.fee.CalculateLifecycleFeesRequest.prototype.getLifecycleeventcategory = function() {
+  return /** @type {!proto.api.instrument.feeprofile.LifecycleEventCategory} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
+};
+
+
+/**
+ * @param {!proto.api.instrument.feeprofile.LifecycleEventCategory} value
+ * @return {!proto.api.instrument.fee.CalculateLifecycleFeesRequest} returns this
+ */
+proto.api.instrument.fee.CalculateLifecycleFeesRequest.prototype.setLifecycleeventcategory = function(value) {
+  return jspb.Message.setProto3EnumField(this, 2, value);
 };
 
 

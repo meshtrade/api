@@ -29,6 +29,8 @@ var api_proto_ledger_amount_pb = require('../../ledger/amount_pb.js')
 var api_proto_search_criterion_pb = require('../../search/criterion_pb.js')
 
 var api_proto_search_query_pb = require('../../search/query_pb.js')
+
+var api_proto_instrument_feeprofile_lifecycleEventCategory_pb = require('../../instrument/feeprofile/lifecycleEventCategory_pb.js')
 const proto = {};
 proto.api = {};
 proto.api.instrument = {};

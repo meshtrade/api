@@ -8,6 +8,7 @@ import "api/proto/instrument/fee/fee.proto";
 import "api/proto/ledger/amount.proto";
 import "api/proto/search/criterion.proto";
 import "api/proto/search/query.proto";
+import "api/proto/instrument/feeprofile/lifecycleEventCategory.proto";
 
 /*
 Service is the Fee Service.
@@ -119,6 +120,12 @@ message CalculateLifecycleFeesRequest {
   InstrumentName is the name of the instrument for which lifecycle fees are calculated.
   */
   string instrumentName = 1;
+
+  /*
+  LifecycleEventCategory is the category of lifecycle events for which
+  lifecycle fees are calculated
+  */
+  api.instrument.feeprofile.LifecycleEventCategory lifecycleEventCategory = 2;
 }
 
 /*

@@ -4,6 +4,7 @@ import * as api_proto_instrument_fee_fee_pb from '../../instrument/fee/fee_pb'; 
 import * as api_proto_ledger_amount_pb from '../../ledger/amount_pb'; // proto import: "api/proto/ledger/amount.proto"
 import * as api_proto_search_criterion_pb from '../../search/criterion_pb'; // proto import: "api/proto/search/criterion.proto"
 import * as api_proto_search_query_pb from '../../search/query_pb'; // proto import: "api/proto/search/query.proto"
+import * as api_proto_instrument_feeprofile_lifecycleEventCategory_pb from '../../instrument/feeprofile/lifecycleEventCategory_pb'; // proto import: "api/proto/instrument/feeprofile/lifecycleEventCategory.proto"
 
 
 export class GetRequest extends jspb.Message {
@@ -180,6 +181,9 @@ export class CalculateLifecycleFeesRequest extends jspb.Message {
   getInstrumentname(): string;
   setInstrumentname(value: string): CalculateLifecycleFeesRequest;
 
+  getLifecycleeventcategory(): api_proto_instrument_feeprofile_lifecycleEventCategory_pb.LifecycleEventCategory;
+  setLifecycleeventcategory(value: api_proto_instrument_feeprofile_lifecycleEventCategory_pb.LifecycleEventCategory): CalculateLifecycleFeesRequest;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): CalculateLifecycleFeesRequest.AsObject;
   static toObject(includeInstance: boolean, msg: CalculateLifecycleFeesRequest): CalculateLifecycleFeesRequest.AsObject;
@@ -191,6 +195,7 @@ export class CalculateLifecycleFeesRequest extends jspb.Message {
 export namespace CalculateLifecycleFeesRequest {
   export type AsObject = {
     instrumentname: string,
+    lifecycleeventcategory: api_proto_instrument_feeprofile_lifecycleEventCategory_pb.LifecycleEventCategory,
   }
 }
 
