@@ -25,9 +25,10 @@ _sym_db = _symbol_database.Default()
 from api.python.lib.instrument.fee import fee_pb2 as api_dot_proto_dot_instrument_dot_fee_dot_fee__pb2
 from api.python.lib.ledger import amount_pb2 as api_dot_proto_dot_ledger_dot_amount__pb2
 from api.python.lib.search import criterion_pb2 as api_dot_proto_dot_search_dot_criterion__pb2
+from api.python.lib.search import query_pb2 as api_dot_proto_dot_search_dot_query__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n&api/proto/instrument/fee/service.proto\x12\x12\x61pi.instrument.fee\x1a\"api/proto/instrument/fee/fee.proto\x1a\x1d\x61pi/proto/ledger/amount.proto\x1a api/proto/search/criterion.proto\"5\n\nGetRequest\x12\'\n\x08\x63riteria\x18\x01 \x03(\x0b\x32\x15.api.search.Criterion\"3\n\x0bGetResponse\x12$\n\x03\x66\x65\x65\x18\x01 \x01(\x0b\x32\x17.api.instrument.fee.Fee\"6\n\x0bListRequest\x12\'\n\x08\x63riteria\x18\x01 \x03(\x0b\x32\x15.api.search.Criterion\"5\n\x0cListResponse\x12%\n\x04\x66\x65\x65s\x18\x01 \x03(\x0b\x32\x17.api.instrument.fee.Fee\"A\n\x1b\x43\x61lculateMintingFeesRequest\x12\"\n\x06\x41mount\x18\x01 \x01(\x0b\x32\x12.api.ledger.Amount\"E\n\x1c\x43\x61lculateMintingFeesResponse\x12%\n\x04\x46\x65\x65s\x18\x01 \x03(\x0b\x32\x17.api.instrument.fee.Fee\"A\n\x1b\x43\x61lculateBurningFeesRequest\x12\"\n\x06\x41mount\x18\x01 \x01(\x0b\x32\x12.api.ledger.Amount\"E\n\x1c\x43\x61lculateBurningFeesResponse\x12%\n\x04\x46\x65\x65s\x18\x01 \x03(\x0b\x32\x17.api.instrument.fee.Fee2\x92\x03\n\x07Service\x12\x46\n\x03Get\x12\x1e.api.instrument.fee.GetRequest\x1a\x1f.api.instrument.fee.GetResponse\x12I\n\x04List\x12\x1f.api.instrument.fee.ListRequest\x1a .api.instrument.fee.ListResponse\x12y\n\x14\x43\x61lculateMintingFees\x12/.api.instrument.fee.CalculateMintingFeesRequest\x1a\x30.api.instrument.fee.CalculateMintingFeesResponse\x12y\n\x14\x43\x61lculateBurningFees\x12/.api.instrument.fee.CalculateBurningFeesRequest\x1a\x30.api.instrument.fee.CalculateBurningFeesResponseB,Z*github.com/meshtrade/api/go/instrument/feeb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n&api/proto/instrument/fee/service.proto\x12\x12\x61pi.instrument.fee\x1a\"api/proto/instrument/fee/fee.proto\x1a\x1d\x61pi/proto/ledger/amount.proto\x1a api/proto/search/criterion.proto\x1a\x1c\x61pi/proto/search/query.proto\"5\n\nGetRequest\x12\'\n\x08\x63riteria\x18\x01 \x03(\x0b\x32\x15.api.search.Criterion\"3\n\x0bGetResponse\x12$\n\x03\x66\x65\x65\x18\x01 \x01(\x0b\x32\x17.api.instrument.fee.Fee\"X\n\x0bListRequest\x12\'\n\x08\x63riteria\x18\x01 \x03(\x0b\x32\x15.api.search.Criterion\x12 \n\x05query\x18\x02 \x01(\x0b\x32\x11.api.search.Query\"D\n\x0cListResponse\x12%\n\x04\x66\x65\x65s\x18\x01 \x03(\x0b\x32\x17.api.instrument.fee.Fee\x12\r\n\x05total\x18\x02 \x01(\x03\"A\n\x1b\x43\x61lculateMintingFeesRequest\x12\"\n\x06\x41mount\x18\x01 \x01(\x0b\x32\x12.api.ledger.Amount\"E\n\x1c\x43\x61lculateMintingFeesResponse\x12%\n\x04\x46\x65\x65s\x18\x01 \x03(\x0b\x32\x17.api.instrument.fee.Fee\"A\n\x1b\x43\x61lculateBurningFeesRequest\x12\"\n\x06\x41mount\x18\x01 \x01(\x0b\x32\x12.api.ledger.Amount\"E\n\x1c\x43\x61lculateBurningFeesResponse\x12%\n\x04\x46\x65\x65s\x18\x01 \x03(\x0b\x32\x17.api.instrument.fee.Fee\"7\n\x1d\x43\x61lculateLifecycleFeesRequest\x12\x16\n\x0einstrumentName\x18\x01 \x01(\t\"G\n\x1e\x43\x61lculateLifecycleFeesResponse\x12%\n\x04\x46\x65\x65s\x18\x01 \x03(\x0b\x32\x17.api.instrument.fee.Fee\"\x13\n\x11\x46ullUpdateRequest\"\x14\n\x12\x46ullUpdateResponse2\xf0\x04\n\x07Service\x12\x46\n\x03Get\x12\x1e.api.instrument.fee.GetRequest\x1a\x1f.api.instrument.fee.GetResponse\x12I\n\x04List\x12\x1f.api.instrument.fee.ListRequest\x1a .api.instrument.fee.ListResponse\x12y\n\x14\x43\x61lculateMintingFees\x12/.api.instrument.fee.CalculateMintingFeesRequest\x1a\x30.api.instrument.fee.CalculateMintingFeesResponse\x12y\n\x14\x43\x61lculateBurningFees\x12/.api.instrument.fee.CalculateBurningFeesRequest\x1a\x30.api.instrument.fee.CalculateBurningFeesResponse\x12\x7f\n\x16\x43\x61lculateLifecycleFees\x12\x31.api.instrument.fee.CalculateLifecycleFeesRequest\x1a\x32.api.instrument.fee.CalculateLifecycleFeesResponse\x12[\n\nFullUpdate\x12%.api.instrument.fee.FullUpdateRequest\x1a&.api.instrument.fee.FullUpdateResponseB,Z*github.com/meshtrade/api/go/instrument/feeb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -35,22 +36,30 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'api.python.lib.instrument.f
 if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'Z*github.com/meshtrade/api/go/instrument/fee'
-  _globals['_GETREQUEST']._serialized_start=163
-  _globals['_GETREQUEST']._serialized_end=216
-  _globals['_GETRESPONSE']._serialized_start=218
-  _globals['_GETRESPONSE']._serialized_end=269
-  _globals['_LISTREQUEST']._serialized_start=271
-  _globals['_LISTREQUEST']._serialized_end=325
-  _globals['_LISTRESPONSE']._serialized_start=327
-  _globals['_LISTRESPONSE']._serialized_end=380
-  _globals['_CALCULATEMINTINGFEESREQUEST']._serialized_start=382
-  _globals['_CALCULATEMINTINGFEESREQUEST']._serialized_end=447
-  _globals['_CALCULATEMINTINGFEESRESPONSE']._serialized_start=449
-  _globals['_CALCULATEMINTINGFEESRESPONSE']._serialized_end=518
-  _globals['_CALCULATEBURNINGFEESREQUEST']._serialized_start=520
-  _globals['_CALCULATEBURNINGFEESREQUEST']._serialized_end=585
-  _globals['_CALCULATEBURNINGFEESRESPONSE']._serialized_start=587
-  _globals['_CALCULATEBURNINGFEESRESPONSE']._serialized_end=656
-  _globals['_SERVICE']._serialized_start=659
-  _globals['_SERVICE']._serialized_end=1061
+  _globals['_GETREQUEST']._serialized_start=193
+  _globals['_GETREQUEST']._serialized_end=246
+  _globals['_GETRESPONSE']._serialized_start=248
+  _globals['_GETRESPONSE']._serialized_end=299
+  _globals['_LISTREQUEST']._serialized_start=301
+  _globals['_LISTREQUEST']._serialized_end=389
+  _globals['_LISTRESPONSE']._serialized_start=391
+  _globals['_LISTRESPONSE']._serialized_end=459
+  _globals['_CALCULATEMINTINGFEESREQUEST']._serialized_start=461
+  _globals['_CALCULATEMINTINGFEESREQUEST']._serialized_end=526
+  _globals['_CALCULATEMINTINGFEESRESPONSE']._serialized_start=528
+  _globals['_CALCULATEMINTINGFEESRESPONSE']._serialized_end=597
+  _globals['_CALCULATEBURNINGFEESREQUEST']._serialized_start=599
+  _globals['_CALCULATEBURNINGFEESREQUEST']._serialized_end=664
+  _globals['_CALCULATEBURNINGFEESRESPONSE']._serialized_start=666
+  _globals['_CALCULATEBURNINGFEESRESPONSE']._serialized_end=735
+  _globals['_CALCULATELIFECYCLEFEESREQUEST']._serialized_start=737
+  _globals['_CALCULATELIFECYCLEFEESREQUEST']._serialized_end=792
+  _globals['_CALCULATELIFECYCLEFEESRESPONSE']._serialized_start=794
+  _globals['_CALCULATELIFECYCLEFEESRESPONSE']._serialized_end=865
+  _globals['_FULLUPDATEREQUEST']._serialized_start=867
+  _globals['_FULLUPDATEREQUEST']._serialized_end=886
+  _globals['_FULLUPDATERESPONSE']._serialized_start=888
+  _globals['_FULLUPDATERESPONSE']._serialized_end=908
+  _globals['_SERVICE']._serialized_start=911
+  _globals['_SERVICE']._serialized_end=1535
 # @@protoc_insertion_point(module_scope)

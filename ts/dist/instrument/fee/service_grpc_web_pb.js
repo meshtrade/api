@@ -27,6 +27,8 @@ var api_proto_instrument_fee_fee_pb = require('../../instrument/fee/fee_pb.js')
 var api_proto_ledger_amount_pb = require('../../ledger/amount_pb.js')
 
 var api_proto_search_criterion_pb = require('../../search/criterion_pb.js')
+
+var api_proto_search_query_pb = require('../../search/query_pb.js')
 const proto = {};
 proto.api = {};
 proto.api.instrument = {};
@@ -325,6 +327,128 @@ proto.api.instrument.fee.ServicePromiseClient.prototype.calculateBurningFees =
       request,
       metadata || {},
       methodDescriptor_Service_CalculateBurningFees);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.api.instrument.fee.CalculateLifecycleFeesRequest,
+ *   !proto.api.instrument.fee.CalculateLifecycleFeesResponse>}
+ */
+const methodDescriptor_Service_CalculateLifecycleFees = new grpc.web.MethodDescriptor(
+  '/api.instrument.fee.Service/CalculateLifecycleFees',
+  grpc.web.MethodType.UNARY,
+  proto.api.instrument.fee.CalculateLifecycleFeesRequest,
+  proto.api.instrument.fee.CalculateLifecycleFeesResponse,
+  /**
+   * @param {!proto.api.instrument.fee.CalculateLifecycleFeesRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.api.instrument.fee.CalculateLifecycleFeesResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.api.instrument.fee.CalculateLifecycleFeesRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.api.instrument.fee.CalculateLifecycleFeesResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.api.instrument.fee.CalculateLifecycleFeesResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.api.instrument.fee.ServiceClient.prototype.calculateLifecycleFees =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/api.instrument.fee.Service/CalculateLifecycleFees',
+      request,
+      metadata || {},
+      methodDescriptor_Service_CalculateLifecycleFees,
+      callback);
+};
+
+
+/**
+ * @param {!proto.api.instrument.fee.CalculateLifecycleFeesRequest} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.api.instrument.fee.CalculateLifecycleFeesResponse>}
+ *     Promise that resolves to the response
+ */
+proto.api.instrument.fee.ServicePromiseClient.prototype.calculateLifecycleFees =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/api.instrument.fee.Service/CalculateLifecycleFees',
+      request,
+      metadata || {},
+      methodDescriptor_Service_CalculateLifecycleFees);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.api.instrument.fee.FullUpdateRequest,
+ *   !proto.api.instrument.fee.FullUpdateResponse>}
+ */
+const methodDescriptor_Service_FullUpdate = new grpc.web.MethodDescriptor(
+  '/api.instrument.fee.Service/FullUpdate',
+  grpc.web.MethodType.UNARY,
+  proto.api.instrument.fee.FullUpdateRequest,
+  proto.api.instrument.fee.FullUpdateResponse,
+  /**
+   * @param {!proto.api.instrument.fee.FullUpdateRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.api.instrument.fee.FullUpdateResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.api.instrument.fee.FullUpdateRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.api.instrument.fee.FullUpdateResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.api.instrument.fee.FullUpdateResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.api.instrument.fee.ServiceClient.prototype.fullUpdate =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/api.instrument.fee.Service/FullUpdate',
+      request,
+      metadata || {},
+      methodDescriptor_Service_FullUpdate,
+      callback);
+};
+
+
+/**
+ * @param {!proto.api.instrument.fee.FullUpdateRequest} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.api.instrument.fee.FullUpdateResponse>}
+ *     Promise that resolves to the response
+ */
+proto.api.instrument.fee.ServicePromiseClient.prototype.fullUpdate =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/api.instrument.fee.Service/FullUpdate',
+      request,
+      metadata || {},
+      methodDescriptor_Service_FullUpdate);
 };
 
 

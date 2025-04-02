@@ -96,3 +96,37 @@ func (g *GRPCClientService) CalculateBurningFees(ctx context.Context, request *C
 
 	return calculateBurningFeesResponse, nil
 }
+
+func (g *GRPCClientService) CalculateLifecycleFees(ctx context.Context, request *CalculateLifecycleFeesRequest) (*CalculateLifecycleFeesResponse, error) {
+	ctx, span := g.tracer.Start(
+		ctx,
+		ServiceServiceProviderName+"CalculateLifecycleFees",
+	)
+	defer span.End()
+
+	// call given implementation of the adapted service provider interface
+	calculateLifecycleFeesResponse, err := g.grpcClient.CalculateLifecycleFees(ctx, request)
+	if err != nil {
+		log.Ctx(ctx).Error().Err(err).Msg("could not CalculateLifecycleFees")
+		return nil, fmt.Errorf("could not CalculateLifecycleFees: %s", err)
+	}
+
+	return calculateLifecycleFeesResponse, nil
+}
+
+func (g *GRPCClientService) FullUpdate(ctx context.Context, request *FullUpdateRequest) (*FullUpdateResponse, error) {
+	ctx, span := g.tracer.Start(
+		ctx,
+		ServiceServiceProviderName+"FullUpdate",
+	)
+	defer span.End()
+
+	// call given implementation of the adapted service provider interface
+	fullUpdateResponse, err := g.grpcClient.FullUpdate(ctx, request)
+	if err != nil {
+		log.Ctx(ctx).Error().Err(err).Msg("could not FullUpdate")
+		return nil, fmt.Errorf("could not FullUpdate: %s", err)
+	}
+
+	return fullUpdateResponse, nil
+}

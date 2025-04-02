@@ -19,10 +19,12 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Service_Get_FullMethodName                  = "/api.instrument.fee.Service/Get"
-	Service_List_FullMethodName                 = "/api.instrument.fee.Service/List"
-	Service_CalculateMintingFees_FullMethodName = "/api.instrument.fee.Service/CalculateMintingFees"
-	Service_CalculateBurningFees_FullMethodName = "/api.instrument.fee.Service/CalculateBurningFees"
+	Service_Get_FullMethodName                    = "/api.instrument.fee.Service/Get"
+	Service_List_FullMethodName                   = "/api.instrument.fee.Service/List"
+	Service_CalculateMintingFees_FullMethodName   = "/api.instrument.fee.Service/CalculateMintingFees"
+	Service_CalculateBurningFees_FullMethodName   = "/api.instrument.fee.Service/CalculateBurningFees"
+	Service_CalculateLifecycleFees_FullMethodName = "/api.instrument.fee.Service/CalculateLifecycleFees"
+	Service_FullUpdate_FullMethodName             = "/api.instrument.fee.Service/FullUpdate"
 )
 
 // ServiceClient is the client API for Service service.
@@ -35,6 +37,8 @@ type ServiceClient interface {
 	List(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error)
 	CalculateMintingFees(ctx context.Context, in *CalculateMintingFeesRequest, opts ...grpc.CallOption) (*CalculateMintingFeesResponse, error)
 	CalculateBurningFees(ctx context.Context, in *CalculateBurningFeesRequest, opts ...grpc.CallOption) (*CalculateBurningFeesResponse, error)
+	CalculateLifecycleFees(ctx context.Context, in *CalculateLifecycleFeesRequest, opts ...grpc.CallOption) (*CalculateLifecycleFeesResponse, error)
+	FullUpdate(ctx context.Context, in *FullUpdateRequest, opts ...grpc.CallOption) (*FullUpdateResponse, error)
 }
 
 type serviceClient struct {
@@ -85,6 +89,26 @@ func (c *serviceClient) CalculateBurningFees(ctx context.Context, in *CalculateB
 	return out, nil
 }
 
+func (c *serviceClient) CalculateLifecycleFees(ctx context.Context, in *CalculateLifecycleFeesRequest, opts ...grpc.CallOption) (*CalculateLifecycleFeesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CalculateLifecycleFeesResponse)
+	err := c.cc.Invoke(ctx, Service_CalculateLifecycleFees_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *serviceClient) FullUpdate(ctx context.Context, in *FullUpdateRequest, opts ...grpc.CallOption) (*FullUpdateResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(FullUpdateResponse)
+	err := c.cc.Invoke(ctx, Service_FullUpdate_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ServiceServer is the server API for Service service.
 // All implementations must embed UnimplementedServiceServer
 // for forward compatibility.
@@ -95,6 +119,8 @@ type ServiceServer interface {
 	List(context.Context, *ListRequest) (*ListResponse, error)
 	CalculateMintingFees(context.Context, *CalculateMintingFeesRequest) (*CalculateMintingFeesResponse, error)
 	CalculateBurningFees(context.Context, *CalculateBurningFeesRequest) (*CalculateBurningFeesResponse, error)
+	CalculateLifecycleFees(context.Context, *CalculateLifecycleFeesRequest) (*CalculateLifecycleFeesResponse, error)
+	FullUpdate(context.Context, *FullUpdateRequest) (*FullUpdateResponse, error)
 	mustEmbedUnimplementedServiceServer()
 }
 
@@ -116,6 +142,12 @@ func (UnimplementedServiceServer) CalculateMintingFees(context.Context, *Calcula
 }
 func (UnimplementedServiceServer) CalculateBurningFees(context.Context, *CalculateBurningFeesRequest) (*CalculateBurningFeesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CalculateBurningFees not implemented")
+}
+func (UnimplementedServiceServer) CalculateLifecycleFees(context.Context, *CalculateLifecycleFeesRequest) (*CalculateLifecycleFeesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CalculateLifecycleFees not implemented")
+}
+func (UnimplementedServiceServer) FullUpdate(context.Context, *FullUpdateRequest) (*FullUpdateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FullUpdate not implemented")
 }
 func (UnimplementedServiceServer) mustEmbedUnimplementedServiceServer() {}
 func (UnimplementedServiceServer) testEmbeddedByValue()                 {}
@@ -210,6 +242,42 @@ func _Service_CalculateBurningFees_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Service_CalculateLifecycleFees_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CalculateLifecycleFeesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ServiceServer).CalculateLifecycleFees(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Service_CalculateLifecycleFees_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ServiceServer).CalculateLifecycleFees(ctx, req.(*CalculateLifecycleFeesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Service_FullUpdate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FullUpdateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ServiceServer).FullUpdate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Service_FullUpdate_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ServiceServer).FullUpdate(ctx, req.(*FullUpdateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Service_ServiceDesc is the grpc.ServiceDesc for Service service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -232,6 +300,14 @@ var Service_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CalculateBurningFees",
 			Handler:    _Service_CalculateBurningFees_Handler,
+		},
+		{
+			MethodName: "CalculateLifecycleFees",
+			Handler:    _Service_CalculateLifecycleFees_Handler,
+		},
+		{
+			MethodName: "FullUpdate",
+			Handler:    _Service_FullUpdate_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

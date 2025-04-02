@@ -15,6 +15,10 @@ type Service interface {
 	CalculateMintingFees(ctx context.Context, request *CalculateMintingFeesRequest) (*CalculateMintingFeesResponse, error)
 
 	CalculateBurningFees(ctx context.Context, request *CalculateBurningFeesRequest) (*CalculateBurningFeesResponse, error)
+
+	CalculateLifecycleFees(ctx context.Context, request *CalculateLifecycleFeesRequest) (*CalculateLifecycleFeesResponse, error)
+
+	FullUpdate(ctx context.Context, request *FullUpdateRequest) (*FullUpdateResponse, error)
 }
 
 const ServiceServiceProviderName = "api-instrument-fee-Service"

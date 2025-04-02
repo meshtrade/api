@@ -7,6 +7,7 @@ option go_package = "github.com/meshtrade/api/go/instrument/fee";
 import "api/proto/instrument/fee/fee.proto";
 import "api/proto/ledger/amount.proto";
 import "api/proto/search/criterion.proto";
+import "api/proto/search/query.proto";
 
 /*
 Service is the Fee Service.
@@ -16,6 +17,8 @@ service Service {
   rpc List(ListRequest) returns (ListResponse);
   rpc CalculateMintingFees(CalculateMintingFeesRequest) returns (CalculateMintingFeesResponse);
   rpc CalculateBurningFees(CalculateBurningFeesRequest) returns (CalculateBurningFeesResponse);
+  rpc CalculateLifecycleFees(CalculateLifecycleFeesRequest) returns (CalculateLifecycleFeesResponse);
+  rpc FullUpdate(FullUpdateRequest) returns (FullUpdateResponse);
 }
 
 /*
@@ -46,6 +49,11 @@ message ListRequest {
   Criteria is the search criteria that specifies which fees to retrieve.
   */
   repeated api.search.Criterion criteria = 1;
+
+    /*
+  Query controls pagination of the fees.
+  */
+  api.search.Query query = 2;
 }
 
 /*
@@ -56,6 +64,11 @@ message ListResponse {
   Fees are the list of fees that were retrieved.
   */
   repeated api.instrument.fee.Fee fees = 1;
+
+  /*
+  Total is the total number of fees that match the given criteria.
+  */
+  int64 total = 2;  
 }
 
 /*
@@ -97,3 +110,33 @@ message CalculateBurningFeesResponse {
   */
   repeated api.instrument.fee.Fee Fees = 1;
 }
+
+/*
+CalculateLifecycleFeesRequest is the CalculateLifecycleFees method request on the Fee Service.
+*/
+message CalculateLifecycleFeesRequest {
+  /*
+  InstrumentName is the name of the instrument for which lifecycle fees are calculated.
+  */
+  string instrumentName = 1;
+}
+
+/*
+CalculateLifecycleFeesResponse is the CalculateLifecycleFees method response on the Fee Service.
+*/
+message CalculateLifecycleFeesResponse {
+  /*
+  Fees are the fees calculated for the requested instrument.
+  */
+  repeated api.instrument.fee.Fee Fees = 1;
+}
+
+/*
+FullUpdateRequest is the empty FullUpdate method request on the Fee Service.
+*/
+message FullUpdateRequest {}
+
+/*
+FullUpdateResponse is the empty FullUpdate method response on the Fee Service.
+*/
+message FullUpdateResponse {}

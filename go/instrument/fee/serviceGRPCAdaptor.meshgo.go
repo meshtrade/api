@@ -105,3 +105,37 @@ func (g *ServiceGRPCAdaptor) CalculateBurningFees(ctx context.Context, request *
 
 	return calculateBurningFeesResponse, nil
 }
+
+// CalculateLifecycleFees exposes the CalculateLifecycleFees method of the given implementation of the Service interface over gRPC
+func (g *ServiceGRPCAdaptor) CalculateLifecycleFees(ctx context.Context, request *CalculateLifecycleFeesRequest) (*CalculateLifecycleFeesResponse, error) {
+	ctx, span := g.tracer.Start(
+		ctx,
+		ServiceServiceProviderName+"GRPCAdaptor.CalculateLifecycleFees",
+	)
+	defer span.End()
+
+	// call given implementation of the adapted service provider interface
+	calculateLifecycleFeesResponse, err := g.service.CalculateLifecycleFees(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+
+	return calculateLifecycleFeesResponse, nil
+}
+
+// FullUpdate exposes the FullUpdate method of the given implementation of the Service interface over gRPC
+func (g *ServiceGRPCAdaptor) FullUpdate(ctx context.Context, request *FullUpdateRequest) (*FullUpdateResponse, error) {
+	ctx, span := g.tracer.Start(
+		ctx,
+		ServiceServiceProviderName+"GRPCAdaptor.FullUpdate",
+	)
+	defer span.End()
+
+	// call given implementation of the adapted service provider interface
+	fullUpdateResponse, err := g.service.FullUpdate(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+
+	return fullUpdateResponse, nil
+}

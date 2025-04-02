@@ -5,6 +5,7 @@ import * as jspb from 'google-protobuf'
 import * as api_proto_instrument_fee_fee_pb from '../../instrument/fee/fee_pb'; // proto import: "api/proto/instrument/fee/fee.proto"
 import * as api_proto_ledger_amount_pb from '../../ledger/amount_pb'; // proto import: "api/proto/ledger/amount.proto"
 import * as api_proto_search_criterion_pb from '../../search/criterion_pb'; // proto import: "api/proto/search/criterion.proto"
+import * as api_proto_search_query_pb from '../../search/query_pb'; // proto import: "api/proto/search/query.proto"
 
 
 export class GetRequest extends jspb.Message {
@@ -53,6 +54,11 @@ export class ListRequest extends jspb.Message {
   clearCriteriaList(): ListRequest;
   addCriteria(value?: api_proto_search_criterion_pb.Criterion, index?: number): api_proto_search_criterion_pb.Criterion;
 
+  getQuery(): api_proto_search_query_pb.Query | undefined;
+  setQuery(value?: api_proto_search_query_pb.Query): ListRequest;
+  hasQuery(): boolean;
+  clearQuery(): ListRequest;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): ListRequest.AsObject;
   static toObject(includeInstance: boolean, msg: ListRequest): ListRequest.AsObject;
@@ -64,6 +70,7 @@ export class ListRequest extends jspb.Message {
 export namespace ListRequest {
   export type AsObject = {
     criteriaList: Array<api_proto_search_criterion_pb.Criterion.AsObject>,
+    query?: api_proto_search_query_pb.Query.AsObject,
   }
 }
 
@@ -72,6 +79,9 @@ export class ListResponse extends jspb.Message {
   setFeesList(value: Array<api_proto_instrument_fee_fee_pb.Fee>): ListResponse;
   clearFeesList(): ListResponse;
   addFees(value?: api_proto_instrument_fee_fee_pb.Fee, index?: number): api_proto_instrument_fee_fee_pb.Fee;
+
+  getTotal(): number;
+  setTotal(value: number): ListResponse;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): ListResponse.AsObject;
@@ -84,6 +94,7 @@ export class ListResponse extends jspb.Message {
 export namespace ListResponse {
   export type AsObject = {
     feesList: Array<api_proto_instrument_fee_fee_pb.Fee.AsObject>,
+    total: number,
   }
 }
 
@@ -164,6 +175,72 @@ export class CalculateBurningFeesResponse extends jspb.Message {
 export namespace CalculateBurningFeesResponse {
   export type AsObject = {
     feesList: Array<api_proto_instrument_fee_fee_pb.Fee.AsObject>,
+  }
+}
+
+export class CalculateLifecycleFeesRequest extends jspb.Message {
+  getInstrumentname(): string;
+  setInstrumentname(value: string): CalculateLifecycleFeesRequest;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): CalculateLifecycleFeesRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: CalculateLifecycleFeesRequest): CalculateLifecycleFeesRequest.AsObject;
+  static serializeBinaryToWriter(message: CalculateLifecycleFeesRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): CalculateLifecycleFeesRequest;
+  static deserializeBinaryFromReader(message: CalculateLifecycleFeesRequest, reader: jspb.BinaryReader): CalculateLifecycleFeesRequest;
+}
+
+export namespace CalculateLifecycleFeesRequest {
+  export type AsObject = {
+    instrumentname: string,
+  }
+}
+
+export class CalculateLifecycleFeesResponse extends jspb.Message {
+  getFeesList(): Array<api_proto_instrument_fee_fee_pb.Fee>;
+  setFeesList(value: Array<api_proto_instrument_fee_fee_pb.Fee>): CalculateLifecycleFeesResponse;
+  clearFeesList(): CalculateLifecycleFeesResponse;
+  addFees(value?: api_proto_instrument_fee_fee_pb.Fee, index?: number): api_proto_instrument_fee_fee_pb.Fee;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): CalculateLifecycleFeesResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: CalculateLifecycleFeesResponse): CalculateLifecycleFeesResponse.AsObject;
+  static serializeBinaryToWriter(message: CalculateLifecycleFeesResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): CalculateLifecycleFeesResponse;
+  static deserializeBinaryFromReader(message: CalculateLifecycleFeesResponse, reader: jspb.BinaryReader): CalculateLifecycleFeesResponse;
+}
+
+export namespace CalculateLifecycleFeesResponse {
+  export type AsObject = {
+    feesList: Array<api_proto_instrument_fee_fee_pb.Fee.AsObject>,
+  }
+}
+
+export class FullUpdateRequest extends jspb.Message {
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): FullUpdateRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: FullUpdateRequest): FullUpdateRequest.AsObject;
+  static serializeBinaryToWriter(message: FullUpdateRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): FullUpdateRequest;
+  static deserializeBinaryFromReader(message: FullUpdateRequest, reader: jspb.BinaryReader): FullUpdateRequest;
+}
+
+export namespace FullUpdateRequest {
+  export type AsObject = {
+  }
+}
+
+export class FullUpdateResponse extends jspb.Message {
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): FullUpdateResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: FullUpdateResponse): FullUpdateResponse.AsObject;
+  static serializeBinaryToWriter(message: FullUpdateResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): FullUpdateResponse;
+  static deserializeBinaryFromReader(message: FullUpdateResponse, reader: jspb.BinaryReader): FullUpdateResponse;
+}
+
+export namespace FullUpdateResponse {
+  export type AsObject = {
   }
 }
 

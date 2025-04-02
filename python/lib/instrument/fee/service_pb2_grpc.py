@@ -56,6 +56,16 @@ class ServiceStub(object):
                 request_serializer=api_dot_proto_dot_instrument_dot_fee_dot_service__pb2.CalculateBurningFeesRequest.SerializeToString,
                 response_deserializer=api_dot_proto_dot_instrument_dot_fee_dot_service__pb2.CalculateBurningFeesResponse.FromString,
                 _registered_method=True)
+        self.CalculateLifecycleFees = channel.unary_unary(
+                '/api.instrument.fee.Service/CalculateLifecycleFees',
+                request_serializer=api_dot_proto_dot_instrument_dot_fee_dot_service__pb2.CalculateLifecycleFeesRequest.SerializeToString,
+                response_deserializer=api_dot_proto_dot_instrument_dot_fee_dot_service__pb2.CalculateLifecycleFeesResponse.FromString,
+                _registered_method=True)
+        self.FullUpdate = channel.unary_unary(
+                '/api.instrument.fee.Service/FullUpdate',
+                request_serializer=api_dot_proto_dot_instrument_dot_fee_dot_service__pb2.FullUpdateRequest.SerializeToString,
+                response_deserializer=api_dot_proto_dot_instrument_dot_fee_dot_service__pb2.FullUpdateResponse.FromString,
+                _registered_method=True)
 
 
 class ServiceServicer(object):
@@ -87,6 +97,18 @@ class ServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def CalculateLifecycleFees(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def FullUpdate(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_ServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -109,6 +131,16 @@ def add_ServiceServicer_to_server(servicer, server):
                     servicer.CalculateBurningFees,
                     request_deserializer=api_dot_proto_dot_instrument_dot_fee_dot_service__pb2.CalculateBurningFeesRequest.FromString,
                     response_serializer=api_dot_proto_dot_instrument_dot_fee_dot_service__pb2.CalculateBurningFeesResponse.SerializeToString,
+            ),
+            'CalculateLifecycleFees': grpc.unary_unary_rpc_method_handler(
+                    servicer.CalculateLifecycleFees,
+                    request_deserializer=api_dot_proto_dot_instrument_dot_fee_dot_service__pb2.CalculateLifecycleFeesRequest.FromString,
+                    response_serializer=api_dot_proto_dot_instrument_dot_fee_dot_service__pb2.CalculateLifecycleFeesResponse.SerializeToString,
+            ),
+            'FullUpdate': grpc.unary_unary_rpc_method_handler(
+                    servicer.FullUpdate,
+                    request_deserializer=api_dot_proto_dot_instrument_dot_fee_dot_service__pb2.FullUpdateRequest.FromString,
+                    response_serializer=api_dot_proto_dot_instrument_dot_fee_dot_service__pb2.FullUpdateResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -221,6 +253,60 @@ class Service(object):
             '/api.instrument.fee.Service/CalculateBurningFees',
             api_dot_proto_dot_instrument_dot_fee_dot_service__pb2.CalculateBurningFeesRequest.SerializeToString,
             api_dot_proto_dot_instrument_dot_fee_dot_service__pb2.CalculateBurningFeesResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def CalculateLifecycleFees(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/api.instrument.fee.Service/CalculateLifecycleFees',
+            api_dot_proto_dot_instrument_dot_fee_dot_service__pb2.CalculateLifecycleFeesRequest.SerializeToString,
+            api_dot_proto_dot_instrument_dot_fee_dot_service__pb2.CalculateLifecycleFeesResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def FullUpdate(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/api.instrument.fee.Service/FullUpdate',
+            api_dot_proto_dot_instrument_dot_fee_dot_service__pb2.FullUpdateRequest.SerializeToString,
+            api_dot_proto_dot_instrument_dot_fee_dot_service__pb2.FullUpdateResponse.FromString,
             options,
             channel_credentials,
             insecure,
