@@ -2,9 +2,7 @@
 // @ts-nocheck
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.allLifecycleEventCategories = void 0;
-exports.lifecycleEventCategoryToString = lifecycleEventCategoryToString;
-exports.stringToLifecycleEventCategory = stringToLifecycleEventCategory;
+exports.stringToLifecycleEventCategory = exports.lifecycleEventCategoryToString = exports.allLifecycleEventCategories = void 0;
 const lifecycleEventCategory_pb_1 = require("./lifecycleEventCategory_pb");
 // Get all lifecycleEventCategories as enum values
 exports.allLifecycleEventCategories = Object.values(lifecycleEventCategory_pb_1.LifecycleEventCategory).filter((value) => typeof value === "number");
@@ -39,6 +37,7 @@ function lifecycleEventCategoryToString(lifecycleEventCategory) {
         throw new UnsupportedLifecycleEventCategoryError(lifecycleEventCategory);
     }
 }
+exports.lifecycleEventCategoryToString = lifecycleEventCategoryToString;
 class UnsupportedLifecycleEventCategoryStringError extends Error {
     constructor(lifecycleEventCategoryStr) {
         const message = `Unsupported lifecycleEventCategory string: ${lifecycleEventCategoryStr}`;
@@ -59,3 +58,4 @@ function stringToLifecycleEventCategory(lifecycleEventCategoryStr) {
         throw new UnsupportedLifecycleEventCategoryStringError(lifecycleEventCategoryStr);
     }
 }
+exports.stringToLifecycleEventCategory = stringToLifecycleEventCategory;

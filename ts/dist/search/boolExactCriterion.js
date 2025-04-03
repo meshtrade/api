@@ -2,7 +2,7 @@
 // @ts-nocheck
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.newBoolExactCriterion = newBoolExactCriterion;
+exports.newBoolExactCriterion = void 0;
 const criterion_pb_1 = require("./criterion_pb");
 const boolExactCriterion_pb_1 = require("./boolExactCriterion_pb");
 /**
@@ -19,3 +19,4 @@ const boolExactCriterion_pb_1 = require("./boolExactCriterion_pb");
 function newBoolExactCriterion(field, value) {
     return new criterion_pb_1.Criterion().setBoolexactcriterion(new boolExactCriterion_pb_1.BoolExactCriterion().setField(field).setBool(value));
 }
+exports.newBoolExactCriterion = newBoolExactCriterion;

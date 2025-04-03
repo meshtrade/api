@@ -2,10 +2,7 @@
 // @ts-nocheck
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.allEnvironments = void 0;
-exports.environmentToString = environmentToString;
-exports.stringToEnvironment = stringToEnvironment;
-exports.getEnvironment = getEnvironment;
+exports.getEnvironment = exports.stringToEnvironment = exports.environmentToString = exports.allEnvironments = void 0;
 const environment_pb_1 = require("./environment_pb");
 // Get all Environments as enum values
 exports.allEnvironments = Object.values(environment_pb_1.Environment).filter((value) => typeof value === "number");
@@ -43,6 +40,7 @@ function environmentToString(Environment) {
         throw new UnsupportedEnvironmentError(Environment);
     }
 }
+exports.environmentToString = environmentToString;
 class UnsupportedEnvironmentStringError extends Error {
     constructor(EnvironmentStr) {
         const message = `Unsupported Environment string: ${EnvironmentStr}`;
@@ -63,6 +61,7 @@ function stringToEnvironment(EnvironmentStr) {
         throw new UnsupportedEnvironmentStringError(EnvironmentStr);
     }
 }
+exports.stringToEnvironment = stringToEnvironment;
 /**
  * Retrieve and parse, from the Node.js Environment variable ENVIRONMENT, the current Environment.
  *
@@ -79,3 +78,4 @@ function getEnvironment() {
     }
     return stringToEnvironment(environment);
 }
+exports.getEnvironment = getEnvironment;

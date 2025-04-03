@@ -2,8 +2,7 @@
 // @ts-nocheck
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.bigNumberToDecimal = bigNumberToDecimal;
-exports.decimalToBigNumber = decimalToBigNumber;
+exports.decimalToBigNumber = exports.bigNumberToDecimal = void 0;
 const bignumber_js_1 = require("bignumber.js");
 const decimal_pb_1 = require("./decimal_pb");
 /**
@@ -20,6 +19,7 @@ function bigNumberToDecimal(bigNumberToConvert) {
     const dec = new decimal_pb_1.Decimal().setValue(bigNumberToConvert.toString());
     return dec;
 }
+exports.bigNumberToDecimal = bigNumberToDecimal;
 /**
  * Converts a Decimal object to a BigNumber instance.
  *
@@ -37,3 +37,4 @@ function decimalToBigNumber(decimal) {
     const value = decimal.getValue();
     return new bignumber_js_1.BigNumber(`${value}`);
 }
+exports.decimalToBigNumber = decimalToBigNumber;

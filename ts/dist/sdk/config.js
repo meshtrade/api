@@ -2,7 +2,7 @@
 // @ts-nocheck
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getConfigFromOpts = getConfigFromOpts;
+exports.getConfigFromOpts = void 0;
 const config_1 = require("../config");
 const apiServerURL_1 = require("../config/apiServerURL");
 function getConfigFromOpts(config) {
@@ -14,3 +14,4 @@ function getConfigFromOpts(config) {
         apiServerURL,
     };
 }
+exports.getConfigFromOpts = getConfigFromOpts;

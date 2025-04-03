@@ -2,8 +2,7 @@
 // @ts-nocheck
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.newAmountOfToken = newAmountOfToken;
-exports.amountIsUndefined = amountIsUndefined;
+exports.amountIsUndefined = exports.newAmountOfToken = void 0;
 const amount_pb_1 = require("./amount_pb");
 const num_1 = require("../num");
 const network_1 = require("./network");
@@ -58,9 +57,11 @@ function newAmountOfToken(amount, token) {
     }
     return newAmountFromBigNumber(value, token);
 }
+exports.newAmountOfToken = newAmountOfToken;
 function amountIsUndefined(amount) {
     if (!amount) {
         return true;
     }
     return (0, token_1.tokenIsUndefined)(amount.getToken());
 }
+exports.amountIsUndefined = amountIsUndefined;

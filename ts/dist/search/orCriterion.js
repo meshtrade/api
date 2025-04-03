@@ -2,7 +2,7 @@
 // @ts-nocheck
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.newORCriterion = newORCriterion;
+exports.newORCriterion = void 0;
 const criterion_pb_1 = require("./criterion_pb");
 /**
  * Convenience function to construct a wrapped new ORCriterion.
@@ -16,3 +16,4 @@ function newORCriterion(criteria) {
     }
     return new criterion_pb_1.Criterion().setOrcriterion(new criterion_pb_1.ORCriterion().setCriteriaList(criteria));
 }
+exports.newORCriterion = newORCriterion;
