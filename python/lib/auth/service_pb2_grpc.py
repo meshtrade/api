@@ -5,7 +5,7 @@ import warnings
 
 from api.python.lib.auth import service_pb2 as api_dot_proto_dot_auth_dot_service__pb2
 
-GRPC_GENERATED_VERSION = '1.70.0'
+GRPC_GENERATED_VERSION = '1.71.0'
 GRPC_VERSION = grpc.__version__
 _version_not_supported = False
 
