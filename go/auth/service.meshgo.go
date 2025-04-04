@@ -2,13 +2,7 @@
 // source: api/proto/auth/service.proto
 package auth
 
-import (
-	context "context"
-)
-
-// Service is the Auth Service.
-type Service interface {
-	LoginWithFirebaseToken(ctx context.Context, request *LoginWithFirebaseTokenRequest) (*LoginWithFirebaseTokenResponse, error)
-}
+//
+//Service is the Auth Service.
 
 const ServiceServiceProviderName = "api-auth-Service"

@@ -2,15 +2,7 @@
 // source: api/proto/instrument/service.proto
 package instrument
 
-import (
-	context "context"
-)
-
-// Service is the Instrument Service.
-type Service interface {
-	Mint(ctx context.Context, request *MintRequest) (*MintResponse, error)
-
-	Burn(ctx context.Context, request *BurnRequest) (*BurnResponse, error)
-}
+//
+//Service is the Instrument Service.
 
 const ServiceServiceProviderName = "api-instrument-Service"
