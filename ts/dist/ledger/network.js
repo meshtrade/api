@@ -2,7 +2,11 @@
 // @ts-nocheck
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.networkToBEString = exports.getNetworkNoDecimalPlaces = exports.stringToNetwork = exports.networkToString = exports.allNetworks = void 0;
+exports.allNetworks = void 0;
+exports.networkToString = networkToString;
+exports.stringToNetwork = stringToNetwork;
+exports.getNetworkNoDecimalPlaces = getNetworkNoDecimalPlaces;
+exports.networkToBEString = networkToBEString;
 const network_pb_1 = require("./network_pb");
 // Get all Networks as enum values
 exports.allNetworks = Object.values(network_pb_1.Network).filter((value) => typeof value === "number");
@@ -42,7 +46,6 @@ function networkToString(Network) {
         throw new UnsupportedNetworkError(Network);
     }
 }
-exports.networkToString = networkToString;
 class UnsupportedNetworkStringError extends Error {
     constructor(NetworkStr) {
         const message = `Unsupported Network string: ${NetworkStr}`;
@@ -63,7 +66,6 @@ function stringToNetwork(NetworkStr) {
         throw new UnsupportedNetworkStringError(NetworkStr);
     }
 }
-exports.stringToNetwork = stringToNetwork;
 // Define a mapping from Network to the number of decimal places
 const networkDecimalPlaces = {
     [network_pb_1.Network.UNDEFINED_NETWORK]: 2,
@@ -89,7 +91,6 @@ function getNetworkNoDecimalPlaces(network) {
         throw new UnsupportedNetworkError(network);
     }
 }
-exports.getNetworkNoDecimalPlaces = getNetworkNoDecimalPlaces;
 // Define explicit mappings between Network enums backend string representations
 const networkToBEStringMapping = {
     [network_pb_1.Network.UNDEFINED_NETWORK]: "UNDEFINED_NETWORK",
@@ -114,4 +115,3 @@ function networkToBEString(Network) {
         throw new UnsupportedNetworkError(Network);
     }
 }
-exports.networkToBEString = networkToBEString;

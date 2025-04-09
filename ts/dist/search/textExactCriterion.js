@@ -2,7 +2,7 @@
 // @ts-nocheck
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.newTextExactCriterion = void 0;
+exports.newTextExactCriterion = newTextExactCriterion;
 const criterion_pb_1 = require("./criterion_pb");
 const textExactCriterion_pb_1 = require("./textExactCriterion_pb");
 /**
@@ -19,4 +19,3 @@ const textExactCriterion_pb_1 = require("./textExactCriterion_pb");
 function newTextExactCriterion(field, value) {
     return new criterion_pb_1.Criterion().setTextexactcriterion(new textExactCriterion_pb_1.TextExactCriterion().setField(field).setText(value));
 }
-exports.newTextExactCriterion = newTextExactCriterion;

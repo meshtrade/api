@@ -2,7 +2,7 @@
 // @ts-nocheck
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.newTextNINListCriterion = void 0;
+exports.newTextNINListCriterion = newTextNINListCriterion;
 const criterion_pb_1 = require("./criterion_pb");
 const textNINListCriterion_pb_1 = require("./textNINListCriterion_pb");
 /**
@@ -19,4 +19,3 @@ const textNINListCriterion_pb_1 = require("./textNINListCriterion_pb");
 function newTextNINListCriterion(field, list) {
     return new criterion_pb_1.Criterion().setTextninlistcriterion(new textNINListCriterion_pb_1.TextNINListCriterion().setField(field).setListList(list));
 }
-exports.newTextNINListCriterion = newTextNINListCriterion;

@@ -2,7 +2,7 @@
 // @ts-nocheck
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.newUint32NEExactCriterion = void 0;
+exports.newUint32NEExactCriterion = newUint32NEExactCriterion;
 const criterion_pb_1 = require("./criterion_pb");
 const uint32NEExactCriterion_pb_1 = require("./uint32NEExactCriterion_pb");
 /**
@@ -19,4 +19,3 @@ const uint32NEExactCriterion_pb_1 = require("./uint32NEExactCriterion_pb");
 function newUint32NEExactCriterion(field, value) {
     return new criterion_pb_1.Criterion().setUint32neexactcriterion(new uint32NEExactCriterion_pb_1.Uint32NEExactCriterion().setField(field).setUint32(value));
 }
-exports.newUint32NEExactCriterion = newUint32NEExactCriterion;

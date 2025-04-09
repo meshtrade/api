@@ -2,7 +2,7 @@
 // @ts-nocheck
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.newUint32NINListCriterion = void 0;
+exports.newUint32NINListCriterion = newUint32NINListCriterion;
 const criterion_pb_1 = require("./criterion_pb");
 const uint32NINListCriterion_pb_1 = require("./uint32NINListCriterion_pb");
 /**
@@ -19,4 +19,3 @@ const uint32NINListCriterion_pb_1 = require("./uint32NINListCriterion_pb");
 function newUint32NINListCriterion(field, list) {
     return new criterion_pb_1.Criterion().setUint32ninlistcriterion(new uint32NINListCriterion_pb_1.Uint32NINListCriterion().setField(field).setListList(list));
 }
-exports.newUint32NINListCriterion = newUint32NINListCriterion;

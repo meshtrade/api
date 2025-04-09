@@ -2,7 +2,8 @@
 // @ts-nocheck
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.APIServerURLFromEnvironment = exports.APIServerURL = void 0;
+exports.APIServerURL = void 0;
+exports.APIServerURLFromEnvironment = APIServerURLFromEnvironment;
 const environment_pb_1 = require("./environment_pb");
 var APIServerURL;
 (function (APIServerURL) {
@@ -28,4 +29,3 @@ function APIServerURLFromEnvironment(env) {
             throw new TypeError(`unexpected evironment: ${env}`);
     }
 }
-exports.APIServerURLFromEnvironment = APIServerURLFromEnvironment;

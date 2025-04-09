@@ -2,7 +2,7 @@
 // @ts-nocheck
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.newTextSubstringCriterion = void 0;
+exports.newTextSubstringCriterion = newTextSubstringCriterion;
 const criterion_pb_1 = require("./criterion_pb");
 const textSubstringCriterion_pb_1 = require("./textSubstringCriterion_pb");
 /**
@@ -19,4 +19,3 @@ const textSubstringCriterion_pb_1 = require("./textSubstringCriterion_pb");
 function newTextSubstringCriterion(field, value) {
     return new criterion_pb_1.Criterion().setTextsubstringcriterion(new textSubstringCriterion_pb_1.TextSubstringCriterion().setField(field).setValue(value));
 }
-exports.newTextSubstringCriterion = newTextSubstringCriterion;
