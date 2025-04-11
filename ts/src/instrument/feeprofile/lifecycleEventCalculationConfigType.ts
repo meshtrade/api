@@ -1,6 +1,6 @@
 import { LifecycleEventCalculationConfigType } from "./lifecycleEventCalculationConfigType_pb";
 
-// Get all schedule configuration types as enum values
+// Get all calculation configuration types as enum values
 export const allLifecycleEventCalculationConfigTypes: LifecycleEventCalculationConfigType[] =
   Object.values(LifecycleEventCalculationConfigType).filter(
     (value) => typeof value === "number",
@@ -44,8 +44,8 @@ class UnsupportedLifecycleEventCalculationConfigTypeError extends Error {
 
 /**
  * Converts a LifecycleEventCalculationConfigType enum instance to a custom string representation.
- * @param {LifecycleEventCalculationConfigType} lifecycleEventCalculationConfigType - The schedule configuration type to convert.
- * @returns {string} The custom string representation of the schedule configuration type.
+ * @param {LifecycleEventCalculationConfigType} lifecycleEventCalculationConfigType - The calculation configuration type to convert.
+ * @returns {string} The custom string representation of the calculation configuration type.
  */
 export function lifecycleEventCalculationConfigTypeToString(
   lifecycleEventCalculationConfigType: LifecycleEventCalculationConfigType,
@@ -68,7 +68,7 @@ class UnsupportedLifecycleEventCalculationConfigTypeStringError extends Error {
   lifecycleEventCalculationConfigTypeStr: string;
 
   constructor(lifecycleEventCalculationConfigTypeStr: string) {
-    const message = `Unsupported schedule configuration type string: ${lifecycleEventCalculationConfigTypeStr}`;
+    const message = `Unsupported calculation configuration type string: ${lifecycleEventCalculationConfigTypeStr}`;
     super(message);
     this.lifecycleEventCalculationConfigTypeStr =
       lifecycleEventCalculationConfigTypeStr;
@@ -77,7 +77,7 @@ class UnsupportedLifecycleEventCalculationConfigTypeStringError extends Error {
 
 /**
  * Converts a custom string representation to a LifecycleEventCalculationConfigType enum instance.
- * @param {string} lifecycleEventCalculationConfigTypeStr - The custom string representation of the schedule configuration type.
+ * @param {string} lifecycleEventCalculationConfigTypeStr - The custom string representation of the calculation configuration type.
  * @returns {LifecycleEventCalculationConfigType} The corresponding LifecycleEventCalculationConfigType enum instance.
  */
 export function stringToLifecycleEventCalculationConfigType(

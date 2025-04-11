@@ -9,7 +9,7 @@ export class LifecycleEventCalculationConfigWrapper {
 
   /**
    * Constructs a new LifecycleEventCalculationConfigWrapper instance.
-   * @param {LifecycleEventCalculationConfig} lifecycleEventCalculationConfig - The schedule configuration  instance to wrap.
+   * @param {LifecycleEventCalculationConfig} lifecycleEventCalculationConfig - The calculation configuration  instance to wrap.
    */
   constructor(
     lifecycleEventCalculationConfig?: LifecycleEventCalculationConfig,
@@ -19,8 +19,8 @@ export class LifecycleEventCalculationConfigWrapper {
   }
 
   /**
-   * Gets the type of the wrapped schedule configuration .
-   * @returns {LifecycleEventCalculationConfigType} The type of the wrapped schedule configuration .
+   * Gets the type of the wrapped calculation configuration .
+   * @returns {LifecycleEventCalculationConfigType} The type of the wrapped calculation configuration .
    */
   get lifecycleEventCalculationConfigType(): LifecycleEventCalculationConfigType {
     switch (true) {
@@ -34,8 +34,8 @@ export class LifecycleEventCalculationConfigWrapper {
   }
 
   /**
-   * Gets the wrapped schedule configuration  instance.
-   * @returns {LifecycleEventCalculationConfig} The wrapped schedule configuration .
+   * Gets the wrapped calculation configuration  instance.
+   * @returns {LifecycleEventCalculationConfig} The wrapped calculation configuration .
    */
   get lifecycleEventCalculationConfig(): LifecycleEventCalculationConfig {
     return this._lifecycleEventCalculationConfig;
