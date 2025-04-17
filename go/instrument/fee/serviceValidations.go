@@ -3,6 +3,8 @@ package fee
 import (
 	"fmt"
 	"strings"
+
+	"github.com/meshtrade/api/go/instrument/feeprofile"
 )
 
 func (r *GetRequest) Validate() error {
@@ -49,6 +51,24 @@ func (r *CalculateBurningFeesRequest) Validate() error {
 
 	if r.Amount == nil {
 		reasons = append(reasons, "Amount is required")
+	}
+
+	if len(reasons) > 0 {
+		return fmt.Errorf("validation failed: %s ", strings.Join(reasons, "; "))
+	}
+
+	return nil
+}
+
+func (r *CalculateLifecycleFeesRequest) Validate() error {
+	reasons := []string{}
+
+	if r.InstrumentName == "" {
+		reasons = append(reasons, "InstrumentName is required")
+	}
+
+	if r.LifecycleEventCategory == feeprofile.LifecycleEventCategory_UNDEFINED_LIFECYCLE_EVENT_CATEGORY {
+		reasons = append(reasons, "LifecycleEventCategory is undefined")
 	}
 
 	if len(reasons) > 0 {

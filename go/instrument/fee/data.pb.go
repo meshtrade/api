@@ -21,6 +21,8 @@ const (
 )
 
 // Data is the generic calculation data that is attached to a Fee for reference.
+//
+// @bson-marshalled
 type Data struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

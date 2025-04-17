@@ -13,16 +13,20 @@ var _ Service = &MockService{}
 
 // MockService is a mock implementation of the Service interface.
 type MockService struct {
-	mutex                               sync.Mutex
-	T                                   *testing.T
-	GetFunc                             func(t *testing.T, m *MockService, ctx context.Context, request *GetRequest) (*GetResponse, error)
-	GetFuncInvocations                  int
-	ListFunc                            func(t *testing.T, m *MockService, ctx context.Context, request *ListRequest) (*ListResponse, error)
-	ListFuncInvocations                 int
-	CalculateMintingFeesFunc            func(t *testing.T, m *MockService, ctx context.Context, request *CalculateMintingFeesRequest) (*CalculateMintingFeesResponse, error)
-	CalculateMintingFeesFuncInvocations int
-	CalculateBurningFeesFunc            func(t *testing.T, m *MockService, ctx context.Context, request *CalculateBurningFeesRequest) (*CalculateBurningFeesResponse, error)
-	CalculateBurningFeesFuncInvocations int
+	mutex                                 sync.Mutex
+	T                                     *testing.T
+	GetFunc                               func(t *testing.T, m *MockService, ctx context.Context, request *GetRequest) (*GetResponse, error)
+	GetFuncInvocations                    int
+	ListFunc                              func(t *testing.T, m *MockService, ctx context.Context, request *ListRequest) (*ListResponse, error)
+	ListFuncInvocations                   int
+	CalculateMintingFeesFunc              func(t *testing.T, m *MockService, ctx context.Context, request *CalculateMintingFeesRequest) (*CalculateMintingFeesResponse, error)
+	CalculateMintingFeesFuncInvocations   int
+	CalculateBurningFeesFunc              func(t *testing.T, m *MockService, ctx context.Context, request *CalculateBurningFeesRequest) (*CalculateBurningFeesResponse, error)
+	CalculateBurningFeesFuncInvocations   int
+	CalculateLifecycleFeesFunc            func(t *testing.T, m *MockService, ctx context.Context, request *CalculateLifecycleFeesRequest) (*CalculateLifecycleFeesResponse, error)
+	CalculateLifecycleFeesFuncInvocations int
+	FullUpdateFunc                        func(t *testing.T, m *MockService, ctx context.Context, request *FullUpdateRequest) (*FullUpdateResponse, error)
+	FullUpdateFuncInvocations             int
 }
 
 func (m *MockService) Get(ctx context.Context, request *GetRequest) (*GetResponse, error) {
@@ -63,4 +67,24 @@ func (m *MockService) CalculateBurningFees(ctx context.Context, request *Calcula
 		return nil, nil
 	}
 	return m.CalculateBurningFeesFunc(m.T, m, ctx, request)
+}
+
+func (m *MockService) CalculateLifecycleFees(ctx context.Context, request *CalculateLifecycleFeesRequest) (*CalculateLifecycleFeesResponse, error) {
+	m.mutex.Lock()
+	m.CalculateLifecycleFeesFuncInvocations++
+	m.mutex.Unlock()
+	if m.CalculateLifecycleFeesFunc == nil {
+		return nil, nil
+	}
+	return m.CalculateLifecycleFeesFunc(m.T, m, ctx, request)
+}
+
+func (m *MockService) FullUpdate(ctx context.Context, request *FullUpdateRequest) (*FullUpdateResponse, error) {
+	m.mutex.Lock()
+	m.FullUpdateFuncInvocations++
+	m.mutex.Unlock()
+	if m.FullUpdateFunc == nil {
+		return nil, nil
+	}
+	return m.FullUpdateFunc(m.T, m, ctx, request)
 }

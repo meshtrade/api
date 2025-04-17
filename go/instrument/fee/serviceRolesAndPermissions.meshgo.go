@@ -35,6 +35,20 @@ var (
 		Description:     "Provides permission to call the Service.CalculateBurningFees method",
 	}
 
+	// CalculateLifecycleFeesPermission provides permission to call the CalculateLifecycleFees method on the Service service provider
+	CalculateLifecycleFeesPermission = &role.Permission{
+		ServiceProvider: ServiceServiceProviderName,
+		Service:         "CalculateLifecycleFees",
+		Description:     "Provides permission to call the Service.CalculateLifecycleFees method",
+	}
+
+	// FullUpdatePermission provides permission to call the FullUpdate method on the Service service provider
+	FullUpdatePermission = &role.Permission{
+		ServiceProvider: ServiceServiceProviderName,
+		Service:         "FullUpdate",
+		Description:     "Provides permission to call the Service.FullUpdate method",
+	}
+
 	// ServiceReaderRole contains read only service permissions for the Service
 	ServiceReaderRole = role.Role{
 		Name: "ServiceReader",
@@ -52,6 +66,8 @@ var (
 			ListPermission,
 			CalculateMintingFeesPermission,
 			CalculateBurningFeesPermission,
+			CalculateLifecycleFeesPermission,
+			FullUpdatePermission,
 		},
 	}
 )

@@ -38,6 +38,20 @@ export class ServiceClient {
                response: api_proto_instrument_fee_service_pb.CalculateBurningFeesResponse) => void
   ): grpcWeb.ClientReadableStream<api_proto_instrument_fee_service_pb.CalculateBurningFeesResponse>;
 
+  calculateLifecycleFees(
+    request: api_proto_instrument_fee_service_pb.CalculateLifecycleFeesRequest,
+    metadata: grpcWeb.Metadata | undefined,
+    callback: (err: grpcWeb.RpcError,
+               response: api_proto_instrument_fee_service_pb.CalculateLifecycleFeesResponse) => void
+  ): grpcWeb.ClientReadableStream<api_proto_instrument_fee_service_pb.CalculateLifecycleFeesResponse>;
+
+  fullUpdate(
+    request: api_proto_instrument_fee_service_pb.FullUpdateRequest,
+    metadata: grpcWeb.Metadata | undefined,
+    callback: (err: grpcWeb.RpcError,
+               response: api_proto_instrument_fee_service_pb.FullUpdateResponse) => void
+  ): grpcWeb.ClientReadableStream<api_proto_instrument_fee_service_pb.FullUpdateResponse>;
+
 }
 
 export class ServicePromiseClient {
@@ -64,6 +78,16 @@ export class ServicePromiseClient {
     request: api_proto_instrument_fee_service_pb.CalculateBurningFeesRequest,
     metadata?: grpcWeb.Metadata
   ): Promise<api_proto_instrument_fee_service_pb.CalculateBurningFeesResponse>;
+
+  calculateLifecycleFees(
+    request: api_proto_instrument_fee_service_pb.CalculateLifecycleFeesRequest,
+    metadata?: grpcWeb.Metadata
+  ): Promise<api_proto_instrument_fee_service_pb.CalculateLifecycleFeesResponse>;
+
+  fullUpdate(
+    request: api_proto_instrument_fee_service_pb.FullUpdateRequest,
+    metadata?: grpcWeb.Metadata
+  ): Promise<api_proto_instrument_fee_service_pb.FullUpdateResponse>;
 
 }
 

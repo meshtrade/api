@@ -141,7 +141,7 @@ func (Category) EnumDescriptor() ([]byte, []int) {
 }
 
 // Fee represents a financial charge associated with an Instrument,
-// imposed by the Instrument Issuer.
+// imposed on the Instrument Issuer.
 // A Fee is generated using a FeeProfile, which determines its amount
 // and other related fields.
 // Only Mesh is authorized to create and update Fee records.
