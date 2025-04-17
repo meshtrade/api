@@ -11,15 +11,15 @@ const lifecycleEventCalculationConfigType_pb_1 = require("./lifecycleEventCalcul
 class LifecycleEventCalculationConfigWrapper {
     /**
      * Constructs a new LifecycleEventCalculationConfigWrapper instance.
-     * @param {LifecycleEventCalculationConfig} lifecycleEventCalculationConfig - The schedule configuration  instance to wrap.
+     * @param {LifecycleEventCalculationConfig} lifecycleEventCalculationConfig - The calculation configuration  instance to wrap.
      */
     constructor(lifecycleEventCalculationConfig) {
         this._lifecycleEventCalculationConfig =
             lifecycleEventCalculationConfig !== null && lifecycleEventCalculationConfig !== void 0 ? lifecycleEventCalculationConfig : new lifecycleEventCalculationConfig_pb_1.LifecycleEventCalculationConfig();
     }
     /**
-     * Gets the type of the wrapped schedule configuration .
-     * @returns {LifecycleEventCalculationConfigType} The type of the wrapped schedule configuration .
+     * Gets the type of the wrapped calculation configuration .
+     * @returns {LifecycleEventCalculationConfigType} The type of the wrapped calculation configuration .
      */
     get lifecycleEventCalculationConfigType() {
         switch (true) {
@@ -32,8 +32,8 @@ class LifecycleEventCalculationConfigWrapper {
         }
     }
     /**
-     * Gets the wrapped schedule configuration  instance.
-     * @returns {LifecycleEventCalculationConfig} The wrapped schedule configuration .
+     * Gets the wrapped calculation configuration  instance.
+     * @returns {LifecycleEventCalculationConfig} The wrapped calculation configuration .
      */
     get lifecycleEventCalculationConfig() {
         return this._lifecycleEventCalculationConfig;

@@ -6,6 +6,8 @@ var api_proto_instrument_fee_service_pb = require('../../instrument/fee/service_
 var api_proto_instrument_fee_fee_pb = require('../../instrument/fee/fee_pb.js');
 var api_proto_ledger_amount_pb = require('../../ledger/amount_pb.js');
 var api_proto_search_criterion_pb = require('../../search/criterion_pb.js');
+var api_proto_search_query_pb = require('../../search/query_pb.js');
+var api_proto_instrument_feeprofile_lifecycleEventCategory_pb = require('../../instrument/feeprofile/lifecycleEventCategory_pb.js');
 
 function serialize_api_instrument_fee_CalculateBurningFeesRequest(arg) {
   if (!(arg instanceof api_proto_instrument_fee_service_pb.CalculateBurningFeesRequest)) {
@@ -29,6 +31,28 @@ function deserialize_api_instrument_fee_CalculateBurningFeesResponse(buffer_arg)
   return api_proto_instrument_fee_service_pb.CalculateBurningFeesResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_api_instrument_fee_CalculateLifecycleFeesRequest(arg) {
+  if (!(arg instanceof api_proto_instrument_fee_service_pb.CalculateLifecycleFeesRequest)) {
+    throw new Error('Expected argument of type api.instrument.fee.CalculateLifecycleFeesRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_api_instrument_fee_CalculateLifecycleFeesRequest(buffer_arg) {
+  return api_proto_instrument_fee_service_pb.CalculateLifecycleFeesRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_api_instrument_fee_CalculateLifecycleFeesResponse(arg) {
+  if (!(arg instanceof api_proto_instrument_fee_service_pb.CalculateLifecycleFeesResponse)) {
+    throw new Error('Expected argument of type api.instrument.fee.CalculateLifecycleFeesResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_api_instrument_fee_CalculateLifecycleFeesResponse(buffer_arg) {
+  return api_proto_instrument_fee_service_pb.CalculateLifecycleFeesResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_api_instrument_fee_CalculateMintingFeesRequest(arg) {
   if (!(arg instanceof api_proto_instrument_fee_service_pb.CalculateMintingFeesRequest)) {
     throw new Error('Expected argument of type api.instrument.fee.CalculateMintingFeesRequest');
@@ -49,6 +73,28 @@ function serialize_api_instrument_fee_CalculateMintingFeesResponse(arg) {
 
 function deserialize_api_instrument_fee_CalculateMintingFeesResponse(buffer_arg) {
   return api_proto_instrument_fee_service_pb.CalculateMintingFeesResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_api_instrument_fee_FullUpdateRequest(arg) {
+  if (!(arg instanceof api_proto_instrument_fee_service_pb.FullUpdateRequest)) {
+    throw new Error('Expected argument of type api.instrument.fee.FullUpdateRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_api_instrument_fee_FullUpdateRequest(buffer_arg) {
+  return api_proto_instrument_fee_service_pb.FullUpdateRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_api_instrument_fee_FullUpdateResponse(arg) {
+  if (!(arg instanceof api_proto_instrument_fee_service_pb.FullUpdateResponse)) {
+    throw new Error('Expected argument of type api.instrument.fee.FullUpdateResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_api_instrument_fee_FullUpdateResponse(buffer_arg) {
+  return api_proto_instrument_fee_service_pb.FullUpdateResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_api_instrument_fee_GetRequest(arg) {
@@ -142,6 +188,28 @@ var ServiceService = exports.ServiceService = {
     requestDeserialize: deserialize_api_instrument_fee_CalculateBurningFeesRequest,
     responseSerialize: serialize_api_instrument_fee_CalculateBurningFeesResponse,
     responseDeserialize: deserialize_api_instrument_fee_CalculateBurningFeesResponse,
+  },
+  calculateLifecycleFees: {
+    path: '/api.instrument.fee.Service/CalculateLifecycleFees',
+    requestStream: false,
+    responseStream: false,
+    requestType: api_proto_instrument_fee_service_pb.CalculateLifecycleFeesRequest,
+    responseType: api_proto_instrument_fee_service_pb.CalculateLifecycleFeesResponse,
+    requestSerialize: serialize_api_instrument_fee_CalculateLifecycleFeesRequest,
+    requestDeserialize: deserialize_api_instrument_fee_CalculateLifecycleFeesRequest,
+    responseSerialize: serialize_api_instrument_fee_CalculateLifecycleFeesResponse,
+    responseDeserialize: deserialize_api_instrument_fee_CalculateLifecycleFeesResponse,
+  },
+  fullUpdate: {
+    path: '/api.instrument.fee.Service/FullUpdate',
+    requestStream: false,
+    responseStream: false,
+    requestType: api_proto_instrument_fee_service_pb.FullUpdateRequest,
+    responseType: api_proto_instrument_fee_service_pb.FullUpdateResponse,
+    requestSerialize: serialize_api_instrument_fee_FullUpdateRequest,
+    requestDeserialize: deserialize_api_instrument_fee_FullUpdateRequest,
+    responseSerialize: serialize_api_instrument_fee_FullUpdateResponse,
+    responseDeserialize: deserialize_api_instrument_fee_FullUpdateResponse,
   },
 };
 

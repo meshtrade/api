@@ -40,6 +40,10 @@ type Service interface {
 	CalculateMintingFees(context.Context, *CalculateMintingFeesRequest) (*CalculateMintingFeesResponse, error)
 
 	CalculateBurningFees(context.Context, *CalculateBurningFeesRequest) (*CalculateBurningFeesResponse, error)
+
+	CalculateLifecycleFees(context.Context, *CalculateLifecycleFeesRequest) (*CalculateLifecycleFeesResponse, error)
+
+	FullUpdate(context.Context, *FullUpdateRequest) (*FullUpdateResponse, error)
 }
 
 // =======================
@@ -48,7 +52,7 @@ type Service interface {
 
 type serviceProtobufClient struct {
 	client      HTTPClient
-	urls        [4]string
+	urls        [6]string
 	interceptor twirp.Interceptor
 	opts        twirp.ClientOptions
 }
@@ -76,11 +80,13 @@ func NewServiceProtobufClient(baseURL string, client HTTPClient, opts ...twirp.C
 	// Build method URLs: <baseURL>[<prefix>]/<package>.<Service>/<Method>
 	serviceURL := sanitizeBaseURL(baseURL)
 	serviceURL += baseServicePath(pathPrefix, "api.instrument.fee", "Service")
-	urls := [4]string{
+	urls := [6]string{
 		serviceURL + "Get",
 		serviceURL + "List",
 		serviceURL + "CalculateMintingFees",
 		serviceURL + "CalculateBurningFees",
+		serviceURL + "CalculateLifecycleFees",
+		serviceURL + "FullUpdate",
 	}
 
 	return &serviceProtobufClient{
@@ -275,13 +281,105 @@ func (c *serviceProtobufClient) callCalculateBurningFees(ctx context.Context, in
 	return out, nil
 }
 
+func (c *serviceProtobufClient) CalculateLifecycleFees(ctx context.Context, in *CalculateLifecycleFeesRequest) (*CalculateLifecycleFeesResponse, error) {
+	ctx = ctxsetters.WithPackageName(ctx, "api.instrument.fee")
+	ctx = ctxsetters.WithServiceName(ctx, "Service")
+	ctx = ctxsetters.WithMethodName(ctx, "CalculateLifecycleFees")
+	caller := c.callCalculateLifecycleFees
+	if c.interceptor != nil {
+		caller = func(ctx context.Context, req *CalculateLifecycleFeesRequest) (*CalculateLifecycleFeesResponse, error) {
+			resp, err := c.interceptor(
+				func(ctx context.Context, req interface{}) (interface{}, error) {
+					typedReq, ok := req.(*CalculateLifecycleFeesRequest)
+					if !ok {
+						return nil, twirp.InternalError("failed type assertion req.(*CalculateLifecycleFeesRequest) when calling interceptor")
+					}
+					return c.callCalculateLifecycleFees(ctx, typedReq)
+				},
+			)(ctx, req)
+			if resp != nil {
+				typedResp, ok := resp.(*CalculateLifecycleFeesResponse)
+				if !ok {
+					return nil, twirp.InternalError("failed type assertion resp.(*CalculateLifecycleFeesResponse) when calling interceptor")
+				}
+				return typedResp, err
+			}
+			return nil, err
+		}
+	}
+	return caller(ctx, in)
+}
+
+func (c *serviceProtobufClient) callCalculateLifecycleFees(ctx context.Context, in *CalculateLifecycleFeesRequest) (*CalculateLifecycleFeesResponse, error) {
+	out := new(CalculateLifecycleFeesResponse)
+	ctx, err := doProtobufRequest(ctx, c.client, c.opts.Hooks, c.urls[4], in, out)
+	if err != nil {
+		twerr, ok := err.(twirp.Error)
+		if !ok {
+			twerr = twirp.InternalErrorWith(err)
+		}
+		callClientError(ctx, c.opts.Hooks, twerr)
+		return nil, err
+	}
+
+	callClientResponseReceived(ctx, c.opts.Hooks)
+
+	return out, nil
+}
+
+func (c *serviceProtobufClient) FullUpdate(ctx context.Context, in *FullUpdateRequest) (*FullUpdateResponse, error) {
+	ctx = ctxsetters.WithPackageName(ctx, "api.instrument.fee")
+	ctx = ctxsetters.WithServiceName(ctx, "Service")
+	ctx = ctxsetters.WithMethodName(ctx, "FullUpdate")
+	caller := c.callFullUpdate
+	if c.interceptor != nil {
+		caller = func(ctx context.Context, req *FullUpdateRequest) (*FullUpdateResponse, error) {
+			resp, err := c.interceptor(
+				func(ctx context.Context, req interface{}) (interface{}, error) {
+					typedReq, ok := req.(*FullUpdateRequest)
+					if !ok {
+						return nil, twirp.InternalError("failed type assertion req.(*FullUpdateRequest) when calling interceptor")
+					}
+					return c.callFullUpdate(ctx, typedReq)
+				},
+			)(ctx, req)
+			if resp != nil {
+				typedResp, ok := resp.(*FullUpdateResponse)
+				if !ok {
+					return nil, twirp.InternalError("failed type assertion resp.(*FullUpdateResponse) when calling interceptor")
+				}
+				return typedResp, err
+			}
+			return nil, err
+		}
+	}
+	return caller(ctx, in)
+}
+
+func (c *serviceProtobufClient) callFullUpdate(ctx context.Context, in *FullUpdateRequest) (*FullUpdateResponse, error) {
+	out := new(FullUpdateResponse)
+	ctx, err := doProtobufRequest(ctx, c.client, c.opts.Hooks, c.urls[5], in, out)
+	if err != nil {
+		twerr, ok := err.(twirp.Error)
+		if !ok {
+			twerr = twirp.InternalErrorWith(err)
+		}
+		callClientError(ctx, c.opts.Hooks, twerr)
+		return nil, err
+	}
+
+	callClientResponseReceived(ctx, c.opts.Hooks)
+
+	return out, nil
+}
+
 // ===================
 // Service JSON Client
 // ===================
 
 type serviceJSONClient struct {
 	client      HTTPClient
-	urls        [4]string
+	urls        [6]string
 	interceptor twirp.Interceptor
 	opts        twirp.ClientOptions
 }
@@ -309,11 +407,13 @@ func NewServiceJSONClient(baseURL string, client HTTPClient, opts ...twirp.Clien
 	// Build method URLs: <baseURL>[<prefix>]/<package>.<Service>/<Method>
 	serviceURL := sanitizeBaseURL(baseURL)
 	serviceURL += baseServicePath(pathPrefix, "api.instrument.fee", "Service")
-	urls := [4]string{
+	urls := [6]string{
 		serviceURL + "Get",
 		serviceURL + "List",
 		serviceURL + "CalculateMintingFees",
 		serviceURL + "CalculateBurningFees",
+		serviceURL + "CalculateLifecycleFees",
+		serviceURL + "FullUpdate",
 	}
 
 	return &serviceJSONClient{
@@ -508,6 +608,98 @@ func (c *serviceJSONClient) callCalculateBurningFees(ctx context.Context, in *Ca
 	return out, nil
 }
 
+func (c *serviceJSONClient) CalculateLifecycleFees(ctx context.Context, in *CalculateLifecycleFeesRequest) (*CalculateLifecycleFeesResponse, error) {
+	ctx = ctxsetters.WithPackageName(ctx, "api.instrument.fee")
+	ctx = ctxsetters.WithServiceName(ctx, "Service")
+	ctx = ctxsetters.WithMethodName(ctx, "CalculateLifecycleFees")
+	caller := c.callCalculateLifecycleFees
+	if c.interceptor != nil {
+		caller = func(ctx context.Context, req *CalculateLifecycleFeesRequest) (*CalculateLifecycleFeesResponse, error) {
+			resp, err := c.interceptor(
+				func(ctx context.Context, req interface{}) (interface{}, error) {
+					typedReq, ok := req.(*CalculateLifecycleFeesRequest)
+					if !ok {
+						return nil, twirp.InternalError("failed type assertion req.(*CalculateLifecycleFeesRequest) when calling interceptor")
+					}
+					return c.callCalculateLifecycleFees(ctx, typedReq)
+				},
+			)(ctx, req)
+			if resp != nil {
+				typedResp, ok := resp.(*CalculateLifecycleFeesResponse)
+				if !ok {
+					return nil, twirp.InternalError("failed type assertion resp.(*CalculateLifecycleFeesResponse) when calling interceptor")
+				}
+				return typedResp, err
+			}
+			return nil, err
+		}
+	}
+	return caller(ctx, in)
+}
+
+func (c *serviceJSONClient) callCalculateLifecycleFees(ctx context.Context, in *CalculateLifecycleFeesRequest) (*CalculateLifecycleFeesResponse, error) {
+	out := new(CalculateLifecycleFeesResponse)
+	ctx, err := doJSONRequest(ctx, c.client, c.opts.Hooks, c.urls[4], in, out)
+	if err != nil {
+		twerr, ok := err.(twirp.Error)
+		if !ok {
+			twerr = twirp.InternalErrorWith(err)
+		}
+		callClientError(ctx, c.opts.Hooks, twerr)
+		return nil, err
+	}
+
+	callClientResponseReceived(ctx, c.opts.Hooks)
+
+	return out, nil
+}
+
+func (c *serviceJSONClient) FullUpdate(ctx context.Context, in *FullUpdateRequest) (*FullUpdateResponse, error) {
+	ctx = ctxsetters.WithPackageName(ctx, "api.instrument.fee")
+	ctx = ctxsetters.WithServiceName(ctx, "Service")
+	ctx = ctxsetters.WithMethodName(ctx, "FullUpdate")
+	caller := c.callFullUpdate
+	if c.interceptor != nil {
+		caller = func(ctx context.Context, req *FullUpdateRequest) (*FullUpdateResponse, error) {
+			resp, err := c.interceptor(
+				func(ctx context.Context, req interface{}) (interface{}, error) {
+					typedReq, ok := req.(*FullUpdateRequest)
+					if !ok {
+						return nil, twirp.InternalError("failed type assertion req.(*FullUpdateRequest) when calling interceptor")
+					}
+					return c.callFullUpdate(ctx, typedReq)
+				},
+			)(ctx, req)
+			if resp != nil {
+				typedResp, ok := resp.(*FullUpdateResponse)
+				if !ok {
+					return nil, twirp.InternalError("failed type assertion resp.(*FullUpdateResponse) when calling interceptor")
+				}
+				return typedResp, err
+			}
+			return nil, err
+		}
+	}
+	return caller(ctx, in)
+}
+
+func (c *serviceJSONClient) callFullUpdate(ctx context.Context, in *FullUpdateRequest) (*FullUpdateResponse, error) {
+	out := new(FullUpdateResponse)
+	ctx, err := doJSONRequest(ctx, c.client, c.opts.Hooks, c.urls[5], in, out)
+	if err != nil {
+		twerr, ok := err.(twirp.Error)
+		if !ok {
+			twerr = twirp.InternalErrorWith(err)
+		}
+		callClientError(ctx, c.opts.Hooks, twerr)
+		return nil, err
+	}
+
+	callClientResponseReceived(ctx, c.opts.Hooks)
+
+	return out, nil
+}
+
 // ======================
 // Service Server Handler
 // ======================
@@ -616,6 +808,12 @@ func (s *serviceServer) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 		return
 	case "CalculateBurningFees":
 		s.serveCalculateBurningFees(ctx, resp, req)
+		return
+	case "CalculateLifecycleFees":
+		s.serveCalculateLifecycleFees(ctx, resp, req)
+		return
+	case "FullUpdate":
+		s.serveFullUpdate(ctx, resp, req)
 		return
 	default:
 		msg := fmt.Sprintf("no handler for path %q", req.URL.Path)
@@ -1344,6 +1542,366 @@ func (s *serviceServer) serveCalculateBurningFeesProtobuf(ctx context.Context, r
 	callResponseSent(ctx, s.hooks)
 }
 
+func (s *serviceServer) serveCalculateLifecycleFees(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
+	header := req.Header.Get("Content-Type")
+	i := strings.Index(header, ";")
+	if i == -1 {
+		i = len(header)
+	}
+	switch strings.TrimSpace(strings.ToLower(header[:i])) {
+	case "application/json":
+		s.serveCalculateLifecycleFeesJSON(ctx, resp, req)
+	case "application/protobuf":
+		s.serveCalculateLifecycleFeesProtobuf(ctx, resp, req)
+	default:
+		msg := fmt.Sprintf("unexpected Content-Type: %q", req.Header.Get("Content-Type"))
+		twerr := badRouteError(msg, req.Method, req.URL.Path)
+		s.writeError(ctx, resp, twerr)
+	}
+}
+
+func (s *serviceServer) serveCalculateLifecycleFeesJSON(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
+	var err error
+	ctx = ctxsetters.WithMethodName(ctx, "CalculateLifecycleFees")
+	ctx, err = callRequestRouted(ctx, s.hooks)
+	if err != nil {
+		s.writeError(ctx, resp, err)
+		return
+	}
+
+	d := json.NewDecoder(req.Body)
+	rawReqBody := json.RawMessage{}
+	if err := d.Decode(&rawReqBody); err != nil {
+		s.handleRequestBodyError(ctx, resp, "the json request could not be decoded", err)
+		return
+	}
+	reqContent := new(CalculateLifecycleFeesRequest)
+	unmarshaler := protojson.UnmarshalOptions{DiscardUnknown: true}
+	if err = unmarshaler.Unmarshal(rawReqBody, reqContent); err != nil {
+		s.handleRequestBodyError(ctx, resp, "the json request could not be decoded", err)
+		return
+	}
+
+	handler := s.Service.CalculateLifecycleFees
+	if s.interceptor != nil {
+		handler = func(ctx context.Context, req *CalculateLifecycleFeesRequest) (*CalculateLifecycleFeesResponse, error) {
+			resp, err := s.interceptor(
+				func(ctx context.Context, req interface{}) (interface{}, error) {
+					typedReq, ok := req.(*CalculateLifecycleFeesRequest)
+					if !ok {
+						return nil, twirp.InternalError("failed type assertion req.(*CalculateLifecycleFeesRequest) when calling interceptor")
+					}
+					return s.Service.CalculateLifecycleFees(ctx, typedReq)
+				},
+			)(ctx, req)
+			if resp != nil {
+				typedResp, ok := resp.(*CalculateLifecycleFeesResponse)
+				if !ok {
+					return nil, twirp.InternalError("failed type assertion resp.(*CalculateLifecycleFeesResponse) when calling interceptor")
+				}
+				return typedResp, err
+			}
+			return nil, err
+		}
+	}
+
+	// Call service method
+	var respContent *CalculateLifecycleFeesResponse
+	func() {
+		defer ensurePanicResponses(ctx, resp, s.hooks)
+		respContent, err = handler(ctx, reqContent)
+	}()
+
+	if err != nil {
+		s.writeError(ctx, resp, err)
+		return
+	}
+	if respContent == nil {
+		s.writeError(ctx, resp, twirp.InternalError("received a nil *CalculateLifecycleFeesResponse and nil error while calling CalculateLifecycleFees. nil responses are not supported"))
+		return
+	}
+
+	ctx = callResponsePrepared(ctx, s.hooks)
+
+	marshaler := &protojson.MarshalOptions{UseProtoNames: !s.jsonCamelCase, EmitUnpopulated: !s.jsonSkipDefaults}
+	respBytes, err := marshaler.Marshal(respContent)
+	if err != nil {
+		s.writeError(ctx, resp, wrapInternal(err, "failed to marshal json response"))
+		return
+	}
+
+	ctx = ctxsetters.WithStatusCode(ctx, http.StatusOK)
+	resp.Header().Set("Content-Type", "application/json")
+	resp.Header().Set("Content-Length", strconv.Itoa(len(respBytes)))
+	resp.WriteHeader(http.StatusOK)
+
+	if n, err := resp.Write(respBytes); err != nil {
+		msg := fmt.Sprintf("failed to write response, %d of %d bytes written: %s", n, len(respBytes), err.Error())
+		twerr := twirp.NewError(twirp.Unknown, msg)
+		ctx = callError(ctx, s.hooks, twerr)
+	}
+	callResponseSent(ctx, s.hooks)
+}
+
+func (s *serviceServer) serveCalculateLifecycleFeesProtobuf(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
+	var err error
+	ctx = ctxsetters.WithMethodName(ctx, "CalculateLifecycleFees")
+	ctx, err = callRequestRouted(ctx, s.hooks)
+	if err != nil {
+		s.writeError(ctx, resp, err)
+		return
+	}
+
+	buf, err := io.ReadAll(req.Body)
+	if err != nil {
+		s.handleRequestBodyError(ctx, resp, "failed to read request body", err)
+		return
+	}
+	reqContent := new(CalculateLifecycleFeesRequest)
+	if err = proto.Unmarshal(buf, reqContent); err != nil {
+		s.writeError(ctx, resp, malformedRequestError("the protobuf request could not be decoded"))
+		return
+	}
+
+	handler := s.Service.CalculateLifecycleFees
+	if s.interceptor != nil {
+		handler = func(ctx context.Context, req *CalculateLifecycleFeesRequest) (*CalculateLifecycleFeesResponse, error) {
+			resp, err := s.interceptor(
+				func(ctx context.Context, req interface{}) (interface{}, error) {
+					typedReq, ok := req.(*CalculateLifecycleFeesRequest)
+					if !ok {
+						return nil, twirp.InternalError("failed type assertion req.(*CalculateLifecycleFeesRequest) when calling interceptor")
+					}
+					return s.Service.CalculateLifecycleFees(ctx, typedReq)
+				},
+			)(ctx, req)
+			if resp != nil {
+				typedResp, ok := resp.(*CalculateLifecycleFeesResponse)
+				if !ok {
+					return nil, twirp.InternalError("failed type assertion resp.(*CalculateLifecycleFeesResponse) when calling interceptor")
+				}
+				return typedResp, err
+			}
+			return nil, err
+		}
+	}
+
+	// Call service method
+	var respContent *CalculateLifecycleFeesResponse
+	func() {
+		defer ensurePanicResponses(ctx, resp, s.hooks)
+		respContent, err = handler(ctx, reqContent)
+	}()
+
+	if err != nil {
+		s.writeError(ctx, resp, err)
+		return
+	}
+	if respContent == nil {
+		s.writeError(ctx, resp, twirp.InternalError("received a nil *CalculateLifecycleFeesResponse and nil error while calling CalculateLifecycleFees. nil responses are not supported"))
+		return
+	}
+
+	ctx = callResponsePrepared(ctx, s.hooks)
+
+	respBytes, err := proto.Marshal(respContent)
+	if err != nil {
+		s.writeError(ctx, resp, wrapInternal(err, "failed to marshal proto response"))
+		return
+	}
+
+	ctx = ctxsetters.WithStatusCode(ctx, http.StatusOK)
+	resp.Header().Set("Content-Type", "application/protobuf")
+	resp.Header().Set("Content-Length", strconv.Itoa(len(respBytes)))
+	resp.WriteHeader(http.StatusOK)
+	if n, err := resp.Write(respBytes); err != nil {
+		msg := fmt.Sprintf("failed to write response, %d of %d bytes written: %s", n, len(respBytes), err.Error())
+		twerr := twirp.NewError(twirp.Unknown, msg)
+		ctx = callError(ctx, s.hooks, twerr)
+	}
+	callResponseSent(ctx, s.hooks)
+}
+
+func (s *serviceServer) serveFullUpdate(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
+	header := req.Header.Get("Content-Type")
+	i := strings.Index(header, ";")
+	if i == -1 {
+		i = len(header)
+	}
+	switch strings.TrimSpace(strings.ToLower(header[:i])) {
+	case "application/json":
+		s.serveFullUpdateJSON(ctx, resp, req)
+	case "application/protobuf":
+		s.serveFullUpdateProtobuf(ctx, resp, req)
+	default:
+		msg := fmt.Sprintf("unexpected Content-Type: %q", req.Header.Get("Content-Type"))
+		twerr := badRouteError(msg, req.Method, req.URL.Path)
+		s.writeError(ctx, resp, twerr)
+	}
+}
+
+func (s *serviceServer) serveFullUpdateJSON(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
+	var err error
+	ctx = ctxsetters.WithMethodName(ctx, "FullUpdate")
+	ctx, err = callRequestRouted(ctx, s.hooks)
+	if err != nil {
+		s.writeError(ctx, resp, err)
+		return
+	}
+
+	d := json.NewDecoder(req.Body)
+	rawReqBody := json.RawMessage{}
+	if err := d.Decode(&rawReqBody); err != nil {
+		s.handleRequestBodyError(ctx, resp, "the json request could not be decoded", err)
+		return
+	}
+	reqContent := new(FullUpdateRequest)
+	unmarshaler := protojson.UnmarshalOptions{DiscardUnknown: true}
+	if err = unmarshaler.Unmarshal(rawReqBody, reqContent); err != nil {
+		s.handleRequestBodyError(ctx, resp, "the json request could not be decoded", err)
+		return
+	}
+
+	handler := s.Service.FullUpdate
+	if s.interceptor != nil {
+		handler = func(ctx context.Context, req *FullUpdateRequest) (*FullUpdateResponse, error) {
+			resp, err := s.interceptor(
+				func(ctx context.Context, req interface{}) (interface{}, error) {
+					typedReq, ok := req.(*FullUpdateRequest)
+					if !ok {
+						return nil, twirp.InternalError("failed type assertion req.(*FullUpdateRequest) when calling interceptor")
+					}
+					return s.Service.FullUpdate(ctx, typedReq)
+				},
+			)(ctx, req)
+			if resp != nil {
+				typedResp, ok := resp.(*FullUpdateResponse)
+				if !ok {
+					return nil, twirp.InternalError("failed type assertion resp.(*FullUpdateResponse) when calling interceptor")
+				}
+				return typedResp, err
+			}
+			return nil, err
+		}
+	}
+
+	// Call service method
+	var respContent *FullUpdateResponse
+	func() {
+		defer ensurePanicResponses(ctx, resp, s.hooks)
+		respContent, err = handler(ctx, reqContent)
+	}()
+
+	if err != nil {
+		s.writeError(ctx, resp, err)
+		return
+	}
+	if respContent == nil {
+		s.writeError(ctx, resp, twirp.InternalError("received a nil *FullUpdateResponse and nil error while calling FullUpdate. nil responses are not supported"))
+		return
+	}
+
+	ctx = callResponsePrepared(ctx, s.hooks)
+
+	marshaler := &protojson.MarshalOptions{UseProtoNames: !s.jsonCamelCase, EmitUnpopulated: !s.jsonSkipDefaults}
+	respBytes, err := marshaler.Marshal(respContent)
+	if err != nil {
+		s.writeError(ctx, resp, wrapInternal(err, "failed to marshal json response"))
+		return
+	}
+
+	ctx = ctxsetters.WithStatusCode(ctx, http.StatusOK)
+	resp.Header().Set("Content-Type", "application/json")
+	resp.Header().Set("Content-Length", strconv.Itoa(len(respBytes)))
+	resp.WriteHeader(http.StatusOK)
+
+	if n, err := resp.Write(respBytes); err != nil {
+		msg := fmt.Sprintf("failed to write response, %d of %d bytes written: %s", n, len(respBytes), err.Error())
+		twerr := twirp.NewError(twirp.Unknown, msg)
+		ctx = callError(ctx, s.hooks, twerr)
+	}
+	callResponseSent(ctx, s.hooks)
+}
+
+func (s *serviceServer) serveFullUpdateProtobuf(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
+	var err error
+	ctx = ctxsetters.WithMethodName(ctx, "FullUpdate")
+	ctx, err = callRequestRouted(ctx, s.hooks)
+	if err != nil {
+		s.writeError(ctx, resp, err)
+		return
+	}
+
+	buf, err := io.ReadAll(req.Body)
+	if err != nil {
+		s.handleRequestBodyError(ctx, resp, "failed to read request body", err)
+		return
+	}
+	reqContent := new(FullUpdateRequest)
+	if err = proto.Unmarshal(buf, reqContent); err != nil {
+		s.writeError(ctx, resp, malformedRequestError("the protobuf request could not be decoded"))
+		return
+	}
+
+	handler := s.Service.FullUpdate
+	if s.interceptor != nil {
+		handler = func(ctx context.Context, req *FullUpdateRequest) (*FullUpdateResponse, error) {
+			resp, err := s.interceptor(
+				func(ctx context.Context, req interface{}) (interface{}, error) {
+					typedReq, ok := req.(*FullUpdateRequest)
+					if !ok {
+						return nil, twirp.InternalError("failed type assertion req.(*FullUpdateRequest) when calling interceptor")
+					}
+					return s.Service.FullUpdate(ctx, typedReq)
+				},
+			)(ctx, req)
+			if resp != nil {
+				typedResp, ok := resp.(*FullUpdateResponse)
+				if !ok {
+					return nil, twirp.InternalError("failed type assertion resp.(*FullUpdateResponse) when calling interceptor")
+				}
+				return typedResp, err
+			}
+			return nil, err
+		}
+	}
+
+	// Call service method
+	var respContent *FullUpdateResponse
+	func() {
+		defer ensurePanicResponses(ctx, resp, s.hooks)
+		respContent, err = handler(ctx, reqContent)
+	}()
+
+	if err != nil {
+		s.writeError(ctx, resp, err)
+		return
+	}
+	if respContent == nil {
+		s.writeError(ctx, resp, twirp.InternalError("received a nil *FullUpdateResponse and nil error while calling FullUpdate. nil responses are not supported"))
+		return
+	}
+
+	ctx = callResponsePrepared(ctx, s.hooks)
+
+	respBytes, err := proto.Marshal(respContent)
+	if err != nil {
+		s.writeError(ctx, resp, wrapInternal(err, "failed to marshal proto response"))
+		return
+	}
+
+	ctx = ctxsetters.WithStatusCode(ctx, http.StatusOK)
+	resp.Header().Set("Content-Type", "application/protobuf")
+	resp.Header().Set("Content-Length", strconv.Itoa(len(respBytes)))
+	resp.WriteHeader(http.StatusOK)
+	if n, err := resp.Write(respBytes); err != nil {
+		msg := fmt.Sprintf("failed to write response, %d of %d bytes written: %s", n, len(respBytes), err.Error())
+		twerr := twirp.NewError(twirp.Unknown, msg)
+		ctx = callError(ctx, s.hooks, twerr)
+	}
+	callResponseSent(ctx, s.hooks)
+}
+
 func (s *serviceServer) ServiceDescriptor() ([]byte, int) {
 	return twirpFileDescriptor0, 0
 }
@@ -1925,30 +2483,42 @@ func callClientError(ctx context.Context, h *twirp.ClientHooks, err twirp.Error)
 }
 
 var twirpFileDescriptor0 = []byte{
-	// 392 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x54, 0xcd, 0xae, 0x93, 0x40,
-	0x14, 0x4e, 0x43, 0x53, 0xcd, 0xc1, 0xd5, 0x44, 0x63, 0x83, 0x7f, 0x84, 0x85, 0xa9, 0xd5, 0xcc,
-	0x68, 0xdd, 0x98, 0xb8, 0x50, 0xdb, 0x84, 0xa6, 0x51, 0x37, 0xb8, 0x73, 0x37, 0xa5, 0x07, 0x3a,
-	0x49, 0x19, 0x70, 0x66, 0x30, 0xf1, 0x35, 0x7c, 0x62, 0x03, 0x4c, 0xa5, 0xb7, 0x85, 0xdb, 0xe6,
-	0xde, 0xbb, 0x3e, 0xdf, 0x1f, 0xe7, 0x3b, 0x03, 0xbc, 0xe4, 0x85, 0x60, 0x85, 0xca, 0x4d, 0xce,
-	0x84, 0xd4, 0x46, 0x95, 0x19, 0x4a, 0xc3, 0x12, 0x44, 0xa6, 0x51, 0xfd, 0x16, 0x31, 0xd2, 0x7a,
-	0x48, 0x08, 0x2f, 0x04, 0x6d, 0x11, 0x34, 0x41, 0xf4, 0x82, 0x5e, 0x6e, 0x82, 0x96, 0xe7, 0x3d,
-	0x6b, 0x31, 0x3b, 0xdc, 0xa4, 0xa8, 0x18, 0xcf, 0xf2, 0x52, 0x1a, 0x3b, 0xf6, 0xdb, 0xb1, 0x46,
-	0xae, 0xe2, 0x2d, 0x8b, 0x95, 0x30, 0xa8, 0x44, 0x2e, 0x1b, 0x44, 0xf0, 0x09, 0x60, 0x89, 0x26,
-	0xc2, 0x5f, 0x25, 0x6a, 0x43, 0xde, 0xc1, 0x7d, 0x0b, 0xe0, 0xe3, 0x81, 0xef, 0x4c, 0xdc, 0xd9,
-	0x23, 0x5a, 0x25, 0x6b, 0xc8, 0x74, 0xb1, 0x27, 0x47, 0xff, 0x61, 0xc1, 0x07, 0x70, 0x6b, 0x01,
-	0x5d, 0xe4, 0x52, 0x23, 0x79, 0x05, 0x4e, 0x82, 0x38, 0x1e, 0xf8, 0x83, 0x89, 0x3b, 0x7b, 0x4c,
-	0x4f, 0x3f, 0x8b, 0x86, 0x88, 0x51, 0x85, 0x09, 0x3e, 0x83, 0xfb, 0x4d, 0xe8, 0xdb, 0x78, 0x7f,
-	0x84, 0x07, 0x8d, 0x82, 0x35, 0x7f, 0x0d, 0xc3, 0x04, 0x51, 0x5b, 0x7a, 0xaf, 0x7b, 0x0d, 0x0a,
-	0x56, 0xf0, 0x64, 0xc1, 0x77, 0x71, 0xb9, 0xe3, 0x06, 0xbf, 0x0b, 0x69, 0x84, 0x4c, 0x43, 0x44,
-	0xbd, 0x8f, 0x33, 0x85, 0xd1, 0x97, 0x7a, 0x95, 0xf6, 0x5b, 0x48, 0xad, 0xd6, 0x2c, 0x99, 0x36,
-	0x93, 0xc8, 0x22, 0x82, 0xaf, 0xf0, 0xb4, 0x5b, 0xaa, 0xcd, 0x15, 0x5e, 0x92, 0x2b, 0x3c, 0xce,
-	0x35, 0x2f, 0x95, 0xbc, 0xa3, 0x5c, 0x57, 0xa4, 0x6e, 0x90, 0x6b, 0xf6, 0xd7, 0x81, 0x7b, 0x3f,
-	0x9a, 0xa3, 0x25, 0x21, 0x38, 0x4b, 0x34, 0xe4, 0x79, 0x17, 0xa3, 0x3d, 0x27, 0xef, 0x45, 0xef,
-	0xdc, 0x06, 0x58, 0xc1, 0xb0, 0x2a, 0x90, 0x74, 0x02, 0x0f, 0x8e, 0xc3, 0xf3, 0xfb, 0x01, 0x56,
-	0xea, 0x0f, 0x3c, 0xec, 0xea, 0x80, 0xb0, 0x2e, 0xe6, 0x35, 0xc5, 0x7b, 0x6f, 0x2f, 0x27, 0x74,
-	0x58, 0x1f, 0xac, 0xf9, 0x8c, 0xf5, 0x69, 0xb7, 0x67, 0xac, 0x3b, 0x1a, 0x9c, 0xbf, 0xf9, 0x39,
-	0x4d, 0x85, 0xd9, 0x96, 0x6b, 0x1a, 0xe7, 0x19, 0xcb, 0x50, 0x6f, 0x8d, 0xe2, 0x1b, 0x64, 0xd5,
-	0xbb, 0x4f, 0x8f, 0xff, 0x1b, 0xeb, 0x51, 0xfd, 0xe6, 0xdf, 0xff, 0x0b, 0x00, 0x00, 0xff, 0xff,
-	0x02, 0x7c, 0x21, 0xbc, 0x96, 0x04, 0x00, 0x00,
+	// 577 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x55, 0x51, 0x6f, 0xd3, 0x3c,
+	0x14, 0x55, 0xbf, 0x76, 0xfb, 0xe0, 0x16, 0x4d, 0x9a, 0x29, 0xa3, 0x0a, 0xdb, 0xa8, 0x22, 0x51,
+	0xc6, 0x40, 0x09, 0x2d, 0x2f, 0x3c, 0x20, 0x21, 0x56, 0xd1, 0x69, 0xa2, 0x43, 0x5a, 0x10, 0x2f,
+	0xf0, 0xe4, 0xa5, 0x37, 0xad, 0xa5, 0x34, 0xc9, 0x1c, 0x67, 0x52, 0x9f, 0xf8, 0x4f, 0xfc, 0x32,
+	0x7e, 0x02, 0x8a, 0xed, 0x2e, 0x59, 0xeb, 0xac, 0x63, 0xf0, 0xd8, 0xdc, 0x73, 0xcf, 0x39, 0xbe,
+	0x3e, 0xb7, 0x86, 0x2e, 0x4d, 0x98, 0x9b, 0xf0, 0x58, 0xc4, 0x2e, 0x8b, 0x52, 0xc1, 0xb3, 0x19,
+	0x46, 0xc2, 0x0d, 0x10, 0xdd, 0x14, 0xf9, 0x25, 0xf3, 0xd1, 0x91, 0x45, 0x42, 0x68, 0xc2, 0x9c,
+	0x02, 0xe1, 0x04, 0x88, 0x96, 0x5d, 0xd9, 0x1b, 0xa0, 0xee, 0xb3, 0xf6, 0x0a, 0x4c, 0x88, 0xe3,
+	0x09, 0x72, 0x97, 0xce, 0xe2, 0x2c, 0x12, 0xba, 0xdc, 0x29, 0xca, 0x29, 0x52, 0xee, 0x4f, 0x5d,
+	0x9f, 0x33, 0x81, 0x9c, 0xc5, 0x91, 0x46, 0xec, 0xae, 0x20, 0x2e, 0x32, 0xe4, 0x73, 0x5d, 0x7d,
+	0x57, 0x65, 0x21, 0xe1, 0x71, 0xc0, 0x42, 0x74, 0x43, 0x16, 0xa0, 0x3f, 0xf7, 0x43, 0xfc, 0x78,
+	0x89, 0x91, 0x18, 0x50, 0x81, 0x93, 0x78, 0xd1, 0x6d, 0xbf, 0x07, 0x38, 0x46, 0xe1, 0xe1, 0x45,
+	0x86, 0xa9, 0x20, 0x3d, 0xb8, 0xa7, 0xc5, 0x69, 0xbb, 0xd6, 0xa9, 0x1f, 0x34, 0xfb, 0x8f, 0x9c,
+	0xfc, 0xd4, 0x4a, 0xd6, 0x19, 0x2c, 0x8c, 0x79, 0x57, 0x30, 0xfb, 0x2d, 0x34, 0x25, 0x41, 0x9a,
+	0xc4, 0x51, 0x8a, 0xe4, 0x05, 0xd4, 0x03, 0xc4, 0x76, 0xad, 0x53, 0x3b, 0x68, 0xf6, 0x1f, 0x3b,
+	0xab, 0x23, 0x73, 0x86, 0x88, 0x5e, 0x8e, 0xb1, 0x19, 0x34, 0x47, 0x2c, 0xfd, 0x0b, 0x6d, 0xf2,
+	0x1c, 0x36, 0xe4, 0x24, 0xda, 0xff, 0x49, 0xb9, 0xed, 0x32, 0xfe, 0x2c, 0x2f, 0x78, 0xaa, 0x6e,
+	0x9f, 0xc1, 0x03, 0x25, 0xa5, 0x5d, 0xbe, 0x84, 0x46, 0x80, 0x98, 0x6a, 0x9d, 0x4a, 0x9b, 0x12,
+	0x44, 0x5a, 0xb0, 0x21, 0x62, 0x41, 0x43, 0xa9, 0x52, 0xf7, 0xd4, 0x0f, 0xfb, 0x04, 0x9e, 0x0c,
+	0x68, 0xe8, 0x67, 0x21, 0x15, 0x78, 0xca, 0x22, 0xc1, 0xa2, 0xc9, 0x10, 0x31, 0x5d, 0x9c, 0xe6,
+	0x10, 0x36, 0x3f, 0xc8, 0x5b, 0xd6, 0xa3, 0x20, 0x52, 0x43, 0xdd, 0xbf, 0xa3, 0x2a, 0x9e, 0x46,
+	0xd8, 0x9f, 0x60, 0xd7, 0x4c, 0x55, 0xb8, 0x1d, 0xde, 0xc6, 0x6d, 0x0e, 0xba, 0xe6, 0xeb, 0x28,
+	0xe3, 0xd1, 0x3f, 0xf2, 0x75, 0x8d, 0xea, 0x2e, 0xbe, 0x7e, 0xd6, 0x60, 0xef, 0x8a, 0x6d, 0xb4,
+	0x88, 0x64, 0xd9, 0x5a, 0x17, 0xb6, 0x8a, 0xee, 0xcf, 0x74, 0xa6, 0x52, 0x74, 0xdf, 0x5b, 0xfa,
+	0x4a, 0x18, 0xec, 0x98, 0x23, 0x2d, 0x2f, 0x68, 0xab, 0xdf, 0x33, 0x18, 0xd1, 0xbb, 0xe0, 0x8c,
+	0x8c, 0x8d, 0x5e, 0x05, 0xa1, 0x7d, 0x0a, 0xfb, 0x55, 0x9e, 0xef, 0x32, 0x83, 0x87, 0xb0, 0x3d,
+	0xcc, 0xc2, 0xf0, 0x6b, 0x32, 0xa6, 0x02, 0xf5, 0xb1, 0xed, 0x16, 0x90, 0xf2, 0x47, 0xc5, 0xdb,
+	0xff, 0xd5, 0x80, 0xff, 0xbf, 0xa8, 0xbf, 0x1f, 0x32, 0x84, 0xfa, 0x31, 0x0a, 0xb2, 0x6f, 0x22,
+	0x2f, 0x96, 0xd7, 0x7a, 0x5a, 0x59, 0xd7, 0x5e, 0x4f, 0xa0, 0x91, 0x6f, 0x01, 0x31, 0x02, 0x4b,
+	0xab, 0x68, 0x75, 0xaa, 0x01, 0x9a, 0x6a, 0x0e, 0x2d, 0x53, 0x64, 0x89, 0x6b, 0xea, 0xbc, 0x61,
+	0x4f, 0xac, 0xd7, 0xb7, 0x6f, 0x30, 0x48, 0x97, 0x52, 0xb9, 0x46, 0x7a, 0x75, 0x15, 0xd6, 0x48,
+	0x9b, 0x02, 0xff, 0x03, 0x76, 0xcc, 0x71, 0x20, 0xbd, 0x1b, 0xb9, 0x4c, 0x71, 0xb7, 0xfa, 0x7f,
+	0xd2, 0xa2, 0x0d, 0x7c, 0x07, 0x28, 0xb2, 0x42, 0x9e, 0x19, 0xd3, 0xb6, 0x1c, 0x30, 0xab, 0xbb,
+	0x0e, 0xa6, 0xc8, 0x8f, 0x5e, 0x7d, 0x3b, 0x9c, 0x30, 0x31, 0xcd, 0xce, 0x1d, 0x3f, 0x9e, 0xb9,
+	0x33, 0x4c, 0xa7, 0x82, 0xd3, 0x31, 0xba, 0xf9, 0xfb, 0x32, 0x59, 0x7e, 0x5c, 0xce, 0x37, 0xe5,
+	0xfb, 0xf1, 0xe6, 0x77, 0x00, 0x00, 0x00, 0xff, 0xff, 0xc3, 0x9b, 0x89, 0xbd, 0x3e, 0x07, 0x00,
+	0x00,
 }
