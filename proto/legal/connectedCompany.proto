@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package api.legal;
+
+import "location/address.proto";
+import "legal/companyRepresentative.proto";
+
+option go_package = "github.com/meshtrade/api/go/legal";
+
+message ConnectedCompany {
+  // Unique identifier for the connected company
+  string id = 1;
+
+  // The business name of the connected company
+  string businessName = 2;
+
+  // Legal form of the connected company (e.g., Corporation, Partnership)
+  LegalForm legalForm = 3;
+
+  // Registered name of the connected company
+  string registeredName = 4;
+
+  // Registration number of the connected company
+  string registrationNumber = 5;
+
+  // Registered address of the connected company
+  location.Address registeredAddress = 6;
+
+  // Business address of the connected company
+  location.Address businessAddress = 7;
+
+  // Head office address of the connected company
+  location.Address headOfficeAddress = 8;
+
+  // Representative information for the connected company
+  legal.CompanyRepresentative companyRepresentative = 9;
+}
+
+// Enum for LegalForm
+enum LegalForm {
+  // Default unknown legal form
+  UNKNOWN = 0;
+
+  // South African Company
+  SOUTH_AFRICAN_COMPANY = 1;
+
+  // Sole Proprietorship
+  SOLE_PROPRIETORSHIP = 2;
+
+  // Close Corporation
+  CLOSE_CORPORATION = 3;
+
+  // Foreign Company
+  FOREIGN_COMPANY = 4;
+
+  // Listed Company
+  LISTED_COMPANY = 5;
+
+  // Partnership
+  PARTNERSHIP = 6;
+
+  // Trust
+  TRUST = 7;
+
+  // Other legal form
+  OTHER = 8;
+}
+

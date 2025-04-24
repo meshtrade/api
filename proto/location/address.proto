@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package location;
+
+message Address {
+  // First line of the address
+  string line1 = 1;
+
+  // Second line of the address (optional)
+  string line2 = 2;
+
+  // City of the address
+  string city = 3;
+
+  // Province or state of the address
+  string province = 4;
+
+  // Postal or ZIP code of the address
+  string postal_code = 5;
+
+  // Country code of the address in ISO format
+  string country_code = 6;
+}

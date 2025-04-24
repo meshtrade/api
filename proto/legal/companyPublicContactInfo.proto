@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package api.legal;
+
+option go_package = "github.com/meshtrade/api/go/legal";
+
+// Represents the public contact information of a company
+message CompanyPublicContactInfo {
+  // First name of the contact person
+  string firstName = 1;
+
+  // Middle names of the contact person
+  string middleNames = 2;
+
+  // Last name of the contact person
+  string lastName = 3;
+
+  // Telephone number of the contact person
+  string telephoneNumber = 4;
+
+  // Cellphone number of the contact person
+  string cellphoneNumber = 5;
+
+  // Email address of the contact person
+  string emailAddress = 6;
+}

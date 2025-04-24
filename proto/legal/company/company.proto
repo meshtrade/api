@@ -1,36 +1,45 @@
 syntax = "proto3";
 
-package company;
+package api.legal.company;
+
+option go_package = "github.com/meshtrade/api/go/legal/company";
 
 import "google/protobuf/timestamp.proto";
+import "location/address.proto";
+import "legal/companyPublicContactInfo.proto";
+import "legal/companyRepresentative.proto";
+import "legal/company/industryClassification.proto";
+import "legal/connectedIndividual.proto";
+import "legal/connectedCompany.proto";
+import "audit/entry.proto";
 
 message Company {
   // Unique identifier for the company
   string id = 1;
 
   // Identifier for the owner of the company
-  string owner_id = 2;
+  string ownerID = 2;
 
   // Registered name of the company (required field)
-  string registered_name = 3;
+  string registeredName = 3;
 
   // Tax reference number of the company
-  string tax_reference_number = 4;
+  string taxReferenceNumber = 4;
 
   // Registration number of the company
-  string registration_number = 5;
+  string registrationNumber = 5;
 
   // VAT (Value-Added Tax) registration number of the company
-  string vat_registration_number = 6;
+  string vatRegistrationNumber = 6;
 
   // Public contact information of the company
-  CompanyPublicContactInfo public_contact_info = 7;
+  legal.CompanyPublicContactInfo public_contact_info = 7;
 
   // Details of the company representative
-  CompanyRepresentative company_representative = 8;
+  legal.CompanyRepresentative companyRepresentative = 8;
 
   // Industry classification of the company
-  IndustryClassification industry_classification = 9;
+  company.LegalForm industryClassification = 9;
 
   // Stock exchange where the company is listed
   string listed_exchange = 10;
@@ -39,104 +48,31 @@ message Company {
   string listing_reference = 11;
 
   // Country code representing the country of incorporation
-  string country_of_incorporation = 12;
+  string countryOfIncorporation = 12;
 
   // Legal form of the company (e.g., Proprietorship, Corporation)
-  LegalForm form_of_incorporation = 13;
+  LegalForm formOfIncorporation = 13;
 
   // The company's registered address
-  Address registered_address = 14;
+  location.Address registeredAddress = 14;
 
   // The company's business address
-  Address business_address = 15;
+  location.Address businessAddress = 15;
 
   // The company's head office address
-  Address head_office_address = 16;
+  location.Address headOfficeAddress = 16;
 
   // List of individuals connected to the company, such as directors or stakeholders
-  repeated ConnectedIndividual connected_individuals = 17;
+  repeated legal.ConnectedIndividual connectedIndividuals = 17;
 
   // List of companies connected to the company
-  repeated ConnectedCompany connected_companies = 18;
+  repeated legal.ConnectedCompany connectedCompanies = 18;
 
   // Audit entry information for the company
-  AuditEntryDeprecated audit_entry = 19;
+  audit.Entry audit_entry = 19;
 }
 
-// Define auxiliary types
-message CompanyPublicContactInfo {
-  // Public-facing email address of the company
-  string email = 1;
 
-  // Public-facing phone number of the company
-  string phone_number = 2;
-}
-
-message CompanyRepresentative {
-  // Name of the company's representative
-  string name = 1;
-
-  // Position or title of the company's representative
-  string position = 2;
-}
-
-message IndustryClassification {
-  // High-level sector the company belongs to
-  string sector = 1;
-
-  // Industry within the sector
-  string industry = 2;
-
-  // Sub-industry within the industry
-  string sub_industry = 3;
-}
-
-message Address {
-  // First line of the address
-  string line1 = 1;
-
-  // Second line of the address (optional)
-  string line2 = 2;
-
-  // City of the address
-  string city = 3;
-
-  // Province or state of the address
-  string province = 4;
-
-  // Postal or ZIP code of the address
-  string postal_code = 5;
-
-  // Country code of the address in ISO format
-  string country_code = 6;
-}
-
-message ConnectedIndividual {
-  // Name of the connected individual
-  string name = 1;
-
-  // Relationship of the individual to the company (e.g., Director, Shareholder)
-  string relation = 2;
-}
-
-message ConnectedCompany {
-  // Name of the connected company
-  string name = 1;
-
-  // Relationship of the company to the current company (e.g., Subsidiary, Partner)
-  string relation = 2;
-}
-
-message AuditEntryDeprecated {
-  // Version of the audit entry
-  int32 version = 1;
-
-  // Timestamp when the entry was created
-  google.protobuf.Timestamp created_at = 2;
-
-  // Timestamp when the entry was last updated
-  google.protobuf.Timestamp updated_at = 3;
-}
 
 // Enum for LegalForm
 enum LegalForm {
