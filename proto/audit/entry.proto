@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package audit;
 
-option go_package = "github.com/meshtrade/mesh/common/go/pkg/audit";
+option go_package = "github.com/meshtrade/api/go/audit";
 
 import "google/protobuf/timestamp.proto";
 
