@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+package company;
+
+import "google/protobuf/timestamp.proto";
+
+message Company {
+  string id = 1;
+  string owner_id = 2;
+  string registered_name = 3;
+  string tax_reference_number = 4;
+  string registration_number = 5;
+  string vat_registration_number = 6;
+  CompanyPublicContactInfo public_contact_info = 7;
+  CompanyRepresentative company_representative = 8;
+  IndustryClassification industry_classification = 9;
+  string listed_exchange = 10;
+  string listing_reference = 11;
+  string country_of_incorporation = 12;
+  LegalForm form_of_incorporation = 13;
+  Address registered_address = 14;
+  Address business_address = 15;
+  Address head_office_address = 16;
+  repeated ConnectedIndividual connected_individuals = 17;
+  repeated ConnectedCompany connected_companies = 18;
+  AuditEntryDeprecated audit_entry = 19;
+}
+
+// Define auxiliary types
+message CompanyPublicContactInfo {
+  string email = 1;
+  string phone_number = 2;
+}
+
+message CompanyRepresentative {
+  string name = 1;
+  string position = 2;
+}
+
+message IndustryClassification {
+  string sector = 1;
+  string industry = 2;
+  string sub_industry = 3;
+}
+
+message Address {
+  string line1 = 1;
+  string line2 = 2;
+  string city = 3;
+  string province = 4;
+  string postal_code = 5;
+  string country_code = 6;
+}
+
+message ConnectedIndividual {
+  string name = 1;
+  string relation = 2;
+}
+
+message ConnectedCompany {
+  string name = 1;
+  string relation = 2;
+}
+
+message AuditEntryDeprecated {
+  int32 version = 1;
+  google.protobuf.Timestamp created_at = 2;
+  google.protobuf.Timestamp updated_at = 3;
+}
+
+// Enum for LegalForm
+enum LegalForm {
+  UNKNOWN = 0;
+  SOUTH_AFRICAN_COMPANY = 1;
+  SOLE_PROPRIETORSHIP = 2;
+  CLOSE_CORPORATION = 3;
+  FOREIGN_COMPANY = 4;
+  LISTED_COMPANY = 5;
+  PARTNERSHIP = 6;
+  TRUST = 7;
+  OTHER = 8;
+}
