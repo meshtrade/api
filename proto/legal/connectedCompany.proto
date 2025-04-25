@@ -2,8 +2,8 @@ syntax = "proto3";
 
 package api.legal;
 
-import "location/address.proto";
-import "legal/companyRepresentative.proto";
+import "api/proto/location/address.proto";
+import "api/proto/legal/companyRepresentative.proto";
 
 option go_package = "github.com/meshtrade/api/go/legal";
 
@@ -24,45 +24,44 @@ message ConnectedCompany {
   string registrationNumber = 5;
 
   // Registered address of the connected company
-  location.Address registeredAddress = 6;
+  api.location.Address registeredAddress = 6;
 
   // Business address of the connected company
-  location.Address businessAddress = 7;
+  api.location.Address businessAddress = 7;
 
   // Head office address of the connected company
-  location.Address headOfficeAddress = 8;
+  api.location.Address headOfficeAddress = 8;
 
   // Representative information for the connected company
-  legal.CompanyRepresentative companyRepresentative = 9;
+  api.legal.CompanyRepresentative companyRepresentative = 9;
 }
 
 // Enum for LegalForm
 enum LegalForm {
   // Default unknown legal form
-  UNKNOWN = 0;
+  UNDEFINED_LEGAL_FORM = 0; // 0 not used to prevent unexpected default value behaviour.
 
   // South African Company
-  SOUTH_AFRICAN_COMPANY = 1;
+  SOUTH_AFRICAN_COMPANY_LEGAL_FORM = 1;
 
   // Sole Proprietorship
-  SOLE_PROPRIETORSHIP = 2;
+  SOLE_PROPRIETORSHIP_LEGAL_FORM = 2;
 
   // Close Corporation
-  CLOSE_CORPORATION = 3;
+  CLOSE_CORPORATION_LEGAL_FORM = 3;
 
   // Foreign Company
-  FOREIGN_COMPANY = 4;
+  FOREIGN_COMPANY_LEGAL_FORM = 4;
 
   // Listed Company
-  LISTED_COMPANY = 5;
+  LISTED_COMPANY_LEGAL_FORM = 5;
 
   // Partnership
-  PARTNERSHIP = 6;
+  PARTNERSHIP_LEGAL_FORM = 6;
 
   // Trust
-  TRUST = 7;
+  TRUST_LEGAL_FORM = 7;
 
   // Other legal form
-  OTHER = 8;
+  OTHER_LEGAL_FORM = 8;
 }
-

@@ -6,12 +6,18 @@ option go_package = "github.com/meshtrade/api/go/legal/company";
 
 
 message IndustryClassification {
-  // High-level sector the company belongs to
+  /*
+  Sector the company belongs to
+  */
   string sector = 1;
 
-  // Industry within the sector
+  /*
+  Industry within the sector
+  */
   string industry = 2;
 
-  // Sub-industry within the industry
+  /*
+  SubIndustry within the industry
+  */
   string subIndustry = 3;
 }

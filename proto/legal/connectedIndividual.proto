@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package api.legal;
 
-import "location/address.proto";
+import "api/proto/location/address.proto";
 
 option go_package = "github.com/meshtrade/api/go/legal";
 
@@ -32,10 +32,10 @@ message ConnectedIndividual {
   string identificationNumber = 8;
 
   // Physical address of the individual
-  location.Address physicalAddress = 9;
+  api.location.Address physicalAddress = 9;
 
   // Postal address of the individual
-  location.Address postalAddress = 10;
+  api.location.Address postalAddress = 10;
 
   // Telephone number of the individual (at least one of telephone, cellphone, or email must be provided)
   string telephoneNumber = 11;

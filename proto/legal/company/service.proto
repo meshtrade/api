@@ -22,7 +22,7 @@ message ListRequest {
   repeated api.search.Criterion criteria = 1;
 
   /*
-   Query controls pagination of the fees.
+  Query controls pagination of the fees.
   */
   api.search.Query query = 2;
 }
@@ -31,7 +31,6 @@ message ListRequest {
 ListResponse is the List method response on the Fee Service.
 */
 message ListResponse {
-
   /*
   Fees are the list of fees that were retrieved.
   */

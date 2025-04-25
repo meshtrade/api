@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package audit;
+package api.audit;
 
 option go_package = "github.com/meshtrade/api/go/audit";
 

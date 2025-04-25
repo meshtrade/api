@@ -5,13 +5,13 @@ package api.legal.company;
 option go_package = "github.com/meshtrade/api/go/legal/company";
 
 import "google/protobuf/timestamp.proto";
-import "location/address.proto";
-import "legal/companyPublicContactInfo.proto";
-import "legal/companyRepresentative.proto";
-import "legal/company/industryClassification.proto";
-import "legal/connectedIndividual.proto";
-import "legal/connectedCompany.proto";
-import "audit/entry.proto";
+import "api/proto/location/address.proto";
+import "api/proto/legal/companyPublicContactInfo.proto";
+import "api/proto/legal/companyRepresentative.proto";
+import "api/proto/legal/connectedCompany.proto";
+import "api/proto/legal/connectedIndividual.proto";
+import "api/proto/legal/company/industryClassification.proto";
+import "api/proto/audit/entry.proto";
 
 message Company {
   // Unique identifier for the company
@@ -33,13 +33,13 @@ message Company {
   string vatRegistrationNumber = 6;
 
   // Public contact information of the company
-  legal.CompanyPublicContactInfo public_contact_info = 7;
+  api.legal.CompanyPublicContactInfo public_contact_info = 7;
 
   // Details of the company representative
-  legal.CompanyRepresentative companyRepresentative = 8;
+  api.legal.CompanyRepresentative companyRepresentative = 8;
 
   // Industry classification of the company
-  company.LegalForm industryClassification = 9;
+  api.legal.company.LegalForm industryClassification = 9;
 
   // Stock exchange where the company is listed
   string listed_exchange = 10;
@@ -51,7 +51,7 @@ message Company {
   string countryOfIncorporation = 12;
 
   // Legal form of the company (e.g., Proprietorship, Corporation)
-  LegalForm formOfIncorporation = 13;
+  api.legal.company.LegalForm formOfIncorporation = 13;
 
   // The company's registered address
   location.Address registeredAddress = 14;
@@ -63,13 +63,13 @@ message Company {
   location.Address headOfficeAddress = 16;
 
   // List of individuals connected to the company, such as directors or stakeholders
-  repeated legal.ConnectedIndividual connectedIndividuals = 17;
+  repeated api.legal.ConnectedIndividual connectedIndividuals = 17;
 
   // List of companies connected to the company
-  repeated legal.ConnectedCompany connectedCompanies = 18;
+  repeated api.legal.ConnectedCompany connectedCompanies = 18;
 
   // Audit entry information for the company
-  audit.Entry audit_entry = 19;
+  api.audit.Entry audit_entry = 19;
 }
 
 
@@ -77,29 +77,29 @@ message Company {
 // Enum for LegalForm
 enum LegalForm {
   // Default unknown legal form
-  UNKNOWN = 0;
+  UNDEFINED_LEGAL_FORM = 0; // 0 not used to prevent unexpected default value behaviour.
 
   // South African Company
-  SOUTH_AFRICAN_COMPANY = 1;
+  SOUTH_AFRICAN_COMPANY_LEGAL_FORM = 1;
 
   // Sole Proprietorship
-  SOLE_PROPRIETORSHIP = 2;
+  SOLE_PROPRIETORSHIP_LEGAL_FORM = 2;
 
   // Close Corporation
-  CLOSE_CORPORATION = 3;
+  CLOSE_CORPORATION_LEGAL_FORM = 3;
 
   // Foreign Company
-  FOREIGN_COMPANY = 4;
+  FOREIGN_COMPANY_LEGAL_FORM = 4;
 
   // Listed Company
-  LISTED_COMPANY = 5;
+  LISTED_COMPANY_LEGAL_FORM = 5;
 
   // Partnership
-  PARTNERSHIP = 6;
+  PARTNERSHIP_LEGAL_FORM = 6;
 
   // Trust
-  TRUST = 7;
+  TRUST_LEGAL_FORM = 7;
 
   // Other legal form
-  OTHER = 8;
+  OTHER_LEGAL_FORM = 8;
 }
