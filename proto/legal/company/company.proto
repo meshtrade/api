@@ -14,12 +14,6 @@ import "api/proto/legal/company/industryClassification.proto";
 import "api/proto/audit/entry.proto";
 
 message Company {
-  // Unique identifier for the company
-  string id = 1;
-
-  // Identifier for the owner of the company
-  string ownerID = 2;
-
   // Registered name of the company (required field)
   string registeredName = 3;
 
@@ -67,9 +61,6 @@ message Company {
 
   // List of companies connected to the company
   repeated api.legal.ConnectedCompany connectedCompanies = 18;
-
-  // Audit entry information for the company
-  api.audit.Entry audit_entry = 19;
 }
 
 
