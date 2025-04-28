@@ -11,6 +11,7 @@ import * as api_proto_search_textNINListCriterion_pb from '../search/textNINList
 import * as api_proto_search_uint32ExactCriterion_pb from '../search/uint32ExactCriterion_pb'; // proto import: "api/proto/search/uint32ExactCriterion.proto"
 import * as api_proto_search_uint32NEExactCriterion_pb from '../search/uint32NEExactCriterion_pb'; // proto import: "api/proto/search/uint32NEExactCriterion.proto"
 import * as api_proto_search_uint32ListCriterion_pb from '../search/uint32ListCriterion_pb'; // proto import: "api/proto/search/uint32ListCriterion.proto"
+import * as api_proto_search_uint32RangeCriterion_pb from '../search/uint32RangeCriterion_pb'; // proto import: "api/proto/search/uint32RangeCriterion.proto"
 import * as api_proto_search_uint32NINListCriterion_pb from '../search/uint32NINListCriterion_pb'; // proto import: "api/proto/search/uint32NINListCriterion.proto"
 import * as api_proto_search_dateRangeCriterion_pb from '../search/dateRangeCriterion_pb'; // proto import: "api/proto/search/dateRangeCriterion.proto"
 import * as api_proto_search_int64ExactCriterion_pb from '../search/int64ExactCriterion_pb'; // proto import: "api/proto/search/int64ExactCriterion.proto"
@@ -67,6 +68,11 @@ export class Criterion extends jspb.Message {
   hasUint32listcriterion(): boolean;
   clearUint32listcriterion(): Criterion;
 
+  getUint32rangecriterion(): api_proto_search_uint32ListCriterion_pb.Uint32ListCriterion | undefined;
+  setUint32rangecriterion(value?: api_proto_search_uint32ListCriterion_pb.Uint32ListCriterion): Criterion;
+  hasUint32rangecriterion(): boolean;
+  clearUint32rangecriterion(): Criterion;
+
   getUint32ninlistcriterion(): api_proto_search_uint32NINListCriterion_pb.Uint32NINListCriterion | undefined;
   setUint32ninlistcriterion(value?: api_proto_search_uint32NINListCriterion_pb.Uint32NINListCriterion): Criterion;
   hasUint32ninlistcriterion(): boolean;
@@ -104,6 +110,7 @@ export namespace Criterion {
     uint32exactcriterion?: api_proto_search_uint32ExactCriterion_pb.Uint32ExactCriterion.AsObject,
     uint32neexactcriterion?: api_proto_search_uint32NEExactCriterion_pb.Uint32NEExactCriterion.AsObject,
     uint32listcriterion?: api_proto_search_uint32ListCriterion_pb.Uint32ListCriterion.AsObject,
+    uint32rangecriterion?: api_proto_search_uint32ListCriterion_pb.Uint32ListCriterion.AsObject,
     uint32ninlistcriterion?: api_proto_search_uint32NINListCriterion_pb.Uint32NINListCriterion.AsObject,
     daterangecriterion?: api_proto_search_dateRangeCriterion_pb.DateRangeCriterion.AsObject,
     int64exactcriterion?: api_proto_search_int64ExactCriterion_pb.Int64ExactCriterion.AsObject,
@@ -121,9 +128,10 @@ export namespace Criterion {
     UINT32EXACTCRITERION = 8,
     UINT32NEEXACTCRITERION = 9,
     UINT32LISTCRITERION = 10,
-    UINT32NINLISTCRITERION = 11,
-    DATERANGECRITERION = 12,
-    INT64EXACTCRITERION = 13,
+    UINT32RANGECRITERION = 11,
+    UINT32NINLISTCRITERION = 12,
+    DATERANGECRITERION = 13,
+    INT64EXACTCRITERION = 14,
   }
 }
 

@@ -41,6 +41,8 @@ var api_proto_search_uint32NEExactCriterion_pb = require('../search/uint32NEExac
 goog.object.extend(proto, api_proto_search_uint32NEExactCriterion_pb);
 var api_proto_search_uint32ListCriterion_pb = require('../search/uint32ListCriterion_pb.js');
 goog.object.extend(proto, api_proto_search_uint32ListCriterion_pb);
+var api_proto_search_uint32RangeCriterion_pb = require('../search/uint32RangeCriterion_pb.js');
+goog.object.extend(proto, api_proto_search_uint32RangeCriterion_pb);
 var api_proto_search_uint32NINListCriterion_pb = require('../search/uint32NINListCriterion_pb.js');
 goog.object.extend(proto, api_proto_search_uint32NINListCriterion_pb);
 var api_proto_search_dateRangeCriterion_pb = require('../search/dateRangeCriterion_pb.js');
@@ -101,7 +103,7 @@ if (goog.DEBUG && !COMPILED) {
  * @private {!Array<!Array<number>>}
  * @const
  */
-proto.api.search.Criterion.oneofGroups_ = [[1,2,3,4,5,6,7,8,9,10,11,12,13]];
+proto.api.search.Criterion.oneofGroups_ = [[1,2,3,4,5,6,7,8,9,10,11,12,13,14]];
 
 /**
  * @enum {number}
@@ -118,9 +120,10 @@ proto.api.search.Criterion.CriterionCase = {
   UINT32EXACTCRITERION: 8,
   UINT32NEEXACTCRITERION: 9,
   UINT32LISTCRITERION: 10,
-  UINT32NINLISTCRITERION: 11,
-  DATERANGECRITERION: 12,
-  INT64EXACTCRITERION: 13
+  UINT32RANGECRITERION: 11,
+  UINT32NINLISTCRITERION: 12,
+  DATERANGECRITERION: 13,
+  INT64EXACTCRITERION: 14
 };
 
 /**
@@ -171,6 +174,7 @@ textninlistcriterion: (f = msg.getTextninlistcriterion()) && api_proto_search_te
 uint32exactcriterion: (f = msg.getUint32exactcriterion()) && api_proto_search_uint32ExactCriterion_pb.Uint32ExactCriterion.toObject(includeInstance, f),
 uint32neexactcriterion: (f = msg.getUint32neexactcriterion()) && api_proto_search_uint32NEExactCriterion_pb.Uint32NEExactCriterion.toObject(includeInstance, f),
 uint32listcriterion: (f = msg.getUint32listcriterion()) && api_proto_search_uint32ListCriterion_pb.Uint32ListCriterion.toObject(includeInstance, f),
+uint32rangecriterion: (f = msg.getUint32rangecriterion()) && api_proto_search_uint32ListCriterion_pb.Uint32ListCriterion.toObject(includeInstance, f),
 uint32ninlistcriterion: (f = msg.getUint32ninlistcriterion()) && api_proto_search_uint32NINListCriterion_pb.Uint32NINListCriterion.toObject(includeInstance, f),
 daterangecriterion: (f = msg.getDaterangecriterion()) && api_proto_search_dateRangeCriterion_pb.DateRangeCriterion.toObject(includeInstance, f),
 int64exactcriterion: (f = msg.getInt64exactcriterion()) && api_proto_search_int64ExactCriterion_pb.Int64ExactCriterion.toObject(includeInstance, f)
@@ -261,16 +265,21 @@ proto.api.search.Criterion.deserializeBinaryFromReader = function(msg, reader) {
       msg.setUint32listcriterion(value);
       break;
     case 11:
+      var value = new api_proto_search_uint32ListCriterion_pb.Uint32ListCriterion;
+      reader.readMessage(value,api_proto_search_uint32ListCriterion_pb.Uint32ListCriterion.deserializeBinaryFromReader);
+      msg.setUint32rangecriterion(value);
+      break;
+    case 12:
       var value = new api_proto_search_uint32NINListCriterion_pb.Uint32NINListCriterion;
       reader.readMessage(value,api_proto_search_uint32NINListCriterion_pb.Uint32NINListCriterion.deserializeBinaryFromReader);
       msg.setUint32ninlistcriterion(value);
       break;
-    case 12:
+    case 13:
       var value = new api_proto_search_dateRangeCriterion_pb.DateRangeCriterion;
       reader.readMessage(value,api_proto_search_dateRangeCriterion_pb.DateRangeCriterion.deserializeBinaryFromReader);
       msg.setDaterangecriterion(value);
       break;
-    case 13:
+    case 14:
       var value = new api_proto_search_int64ExactCriterion_pb.Int64ExactCriterion;
       reader.readMessage(value,api_proto_search_int64ExactCriterion_pb.Int64ExactCriterion.deserializeBinaryFromReader);
       msg.setInt64exactcriterion(value);
@@ -384,10 +393,18 @@ proto.api.search.Criterion.serializeBinaryToWriter = function(message, writer) {
       api_proto_search_uint32ListCriterion_pb.Uint32ListCriterion.serializeBinaryToWriter
     );
   }
-  f = message.getUint32ninlistcriterion();
+  f = message.getUint32rangecriterion();
   if (f != null) {
     writer.writeMessage(
       11,
+      f,
+      api_proto_search_uint32ListCriterion_pb.Uint32ListCriterion.serializeBinaryToWriter
+    );
+  }
+  f = message.getUint32ninlistcriterion();
+  if (f != null) {
+    writer.writeMessage(
+      12,
       f,
       api_proto_search_uint32NINListCriterion_pb.Uint32NINListCriterion.serializeBinaryToWriter
     );
@@ -395,7 +412,7 @@ proto.api.search.Criterion.serializeBinaryToWriter = function(message, writer) {
   f = message.getDaterangecriterion();
   if (f != null) {
     writer.writeMessage(
-      12,
+      13,
       f,
       api_proto_search_dateRangeCriterion_pb.DateRangeCriterion.serializeBinaryToWriter
     );
@@ -403,7 +420,7 @@ proto.api.search.Criterion.serializeBinaryToWriter = function(message, writer) {
   f = message.getInt64exactcriterion();
   if (f != null) {
     writer.writeMessage(
-      13,
+      14,
       f,
       api_proto_search_int64ExactCriterion_pb.Int64ExactCriterion.serializeBinaryToWriter
     );
@@ -782,12 +799,49 @@ proto.api.search.Criterion.prototype.hasUint32listcriterion = function() {
 
 
 /**
- * optional Uint32NINListCriterion uint32NINListCriterion = 11;
+ * optional Uint32ListCriterion uint32RangeCriterion = 11;
+ * @return {?proto.api.search.Uint32ListCriterion}
+ */
+proto.api.search.Criterion.prototype.getUint32rangecriterion = function() {
+  return /** @type{?proto.api.search.Uint32ListCriterion} */ (
+    jspb.Message.getWrapperField(this, api_proto_search_uint32ListCriterion_pb.Uint32ListCriterion, 11));
+};
+
+
+/**
+ * @param {?proto.api.search.Uint32ListCriterion|undefined} value
+ * @return {!proto.api.search.Criterion} returns this
+*/
+proto.api.search.Criterion.prototype.setUint32rangecriterion = function(value) {
+  return jspb.Message.setOneofWrapperField(this, 11, proto.api.search.Criterion.oneofGroups_[0], value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.api.search.Criterion} returns this
+ */
+proto.api.search.Criterion.prototype.clearUint32rangecriterion = function() {
+  return this.setUint32rangecriterion(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.api.search.Criterion.prototype.hasUint32rangecriterion = function() {
+  return jspb.Message.getField(this, 11) != null;
+};
+
+
+/**
+ * optional Uint32NINListCriterion uint32NINListCriterion = 12;
  * @return {?proto.api.search.Uint32NINListCriterion}
  */
 proto.api.search.Criterion.prototype.getUint32ninlistcriterion = function() {
   return /** @type{?proto.api.search.Uint32NINListCriterion} */ (
-    jspb.Message.getWrapperField(this, api_proto_search_uint32NINListCriterion_pb.Uint32NINListCriterion, 11));
+    jspb.Message.getWrapperField(this, api_proto_search_uint32NINListCriterion_pb.Uint32NINListCriterion, 12));
 };
 
 
@@ -796,7 +850,7 @@ proto.api.search.Criterion.prototype.getUint32ninlistcriterion = function() {
  * @return {!proto.api.search.Criterion} returns this
 */
 proto.api.search.Criterion.prototype.setUint32ninlistcriterion = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 11, proto.api.search.Criterion.oneofGroups_[0], value);
+  return jspb.Message.setOneofWrapperField(this, 12, proto.api.search.Criterion.oneofGroups_[0], value);
 };
 
 
@@ -814,17 +868,17 @@ proto.api.search.Criterion.prototype.clearUint32ninlistcriterion = function() {
  * @return {boolean}
  */
 proto.api.search.Criterion.prototype.hasUint32ninlistcriterion = function() {
-  return jspb.Message.getField(this, 11) != null;
+  return jspb.Message.getField(this, 12) != null;
 };
 
 
 /**
- * optional DateRangeCriterion dateRangeCriterion = 12;
+ * optional DateRangeCriterion dateRangeCriterion = 13;
  * @return {?proto.api.search.DateRangeCriterion}
  */
 proto.api.search.Criterion.prototype.getDaterangecriterion = function() {
   return /** @type{?proto.api.search.DateRangeCriterion} */ (
-    jspb.Message.getWrapperField(this, api_proto_search_dateRangeCriterion_pb.DateRangeCriterion, 12));
+    jspb.Message.getWrapperField(this, api_proto_search_dateRangeCriterion_pb.DateRangeCriterion, 13));
 };
 
 
@@ -833,7 +887,7 @@ proto.api.search.Criterion.prototype.getDaterangecriterion = function() {
  * @return {!proto.api.search.Criterion} returns this
 */
 proto.api.search.Criterion.prototype.setDaterangecriterion = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 12, proto.api.search.Criterion.oneofGroups_[0], value);
+  return jspb.Message.setOneofWrapperField(this, 13, proto.api.search.Criterion.oneofGroups_[0], value);
 };
 
 
@@ -851,17 +905,17 @@ proto.api.search.Criterion.prototype.clearDaterangecriterion = function() {
  * @return {boolean}
  */
 proto.api.search.Criterion.prototype.hasDaterangecriterion = function() {
-  return jspb.Message.getField(this, 12) != null;
+  return jspb.Message.getField(this, 13) != null;
 };
 
 
 /**
- * optional Int64ExactCriterion int64ExactCriterion = 13;
+ * optional Int64ExactCriterion int64ExactCriterion = 14;
  * @return {?proto.api.search.Int64ExactCriterion}
  */
 proto.api.search.Criterion.prototype.getInt64exactcriterion = function() {
   return /** @type{?proto.api.search.Int64ExactCriterion} */ (
-    jspb.Message.getWrapperField(this, api_proto_search_int64ExactCriterion_pb.Int64ExactCriterion, 13));
+    jspb.Message.getWrapperField(this, api_proto_search_int64ExactCriterion_pb.Int64ExactCriterion, 14));
 };
 
 
@@ -870,7 +924,7 @@ proto.api.search.Criterion.prototype.getInt64exactcriterion = function() {
  * @return {!proto.api.search.Criterion} returns this
 */
 proto.api.search.Criterion.prototype.setInt64exactcriterion = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 13, proto.api.search.Criterion.oneofGroups_[0], value);
+  return jspb.Message.setOneofWrapperField(this, 14, proto.api.search.Criterion.oneofGroups_[0], value);
 };
 
 
@@ -888,7 +942,7 @@ proto.api.search.Criterion.prototype.clearInt64exactcriterion = function() {
  * @return {boolean}
  */
 proto.api.search.Criterion.prototype.hasInt64exactcriterion = function() {
-  return jspb.Message.getField(this, 13) != null;
+  return jspb.Message.getField(this, 14) != null;
 };
 
 

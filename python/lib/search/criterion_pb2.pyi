@@ -7,6 +7,7 @@ from api.python.lib.search import textNINListCriterion_pb2 as _textNINListCriter
 from api.python.lib.search import uint32ExactCriterion_pb2 as _uint32ExactCriterion_pb2
 from api.python.lib.search import uint32NEExactCriterion_pb2 as _uint32NEExactCriterion_pb2
 from api.python.lib.search import uint32ListCriterion_pb2 as _uint32ListCriterion_pb2
+from api.python.lib.search import uint32RangeCriterion_pb2 as _uint32RangeCriterion_pb2
 from api.python.lib.search import uint32NINListCriterion_pb2 as _uint32NINListCriterion_pb2
 from api.python.lib.search import dateRangeCriterion_pb2 as _dateRangeCriterion_pb2
 from api.python.lib.search import int64ExactCriterion_pb2 as _int64ExactCriterion_pb2
@@ -18,7 +19,7 @@ from typing import ClassVar as _ClassVar, Iterable as _Iterable, Mapping as _Map
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class Criterion(_message.Message):
-    __slots__ = ("orCriterion", "boolExactCriterion", "textExactCriterion", "textNEExactCriterion", "textSubstringCriterion", "textListCriterion", "textNINListCriterion", "uint32ExactCriterion", "uint32NEExactCriterion", "uint32ListCriterion", "uint32NINListCriterion", "dateRangeCriterion", "int64ExactCriterion")
+    __slots__ = ("orCriterion", "boolExactCriterion", "textExactCriterion", "textNEExactCriterion", "textSubstringCriterion", "textListCriterion", "textNINListCriterion", "uint32ExactCriterion", "uint32NEExactCriterion", "uint32ListCriterion", "uint32RangeCriterion", "uint32NINListCriterion", "dateRangeCriterion", "int64ExactCriterion")
     ORCRITERION_FIELD_NUMBER: _ClassVar[int]
     BOOLEXACTCRITERION_FIELD_NUMBER: _ClassVar[int]
     TEXTEXACTCRITERION_FIELD_NUMBER: _ClassVar[int]
@@ -29,6 +30,7 @@ class Criterion(_message.Message):
     UINT32EXACTCRITERION_FIELD_NUMBER: _ClassVar[int]
     UINT32NEEXACTCRITERION_FIELD_NUMBER: _ClassVar[int]
     UINT32LISTCRITERION_FIELD_NUMBER: _ClassVar[int]
+    UINT32RANGECRITERION_FIELD_NUMBER: _ClassVar[int]
     UINT32NINLISTCRITERION_FIELD_NUMBER: _ClassVar[int]
     DATERANGECRITERION_FIELD_NUMBER: _ClassVar[int]
     INT64EXACTCRITERION_FIELD_NUMBER: _ClassVar[int]
@@ -42,10 +44,11 @@ class Criterion(_message.Message):
     uint32ExactCriterion: _uint32ExactCriterion_pb2.Uint32ExactCriterion
     uint32NEExactCriterion: _uint32NEExactCriterion_pb2.Uint32NEExactCriterion
     uint32ListCriterion: _uint32ListCriterion_pb2.Uint32ListCriterion
+    uint32RangeCriterion: _uint32ListCriterion_pb2.Uint32ListCriterion
     uint32NINListCriterion: _uint32NINListCriterion_pb2.Uint32NINListCriterion
     dateRangeCriterion: _dateRangeCriterion_pb2.DateRangeCriterion
     int64ExactCriterion: _int64ExactCriterion_pb2.Int64ExactCriterion
-    def __init__(self, orCriterion: _Optional[_Union[ORCriterion, _Mapping]] = ..., boolExactCriterion: _Optional[_Union[_boolExactCriterion_pb2.BoolExactCriterion, _Mapping]] = ..., textExactCriterion: _Optional[_Union[_textExactCriterion_pb2.TextExactCriterion, _Mapping]] = ..., textNEExactCriterion: _Optional[_Union[_textNEExactCriterion_pb2.TextNEExactCriterion, _Mapping]] = ..., textSubstringCriterion: _Optional[_Union[_textSubstringCriterion_pb2.TextSubstringCriterion, _Mapping]] = ..., textListCriterion: _Optional[_Union[_textListCriterion_pb2.TextListCriterion, _Mapping]] = ..., textNINListCriterion: _Optional[_Union[_textNINListCriterion_pb2.TextNINListCriterion, _Mapping]] = ..., uint32ExactCriterion: _Optional[_Union[_uint32ExactCriterion_pb2.Uint32ExactCriterion, _Mapping]] = ..., uint32NEExactCriterion: _Optional[_Union[_uint32NEExactCriterion_pb2.Uint32NEExactCriterion, _Mapping]] = ..., uint32ListCriterion: _Optional[_Union[_uint32ListCriterion_pb2.Uint32ListCriterion, _Mapping]] = ..., uint32NINListCriterion: _Optional[_Union[_uint32NINListCriterion_pb2.Uint32NINListCriterion, _Mapping]] = ..., dateRangeCriterion: _Optional[_Union[_dateRangeCriterion_pb2.DateRangeCriterion, _Mapping]] = ..., int64ExactCriterion: _Optional[_Union[_int64ExactCriterion_pb2.Int64ExactCriterion, _Mapping]] = ...) -> None: ...
+    def __init__(self, orCriterion: _Optional[_Union[ORCriterion, _Mapping]] = ..., boolExactCriterion: _Optional[_Union[_boolExactCriterion_pb2.BoolExactCriterion, _Mapping]] = ..., textExactCriterion: _Optional[_Union[_textExactCriterion_pb2.TextExactCriterion, _Mapping]] = ..., textNEExactCriterion: _Optional[_Union[_textNEExactCriterion_pb2.TextNEExactCriterion, _Mapping]] = ..., textSubstringCriterion: _Optional[_Union[_textSubstringCriterion_pb2.TextSubstringCriterion, _Mapping]] = ..., textListCriterion: _Optional[_Union[_textListCriterion_pb2.TextListCriterion, _Mapping]] = ..., textNINListCriterion: _Optional[_Union[_textNINListCriterion_pb2.TextNINListCriterion, _Mapping]] = ..., uint32ExactCriterion: _Optional[_Union[_uint32ExactCriterion_pb2.Uint32ExactCriterion, _Mapping]] = ..., uint32NEExactCriterion: _Optional[_Union[_uint32NEExactCriterion_pb2.Uint32NEExactCriterion, _Mapping]] = ..., uint32ListCriterion: _Optional[_Union[_uint32ListCriterion_pb2.Uint32ListCriterion, _Mapping]] = ..., uint32RangeCriterion: _Optional[_Union[_uint32ListCriterion_pb2.Uint32ListCriterion, _Mapping]] = ..., uint32NINListCriterion: _Optional[_Union[_uint32NINListCriterion_pb2.Uint32NINListCriterion, _Mapping]] = ..., dateRangeCriterion: _Optional[_Union[_dateRangeCriterion_pb2.DateRangeCriterion, _Mapping]] = ..., int64ExactCriterion: _Optional[_Union[_int64ExactCriterion_pb2.Int64ExactCriterion, _Mapping]] = ...) -> None: ...
 
 class ORCriterion(_message.Message):
     __slots__ = ("criteria",)
