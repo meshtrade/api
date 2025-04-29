@@ -13,6 +13,7 @@ import "api/proto/search/textNINListCriterion.proto";
 import "api/proto/search/uint32ExactCriterion.proto";
 import "api/proto/search/uint32NEExactCriterion.proto";
 import "api/proto/search/uint32ListCriterion.proto";
+import "api/proto/search/uint32RangeCriterion.proto";
 import "api/proto/search/uint32NINListCriterion.proto";
 import "api/proto/search/dateRangeCriterion.proto";
 import "api/proto/search/int64ExactCriterion.proto";
@@ -30,9 +31,10 @@ message Criterion {
     api.search.Uint32ExactCriterion uint32ExactCriterion = 8;
     api.search.Uint32NEExactCriterion uint32NEExactCriterion = 9;
     api.search.Uint32ListCriterion uint32ListCriterion = 10;
-    api.search.Uint32NINListCriterion uint32NINListCriterion = 11;
-    api.search.DateRangeCriterion dateRangeCriterion = 12;
-    api.search.Int64ExactCriterion int64ExactCriterion = 13;
+    api.search.Uint32ListCriterion uint32RangeCriterion = 11;
+    api.search.Uint32NINListCriterion uint32NINListCriterion = 12;
+    api.search.DateRangeCriterion dateRangeCriterion = 13;
+    api.search.Int64ExactCriterion int64ExactCriterion = 14;
   }
 }
 

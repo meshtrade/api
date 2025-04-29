@@ -3,24 +3,23 @@
 // package: api.search
 // file: api/proto/search/criterion.proto
 
-/* tslint:disable */
-/* eslint-disable */
+import * as api_proto_search_boolExactCriterion_pb from '../search/boolExactCriterion_pb'; // proto import: "api/proto/search/boolExactCriterion.proto"
+import * as api_proto_search_textExactCriterion_pb from '../search/textExactCriterion_pb'; // proto import: "api/proto/search/textExactCriterion.proto"
+import * as api_proto_search_textNEExactCriterion_pb from '../search/textNEExactCriterion_pb'; // proto import: "api/proto/search/textNEExactCriterion.proto"
+import * as api_proto_search_textSubstringCriterion_pb from '../search/textSubstringCriterion_pb'; // proto import: "api/proto/search/textSubstringCriterion.proto"
+import * as api_proto_search_textListCriterion_pb from '../search/textListCriterion_pb'; // proto import: "api/proto/search/textListCriterion.proto"
+import * as api_proto_search_textNINListCriterion_pb from '../search/textNINListCriterion_pb'; // proto import: "api/proto/search/textNINListCriterion.proto"
+import * as api_proto_search_uint32ExactCriterion_pb from '../search/uint32ExactCriterion_pb'; // proto import: "api/proto/search/uint32ExactCriterion.proto"
+import * as api_proto_search_uint32NEExactCriterion_pb from '../search/uint32NEExactCriterion_pb'; // proto import: "api/proto/search/uint32NEExactCriterion.proto"
+import * as api_proto_search_uint32ListCriterion_pb from '../search/uint32ListCriterion_pb'; // proto import: "api/proto/search/uint32ListCriterion.proto"
+import * as api_proto_search_uint32RangeCriterion_pb from '../search/uint32RangeCriterion_pb'; // proto import: "api/proto/search/uint32RangeCriterion.proto"
+import * as api_proto_search_uint32NINListCriterion_pb from '../search/uint32NINListCriterion_pb'; // proto import: "api/proto/search/uint32NINListCriterion.proto"
+import * as api_proto_search_dateRangeCriterion_pb from '../search/dateRangeCriterion_pb'; // proto import: "api/proto/search/dateRangeCriterion.proto"
+import * as api_proto_search_int64ExactCriterion_pb from '../search/int64ExactCriterion_pb'; // proto import: "api/proto/search/int64ExactCriterion.proto"
 
 import * as jspb from "google-protobuf";
-import * as api_proto_search_boolExactCriterion_pb from "../search/boolExactCriterion_pb";
-import * as api_proto_search_textExactCriterion_pb from "../search/textExactCriterion_pb";
-import * as api_proto_search_textNEExactCriterion_pb from "../search/textNEExactCriterion_pb";
-import * as api_proto_search_textSubstringCriterion_pb from "../search/textSubstringCriterion_pb";
-import * as api_proto_search_textListCriterion_pb from "../search/textListCriterion_pb";
-import * as api_proto_search_textNINListCriterion_pb from "../search/textNINListCriterion_pb";
-import * as api_proto_search_uint32ExactCriterion_pb from "../search/uint32ExactCriterion_pb";
-import * as api_proto_search_uint32NEExactCriterion_pb from "../search/uint32NEExactCriterion_pb";
-import * as api_proto_search_uint32ListCriterion_pb from "../search/uint32ListCriterion_pb";
-import * as api_proto_search_uint32NINListCriterion_pb from "../search/uint32NINListCriterion_pb";
-import * as api_proto_search_dateRangeCriterion_pb from "../search/dateRangeCriterion_pb";
-import * as api_proto_search_int64ExactCriterion_pb from "../search/int64ExactCriterion_pb";
 
-export class Criterion extends jspb.Message { 
+export class Criterion extends jspb.Message {
 
     hasOrcriterion(): boolean;
     clearOrcriterion(): void;
@@ -67,10 +66,15 @@ export class Criterion extends jspb.Message {
     getUint32neexactcriterion(): api_proto_search_uint32NEExactCriterion_pb.Uint32NEExactCriterion | undefined;
     setUint32neexactcriterion(value?: api_proto_search_uint32NEExactCriterion_pb.Uint32NEExactCriterion): Criterion;
 
-    hasUint32listcriterion(): boolean;
-    clearUint32listcriterion(): void;
-    getUint32listcriterion(): api_proto_search_uint32ListCriterion_pb.Uint32ListCriterion | undefined;
-    setUint32listcriterion(value?: api_proto_search_uint32ListCriterion_pb.Uint32ListCriterion): Criterion;
+    getUint32rangecriterion(): api_proto_search_uint32ListCriterion_pb.Uint32ListCriterion | undefined;
+    setUint32rangecriterion(value?: api_proto_search_uint32ListCriterion_pb.Uint32ListCriterion): Criterion;
+    hasUint32rangecriterion(): boolean;
+    clearUint32rangecriterion(): Criterion;
+
+    getUint32ninlistcriterion(): api_proto_search_uint32NINListCriterion_pb.Uint32NINListCriterion | undefined;
+    setUint32ninlistcriterion(value?: api_proto_search_uint32NINListCriterion_pb.Uint32NINListCriterion): Criterion;
+    hasUint32ninlistcriterion(): boolean;
+    clearUint32ninlistcriterion(): Criterion;
 
     hasUint32ninlistcriterion(): boolean;
     clearUint32ninlistcriterion(): void;
@@ -92,8 +96,8 @@ export class Criterion extends jspb.Message {
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): Criterion.AsObject;
     static toObject(includeInstance: boolean, msg: Criterion): Criterion.AsObject;
-    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static extensions: { [key: number]: jspb.ExtensionFieldInfo<jspb.Message> };
+    static extensionsBinary: { [key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message> };
     static serializeBinaryToWriter(message: Criterion, writer: jspb.BinaryWriter): void;
     static deserializeBinary(bytes: Uint8Array): Criterion;
     static deserializeBinaryFromReader(message: Criterion, reader: jspb.BinaryReader): Criterion;
@@ -111,6 +115,7 @@ export namespace Criterion {
         uint32exactcriterion?: api_proto_search_uint32ExactCriterion_pb.Uint32ExactCriterion.AsObject,
         uint32neexactcriterion?: api_proto_search_uint32NEExactCriterion_pb.Uint32NEExactCriterion.AsObject,
         uint32listcriterion?: api_proto_search_uint32ListCriterion_pb.Uint32ListCriterion.AsObject,
+        uint32rangecriterion?: api_proto_search_uint32ListCriterion_pb.Uint32ListCriterion.AsObject,
         uint32ninlistcriterion?: api_proto_search_uint32NINListCriterion_pb.Uint32NINListCriterion.AsObject,
         daterangecriterion?: api_proto_search_dateRangeCriterion_pb.DateRangeCriterion.AsObject,
         int64exactcriterion?: api_proto_search_int64ExactCriterion_pb.Int64ExactCriterion.AsObject,
@@ -128,14 +133,14 @@ export namespace Criterion {
         UINT32EXACTCRITERION = 8,
         UINT32NEEXACTCRITERION = 9,
         UINT32LISTCRITERION = 10,
-        UINT32NINLISTCRITERION = 11,
-        DATERANGECRITERION = 12,
-        INT64EXACTCRITERION = 13,
+        UINT32RANGECRITERION = 11,
+        UINT32NINLISTCRITERION = 12,
+        DATERANGECRITERION = 13,
+        INT64EXACTCRITERION = 14,
     }
-
 }
 
-export class ORCriterion extends jspb.Message { 
+export class ORCriterion extends jspb.Message {
     clearCriteriaList(): void;
     getCriteriaList(): Array<Criterion>;
     setCriteriaList(value: Array<Criterion>): ORCriterion;
@@ -144,8 +149,8 @@ export class ORCriterion extends jspb.Message {
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): ORCriterion.AsObject;
     static toObject(includeInstance: boolean, msg: ORCriterion): ORCriterion.AsObject;
-    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static extensions: { [key: number]: jspb.ExtensionFieldInfo<jspb.Message> };
+    static extensionsBinary: { [key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message> };
     static serializeBinaryToWriter(message: ORCriterion, writer: jspb.BinaryWriter): void;
     static deserializeBinary(bytes: Uint8Array): ORCriterion;
     static deserializeBinaryFromReader(message: ORCriterion, reader: jspb.BinaryReader): ORCriterion;
