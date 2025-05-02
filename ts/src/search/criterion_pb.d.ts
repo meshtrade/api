@@ -64,8 +64,8 @@ export class Criterion extends jspb.Message {
     getUint32neexactcriterion(): api_proto_search_uint32NEExactCriterion_pb.Uint32NEExactCriterion | undefined;
     setUint32neexactcriterion(value?: api_proto_search_uint32NEExactCriterion_pb.Uint32NEExactCriterion): Criterion;
 
-    getUint32rangecriterion(): api_proto_search_uint32ListCriterion_pb.Uint32ListCriterion | undefined;
-    setUint32rangecriterion(value?: api_proto_search_uint32ListCriterion_pb.Uint32ListCriterion): Criterion;
+    getUint32rangecriterion(): api_proto_search_uint32RangeCriterion_pb.Uint32RangeCriterion | undefined;
+    setUint32rangecriterion(value?: api_proto_search_uint32RangeCriterion_pb.Uint32RangeCriterion): Criterion;
     hasUint32rangecriterion(): boolean;
     clearUint32rangecriterion(): Criterion;
 
@@ -113,7 +113,7 @@ export namespace Criterion {
         uint32exactcriterion?: api_proto_search_uint32ExactCriterion_pb.Uint32ExactCriterion.AsObject,
         uint32neexactcriterion?: api_proto_search_uint32NEExactCriterion_pb.Uint32NEExactCriterion.AsObject,
         uint32listcriterion?: api_proto_search_uint32ListCriterion_pb.Uint32ListCriterion.AsObject,
-        uint32rangecriterion?: api_proto_search_uint32ListCriterion_pb.Uint32ListCriterion.AsObject,
+        uint32rangecriterion?: api_proto_search_uint32RangeCriterion_pb.Uint32RangeCriterion.AsObject,
         uint32ninlistcriterion?: api_proto_search_uint32NINListCriterion_pb.Uint32NINListCriterion.AsObject,
         daterangecriterion?: api_proto_search_dateRangeCriterion_pb.DateRangeCriterion.AsObject,
         int64exactcriterion?: api_proto_search_int64ExactCriterion_pb.Int64ExactCriterion.AsObject,

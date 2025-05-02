@@ -172,7 +172,7 @@ textninlistcriterion: (f = msg.getTextninlistcriterion()) && api_proto_search_te
 uint32exactcriterion: (f = msg.getUint32exactcriterion()) && api_proto_search_uint32ExactCriterion_pb.Uint32ExactCriterion.toObject(includeInstance, f),
 uint32neexactcriterion: (f = msg.getUint32neexactcriterion()) && api_proto_search_uint32NEExactCriterion_pb.Uint32NEExactCriterion.toObject(includeInstance, f),
 uint32listcriterion: (f = msg.getUint32listcriterion()) && api_proto_search_uint32ListCriterion_pb.Uint32ListCriterion.toObject(includeInstance, f),
-uint32rangecriterion: (f = msg.getUint32rangecriterion()) && api_proto_search_uint32ListCriterion_pb.Uint32ListCriterion.toObject(includeInstance, f),
+uint32rangecriterion: (f = msg.getUint32rangecriterion()) && api_proto_search_uint32RangeCriterion_pb.Uint32RangeCriterion.toObject(includeInstance, f),
 uint32ninlistcriterion: (f = msg.getUint32ninlistcriterion()) && api_proto_search_uint32NINListCriterion_pb.Uint32NINListCriterion.toObject(includeInstance, f),
 daterangecriterion: (f = msg.getDaterangecriterion()) && api_proto_search_dateRangeCriterion_pb.DateRangeCriterion.toObject(includeInstance, f),
 int64exactcriterion: (f = msg.getInt64exactcriterion()) && api_proto_search_int64ExactCriterion_pb.Int64ExactCriterion.toObject(includeInstance, f)
@@ -263,8 +263,8 @@ proto.api.search.Criterion.deserializeBinaryFromReader = function(msg, reader) {
       msg.setUint32listcriterion(value);
       break;
     case 11:
-      var value = new api_proto_search_uint32ListCriterion_pb.Uint32ListCriterion;
-      reader.readMessage(value,api_proto_search_uint32ListCriterion_pb.Uint32ListCriterion.deserializeBinaryFromReader);
+      var value = new api_proto_search_uint32RangeCriterion_pb.Uint32RangeCriterion;
+      reader.readMessage(value,api_proto_search_uint32RangeCriterion_pb.Uint32RangeCriterion.deserializeBinaryFromReader);
       msg.setUint32rangecriterion(value);
       break;
     case 12:
@@ -396,7 +396,7 @@ proto.api.search.Criterion.serializeBinaryToWriter = function(message, writer) {
     writer.writeMessage(
       11,
       f,
-      api_proto_search_uint32ListCriterion_pb.Uint32ListCriterion.serializeBinaryToWriter
+      api_proto_search_uint32RangeCriterion_pb.Uint32RangeCriterion.serializeBinaryToWriter
     );
   }
   f = message.getUint32ninlistcriterion();
@@ -797,17 +797,17 @@ proto.api.search.Criterion.prototype.hasUint32listcriterion = function() {
 
 
 /**
- * optional Uint32ListCriterion uint32RangeCriterion = 11;
- * @return {?proto.api.search.Uint32ListCriterion}
+ * optional Uint32RangeCriterion uint32RangeCriterion = 11;
+ * @return {?proto.api.search.Uint32RangeCriterion}
  */
 proto.api.search.Criterion.prototype.getUint32rangecriterion = function() {
-  return /** @type{?proto.api.search.Uint32ListCriterion} */ (
-    jspb.Message.getWrapperField(this, api_proto_search_uint32ListCriterion_pb.Uint32ListCriterion, 11));
+  return /** @type{?proto.api.search.Uint32RangeCriterion} */ (
+    jspb.Message.getWrapperField(this, api_proto_search_uint32RangeCriterion_pb.Uint32RangeCriterion, 11));
 };
 
 
 /**
- * @param {?proto.api.search.Uint32ListCriterion|undefined} value
+ * @param {?proto.api.search.Uint32RangeCriterion|undefined} value
  * @return {!proto.api.search.Criterion} returns this
 */
 proto.api.search.Criterion.prototype.setUint32rangecriterion = function(value) {
