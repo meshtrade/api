@@ -1,6 +1,8 @@
 package ledger
 
 import (
+	"fmt"
+
 	"github.com/meshtrade/api/go/num"
 	"github.com/shopspring/decimal"
 )
@@ -35,4 +37,34 @@ func NewUndefinedAmount(value decimal.Decimal) *Amount {
 		Value: num.FromShopspringDecimal(value),
 		Token: NewUndefinedToken(),
 	}
+}
+
+func (x *Amount) Sub(y *Amount) *Amount {
+	if !x.GetToken().IsEqualTo(y.GetToken()) {
+		panic(fmt.Sprintf("cannot do arithmetic on amounts of different token denominations: %s vs. %s", x.GetToken().PrettyString(), y.GetToken().PrettyString()))
+	}
+	return x.SetValue(x.GetValue().ToShopspring().Sub(y.GetValue().ToShopspring()))
+}
+
+func (x *Amount) Add(y *Amount) *Amount {
+	if !x.GetToken().IsEqualTo(y.GetToken()) {
+		panic(fmt.Sprintf("cannot do arithmetic on amounts of different token denominations: %s vs. %s", x.GetToken().PrettyString(), y.GetToken().PrettyString()))
+	}
+	return x.SetValue(x.GetValue().ToShopspring().Add(y.GetValue().ToShopspring()))
+}
+
+func (x *Amount) DecimalDiv(y decimal.Decimal) *Amount {
+	return x.SetValue(x.GetValue().ToShopspring().Div(y))
+}
+
+func (x *Amount) DecimalMul(y decimal.Decimal) *Amount {
+	return x.SetValue(x.GetValue().ToShopspring().Mul(y))
+}
+
+func (x *Amount) IsNegative() bool {
+	return x.GetValue().ToShopspring().IsNegative()
+}
+
+func (x *Amount) IsZero() bool {
+	return x.GetValue().ToShopspring().IsZero()
 }
