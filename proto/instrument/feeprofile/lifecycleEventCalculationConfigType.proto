@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package financial;
 
-option go_package = "github.com/meshtrade/mesh/common/go/pkg/financial";
+option go_package = "github.com/meshtrade/api/go/instrument/feeprofile";
 
 /*
 LifecycleEventCalculationConfigType is a convenience enum that lists all possible calculation configuration types.

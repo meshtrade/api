@@ -24,14 +24,14 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\nIapi/proto/instrument/feeprofile/lifecycleEventCalculationConfigType.proto\x12\tfinancial*\xc5\x01\n#LifecycleEventCalculationConfigType\x12\x36\n2UNDEFINED_LIFECYCLE_EVENTS_CALCULATION_CONFIG_TYPE\x10\x00\x12\x33\n/AMOUNT_LIFECYCLE_EVENTS_CALCULATION_CONFIG_TYPE\x10\x01\x12\x31\n-RATE_LIFECYCLE_EVENTS_CALCULATION_CONFIG_TYPE\x10\x02\x42\x33Z1github.com/meshtrade/mesh/common/go/pkg/financialb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\nIapi/proto/instrument/feeprofile/lifecycleEventCalculationConfigType.proto\x12\tfinancial*\xc5\x01\n#LifecycleEventCalculationConfigType\x12\x36\n2UNDEFINED_LIFECYCLE_EVENTS_CALCULATION_CONFIG_TYPE\x10\x00\x12\x33\n/AMOUNT_LIFECYCLE_EVENTS_CALCULATION_CONFIG_TYPE\x10\x01\x12\x31\n-RATE_LIFECYCLE_EVENTS_CALCULATION_CONFIG_TYPE\x10\x02\x42\x33Z1github.com/meshtrade/api/go/instrument/feeprofileb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'api.python.lib.instrument.feeprofile.lifecycleEventCalculationConfigType_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
-  _globals['DESCRIPTOR']._serialized_options = b'Z1github.com/meshtrade/mesh/common/go/pkg/financial'
+  _globals['DESCRIPTOR']._serialized_options = b'Z1github.com/meshtrade/api/go/instrument/feeprofile'
   _globals['_LIFECYCLEEVENTCALCULATIONCONFIGTYPE']._serialized_start=89
   _globals['_LIFECYCLEEVENTCALCULATIONCONFIGTYPE']._serialized_end=286
 # @@protoc_insertion_point(module_scope)
