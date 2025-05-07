@@ -61,8 +61,9 @@ message Company {
 
   // List of companies connected to the company
   repeated api.legal.ConnectedCompany connectedCompanies = 16;
-}
 
+  api.legal.company.CompanyType companyType = 17;
+}
 
 
 // Enum for LegalForm
@@ -93,4 +94,11 @@ enum LegalForm {
 
   // Other legal form
   OTHER_LEGAL_FORM = 8;
+}
+
+enum CompanyType {
+  UNDEFINED_COMPANY_TYPE = 0;
+  Issuer_COMPANY_TYPE = 1;
+  Investor_COMPANY_TYPE = 2;
+
 }
