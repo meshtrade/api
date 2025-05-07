@@ -25,6 +25,13 @@ class LegalForm(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     PARTNERSHIP_LEGAL_FORM: _ClassVar[LegalForm]
     TRUST_LEGAL_FORM: _ClassVar[LegalForm]
     OTHER_LEGAL_FORM: _ClassVar[LegalForm]
+
+class Company_Role(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    UNDEFINED_COMPANY_Role: _ClassVar[Company_Role]
+    Issuer_COMPANY_Role: _ClassVar[Company_Role]
+    Investor_COMPANY_Role: _ClassVar[Company_Role]
+    Managing_Company_Role: _ClassVar[Company_Role]
 UNDEFINED_LEGAL_FORM: LegalForm
 SOUTH_AFRICAN_COMPANY_LEGAL_FORM: LegalForm
 SOLE_PROPRIETORSHIP_LEGAL_FORM: LegalForm
@@ -34,11 +41,13 @@ LISTED_COMPANY_LEGAL_FORM: LegalForm
 PARTNERSHIP_LEGAL_FORM: LegalForm
 TRUST_LEGAL_FORM: LegalForm
 OTHER_LEGAL_FORM: LegalForm
+UNDEFINED_COMPANY_Role: Company_Role
+Issuer_COMPANY_Role: Company_Role
+Investor_COMPANY_Role: Company_Role
+Managing_Company_Role: Company_Role
 
 class Company(_message.Message):
-    __slots__ = ("id", "ownerID", "registeredName", "taxReferenceNumber", "registrationNumber", "vatRegistrationNumber", "public_contact_info", "companyRepresentative", "industryClassification", "listed_exchange", "listing_reference", "countryOfIncorporation", "formOfIncorporation", "registeredAddress", "businessAddress", "headOfficeAddress", "connectedIndividuals", "connectedCompanies", "audit_entry")
-    ID_FIELD_NUMBER: _ClassVar[int]
-    OWNERID_FIELD_NUMBER: _ClassVar[int]
+    __slots__ = ("registeredName", "taxReferenceNumber", "registrationNumber", "vatRegistrationNumber", "public_contact_info", "companyRepresentative", "industryClassification", "listed_exchange", "listing_reference", "countryOfIncorporation", "formOfIncorporation", "registeredAddress", "businessAddress", "headOfficeAddress", "connectedIndividuals", "connectedCompanies", "role")
     REGISTEREDNAME_FIELD_NUMBER: _ClassVar[int]
     TAXREFERENCENUMBER_FIELD_NUMBER: _ClassVar[int]
     REGISTRATIONNUMBER_FIELD_NUMBER: _ClassVar[int]
@@ -55,9 +64,7 @@ class Company(_message.Message):
     HEADOFFICEADDRESS_FIELD_NUMBER: _ClassVar[int]
     CONNECTEDINDIVIDUALS_FIELD_NUMBER: _ClassVar[int]
     CONNECTEDCOMPANIES_FIELD_NUMBER: _ClassVar[int]
-    AUDIT_ENTRY_FIELD_NUMBER: _ClassVar[int]
-    id: str
-    ownerID: str
+    ROLE_FIELD_NUMBER: _ClassVar[int]
     registeredName: str
     taxReferenceNumber: str
     registrationNumber: str
@@ -74,5 +81,5 @@ class Company(_message.Message):
     headOfficeAddress: _address_pb2.Address
     connectedIndividuals: _containers.RepeatedCompositeFieldContainer[_connectedIndividual_pb2.ConnectedIndividual]
     connectedCompanies: _containers.RepeatedCompositeFieldContainer[_connectedCompany_pb2.ConnectedCompany]
-    audit_entry: _entry_pb2.Entry
-    def __init__(self, id: _Optional[str] = ..., ownerID: _Optional[str] = ..., registeredName: _Optional[str] = ..., taxReferenceNumber: _Optional[str] = ..., registrationNumber: _Optional[str] = ..., vatRegistrationNumber: _Optional[str] = ..., public_contact_info: _Optional[_Union[_companyPublicContactInfo_pb2.CompanyPublicContactInfo, _Mapping]] = ..., companyRepresentative: _Optional[_Union[_companyRepresentative_pb2.CompanyRepresentative, _Mapping]] = ..., industryClassification: _Optional[_Union[LegalForm, str]] = ..., listed_exchange: _Optional[str] = ..., listing_reference: _Optional[str] = ..., countryOfIncorporation: _Optional[str] = ..., formOfIncorporation: _Optional[_Union[LegalForm, str]] = ..., registeredAddress: _Optional[_Union[_address_pb2.Address, _Mapping]] = ..., businessAddress: _Optional[_Union[_address_pb2.Address, _Mapping]] = ..., headOfficeAddress: _Optional[_Union[_address_pb2.Address, _Mapping]] = ..., connectedIndividuals: _Optional[_Iterable[_Union[_connectedIndividual_pb2.ConnectedIndividual, _Mapping]]] = ..., connectedCompanies: _Optional[_Iterable[_Union[_connectedCompany_pb2.ConnectedCompany, _Mapping]]] = ..., audit_entry: _Optional[_Union[_entry_pb2.Entry, _Mapping]] = ...) -> None: ...
+    role: _containers.RepeatedScalarFieldContainer[Company_Role]
+    def __init__(self, registeredName: _Optional[str] = ..., taxReferenceNumber: _Optional[str] = ..., registrationNumber: _Optional[str] = ..., vatRegistrationNumber: _Optional[str] = ..., public_contact_info: _Optional[_Union[_companyPublicContactInfo_pb2.CompanyPublicContactInfo, _Mapping]] = ..., companyRepresentative: _Optional[_Union[_companyRepresentative_pb2.CompanyRepresentative, _Mapping]] = ..., industryClassification: _Optional[_Union[LegalForm, str]] = ..., listed_exchange: _Optional[str] = ..., listing_reference: _Optional[str] = ..., countryOfIncorporation: _Optional[str] = ..., formOfIncorporation: _Optional[_Union[LegalForm, str]] = ..., registeredAddress: _Optional[_Union[_address_pb2.Address, _Mapping]] = ..., businessAddress: _Optional[_Union[_address_pb2.Address, _Mapping]] = ..., headOfficeAddress: _Optional[_Union[_address_pb2.Address, _Mapping]] = ..., connectedIndividuals: _Optional[_Iterable[_Union[_connectedIndividual_pb2.ConnectedIndividual, _Mapping]]] = ..., connectedCompanies: _Optional[_Iterable[_Union[_connectedCompany_pb2.ConnectedCompany, _Mapping]]] = ..., role: _Optional[_Iterable[_Union[Company_Role, str]]] = ...) -> None: ...

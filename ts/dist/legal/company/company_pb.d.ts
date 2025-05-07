@@ -17,10 +17,6 @@ import * as api_proto_legal_company_industryClassification_pb from "../../legal/
 import * as api_proto_audit_entry_pb from "../../audit/entry_pb";
 
 export class Company extends jspb.Message { 
-    getId(): string;
-    setId(value: string): Company;
-    getOwnerid(): string;
-    setOwnerid(value: string): Company;
     getRegisteredname(): string;
     setRegisteredname(value: string): Company;
     getTaxreferencenumber(): string;
@@ -72,11 +68,10 @@ export class Company extends jspb.Message {
     getConnectedcompaniesList(): Array<api_proto_legal_connectedCompany_pb.ConnectedCompany>;
     setConnectedcompaniesList(value: Array<api_proto_legal_connectedCompany_pb.ConnectedCompany>): Company;
     addConnectedcompanies(value?: api_proto_legal_connectedCompany_pb.ConnectedCompany, index?: number): api_proto_legal_connectedCompany_pb.ConnectedCompany;
-
-    hasAuditEntry(): boolean;
-    clearAuditEntry(): void;
-    getAuditEntry(): api_proto_audit_entry_pb.Entry | undefined;
-    setAuditEntry(value?: api_proto_audit_entry_pb.Entry): Company;
+    clearRoleList(): void;
+    getRoleList(): Array<Company_Role>;
+    setRoleList(value: Array<Company_Role>): Company;
+    addRole(value: Company_Role, index?: number): Company_Role;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): Company.AsObject;
@@ -90,8 +85,6 @@ export class Company extends jspb.Message {
 
 export namespace Company {
     export type AsObject = {
-        id: string,
-        ownerid: string,
         registeredname: string,
         taxreferencenumber: string,
         registrationnumber: string,
@@ -108,7 +101,7 @@ export namespace Company {
         headofficeaddress?: api_proto_location_address_pb.Address.AsObject,
         connectedindividualsList: Array<api_proto_legal_connectedIndividual_pb.ConnectedIndividual.AsObject>,
         connectedcompaniesList: Array<api_proto_legal_connectedCompany_pb.ConnectedCompany.AsObject>,
-        auditEntry?: api_proto_audit_entry_pb.Entry.AsObject,
+        roleList: Array<Company_Role>,
     }
 }
 
@@ -122,4 +115,11 @@ export enum LegalForm {
     PARTNERSHIP_LEGAL_FORM = 6,
     TRUST_LEGAL_FORM = 7,
     OTHER_LEGAL_FORM = 8,
+}
+
+export enum Company_Role {
+    UNDEFINED_COMPANY_ROLE = 0,
+    ISSUER_COMPANY_ROLE = 1,
+    INVESTOR_COMPANY_ROLE = 2,
+    MANAGING_COMPANY_ROLE = 3,
 }

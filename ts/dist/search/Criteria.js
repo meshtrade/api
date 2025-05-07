@@ -4,7 +4,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Criteria = void 0;
 /**
- Utility Type to keep track of multiple criteria with key/value pairs
+ * Utility Type to keep track of multiple criteria with key/value pairs
  */
 class Criteria {
     constructor(criteriaMap) {
