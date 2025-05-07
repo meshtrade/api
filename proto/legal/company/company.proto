@@ -15,52 +15,52 @@ import "api/proto/audit/entry.proto";
 
 message Company {
   // Registered name of the company (required field)
-  string registeredName = 3;
+  string registeredName = 1;
 
   // Tax reference number of the company
-  string taxReferenceNumber = 4;
+  string taxReferenceNumber = 2;
 
   // Registration number of the company
-  string registrationNumber = 5;
+  string registrationNumber = 3;
 
   // VAT (Value-Added Tax) registration number of the company
-  string vatRegistrationNumber = 6;
+  string vatRegistrationNumber = 4;
 
   // Public contact information of the company
-  api.legal.CompanyPublicContactInfo public_contact_info = 7;
+  api.legal.CompanyPublicContactInfo public_contact_info = 5;
 
   // Details of the company representative
-  api.legal.CompanyRepresentative companyRepresentative = 8;
+  api.legal.CompanyRepresentative companyRepresentative = 6;
 
   // Industry classification of the company
-  api.legal.company.LegalForm industryClassification = 9;
+  api.legal.company.LegalForm industryClassification = 7;
 
   // Stock exchange where the company is listed
-  string listed_exchange = 10;
+  string listed_exchange = 8;
 
   // Listing reference number for the stock exchange
-  string listing_reference = 11;
+  string listing_reference = 9;
 
   // Country code representing the country of incorporation
-  string countryOfIncorporation = 12;
+  string countryOfIncorporation = 10;
 
   // Legal form of the company (e.g., Proprietorship, Corporation)
-  api.legal.company.LegalForm formOfIncorporation = 13;
+  api.legal.company.LegalForm formOfIncorporation = 11;
 
   // The company's registered address
-  location.Address registeredAddress = 14;
+  location.Address registeredAddress = 12;
 
   // The company's business address
-  location.Address businessAddress = 15;
+  location.Address businessAddress = 13;
 
   // The company's head office address
-  location.Address headOfficeAddress = 16;
+  location.Address headOfficeAddress = 14;
 
   // List of individuals connected to the company, such as directors or stakeholders
-  repeated api.legal.ConnectedIndividual connectedIndividuals = 17;
+  repeated api.legal.ConnectedIndividual connectedIndividuals = 15;
 
   // List of companies connected to the company
-  repeated api.legal.ConnectedCompany connectedCompanies = 18;
+  repeated api.legal.ConnectedCompany connectedCompanies = 16;
 }
 
 
