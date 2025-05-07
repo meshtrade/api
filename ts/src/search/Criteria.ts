@@ -10,7 +10,7 @@ export type CriteriaMapField = {
 };
 
 /** 
- Utility Type to keep track of multiple criteria with key/value pairs
+ * Utility Type to keep track of multiple criteria with key/value pairs
  */
 export class Criteria {
   criteriaMap: CriteriaMap = {};
