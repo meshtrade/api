@@ -100,5 +100,5 @@ enum Company_Role  {
   UNDEFINED_COMPANY_Role = 0;
   Issuer_COMPANY_Role = 1;
   Investor_COMPANY_Role = 2;
-  Managing_Company_ = 3;
+  Managing_Company_Role = 3;
 }
