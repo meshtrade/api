@@ -1663,7 +1663,7 @@ proto.api.instrument.fee.CalculateLifecycleFeesRequest.prototype.toObject = func
  */
 proto.api.instrument.fee.CalculateLifecycleFeesRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-instrumentname: jspb.Message.getFieldWithDefault(msg, 1, ""),
+instrumentid: jspb.Message.getFieldWithDefault(msg, 1, ""),
 lifecycleeventcategory: jspb.Message.getFieldWithDefault(msg, 2, 0)
   };
 
@@ -1703,7 +1703,7 @@ proto.api.instrument.fee.CalculateLifecycleFeesRequest.deserializeBinaryFromRead
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.setInstrumentname(value);
+      msg.setInstrumentid(value);
       break;
     case 2:
       var value = /** @type {!proto.api.instrument.feeprofile.LifecycleEventCategory} */ (reader.readEnum());
@@ -1738,7 +1738,7 @@ proto.api.instrument.fee.CalculateLifecycleFeesRequest.prototype.serializeBinary
  */
 proto.api.instrument.fee.CalculateLifecycleFeesRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getInstrumentname();
+  f = message.getInstrumentid();
   if (f.length > 0) {
     writer.writeString(
       1,
@@ -1756,10 +1756,10 @@ proto.api.instrument.fee.CalculateLifecycleFeesRequest.serializeBinaryToWriter =
 
 
 /**
- * optional string instrumentName = 1;
+ * optional string instrumentID = 1;
  * @return {string}
  */
-proto.api.instrument.fee.CalculateLifecycleFeesRequest.prototype.getInstrumentname = function() {
+proto.api.instrument.fee.CalculateLifecycleFeesRequest.prototype.getInstrumentid = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
@@ -1768,7 +1768,7 @@ proto.api.instrument.fee.CalculateLifecycleFeesRequest.prototype.getInstrumentna
  * @param {string} value
  * @return {!proto.api.instrument.fee.CalculateLifecycleFeesRequest} returns this
  */
-proto.api.instrument.fee.CalculateLifecycleFeesRequest.prototype.setInstrumentname = function(value) {
+proto.api.instrument.fee.CalculateLifecycleFeesRequest.prototype.setInstrumentid = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
