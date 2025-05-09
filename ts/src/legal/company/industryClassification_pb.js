@@ -75,9 +75,10 @@ proto.api.legal.company.IndustryClassification.prototype.toObject = function(opt
  */
 proto.api.legal.company.IndustryClassification.toObject = function(includeInstance, msg) {
   var f, obj = {
-sector: jspb.Message.getFieldWithDefault(msg, 1, ""),
-industry: jspb.Message.getFieldWithDefault(msg, 2, ""),
-subindustry: jspb.Message.getFieldWithDefault(msg, 3, "")
+industrycode: jspb.Message.getFieldWithDefault(msg, 1, 0),
+industryname: jspb.Message.getFieldWithDefault(msg, 2, ""),
+subindustrycode: jspb.Message.getFieldWithDefault(msg, 3, 0),
+subindustryname: jspb.Message.getFieldWithDefault(msg, 4, "")
   };
 
   if (includeInstance) {
@@ -115,16 +116,20 @@ proto.api.legal.company.IndustryClassification.deserializeBinaryFromReader = fun
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setSector(value);
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setIndustrycode(value);
       break;
     case 2:
       var value = /** @type {string} */ (reader.readString());
-      msg.setIndustry(value);
+      msg.setIndustryname(value);
       break;
     case 3:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setSubindustrycode(value);
+      break;
+    case 4:
       var value = /** @type {string} */ (reader.readString());
-      msg.setSubindustry(value);
+      msg.setSubindustryname(value);
       break;
     default:
       reader.skipField();
@@ -155,24 +160,31 @@ proto.api.legal.company.IndustryClassification.prototype.serializeBinary = funct
  */
 proto.api.legal.company.IndustryClassification.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getSector();
-  if (f.length > 0) {
-    writer.writeString(
+  f = message.getIndustrycode();
+  if (f !== 0) {
+    writer.writeInt32(
       1,
       f
     );
   }
-  f = message.getIndustry();
+  f = message.getIndustryname();
   if (f.length > 0) {
     writer.writeString(
       2,
       f
     );
   }
-  f = message.getSubindustry();
+  f = message.getSubindustrycode();
+  if (f !== 0) {
+    writer.writeInt32(
+      3,
+      f
+    );
+  }
+  f = message.getSubindustryname();
   if (f.length > 0) {
     writer.writeString(
-      3,
+      4,
       f
     );
   }
@@ -180,28 +192,28 @@ proto.api.legal.company.IndustryClassification.serializeBinaryToWriter = functio
 
 
 /**
- * optional string sector = 1;
- * @return {string}
+ * optional int32 industryCode = 1;
+ * @return {number}
  */
-proto.api.legal.company.IndustryClassification.prototype.getSector = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
+proto.api.legal.company.IndustryClassification.prototype.getIndustrycode = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
 };
 
 
 /**
- * @param {string} value
+ * @param {number} value
  * @return {!proto.api.legal.company.IndustryClassification} returns this
  */
-proto.api.legal.company.IndustryClassification.prototype.setSector = function(value) {
-  return jspb.Message.setProto3StringField(this, 1, value);
+proto.api.legal.company.IndustryClassification.prototype.setIndustrycode = function(value) {
+  return jspb.Message.setProto3IntField(this, 1, value);
 };
 
 
 /**
- * optional string industry = 2;
+ * optional string industryName = 2;
  * @return {string}
  */
-proto.api.legal.company.IndustryClassification.prototype.getIndustry = function() {
+proto.api.legal.company.IndustryClassification.prototype.getIndustryname = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
@@ -210,17 +222,35 @@ proto.api.legal.company.IndustryClassification.prototype.getIndustry = function(
  * @param {string} value
  * @return {!proto.api.legal.company.IndustryClassification} returns this
  */
-proto.api.legal.company.IndustryClassification.prototype.setIndustry = function(value) {
+proto.api.legal.company.IndustryClassification.prototype.setIndustryname = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
 
 
 /**
- * optional string subIndustry = 3;
+ * optional int32 subIndustryCode = 3;
+ * @return {number}
+ */
+proto.api.legal.company.IndustryClassification.prototype.getSubindustrycode = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.api.legal.company.IndustryClassification} returns this
+ */
+proto.api.legal.company.IndustryClassification.prototype.setSubindustrycode = function(value) {
+  return jspb.Message.setProto3IntField(this, 3, value);
+};
+
+
+/**
+ * optional string subIndustryName = 4;
  * @return {string}
  */
-proto.api.legal.company.IndustryClassification.prototype.getSubindustry = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+proto.api.legal.company.IndustryClassification.prototype.getSubindustryname = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
 };
 
 
@@ -228,8 +258,8 @@ proto.api.legal.company.IndustryClassification.prototype.getSubindustry = functi
  * @param {string} value
  * @return {!proto.api.legal.company.IndustryClassification} returns this
  */
-proto.api.legal.company.IndustryClassification.prototype.setSubindustry = function(value) {
-  return jspb.Message.setProto3StringField(this, 3, value);
+proto.api.legal.company.IndustryClassification.prototype.setSubindustryname = function(value) {
+  return jspb.Message.setProto3StringField(this, 4, value);
 };
 
 

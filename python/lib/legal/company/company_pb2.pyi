@@ -6,6 +6,7 @@ from api.python.lib.legal import connectedCompany_pb2 as _connectedCompany_pb2
 from api.python.lib.legal import connectedIndividual_pb2 as _connectedIndividual_pb2
 from api.python.lib.legal.company import industryClassification_pb2 as _industryClassification_pb2
 from api.python.lib.audit import entry_pb2 as _entry_pb2
+from api.python.lib.legal import legalform_pb2 as _legalform_pb2
 from google.protobuf.internal import containers as _containers
 from google.protobuf.internal import enum_type_wrapper as _enum_type_wrapper
 from google.protobuf import descriptor as _descriptor
@@ -14,33 +15,12 @@ from typing import ClassVar as _ClassVar, Iterable as _Iterable, Mapping as _Map
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
-class LegalForm(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
-    __slots__ = ()
-    UNDEFINED_LEGAL_FORM: _ClassVar[LegalForm]
-    SOUTH_AFRICAN_COMPANY_LEGAL_FORM: _ClassVar[LegalForm]
-    SOLE_PROPRIETORSHIP_LEGAL_FORM: _ClassVar[LegalForm]
-    CLOSE_CORPORATION_LEGAL_FORM: _ClassVar[LegalForm]
-    FOREIGN_COMPANY_LEGAL_FORM: _ClassVar[LegalForm]
-    LISTED_COMPANY_LEGAL_FORM: _ClassVar[LegalForm]
-    PARTNERSHIP_LEGAL_FORM: _ClassVar[LegalForm]
-    TRUST_LEGAL_FORM: _ClassVar[LegalForm]
-    OTHER_LEGAL_FORM: _ClassVar[LegalForm]
-
 class Company_Role(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
     UNDEFINED_COMPANY_Role: _ClassVar[Company_Role]
     Issuer_COMPANY_Role: _ClassVar[Company_Role]
     Investor_COMPANY_Role: _ClassVar[Company_Role]
     Managing_Company_Role: _ClassVar[Company_Role]
-UNDEFINED_LEGAL_FORM: LegalForm
-SOUTH_AFRICAN_COMPANY_LEGAL_FORM: LegalForm
-SOLE_PROPRIETORSHIP_LEGAL_FORM: LegalForm
-CLOSE_CORPORATION_LEGAL_FORM: LegalForm
-FOREIGN_COMPANY_LEGAL_FORM: LegalForm
-LISTED_COMPANY_LEGAL_FORM: LegalForm
-PARTNERSHIP_LEGAL_FORM: LegalForm
-TRUST_LEGAL_FORM: LegalForm
-OTHER_LEGAL_FORM: LegalForm
 UNDEFINED_COMPANY_Role: Company_Role
 Issuer_COMPANY_Role: Company_Role
 Investor_COMPANY_Role: Company_Role
@@ -71,15 +51,15 @@ class Company(_message.Message):
     vatRegistrationNumber: str
     public_contact_info: _companyPublicContactInfo_pb2.CompanyPublicContactInfo
     companyRepresentative: _companyRepresentative_pb2.CompanyRepresentative
-    industryClassification: LegalForm
+    industryClassification: _industryClassification_pb2.IndustryClassification
     listed_exchange: str
     listing_reference: str
     countryOfIncorporation: str
-    formOfIncorporation: LegalForm
+    formOfIncorporation: _legalform_pb2.LegalForm
     registeredAddress: _address_pb2.Address
     businessAddress: _address_pb2.Address
     headOfficeAddress: _address_pb2.Address
     connectedIndividuals: _containers.RepeatedCompositeFieldContainer[_connectedIndividual_pb2.ConnectedIndividual]
     connectedCompanies: _containers.RepeatedCompositeFieldContainer[_connectedCompany_pb2.ConnectedCompany]
     role: _containers.RepeatedScalarFieldContainer[Company_Role]
-    def __init__(self, registeredName: _Optional[str] = ..., taxReferenceNumber: _Optional[str] = ..., registrationNumber: _Optional[str] = ..., vatRegistrationNumber: _Optional[str] = ..., public_contact_info: _Optional[_Union[_companyPublicContactInfo_pb2.CompanyPublicContactInfo, _Mapping]] = ..., companyRepresentative: _Optional[_Union[_companyRepresentative_pb2.CompanyRepresentative, _Mapping]] = ..., industryClassification: _Optional[_Union[LegalForm, str]] = ..., listed_exchange: _Optional[str] = ..., listing_reference: _Optional[str] = ..., countryOfIncorporation: _Optional[str] = ..., formOfIncorporation: _Optional[_Union[LegalForm, str]] = ..., registeredAddress: _Optional[_Union[_address_pb2.Address, _Mapping]] = ..., businessAddress: _Optional[_Union[_address_pb2.Address, _Mapping]] = ..., headOfficeAddress: _Optional[_Union[_address_pb2.Address, _Mapping]] = ..., connectedIndividuals: _Optional[_Iterable[_Union[_connectedIndividual_pb2.ConnectedIndividual, _Mapping]]] = ..., connectedCompanies: _Optional[_Iterable[_Union[_connectedCompany_pb2.ConnectedCompany, _Mapping]]] = ..., role: _Optional[_Iterable[_Union[Company_Role, str]]] = ...) -> None: ...
+    def __init__(self, registeredName: _Optional[str] = ..., taxReferenceNumber: _Optional[str] = ..., registrationNumber: _Optional[str] = ..., vatRegistrationNumber: _Optional[str] = ..., public_contact_info: _Optional[_Union[_companyPublicContactInfo_pb2.CompanyPublicContactInfo, _Mapping]] = ..., companyRepresentative: _Optional[_Union[_companyRepresentative_pb2.CompanyRepresentative, _Mapping]] = ..., industryClassification: _Optional[_Union[_industryClassification_pb2.IndustryClassification, _Mapping]] = ..., listed_exchange: _Optional[str] = ..., listing_reference: _Optional[str] = ..., countryOfIncorporation: _Optional[str] = ..., formOfIncorporation: _Optional[_Union[_legalform_pb2.LegalForm, str]] = ..., registeredAddress: _Optional[_Union[_address_pb2.Address, _Mapping]] = ..., businessAddress: _Optional[_Union[_address_pb2.Address, _Mapping]] = ..., headOfficeAddress: _Optional[_Union[_address_pb2.Address, _Mapping]] = ..., connectedIndividuals: _Optional[_Iterable[_Union[_connectedIndividual_pb2.ConnectedIndividual, _Mapping]]] = ..., connectedCompanies: _Optional[_Iterable[_Union[_connectedCompany_pb2.ConnectedCompany, _Mapping]]] = ..., role: _Optional[_Iterable[_Union[Company_Role, str]]] = ...) -> None: ...

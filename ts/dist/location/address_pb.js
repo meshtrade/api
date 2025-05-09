@@ -79,10 +79,11 @@ proto.api.location.Address.toObject = function(includeInstance, msg) {
   var f, obj = {
 line1: jspb.Message.getFieldWithDefault(msg, 1, ""),
 line2: jspb.Message.getFieldWithDefault(msg, 2, ""),
-city: jspb.Message.getFieldWithDefault(msg, 3, ""),
-province: jspb.Message.getFieldWithDefault(msg, 4, ""),
-postalCode: jspb.Message.getFieldWithDefault(msg, 5, ""),
-countryCode: jspb.Message.getFieldWithDefault(msg, 6, "")
+suburb: jspb.Message.getFieldWithDefault(msg, 3, ""),
+city: jspb.Message.getFieldWithDefault(msg, 4, ""),
+province: jspb.Message.getFieldWithDefault(msg, 5, ""),
+postalCode: jspb.Message.getFieldWithDefault(msg, 6, ""),
+countryCode: jspb.Message.getFieldWithDefault(msg, 7, "")
   };
 
   if (includeInstance) {
@@ -129,17 +130,21 @@ proto.api.location.Address.deserializeBinaryFromReader = function(msg, reader) {
       break;
     case 3:
       var value = /** @type {string} */ (reader.readString());
-      msg.setCity(value);
+      msg.setSuburb(value);
       break;
     case 4:
       var value = /** @type {string} */ (reader.readString());
-      msg.setProvince(value);
+      msg.setCity(value);
       break;
     case 5:
       var value = /** @type {string} */ (reader.readString());
-      msg.setPostalCode(value);
+      msg.setProvince(value);
       break;
     case 6:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setPostalCode(value);
+      break;
+    case 7:
       var value = /** @type {string} */ (reader.readString());
       msg.setCountryCode(value);
       break;
@@ -186,31 +191,38 @@ proto.api.location.Address.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getCity();
+  f = message.getSuburb();
   if (f.length > 0) {
     writer.writeString(
       3,
       f
     );
   }
-  f = message.getProvince();
+  f = message.getCity();
   if (f.length > 0) {
     writer.writeString(
       4,
       f
     );
   }
-  f = message.getPostalCode();
+  f = message.getProvince();
   if (f.length > 0) {
     writer.writeString(
       5,
       f
     );
   }
-  f = message.getCountryCode();
+  f = message.getPostalCode();
   if (f.length > 0) {
     writer.writeString(
       6,
+      f
+    );
+  }
+  f = message.getCountryCode();
+  if (f.length > 0) {
+    writer.writeString(
+      7,
       f
     );
   }
@@ -254,10 +266,10 @@ proto.api.location.Address.prototype.setLine2 = function(value) {
 
 
 /**
- * optional string city = 3;
+ * optional string suburb = 3;
  * @return {string}
  */
-proto.api.location.Address.prototype.getCity = function() {
+proto.api.location.Address.prototype.getSuburb = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
@@ -266,16 +278,16 @@ proto.api.location.Address.prototype.getCity = function() {
  * @param {string} value
  * @return {!proto.api.location.Address} returns this
  */
-proto.api.location.Address.prototype.setCity = function(value) {
+proto.api.location.Address.prototype.setSuburb = function(value) {
   return jspb.Message.setProto3StringField(this, 3, value);
 };
 
 
 /**
- * optional string province = 4;
+ * optional string city = 4;
  * @return {string}
  */
-proto.api.location.Address.prototype.getProvince = function() {
+proto.api.location.Address.prototype.getCity = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
 };
 
@@ -284,16 +296,16 @@ proto.api.location.Address.prototype.getProvince = function() {
  * @param {string} value
  * @return {!proto.api.location.Address} returns this
  */
-proto.api.location.Address.prototype.setProvince = function(value) {
+proto.api.location.Address.prototype.setCity = function(value) {
   return jspb.Message.setProto3StringField(this, 4, value);
 };
 
 
 /**
- * optional string postal_code = 5;
+ * optional string province = 5;
  * @return {string}
  */
-proto.api.location.Address.prototype.getPostalCode = function() {
+proto.api.location.Address.prototype.getProvince = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
 };
 
@@ -302,16 +314,16 @@ proto.api.location.Address.prototype.getPostalCode = function() {
  * @param {string} value
  * @return {!proto.api.location.Address} returns this
  */
-proto.api.location.Address.prototype.setPostalCode = function(value) {
+proto.api.location.Address.prototype.setProvince = function(value) {
   return jspb.Message.setProto3StringField(this, 5, value);
 };
 
 
 /**
- * optional string country_code = 6;
+ * optional string postal_code = 6;
  * @return {string}
  */
-proto.api.location.Address.prototype.getCountryCode = function() {
+proto.api.location.Address.prototype.getPostalCode = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
 };
 
@@ -320,8 +332,26 @@ proto.api.location.Address.prototype.getCountryCode = function() {
  * @param {string} value
  * @return {!proto.api.location.Address} returns this
  */
-proto.api.location.Address.prototype.setCountryCode = function(value) {
+proto.api.location.Address.prototype.setPostalCode = function(value) {
   return jspb.Message.setProto3StringField(this, 6, value);
+};
+
+
+/**
+ * optional string country_code = 7;
+ * @return {string}
+ */
+proto.api.location.Address.prototype.getCountryCode = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.api.location.Address} returns this
+ */
+proto.api.location.Address.prototype.setCountryCode = function(value) {
+  return jspb.Message.setProto3StringField(this, 7, value);
 };
 
 

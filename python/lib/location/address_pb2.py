@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n api/proto/location/address.proto\x12\x0c\x61pi.location\"r\n\x07\x41\x64\x64ress\x12\r\n\x05line1\x18\x01 \x01(\t\x12\r\n\x05line2\x18\x02 \x01(\t\x12\x0c\n\x04\x63ity\x18\x03 \x01(\t\x12\x10\n\x08province\x18\x04 \x01(\t\x12\x13\n\x0bpostal_code\x18\x05 \x01(\t\x12\x14\n\x0c\x63ountry_code\x18\x06 \x01(\tB&Z$github.com/meshtrade/api/go/locationb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n api/proto/location/address.proto\x12\x0c\x61pi.location\"\x82\x01\n\x07\x41\x64\x64ress\x12\r\n\x05line1\x18\x01 \x01(\t\x12\r\n\x05line2\x18\x02 \x01(\t\x12\x0e\n\x06suburb\x18\x03 \x01(\t\x12\x0c\n\x04\x63ity\x18\x04 \x01(\t\x12\x10\n\x08province\x18\x05 \x01(\t\x12\x13\n\x0bpostal_code\x18\x06 \x01(\t\x12\x14\n\x0c\x63ountry_code\x18\x07 \x01(\tB&Z$github.com/meshtrade/api/go/locationb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -32,6 +32,6 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'api.python.lib.location.add
 if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'Z$github.com/meshtrade/api/go/location'
-  _globals['_ADDRESS']._serialized_start=50
-  _globals['_ADDRESS']._serialized_end=164
+  _globals['_ADDRESS']._serialized_start=51
+  _globals['_ADDRESS']._serialized_end=181
 # @@protoc_insertion_point(module_scope)

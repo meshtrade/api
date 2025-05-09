@@ -15,6 +15,7 @@ import * as api_proto_legal_connectedCompany_pb from "../../legal/connectedCompa
 import * as api_proto_legal_connectedIndividual_pb from "../../legal/connectedIndividual_pb";
 import * as api_proto_legal_company_industryClassification_pb from "../../legal/company/industryClassification_pb";
 import * as api_proto_audit_entry_pb from "../../audit/entry_pb";
+import * as api_proto_legal_legalform_pb from "../../legal/legalform_pb";
 
 export class Company extends jspb.Message { 
     getRegisteredname(): string;
@@ -35,16 +36,19 @@ export class Company extends jspb.Message {
     clearCompanyrepresentative(): void;
     getCompanyrepresentative(): api_proto_legal_companyRepresentative_pb.CompanyRepresentative | undefined;
     setCompanyrepresentative(value?: api_proto_legal_companyRepresentative_pb.CompanyRepresentative): Company;
-    getIndustryclassification(): LegalForm;
-    setIndustryclassification(value: LegalForm): Company;
+
+    hasIndustryclassification(): boolean;
+    clearIndustryclassification(): void;
+    getIndustryclassification(): api_proto_legal_company_industryClassification_pb.IndustryClassification | undefined;
+    setIndustryclassification(value?: api_proto_legal_company_industryClassification_pb.IndustryClassification): Company;
     getListedExchange(): string;
     setListedExchange(value: string): Company;
     getListingReference(): string;
     setListingReference(value: string): Company;
     getCountryofincorporation(): string;
     setCountryofincorporation(value: string): Company;
-    getFormofincorporation(): LegalForm;
-    setFormofincorporation(value: LegalForm): Company;
+    getFormofincorporation(): api_proto_legal_legalform_pb.LegalForm;
+    setFormofincorporation(value: api_proto_legal_legalform_pb.LegalForm): Company;
 
     hasRegisteredaddress(): boolean;
     clearRegisteredaddress(): void;
@@ -91,11 +95,11 @@ export namespace Company {
         vatregistrationnumber: string,
         publicContactInfo?: api_proto_legal_companyPublicContactInfo_pb.CompanyPublicContactInfo.AsObject,
         companyrepresentative?: api_proto_legal_companyRepresentative_pb.CompanyRepresentative.AsObject,
-        industryclassification: LegalForm,
+        industryclassification?: api_proto_legal_company_industryClassification_pb.IndustryClassification.AsObject,
         listedExchange: string,
         listingReference: string,
         countryofincorporation: string,
-        formofincorporation: LegalForm,
+        formofincorporation: api_proto_legal_legalform_pb.LegalForm,
         registeredaddress?: api_proto_location_address_pb.Address.AsObject,
         businessaddress?: api_proto_location_address_pb.Address.AsObject,
         headofficeaddress?: api_proto_location_address_pb.Address.AsObject,
@@ -103,18 +107,6 @@ export namespace Company {
         connectedcompaniesList: Array<api_proto_legal_connectedCompany_pb.ConnectedCompany.AsObject>,
         roleList: Array<Company_Role>,
     }
-}
-
-export enum LegalForm {
-    UNDEFINED_LEGAL_FORM = 0,
-    SOUTH_AFRICAN_COMPANY_LEGAL_FORM = 1,
-    SOLE_PROPRIETORSHIP_LEGAL_FORM = 2,
-    CLOSE_CORPORATION_LEGAL_FORM = 3,
-    FOREIGN_COMPANY_LEGAL_FORM = 4,
-    LISTED_COMPANY_LEGAL_FORM = 5,
-    PARTNERSHIP_LEGAL_FORM = 6,
-    TRUST_LEGAL_FORM = 7,
-    OTHER_LEGAL_FORM = 8,
 }
 
 export enum Company_Role {

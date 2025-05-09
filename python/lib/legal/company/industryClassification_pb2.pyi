@@ -5,11 +5,13 @@ from typing import ClassVar as _ClassVar, Optional as _Optional
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class IndustryClassification(_message.Message):
-    __slots__ = ("sector", "industry", "subIndustry")
-    SECTOR_FIELD_NUMBER: _ClassVar[int]
-    INDUSTRY_FIELD_NUMBER: _ClassVar[int]
-    SUBINDUSTRY_FIELD_NUMBER: _ClassVar[int]
-    sector: str
-    industry: str
-    subIndustry: str
-    def __init__(self, sector: _Optional[str] = ..., industry: _Optional[str] = ..., subIndustry: _Optional[str] = ...) -> None: ...
+    __slots__ = ("industryCode", "industryName", "subIndustryCode", "subIndustryName")
+    INDUSTRYCODE_FIELD_NUMBER: _ClassVar[int]
+    INDUSTRYNAME_FIELD_NUMBER: _ClassVar[int]
+    SUBINDUSTRYCODE_FIELD_NUMBER: _ClassVar[int]
+    SUBINDUSTRYNAME_FIELD_NUMBER: _ClassVar[int]
+    industryCode: int
+    industryName: str
+    subIndustryCode: int
+    subIndustryName: str
+    def __init__(self, industryCode: _Optional[int] = ..., industryName: _Optional[str] = ..., subIndustryCode: _Optional[int] = ..., subIndustryName: _Optional[str] = ...) -> None: ...

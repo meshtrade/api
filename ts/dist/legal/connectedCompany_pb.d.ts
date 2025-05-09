@@ -9,14 +9,15 @@
 import * as jspb from "google-protobuf";
 import * as api_proto_location_address_pb from "../location/address_pb";
 import * as api_proto_legal_companyRepresentative_pb from "../legal/companyRepresentative_pb";
+import * as api_proto_legal_legalform_pb from "../legal/legalform_pb";
 
 export class ConnectedCompany extends jspb.Message { 
     getId(): string;
     setId(value: string): ConnectedCompany;
     getBusinessname(): string;
     setBusinessname(value: string): ConnectedCompany;
-    getLegalform(): LegalForm;
-    setLegalform(value: LegalForm): ConnectedCompany;
+    getLegalform(): api_proto_legal_legalform_pb.LegalForm;
+    setLegalform(value: api_proto_legal_legalform_pb.LegalForm): ConnectedCompany;
     getRegisteredname(): string;
     setRegisteredname(value: string): ConnectedCompany;
     getRegistrationnumber(): string;
@@ -56,7 +57,7 @@ export namespace ConnectedCompany {
     export type AsObject = {
         id: string,
         businessname: string,
-        legalform: LegalForm,
+        legalform: api_proto_legal_legalform_pb.LegalForm,
         registeredname: string,
         registrationnumber: string,
         registeredaddress?: api_proto_location_address_pb.Address.AsObject,
@@ -64,16 +65,4 @@ export namespace ConnectedCompany {
         headofficeaddress?: api_proto_location_address_pb.Address.AsObject,
         companyrepresentative?: api_proto_legal_companyRepresentative_pb.CompanyRepresentative.AsObject,
     }
-}
-
-export enum LegalForm {
-    UNDEFINED_LEGAL_FORM = 0,
-    SOUTH_AFRICAN_COMPANY_LEGAL_FORM = 1,
-    SOLE_PROPRIETORSHIP_LEGAL_FORM = 2,
-    CLOSE_CORPORATION_LEGAL_FORM = 3,
-    FOREIGN_COMPANY_LEGAL_FORM = 4,
-    LISTED_COMPANY_LEGAL_FORM = 5,
-    PARTNERSHIP_LEGAL_FORM = 6,
-    TRUST_LEGAL_FORM = 7,
-    OTHER_LEGAL_FORM = 8,
 }

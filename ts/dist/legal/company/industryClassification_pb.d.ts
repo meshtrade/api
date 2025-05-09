@@ -9,12 +9,14 @@
 import * as jspb from "google-protobuf";
 
 export class IndustryClassification extends jspb.Message { 
-    getSector(): string;
-    setSector(value: string): IndustryClassification;
-    getIndustry(): string;
-    setIndustry(value: string): IndustryClassification;
-    getSubindustry(): string;
-    setSubindustry(value: string): IndustryClassification;
+    getIndustrycode(): number;
+    setIndustrycode(value: number): IndustryClassification;
+    getIndustryname(): string;
+    setIndustryname(value: string): IndustryClassification;
+    getSubindustrycode(): number;
+    setSubindustrycode(value: number): IndustryClassification;
+    getSubindustryname(): string;
+    setSubindustryname(value: string): IndustryClassification;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): IndustryClassification.AsObject;
@@ -28,8 +30,9 @@ export class IndustryClassification extends jspb.Message {
 
 export namespace IndustryClassification {
     export type AsObject = {
-        sector: string,
-        industry: string,
-        subindustry: string,
+        industrycode: number,
+        industryname: string,
+        subindustrycode: number,
+        subindustryname: string,
     }
 }

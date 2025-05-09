@@ -11,6 +11,8 @@ export class Address extends jspb.Message {
     setLine1(value: string): Address;
     getLine2(): string;
     setLine2(value: string): Address;
+    getSuburb(): string;
+    setSuburb(value: string): Address;
     getCity(): string;
     setCity(value: string): Address;
     getProvince(): string;
@@ -34,6 +36,7 @@ export namespace Address {
     export type AsObject = {
         line1: string,
         line2: string,
+        suburb: string,
         city: string,
         province: string,
         postalCode: string,
