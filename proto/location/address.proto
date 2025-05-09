@@ -11,15 +11,18 @@ message Address {
   // Second line of the address (optional)
   string line2 = 2;
 
+  // Suburb field on the address
+  string  suburb = 3;
+
   // City of the address
-  string city = 3;
+  string city = 4;
 
   // Province or state of the address
-  string province = 4;
+  string province = 5;
 
   // Postal or ZIP code of the address
-  string postal_code = 5;
+  string postal_code = 6;
 
   // Country code of the address in ISO format
-  string country_code = 6;
+  string country_code = 7;
 }
