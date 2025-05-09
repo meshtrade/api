@@ -12,6 +12,7 @@ import "api/proto/legal/connectedCompany.proto";
 import "api/proto/legal/connectedIndividual.proto";
 import "api/proto/legal/company/industryClassification.proto";
 import "api/proto/audit/entry.proto";
+import "api/proto/legal/legalform.proto";
 
 message Company {
   // Registered name of the company (required field)
@@ -33,7 +34,7 @@ message Company {
   api.legal.CompanyRepresentative companyRepresentative = 6;
 
   // Industry classification of the company
-  api.legal.company.LegalForm industryClassification = 7;
+  api.legal.LegalForm industryClassification = 7;
 
   // Stock exchange where the company is listed
   string listed_exchange = 8;
@@ -45,7 +46,7 @@ message Company {
   string countryOfIncorporation = 10;
 
   // Legal form of the company (e.g., Proprietorship, Corporation)
-  api.legal.company.LegalForm formOfIncorporation = 11;
+  api.legal.LegalForm formOfIncorporation = 11;
 
   // The company's registered address
   location.Address registeredAddress = 12;
@@ -65,36 +66,6 @@ message Company {
   repeated api.legal.company.Company_Role role = 17;
 }
 
-
-// Enum for LegalForm
-enum LegalForm {
-  // Default unknown legal form
-  UNDEFINED_LEGAL_FORM = 0; // 0 not used to prevent unexpected default value behaviour.
-
-  // South African Company
-  SOUTH_AFRICAN_COMPANY_LEGAL_FORM = 1;
-
-  // Sole Proprietorship
-  SOLE_PROPRIETORSHIP_LEGAL_FORM = 2;
-
-  // Close Corporation
-  CLOSE_CORPORATION_LEGAL_FORM = 3;
-
-  // Foreign Company
-  FOREIGN_COMPANY_LEGAL_FORM = 4;
-
-  // Listed Company
-  LISTED_COMPANY_LEGAL_FORM = 5;
-
-  // Partnership
-  PARTNERSHIP_LEGAL_FORM = 6;
-
-  // Trust
-  TRUST_LEGAL_FORM = 7;
-
-  // Other legal form
-  OTHER_LEGAL_FORM = 8;
-}
 
 enum Company_Role  {
   UNDEFINED_COMPANY_Role = 0;

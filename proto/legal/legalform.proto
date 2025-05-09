@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package api.legal;
+
+option go_package = "github.com/meshtrade/api/go/legal/company";
+
+// Enum for LegalForm
+enum LegalForm {
+  // Default unknown legal form
+  UNDEFINED_LEGAL_FORM = 0; // 0 not used to prevent unexpected default value behaviour.
+
+  // South African Company
+  SOUTH_AFRICAN_COMPANY_LEGAL_FORM = 1;
+
+  // Sole Proprietorship
+  SOLE_PROPRIETORSHIP_LEGAL_FORM = 2;
+
+  // Close Corporation
+  CLOSE_CORPORATION_LEGAL_FORM = 3;
+
+  // Foreign Company
+  FOREIGN_COMPANY_LEGAL_FORM = 4;
+
+  // Listed Company
+  LISTED_COMPANY_LEGAL_FORM = 5;
+
+  // Partnership
+  PARTNERSHIP_LEGAL_FORM = 6;
+
+  // Trust
+  TRUST_LEGAL_FORM = 7;
+
+  // Other legal form
+  OTHER_LEGAL_FORM = 8;
+}
