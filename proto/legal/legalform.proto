@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package api.legal;
 
-option go_package = "github.com/meshtrade/api/go/legal/company";
+option go_package = "github.com/meshtrade/api/go/legal";
 
 // Enum for LegalForm
 enum LegalForm {

@@ -34,7 +34,7 @@ message Company {
   api.legal.CompanyRepresentative companyRepresentative = 6;
 
   // Industry classification of the company
-  api.legal.LegalForm industryClassification = 7;
+  api.legal.company.IndustryClassification industryClassification = 7;
 
   // Stock exchange where the company is listed
   string listed_exchange = 8;

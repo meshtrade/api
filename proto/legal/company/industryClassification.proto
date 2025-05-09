@@ -6,18 +6,12 @@ option go_package = "github.com/meshtrade/api/go/legal/company";
 
 
 message IndustryClassification {
-  /*
-  Sector the company belongs to
-  */
-  string sector = 1;
-
-  /*
-  Industry within the sector
-  */
-  string industry = 2;
-
-  /*
-  SubIndustry within the industry
-  */
-  string subIndustry = 3;
+  // Industry code using the GICS standard (Global Industry Classification Standard)
+  int32 industryCode = 1;
+  // Name/description of the industry based on the GICS code
+  string industryName = 2;
+  // Sub-industry code under the main industry using GICS classification
+  int32 subIndustryCode = 3;
+  // Name/description of the sub-industry based on the GICS sub-industry code
+  string subIndustryName = 4;
 }
