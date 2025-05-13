@@ -8,7 +8,7 @@ export type CriteriaMapField = {
     value?: ValueType;
 };
 /**
- Utility Type to keep track of multiple criteria with key/value pairs
+ * Utility Type to keep track of multiple criteria with key/value pairs
  */
 export declare class Criteria {
     criteriaMap: CriteriaMap;
@@ -16,4 +16,5 @@ export declare class Criteria {
     updateCriterion(key: string, criterion?: Criterion, value?: ValueType): void;
     getCriterionValue(key: string): ValueType | undefined;
     toCriterionList(): Criterion[];
+    isEmpty(): boolean;
 }

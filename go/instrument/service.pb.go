@@ -94,7 +94,7 @@ type MintResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// TransactoinID refers to the mint transaction.
+	// TransactionID refers to the mint transaction.
 	TransactionID string `protobuf:"bytes,1,opt,name=transactionID,proto3" json:"transactionID,omitempty"`
 }
 
@@ -210,7 +210,7 @@ type BurnResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// TransactoinID refers to the burn transaction.
+	// TransactionID refers to the burn transaction.
 	TransactionID string `protobuf:"bytes,1,opt,name=transactionID,proto3" json:"transactionID,omitempty"`
 }
 

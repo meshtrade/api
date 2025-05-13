@@ -4,7 +4,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Criteria = void 0;
 /**
- Utility Type to keep track of multiple criteria with key/value pairs
+ * Utility Type to keep track of multiple criteria with key/value pairs
  */
 class Criteria {
     constructor(criteriaMap) {
@@ -25,7 +25,11 @@ class Criteria {
     }
     toCriterionList() {
         return Object.keys(this.criteriaMap)
-            .map((key) => { var _a; return (_a = this.criteriaMap[key]) === null || _a === void 0 ? void 0 : _a.criterion; }).filter((v) => v !== undefined);
+            .map((key) => { var _a; return (_a = this.criteriaMap[key]) === null || _a === void 0 ? void 0 : _a.criterion; })
+            .filter((v) => v !== undefined);
+    }
+    isEmpty() {
+        return this.toCriterionList.length === 0;
     }
 }
 exports.Criteria = Criteria;
