@@ -11,8 +11,8 @@ import "api/proto/legal/companyRepresentative.proto";
 import "api/proto/legal/connectedCompany.proto";
 import "api/proto/legal/connectedIndividual.proto";
 import "api/proto/legal/company/industryClassification.proto";
-import "api/proto/audit/entry.proto";
 import "api/proto/legal/legalform.proto";
+import "api/proto/client/clientType.proto";
 
 message Company {
   // Registered name of the company (required field)
@@ -63,13 +63,5 @@ message Company {
   // List of companies connected to the company
   repeated api.legal.ConnectedCompany connectedCompanies = 16;
 
-  repeated api.legal.company.Company_Role role = 17;
-}
-
-
-enum Company_Role  {
-  UNDEFINED_COMPANY_Role = 0;
-  Issuer_COMPANY_Role = 1;
-  Investor_COMPANY_Role = 2;
-  Managing_Company_Role = 3;
+  repeated api.client.ClientType clientType = 17;
 }

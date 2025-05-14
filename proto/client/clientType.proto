@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package api.client;
+
+option go_package = "github.com/meshtrade/api/go/client";
+
+enum ClientType  {
+  UNDEFINED_COMPANY_Role = 0;
+  Issuer_COMPANY_Role = 1;
+  Investor_COMPANY_Role = 2;
+  Managing_Company_Role = 3;
+}
