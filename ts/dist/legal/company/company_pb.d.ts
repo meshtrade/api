@@ -14,8 +14,8 @@ import * as api_proto_legal_companyRepresentative_pb from "../../legal/companyRe
 import * as api_proto_legal_connectedCompany_pb from "../../legal/connectedCompany_pb";
 import * as api_proto_legal_connectedIndividual_pb from "../../legal/connectedIndividual_pb";
 import * as api_proto_legal_company_industryClassification_pb from "../../legal/company/industryClassification_pb";
-import * as api_proto_audit_entry_pb from "../../audit/entry_pb";
 import * as api_proto_legal_legalform_pb from "../../legal/legalform_pb";
+import * as api_proto_client_clientType_pb from "../../client/clientType_pb";
 
 export class Company extends jspb.Message { 
     getRegisteredname(): string;
@@ -72,10 +72,10 @@ export class Company extends jspb.Message {
     getConnectedcompaniesList(): Array<api_proto_legal_connectedCompany_pb.ConnectedCompany>;
     setConnectedcompaniesList(value: Array<api_proto_legal_connectedCompany_pb.ConnectedCompany>): Company;
     addConnectedcompanies(value?: api_proto_legal_connectedCompany_pb.ConnectedCompany, index?: number): api_proto_legal_connectedCompany_pb.ConnectedCompany;
-    clearRoleList(): void;
-    getRoleList(): Array<Company_Role>;
-    setRoleList(value: Array<Company_Role>): Company;
-    addRole(value: Company_Role, index?: number): Company_Role;
+    clearClienttypeList(): void;
+    getClienttypeList(): Array<api_proto_client_clientType_pb.ClientType>;
+    setClienttypeList(value: Array<api_proto_client_clientType_pb.ClientType>): Company;
+    addClienttype(value: api_proto_client_clientType_pb.ClientType, index?: number): api_proto_client_clientType_pb.ClientType;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): Company.AsObject;
@@ -105,13 +105,6 @@ export namespace Company {
         headofficeaddress?: api_proto_location_address_pb.Address.AsObject,
         connectedindividualsList: Array<api_proto_legal_connectedIndividual_pb.ConnectedIndividual.AsObject>,
         connectedcompaniesList: Array<api_proto_legal_connectedCompany_pb.ConnectedCompany.AsObject>,
-        roleList: Array<Company_Role>,
+        clienttypeList: Array<api_proto_client_clientType_pb.ClientType>,
     }
-}
-
-export enum Company_Role {
-    UNDEFINED_COMPANY_ROLE = 0,
-    ISSUER_COMPANY_ROLE = 1,
-    INVESTOR_COMPANY_ROLE = 2,
-    MANAGING_COMPANY_ROLE = 3,
 }
