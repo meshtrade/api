@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package api.role;
+package api.iam.role;
 
 option go_package = "github.com/meshtrade/api/go/iam/role";
 
@@ -18,5 +18,5 @@ message Role {
   /*
   Permissions are the permissions on this role.
   */  
-  repeated api.role.Permission permissions = 2;
+  repeated api.iam.role.Permission permissions = 2;
 }

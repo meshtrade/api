@@ -16,4 +16,5 @@ export declare class Criteria {
     updateCriterion(key: string, criterion?: Criterion, value?: ValueType): void;
     getCriterionValue(key: string): ValueType | undefined;
     toCriterionList(): Criterion[];
+    isEmpty(): boolean;
 }

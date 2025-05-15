@@ -1,4 +1,4 @@
-// package: api.role
+// package: api.iam.role
 // file: api/proto/iam/role/role.proto
 
 /* tslint:disable */

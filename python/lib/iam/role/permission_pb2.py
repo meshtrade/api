@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n#api/proto/iam/role/permission.proto\x12\x08\x61pi.role\"K\n\nPermission\x12\x17\n\x0fserviceProvider\x18\x01 \x01(\t\x12\x0f\n\x07service\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\tB&Z$github.com/meshtrade/api/go/iam/roleb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n#api/proto/iam/role/permission.proto\x12\x0c\x61pi.iam.role\"K\n\nPermission\x12\x17\n\x0fserviceProvider\x18\x01 \x01(\t\x12\x0f\n\x07service\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\tB&Z$github.com/meshtrade/api/go/iam/roleb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -32,6 +32,6 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'api.python.lib.iam.role.per
 if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'Z$github.com/meshtrade/api/go/iam/role'
-  _globals['_PERMISSION']._serialized_start=49
-  _globals['_PERMISSION']._serialized_end=124
+  _globals['_PERMISSION']._serialized_start=53
+  _globals['_PERMISSION']._serialized_end=128
 # @@protoc_insertion_point(module_scope)

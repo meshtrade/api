@@ -39,7 +39,7 @@ MintResponse is Mint method response on the Instrument Service.
 */
 message MintResponse {
     /*
-    TransactoinID refers to the mint transaction. 
+    TransactionID refers to the mint transaction. 
     */
     string transactionID = 1;
 }
@@ -69,7 +69,7 @@ BurnResponse is Burn method response on the Instrument Service.
 */
 message BurnResponse {
     /*
-    TransactoinID refers to the burn transaction. 
+    TransactionID refers to the burn transaction. 
     */
     string transactionID = 1;
 }

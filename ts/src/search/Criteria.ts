@@ -5,11 +5,11 @@ export type CriteriaMap = Record<string, CriteriaMapField | undefined>;
 export type ValueType = string | number | number[] | string[];
 
 export type CriteriaMapField = {
-  criterion?: Criterion,
-  value?: ValueType
+  criterion?: Criterion;
+  value?: ValueType;
 };
 
-/** 
+/**
  * Utility Type to keep track of multiple criteria with key/value pairs
  */
 export class Criteria {
@@ -28,11 +28,16 @@ export class Criteria {
   }
 
   getCriterionValue(key: string): ValueType | undefined {
-    return this.criteriaMap[key]?.value
+    return this.criteriaMap[key]?.value;
   }
 
   toCriterionList(): Criterion[] {
     return Object.keys(this.criteriaMap)
-      .map((key) => this.criteriaMap[key]?.criterion).filter((v) => v !== undefined);
+      .map((key) => this.criteriaMap[key]?.criterion)
+      .filter((v) => v !== undefined);
+  }
+
+  isEmpty(): boolean {
+    return this.toCriterionList.length === 0;
   }
 }

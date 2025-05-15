@@ -63,12 +63,12 @@ class CalculateBurningFeesResponse(_message.Message):
     def __init__(self, Fees: _Optional[_Iterable[_Union[_fee_pb2.Fee, _Mapping]]] = ...) -> None: ...
 
 class CalculateLifecycleFeesRequest(_message.Message):
-    __slots__ = ("instrumentName", "lifecycleEventCategory")
-    INSTRUMENTNAME_FIELD_NUMBER: _ClassVar[int]
+    __slots__ = ("instrumentID", "lifecycleEventCategory")
+    INSTRUMENTID_FIELD_NUMBER: _ClassVar[int]
     LIFECYCLEEVENTCATEGORY_FIELD_NUMBER: _ClassVar[int]
-    instrumentName: str
+    instrumentID: str
     lifecycleEventCategory: _lifecycleEventCategory_pb2.LifecycleEventCategory
-    def __init__(self, instrumentName: _Optional[str] = ..., lifecycleEventCategory: _Optional[_Union[_lifecycleEventCategory_pb2.LifecycleEventCategory, str]] = ...) -> None: ...
+    def __init__(self, instrumentID: _Optional[str] = ..., lifecycleEventCategory: _Optional[_Union[_lifecycleEventCategory_pb2.LifecycleEventCategory, str]] = ...) -> None: ...
 
 class CalculateLifecycleFeesResponse(_message.Message):
     __slots__ = ("Fees",)

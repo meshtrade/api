@@ -200,8 +200,8 @@ export namespace CalculateBurningFeesResponse {
 }
 
 export class CalculateLifecycleFeesRequest extends jspb.Message { 
-    getInstrumentname(): string;
-    setInstrumentname(value: string): CalculateLifecycleFeesRequest;
+    getInstrumentid(): string;
+    setInstrumentid(value: string): CalculateLifecycleFeesRequest;
     getLifecycleeventcategory(): api_proto_instrument_feeprofile_lifecycleEventCategory_pb.LifecycleEventCategory;
     setLifecycleeventcategory(value: api_proto_instrument_feeprofile_lifecycleEventCategory_pb.LifecycleEventCategory): CalculateLifecycleFeesRequest;
 
@@ -217,7 +217,7 @@ export class CalculateLifecycleFeesRequest extends jspb.Message {
 
 export namespace CalculateLifecycleFeesRequest {
     export type AsObject = {
-        instrumentname: string,
+        instrumentid: string,
         lifecycleeventcategory: api_proto_instrument_feeprofile_lifecycleEventCategory_pb.LifecycleEventCategory,
     }
 }
