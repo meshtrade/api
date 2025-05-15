@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n!api/proto/client/clientType.proto\x12\napi.client*w\n\nClientType\x12\x1a\n\x16UNDEFINED_COMPANY_Role\x10\x00\x12\x17\n\x13Issuer_COMPANY_Role\x10\x01\x12\x19\n\x15Investor_COMPANY_Role\x10\x02\x12\x19\n\x15Managing_Company_Role\x10\x03\x42$Z\"github.com/meshtrade/api/go/clientb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n!api/proto/client/clientType.proto\x12\napi.client*\x8f\x01\n\nClientType\x12 \n\x1cUNDEFINED_COMPANY_ClientType\x10\x00\x12\x1d\n\x19Issuer_COMPANY_ClientType\x10\x01\x12\x1f\n\x1bInvestor_COMPANY_ClientType\x10\x02\x12\x1f\n\x1bManaging_Company_ClientType\x10\x03\x42$Z\"github.com/meshtrade/api/go/clientb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -32,6 +32,6 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'api.python.lib.client.clien
 if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'Z\"github.com/meshtrade/api/go/client'
-  _globals['_CLIENTTYPE']._serialized_start=49
-  _globals['_CLIENTTYPE']._serialized_end=168
+  _globals['_CLIENTTYPE']._serialized_start=50
+  _globals['_CLIENTTYPE']._serialized_end=193
 # @@protoc_insertion_point(module_scope)
