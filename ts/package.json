@@ -57,6 +57,7 @@
     "typescript": "^5.2.2"
   },
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test:ci": "react-scripts test --ci --watchAll=false --passWithNoTests"
   }
 }
