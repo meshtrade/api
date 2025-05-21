@@ -1,4 +1,5 @@
 /* eslint-disable */
 // @ts-nocheck
 import { Instrument } from "./instrument";
-export { Instrument };
+import { Legal } from "./legal";
+export { Instrument, Legal };
