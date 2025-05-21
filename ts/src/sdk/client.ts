@@ -5,6 +5,7 @@ import { Instrument } from "./services";
 
 export class Client {
   private _instrument: Instrument;
+  private _legal: Legal
 
   constructor(config?: ConfigOpts) {
     // process config
