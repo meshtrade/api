@@ -2,7 +2,7 @@ import { Amount } from "./amount_pb";
 import { Token } from "./token_pb";
 import { bigNumberToDecimal, decimalToBigNumber } from "../num";
 import { getNetworkNoDecimalPlaces } from "./network";
-import { BigNumber } from "bignumber.js";
+import BigNumber from "bignumber.js";
 import { Decimal } from "../num/decimal_pb";
 import { Network } from "./network_pb";
 import { tokenIsUndefined } from "./token";

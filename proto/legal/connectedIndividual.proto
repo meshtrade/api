@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package api.legal;
+
+import "api/proto/location/address.proto";
+
+option go_package = "github.com/meshtrade/api/go/legal";
+
+message ConnectedIndividual {
+  // The type of connection this individual has with the company
+  string connectionType = 1;
+
+  // First name of the connected individual
+  string firstName = 2;
+
+  // Middle names of the connected individual (optional)
+  string middleNames = 3;
+
+  // Last name of the connected individual
+  string lastName = 4;
+
+  // Date of birth of the connected individual in format YYYY-MM-DD
+  string dateOfBirth = 5;
+
+  // Nationality of the connected individual
+  string nationality = 6;
+
+  // Type of identification document (e.g., Passport, ID)
+  string identificationType = 7;
+
+  // Identification number based on the identification type
+  string identificationNumber = 8;
+
+  // Physical address of the individual
+  api.location.Address physicalAddress = 9;
+
+  // Postal address of the individual
+  api.location.Address postalAddress = 10;
+
+  // Telephone number of the individual (at least one of telephone, cellphone, or email must be provided)
+  string telephoneNumber = 11;
+
+  // Cellphone number of the individual (at least one of telephone, cellphone, or email must be provided)
+  string cellphoneNumber = 12;
+
+  // Email address of the individual (at least one of telephone, cellphone, or email must be provided)
+  string emailAddress = 13;
+}

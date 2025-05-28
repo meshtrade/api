@@ -1,6 +1,6 @@
 /* eslint-disable */
 // @ts-nocheck
-import { BigNumber } from "bignumber.js";
+import BigNumber from "bignumber.js";
 import { Decimal } from "./decimal_pb";
 /**
  * Converts a BigNumber instance to a Decimal object.

@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package api.location;
+
+option go_package = "github.com/meshtrade/api/go/location";
+
+message Address {
+  // First line of the address
+  string line1 = 1;
+
+  // Second line of the address (optional)
+  string line2 = 2;
+
+  // Suburb field on the address
+  string  suburb = 3;
+
+  // City of the address
+  string city = 4;
+
+  // Province or state of the address
+  string province = 5;
+
+  // Postal or ZIP code of the address
+  string postal_code = 6;
+
+  // Country code of the address in ISO format
+  string country_code = 7;
+}

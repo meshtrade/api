@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package api.legal;
+
+import "api/proto/location/address.proto";
+import "api/proto/legal/companyRepresentative.proto";
+import "api/proto/legal/legalform.proto";
+
+option go_package = "github.com/meshtrade/api/go/legal";
+
+message ConnectedCompany {
+  // Unique identifier for the connected company
+  string id = 1;
+
+  // The business name of the connected company
+  string businessName = 2;
+
+  // Legal form of the connected company (e.g., Corporation, Partnership)
+  api.legal.LegalForm legalForm = 3;
+
+  // Registered name of the connected company
+  string registeredName = 4;
+
+  // Registration number of the connected company
+  string registrationNumber = 5;
+
+  // Registered address of the connected company
+  api.location.Address registeredAddress = 6;
+
+  // Business address of the connected company
+  api.location.Address businessAddress = 7;
+
+  // Head office address of the connected company
+  api.location.Address headOfficeAddress = 8;
+
+  // Representative information for the connected company
+  api.legal.CompanyRepresentative companyRepresentative = 9;
+}
+

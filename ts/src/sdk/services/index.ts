@@ -1,3 +1,4 @@
 import { Instrument } from "./instrument";
+import { Legal } from "./legal";
 
-export { Instrument };
+export { Instrument, Legal };

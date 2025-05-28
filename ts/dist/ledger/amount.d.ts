@@ -2,7 +2,7 @@
 // @ts-nocheck
 import { Amount } from "./amount_pb";
 import { Token } from "./token_pb";
-import { BigNumber } from "bignumber.js";
+import BigNumber from "bignumber.js";
 import { Decimal } from "../num/decimal_pb";
 /**
  * Creates a new Amount of the given Token.

@@ -17,3 +17,4 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./environment_pb"), exports);
+__exportStar(require("./environment"), exports);

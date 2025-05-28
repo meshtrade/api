@@ -1,10 +1,13 @@
 /* eslint-disable */
 // @ts-nocheck
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.bigNumberToDecimal = bigNumberToDecimal;
 exports.decimalToBigNumber = decimalToBigNumber;
-const bignumber_js_1 = require("bignumber.js");
+const bignumber_js_1 = __importDefault(require("bignumber.js"));
 const decimal_pb_1 = require("./decimal_pb");
 /**
  * Converts a BigNumber instance to a Decimal object.
@@ -32,8 +35,8 @@ function bigNumberToDecimal(bigNumberToConvert) {
  */
 function decimalToBigNumber(decimal) {
     if (!decimal || decimal.getValue() == "") {
-        return new bignumber_js_1.BigNumber("0");
+        return new bignumber_js_1.default("0");
     }
     const value = decimal.getValue();
-    return new bignumber_js_1.BigNumber(`${value}`);
+    return new bignumber_js_1.default(`${value}`);
 }

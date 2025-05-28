@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package api.auth;
+
+option go_package = "github.com/meshtrade/api/go/auth";
+
+/*
+Service is the Auth Service.
+*/
+service Service {
+    rpc LoginWithFirebaseToken(LoginWithFirebaseTokenRequest) returns (LoginWithFirebaseTokenResponse);
+  }
+
+/*
+LoginWithFirebaseTokenRequest is the request message for the Authenticator.LoginWithFirebaseToken method.
+*/
+message LoginWithFirebaseTokenRequest {
+    string firebaseToken = 1;
+}
+
+/*
+LoginWithFirebaseTokenResponse is the response message for the Authenticator.LoginWithFirebaseToken method.
+*/
+message LoginWithFirebaseTokenResponse {
+    string sessionToken = 1;
+}

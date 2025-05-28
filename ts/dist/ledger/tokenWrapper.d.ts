@@ -1,6 +1,5 @@
 /* eslint-disable */
 // @ts-nocheck
-import { BigNumber } from "bignumber.js";
 import { Token } from "./token_pb";
 import { Decimal } from "../num/decimal_pb";
 import { Amount } from "./amount_pb";
