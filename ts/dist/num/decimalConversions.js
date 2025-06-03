@@ -5,10 +5,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.bigNumberToDecimal = bigNumberToDecimal;
-exports.decimalToBigNumber = decimalToBigNumber;
+exports.decimalToBigNumber = exports.bigNumberToDecimal = void 0;
 const bignumber_js_1 = __importDefault(require("bignumber.js"));
 const decimal_pb_1 = require("./decimal_pb");
+const protobuf_1 = require("@bufbuild/protobuf");
 /**
  * Converts a BigNumber instance to a Decimal object.
  *
@@ -20,9 +20,12 @@ const decimal_pb_1 = require("./decimal_pb");
  * to construct a Decimal object.
  */
 function bigNumberToDecimal(bigNumberToConvert) {
-    const dec = new decimal_pb_1.Decimal().setValue(bigNumberToConvert.toString());
+    const dec = (0, protobuf_1.create)(decimal_pb_1.DecimalSchema, {
+        value: bigNumberToConvert.toString(),
+    });
     return dec;
 }
+exports.bigNumberToDecimal = bigNumberToDecimal;
 /**
  * Converts a Decimal object to a BigNumber instance.
  *
@@ -34,9 +37,10 @@ function bigNumberToDecimal(bigNumberToConvert) {
  * to construct a BigNumber instance.
  */
 function decimalToBigNumber(decimal) {
-    if (!decimal || decimal.getValue() == "") {
+    if (!decimal || decimal.value == "") {
         return new bignumber_js_1.default("0");
     }
-    const value = decimal.getValue();
+    const value = decimal.value;
     return new bignumber_js_1.default(`${value}`);
 }
+exports.decimalToBigNumber = decimalToBigNumber;

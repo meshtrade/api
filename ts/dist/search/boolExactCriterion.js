@@ -2,8 +2,9 @@
 // @ts-nocheck
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.newBoolExactCriterion = newBoolExactCriterion;
+exports.newBoolExactCriterion = void 0;
 const criterion_pb_1 = require("./criterion_pb");
+const protobuf_1 = require("@bufbuild/protobuf");
 const boolExactCriterion_pb_1 = require("./boolExactCriterion_pb");
 /**
  * Convenience function to construct a wrapped new BoolExactCriterion.
@@ -13,9 +14,15 @@ const boolExactCriterion_pb_1 = require("./boolExactCriterion_pb");
  * @returns {Criterion} BoolExactCriterion wrapped in Criterion
  *
  * @example
- * // results in the mongo db query {"id": "someID"}
- * const boolExactCriterion = newBoolExactCriterion("id", "someID");
+ * // results in the mongo db query {"set": false}
+ * const boolExactCriterion = newBoolExactCriterion("set", false);
  */
 function newBoolExactCriterion(field, value) {
-    return new criterion_pb_1.Criterion().setBoolexactcriterion(new boolExactCriterion_pb_1.BoolExactCriterion().setField(field).setBool(value));
+    return (0, protobuf_1.create)(criterion_pb_1.CriterionSchema, {
+        criterion: {
+            case: "boolExactCriterion",
+            value: (0, protobuf_1.create)(boolExactCriterion_pb_1.BoolExactCriterionSchema, { field, bool: value }),
+        },
+    });
 }
+exports.newBoolExactCriterion = newBoolExactCriterion;

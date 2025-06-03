@@ -49,7 +49,7 @@ class AmountWrapper {
      * @throws {TypeError} If the token is undefined in the wrapped amount.
      */
     get token() {
-        const token = this._amount.getToken();
+        const token = this._amount.token;
         if (!token) {
             throw new TypeError("token is undefined in wrapped amount");
         }
@@ -65,7 +65,7 @@ class AmountWrapper {
      * @throws {TypeError} If the value is undefined in the wrapped amount.
      */
     get value() {
-        const value = this._amount.getValue();
+        const value = this._amount.value;
         if (!value) {
             throw new TypeError("value is undefined in wrapped amount");
         }

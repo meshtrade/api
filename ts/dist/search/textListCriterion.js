@@ -2,8 +2,9 @@
 // @ts-nocheck
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.newTextListCriterion = newTextListCriterion;
+exports.newTextListCriterion = void 0;
 const criterion_pb_1 = require("./criterion_pb");
+const protobuf_1 = require("@bufbuild/protobuf");
 const textListCriterion_pb_1 = require("./textListCriterion_pb");
 /**
  * Convenience function to construct a wrapped new TextListCriterion.
@@ -17,5 +18,11 @@ const textListCriterion_pb_1 = require("./textListCriterion_pb");
  * const textListCriterion = newTextListCriterion("id", ["someID1", "someID2"]);
  */
 function newTextListCriterion(field, list) {
-    return new criterion_pb_1.Criterion().setTextlistcriterion(new textListCriterion_pb_1.TextListCriterion().setField(field).setListList(list));
+    return (0, protobuf_1.create)(criterion_pb_1.CriterionSchema, {
+        criterion: {
+            case: "textListCriterion",
+            value: (0, protobuf_1.create)(textListCriterion_pb_1.TextListCriterionSchema, { field, list }),
+        },
+    });
 }
+exports.newTextListCriterion = newTextListCriterion;

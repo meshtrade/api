@@ -3,22 +3,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Client = void 0;
-const grpc_web_1 = require("../grpc_web");
 const config_1 = require("./config");
 const services_1 = require("./services");
+const connect_web_1 = require("@connectrpc/connect-web");
 class Client {
     constructor(config) {
         // process config
         const _config = (0, config_1.getConfigFromOpts)(config);
         // construct service constructor args
-        const args = [
-            _config.apiServerURL,
-            null,
-            {
-                withCredentials: true,
-                unaryInterceptors: [new grpc_web_1.LoggingInterceptor()],
-            },
-        ];
+        const args = {
+            transport: (0, connect_web_1.createGrpcWebTransport)({
+                baseUrl: _config.apiServerURL,
+                // interceptors: [new LoggingInterceptor()],
+            }),
+        };
         // construct services
         this._instrument = new services_1.Instrument(args);
         this._legal = new services_1.Legal(args);

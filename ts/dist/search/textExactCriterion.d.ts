@@ -5,7 +5,7 @@ import { Criterion } from "./criterion_pb";
  * Convenience function to construct a wrapped new TextExactCriterion.
  *
  * @param {string} field - field of exact text criterion
- * @param {string} value - value of exact text criterion
+ * @param {textean} value - value of exact text criterion
  * @returns {Criterion} TextExactCriterion wrapped in Criterion
  *
  * @example

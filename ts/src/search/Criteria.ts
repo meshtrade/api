@@ -34,7 +34,7 @@ export class Criteria {
   toCriterionList(): Criterion[] {
     return Object.keys(this.criteriaMap)
       .map((key) => this.criteriaMap[key]?.criterion)
-      .filter((v) => v !== undefined);
+      .filter((v) => v !== undefined) as Criterion[];
   }
 
   isEmpty(): boolean {

@@ -2,9 +2,7 @@
 // @ts-nocheck
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.allLifecycleEventCalculationConfigTypes = void 0;
-exports.lifecycleEventCalculationConfigTypeToString = lifecycleEventCalculationConfigTypeToString;
-exports.stringToLifecycleEventCalculationConfigType = stringToLifecycleEventCalculationConfigType;
+exports.stringToLifecycleEventCalculationConfigType = exports.lifecycleEventCalculationConfigTypeToString = exports.allLifecycleEventCalculationConfigTypes = void 0;
 const lifecycleEventCalculationConfigType_pb_1 = require("./lifecycleEventCalculationConfigType_pb");
 // Get all calculation configuration types as enum values
 exports.allLifecycleEventCalculationConfigTypes = Object.values(lifecycleEventCalculationConfigType_pb_1.LifecycleEventCalculationConfigType).filter((value) => typeof value === "number");
@@ -41,6 +39,7 @@ function lifecycleEventCalculationConfigTypeToString(lifecycleEventCalculationCo
         throw new UnsupportedLifecycleEventCalculationConfigTypeError(lifecycleEventCalculationConfigType);
     }
 }
+exports.lifecycleEventCalculationConfigTypeToString = lifecycleEventCalculationConfigTypeToString;
 class UnsupportedLifecycleEventCalculationConfigTypeStringError extends Error {
     constructor(lifecycleEventCalculationConfigTypeStr) {
         const message = `Unsupported calculation configuration type string: ${lifecycleEventCalculationConfigTypeStr}`;
@@ -63,3 +62,4 @@ function stringToLifecycleEventCalculationConfigType(lifecycleEventCalculationCo
         throw new UnsupportedLifecycleEventCalculationConfigTypeStringError(lifecycleEventCalculationConfigTypeStr);
     }
 }
+exports.stringToLifecycleEventCalculationConfigType = stringToLifecycleEventCalculationConfigType;

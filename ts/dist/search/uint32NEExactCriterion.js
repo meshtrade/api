@@ -2,8 +2,9 @@
 // @ts-nocheck
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.newUint32NEExactCriterion = newUint32NEExactCriterion;
+exports.newUint32NEExactCriterion = void 0;
 const criterion_pb_1 = require("./criterion_pb");
+const protobuf_1 = require("@bufbuild/protobuf");
 const uint32NEExactCriterion_pb_1 = require("./uint32NEExactCriterion_pb");
 /**
  * Convenience function to construct a wrapped new Uint32NEExactCriterion.
@@ -17,5 +18,11 @@ const uint32NEExactCriterion_pb_1 = require("./uint32NEExactCriterion_pb");
  * const uint32NEExactCriterion = newUint32NEExactCriterion("id", 33);
  */
 function newUint32NEExactCriterion(field, value) {
-    return new criterion_pb_1.Criterion().setUint32neexactcriterion(new uint32NEExactCriterion_pb_1.Uint32NEExactCriterion().setField(field).setUint32(value));
+    return (0, protobuf_1.create)(criterion_pb_1.CriterionSchema, {
+        criterion: {
+            case: "uint32NEExactCriterion",
+            value: (0, protobuf_1.create)(uint32NEExactCriterion_pb_1.Uint32NEExactCriterionSchema, { field, uint32: value }),
+        },
+    });
 }
+exports.newUint32NEExactCriterion = newUint32NEExactCriterion;

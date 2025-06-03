@@ -1,9 +1,10 @@
 /* eslint-disable */
 // @ts-nocheck
-import { ServicePromiseClient as CompanyServiceClient } from "../../legal/company/service_grpc_web_pb";
+import { Service as CompanyService } from "../../legal/company/service_pb";
 import { ServiceConstructorArgs } from "../service";
+import { Client } from "@connectrpc/connect";
 export declare class Legal {
     private _company;
     constructor(args: ServiceConstructorArgs);
-    get company(): CompanyServiceClient;
+    get company(): Client<typeof CompanyService>;
 }

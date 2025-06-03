@@ -6,6 +6,7 @@ exports.TokenWrapper = void 0;
 const token_pb_1 = require("./token_pb");
 const amount_1 = require("./amount");
 const network_pb_1 = require("./network_pb");
+const protobuf_1 = require("@bufbuild/protobuf");
 /**
  * Class representing a wrapper around a Amount.
  *
@@ -24,25 +25,26 @@ class TokenWrapper {
      */
     constructor(token) {
         var _a, _b, _c;
-        this._token = new token_pb_1.Token()
-            .setCode((_a = token === null || token === void 0 ? void 0 : token.getCode()) !== null && _a !== void 0 ? _a : "")
-            .setIssuer((_b = token === null || token === void 0 ? void 0 : token.getIssuer()) !== null && _b !== void 0 ? _b : "")
-            .setNetwork((_c = token === null || token === void 0 ? void 0 : token.getNetwork()) !== null && _c !== void 0 ? _c : network_pb_1.Network.UNDEFINED_NETWORK);
+        this._token = (0, protobuf_1.create)(token_pb_1.TokenSchema, {
+            code: (_a = token === null || token === void 0 ? void 0 : token.code) !== null && _a !== void 0 ? _a : "",
+            issuer: (_b = token === null || token === void 0 ? void 0 : token.issuer) !== null && _b !== void 0 ? _b : "",
+            network: (_c = token === null || token === void 0 ? void 0 : token.network) !== null && _c !== void 0 ? _c : network_pb_1.Network.UNDEFINED_NETWORK,
+        });
     }
     get code() {
-        return this._token.getCode();
+        return this._token.code;
     }
     getCode() {
         return this.code;
     }
     get issuer() {
-        return this._token.getIssuer();
+        return this._token.issuer;
     }
     getIssuer() {
         return this.issuer;
     }
     get network() {
-        return this._token.getNetwork();
+        return this._token.network;
     }
     getNetwork() {
         return this.network;
@@ -71,9 +73,9 @@ class TokenWrapper {
         return (0, amount_1.newAmountOfToken)(value, this._token);
     }
     isEqualTo(t2) {
-        return (this.code === t2.getCode() &&
-            this.issuer === t2.getIssuer() &&
-            this.network === t2.getNetwork());
+        return (this.code === t2.code &&
+            this.issuer === t2.issuer &&
+            this.network === t2.network);
     }
 }
 exports.TokenWrapper = TokenWrapper;

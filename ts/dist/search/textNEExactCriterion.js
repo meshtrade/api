@@ -2,8 +2,9 @@
 // @ts-nocheck
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.newTextNEExactCriterion = newTextNEExactCriterion;
+exports.newTextNEExactCriterion = void 0;
 const criterion_pb_1 = require("./criterion_pb");
+const protobuf_1 = require("@bufbuild/protobuf");
 const textNEExactCriterion_pb_1 = require("./textNEExactCriterion_pb");
 /**
  * Convenience function to construct a wrapped new TextNEExactCriterion.
@@ -17,5 +18,11 @@ const textNEExactCriterion_pb_1 = require("./textNEExactCriterion_pb");
  * const textNEExactCriterion = newTextNEExactCriterion("id", "someID");
  */
 function newTextNEExactCriterion(field, value) {
-    return new criterion_pb_1.Criterion().setTextneexactcriterion(new textNEExactCriterion_pb_1.TextNEExactCriterion().setField(field).setText(value));
+    return (0, protobuf_1.create)(criterion_pb_1.CriterionSchema, {
+        criterion: {
+            case: "textNEExactCriterion",
+            value: (0, protobuf_1.create)(textNEExactCriterion_pb_1.TextNEExactCriterionSchema, { field, text: value }),
+        },
+    });
 }
+exports.newTextNEExactCriterion = newTextNEExactCriterion;

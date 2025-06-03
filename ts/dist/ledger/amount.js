@@ -5,8 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.newAmountOfToken = newAmountOfToken;
-exports.amountIsUndefined = amountIsUndefined;
+exports.amountIsUndefined = exports.newAmountOfToken = void 0;
 const amount_pb_1 = require("./amount_pb");
 const num_1 = require("../num");
 const network_1 = require("./network");
@@ -14,6 +13,7 @@ const bignumber_js_1 = __importDefault(require("bignumber.js"));
 const decimal_pb_1 = require("../num/decimal_pb");
 const network_pb_1 = require("./network_pb");
 const token_1 = require("./token");
+const protobuf_1 = require("@bufbuild/protobuf");
 /**
  * Creates a new Amount object using a BigNumber and a Token.
  *
@@ -29,9 +29,9 @@ const token_1 = require("./token");
  */
 function newAmountFromBigNumber(amount, token) {
     var _a;
-    return new amount_pb_1.Amount()
-        .setValue((0, num_1.bigNumberToDecimal)(amount.decimalPlaces((0, network_1.getNetworkNoDecimalPlaces)((_a = token === null || token === void 0 ? void 0 : token.getNetwork()) !== null && _a !== void 0 ? _a : network_pb_1.Network.UNDEFINED_NETWORK), bignumber_js_1.default.ROUND_HALF_DOWN)))
-        .setToken(token);
+    return (0, protobuf_1.create)(amount_pb_1.AmountSchema, {
+        value: (0, num_1.bigNumberToDecimal)(amount.decimalPlaces((0, network_1.getNetworkNoDecimalPlaces)((_a = token === null || token === void 0 ? void 0 : token.network) !== null && _a !== void 0 ? _a : network_pb_1.Network.UNDEFINED_NETWORK), bignumber_js_1.default.ROUND_HALF_DOWN))
+    });
 }
 /**
  * Creates a new Amount of the given Token.
@@ -48,11 +48,11 @@ function newAmountOfToken(amount, token) {
     else if (amount instanceof bignumber_js_1.default) {
         value = amount;
     }
-    else if (amount instanceof decimal_pb_1.Decimal) {
-        value = (0, num_1.decimalToBigNumber)(amount);
-    }
     else {
-        if (isNaN(Number(amount))) {
+        if (decimal_pb_1.DecimalSchema.typeName === amount.$typeName) {
+            value = (0, num_1.decimalToBigNumber)(amount);
+        }
+        else if (isNaN(Number(amount))) {
             value = new bignumber_js_1.default("0");
         }
         else {
@@ -61,9 +61,11 @@ function newAmountOfToken(amount, token) {
     }
     return newAmountFromBigNumber(value, token);
 }
+exports.newAmountOfToken = newAmountOfToken;
 function amountIsUndefined(amount) {
     if (!amount) {
         return true;
     }
-    return (0, token_1.tokenIsUndefined)(amount.getToken());
+    return (0, token_1.tokenIsUndefined)(amount.token);
 }
+exports.amountIsUndefined = amountIsUndefined;

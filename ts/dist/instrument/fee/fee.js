@@ -2,11 +2,7 @@
 // @ts-nocheck
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.allFeeCategories = exports.allFeeStates = void 0;
-exports.feeStateToString = feeStateToString;
-exports.stringToFeeState = stringToFeeState;
-exports.feeCategoryToString = feeCategoryToString;
-exports.stringToFeeCategory = stringToFeeCategory;
+exports.stringToFeeCategory = exports.feeCategoryToString = exports.allFeeCategories = exports.stringToFeeState = exports.feeStateToString = exports.allFeeStates = void 0;
 const fee_pb_1 = require("./fee_pb");
 // ---- FEE STATE ----
 // Get all fee state as enum values
@@ -46,6 +42,7 @@ function feeStateToString(feeState) {
         throw new UnsupportedFeeStateError(feeState);
     }
 }
+exports.feeStateToString = feeStateToString;
 class UnsupportedFeeStateStringError extends Error {
     constructor(feeStateStr) {
         const message = `Unsupported fee state string: ${feeStateStr}`;
@@ -66,6 +63,7 @@ function stringToFeeState(feeStateStr) {
         throw new UnsupportedFeeStateStringError(feeStateStr);
     }
 }
+exports.stringToFeeState = stringToFeeState;
 // ---- FEE CATEGORY ----
 // Get all fee category as enum values
 exports.allFeeCategories = Object.values(fee_pb_1.Category).filter((value) => typeof value === "number");
@@ -102,6 +100,7 @@ function feeCategoryToString(feeCategory) {
         throw new UnsupportedFeeCategoryError(feeCategory);
     }
 }
+exports.feeCategoryToString = feeCategoryToString;
 class UnsupportedFeeCategoryStringError extends Error {
     constructor(feeCategoryStr) {
         const message = `Unsupported fee category string: ${feeCategoryStr}`;
@@ -122,3 +121,4 @@ function stringToFeeCategory(feeCategoryStr) {
         throw new UnsupportedFeeCategoryStringError(feeCategoryStr);
     }
 }
+exports.stringToFeeCategory = stringToFeeCategory;

@@ -2,8 +2,9 @@
 // @ts-nocheck
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.newTextSubstringCriterion = newTextSubstringCriterion;
+exports.newTextSubstringCriterion = void 0;
 const criterion_pb_1 = require("./criterion_pb");
+const protobuf_1 = require("@bufbuild/protobuf");
 const textSubstringCriterion_pb_1 = require("./textSubstringCriterion_pb");
 /**
  * Convenience function to construct a wrapped new TextSubstringCriterion.
@@ -17,5 +18,11 @@ const textSubstringCriterion_pb_1 = require("./textSubstringCriterion_pb");
  * const textSubstringCriterion = newTextSubstringCriterion("someField", "someText");
  */
 function newTextSubstringCriterion(field, value) {
-    return new criterion_pb_1.Criterion().setTextsubstringcriterion(new textSubstringCriterion_pb_1.TextSubstringCriterion().setField(field).setValue(value));
+    return (0, protobuf_1.create)(criterion_pb_1.CriterionSchema, {
+        criterion: {
+            case: "textSubstringCriterion",
+            value: (0, protobuf_1.create)(textSubstringCriterion_pb_1.TextSubstringCriterionSchema, { field, value }),
+        },
+    });
 }
+exports.newTextSubstringCriterion = newTextSubstringCriterion;

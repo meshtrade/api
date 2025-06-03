@@ -2,14 +2,15 @@
 // @ts-nocheck
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.newTextExactCriterion = newTextExactCriterion;
+exports.newTextExactCriterion = void 0;
 const criterion_pb_1 = require("./criterion_pb");
+const protobuf_1 = require("@bufbuild/protobuf");
 const textExactCriterion_pb_1 = require("./textExactCriterion_pb");
 /**
  * Convenience function to construct a wrapped new TextExactCriterion.
  *
  * @param {string} field - field of exact text criterion
- * @param {string} value - value of exact text criterion
+ * @param {textean} value - value of exact text criterion
  * @returns {Criterion} TextExactCriterion wrapped in Criterion
  *
  * @example
@@ -17,5 +18,11 @@ const textExactCriterion_pb_1 = require("./textExactCriterion_pb");
  * const textExactCriterion = newTextExactCriterion("id", "someID");
  */
 function newTextExactCriterion(field, value) {
-    return new criterion_pb_1.Criterion().setTextexactcriterion(new textExactCriterion_pb_1.TextExactCriterion().setField(field).setText(value));
+    return (0, protobuf_1.create)(criterion_pb_1.CriterionSchema, {
+        criterion: {
+            case: "textExactCriterion",
+            value: (0, protobuf_1.create)(textExactCriterion_pb_1.TextExactCriterionSchema, { field, text: value }),
+        },
+    });
 }
+exports.newTextExactCriterion = newTextExactCriterion;

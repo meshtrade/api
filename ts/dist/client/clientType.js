@@ -2,14 +2,14 @@
 // @ts-nocheck
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.clientTypeToString = clientTypeToString;
+exports.clientTypeToString = void 0;
 const clientType_pb_1 = require("./clientType_pb");
 // Define explicit mappings between ClientType enums and their corresponding string representations
 const clientTypeToStringMapping = {
-    [clientType_pb_1.ClientType.UNDEFINED_COMPANY_CLIENTTYPE]: 'Undefined',
-    [clientType_pb_1.ClientType.ISSUER_COMPANY_CLIENTTYPE]: 'Issuer',
-    [clientType_pb_1.ClientType.INVESTOR_COMPANY_CLIENTTYPE]: 'Investor',
-    [clientType_pb_1.ClientType.MANAGING_COMPANY_CLIENTTYPE]: 'Managing Company',
+    [clientType_pb_1.ClientType.UNDEFINED_COMPANY_ClientType]: 'Undefined',
+    [clientType_pb_1.ClientType.Issuer_Company_ClientType]: 'Issuer',
+    [clientType_pb_1.ClientType.Investor_Company_ClientType]: 'Investor',
+    [clientType_pb_1.ClientType.Managing_Company_ClientType]: 'Managing Company',
 };
 // Define a custom error for unsupported ClientType
 class UnsupportedClientTypeError extends Error {
@@ -32,3 +32,4 @@ function clientTypeToString(clientType) {
         throw new UnsupportedClientTypeError(clientType);
     }
 }
+exports.clientTypeToString = clientTypeToString;

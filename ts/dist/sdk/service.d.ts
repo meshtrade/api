@@ -1,13 +1,6 @@
 /* eslint-disable */
 // @ts-nocheck
-import { UnaryInterceptor } from "grpc-web";
-export type ServiceConstructorArgs = [
-    hostname: string,
-    credentials?: {
-        [index: string]: string;
-    } | null | undefined,
-    options?: {
-        withCredentials: boolean;
-        unaryInterceptors: UnaryInterceptor<unknown, unknown>[];
-    }
-];
+import type { Transport } from "@connectrpc/connect";
+export type ServiceConstructorArgs = {
+    transport: Transport;
+};

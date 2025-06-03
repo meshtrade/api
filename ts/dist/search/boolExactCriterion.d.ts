@@ -9,7 +9,7 @@ import { Criterion } from "./criterion_pb";
  * @returns {Criterion} BoolExactCriterion wrapped in Criterion
  *
  * @example
- * // results in the mongo db query {"id": "someID"}
- * const boolExactCriterion = newBoolExactCriterion("id", "someID");
+ * // results in the mongo db query {"set": false}
+ * const boolExactCriterion = newBoolExactCriterion("set", false);
  */
 export declare function newBoolExactCriterion(field: string, value: boolean): Criterion;

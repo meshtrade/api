@@ -3,14 +3,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Instrument = void 0;
-const service_grpc_web_pb_1 = require("../../instrument/service_grpc_web_pb");
-const service_grpc_web_pb_2 = require("../../instrument/feeprofile/service_grpc_web_pb");
-const service_grpc_web_pb_3 = require("../../instrument/fee/service_grpc_web_pb");
-class Instrument extends service_grpc_web_pb_1.ServicePromiseClient {
+const service_pb_1 = require("../../instrument/feeprofile/service_pb");
+const service_pb_2 = require("../../instrument/fee/service_pb");
+const connect_1 = require("@connectrpc/connect");
+// export class Instrument implements InstrumentService {
+class Instrument {
     constructor(args) {
-        super(...args);
-        this._feeProfile = new service_grpc_web_pb_2.ServicePromiseClient(...args);
-        this._fee = new service_grpc_web_pb_3.ServicePromiseClient(...args);
+        this._feeProfile = (0, connect_1.createClient)(service_pb_1.Service, args.transport);
+        this._fee = (0, connect_1.createClient)(service_pb_2.Service, args.transport);
     }
     get feeProfile() {
         return this._feeProfile;

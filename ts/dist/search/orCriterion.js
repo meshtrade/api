@@ -2,8 +2,9 @@
 // @ts-nocheck
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.newORCriterion = newORCriterion;
+exports.newORCriterion = void 0;
 const criterion_pb_1 = require("./criterion_pb");
+const protobuf_1 = require("@bufbuild/protobuf");
 /**
  * Convenience function to construct a wrapped new ORCriterion.
  *
@@ -14,5 +15,11 @@ function newORCriterion(criteria) {
     if (!criteria.length) {
         throw new Error("at least 1 criterion required to construct OR, got none");
     }
-    return new criterion_pb_1.Criterion().setOrcriterion(new criterion_pb_1.ORCriterion().setCriteriaList(criteria));
+    return (0, protobuf_1.create)(criterion_pb_1.CriterionSchema, {
+        criterion: {
+            case: "orCriterion",
+            value: (0, protobuf_1.create)(criterion_pb_1.ORCriterionSchema, { criteria }),
+        },
+    });
 }
+exports.newORCriterion = newORCriterion;
