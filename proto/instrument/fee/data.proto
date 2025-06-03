@@ -4,9 +4,9 @@ package api.instrument.fee;
 
 option go_package = "github.com/meshtrade/api/go/instrument/fee";
 
-import "api/proto/instrument/fee/dataAmount.proto";
-import "api/proto/instrument/fee/dataRate.proto";
-import "api/proto/instrument/fee/dataPerUnit.proto";
+import "instrument/fee/dataAmount.proto";
+import "instrument/fee/dataRate.proto";
+import "instrument/fee/dataPerUnit.proto";
 
 /*
 Data is the generic calculation data that is attached to a Fee for reference.
