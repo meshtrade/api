@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n4api/proto/legal/company/industryClassification.proto\x12\x11\x61pi.legal.company\"v\n\x16IndustryClassification\x12\x14\n\x0cindustryCode\x18\x01 \x01(\x05\x12\x14\n\x0cindustryName\x18\x02 \x01(\t\x12\x17\n\x0fsubIndustryCode\x18\x03 \x01(\x05\x12\x17\n\x0fsubIndustryName\x18\x04 \x01(\tB+Z)github.com/meshtrade/api/go/legal/companyb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n4api/proto/legal/company/industryClassification.proto\x12\x11\x61pi.legal.company\"v\n\x16IndustryClassification\x12\x14\n\x0cindustryCode\x18\x01 \x01(\x03\x12\x14\n\x0cindustryName\x18\x02 \x01(\t\x12\x17\n\x0fsubIndustryCode\x18\x03 \x01(\x03\x12\x17\n\x0fsubIndustryName\x18\x04 \x01(\tB+Z)github.com/meshtrade/api/go/legal/companyb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)

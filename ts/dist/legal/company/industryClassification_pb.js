@@ -118,7 +118,7 @@ proto.api.legal.company.IndustryClassification.deserializeBinaryFromReader = fun
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {number} */ (reader.readInt32());
+      var value = /** @type {number} */ (reader.readInt64());
       msg.setIndustrycode(value);
       break;
     case 2:
@@ -126,7 +126,7 @@ proto.api.legal.company.IndustryClassification.deserializeBinaryFromReader = fun
       msg.setIndustryname(value);
       break;
     case 3:
-      var value = /** @type {number} */ (reader.readInt32());
+      var value = /** @type {number} */ (reader.readInt64());
       msg.setSubindustrycode(value);
       break;
     case 4:
@@ -164,7 +164,7 @@ proto.api.legal.company.IndustryClassification.serializeBinaryToWriter = functio
   var f = undefined;
   f = message.getIndustrycode();
   if (f !== 0) {
-    writer.writeInt32(
+    writer.writeInt64(
       1,
       f
     );
@@ -178,7 +178,7 @@ proto.api.legal.company.IndustryClassification.serializeBinaryToWriter = functio
   }
   f = message.getSubindustrycode();
   if (f !== 0) {
-    writer.writeInt32(
+    writer.writeInt64(
       3,
       f
     );
@@ -194,7 +194,7 @@ proto.api.legal.company.IndustryClassification.serializeBinaryToWriter = functio
 
 
 /**
- * optional int32 industryCode = 1;
+ * optional int64 industryCode = 1;
  * @return {number}
  */
 proto.api.legal.company.IndustryClassification.prototype.getIndustrycode = function() {
@@ -230,7 +230,7 @@ proto.api.legal.company.IndustryClassification.prototype.setIndustryname = funct
 
 
 /**
- * optional int32 subIndustryCode = 3;
+ * optional int64 subIndustryCode = 3;
  * @return {number}
  */
 proto.api.legal.company.IndustryClassification.prototype.getSubindustrycode = function() {
