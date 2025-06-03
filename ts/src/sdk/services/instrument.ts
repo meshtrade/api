@@ -1,23 +1,24 @@
-import { ServicePromiseClient as InstrumentServiceClient } from "../../instrument/service_grpc_web_pb";
-import { ServicePromiseClient as FeeProfileServiceClient } from "../../instrument/feeprofile/service_grpc_web_pb";
-import { ServicePromiseClient as FeeServiceClient } from "../../instrument/fee/service_grpc_web_pb";
+import { Service as InstrumentService } from "../../instrument/service_pb";
+import { Service as InstrumentFeeProfileService } from "../../instrument/feeprofile/service_pb";
+import { Service as InstrumentFeeService } from "../../instrument/fee/service_pb";
 import { ServiceConstructorArgs } from "../service";
+import { createClient, Client } from "@connectrpc/connect";
 
-export class Instrument extends InstrumentServiceClient {
-  private _fee: FeeServiceClient;
-  private _feeProfile: FeeProfileServiceClient;
+// export class Instrument implements InstrumentService {
+export class Instrument {
+  private _fee: Client<typeof InstrumentFeeService>;
+  private _feeProfile: Client<typeof InstrumentFeeProfileService>;
 
   constructor(args: ServiceConstructorArgs) {
-    super(...args);
-    this._feeProfile = new FeeProfileServiceClient(...args);
-    this._fee = new FeeServiceClient(...args);
+    this._feeProfile = createClient(InstrumentFeeProfileService, args.transport);
+    this._fee = createClient(InstrumentFeeService, args.transport);
   }
 
-  public get feeProfile(): FeeProfileServiceClient {
+  public get feeProfile(): Client<typeof InstrumentFeeProfileService> {
     return this._feeProfile;
   }
 
-  public get fee(): FeeServiceClient {
+  public get fee(): Client<typeof InstrumentFeeService> {
     return this._fee;
   }
 }

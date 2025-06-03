@@ -1,14 +1,15 @@
-import { ServicePromiseClient as CompanyServiceClient } from "../../legal/company/service_grpc_web_pb";
+import { Service as CompanyService } from "../../legal/company/service_pb";
 import { ServiceConstructorArgs } from "../service";
+import { createClient, Client } from "@connectrpc/connect";
 
 export class Legal {
-  private _company: CompanyServiceClient;
+  private _company: Client<typeof CompanyService>;
 
   constructor(args: ServiceConstructorArgs) {
-    this._company = new CompanyServiceClient(...args);
+    this._company = createClient(CompanyService, args.transport);
   }
 
-  public get company(): CompanyServiceClient {
+  public get company(): Client<typeof CompanyService> {
     return this._company;
   }
 }

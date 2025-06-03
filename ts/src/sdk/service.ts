@@ -1,10 +1,5 @@
-import { UnaryInterceptor } from "grpc-web";
+import type { Transport } from "@connectrpc/connect";
 
-export type ServiceConstructorArgs = [
-  hostname: string,
-  credentials?: { [index: string]: string } | null | undefined,
-  options?: {
-    withCredentials: boolean;
-    unaryInterceptors: UnaryInterceptor<unknown, unknown>[];
-  },
-];
+export type ServiceConstructorArgs = {
+  transport: Transport,
+};

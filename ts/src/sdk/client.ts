@@ -2,6 +2,7 @@ import { LoggingInterceptor } from "../grpc_web";
 import { ConfigOpts, getConfigFromOpts } from "./config";
 import { ServiceConstructorArgs } from "./service";
 import { Instrument, Legal } from "./services";
+import { createGrpcWebTransport } from "@connectrpc/connect-web";
 
 export class Client {
   private _instrument: Instrument;
@@ -12,14 +13,12 @@ export class Client {
     const _config = getConfigFromOpts(config);
 
     // construct service constructor args
-    const args: ServiceConstructorArgs = [
-      _config.apiServerURL,
-      null,
-      {
-        withCredentials: true,
-        unaryInterceptors: [new LoggingInterceptor()],
-      },
-    ];
+    const args: ServiceConstructorArgs = {
+      transport: createGrpcWebTransport({
+        baseUrl: _config.apiServerURL,
+        // interceptors: [new LoggingInterceptor()],
+      }),
+    };
 
     // construct services
     this._instrument = new Instrument(args);
