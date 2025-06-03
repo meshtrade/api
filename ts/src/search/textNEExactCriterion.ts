@@ -1,5 +1,6 @@
-import { Criterion } from "./criterion_pb";
-import { TextNEExactCriterion } from "./textNEExactCriterion_pb";
+import { Criterion, CriterionSchema } from "./criterion_pb";
+import { create } from "@bufbuild/protobuf";
+import { TextNEExactCriterionSchema } from "./textNEExactCriterion_pb";
 
 /**
  * Convenience function to construct a wrapped new TextNEExactCriterion.
@@ -16,7 +17,13 @@ export function newTextNEExactCriterion(
   field: string,
   value: string,
 ): Criterion {
-  return new Criterion().setTextneexactcriterion(
-    new TextNEExactCriterion().setField(field).setText(value),
+  return create(
+    CriterionSchema,
+    {
+      criterion: {
+        case: "textNEExactCriterion",
+        value: create(TextNEExactCriterionSchema, { field, text: value }),
+      },
+    },
   );
 }

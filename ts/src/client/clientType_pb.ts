@@ -9,7 +9,7 @@ import { enumDesc, fileDesc } from "@bufbuild/protobuf/codegenv2";
  * Describes the file client/clientType.proto.
  */
 export const file_client_clientType: GenFile = /*@__PURE__*/
-  fileDesc("ChdjbGllbnQvY2xpZW50VHlwZS5wcm90bxIKYXBpLmNsaWVudCqPAQoKQ2xpZW50VHlwZRIgChxVTkRFRklORURfQ09NUEFOWV9DbGllbnRUeXBlEAASHQoZSXNzdWVyX0NPTVBBTllfQ2xpZW50VHlwZRABEh8KG0ludmVzdG9yX0NPTVBBTllfQ2xpZW50VHlwZRACEh8KG01hbmFnaW5nX0NvbXBhbnlfQ2xpZW50VHlwZRADQiRaImdpdGh1Yi5jb20vbWVzaHRyYWRlL2FwaS9nby9jbGllbnRiBnByb3RvMw");
+  fileDesc("ChdjbGllbnQvY2xpZW50VHlwZS5wcm90bxIKYXBpLmNsaWVudCqPAQoKQ2xpZW50VHlwZRIgChxVTkRFRklORURfQ09NUEFOWV9DbGllbnRUeXBlEAASHQoZSXNzdWVyX0NvbXBhbnlfQ2xpZW50VHlwZRABEh8KG0ludmVzdG9yX0NvbXBhbnlfQ2xpZW50VHlwZRACEh8KG01hbmFnaW5nX0NvbXBhbnlfQ2xpZW50VHlwZRADQiRaImdpdGh1Yi5jb20vbWVzaHRyYWRlL2FwaS9nby9jbGllbnRiBnByb3RvMw");
 
 /**
  * @generated from enum api.client.ClientType
@@ -21,14 +21,14 @@ export enum ClientType {
   UNDEFINED_COMPANY_ClientType = 0,
 
   /**
-   * @generated from enum value: Issuer_COMPANY_ClientType = 1;
+   * @generated from enum value: Issuer_Company_ClientType = 1;
    */
-  Issuer_COMPANY_ClientType = 1,
+  Issuer_Company_ClientType = 1,
 
   /**
-   * @generated from enum value: Investor_COMPANY_ClientType = 2;
+   * @generated from enum value: Investor_Company_ClientType = 2;
    */
-  Investor_COMPANY_ClientType = 2,
+  Investor_Company_ClientType = 2,
 
   /**
    * @generated from enum value: Managing_Company_ClientType = 3;

@@ -5,21 +5,21 @@ import { Token } from "./token_pb";
 
 export function criteriaFromToken(token?: Token): Criterion[] {
   return [
-    newTextExactCriterion("token.code", token?.getCode() ?? ""),
-    newTextExactCriterion("token.issuer", token?.getIssuer() ?? ""),
+    newTextExactCriterion("token.code", token?.code ?? ""),
+    newTextExactCriterion("token.issuer", token?.issuer ?? ""),
     newUint32ExactCriterion(
       "token.network",
-      token?.getNetwork() ?? Network.UNDEFINED_NETWORK,
+      token?.network ?? Network.UNDEFINED_NETWORK,
     ),
   ];
 }
 
 export function tokensAreEqual(t?: Token, t2?: Token): boolean {
   return (
-    (t?.getCode() ?? "") === (t2?.getCode() ?? "") &&
-    (t?.getIssuer() ?? "") === (t2?.getIssuer() ?? "") &&
-    (t?.getNetwork() ?? Network.UNDEFINED_NETWORK) ===
-      (t2?.getNetwork() ?? Network.UNDEFINED_NETWORK)
+    (t?.code ?? "") === (t2?.code ?? "") &&
+    (t?.issuer ?? "") === (t2?.issuer ?? "") &&
+    (t?.network ?? Network.UNDEFINED_NETWORK) ===
+    (t2?.network ?? Network.UNDEFINED_NETWORK)
   );
 }
 
@@ -28,24 +28,24 @@ export function tokenIsUndefined(t?: Token): boolean {
     return true;
   }
   return (
-    (t.getCode() === "-" || t.getCode() === "") &&
-    (t.getIssuer() === "-" || t.getIssuer() === "") &&
-    (t.getNetwork() === Network.NULL_NETWORK ||
-      t.getNetwork() === Network.UNDEFINED_NETWORK)
+    (t.code === "-" || t.code === "") &&
+    (t.issuer === "-" || t.issuer === "") &&
+    (t.network === Network.NULL_NETWORK ||
+      t.network === Network.UNDEFINED_NETWORK)
   );
 }
 
 export function tokenToFilter(t?: Token): Criterion[] {
   return [
-    newTextExactCriterion("token.code", t?.getCode() ?? ""),
-    newTextExactCriterion("token.issuer", t?.getIssuer() ?? ""),
+    newTextExactCriterion("token.code", t?.code ?? ""),
+    newTextExactCriterion("token.issuer", t?.issuer ?? ""),
     newUint32ExactCriterion(
       "token.network",
-      t?.getNetwork() ?? Network.UNDEFINED_NETWORK,
+      t?.network ?? Network.UNDEFINED_NETWORK,
     ),
   ];
 }
 
 export function tokenToString(t?: Token): string {
-  return `${t?.getCode() ?? "-"} by ${t?.getIssuer() ?? "-"} on ${t?.getNetwork() ?? Network.UNDEFINED_NETWORK}`;
+  return `${t?.code ?? "-"} by ${t?.issuer ?? "-"} on ${t?.network ?? Network.UNDEFINED_NETWORK}`;
 }

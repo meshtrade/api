@@ -1,11 +1,13 @@
-import { Amount } from "./amount_pb";
+import { Amount, AmountSchema } from "./amount_pb";
 import { Token } from "./token_pb";
 import { bigNumberToDecimal, decimalToBigNumber } from "../num";
 import { getNetworkNoDecimalPlaces } from "./network";
 import BigNumber from "bignumber.js";
-import { Decimal } from "../num/decimal_pb";
+import { Decimal, DecimalSchema } from "../num/decimal_pb";
 import { Network } from "./network_pb";
 import { tokenIsUndefined } from "./token";
+import { create } from "@bufbuild/protobuf";
+import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Creates a new Amount object using a BigNumber and a Token.
@@ -21,18 +23,19 @@ import { tokenIsUndefined } from "./token";
  * decimal places for the target network.
  */
 function newAmountFromBigNumber(amount: BigNumber, token?: Token): Amount {
-  return new Amount()
-    .setValue(
-      bigNumberToDecimal(
+  return create(
+    AmountSchema,
+    {
+      value: bigNumberToDecimal(
         amount.decimalPlaces(
           getNetworkNoDecimalPlaces(
-            token?.getNetwork() ?? Network.UNDEFINED_NETWORK,
+            token?.network ?? Network.UNDEFINED_NETWORK,
           ),
           BigNumber.ROUND_HALF_DOWN,
         ),
-      ),
-    )
-    .setToken(token);
+      )
+    },
+  );
 }
 
 /**
@@ -43,7 +46,7 @@ function newAmountFromBigNumber(amount: BigNumber, token?: Token): Amount {
  * @returns {Amount} Returns an Amount object that contains the value in Decimal format and the type of token.
  */
 export function newAmountOfToken(
-  amount: BigNumber | Decimal | string | undefined,
+  amount: BigNumber | Message | string | undefined,
   token?: Token,
 ): Amount {
   let value: BigNumber = new BigNumber("0");
@@ -51,13 +54,13 @@ export function newAmountOfToken(
     value = new BigNumber("0");
   } else if (amount instanceof BigNumber) {
     value = amount;
-  } else if (amount instanceof Decimal) {
-    value = decimalToBigNumber(amount);
   } else {
-    if (isNaN(Number(amount))) {
+    if (DecimalSchema.typeName === (amount as Message).$typeName) {
+      value = decimalToBigNumber(amount as Decimal);
+    } else if (isNaN(Number(amount))) {
       value = new BigNumber("0");
     } else {
-      value = new BigNumber(amount);
+      value = new BigNumber(amount as string);
     }
   }
 
@@ -68,5 +71,5 @@ export function amountIsUndefined(amount?: Amount): boolean {
   if (!amount) {
     return true;
   }
-  return tokenIsUndefined(amount.getToken());
+  return tokenIsUndefined(amount.token);
 }

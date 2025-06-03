@@ -1,5 +1,6 @@
-import { Criterion } from "./criterion_pb";
-import { BoolExactCriterion } from "./boolExactCriterion_pb";
+import { Criterion, CriterionSchema } from "./criterion_pb";
+import { create } from "@bufbuild/protobuf";
+import { BoolExactCriterionSchema } from "./boolExactCriterion_pb";
 
 /**
  * Convenience function to construct a wrapped new BoolExactCriterion.
@@ -9,14 +10,20 @@ import { BoolExactCriterion } from "./boolExactCriterion_pb";
  * @returns {Criterion} BoolExactCriterion wrapped in Criterion
  *
  * @example
- * // results in the mongo db query {"id": "someID"}
- * const boolExactCriterion = newBoolExactCriterion("id", "someID");
+ * // results in the mongo db query {"set": false}
+ * const boolExactCriterion = newBoolExactCriterion("set", false);
  */
 export function newBoolExactCriterion(
   field: string,
   value: boolean,
 ): Criterion {
-  return new Criterion().setBoolexactcriterion(
-    new BoolExactCriterion().setField(field).setBool(value),
+  return create(
+    CriterionSchema,
+    {
+      criterion: {
+        case: "boolExactCriterion",
+        value: create(BoolExactCriterionSchema, { field, bool: value }),
+      },
+    },
   );
 }

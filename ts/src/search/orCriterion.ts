@@ -1,4 +1,5 @@
-import { Criterion, ORCriterion } from "./criterion_pb";
+import { Criterion, CriterionSchema, ORCriterionSchema } from "./criterion_pb";
+import { create } from "@bufbuild/protobuf";
 
 /**
  * Convenience function to construct a wrapped new ORCriterion.
@@ -11,7 +12,13 @@ export function newORCriterion(criteria: Criterion[]): Criterion {
     throw new Error("at least 1 criterion required to construct OR, got none");
   }
 
-  return new Criterion().setOrcriterion(
-    new ORCriterion().setCriteriaList(criteria),
+  return create(
+    CriterionSchema,
+    {
+      criterion: {
+        case: "orCriterion",
+        value: create(ORCriterionSchema, { criteria }),
+      },
+    },
   );
 }

@@ -1,5 +1,6 @@
-import { LifecycleEventCalculationConfig } from "./lifecycleEventCalculationConfig_pb";
+import { LifecycleEventCalculationConfig, LifecycleEventCalculationConfigSchema } from "./lifecycleEventCalculationConfig_pb";
 import { LifecycleEventCalculationConfigType } from "./lifecycleEventCalculationConfigType_pb";
+import { create } from "@bufbuild/protobuf";
 
 /**
  * Wrapper class for LifecycleEventCalculationConfig.
@@ -15,7 +16,7 @@ export class LifecycleEventCalculationConfigWrapper {
     lifecycleEventCalculationConfig?: LifecycleEventCalculationConfig,
   ) {
     this._lifecycleEventCalculationConfig =
-      lifecycleEventCalculationConfig ?? new LifecycleEventCalculationConfig();
+      lifecycleEventCalculationConfig ?? create(LifecycleEventCalculationConfigSchema);
   }
 
   /**
@@ -24,9 +25,9 @@ export class LifecycleEventCalculationConfigWrapper {
    */
   get lifecycleEventCalculationConfigType(): LifecycleEventCalculationConfigType {
     switch (true) {
-      case this._lifecycleEventCalculationConfig.hasAmountlifecycleeventcalculationconfig():
+      case this._lifecycleEventCalculationConfig.LifecycleEventCalculationConfig.case === "amountLifecycleEventCalculationConfig":
         return LifecycleEventCalculationConfigType.AMOUNT_LIFECYCLE_EVENTS_CALCULATION_CONFIG_TYPE;
-      case this._lifecycleEventCalculationConfig.hasRatelifecycleeventcalculationconfig():
+      case this._lifecycleEventCalculationConfig.LifecycleEventCalculationConfig.case === "rateLifecycleEventCalculationConfig":
         return LifecycleEventCalculationConfigType.RATE_LIFECYCLE_EVENTS_CALCULATION_CONFIG_TYPE;
       default:
         return LifecycleEventCalculationConfigType.UNDEFINED_LIFECYCLE_EVENTS_CALCULATION_CONFIG_TYPE;

@@ -1,5 +1,6 @@
-import { Criterion } from "./criterion_pb";
-import { Uint32NINListCriterion } from "./uint32NINListCriterion_pb";
+import { Criterion, CriterionSchema } from "./criterion_pb";
+import { create } from "@bufbuild/protobuf";
+import { Uint32NINListCriterionSchema } from "./uint32NINListCriterion_pb";
 
 /**
  * Convenience function to construct a wrapped new Uint32NINListCriterion.
@@ -16,7 +17,13 @@ export function newUint32NINListCriterion(
   field: string,
   list: number[],
 ): Criterion {
-  return new Criterion().setUint32ninlistcriterion(
-    new Uint32NINListCriterion().setField(field).setListList(list),
+  return create(
+    CriterionSchema,
+    {
+      criterion: {
+        case: "uint32NINListCriterion",
+        value: create(Uint32NINListCriterionSchema, { field, list }),
+      },
+    },
   );
 }

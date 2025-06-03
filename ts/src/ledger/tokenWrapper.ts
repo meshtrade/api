@@ -1,9 +1,10 @@
 import { BigNumber } from "bignumber.js";
-import { Token } from "./token_pb";
+import { Token, TokenSchema } from "./token_pb";
 import { Decimal } from "../num/decimal_pb";
 import { Amount } from "./amount_pb";
 import { newAmountOfToken } from "./amount";
 import { Network } from "./network_pb";
+import { create } from "@bufbuild/protobuf";
 
 /**
  * Class representing a wrapper around a Amount.
@@ -24,14 +25,18 @@ export class TokenWrapper {
    * @param {Token} [token] - The token to be wrapped. Must be defined.
    */
   constructor(token?: Token) {
-    this._token = new Token()
-      .setCode(token?.getCode() ?? "")
-      .setIssuer(token?.getIssuer() ?? "")
-      .setNetwork(token?.getNetwork() ?? Network.UNDEFINED_NETWORK);
+    this._token = create(
+      TokenSchema,
+      {
+        code: token?.code ?? "",
+        issuer: token?.issuer ?? "",
+        network: token?.network ?? Network.UNDEFINED_NETWORK,
+      },
+    );
   }
 
   get code(): string {
-    return this._token.getCode();
+    return this._token.code;
   }
 
   getCode() {
@@ -39,7 +44,7 @@ export class TokenWrapper {
   }
 
   get issuer(): string {
-    return this._token.getIssuer();
+    return this._token.issuer;
   }
 
   getIssuer() {
@@ -47,7 +52,7 @@ export class TokenWrapper {
   }
 
   get network(): Network {
-    return this._token.getNetwork();
+    return this._token.network;
   }
 
   getNetwork() {
@@ -81,9 +86,9 @@ export class TokenWrapper {
 
   isEqualTo(t2: Token | TokenWrapper): boolean {
     return (
-      this.code === t2.getCode() &&
-      this.issuer === t2.getIssuer() &&
-      this.network === t2.getNetwork()
+      this.code === t2.code &&
+      this.issuer === t2.issuer &&
+      this.network === t2.network
     );
   }
 }

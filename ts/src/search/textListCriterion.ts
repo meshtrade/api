@@ -1,5 +1,6 @@
-import { Criterion } from "./criterion_pb";
-import { TextListCriterion } from "./textListCriterion_pb";
+import { Criterion, CriterionSchema } from "./criterion_pb";
+import { create } from "@bufbuild/protobuf";
+import { TextListCriterionSchema } from "./textListCriterion_pb";
 
 /**
  * Convenience function to construct a wrapped new TextListCriterion.
@@ -13,7 +14,13 @@ import { TextListCriterion } from "./textListCriterion_pb";
  * const textListCriterion = newTextListCriterion("id", ["someID1", "someID2"]);
  */
 export function newTextListCriterion(field: string, list: string[]): Criterion {
-  return new Criterion().setTextlistcriterion(
-    new TextListCriterion().setField(field).setListList(list),
+  return create(
+    CriterionSchema,
+    {
+      criterion: {
+        case: "textListCriterion",
+        value: create(TextListCriterionSchema, { field, list }),
+      },
+    },
   );
 }

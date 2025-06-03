@@ -1,5 +1,6 @@
-import { Criterion } from "./criterion_pb";
-import { Uint32NEExactCriterion } from "./uint32NEExactCriterion_pb";
+import { Criterion, CriterionSchema } from "./criterion_pb";
+import { create } from "@bufbuild/protobuf";
+import { Uint32NEExactCriterionSchema } from "./uint32NEExactCriterion_pb";
 
 /**
  * Convenience function to construct a wrapped new Uint32NEExactCriterion.
@@ -16,7 +17,13 @@ export function newUint32NEExactCriterion(
   field: string,
   value: number,
 ): Criterion {
-  return new Criterion().setUint32neexactcriterion(
-    new Uint32NEExactCriterion().setField(field).setUint32(value),
+  return create(
+    CriterionSchema,
+    {
+      criterion: {
+        case: "uint32NEExactCriterion",
+        value: create(Uint32NEExactCriterionSchema, { field, uint32: value }),
+      },
+    },
   );
 }

@@ -1,5 +1,6 @@
-import { Criterion } from "./criterion_pb";
-import { TextNINListCriterion } from "./textNINListCriterion_pb";
+import { Criterion, CriterionSchema } from "./criterion_pb";
+import { create } from "@bufbuild/protobuf";
+import { TextNINListCriterionSchema } from "./textNINListCriterion_pb";
 
 /**
  * Convenience function to construct a wrapped new TextNINListCriterion.
@@ -16,7 +17,13 @@ export function newTextNINListCriterion(
   field: string,
   list: string[],
 ): Criterion {
-  return new Criterion().setTextninlistcriterion(
-    new TextNINListCriterion().setField(field).setListList(list),
+  return create(
+    CriterionSchema,
+    {
+      criterion: {
+        case: "textNINListCriterion",
+        value: create(TextNINListCriterionSchema, { field, list }),
+      },
+    },
   );
 }

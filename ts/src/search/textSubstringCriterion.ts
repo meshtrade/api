@@ -1,5 +1,6 @@
-import { Criterion } from "./criterion_pb";
-import { TextSubstringCriterion } from "./textSubstringCriterion_pb";
+import { Criterion, CriterionSchema } from "./criterion_pb";
+import { create } from "@bufbuild/protobuf";
+import { TextSubstringCriterionSchema } from "./textSubstringCriterion_pb";
 
 /**
  * Convenience function to construct a wrapped new TextSubstringCriterion.
@@ -16,7 +17,13 @@ export function newTextSubstringCriterion(
   field: string,
   value: string,
 ): Criterion {
-  return new Criterion().setTextsubstringcriterion(
-    new TextSubstringCriterion().setField(field).setValue(value),
+  return create(
+    CriterionSchema,
+    {
+      criterion: {
+        case: "textSubstringCriterion",
+        value: create(TextSubstringCriterionSchema, { field, value }),
+      },
+    },
   );
 }

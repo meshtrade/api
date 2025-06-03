@@ -1,12 +1,19 @@
-import { Criterion } from "./criterion_pb";
-import { DateRangeCriterion, RangeValue } from "./dateRangeCriterion_pb";
+import { Criterion, CriterionSchema } from "./criterion_pb";
+import { RangeValue, DateRangeCriterionSchema } from "./dateRangeCriterion_pb";
+import { create } from "@bufbuild/protobuf";
 
 export function newDateRangeCriterion(
   field: string,
   start?: RangeValue,
   end?: RangeValue,
 ): Criterion {
-  return new Criterion().setDaterangecriterion(
-    new DateRangeCriterion().setField(field).setStart(start).setEnd(end),
+  return create(
+    CriterionSchema,
+    {
+      criterion: {
+        case: "dateRangeCriterion",
+        value: create(DateRangeCriterionSchema, { field, start, end }),
+      },
+    },
   );
 }
