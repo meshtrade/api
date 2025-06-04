@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        (unknown)
-// source: client/clientType.proto
+// source: api/proto/client/clientType.proto
 
 package client
 
@@ -57,11 +57,11 @@ func (x ClientType) String() string {
 }
 
 func (ClientType) Descriptor() protoreflect.EnumDescriptor {
-	return file_client_clientType_proto_enumTypes[0].Descriptor()
+	return file_api_proto_client_clientType_proto_enumTypes[0].Descriptor()
 }
 
 func (ClientType) Type() protoreflect.EnumType {
-	return &file_client_clientType_proto_enumTypes[0]
+	return &file_api_proto_client_clientType_proto_enumTypes[0]
 }
 
 func (x ClientType) Number() protoreflect.EnumNumber {
@@ -70,14 +70,14 @@ func (x ClientType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ClientType.Descriptor instead.
 func (ClientType) EnumDescriptor() ([]byte, []int) {
-	return file_client_clientType_proto_rawDescGZIP(), []int{0}
+	return file_api_proto_client_clientType_proto_rawDescGZIP(), []int{0}
 }
 
-var File_client_clientType_proto protoreflect.FileDescriptor
+var File_api_proto_client_clientType_proto protoreflect.FileDescriptor
 
-const file_client_clientType_proto_rawDesc = "" +
+const file_api_proto_client_clientType_proto_rawDesc = "" +
 	"\n" +
-	"\x17client/clientType.proto\x12\n" +
+	"!api/proto/client/clientType.proto\x12\n" +
 	"api.client*\x8f\x01\n" +
 	"\n" +
 	"ClientType\x12 \n" +
@@ -87,22 +87,22 @@ const file_client_clientType_proto_rawDesc = "" +
 	"\x1bManaging_Company_ClientType\x10\x03B$Z\"github.com/meshtrade/api/go/clientb\x06proto3"
 
 var (
-	file_client_clientType_proto_rawDescOnce sync.Once
-	file_client_clientType_proto_rawDescData []byte
+	file_api_proto_client_clientType_proto_rawDescOnce sync.Once
+	file_api_proto_client_clientType_proto_rawDescData []byte
 )
 
-func file_client_clientType_proto_rawDescGZIP() []byte {
-	file_client_clientType_proto_rawDescOnce.Do(func() {
-		file_client_clientType_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_client_clientType_proto_rawDesc), len(file_client_clientType_proto_rawDesc)))
+func file_api_proto_client_clientType_proto_rawDescGZIP() []byte {
+	file_api_proto_client_clientType_proto_rawDescOnce.Do(func() {
+		file_api_proto_client_clientType_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_proto_client_clientType_proto_rawDesc), len(file_api_proto_client_clientType_proto_rawDesc)))
 	})
-	return file_client_clientType_proto_rawDescData
+	return file_api_proto_client_clientType_proto_rawDescData
 }
 
-var file_client_clientType_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_client_clientType_proto_goTypes = []any{
+var file_api_proto_client_clientType_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_api_proto_client_clientType_proto_goTypes = []any{
 	(ClientType)(0), // 0: api.client.ClientType
 }
-var file_client_clientType_proto_depIdxs = []int32{
+var file_api_proto_client_clientType_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
 	0, // [0:0] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -110,26 +110,26 @@ var file_client_clientType_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_client_clientType_proto_init() }
-func file_client_clientType_proto_init() {
-	if File_client_clientType_proto != nil {
+func init() { file_api_proto_client_clientType_proto_init() }
+func file_api_proto_client_clientType_proto_init() {
+	if File_api_proto_client_clientType_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_client_clientType_proto_rawDesc), len(file_client_clientType_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_proto_client_clientType_proto_rawDesc), len(file_api_proto_client_clientType_proto_rawDesc)),
 			NumEnums:      1,
 			NumMessages:   0,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_client_clientType_proto_goTypes,
-		DependencyIndexes: file_client_clientType_proto_depIdxs,
-		EnumInfos:         file_client_clientType_proto_enumTypes,
+		GoTypes:           file_api_proto_client_clientType_proto_goTypes,
+		DependencyIndexes: file_api_proto_client_clientType_proto_depIdxs,
+		EnumInfos:         file_api_proto_client_clientType_proto_enumTypes,
 	}.Build()
-	File_client_clientType_proto = out.File
-	file_client_clientType_proto_goTypes = nil
-	file_client_clientType_proto_depIdxs = nil
+	File_api_proto_client_clientType_proto = out.File
+	file_api_proto_client_clientType_proto_goTypes = nil
+	file_api_proto_client_clientType_proto_depIdxs = nil
 }

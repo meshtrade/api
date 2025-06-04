@@ -4,8 +4,8 @@ package api.instrument.feeprofile;
 
 option go_package = "github.com/meshtrade/api/go/instrument/feeprofile";
 
-import "instrument/feeprofile/lifecycleEventCalculationConfigAmount.proto";
-import "instrument/feeprofile/lifecycleEventCalculationConfigRate.proto";
+import "api/proto/instrument/feeprofile/lifecycleEventCalculationConfigAmount.proto";
+import "api/proto/instrument/feeprofile/lifecycleEventCalculationConfigRate.proto";
 
 /*
 LifecycleEventCalculationConfig is the calculation configuration that is use to calculate

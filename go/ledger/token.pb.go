@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        (unknown)
-// source: ledger/token.proto
+// source: api/proto/ledger/token.proto
 
 package ledger
 
@@ -37,7 +37,7 @@ type Token struct {
 
 func (x *Token) Reset() {
 	*x = Token{}
-	mi := &file_ledger_token_proto_msgTypes[0]
+	mi := &file_api_proto_ledger_token_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -49,7 +49,7 @@ func (x *Token) String() string {
 func (*Token) ProtoMessage() {}
 
 func (x *Token) ProtoReflect() protoreflect.Message {
-	mi := &file_ledger_token_proto_msgTypes[0]
+	mi := &file_api_proto_ledger_token_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -62,7 +62,7 @@ func (x *Token) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Token.ProtoReflect.Descriptor instead.
 func (*Token) Descriptor() ([]byte, []int) {
-	return file_ledger_token_proto_rawDescGZIP(), []int{0}
+	return file_api_proto_ledger_token_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Token) GetCode() string {
@@ -86,35 +86,35 @@ func (x *Token) GetNetwork() Network {
 	return Network_UNDEFINED_NETWORK
 }
 
-var File_ledger_token_proto protoreflect.FileDescriptor
+var File_api_proto_ledger_token_proto protoreflect.FileDescriptor
 
-const file_ledger_token_proto_rawDesc = "" +
+const file_api_proto_ledger_token_proto_rawDesc = "" +
 	"\n" +
-	"\x12ledger/token.proto\x12\n" +
-	"api.ledger\x1a\x14ledger/network.proto\"b\n" +
+	"\x1capi/proto/ledger/token.proto\x12\n" +
+	"api.ledger\x1a\x1eapi/proto/ledger/network.proto\"b\n" +
 	"\x05Token\x12\x12\n" +
 	"\x04code\x18\x01 \x01(\tR\x04code\x12\x16\n" +
 	"\x06issuer\x18\x02 \x01(\tR\x06issuer\x12-\n" +
 	"\anetwork\x18\x03 \x01(\x0e2\x13.api.ledger.NetworkR\anetworkB$Z\"github.com/meshtrade/api/go/ledgerb\x06proto3"
 
 var (
-	file_ledger_token_proto_rawDescOnce sync.Once
-	file_ledger_token_proto_rawDescData []byte
+	file_api_proto_ledger_token_proto_rawDescOnce sync.Once
+	file_api_proto_ledger_token_proto_rawDescData []byte
 )
 
-func file_ledger_token_proto_rawDescGZIP() []byte {
-	file_ledger_token_proto_rawDescOnce.Do(func() {
-		file_ledger_token_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_ledger_token_proto_rawDesc), len(file_ledger_token_proto_rawDesc)))
+func file_api_proto_ledger_token_proto_rawDescGZIP() []byte {
+	file_api_proto_ledger_token_proto_rawDescOnce.Do(func() {
+		file_api_proto_ledger_token_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_proto_ledger_token_proto_rawDesc), len(file_api_proto_ledger_token_proto_rawDesc)))
 	})
-	return file_ledger_token_proto_rawDescData
+	return file_api_proto_ledger_token_proto_rawDescData
 }
 
-var file_ledger_token_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_ledger_token_proto_goTypes = []any{
+var file_api_proto_ledger_token_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_api_proto_ledger_token_proto_goTypes = []any{
 	(*Token)(nil), // 0: api.ledger.Token
 	(Network)(0),  // 1: api.ledger.Network
 }
-var file_ledger_token_proto_depIdxs = []int32{
+var file_api_proto_ledger_token_proto_depIdxs = []int32{
 	1, // 0: api.ledger.Token.network:type_name -> api.ledger.Network
 	1, // [1:1] is the sub-list for method output_type
 	1, // [1:1] is the sub-list for method input_type
@@ -123,27 +123,27 @@ var file_ledger_token_proto_depIdxs = []int32{
 	0, // [0:1] is the sub-list for field type_name
 }
 
-func init() { file_ledger_token_proto_init() }
-func file_ledger_token_proto_init() {
-	if File_ledger_token_proto != nil {
+func init() { file_api_proto_ledger_token_proto_init() }
+func file_api_proto_ledger_token_proto_init() {
+	if File_api_proto_ledger_token_proto != nil {
 		return
 	}
-	file_ledger_network_proto_init()
+	file_api_proto_ledger_network_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_ledger_token_proto_rawDesc), len(file_ledger_token_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_proto_ledger_token_proto_rawDesc), len(file_api_proto_ledger_token_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_ledger_token_proto_goTypes,
-		DependencyIndexes: file_ledger_token_proto_depIdxs,
-		MessageInfos:      file_ledger_token_proto_msgTypes,
+		GoTypes:           file_api_proto_ledger_token_proto_goTypes,
+		DependencyIndexes: file_api_proto_ledger_token_proto_depIdxs,
+		MessageInfos:      file_api_proto_ledger_token_proto_msgTypes,
 	}.Build()
-	File_ledger_token_proto = out.File
-	file_ledger_token_proto_goTypes = nil
-	file_ledger_token_proto_depIdxs = nil
+	File_api_proto_ledger_token_proto = out.File
+	file_api_proto_ledger_token_proto_goTypes = nil
+	file_api_proto_ledger_token_proto_depIdxs = nil
 }

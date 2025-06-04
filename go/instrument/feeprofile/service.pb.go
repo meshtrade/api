@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        (unknown)
-// source: instrument/feeprofile/service.proto
+// source: api/proto/instrument/feeprofile/service.proto
 
 package feeprofile
 
@@ -33,7 +33,7 @@ type CreateRequest struct {
 
 func (x *CreateRequest) Reset() {
 	*x = CreateRequest{}
-	mi := &file_instrument_feeprofile_service_proto_msgTypes[0]
+	mi := &file_api_proto_instrument_feeprofile_service_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -45,7 +45,7 @@ func (x *CreateRequest) String() string {
 func (*CreateRequest) ProtoMessage() {}
 
 func (x *CreateRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_instrument_feeprofile_service_proto_msgTypes[0]
+	mi := &file_api_proto_instrument_feeprofile_service_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -58,7 +58,7 @@ func (x *CreateRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateRequest.ProtoReflect.Descriptor instead.
 func (*CreateRequest) Descriptor() ([]byte, []int) {
-	return file_instrument_feeprofile_service_proto_rawDescGZIP(), []int{0}
+	return file_api_proto_instrument_feeprofile_service_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *CreateRequest) GetFeeProfile() *FeeProfile {
@@ -79,7 +79,7 @@ type CreateResponse struct {
 
 func (x *CreateResponse) Reset() {
 	*x = CreateResponse{}
-	mi := &file_instrument_feeprofile_service_proto_msgTypes[1]
+	mi := &file_api_proto_instrument_feeprofile_service_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -91,7 +91,7 @@ func (x *CreateResponse) String() string {
 func (*CreateResponse) ProtoMessage() {}
 
 func (x *CreateResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_instrument_feeprofile_service_proto_msgTypes[1]
+	mi := &file_api_proto_instrument_feeprofile_service_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -104,7 +104,7 @@ func (x *CreateResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateResponse.ProtoReflect.Descriptor instead.
 func (*CreateResponse) Descriptor() ([]byte, []int) {
-	return file_instrument_feeprofile_service_proto_rawDescGZIP(), []int{1}
+	return file_api_proto_instrument_feeprofile_service_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *CreateResponse) GetFeeProfile() *FeeProfile {
@@ -125,7 +125,7 @@ type UpdateRequest struct {
 
 func (x *UpdateRequest) Reset() {
 	*x = UpdateRequest{}
-	mi := &file_instrument_feeprofile_service_proto_msgTypes[2]
+	mi := &file_api_proto_instrument_feeprofile_service_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -137,7 +137,7 @@ func (x *UpdateRequest) String() string {
 func (*UpdateRequest) ProtoMessage() {}
 
 func (x *UpdateRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_instrument_feeprofile_service_proto_msgTypes[2]
+	mi := &file_api_proto_instrument_feeprofile_service_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -150,7 +150,7 @@ func (x *UpdateRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateRequest.ProtoReflect.Descriptor instead.
 func (*UpdateRequest) Descriptor() ([]byte, []int) {
-	return file_instrument_feeprofile_service_proto_rawDescGZIP(), []int{2}
+	return file_api_proto_instrument_feeprofile_service_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *UpdateRequest) GetFeeProfile() *FeeProfile {
@@ -171,7 +171,7 @@ type UpdateResponse struct {
 
 func (x *UpdateResponse) Reset() {
 	*x = UpdateResponse{}
-	mi := &file_instrument_feeprofile_service_proto_msgTypes[3]
+	mi := &file_api_proto_instrument_feeprofile_service_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -183,7 +183,7 @@ func (x *UpdateResponse) String() string {
 func (*UpdateResponse) ProtoMessage() {}
 
 func (x *UpdateResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_instrument_feeprofile_service_proto_msgTypes[3]
+	mi := &file_api_proto_instrument_feeprofile_service_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -196,7 +196,7 @@ func (x *UpdateResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateResponse.ProtoReflect.Descriptor instead.
 func (*UpdateResponse) Descriptor() ([]byte, []int) {
-	return file_instrument_feeprofile_service_proto_rawDescGZIP(), []int{3}
+	return file_api_proto_instrument_feeprofile_service_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *UpdateResponse) GetFeeProfile() *FeeProfile {
@@ -219,7 +219,7 @@ type ListRequest struct {
 
 func (x *ListRequest) Reset() {
 	*x = ListRequest{}
-	mi := &file_instrument_feeprofile_service_proto_msgTypes[4]
+	mi := &file_api_proto_instrument_feeprofile_service_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -231,7 +231,7 @@ func (x *ListRequest) String() string {
 func (*ListRequest) ProtoMessage() {}
 
 func (x *ListRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_instrument_feeprofile_service_proto_msgTypes[4]
+	mi := &file_api_proto_instrument_feeprofile_service_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -244,7 +244,7 @@ func (x *ListRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListRequest.ProtoReflect.Descriptor instead.
 func (*ListRequest) Descriptor() ([]byte, []int) {
-	return file_instrument_feeprofile_service_proto_rawDescGZIP(), []int{4}
+	return file_api_proto_instrument_feeprofile_service_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *ListRequest) GetCriteria() []*search.Criterion {
@@ -274,7 +274,7 @@ type ListResponse struct {
 
 func (x *ListResponse) Reset() {
 	*x = ListResponse{}
-	mi := &file_instrument_feeprofile_service_proto_msgTypes[5]
+	mi := &file_api_proto_instrument_feeprofile_service_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -286,7 +286,7 @@ func (x *ListResponse) String() string {
 func (*ListResponse) ProtoMessage() {}
 
 func (x *ListResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_instrument_feeprofile_service_proto_msgTypes[5]
+	mi := &file_api_proto_instrument_feeprofile_service_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -299,7 +299,7 @@ func (x *ListResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListResponse.ProtoReflect.Descriptor instead.
 func (*ListResponse) Descriptor() ([]byte, []int) {
-	return file_instrument_feeprofile_service_proto_rawDescGZIP(), []int{5}
+	return file_api_proto_instrument_feeprofile_service_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *ListResponse) GetFeeProfiles() []*FeeProfile {
@@ -327,7 +327,7 @@ type GetRequest struct {
 
 func (x *GetRequest) Reset() {
 	*x = GetRequest{}
-	mi := &file_instrument_feeprofile_service_proto_msgTypes[6]
+	mi := &file_api_proto_instrument_feeprofile_service_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -339,7 +339,7 @@ func (x *GetRequest) String() string {
 func (*GetRequest) ProtoMessage() {}
 
 func (x *GetRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_instrument_feeprofile_service_proto_msgTypes[6]
+	mi := &file_api_proto_instrument_feeprofile_service_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -352,7 +352,7 @@ func (x *GetRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetRequest.ProtoReflect.Descriptor instead.
 func (*GetRequest) Descriptor() ([]byte, []int) {
-	return file_instrument_feeprofile_service_proto_rawDescGZIP(), []int{6}
+	return file_api_proto_instrument_feeprofile_service_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *GetRequest) GetCriteria() []*search.Criterion {
@@ -373,7 +373,7 @@ type GetResponse struct {
 
 func (x *GetResponse) Reset() {
 	*x = GetResponse{}
-	mi := &file_instrument_feeprofile_service_proto_msgTypes[7]
+	mi := &file_api_proto_instrument_feeprofile_service_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -385,7 +385,7 @@ func (x *GetResponse) String() string {
 func (*GetResponse) ProtoMessage() {}
 
 func (x *GetResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_instrument_feeprofile_service_proto_msgTypes[7]
+	mi := &file_api_proto_instrument_feeprofile_service_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -398,7 +398,7 @@ func (x *GetResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetResponse.ProtoReflect.Descriptor instead.
 func (*GetResponse) Descriptor() ([]byte, []int) {
-	return file_instrument_feeprofile_service_proto_rawDescGZIP(), []int{7}
+	return file_api_proto_instrument_feeprofile_service_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *GetResponse) GetFeeProfile() *FeeProfile {
@@ -408,11 +408,11 @@ func (x *GetResponse) GetFeeProfile() *FeeProfile {
 	return nil
 }
 
-var File_instrument_feeprofile_service_proto protoreflect.FileDescriptor
+var File_api_proto_instrument_feeprofile_service_proto protoreflect.FileDescriptor
 
-const file_instrument_feeprofile_service_proto_rawDesc = "" +
+const file_api_proto_instrument_feeprofile_service_proto_rawDesc = "" +
 	"\n" +
-	"#instrument/feeprofile/service.proto\x12\x19api.instrument.feeprofile\x1a&instrument/feeprofile/feeProfile.proto\x1a\x16search/criterion.proto\x1a\x12search/query.proto\"V\n" +
+	"-api/proto/instrument/feeprofile/service.proto\x12\x19api.instrument.feeprofile\x1a0api/proto/instrument/feeprofile/feeProfile.proto\x1a api/proto/search/criterion.proto\x1a\x1capi/proto/search/query.proto\"V\n" +
 	"\rCreateRequest\x12E\n" +
 	"\n" +
 	"feeProfile\x18\x01 \x01(\v2%.api.instrument.feeprofile.FeeProfileR\n" +
@@ -449,19 +449,19 @@ const file_instrument_feeprofile_service_proto_rawDesc = "" +
 	"\x03Get\x12%.api.instrument.feeprofile.GetRequest\x1a&.api.instrument.feeprofile.GetResponseB3Z1github.com/meshtrade/api/go/instrument/feeprofileb\x06proto3"
 
 var (
-	file_instrument_feeprofile_service_proto_rawDescOnce sync.Once
-	file_instrument_feeprofile_service_proto_rawDescData []byte
+	file_api_proto_instrument_feeprofile_service_proto_rawDescOnce sync.Once
+	file_api_proto_instrument_feeprofile_service_proto_rawDescData []byte
 )
 
-func file_instrument_feeprofile_service_proto_rawDescGZIP() []byte {
-	file_instrument_feeprofile_service_proto_rawDescOnce.Do(func() {
-		file_instrument_feeprofile_service_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_instrument_feeprofile_service_proto_rawDesc), len(file_instrument_feeprofile_service_proto_rawDesc)))
+func file_api_proto_instrument_feeprofile_service_proto_rawDescGZIP() []byte {
+	file_api_proto_instrument_feeprofile_service_proto_rawDescOnce.Do(func() {
+		file_api_proto_instrument_feeprofile_service_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_proto_instrument_feeprofile_service_proto_rawDesc), len(file_api_proto_instrument_feeprofile_service_proto_rawDesc)))
 	})
-	return file_instrument_feeprofile_service_proto_rawDescData
+	return file_api_proto_instrument_feeprofile_service_proto_rawDescData
 }
 
-var file_instrument_feeprofile_service_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
-var file_instrument_feeprofile_service_proto_goTypes = []any{
+var file_api_proto_instrument_feeprofile_service_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_api_proto_instrument_feeprofile_service_proto_goTypes = []any{
 	(*CreateRequest)(nil),    // 0: api.instrument.feeprofile.CreateRequest
 	(*CreateResponse)(nil),   // 1: api.instrument.feeprofile.CreateResponse
 	(*UpdateRequest)(nil),    // 2: api.instrument.feeprofile.UpdateRequest
@@ -474,7 +474,7 @@ var file_instrument_feeprofile_service_proto_goTypes = []any{
 	(*search.Criterion)(nil), // 9: api.search.Criterion
 	(*search.Query)(nil),     // 10: api.search.Query
 }
-var file_instrument_feeprofile_service_proto_depIdxs = []int32{
+var file_api_proto_instrument_feeprofile_service_proto_depIdxs = []int32{
 	8,  // 0: api.instrument.feeprofile.CreateRequest.feeProfile:type_name -> api.instrument.feeprofile.FeeProfile
 	8,  // 1: api.instrument.feeprofile.CreateResponse.feeProfile:type_name -> api.instrument.feeprofile.FeeProfile
 	8,  // 2: api.instrument.feeprofile.UpdateRequest.feeProfile:type_name -> api.instrument.feeprofile.FeeProfile
@@ -499,27 +499,27 @@ var file_instrument_feeprofile_service_proto_depIdxs = []int32{
 	0,  // [0:9] is the sub-list for field type_name
 }
 
-func init() { file_instrument_feeprofile_service_proto_init() }
-func file_instrument_feeprofile_service_proto_init() {
-	if File_instrument_feeprofile_service_proto != nil {
+func init() { file_api_proto_instrument_feeprofile_service_proto_init() }
+func file_api_proto_instrument_feeprofile_service_proto_init() {
+	if File_api_proto_instrument_feeprofile_service_proto != nil {
 		return
 	}
-	file_instrument_feeprofile_feeProfile_proto_init()
+	file_api_proto_instrument_feeprofile_feeProfile_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_instrument_feeprofile_service_proto_rawDesc), len(file_instrument_feeprofile_service_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_proto_instrument_feeprofile_service_proto_rawDesc), len(file_api_proto_instrument_feeprofile_service_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_instrument_feeprofile_service_proto_goTypes,
-		DependencyIndexes: file_instrument_feeprofile_service_proto_depIdxs,
-		MessageInfos:      file_instrument_feeprofile_service_proto_msgTypes,
+		GoTypes:           file_api_proto_instrument_feeprofile_service_proto_goTypes,
+		DependencyIndexes: file_api_proto_instrument_feeprofile_service_proto_depIdxs,
+		MessageInfos:      file_api_proto_instrument_feeprofile_service_proto_msgTypes,
 	}.Build()
-	File_instrument_feeprofile_service_proto = out.File
-	file_instrument_feeprofile_service_proto_goTypes = nil
-	file_instrument_feeprofile_service_proto_depIdxs = nil
+	File_api_proto_instrument_feeprofile_service_proto = out.File
+	file_api_proto_instrument_feeprofile_service_proto_goTypes = nil
+	file_api_proto_instrument_feeprofile_service_proto_depIdxs = nil
 }

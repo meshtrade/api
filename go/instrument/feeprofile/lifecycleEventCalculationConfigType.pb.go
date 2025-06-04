@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        (unknown)
-// source: instrument/feeprofile/lifecycleEventCalculationConfigType.proto
+// source: api/proto/instrument/feeprofile/lifecycleEventCalculationConfigType.proto
 
 package feeprofile
 
@@ -55,11 +55,11 @@ func (x LifecycleEventCalculationConfigType) String() string {
 }
 
 func (LifecycleEventCalculationConfigType) Descriptor() protoreflect.EnumDescriptor {
-	return file_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_enumTypes[0].Descriptor()
+	return file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_enumTypes[0].Descriptor()
 }
 
 func (LifecycleEventCalculationConfigType) Type() protoreflect.EnumType {
-	return &file_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_enumTypes[0]
+	return &file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_enumTypes[0]
 }
 
 func (x LifecycleEventCalculationConfigType) Number() protoreflect.EnumNumber {
@@ -68,36 +68,36 @@ func (x LifecycleEventCalculationConfigType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use LifecycleEventCalculationConfigType.Descriptor instead.
 func (LifecycleEventCalculationConfigType) EnumDescriptor() ([]byte, []int) {
-	return file_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_rawDescGZIP(), []int{0}
+	return file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_rawDescGZIP(), []int{0}
 }
 
-var File_instrument_feeprofile_lifecycleEventCalculationConfigType_proto protoreflect.FileDescriptor
+var File_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigType_proto protoreflect.FileDescriptor
 
-const file_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_rawDesc = "" +
+const file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_rawDesc = "" +
 	"\n" +
-	"?instrument/feeprofile/lifecycleEventCalculationConfigType.proto\x12\tfinancial*\xc5\x01\n" +
+	"Iapi/proto/instrument/feeprofile/lifecycleEventCalculationConfigType.proto\x12\tfinancial*\xc5\x01\n" +
 	"#LifecycleEventCalculationConfigType\x126\n" +
 	"2UNDEFINED_LIFECYCLE_EVENTS_CALCULATION_CONFIG_TYPE\x10\x00\x123\n" +
 	"/AMOUNT_LIFECYCLE_EVENTS_CALCULATION_CONFIG_TYPE\x10\x01\x121\n" +
 	"-RATE_LIFECYCLE_EVENTS_CALCULATION_CONFIG_TYPE\x10\x02B3Z1github.com/meshtrade/api/go/instrument/feeprofileb\x06proto3"
 
 var (
-	file_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_rawDescOnce sync.Once
-	file_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_rawDescData []byte
+	file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_rawDescOnce sync.Once
+	file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_rawDescData []byte
 )
 
-func file_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_rawDescGZIP() []byte {
-	file_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_rawDescOnce.Do(func() {
-		file_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_rawDesc), len(file_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_rawDesc)))
+func file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_rawDescGZIP() []byte {
+	file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_rawDescOnce.Do(func() {
+		file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_rawDesc), len(file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_rawDesc)))
 	})
-	return file_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_rawDescData
+	return file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_rawDescData
 }
 
-var file_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_goTypes = []any{
+var file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_goTypes = []any{
 	(LifecycleEventCalculationConfigType)(0), // 0: financial.LifecycleEventCalculationConfigType
 }
-var file_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_depIdxs = []int32{
+var file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
 	0, // [0:0] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -105,26 +105,26 @@ var file_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_depIdxs
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_init() }
-func file_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_init() {
-	if File_instrument_feeprofile_lifecycleEventCalculationConfigType_proto != nil {
+func init() { file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_init() }
+func file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_init() {
+	if File_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigType_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_rawDesc), len(file_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_rawDesc), len(file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_rawDesc)),
 			NumEnums:      1,
 			NumMessages:   0,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_goTypes,
-		DependencyIndexes: file_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_depIdxs,
-		EnumInfos:         file_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_enumTypes,
+		GoTypes:           file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_goTypes,
+		DependencyIndexes: file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_depIdxs,
+		EnumInfos:         file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_enumTypes,
 	}.Build()
-	File_instrument_feeprofile_lifecycleEventCalculationConfigType_proto = out.File
-	file_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_goTypes = nil
-	file_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_depIdxs = nil
+	File_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigType_proto = out.File
+	file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_goTypes = nil
+	file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigType_proto_depIdxs = nil
 }

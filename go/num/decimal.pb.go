@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        (unknown)
-// source: num/decimal.proto
+// source: api/proto/num/decimal.proto
 
 package num
 
@@ -30,7 +30,7 @@ type Decimal struct {
 
 func (x *Decimal) Reset() {
 	*x = Decimal{}
-	mi := &file_num_decimal_proto_msgTypes[0]
+	mi := &file_api_proto_num_decimal_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -42,7 +42,7 @@ func (x *Decimal) String() string {
 func (*Decimal) ProtoMessage() {}
 
 func (x *Decimal) ProtoReflect() protoreflect.Message {
-	mi := &file_num_decimal_proto_msgTypes[0]
+	mi := &file_api_proto_num_decimal_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -55,7 +55,7 @@ func (x *Decimal) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Decimal.ProtoReflect.Descriptor instead.
 func (*Decimal) Descriptor() ([]byte, []int) {
-	return file_num_decimal_proto_rawDescGZIP(), []int{0}
+	return file_api_proto_num_decimal_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Decimal) GetValue() string {
@@ -65,31 +65,31 @@ func (x *Decimal) GetValue() string {
 	return ""
 }
 
-var File_num_decimal_proto protoreflect.FileDescriptor
+var File_api_proto_num_decimal_proto protoreflect.FileDescriptor
 
-const file_num_decimal_proto_rawDesc = "" +
+const file_api_proto_num_decimal_proto_rawDesc = "" +
 	"\n" +
-	"\x11num/decimal.proto\x12\aapi.num\"\x1f\n" +
+	"\x1bapi/proto/num/decimal.proto\x12\aapi.num\"\x1f\n" +
 	"\aDecimal\x12\x14\n" +
 	"\x05value\x18\x01 \x01(\tR\x05valueB!Z\x1fgithub.com/meshtrade/api/go/numb\x06proto3"
 
 var (
-	file_num_decimal_proto_rawDescOnce sync.Once
-	file_num_decimal_proto_rawDescData []byte
+	file_api_proto_num_decimal_proto_rawDescOnce sync.Once
+	file_api_proto_num_decimal_proto_rawDescData []byte
 )
 
-func file_num_decimal_proto_rawDescGZIP() []byte {
-	file_num_decimal_proto_rawDescOnce.Do(func() {
-		file_num_decimal_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_num_decimal_proto_rawDesc), len(file_num_decimal_proto_rawDesc)))
+func file_api_proto_num_decimal_proto_rawDescGZIP() []byte {
+	file_api_proto_num_decimal_proto_rawDescOnce.Do(func() {
+		file_api_proto_num_decimal_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_proto_num_decimal_proto_rawDesc), len(file_api_proto_num_decimal_proto_rawDesc)))
 	})
-	return file_num_decimal_proto_rawDescData
+	return file_api_proto_num_decimal_proto_rawDescData
 }
 
-var file_num_decimal_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_num_decimal_proto_goTypes = []any{
+var file_api_proto_num_decimal_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_api_proto_num_decimal_proto_goTypes = []any{
 	(*Decimal)(nil), // 0: api.num.Decimal
 }
-var file_num_decimal_proto_depIdxs = []int32{
+var file_api_proto_num_decimal_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
 	0, // [0:0] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -97,26 +97,26 @@ var file_num_decimal_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_num_decimal_proto_init() }
-func file_num_decimal_proto_init() {
-	if File_num_decimal_proto != nil {
+func init() { file_api_proto_num_decimal_proto_init() }
+func file_api_proto_num_decimal_proto_init() {
+	if File_api_proto_num_decimal_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_num_decimal_proto_rawDesc), len(file_num_decimal_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_proto_num_decimal_proto_rawDesc), len(file_api_proto_num_decimal_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_num_decimal_proto_goTypes,
-		DependencyIndexes: file_num_decimal_proto_depIdxs,
-		MessageInfos:      file_num_decimal_proto_msgTypes,
+		GoTypes:           file_api_proto_num_decimal_proto_goTypes,
+		DependencyIndexes: file_api_proto_num_decimal_proto_depIdxs,
+		MessageInfos:      file_api_proto_num_decimal_proto_msgTypes,
 	}.Build()
-	File_num_decimal_proto = out.File
-	file_num_decimal_proto_goTypes = nil
-	file_num_decimal_proto_depIdxs = nil
+	File_api_proto_num_decimal_proto = out.File
+	file_api_proto_num_decimal_proto_goTypes = nil
+	file_api_proto_num_decimal_proto_depIdxs = nil
 }

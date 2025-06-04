@@ -4,9 +4,9 @@ package api.legal.company;
 
 option go_package = "github.com/meshtrade/api/go/legal/company";
 
-import "search/criterion.proto";
-import "search/query.proto";
-import "legal/company/company.proto";
+import "api/proto/search/criterion.proto";
+import "api/proto/search/query.proto";
+import "api/proto/legal/company/company.proto";
 
 service Service {
   rpc List(ListRequest) returns (ListResponse);

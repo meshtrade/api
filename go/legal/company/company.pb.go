@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        (unknown)
-// source: legal/company/company.proto
+// source: api/proto/legal/company/company.proto
 
 package company
 
@@ -66,7 +66,7 @@ type Company struct {
 
 func (x *Company) Reset() {
 	*x = Company{}
-	mi := &file_legal_company_company_proto_msgTypes[0]
+	mi := &file_api_proto_legal_company_company_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -78,7 +78,7 @@ func (x *Company) String() string {
 func (*Company) ProtoMessage() {}
 
 func (x *Company) ProtoReflect() protoreflect.Message {
-	mi := &file_legal_company_company_proto_msgTypes[0]
+	mi := &file_api_proto_legal_company_company_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -91,7 +91,7 @@ func (x *Company) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Company.ProtoReflect.Descriptor instead.
 func (*Company) Descriptor() ([]byte, []int) {
-	return file_legal_company_company_proto_rawDescGZIP(), []int{0}
+	return file_api_proto_legal_company_company_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Company) GetRegisteredName() string {
@@ -213,11 +213,11 @@ func (x *Company) GetClientType() []client.ClientType {
 	return nil
 }
 
-var File_legal_company_company_proto protoreflect.FileDescriptor
+var File_api_proto_legal_company_company_proto protoreflect.FileDescriptor
 
-const file_legal_company_company_proto_rawDesc = "" +
+const file_api_proto_legal_company_company_proto_rawDesc = "" +
 	"\n" +
-	"\x1blegal/company/company.proto\x12\x11api.legal.company\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x16location/address.proto\x1a$legal/companyPublicContactInfo.proto\x1a!legal/companyRepresentative.proto\x1a\x1clegal/connectedCompany.proto\x1a\x1flegal/connectedIndividual.proto\x1a*legal/company/industryClassification.proto\x1a\x15legal/legalform.proto\x1a\x17client/clientType.proto\"\xd1\b\n" +
+	"%api/proto/legal/company/company.proto\x12\x11api.legal.company\x1a\x1fgoogle/protobuf/timestamp.proto\x1a api/proto/location/address.proto\x1a.api/proto/legal/companyPublicContactInfo.proto\x1a+api/proto/legal/companyRepresentative.proto\x1a&api/proto/legal/connectedCompany.proto\x1a)api/proto/legal/connectedIndividual.proto\x1a4api/proto/legal/company/industryClassification.proto\x1a\x1fapi/proto/legal/legalform.proto\x1a!api/proto/client/clientType.proto\"\xd1\b\n" +
 	"\aCompany\x12&\n" +
 	"\x0eregisteredName\x18\x01 \x01(\tR\x0eregisteredName\x12.\n" +
 	"\x12taxReferenceNumber\x18\x02 \x01(\tR\x12taxReferenceNumber\x12.\n" +
@@ -241,19 +241,19 @@ const file_legal_company_company_proto_rawDesc = "" +
 	"clientTypeB+Z)github.com/meshtrade/api/go/legal/companyb\x06proto3"
 
 var (
-	file_legal_company_company_proto_rawDescOnce sync.Once
-	file_legal_company_company_proto_rawDescData []byte
+	file_api_proto_legal_company_company_proto_rawDescOnce sync.Once
+	file_api_proto_legal_company_company_proto_rawDescData []byte
 )
 
-func file_legal_company_company_proto_rawDescGZIP() []byte {
-	file_legal_company_company_proto_rawDescOnce.Do(func() {
-		file_legal_company_company_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_legal_company_company_proto_rawDesc), len(file_legal_company_company_proto_rawDesc)))
+func file_api_proto_legal_company_company_proto_rawDescGZIP() []byte {
+	file_api_proto_legal_company_company_proto_rawDescOnce.Do(func() {
+		file_api_proto_legal_company_company_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_proto_legal_company_company_proto_rawDesc), len(file_api_proto_legal_company_company_proto_rawDesc)))
 	})
-	return file_legal_company_company_proto_rawDescData
+	return file_api_proto_legal_company_company_proto_rawDescData
 }
 
-var file_legal_company_company_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_legal_company_company_proto_goTypes = []any{
+var file_api_proto_legal_company_company_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_api_proto_legal_company_company_proto_goTypes = []any{
 	(*Company)(nil),                        // 0: api.legal.company.Company
 	(*legal.CompanyPublicContactInfo)(nil), // 1: api.legal.CompanyPublicContactInfo
 	(*legal.CompanyRepresentative)(nil),    // 2: api.legal.CompanyRepresentative
@@ -264,7 +264,7 @@ var file_legal_company_company_proto_goTypes = []any{
 	(*legal.ConnectedCompany)(nil),         // 7: api.legal.ConnectedCompany
 	(client.ClientType)(0),                 // 8: api.client.ClientType
 }
-var file_legal_company_company_proto_depIdxs = []int32{
+var file_api_proto_legal_company_company_proto_depIdxs = []int32{
 	1,  // 0: api.legal.company.Company.public_contact_info:type_name -> api.legal.CompanyPublicContactInfo
 	2,  // 1: api.legal.company.Company.companyRepresentative:type_name -> api.legal.CompanyRepresentative
 	3,  // 2: api.legal.company.Company.industryClassification:type_name -> api.legal.company.IndustryClassification
@@ -282,27 +282,27 @@ var file_legal_company_company_proto_depIdxs = []int32{
 	0,  // [0:10] is the sub-list for field type_name
 }
 
-func init() { file_legal_company_company_proto_init() }
-func file_legal_company_company_proto_init() {
-	if File_legal_company_company_proto != nil {
+func init() { file_api_proto_legal_company_company_proto_init() }
+func file_api_proto_legal_company_company_proto_init() {
+	if File_api_proto_legal_company_company_proto != nil {
 		return
 	}
-	file_legal_company_industryClassification_proto_init()
+	file_api_proto_legal_company_industryClassification_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_legal_company_company_proto_rawDesc), len(file_legal_company_company_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_proto_legal_company_company_proto_rawDesc), len(file_api_proto_legal_company_company_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_legal_company_company_proto_goTypes,
-		DependencyIndexes: file_legal_company_company_proto_depIdxs,
-		MessageInfos:      file_legal_company_company_proto_msgTypes,
+		GoTypes:           file_api_proto_legal_company_company_proto_goTypes,
+		DependencyIndexes: file_api_proto_legal_company_company_proto_depIdxs,
+		MessageInfos:      file_api_proto_legal_company_company_proto_msgTypes,
 	}.Build()
-	File_legal_company_company_proto = out.File
-	file_legal_company_company_proto_goTypes = nil
-	file_legal_company_company_proto_depIdxs = nil
+	File_api_proto_legal_company_company_proto = out.File
+	file_api_proto_legal_company_company_proto_goTypes = nil
+	file_api_proto_legal_company_company_proto_depIdxs = nil
 }

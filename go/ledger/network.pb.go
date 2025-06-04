@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        (unknown)
-// source: ledger/network.proto
+// source: api/proto/ledger/network.proto
 
 package ledger
 
@@ -71,11 +71,11 @@ func (x Network) String() string {
 }
 
 func (Network) Descriptor() protoreflect.EnumDescriptor {
-	return file_ledger_network_proto_enumTypes[0].Descriptor()
+	return file_api_proto_ledger_network_proto_enumTypes[0].Descriptor()
 }
 
 func (Network) Type() protoreflect.EnumType {
-	return &file_ledger_network_proto_enumTypes[0]
+	return &file_api_proto_ledger_network_proto_enumTypes[0]
 }
 
 func (x Network) Number() protoreflect.EnumNumber {
@@ -84,14 +84,14 @@ func (x Network) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Network.Descriptor instead.
 func (Network) EnumDescriptor() ([]byte, []int) {
-	return file_ledger_network_proto_rawDescGZIP(), []int{0}
+	return file_api_proto_ledger_network_proto_rawDescGZIP(), []int{0}
 }
 
-var File_ledger_network_proto protoreflect.FileDescriptor
+var File_api_proto_ledger_network_proto protoreflect.FileDescriptor
 
-const file_ledger_network_proto_rawDesc = "" +
+const file_api_proto_ledger_network_proto_rawDesc = "" +
 	"\n" +
-	"\x14ledger/network.proto\x12\n" +
+	"\x1eapi/proto/ledger/network.proto\x12\n" +
 	"api.ledger*\xba\x01\n" +
 	"\aNetwork\x12\x15\n" +
 	"\x11UNDEFINED_NETWORK\x10\x00\x12\x13\n" +
@@ -104,22 +104,22 @@ const file_ledger_network_proto_rawDesc = "" +
 	"\fNULL_NETWORK\x10\x10B$Z\"github.com/meshtrade/api/go/ledgerb\x06proto3"
 
 var (
-	file_ledger_network_proto_rawDescOnce sync.Once
-	file_ledger_network_proto_rawDescData []byte
+	file_api_proto_ledger_network_proto_rawDescOnce sync.Once
+	file_api_proto_ledger_network_proto_rawDescData []byte
 )
 
-func file_ledger_network_proto_rawDescGZIP() []byte {
-	file_ledger_network_proto_rawDescOnce.Do(func() {
-		file_ledger_network_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_ledger_network_proto_rawDesc), len(file_ledger_network_proto_rawDesc)))
+func file_api_proto_ledger_network_proto_rawDescGZIP() []byte {
+	file_api_proto_ledger_network_proto_rawDescOnce.Do(func() {
+		file_api_proto_ledger_network_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_proto_ledger_network_proto_rawDesc), len(file_api_proto_ledger_network_proto_rawDesc)))
 	})
-	return file_ledger_network_proto_rawDescData
+	return file_api_proto_ledger_network_proto_rawDescData
 }
 
-var file_ledger_network_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_ledger_network_proto_goTypes = []any{
+var file_api_proto_ledger_network_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_api_proto_ledger_network_proto_goTypes = []any{
 	(Network)(0), // 0: api.ledger.Network
 }
-var file_ledger_network_proto_depIdxs = []int32{
+var file_api_proto_ledger_network_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
 	0, // [0:0] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -127,26 +127,26 @@ var file_ledger_network_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_ledger_network_proto_init() }
-func file_ledger_network_proto_init() {
-	if File_ledger_network_proto != nil {
+func init() { file_api_proto_ledger_network_proto_init() }
+func file_api_proto_ledger_network_proto_init() {
+	if File_api_proto_ledger_network_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_ledger_network_proto_rawDesc), len(file_ledger_network_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_proto_ledger_network_proto_rawDesc), len(file_api_proto_ledger_network_proto_rawDesc)),
 			NumEnums:      1,
 			NumMessages:   0,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_ledger_network_proto_goTypes,
-		DependencyIndexes: file_ledger_network_proto_depIdxs,
-		EnumInfos:         file_ledger_network_proto_enumTypes,
+		GoTypes:           file_api_proto_ledger_network_proto_goTypes,
+		DependencyIndexes: file_api_proto_ledger_network_proto_depIdxs,
+		EnumInfos:         file_api_proto_ledger_network_proto_enumTypes,
 	}.Build()
-	File_ledger_network_proto = out.File
-	file_ledger_network_proto_goTypes = nil
-	file_ledger_network_proto_depIdxs = nil
+	File_api_proto_ledger_network_proto = out.File
+	file_api_proto_ledger_network_proto_goTypes = nil
+	file_api_proto_ledger_network_proto_depIdxs = nil
 }

@@ -4,19 +4,19 @@ package api.search;
 
 option go_package = "github.com/meshtrade/api/go/search";
 
-import "search/boolExactCriterion.proto";
-import "search/textExactCriterion.proto";
-import "search/textNEExactCriterion.proto";
-import "search/textSubstringCriterion.proto";
-import "search/textListCriterion.proto";
-import "search/textNINListCriterion.proto";
-import "search/uint32ExactCriterion.proto";
-import "search/uint32NEExactCriterion.proto";
-import "search/uint32ListCriterion.proto";
-import "search/uint32RangeCriterion.proto";
-import "search/uint32NINListCriterion.proto";
-import "search/dateRangeCriterion.proto";
-import "search/int64ExactCriterion.proto";
+import "api/proto/search/boolExactCriterion.proto";
+import "api/proto/search/textExactCriterion.proto";
+import "api/proto/search/textNEExactCriterion.proto";
+import "api/proto/search/textSubstringCriterion.proto";
+import "api/proto/search/textListCriterion.proto";
+import "api/proto/search/textNINListCriterion.proto";
+import "api/proto/search/uint32ExactCriterion.proto";
+import "api/proto/search/uint32NEExactCriterion.proto";
+import "api/proto/search/uint32ListCriterion.proto";
+import "api/proto/search/uint32RangeCriterion.proto";
+import "api/proto/search/uint32NINListCriterion.proto";
+import "api/proto/search/dateRangeCriterion.proto";
+import "api/proto/search/int64ExactCriterion.proto";
 
 // Criterion is a placeholder for generic search criterion
 message Criterion {

@@ -5,14 +5,14 @@ package api.legal.company;
 option go_package = "github.com/meshtrade/api/go/legal/company";
 
 import "google/protobuf/timestamp.proto";
-import "location/address.proto";
-import "legal/companyPublicContactInfo.proto";
-import "legal/companyRepresentative.proto";
-import "legal/connectedCompany.proto";
-import "legal/connectedIndividual.proto";
-import "legal/company/industryClassification.proto";
-import "legal/legalform.proto";
-import "client/clientType.proto";
+import "api/proto/location/address.proto";
+import "api/proto/legal/companyPublicContactInfo.proto";
+import "api/proto/legal/companyRepresentative.proto";
+import "api/proto/legal/connectedCompany.proto";
+import "api/proto/legal/connectedIndividual.proto";
+import "api/proto/legal/company/industryClassification.proto";
+import "api/proto/legal/legalform.proto";
+import "api/proto/client/clientType.proto";
 
 message Company {
   // Registered name of the company (required field)

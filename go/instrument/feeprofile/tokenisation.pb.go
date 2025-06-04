@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        (unknown)
-// source: instrument/feeprofile/tokenisation.proto
+// source: api/proto/instrument/feeprofile/tokenisation.proto
 
 package feeprofile
 
@@ -39,7 +39,7 @@ type Tokenisation struct {
 
 func (x *Tokenisation) Reset() {
 	*x = Tokenisation{}
-	mi := &file_instrument_feeprofile_tokenisation_proto_msgTypes[0]
+	mi := &file_api_proto_instrument_feeprofile_tokenisation_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -51,7 +51,7 @@ func (x *Tokenisation) String() string {
 func (*Tokenisation) ProtoMessage() {}
 
 func (x *Tokenisation) ProtoReflect() protoreflect.Message {
-	mi := &file_instrument_feeprofile_tokenisation_proto_msgTypes[0]
+	mi := &file_api_proto_instrument_feeprofile_tokenisation_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -64,7 +64,7 @@ func (x *Tokenisation) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Tokenisation.ProtoReflect.Descriptor instead.
 func (*Tokenisation) Descriptor() ([]byte, []int) {
-	return file_instrument_feeprofile_tokenisation_proto_rawDescGZIP(), []int{0}
+	return file_api_proto_instrument_feeprofile_tokenisation_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Tokenisation) GetFirstTimeMintingAmount() *ledger.Amount {
@@ -88,34 +88,34 @@ func (x *Tokenisation) GetBurningAmount() *ledger.Amount {
 	return nil
 }
 
-var File_instrument_feeprofile_tokenisation_proto protoreflect.FileDescriptor
+var File_api_proto_instrument_feeprofile_tokenisation_proto protoreflect.FileDescriptor
 
-const file_instrument_feeprofile_tokenisation_proto_rawDesc = "" +
+const file_api_proto_instrument_feeprofile_tokenisation_proto_rawDesc = "" +
 	"\n" +
-	"(instrument/feeprofile/tokenisation.proto\x12\x19api.instrument.feeprofile\x1a\x13ledger/amount.proto\"\xce\x01\n" +
+	"2api/proto/instrument/feeprofile/tokenisation.proto\x12\x19api.instrument.feeprofile\x1a\x1dapi/proto/ledger/amount.proto\"\xce\x01\n" +
 	"\fTokenisation\x12J\n" +
 	"\x16firstTimeMintingAmount\x18\x01 \x01(\v2\x12.api.ledger.AmountR\x16firstTimeMintingAmount\x128\n" +
 	"\rmintingAmount\x18\x02 \x01(\v2\x12.api.ledger.AmountR\rmintingAmount\x128\n" +
 	"\rburningAmount\x18\x03 \x01(\v2\x12.api.ledger.AmountR\rburningAmountB3Z1github.com/meshtrade/api/go/instrument/feeprofileb\x06proto3"
 
 var (
-	file_instrument_feeprofile_tokenisation_proto_rawDescOnce sync.Once
-	file_instrument_feeprofile_tokenisation_proto_rawDescData []byte
+	file_api_proto_instrument_feeprofile_tokenisation_proto_rawDescOnce sync.Once
+	file_api_proto_instrument_feeprofile_tokenisation_proto_rawDescData []byte
 )
 
-func file_instrument_feeprofile_tokenisation_proto_rawDescGZIP() []byte {
-	file_instrument_feeprofile_tokenisation_proto_rawDescOnce.Do(func() {
-		file_instrument_feeprofile_tokenisation_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_instrument_feeprofile_tokenisation_proto_rawDesc), len(file_instrument_feeprofile_tokenisation_proto_rawDesc)))
+func file_api_proto_instrument_feeprofile_tokenisation_proto_rawDescGZIP() []byte {
+	file_api_proto_instrument_feeprofile_tokenisation_proto_rawDescOnce.Do(func() {
+		file_api_proto_instrument_feeprofile_tokenisation_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_proto_instrument_feeprofile_tokenisation_proto_rawDesc), len(file_api_proto_instrument_feeprofile_tokenisation_proto_rawDesc)))
 	})
-	return file_instrument_feeprofile_tokenisation_proto_rawDescData
+	return file_api_proto_instrument_feeprofile_tokenisation_proto_rawDescData
 }
 
-var file_instrument_feeprofile_tokenisation_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_instrument_feeprofile_tokenisation_proto_goTypes = []any{
+var file_api_proto_instrument_feeprofile_tokenisation_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_api_proto_instrument_feeprofile_tokenisation_proto_goTypes = []any{
 	(*Tokenisation)(nil),  // 0: api.instrument.feeprofile.Tokenisation
 	(*ledger.Amount)(nil), // 1: api.ledger.Amount
 }
-var file_instrument_feeprofile_tokenisation_proto_depIdxs = []int32{
+var file_api_proto_instrument_feeprofile_tokenisation_proto_depIdxs = []int32{
 	1, // 0: api.instrument.feeprofile.Tokenisation.firstTimeMintingAmount:type_name -> api.ledger.Amount
 	1, // 1: api.instrument.feeprofile.Tokenisation.mintingAmount:type_name -> api.ledger.Amount
 	1, // 2: api.instrument.feeprofile.Tokenisation.burningAmount:type_name -> api.ledger.Amount
@@ -126,26 +126,26 @@ var file_instrument_feeprofile_tokenisation_proto_depIdxs = []int32{
 	0, // [0:3] is the sub-list for field type_name
 }
 
-func init() { file_instrument_feeprofile_tokenisation_proto_init() }
-func file_instrument_feeprofile_tokenisation_proto_init() {
-	if File_instrument_feeprofile_tokenisation_proto != nil {
+func init() { file_api_proto_instrument_feeprofile_tokenisation_proto_init() }
+func file_api_proto_instrument_feeprofile_tokenisation_proto_init() {
+	if File_api_proto_instrument_feeprofile_tokenisation_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_instrument_feeprofile_tokenisation_proto_rawDesc), len(file_instrument_feeprofile_tokenisation_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_proto_instrument_feeprofile_tokenisation_proto_rawDesc), len(file_api_proto_instrument_feeprofile_tokenisation_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_instrument_feeprofile_tokenisation_proto_goTypes,
-		DependencyIndexes: file_instrument_feeprofile_tokenisation_proto_depIdxs,
-		MessageInfos:      file_instrument_feeprofile_tokenisation_proto_msgTypes,
+		GoTypes:           file_api_proto_instrument_feeprofile_tokenisation_proto_goTypes,
+		DependencyIndexes: file_api_proto_instrument_feeprofile_tokenisation_proto_depIdxs,
+		MessageInfos:      file_api_proto_instrument_feeprofile_tokenisation_proto_msgTypes,
 	}.Build()
-	File_instrument_feeprofile_tokenisation_proto = out.File
-	file_instrument_feeprofile_tokenisation_proto_goTypes = nil
-	file_instrument_feeprofile_tokenisation_proto_depIdxs = nil
+	File_api_proto_instrument_feeprofile_tokenisation_proto = out.File
+	file_api_proto_instrument_feeprofile_tokenisation_proto_goTypes = nil
+	file_api_proto_instrument_feeprofile_tokenisation_proto_depIdxs = nil
 }

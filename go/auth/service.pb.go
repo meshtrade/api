@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        (unknown)
-// source: auth/service.proto
+// source: api/proto/auth/service.proto
 
 package auth
 
@@ -31,7 +31,7 @@ type LoginWithFirebaseTokenRequest struct {
 
 func (x *LoginWithFirebaseTokenRequest) Reset() {
 	*x = LoginWithFirebaseTokenRequest{}
-	mi := &file_auth_service_proto_msgTypes[0]
+	mi := &file_api_proto_auth_service_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -43,7 +43,7 @@ func (x *LoginWithFirebaseTokenRequest) String() string {
 func (*LoginWithFirebaseTokenRequest) ProtoMessage() {}
 
 func (x *LoginWithFirebaseTokenRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_auth_service_proto_msgTypes[0]
+	mi := &file_api_proto_auth_service_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -56,7 +56,7 @@ func (x *LoginWithFirebaseTokenRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LoginWithFirebaseTokenRequest.ProtoReflect.Descriptor instead.
 func (*LoginWithFirebaseTokenRequest) Descriptor() ([]byte, []int) {
-	return file_auth_service_proto_rawDescGZIP(), []int{0}
+	return file_api_proto_auth_service_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *LoginWithFirebaseTokenRequest) GetFirebaseToken() string {
@@ -76,7 +76,7 @@ type LoginWithFirebaseTokenResponse struct {
 
 func (x *LoginWithFirebaseTokenResponse) Reset() {
 	*x = LoginWithFirebaseTokenResponse{}
-	mi := &file_auth_service_proto_msgTypes[1]
+	mi := &file_api_proto_auth_service_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -88,7 +88,7 @@ func (x *LoginWithFirebaseTokenResponse) String() string {
 func (*LoginWithFirebaseTokenResponse) ProtoMessage() {}
 
 func (x *LoginWithFirebaseTokenResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_auth_service_proto_msgTypes[1]
+	mi := &file_api_proto_auth_service_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -101,7 +101,7 @@ func (x *LoginWithFirebaseTokenResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LoginWithFirebaseTokenResponse.ProtoReflect.Descriptor instead.
 func (*LoginWithFirebaseTokenResponse) Descriptor() ([]byte, []int) {
-	return file_auth_service_proto_rawDescGZIP(), []int{1}
+	return file_api_proto_auth_service_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *LoginWithFirebaseTokenResponse) GetSessionToken() string {
@@ -111,11 +111,11 @@ func (x *LoginWithFirebaseTokenResponse) GetSessionToken() string {
 	return ""
 }
 
-var File_auth_service_proto protoreflect.FileDescriptor
+var File_api_proto_auth_service_proto protoreflect.FileDescriptor
 
-const file_auth_service_proto_rawDesc = "" +
+const file_api_proto_auth_service_proto_rawDesc = "" +
 	"\n" +
-	"\x12auth/service.proto\x12\bapi.auth\"E\n" +
+	"\x1capi/proto/auth/service.proto\x12\bapi.auth\"E\n" +
 	"\x1dLoginWithFirebaseTokenRequest\x12$\n" +
 	"\rfirebaseToken\x18\x01 \x01(\tR\rfirebaseToken\"D\n" +
 	"\x1eLoginWithFirebaseTokenResponse\x12\"\n" +
@@ -124,23 +124,23 @@ const file_auth_service_proto_rawDesc = "" +
 	"\x16LoginWithFirebaseToken\x12'.api.auth.LoginWithFirebaseTokenRequest\x1a(.api.auth.LoginWithFirebaseTokenResponseB\"Z github.com/meshtrade/api/go/authb\x06proto3"
 
 var (
-	file_auth_service_proto_rawDescOnce sync.Once
-	file_auth_service_proto_rawDescData []byte
+	file_api_proto_auth_service_proto_rawDescOnce sync.Once
+	file_api_proto_auth_service_proto_rawDescData []byte
 )
 
-func file_auth_service_proto_rawDescGZIP() []byte {
-	file_auth_service_proto_rawDescOnce.Do(func() {
-		file_auth_service_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_auth_service_proto_rawDesc), len(file_auth_service_proto_rawDesc)))
+func file_api_proto_auth_service_proto_rawDescGZIP() []byte {
+	file_api_proto_auth_service_proto_rawDescOnce.Do(func() {
+		file_api_proto_auth_service_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_proto_auth_service_proto_rawDesc), len(file_api_proto_auth_service_proto_rawDesc)))
 	})
-	return file_auth_service_proto_rawDescData
+	return file_api_proto_auth_service_proto_rawDescData
 }
 
-var file_auth_service_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
-var file_auth_service_proto_goTypes = []any{
+var file_api_proto_auth_service_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_api_proto_auth_service_proto_goTypes = []any{
 	(*LoginWithFirebaseTokenRequest)(nil),  // 0: api.auth.LoginWithFirebaseTokenRequest
 	(*LoginWithFirebaseTokenResponse)(nil), // 1: api.auth.LoginWithFirebaseTokenResponse
 }
-var file_auth_service_proto_depIdxs = []int32{
+var file_api_proto_auth_service_proto_depIdxs = []int32{
 	0, // 0: api.auth.Service.LoginWithFirebaseToken:input_type -> api.auth.LoginWithFirebaseTokenRequest
 	1, // 1: api.auth.Service.LoginWithFirebaseToken:output_type -> api.auth.LoginWithFirebaseTokenResponse
 	1, // [1:2] is the sub-list for method output_type
@@ -150,26 +150,26 @@ var file_auth_service_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_auth_service_proto_init() }
-func file_auth_service_proto_init() {
-	if File_auth_service_proto != nil {
+func init() { file_api_proto_auth_service_proto_init() }
+func file_api_proto_auth_service_proto_init() {
+	if File_api_proto_auth_service_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_auth_service_proto_rawDesc), len(file_auth_service_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_proto_auth_service_proto_rawDesc), len(file_api_proto_auth_service_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_auth_service_proto_goTypes,
-		DependencyIndexes: file_auth_service_proto_depIdxs,
-		MessageInfos:      file_auth_service_proto_msgTypes,
+		GoTypes:           file_api_proto_auth_service_proto_goTypes,
+		DependencyIndexes: file_api_proto_auth_service_proto_depIdxs,
+		MessageInfos:      file_api_proto_auth_service_proto_msgTypes,
 	}.Build()
-	File_auth_service_proto = out.File
-	file_auth_service_proto_goTypes = nil
-	file_auth_service_proto_depIdxs = nil
+	File_api_proto_auth_service_proto = out.File
+	file_api_proto_auth_service_proto_goTypes = nil
+	file_api_proto_auth_service_proto_depIdxs = nil
 }

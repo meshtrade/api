@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        (unknown)
-// source: search/criterion.proto
+// source: api/proto/search/criterion.proto
 
 package search
 
@@ -47,7 +47,7 @@ type Criterion struct {
 
 func (x *Criterion) Reset() {
 	*x = Criterion{}
-	mi := &file_search_criterion_proto_msgTypes[0]
+	mi := &file_api_proto_search_criterion_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -59,7 +59,7 @@ func (x *Criterion) String() string {
 func (*Criterion) ProtoMessage() {}
 
 func (x *Criterion) ProtoReflect() protoreflect.Message {
-	mi := &file_search_criterion_proto_msgTypes[0]
+	mi := &file_api_proto_search_criterion_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -72,7 +72,7 @@ func (x *Criterion) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Criterion.ProtoReflect.Descriptor instead.
 func (*Criterion) Descriptor() ([]byte, []int) {
-	return file_search_criterion_proto_rawDescGZIP(), []int{0}
+	return file_api_proto_search_criterion_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Criterion) GetCriterion() isCriterion_Criterion {
@@ -308,7 +308,7 @@ type ORCriterion struct {
 
 func (x *ORCriterion) Reset() {
 	*x = ORCriterion{}
-	mi := &file_search_criterion_proto_msgTypes[1]
+	mi := &file_api_proto_search_criterion_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -320,7 +320,7 @@ func (x *ORCriterion) String() string {
 func (*ORCriterion) ProtoMessage() {}
 
 func (x *ORCriterion) ProtoReflect() protoreflect.Message {
-	mi := &file_search_criterion_proto_msgTypes[1]
+	mi := &file_api_proto_search_criterion_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -333,7 +333,7 @@ func (x *ORCriterion) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ORCriterion.ProtoReflect.Descriptor instead.
 func (*ORCriterion) Descriptor() ([]byte, []int) {
-	return file_search_criterion_proto_rawDescGZIP(), []int{1}
+	return file_api_proto_search_criterion_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *ORCriterion) GetCriteria() []*Criterion {
@@ -343,12 +343,12 @@ func (x *ORCriterion) GetCriteria() []*Criterion {
 	return nil
 }
 
-var File_search_criterion_proto protoreflect.FileDescriptor
+var File_api_proto_search_criterion_proto protoreflect.FileDescriptor
 
-const file_search_criterion_proto_rawDesc = "" +
+const file_api_proto_search_criterion_proto_rawDesc = "" +
 	"\n" +
-	"\x16search/criterion.proto\x12\n" +
-	"api.search\x1a\x1fsearch/boolExactCriterion.proto\x1a\x1fsearch/textExactCriterion.proto\x1a!search/textNEExactCriterion.proto\x1a#search/textSubstringCriterion.proto\x1a\x1esearch/textListCriterion.proto\x1a!search/textNINListCriterion.proto\x1a!search/uint32ExactCriterion.proto\x1a#search/uint32NEExactCriterion.proto\x1a search/uint32ListCriterion.proto\x1a!search/uint32RangeCriterion.proto\x1a#search/uint32NINListCriterion.proto\x1a\x1fsearch/dateRangeCriterion.proto\x1a search/int64ExactCriterion.proto\"\xbe\t\n" +
+	" api/proto/search/criterion.proto\x12\n" +
+	"api.search\x1a)api/proto/search/boolExactCriterion.proto\x1a)api/proto/search/textExactCriterion.proto\x1a+api/proto/search/textNEExactCriterion.proto\x1a-api/proto/search/textSubstringCriterion.proto\x1a(api/proto/search/textListCriterion.proto\x1a+api/proto/search/textNINListCriterion.proto\x1a+api/proto/search/uint32ExactCriterion.proto\x1a-api/proto/search/uint32NEExactCriterion.proto\x1a*api/proto/search/uint32ListCriterion.proto\x1a+api/proto/search/uint32RangeCriterion.proto\x1a-api/proto/search/uint32NINListCriterion.proto\x1a)api/proto/search/dateRangeCriterion.proto\x1a*api/proto/search/int64ExactCriterion.proto\"\xbe\t\n" +
 	"\tCriterion\x12;\n" +
 	"\vorCriterion\x18\x01 \x01(\v2\x17.api.search.ORCriterionH\x00R\vorCriterion\x12P\n" +
 	"\x12boolExactCriterion\x18\x02 \x01(\v2\x1e.api.search.BoolExactCriterionH\x00R\x12boolExactCriterion\x12P\n" +
@@ -370,19 +370,19 @@ const file_search_criterion_proto_rawDesc = "" +
 	"\bcriteria\x18\x01 \x03(\v2\x15.api.search.CriterionR\bcriteriaB$Z\"github.com/meshtrade/api/go/searchb\x06proto3"
 
 var (
-	file_search_criterion_proto_rawDescOnce sync.Once
-	file_search_criterion_proto_rawDescData []byte
+	file_api_proto_search_criterion_proto_rawDescOnce sync.Once
+	file_api_proto_search_criterion_proto_rawDescData []byte
 )
 
-func file_search_criterion_proto_rawDescGZIP() []byte {
-	file_search_criterion_proto_rawDescOnce.Do(func() {
-		file_search_criterion_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_search_criterion_proto_rawDesc), len(file_search_criterion_proto_rawDesc)))
+func file_api_proto_search_criterion_proto_rawDescGZIP() []byte {
+	file_api_proto_search_criterion_proto_rawDescOnce.Do(func() {
+		file_api_proto_search_criterion_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_proto_search_criterion_proto_rawDesc), len(file_api_proto_search_criterion_proto_rawDesc)))
 	})
-	return file_search_criterion_proto_rawDescData
+	return file_api_proto_search_criterion_proto_rawDescData
 }
 
-var file_search_criterion_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
-var file_search_criterion_proto_goTypes = []any{
+var file_api_proto_search_criterion_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_api_proto_search_criterion_proto_goTypes = []any{
 	(*Criterion)(nil),              // 0: api.search.Criterion
 	(*ORCriterion)(nil),            // 1: api.search.ORCriterion
 	(*BoolExactCriterion)(nil),     // 2: api.search.BoolExactCriterion
@@ -399,7 +399,7 @@ var file_search_criterion_proto_goTypes = []any{
 	(*DateRangeCriterion)(nil),     // 13: api.search.DateRangeCriterion
 	(*Int64ExactCriterion)(nil),    // 14: api.search.Int64ExactCriterion
 }
-var file_search_criterion_proto_depIdxs = []int32{
+var file_api_proto_search_criterion_proto_depIdxs = []int32{
 	1,  // 0: api.search.Criterion.orCriterion:type_name -> api.search.ORCriterion
 	2,  // 1: api.search.Criterion.boolExactCriterion:type_name -> api.search.BoolExactCriterion
 	3,  // 2: api.search.Criterion.textExactCriterion:type_name -> api.search.TextExactCriterion
@@ -422,25 +422,25 @@ var file_search_criterion_proto_depIdxs = []int32{
 	0,  // [0:15] is the sub-list for field type_name
 }
 
-func init() { file_search_criterion_proto_init() }
-func file_search_criterion_proto_init() {
-	if File_search_criterion_proto != nil {
+func init() { file_api_proto_search_criterion_proto_init() }
+func file_api_proto_search_criterion_proto_init() {
+	if File_api_proto_search_criterion_proto != nil {
 		return
 	}
-	file_search_boolExactCriterion_proto_init()
-	file_search_textExactCriterion_proto_init()
-	file_search_textNEExactCriterion_proto_init()
-	file_search_textSubstringCriterion_proto_init()
-	file_search_textListCriterion_proto_init()
-	file_search_textNINListCriterion_proto_init()
-	file_search_uint32ExactCriterion_proto_init()
-	file_search_uint32NEExactCriterion_proto_init()
-	file_search_uint32ListCriterion_proto_init()
-	file_search_uint32RangeCriterion_proto_init()
-	file_search_uint32NINListCriterion_proto_init()
-	file_search_dateRangeCriterion_proto_init()
-	file_search_int64ExactCriterion_proto_init()
-	file_search_criterion_proto_msgTypes[0].OneofWrappers = []any{
+	file_api_proto_search_boolExactCriterion_proto_init()
+	file_api_proto_search_textExactCriterion_proto_init()
+	file_api_proto_search_textNEExactCriterion_proto_init()
+	file_api_proto_search_textSubstringCriterion_proto_init()
+	file_api_proto_search_textListCriterion_proto_init()
+	file_api_proto_search_textNINListCriterion_proto_init()
+	file_api_proto_search_uint32ExactCriterion_proto_init()
+	file_api_proto_search_uint32NEExactCriterion_proto_init()
+	file_api_proto_search_uint32ListCriterion_proto_init()
+	file_api_proto_search_uint32RangeCriterion_proto_init()
+	file_api_proto_search_uint32NINListCriterion_proto_init()
+	file_api_proto_search_dateRangeCriterion_proto_init()
+	file_api_proto_search_int64ExactCriterion_proto_init()
+	file_api_proto_search_criterion_proto_msgTypes[0].OneofWrappers = []any{
 		(*Criterion_OrCriterion)(nil),
 		(*Criterion_BoolExactCriterion)(nil),
 		(*Criterion_TextExactCriterion)(nil),
@@ -460,17 +460,17 @@ func file_search_criterion_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_search_criterion_proto_rawDesc), len(file_search_criterion_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_proto_search_criterion_proto_rawDesc), len(file_api_proto_search_criterion_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_search_criterion_proto_goTypes,
-		DependencyIndexes: file_search_criterion_proto_depIdxs,
-		MessageInfos:      file_search_criterion_proto_msgTypes,
+		GoTypes:           file_api_proto_search_criterion_proto_goTypes,
+		DependencyIndexes: file_api_proto_search_criterion_proto_depIdxs,
+		MessageInfos:      file_api_proto_search_criterion_proto_msgTypes,
 	}.Build()
-	File_search_criterion_proto = out.File
-	file_search_criterion_proto_goTypes = nil
-	file_search_criterion_proto_depIdxs = nil
+	File_api_proto_search_criterion_proto = out.File
+	file_api_proto_search_criterion_proto_goTypes = nil
+	file_api_proto_search_criterion_proto_depIdxs = nil
 }

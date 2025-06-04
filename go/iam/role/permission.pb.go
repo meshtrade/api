@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        (unknown)
-// source: iam/role/permission.proto
+// source: api/proto/iam/role/permission.proto
 
 package role
 
@@ -36,7 +36,7 @@ type Permission struct {
 
 func (x *Permission) Reset() {
 	*x = Permission{}
-	mi := &file_iam_role_permission_proto_msgTypes[0]
+	mi := &file_api_proto_iam_role_permission_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -48,7 +48,7 @@ func (x *Permission) String() string {
 func (*Permission) ProtoMessage() {}
 
 func (x *Permission) ProtoReflect() protoreflect.Message {
-	mi := &file_iam_role_permission_proto_msgTypes[0]
+	mi := &file_api_proto_iam_role_permission_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -61,7 +61,7 @@ func (x *Permission) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Permission.ProtoReflect.Descriptor instead.
 func (*Permission) Descriptor() ([]byte, []int) {
-	return file_iam_role_permission_proto_rawDescGZIP(), []int{0}
+	return file_api_proto_iam_role_permission_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Permission) GetServiceProvider() string {
@@ -85,11 +85,11 @@ func (x *Permission) GetDescription() string {
 	return ""
 }
 
-var File_iam_role_permission_proto protoreflect.FileDescriptor
+var File_api_proto_iam_role_permission_proto protoreflect.FileDescriptor
 
-const file_iam_role_permission_proto_rawDesc = "" +
+const file_api_proto_iam_role_permission_proto_rawDesc = "" +
 	"\n" +
-	"\x19iam/role/permission.proto\x12\fapi.iam.role\"r\n" +
+	"#api/proto/iam/role/permission.proto\x12\fapi.iam.role\"r\n" +
 	"\n" +
 	"Permission\x12(\n" +
 	"\x0fserviceProvider\x18\x01 \x01(\tR\x0fserviceProvider\x12\x18\n" +
@@ -97,22 +97,22 @@ const file_iam_role_permission_proto_rawDesc = "" +
 	"\vdescription\x18\x03 \x01(\tR\vdescriptionB&Z$github.com/meshtrade/api/go/iam/roleb\x06proto3"
 
 var (
-	file_iam_role_permission_proto_rawDescOnce sync.Once
-	file_iam_role_permission_proto_rawDescData []byte
+	file_api_proto_iam_role_permission_proto_rawDescOnce sync.Once
+	file_api_proto_iam_role_permission_proto_rawDescData []byte
 )
 
-func file_iam_role_permission_proto_rawDescGZIP() []byte {
-	file_iam_role_permission_proto_rawDescOnce.Do(func() {
-		file_iam_role_permission_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_iam_role_permission_proto_rawDesc), len(file_iam_role_permission_proto_rawDesc)))
+func file_api_proto_iam_role_permission_proto_rawDescGZIP() []byte {
+	file_api_proto_iam_role_permission_proto_rawDescOnce.Do(func() {
+		file_api_proto_iam_role_permission_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_proto_iam_role_permission_proto_rawDesc), len(file_api_proto_iam_role_permission_proto_rawDesc)))
 	})
-	return file_iam_role_permission_proto_rawDescData
+	return file_api_proto_iam_role_permission_proto_rawDescData
 }
 
-var file_iam_role_permission_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_iam_role_permission_proto_goTypes = []any{
+var file_api_proto_iam_role_permission_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_api_proto_iam_role_permission_proto_goTypes = []any{
 	(*Permission)(nil), // 0: api.iam.role.Permission
 }
-var file_iam_role_permission_proto_depIdxs = []int32{
+var file_api_proto_iam_role_permission_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
 	0, // [0:0] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -120,26 +120,26 @@ var file_iam_role_permission_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_iam_role_permission_proto_init() }
-func file_iam_role_permission_proto_init() {
-	if File_iam_role_permission_proto != nil {
+func init() { file_api_proto_iam_role_permission_proto_init() }
+func file_api_proto_iam_role_permission_proto_init() {
+	if File_api_proto_iam_role_permission_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_iam_role_permission_proto_rawDesc), len(file_iam_role_permission_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_proto_iam_role_permission_proto_rawDesc), len(file_api_proto_iam_role_permission_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_iam_role_permission_proto_goTypes,
-		DependencyIndexes: file_iam_role_permission_proto_depIdxs,
-		MessageInfos:      file_iam_role_permission_proto_msgTypes,
+		GoTypes:           file_api_proto_iam_role_permission_proto_goTypes,
+		DependencyIndexes: file_api_proto_iam_role_permission_proto_depIdxs,
+		MessageInfos:      file_api_proto_iam_role_permission_proto_msgTypes,
 	}.Build()
-	File_iam_role_permission_proto = out.File
-	file_iam_role_permission_proto_goTypes = nil
-	file_iam_role_permission_proto_depIdxs = nil
+	File_api_proto_iam_role_permission_proto = out.File
+	file_api_proto_iam_role_permission_proto_goTypes = nil
+	file_api_proto_iam_role_permission_proto_depIdxs = nil
 }

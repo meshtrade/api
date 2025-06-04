@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        (unknown)
-// source: search/textNINListCriterion.proto
+// source: api/proto/search/textNINListCriterion.proto
 
 package search
 
@@ -35,7 +35,7 @@ type TextNINListCriterion struct {
 
 func (x *TextNINListCriterion) Reset() {
 	*x = TextNINListCriterion{}
-	mi := &file_search_textNINListCriterion_proto_msgTypes[0]
+	mi := &file_api_proto_search_textNINListCriterion_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -47,7 +47,7 @@ func (x *TextNINListCriterion) String() string {
 func (*TextNINListCriterion) ProtoMessage() {}
 
 func (x *TextNINListCriterion) ProtoReflect() protoreflect.Message {
-	mi := &file_search_textNINListCriterion_proto_msgTypes[0]
+	mi := &file_api_proto_search_textNINListCriterion_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -60,7 +60,7 @@ func (x *TextNINListCriterion) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TextNINListCriterion.ProtoReflect.Descriptor instead.
 func (*TextNINListCriterion) Descriptor() ([]byte, []int) {
-	return file_search_textNINListCriterion_proto_rawDescGZIP(), []int{0}
+	return file_api_proto_search_textNINListCriterion_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *TextNINListCriterion) GetField() string {
@@ -77,33 +77,33 @@ func (x *TextNINListCriterion) GetList() []string {
 	return nil
 }
 
-var File_search_textNINListCriterion_proto protoreflect.FileDescriptor
+var File_api_proto_search_textNINListCriterion_proto protoreflect.FileDescriptor
 
-const file_search_textNINListCriterion_proto_rawDesc = "" +
+const file_api_proto_search_textNINListCriterion_proto_rawDesc = "" +
 	"\n" +
-	"!search/textNINListCriterion.proto\x12\n" +
+	"+api/proto/search/textNINListCriterion.proto\x12\n" +
 	"api.search\"@\n" +
 	"\x14TextNINListCriterion\x12\x14\n" +
 	"\x05field\x18\x01 \x01(\tR\x05field\x12\x12\n" +
 	"\x04list\x18\x02 \x03(\tR\x04listB$Z\"github.com/meshtrade/api/go/searchb\x06proto3"
 
 var (
-	file_search_textNINListCriterion_proto_rawDescOnce sync.Once
-	file_search_textNINListCriterion_proto_rawDescData []byte
+	file_api_proto_search_textNINListCriterion_proto_rawDescOnce sync.Once
+	file_api_proto_search_textNINListCriterion_proto_rawDescData []byte
 )
 
-func file_search_textNINListCriterion_proto_rawDescGZIP() []byte {
-	file_search_textNINListCriterion_proto_rawDescOnce.Do(func() {
-		file_search_textNINListCriterion_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_search_textNINListCriterion_proto_rawDesc), len(file_search_textNINListCriterion_proto_rawDesc)))
+func file_api_proto_search_textNINListCriterion_proto_rawDescGZIP() []byte {
+	file_api_proto_search_textNINListCriterion_proto_rawDescOnce.Do(func() {
+		file_api_proto_search_textNINListCriterion_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_proto_search_textNINListCriterion_proto_rawDesc), len(file_api_proto_search_textNINListCriterion_proto_rawDesc)))
 	})
-	return file_search_textNINListCriterion_proto_rawDescData
+	return file_api_proto_search_textNINListCriterion_proto_rawDescData
 }
 
-var file_search_textNINListCriterion_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_search_textNINListCriterion_proto_goTypes = []any{
+var file_api_proto_search_textNINListCriterion_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_api_proto_search_textNINListCriterion_proto_goTypes = []any{
 	(*TextNINListCriterion)(nil), // 0: api.search.TextNINListCriterion
 }
-var file_search_textNINListCriterion_proto_depIdxs = []int32{
+var file_api_proto_search_textNINListCriterion_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
 	0, // [0:0] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -111,26 +111,26 @@ var file_search_textNINListCriterion_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_search_textNINListCriterion_proto_init() }
-func file_search_textNINListCriterion_proto_init() {
-	if File_search_textNINListCriterion_proto != nil {
+func init() { file_api_proto_search_textNINListCriterion_proto_init() }
+func file_api_proto_search_textNINListCriterion_proto_init() {
+	if File_api_proto_search_textNINListCriterion_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_search_textNINListCriterion_proto_rawDesc), len(file_search_textNINListCriterion_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_proto_search_textNINListCriterion_proto_rawDesc), len(file_api_proto_search_textNINListCriterion_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_search_textNINListCriterion_proto_goTypes,
-		DependencyIndexes: file_search_textNINListCriterion_proto_depIdxs,
-		MessageInfos:      file_search_textNINListCriterion_proto_msgTypes,
+		GoTypes:           file_api_proto_search_textNINListCriterion_proto_goTypes,
+		DependencyIndexes: file_api_proto_search_textNINListCriterion_proto_depIdxs,
+		MessageInfos:      file_api_proto_search_textNINListCriterion_proto_msgTypes,
 	}.Build()
-	File_search_textNINListCriterion_proto = out.File
-	file_search_textNINListCriterion_proto_goTypes = nil
-	file_search_textNINListCriterion_proto_depIdxs = nil
+	File_api_proto_search_textNINListCriterion_proto = out.File
+	file_api_proto_search_textNINListCriterion_proto_goTypes = nil
+	file_api_proto_search_textNINListCriterion_proto_depIdxs = nil
 }

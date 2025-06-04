@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             (unknown)
-// source: instrument/service.proto
+// source: api/proto/instrument/service.proto
 
 package instrument
 
@@ -159,5 +159,5 @@ var Service_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "instrument/service.proto",
+	Metadata: "api/proto/instrument/service.proto",
 }

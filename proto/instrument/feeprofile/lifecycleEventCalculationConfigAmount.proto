@@ -4,7 +4,7 @@ package api.instrument.feeprofile;
 
 option go_package = "github.com/meshtrade/api/go/instrument/feeprofile";
 
-import "ledger/amount.proto";
+import "api/proto/ledger/amount.proto";
 
 /*
 AmountLifecycleEventCalculationConfig is the calculation data for a

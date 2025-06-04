@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package api.legal;
 
-import "location/address.proto";
+import "api/proto/location/address.proto";
 
 option go_package = "github.com/meshtrade/api/go/legal";
 

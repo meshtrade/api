@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        (unknown)
-// source: ledger/amount.proto
+// source: api/proto/ledger/amount.proto
 
 package ledger
 
@@ -35,7 +35,7 @@ type Amount struct {
 
 func (x *Amount) Reset() {
 	*x = Amount{}
-	mi := &file_ledger_amount_proto_msgTypes[0]
+	mi := &file_api_proto_ledger_amount_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -47,7 +47,7 @@ func (x *Amount) String() string {
 func (*Amount) ProtoMessage() {}
 
 func (x *Amount) ProtoReflect() protoreflect.Message {
-	mi := &file_ledger_amount_proto_msgTypes[0]
+	mi := &file_api_proto_ledger_amount_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -60,7 +60,7 @@ func (x *Amount) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Amount.ProtoReflect.Descriptor instead.
 func (*Amount) Descriptor() ([]byte, []int) {
-	return file_ledger_amount_proto_rawDescGZIP(), []int{0}
+	return file_api_proto_ledger_amount_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Amount) GetToken() *Token {
@@ -77,35 +77,35 @@ func (x *Amount) GetValue() *num.Decimal {
 	return nil
 }
 
-var File_ledger_amount_proto protoreflect.FileDescriptor
+var File_api_proto_ledger_amount_proto protoreflect.FileDescriptor
 
-const file_ledger_amount_proto_rawDesc = "" +
+const file_api_proto_ledger_amount_proto_rawDesc = "" +
 	"\n" +
-	"\x13ledger/amount.proto\x12\n" +
-	"api.ledger\x1a\x12ledger/token.proto\x1a\x11num/decimal.proto\"Y\n" +
+	"\x1dapi/proto/ledger/amount.proto\x12\n" +
+	"api.ledger\x1a\x1capi/proto/ledger/token.proto\x1a\x1bapi/proto/num/decimal.proto\"Y\n" +
 	"\x06Amount\x12'\n" +
 	"\x05token\x18\x01 \x01(\v2\x11.api.ledger.TokenR\x05token\x12&\n" +
 	"\x05value\x18\x02 \x01(\v2\x10.api.num.DecimalR\x05valueB$Z\"github.com/meshtrade/api/go/ledgerb\x06proto3"
 
 var (
-	file_ledger_amount_proto_rawDescOnce sync.Once
-	file_ledger_amount_proto_rawDescData []byte
+	file_api_proto_ledger_amount_proto_rawDescOnce sync.Once
+	file_api_proto_ledger_amount_proto_rawDescData []byte
 )
 
-func file_ledger_amount_proto_rawDescGZIP() []byte {
-	file_ledger_amount_proto_rawDescOnce.Do(func() {
-		file_ledger_amount_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_ledger_amount_proto_rawDesc), len(file_ledger_amount_proto_rawDesc)))
+func file_api_proto_ledger_amount_proto_rawDescGZIP() []byte {
+	file_api_proto_ledger_amount_proto_rawDescOnce.Do(func() {
+		file_api_proto_ledger_amount_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_proto_ledger_amount_proto_rawDesc), len(file_api_proto_ledger_amount_proto_rawDesc)))
 	})
-	return file_ledger_amount_proto_rawDescData
+	return file_api_proto_ledger_amount_proto_rawDescData
 }
 
-var file_ledger_amount_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_ledger_amount_proto_goTypes = []any{
+var file_api_proto_ledger_amount_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_api_proto_ledger_amount_proto_goTypes = []any{
 	(*Amount)(nil),      // 0: api.ledger.Amount
 	(*Token)(nil),       // 1: api.ledger.Token
 	(*num.Decimal)(nil), // 2: api.num.Decimal
 }
-var file_ledger_amount_proto_depIdxs = []int32{
+var file_api_proto_ledger_amount_proto_depIdxs = []int32{
 	1, // 0: api.ledger.Amount.token:type_name -> api.ledger.Token
 	2, // 1: api.ledger.Amount.value:type_name -> api.num.Decimal
 	2, // [2:2] is the sub-list for method output_type
@@ -115,27 +115,27 @@ var file_ledger_amount_proto_depIdxs = []int32{
 	0, // [0:2] is the sub-list for field type_name
 }
 
-func init() { file_ledger_amount_proto_init() }
-func file_ledger_amount_proto_init() {
-	if File_ledger_amount_proto != nil {
+func init() { file_api_proto_ledger_amount_proto_init() }
+func file_api_proto_ledger_amount_proto_init() {
+	if File_api_proto_ledger_amount_proto != nil {
 		return
 	}
-	file_ledger_token_proto_init()
+	file_api_proto_ledger_token_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_ledger_amount_proto_rawDesc), len(file_ledger_amount_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_proto_ledger_amount_proto_rawDesc), len(file_api_proto_ledger_amount_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_ledger_amount_proto_goTypes,
-		DependencyIndexes: file_ledger_amount_proto_depIdxs,
-		MessageInfos:      file_ledger_amount_proto_msgTypes,
+		GoTypes:           file_api_proto_ledger_amount_proto_goTypes,
+		DependencyIndexes: file_api_proto_ledger_amount_proto_depIdxs,
+		MessageInfos:      file_api_proto_ledger_amount_proto_msgTypes,
 	}.Build()
-	File_ledger_amount_proto = out.File
-	file_ledger_amount_proto_goTypes = nil
-	file_ledger_amount_proto_depIdxs = nil
+	File_api_proto_ledger_amount_proto = out.File
+	file_api_proto_ledger_amount_proto_goTypes = nil
+	file_api_proto_ledger_amount_proto_depIdxs = nil
 }

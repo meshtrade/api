@@ -4,9 +4,9 @@ package api.instrument.feeprofile;
 
 option go_package = "github.com/meshtrade/api/go/instrument/feeprofile";
 
-import "instrument/feeprofile/tokenisation.proto";
-import "instrument/feeprofile/lifecycleEvent.proto";
-import "instrument/feeprofile/aum.proto";
+import "api/proto/instrument/feeprofile/tokenisation.proto";
+import "api/proto/instrument/feeprofile/lifecycleEvent.proto";
+import "api/proto/instrument/feeprofile/aum.proto";
 
 /*
 FeeProfile defines the fee structure associated with a specific

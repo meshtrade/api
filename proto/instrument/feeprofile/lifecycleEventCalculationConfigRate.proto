@@ -4,7 +4,7 @@ package api.instrument.feeprofile;
 
 option go_package = "github.com/meshtrade/api/go/instrument/feeprofile";
 
-import "num/decimal.proto";
+import "api/proto/num/decimal.proto";
 
 /*
 RateLifecycleEventCalculationConfig is the calculation configuration for a Fee

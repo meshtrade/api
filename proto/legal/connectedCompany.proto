@@ -2,9 +2,9 @@ syntax = "proto3";
 
 package api.legal;
 
-import "location/address.proto";
-import "legal/companyRepresentative.proto";
-import "legal/legalform.proto";
+import "api/proto/location/address.proto";
+import "api/proto/legal/companyRepresentative.proto";
+import "api/proto/legal/legalform.proto";
 
 option go_package = "github.com/meshtrade/api/go/legal";
 
