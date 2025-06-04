@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        (unknown)
-// source: api/proto/config/environment.proto
+// source: config/environment.proto
 
 package config
 
@@ -64,11 +64,11 @@ func (x Environment) String() string {
 }
 
 func (Environment) Descriptor() protoreflect.EnumDescriptor {
-	return file_api_proto_config_environment_proto_enumTypes[0].Descriptor()
+	return file_config_environment_proto_enumTypes[0].Descriptor()
 }
 
 func (Environment) Type() protoreflect.EnumType {
-	return &file_api_proto_config_environment_proto_enumTypes[0]
+	return &file_config_environment_proto_enumTypes[0]
 }
 
 func (x Environment) Number() protoreflect.EnumNumber {
@@ -77,14 +77,14 @@ func (x Environment) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Environment.Descriptor instead.
 func (Environment) EnumDescriptor() ([]byte, []int) {
-	return file_api_proto_config_environment_proto_rawDescGZIP(), []int{0}
+	return file_config_environment_proto_rawDescGZIP(), []int{0}
 }
 
-var File_api_proto_config_environment_proto protoreflect.FileDescriptor
+var File_config_environment_proto protoreflect.FileDescriptor
 
-const file_api_proto_config_environment_proto_rawDesc = "" +
+const file_config_environment_proto_rawDesc = "" +
 	"\n" +
-	"\"api/proto/config/environment.proto\x12\n" +
+	"\x18config/environment.proto\x12\n" +
 	"api.config*\xaa\x01\n" +
 	"\vEnvironment\x12\x19\n" +
 	"\x15UNDEFINED_ENVIRONMENT\x10\x00\x12\x15\n" +
@@ -95,22 +95,22 @@ const file_api_proto_config_environment_proto_rawDesc = "" +
 	"\x16PRODUCTION_ENVIRONMENT\x10\x05B$Z\"github.com/meshtrade/api/go/configb\x06proto3"
 
 var (
-	file_api_proto_config_environment_proto_rawDescOnce sync.Once
-	file_api_proto_config_environment_proto_rawDescData []byte
+	file_config_environment_proto_rawDescOnce sync.Once
+	file_config_environment_proto_rawDescData []byte
 )
 
-func file_api_proto_config_environment_proto_rawDescGZIP() []byte {
-	file_api_proto_config_environment_proto_rawDescOnce.Do(func() {
-		file_api_proto_config_environment_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_proto_config_environment_proto_rawDesc), len(file_api_proto_config_environment_proto_rawDesc)))
+func file_config_environment_proto_rawDescGZIP() []byte {
+	file_config_environment_proto_rawDescOnce.Do(func() {
+		file_config_environment_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_config_environment_proto_rawDesc), len(file_config_environment_proto_rawDesc)))
 	})
-	return file_api_proto_config_environment_proto_rawDescData
+	return file_config_environment_proto_rawDescData
 }
 
-var file_api_proto_config_environment_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_api_proto_config_environment_proto_goTypes = []any{
+var file_config_environment_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_config_environment_proto_goTypes = []any{
 	(Environment)(0), // 0: api.config.Environment
 }
-var file_api_proto_config_environment_proto_depIdxs = []int32{
+var file_config_environment_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
 	0, // [0:0] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -118,26 +118,26 @@ var file_api_proto_config_environment_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_api_proto_config_environment_proto_init() }
-func file_api_proto_config_environment_proto_init() {
-	if File_api_proto_config_environment_proto != nil {
+func init() { file_config_environment_proto_init() }
+func file_config_environment_proto_init() {
+	if File_config_environment_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_proto_config_environment_proto_rawDesc), len(file_api_proto_config_environment_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_config_environment_proto_rawDesc), len(file_config_environment_proto_rawDesc)),
 			NumEnums:      1,
 			NumMessages:   0,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_api_proto_config_environment_proto_goTypes,
-		DependencyIndexes: file_api_proto_config_environment_proto_depIdxs,
-		EnumInfos:         file_api_proto_config_environment_proto_enumTypes,
+		GoTypes:           file_config_environment_proto_goTypes,
+		DependencyIndexes: file_config_environment_proto_depIdxs,
+		EnumInfos:         file_config_environment_proto_enumTypes,
 	}.Build()
-	File_api_proto_config_environment_proto = out.File
-	file_api_proto_config_environment_proto_goTypes = nil
-	file_api_proto_config_environment_proto_depIdxs = nil
+	File_config_environment_proto = out.File
+	file_config_environment_proto_goTypes = nil
+	file_config_environment_proto_depIdxs = nil
 }

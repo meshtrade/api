@@ -4,8 +4,8 @@ package api.ledger;
 
 option go_package = "github.com/meshtrade/api/go/ledger";
 
-import "api/proto/ledger/token.proto";
-import "api/proto/num/decimal.proto";
+import "ledger/token.proto";
+import "num/decimal.proto";
 
 /*
 Amount is an amount of a particular token.

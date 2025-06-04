@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        (unknown)
-// source: api/proto/legal/company/service.proto
+// source: legal/company/service.proto
 
 package company
 
@@ -35,7 +35,7 @@ type ListRequest struct {
 
 func (x *ListRequest) Reset() {
 	*x = ListRequest{}
-	mi := &file_api_proto_legal_company_service_proto_msgTypes[0]
+	mi := &file_legal_company_service_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -47,7 +47,7 @@ func (x *ListRequest) String() string {
 func (*ListRequest) ProtoMessage() {}
 
 func (x *ListRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_legal_company_service_proto_msgTypes[0]
+	mi := &file_legal_company_service_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -60,7 +60,7 @@ func (x *ListRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListRequest.ProtoReflect.Descriptor instead.
 func (*ListRequest) Descriptor() ([]byte, []int) {
-	return file_api_proto_legal_company_service_proto_rawDescGZIP(), []int{0}
+	return file_legal_company_service_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *ListRequest) GetCriteria() []*search.Criterion {
@@ -90,7 +90,7 @@ type ListResponse struct {
 
 func (x *ListResponse) Reset() {
 	*x = ListResponse{}
-	mi := &file_api_proto_legal_company_service_proto_msgTypes[1]
+	mi := &file_legal_company_service_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -102,7 +102,7 @@ func (x *ListResponse) String() string {
 func (*ListResponse) ProtoMessage() {}
 
 func (x *ListResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_legal_company_service_proto_msgTypes[1]
+	mi := &file_legal_company_service_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -115,7 +115,7 @@ func (x *ListResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListResponse.ProtoReflect.Descriptor instead.
 func (*ListResponse) Descriptor() ([]byte, []int) {
-	return file_api_proto_legal_company_service_proto_rawDescGZIP(), []int{1}
+	return file_legal_company_service_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *ListResponse) GetCompanies() []*Company {
@@ -132,11 +132,11 @@ func (x *ListResponse) GetTotal() int64 {
 	return 0
 }
 
-var File_api_proto_legal_company_service_proto protoreflect.FileDescriptor
+var File_legal_company_service_proto protoreflect.FileDescriptor
 
-const file_api_proto_legal_company_service_proto_rawDesc = "" +
+const file_legal_company_service_proto_rawDesc = "" +
 	"\n" +
-	"%api/proto/legal/company/service.proto\x12\x11api.legal.company\x1a api/proto/search/criterion.proto\x1a\x1capi/proto/search/query.proto\x1a%api/proto/legal/company/company.proto\"i\n" +
+	"\x1blegal/company/service.proto\x12\x11api.legal.company\x1a\x16search/criterion.proto\x1a\x12search/query.proto\x1a\x1blegal/company/company.proto\"i\n" +
 	"\vListRequest\x121\n" +
 	"\bcriteria\x18\x01 \x03(\v2\x15.api.search.CriterionR\bcriteria\x12'\n" +
 	"\x05query\x18\x02 \x01(\v2\x11.api.search.QueryR\x05query\"^\n" +
@@ -147,26 +147,26 @@ const file_api_proto_legal_company_service_proto_rawDesc = "" +
 	"\x04List\x12\x1e.api.legal.company.ListRequest\x1a\x1f.api.legal.company.ListResponseB+Z)github.com/meshtrade/api/go/legal/companyb\x06proto3"
 
 var (
-	file_api_proto_legal_company_service_proto_rawDescOnce sync.Once
-	file_api_proto_legal_company_service_proto_rawDescData []byte
+	file_legal_company_service_proto_rawDescOnce sync.Once
+	file_legal_company_service_proto_rawDescData []byte
 )
 
-func file_api_proto_legal_company_service_proto_rawDescGZIP() []byte {
-	file_api_proto_legal_company_service_proto_rawDescOnce.Do(func() {
-		file_api_proto_legal_company_service_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_proto_legal_company_service_proto_rawDesc), len(file_api_proto_legal_company_service_proto_rawDesc)))
+func file_legal_company_service_proto_rawDescGZIP() []byte {
+	file_legal_company_service_proto_rawDescOnce.Do(func() {
+		file_legal_company_service_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_legal_company_service_proto_rawDesc), len(file_legal_company_service_proto_rawDesc)))
 	})
-	return file_api_proto_legal_company_service_proto_rawDescData
+	return file_legal_company_service_proto_rawDescData
 }
 
-var file_api_proto_legal_company_service_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
-var file_api_proto_legal_company_service_proto_goTypes = []any{
+var file_legal_company_service_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_legal_company_service_proto_goTypes = []any{
 	(*ListRequest)(nil),      // 0: api.legal.company.ListRequest
 	(*ListResponse)(nil),     // 1: api.legal.company.ListResponse
 	(*search.Criterion)(nil), // 2: api.search.Criterion
 	(*search.Query)(nil),     // 3: api.search.Query
 	(*Company)(nil),          // 4: api.legal.company.Company
 }
-var file_api_proto_legal_company_service_proto_depIdxs = []int32{
+var file_legal_company_service_proto_depIdxs = []int32{
 	2, // 0: api.legal.company.ListRequest.criteria:type_name -> api.search.Criterion
 	3, // 1: api.legal.company.ListRequest.query:type_name -> api.search.Query
 	4, // 2: api.legal.company.ListResponse.companies:type_name -> api.legal.company.Company
@@ -179,27 +179,27 @@ var file_api_proto_legal_company_service_proto_depIdxs = []int32{
 	0, // [0:3] is the sub-list for field type_name
 }
 
-func init() { file_api_proto_legal_company_service_proto_init() }
-func file_api_proto_legal_company_service_proto_init() {
-	if File_api_proto_legal_company_service_proto != nil {
+func init() { file_legal_company_service_proto_init() }
+func file_legal_company_service_proto_init() {
+	if File_legal_company_service_proto != nil {
 		return
 	}
-	file_api_proto_legal_company_company_proto_init()
+	file_legal_company_company_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_proto_legal_company_service_proto_rawDesc), len(file_api_proto_legal_company_service_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_legal_company_service_proto_rawDesc), len(file_legal_company_service_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_api_proto_legal_company_service_proto_goTypes,
-		DependencyIndexes: file_api_proto_legal_company_service_proto_depIdxs,
-		MessageInfos:      file_api_proto_legal_company_service_proto_msgTypes,
+		GoTypes:           file_legal_company_service_proto_goTypes,
+		DependencyIndexes: file_legal_company_service_proto_depIdxs,
+		MessageInfos:      file_legal_company_service_proto_msgTypes,
 	}.Build()
-	File_api_proto_legal_company_service_proto = out.File
-	file_api_proto_legal_company_service_proto_goTypes = nil
-	file_api_proto_legal_company_service_proto_depIdxs = nil
+	File_legal_company_service_proto = out.File
+	file_legal_company_service_proto_goTypes = nil
+	file_legal_company_service_proto_depIdxs = nil
 }

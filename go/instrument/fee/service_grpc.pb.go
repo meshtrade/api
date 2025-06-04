@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             (unknown)
-// source: api/proto/instrument/fee/service.proto
+// source: instrument/fee/service.proto
 
 package fee
 
@@ -311,5 +311,5 @@ var Service_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "api/proto/instrument/fee/service.proto",
+	Metadata: "instrument/fee/service.proto",
 }

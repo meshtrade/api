@@ -4,11 +4,11 @@ package api.instrument.fee;
 
 option go_package = "github.com/meshtrade/api/go/instrument/fee";
 
-import "api/proto/instrument/fee/fee.proto";
-import "api/proto/ledger/amount.proto";
-import "api/proto/search/criterion.proto";
-import "api/proto/search/query.proto";
-import "api/proto/instrument/feeprofile/lifecycleEventCategory.proto";
+import "instrument/fee/fee.proto";
+import "ledger/amount.proto";
+import "search/criterion.proto";
+import "search/query.proto";
+import "instrument/feeprofile/lifecycleEventCategory.proto";
 
 /*
 Service is the Fee Service.

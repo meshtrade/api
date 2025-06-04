@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        (unknown)
-// source: api/proto/audit/entry.proto
+// source: audit/entry.proto
 
 package audit
 
@@ -62,11 +62,11 @@ func (x Action) String() string {
 }
 
 func (Action) Descriptor() protoreflect.EnumDescriptor {
-	return file_api_proto_audit_entry_proto_enumTypes[0].Descriptor()
+	return file_audit_entry_proto_enumTypes[0].Descriptor()
 }
 
 func (Action) Type() protoreflect.EnumType {
-	return &file_api_proto_audit_entry_proto_enumTypes[0]
+	return &file_audit_entry_proto_enumTypes[0]
 }
 
 func (x Action) Number() protoreflect.EnumNumber {
@@ -75,7 +75,7 @@ func (x Action) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Action.Descriptor instead.
 func (Action) EnumDescriptor() ([]byte, []int) {
-	return file_api_proto_audit_entry_proto_rawDescGZIP(), []int{0}
+	return file_audit_entry_proto_rawDescGZIP(), []int{0}
 }
 
 // Entry is an audit entry that is used to track versions of entities as well as
@@ -99,7 +99,7 @@ type Entry struct {
 
 func (x *Entry) Reset() {
 	*x = Entry{}
-	mi := &file_api_proto_audit_entry_proto_msgTypes[0]
+	mi := &file_audit_entry_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -111,7 +111,7 @@ func (x *Entry) String() string {
 func (*Entry) ProtoMessage() {}
 
 func (x *Entry) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_audit_entry_proto_msgTypes[0]
+	mi := &file_audit_entry_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -124,7 +124,7 @@ func (x *Entry) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Entry.ProtoReflect.Descriptor instead.
 func (*Entry) Descriptor() ([]byte, []int) {
-	return file_api_proto_audit_entry_proto_rawDescGZIP(), []int{0}
+	return file_audit_entry_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Entry) GetUserID() string {
@@ -155,11 +155,11 @@ func (x *Entry) GetVersion() uint32 {
 	return 0
 }
 
-var File_api_proto_audit_entry_proto protoreflect.FileDescriptor
+var File_audit_entry_proto protoreflect.FileDescriptor
 
-const file_api_proto_audit_entry_proto_rawDesc = "" +
+const file_audit_entry_proto_rawDesc = "" +
 	"\n" +
-	"\x1bapi/proto/audit/entry.proto\x12\tapi.audit\x1a\x1fgoogle/protobuf/timestamp.proto\"\x94\x01\n" +
+	"\x11audit/entry.proto\x12\tapi.audit\x1a\x1fgoogle/protobuf/timestamp.proto\"\x94\x01\n" +
 	"\x05Entry\x12\x16\n" +
 	"\x06userID\x18\x01 \x01(\tR\x06userID\x12)\n" +
 	"\x06action\x18\x02 \x01(\x0e2\x11.api.audit.ActionR\x06action\x12.\n" +
@@ -173,25 +173,25 @@ const file_api_proto_audit_entry_proto_rawDesc = "" +
 	"\x0fRESTORED_ACTION\x10\x04B#Z!github.com/meshtrade/api/go/auditb\x06proto3"
 
 var (
-	file_api_proto_audit_entry_proto_rawDescOnce sync.Once
-	file_api_proto_audit_entry_proto_rawDescData []byte
+	file_audit_entry_proto_rawDescOnce sync.Once
+	file_audit_entry_proto_rawDescData []byte
 )
 
-func file_api_proto_audit_entry_proto_rawDescGZIP() []byte {
-	file_api_proto_audit_entry_proto_rawDescOnce.Do(func() {
-		file_api_proto_audit_entry_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_proto_audit_entry_proto_rawDesc), len(file_api_proto_audit_entry_proto_rawDesc)))
+func file_audit_entry_proto_rawDescGZIP() []byte {
+	file_audit_entry_proto_rawDescOnce.Do(func() {
+		file_audit_entry_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_audit_entry_proto_rawDesc), len(file_audit_entry_proto_rawDesc)))
 	})
-	return file_api_proto_audit_entry_proto_rawDescData
+	return file_audit_entry_proto_rawDescData
 }
 
-var file_api_proto_audit_entry_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_api_proto_audit_entry_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_api_proto_audit_entry_proto_goTypes = []any{
+var file_audit_entry_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_audit_entry_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_audit_entry_proto_goTypes = []any{
 	(Action)(0),                   // 0: api.audit.Action
 	(*Entry)(nil),                 // 1: api.audit.Entry
 	(*timestamppb.Timestamp)(nil), // 2: google.protobuf.Timestamp
 }
-var file_api_proto_audit_entry_proto_depIdxs = []int32{
+var file_audit_entry_proto_depIdxs = []int32{
 	0, // 0: api.audit.Entry.action:type_name -> api.audit.Action
 	2, // 1: api.audit.Entry.time:type_name -> google.protobuf.Timestamp
 	2, // [2:2] is the sub-list for method output_type
@@ -201,27 +201,27 @@ var file_api_proto_audit_entry_proto_depIdxs = []int32{
 	0, // [0:2] is the sub-list for field type_name
 }
 
-func init() { file_api_proto_audit_entry_proto_init() }
-func file_api_proto_audit_entry_proto_init() {
-	if File_api_proto_audit_entry_proto != nil {
+func init() { file_audit_entry_proto_init() }
+func file_audit_entry_proto_init() {
+	if File_audit_entry_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_proto_audit_entry_proto_rawDesc), len(file_api_proto_audit_entry_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_audit_entry_proto_rawDesc), len(file_audit_entry_proto_rawDesc)),
 			NumEnums:      1,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_api_proto_audit_entry_proto_goTypes,
-		DependencyIndexes: file_api_proto_audit_entry_proto_depIdxs,
-		EnumInfos:         file_api_proto_audit_entry_proto_enumTypes,
-		MessageInfos:      file_api_proto_audit_entry_proto_msgTypes,
+		GoTypes:           file_audit_entry_proto_goTypes,
+		DependencyIndexes: file_audit_entry_proto_depIdxs,
+		EnumInfos:         file_audit_entry_proto_enumTypes,
+		MessageInfos:      file_audit_entry_proto_msgTypes,
 	}.Build()
-	File_api_proto_audit_entry_proto = out.File
-	file_api_proto_audit_entry_proto_goTypes = nil
-	file_api_proto_audit_entry_proto_depIdxs = nil
+	File_audit_entry_proto = out.File
+	file_audit_entry_proto_goTypes = nil
+	file_audit_entry_proto_depIdxs = nil
 }

@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        (unknown)
-// source: api/proto/search/textNEExactCriterion.proto
+// source: search/textNEExactCriterion.proto
 
 package search
 
@@ -34,7 +34,7 @@ type TextNEExactCriterion struct {
 
 func (x *TextNEExactCriterion) Reset() {
 	*x = TextNEExactCriterion{}
-	mi := &file_api_proto_search_textNEExactCriterion_proto_msgTypes[0]
+	mi := &file_search_textNEExactCriterion_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -46,7 +46,7 @@ func (x *TextNEExactCriterion) String() string {
 func (*TextNEExactCriterion) ProtoMessage() {}
 
 func (x *TextNEExactCriterion) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_search_textNEExactCriterion_proto_msgTypes[0]
+	mi := &file_search_textNEExactCriterion_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -59,7 +59,7 @@ func (x *TextNEExactCriterion) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TextNEExactCriterion.ProtoReflect.Descriptor instead.
 func (*TextNEExactCriterion) Descriptor() ([]byte, []int) {
-	return file_api_proto_search_textNEExactCriterion_proto_rawDescGZIP(), []int{0}
+	return file_search_textNEExactCriterion_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *TextNEExactCriterion) GetField() string {
@@ -76,33 +76,33 @@ func (x *TextNEExactCriterion) GetText() string {
 	return ""
 }
 
-var File_api_proto_search_textNEExactCriterion_proto protoreflect.FileDescriptor
+var File_search_textNEExactCriterion_proto protoreflect.FileDescriptor
 
-const file_api_proto_search_textNEExactCriterion_proto_rawDesc = "" +
+const file_search_textNEExactCriterion_proto_rawDesc = "" +
 	"\n" +
-	"+api/proto/search/textNEExactCriterion.proto\x12\n" +
+	"!search/textNEExactCriterion.proto\x12\n" +
 	"api.search\"@\n" +
 	"\x14TextNEExactCriterion\x12\x14\n" +
 	"\x05field\x18\x01 \x01(\tR\x05field\x12\x12\n" +
 	"\x04text\x18\x02 \x01(\tR\x04textB$Z\"github.com/meshtrade/api/go/searchb\x06proto3"
 
 var (
-	file_api_proto_search_textNEExactCriterion_proto_rawDescOnce sync.Once
-	file_api_proto_search_textNEExactCriterion_proto_rawDescData []byte
+	file_search_textNEExactCriterion_proto_rawDescOnce sync.Once
+	file_search_textNEExactCriterion_proto_rawDescData []byte
 )
 
-func file_api_proto_search_textNEExactCriterion_proto_rawDescGZIP() []byte {
-	file_api_proto_search_textNEExactCriterion_proto_rawDescOnce.Do(func() {
-		file_api_proto_search_textNEExactCriterion_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_proto_search_textNEExactCriterion_proto_rawDesc), len(file_api_proto_search_textNEExactCriterion_proto_rawDesc)))
+func file_search_textNEExactCriterion_proto_rawDescGZIP() []byte {
+	file_search_textNEExactCriterion_proto_rawDescOnce.Do(func() {
+		file_search_textNEExactCriterion_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_search_textNEExactCriterion_proto_rawDesc), len(file_search_textNEExactCriterion_proto_rawDesc)))
 	})
-	return file_api_proto_search_textNEExactCriterion_proto_rawDescData
+	return file_search_textNEExactCriterion_proto_rawDescData
 }
 
-var file_api_proto_search_textNEExactCriterion_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_api_proto_search_textNEExactCriterion_proto_goTypes = []any{
+var file_search_textNEExactCriterion_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_search_textNEExactCriterion_proto_goTypes = []any{
 	(*TextNEExactCriterion)(nil), // 0: api.search.TextNEExactCriterion
 }
-var file_api_proto_search_textNEExactCriterion_proto_depIdxs = []int32{
+var file_search_textNEExactCriterion_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
 	0, // [0:0] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -110,26 +110,26 @@ var file_api_proto_search_textNEExactCriterion_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_api_proto_search_textNEExactCriterion_proto_init() }
-func file_api_proto_search_textNEExactCriterion_proto_init() {
-	if File_api_proto_search_textNEExactCriterion_proto != nil {
+func init() { file_search_textNEExactCriterion_proto_init() }
+func file_search_textNEExactCriterion_proto_init() {
+	if File_search_textNEExactCriterion_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_proto_search_textNEExactCriterion_proto_rawDesc), len(file_api_proto_search_textNEExactCriterion_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_search_textNEExactCriterion_proto_rawDesc), len(file_search_textNEExactCriterion_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_api_proto_search_textNEExactCriterion_proto_goTypes,
-		DependencyIndexes: file_api_proto_search_textNEExactCriterion_proto_depIdxs,
-		MessageInfos:      file_api_proto_search_textNEExactCriterion_proto_msgTypes,
+		GoTypes:           file_search_textNEExactCriterion_proto_goTypes,
+		DependencyIndexes: file_search_textNEExactCriterion_proto_depIdxs,
+		MessageInfos:      file_search_textNEExactCriterion_proto_msgTypes,
 	}.Build()
-	File_api_proto_search_textNEExactCriterion_proto = out.File
-	file_api_proto_search_textNEExactCriterion_proto_goTypes = nil
-	file_api_proto_search_textNEExactCriterion_proto_depIdxs = nil
+	File_search_textNEExactCriterion_proto = out.File
+	file_search_textNEExactCriterion_proto_goTypes = nil
+	file_search_textNEExactCriterion_proto_depIdxs = nil
 }

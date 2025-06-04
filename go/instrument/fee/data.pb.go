@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        (unknown)
-// source: api/proto/instrument/fee/data.proto
+// source: instrument/fee/data.proto
 
 package fee
 
@@ -38,7 +38,7 @@ type Data struct {
 
 func (x *Data) Reset() {
 	*x = Data{}
-	mi := &file_api_proto_instrument_fee_data_proto_msgTypes[0]
+	mi := &file_instrument_fee_data_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -50,7 +50,7 @@ func (x *Data) String() string {
 func (*Data) ProtoMessage() {}
 
 func (x *Data) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_instrument_fee_data_proto_msgTypes[0]
+	mi := &file_instrument_fee_data_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -63,7 +63,7 @@ func (x *Data) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Data.ProtoReflect.Descriptor instead.
 func (*Data) Descriptor() ([]byte, []int) {
-	return file_api_proto_instrument_fee_data_proto_rawDescGZIP(), []int{0}
+	return file_instrument_fee_data_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Data) GetData() isData_Data {
@@ -122,11 +122,11 @@ func (*Data_RateData) isData_Data() {}
 
 func (*Data_PerUnitData) isData_Data() {}
 
-var File_api_proto_instrument_fee_data_proto protoreflect.FileDescriptor
+var File_instrument_fee_data_proto protoreflect.FileDescriptor
 
-const file_api_proto_instrument_fee_data_proto_rawDesc = "" +
+const file_instrument_fee_data_proto_rawDesc = "" +
 	"\n" +
-	"#api/proto/instrument/fee/data.proto\x12\x12api.instrument.fee\x1a)api/proto/instrument/fee/dataAmount.proto\x1a'api/proto/instrument/fee/dataRate.proto\x1a*api/proto/instrument/fee/dataPerUnit.proto\"\xd1\x01\n" +
+	"\x19instrument/fee/data.proto\x12\x12api.instrument.fee\x1a\x1finstrument/fee/dataAmount.proto\x1a\x1dinstrument/fee/dataRate.proto\x1a instrument/fee/dataPerUnit.proto\"\xd1\x01\n" +
 	"\x04Data\x12@\n" +
 	"\n" +
 	"amountData\x18\x01 \x01(\v2\x1e.api.instrument.fee.AmountDataH\x00R\n" +
@@ -136,25 +136,25 @@ const file_api_proto_instrument_fee_data_proto_rawDesc = "" +
 	"\x04DataB,Z*github.com/meshtrade/api/go/instrument/feeb\x06proto3"
 
 var (
-	file_api_proto_instrument_fee_data_proto_rawDescOnce sync.Once
-	file_api_proto_instrument_fee_data_proto_rawDescData []byte
+	file_instrument_fee_data_proto_rawDescOnce sync.Once
+	file_instrument_fee_data_proto_rawDescData []byte
 )
 
-func file_api_proto_instrument_fee_data_proto_rawDescGZIP() []byte {
-	file_api_proto_instrument_fee_data_proto_rawDescOnce.Do(func() {
-		file_api_proto_instrument_fee_data_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_proto_instrument_fee_data_proto_rawDesc), len(file_api_proto_instrument_fee_data_proto_rawDesc)))
+func file_instrument_fee_data_proto_rawDescGZIP() []byte {
+	file_instrument_fee_data_proto_rawDescOnce.Do(func() {
+		file_instrument_fee_data_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_instrument_fee_data_proto_rawDesc), len(file_instrument_fee_data_proto_rawDesc)))
 	})
-	return file_api_proto_instrument_fee_data_proto_rawDescData
+	return file_instrument_fee_data_proto_rawDescData
 }
 
-var file_api_proto_instrument_fee_data_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_api_proto_instrument_fee_data_proto_goTypes = []any{
+var file_instrument_fee_data_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_instrument_fee_data_proto_goTypes = []any{
 	(*Data)(nil),        // 0: api.instrument.fee.Data
 	(*AmountData)(nil),  // 1: api.instrument.fee.AmountData
 	(*RateData)(nil),    // 2: api.instrument.fee.RateData
 	(*PerUnitData)(nil), // 3: api.instrument.fee.PerUnitData
 }
-var file_api_proto_instrument_fee_data_proto_depIdxs = []int32{
+var file_instrument_fee_data_proto_depIdxs = []int32{
 	1, // 0: api.instrument.fee.Data.amountData:type_name -> api.instrument.fee.AmountData
 	2, // 1: api.instrument.fee.Data.rateData:type_name -> api.instrument.fee.RateData
 	3, // 2: api.instrument.fee.Data.perUnitData:type_name -> api.instrument.fee.PerUnitData
@@ -165,15 +165,15 @@ var file_api_proto_instrument_fee_data_proto_depIdxs = []int32{
 	0, // [0:3] is the sub-list for field type_name
 }
 
-func init() { file_api_proto_instrument_fee_data_proto_init() }
-func file_api_proto_instrument_fee_data_proto_init() {
-	if File_api_proto_instrument_fee_data_proto != nil {
+func init() { file_instrument_fee_data_proto_init() }
+func file_instrument_fee_data_proto_init() {
+	if File_instrument_fee_data_proto != nil {
 		return
 	}
-	file_api_proto_instrument_fee_dataAmount_proto_init()
-	file_api_proto_instrument_fee_dataRate_proto_init()
-	file_api_proto_instrument_fee_dataPerUnit_proto_init()
-	file_api_proto_instrument_fee_data_proto_msgTypes[0].OneofWrappers = []any{
+	file_instrument_fee_dataAmount_proto_init()
+	file_instrument_fee_dataRate_proto_init()
+	file_instrument_fee_dataPerUnit_proto_init()
+	file_instrument_fee_data_proto_msgTypes[0].OneofWrappers = []any{
 		(*Data_AmountData)(nil),
 		(*Data_RateData)(nil),
 		(*Data_PerUnitData)(nil),
@@ -182,17 +182,17 @@ func file_api_proto_instrument_fee_data_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_proto_instrument_fee_data_proto_rawDesc), len(file_api_proto_instrument_fee_data_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_instrument_fee_data_proto_rawDesc), len(file_instrument_fee_data_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_api_proto_instrument_fee_data_proto_goTypes,
-		DependencyIndexes: file_api_proto_instrument_fee_data_proto_depIdxs,
-		MessageInfos:      file_api_proto_instrument_fee_data_proto_msgTypes,
+		GoTypes:           file_instrument_fee_data_proto_goTypes,
+		DependencyIndexes: file_instrument_fee_data_proto_depIdxs,
+		MessageInfos:      file_instrument_fee_data_proto_msgTypes,
 	}.Build()
-	File_api_proto_instrument_fee_data_proto = out.File
-	file_api_proto_instrument_fee_data_proto_goTypes = nil
-	file_api_proto_instrument_fee_data_proto_depIdxs = nil
+	File_instrument_fee_data_proto = out.File
+	file_instrument_fee_data_proto_goTypes = nil
+	file_instrument_fee_data_proto_depIdxs = nil
 }

@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        (unknown)
-// source: api/proto/instrument/feeprofile/lifecycleEventCalculationConfigRate.proto
+// source: instrument/feeprofile/lifecycleEventCalculationConfigRate.proto
 
 package feeprofile
 
@@ -45,7 +45,7 @@ type RateLifecycleEventCalculationConfig struct {
 
 func (x *RateLifecycleEventCalculationConfig) Reset() {
 	*x = RateLifecycleEventCalculationConfig{}
-	mi := &file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_msgTypes[0]
+	mi := &file_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -57,7 +57,7 @@ func (x *RateLifecycleEventCalculationConfig) String() string {
 func (*RateLifecycleEventCalculationConfig) ProtoMessage() {}
 
 func (x *RateLifecycleEventCalculationConfig) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_msgTypes[0]
+	mi := &file_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -70,7 +70,7 @@ func (x *RateLifecycleEventCalculationConfig) ProtoReflect() protoreflect.Messag
 
 // Deprecated: Use RateLifecycleEventCalculationConfig.ProtoReflect.Descriptor instead.
 func (*RateLifecycleEventCalculationConfig) Descriptor() ([]byte, []int) {
-	return file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_rawDescGZIP(), []int{0}
+	return file_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *RateLifecycleEventCalculationConfig) GetRate() *num.Decimal {
@@ -80,32 +80,32 @@ func (x *RateLifecycleEventCalculationConfig) GetRate() *num.Decimal {
 	return nil
 }
 
-var File_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto protoreflect.FileDescriptor
+var File_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto protoreflect.FileDescriptor
 
-const file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_rawDesc = "" +
+const file_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_rawDesc = "" +
 	"\n" +
-	"Iapi/proto/instrument/feeprofile/lifecycleEventCalculationConfigRate.proto\x12\x19api.instrument.feeprofile\x1a\x1bapi/proto/num/decimal.proto\"K\n" +
+	"?instrument/feeprofile/lifecycleEventCalculationConfigRate.proto\x12\x19api.instrument.feeprofile\x1a\x11num/decimal.proto\"K\n" +
 	"#RateLifecycleEventCalculationConfig\x12$\n" +
 	"\x04rate\x18\x01 \x01(\v2\x10.api.num.DecimalR\x04rateB3Z1github.com/meshtrade/api/go/instrument/feeprofileb\x06proto3"
 
 var (
-	file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_rawDescOnce sync.Once
-	file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_rawDescData []byte
+	file_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_rawDescOnce sync.Once
+	file_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_rawDescData []byte
 )
 
-func file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_rawDescGZIP() []byte {
-	file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_rawDescOnce.Do(func() {
-		file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_rawDesc), len(file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_rawDesc)))
+func file_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_rawDescGZIP() []byte {
+	file_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_rawDescOnce.Do(func() {
+		file_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_rawDesc), len(file_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_rawDesc)))
 	})
-	return file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_rawDescData
+	return file_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_rawDescData
 }
 
-var file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_goTypes = []any{
+var file_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_goTypes = []any{
 	(*RateLifecycleEventCalculationConfig)(nil), // 0: api.instrument.feeprofile.RateLifecycleEventCalculationConfig
 	(*num.Decimal)(nil),                         // 1: api.num.Decimal
 }
-var file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_depIdxs = []int32{
+var file_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_depIdxs = []int32{
 	1, // 0: api.instrument.feeprofile.RateLifecycleEventCalculationConfig.rate:type_name -> api.num.Decimal
 	1, // [1:1] is the sub-list for method output_type
 	1, // [1:1] is the sub-list for method input_type
@@ -114,26 +114,26 @@ var file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigRate_pro
 	0, // [0:1] is the sub-list for field type_name
 }
 
-func init() { file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_init() }
-func file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_init() {
-	if File_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto != nil {
+func init() { file_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_init() }
+func file_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_init() {
+	if File_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_rawDesc), len(file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_rawDesc), len(file_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_goTypes,
-		DependencyIndexes: file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_depIdxs,
-		MessageInfos:      file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_msgTypes,
+		GoTypes:           file_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_goTypes,
+		DependencyIndexes: file_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_depIdxs,
+		MessageInfos:      file_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_msgTypes,
 	}.Build()
-	File_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto = out.File
-	file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_goTypes = nil
-	file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_depIdxs = nil
+	File_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto = out.File
+	file_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_goTypes = nil
+	file_instrument_feeprofile_lifecycleEventCalculationConfigRate_proto_depIdxs = nil
 }

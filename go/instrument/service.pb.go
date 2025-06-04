@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        (unknown)
-// source: api/proto/instrument/service.proto
+// source: instrument/service.proto
 
 package instrument
 
@@ -37,7 +37,7 @@ type MintRequest struct {
 
 func (x *MintRequest) Reset() {
 	*x = MintRequest{}
-	mi := &file_api_proto_instrument_service_proto_msgTypes[0]
+	mi := &file_instrument_service_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -49,7 +49,7 @@ func (x *MintRequest) String() string {
 func (*MintRequest) ProtoMessage() {}
 
 func (x *MintRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_instrument_service_proto_msgTypes[0]
+	mi := &file_instrument_service_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -62,7 +62,7 @@ func (x *MintRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MintRequest.ProtoReflect.Descriptor instead.
 func (*MintRequest) Descriptor() ([]byte, []int) {
-	return file_api_proto_instrument_service_proto_rawDescGZIP(), []int{0}
+	return file_instrument_service_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *MintRequest) GetAmount() *ledger.Amount {
@@ -97,7 +97,7 @@ type MintResponse struct {
 
 func (x *MintResponse) Reset() {
 	*x = MintResponse{}
-	mi := &file_api_proto_instrument_service_proto_msgTypes[1]
+	mi := &file_instrument_service_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -109,7 +109,7 @@ func (x *MintResponse) String() string {
 func (*MintResponse) ProtoMessage() {}
 
 func (x *MintResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_instrument_service_proto_msgTypes[1]
+	mi := &file_instrument_service_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -122,7 +122,7 @@ func (x *MintResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MintResponse.ProtoReflect.Descriptor instead.
 func (*MintResponse) Descriptor() ([]byte, []int) {
-	return file_api_proto_instrument_service_proto_rawDescGZIP(), []int{1}
+	return file_instrument_service_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *MintResponse) GetTransactionID() string {
@@ -147,7 +147,7 @@ type BurnRequest struct {
 
 func (x *BurnRequest) Reset() {
 	*x = BurnRequest{}
-	mi := &file_api_proto_instrument_service_proto_msgTypes[2]
+	mi := &file_instrument_service_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -159,7 +159,7 @@ func (x *BurnRequest) String() string {
 func (*BurnRequest) ProtoMessage() {}
 
 func (x *BurnRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_instrument_service_proto_msgTypes[2]
+	mi := &file_instrument_service_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -172,7 +172,7 @@ func (x *BurnRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BurnRequest.ProtoReflect.Descriptor instead.
 func (*BurnRequest) Descriptor() ([]byte, []int) {
-	return file_api_proto_instrument_service_proto_rawDescGZIP(), []int{2}
+	return file_instrument_service_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *BurnRequest) GetAmount() *ledger.Amount {
@@ -207,7 +207,7 @@ type BurnResponse struct {
 
 func (x *BurnResponse) Reset() {
 	*x = BurnResponse{}
-	mi := &file_api_proto_instrument_service_proto_msgTypes[3]
+	mi := &file_instrument_service_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -219,7 +219,7 @@ func (x *BurnResponse) String() string {
 func (*BurnResponse) ProtoMessage() {}
 
 func (x *BurnResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_instrument_service_proto_msgTypes[3]
+	mi := &file_instrument_service_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -232,7 +232,7 @@ func (x *BurnResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BurnResponse.ProtoReflect.Descriptor instead.
 func (*BurnResponse) Descriptor() ([]byte, []int) {
-	return file_api_proto_instrument_service_proto_rawDescGZIP(), []int{3}
+	return file_instrument_service_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *BurnResponse) GetTransactionID() string {
@@ -242,11 +242,11 @@ func (x *BurnResponse) GetTransactionID() string {
 	return ""
 }
 
-var File_api_proto_instrument_service_proto protoreflect.FileDescriptor
+var File_instrument_service_proto protoreflect.FileDescriptor
 
-const file_api_proto_instrument_service_proto_rawDesc = "" +
+const file_instrument_service_proto_rawDesc = "" +
 	"\n" +
-	"\"api/proto/instrument/service.proto\x12\x0eapi.instrument\x1a\x1dapi/proto/ledger/amount.proto\"\xa1\x01\n" +
+	"\x18instrument/service.proto\x12\x0eapi.instrument\x1a\x13ledger/amount.proto\"\xa1\x01\n" +
 	"\vMintRequest\x12*\n" +
 	"\x06amount\x18\x01 \x01(\v2\x12.api.ledger.AmountR\x06amount\x12*\n" +
 	"\x10feeAccountNumber\x18\x02 \x01(\tR\x10feeAccountNumber\x12:\n" +
@@ -264,26 +264,26 @@ const file_api_proto_instrument_service_proto_rawDesc = "" +
 	"\x04Burn\x12\x1b.api.instrument.BurnRequest\x1a\x1c.api.instrument.BurnResponseB(Z&github.com/meshtrade/api/go/instrumentb\x06proto3"
 
 var (
-	file_api_proto_instrument_service_proto_rawDescOnce sync.Once
-	file_api_proto_instrument_service_proto_rawDescData []byte
+	file_instrument_service_proto_rawDescOnce sync.Once
+	file_instrument_service_proto_rawDescData []byte
 )
 
-func file_api_proto_instrument_service_proto_rawDescGZIP() []byte {
-	file_api_proto_instrument_service_proto_rawDescOnce.Do(func() {
-		file_api_proto_instrument_service_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_proto_instrument_service_proto_rawDesc), len(file_api_proto_instrument_service_proto_rawDesc)))
+func file_instrument_service_proto_rawDescGZIP() []byte {
+	file_instrument_service_proto_rawDescOnce.Do(func() {
+		file_instrument_service_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_instrument_service_proto_rawDesc), len(file_instrument_service_proto_rawDesc)))
 	})
-	return file_api_proto_instrument_service_proto_rawDescData
+	return file_instrument_service_proto_rawDescData
 }
 
-var file_api_proto_instrument_service_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
-var file_api_proto_instrument_service_proto_goTypes = []any{
+var file_instrument_service_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_instrument_service_proto_goTypes = []any{
 	(*MintRequest)(nil),   // 0: api.instrument.MintRequest
 	(*MintResponse)(nil),  // 1: api.instrument.MintResponse
 	(*BurnRequest)(nil),   // 2: api.instrument.BurnRequest
 	(*BurnResponse)(nil),  // 3: api.instrument.BurnResponse
 	(*ledger.Amount)(nil), // 4: api.ledger.Amount
 }
-var file_api_proto_instrument_service_proto_depIdxs = []int32{
+var file_instrument_service_proto_depIdxs = []int32{
 	4, // 0: api.instrument.MintRequest.amount:type_name -> api.ledger.Amount
 	4, // 1: api.instrument.BurnRequest.amount:type_name -> api.ledger.Amount
 	0, // 2: api.instrument.Service.Mint:input_type -> api.instrument.MintRequest
@@ -297,26 +297,26 @@ var file_api_proto_instrument_service_proto_depIdxs = []int32{
 	0, // [0:2] is the sub-list for field type_name
 }
 
-func init() { file_api_proto_instrument_service_proto_init() }
-func file_api_proto_instrument_service_proto_init() {
-	if File_api_proto_instrument_service_proto != nil {
+func init() { file_instrument_service_proto_init() }
+func file_instrument_service_proto_init() {
+	if File_instrument_service_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_proto_instrument_service_proto_rawDesc), len(file_api_proto_instrument_service_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_instrument_service_proto_rawDesc), len(file_instrument_service_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_api_proto_instrument_service_proto_goTypes,
-		DependencyIndexes: file_api_proto_instrument_service_proto_depIdxs,
-		MessageInfos:      file_api_proto_instrument_service_proto_msgTypes,
+		GoTypes:           file_instrument_service_proto_goTypes,
+		DependencyIndexes: file_instrument_service_proto_depIdxs,
+		MessageInfos:      file_instrument_service_proto_msgTypes,
 	}.Build()
-	File_api_proto_instrument_service_proto = out.File
-	file_api_proto_instrument_service_proto_goTypes = nil
-	file_api_proto_instrument_service_proto_depIdxs = nil
+	File_instrument_service_proto = out.File
+	file_instrument_service_proto_goTypes = nil
+	file_instrument_service_proto_depIdxs = nil
 }

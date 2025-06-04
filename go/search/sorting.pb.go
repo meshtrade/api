@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        (unknown)
-// source: api/proto/search/sorting.proto
+// source: search/sorting.proto
 
 package search
 
@@ -55,11 +55,11 @@ func (x SortingOrder) String() string {
 }
 
 func (SortingOrder) Descriptor() protoreflect.EnumDescriptor {
-	return file_api_proto_search_sorting_proto_enumTypes[0].Descriptor()
+	return file_search_sorting_proto_enumTypes[0].Descriptor()
 }
 
 func (SortingOrder) Type() protoreflect.EnumType {
-	return &file_api_proto_search_sorting_proto_enumTypes[0]
+	return &file_search_sorting_proto_enumTypes[0]
 }
 
 func (x SortingOrder) Number() protoreflect.EnumNumber {
@@ -68,7 +68,7 @@ func (x SortingOrder) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use SortingOrder.Descriptor instead.
 func (SortingOrder) EnumDescriptor() ([]byte, []int) {
-	return file_api_proto_search_sorting_proto_rawDescGZIP(), []int{0}
+	return file_search_sorting_proto_rawDescGZIP(), []int{0}
 }
 
 // Sorting requests sorting by Field in Order.
@@ -84,7 +84,7 @@ type Sorting struct {
 
 func (x *Sorting) Reset() {
 	*x = Sorting{}
-	mi := &file_api_proto_search_sorting_proto_msgTypes[0]
+	mi := &file_search_sorting_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -96,7 +96,7 @@ func (x *Sorting) String() string {
 func (*Sorting) ProtoMessage() {}
 
 func (x *Sorting) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_search_sorting_proto_msgTypes[0]
+	mi := &file_search_sorting_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -109,7 +109,7 @@ func (x *Sorting) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Sorting.ProtoReflect.Descriptor instead.
 func (*Sorting) Descriptor() ([]byte, []int) {
-	return file_api_proto_search_sorting_proto_rawDescGZIP(), []int{0}
+	return file_search_sorting_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Sorting) GetField() string {
@@ -126,11 +126,11 @@ func (x *Sorting) GetOrder() SortingOrder {
 	return SortingOrder_UNDEFINED_SORTING_ORDER
 }
 
-var File_api_proto_search_sorting_proto protoreflect.FileDescriptor
+var File_search_sorting_proto protoreflect.FileDescriptor
 
-const file_api_proto_search_sorting_proto_rawDesc = "" +
+const file_search_sorting_proto_rawDesc = "" +
 	"\n" +
-	"\x1eapi/proto/search/sorting.proto\x12\n" +
+	"\x14search/sorting.proto\x12\n" +
 	"api.search\"O\n" +
 	"\aSorting\x12\x14\n" +
 	"\x05field\x18\x01 \x01(\tR\x05field\x12.\n" +
@@ -141,24 +141,24 @@ const file_api_proto_search_sorting_proto_rawDesc = "" +
 	"\x12DESC_SORTING_ORDER\x10\x02B$Z\"github.com/meshtrade/api/go/searchb\x06proto3"
 
 var (
-	file_api_proto_search_sorting_proto_rawDescOnce sync.Once
-	file_api_proto_search_sorting_proto_rawDescData []byte
+	file_search_sorting_proto_rawDescOnce sync.Once
+	file_search_sorting_proto_rawDescData []byte
 )
 
-func file_api_proto_search_sorting_proto_rawDescGZIP() []byte {
-	file_api_proto_search_sorting_proto_rawDescOnce.Do(func() {
-		file_api_proto_search_sorting_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_proto_search_sorting_proto_rawDesc), len(file_api_proto_search_sorting_proto_rawDesc)))
+func file_search_sorting_proto_rawDescGZIP() []byte {
+	file_search_sorting_proto_rawDescOnce.Do(func() {
+		file_search_sorting_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_search_sorting_proto_rawDesc), len(file_search_sorting_proto_rawDesc)))
 	})
-	return file_api_proto_search_sorting_proto_rawDescData
+	return file_search_sorting_proto_rawDescData
 }
 
-var file_api_proto_search_sorting_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_api_proto_search_sorting_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_api_proto_search_sorting_proto_goTypes = []any{
+var file_search_sorting_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_search_sorting_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_search_sorting_proto_goTypes = []any{
 	(SortingOrder)(0), // 0: api.search.SortingOrder
 	(*Sorting)(nil),   // 1: api.search.Sorting
 }
-var file_api_proto_search_sorting_proto_depIdxs = []int32{
+var file_search_sorting_proto_depIdxs = []int32{
 	0, // 0: api.search.Sorting.order:type_name -> api.search.SortingOrder
 	1, // [1:1] is the sub-list for method output_type
 	1, // [1:1] is the sub-list for method input_type
@@ -167,27 +167,27 @@ var file_api_proto_search_sorting_proto_depIdxs = []int32{
 	0, // [0:1] is the sub-list for field type_name
 }
 
-func init() { file_api_proto_search_sorting_proto_init() }
-func file_api_proto_search_sorting_proto_init() {
-	if File_api_proto_search_sorting_proto != nil {
+func init() { file_search_sorting_proto_init() }
+func file_search_sorting_proto_init() {
+	if File_search_sorting_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_proto_search_sorting_proto_rawDesc), len(file_api_proto_search_sorting_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_search_sorting_proto_rawDesc), len(file_search_sorting_proto_rawDesc)),
 			NumEnums:      1,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_api_proto_search_sorting_proto_goTypes,
-		DependencyIndexes: file_api_proto_search_sorting_proto_depIdxs,
-		EnumInfos:         file_api_proto_search_sorting_proto_enumTypes,
-		MessageInfos:      file_api_proto_search_sorting_proto_msgTypes,
+		GoTypes:           file_search_sorting_proto_goTypes,
+		DependencyIndexes: file_search_sorting_proto_depIdxs,
+		EnumInfos:         file_search_sorting_proto_enumTypes,
+		MessageInfos:      file_search_sorting_proto_msgTypes,
 	}.Build()
-	File_api_proto_search_sorting_proto = out.File
-	file_api_proto_search_sorting_proto_goTypes = nil
-	file_api_proto_search_sorting_proto_depIdxs = nil
+	File_search_sorting_proto = out.File
+	file_search_sorting_proto_goTypes = nil
+	file_search_sorting_proto_depIdxs = nil
 }

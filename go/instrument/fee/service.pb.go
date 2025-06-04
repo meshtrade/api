@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        (unknown)
-// source: api/proto/instrument/fee/service.proto
+// source: instrument/fee/service.proto
 
 package fee
 
@@ -35,7 +35,7 @@ type GetRequest struct {
 
 func (x *GetRequest) Reset() {
 	*x = GetRequest{}
-	mi := &file_api_proto_instrument_fee_service_proto_msgTypes[0]
+	mi := &file_instrument_fee_service_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -47,7 +47,7 @@ func (x *GetRequest) String() string {
 func (*GetRequest) ProtoMessage() {}
 
 func (x *GetRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_instrument_fee_service_proto_msgTypes[0]
+	mi := &file_instrument_fee_service_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -60,7 +60,7 @@ func (x *GetRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetRequest.ProtoReflect.Descriptor instead.
 func (*GetRequest) Descriptor() ([]byte, []int) {
-	return file_api_proto_instrument_fee_service_proto_rawDescGZIP(), []int{0}
+	return file_instrument_fee_service_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *GetRequest) GetCriteria() []*search.Criterion {
@@ -81,7 +81,7 @@ type GetResponse struct {
 
 func (x *GetResponse) Reset() {
 	*x = GetResponse{}
-	mi := &file_api_proto_instrument_fee_service_proto_msgTypes[1]
+	mi := &file_instrument_fee_service_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -93,7 +93,7 @@ func (x *GetResponse) String() string {
 func (*GetResponse) ProtoMessage() {}
 
 func (x *GetResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_instrument_fee_service_proto_msgTypes[1]
+	mi := &file_instrument_fee_service_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -106,7 +106,7 @@ func (x *GetResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetResponse.ProtoReflect.Descriptor instead.
 func (*GetResponse) Descriptor() ([]byte, []int) {
-	return file_api_proto_instrument_fee_service_proto_rawDescGZIP(), []int{1}
+	return file_instrument_fee_service_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *GetResponse) GetFee() *Fee {
@@ -129,7 +129,7 @@ type ListRequest struct {
 
 func (x *ListRequest) Reset() {
 	*x = ListRequest{}
-	mi := &file_api_proto_instrument_fee_service_proto_msgTypes[2]
+	mi := &file_instrument_fee_service_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -141,7 +141,7 @@ func (x *ListRequest) String() string {
 func (*ListRequest) ProtoMessage() {}
 
 func (x *ListRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_instrument_fee_service_proto_msgTypes[2]
+	mi := &file_instrument_fee_service_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -154,7 +154,7 @@ func (x *ListRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListRequest.ProtoReflect.Descriptor instead.
 func (*ListRequest) Descriptor() ([]byte, []int) {
-	return file_api_proto_instrument_fee_service_proto_rawDescGZIP(), []int{2}
+	return file_instrument_fee_service_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *ListRequest) GetCriteria() []*search.Criterion {
@@ -184,7 +184,7 @@ type ListResponse struct {
 
 func (x *ListResponse) Reset() {
 	*x = ListResponse{}
-	mi := &file_api_proto_instrument_fee_service_proto_msgTypes[3]
+	mi := &file_instrument_fee_service_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -196,7 +196,7 @@ func (x *ListResponse) String() string {
 func (*ListResponse) ProtoMessage() {}
 
 func (x *ListResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_instrument_fee_service_proto_msgTypes[3]
+	mi := &file_instrument_fee_service_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -209,7 +209,7 @@ func (x *ListResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListResponse.ProtoReflect.Descriptor instead.
 func (*ListResponse) Descriptor() ([]byte, []int) {
-	return file_api_proto_instrument_fee_service_proto_rawDescGZIP(), []int{3}
+	return file_instrument_fee_service_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *ListResponse) GetFees() []*Fee {
@@ -237,7 +237,7 @@ type CalculateMintingFeesRequest struct {
 
 func (x *CalculateMintingFeesRequest) Reset() {
 	*x = CalculateMintingFeesRequest{}
-	mi := &file_api_proto_instrument_fee_service_proto_msgTypes[4]
+	mi := &file_instrument_fee_service_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -249,7 +249,7 @@ func (x *CalculateMintingFeesRequest) String() string {
 func (*CalculateMintingFeesRequest) ProtoMessage() {}
 
 func (x *CalculateMintingFeesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_instrument_fee_service_proto_msgTypes[4]
+	mi := &file_instrument_fee_service_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -262,7 +262,7 @@ func (x *CalculateMintingFeesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CalculateMintingFeesRequest.ProtoReflect.Descriptor instead.
 func (*CalculateMintingFeesRequest) Descriptor() ([]byte, []int) {
-	return file_api_proto_instrument_fee_service_proto_rawDescGZIP(), []int{4}
+	return file_instrument_fee_service_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *CalculateMintingFeesRequest) GetAmount() *ledger.Amount {
@@ -283,7 +283,7 @@ type CalculateMintingFeesResponse struct {
 
 func (x *CalculateMintingFeesResponse) Reset() {
 	*x = CalculateMintingFeesResponse{}
-	mi := &file_api_proto_instrument_fee_service_proto_msgTypes[5]
+	mi := &file_instrument_fee_service_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -295,7 +295,7 @@ func (x *CalculateMintingFeesResponse) String() string {
 func (*CalculateMintingFeesResponse) ProtoMessage() {}
 
 func (x *CalculateMintingFeesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_instrument_fee_service_proto_msgTypes[5]
+	mi := &file_instrument_fee_service_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -308,7 +308,7 @@ func (x *CalculateMintingFeesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CalculateMintingFeesResponse.ProtoReflect.Descriptor instead.
 func (*CalculateMintingFeesResponse) Descriptor() ([]byte, []int) {
-	return file_api_proto_instrument_fee_service_proto_rawDescGZIP(), []int{5}
+	return file_instrument_fee_service_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *CalculateMintingFeesResponse) GetFees() []*Fee {
@@ -329,7 +329,7 @@ type CalculateBurningFeesRequest struct {
 
 func (x *CalculateBurningFeesRequest) Reset() {
 	*x = CalculateBurningFeesRequest{}
-	mi := &file_api_proto_instrument_fee_service_proto_msgTypes[6]
+	mi := &file_instrument_fee_service_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -341,7 +341,7 @@ func (x *CalculateBurningFeesRequest) String() string {
 func (*CalculateBurningFeesRequest) ProtoMessage() {}
 
 func (x *CalculateBurningFeesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_instrument_fee_service_proto_msgTypes[6]
+	mi := &file_instrument_fee_service_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -354,7 +354,7 @@ func (x *CalculateBurningFeesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CalculateBurningFeesRequest.ProtoReflect.Descriptor instead.
 func (*CalculateBurningFeesRequest) Descriptor() ([]byte, []int) {
-	return file_api_proto_instrument_fee_service_proto_rawDescGZIP(), []int{6}
+	return file_instrument_fee_service_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *CalculateBurningFeesRequest) GetAmount() *ledger.Amount {
@@ -375,7 +375,7 @@ type CalculateBurningFeesResponse struct {
 
 func (x *CalculateBurningFeesResponse) Reset() {
 	*x = CalculateBurningFeesResponse{}
-	mi := &file_api_proto_instrument_fee_service_proto_msgTypes[7]
+	mi := &file_instrument_fee_service_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -387,7 +387,7 @@ func (x *CalculateBurningFeesResponse) String() string {
 func (*CalculateBurningFeesResponse) ProtoMessage() {}
 
 func (x *CalculateBurningFeesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_instrument_fee_service_proto_msgTypes[7]
+	mi := &file_instrument_fee_service_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -400,7 +400,7 @@ func (x *CalculateBurningFeesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CalculateBurningFeesResponse.ProtoReflect.Descriptor instead.
 func (*CalculateBurningFeesResponse) Descriptor() ([]byte, []int) {
-	return file_api_proto_instrument_fee_service_proto_rawDescGZIP(), []int{7}
+	return file_instrument_fee_service_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *CalculateBurningFeesResponse) GetFees() []*Fee {
@@ -424,7 +424,7 @@ type CalculateLifecycleFeesRequest struct {
 
 func (x *CalculateLifecycleFeesRequest) Reset() {
 	*x = CalculateLifecycleFeesRequest{}
-	mi := &file_api_proto_instrument_fee_service_proto_msgTypes[8]
+	mi := &file_instrument_fee_service_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -436,7 +436,7 @@ func (x *CalculateLifecycleFeesRequest) String() string {
 func (*CalculateLifecycleFeesRequest) ProtoMessage() {}
 
 func (x *CalculateLifecycleFeesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_instrument_fee_service_proto_msgTypes[8]
+	mi := &file_instrument_fee_service_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -449,7 +449,7 @@ func (x *CalculateLifecycleFeesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CalculateLifecycleFeesRequest.ProtoReflect.Descriptor instead.
 func (*CalculateLifecycleFeesRequest) Descriptor() ([]byte, []int) {
-	return file_api_proto_instrument_fee_service_proto_rawDescGZIP(), []int{8}
+	return file_instrument_fee_service_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *CalculateLifecycleFeesRequest) GetInstrumentID() string {
@@ -477,7 +477,7 @@ type CalculateLifecycleFeesResponse struct {
 
 func (x *CalculateLifecycleFeesResponse) Reset() {
 	*x = CalculateLifecycleFeesResponse{}
-	mi := &file_api_proto_instrument_fee_service_proto_msgTypes[9]
+	mi := &file_instrument_fee_service_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -489,7 +489,7 @@ func (x *CalculateLifecycleFeesResponse) String() string {
 func (*CalculateLifecycleFeesResponse) ProtoMessage() {}
 
 func (x *CalculateLifecycleFeesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_instrument_fee_service_proto_msgTypes[9]
+	mi := &file_instrument_fee_service_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -502,7 +502,7 @@ func (x *CalculateLifecycleFeesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CalculateLifecycleFeesResponse.ProtoReflect.Descriptor instead.
 func (*CalculateLifecycleFeesResponse) Descriptor() ([]byte, []int) {
-	return file_api_proto_instrument_fee_service_proto_rawDescGZIP(), []int{9}
+	return file_instrument_fee_service_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *CalculateLifecycleFeesResponse) GetFees() []*Fee {
@@ -521,7 +521,7 @@ type FullUpdateRequest struct {
 
 func (x *FullUpdateRequest) Reset() {
 	*x = FullUpdateRequest{}
-	mi := &file_api_proto_instrument_fee_service_proto_msgTypes[10]
+	mi := &file_instrument_fee_service_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -533,7 +533,7 @@ func (x *FullUpdateRequest) String() string {
 func (*FullUpdateRequest) ProtoMessage() {}
 
 func (x *FullUpdateRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_instrument_fee_service_proto_msgTypes[10]
+	mi := &file_instrument_fee_service_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -546,7 +546,7 @@ func (x *FullUpdateRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FullUpdateRequest.ProtoReflect.Descriptor instead.
 func (*FullUpdateRequest) Descriptor() ([]byte, []int) {
-	return file_api_proto_instrument_fee_service_proto_rawDescGZIP(), []int{10}
+	return file_instrument_fee_service_proto_rawDescGZIP(), []int{10}
 }
 
 // FullUpdateResponse is the empty FullUpdate method response on the Fee Service.
@@ -558,7 +558,7 @@ type FullUpdateResponse struct {
 
 func (x *FullUpdateResponse) Reset() {
 	*x = FullUpdateResponse{}
-	mi := &file_api_proto_instrument_fee_service_proto_msgTypes[11]
+	mi := &file_instrument_fee_service_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -570,7 +570,7 @@ func (x *FullUpdateResponse) String() string {
 func (*FullUpdateResponse) ProtoMessage() {}
 
 func (x *FullUpdateResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_instrument_fee_service_proto_msgTypes[11]
+	mi := &file_instrument_fee_service_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -583,14 +583,14 @@ func (x *FullUpdateResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FullUpdateResponse.ProtoReflect.Descriptor instead.
 func (*FullUpdateResponse) Descriptor() ([]byte, []int) {
-	return file_api_proto_instrument_fee_service_proto_rawDescGZIP(), []int{11}
+	return file_instrument_fee_service_proto_rawDescGZIP(), []int{11}
 }
 
-var File_api_proto_instrument_fee_service_proto protoreflect.FileDescriptor
+var File_instrument_fee_service_proto protoreflect.FileDescriptor
 
-const file_api_proto_instrument_fee_service_proto_rawDesc = "" +
+const file_instrument_fee_service_proto_rawDesc = "" +
 	"\n" +
-	"&api/proto/instrument/fee/service.proto\x12\x12api.instrument.fee\x1a\"api/proto/instrument/fee/fee.proto\x1a\x1dapi/proto/ledger/amount.proto\x1a api/proto/search/criterion.proto\x1a\x1capi/proto/search/query.proto\x1a<api/proto/instrument/feeprofile/lifecycleEventCategory.proto\"?\n" +
+	"\x1cinstrument/fee/service.proto\x12\x12api.instrument.fee\x1a\x18instrument/fee/fee.proto\x1a\x13ledger/amount.proto\x1a\x16search/criterion.proto\x1a\x12search/query.proto\x1a2instrument/feeprofile/lifecycleEventCategory.proto\"?\n" +
 	"\n" +
 	"GetRequest\x121\n" +
 	"\bcriteria\x18\x01 \x03(\v2\x15.api.search.CriterionR\bcriteria\"8\n" +
@@ -627,19 +627,19 @@ const file_api_proto_instrument_fee_service_proto_rawDesc = "" +
 	"FullUpdate\x12%.api.instrument.fee.FullUpdateRequest\x1a&.api.instrument.fee.FullUpdateResponseB,Z*github.com/meshtrade/api/go/instrument/feeb\x06proto3"
 
 var (
-	file_api_proto_instrument_fee_service_proto_rawDescOnce sync.Once
-	file_api_proto_instrument_fee_service_proto_rawDescData []byte
+	file_instrument_fee_service_proto_rawDescOnce sync.Once
+	file_instrument_fee_service_proto_rawDescData []byte
 )
 
-func file_api_proto_instrument_fee_service_proto_rawDescGZIP() []byte {
-	file_api_proto_instrument_fee_service_proto_rawDescOnce.Do(func() {
-		file_api_proto_instrument_fee_service_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_proto_instrument_fee_service_proto_rawDesc), len(file_api_proto_instrument_fee_service_proto_rawDesc)))
+func file_instrument_fee_service_proto_rawDescGZIP() []byte {
+	file_instrument_fee_service_proto_rawDescOnce.Do(func() {
+		file_instrument_fee_service_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_instrument_fee_service_proto_rawDesc), len(file_instrument_fee_service_proto_rawDesc)))
 	})
-	return file_api_proto_instrument_fee_service_proto_rawDescData
+	return file_instrument_fee_service_proto_rawDescData
 }
 
-var file_api_proto_instrument_fee_service_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
-var file_api_proto_instrument_fee_service_proto_goTypes = []any{
+var file_instrument_fee_service_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_instrument_fee_service_proto_goTypes = []any{
 	(*GetRequest)(nil),                     // 0: api.instrument.fee.GetRequest
 	(*GetResponse)(nil),                    // 1: api.instrument.fee.GetResponse
 	(*ListRequest)(nil),                    // 2: api.instrument.fee.ListRequest
@@ -658,7 +658,7 @@ var file_api_proto_instrument_fee_service_proto_goTypes = []any{
 	(*ledger.Amount)(nil),                  // 15: api.ledger.Amount
 	(feeprofile.LifecycleEventCategory)(0), // 16: api.instrument.feeprofile.LifecycleEventCategory
 }
-var file_api_proto_instrument_fee_service_proto_depIdxs = []int32{
+var file_instrument_fee_service_proto_depIdxs = []int32{
 	12, // 0: api.instrument.fee.GetRequest.criteria:type_name -> api.search.Criterion
 	13, // 1: api.instrument.fee.GetResponse.fee:type_name -> api.instrument.fee.Fee
 	12, // 2: api.instrument.fee.ListRequest.criteria:type_name -> api.search.Criterion
@@ -689,27 +689,27 @@ var file_api_proto_instrument_fee_service_proto_depIdxs = []int32{
 	0,  // [0:11] is the sub-list for field type_name
 }
 
-func init() { file_api_proto_instrument_fee_service_proto_init() }
-func file_api_proto_instrument_fee_service_proto_init() {
-	if File_api_proto_instrument_fee_service_proto != nil {
+func init() { file_instrument_fee_service_proto_init() }
+func file_instrument_fee_service_proto_init() {
+	if File_instrument_fee_service_proto != nil {
 		return
 	}
-	file_api_proto_instrument_fee_fee_proto_init()
+	file_instrument_fee_fee_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_proto_instrument_fee_service_proto_rawDesc), len(file_api_proto_instrument_fee_service_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_instrument_fee_service_proto_rawDesc), len(file_instrument_fee_service_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_api_proto_instrument_fee_service_proto_goTypes,
-		DependencyIndexes: file_api_proto_instrument_fee_service_proto_depIdxs,
-		MessageInfos:      file_api_proto_instrument_fee_service_proto_msgTypes,
+		GoTypes:           file_instrument_fee_service_proto_goTypes,
+		DependencyIndexes: file_instrument_fee_service_proto_depIdxs,
+		MessageInfos:      file_instrument_fee_service_proto_msgTypes,
 	}.Build()
-	File_api_proto_instrument_fee_service_proto = out.File
-	file_api_proto_instrument_fee_service_proto_goTypes = nil
-	file_api_proto_instrument_fee_service_proto_depIdxs = nil
+	File_instrument_fee_service_proto = out.File
+	file_instrument_fee_service_proto_goTypes = nil
+	file_instrument_fee_service_proto_depIdxs = nil
 }

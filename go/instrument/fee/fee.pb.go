@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        (unknown)
-// source: api/proto/instrument/fee/fee.proto
+// source: instrument/fee/fee.proto
 
 package fee
 
@@ -69,11 +69,11 @@ func (x State) String() string {
 }
 
 func (State) Descriptor() protoreflect.EnumDescriptor {
-	return file_api_proto_instrument_fee_fee_proto_enumTypes[0].Descriptor()
+	return file_instrument_fee_fee_proto_enumTypes[0].Descriptor()
 }
 
 func (State) Type() protoreflect.EnumType {
-	return &file_api_proto_instrument_fee_fee_proto_enumTypes[0]
+	return &file_instrument_fee_fee_proto_enumTypes[0]
 }
 
 func (x State) Number() protoreflect.EnumNumber {
@@ -82,7 +82,7 @@ func (x State) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use State.Descriptor instead.
 func (State) EnumDescriptor() ([]byte, []int) {
-	return file_api_proto_instrument_fee_fee_proto_rawDescGZIP(), []int{0}
+	return file_instrument_fee_fee_proto_rawDescGZIP(), []int{0}
 }
 
 // Category defines the different types of Fees that can be applied to an instrument.
@@ -125,11 +125,11 @@ func (x Category) String() string {
 }
 
 func (Category) Descriptor() protoreflect.EnumDescriptor {
-	return file_api_proto_instrument_fee_fee_proto_enumTypes[1].Descriptor()
+	return file_instrument_fee_fee_proto_enumTypes[1].Descriptor()
 }
 
 func (Category) Type() protoreflect.EnumType {
-	return &file_api_proto_instrument_fee_fee_proto_enumTypes[1]
+	return &file_instrument_fee_fee_proto_enumTypes[1]
 }
 
 func (x Category) Number() protoreflect.EnumNumber {
@@ -138,7 +138,7 @@ func (x Category) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Category.Descriptor instead.
 func (Category) EnumDescriptor() ([]byte, []int) {
-	return file_api_proto_instrument_fee_fee_proto_rawDescGZIP(), []int{1}
+	return file_instrument_fee_fee_proto_rawDescGZIP(), []int{1}
 }
 
 // Fee represents a financial charge associated with an Instrument,
@@ -184,7 +184,7 @@ type Fee struct {
 
 func (x *Fee) Reset() {
 	*x = Fee{}
-	mi := &file_api_proto_instrument_fee_fee_proto_msgTypes[0]
+	mi := &file_instrument_fee_fee_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -196,7 +196,7 @@ func (x *Fee) String() string {
 func (*Fee) ProtoMessage() {}
 
 func (x *Fee) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_instrument_fee_fee_proto_msgTypes[0]
+	mi := &file_instrument_fee_fee_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -209,7 +209,7 @@ func (x *Fee) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Fee.ProtoReflect.Descriptor instead.
 func (*Fee) Descriptor() ([]byte, []int) {
-	return file_api_proto_instrument_fee_fee_proto_rawDescGZIP(), []int{0}
+	return file_instrument_fee_fee_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Fee) GetId() string {
@@ -275,11 +275,11 @@ func (x *Fee) GetData() *Data {
 	return nil
 }
 
-var File_api_proto_instrument_fee_fee_proto protoreflect.FileDescriptor
+var File_instrument_fee_fee_proto protoreflect.FileDescriptor
 
-const file_api_proto_instrument_fee_fee_proto_rawDesc = "" +
+const file_instrument_fee_fee_proto_rawDesc = "" +
 	"\n" +
-	"\"api/proto/instrument/fee/fee.proto\x12\x12api.instrument.fee\x1a#api/proto/instrument/fee/data.proto\x1a\x1dapi/proto/ledger/amount.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa2\x03\n" +
+	"\x18instrument/fee/fee.proto\x12\x12api.instrument.fee\x1a\x19instrument/fee/data.proto\x1a\x13ledger/amount.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa2\x03\n" +
 	"\x03Fee\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12&\n" +
 	"\x0einstrumentName\x18\x02 \x01(\tR\x0einstrumentName\x12/\n" +
@@ -307,20 +307,20 @@ const file_api_proto_instrument_fee_fee_proto_rawDesc = "" +
 	"\fAUM_CATEGORY\x10\x04B,Z*github.com/meshtrade/api/go/instrument/feeb\x06proto3"
 
 var (
-	file_api_proto_instrument_fee_fee_proto_rawDescOnce sync.Once
-	file_api_proto_instrument_fee_fee_proto_rawDescData []byte
+	file_instrument_fee_fee_proto_rawDescOnce sync.Once
+	file_instrument_fee_fee_proto_rawDescData []byte
 )
 
-func file_api_proto_instrument_fee_fee_proto_rawDescGZIP() []byte {
-	file_api_proto_instrument_fee_fee_proto_rawDescOnce.Do(func() {
-		file_api_proto_instrument_fee_fee_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_proto_instrument_fee_fee_proto_rawDesc), len(file_api_proto_instrument_fee_fee_proto_rawDesc)))
+func file_instrument_fee_fee_proto_rawDescGZIP() []byte {
+	file_instrument_fee_fee_proto_rawDescOnce.Do(func() {
+		file_instrument_fee_fee_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_instrument_fee_fee_proto_rawDesc), len(file_instrument_fee_fee_proto_rawDesc)))
 	})
-	return file_api_proto_instrument_fee_fee_proto_rawDescData
+	return file_instrument_fee_fee_proto_rawDescData
 }
 
-var file_api_proto_instrument_fee_fee_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_api_proto_instrument_fee_fee_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_api_proto_instrument_fee_fee_proto_goTypes = []any{
+var file_instrument_fee_fee_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_instrument_fee_fee_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_instrument_fee_fee_proto_goTypes = []any{
 	(State)(0),                    // 0: api.instrument.fee.State
 	(Category)(0),                 // 1: api.instrument.fee.Category
 	(*Fee)(nil),                   // 2: api.instrument.fee.Fee
@@ -328,7 +328,7 @@ var file_api_proto_instrument_fee_fee_proto_goTypes = []any{
 	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
 	(*Data)(nil),                  // 5: api.instrument.fee.Data
 }
-var file_api_proto_instrument_fee_fee_proto_depIdxs = []int32{
+var file_instrument_fee_fee_proto_depIdxs = []int32{
 	0, // 0: api.instrument.fee.Fee.state:type_name -> api.instrument.fee.State
 	3, // 1: api.instrument.fee.Fee.amountInclVAT:type_name -> api.ledger.Amount
 	3, // 2: api.instrument.fee.Fee.vatAmount:type_name -> api.ledger.Amount
@@ -342,28 +342,28 @@ var file_api_proto_instrument_fee_fee_proto_depIdxs = []int32{
 	0, // [0:6] is the sub-list for field type_name
 }
 
-func init() { file_api_proto_instrument_fee_fee_proto_init() }
-func file_api_proto_instrument_fee_fee_proto_init() {
-	if File_api_proto_instrument_fee_fee_proto != nil {
+func init() { file_instrument_fee_fee_proto_init() }
+func file_instrument_fee_fee_proto_init() {
+	if File_instrument_fee_fee_proto != nil {
 		return
 	}
-	file_api_proto_instrument_fee_data_proto_init()
+	file_instrument_fee_data_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_proto_instrument_fee_fee_proto_rawDesc), len(file_api_proto_instrument_fee_fee_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_instrument_fee_fee_proto_rawDesc), len(file_instrument_fee_fee_proto_rawDesc)),
 			NumEnums:      2,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_api_proto_instrument_fee_fee_proto_goTypes,
-		DependencyIndexes: file_api_proto_instrument_fee_fee_proto_depIdxs,
-		EnumInfos:         file_api_proto_instrument_fee_fee_proto_enumTypes,
-		MessageInfos:      file_api_proto_instrument_fee_fee_proto_msgTypes,
+		GoTypes:           file_instrument_fee_fee_proto_goTypes,
+		DependencyIndexes: file_instrument_fee_fee_proto_depIdxs,
+		EnumInfos:         file_instrument_fee_fee_proto_enumTypes,
+		MessageInfos:      file_instrument_fee_fee_proto_msgTypes,
 	}.Build()
-	File_api_proto_instrument_fee_fee_proto = out.File
-	file_api_proto_instrument_fee_fee_proto_goTypes = nil
-	file_api_proto_instrument_fee_fee_proto_depIdxs = nil
+	File_instrument_fee_fee_proto = out.File
+	file_instrument_fee_fee_proto_goTypes = nil
+	file_instrument_fee_fee_proto_depIdxs = nil
 }

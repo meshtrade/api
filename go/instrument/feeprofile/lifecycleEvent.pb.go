@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        (unknown)
-// source: api/proto/instrument/feeprofile/lifecycleEvent.proto
+// source: instrument/feeprofile/lifecycleEvent.proto
 
 package feeprofile
 
@@ -51,7 +51,7 @@ type LifecycleEvent struct {
 
 func (x *LifecycleEvent) Reset() {
 	*x = LifecycleEvent{}
-	mi := &file_api_proto_instrument_feeprofile_lifecycleEvent_proto_msgTypes[0]
+	mi := &file_instrument_feeprofile_lifecycleEvent_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -63,7 +63,7 @@ func (x *LifecycleEvent) String() string {
 func (*LifecycleEvent) ProtoMessage() {}
 
 func (x *LifecycleEvent) ProtoReflect() protoreflect.Message {
-	mi := &file_api_proto_instrument_feeprofile_lifecycleEvent_proto_msgTypes[0]
+	mi := &file_instrument_feeprofile_lifecycleEvent_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -76,7 +76,7 @@ func (x *LifecycleEvent) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LifecycleEvent.ProtoReflect.Descriptor instead.
 func (*LifecycleEvent) Descriptor() ([]byte, []int) {
-	return file_api_proto_instrument_feeprofile_lifecycleEvent_proto_rawDescGZIP(), []int{0}
+	return file_instrument_feeprofile_lifecycleEvent_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *LifecycleEvent) GetDescription() string {
@@ -100,35 +100,35 @@ func (x *LifecycleEvent) GetCalculationConfig() *LifecycleEventCalculationConfig
 	return nil
 }
 
-var File_api_proto_instrument_feeprofile_lifecycleEvent_proto protoreflect.FileDescriptor
+var File_instrument_feeprofile_lifecycleEvent_proto protoreflect.FileDescriptor
 
-const file_api_proto_instrument_feeprofile_lifecycleEvent_proto_rawDesc = "" +
+const file_instrument_feeprofile_lifecycleEvent_proto_rawDesc = "" +
 	"\n" +
-	"4api/proto/instrument/feeprofile/lifecycleEvent.proto\x12\x19api.instrument.feeprofile\x1a<api/proto/instrument/feeprofile/lifecycleEventCategory.proto\x1aEapi/proto/instrument/feeprofile/lifecycleEventCalculationConfig.proto\"\xeb\x01\n" +
+	"*instrument/feeprofile/lifecycleEvent.proto\x12\x19api.instrument.feeprofile\x1a2instrument/feeprofile/lifecycleEventCategory.proto\x1a;instrument/feeprofile/lifecycleEventCalculationConfig.proto\"\xeb\x01\n" +
 	"\x0eLifecycleEvent\x12 \n" +
 	"\vdescription\x18\x01 \x01(\tR\vdescription\x12M\n" +
 	"\bcategory\x18\x02 \x01(\x0e21.api.instrument.feeprofile.LifecycleEventCategoryR\bcategory\x12h\n" +
 	"\x11calculationConfig\x18\x03 \x01(\v2:.api.instrument.feeprofile.LifecycleEventCalculationConfigR\x11calculationConfigB3Z1github.com/meshtrade/api/go/instrument/feeprofileb\x06proto3"
 
 var (
-	file_api_proto_instrument_feeprofile_lifecycleEvent_proto_rawDescOnce sync.Once
-	file_api_proto_instrument_feeprofile_lifecycleEvent_proto_rawDescData []byte
+	file_instrument_feeprofile_lifecycleEvent_proto_rawDescOnce sync.Once
+	file_instrument_feeprofile_lifecycleEvent_proto_rawDescData []byte
 )
 
-func file_api_proto_instrument_feeprofile_lifecycleEvent_proto_rawDescGZIP() []byte {
-	file_api_proto_instrument_feeprofile_lifecycleEvent_proto_rawDescOnce.Do(func() {
-		file_api_proto_instrument_feeprofile_lifecycleEvent_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_proto_instrument_feeprofile_lifecycleEvent_proto_rawDesc), len(file_api_proto_instrument_feeprofile_lifecycleEvent_proto_rawDesc)))
+func file_instrument_feeprofile_lifecycleEvent_proto_rawDescGZIP() []byte {
+	file_instrument_feeprofile_lifecycleEvent_proto_rawDescOnce.Do(func() {
+		file_instrument_feeprofile_lifecycleEvent_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_instrument_feeprofile_lifecycleEvent_proto_rawDesc), len(file_instrument_feeprofile_lifecycleEvent_proto_rawDesc)))
 	})
-	return file_api_proto_instrument_feeprofile_lifecycleEvent_proto_rawDescData
+	return file_instrument_feeprofile_lifecycleEvent_proto_rawDescData
 }
 
-var file_api_proto_instrument_feeprofile_lifecycleEvent_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_api_proto_instrument_feeprofile_lifecycleEvent_proto_goTypes = []any{
+var file_instrument_feeprofile_lifecycleEvent_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_instrument_feeprofile_lifecycleEvent_proto_goTypes = []any{
 	(*LifecycleEvent)(nil),                  // 0: api.instrument.feeprofile.LifecycleEvent
 	(LifecycleEventCategory)(0),             // 1: api.instrument.feeprofile.LifecycleEventCategory
 	(*LifecycleEventCalculationConfig)(nil), // 2: api.instrument.feeprofile.LifecycleEventCalculationConfig
 }
-var file_api_proto_instrument_feeprofile_lifecycleEvent_proto_depIdxs = []int32{
+var file_instrument_feeprofile_lifecycleEvent_proto_depIdxs = []int32{
 	1, // 0: api.instrument.feeprofile.LifecycleEvent.category:type_name -> api.instrument.feeprofile.LifecycleEventCategory
 	2, // 1: api.instrument.feeprofile.LifecycleEvent.calculationConfig:type_name -> api.instrument.feeprofile.LifecycleEventCalculationConfig
 	2, // [2:2] is the sub-list for method output_type
@@ -138,28 +138,28 @@ var file_api_proto_instrument_feeprofile_lifecycleEvent_proto_depIdxs = []int32{
 	0, // [0:2] is the sub-list for field type_name
 }
 
-func init() { file_api_proto_instrument_feeprofile_lifecycleEvent_proto_init() }
-func file_api_proto_instrument_feeprofile_lifecycleEvent_proto_init() {
-	if File_api_proto_instrument_feeprofile_lifecycleEvent_proto != nil {
+func init() { file_instrument_feeprofile_lifecycleEvent_proto_init() }
+func file_instrument_feeprofile_lifecycleEvent_proto_init() {
+	if File_instrument_feeprofile_lifecycleEvent_proto != nil {
 		return
 	}
-	file_api_proto_instrument_feeprofile_lifecycleEventCategory_proto_init()
-	file_api_proto_instrument_feeprofile_lifecycleEventCalculationConfig_proto_init()
+	file_instrument_feeprofile_lifecycleEventCategory_proto_init()
+	file_instrument_feeprofile_lifecycleEventCalculationConfig_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_proto_instrument_feeprofile_lifecycleEvent_proto_rawDesc), len(file_api_proto_instrument_feeprofile_lifecycleEvent_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_instrument_feeprofile_lifecycleEvent_proto_rawDesc), len(file_instrument_feeprofile_lifecycleEvent_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_api_proto_instrument_feeprofile_lifecycleEvent_proto_goTypes,
-		DependencyIndexes: file_api_proto_instrument_feeprofile_lifecycleEvent_proto_depIdxs,
-		MessageInfos:      file_api_proto_instrument_feeprofile_lifecycleEvent_proto_msgTypes,
+		GoTypes:           file_instrument_feeprofile_lifecycleEvent_proto_goTypes,
+		DependencyIndexes: file_instrument_feeprofile_lifecycleEvent_proto_depIdxs,
+		MessageInfos:      file_instrument_feeprofile_lifecycleEvent_proto_msgTypes,
 	}.Build()
-	File_api_proto_instrument_feeprofile_lifecycleEvent_proto = out.File
-	file_api_proto_instrument_feeprofile_lifecycleEvent_proto_goTypes = nil
-	file_api_proto_instrument_feeprofile_lifecycleEvent_proto_depIdxs = nil
+	File_instrument_feeprofile_lifecycleEvent_proto = out.File
+	file_instrument_feeprofile_lifecycleEvent_proto_goTypes = nil
+	file_instrument_feeprofile_lifecycleEvent_proto_depIdxs = nil
 }
