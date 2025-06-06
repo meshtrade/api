@@ -3,12 +3,14 @@ syntax = "proto3";
 package api.legal;
 
 import "api/proto/location/address.proto";
+import "api/proto/legal/connectedIndividialConnectionType.proto";
+import "api/proto/legal/identificationType.proto";
 
 option go_package = "github.com/meshtrade/api/go/legal";
 
 message ConnectedIndividual {
   // The type of connection this individual has with the company
-  string connectionType = 1;
+  api.legal.ConnectedIndividualConnectionType connectionType = 1;
 
   // First name of the connected individual
   string firstName = 2;
@@ -26,7 +28,7 @@ message ConnectedIndividual {
   string nationality = 6;
 
   // Type of identification document (e.g., Passport, ID)
-  string identificationType = 7;
+  api.legal.IdentificationType identificationType = 7;
 
   // Identification number based on the identification type
   string identificationNumber = 8;

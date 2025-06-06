@@ -1,0 +1,20 @@
+from google.protobuf.internal import enum_type_wrapper as _enum_type_wrapper
+from google.protobuf import descriptor as _descriptor
+from typing import ClassVar as _ClassVar
+
+DESCRIPTOR: _descriptor.FileDescriptor
+
+class ConnectedIndividualConnectionType(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    UNDEFINED_CONNECTED_INDIVIDUAL_CONNECTION_TYPE: _ClassVar[ConnectedIndividualConnectionType]
+    MANAGER_CONNECTED_INDIVIDUA_CONNECTION_TYPE: _ClassVar[ConnectedIndividualConnectionType]
+    SHAREHOLDER_CONNECTED_INDIVIDUAL_CONNECTION_TYPE: _ClassVar[ConnectedIndividualConnectionType]
+    AGENT_CONNECTED_INDIVIDUAL_CONNECTION_TYPE: _ClassVar[ConnectedIndividualConnectionType]
+    SOLE_PROPRIETOR_CONNECTED_INDIVIDUAL_CONNECTION_TYPE: _ClassVar[ConnectedIndividualConnectionType]
+    PARTNER_CONNECTED_INDIVIDUAL_CONNECTION_TYPE: _ClassVar[ConnectedIndividualConnectionType]
+UNDEFINED_CONNECTED_INDIVIDUAL_CONNECTION_TYPE: ConnectedIndividualConnectionType
+MANAGER_CONNECTED_INDIVIDUA_CONNECTION_TYPE: ConnectedIndividualConnectionType
+SHAREHOLDER_CONNECTED_INDIVIDUAL_CONNECTION_TYPE: ConnectedIndividualConnectionType
+AGENT_CONNECTED_INDIVIDUAL_CONNECTION_TYPE: ConnectedIndividualConnectionType
+SOLE_PROPRIETOR_CONNECTED_INDIVIDUAL_CONNECTION_TYPE: ConnectedIndividualConnectionType
+PARTNER_CONNECTED_INDIVIDUAL_CONNECTION_TYPE: ConnectedIndividualConnectionType

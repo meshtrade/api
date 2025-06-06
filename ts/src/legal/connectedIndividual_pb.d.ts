@@ -6,10 +6,12 @@
 
 import * as jspb from "google-protobuf";
 import * as api_proto_location_address_pb from "../location/address_pb";
+import * as api_proto_legal_connectedIndividialConnectionType_pb from "../legal/connectedIndividialConnectionType_pb";
+import * as api_proto_legal_identificationType_pb from "../legal/identificationType_pb";
 
 export class ConnectedIndividual extends jspb.Message { 
-    getConnectiontype(): string;
-    setConnectiontype(value: string): ConnectedIndividual;
+    getConnectiontype(): api_proto_legal_connectedIndividialConnectionType_pb.ConnectedIndividualConnectionType;
+    setConnectiontype(value: api_proto_legal_connectedIndividialConnectionType_pb.ConnectedIndividualConnectionType): ConnectedIndividual;
     getFirstname(): string;
     setFirstname(value: string): ConnectedIndividual;
     getMiddlenames(): string;
@@ -20,8 +22,8 @@ export class ConnectedIndividual extends jspb.Message {
     setDateofbirth(value: string): ConnectedIndividual;
     getNationality(): string;
     setNationality(value: string): ConnectedIndividual;
-    getIdentificationtype(): string;
-    setIdentificationtype(value: string): ConnectedIndividual;
+    getIdentificationtype(): api_proto_legal_identificationType_pb.IdentificationType;
+    setIdentificationtype(value: api_proto_legal_identificationType_pb.IdentificationType): ConnectedIndividual;
     getIdentificationnumber(): string;
     setIdentificationnumber(value: string): ConnectedIndividual;
 
@@ -53,13 +55,13 @@ export class ConnectedIndividual extends jspb.Message {
 
 export namespace ConnectedIndividual {
     export type AsObject = {
-        connectiontype: string,
+        connectiontype: api_proto_legal_connectedIndividialConnectionType_pb.ConnectedIndividualConnectionType,
         firstname: string,
         middlenames: string,
         lastname: string,
         dateofbirth: string,
         nationality: string,
-        identificationtype: string,
+        identificationtype: api_proto_legal_identificationType_pb.IdentificationType,
         identificationnumber: string,
         physicaladdress?: api_proto_location_address_pb.Address.AsObject,
         postaladdress?: api_proto_location_address_pb.Address.AsObject,
