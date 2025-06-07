@@ -5,7 +5,7 @@
 version: v2
 
 plugins:
-  # --- Go Message & Enum Types ---
+### Go ###
   - remote: buf.build/protocolbuffers/go
     out: .
     opt:
@@ -14,3 +14,6 @@ plugins:
     out: .
     opt:
       - module=github.com/meshtrade/api
+### Python ###
+  - remote: buf.build/community/danielgtaylor-betterproto:v1.2.5
+    out: .
