@@ -16,7 +16,7 @@ Integration SDKs for our API services are available in the following languages:
 * **[Python](./python/README.md)**
 * **[TypeScript](./ts/README.md)**
 
-If an SDK in another language is required then these can be used to generate an integration library using a protobuf compiler with the appropriate plug-ins. This is possible as the types and gRPC clients in the available SDKs are generated from the [protobuf](https://github.com/protocolbuffers/protobuf) specifications of our API that can be found in the [proto](./proto) directory of this repository. (We use [buf](https://github.com/bufbuild/buf))
+If an SDK in another language is required the protobuf API definitions in the [proto](./proto) directory of this repository can be used to generate a new integration library using a protobuf compiler with the appropriate plug-ins. (We use [buf](https://github.com/bufbuild/buf)).
 
 ## API Philosophy
 * **Schema-First Design**: The [protobuf](https://github.com/protocolbuffers/protobuf) definitions in the [proto](./proto) directory are the source of truth describing our API. The types and gRPC clients in our [integration SDKs](#client-libraries-for-api-access) are generated directly from these definitions.
