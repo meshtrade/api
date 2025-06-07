@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package mesh_api.iam.v1;
+
+option go_package = "github.com/meshtrade/api/go/iam/v1";
+
+import "permission.proto";
+
+/*
+Role is a collection of permissions.
+*/
+message Role {
+  /*
+  Name is the name of the Role.
+  */
+  string name = 1;
+
+  /*
+  Permissions are the permissions on this role.
+  */  
+  repeated mesh_api.iam.v1.Permission permissions = 2;
+}

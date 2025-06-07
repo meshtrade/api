@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package mesh_api.account.v1;
+
+option go_package = "github.com/meshtrade/api/go/account/v1";
+
+import "account.proto";
+
+/*
+Service is the Instrument Service.
+*/
+service Service {
+  rpc Get(GetRequest) returns (GetResponse);
+}
+
+/*
+GetRequest is Get method request on the Instrument Service.
+*/
+message GetRequest {
+    string number = 1;
+}
+
+/*
+GetResponse is Get method response on the Instrument Service.
+*/
+message GetResponse {
+    /*
+    TransactionID refers to the get transaction. 
+    */
+    mesh_api.account.v1.Account transactionID = 1;
+}
