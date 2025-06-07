@@ -1,2 +1,2 @@
-# Mesh Go SDK
-This is the Mesh Go SDK. See quick start.
+# Go Mesh API Integration SDKs
+STILL UNDER DEVELOPMENT
