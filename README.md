@@ -2,7 +2,7 @@
 
 Welcome to the Mesh API monorepo - the central hub containing our API definitions and client libraries.
 
-Our APIs are exposed over [gRPC](https://grpc.io/). To facilitate seamless integration we provide client libraries in a number of languages that can be used to integrate with them.
+Our APIs are exposed over [gRPC](https://grpc.io/). To facilitate seamless integration we provide [API integration SDKs](#api-integration-sdks) in a number of languages that can be used to integrate with them.
 
 The following sections cover:
 1.  [API Integration SDKs](#api-integration-sdks) - *API integration SDKs in our supported languages.*
