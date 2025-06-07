@@ -7,7 +7,7 @@ Our APIs are exposed over [gRPC](https://grpc.io/). To facilitate seamless integ
 The following sections cover:
 1.  [API Integration SDKs](#api-integration-sdks) - *API integration SDKs in our supported languages.*
 2.  [API Philosophy](#api-philosophy) - *A description of the principles behind our API design.*
-3.  [Repository Structure](#repository-structure) - *An overview of the structure of this repository.*
+3.  [Repository Structure](#repository-structure) - *An overview of the structure of  this repository.*
 
 ## API Integration SDKs
 Integration SDKs for our API services are available in the following languages:
@@ -158,17 +158,15 @@ graph TD
 
 #### `/proto`
 
-This directory our [protobuf](https://github.com/protocolbuffers/protobuf) definitions. It is divided into two conceptual categories:
+This directory contains the [protobuf](https://github.com/protocolbuffers/protobuf) definitions of our API services. It can be divided into two conceptual categories:
 
 * **API Services** (`auth`, `iam`, `account`, etc.): These are the type and service definitions that describe our APIs. A combination of protobuf `service` and `message` definitions.
-* **Shared Types** (`type`): These are the foundational "bricks"—reusable messages like `Amount` or `Decimal`—that are used across multiple API services. They never contain `service` definitions.
+* **Shared Types** (`type`): These are foundational messages (such as `Decimal`, `Token` or `Amount`) that are used across multiple API services. There are no `service` definitions here.
 
-#### Generated Code Directories (`/go`, `/python`, `/ts`)
+#### API Integration SDK Directories (`/go`, `/python`, `/ts`)
 
-These directories contain the generated client libraries, each tailored to the conventions of its language ecosystem. For detailed usage, local development, and testing instructions, see the README inside each directory.
+These directories contain the the API integration SDKs for our supported languages. Each SDK is tailored to the conventions of its language ecosystem. For more information consult the README inside the respective SDK directory.
 
-* **/go**: Contains Go modules structured as a **Go workspace**. See the **[Go README](./go/README.md)** for more information.
-* **/python**: Contains Python packages managed by a central `pythonproject.toml`. See the **[Python README](./python/README.md)** for more information.
-* **/ts**: Contains TypeScript/JavaScript packages managed as a monorepo. See the **[TypeScript README](./ts/README.md)** for more information.
-
----
+* **/go**: Go modules.
+* **/python**: Python packages managed by a central `pythonproject.toml`.
+* **/ts**: TypeScript packages managed as a monorepo.
