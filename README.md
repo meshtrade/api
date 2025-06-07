@@ -2,7 +2,7 @@
 
 Welcome to the Mesh API monorepo - the central hub containing our API definitions and integration SDKs.
 
-Our APIs are exposed over [gRPC](https://grpc.io/). To facilitate seamless integration we provide [API integration SDKs](#api-integration-sdks) in a number of languages that can be used to integrate with them.
+Our APIs are exposed over [gRPC](https://grpc.io/). To facilitate seamless integration we provide [API integration SDKs](#api-integration-sdks) in a number of languages.
 
 The following sections cover:
 1.  [API Integration SDKs](#api-integration-sdks) - *API integration SDKs in our supported languages.*
@@ -16,7 +16,7 @@ Integration SDKs for our API services are available in the following languages:
 * **[Python](./python/README.md)**
 * **[TypeScript](./ts/README.md)**
 
-If an SDK in another language is required the protobuf API definitions in the [proto](./proto) directory of this repository can be used to generate a new integration library using a protobuf compiler with the appropriate plug-ins. (We use [buf](https://github.com/bufbuild/buf)).
+If an SDK in another language is required, you can generate one directly from the Protobuf API definitions in the [proto](./proto) directory. We recommend using [buf](https://github.com/bufbuild/buf) to do this.
 
 ## API Philosophy
 * **Schema-First Design**: The [protobuf](https://github.com/protocolbuffers/protobuf) definitions in the [proto](./proto) directory are the source of truth describing our API. The types and gRPC clients in our [integration SDKs](#client-libraries-for-api-access) are generated directly from these definitions.
