@@ -7,7 +7,7 @@ Our APIs are exposed over [gRPC](https://grpc.io/). To facilitate seamless integ
 The following sections cover:
 1.  [API Integration SDKs](#api-integration-sdks) - *API integration SDKs in our supported languages.*
 2.  [API Philosophy](#api-philosophy) - *A description of the principles behind our API design.*
-3.  [Repository Structure](#repository-structure) - *An overview of this repositorys structure.*
+3.  [Repository Structure](#repository-structure) - *An overview of the structure of this repository.*
 
 ## API Integration SDKs
 Integration SDKs for our API services are available in the following languages:
