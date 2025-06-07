@@ -21,10 +21,11 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// GetRequest is Get method request on the Instrument Service.
+// GetRequest is the message sent to the Get RPC.
 type GetRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Number        string                 `protobuf:"bytes,1,opt,name=number,proto3" json:"number,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The unique identifier for the account to be retrieved.
+	Number        string `protobuf:"bytes,1,opt,name=number,proto3" json:"number,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -66,11 +67,11 @@ func (x *GetRequest) GetNumber() string {
 	return ""
 }
 
-// GetResponse is Get method response on the Instrument Service.
+// GetResponse is the message returned from the Get RPC.
 type GetResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// TransactionID refers to the get transaction.
-	TransactionID *Account `protobuf:"bytes,1,opt,name=transactionID,proto3" json:"transactionID,omitempty"`
+	// The retrieved account resource.
+	Account       *Account `protobuf:"bytes,1,opt,name=account,proto3" json:"account,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -105,9 +106,9 @@ func (*GetResponse) Descriptor() ([]byte, []int) {
 	return file_service_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *GetResponse) GetTransactionID() *Account {
+func (x *GetResponse) GetAccount() *Account {
 	if x != nil {
-		return x.TransactionID
+		return x.Account
 	}
 	return nil
 }
@@ -119,9 +120,9 @@ const file_service_proto_rawDesc = "" +
 	"\rservice.proto\x12\x13mesh_api.account.v1\x1a\raccount.proto\"$\n" +
 	"\n" +
 	"GetRequest\x12\x16\n" +
-	"\x06number\x18\x01 \x01(\tR\x06number\"Q\n" +
-	"\vGetResponse\x12B\n" +
-	"\rtransactionID\x18\x01 \x01(\v2\x1c.mesh_api.account.v1.AccountR\rtransactionID2S\n" +
+	"\x06number\x18\x01 \x01(\tR\x06number\"E\n" +
+	"\vGetResponse\x126\n" +
+	"\aaccount\x18\x01 \x01(\v2\x1c.mesh_api.account.v1.AccountR\aaccount2S\n" +
 	"\aService\x12H\n" +
 	"\x03Get\x12\x1f.mesh_api.account.v1.GetRequest\x1a .mesh_api.account.v1.GetResponseB(Z&github.com/meshtrade/api/go/account/v1b\x06proto3"
 
@@ -144,7 +145,7 @@ var file_service_proto_goTypes = []any{
 	(*Account)(nil),     // 2: mesh_api.account.v1.Account
 }
 var file_service_proto_depIdxs = []int32{
-	2, // 0: mesh_api.account.v1.GetResponse.transactionID:type_name -> mesh_api.account.v1.Account
+	2, // 0: mesh_api.account.v1.GetResponse.account:type_name -> mesh_api.account.v1.Account
 	0, // 1: mesh_api.account.v1.Service.Get:input_type -> mesh_api.account.v1.GetRequest
 	1, // 2: mesh_api.account.v1.Service.Get:output_type -> mesh_api.account.v1.GetResponse
 	2, // [2:3] is the sub-list for method output_type

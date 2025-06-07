@@ -6,26 +6,20 @@ option go_package = "github.com/meshtrade/api/go/account/v1";
 
 import "account.proto";
 
-/*
-Service is the Instrument Service.
-*/
+// Service provides RPCs for interacting with accounts.
 service Service {
+  // Get retrieves a single account by its unique number.
   rpc Get(GetRequest) returns (GetResponse);
 }
 
-/*
-GetRequest is Get method request on the Instrument Service.
-*/
+// GetRequest is the message sent to the Get RPC.
 message GetRequest {
-    string number = 1;
+  // The unique identifier for the account to be retrieved.
+  string number = 1;
 }
 
-/*
-GetResponse is Get method response on the Instrument Service.
-*/
+// GetResponse is the message returned from the Get RPC.
 message GetResponse {
-    /*
-    TransactionID refers to the get transaction. 
-    */
-    mesh_api.account.v1.Account transactionID = 1;
+  // The retrieved account resource.
+  mesh_api.account.v1.Account account = 1;
 }
