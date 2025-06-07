@@ -29,11 +29,14 @@ graph TD
 
     subgraph proto ["/proto (Source of Truth)"]
         direction TB
-        subgraph p_iam ["iam/v1"]
-            p_iam_files("*.proto")
-        end
-        subgraph p_instrument ["instrument/v1"]
-            p_instrument_files("*.proto")
+        subgraph p_api_products ["API Products"]
+             direction TB
+             subgraph p_iam ["iam/v1"]
+                p_iam_files("*.proto")
+            end
+            subgraph p_instrument ["instrument/v1"]
+                p_instrument_files("*.proto")
+            end
         end
         subgraph p_type ["type/v1"]
             p_type_files("*.proto")
@@ -46,11 +49,14 @@ graph TD
         subgraph go ["/go"]
             direction TB
             go_workspace("go.work")
-            subgraph go_iam ["iam/v1"]
-                go_iam_files("*.pb.go")
-            end
-            subgraph go_instrument ["instrument/v1"]
-                go_instrument_files("*.pb.go")
+            subgraph go_api_products ["API Products"]
+                direction TB
+                subgraph go_iam ["iam/v1"]
+                    go_iam_files("*.pb.go")
+                end
+                subgraph go_instrument ["instrument/v1"]
+                    go_instrument_files("*.pb.go")
+                end
             end
             subgraph go_type ["type/v1"]
                 go_type_files("*.pb.go")
@@ -60,11 +66,14 @@ graph TD
         subgraph python ["/python"]
             direction TB
             py_mod("pyproject.toml")
-            subgraph py_iam ["iam/v1"]
-                py_iam_files("*_pb2.py")
-            end
-            subgraph py_instrument ["instrument/v1"]
-                py_instrument_files("*_pb2.py")
+             subgraph py_api_products ["API Products"]
+                direction TB
+                subgraph py_iam ["iam/v1"]
+                    py_iam_files("*_pb2.py")
+                end
+                subgraph py_instrument ["instrument/v1"]
+                    py_instrument_files("*_pb2.py")
+                end
             end
             subgraph py_type ["type/v1"]
                 py_type_files("*_pb2.py")
@@ -74,13 +83,16 @@ graph TD
         subgraph ts ["/ts"]
             direction TB
             ts_mod("package.json")
-            subgraph ts_iam ["iam/v1"]
-                ts_iam_files("*.ts")
+            subgraph ts_api_products ["API Products"]
+                direction TB
+                subgraph ts_iam ["src/iam/v1"]
+                    ts_iam_files("*.ts")
+                end
+                subgraph ts_instrument ["src/instrument/v1"]
+                    ts_instrument_files("*.ts")
+                end
             end
-            subgraph ts_instrument ["instrument/v1"]
-                ts_instrument_files("*.ts")
-            end
-            subgraph ts_type ["type/v1"]
+            subgraph ts_type ["src/type/v1"]
                 ts_type_files("*.ts")
             end
         end
@@ -115,6 +127,12 @@ graph TD
     style go fill:#fdf1e8,stroke:#000
     style python fill:#fff9e6,stroke:#000
     style ts fill:#e8f3ff,stroke:#000
+
+    %% Dotted line block for API Products
+    style p_api_products fill:none,stroke:#000,stroke-width:2px,stroke-dasharray: 5 5
+    style go_api_products fill:none,stroke:#000,stroke-width:2px,stroke-dasharray: 5 5
+    style py_api_products fill:none,stroke:#000,stroke-width:2px,stroke-dasharray: 5 5
+    style ts_api_products fill:none,stroke:#000,stroke-width:2px,stroke-dasharray: 5 5
 ```
 
 ### Directory Breakdown

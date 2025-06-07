@@ -1,0 +1,198 @@
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+*.nupkg
+*.nuget.props
+*.nuget.targets
+
+# Packages #
+############
+# it's better to unpack these files and commit the raw source
+# git has its own built-in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+*.sqlite3
+*.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Operating system generated files #
+##################################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDEs and editors #
+####################
+# IntelliJ
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+# VS Code
+.vscode/
+# Netbeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+.nb-gradle/
+# Eclipse
+.classpath
+.project
+.settings/
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+# Atom
+.atom/
+# VisualStudio
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+# Rider
+.idea.rider/
+# Xcode
+*.xcscheme
+*.xcworkspace
+xcuserdata/
+
+# Build directories #
+#####################
+bin/
+obj/
+build/
+dist/
+target/
+node_modules/
+bower_components/
+jspm_packages/
+public/bundles/ # Symfony
+var/ # Symfony
+vendor/ # Composer dependencies
+
+# Environment files #
+#####################
+.env
+.env.local
+.env.*.local
+!.env.example
+!.env.test
+
+# Test results and coverage reports #
+#####################################
+coverage/
+*.cover
+*.profraw
+junitreports/
+test-results/
+/build/reports/
+/build/test-results/
+
+# Dependency directories #
+##########################
+node_modules/
+vendor/
+jspm_packages/
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.manifest
+*.spec
+# Python virtualenv
+.venv
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+
+# Sass cache #
+##############
+.sass-cache/
+
+# User-specific files #
+#######################
+*.swp
+*~
+*.bak
+*.old
+
+# Security #
+############
+# Ignore private keys, sensitive data
+*.pem
+*.key
+*.cer
+*.p12
+*.pfx
+credentials.json
+secrets.yml
+config.json
+
+# Terraform #
+#############
+.terraform/
+*.tfstate
+*.tfstate.backup
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+# Other #
+#########
+# Mac files
+.AppleDouble
+.LSOverride
+# Windows thumbnail cache files
+Thumbs.db
+ehthumbs.db
+# Windows JIT Debugger
+JIT*.log
+
+scratch*
