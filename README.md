@@ -1,99 +1,113 @@
 # Mesh API Monorepo
 
-Welcome to the official source repository for Mesh's Protobuf API definitions and their corresponding generated client libraries for Go, Python, and TypeScript. This monorepo is the single source of truth for how our services communicate.
+Welcome to the Mesh API monorepo - the central hub containing our API definitions and client libraries.
 
-This document provides a high-level overview of the repository's structure, philosophy, and development workflow. For language-specific details, please see the README in the corresponding directory:
+Our APIs are exposed over [gRPC](https://grpc.io/). To facilitate seamless integration we provide pre-generated client libraries in a number of languages that can be used to integrate with them.
 
-* **[Proto Client README](./proto/README.md)**
-* **[Go Client README](./go/README.md)**
-* **[Python Client README](./python/README.md)**
-* **[TypeScript Client README](./ts/README.md)**
+The following sections cover:
+1.  [API Integration SDKs](#api-integration-sdks) - *API integration SDKs in our supported languages.*
+2.  [API Philosophy](#api-philosophy) - *A description of the principles behind our API design.*
+3.  [Repository Structure](#repository-structure) - *An overview of this repositorys structure.*
 
-The repository is managed using the [Buf](https://buf.build) toolchain to enforce a consistent style, prevent breaking changes, and automate code generation.
+## API Integration SDKs
+Integration SDKs for our API services are available in the following languages:
 
-## Core Philosophy
+* **[Go](./go/README.md)**
+* **[Python](./python/README.md)**
+* **[TypeScript](./ts/README.md)**
 
-* **Schema-First Design**: The Protobuf definitions in the `/proto` directory are the source of truth. All code is generated from them.
-* **Clear Separation**: A strict separation is maintained between the API definitions (`/proto`) and the language-specific generated code (`/go`, `/python`, `/ts`).
-* **Independent Modules**: Each API product and shared type collection is treated as a distinct, versionable module. This allows consumers to import only the code they need for their specific language.
-* **Backward Compatibility**: We enforce backward compatibility using `buf`. A `v1` API is a stable contract. Breaking changes require a new version.
+The types and gRPC clients in these SDKs are generated from the [protobuf](https://github.com/protocolbuffers/protobuf) specifications of our API that can be found in the [proto](./proto) directory of this repository.
+
+If an SDK in another language is required then these can be used to generate an integration library using a protobuf compiler with the appropriate plug-ins. We use [buf](https://github.com/bufbuild/buf).
+
+## API Philosophy
+* **Schema-First Design**: The [protobuf](https://github.com/protocolbuffers/protobuf) definitions in the [proto](./proto) directory are the source of truth describing our API. The types and gRPC clients in our [integration SDKs](#client-libraries-for-api-access) are generated directly from these definitions.
+* **Resource-Oriented Design**: Our APIs are designed around _resource services_ - each providing methods from the following stanard verb list: Create, Get, List, Update, Delete. Services may also provide custom methods when appropriate. A full verb list with documentation can be found alongside the associated API in the proto directory.
+* **Backward Compatibility**: We are committed to API stability. Following semantic versioning principles, a `v1` API is a stable contract; any breaking changes will necessitate a new major version (e.g., `v2`). These will be published in the form of another version DIRECTORY in `/proto/service/vX`.
+* **Independent Modules**: Each API service and shared type collection is treated as a distinct, versionable module. This allows consumers to import only the code they need for their specific language.
 
 ## Repository Structure
 
-The following diagram illustrates the relationship between our source Protobuf files and the generated client libraries for each language:
+The following diagram illustrates the relationship between our source protobuf files and the generated client libraries for each language:
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': { 'background': '#ffffff' }}}%%
 graph TD
 %% Main direction is Top Down for better vertical layout
 
-    subgraph proto ["/proto (Source of Truth)"]
+    subgraph proto ["/proto"]
         direction TB
-        subgraph p_api_products ["API Products"]
+        subgraph p_api_services ["API Services"]
              direction TB
-             subgraph p_iam ["iam/v1"]
+            subgraph p_account ["/proto/account/v1"]
+                p_account_files("*.proto")
+            end
+             subgraph p_iam ["/proto/iam/v1"]
                 p_iam_files("*.proto")
             end
-            subgraph p_instrument ["instrument/v1"]
-                p_instrument_files("*.proto")
+            subgraph p_auth ["/proto/auth/v1"]
+                p_auth_files("*.proto")
             end
         end
-        subgraph p_type ["type/v1"]
+        subgraph p_type ["/proto/type/v1"]
             p_type_files("*.proto")
         end
     end
 
     subgraph generated_code ["Generated Client Libraries"]
-        direction LR %% Arrange language blocks side-by-side
-        
-        subgraph go ["/go"]
+        direction LR
+        subgraph ts ["/ts"]
             direction TB
-            go_workspace("go.work")
-            subgraph go_api_products ["API Products"]
+            subgraph ts_api_services ["API Services"]
                 direction TB
-                subgraph go_iam ["iam/v1"]
-                    go_iam_files("*.pb.go")
+                subgraph ts_account ["ts/account/v1"]
+                    ts_account_files("*.pb.ts")
                 end
-                subgraph go_instrument ["instrument/v1"]
-                    go_instrument_files("*.pb.go")
+                subgraph ts_iam ["ts/iam/v1"]
+                    ts_iam_files("*.pb.ts")
+                end
+                subgraph ts_auth ["ts/auth/v1"]
+                    ts_auth_files("*.pb.ts")
                 end
             end
-            subgraph go_type ["type/v1"]
+            subgraph ts_type ["ts/type/v1"]
+                ts_type_files("*.pb.ts")
+            end
+        end
+        subgraph go ["/go"]
+            direction TB
+            subgraph go_api_services ["API Services"]
+                direction TB
+                subgraph go_account ["go/account/v1"]
+                    go_account_files("*.pb.go")
+                end
+                subgraph go_iam ["go/iam/v1"]
+                    go_iam_files("*.pb.go")
+                end
+                subgraph go_auth ["go/auth/v1"]
+                    go_auth_files("*.pb.go")
+                end
+            end
+            subgraph go_type ["go/type/v1"]
                 go_type_files("*.pb.go")
             end
         end
-
         subgraph python ["/python"]
             direction TB
-            py_mod("pyproject.toml")
-             subgraph py_api_products ["API Products"]
+            subgraph python_api_services ["API Services"]
                 direction TB
-                subgraph py_iam ["iam/v1"]
-                    py_iam_files("*_pb2.py")
+                subgraph python_account ["python/account/v1"]
+                    python_account_files("*.pb.py")
                 end
-                subgraph py_instrument ["instrument/v1"]
-                    py_instrument_files("*_pb2.py")
+                subgraph python_iam ["python/iam/v1"]
+                    python_iam_files("*.pbpy")
                 end
-            end
-            subgraph py_type ["type/v1"]
-                py_type_files("*_pb2.py")
-            end
-        end
-
-        subgraph ts ["/ts"]
-            direction TB
-            ts_mod("package.json")
-            subgraph ts_api_products ["API Products"]
-                direction TB
-                subgraph ts_iam ["src/iam/v1"]
-                    ts_iam_files("*.ts")
-                end
-                subgraph ts_instrument ["src/instrument/v1"]
-                    ts_instrument_files("*.ts")
+                subgraph python_auth ["python/auth/v1"]
+                    python_auth_files("*.pb.py")
                 end
             end
-            subgraph ts_type ["src/type/v1"]
-                ts_type_files("*.ts")
+            subgraph python_type ["python/type/v1"]
+                python_type_files("*.pb.py")
             end
         end
     end
@@ -107,20 +121,27 @@ graph TD
     style proto fill:#f8f9fa,stroke:#000
     style generated_code fill:#f8f9fa,stroke:#000
 
-    %% API Product Modules
+    %% API Service Modules
+    style p_auth fill:#e9f2fa,stroke:#000
     style p_iam fill:#e9f2fa,stroke:#000
-    style p_instrument fill:#e9f2fa,stroke:#000
+    style p_account fill:#e9f2fa,stroke:#000
+
+    style go_auth fill:#e9f2fa,stroke:#000
     style go_iam fill:#e9f2fa,stroke:#000
-    style go_instrument fill:#e9f2fa,stroke:#000
-    style py_iam fill:#e9f2fa,stroke:#000
-    style py_instrument fill:#e9f2fa,stroke:#000
+    style go_account fill:#e9f2fa,stroke:#000
+
+    style python_auth fill:#e9f2fa,stroke:#000
+    style python_iam fill:#e9f2fa,stroke:#000
+    style python_account fill:#e9f2fa,stroke:#000
+
+    style ts_auth fill:#e9f2fa,stroke:#000
     style ts_iam fill:#e9f2fa,stroke:#000
-    style ts_instrument fill:#e9f2fa,stroke:#000
+    style ts_account fill:#e9f2fa,stroke:#000
 
     %% Shared Type Modules
     style p_type fill:#e7f5e8,stroke:#000
     style go_type fill:#e7f5e8,stroke:#000
-    style py_type fill:#e7f5e8,stroke:#000
+    style python_type fill:#e7f5e8,stroke:#000
     style ts_type fill:#e7f5e8,stroke:#000
 
     %% Language-specific containers
@@ -128,97 +149,28 @@ graph TD
     style python fill:#fff9e6,stroke:#000
     style ts fill:#e8f3ff,stroke:#000
 
-    %% Dotted line block for API Products
-    style p_api_products fill:none,stroke:#000,stroke-width:2px,stroke-dasharray: 5 5
-    style go_api_products fill:none,stroke:#000,stroke-width:2px,stroke-dasharray: 5 5
-    style py_api_products fill:none,stroke:#000,stroke-width:2px,stroke-dasharray: 5 5
-    style ts_api_products fill:none,stroke:#000,stroke-width:2px,stroke-dasharray: 5 5
+    %% Dotted line block for API Services
+    style p_api_services fill:none,stroke:#000,stroke-width:2px,stroke-dasharray: 5 5
+    style go_api_services fill:none,stroke:#000,stroke-width:2px,stroke-dasharray: 5 5
+    style python_api_services fill:none,stroke:#000,stroke-width:2px,stroke-dasharray: 5 5
+    style ts_api_services fill:none,stroke:#000,stroke-width:2px,stroke-dasharray: 5 5
 ```
 
 ### Directory Breakdown
 
-#### `/proto` (The Source of Truth)
+#### `/proto`
 
-This directory contains all our master Protobuf definitions. It is divided into two conceptual categories:
+This directory our [protobuf](https://github.com/protocolbuffers/protobuf) definitions. It is divided into two conceptual categories:
 
-* **API Products** (`iam`, `instrument`, `legal`, etc.): These are self-contained functional domains that represent a capability of our system. They often contain `service` definitions.
-* **Shared Types** (`type`): These are the foundational "bricks"—reusable messages like `Amount` or `Decimal`—that are used across multiple API products. They never contain `service` definitions.
+* **API Services** (`auth`, `iam`, `account`, etc.): These are the type and service definitions that describe our APIs. A combination of protobuf `service` and `message` definitions.
+* **Shared Types** (`type`): These are the foundational "bricks"—reusable messages like `Amount` or `Decimal`—that are used across multiple API services. They never contain `service` definitions.
 
 #### Generated Code Directories (`/go`, `/python`, `/ts`)
 
 These directories contain the generated client libraries, each tailored to the conventions of its language ecosystem. For detailed usage, local development, and testing instructions, see the README inside each directory.
 
 * **/go**: Contains Go modules structured as a **Go workspace**. See the **[Go README](./go/README.md)** for more information.
-* **/python**: Contains Python packages managed by a central `pyproject.toml`. See the **[Python README](./python/README.md)** for more information.
+* **/python**: Contains Python packages managed by a central `pythonproject.toml`. See the **[Python README](./python/README.md)** for more information.
 * **/ts**: Contains TypeScript/JavaScript packages managed as a monorepo. See the **[TypeScript README](./ts/README.md)** for more information.
 
 ---
-
-## Consumer Guides
-
-To use our API clients, you do not need to clone this repository. You can install them directly from their respective package managers.
-
-### Go
-
-For example, to get the `iam/v1` client:
-
-```sh
-go get [github.com/meshtrade/api/go/iam/v1@latest](https://github.com/meshtrade/api/go/iam/v1@latest)
-```
-
-Then, import it:
-
-```go
-import "[github.com/meshtrade/api/go/iam/v1](https://github.com/meshtrade/api/go/iam/v1)"
-```
-
-### Python
-
-To install the `iam` client package:
-
-```sh
-pip install meshtrade-api-iam
-```
-
-Then, import it:
-
-```python
-from meshtrade.api.iam.v1 import role_pb2
-```
-
-### TypeScript
-
-To install the `iam` client package:
-
-```sh
-npm install @meshtrade/api-iam-v1
-```
-
-Then, import it:
-
-```typescript
-import { Role } from '@meshtrade/api-iam-v1';
-```
-
-*(Note: Exact package names for Python and TS may vary based on final configuration).*
-
-## Developer Workflow
-
-1.  **Modify Protobuf**: Make your desired changes to the files within the `/proto` directory.
-2.  **Lint & Check**: From the repository root, run `buf lint` and `buf breaking` to ensure your changes are valid and don't break compatibility.
-
-    ```sh
-    # Lint your changes
-    buf lint
-    
-    # Check for breaking changes against the main branch
-    buf breaking --against .git#branch=main
-    ```
-
-3.  **Generate Code**: Once validation passes, run `buf generate` to update the corresponding client libraries in the `/go`, `/python`, and `/ts` directories.
-
-    ```sh
-    buf generate
-    ```
-
-4.  **Commit**: Commit the changes to both the `/proto` files and the newly generated code in the same commit.
