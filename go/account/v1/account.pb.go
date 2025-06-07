@@ -71,7 +71,7 @@ var File_account_proto protoreflect.FileDescriptor
 
 const file_account_proto_rawDesc = "" +
 	"\n" +
-	"\raccount.proto\x12\x13mesh_api.account.v1\"\x1d\n" +
+	"\raccount.proto\x12\x0fmesh.account.v1\"\x1d\n" +
 	"\aAccount\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04nameB(Z&github.com/meshtrade/api/go/account/v1b\x06proto3"
 
@@ -89,7 +89,7 @@ func file_account_proto_rawDescGZIP() []byte {
 
 var file_account_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_account_proto_goTypes = []any{
-	(*Account)(nil), // 0: mesh_api.account.v1.Account
+	(*Account)(nil), // 0: mesh.account.v1.Account
 }
 var file_account_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type

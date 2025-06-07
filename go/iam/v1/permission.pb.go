@@ -25,7 +25,7 @@ const (
 type Permission struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// ServiceProvider is the name of the Service Provider that provides Service.
-	ServiceProvider string `protobuf:"bytes,1,opt,name=serviceProvider,proto3" json:"serviceProvider,omitempty"`
+	ServiceProvider string `protobuf:"bytes,1,opt,name=service_provider,json=serviceProvider,proto3" json:"service_provider,omitempty"`
 	// Service is the name of the Service on ServiceProvider that this Permission grants access to.
 	Service string `protobuf:"bytes,2,opt,name=service,proto3" json:"service,omitempty"`
 	// Description describes the purpose of this permission.
@@ -89,10 +89,10 @@ var File_permission_proto protoreflect.FileDescriptor
 
 const file_permission_proto_rawDesc = "" +
 	"\n" +
-	"\x10permission.proto\x12\x0fmesh_api.iam.v1\"r\n" +
+	"\x10permission.proto\x12\vmesh.iam.v1\"s\n" +
 	"\n" +
-	"Permission\x12(\n" +
-	"\x0fserviceProvider\x18\x01 \x01(\tR\x0fserviceProvider\x12\x18\n" +
+	"Permission\x12)\n" +
+	"\x10service_provider\x18\x01 \x01(\tR\x0fserviceProvider\x12\x18\n" +
 	"\aservice\x18\x02 \x01(\tR\aservice\x12 \n" +
 	"\vdescription\x18\x03 \x01(\tR\vdescriptionB$Z\"github.com/meshtrade/api/go/iam/v1b\x06proto3"
 
@@ -110,7 +110,7 @@ func file_permission_proto_rawDescGZIP() []byte {
 
 var file_permission_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_permission_proto_goTypes = []any{
-	(*Permission)(nil), // 0: mesh_api.iam.v1.Permission
+	(*Permission)(nil), // 0: mesh.iam.v1.Permission
 }
 var file_permission_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type

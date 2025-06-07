@@ -6,9 +6,11 @@ version: v2
 
 plugins:
   # --- Go Message & Enum Types ---
-  # This plugin (protoc-gen-go) generates the Go data structures for messages.
   - remote: buf.build/protocolbuffers/go
     out: .
     opt:
-      # Specifies the Go module path, making import paths in generated code correct.
+      - module=github.com/meshtrade/api
+  - remote: buf.build/grpc/go
+    out: .
+    opt:
       - module=github.com/meshtrade/api

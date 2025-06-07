@@ -1,19 +1,20 @@
 version: v2
 modules:
-  - path: proto/account/v1
-    name: mesh_api/account/v1
-  - path: proto/iam/v1
-    name: mesh_api/iam/v1
+  - path: proto/mesh/account/v1
+    name: mesh/account/v1
+  - path: proto/mesh/iam/v1
+    name: mesh/iam/v1
 
 # A list of dependencies on modules outside of the workspace.
 deps:
   - buf.build/google/googleapis
-  - buf.build/grpc/grpc
 
 # Workspace-level lint and breaking change detection settings.
 lint:
   use:
-    - DEFAULT
+    - STANDARD
+  except:
+    - PACKAGE_DIRECTORY_MATCH
 breaking:
   use:
     - FILE

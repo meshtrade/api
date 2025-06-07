@@ -81,10 +81,10 @@ var File_role_proto protoreflect.FileDescriptor
 const file_role_proto_rawDesc = "" +
 	"\n" +
 	"\n" +
-	"role.proto\x12\x0fmesh_api.iam.v1\x1a\x10permission.proto\"Y\n" +
+	"role.proto\x12\vmesh.iam.v1\x1a\x10permission.proto\"U\n" +
 	"\x04Role\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12=\n" +
-	"\vpermissions\x18\x02 \x03(\v2\x1b.mesh_api.iam.v1.PermissionR\vpermissionsB$Z\"github.com/meshtrade/api/go/iam/v1b\x06proto3"
+	"\x04name\x18\x01 \x01(\tR\x04name\x129\n" +
+	"\vpermissions\x18\x02 \x03(\v2\x17.mesh.iam.v1.PermissionR\vpermissionsB$Z\"github.com/meshtrade/api/go/iam/v1b\x06proto3"
 
 var (
 	file_role_proto_rawDescOnce sync.Once
@@ -100,11 +100,11 @@ func file_role_proto_rawDescGZIP() []byte {
 
 var file_role_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_role_proto_goTypes = []any{
-	(*Role)(nil),       // 0: mesh_api.iam.v1.Role
-	(*Permission)(nil), // 1: mesh_api.iam.v1.Permission
+	(*Role)(nil),       // 0: mesh.iam.v1.Role
+	(*Permission)(nil), // 1: mesh.iam.v1.Permission
 }
 var file_role_proto_depIdxs = []int32{
-	1, // 0: mesh_api.iam.v1.Role.permissions:type_name -> mesh_api.iam.v1.Permission
+	1, // 0: mesh.iam.v1.Role.permissions:type_name -> mesh.iam.v1.Permission
 	1, // [1:1] is the sub-list for method output_type
 	1, // [1:1] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name

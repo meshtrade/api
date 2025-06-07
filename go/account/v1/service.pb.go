@@ -117,14 +117,14 @@ var File_service_proto protoreflect.FileDescriptor
 
 const file_service_proto_rawDesc = "" +
 	"\n" +
-	"\rservice.proto\x12\x13mesh_api.account.v1\x1a\raccount.proto\"$\n" +
+	"\rservice.proto\x12\x0fmesh.account.v1\x1a\raccount.proto\"$\n" +
 	"\n" +
 	"GetRequest\x12\x16\n" +
-	"\x06number\x18\x01 \x01(\tR\x06number\"E\n" +
-	"\vGetResponse\x126\n" +
-	"\aaccount\x18\x01 \x01(\v2\x1c.mesh_api.account.v1.AccountR\aaccount2S\n" +
-	"\aService\x12H\n" +
-	"\x03Get\x12\x1f.mesh_api.account.v1.GetRequest\x1a .mesh_api.account.v1.GetResponseB(Z&github.com/meshtrade/api/go/account/v1b\x06proto3"
+	"\x06number\x18\x01 \x01(\tR\x06number\"A\n" +
+	"\vGetResponse\x122\n" +
+	"\aaccount\x18\x01 \x01(\v2\x18.mesh.account.v1.AccountR\aaccount2K\n" +
+	"\aService\x12@\n" +
+	"\x03Get\x12\x1b.mesh.account.v1.GetRequest\x1a\x1c.mesh.account.v1.GetResponseB(Z&github.com/meshtrade/api/go/account/v1b\x06proto3"
 
 var (
 	file_service_proto_rawDescOnce sync.Once
@@ -140,14 +140,14 @@ func file_service_proto_rawDescGZIP() []byte {
 
 var file_service_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_service_proto_goTypes = []any{
-	(*GetRequest)(nil),  // 0: mesh_api.account.v1.GetRequest
-	(*GetResponse)(nil), // 1: mesh_api.account.v1.GetResponse
-	(*Account)(nil),     // 2: mesh_api.account.v1.Account
+	(*GetRequest)(nil),  // 0: mesh.account.v1.GetRequest
+	(*GetResponse)(nil), // 1: mesh.account.v1.GetResponse
+	(*Account)(nil),     // 2: mesh.account.v1.Account
 }
 var file_service_proto_depIdxs = []int32{
-	2, // 0: mesh_api.account.v1.GetResponse.account:type_name -> mesh_api.account.v1.Account
-	0, // 1: mesh_api.account.v1.Service.Get:input_type -> mesh_api.account.v1.GetRequest
-	1, // 2: mesh_api.account.v1.Service.Get:output_type -> mesh_api.account.v1.GetResponse
+	2, // 0: mesh.account.v1.GetResponse.account:type_name -> mesh.account.v1.Account
+	0, // 1: mesh.account.v1.Service.Get:input_type -> mesh.account.v1.GetRequest
+	1, // 2: mesh.account.v1.Service.Get:output_type -> mesh.account.v1.GetResponse
 	2, // [2:3] is the sub-list for method output_type
 	1, // [1:2] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name
