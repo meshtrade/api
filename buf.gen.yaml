@@ -16,4 +16,4 @@ plugins:
       - module=github.com/meshtrade/api
 ### Python ###
   - remote: buf.build/community/danielgtaylor-betterproto:v1.2.5
-    out: .
+    out: ./python_build
