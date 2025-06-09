@@ -8,18 +8,12 @@ description = "Integration SDK for the iam v1 API service."
 readme = "README.md"
 requires-python = ">=3.8"
 keywords = ["meshtrade", "mesh-sdk", "grpc", "betterproto", "grpclib"]
-license = { text = "Proprietary" }
+license-files = ["LICENSE"]
 
 # https://pypi.org/classifiers
 classifiers = [
     # --- Development Status ---
     "Development Status :: 1 - Planning",
-
-    # --- Environment ---
-    "Environment ::",
-
-    # --- License ---
-    "License :: Other/Proprietary",
 
     # --- Audience & Topic ---
     "Intended Audience :: Developers",
