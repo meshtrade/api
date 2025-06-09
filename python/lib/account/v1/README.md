@@ -1,1 +1,1 @@
-# Mesh Accounts integration v1 SDK
+# Mesh Accounts integration SDK v1
