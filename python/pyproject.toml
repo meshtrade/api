@@ -22,3 +22,5 @@ dev = [
 [tool.ruff.lint.per-file-ignores]
 # ignure unused import error in generated files
 "*_pb.py" = ["F401"]
+# ignure unused import error in test files
+"test_*.py" = ["F401"]
