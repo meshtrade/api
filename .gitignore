@@ -52,8 +52,10 @@ Thumbs.db
 *.ipr
 *.iws
 out/
+
 # VS Code
 .vscode/
+
 # Netbeans
 /nbproject/private/
 /nbbuild/
@@ -118,6 +120,7 @@ test-results/
 node_modules/
 vendor/
 jspm_packages/
+
 # Python
 __pycache__/
 *.py[cod]
@@ -139,6 +142,9 @@ pip-wheel-metadata/
 share/python-wheels/
 *.manifest
 *.spec
+.ruff_cache
+.tox
+
 # Python virtualenv
 .venv
 venv/
