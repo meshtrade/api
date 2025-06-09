@@ -56,14 +56,37 @@ For more detailed information on each SDK, please see their individual READMEs:
 * **[Account v1](python/lib/account/v1/README.md)**
 * **[IAM v1](python/lib/iam/v1/README.md)**
 
-# Developer Guide
-This guide is for developers who want to contribute to these SDKs. It explains how to set up the local development environment for this Python monorepo.
+## Repository Structure
+This directory is a workspace within a larger polyglot monorepo. It manages versioned Python packages for each integration SDK.
 
-### Prerequisites:
+```
+└── python
+    ├── README.md             <-- You are HERE
+    ├── pyproject.toml        <-- Workspace development configuration
+    ├── requirements-dev.txt  <-- Workspace development configuration
+    ├── tox.ini               <-- Task automation configuration
+    ├── lib
+    │   ├── __init__.py
+    │   └── account             <-- Defines the mesh account api service
+    │       ├── __init__.py
+    │       └── vX              <-- Defines the 'mesh-account-vX' api SDK package
+    │           ├── README.md
+    │           ├── __init__.py
+    │           ├── pyproject.toml     
+    │           └── vX_pb.py
+    └── tests
+        ├── integration
+        └── unit
+```
+
+## Developer Guide
+This guide is for developers contributing to these SDKs. It explains how to set up the local development environment for this Python monorepo.
+
+### 1. Prerequisites:
 - Python 3.8+
 - The `venv` module (usually included with Python)
 
-## 1. Environment Setup
+### 2. Environment Setup
 All commands should be run from within this `python/` directory.
 
 Create and activate a single shared virtual environment for the workspace:
@@ -73,52 +96,54 @@ source .venv/bin/activate
 ```
 Your terminal prompt should now be prefixed with (.venv), indicating the environment is active.
 
-### 2. Install Dependencies
+### 3. Install Dependencies
 
 This project uses `pip-tools` to manage dependencies for a reproducible development environment.
 The top-level `pyproject.toml` is the source of truth for our direct dependencies, and `requirements-dev.txt` is the "lock file" that guarantees identical setups for everyone.
 
-**A) For a new setup or after a `git pull`:**
-Simply install the locked dependencies from `requirements-dev.txt`. This is the command you will use most of the time.
+**A) For a new setup (e.g. after a `git pull`):**
 
+Install the locked dependencies from `requirements-dev.txt`:
 ```bash
 pip install -r requirements-dev.txt
 ```
-This syncs your virtual environment to match the exact versions in the lock file.
+This synchronises the local virtual environment to match the exact versions in the lock file.
 
 **B) After a manual change to `pyproject.toml` (e.g. to install a new workspace level dependency or bump its version):**
-If you add, remove, or change a version pin in pyproject.toml, you must regenerate the lock file:
+
+If changes are made in the pyproject.toml then the lockfile must be regenerated:
 ```
 # Step 1: Re-compile the dependencies to update the lock file
 pip-compile --extra=dev --output-file=requirements-dev.txt pyproject.toml
 
-# Step 2: Sync your environment with the newly updated lock file
+# Step 2: Synchronise the local virtual environment again with the newly updated lock file
 pip install -r requirements-dev.txt
 ```
 
-## 3. Run Common Development Tasks
+### 4. Run Common Development Tasks
 Tox is used as the as the main command runner for all common tasks like linting, testing, and building.
+
 Tasks can be run from the command line (within the active virtual environment) as follows:
 
 
-- To run the linter:
+- The linter:
 ```
 tox -e lint
 ```
-- To run the unit tests:
+- The unit tests:
 ```
 tox -e unit-tests
 ```
-- To run the integration tests:
+- The integration tests:
 ```
 MESH_API_KEY="your-secret-api-key" tox -e integration-tests
 ```
-- To run all checks (linting and unit tests):
+- All checks (linting and unit tests):
 ```
 tox
 ```
 
-## 4. Building and Publishing Packages
+### 5. Building and Publishing Packages
 - *Build all packages:* The build task in tox will create the distributable wheel (.whl) and sdist (.tar.gz) files for all packages and place them in their respective dist/ folders.
 ```
 tox -e build
@@ -127,43 +152,4 @@ tox -e build
 - *Publish to PyPi:* The `twine` tool is used to securely upload the built packages to PyPI. This is done as part of the official release process.
 ```
 twine upload lib/*/v*/dist/*
-```
-
-# Repository Structure
-This directory is a workspace within a larger polyglot monorepo. It manages versioned Python packages for each integration SDK.
-
-```
-└── python
-    ├── README.md       <-- You are HERE
-    ├── pyproject.toml  <-- Workspace development configuration
-    ├── tox.ini         <-- Task automation configuration
-    ├── lib
-    │   ├── __init__.py
-    │   └── account
-    │       ├── __init__.py
-    │       └── vX
-    │           ├── README.md
-    │           ├── __init__.py
-    │           ├── pyproject.toml     <-- Defines the 'mesh-account-vX' package
-    │           └── vX_pb.py
-    └── tests
-        ├── integration
-        └── unit
-```
-
-## 5. Updating Workspace Dependencies
-To update dependencies at the workspace level:
-1. Update in the workspace root pyproject.toml file:
-```
-# in python/pyproject.toml
-...
-dev = [
-    ...
-    "ruff ~= 0.4.6",  # e.g. changing a version here
-    ...
-]
-```
-2. Regenerate lock file with pip-compile
-```
-pip-compile --extra=dev --output-file=requirements-dev.txt pyproject.toml
 ```
