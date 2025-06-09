@@ -3,19 +3,18 @@ name = "mesh-python-workspace"
 version = "0.0.1"
 description = "Development workspace for the Mesh Python API integration SDKs."
 
-# Optional-dependencies to group local packages and dev tools.
 [project.optional-dependencies]
 dev = [
-    # Install our local libraries in editable mode.
+    # Install local libraries in editable mode.
     # The paths are relative to THIS file.
     "-e ./lib/account/v1",
     "-e ./lib/iam/v1",
 
-    # Common development tools
-    "pip-tools",
-    "ruff ~= 0.4.5",
-    "pytest ~= 8.2.2",
-    "build ~= 1.2.1",
-    "twine ~= 5.1.0",
-    "tox", # Add tox for task automation
+    # Development tools
+    "pip-tools ~= 7.4.1",
+    "ruff ~= 0.11.13",
+    "pytest ~= 8.4.0",
+    "build ~= 1.2.2",
+    "twine ~= 6.1.0",
+    "tox ~= 4.26.0",
 ]
