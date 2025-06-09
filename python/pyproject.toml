@@ -7,8 +7,8 @@ description = "Development workspace for the Mesh Python API integration SDKs."
 dev = [
     # Install local libraries in editable mode.
     # The paths are relative to THIS file.
-    "-e ./lib/account/v1",
-    "-e ./lib/iam/v1",
+    "mesh-account-v1 @ file:./lib/account/v1",
+    "mesh-iam-v1 @ file:./lib/iam/v1",
 
     # Development tools
     "pip-tools ~= 7.4.1",

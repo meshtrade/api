@@ -1,32 +1,30 @@
-# ------------------------------------------------------------------------------
-# Build System Configuration
-# ------------------------------------------------------------------------------
-[build-system]
-requires = ["setuptools>=61.0"]
-build-backend = "setuptools.build_meta"
-
-
-# ------------------------------------------------------------------------------
-# Project Metadata (for PyPI and pip)
-# ------------------------------------------------------------------------------
 [project]
 name = "mesh-iam-v1"
 version = "0.1.0"
 authors = [
     { name = "Bernard Bussy", email = "bernard@meshtrade.co" },
 ]
-description = "Integration SDK for the iam v1 API service, using betterproto."
+description = "Integration SDK for the iam v1 API service."
 readme = "README.md"
 requires-python = ">=3.8"
-
 keywords = ["meshtrade", "mesh-sdk", "grpc", "betterproto", "grpclib"]
+license = { text = "Proprietary" }
 
+# https://pypi.org/classifiers
 classifiers = [
     # --- Development Status ---
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 1 - Planning",
+
+    # --- Environment ---
+    "Environment ::",
+
+    # --- License ---
+    "License :: Other/Proprietary",
+
     # --- Audience & Topic ---
     "Intended Audience :: Developers",
     "Topic :: Software Development :: Libraries :: Python Modules",
+
     # --- Python Versions Supported ---
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",
@@ -36,79 +34,11 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
 ]
 
-# Core runtime dependencies needed for this package to function.
 dependencies = [
     "betterproto >= 2.0.0b7, <3.0",
     "grpclib >= 0.4.8, <0.5",
 ]
 
-# Optional dependencies for development, testing, and building.
-# To install everything needed for development, run:
-# pip install -e .[dev]
-[project.optional-dependencies]
-dev = [
-    # For generating code from .proto files. Its version MUST match the runtime version.
-    "betterproto[compiler] >= 2.0.0b7, <3.0",
-
-    # For code linting and formatting (replaces flake8, isort, black).
-    "ruff ~= 0.4.5",
-
-    # The standard framework for running tests.
-    "pytest ~= 8.2.2",
-
-    # The modern, standard tool for building your package (sdist and wheel).
-    "build ~= 1.2.1",
-
-    # The standard tool for securely uploading your package to PyPI.
-    "twine ~= 5.1.0",
-]
-
-# Links to your project's homepage, documentation, repository, etc.
-[project.urls]
-"Homepage" = "https://github.com/meshtrade/api"
-"Documentation" = "https://github.com/meshtrade/api#readme"
-"Source Code" = "https://github.com/meshtrade/api"
-"Bug Tracker" = "https://github.com/meshtrade/api/issues"
-
-
-# ------------------------------------------------------------------------------
-# Tool Configuration
-# ------------------------------------------------------------------------------
-
-# --- Setuptools Configuration ---
 [tool.setuptools.packages.find]
-where = ["."]
-exclude = ["tests*"]
-
-# --- Ruff Configuration (Linter and Formatter) ---
-[tool.ruff]
-target-version = "py38"
-line-length = 88
-
-[tool.ruff.lint]
-# E/W: flake8 errors/warnings | F: Pyflakes
-# I: isort | B: flake8-bugbear | C4: flake8-comprehensions
-# SIM: flake8-simplify | UP: pyupgrade | TID: flake8-tidy-imports
-select = ["E", "W", "F", "I", "B", "C4", "SIM", "UP", "TID"]
-
-[tool.ruff.format]
-quote-style = "double"
-line-ending = "auto"
-
-# --- Pytest Configuration ---
-[tool.pytest.ini_options]
-minversion = "6.0"
-addopts = "-ra -q --cov=mesh_account_v1 --cov-report=term-missing" # Adjust 'mesh_account_v1' if your package name differs
-testpaths = [
-    "tests",
-]
-
-# --- Mypy Configuration (Type Checker) ---
-[tool.mypy]
-python_version = "3.8"
-warn_unused_configs = true
-explicit_package_bases = true
-# Add other mypy options as needed, e.g.:
-# disallow_untyped_defs = true
-# ignore_missing_imports = true
-# exclude = ['src/mesh_account_v1/generated/'] # If you want to exclude generated files from certain checks
+# Leaving this section is empty to allow setuptools automatically
+# discover packages in the same directory as this pyproject.toml.

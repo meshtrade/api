@@ -68,19 +68,33 @@ All commands should be run from within this `python/` directory.
 
 Create and activate a single shared virtual environment for the workspace:
 ```
-# Make sure you are in the `python/` directory
 python3 -m venv .venv
 source .venv/bin/activate
 ```
 Your terminal prompt should now be prefixed with (.venv), indicating the environment is active.
 
-## 2. Install All Dependencies
-Our workspace is managed by the top-level pyproject.toml file. To install all local packages in editable mode along with all development tools (ruff, pytest, tox, etc.), run the following command:
+### 2. Install Dependencies
+
+This project uses `pip-tools` to manage dependencies for a reproducible development environment.
+The top-level `pyproject.toml` is the source of truth for our direct dependencies, and `requirements-dev.txt` is the "lock file" that guarantees identical setups for everyone.
+
+**A) For a new setup or after a `git pull`:**
+Simply install the locked dependencies from `requirements-dev.txt`. This is the command you will use most of the time.
+
+```bash
+pip install -r requirements-dev.txt
 ```
-# The quotes are important to prevent some shell errors (e.g., in zsh)
-pip install -e '.[dev]'
+This syncs your virtual environment to match the exact versions in the lock file.
+
+**B) After a manual change to `pyproject.toml` (e.g. to install a new workspace level dependency or bump its version):**
+If you add, remove, or change a version pin in pyproject.toml, you must regenerate the lock file:
 ```
-This single command fully prepares your development environment.
+# Step 1: Re-compile the dependencies to update the lock file
+pip-compile --extra=dev --output-file=requirements-dev.txt pyproject.toml
+
+# Step 2: Sync your environment with the newly updated lock file
+pip install -r requirements-dev.txt
+```
 
 ## 3. Run Common Development Tasks
 Tox is used as the as the main command runner for all common tasks like linting, testing, and building.
@@ -135,4 +149,21 @@ This directory is a workspace within a larger polyglot monorepo. It manages vers
     └── tests
         ├── integration
         └── unit
+```
+
+## 5. Updating Workspace Dependencies
+To update dependencies at the workspace level:
+1. Update in the workspace root pyproject.toml file:
+```
+# in python/pyproject.toml
+...
+dev = [
+    ...
+    "ruff ~= 0.4.6",  # e.g. changing a version here
+    ...
+]
+```
+2. Regenerate lock file with pip-compile
+```
+pip-compile --extra=dev --output-file=requirements-dev.txt pyproject.toml
 ```
