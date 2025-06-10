@@ -1,9 +1,7 @@
 version: v2
 modules:
-  - path: proto/mesh/account/v1
-    name: mesh/account/v1
-  - path: proto/mesh/iam/v1
-    name: mesh/iam/v1
+  - path: proto
+    name: buf.build/mesh/api
 
 # A list of dependencies on modules outside of the workspace.
 deps:

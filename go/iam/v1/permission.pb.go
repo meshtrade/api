@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        (unknown)
-// source: permission.proto
+// source: mesh/iam/v1/permission.proto
 
 package v1
 
@@ -36,7 +36,7 @@ type Permission struct {
 
 func (x *Permission) Reset() {
 	*x = Permission{}
-	mi := &file_permission_proto_msgTypes[0]
+	mi := &file_mesh_iam_v1_permission_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -48,7 +48,7 @@ func (x *Permission) String() string {
 func (*Permission) ProtoMessage() {}
 
 func (x *Permission) ProtoReflect() protoreflect.Message {
-	mi := &file_permission_proto_msgTypes[0]
+	mi := &file_mesh_iam_v1_permission_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -61,7 +61,7 @@ func (x *Permission) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Permission.ProtoReflect.Descriptor instead.
 func (*Permission) Descriptor() ([]byte, []int) {
-	return file_permission_proto_rawDescGZIP(), []int{0}
+	return file_mesh_iam_v1_permission_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Permission) GetServiceProvider() string {
@@ -85,11 +85,11 @@ func (x *Permission) GetDescription() string {
 	return ""
 }
 
-var File_permission_proto protoreflect.FileDescriptor
+var File_mesh_iam_v1_permission_proto protoreflect.FileDescriptor
 
-const file_permission_proto_rawDesc = "" +
+const file_mesh_iam_v1_permission_proto_rawDesc = "" +
 	"\n" +
-	"\x10permission.proto\x12\vmesh.iam.v1\"s\n" +
+	"\x1cmesh/iam/v1/permission.proto\x12\vmesh.iam.v1\"s\n" +
 	"\n" +
 	"Permission\x12)\n" +
 	"\x10service_provider\x18\x01 \x01(\tR\x0fserviceProvider\x12\x18\n" +
@@ -97,22 +97,22 @@ const file_permission_proto_rawDesc = "" +
 	"\vdescription\x18\x03 \x01(\tR\vdescriptionB$Z\"github.com/meshtrade/api/go/iam/v1b\x06proto3"
 
 var (
-	file_permission_proto_rawDescOnce sync.Once
-	file_permission_proto_rawDescData []byte
+	file_mesh_iam_v1_permission_proto_rawDescOnce sync.Once
+	file_mesh_iam_v1_permission_proto_rawDescData []byte
 )
 
-func file_permission_proto_rawDescGZIP() []byte {
-	file_permission_proto_rawDescOnce.Do(func() {
-		file_permission_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_permission_proto_rawDesc), len(file_permission_proto_rawDesc)))
+func file_mesh_iam_v1_permission_proto_rawDescGZIP() []byte {
+	file_mesh_iam_v1_permission_proto_rawDescOnce.Do(func() {
+		file_mesh_iam_v1_permission_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_mesh_iam_v1_permission_proto_rawDesc), len(file_mesh_iam_v1_permission_proto_rawDesc)))
 	})
-	return file_permission_proto_rawDescData
+	return file_mesh_iam_v1_permission_proto_rawDescData
 }
 
-var file_permission_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_permission_proto_goTypes = []any{
+var file_mesh_iam_v1_permission_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_mesh_iam_v1_permission_proto_goTypes = []any{
 	(*Permission)(nil), // 0: mesh.iam.v1.Permission
 }
-var file_permission_proto_depIdxs = []int32{
+var file_mesh_iam_v1_permission_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
 	0, // [0:0] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -120,26 +120,26 @@ var file_permission_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_permission_proto_init() }
-func file_permission_proto_init() {
-	if File_permission_proto != nil {
+func init() { file_mesh_iam_v1_permission_proto_init() }
+func file_mesh_iam_v1_permission_proto_init() {
+	if File_mesh_iam_v1_permission_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_permission_proto_rawDesc), len(file_permission_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_mesh_iam_v1_permission_proto_rawDesc), len(file_mesh_iam_v1_permission_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_permission_proto_goTypes,
-		DependencyIndexes: file_permission_proto_depIdxs,
-		MessageInfos:      file_permission_proto_msgTypes,
+		GoTypes:           file_mesh_iam_v1_permission_proto_goTypes,
+		DependencyIndexes: file_mesh_iam_v1_permission_proto_depIdxs,
+		MessageInfos:      file_mesh_iam_v1_permission_proto_msgTypes,
 	}.Build()
-	File_permission_proto = out.File
-	file_permission_proto_goTypes = nil
-	file_permission_proto_depIdxs = nil
+	File_mesh_iam_v1_permission_proto = out.File
+	file_mesh_iam_v1_permission_proto_goTypes = nil
+	file_mesh_iam_v1_permission_proto_depIdxs = nil
 }

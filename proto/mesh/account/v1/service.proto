@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package mesh.account.v1;
 
-import "account.proto";
+import "mesh/account/v1/account.proto";
 
 option go_package = "github.com/meshtrade/api/go/account/v1";
 
