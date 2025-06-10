@@ -1,0 +1,113 @@
+syntax = "proto3";
+
+package api.banking.funding;
+
+option go_package = "github.com/meshtrade/api/go/banking/funding";
+
+import "api/proto/ledger/amount.proto";
+
+/*
+TODO
+*/
+message Funding {
+  /*
+  Number of the funding order
+  */
+  string number = 1;
+
+  /*
+  Amount to be funded
+  */
+  api.ledger.Amount amount = 2;
+
+  /*
+  Funding origin (Peach, Investec etc.)
+  */
+  FundingOrigin fundingOrigin = 3;
+
+  /*
+  Funding origin specific metaData
+  */
+  FundingOrderMetaData metaData = 4;
+
+  /*
+  The account number to be funded.
+  */
+  string accountNumber = 5;
+
+  /*
+  The state of the funding order.
+  */
+  FundingState state = 6;
+}
+
+enum FundingState {
+  UNDEFINED_FUNDING_STATE = 0;
+}
+
+enum FundingOrderState{
+  UNDEFINED_FUNDING_ORDER_STATE = 0;
+  //   PENDING_CONFIRMATION_FUNDING_ORDER_STATE = 1;
+  AWAITING_APPROVAL_FUNDING_ORDER_STATE = 2;
+  SETTLEMENT_IN_PROGRESS_FUNDING_ORDER_STATE = 3;
+  CANCELLED_FUNDING_ORDER_STATE = 4;
+  FAILED_FUNDING_ORDER_STATE = 5;
+  SETTLED_FUNDING_ORDER_STATE = 6;
+  UNDER_INVESTIGATION_FUNDING_ORDER_STATE = 7;
+}
+
+enum FundingOrigin {
+  UNDEFINED_FUNDING_ORIGIN = 0;
+  INVESTEC_DIRECT_EFT = 1;
+  PEACH_SETTLEMENT = 2;
+  PEACH_PAYMENT = 3;
+
+}
+
+enum PeachPaymentMethod {
+  UNDEFINED_PEACH_FUNDING_CATEGORY = 0;
+  PEACH_PAY_BY_BANK = 1;
+  PEACH_PAY_BY_CARD = 2;
+}
+
+message FundingOrderMetaData {
+  oneof kind {
+    PeachPaymentMetaData PeachPayment = 1;
+    PeachSettlementMetaData PeachSettlement = 2;
+    InvestecDirectEFTMetaData InvestecDirectEFT = 3;
+  }
+}
+
+message PeachSettlementMetaData {
+  string transactionID = 1;
+  string externalTransactionID = 2;
+  string externalReference = 3;
+}
+
+message PeachPaymentMetaData {
+  string transactionID = 1;
+  string externalTransactionID = 2;
+  string externalReference = 3;
+  PeachPaymentMethod peachPaymentMethod = 4;
+  string checkoutId = 5;
+  PeachFee fee = 6;
+  PeachClientDetails clientDetails = 7;
+
+}
+
+message PeachClientDetails {
+  string name = 1;
+  string surname = 2;
+}
+
+message PeachFee {
+  api.ledger.Amount FeeIncVat = 1;
+  api.ledger.Amount FeeExlVat = 2;
+  api.ledger.Amount VatAmount = 3;
+}
+
+message InvestecDirectEFTMetaData {
+  string transactionID = 1;
+  string externalTransactionID = 2;
+  string externalReference = 3;
+}

@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package api.banking.funding;
+
+option go_package = "github.com/meshtrade/api/go/banking/funding";
+
+import "api/proto/banking/funding/funding.proto";
+import "api/proto/search/criterion.proto";
+import "api/proto/search/query.proto";
+
+/*
+Service is the Funding Service.
+*/
+service Service {
+  rpc Create(CreateRequest) returns (CreateResponse);
+  rpc Get(GetRequest) returns (GetResponse);
+  rpc List(ListRequest) returns (ListResponse);
+  rpc Update(UpdateRequest) returns (UpdateResponse);
+  rpc Settle(SettleRequest) returns (SettleResponse);
+}
+
+message CreateRequest {
+  api.banking.funding.Funding funding = 1;
+}
+
+message CreateResponse {
+  api.banking.funding.Funding funding = 1;
+}
+
+message GetRequest {
+  /*
+  Criteria is the search criteria that specifies which Fee to retrieve.
+  */
+  repeated api.search.Criterion criteria = 1;
+}
+
+message GetResponse {
+
+}
+
+message ListRequest {
+
+}
+
+message ListResponse {
+
+}
+
+message UpdateRequest {
+
+}
+
+message UpdateResponse {
+
+}
+
+message SettleRequest {
+
+}
+
+message SettleResponse {
+
+}
