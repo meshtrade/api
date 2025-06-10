@@ -35,29 +35,37 @@ message GetRequest {
 }
 
 message GetResponse {
-
+  api.banking.funding.Funding funding = 1;
 }
 
 message ListRequest {
+  /*
+  Criteria is the search criteria that specifies which fee profiles to retrieve.
+  */
+  repeated api.search.Criterion criteria = 1;
 
+  /*
+  Query controls pagination of the fee profile listing.
+  */
+  api.search.Query query = 2;
 }
 
 message ListResponse {
-
+  repeated api.banking.funding.Funding funding = 1;
 }
 
 message UpdateRequest {
-
+  api.banking.funding.Funding funding = 1;
 }
 
 message UpdateResponse {
-
+  api.banking.funding.Funding funding = 1;
 }
 
 message SettleRequest {
-
+  string fundingNumber = 1;
 }
 
 message SettleResponse {
-
+  api.banking.funding.Funding funding = 1;
 }
