@@ -29,8 +29,8 @@ classifiers = [
 ]
 
 dependencies = [
-    "betterproto >= 2.0.0b7, <3.0",
-    "grpclib >= 0.4.8, <0.5",
+    "grpcio==1.73.0",
+    "protobuf==6.31.1",
 ]
 
 [tool.setuptools.packages.find]

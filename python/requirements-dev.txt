@@ -4,10 +4,6 @@
 #
 #    pip-compile --extra=dev --output-file=requirements-dev.txt pyproject.toml
 #
-betterproto==2.0.0b7
-    # via
-    #   mesh-account-v1
-    #   mesh-iam-v1
 build==1.2.2.post1
     # via
     #   mesh-python-workspace (pyproject.toml)
@@ -32,17 +28,10 @@ filelock==3.18.0
     # via
     #   tox
     #   virtualenv
-grpclib==0.4.8
+grpcio==1.73.0
     # via
-    #   betterproto
     #   mesh-account-v1
     #   mesh-iam-v1
-h2==4.2.0
-    # via grpclib
-hpack==4.1.0
-    # via h2
-hyperframe==6.1.0
-    # via h2
 id==1.5.0
     # via twine
 idna==3.10
@@ -69,8 +58,6 @@ more-itertools==10.7.0
     # via
     #   jaraco-classes
     #   jaraco-functools
-multidict==6.4.4
-    # via grpclib
 nh3==0.2.21
     # via readme-renderer
 packaging==25.0
@@ -90,6 +77,10 @@ pluggy==1.6.0
     # via
     #   pytest
     #   tox
+protobuf==6.31.1
+    # via
+    #   mesh-account-v1
+    #   mesh-iam-v1
 pygments==2.19.1
     # via
     #   pytest
@@ -103,8 +94,6 @@ pyproject-hooks==1.2.0
     #   pip-tools
 pytest==8.4.0
     # via mesh-python-workspace (pyproject.toml)
-python-dateutil==2.9.0.post0
-    # via betterproto
 readme-renderer==44.0
     # via twine
 requests==2.32.3
@@ -120,14 +109,12 @@ rich==14.0.0
     # via twine
 ruff==0.11.13
     # via mesh-python-workspace (pyproject.toml)
-six==1.17.0
-    # via python-dateutil
 tox==4.26.0
     # via mesh-python-workspace (pyproject.toml)
 twine==6.1.0
     # via mesh-python-workspace (pyproject.toml)
-typing-extensions==4.14.0
-    # via betterproto
+types-protobuf==6.30.2.20250516
+    # via mesh-python-workspace (pyproject.toml)
 urllib3==2.4.0
     # via
     #   requests
