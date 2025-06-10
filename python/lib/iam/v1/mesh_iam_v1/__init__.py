@@ -1,5 +1,7 @@
-from .v1_pb import (
+from .permission_pb2 import (
     Permission,
+)
+from .role_pb2 import (
     Role,
 )
 
