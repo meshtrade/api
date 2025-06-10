@@ -11,6 +11,7 @@ import "api/proto/search/query.proto";
 /*
 Service is the Funding Service.
 */
+// @go-impl
 service Service {
   rpc Create(CreateRequest) returns (CreateResponse);
   rpc Get(GetRequest) returns (GetResponse);
