@@ -2,9 +2,9 @@ syntax = "proto3";
 
 package mesh.account.v1;
 
-option go_package = "github.com/meshtrade/api/go/account/v1";
-
 import "account.proto";
+
+option go_package = "github.com/meshtrade/api/go/account/v1";
 
 // Service provides RPCs for interacting with accounts.
 service Service {
@@ -12,7 +12,7 @@ service Service {
   rpc Get(GetRequest) returns (GetResponse);
 }
 
-// GetRequest is the message sent to the Get RPC.
+// GetRequest is the message sent to the Get RPC
 message GetRequest {
   // The unique identifier for the account to be retrieved.
   string number = 1;

@@ -5,11 +5,11 @@ package mesh.account.v1;
 option go_package = "github.com/meshtrade/api/go/account/v1";
 
 /*
-Account is a collection of permissions.
+   Account is a collection of permissions.
 */
 message Account {
   /*
-  Name is the name of the Account.
+     Name is the name of the Account.
   */
   string name = 1;
 }

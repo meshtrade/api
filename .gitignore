@@ -55,6 +55,7 @@ out/
 
 # VS Code
 .vscode/
+python_build/
 
 # Netbeans
 /nbproject/private/
