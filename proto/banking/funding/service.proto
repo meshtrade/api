@@ -14,59 +14,118 @@ Service is the Funding Service.
 // @go-impl
 service Service {
   rpc Create(CreateRequest) returns (CreateResponse);
-  rpc Get(GetRequest) returns (GetResponse);
-  rpc List(ListRequest) returns (ListResponse);
   rpc Update(UpdateRequest) returns (UpdateResponse);
+  rpc List(ListRequest) returns (ListResponse);
+  rpc Get(GetRequest) returns (GetResponse);
   rpc Settle(SettleRequest) returns (SettleResponse);
 }
 
+/*
+CreateRequest is the Create method request on the Funding Service.
+*/
 message CreateRequest {
-  api.banking.funding.Funding funding = 1;
-}
-
-message CreateResponse {
-  api.banking.funding.Funding funding = 1;
-}
-
-message GetRequest {
   /*
-  Criteria is the search criteria that specifies which Fee to retrieve.
+  Funding is the funding to be created.
   */
-  repeated api.search.Criterion criteria = 1;
-}
-
-message GetResponse {
   api.banking.funding.Funding funding = 1;
 }
 
+/*
+CreateResponse is the Create method response on the Funding Service.
+*/
+message CreateResponse {
+  /*
+  Funding is the funding that was created.
+  */
+  api.banking.funding.Funding funding = 1;
+}
+
+/*
+UpdateRequest is the Update method request on the Funding Service.
+*/
+message UpdateRequest {
+  /*
+  Funding is the funding to be updated.
+  */
+  api.banking.funding.Funding funding = 1;
+}
+
+/*
+UpdateResponse is the Update method response on the Funding Service.
+*/
+message UpdateResponse {
+  /*
+  Funding is the funding that was updated.
+  */
+  api.banking.funding.Funding funding = 1;
+}
+
+/*
+ListRequest is the List method request on the Funding Service.
+*/
 message ListRequest {
   /*
-  Criteria is the search criteria that specifies which fee profiles to retrieve.
+  Criteria is the search criteria that specifies which fundings to retrieve.
   */
   repeated api.search.Criterion criteria = 1;
 
   /*
-  Query controls pagination of the fee profile listing.
+  Query controls pagination of the funding listing.
   */
   api.search.Query query = 2;
 }
 
+/*
+ListResponse is the List method response on the Funding Service.
+*/
 message ListResponse {
-  repeated api.banking.funding.Funding funding = 1;
+  /*
+  Fundings are the list of fundings that were retrieved.
+  */
+  repeated api.banking.funding.Funding fundings = 1;
+
+  /*
+  Total is the total number of fundings that match the given criteria.
+  */
+  int64 total = 2;
 }
 
-message UpdateRequest {
+/*
+GetRequest is the Get method request on the Funding Service.
+*/
+message GetRequest {
+  /*
+  Criteria is the search criteria that specifies which Funding to retrieve.
+  */
+  repeated api.search.Criterion criteria = 1;
+}
+
+/*
+GetResponse is the Get method response on the Funding Service.
+*/
+message GetResponse {
+  /*
+  Funding is the funding that was retrieved.
+  */
   api.banking.funding.Funding funding = 1;
 }
 
-message UpdateResponse {
-  api.banking.funding.Funding funding = 1;
-}
-
+/*
+SettleRequest is the Settle method request on the Funding Service.
+*/
 message SettleRequest {
+  /*
+  FundingNumber is the identifier of the funding to be settled.
+  */
   string fundingNumber = 1;
 }
 
+/*
+SettleResponse is the Settle method response on the Funding Service.
+*/
 message SettleResponse {
+  /*
+  Funding is the funding that was settled.
+  */
   api.banking.funding.Funding funding = 1;
 }
