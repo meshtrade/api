@@ -1,13 +1,15 @@
+/* eslint-disable */
+// @ts-nocheck
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.clientTypeToString = clientTypeToString;
 const clientType_pb_1 = require("./clientType_pb");
 // Define explicit mappings between ClientType enums and their corresponding string representations
 const clientTypeToStringMapping = {
-    [clientType_pb_1.ClientType.UNDEFINED_COMPANY_CLIENTTYPE]: 'Undefined',
-    [clientType_pb_1.ClientType.ISSUER_COMPANY_CLIENTTYPE]: 'Issuer',
-    [clientType_pb_1.ClientType.INVESTOR_COMPANY_CLIENTTYPE]: 'Investor',
-    [clientType_pb_1.ClientType.MANAGING_COMPANY_CLIENTTYPE]: 'Managing Company',
+    [clientType_pb_1.ClientType.UNDEFINED_COMPANY_CLIENT_TYPE]: 'Undefined',
+    [clientType_pb_1.ClientType.ISSUER_COMPANY_CLIENT_TYPE]: 'Issuer',
+    [clientType_pb_1.ClientType.INVESTOR_COMPANY_CLIENT_TYPE]: 'Investor',
+    [clientType_pb_1.ClientType.MANAGING_COMPANY_CLIENT_TYPE]: 'Managing Company',
 };
 // Define a custom error for unsupported ClientType
 class UnsupportedClientTypeError extends Error {

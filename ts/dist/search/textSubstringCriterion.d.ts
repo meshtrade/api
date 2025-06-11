@@ -1,3 +1,5 @@
+/* eslint-disable */
+// @ts-nocheck
 import { Criterion } from "./criterion_pb";
 /**
  * Convenience function to construct a wrapped new TextSubstringCriterion.

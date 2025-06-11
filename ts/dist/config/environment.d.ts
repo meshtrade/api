@@ -1,3 +1,5 @@
+/* eslint-disable */
+// @ts-nocheck
 import { Environment } from "./environment_pb";
 export declare const allEnvironments: Environment[];
 /**

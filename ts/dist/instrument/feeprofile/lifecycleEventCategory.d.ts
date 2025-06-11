@@ -1,3 +1,5 @@
+/* eslint-disable */
+// @ts-nocheck
 import { LifecycleEventCategory } from "./lifecycleEventCategory_pb";
 export declare const allLifecycleEventCategories: LifecycleEventCategory[];
 /**

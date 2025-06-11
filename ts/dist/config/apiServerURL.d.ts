@@ -1,3 +1,5 @@
+/* eslint-disable */
+// @ts-nocheck
 import { Environment } from "./environment_pb";
 export declare enum APIServerURL {
     Local = "http://localhost:10000",

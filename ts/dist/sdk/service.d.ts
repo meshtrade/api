@@ -1,3 +1,5 @@
+/* eslint-disable */
+// @ts-nocheck
 import { UnaryInterceptor } from "grpc-web";
 export type ServiceConstructorArgs = [
     hostname: string,
