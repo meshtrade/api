@@ -1,1 +1,0 @@
-# Mesh Accounts integration SDK v1

@@ -7,16 +7,12 @@ find ./go \
   -print0 | xargs -0 -P 4 -n 1 rm -v
 
 # python clean
-rm -rf python_build || true
-find ./python/lib \
+find ./python/mesh \
   \( -name '*_pb2*.py*' \) \
   -print0 | xargs -0 -P 4 -n 1 rm -v
 
 # use buf to run code genration
 buf generate
-
-# post processing to organise directories
-./scripts/python_post_processing.sh
 
 echo "########################################################"
 echo "#                                                      #"

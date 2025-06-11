@@ -2,14 +2,7 @@
 
 [![CI Status](https://img.shields.io/badge/ci-passing-brightgreen.svg)](https://github.com/meshtrade/api)
 
-This directory is the Python workspace for all official Mesh API client SDKs. Each SDK is a separate, installable package designed to integrate with a specific Mesh API service.
-
-## Published Packages
-
-| Package Name | PyPI Link | Description |
-| :--- | :--- | :--- |
-| `mesh-account-v1` | [pypi.org/project/mesh-account-v1](https://pypi.org/project/mesh-account-v1/) | Integration SDK for the v1 Account Service |
-| `mesh-iam-v1` | [pypi.org/project/mesh-iam-v1](https://pypi.org/project/mesh-iam-v1/) | Integration SDK for the v1 IAM Service |
+This directory is the Python Monorepo for all official Mesh API client SDKs.
 
 ## Quick Start for API Consumers
 
@@ -20,16 +13,15 @@ This guide is for developers who want to **use** these SDKs in their own applica
 Install the desired SDK integration library from PyPI using pip:
 
 ```bash
-pip install mesh-iam-v1
-pip install mesh-account-v1
+pip install mesh
 ```
 
 ### 2. Example Usage
 Here is a basic example of how to use SDK clients:
 ```python
 import asyncio
-from mesh_account_v1 import AccountService
-from mesh_iam_v1 import as IAMService
+from mesh.account.v1 import AccountService
+from mesh.iam.v1 import as IAMService
 
 # NOTE: ensure that MESH_API_KEY="your-secret-api-key" is set
 
@@ -53,8 +45,8 @@ if __name__ == "__main__":
 ```
 
 For more detailed information on each SDK, please see their individual READMEs:
-* **[Account v1](python/lib/account/v1/README.md)**
-* **[IAM v1](python/lib/iam/v1/README.md)**
+* **[Account v1](python/mesh/account/v1/README.md)**
+* **[IAM v1](python/mesh/iam/v1/README.md)**
 
 ## Repository Structure
 This directory is a workspace within a larger polyglot monorepo. It manages versioned Python packages for each integration SDK.
@@ -65,14 +57,13 @@ This directory is a workspace within a larger polyglot monorepo. It manages vers
     ├── pyproject.toml        <-- Workspace development configuration
     ├── requirements-dev.txt  <-- Workspace development configuration
     ├── tox.ini               <-- Task automation configuration
-    ├── lib
+    ├── mesh
     │   ├── __init__.py
     │   └── account             <-- Defines the mesh account api service
     │       ├── __init__.py
     │       └── vX              <-- Defines the 'mesh-account-vX' api SDK package
     │           ├── README.md
     │           ├── __init__.py
-    │           ├── pyproject.toml     
     │           └── vX_pb.py
     └── tests
         ├── integration

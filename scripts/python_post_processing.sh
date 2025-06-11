@@ -92,6 +92,25 @@ for service_path in "$BASE_DIR"/*/; do
     done
 done
 
+# find "$BASE_DIR" -name "*_pb2*.py*" -print0 | while IFS= read -r -d '' file; do
+#     # Create a temporary file to see if changes are needed
+#     temp_file=$(mktemp)
+#     # Use a more specific regex that expects the domain to be letters/underscores
+#     # and the version to be 'v' followed by digits.
+#     sed 's/^\(from\s\+\)\(mesh\)\.\([a-zA-Z_]\+\)\.\(v[0-9]\+\)\(\s\+import.*\)/\1\2_\3_\4\5/' "$file" > "$temp_file"
+
+#     # Check if the file was actually changed
+#     if ! cmp -s "$file" "$temp_file"; then
+#         echo "--- Modifying file: $file"
+#         # Overwrite the original file with the modified temp file
+#         mv "$temp_file" "$file"
+#         echo "--- Successfully updated $file"
+#     else
+#         # No changes, just remove the temp file
+#         rm "$temp_file"
+#     fi
+# done
+
 # Finally use rsync to recursively copy files (-a for archive mode, -v for verbose).
 echo "Python Post Process: Syncing compiled python files back into source directory..."
 rsync -av --ignore-existing ./python_build/mesh/ ./python/lib/

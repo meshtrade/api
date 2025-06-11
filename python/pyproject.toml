@@ -1,16 +1,47 @@
+[build-system]
+requires = ["setuptools>=80.9.0"]
+build-backend = "setuptools.build_meta"
+
 [project]
-name = "mesh-python-workspace"
-version = "0.0.1"
-description = "Development workspace for the Mesh Python API integration SDKs."
+name = "mesh"
+version = "0.2.0"
+authors = [
+    { name = "Bernard Bussy", email = "bernard@meshtrade.co" },
+]
+description = "Integration SDK for Mesh API Services"
+readme = "README.md"
+requires-python = ">=3.8"
+keywords = ["meshtrade", "mesh", "mesh-sdk", "grpc", "betterproto", "grpclib"]
+license-files = ["LICENSE"]
+
+[project.urls]
+Repository = "https://github.com/meshtrade/api"
+
+# https://pypi.org/classifiers
+classifiers = [
+    # --- Development Status ---
+    "Development Status :: 1 - Planning",
+
+    # --- Audience & Topic ---
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+
+    # --- Python Versions Supported ---
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+    "grpcio >= 1.73.0, < 2.0",
+    "protobuf >= 6.31.1, < 7.0",
+]
 
 [project.optional-dependencies]
 dev = [
-    # Install local libraries in editable mode.
-    # The paths are relative to THIS file.
-    "mesh-account-v1 @ file:./lib/account/v1",
-    "mesh-iam-v1 @ file:./lib/iam/v1",
-
-    # Development tools
     "pip-tools ~= 7.4.1",
     "ruff ~= 0.11.13",
     "pytest ~= 8.4.0",
@@ -19,6 +50,9 @@ dev = [
     "tox ~= 4.26.0",
     "types-protobuf ~= 6.30.2.20250516",
 ]
+
+[tool.setuptools.packages.find]
+where = ["src"]  # Look for packages in the 'src' directory
 
 # --- Ruff Configuration (Linter and Formatter) ---
 [tool.ruff]
