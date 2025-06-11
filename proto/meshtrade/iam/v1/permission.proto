@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package mesh.iam.v1;
+package meshtrade.iam.v1;
 
 option go_package = "github.com/meshtrade/api/go/iam/v1";
 

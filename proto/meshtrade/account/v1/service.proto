@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package mesh.account.v1;
+package meshtrade.account.v1;
 
-import "mesh/account/v1/account.proto";
+import "meshtrade/account/v1/account.proto";
 
 option go_package = "github.com/meshtrade/api/go/account/v1";
 
@@ -21,5 +21,5 @@ message GetRequest {
 // GetResponse is the message returned from the Get RPC.
 message GetResponse {
   // The retrieved account resource.
-  mesh.account.v1.Account account = 1;
+  meshtrade.account.v1.Account account = 1;
 }

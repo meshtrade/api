@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             (unknown)
-// source: mesh/account/v1/service.proto
+// source: meshtrade/account/v1/service.proto
 
 package v1
 
@@ -19,7 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Service_Get_FullMethodName = "/mesh.account.v1.Service/Get"
+	Service_Get_FullMethodName = "/meshtrade.account.v1.Service/Get"
 )
 
 // ServiceClient is the client API for Service service.
@@ -114,7 +114,7 @@ func _Service_Get_Handler(srv interface{}, ctx context.Context, dec func(interfa
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Service_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "mesh.account.v1.Service",
+	ServiceName: "meshtrade.account.v1.Service",
 	HandlerType: (*ServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -123,5 +123,5 @@ var Service_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "mesh/account/v1/service.proto",
+	Metadata: "meshtrade/account/v1/service.proto",
 }

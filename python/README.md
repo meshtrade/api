@@ -13,15 +13,15 @@ This guide is for developers who want to **use** these SDKs in their own applica
 Install the desired SDK integration library from PyPI using pip:
 
 ```bash
-pip install mesh
+pip install meshtrade
 ```
 
 ### 2. Example Usage
 Here is a basic example of how to use SDK clients:
 ```python
 import asyncio
-from mesh.account.v1 import AccountService
-from mesh.iam.v1 import as IAMService
+from meshtrade.account.v1 import AccountService
+from meshtrade.iam.v1 import as IAMService
 
 # NOTE: ensure that MESH_API_KEY="your-secret-api-key" is set
 
@@ -53,18 +53,18 @@ This directory is a workspace within a larger polyglot monorepo. It manages vers
 
 ```
 └── python
-    ├── README.md             <-- You are HERE
-    ├── pyproject.toml        <-- SDK workspace configuration
-    ├── requirements-dev.txt  <-- SDK Workspace development requirements
-    ├── tox.ini               <-- Task automation configuration
-    ├── mesh
-    │   ├── __init__.py
-    │   └── account             <-- Defines the mesh account api service
+    ├── README.md               <-- You are HERE
+    ├── pyproject.toml          <-- SDK workspace configuration
+    ├── requirements-dev.txt    <-- SDK Workspace development requirements
+    ├── tox.ini                 <-- Task automation configuration
+    ├── src
+    │   └── meshtrade
     │       ├── __init__.py
-    │       └── vX              <-- Defines the 'mesh-account-vX' api SDK package
-    │           ├── README.md
-    │           ├── __init__.py
-    │           └── vX_pb.py
+    │       └── account         <-- Defines the mesh account api service
+    │           └── vX          <-- Defines the mesh account vX api SDK
+    │               ├── __init__.py
+    │               ├── account_pb2.py
+    │               └── README.md
     └── tests
         ├── integration
         └── unit

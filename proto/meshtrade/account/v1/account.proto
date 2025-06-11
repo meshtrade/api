@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package mesh.account.v1;
+package meshtrade.account.v1;
 
 option go_package = "github.com/meshtrade/api/go/account/v1";
 

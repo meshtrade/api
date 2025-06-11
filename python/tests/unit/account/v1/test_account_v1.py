@@ -1,4 +1,4 @@
-from mesh_account_v1 import Account
+from mesh.account.v1 import Account
 
 
 def test_account_creation():

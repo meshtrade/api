@@ -1,4 +1,4 @@
-from mesh_iam_v1 import Role
+from mesh.iam.v1 import Role
 
 
 def test_role_creation():
