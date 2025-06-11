@@ -1,5 +1,3 @@
-/* eslint-disable */
-// @ts-nocheck
 import { Criterion } from "../search/criterion_pb";
 import { Token } from "./token_pb";
 export declare function criteriaFromToken(token?: Token): Criterion[];

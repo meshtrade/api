@@ -1,5 +1,3 @@
-/* eslint-disable */
-// @ts-nocheck
 import { Amount } from "./amount_pb";
 import { Token } from "./token_pb";
 import { Decimal } from "../num/decimal_pb";

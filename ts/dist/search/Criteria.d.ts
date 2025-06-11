@@ -1,5 +1,3 @@
-/* eslint-disable */
-// @ts-nocheck
 import { Criterion } from "./criterion_pb";
 export type CriteriaMap = Record<string, CriteriaMapField | undefined>;
 export type ValueType = string | number | number[] | string[];

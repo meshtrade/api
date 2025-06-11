@@ -1,5 +1,3 @@
-/* eslint-disable */
-// @ts-nocheck
 import { ClientType } from './clientType_pb';
 /**
  * Converts a ClientType enum to its string representation.

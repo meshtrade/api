@@ -1,5 +1,3 @@
-/* eslint-disable */
-// @ts-nocheck
 export * from "./boolExactCriterion";
 export * from "./textExactCriterion";
 export * from "./textNEExactCriterion";

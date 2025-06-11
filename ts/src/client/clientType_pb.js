@@ -26,10 +26,10 @@ goog.exportSymbol('proto.api.client.ClientType', null, global);
  * @enum {number}
  */
 proto.api.client.ClientType = {
-  UNDEFINED_COMPANY_CLIENTTYPE: 0,
-  ISSUER_COMPANY_CLIENTTYPE: 1,
-  INVESTOR_COMPANY_CLIENTTYPE: 2,
-  MANAGING_COMPANY_CLIENTTYPE: 3
+  UNDEFINED_COMPANY_CLIENT_TYPE: 0,
+  ISSUER_COMPANY_CLIENT_TYPE: 1,
+  INVESTOR_COMPANY_CLIENT_TYPE: 2,
+  MANAGING_COMPANY_CLIENT_TYPE: 3
 };
 
 goog.object.extend(exports, proto.api.client);

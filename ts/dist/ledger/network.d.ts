@@ -1,5 +1,3 @@
-/* eslint-disable */
-// @ts-nocheck
 import { Network } from "./network_pb";
 export declare const allNetworks: Network[];
 /**

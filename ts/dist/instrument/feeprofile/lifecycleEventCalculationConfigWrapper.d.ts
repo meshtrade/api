@@ -1,5 +1,3 @@
-/* eslint-disable */
-// @ts-nocheck
 import { LifecycleEventCalculationConfig } from "./lifecycleEventCalculationConfig_pb";
 import { LifecycleEventCalculationConfigType } from "./lifecycleEventCalculationConfigType_pb";
 /**

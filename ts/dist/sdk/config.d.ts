@@ -1,5 +1,3 @@
-/* eslint-disable */
-// @ts-nocheck
 import { Environment } from "../config";
 import { APIServerURL } from "../config/apiServerURL";
 export type ConfigOpts = {

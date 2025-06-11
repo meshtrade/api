@@ -1,5 +1,3 @@
-/* eslint-disable */
-// @ts-nocheck
 import { ServicePromiseClient as InstrumentServiceClient } from "../../instrument/service_grpc_web_pb";
 import { ServicePromiseClient as FeeProfileServiceClient } from "../../instrument/feeprofile/service_grpc_web_pb";
 import { ServicePromiseClient as FeeServiceClient } from "../../instrument/fee/service_grpc_web_pb";
