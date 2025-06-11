@@ -118,6 +118,10 @@ message SettleRequest {
   FundingNumber is the identifier of the funding to be settled.
   */
   string fundingNumber = 1;
+  /*
+  reason is the reason for settling the funding
+  */
+  string reason = 2;
 }
 
 /*

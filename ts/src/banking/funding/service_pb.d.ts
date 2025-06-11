@@ -202,6 +202,8 @@ export namespace GetResponse {
 export class SettleRequest extends jspb.Message { 
     getFundingnumber(): string;
     setFundingnumber(value: string): SettleRequest;
+    getReason(): string;
+    setReason(value: string): SettleRequest;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): SettleRequest.AsObject;
@@ -216,6 +218,7 @@ export class SettleRequest extends jspb.Message {
 export namespace SettleRequest {
     export type AsObject = {
         fundingnumber: string,
+        reason: string,
     }
 }
 

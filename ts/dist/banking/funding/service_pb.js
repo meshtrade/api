@@ -1597,7 +1597,8 @@ proto.api.banking.funding.SettleRequest.prototype.toObject = function(opt_includ
  */
 proto.api.banking.funding.SettleRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-fundingnumber: jspb.Message.getFieldWithDefault(msg, 1, "")
+fundingnumber: jspb.Message.getFieldWithDefault(msg, 1, ""),
+reason: jspb.Message.getFieldWithDefault(msg, 2, "")
   };
 
   if (includeInstance) {
@@ -1638,6 +1639,10 @@ proto.api.banking.funding.SettleRequest.deserializeBinaryFromReader = function(m
       var value = /** @type {string} */ (reader.readString());
       msg.setFundingnumber(value);
       break;
+    case 2:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setReason(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -1674,6 +1679,13 @@ proto.api.banking.funding.SettleRequest.serializeBinaryToWriter = function(messa
       f
     );
   }
+  f = message.getReason();
+  if (f.length > 0) {
+    writer.writeString(
+      2,
+      f
+    );
+  }
 };
 
 
@@ -1692,6 +1704,24 @@ proto.api.banking.funding.SettleRequest.prototype.getFundingnumber = function() 
  */
 proto.api.banking.funding.SettleRequest.prototype.setFundingnumber = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
+};
+
+
+/**
+ * optional string reason = 2;
+ * @return {string}
+ */
+proto.api.banking.funding.SettleRequest.prototype.getReason = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.api.banking.funding.SettleRequest} returns this
+ */
+proto.api.banking.funding.SettleRequest.prototype.setReason = function(value) {
+  return jspb.Message.setProto3StringField(this, 2, value);
 };
 
 

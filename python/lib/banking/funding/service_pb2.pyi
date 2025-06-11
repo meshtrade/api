@@ -61,10 +61,12 @@ class GetResponse(_message.Message):
     def __init__(self, funding: _Optional[_Union[_funding_pb2.Funding, _Mapping]] = ...) -> None: ...
 
 class SettleRequest(_message.Message):
-    __slots__ = ("fundingNumber",)
+    __slots__ = ("fundingNumber", "reason")
     FUNDINGNUMBER_FIELD_NUMBER: _ClassVar[int]
+    REASON_FIELD_NUMBER: _ClassVar[int]
     fundingNumber: str
-    def __init__(self, fundingNumber: _Optional[str] = ...) -> None: ...
+    reason: str
+    def __init__(self, fundingNumber: _Optional[str] = ..., reason: _Optional[str] = ...) -> None: ...
 
 class SettleResponse(_message.Message):
     __slots__ = ("funding",)
