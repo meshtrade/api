@@ -1,23 +1,22 @@
 [build-system]
-requires = ["setuptools>=80.9.0"]
+requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "mesh"
-version = "0.2.0"
+version = "v0.0.1"
 authors = [
     { name = "Bernard Bussy", email = "bernard@meshtrade.co" },
 ]
 description = "Integration SDK for Mesh API Services"
-readme = "README.md"
 requires-python = ">=3.8"
 keywords = ["meshtrade", "mesh", "mesh-sdk", "grpc", "betterproto", "grpclib"]
 license-files = ["LICENSE"]
-
-[project.urls]
-Repository = "https://github.com/meshtrade/api"
-
-# https://pypi.org/classifiers
+dynamic = ['readme']
+dependencies = [
+    "grpcio >= 1.73.0, < 2.0",
+    "protobuf >= 6.31.1, < 7.0",
+]
 classifiers = [
     # --- Development Status ---
     "Development Status :: 1 - Planning",
@@ -34,15 +33,10 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
 ]
-
-dependencies = [
-    "grpcio >= 1.73.0, < 2.0",
-    "protobuf >= 6.31.1, < 7.0",
-]
+urls = {"Repository"= "https://github.com/meshtrade/api"}
 
 [project.optional-dependencies]
 dev = [
-    "pip-tools ~= 7.4.1",
     "ruff ~= 0.11.13",
     "pytest ~= 8.4.0",
     "build ~= 1.2.2",
@@ -51,14 +45,20 @@ dev = [
     "types-protobuf ~= 6.30.2.20250516",
 ]
 
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.dynamic]
+readme = {file = ["README.md"]}
+
 [tool.setuptools.packages.find]
-where = ["src"]  # Look for packages in the 'src' directory
+where = ["src"]
 
 # --- Ruff Configuration (Linter and Formatter) ---
 [tool.ruff]
 target-version = "py38"
 line-length = 88
-exclude = ["*_pb2.py"]
+exclude = ["*_pb2.py", "*_pb2.pyi"]
 
 [tool.ruff.lint]
 # E/W: flake8 errors/warnings | F: Pyflakes

@@ -54,8 +54,8 @@ This directory is a workspace within a larger polyglot monorepo. It manages vers
 ```
 └── python
     ├── README.md             <-- You are HERE
-    ├── pyproject.toml        <-- Workspace development configuration
-    ├── requirements-dev.txt  <-- Workspace development configuration
+    ├── pyproject.toml        <-- SDK workspace configuration
+    ├── requirements-dev.txt  <-- SDK Workspace development requirements
     ├── tox.ini               <-- Task automation configuration
     ├── mesh
     │   ├── __init__.py
@@ -87,6 +87,12 @@ source .venv/bin/activate
 ```
 Your terminal prompt should now be prefixed with (.venv), indicating the environment is active.
 
+<b>Tip:</b> If you are in an IDE that supports python you can point your IDE to the interpreter in this environment relative to the source of the repository: `./python/.venv/bin/python`. e.g. with VS code:
+
+'cmd + shift + p' > 'Python: Select Interpreter' > 'Enter interpreter path...'  > './python/.venv/bin/python'
+
+
+
 ### 3. Install Dependencies
 
 This project uses `pip-tools` to manage dependencies for a reproducible development environment.
@@ -99,6 +105,13 @@ Install the locked dependencies from `requirements-dev.txt`:
 pip install -r requirements-dev.txt
 ```
 This synchronises the local virtual environment to match the exact versions in the lock file.
+
+Once this is complete you are set up to begin programming in the sdk source code in: `./python/src/mesh`.
+
+Next to make the SDK discoverable locally for tests do:
+```
+pip install -e .
+```
 
 **B) After a manual change to `pyproject.toml` (e.g. to install a new workspace level dependency or bump its version):**
 
