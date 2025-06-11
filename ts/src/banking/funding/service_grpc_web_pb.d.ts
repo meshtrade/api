@@ -15,12 +15,12 @@ export class ServiceClient {
                response: api_proto_banking_funding_service_pb.CreateResponse) => void
   ): grpcWeb.ClientReadableStream<api_proto_banking_funding_service_pb.CreateResponse>;
 
-  get(
-    request: api_proto_banking_funding_service_pb.GetRequest,
+  update(
+    request: api_proto_banking_funding_service_pb.UpdateRequest,
     metadata: grpcWeb.Metadata | undefined,
     callback: (err: grpcWeb.RpcError,
-               response: api_proto_banking_funding_service_pb.GetResponse) => void
-  ): grpcWeb.ClientReadableStream<api_proto_banking_funding_service_pb.GetResponse>;
+               response: api_proto_banking_funding_service_pb.UpdateResponse) => void
+  ): grpcWeb.ClientReadableStream<api_proto_banking_funding_service_pb.UpdateResponse>;
 
   list(
     request: api_proto_banking_funding_service_pb.ListRequest,
@@ -29,12 +29,12 @@ export class ServiceClient {
                response: api_proto_banking_funding_service_pb.ListResponse) => void
   ): grpcWeb.ClientReadableStream<api_proto_banking_funding_service_pb.ListResponse>;
 
-  update(
-    request: api_proto_banking_funding_service_pb.UpdateRequest,
+  get(
+    request: api_proto_banking_funding_service_pb.GetRequest,
     metadata: grpcWeb.Metadata | undefined,
     callback: (err: grpcWeb.RpcError,
-               response: api_proto_banking_funding_service_pb.UpdateResponse) => void
-  ): grpcWeb.ClientReadableStream<api_proto_banking_funding_service_pb.UpdateResponse>;
+               response: api_proto_banking_funding_service_pb.GetResponse) => void
+  ): grpcWeb.ClientReadableStream<api_proto_banking_funding_service_pb.GetResponse>;
 
   settle(
     request: api_proto_banking_funding_service_pb.SettleRequest,
@@ -55,20 +55,20 @@ export class ServicePromiseClient {
     metadata?: grpcWeb.Metadata
   ): Promise<api_proto_banking_funding_service_pb.CreateResponse>;
 
-  get(
-    request: api_proto_banking_funding_service_pb.GetRequest,
+  update(
+    request: api_proto_banking_funding_service_pb.UpdateRequest,
     metadata?: grpcWeb.Metadata
-  ): Promise<api_proto_banking_funding_service_pb.GetResponse>;
+  ): Promise<api_proto_banking_funding_service_pb.UpdateResponse>;
 
   list(
     request: api_proto_banking_funding_service_pb.ListRequest,
     metadata?: grpcWeb.Metadata
   ): Promise<api_proto_banking_funding_service_pb.ListResponse>;
 
-  update(
-    request: api_proto_banking_funding_service_pb.UpdateRequest,
+  get(
+    request: api_proto_banking_funding_service_pb.GetRequest,
     metadata?: grpcWeb.Metadata
-  ): Promise<api_proto_banking_funding_service_pb.UpdateResponse>;
+  ): Promise<api_proto_banking_funding_service_pb.GetResponse>;
 
   settle(
     request: api_proto_banking_funding_service_pb.SettleRequest,

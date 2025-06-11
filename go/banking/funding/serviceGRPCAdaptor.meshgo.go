@@ -55,21 +55,21 @@ func (g *ServiceGRPCAdaptor) Create(ctx context.Context, request *CreateRequest)
 	return createResponse, nil
 }
 
-// Get exposes the Get method of the given implementation of the Service interface over gRPC
-func (g *ServiceGRPCAdaptor) Get(ctx context.Context, request *GetRequest) (*GetResponse, error) {
+// Update exposes the Update method of the given implementation of the Service interface over gRPC
+func (g *ServiceGRPCAdaptor) Update(ctx context.Context, request *UpdateRequest) (*UpdateResponse, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
-		ServiceServiceProviderName+"GRPCAdaptor.Get",
+		ServiceServiceProviderName+"GRPCAdaptor.Update",
 	)
 	defer span.End()
 
 	// call given implementation of the adapted service provider interface
-	getResponse, err := g.service.Get(ctx, request)
+	updateResponse, err := g.service.Update(ctx, request)
 	if err != nil {
 		return nil, err
 	}
 
-	return getResponse, nil
+	return updateResponse, nil
 }
 
 // List exposes the List method of the given implementation of the Service interface over gRPC
@@ -89,21 +89,21 @@ func (g *ServiceGRPCAdaptor) List(ctx context.Context, request *ListRequest) (*L
 	return listResponse, nil
 }
 
-// Update exposes the Update method of the given implementation of the Service interface over gRPC
-func (g *ServiceGRPCAdaptor) Update(ctx context.Context, request *UpdateRequest) (*UpdateResponse, error) {
+// Get exposes the Get method of the given implementation of the Service interface over gRPC
+func (g *ServiceGRPCAdaptor) Get(ctx context.Context, request *GetRequest) (*GetResponse, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
-		ServiceServiceProviderName+"GRPCAdaptor.Update",
+		ServiceServiceProviderName+"GRPCAdaptor.Get",
 	)
 	defer span.End()
 
 	// call given implementation of the adapted service provider interface
-	updateResponse, err := g.service.Update(ctx, request)
+	getResponse, err := g.service.Get(ctx, request)
 	if err != nil {
 		return nil, err
 	}
 
-	return updateResponse, nil
+	return getResponse, nil
 }
 
 // Settle exposes the Settle method of the given implementation of the Service interface over gRPC

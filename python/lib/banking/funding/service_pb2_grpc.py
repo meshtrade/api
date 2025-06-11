@@ -43,20 +43,20 @@ class ServiceStub(object):
                 request_serializer=api_dot_proto_dot_banking_dot_funding_dot_service__pb2.CreateRequest.SerializeToString,
                 response_deserializer=api_dot_proto_dot_banking_dot_funding_dot_service__pb2.CreateResponse.FromString,
                 _registered_method=True)
-        self.Get = channel.unary_unary(
-                '/api.banking.funding.Service/Get',
-                request_serializer=api_dot_proto_dot_banking_dot_funding_dot_service__pb2.GetRequest.SerializeToString,
-                response_deserializer=api_dot_proto_dot_banking_dot_funding_dot_service__pb2.GetResponse.FromString,
+        self.Update = channel.unary_unary(
+                '/api.banking.funding.Service/Update',
+                request_serializer=api_dot_proto_dot_banking_dot_funding_dot_service__pb2.UpdateRequest.SerializeToString,
+                response_deserializer=api_dot_proto_dot_banking_dot_funding_dot_service__pb2.UpdateResponse.FromString,
                 _registered_method=True)
         self.List = channel.unary_unary(
                 '/api.banking.funding.Service/List',
                 request_serializer=api_dot_proto_dot_banking_dot_funding_dot_service__pb2.ListRequest.SerializeToString,
                 response_deserializer=api_dot_proto_dot_banking_dot_funding_dot_service__pb2.ListResponse.FromString,
                 _registered_method=True)
-        self.Update = channel.unary_unary(
-                '/api.banking.funding.Service/Update',
-                request_serializer=api_dot_proto_dot_banking_dot_funding_dot_service__pb2.UpdateRequest.SerializeToString,
-                response_deserializer=api_dot_proto_dot_banking_dot_funding_dot_service__pb2.UpdateResponse.FromString,
+        self.Get = channel.unary_unary(
+                '/api.banking.funding.Service/Get',
+                request_serializer=api_dot_proto_dot_banking_dot_funding_dot_service__pb2.GetRequest.SerializeToString,
+                response_deserializer=api_dot_proto_dot_banking_dot_funding_dot_service__pb2.GetResponse.FromString,
                 _registered_method=True)
         self.Settle = channel.unary_unary(
                 '/api.banking.funding.Service/Settle',
@@ -78,7 +78,7 @@ class ServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def Get(self, request, context):
+    def Update(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -90,7 +90,7 @@ class ServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def Update(self, request, context):
+    def Get(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -110,20 +110,20 @@ def add_ServiceServicer_to_server(servicer, server):
                     request_deserializer=api_dot_proto_dot_banking_dot_funding_dot_service__pb2.CreateRequest.FromString,
                     response_serializer=api_dot_proto_dot_banking_dot_funding_dot_service__pb2.CreateResponse.SerializeToString,
             ),
-            'Get': grpc.unary_unary_rpc_method_handler(
-                    servicer.Get,
-                    request_deserializer=api_dot_proto_dot_banking_dot_funding_dot_service__pb2.GetRequest.FromString,
-                    response_serializer=api_dot_proto_dot_banking_dot_funding_dot_service__pb2.GetResponse.SerializeToString,
+            'Update': grpc.unary_unary_rpc_method_handler(
+                    servicer.Update,
+                    request_deserializer=api_dot_proto_dot_banking_dot_funding_dot_service__pb2.UpdateRequest.FromString,
+                    response_serializer=api_dot_proto_dot_banking_dot_funding_dot_service__pb2.UpdateResponse.SerializeToString,
             ),
             'List': grpc.unary_unary_rpc_method_handler(
                     servicer.List,
                     request_deserializer=api_dot_proto_dot_banking_dot_funding_dot_service__pb2.ListRequest.FromString,
                     response_serializer=api_dot_proto_dot_banking_dot_funding_dot_service__pb2.ListResponse.SerializeToString,
             ),
-            'Update': grpc.unary_unary_rpc_method_handler(
-                    servicer.Update,
-                    request_deserializer=api_dot_proto_dot_banking_dot_funding_dot_service__pb2.UpdateRequest.FromString,
-                    response_serializer=api_dot_proto_dot_banking_dot_funding_dot_service__pb2.UpdateResponse.SerializeToString,
+            'Get': grpc.unary_unary_rpc_method_handler(
+                    servicer.Get,
+                    request_deserializer=api_dot_proto_dot_banking_dot_funding_dot_service__pb2.GetRequest.FromString,
+                    response_serializer=api_dot_proto_dot_banking_dot_funding_dot_service__pb2.GetResponse.SerializeToString,
             ),
             'Settle': grpc.unary_unary_rpc_method_handler(
                     servicer.Settle,
@@ -173,7 +173,7 @@ class Service(object):
             _registered_method=True)
 
     @staticmethod
-    def Get(request,
+    def Update(request,
             target,
             options=(),
             channel_credentials=None,
@@ -186,9 +186,9 @@ class Service(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/api.banking.funding.Service/Get',
-            api_dot_proto_dot_banking_dot_funding_dot_service__pb2.GetRequest.SerializeToString,
-            api_dot_proto_dot_banking_dot_funding_dot_service__pb2.GetResponse.FromString,
+            '/api.banking.funding.Service/Update',
+            api_dot_proto_dot_banking_dot_funding_dot_service__pb2.UpdateRequest.SerializeToString,
+            api_dot_proto_dot_banking_dot_funding_dot_service__pb2.UpdateResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -227,7 +227,7 @@ class Service(object):
             _registered_method=True)
 
     @staticmethod
-    def Update(request,
+    def Get(request,
             target,
             options=(),
             channel_credentials=None,
@@ -240,9 +240,9 @@ class Service(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/api.banking.funding.Service/Update',
-            api_dot_proto_dot_banking_dot_funding_dot_service__pb2.UpdateRequest.SerializeToString,
-            api_dot_proto_dot_banking_dot_funding_dot_service__pb2.UpdateResponse.FromString,
+            '/api.banking.funding.Service/Get',
+            api_dot_proto_dot_banking_dot_funding_dot_service__pb2.GetRequest.SerializeToString,
+            api_dot_proto_dot_banking_dot_funding_dot_service__pb2.GetResponse.FromString,
             options,
             channel_credentials,
             insecure,

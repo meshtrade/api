@@ -46,21 +46,21 @@ func (g *GRPCClientService) Create(ctx context.Context, request *CreateRequest) 
 	return createResponse, nil
 }
 
-func (g *GRPCClientService) Get(ctx context.Context, request *GetRequest) (*GetResponse, error) {
+func (g *GRPCClientService) Update(ctx context.Context, request *UpdateRequest) (*UpdateResponse, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
-		ServiceServiceProviderName+"Get",
+		ServiceServiceProviderName+"Update",
 	)
 	defer span.End()
 
 	// call given implementation of the adapted service provider interface
-	getResponse, err := g.grpcClient.Get(ctx, request)
+	updateResponse, err := g.grpcClient.Update(ctx, request)
 	if err != nil {
-		log.Ctx(ctx).Error().Err(err).Msg("could not Get")
-		return nil, fmt.Errorf("could not Get: %s", err)
+		log.Ctx(ctx).Error().Err(err).Msg("could not Update")
+		return nil, fmt.Errorf("could not Update: %s", err)
 	}
 
-	return getResponse, nil
+	return updateResponse, nil
 }
 
 func (g *GRPCClientService) List(ctx context.Context, request *ListRequest) (*ListResponse, error) {
@@ -80,21 +80,21 @@ func (g *GRPCClientService) List(ctx context.Context, request *ListRequest) (*Li
 	return listResponse, nil
 }
 
-func (g *GRPCClientService) Update(ctx context.Context, request *UpdateRequest) (*UpdateResponse, error) {
+func (g *GRPCClientService) Get(ctx context.Context, request *GetRequest) (*GetResponse, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
-		ServiceServiceProviderName+"Update",
+		ServiceServiceProviderName+"Get",
 	)
 	defer span.End()
 
 	// call given implementation of the adapted service provider interface
-	updateResponse, err := g.grpcClient.Update(ctx, request)
+	getResponse, err := g.grpcClient.Get(ctx, request)
 	if err != nil {
-		log.Ctx(ctx).Error().Err(err).Msg("could not Update")
-		return nil, fmt.Errorf("could not Update: %s", err)
+		log.Ctx(ctx).Error().Err(err).Msg("could not Get")
+		return nil, fmt.Errorf("could not Get: %s", err)
 	}
 
-	return updateResponse, nil
+	return getResponse, nil
 }
 
 func (g *GRPCClientService) Settle(ctx context.Context, request *SettleRequest) (*SettleResponse, error) {

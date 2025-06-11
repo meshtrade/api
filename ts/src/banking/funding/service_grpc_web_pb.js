@@ -146,61 +146,61 @@ proto.api.banking.funding.ServicePromiseClient.prototype.create =
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.api.banking.funding.GetRequest,
- *   !proto.api.banking.funding.GetResponse>}
+ *   !proto.api.banking.funding.UpdateRequest,
+ *   !proto.api.banking.funding.UpdateResponse>}
  */
-const methodDescriptor_Service_Get = new grpc.web.MethodDescriptor(
-  '/api.banking.funding.Service/Get',
+const methodDescriptor_Service_Update = new grpc.web.MethodDescriptor(
+  '/api.banking.funding.Service/Update',
   grpc.web.MethodType.UNARY,
-  proto.api.banking.funding.GetRequest,
-  proto.api.banking.funding.GetResponse,
+  proto.api.banking.funding.UpdateRequest,
+  proto.api.banking.funding.UpdateResponse,
   /**
-   * @param {!proto.api.banking.funding.GetRequest} request
+   * @param {!proto.api.banking.funding.UpdateRequest} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  proto.api.banking.funding.GetResponse.deserializeBinary
+  proto.api.banking.funding.UpdateResponse.deserializeBinary
 );
 
 
 /**
- * @param {!proto.api.banking.funding.GetRequest} request The
+ * @param {!proto.api.banking.funding.UpdateRequest} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.api.banking.funding.GetResponse)}
+ * @param {function(?grpc.web.RpcError, ?proto.api.banking.funding.UpdateResponse)}
  *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.api.banking.funding.GetResponse>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.api.banking.funding.UpdateResponse>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.api.banking.funding.ServiceClient.prototype.get =
+proto.api.banking.funding.ServiceClient.prototype.update =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/api.banking.funding.Service/Get',
+      '/api.banking.funding.Service/Update',
       request,
       metadata || {},
-      methodDescriptor_Service_Get,
+      methodDescriptor_Service_Update,
       callback);
 };
 
 
 /**
- * @param {!proto.api.banking.funding.GetRequest} request The
+ * @param {!proto.api.banking.funding.UpdateRequest} request The
  *     request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.api.banking.funding.GetResponse>}
+ * @return {!Promise<!proto.api.banking.funding.UpdateResponse>}
  *     Promise that resolves to the response
  */
-proto.api.banking.funding.ServicePromiseClient.prototype.get =
+proto.api.banking.funding.ServicePromiseClient.prototype.update =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/api.banking.funding.Service/Get',
+      '/api.banking.funding.Service/Update',
       request,
       metadata || {},
-      methodDescriptor_Service_Get);
+      methodDescriptor_Service_Update);
 };
 
 
@@ -268,61 +268,61 @@ proto.api.banking.funding.ServicePromiseClient.prototype.list =
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.api.banking.funding.UpdateRequest,
- *   !proto.api.banking.funding.UpdateResponse>}
+ *   !proto.api.banking.funding.GetRequest,
+ *   !proto.api.banking.funding.GetResponse>}
  */
-const methodDescriptor_Service_Update = new grpc.web.MethodDescriptor(
-  '/api.banking.funding.Service/Update',
+const methodDescriptor_Service_Get = new grpc.web.MethodDescriptor(
+  '/api.banking.funding.Service/Get',
   grpc.web.MethodType.UNARY,
-  proto.api.banking.funding.UpdateRequest,
-  proto.api.banking.funding.UpdateResponse,
+  proto.api.banking.funding.GetRequest,
+  proto.api.banking.funding.GetResponse,
   /**
-   * @param {!proto.api.banking.funding.UpdateRequest} request
+   * @param {!proto.api.banking.funding.GetRequest} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  proto.api.banking.funding.UpdateResponse.deserializeBinary
+  proto.api.banking.funding.GetResponse.deserializeBinary
 );
 
 
 /**
- * @param {!proto.api.banking.funding.UpdateRequest} request The
+ * @param {!proto.api.banking.funding.GetRequest} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.api.banking.funding.UpdateResponse)}
+ * @param {function(?grpc.web.RpcError, ?proto.api.banking.funding.GetResponse)}
  *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.api.banking.funding.UpdateResponse>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.api.banking.funding.GetResponse>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.api.banking.funding.ServiceClient.prototype.update =
+proto.api.banking.funding.ServiceClient.prototype.get =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/api.banking.funding.Service/Update',
+      '/api.banking.funding.Service/Get',
       request,
       metadata || {},
-      methodDescriptor_Service_Update,
+      methodDescriptor_Service_Get,
       callback);
 };
 
 
 /**
- * @param {!proto.api.banking.funding.UpdateRequest} request The
+ * @param {!proto.api.banking.funding.GetRequest} request The
  *     request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.api.banking.funding.UpdateResponse>}
+ * @return {!Promise<!proto.api.banking.funding.GetResponse>}
  *     Promise that resolves to the response
  */
-proto.api.banking.funding.ServicePromiseClient.prototype.update =
+proto.api.banking.funding.ServicePromiseClient.prototype.get =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/api.banking.funding.Service/Update',
+      '/api.banking.funding.Service/Get',
       request,
       metadata || {},
-      methodDescriptor_Service_Update);
+      methodDescriptor_Service_Get);
 };
 
 

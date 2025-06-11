@@ -10,11 +10,11 @@ import (
 type Service interface {
 	Create(ctx context.Context, request *CreateRequest) (*CreateResponse, error)
 
-	Get(ctx context.Context, request *GetRequest) (*GetResponse, error)
+	Update(ctx context.Context, request *UpdateRequest) (*UpdateResponse, error)
 
 	List(ctx context.Context, request *ListRequest) (*ListResponse, error)
 
-	Update(ctx context.Context, request *UpdateRequest) (*UpdateResponse, error)
+	Get(ctx context.Context, request *GetRequest) (*GetResponse, error)
 
 	Settle(ctx context.Context, request *SettleRequest) (*SettleResponse, error)
 }

@@ -27,7 +27,7 @@ from api.python.lib.search import criterion_pb2 as api_dot_proto_dot_search_dot_
 from api.python.lib.search import query_pb2 as api_dot_proto_dot_search_dot_query__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\'api/proto/banking/funding/service.proto\x12\x13\x61pi.banking.funding\x1a\'api/proto/banking/funding/funding.proto\x1a api/proto/search/criterion.proto\x1a\x1c\x61pi/proto/search/query.proto\">\n\rCreateRequest\x12-\n\x07\x66unding\x18\x01 \x01(\x0b\x32\x1c.api.banking.funding.Funding\"?\n\x0e\x43reateResponse\x12-\n\x07\x66unding\x18\x01 \x01(\x0b\x32\x1c.api.banking.funding.Funding\"5\n\nGetRequest\x12\'\n\x08\x63riteria\x18\x01 \x03(\x0b\x32\x15.api.search.Criterion\"<\n\x0bGetResponse\x12-\n\x07\x66unding\x18\x01 \x01(\x0b\x32\x1c.api.banking.funding.Funding\"X\n\x0bListRequest\x12\'\n\x08\x63riteria\x18\x01 \x03(\x0b\x32\x15.api.search.Criterion\x12 \n\x05query\x18\x02 \x01(\x0b\x32\x11.api.search.Query\"=\n\x0cListResponse\x12-\n\x07\x66unding\x18\x01 \x03(\x0b\x32\x1c.api.banking.funding.Funding\">\n\rUpdateRequest\x12-\n\x07\x66unding\x18\x01 \x01(\x0b\x32\x1c.api.banking.funding.Funding\"?\n\x0eUpdateResponse\x12-\n\x07\x66unding\x18\x01 \x01(\x0b\x32\x1c.api.banking.funding.Funding\"&\n\rSettleRequest\x12\x15\n\rfundingNumber\x18\x01 \x01(\t\"?\n\x0eSettleResponse\x12-\n\x07\x66unding\x18\x01 \x01(\x0b\x32\x1c.api.banking.funding.Funding2\x99\x03\n\x07Service\x12Q\n\x06\x43reate\x12\".api.banking.funding.CreateRequest\x1a#.api.banking.funding.CreateResponse\x12H\n\x03Get\x12\x1f.api.banking.funding.GetRequest\x1a .api.banking.funding.GetResponse\x12K\n\x04List\x12 .api.banking.funding.ListRequest\x1a!.api.banking.funding.ListResponse\x12Q\n\x06Update\x12\".api.banking.funding.UpdateRequest\x1a#.api.banking.funding.UpdateResponse\x12Q\n\x06Settle\x12\".api.banking.funding.SettleRequest\x1a#.api.banking.funding.SettleResponseB-Z+github.com/meshtrade/api/go/banking/fundingb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\'api/proto/banking/funding/service.proto\x12\x13\x61pi.banking.funding\x1a\'api/proto/banking/funding/funding.proto\x1a api/proto/search/criterion.proto\x1a\x1c\x61pi/proto/search/query.proto\">\n\rCreateRequest\x12-\n\x07\x66unding\x18\x01 \x01(\x0b\x32\x1c.api.banking.funding.Funding\"?\n\x0e\x43reateResponse\x12-\n\x07\x66unding\x18\x01 \x01(\x0b\x32\x1c.api.banking.funding.Funding\">\n\rUpdateRequest\x12-\n\x07\x66unding\x18\x01 \x01(\x0b\x32\x1c.api.banking.funding.Funding\"?\n\x0eUpdateResponse\x12-\n\x07\x66unding\x18\x01 \x01(\x0b\x32\x1c.api.banking.funding.Funding\"X\n\x0bListRequest\x12\'\n\x08\x63riteria\x18\x01 \x03(\x0b\x32\x15.api.search.Criterion\x12 \n\x05query\x18\x02 \x01(\x0b\x32\x11.api.search.Query\"M\n\x0cListResponse\x12.\n\x08\x66undings\x18\x01 \x03(\x0b\x32\x1c.api.banking.funding.Funding\x12\r\n\x05total\x18\x02 \x01(\x03\"5\n\nGetRequest\x12\'\n\x08\x63riteria\x18\x01 \x03(\x0b\x32\x15.api.search.Criterion\"<\n\x0bGetResponse\x12-\n\x07\x66unding\x18\x01 \x01(\x0b\x32\x1c.api.banking.funding.Funding\"&\n\rSettleRequest\x12\x15\n\rfundingNumber\x18\x01 \x01(\t\"?\n\x0eSettleResponse\x12-\n\x07\x66unding\x18\x01 \x01(\x0b\x32\x1c.api.banking.funding.Funding2\x99\x03\n\x07Service\x12Q\n\x06\x43reate\x12\".api.banking.funding.CreateRequest\x1a#.api.banking.funding.CreateResponse\x12Q\n\x06Update\x12\".api.banking.funding.UpdateRequest\x1a#.api.banking.funding.UpdateResponse\x12K\n\x04List\x12 .api.banking.funding.ListRequest\x1a!.api.banking.funding.ListResponse\x12H\n\x03Get\x12\x1f.api.banking.funding.GetRequest\x1a .api.banking.funding.GetResponse\x12Q\n\x06Settle\x12\".api.banking.funding.SettleRequest\x1a#.api.banking.funding.SettleResponseB-Z+github.com/meshtrade/api/go/banking/fundingb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -39,22 +39,22 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_CREATEREQUEST']._serialized_end=231
   _globals['_CREATERESPONSE']._serialized_start=233
   _globals['_CREATERESPONSE']._serialized_end=296
-  _globals['_GETREQUEST']._serialized_start=298
-  _globals['_GETREQUEST']._serialized_end=351
-  _globals['_GETRESPONSE']._serialized_start=353
-  _globals['_GETRESPONSE']._serialized_end=413
-  _globals['_LISTREQUEST']._serialized_start=415
-  _globals['_LISTREQUEST']._serialized_end=503
-  _globals['_LISTRESPONSE']._serialized_start=505
-  _globals['_LISTRESPONSE']._serialized_end=566
-  _globals['_UPDATEREQUEST']._serialized_start=568
-  _globals['_UPDATEREQUEST']._serialized_end=630
-  _globals['_UPDATERESPONSE']._serialized_start=632
-  _globals['_UPDATERESPONSE']._serialized_end=695
-  _globals['_SETTLEREQUEST']._serialized_start=697
-  _globals['_SETTLEREQUEST']._serialized_end=735
-  _globals['_SETTLERESPONSE']._serialized_start=737
-  _globals['_SETTLERESPONSE']._serialized_end=800
-  _globals['_SERVICE']._serialized_start=803
-  _globals['_SERVICE']._serialized_end=1212
+  _globals['_UPDATEREQUEST']._serialized_start=298
+  _globals['_UPDATEREQUEST']._serialized_end=360
+  _globals['_UPDATERESPONSE']._serialized_start=362
+  _globals['_UPDATERESPONSE']._serialized_end=425
+  _globals['_LISTREQUEST']._serialized_start=427
+  _globals['_LISTREQUEST']._serialized_end=515
+  _globals['_LISTRESPONSE']._serialized_start=517
+  _globals['_LISTRESPONSE']._serialized_end=594
+  _globals['_GETREQUEST']._serialized_start=596
+  _globals['_GETREQUEST']._serialized_end=649
+  _globals['_GETRESPONSE']._serialized_start=651
+  _globals['_GETRESPONSE']._serialized_end=711
+  _globals['_SETTLEREQUEST']._serialized_start=713
+  _globals['_SETTLEREQUEST']._serialized_end=751
+  _globals['_SETTLERESPONSE']._serialized_start=753
+  _globals['_SETTLERESPONSE']._serialized_end=816
+  _globals['_SERVICE']._serialized_start=819
+  _globals['_SERVICE']._serialized_end=1228
 # @@protoc_insertion_point(module_scope)

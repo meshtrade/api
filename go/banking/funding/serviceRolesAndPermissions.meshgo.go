@@ -14,11 +14,11 @@ var (
 		Description:     "Provides permission to call the Service.Create method",
 	}
 
-	// GetPermission provides permission to call the Get method on the Service service provider
-	GetPermission = &role.Permission{
+	// UpdatePermission provides permission to call the Update method on the Service service provider
+	UpdatePermission = &role.Permission{
 		ServiceProvider: ServiceServiceProviderName,
-		Service:         "Get",
-		Description:     "Provides permission to call the Service.Get method",
+		Service:         "Update",
+		Description:     "Provides permission to call the Service.Update method",
 	}
 
 	// ListPermission provides permission to call the List method on the Service service provider
@@ -28,11 +28,11 @@ var (
 		Description:     "Provides permission to call the Service.List method",
 	}
 
-	// UpdatePermission provides permission to call the Update method on the Service service provider
-	UpdatePermission = &role.Permission{
+	// GetPermission provides permission to call the Get method on the Service service provider
+	GetPermission = &role.Permission{
 		ServiceProvider: ServiceServiceProviderName,
-		Service:         "Update",
-		Description:     "Provides permission to call the Service.Update method",
+		Service:         "Get",
+		Description:     "Provides permission to call the Service.Get method",
 	}
 
 	// SettlePermission provides permission to call the Settle method on the Service service provider
@@ -46,8 +46,8 @@ var (
 	ServiceReaderRole = role.Role{
 		Name: "ServiceReader",
 		Permissions: []*role.Permission{
-			GetPermission,
 			ListPermission,
+			GetPermission,
 		},
 	}
 
@@ -56,9 +56,9 @@ var (
 		Name: "ServiceAdmin",
 		Permissions: []*role.Permission{
 			CreatePermission,
-			GetPermission,
-			ListPermission,
 			UpdatePermission,
+			ListPermission,
+			GetPermission,
 			SettlePermission,
 		},
 	}
