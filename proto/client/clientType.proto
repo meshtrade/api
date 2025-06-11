@@ -5,8 +5,8 @@ package api.client;
 option go_package = "github.com/meshtrade/api/go/client";
 
 enum ClientType  {
-  UNDEFINED_COMPANY_ClientType = 0;
-  Issuer_COMPANY_ClientType = 1;
-  Investor_COMPANY_ClientType = 2;
-  Managing_Company_ClientType = 3;
+  UNDEFINED_COMPANY_CLIENT_TYPE = 0;
+  ISSUER_COMPANY_CLIENT_TYPE = 1;
+  INVESTOR_COMPANY_CLIENT_TYPE = 2;
+  MANAGING_COMPANY_CLIENT_TYPE = 3;
 }
