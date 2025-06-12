@@ -85,7 +85,7 @@ class PeachSettlementMetaData(_message.Message):
     def __init__(self, transactionID: _Optional[str] = ..., externalTransactionID: _Optional[str] = ..., externalReference: _Optional[str] = ...) -> None: ...
 
 class PeachPaymentMetaData(_message.Message):
-    __slots__ = ("transactionID", "externalTransactionID", "externalReference", "peachPaymentMethod", "checkoutId", "fee", "clientDetails")
+    __slots__ = ("transactionID", "externalTransactionID", "externalReference", "peachPaymentMethod", "checkoutId", "fee", "clientDetails", "userSpecifiedAccount")
     TRANSACTIONID_FIELD_NUMBER: _ClassVar[int]
     EXTERNALTRANSACTIONID_FIELD_NUMBER: _ClassVar[int]
     EXTERNALREFERENCE_FIELD_NUMBER: _ClassVar[int]
@@ -93,6 +93,7 @@ class PeachPaymentMetaData(_message.Message):
     CHECKOUTID_FIELD_NUMBER: _ClassVar[int]
     FEE_FIELD_NUMBER: _ClassVar[int]
     CLIENTDETAILS_FIELD_NUMBER: _ClassVar[int]
+    USERSPECIFIEDACCOUNT_FIELD_NUMBER: _ClassVar[int]
     transactionID: str
     externalTransactionID: str
     externalReference: str
@@ -100,7 +101,8 @@ class PeachPaymentMetaData(_message.Message):
     checkoutId: str
     fee: PeachFee
     clientDetails: PeachClientDetails
-    def __init__(self, transactionID: _Optional[str] = ..., externalTransactionID: _Optional[str] = ..., externalReference: _Optional[str] = ..., peachPaymentMethod: _Optional[_Union[PeachPaymentMethod, str]] = ..., checkoutId: _Optional[str] = ..., fee: _Optional[_Union[PeachFee, _Mapping]] = ..., clientDetails: _Optional[_Union[PeachClientDetails, _Mapping]] = ...) -> None: ...
+    userSpecifiedAccount: str
+    def __init__(self, transactionID: _Optional[str] = ..., externalTransactionID: _Optional[str] = ..., externalReference: _Optional[str] = ..., peachPaymentMethod: _Optional[_Union[PeachPaymentMethod, str]] = ..., checkoutId: _Optional[str] = ..., fee: _Optional[_Union[PeachFee, _Mapping]] = ..., clientDetails: _Optional[_Union[PeachClientDetails, _Mapping]] = ..., userSpecifiedAccount: _Optional[str] = ...) -> None: ...
 
 class PeachClientDetails(_message.Message):
     __slots__ = ("name", "surname")

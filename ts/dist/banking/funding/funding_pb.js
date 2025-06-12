@@ -1014,7 +1014,8 @@ externalreference: jspb.Message.getFieldWithDefault(msg, 3, ""),
 peachpaymentmethod: jspb.Message.getFieldWithDefault(msg, 4, 0),
 checkoutid: jspb.Message.getFieldWithDefault(msg, 5, ""),
 fee: (f = msg.getFee()) && proto.api.banking.funding.PeachFee.toObject(includeInstance, f),
-clientdetails: (f = msg.getClientdetails()) && proto.api.banking.funding.PeachClientDetails.toObject(includeInstance, f)
+clientdetails: (f = msg.getClientdetails()) && proto.api.banking.funding.PeachClientDetails.toObject(includeInstance, f),
+userspecifiedaccount: jspb.Message.getFieldWithDefault(msg, 8, "")
   };
 
   if (includeInstance) {
@@ -1080,6 +1081,10 @@ proto.api.banking.funding.PeachPaymentMetaData.deserializeBinaryFromReader = fun
       var value = new proto.api.banking.funding.PeachClientDetails;
       reader.readMessage(value,proto.api.banking.funding.PeachClientDetails.deserializeBinaryFromReader);
       msg.setClientdetails(value);
+      break;
+    case 8:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setUserspecifiedaccount(value);
       break;
     default:
       reader.skipField();
@@ -1159,6 +1164,13 @@ proto.api.banking.funding.PeachPaymentMetaData.serializeBinaryToWriter = functio
       7,
       f,
       proto.api.banking.funding.PeachClientDetails.serializeBinaryToWriter
+    );
+  }
+  f = message.getUserspecifiedaccount();
+  if (f.length > 0) {
+    writer.writeString(
+      8,
+      f
     );
   }
 };
@@ -1325,6 +1337,24 @@ proto.api.banking.funding.PeachPaymentMetaData.prototype.clearClientdetails = fu
  */
 proto.api.banking.funding.PeachPaymentMetaData.prototype.hasClientdetails = function() {
   return jspb.Message.getField(this, 7) != null;
+};
+
+
+/**
+ * optional string userSpecifiedAccount = 8;
+ * @return {string}
+ */
+proto.api.banking.funding.PeachPaymentMetaData.prototype.getUserspecifiedaccount = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 8, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.api.banking.funding.PeachPaymentMetaData} returns this
+ */
+proto.api.banking.funding.PeachPaymentMetaData.prototype.setUserspecifiedaccount = function(value) {
+  return jspb.Message.setProto3StringField(this, 8, value);
 };
 
 

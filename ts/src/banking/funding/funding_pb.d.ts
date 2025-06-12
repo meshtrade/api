@@ -140,6 +140,8 @@ export class PeachPaymentMetaData extends jspb.Message {
     clearClientdetails(): void;
     getClientdetails(): PeachClientDetails | undefined;
     setClientdetails(value?: PeachClientDetails): PeachPaymentMetaData;
+    getUserspecifiedaccount(): string;
+    setUserspecifiedaccount(value: string): PeachPaymentMetaData;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): PeachPaymentMetaData.AsObject;
@@ -160,6 +162,7 @@ export namespace PeachPaymentMetaData {
         checkoutid: string,
         fee?: PeachFee.AsObject,
         clientdetails?: PeachClientDetails.AsObject,
+        userspecifiedaccount: string,
     }
 }
 

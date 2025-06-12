@@ -92,7 +92,7 @@ message PeachPaymentMetaData {
   string checkoutId = 5;
   PeachFee fee = 6;
   PeachClientDetails clientDetails = 7;
-
+  string userSpecifiedAccount = 8;
 }
 
 message PeachClientDetails {
