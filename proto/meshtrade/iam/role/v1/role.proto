@@ -1,10 +1,10 @@
 syntax = "proto3";
 
-package meshtrade.iam.v1;
+package meshtrade.iam.role.v1;
 
-import "meshtrade/iam/v1/permission.proto";
+import "meshtrade/iam/role/v1/permission.proto";
 
-option go_package = "github.com/meshtrade/api/go/iam/v1";
+option go_package = "github.com/proto/meshtrade/iam/role/v1;rolev1";
 
 /*
    Role is a collection of permissions.
@@ -18,5 +18,5 @@ message Role {
   /*
      Permissions are the permissions on this role.
   */
-  repeated meshtrade.iam.v1.Permission permissions = 2;
+  repeated meshtrade.iam.role.v1.Permission permissions = 2;
 }

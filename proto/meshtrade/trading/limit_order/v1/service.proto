@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package meshtrade.trading.limit_order.v1;
+
+import "meshtrade/trading/limit_order/v1/limit_order.proto";
+
+option go_package = "github.com/meshtrade/api/limit_order/v1";
+
+service Service {
+  rpc Get(GetRequest) returns (GetResponse);
+}
+
+message GetRequest {
+  string number = 1;
+}
+
+message GetResponse {
+  meshtrade.trading.limit_order.v1.LimitOrder limitorder = 1;
+}

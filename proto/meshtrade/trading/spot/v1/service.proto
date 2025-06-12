@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package meshtrade.trading.spot.v1;
+
+import "meshtrade/trading/spot/v1/spot.proto";
+
+option go_package = "github.com/meshtrade/api/spot/v1";
+
+service Service {
+  rpc Get(GetRequest) returns (GetResponse);
+}
+
+message GetRequest {
+  string number = 1;
+}
+
+message GetResponse {
+  meshtrade.trading.spot.v1.Spot spot = 1;
+}

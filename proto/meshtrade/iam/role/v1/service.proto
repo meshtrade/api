@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package meshtrade.iam.role.v1;
+
+import "meshtrade/iam/role/v1/role.proto";
+
+option go_package = "github.com/proto/meshtrade/iam/role/v1;rolev1";
+
+service Service {
+  rpc Get(GetRequest) returns (GetResponse);
+}
+
+message GetRequest {}
+
+message GetResponse {
+  meshtrade.iam.v1.Role role = 1;
+}

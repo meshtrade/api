@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package meshtrade.trading.direct_order.v1;
+
+import "meshtrade/trading/direct_order/v1/direct_order.proto";
+
+option go_package = "github.com/meshtrade/api/direct_order/v1";
+
+service Service {
+  rpc Get(GetRequest) returns (GetResponse);
+}
+
+message GetRequest {
+  string number = 1;
+}
+
+message GetResponse {
+  meshtrade.trading.direct_order.v1.DirectOrder directorder = 1;
+}

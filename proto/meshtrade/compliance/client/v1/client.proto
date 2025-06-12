@@ -2,24 +2,8 @@ syntax = "proto3";
 
 package meshtrade.compliance.client.v1;
 
-option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
+option go_package = "github.com/meshtrade/api/compliance/client/v1;clientv1";
 
-/*
-   Client is the ability to perform an activity in the system.
-*/
 message Client {
-  /*
-     ServiceProvider is the name of the Service Provider that provides Service.
-  */
-  string service_provider = 1;
-
-  /*
-     Service is the name of the Service on ServiceProvider that this Client grants access to.
-  */
-  string service = 2;
-
-  /*
-     Description describes the purpose of this client.
-  */
-  string description = 3;
+  string name = 1;
 }

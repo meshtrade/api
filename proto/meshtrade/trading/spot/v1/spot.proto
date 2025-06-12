@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package meshtrade.trading.spot.v1;
+
+option go_package = "github.com/meshtrade/api/spot/v1";
+
+message Spot {
+  string number = 1;
+}
