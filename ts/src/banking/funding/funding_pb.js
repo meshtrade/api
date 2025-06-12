@@ -25,7 +25,7 @@ var api_proto_ledger_amount_pb = require('../../ledger/amount_pb.js');
 goog.object.extend(proto, api_proto_ledger_amount_pb);
 goog.exportSymbol('proto.api.banking.funding.Funding', null, global);
 goog.exportSymbol('proto.api.banking.funding.FundingOrderMetaData', null, global);
-goog.exportSymbol('proto.api.banking.funding.FundingOrderMetaData.KindCase', null, global);
+goog.exportSymbol('proto.api.banking.funding.FundingOrderMetaData.MetadataCase', null, global);
 goog.exportSymbol('proto.api.banking.funding.FundingOrderState', null, global);
 goog.exportSymbol('proto.api.banking.funding.FundingOrigin', null, global);
 goog.exportSymbol('proto.api.banking.funding.FundingState', null, global);
@@ -518,18 +518,18 @@ proto.api.banking.funding.FundingOrderMetaData.oneofGroups_ = [[1,2,3]];
 /**
  * @enum {number}
  */
-proto.api.banking.funding.FundingOrderMetaData.KindCase = {
-  KIND_NOT_SET: 0,
+proto.api.banking.funding.FundingOrderMetaData.MetadataCase = {
+  METADATA_NOT_SET: 0,
   PEACHPAYMENT: 1,
   PEACHSETTLEMENT: 2,
   INVESTECDIRECTEFT: 3
 };
 
 /**
- * @return {proto.api.banking.funding.FundingOrderMetaData.KindCase}
+ * @return {proto.api.banking.funding.FundingOrderMetaData.MetadataCase}
  */
-proto.api.banking.funding.FundingOrderMetaData.prototype.getKindCase = function() {
-  return /** @type {proto.api.banking.funding.FundingOrderMetaData.KindCase} */(jspb.Message.computeOneofCase(this, proto.api.banking.funding.FundingOrderMetaData.oneofGroups_[0]));
+proto.api.banking.funding.FundingOrderMetaData.prototype.getMetadataCase = function() {
+  return /** @type {proto.api.banking.funding.FundingOrderMetaData.MetadataCase} */(jspb.Message.computeOneofCase(this, proto.api.banking.funding.FundingOrderMetaData.oneofGroups_[0]));
 };
 
 

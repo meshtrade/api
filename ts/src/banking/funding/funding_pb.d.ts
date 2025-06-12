@@ -65,7 +65,7 @@ export class FundingOrderMetaData extends jspb.Message {
     getInvestecdirecteft(): InvestecDirectEFTMetaData | undefined;
     setInvestecdirecteft(value?: InvestecDirectEFTMetaData): FundingOrderMetaData;
 
-    getKindCase(): FundingOrderMetaData.KindCase;
+    getMetadataCase(): FundingOrderMetaData.MetadataCase;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): FundingOrderMetaData.AsObject;
@@ -84,8 +84,8 @@ export namespace FundingOrderMetaData {
         investecdirecteft?: InvestecDirectEFTMetaData.AsObject,
     }
 
-    export enum KindCase {
-        KIND_NOT_SET = 0,
+    export enum MetadataCase {
+        METADATA_NOT_SET = 0,
         PEACHPAYMENT = 1,
         PEACHSETTLEMENT = 2,
         INVESTECDIRECTEFT = 3,

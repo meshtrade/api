@@ -71,7 +71,7 @@ enum PeachPaymentMethod {
 }
 
 message FundingOrderMetaData {
-  oneof kind {
+  oneof metaData {
     PeachPaymentMetaData PeachPayment = 1;
     PeachSettlementMetaData PeachSettlement = 2;
     InvestecDirectEFTMetaData InvestecDirectEFT = 3;
