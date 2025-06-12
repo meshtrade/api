@@ -13,6 +13,7 @@ class FundingState(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
 class FundingOrderState(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
     UNDEFINED_FUNDING_ORDER_STATE: _ClassVar[FundingOrderState]
+    PENDING_CONFIRMATION_FUNDING_ORDER_STATE: _ClassVar[FundingOrderState]
     AWAITING_APPROVAL_FUNDING_ORDER_STATE: _ClassVar[FundingOrderState]
     SETTLEMENT_IN_PROGRESS_FUNDING_ORDER_STATE: _ClassVar[FundingOrderState]
     CANCELLED_FUNDING_ORDER_STATE: _ClassVar[FundingOrderState]
@@ -34,6 +35,7 @@ class PeachPaymentMethod(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     PEACH_PAY_BY_CARD: _ClassVar[PeachPaymentMethod]
 UNDEFINED_FUNDING_STATE: FundingState
 UNDEFINED_FUNDING_ORDER_STATE: FundingOrderState
+PENDING_CONFIRMATION_FUNDING_ORDER_STATE: FundingOrderState
 AWAITING_APPROVAL_FUNDING_ORDER_STATE: FundingOrderState
 SETTLEMENT_IN_PROGRESS_FUNDING_ORDER_STATE: FundingOrderState
 CANCELLED_FUNDING_ORDER_STATE: FundingOrderState
