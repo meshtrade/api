@@ -35,9 +35,7 @@ graph TD
 
     subgraph proto ["proto"]
         subgraph p_meshtrade ["proto/meshtrade"]
-            direction TB
             subgraph p_api_services ["API Services"]
-                direction TB
                 subgraph p_account ["proto/meshtrade/account/v1"]
                     p_account_files("*.proto")
                 end
@@ -52,12 +50,9 @@ graph TD
     end
 
     subgraph generated_code ["Generated Client Libraries"]
-        direction LR
         subgraph ts ["ts"]
             subgraph ts_meshtrade ["ts/src"]
-                direction TB
                 subgraph ts_api_services ["API Services"]
-                    direction TB
                     subgraph ts_account ["ts/src/account/v1"]
                         ts_account_files("*.pb.ts")
                     end
@@ -71,9 +66,7 @@ graph TD
             end
         end
         subgraph go ["go"]
-            direction TB
             subgraph go_api_services ["API Services"]
-                direction TB
                 subgraph go_account ["go/account/v1"]
                     go_account_files("*.pb.go")
                 end
@@ -87,9 +80,7 @@ graph TD
         end
         subgraph python ["python"]
             subgraph python_meshtrade ["python/src/meshtrade"]
-                direction TB
                 subgraph python_api_services ["API Services"]
-                    direction TB
                     subgraph python_account ["python/src/meshtrade/account/v1"]
                         python_account_files("*.pb.py")
                     end
