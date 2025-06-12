@@ -1,4 +1,4 @@
-from meshtrade.account.v1 import account_pb2 as _account_pb2
+from meshtrade.compliance.client.v1 import client_pb2 as _client_pb2
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from collections.abc import Mapping as _Mapping
@@ -13,7 +13,7 @@ class GetRequest(_message.Message):
     def __init__(self, number: _Optional[str] = ...) -> None: ...
 
 class GetResponse(_message.Message):
-    __slots__ = ("account",)
-    ACCOUNT_FIELD_NUMBER: _ClassVar[int]
-    account: _account_pb2.Account
-    def __init__(self, account: _Optional[_Union[_account_pb2.Account, _Mapping]] = ...) -> None: ...
+    __slots__ = ("client",)
+    CLIENT_FIELD_NUMBER: _ClassVar[int]
+    client: _client_pb2.Client
+    def __init__(self, client: _Optional[_Union[_client_pb2.Client, _Mapping]] = ...) -> None: ...

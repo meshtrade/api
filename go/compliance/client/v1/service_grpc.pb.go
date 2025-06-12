@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             (unknown)
-// source: meshtrade/account/v1/service.proto
+// source: meshtrade/compliance/client/v1/service.proto
 
-package v1
+package clientv1
 
 import (
 	context "context"
@@ -19,16 +19,16 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Service_Get_FullMethodName = "/meshtrade.account.v1.Service/Get"
+	Service_Get_FullMethodName = "/meshtrade.compliance.client.v1.Service/Get"
 )
 
 // ServiceClient is the client API for Service service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
-// Service provides RPCs for interacting with accounts.
+// Service provides RPCs for interacting with s.
 type ServiceClient interface {
-	// Get retrieves a single account by its unique number.
+	// Get retrieves a single  by its unique number.
 	Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error)
 }
 
@@ -54,9 +54,9 @@ func (c *serviceClient) Get(ctx context.Context, in *GetRequest, opts ...grpc.Ca
 // All implementations must embed UnimplementedServiceServer
 // for forward compatibility.
 //
-// Service provides RPCs for interacting with accounts.
+// Service provides RPCs for interacting with s.
 type ServiceServer interface {
-	// Get retrieves a single account by its unique number.
+	// Get retrieves a single  by its unique number.
 	Get(context.Context, *GetRequest) (*GetResponse, error)
 	mustEmbedUnimplementedServiceServer()
 }
@@ -114,7 +114,7 @@ func _Service_Get_Handler(srv interface{}, ctx context.Context, dec func(interfa
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Service_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "meshtrade.account.v1.Service",
+	ServiceName: "meshtrade.compliance.client.v1.Service",
 	HandlerType: (*ServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -123,5 +123,5 @@ var Service_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "meshtrade/account/v1/service.proto",
+	Metadata: "meshtrade/compliance/client/v1/service.proto",
 }

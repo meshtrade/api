@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package meshtrade.compliance.client.v1;
+
+import "meshtrade/compliance/client/v1/client.proto";
+
+option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
+
+// Service provides RPCs for interacting with s.
+service Service {
+  // Get retrieves a single  by its unique number.
+  rpc Get(GetRequest) returns (GetResponse);
+}
+
+// GetRequest is the message sent to the Get RPC
+message GetRequest {
+  // The unique identifier for the  to be retrieved.
+  string number = 1;
+}
+
+// GetResponse is the message returned from the Get RPC.
+message GetResponse {
+  // The retrieved  resource.
+  meshtrade.compliance.client.v1.Client client = 1;
+}
