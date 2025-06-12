@@ -153,3 +153,25 @@ These directories contain the the API integration SDKs for our supported languag
 * **/ts**: TypeScript packages managed as a monorepo.
 
 ### Full API Spec
+High level of API products available:
+```
+└── meshtrade
+    ├── iam
+    │   └── v1
+    │       ├── user_service
+    │       ├── group_service
+    │       ├── role_service
+    │       ├── user
+    │       ├── group
+    │       └── role
+    ├── account
+    │   └── v1
+    │       ├── account_service
+    │       └── account
+    └── trading
+        └── v1
+            ├── spot_trade_service
+            ├── limit_order_service
+            ├── spot_trade
+            └── limt_order
+```
