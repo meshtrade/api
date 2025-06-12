@@ -251,10 +251,6 @@ export namespace InvestecDirectEFTMetaData {
 }
 
 export enum FundingState {
-    UNDEFINED_FUNDING_STATE = 0,
-}
-
-export enum FundingOrderState {
     UNDEFINED_FUNDING_ORDER_STATE = 0,
     PENDING_CONFIRMATION_FUNDING_ORDER_STATE = 1,
     AWAITING_APPROVAL_FUNDING_ORDER_STATE = 2,

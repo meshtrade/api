@@ -8,18 +8,14 @@ DESCRIPTOR: _descriptor.FileDescriptor
 
 class FundingState(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
-    UNDEFINED_FUNDING_STATE: _ClassVar[FundingState]
-
-class FundingOrderState(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
-    __slots__ = ()
-    UNDEFINED_FUNDING_ORDER_STATE: _ClassVar[FundingOrderState]
-    PENDING_CONFIRMATION_FUNDING_ORDER_STATE: _ClassVar[FundingOrderState]
-    AWAITING_APPROVAL_FUNDING_ORDER_STATE: _ClassVar[FundingOrderState]
-    SETTLEMENT_IN_PROGRESS_FUNDING_ORDER_STATE: _ClassVar[FundingOrderState]
-    CANCELLED_FUNDING_ORDER_STATE: _ClassVar[FundingOrderState]
-    FAILED_FUNDING_ORDER_STATE: _ClassVar[FundingOrderState]
-    SETTLED_FUNDING_ORDER_STATE: _ClassVar[FundingOrderState]
-    UNDER_INVESTIGATION_FUNDING_ORDER_STATE: _ClassVar[FundingOrderState]
+    UNDEFINED_FUNDING_ORDER_STATE: _ClassVar[FundingState]
+    PENDING_CONFIRMATION_FUNDING_ORDER_STATE: _ClassVar[FundingState]
+    AWAITING_APPROVAL_FUNDING_ORDER_STATE: _ClassVar[FundingState]
+    SETTLEMENT_IN_PROGRESS_FUNDING_ORDER_STATE: _ClassVar[FundingState]
+    CANCELLED_FUNDING_ORDER_STATE: _ClassVar[FundingState]
+    FAILED_FUNDING_ORDER_STATE: _ClassVar[FundingState]
+    SETTLED_FUNDING_ORDER_STATE: _ClassVar[FundingState]
+    UNDER_INVESTIGATION_FUNDING_ORDER_STATE: _ClassVar[FundingState]
 
 class FundingOrigin(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
@@ -33,15 +29,14 @@ class PeachPaymentMethod(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     UNDEFINED_PEACH_FUNDING_CATEGORY: _ClassVar[PeachPaymentMethod]
     PEACH_PAY_BY_BANK: _ClassVar[PeachPaymentMethod]
     PEACH_PAY_BY_CARD: _ClassVar[PeachPaymentMethod]
-UNDEFINED_FUNDING_STATE: FundingState
-UNDEFINED_FUNDING_ORDER_STATE: FundingOrderState
-PENDING_CONFIRMATION_FUNDING_ORDER_STATE: FundingOrderState
-AWAITING_APPROVAL_FUNDING_ORDER_STATE: FundingOrderState
-SETTLEMENT_IN_PROGRESS_FUNDING_ORDER_STATE: FundingOrderState
-CANCELLED_FUNDING_ORDER_STATE: FundingOrderState
-FAILED_FUNDING_ORDER_STATE: FundingOrderState
-SETTLED_FUNDING_ORDER_STATE: FundingOrderState
-UNDER_INVESTIGATION_FUNDING_ORDER_STATE: FundingOrderState
+UNDEFINED_FUNDING_ORDER_STATE: FundingState
+PENDING_CONFIRMATION_FUNDING_ORDER_STATE: FundingState
+AWAITING_APPROVAL_FUNDING_ORDER_STATE: FundingState
+SETTLEMENT_IN_PROGRESS_FUNDING_ORDER_STATE: FundingState
+CANCELLED_FUNDING_ORDER_STATE: FundingState
+FAILED_FUNDING_ORDER_STATE: FundingState
+SETTLED_FUNDING_ORDER_STATE: FundingState
+UNDER_INVESTIGATION_FUNDING_ORDER_STATE: FundingState
 UNDEFINED_FUNDING_ORIGIN: FundingOrigin
 INVESTEC_DIRECT_EFT: FundingOrigin
 PEACH_SETTLEMENT: FundingOrigin

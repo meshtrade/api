@@ -26,7 +26,6 @@ goog.object.extend(proto, api_proto_ledger_amount_pb);
 goog.exportSymbol('proto.api.banking.funding.Funding', null, global);
 goog.exportSymbol('proto.api.banking.funding.FundingOrderMetaData', null, global);
 goog.exportSymbol('proto.api.banking.funding.FundingOrderMetaData.MetadataCase', null, global);
-goog.exportSymbol('proto.api.banking.funding.FundingOrderState', null, global);
 goog.exportSymbol('proto.api.banking.funding.FundingOrigin', null, global);
 goog.exportSymbol('proto.api.banking.funding.FundingState', null, global);
 goog.exportSymbol('proto.api.banking.funding.InvestecDirectEFTMetaData', null, global);
@@ -1963,13 +1962,6 @@ proto.api.banking.funding.InvestecDirectEFTMetaData.prototype.setExternalreferen
  * @enum {number}
  */
 proto.api.banking.funding.FundingState = {
-  UNDEFINED_FUNDING_STATE: 0
-};
-
-/**
- * @enum {number}
- */
-proto.api.banking.funding.FundingOrderState = {
   UNDEFINED_FUNDING_ORDER_STATE: 0,
   PENDING_CONFIRMATION_FUNDING_ORDER_STATE: 1,
   AWAITING_APPROVAL_FUNDING_ORDER_STATE: 2,
