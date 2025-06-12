@@ -33,46 +33,44 @@ The following diagram illustrates the relationship between our source protobuf f
 graph TD
 %% Main direction is Top Down for better vertical layout
 
-    subgraph proto ["/proto"]
-        direction TB
-        subgraph p_api_services ["API Services"]
-             direction TB
-            subgraph p_account ["/proto/account/v1"]
-                p_account_files("*.proto")
+    subgraph proto ["proto"]
+        subgraph p_meshtrade ["proto/meshtrade"]
+            direction TB
+            subgraph p_api_services ["API Services"]
+                direction TB
+                subgraph p_account ["proto/meshtrade/account/v1"]
+                    p_account_files("*.proto")
+                end
+                subgraph p_iam ["proto/meshtrade/iam/v1"]
+                    p_iam_files("*.proto")
+                end
             end
-             subgraph p_iam ["/proto/iam/v1"]
-                p_iam_files("*.proto")
+            subgraph p_type ["proto/meshtrade/type/v1"]
+                p_type_files("*.proto")
             end
-            subgraph p_auth ["/proto/auth/v1"]
-                p_auth_files("*.proto")
-            end
-        end
-        subgraph p_type ["/proto/type/v1"]
-            p_type_files("*.proto")
         end
     end
 
     subgraph generated_code ["Generated Client Libraries"]
         direction LR
-        subgraph ts ["/ts"]
-            direction TB
-            subgraph ts_api_services ["API Services"]
+        subgraph ts ["ts"]
+            subgraph ts_meshtrade ["ts/src"]
                 direction TB
-                subgraph ts_account ["ts/account/v1"]
-                    ts_account_files("*.pb.ts")
+                subgraph ts_api_services ["API Services"]
+                    direction TB
+                    subgraph ts_account ["ts/src/account/v1"]
+                        ts_account_files("*.pb.ts")
+                    end
+                    subgraph ts_iam ["ts/src/iam/v1"]
+                        ts_iam_files("*.pb.ts")
+                    end
                 end
-                subgraph ts_iam ["ts/iam/v1"]
-                    ts_iam_files("*.pb.ts")
+                subgraph ts_type ["ts/type/v1"]
+                    ts_type_files("*.pb.ts")
                 end
-                subgraph ts_auth ["ts/auth/v1"]
-                    ts_auth_files("*.pb.ts")
-                end
-            end
-            subgraph ts_type ["ts/type/v1"]
-                ts_type_files("*.pb.ts")
             end
         end
-        subgraph go ["/go"]
+        subgraph go ["go"]
             direction TB
             subgraph go_api_services ["API Services"]
                 direction TB
@@ -82,30 +80,26 @@ graph TD
                 subgraph go_iam ["go/iam/v1"]
                     go_iam_files("*.pb.go")
                 end
-                subgraph go_auth ["go/auth/v1"]
-                    go_auth_files("*.pb.go")
-                end
             end
             subgraph go_type ["go/type/v1"]
                 go_type_files("*.pb.go")
             end
         end
-        subgraph python ["/python"]
-            direction TB
-            subgraph python_api_services ["API Services"]
+        subgraph python ["python"]
+            subgraph python_meshtrade ["python/src/meshtrade"]
                 direction TB
-                subgraph python_account ["python/account/v1"]
-                    python_account_files("*.pb.py")
+                subgraph python_api_services ["API Services"]
+                    direction TB
+                    subgraph python_account ["python/src/meshtrade/account/v1"]
+                        python_account_files("*.pb.py")
+                    end
+                    subgraph python_iam ["python/src/meshtrade/iam/v1"]
+                        python_iam_files("*.pbpy")
+                    end
                 end
-                subgraph python_iam ["python/iam/v1"]
-                    python_iam_files("*.pbpy")
+                subgraph python_type ["python/src/meshtrade/type/v1"]
+                    python_type_files("*.pb.py")
                 end
-                subgraph python_auth ["python/auth/v1"]
-                    python_auth_files("*.pb.py")
-                end
-            end
-            subgraph python_type ["python/type/v1"]
-                python_type_files("*.pb.py")
             end
         end
     end
@@ -120,19 +114,15 @@ graph TD
     style generated_code fill:#f8f9fa,stroke:#000
 
     %% API Service Modules
-    style p_auth fill:#e9f2fa,stroke:#000
     style p_iam fill:#e9f2fa,stroke:#000
     style p_account fill:#e9f2fa,stroke:#000
 
-    style go_auth fill:#e9f2fa,stroke:#000
     style go_iam fill:#e9f2fa,stroke:#000
     style go_account fill:#e9f2fa,stroke:#000
 
-    style python_auth fill:#e9f2fa,stroke:#000
     style python_iam fill:#e9f2fa,stroke:#000
     style python_account fill:#e9f2fa,stroke:#000
 
-    style ts_auth fill:#e9f2fa,stroke:#000
     style ts_iam fill:#e9f2fa,stroke:#000
     style ts_account fill:#e9f2fa,stroke:#000
 
@@ -160,7 +150,7 @@ graph TD
 
 This directory contains the [protobuf](https://github.com/protocolbuffers/protobuf) definitions of our API services. It can be divided into two conceptual categories:
 
-* **API Services** (`auth`, `iam`, `account`, etc.): These are the type and service definitions that describe our APIs. A combination of protobuf `service` and `message` definitions.
+* **API Services** (`iam`, `account`, etc.): These are the type and service definitions that describe our APIs. A combination of protobuf `service` and `message` definitions.
 * **Shared Types** (`type`): These are foundational messages (such as `Decimal`, `Token` or `Amount`) that are used across multiple API services. There are no `service` definitions here.
 
 #### API Integration SDK Directories (`/go`, `/python`, `/ts`)
@@ -170,3 +160,5 @@ These directories contain the the API integration SDKs for our supported languag
 * **/go**: Go modules.
 * **/python**: Python packages managed by a central `pythonproject.toml`.
 * **/ts**: TypeScript packages managed as a monorepo.
+
+### Full API Spec
