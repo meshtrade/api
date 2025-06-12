@@ -13,5 +13,5 @@ service Service {
 message GetRequest {}
 
 message GetResponse {
-  meshtrade.iam.v1.Role role = 1;
+  meshtrade.iam.role.v1.Role role = 1;
 }
