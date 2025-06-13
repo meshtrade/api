@@ -4,7 +4,7 @@ package meshtrade.wallet.account.v1;
 
 import "meshtrade/wallet/account/v1/account.proto";
 
-option go_package = "github.com/meshtrade/api/wallet/account/v1";
+option go_package = "github.com/meshtrade/api/go/wallet/account/v1;accountv1";
 
 service Service {
   rpc Get(GetRequest) returns (GetResponse);

@@ -4,7 +4,7 @@ package meshtrade.trading.direct_order.v1;
 
 import "meshtrade/trading/direct_order/v1/direct_order.proto";
 
-option go_package = "github.com/meshtrade/api/direct_order/v1";
+option go_package = "github.com/meshtrade/api/go/trading/direct_order/v1;directorderv1";
 
 service Service {
   rpc Get(GetRequest) returns (GetResponse);

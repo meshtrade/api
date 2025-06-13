@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package meshtrade.trading.spot.v1;
 
-option go_package = "github.com/meshtrade/api/spot/v1";
+option go_package = "github.com/meshtrade/api/go/trading/spot/v1;spotv1";
 
 message Spot {
   string number = 1;

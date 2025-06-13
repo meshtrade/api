@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package meshtrade.compliance.client.v1;
 
-option go_package = "github.com/meshtrade/api/compliance/client/v1;clientv1";
+option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
 
 message Client {
   string name = 1;
