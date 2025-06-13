@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package meshtrade.wallet.account.v1;
+
+import "meshtrade/wallet/account/v1/account.proto";
+
+option go_package = "github.com/meshtrade/api/wallet/account/v1";
+
+service Service {
+  rpc Get(GetRequest) returns (GetResponse);
+}
+
+message GetRequest {
+  string number = 1;
+}
+
+message GetResponse {
+  meshtrade.wallet.account.v1.Account account = 1;
+}

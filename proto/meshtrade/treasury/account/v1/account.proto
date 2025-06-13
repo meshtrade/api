@@ -1,9 +1,0 @@
-syntax = "proto3";
-
-package meshtrade.treasury.account.v1;
-
-option go_package = "github.com/meshtrade/api/treasury/account/v1";
-
-message Account {
-  string name = 1;
-}

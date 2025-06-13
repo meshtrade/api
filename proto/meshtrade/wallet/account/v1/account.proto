@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package meshtrade.wallet.account.v1;
+
+option go_package = "github.com/meshtrade/api/wallet/account/v1";
+
+message Account {
+  string name = 1;
+}
