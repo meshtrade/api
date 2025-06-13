@@ -21,11 +21,9 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// GetRequest is the message sent to the Get RPC
 type GetRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// The unique identifier for the  to be retrieved.
-	Number        string `protobuf:"bytes,1,opt,name=number,proto3" json:"number,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Number        string                 `protobuf:"bytes,1,opt,name=number,proto3" json:"number,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -67,11 +65,9 @@ func (x *GetRequest) GetNumber() string {
 	return ""
 }
 
-// GetResponse is the message returned from the Get RPC.
 type GetResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// The retrieved  resource.
-	Client        *Client `protobuf:"bytes,1,opt,name=client,proto3" json:"client,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Client        *Client                `protobuf:"bytes,1,opt,name=client,proto3" json:"client,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }

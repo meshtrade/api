@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package meshtrade.iam.role.v1;
 
-option go_package = "github.com/proto/meshtrade/iam/role/v1;rolev1";
+option go_package = "github.com/meshtrade/api/go/iam/role/v1;rolev1";
 
 /*
    Permission is the ability to perform an activity in the system.

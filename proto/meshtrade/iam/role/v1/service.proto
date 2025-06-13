@@ -4,7 +4,7 @@ package meshtrade.iam.role.v1;
 
 import "meshtrade/iam/role/v1/role.proto";
 
-option go_package = "github.com/proto/meshtrade/iam/role/v1;rolev1";
+option go_package = "github.com/meshtrade/api/go/iam/role/v1;rolev1";
 
 service Service {
   rpc Get(GetRequest) returns (GetResponse);

@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             (unknown)
-// source: meshtrade/compliance/client/v1/service.proto
+// source: meshtrade/iam/role/v1/service.proto
 
-package clientv1
+package rolev1
 
 import (
 	context "context"
@@ -19,7 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Service_Get_FullMethodName = "/meshtrade.compliance.client.v1.Service/Get"
+	Service_Get_FullMethodName = "/meshtrade.iam.role.v1.Service/Get"
 )
 
 // ServiceClient is the client API for Service service.
@@ -108,7 +108,7 @@ func _Service_Get_Handler(srv interface{}, ctx context.Context, dec func(interfa
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Service_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "meshtrade.compliance.client.v1.Service",
+	ServiceName: "meshtrade.iam.role.v1.Service",
 	HandlerType: (*ServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -117,5 +117,5 @@ var Service_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "meshtrade/compliance/client/v1/service.proto",
+	Metadata: "meshtrade/iam/role/v1/service.proto",
 }

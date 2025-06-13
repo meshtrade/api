@@ -21,15 +21,9 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Client is the ability to perform an activity in the system.
 type Client struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// ServiceProvider is the name of the Service Provider that provides Service.
-	ServiceProvider string `protobuf:"bytes,1,opt,name=service_provider,json=serviceProvider,proto3" json:"service_provider,omitempty"`
-	// Service is the name of the Service on ServiceProvider that this Client grants access to.
-	Service string `protobuf:"bytes,2,opt,name=service,proto3" json:"service,omitempty"`
-	// Description describes the purpose of this client.
-	Description   string `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -64,23 +58,9 @@ func (*Client) Descriptor() ([]byte, []int) {
 	return file_meshtrade_compliance_client_v1_client_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *Client) GetServiceProvider() string {
+func (x *Client) GetName() string {
 	if x != nil {
-		return x.ServiceProvider
-	}
-	return ""
-}
-
-func (x *Client) GetService() string {
-	if x != nil {
-		return x.Service
-	}
-	return ""
-}
-
-func (x *Client) GetDescription() string {
-	if x != nil {
-		return x.Description
+		return x.Name
 	}
 	return ""
 }
@@ -89,11 +69,9 @@ var File_meshtrade_compliance_client_v1_client_proto protoreflect.FileDescriptor
 
 const file_meshtrade_compliance_client_v1_client_proto_rawDesc = "" +
 	"\n" +
-	"+meshtrade/compliance/client/v1/client.proto\x12\x1emeshtrade.compliance.client.v1\"o\n" +
-	"\x06Client\x12)\n" +
-	"\x10service_provider\x18\x01 \x01(\tR\x0fserviceProvider\x12\x18\n" +
-	"\aservice\x18\x02 \x01(\tR\aservice\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescriptionB;Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
+	"+meshtrade/compliance/client/v1/client.proto\x12\x1emeshtrade.compliance.client.v1\"\x1c\n" +
+	"\x06Client\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04nameB;Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
 
 var (
 	file_meshtrade_compliance_client_v1_client_proto_rawDescOnce sync.Once

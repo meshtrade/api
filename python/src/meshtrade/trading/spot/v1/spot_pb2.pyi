@@ -4,8 +4,8 @@ from typing import ClassVar as _ClassVar, Optional as _Optional
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
-class Client(_message.Message):
-    __slots__ = ("name",)
-    NAME_FIELD_NUMBER: _ClassVar[int]
-    name: str
-    def __init__(self, name: _Optional[str] = ...) -> None: ...
+class Spot(_message.Message):
+    __slots__ = ("number",)
+    NUMBER_FIELD_NUMBER: _ClassVar[int]
+    number: str
+    def __init__(self, number: _Optional[str] = ...) -> None: ...
