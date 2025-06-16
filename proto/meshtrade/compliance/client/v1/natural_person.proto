@@ -6,6 +6,7 @@ import "google/type/date.proto";
 import "meshtrade/compliance/client/v1/identification_document_type.proto";
 import "meshtrade/compliance/client/v1/pep_status.proto";
 import "meshtrade/type/v1/address.proto";
+import "meshtrade/type/v1/contact_details.proto";
 
 option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
 

@@ -3,8 +3,10 @@ syntax = "proto3";
 package meshtrade.compliance.client.v1;
 
 import "meshtrade/compliance/client/v1/company_representative.proto";
+import "meshtrade/compliance/client/v1/connected_legal_person.proto";
+import "meshtrade/compliance/client/v1/connected_natural_person.proto";
 import "meshtrade/compliance/client/v1/industry_classification.proto";
-import "meshtrade/compliance/client/v1/natural_person.proto";
+import "meshtrade/compliance/client/v1/legal_person.proto";
 
 option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
 

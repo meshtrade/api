@@ -3,6 +3,7 @@ syntax = "proto3";
 package meshtrade.compliance.client.v1;
 
 import "google/type/date.proto";
+import "meshtrade/compliance/client/v1/legal_person_form.proto";
 import "meshtrade/type/v1/address.proto";
 
 option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
@@ -23,7 +24,7 @@ message LegalPerson {
   // The legal form of the entity (e.g., LTD, PLC, BV).
   //
   // Required for verification.
-  LegalPersonForm legal_form = 2;
+  meshtrade.compliance.client.v1.LegalPersonForm legal_form = 2;
 
   // The official registration number assigned by the relevant companies registry.
   // e.g., UK Companies House number, NL KVK-nummer, US EIN, or
