@@ -39,7 +39,7 @@ type ConnectedNaturalPerson struct {
 	// The percentage of direct or indirect ownership this person holds.
 	// e.g. a value of 25.5 represents 25.5% ownership.
 	//
-	// Required (if connection types includes NATURAL_PERSON_CONNECTION_TYPE_SHAREHOLDER or similar ownership role)
+	// Required for verification (if connection types includes NATURAL_PERSON_CONNECTION_TYPE_SHAREHOLDER or similar ownership role)
 	OwnershipPercentage *float32 `protobuf:"fixed32,3,opt,name=ownership_percentage,json=ownershipPercentage,proto3,oneof" json:"ownership_percentage,omitempty"`
 	// The percentage of voting rights this person holds, which can differ from ownership.
 	// e.g. a value of 25.5 represents 25.5% ownership.

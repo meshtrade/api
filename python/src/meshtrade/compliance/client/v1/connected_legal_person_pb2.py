@@ -26,7 +26,7 @@ from meshtrade.compliance.client.v1 import legal_person_pb2 as meshtrade_dot_com
 from meshtrade.compliance.client.v1 import legal_person_connection_type_pb2 as meshtrade_dot_compliance_dot_client_dot_v1_dot_legal__person__connection__type__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n;meshtrade/compliance/client/v1/connected_legal_person.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x31meshtrade/compliance/client/v1/legal_person.proto\x1a\x41meshtrade/compliance/client/v1/legal_person_connection_type.proto\"\xb2\x03\n\x14\x43onnectedLegalPerson\x12N\n\x0clegal_person\x18\x01 \x01(\x0b\x32+.meshtrade.compliance.client.v1.LegalPersonR\x0blegalPerson\x12\x64\n\x10\x63onnection_types\x18\x02 \x03(\x0e\x32\x39.meshtrade.compliance.client.v1.LegalPersonConnectionTypeR\x0f\x63onnectionTypes\x12\x36\n\x14ownership_percentage\x18\x03 \x01(\x02H\x00R\x13ownershipPercentage\x88\x01\x01\x12=\n\x18voting_rights_percentage\x18\x04 \x01(\x02H\x01R\x16votingRightsPercentage\x88\x01\x01\x12\x37\n\x17\x63onnection_descriptionn\x18\x05 \x01(\tR\x16\x63onnectionDescriptionnB\x17\n\x15_ownership_percentageB\x1b\n\x19_voting_rights_percentageB;Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n;meshtrade/compliance/client/v1/connected_legal_person.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x31meshtrade/compliance/client/v1/legal_person.proto\x1a\x41meshtrade/compliance/client/v1/legal_person_connection_type.proto\"\xb0\x03\n\x14\x43onnectedLegalPerson\x12N\n\x0clegal_person\x18\x01 \x01(\x0b\x32+.meshtrade.compliance.client.v1.LegalPersonR\x0blegalPerson\x12\x64\n\x10\x63onnection_types\x18\x02 \x03(\x0e\x32\x39.meshtrade.compliance.client.v1.LegalPersonConnectionTypeR\x0f\x63onnectionTypes\x12\x36\n\x14ownership_percentage\x18\x03 \x01(\x02H\x00R\x13ownershipPercentage\x88\x01\x01\x12=\n\x18voting_rights_percentage\x18\x04 \x01(\x02H\x01R\x16votingRightsPercentage\x88\x01\x01\x12\x35\n\x16\x63onnection_description\x18\x05 \x01(\tR\x15\x63onnectionDescriptionB\x17\n\x15_ownership_percentageB\x1b\n\x19_voting_rights_percentageB;Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -35,5 +35,5 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1'
   _globals['_CONNECTEDLEGALPERSON']._serialized_start=214
-  _globals['_CONNECTEDLEGALPERSON']._serialized_end=648
+  _globals['_CONNECTEDLEGALPERSON']._serialized_end=646
 # @@protoc_insertion_point(module_scope)

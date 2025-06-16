@@ -28,9 +28,8 @@ type NaturalPersonConnectionType int32
 
 const (
 	// Unknown or not specified.
-	// This is a default value to prevent accidental assignment and should not be used.
+	// This is a a default value to prevent accidental assignment and should not be used.
 	NaturalPersonConnectionType_NATURAL_PERSON_CONNECTION_TYPE_UNSPECIFIED NaturalPersonConnectionType = 0
-	// --- Direct Control & Ownership Roles (Primary KYB) ---
 	// The person is an Ultimate Beneficial Owner as defined by AML regulations (e.g., >25% ownership/voting rights).
 	// This is the most critical connection type for KYB.
 	NaturalPersonConnectionType_NATURAL_PERSON_CONNECTION_TYPE_ULTIMATE_BENEFICIAL_OWNER NaturalPersonConnectionType = 1
@@ -44,13 +43,17 @@ const (
 	NaturalPersonConnectionType_NATURAL_PERSON_CONNECTION_TYPE_AUTHORIZED_SIGNATORY NaturalPersonConnectionType = 5
 	// The person is the founder of the company.
 	NaturalPersonConnectionType_NATURAL_PERSON_CONNECTION_TYPE_FOUNDER NaturalPersonConnectionType = 6
-	// --- Familial Connections (Primarily for PEP Screening) ---
-	NaturalPersonConnectionType_NATURAL_PERSON_CONNECTION_TYPE_SPOUSE           NaturalPersonConnectionType = 20
+	// The person is a legally married partner.
+	NaturalPersonConnectionType_NATURAL_PERSON_CONNECTION_TYPE_SPOUSE NaturalPersonConnectionType = 20
+	// The person is a partner in a long-term relationship, equivalent to a spouse.
 	NaturalPersonConnectionType_NATURAL_PERSON_CONNECTION_TYPE_DOMESTIC_PARTNER NaturalPersonConnectionType = 21
-	NaturalPersonConnectionType_NATURAL_PERSON_CONNECTION_TYPE_PARENT           NaturalPersonConnectionType = 22
-	NaturalPersonConnectionType_NATURAL_PERSON_CONNECTION_TYPE_CHILD            NaturalPersonConnectionType = 23
-	NaturalPersonConnectionType_NATURAL_PERSON_CONNECTION_TYPE_SIBLING          NaturalPersonConnectionType = 24
-	// --- Professional & Financial Associates (Primarily for PEP Screening) ---
+	// The person is a mother or father.
+	NaturalPersonConnectionType_NATURAL_PERSON_CONNECTION_TYPE_PARENT NaturalPersonConnectionType = 22
+	// The person is a son or daughter.
+	NaturalPersonConnectionType_NATURAL_PERSON_CONNECTION_TYPE_CHILD NaturalPersonConnectionType = 23
+	// The person is a brother or sister.
+	NaturalPersonConnectionType_NATURAL_PERSON_CONNECTION_TYPE_SIBLING NaturalPersonConnectionType = 24
+	// The person is a business partner.
 	NaturalPersonConnectionType_NATURAL_PERSON_CONNECTION_TYPE_BUSINESS_PARTNER NaturalPersonConnectionType = 30
 	// A generic term for a known professional or personal associate, as defined by FATF guidelines for PEPs.
 	NaturalPersonConnectionType_NATURAL_PERSON_CONNECTION_TYPE_CLOSE_ASSOCIATE NaturalPersonConnectionType = 31

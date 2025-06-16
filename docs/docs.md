@@ -361,36 +361,36 @@ for a successful compliance check, but are not mandatory for creation.
 | ----- | ---- | ----- | ----------- |
 | full_name | [string](#string) |  | The client&#39;s full legal name, as it appears on their official identification documents.
 
-Required |
+Required for verification. |
 | date_of_birth | [google.type.Date](#google-type-Date) |  | The client&#39;s date of birth.
 
-Required |
+Required for verification. |
 | country_of_citizenship | [string](#string) |  | The ISO 3166-1 alpha-2 country code of the client&#39;s nationality/citizenship. This is the two-letter country code (e.g., &#34;ZA&#34; for South Africa, &#34;NL&#34; for the Netherlands). The value should be in uppercase.
 
 See https://www.iso.org/iso-3166-country-codes.html for a full list.
 
-Required |
+Required for verification. |
 | identification_number | [string](#string) |  | An identification number for the client, as found on the provided document. The format is dependent on the identification_document_type.
 
-Required |
+Required for verification. |
 | identification_document_type | [IdentificationDocumentType](#meshtrade-compliance-client-v1-IdentificationDocumentType) |  | The type of identification document provided to prove the correctness of the given identification_number (e.g., Passport, Driver&#39;s License).
 
-Required |
+Required for verification. |
 | identification_document_expiry_date | [google.type.Date](#google-type-Date) |  | The expiration date of the identification document, if applicable.
 
-Required if the document has an expiry date. |
+Required for verification if the document has an expiry date. |
 | physical_address | [meshtrade.type.v1.Address](#meshtrade-type-v1-Address) |  | The client&#39;s primary physical residential address. If `postal_address` is not provided, this address will also be used for postal mail.
 
-Required |
+Required for verification. |
 | pep_status | [PepStatus](#meshtrade-compliance-client-v1-PepStatus) |  | The client&#39;s status as a Politically Exposed Person (PEP). This is a mandatory check for regulatory compliance.
 
-Required |
+Required for verification. |
 | postal_address | [meshtrade.type.v1.Address](#meshtrade-type-v1-Address) |  | The client&#39;s postal address, if it is different from the physical address.
 
-Optional |
+Optional for verification. |
 | personal_contact_details | [meshtrade.type.v1.ContactDetails](#meshtrade-type-v1-ContactDetails) |  | The individual&#39;s personal contact details (personal email, personal mobile).
 
-Optional |
+Optional for verification. |
 
 
 
@@ -420,15 +420,18 @@ CompanyRepresentative models an individual acting in an official capacity for a 
 This person is typically subject to KYC verification as part of the overall KYB process
 for the legal entity they represent.
 
+Note on Field Requirements: Fields marked as &#39;Required for verification&#39; are essential
+for a successful compliance check, but are not mandatory for creation.
+
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | natural_person | [NaturalPerson](#meshtrade-compliance-client-v1-NaturalPerson) |  | Details of the natural person that is the company representative. This contains the core personal identity information (name, residential address, ID document, personal contact details, etc.) required for their individual KYC check.
 
-Required |
+Required for verification. |
 | role | [CompanyRepresentativeRole](#meshtrade-compliance-client-v1-CompanyRepresentativeRole) |  | The official role this person holds in relation to the company.
 
-Required |
+Required for verification. |
 | position | [string](#string) |  | The person&#39;s job title or position within the company (e.g., &#34;CEO&#34;, &#34;Managing Partner&#34;).
 
 Optional |
@@ -612,11 +615,11 @@ Required for verification. |
 Required for verification. |
 | ownership_percentage | [float](#float) | optional | The percentage of direct or indirect ownership this person holds. e.g. a value of 25.5 represents 25.5% ownership.
 
-Required (if the connection_types includes LEGAL_PERSON_CONNECTION_TYPE_SHAREHOLDER or similar ownership role) |
+Required for verification (if the connection_types includes LEGAL_PERSON_CONNECTION_TYPE_SHAREHOLDER or similar ownership role) |
 | voting_rights_percentage | [float](#float) | optional | The percentage of voting rights this person holds, which can differ from ownership. e.g. a value of 25.5 represents 25.5% ownership.
 
 Optional for verification. |
-| connection_descriptionn | [string](#string) |  | A plain text description of the relationship.
+| connection_description | [string](#string) |  | A plain text description of the relationship.
 
 Optional for verification. |
 
@@ -652,19 +655,19 @@ as well as secondary relationships for screening (familial, professional).
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| NATURAL_PERSON_CONNECTION_TYPE_UNSPECIFIED | 0 | Unknown or not specified. This is a default value to prevent accidental assignment and should not be used. |
-| NATURAL_PERSON_CONNECTION_TYPE_ULTIMATE_BENEFICIAL_OWNER | 1 | --- Direct Control &amp; Ownership Roles (Primary KYB) --- The person is an Ultimate Beneficial Owner as defined by AML regulations (e.g., &gt;25% ownership/voting rights). This is the most critical connection type for KYB. |
+| NATURAL_PERSON_CONNECTION_TYPE_UNSPECIFIED | 0 | Unknown or not specified. This is a a default value to prevent accidental assignment and should not be used. |
+| NATURAL_PERSON_CONNECTION_TYPE_ULTIMATE_BENEFICIAL_OWNER | 1 | The person is an Ultimate Beneficial Owner as defined by AML regulations (e.g., &gt;25% ownership/voting rights). This is the most critical connection type for KYB. |
 | NATURAL_PERSON_CONNECTION_TYPE_SHAREHOLDER | 2 | The person owns shares but may be below the UBO threshold. |
 | NATURAL_PERSON_CONNECTION_TYPE_DIRECTOR | 3 | The person is a formal Director on the company&#39;s board. |
 | NATURAL_PERSON_CONNECTION_TYPE_SENIOR_MANAGEMENT | 4 | The person holds a senior management position with significant operational control (e.g., CEO, CFO, COO). |
 | NATURAL_PERSON_CONNECTION_TYPE_AUTHORIZED_SIGNATORY | 5 | The person is formally authorized to sign documents and act on the company&#39;s behalf. |
 | NATURAL_PERSON_CONNECTION_TYPE_FOUNDER | 6 | The person is the founder of the company. |
-| NATURAL_PERSON_CONNECTION_TYPE_SPOUSE | 20 | --- Familial Connections (Primarily for PEP Screening) --- |
-| NATURAL_PERSON_CONNECTION_TYPE_DOMESTIC_PARTNER | 21 |  |
-| NATURAL_PERSON_CONNECTION_TYPE_PARENT | 22 |  |
-| NATURAL_PERSON_CONNECTION_TYPE_CHILD | 23 |  |
-| NATURAL_PERSON_CONNECTION_TYPE_SIBLING | 24 |  |
-| NATURAL_PERSON_CONNECTION_TYPE_BUSINESS_PARTNER | 30 | --- Professional &amp; Financial Associates (Primarily for PEP Screening) --- |
+| NATURAL_PERSON_CONNECTION_TYPE_SPOUSE | 20 | The person is a legally married partner. |
+| NATURAL_PERSON_CONNECTION_TYPE_DOMESTIC_PARTNER | 21 | The person is a partner in a long-term relationship, equivalent to a spouse. |
+| NATURAL_PERSON_CONNECTION_TYPE_PARENT | 22 | The person is a mother or father. |
+| NATURAL_PERSON_CONNECTION_TYPE_CHILD | 23 | The person is a son or daughter. |
+| NATURAL_PERSON_CONNECTION_TYPE_SIBLING | 24 | The person is a brother or sister. |
+| NATURAL_PERSON_CONNECTION_TYPE_BUSINESS_PARTNER | 30 | The person is a business partner. |
 | NATURAL_PERSON_CONNECTION_TYPE_CLOSE_ASSOCIATE | 31 | A generic term for a known professional or personal associate, as defined by FATF guidelines for PEPs. |
 | NATURAL_PERSON_CONNECTION_TYPE_GUARANTOR | 32 | The person is a guarantor for the company&#39;s financial obligations. |
 | NATURAL_PERSON_CONNECTION_TYPE_BENEFICIARY_OF_TRUST | 33 | The person is a beneficiary of a trust that owns or controls the company. |
@@ -704,7 +707,7 @@ Required for verification. |
 Required for verification. |
 | ownership_percentage | [float](#float) | optional | The percentage of direct or indirect ownership this person holds. e.g. a value of 25.5 represents 25.5% ownership.
 
-Required (if connection types includes NATURAL_PERSON_CONNECTION_TYPE_SHAREHOLDER or similar ownership role) |
+Required for verification (if connection types includes NATURAL_PERSON_CONNECTION_TYPE_SHAREHOLDER or similar ownership role) |
 | voting_rights_percentage | [float](#float) | optional | The percentage of voting rights this person holds, which can differ from ownership. e.g. a value of 25.5 represents 25.5% ownership.
 
 Optional |
@@ -888,7 +891,9 @@ This is used for compliance and due diligence purposes.
 
 ### TaxResidency
 Holds tax residency information for a single jurisdiction.
-NOTE: where a field is marked `Required`, it is required as stiplulated in the containing entity.
+
+Note on Required Fields: Fields marked as &#39;Required&#39; are essential
+for a successful compliance check, but are not mandatory for creation.
 
 
 | Field | Type | Label | Description |
@@ -897,10 +902,10 @@ NOTE: where a field is marked `Required`, it is required as stiplulated in the c
 
 See https://www.iso.org/iso-3166-country-codes.html for a full list.
 
-Required |
+Required for verification. |
 | tin | [string](#string) |  | The Tax Identification Number (TIN) for the client in that jurisdiction.
 
-Required |
+Required for verification. |
 
 
 
@@ -928,23 +933,25 @@ Required |
 ### KYCInfo
 KYCInfo represents the Know Your Customer (KYC) information for an individual client.
 This message is used to collect and verify the identity and financial profile of a person.
-NOTE: where a field is marked `Required`, this indicates: &#39;Required for a Successful Client KYC Approval&#39; (i.e. not for entity creation)
+
+Note on Field Requirements: Fields marked as &#39;Required for verification&#39; are essential
+for a successful compliance check, but are not mandatory for creation.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | natural_person | [NaturalPerson](#meshtrade-compliance-client-v1-NaturalPerson) |  | Details of the natural person represented by this kyc profile. This contains the core identity information (name, DOB, address, identity document etc.).
 
-Required |
+Required for verification. |
 | sources_of_income | [SourceOfIncomeAndWealth](#meshtrade-compliance-client-v1-SourceOfIncomeAndWealth) | repeated | The primary sources of the client&#39;s regular income (e.g., employment, pension).
 
-Required |
+Required for verification. |
 | sources_of_wealth | [SourceOfIncomeAndWealth](#meshtrade-compliance-client-v1-SourceOfIncomeAndWealth) | repeated | The origins of the client&#39;s total net worth or assets (e.g., inheritance, investments). This is distinct from the source of income.
 
-Required |
+Required for verification. |
 | tax_residencies | [TaxResidency](#meshtrade-compliance-client-v1-TaxResidency) | repeated | The client&#39;s tax residency information, required for CRS/FATCA reporting. A client can be a tax resident in multiple jurisdictions.
 
-Required |
+Required for verification. |
 
 
 
@@ -1013,15 +1020,15 @@ and verification status related to a single party.
 System set on creation. |
 | owner_group | [string](#string) |  | The resource name of the group that owns this client in the format groups/{group_id}. This field establishes the ownership link and can be updated if the client&#39;s ownership changes, without affecting the client&#39;s stable `name`.
 
+The executing user needs to have permission to perform client.Create in this group.
+
 Required on creation. |
 | display_name | [string](#string) |  | A non-unique, user-provided name for the client, used for display purposes in user interfaces and reports.
 
 Required on creation. |
 | kyc_info | [KYCInfo](#meshtrade-compliance-client-v1-KYCInfo) |  |  |
 | kyb_info | [KYBInfo](#meshtrade-compliance-client-v1-KYBInfo) |  |  |
-| verification_status | [VerificationStatus](#meshtrade-compliance-client-v1-VerificationStatus) |  | The definitive, most recent compliance status of the client (e.g., VERIFICATION_STATUS_VERIFIED, VERIFICATION_STATUS_FAILED).
-
-System controlled. |
+| verification_status | [VerificationStatus](#meshtrade-compliance-client-v1-VerificationStatus) |  | The definitive, most recent compliance status of the client (e.g., VERIFICATION_STATUS_VERIFIED, VERIFICATION_STATUS_FAILED). System controlled. |
 | verification_authority_name | [string](#string) |  | The resource name of the client (acting as a verifier) that last set the `verification_status`. This provides an audit trail for status changes.
 
 System set when verification_status changes. |

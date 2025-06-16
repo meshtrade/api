@@ -23,27 +23,29 @@ const (
 
 // KYCInfo represents the Know Your Customer (KYC) information for an individual client.
 // This message is used to collect and verify the identity and financial profile of a person.
-// NOTE: where a field is marked `Required`, this indicates: 'Required for a Successful Client KYC Approval' (i.e. not for entity creation)
+//
+// Note on Field Requirements: Fields marked as 'Required for verification' are essential
+// for a successful compliance check, but are not mandatory for creation.
 type KYCInfo struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Details of the natural person represented by this kyc profile.
 	// This contains the core identity information (name, DOB, address, identity document etc.).
 	//
-	// Required
+	// Required for verification.
 	NaturalPerson *NaturalPerson `protobuf:"bytes,1,opt,name=natural_person,json=naturalPerson,proto3" json:"natural_person,omitempty"`
 	// The primary sources of the client's regular income (e.g., employment, pension).
 	//
-	// Required
+	// Required for verification.
 	SourcesOfIncome []SourceOfIncomeAndWealth `protobuf:"varint,2,rep,packed,name=sources_of_income,json=sourcesOfIncome,proto3,enum=meshtrade.compliance.client.v1.SourceOfIncomeAndWealth" json:"sources_of_income,omitempty"`
 	// The origins of the client's total net worth or assets (e.g., inheritance, investments).
 	// This is distinct from the source of income.
 	//
-	// Required
+	// Required for verification.
 	SourcesOfWealth []SourceOfIncomeAndWealth `protobuf:"varint,3,rep,packed,name=sources_of_wealth,json=sourcesOfWealth,proto3,enum=meshtrade.compliance.client.v1.SourceOfIncomeAndWealth" json:"sources_of_wealth,omitempty"`
 	// The client's tax residency information, required for CRS/FATCA reporting.
 	// A client can be a tax resident in multiple jurisdictions.
 	//
-	// Required
+	// Required for verification.
 	TaxResidencies []*TaxResidency `protobuf:"bytes,4,rep,name=tax_residencies,json=taxResidencies,proto3" json:"tax_residencies,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache

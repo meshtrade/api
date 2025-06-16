@@ -39,7 +39,7 @@ type ConnectedLegalPerson struct {
 	// The percentage of direct or indirect ownership this person holds.
 	// e.g. a value of 25.5 represents 25.5% ownership.
 	//
-	// Required (if the connection_types includes LEGAL_PERSON_CONNECTION_TYPE_SHAREHOLDER or similar ownership role)
+	// Required for verification (if the connection_types includes LEGAL_PERSON_CONNECTION_TYPE_SHAREHOLDER or similar ownership role)
 	OwnershipPercentage *float32 `protobuf:"fixed32,3,opt,name=ownership_percentage,json=ownershipPercentage,proto3,oneof" json:"ownership_percentage,omitempty"`
 	// The percentage of voting rights this person holds, which can differ from ownership.
 	// e.g. a value of 25.5 represents 25.5% ownership.
@@ -49,9 +49,9 @@ type ConnectedLegalPerson struct {
 	// A plain text description of the relationship.
 	//
 	// Optional for verification.
-	ConnectionDescriptionn string `protobuf:"bytes,5,opt,name=connection_descriptionn,json=connectionDescriptionn,proto3" json:"connection_descriptionn,omitempty"`
-	unknownFields          protoimpl.UnknownFields
-	sizeCache              protoimpl.SizeCache
+	ConnectionDescription string `protobuf:"bytes,5,opt,name=connection_description,json=connectionDescription,proto3" json:"connection_description,omitempty"`
+	unknownFields         protoimpl.UnknownFields
+	sizeCache             protoimpl.SizeCache
 }
 
 func (x *ConnectedLegalPerson) Reset() {
@@ -112,9 +112,9 @@ func (x *ConnectedLegalPerson) GetVotingRightsPercentage() float32 {
 	return 0
 }
 
-func (x *ConnectedLegalPerson) GetConnectionDescriptionn() string {
+func (x *ConnectedLegalPerson) GetConnectionDescription() string {
 	if x != nil {
-		return x.ConnectionDescriptionn
+		return x.ConnectionDescription
 	}
 	return ""
 }
@@ -123,13 +123,13 @@ var File_meshtrade_compliance_client_v1_connected_legal_person_proto protoreflec
 
 const file_meshtrade_compliance_client_v1_connected_legal_person_proto_rawDesc = "" +
 	"\n" +
-	";meshtrade/compliance/client/v1/connected_legal_person.proto\x12\x1emeshtrade.compliance.client.v1\x1a1meshtrade/compliance/client/v1/legal_person.proto\x1aAmeshtrade/compliance/client/v1/legal_person_connection_type.proto\"\xb2\x03\n" +
+	";meshtrade/compliance/client/v1/connected_legal_person.proto\x12\x1emeshtrade.compliance.client.v1\x1a1meshtrade/compliance/client/v1/legal_person.proto\x1aAmeshtrade/compliance/client/v1/legal_person_connection_type.proto\"\xb0\x03\n" +
 	"\x14ConnectedLegalPerson\x12N\n" +
 	"\flegal_person\x18\x01 \x01(\v2+.meshtrade.compliance.client.v1.LegalPersonR\vlegalPerson\x12d\n" +
 	"\x10connection_types\x18\x02 \x03(\x0e29.meshtrade.compliance.client.v1.LegalPersonConnectionTypeR\x0fconnectionTypes\x126\n" +
 	"\x14ownership_percentage\x18\x03 \x01(\x02H\x00R\x13ownershipPercentage\x88\x01\x01\x12=\n" +
-	"\x18voting_rights_percentage\x18\x04 \x01(\x02H\x01R\x16votingRightsPercentage\x88\x01\x01\x127\n" +
-	"\x17connection_descriptionn\x18\x05 \x01(\tR\x16connectionDescriptionnB\x17\n" +
+	"\x18voting_rights_percentage\x18\x04 \x01(\x02H\x01R\x16votingRightsPercentage\x88\x01\x01\x125\n" +
+	"\x16connection_description\x18\x05 \x01(\tR\x15connectionDescriptionB\x17\n" +
 	"\x15_ownership_percentageB\x1b\n" +
 	"\x19_voting_rights_percentageB;Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
 

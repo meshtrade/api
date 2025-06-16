@@ -39,6 +39,8 @@ type Client struct {
 	// This field establishes the ownership link and can be updated if the client's ownership changes,
 	// without affecting the client's stable `name`.
 	//
+	// The executing user needs to have permission to perform client.Create in this group.
+	//
 	// Required on creation.
 	OwnerGroup string `protobuf:"bytes,2,opt,name=owner_group,json=ownerGroup,proto3" json:"owner_group,omitempty"`
 	// A non-unique, user-provided name for the client, used for display purposes
@@ -59,7 +61,6 @@ type Client struct {
 	Info isClient_Info `protobuf_oneof:"info"`
 	// The definitive, most recent compliance status of the client (e.g.,
 	// VERIFICATION_STATUS_VERIFIED, VERIFICATION_STATUS_FAILED).
-	//
 	// System controlled.
 	VerificationStatus VerificationStatus `protobuf:"varint,6,opt,name=verification_status,json=verificationStatus,proto3,enum=meshtrade.compliance.client.v1.VerificationStatus" json:"verification_status,omitempty"`
 	// The resource name of the client (acting as a verifier) that last set the
