@@ -97,6 +97,7 @@ jspm_packages/
 public/bundles/ # Symfony
 var/ # Symfony
 vendor/ # Composer dependencies
+/docs/vendor/
 
 # Environment files #
 #####################
