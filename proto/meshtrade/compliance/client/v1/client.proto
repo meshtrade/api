@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package meshtrade.compliance.client.v1;
 
+import "meshtrade/compliance/v1/kyc_info.proto";
+
 option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
 
 // Client is an authorised legal entity, individual or business (company, trust etc.).
@@ -15,10 +17,19 @@ message Client {
   // the group owner changes. An external system my have stored this as
   // a unique reference in their system!! It is not reasonable to consider
   // that they would have ownly stored the last bit of this string.
+  //
+  // System Generated.
   string name = 1;
 
   // Display name is a non-unique name field.
+  //
+  // Required
   string display_name = 2;
 
-  //
+  // Info, either KYC or KYB (indicating that client is an individual or a company)
+  oneof info {
+    meshtrade.compliance.client.v1.KYC_Info kyc_info = 3;
+
+    meshtrade.compliance.client.v1.KYB_Info kyB_info = 4;
+  }
 }

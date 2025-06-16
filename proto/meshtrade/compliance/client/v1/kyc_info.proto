@@ -2,13 +2,48 @@ syntax = "proto3";
 
 package meshtrade.compliance.client.v1;
 
-import "google/protobuf/timestamp.proto";
+import "meshtrade/client/v1/identification_type.proto";
+import "meshtrade/type/v1/address.proto";
 
 option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
 
+// KYCInfo contains an individual (particular?) client information.
+// Fullname, dat
 message KYCInfo {
+  // Full legal name (i.e. first + last + etc.)
+  //
+  // Required
   string full_name = 1;
 
-  // The date on which the verification status went good!
-  google.protobuf.Timestamp verification_date = 2;
+  // The ISO 3166-1 alpha-2 country code of country of nationality.
+  // This is the two-letter country code (e.g., "US" for the United States,
+  // "NL" for the Netherlands). The value should be in uppercase.
+  //
+  // See https://www.iso.org/iso-3166-country-codes.html for a full list.
+  //
+  // Required
+  string nationality = 2;
+
+  // An identification number for the client.
+  // Type determined by the identification_type field.
+  //
+  // Required
+  string identification_number = 3;
+
+  // The type of document provided to proove the correctness of the
+  // given identification_number.
+  //
+  // Required
+  meshtrade.compliance.client.v1.IdentificationType identification_type = 4;
+
+  // Physical address of the client.
+  // If postal_address is not given then s
+  //
+  // Required
+  meshtrade.type.v1.Address physical_address = 5;
+
+  // Postal address of the client (if different to physical address).
+  //
+  // Optional.
+  meshtrade.type.v1.Address postal_address = 6;
 }

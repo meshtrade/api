@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package meshtrade.compliance.client.v1;
+
+option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
+
+// SourceOfIncomeAndWealth specifies the origin of a client's funds or assets.
+// This is used for compliance and due diligence purposes.
+enum SourceOfIncomeAndWealth {
+  // Unknown or not specified.
+  // This is a default value to prevent accidental assignment and should not be used.
+  SOURCE_OF_INCOME_AND_WEALTH_UNSPECIFIED = 0;
+
+  // Funds from allowances.
+  SOURCE_OF_INCOME_AND_WEALTH_ALLOWANCES = 1;
+
+  // Funds from a bursary or scholarship.
+  SOURCE_OF_INCOME_AND_WEALTH_BURSARY = 2;
+
+  // Funds received as part of a court order.
+  SOURCE_OF_INCOME_AND_WEALTH_COURT_ORDER = 3;
+
+  // Funds from a loan provided by a financial institution.
+  SOURCE_OF_INCOME_AND_WEALTH_LOAN_FINANCIAL_INSTITUTION = 4;
+
+  // Funds from a loan provided by another entity or individual.
+  SOURCE_OF_INCOME_AND_WEALTH_LOAN_OTHER = 5;
+
+  // Funds from maintenance payments.
+  SOURCE_OF_INCOME_AND_WEALTH_MAINTENANCE = 6;
+
+  // Funds from investments that have reached maturity.
+  SOURCE_OF_INCOME_AND_WEALTH_MATURING_INVESTMENTS = 7;
+
+  // Funds from a pension.
+  SOURCE_OF_INCOME_AND_WEALTH_PENSION = 8;
+
+  // Income generated from rental properties.
+  SOURCE_OF_INCOME_AND_WEALTH_RENTAL_INCOME = 9;
+
+  // Profits generated from a company.
+  SOURCE_OF_INCOME_AND_WEALTH_COMPANY_PROFITS = 10;
+
+  // Proceeds from the sale of a company.
+  SOURCE_OF_INCOME_AND_WEALTH_COMPANY_SALE = 11;
+
+  // Funds from a deceased estate.
+  SOURCE_OF_INCOME_AND_WEALTH_DECEASED_ESTATE = 12;
+
+  // Funds received as part of a divorce settlement.
+  SOURCE_OF_INCOME_AND_WEALTH_DIVORCE_SETTLEMENT = 13;
+
+  // Funds received as a gift or donation.
+  SOURCE_OF_INCOME_AND_WEALTH_GIFT_OR_DONATION = 14;
+
+  // Salary or wages from current employment.
+  SOURCE_OF_INCOME_AND_WEALTH_INCOME_FROM_EMPLOYMENT = 15;
+
+  // Income from a previous employer, such as severance.
+  SOURCE_OF_INCOME_AND_WEALTH_INCOME_FROM_PREVIOUS_EMPLOYMENT = 16;
+
+  // Funds received as an inheritance.
+  SOURCE_OF_INCOME_AND_WEALTH_INHERITANCE = 17;
+
+  // Winnings from a lottery, gambling, or other prizes.
+  SOURCE_OF_INCOME_AND_WEALTH_LOTTERY_WINNINGS_OR_GAMBLING = 18;
+
+  // Proceeds from the sale of a physical or digital asset.
+  SOURCE_OF_INCOME_AND_WEALTH_SALE_OF_ASSET = 19;
+
+  // Proceeds from the sale of stocks or shares.
+  SOURCE_OF_INCOME_AND_WEALTH_SALE_OF_SHARES = 20;
+
+  // Income from savings, investments, or dividends.
+  SOURCE_OF_INCOME_AND_WEALTH_SAVINGS_INVESTMENT_OR_DIVIDEND = 21;
+
+  // Funds distributed from a trust.
+  SOURCE_OF_INCOME_AND_WEALTH_TRUST_DISTRIBUTIONS = 22;
+}
