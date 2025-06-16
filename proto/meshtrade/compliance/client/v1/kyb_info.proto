@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package meshtrade.compliance.client.v1;
+
+import "google/protobuf/timestamp.proto";
+import "meshtrade/compliance/client/v1/business_public_contact_info.proto";
+import "meshtrade/compliance/client/v1/identification_document_type.proto";
+import "meshtrade/compliance/client/v1/source_of_income_and_wealth.proto";
+import "meshtrade/type/v1/address.proto";
+
+option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
+
+// KYBInfo represents the Know Your Customer (KYB) information for an business client.
+// This message is used to collect and verify the identity and financial profile a business.
+// Note: where a field is marked `Required`, this indicates: 'Required for a Successful Client KYC Approval' (i.e. not for entity creation)
+message KYBInfo {
+  // The full legal name of the business as recorded in the given country of incorporation.
+  //
+  // Required for successful KYB verification.
+  string registered_name = 1;
+
+  // The Tax reference number of the business.
+  //
+  // Required for successful KYB verification.
+  string tax_reference_number = 2;
+
+  // The registration number of the business in the country of incorporation.
+  //
+  // Required for successful KYB verification.
+  string registration_number = 3;
+
+  meshtrade.compliance.client.v1.BusinessPublicContactInfo public_contact_info = 4;
+}

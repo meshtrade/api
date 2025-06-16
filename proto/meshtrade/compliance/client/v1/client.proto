@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package meshtrade.compliance.client.v1;
 
-import "meshtrade/compliance/v1/kyc_info.proto";
+import "meshtrade/compliance/client/v1/kyc_info.proto";
 
 option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
 

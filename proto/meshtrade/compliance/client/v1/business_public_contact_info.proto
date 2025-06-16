@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package meshtrade.compliance.client.v1;
+
+option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
+
+// Contains details of how the general public may contact a business.
+// WARNING: THIS INFORMATION BE SHOWN PUBLICALLY
+message BusinessPublicContactInfo {
+  // Full name of the public contact person of the business.
+  //
+  // Optional
+  string full_name = 1;
+
+  // Telephone number of the public contact line.
+  //
+  // Optional
+  string telephone_number = 2;
+
+  // Cellphone number of the public contact line.
+  //
+  // Optional
+  string cellphone_number = 3;
+
+  // Email Address of a public mail box.
+  //
+  // Optional
+  string email_address = 4;
+}

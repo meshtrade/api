@@ -11,62 +11,63 @@ option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
 
 // KYCInfo represents the Know Your Customer (KYC) information for an individual client.
 // This message is used to collect and verify the identity and financial profile of a person.
+// NOTE: where a field is marked `Required`, this indicates: 'Required for a Successful Client KYC Approval' (i.e. not for entity creation)
 message KYCInfo {
   // The client's full legal name, as it appears on their official identification documents.
   //
-  // --> Required
+  // Required
   string full_name = 1;
 
   // The client's date of birth.
   //
-  // --> Required
+  // Required
   google.protobuf.Timestamp date_of_birth = 2;
 
   // The ISO 3166-1 alpha-2 country code of the client's nationality.
-  // This is the two-letter country code (e.g., "US" for the United States,
+  // This is the two-letter country code (e.g., "ZA" for South Africa,
   // "NL" for the Netherlands). The value should be in uppercase.
   //
   // See https://www.iso.org/iso-3166-country-codes.html for a full list.
   //
-  // --> Required
+  // Required
   string nationality = 3;
 
   // An identification number for the client, as found on the provided document.
   // The format is dependent on the identification_document_type.
   //
-  // --> Required
+  // Required
   string identification_number = 4;
 
   // The type of identification document provided to prove the correctness of the
   // given identification_number (e.g., Passport, Driver's License).
   //
-  // --> Required
+  // Required
   meshtrade.compliance.client.v1.IdentificationDocumentType identification_document_type = 5;
 
   // The expiration date of the identification document, if applicable.
   //
-  // --> Optional
+  // Required
   google.protobuf.Timestamp identification_document_expiry_date = 6;
 
   // The client's primary physical residential address.
   // If `postal_address` is not provided, this address will also be used for postal mail.
   //
-  // --> Required
+  // Required
   meshtrade.type.v1.Address physical_address = 7;
 
   // The client's postal address, if it is different from the physical address.
   //
-  // --> Optional
+  // Optional
   meshtrade.type.v1.Address postal_address = 8;
 
   // The primary source of the client's regular income (e.g., employment, pension).
   //
-  // --> Optional
+  // Required
   meshtrade.compliance.client.v1.SourceOfIncomeAndWealth source_of_income = 9;
 
   // The origin of the client's total net worth or assets (e.g., inheritance, sale of a company).
   // This is distinct from the source of income.
   //
-  // --> Optional
+  // Required
   meshtrade.compliance.client.v1.SourceOfIncomeAndWealth source_of_wealth = 10;
 }

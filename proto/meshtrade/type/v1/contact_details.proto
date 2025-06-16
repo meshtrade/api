@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package meshtrade.type.v1;
+
+option go_package = "github.com/meshtrade/api/go/type/v1;typev1";
+
+// A generic set of contact information for an individual or an entity.
+message ContactDetails {
+  // Email address valiated according to:
+  // ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$
+  //
+  // Must be valid if provided.
+  string email_address = 1;
+
+  // Phone number in E.164 international format.
+  // (i.e. a continuous string of digits prefixed with '+').
+  // Example: "+14155552671"
+  //
+  // Must be valid if provided.
+  string phone_number = 3;
+
+  // Mobile phone number in E.164 international format.
+  // (i.e. a continuous string of digits prefixed with '+').
+  // Example: "+14155552671"
+  //
+  // Must be valid if provided.
+  string mobile_number = 5;
+
+  string website = 6;
+
+  string linkedin = 7;
+
+  string facebook = 8;
+
+  string instagram = 9;
+
+  string x_twitter = 10;
+}
