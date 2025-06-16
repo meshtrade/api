@@ -35,9 +35,6 @@ type Address struct {
 	// in the first lines and the more general ones (e.g., street address) in the
 	// subsequent lines.
 	//
-	// Example:
-	// address_lines: "456 Oak Avenue", "Apartment 3B", "123 Main Street"
-	//
 	// Required
 	AddressLines []string `protobuf:"bytes,1,rep,name=address_lines,json=addressLines,proto3" json:"address_lines,omitempty"`
 	// An optional field for a neighborhood, district, or suburb within a city.
@@ -55,8 +52,8 @@ type Address struct {
 	// Required
 	Province string `protobuf:"bytes,4,opt,name=province,proto3" json:"province,omitempty"`
 	// The ISO 3166-1 alpha-2 country code.
-	// This is the two-letter country code (e.g. "ZA" for South Africa,
-	// "NL" for the Netherlands). The value should be in uppercase.
+	// This is the two-letter country code (e.g. \"ZA\" for South Africa,
+	// \"NL\" for the Netherlands). The value should be in uppercase.
 	//
 	// See https://www.iso.org/iso-3166-country-codes.html for a full list.
 	//

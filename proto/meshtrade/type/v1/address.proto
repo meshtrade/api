@@ -20,6 +20,9 @@ message Address {
      in the first lines and the more general ones (e.g., street address) in the
      subsequent lines.
 
+     Example:
+     address_lines: 456 Oak Avenue, Apartment 3B, 123 Main Street
+
      Required
   */
   repeated string address_lines = 1;

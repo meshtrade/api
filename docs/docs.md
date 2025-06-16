@@ -253,8 +253,6 @@ this entity.
 | ----- | ---- | ----- | ----------- |
 | address_lines | [string](#string) | repeated | The unstructured lines of the address. This typically includes the street name, house number, apartment or suite number, and building name. It is recommended to have the most specific details (e.g., apartment number) in the first lines and the more general ones (e.g., street address) in the subsequent lines.
 
-Example: address_lines: &#34;456 Oak Avenue&#34;, &#34;Apartment 3B&#34;, &#34;123 Main Street&#34;
-
 Required |
 | suburb | [string](#string) |  | An optional field for a neighborhood, district, or suburb within a city. The usage of this field can vary by country.
 
@@ -265,7 +263,7 @@ Required |
 | province | [string](#string) |  | The top-level administrative subdivision of a country, such as a state, province, region, or prefecture.
 
 Required |
-| country_code | [string](#string) |  | The ISO 3166-1 alpha-2 country code. This is the two-letter country code (e.g. &#34;ZA&#34; for South Africa, &#34;NL&#34; for the Netherlands). The value should be in uppercase.
+| country_code | [string](#string) |  | The ISO 3166-1 alpha-2 country code. This is the two-letter country code (e.g. \&#34;ZA\&#34; for South Africa, \&#34;NL\&#34; for the Netherlands). The value should be in uppercase.
 
 See https://www.iso.org/iso-3166-country-codes.html for a full list.
 
