@@ -4,25 +4,37 @@ package meshtrade.compliance.client.v1;
 
 option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
 
-// VerificationStatus defines the possible states of a KYC/KYB verification process.
+/*
+   VerificationStatus defines the possible states of a KYC/KYB verification process.
+*/
 enum VerificationStatus {
-  // Unknown or not specified.
-  // This is a default value to prevent accidental assignment and should not be used.
+  /*
+     Unknown or not specified.
+     This is a default value to prevent accidental assignment and should not be used.
+  */
   VERIFICATION_STATUS_UNSPECIFIED = 0;
 
-  // No verification has been initiated yet, or no information has been submitted.
-  // This is the initial state for a new client.
+  /*
+     No verification has been initiated yet, or no information has been submitted.
+     This is the initial state for a new client.
+  */
   VERIFICATION_STATUS_NOT_STARTED = 1;
 
-  // The client has submitted their information, and it is pending review.
-  // The client should wait for the review to be completed.
+  /*
+     The client has submitted their information, and it is pending review.
+     The client should wait for the review to be completed.
+  */
   VERIFICATION_STATUS_PENDING = 2;
 
-  // The client's information has been successfully reviewed and verified.
+  /*
+     The client's information has been successfully reviewed and verified.
+  */
   VERIFICATION_STATUS_VERIFIED = 3;
 
-  // The verification has failed. This could be due to invalid documents,
-  // mismatched information, or other compliance reasons. The client may need
-  // to resubmit information.
+  /*
+     The verification has failed. This could be due to invalid documents,
+     mismatched information, or other compliance reasons. The client may need
+     to resubmit information.
+  */
   VERIFICATION_STATUS_FAILED = 4;
 }
