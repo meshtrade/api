@@ -203,3 +203,7 @@ ehthumbs.db
 JIT*.log
 
 scratch*
+
+.jekyll-cache
+_site
+.pytest_cache
