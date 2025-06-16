@@ -34,4 +34,9 @@ message ConnectedLegalPerson {
   //
   // Optional for verification.
   optional float voting_rights_percentage = 4;
+
+  // A plain text description of the relationship.
+  //
+  // Optional for verification.
+  string connection_descriptionn = 5;
 }

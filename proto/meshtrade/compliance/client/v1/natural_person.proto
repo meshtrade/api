@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package meshtrade.compliance.client.v1;
 
-import "google/protobuf/timestamp.proto";
 import "google/type/date.proto";
 import "meshtrade/compliance/client/v1/identification_document_type.proto";
 import "meshtrade/compliance/client/v1/pep_status.proto";

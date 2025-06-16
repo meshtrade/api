@@ -2,43 +2,70 @@ syntax = "proto3";
 
 package meshtrade.compliance.client.v1;
 
+import "google/protobuf/timestamp.proto";
 import "meshtrade/compliance/client/v1/kyb_info.proto";
 import "meshtrade/compliance/client/v1/kyc_info.proto";
-import "meshtrade/type/v1/contact_details.proto";
+import "meshtrade/compliance/client/v1/verification_status.proto";
 
 option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
 
-// Client is an authorised legal entity, individual or business (company, trust etc.).
-// Clients resources (accounts, instruments etc.) are owned by an associated group
-// hierarchy containing at least 1 group (the default 'top level' group of the client).
+// Client represents an authorized legal entity, which can be either an individual (KYC)
+// or a business (KYB). It serves as the central resource for all compliance information
+// and verification status related to a single party.
 message Client {
-  // Name the unique name of the client resource and takes on the format:
-  // clients/<<owner_group_id>>/<client_id>
+  // The unique, immutable, and canonical name of the client resource in the format clients/{client_id}.
+  // The {client_id} is a system-generated unique identifier (e.g., UUID) that
+  // will never change.
+  // This name field will never change and should be used as the permanent primary key
+  // for this resource in all systems.
   //
-  // FIXME: consider if it is fine for this to be able to change if
-  // the group owner changes. An external system my have stored this as
-  // a unique reference in their system!! It is not reasonable to consider
-  // that they would have ownly stored the last bit of this string.
-  //
-  // System Generated - Populated on Creation.
+  // System set on creation.
   string name = 1;
 
-  // Display name is a non-unique name field.
+  // The resource name of the group that owns this client in the format groups/{group_id}.
+  // This field establishes the ownership link and can be updated if the client's ownership changes,
+  // without affecting the client's stable `name`.
   //
-  // Required
-  string display_name = 2;
+  // Required on creation.
+  string owner_group = 2;
 
-  // Info, either KYC or KYB (indicating that client is an individual or a company)
-  // ONCE KYC or KYB info is provided the field cannot be changed again
+  // A non-unique, user-provided name for the client, used for display purposes
+  // in user interfaces and reports.
   //
-  // Required
+  // Required on creation.
+  string display_name = 3;
+
+  // Contains either the KYC or KYB information, defining if the client is an
+  // individual or a business. This choice is permanent and cannot be changed
+  // after the client is created.
+  //
+  // Required on creation.
   oneof info {
-    meshtrade.compliance.client.v1.KYCInfo kyc_info = 3;
-
-    meshtrade.compliance.client.v1.KYBInfo kyb_info = 4;
+    meshtrade.compliance.client.v1.KYCInfo kyc_info = 4;
+    meshtrade.compliance.client.v1.KYBInfo kyb_info = 5;
   }
 
-  // Contact details of the client.
-  // Required
-  meshtrade.type.v1.ContactDetails contact_details = 5;
+  // The definitive, most recent compliance status of the client (e.g.,
+  // VERIFICATION_STATUS_VERIFIED, VERIFICATION_STATUS_FAILED).
+  //
+  // System controlled.
+  meshtrade.compliance.client.v1.VerificationStatus verification_status = 6;
+
+  // The resource name of the client (acting as a verifier) that last set the
+  // `verification_status`. This provides an audit trail for status changes.
+  //
+  // System set when verification_status changes.
+  string verification_authority_name = 7;
+
+  // The timestamp when the `verification_status` was last set to a conclusive
+  // state, specifically `VERIFICATION_STATUS_VERIFIED`.
+  //
+  // System set when verification_status changes to VERIFICATION_STATUS_VERIFIED.
+  google.protobuf.Timestamp verification_date = 8;
+
+  // The timestamp indicating when the client's next periodic compliance review
+  // is due. This field drives re-verification workflows.
+  //
+  // Optional for Verification.
+  google.protobuf.Timestamp next_verification_date = 9;
 }
