@@ -24,6 +24,8 @@ filelock==3.18.0
     # via
     #   tox
     #   virtualenv
+googleapis-common-protos==1.70.0
+    # via meshtrade (pyproject.toml)
 grpcio==1.73.0
     # via meshtrade (pyproject.toml)
 id==1.5.0
@@ -66,7 +68,9 @@ pluggy==1.6.0
     #   pytest
     #   tox
 protobuf==6.31.1
-    # via meshtrade (pyproject.toml)
+    # via
+    #   googleapis-common-protos
+    #   meshtrade (pyproject.toml)
 pygments==2.19.1
     # via
     #   pytest
