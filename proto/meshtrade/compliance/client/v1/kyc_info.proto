@@ -3,7 +3,6 @@ syntax = "proto3";
 package meshtrade.compliance.client.v1;
 
 import "meshtrade/compliance/client/v1/natural_person.proto";
-import "meshtrade/compliance/client/v1/pep_status.proto";
 import "meshtrade/compliance/client/v1/source_of_income_and_wealth.proto";
 import "meshtrade/compliance/client/v1/tax_residency.proto";
 
@@ -30,15 +29,9 @@ message KYCInfo {
   // Required
   repeated meshtrade.compliance.client.v1.SourceOfIncomeAndWealth sources_of_wealth = 3;
 
-  // The client's status as a Politically Exposed Person (PEP).
-  // This is a mandatory check for regulatory compliance.
-  //
-  // Required
-  meshtrade.compliance.client.v1.PepStatus pep_status = 4;
-
   // The client's tax residency information, required for CRS/FATCA reporting.
   // A client can be a tax resident in multiple jurisdictions.
   //
   // Required
-  repeated meshtrade.compliance.client.v1.TaxResidency tax_residencies = 5;
+  repeated meshtrade.compliance.client.v1.TaxResidency tax_residencies = 4;
 }

@@ -5,6 +5,7 @@ package meshtrade.compliance.client.v1;
 import "google/protobuf/timestamp.proto";
 import "google/type/date.proto";
 import "meshtrade/compliance/client/v1/identification_document_type.proto";
+import "meshtrade/compliance/client/v1/pep_status.proto";
 import "meshtrade/type/v1/address.proto";
 
 option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
@@ -56,13 +57,19 @@ message NaturalPerson {
   // Required
   meshtrade.type.v1.Address physical_address = 7;
 
+  // The client's status as a Politically Exposed Person (PEP).
+  // This is a mandatory check for regulatory compliance.
+  //
+  // Required
+  meshtrade.compliance.client.v1.PepStatus pep_status = 8;
+
   // The client's postal address, if it is different from the physical address.
   //
   // Optional
-  meshtrade.type.v1.Address postal_address = 8;
+  meshtrade.type.v1.Address postal_address = 9;
 
   // The individual's personal contact details (personal email, personal mobile).
   //
   // Optional
-  meshtrade.type.v1.ContactDetails personal_contact_details = 9;
+  meshtrade.type.v1.ContactDetails personal_contact_details = 10;
 }
