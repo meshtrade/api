@@ -19,8 +19,10 @@ message Address {
      It is recommended to have the most specific details (e.g., apartment number)
      in the first lines and the more general ones (e.g., street address) in the
      subsequent lines.
+
      Example:
-     address_lines: "456 Oak Avenue", "Apartment 3B", "123 Main Street"
+     address_lines: \"456 Oak Avenue\", \"Apartment 3B\", \"123 Main Street\"
+
      Required
   */
   repeated string address_lines = 1;
@@ -50,8 +52,8 @@ message Address {
 
   /*
      The ISO 3166-1 alpha-2 country code.
-     This is the two-letter country code (e.g. "ZA" for South Africa,
-     "NL" for the Netherlands). The value should be in uppercase.
+     This is the two-letter country code (e.g. \"ZA\" for South Africa,
+     \"NL\" for the Netherlands). The value should be in uppercase.
 
      See https://www.iso.org/iso-3166-country-codes.html for a full list.
 
