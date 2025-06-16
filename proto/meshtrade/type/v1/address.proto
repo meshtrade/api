@@ -21,7 +21,7 @@ message Address {
      subsequent lines.
 
      Example:
-     address_lines: \"456 Oak Avenue\", \"Apartment 3B\", \"123 Main Street\"
+     address_lines: 456 Oak Avenue, Apartment 3B, 123 Main Street
 
      Required
   */
