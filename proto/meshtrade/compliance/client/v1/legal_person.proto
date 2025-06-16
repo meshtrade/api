@@ -12,7 +12,7 @@ option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
 // Know Your Business (KYB) checks.
 //
 // Note on Field Requirements: Fields marked as 'Required for verification' are essential
-// for a successful compliance check, but are not mandatory for API entity creation.
+// for a successful compliance check, but are not mandatory for creation.
 message LegalPerson {
   // The official, registered name of the legal person (e.g., the company or trust name
   // as specified in its articles of incorporation).
@@ -20,7 +20,7 @@ message LegalPerson {
   // Required for verification.
   string registered_name = 1;
 
-  // The legal form of the entity.
+  // The legal form of the entity (e.g., LTD, PLC, BV).
   //
   // Required for verification.
   LegalPersonForm legal_form = 2;
@@ -36,7 +36,7 @@ message LegalPerson {
   // e.g., VAT number in the EU, TIN in the US, or
   // ZA SARS Income Tax Reference Number (e.g., 9123456789).
   //
-  // Highly recommended for verification.
+  // Optional for verification.
   optional string tax_identifier = 4;
 
   // The ISO 3166-1 alpha-2 country code of incorporation. This is the two-letter

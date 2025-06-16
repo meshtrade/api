@@ -3,43 +3,68 @@ syntax = "proto3";
 package meshtrade.compliance.client.v1;
 
 import "meshtrade/compliance/client/v1/company_representative.proto";
+import "meshtrade/compliance/client/v1/industry_classification.proto";
 import "meshtrade/compliance/client/v1/natural_person.proto";
 
 option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
 
-// KYBInfo represents the Know Your Customer (KYB) information for an business client.
+// KYBInfo is the Know Your Customer (KYB) information for an business client.
 // This message is used to collect and verify the identity and financial profile a business.
-// Note: where a field is marked `Required`, this indicates: 'Required for a Successful Client KYB Approval' (i.e. not for entity creation)
+//
+// Note on Field Requirements: Fields marked as 'Required for verification' are essential
+// for a successful compliance check, but are not mandatory for creation.
 message KYBInfo {
-  // The full legal name of the business as recorded in the given country of incorporation.
+  // The core identity of the legal person being onboarded.
   //
-  // Required
-  string registered_name = 1;
+  // Required for verification.
+  meshtrade.compliance.client.v1.LegalPerson legal_person = 1;
 
-  // The Tax reference number of the business.
+  // Company Representatives (The "Actors")
   //
-  // Required
-  string tax_reference_number = 2;
+  // Represents individuals with a formal, appointed role who are empowered to act on
+  // behalf of the company (e.g., Directors, CEO, Authorized Signatories).
+  // This list answers the regulatory question: "Who can legally bind this company?"
+  // It is focused on operational control and representation.
+  //
+  // Required for verification.
+  repeated meshtrade.compliance.client.v1.CompanyRepresentative company_representatives = 2;
 
-  // The registration number of the business in the country of incorporation.
+  // Connected Natural Persons (The "Beneficiaries")
   //
-  // Required for successful KYB verification.
-  string registration_number = 3;
+  // Represents the Ultimate Beneficial Owners (UBOs) – the individuals who ultimately
+  // own or profit from the company, especially those without a formal representative title.
+  // This list is the result of the "look-through" due diligence process and answers
+  // the question: "Who ultimately benefits from and controls this company?"
+  //
+  // Required for verification.
+  repeated meshtrade.compliance.client.v1.ConnectedNaturalPerson connected_natural_persons = 3;
 
-  // Representatives of the company.
-  // These are all Natural Persons.
-  // Different to connected individual because:
+  // Connected Legal Persons (The "Corporate Structure")
   //
-  // Required
-  repeated meshtrade.compliance.client.v1.CompanyRepresentative company_representatives = 4;
+  // Represents all non-human entities in the ownership chain (e.g., parent companies,
+  // holding companies, trusts). Each entity here requires its own recursive KYB check
+  // to map the full ownership structure.
+  // This list answers the question: "What other companies own this company?"
+  //
+  // NOTE: it is only necessary to connect other company details here if they do not form
+  // part of the hierarchy of clients on the Mesh platform.
+  //
+  // Required for verification (if the ownership structure includes other companies that are not present on Mesh).
+  repeated meshtrade.compliance.client.v1.ConnectedLegalPerson connected_legal_persons = 4;
 
-  // Connected natural persons.
+  // The industry classification of the business (e.g., using NACE, SIC codes).
+  // This is critical for risk assessment.
   //
-  // Required
-  repeated meshtrade.compliance.client.v1.ConnectedNaturalPerson connected_natural_persons = 5;
+  // Optional for verification.
+  meshtrade.compliance.client.v1.IndustryClassification industry_classification = 5;
 
-  // Connected legal persons (e.g. trust, company, fund etc.).
+  // The stock exchange where the company is listed (e.g., "NASDAQ", "LSE").
   //
-  // Required
-  repeated meshtrade.compliance.client.v1.ConnectedNaturalPerson connected_natural_persons = 5;
+  // Optional for verification.
+  string listed_exchange_code = 6;
+
+  // The reference/ticker symbol for the company on the exchange (e.g., "GOOGL").
+  //
+  // Optional for verification.
+  string listing_reference = 7;
 }

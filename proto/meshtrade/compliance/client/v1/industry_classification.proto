@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package meshtrade.compliance.client.v1;
+
+option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
+
+// IndustryClassification holds the detailed industry classification for a business entity
+// using the GICS (Global Industry Classification Standard) hierarchy.
+// GICS is a four-tiered, hierarchical industry classification system. Capturing all
+// four levels provides a complete and precise profile for risk assessment.
+message IndustryClassification {
+  // The 2-digit GICS Sector code, representing the highest level of the hierarchy.
+  // Example: "45" for the "Information Technology" sector.
+  string sector_code = 1;
+
+  // The human-readable name of the GICS Sector.
+  // Example: "Information Technology"
+  string sector_name = 2;
+
+  // The 4-digit GICS Industry Group code.
+  // Example: "4510" for the "Software & Services" industry group.
+  string industry_group_code = 3;
+
+  // The human-readable name of the GICS Industry Group.
+  // Example: "Software & Services"
+  string industry_group_name = 4;
+
+  // The 6-digit GICS Industry code.
+  // Example: "451020" for the "IT Services" industry.
+  string industry_code = 5;
+
+  // The human-readable name of the GICS Industry.
+  // Example: "IT Services"
+  string industry_name = 6;
+
+  // The 8-digit GICS Sub-Industry code, representing the most granular level.
+  // Example: "45102010" for the "IT Consulting & Other Services" sub-industry.
+  string sub_industry_code = 7;
+
+  // The human-readable name of the GICS Sub-Industry.
+  // Example: "IT Consulting & Other Services"
+  string sub_industry_name = 8;
+}

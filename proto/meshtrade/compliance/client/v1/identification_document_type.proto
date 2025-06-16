@@ -7,8 +7,8 @@ option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
 // IdentificationDocumentType specifies the type of official document used to
 // verify a client's identity.
 enum IdentificationDocumentType {
-  // The document type is unknown or not specified.
-  // This is a default value and should not be used.
+  // Unknown or not specified.
+  // This is a default value to prevent accidental assignment and should not be used.
   IDENTIFICATION_DOCUMENT_TYPE_UNSPECIFIED = 0;
 
   // An international passport.
