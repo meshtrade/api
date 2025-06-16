@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package meshtrade.compliance.client.v1;
+
+import "meshtrade/compliance/client/v1/natural_person.proto";
+
+option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
+
+// ConnectedNaturalPerson is a natural person and how they are connected to the company.
+message ConnectedNaturalPerson {
+  meshtrade.compliance.client.v1 natural_person = 1;
+}

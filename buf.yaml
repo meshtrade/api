@@ -5,7 +5,7 @@ modules:
 
 # A list of dependencies on modules outside of the workspace.
 deps:
-  - buf.build/google/googleapis
+  - buf.build/googleapis/googleapis:61b203b9a9164be9a834f58c37be6f62
 
 # Workspace-level lint and breaking change detection settings.
 lint:

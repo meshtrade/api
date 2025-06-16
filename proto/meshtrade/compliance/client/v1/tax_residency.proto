@@ -8,7 +8,7 @@ option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
 // NOTE: where a field is marked `Required`, it is required as stiplulated in the containing entity.
 message TaxResidency {
   // The ISO 3166-1 alpha-2 country code of the tax jurisdiction.
-  // This is the two-letter country code (e.g., "US" for the United States,
+  // This is the two-letter country code (e.g., "ZA" for South Africa,
   // "NL" for the Netherlands). The value should be in uppercase.
   //
   // See https://www.iso.org/iso-3166-country-codes.html for a full list.

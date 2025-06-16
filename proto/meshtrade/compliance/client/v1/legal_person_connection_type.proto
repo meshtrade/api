@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package meshtrade.compliance.client.v1;
+
+option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
+
+// ConnectionType how the legal person is connected to a business.
+enum LegalPersonConnectionType {
+  // The connection type is not specified.
+  LEGAL_PERSON_CONNECTION_TYPE_UNSPECIFIED = 0;
+
+  // ?? more here
+}

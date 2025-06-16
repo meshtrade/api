@@ -10,10 +10,12 @@ import "meshtrade/type/v1/address.proto";
 
 option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
 
-// NaturalPerson is a person's identity.
-// Their full name, date of birth, citizenship, address etc., i.e. the core components of their
-// identity that are verified against their passport, utility bills, government records etc. during a KYC check.
-// NOTE: where a field is marked `Required`, this indicates: 'Required for a Successful Verification' (i.e. not for entity creation).
+// NaturalPerson is the identity of an individual person.
+// It contains the core, verifiable components of an individual's identity. which are
+// verified against their passport, utility bills, government records etc. during Know Your Client (KYC) checks.
+//
+// Note on Required Fields: Fields marked as 'Required' are essential
+// for a successful compliance check, but are not mandatory for creation.
 message NaturalPerson {
   // The client's full legal name, as it appears on their official identification documents.
   //

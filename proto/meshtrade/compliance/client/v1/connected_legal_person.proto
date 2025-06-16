@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package meshtrade.compliance.client.v1;
+
+import "meshtrade/compliance/client/v1/legal_person.proto";
+
+option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
+
+// ConnectedLegalPerson is a legal person and how they are connected to the company.
+message ConnectedLegalPerson {
+  meshtrade.compliance.client.v1 legal_person = 1;
+}

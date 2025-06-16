@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package meshtrade.compliance.client.v1;
+
+option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
+
+// ConnectionType how the legal person is connected to a business.
+enum NaturalPersonConnectionType {
+  // The connection type is not specified.
+  CONNECTION_TYPE_UNSPECIFIED = 0;
+
+  // --- Familial Connections ---
+  CONNECTION_TYPE_SPOUSE = 1;
+  CONNECTION_TYPE_DOMESTIC_PARTNER = 2;
+  CONNECTION_TYPE_PARENT = 3;
+  CONNECTION_TYPE_CHILD = 4;
+  CONNECTION_TYPE_SIBLING = 5;
+
+  // --- Professional & Business Connections ---
+  CONNECTION_TYPE_BUSINESS_PARTNER = 10;
+  CONNECTION_TYPE_EMPLOYER = 11;
+  CONNECTION_TYPE_EMPLOYEE = 12;
+  // A generic term for a known professional or personal associate, as defined by FATF guidelines for PEPs.
+  CONNECTION_TYPE_CLOSE_ASSOCIATE = 13;
+
+  // --- Financial Connections ---
+  CONNECTION_TYPE_JOINT_ACCOUNT_HOLDER = 20;
+  CONNECTION_TYPE_GUARANTOR = 21;
+  CONNECTION_TYPE_BENEFICIARY = 22; // e.g., of a will or trust
+}
