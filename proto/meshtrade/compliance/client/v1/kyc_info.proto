@@ -8,30 +8,42 @@ import "meshtrade/compliance/client/v1/tax_residency.proto";
 
 option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
 
-// KYCInfo represents the Know Your Customer (KYC) information for an individual client.
-// This message is used to collect and verify the identity and financial profile of a person.
-// NOTE: where a field is marked `Required`, this indicates: 'Required for a Successful Client KYC Approval' (i.e. not for entity creation)
+/*
+   KYCInfo represents the Know Your Customer (KYC) information for an individual client.
+   This message is used to collect and verify the identity and financial profile of a person.
+
+   Note on Field Requirements: Fields marked as 'Required for verification' are essential
+   for a successful compliance check, but are not mandatory for creation.
+*/
 message KYCInfo {
-  // Details of the natural person represented by this kyc profile.
-  // This contains the core identity information (name, DOB, address, identity document etc.).
-  //
-  // Required
+  /*
+     Details of the natural person represented by this kyc profile.
+     This contains the core identity information (name, DOB, address, identity document etc.).
+
+     Required for verification.
+  */
   meshtrade.compliance.client.v1.NaturalPerson natural_person = 1;
 
-  // The primary sources of the client's regular income (e.g., employment, pension).
-  //
-  // Required
+  /*
+     The primary sources of the client's regular income (e.g., employment, pension).
+
+     Required for verification.
+  */
   repeated meshtrade.compliance.client.v1.SourceOfIncomeAndWealth sources_of_income = 2;
 
-  // The origins of the client's total net worth or assets (e.g., inheritance, investments).
-  // This is distinct from the source of income.
-  //
-  // Required
+  /*
+     The origins of the client's total net worth or assets (e.g., inheritance, investments).
+     This is distinct from the source of income.
+
+     Required for verification.
+  */
   repeated meshtrade.compliance.client.v1.SourceOfIncomeAndWealth sources_of_wealth = 3;
 
-  // The client's tax residency information, required for CRS/FATCA reporting.
-  // A client can be a tax resident in multiple jurisdictions.
-  //
-  // Required
+  /*
+     The client's tax residency information, required for CRS/FATCA reporting.
+     A client can be a tax resident in multiple jurisdictions.
+
+     Required for verification.
+  */
   repeated meshtrade.compliance.client.v1.TaxResidency tax_residencies = 4;
 }
