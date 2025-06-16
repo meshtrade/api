@@ -4,18 +4,24 @@ package meshtrade.compliance.client.v1;
 
 option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
 
-// CompanyRepresentativeRole defines the capacity in which a natural person represents a legal entity.
-// These roles are crucial for Know Your Business (KYB) and Anti-Money Laundering (AML) checks.
+/*
+   CompanyRepresentativeRole defines the capacity in which a natural person represents a legal entity.
+   These roles are crucial for Know Your Business (KYB) and Anti-Money Laundering (AML) checks.
+*/
 enum CompanyRepresentativeRole {
-  // Unknown or not specified.
-  // This is a default value to prevent accidental assignment and should not be used.
+  /*
+     Unknown or not specified.
+     This is a default value to prevent accidental assignment and should not be used.
+  */
   COMPANY_REPRESENTATIVE_ROLE_UNSPECIFIED = 0;
 
   // --- Roles defined by Ownership ---
 
-  // An Ultimate Beneficial Owner (UBO). A UBO is a person who ultimately owns or controls a company,
-  // often through share ownership, voting rights, or other forms of influence.
-  // The threshold for UBO status (e.g., >25% ownership) is defined by local regulations.
+  /*
+     An Ultimate Beneficial Owner (UBO). A UBO is a person who ultimately owns or controls a company,
+     often through share ownership, voting rights, or other forms of influence.
+     The threshold for UBO status (e.g., >25% ownership) is defined by local regulations.
+  */
   COMPANY_REPRESENTATIVE_ROLE_ULTIMATE_BENEFICIAL_OWNER = 1;
 
   // A person who owns shares in the company but may not meet the threshold to be a UBO.

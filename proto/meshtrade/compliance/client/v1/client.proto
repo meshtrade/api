@@ -9,63 +9,80 @@ import "meshtrade/compliance/client/v1/verification_status.proto";
 
 option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
 
-// Client represents an authorized legal entity, which can be either an individual (KYC)
-// or a business (KYB). It serves as the central resource for all compliance information
-// and verification status related to a single party.
+/*
+   Client represents an authorized legal entity, which can be either an individual (KYC)
+   or a business (KYB). It serves as the central resource for all compliance information
+   and verification status related to a single party.
+*/
 message Client {
-  // The unique, immutable, and canonical name of the client resource in the format clients/{client_id}.
-  // The {client_id} is a system-generated unique identifier (e.g., UUID) that
-  // will never change.
-  // This name field will never change and should be used as the permanent primary key
-  // for this resource in all systems.
-  //
-  // System set on creation.
+  /*
+     The unique, immutable, and canonical name of the client resource in the format clients/{client_id}.
+     The {client_id} is a system-generated unique identifier (e.g., UUID) that
+     will never change.
+     This name field will never change and should be used as the permanent primary key
+     for this resource in all systems.
+
+     System set on creation.
+  */
   string name = 1;
 
-  // The resource name of the group that owns this client in the format groups/{group_id}.
-  // This field establishes the ownership link and can be updated if the client's ownership changes,
-  // without affecting the client's stable `name`.
-  //
-  // Required on creation.
+  /*
+     The resource name of the group that owns this client in the format groups/{group_id}.
+     This field establishes the ownership link and can be updated if the client's ownership changes,
+     without affecting the client's stable `name`.
+
+     Required on creation.
+  */
   string owner_group = 2;
 
-  // A non-unique, user-provided name for the client, used for display purposes
-  // in user interfaces and reports.
-  //
-  // Required on creation.
+  /*
+     A non-unique, user-provided name for the client, used for display purposes
+     in user interfaces and reports.
+
+     Required on creation.
+  */
   string display_name = 3;
 
-  // Contains either the KYC or KYB information, defining if the client is an
-  // individual or a business. This choice is permanent and cannot be changed
-  // after the client is created.
-  //
-  // Required on creation.
+  /*
+     Contains either the KYC or KYB information, defining if the client is an
+     individual or a business. This choice is permanent and cannot be changed
+     after the client is created.
+
+     Required on creation.
+  */
   oneof info {
     meshtrade.compliance.client.v1.KYCInfo kyc_info = 4;
     meshtrade.compliance.client.v1.KYBInfo kyb_info = 5;
   }
 
-  // The definitive, most recent compliance status of the client (e.g.,
-  // VERIFICATION_STATUS_VERIFIED, VERIFICATION_STATUS_FAILED).
-  //
-  // System controlled.
+  /*
+     The definitive, most recent compliance status of the client (e.g.,
+     VERIFICATION_STATUS_VERIFIED, VERIFICATION_STATUS_FAILED).
+     System controlled.
+  */
   meshtrade.compliance.client.v1.VerificationStatus verification_status = 6;
 
-  // The resource name of the client (acting as a verifier) that last set the
-  // `verification_status`. This provides an audit trail for status changes.
-  //
-  // System set when verification_status changes.
+  /*
+     The resource name of the client (acting as a verifier) that last set the
+     `verification_status`. This provides an audit trail for status changes.
+
+     System set when verification_status changes.
+  */
   string verification_authority_name = 7;
 
-  // The timestamp when the `verification_status` was last set to a conclusive
-  // state, specifically `VERIFICATION_STATUS_VERIFIED`.
-  //
-  // System set when verification_status changes to VERIFICATION_STATUS_VERIFIED.
+  /*
+     The timestamp when the `verification_status` was last set to a conclusive
+     state, specifically `VERIFICATION_STATUS_VERIFIED`.
+
+     System set when verification_status changes to VERIFICATION_STATUS_VERIFIED.
+  */
   google.protobuf.Timestamp verification_date = 8;
 
-  // The timestamp indicating when the client's next periodic compliance review
-  // is due. This field drives re-verification workflows.
-  //
-  // Optional for Verification.
+  /*
+     The timestamp indicating when the client's next periodic compliance review
+     is due. This field drives re-verification workflows.
+
+     Optional for Verification.
+  */
   google.protobuf.Timestamp next_verification_date = 9;
 }
