@@ -4,42 +4,79 @@ package meshtrade.compliance.client.v1;
 
 option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
 
-// NaturalPersonConnectionType describes how a natural person is connected to a business
-// or to another key individual (like a PEP). It covers primary roles for KYB (ownership, control)
-// as well as secondary relationships for screening (familial, professional).
+/*
+   NaturalPersonConnectionType describes how a natural person is connected to a business
+   or to another key individual (like a PEP). It covers primary roles for KYB (ownership, control)
+   as well as secondary relationships for screening (familial, professional).
+*/
 enum NaturalPersonConnectionType {
-  // Unknown or not specified.
-  // This is a default value to prevent accidental assignment and should not be used.
+  /*
+     Unknown or not specified.
+     This is a a default value to prevent accidental assignment and should not be used.
+  */
   NATURAL_PERSON_CONNECTION_TYPE_UNSPECIFIED = 0;
 
-  // --- Direct Control & Ownership Roles (Primary KYB) ---
-  // The person is an Ultimate Beneficial Owner as defined by AML regulations (e.g., >25% ownership/voting rights).
-  // This is the most critical connection type for KYB.
+  /*
+     The person is an Ultimate Beneficial Owner as defined by AML regulations (e.g., >25% ownership/voting rights).
+     This is the most critical connection type for KYB.
+  */
   NATURAL_PERSON_CONNECTION_TYPE_ULTIMATE_BENEFICIAL_OWNER = 1;
-  // The person owns shares but may be below the UBO threshold.
+  /*
+     The person owns shares but may be below the UBO threshold.
+  */
   NATURAL_PERSON_CONNECTION_TYPE_SHAREHOLDER = 2;
-  // The person is a formal Director on the company's board.
+  /*
+     The person is a formal Director on the company's board.
+  */
   NATURAL_PERSON_CONNECTION_TYPE_DIRECTOR = 3;
-  // The person holds a senior management position with significant operational control (e.g., CEO, CFO, COO).
+  /*
+     The person holds a senior management position with significant operational control (e.g., CEO, CFO, COO).
+  */
   NATURAL_PERSON_CONNECTION_TYPE_SENIOR_MANAGEMENT = 4;
-  // The person is formally authorized to sign documents and act on the company's behalf.
+  /*
+     The person is formally authorized to sign documents and act on the company's behalf.
+  */
   NATURAL_PERSON_CONNECTION_TYPE_AUTHORIZED_SIGNATORY = 5;
-  // The person is the founder of the company.
+  /*
+     The person is the founder of the company.
+  */
   NATURAL_PERSON_CONNECTION_TYPE_FOUNDER = 6;
 
-  // --- Familial Connections (Primarily for PEP Screening) ---
+  /*
+     The person is a legally married partner.
+  */
   NATURAL_PERSON_CONNECTION_TYPE_SPOUSE = 20;
+  /*
+     The person is a partner in a long-term relationship, equivalent to a spouse.
+  */
   NATURAL_PERSON_CONNECTION_TYPE_DOMESTIC_PARTNER = 21;
+  /*
+     The person is a mother or father.
+  */
   NATURAL_PERSON_CONNECTION_TYPE_PARENT = 22;
+  /*
+     The person is a son or daughter.
+  */
   NATURAL_PERSON_CONNECTION_TYPE_CHILD = 23;
+  /*
+     The person is a brother or sister.
+  */
   NATURAL_PERSON_CONNECTION_TYPE_SIBLING = 24;
 
-  // --- Professional & Financial Associates (Primarily for PEP Screening) ---
+  /*
+     The person is a business partner.
+  */
   NATURAL_PERSON_CONNECTION_TYPE_BUSINESS_PARTNER = 30;
-  // A generic term for a known professional or personal associate, as defined by FATF guidelines for PEPs.
+  /*
+     A generic term for a known professional or personal associate, as defined by FATF guidelines for PEPs.
+  */
   NATURAL_PERSON_CONNECTION_TYPE_CLOSE_ASSOCIATE = 31;
-  // The person is a guarantor for the company's financial obligations.
+  /*
+     The person is a guarantor for the company's financial obligations.
+  */
   NATURAL_PERSON_CONNECTION_TYPE_GUARANTOR = 32;
-  // The person is a beneficiary of a trust that owns or controls the company.
+  /*
+     The person is a beneficiary of a trust that owns or controls the company.
+  */
   NATURAL_PERSON_CONNECTION_TYPE_BENEFICIARY_OF_TRUST = 33;
 }
