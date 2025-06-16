@@ -23,3 +23,17 @@ The following style rules are to be followed in addition to the basic linting ru
 
 #### 2.1.1 Comments
 Comments should be specified with block/multi-line comments instead of inline in order to not break [the auto doc generation tool](https://buf.build/community/pseudomuto-doc).
+```
+/*
+   Block comment for this message.
+*/ <--- GOOD STYLE
+message Client {
+  /*
+    Block Comment for this field.
+  */ <--- GOOD STYLE
+  string name = 1;
+
+  // Inline comment for this field. <--- BAD STYLE
+  string email = 2;
+}
+```
