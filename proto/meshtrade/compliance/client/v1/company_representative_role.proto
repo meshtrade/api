@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package meshtrade.compliance.client.v1;
+
+option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
+
+// CompanyRepresentativeRole defines the capacity in which a natural person represents a legal entity.
+// These roles are crucial for Know Your Business (KYB) and Anti-Money Laundering (AML) checks.
+enum CompanyRepresentativeRole {
+  // Unknown or not specified.
+  // This is a default value to prevent accidental assignment and should not be used.
+  COMPANY_REPRESENTATIVE_ROLE_UNSPECIFIED = 0;
+
+  // --- Roles defined by Ownership ---
+
+  // An Ultimate Beneficial Owner (UBO). A UBO is a person who ultimately owns or controls a company,
+  // often through share ownership, voting rights, or other forms of influence.
+  // The threshold for UBO status (e.g., >25% ownership) is defined by local regulations.
+  COMPANY_REPRESENTATIVE_ROLE_ULTIMATE_BENEFICIAL_OWNER = 1;
+
+  // A person who owns shares in the company but may not meet the threshold to be a UBO.
+  // This role is for identifying all shareholders, while UBO is for those with significant control.
+  COMPANY_REPRESENTATIVE_ROLE_SHAREHOLDER = 2;
+
+  // The sole owner and operator of an unincorporated business (a sole proprietorship).
+  // This person is legally indistinct from the business itself.
+  COMPANY_REPRESENTATIVE_ROLE_SOLE_PROPRIETOR = 3;
+
+  // An individual who is a co-owner of a partnership form of business.
+  COMPANY_REPRESENTATIVE_ROLE_PARTNER = 4;
+
+  // --- Roles defined by Control and Management ---
+
+  // An individual appointed to the board who directs the company's business affairs.
+  COMPANY_REPRESENTATIVE_ROLE_DIRECTOR = 5;
+
+  // A senior employee responsible for managing the company or a specific department.
+  // This role has operational control but not necessarily ownership.
+  COMPANY_REPRESENTATIVE_ROLE_MANAGER = 6;
+
+  // An individual with legal authority to sign documents and act on behalf of the company.
+  // This is often a specific power granted to a director, manager, or other officer.
+  COMPANY_REPRESENTATIVE_ROLE_AUTHORIZED_SIGNATORY = 7;
+
+  // --- Other Roles ---
+
+  // A primary contact person for communication purposes who may not have legal or managerial authority.
+  COMPANY_REPRESENTATIVE_ROLE_PRIMARY_CONTACT = 8;
+}

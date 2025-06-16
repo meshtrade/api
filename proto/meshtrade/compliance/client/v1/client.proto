@@ -2,7 +2,9 @@ syntax = "proto3";
 
 package meshtrade.compliance.client.v1;
 
+import "meshtrade/compliance/client/v1/kyb_info.proto";
 import "meshtrade/compliance/client/v1/kyc_info.proto";
+import "meshtrade/type/v1/contact_details.proto";
 
 option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
 
@@ -18,7 +20,7 @@ message Client {
   // a unique reference in their system!! It is not reasonable to consider
   // that they would have ownly stored the last bit of this string.
   //
-  // System Generated.
+  // System Generated - Populated on Creation.
   string name = 1;
 
   // Display name is a non-unique name field.
@@ -27,9 +29,16 @@ message Client {
   string display_name = 2;
 
   // Info, either KYC or KYB (indicating that client is an individual or a company)
+  // ONCE KYC or KYB info is provided the field cannot be changed again
+  //
+  // Required
   oneof info {
-    meshtrade.compliance.client.v1.KYC_Info kyc_info = 3;
+    meshtrade.compliance.client.v1.KYCInfo kyc_info = 3;
 
-    meshtrade.compliance.client.v1.KYB_Info kyb_info = 4;
+    meshtrade.compliance.client.v1.KYBInfo kyb_info = 4;
   }
+
+  // Contact details of the client.
+  // Required
+  meshtrade.type.v1.ContactDetails contact_details = 5;
 }

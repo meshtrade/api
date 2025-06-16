@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package meshtrade.compliance.client.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/type/date.proto";
+import "meshtrade/compliance/client/v1/identification_document_type.proto";
+import "meshtrade/type/v1/address.proto";
+
+option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
+
+// NaturalPerson is a person's identity.
+// Their full name, date of birth, citizenship, address etc., i.e. the core components of their
+// identity that are verified against their passport, utility bills, government records etc. during a KYC check.
+// NOTE: where a field is marked `Required`, this indicates: 'Required for a Successful Verification' (i.e. not for entity creation).
+message NaturalPerson {
+  // The client's full legal name, as it appears on their official identification documents.
+  //
+  // Required
+  string full_name = 1;
+
+  // The client's date of birth.
+  //
+  // Required
+  google.type.Date date_of_birth = 2;
+
+  // The ISO 3166-1 alpha-2 country code of the client's nationality/citizenship.
+  // This is the two-letter country code (e.g., "ZA" for South Africa,
+  // "NL" for the Netherlands). The value should be in uppercase.
+  //
+  // See https://www.iso.org/iso-3166-country-codes.html for a full list.
+  //
+  // Required
+  string country_of_citizenship = 3;
+
+  // An identification number for the client, as found on the provided document.
+  // The format is dependent on the identification_document_type.
+  //
+  // Required
+  string identification_number = 4;
+
+  // The type of identification document provided to prove the correctness of the
+  // given identification_number (e.g., Passport, Driver's License).
+  //
+  // Required
+  meshtrade.compliance.client.v1.IdentificationDocumentType identification_document_type = 5;
+
+  // The expiration date of the identification document, if applicable.
+  //
+  // Required if the document has an expiry date.
+  google.type.Date identification_document_expiry_date = 6;
+
+  // The client's primary physical residential address.
+  // If `postal_address` is not provided, this address will also be used for postal mail.
+  //
+  // Required
+  meshtrade.type.v1.Address physical_address = 7;
+
+  // The client's postal address, if it is different from the physical address.
+  //
+  // Optional
+  meshtrade.type.v1.Address postal_address = 8;
+
+  // The individual's personal contact details (personal email, personal mobile).
+  //
+  // Optional
+  meshtrade.type.v1.ContactDetails personal_contact_details = 9;
+}

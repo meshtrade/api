@@ -2,11 +2,7 @@ syntax = "proto3";
 
 package meshtrade.compliance.client.v1;
 
-import "google/protobuf/timestamp.proto";
-import "meshtrade/compliance/client/v1/business_public_contact_info.proto";
-import "meshtrade/compliance/client/v1/identification_document_type.proto";
-import "meshtrade/compliance/client/v1/source_of_income_and_wealth.proto";
-import "meshtrade/type/v1/address.proto";
+import "meshtrade/compliance/client/v1/natural_person.proto";
 
 option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
 
@@ -29,5 +25,5 @@ message KYBInfo {
   // Required for successful KYB verification.
   string registration_number = 3;
 
-  meshtrade.compliance.client.v1.BusinessPublicContactInfo public_contact_info = 4;
+  meshtrade.compliance.client.v1.NaturalPerson company_representative = 4;
 }
