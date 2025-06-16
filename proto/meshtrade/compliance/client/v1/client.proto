@@ -30,6 +30,6 @@ message Client {
   oneof info {
     meshtrade.compliance.client.v1.KYC_Info kyc_info = 3;
 
-    meshtrade.compliance.client.v1.KYB_Info kyB_info = 4;
+    meshtrade.compliance.client.v1.KYB_Info kyb_info = 4;
   }
 }
