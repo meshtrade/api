@@ -8,67 +8,89 @@ import "meshtrade/type/v1/address.proto";
 
 option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
 
-// LegalPerson represents the identity of a business, trust, or other non-individual entity.
-// It contains the core, verifiable components of the entity's identity used during
-// Know Your Business (KYB) checks.
-//
-// Note on Field Requirements: Fields marked as 'Required for verification' are essential
-// for a successful compliance check, but are not mandatory for creation.
+/*
+   LegalPerson represents the identity of a business, trust, or other non-individual entity.
+   It contains the core, verifiable components of the entity's identity used during
+   Know Your Business (KYB) checks.
+
+   Note on Field Requirements: Fields marked as 'Required for verification' are essential
+   for a successful compliance check, but are not mandatory for creation.
+*/
 message LegalPerson {
-  // The official, registered name of the legal person (e.g., the company or trust name
-  // as specified in its articles of incorporation).
-  //
-  // Required for verification.
+  /*
+     The official, registered name of the legal person (e.g., the company or trust name
+     as specified in its articles of incorporation).
+
+     Required for verification.
+  */
   string registered_name = 1;
 
-  // The legal form of the entity (e.g., LTD, PLC, BV).
-  //
-  // Required for verification.
+  /*
+     The legal form of the entity (e.g., LTD, PLC, BV).
+
+     Required for verification.
+  */
   meshtrade.compliance.client.v1.LegalPersonForm legal_form = 2;
 
-  // The official registration number assigned by the relevant companies registry.
-  // e.g., UK Companies House number, NL KVK-nummer, US EIN, or
-  // ZA CIPC Company Registration Number (e.g., 2024/123456/07).
-  //
-  // Conditionally required for verification, especially for corporate entities.
+  /*
+     The official registration number assigned by the relevant companies registry.
+     e.g., UK Companies House number, NL KVK-nummer, US EIN, or
+     ZA CIPC Company Registration Number (e.g., 2024/123456/07).
+
+     Conditionally required for verification, especially for corporate entities.
+  */
   optional string registration_number = 3;
 
-  // The primary tax identifier for the legal person.
-  // e.g., VAT number in the EU, TIN in the US, or
-  // ZA SARS Income Tax Reference Number (e.g., 9123456789).
-  //
-  // Optional for verification.
+  /*
+     The primary tax identifier for the legal person.
+     e.g., VAT number in the EU, TIN in the US, or
+     ZA SARS Income Tax Reference Number (e.g., 9123456789).
+
+     Optional for verification.
+  */
   optional string tax_identifier = 4;
 
-  // The ISO 3166-1 alpha-2 country code of incorporation. This is the two-letter
-  // country code (e.g., "ZA" for South Africa, "NL" for the Netherlands).
-  // The value should be in uppercase.
-  //
-  // See https://www.iso.org/iso-3166-country-codes.html for a full list.
-  //
-  // Required for verification.
+  /*
+     The ISO 3166-1 alpha-2 country code of incorporation. This is the two-letter
+     country code (e.g., "ZA" for South Africa, "NL" for the Netherlands).
+     The value should be in uppercase.
+
+     See https://www.iso.org/iso-3166-country-codes.html for a full list.
+
+     Required for verification.
+  */
   string country_of_incorporation = 5;
 
-  // The date of incorporation or registration of the legal person.
-  //
-  // Required for verification.
+  /*
+     The date of incorporation or registration of the legal person.
+
+     Required for verification.
+  */
   google.type.Date date_of_incorporation = 6;
 
-  // The official, legal address of the entity as recorded with the incorporation registry.
-  // This is the most critical address for verification purposes.
-  //
-  // Required for verification.
+  /*
+     The official, legal address of the entity as recorded with the incorporation registry.
+     This is the most critical address for verification purposes.
+
+     Required for verification.
+  */
   meshtrade.type.v1.Address registered_address = 7;
 
-  // The principal physical location where the business operates from (principal place of business).
-  // Provide this if it is different from the registered address.
+  /*
+     The principal physical location where the business operates from (principal place of business).
+     Provide this if it is different from the registered address.
+  */
   optional meshtrade.type.v1.Address principal_physical_address = 8;
 
-  // The preferred address for receiving mail and correspondence.
-  // Provide this if it is different from the registered address.
+  /*
+     The preferred address for receiving mail and correspondence.
+     Provide this if it is different from the registered address.
+  */
   optional meshtrade.type.v1.Address postal_address = 9;
 
-  // The address of the head office of a business.
-  // Provide this if it is different from the registered address.
+  /*
+     The address of the head office of a business.
+     Provide this if it is different from the registered address.
+  */
   optional meshtrade.type.v1.Address head_office_address = 10;
 }
