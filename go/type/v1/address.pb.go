@@ -55,8 +55,8 @@ type Address struct {
 	// Required
 	Province string `protobuf:"bytes,4,opt,name=province,proto3" json:"province,omitempty"`
 	// The ISO 3166-1 alpha-2 country code.
-	// This is the two-letter country code (e.g. \"ZA\" for South Africa,
-	// \"NL\" for the Netherlands). The value should be in uppercase.
+	// This is the two-letter country code (e.g. "ZA" for South Africa,
+	// "NL" for the Netherlands). The value should be in uppercase.
 	//
 	// See https://www.iso.org/iso-3166-country-codes.html for a full list.
 	//
