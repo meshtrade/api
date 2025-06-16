@@ -4,16 +4,16 @@ package meshtrade.compliance.client.v1;
 
 option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
 
-// IdentificationType type of persona indentification document was used
+// IdentificationDocumentType type of persona indentification document was used
 // for submission of an identification number.
-enum IdentificationType {
+enum IdentificationDocumentType {
   // Unknown or not specified.
   // This is a default value to prevent accidental assignment and should not be used.
-  IDENTIFICATION_TYPE_UNSPECIFIED = 0;
+  IDENTIFICATION_DOCUMENT_TYPE_UNSPECIFIED = 0;
 
   // A South African Identification Document was used
-  IDENTIFICATION_TYPE_SOUTH_AFRICAN_IDENTIFICATION_DOCUMENT = 1;
+  IDENTIFICATION_DOCUMENT_TYPE_SOUTH_AFRICAN_IDENTIFICATION_DOCUMENT = 1;
 
-  // Passport was used
-  IDENTIFICATION_TYPE_PASSPORT = 2;
+  // Passport issued by a country.
+  IDENTIFICATION_DOCUMENT_TYPE_PASSPORT = 2;
 }
