@@ -35,6 +35,9 @@ type Address struct {
 	// in the first lines and the more general ones (e.g., street address) in the
 	// subsequent lines.
 	//
+	// Example:
+	// address_lines: 456 Oak Avenue, Apartment 3B, 123 Main Street
+	//
 	// Required
 	AddressLines []string `protobuf:"bytes,1,rep,name=address_lines,json=addressLines,proto3" json:"address_lines,omitempty"`
 	// An optional field for a neighborhood, district, or suburb within a city.
