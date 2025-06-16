@@ -23,6 +23,10 @@ const (
 
 // Address represents a physical postal address. It is designed to be flexible enough
 // to accommodate various international address formats.
+//
+// Validation rules given are a guideline.
+// A conclusive set of validation rules for an address can be found with the service/type using
+// this entity.
 type Address struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The unstructured lines of the address. This typically includes the street name,
@@ -32,8 +36,7 @@ type Address struct {
 	// subsequent lines.
 	//
 	// Example:
-	// address_lines: ["456 Oak Avenue"]
-	// address_lines: ["Apartment 3B", "123 Main Street"]
+	// address_lines: "456 Oak Avenue", "Apartment 3B", "123 Main Street"
 	//
 	// Required
 	AddressLines []string `protobuf:"bytes,1,rep,name=address_lines,json=addressLines,proto3" json:"address_lines,omitempty"`

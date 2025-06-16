@@ -244,12 +244,16 @@ Defines the possible statuses for a Politically Exposed Person check.
 Address represents a physical postal address. It is designed to be flexible enough
 to accommodate various international address formats.
 
+Validation rules given are a guideline.
+A conclusive set of validation rules for an address can be found with the service/type using
+this entity.
+
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | address_lines | [string](#string) | repeated | The unstructured lines of the address. This typically includes the street name, house number, apartment or suite number, and building name. It is recommended to have the most specific details (e.g., apartment number) in the first lines and the more general ones (e.g., street address) in the subsequent lines.
 
-Example: address_lines: [&#34;456 Oak Avenue&#34;] address_lines: [&#34;Apartment 3B&#34;, &#34;123 Main Street&#34;]
+Example: address_lines: &#34;456 Oak Avenue&#34;, &#34;Apartment 3B&#34;, &#34;123 Main Street&#34;
 
 Required |
 | suburb | [string](#string) |  | An optional field for a neighborhood, district, or suburb within a city. The usage of this field can vary by country.

@@ -66,8 +66,7 @@ type ContactDetails struct {
 	//
 	// Optional
 	XTwitter string `protobuf:"bytes,10,opt,name=x_twitter,json=xTwitter,proto3" json:"x_twitter,omitempty"`
-	//	YouTube handle, without the '@' symbol.
-	//
+	// YouTube handle, without the '@' symbol.
 	// Example: "Mesh_Trade"
 	//
 	// Optional
