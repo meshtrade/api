@@ -25,3 +25,8 @@ plugins:
     opt:
       - module=github.com/meshtrade/api
       - generate_unbound_methods=true
+
+  - remote: buf.build/community/pseudomuto-doc:v1.5.1
+    out: docs
+    opt:
+      - markdown,docs.md

@@ -4,6 +4,21 @@ package meshtrade.compliance.client.v1;
 
 option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
 
+// Client is an authorised legal entity, individual or business (company, trust etc.).
+// Clients resources (accounts, instruments etc.) are owned by an associated group
+// hierarchy containing at least 1 group (the default 'top level' group of the client).
 message Client {
+  // Name the unique name of the client resource and takes on the format:
+  // clients/<<owner_group_id>>/<client_id>
+  //
+  // FIXME: consider if it is fine for this to be able to change if
+  // the group owner changes. An external system my have stored this as
+  // a unique reference in their system!! It is not reasonable to consider
+  // that they would have ownly stored the last bit of this string.
   string name = 1;
+
+  // Display name is a non-unique name field.
+  string display_name = 2;
+
+  //
 }

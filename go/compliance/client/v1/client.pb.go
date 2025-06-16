@@ -21,9 +21,21 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// Client is an authorised legal entity, individual or business (company, trust etc.).
+// Clients resources (accounts, instruments etc.) are owned by an associated group
+// hierarchy containing at least 1 group (the default 'top level' group of the client).
 type Client struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Name the unique name of the client resource and takes on the format:
+	// clients/<<owner_group_id>>/<client_id>
+	//
+	// FIXME: consider if it is fine for this to be able to change if
+	// the group owner changes. An external system my have stored this as
+	// a unique reference in their system!! It is not reasonable to consider
+	// that they would have ownly stored the last bit of this string.
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	// Display name is a non-unique name field.
+	DisplayName   string `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -65,13 +77,21 @@ func (x *Client) GetName() string {
 	return ""
 }
 
+func (x *Client) GetDisplayName() string {
+	if x != nil {
+		return x.DisplayName
+	}
+	return ""
+}
+
 var File_meshtrade_compliance_client_v1_client_proto protoreflect.FileDescriptor
 
 const file_meshtrade_compliance_client_v1_client_proto_rawDesc = "" +
 	"\n" +
-	"+meshtrade/compliance/client/v1/client.proto\x12\x1emeshtrade.compliance.client.v1\"\x1c\n" +
+	"+meshtrade/compliance/client/v1/client.proto\x12\x1emeshtrade.compliance.client.v1\"?\n" +
 	"\x06Client\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04nameB;Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
+	"\x04name\x18\x01 \x01(\tR\x04name\x12!\n" +
+	"\fdisplay_name\x18\x02 \x01(\tR\vdisplayNameB;Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
 
 var (
 	file_meshtrade_compliance_client_v1_client_proto_rawDescOnce sync.Once

@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package meshtrade.compliance.client.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
+
+message KYCInfo {
+  string full_name = 1;
+
+  // The date on which the verification status went good!
+  google.protobuf.Timestamp verification_date = 2;
+}
