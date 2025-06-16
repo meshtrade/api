@@ -33,7 +33,7 @@ message ConnectedLegalPerson {
      The percentage of direct or indirect ownership this person holds.
      e.g. a value of 25.5 represents 25.5% ownership.
 
-     Required (if the connection_types includes LEGAL_PERSON_CONNECTION_TYPE_SHAREHOLDER or similar ownership role)
+     Required for verification (if the connection_types includes LEGAL_PERSON_CONNECTION_TYPE_SHAREHOLDER or similar ownership role)
   */
   optional float ownership_percentage = 3;
 

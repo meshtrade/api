@@ -31,6 +31,8 @@ message Client {
      This field establishes the ownership link and can be updated if the client's ownership changes,
      without affecting the client's stable `name`.
 
+     The executing user needs to have permission to perform client.Create in this group.
+
      Required on creation.
   */
   string owner_group = 2;

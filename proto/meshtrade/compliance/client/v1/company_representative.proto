@@ -13,6 +13,9 @@ option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
    CompanyRepresentative models an individual acting in an official capacity for a legal entity.
    This person is typically subject to KYC verification as part of the overall KYB process
    for the legal entity they represent.
+
+   Note on Field Requirements: Fields marked as 'Required for verification' are essential
+   for a successful compliance check, but are not mandatory for creation.
 */
 message CompanyRepresentative {
   /*
@@ -20,14 +23,14 @@ message CompanyRepresentative {
      This contains the core personal identity information (name, residential address,
      ID document, personal contact details, etc.) required for their individual KYC check.
 
-     Required
+     Required for verification.
   */
   meshtrade.compliance.client.v1.NaturalPerson natural_person = 1;
 
   /*
      The official role this person holds in relation to the company.
 
-     Required
+     Required for verification.
   */
   meshtrade.compliance.client.v1.CompanyRepresentativeRole role = 2;
 
