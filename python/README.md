@@ -1,3 +1,7 @@
+---
+title: Python
+layout: home
+---
 # Python SDKs for Mesh APIs
 
 [![CI Status](https://img.shields.io/badge/ci-passing-brightgreen.svg)](https://github.com/meshtrade/api)

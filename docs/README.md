@@ -1,3 +1,8 @@
+---
+title: Docs
+layout: home
+---
+
 # Source for the Docs Site of Mesh API
 This is the root of the docs site for the Mesh API.
 
@@ -31,7 +36,7 @@ which ruby
 ### 2. Install dependencies
 Install dependencies for the static site using bundle:
 ```
-cd docs
+# from repository root
 bundle install
 ```
 Tip: if you get asked for sudo or your password then you are using the system ruby and not the one installed in step 1.
@@ -39,5 +44,6 @@ Tip: if you get asked for sudo or your password then you are using the system ru
 ### 3. Run local webserver
 Run local webserver.
 ```
+# from repository root
 bundle exec jekyll serve
 ```
