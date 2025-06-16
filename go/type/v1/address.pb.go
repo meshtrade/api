@@ -21,66 +21,67 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Represents a postal address, e.g. for postal delivery or payments addresses.
-// Given a postal address, a postal service can deliver items to a premise, P.O.
-// Box or similar.
-// It is not intended to model geographical locations (roads, towns,
-// mountains).
-//
-// In typical usage an address would be created via user input or from importing
-// existing data, depending on the type of process.
-//
-// Advice on address input / editing:
-//   - Use an i18n-ready address widget such as
-//     https://github.com/google/libaddressinput)
-//   - Users should not be presented with UI elements for input or editing of
-//     fields outside countries where that field is used.
-//
-// For more guidance on how to use this schema, please see:
-// https://support.google.com/business/answer/6397478
-type PostalAddress struct {
+// Address represents a physical postal address. It is designed to be flexible enough
+// to accommodate various international address formats.
+type Address struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Unstructured address lines describing the address.
-	// --> Required
+	// The unstructured lines of the address. This typically includes the street name,
+	// house number, apartment or suite number, and building name.
+	// It is recommended to have the most specific details (e.g., apartment number)
+	// in the first lines and the more general ones (e.g., street address) in the
+	// subsequent lines.
+	//
+	// Example:
+	// address_lines: ["456 Oak Avenue"]
+	// address_lines: ["Apartment 3B", "123 Main Street"]
+	//
+	// Required
 	AddressLines []string `protobuf:"bytes,1,rep,name=address_lines,json=addressLines,proto3" json:"address_lines,omitempty"`
-	// Suburb of the address.
-	// --> Optional
+	// An optional field for a neighborhood, district, or suburb within a city.
+	// The usage of this field can vary by country.
+	//
+	// Optional
 	Suburb string `protobuf:"bytes,2,opt,name=suburb,proto3" json:"suburb,omitempty"`
-	// City of the address.
-	// --> Required
+	// The city, town, or village of the address.
+	//
+	// Required
 	City string `protobuf:"bytes,3,opt,name=city,proto3" json:"city,omitempty"`
-	// Province or state of the address
-	// --> Required
+	// The top-level administrative subdivision of a country, such as a state,
+	// province, region, or prefecture.
+	//
+	// Required
 	Province string `protobuf:"bytes,4,opt,name=province,proto3" json:"province,omitempty"`
-	// Country code of the address in ISO format.
-	// CLDR region code of the country/region of the address. This
-	// is never inferred and it is up to the user to ensure the value is
-	// correct. See http://cldr.unicode.org/ and
-	// http://www.unicode.org/cldr/charts/30/supplemental/territory_information.html
-	// for details. Example: "CH" for Switzerland.
-	// --> Required.
+	// The ISO 3166-1 alpha-2 country code.
+	// This is the two-letter country code (e.g. "ZA" for South Africa,
+	// "NL" for the Netherlands). The value should be in uppercase.
+	//
+	// See https://www.iso.org/iso-3166-country-codes.html for a full list.
+	//
+	// Required
 	CountryCode string `protobuf:"bytes,5,opt,name=country_code,json=countryCode,proto3" json:"country_code,omitempty"`
-	// Postal code of the address.
-	// --> Optional
+	// The postal code or ZIP code of the address.
+	// Although optional, strongly recommended where applicable.
+	//
+	// Optional
 	PostalCode    string `protobuf:"bytes,6,opt,name=postal_code,json=postalCode,proto3" json:"postal_code,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *PostalAddress) Reset() {
-	*x = PostalAddress{}
+func (x *Address) Reset() {
+	*x = Address{}
 	mi := &file_meshtrade_type_v1_address_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *PostalAddress) String() string {
+func (x *Address) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*PostalAddress) ProtoMessage() {}
+func (*Address) ProtoMessage() {}
 
-func (x *PostalAddress) ProtoReflect() protoreflect.Message {
+func (x *Address) ProtoReflect() protoreflect.Message {
 	mi := &file_meshtrade_type_v1_address_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -92,47 +93,47 @@ func (x *PostalAddress) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PostalAddress.ProtoReflect.Descriptor instead.
-func (*PostalAddress) Descriptor() ([]byte, []int) {
+// Deprecated: Use Address.ProtoReflect.Descriptor instead.
+func (*Address) Descriptor() ([]byte, []int) {
 	return file_meshtrade_type_v1_address_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *PostalAddress) GetAddressLines() []string {
+func (x *Address) GetAddressLines() []string {
 	if x != nil {
 		return x.AddressLines
 	}
 	return nil
 }
 
-func (x *PostalAddress) GetSuburb() string {
+func (x *Address) GetSuburb() string {
 	if x != nil {
 		return x.Suburb
 	}
 	return ""
 }
 
-func (x *PostalAddress) GetCity() string {
+func (x *Address) GetCity() string {
 	if x != nil {
 		return x.City
 	}
 	return ""
 }
 
-func (x *PostalAddress) GetProvince() string {
+func (x *Address) GetProvince() string {
 	if x != nil {
 		return x.Province
 	}
 	return ""
 }
 
-func (x *PostalAddress) GetCountryCode() string {
+func (x *Address) GetCountryCode() string {
 	if x != nil {
 		return x.CountryCode
 	}
 	return ""
 }
 
-func (x *PostalAddress) GetPostalCode() string {
+func (x *Address) GetPostalCode() string {
 	if x != nil {
 		return x.PostalCode
 	}
@@ -143,8 +144,8 @@ var File_meshtrade_type_v1_address_proto protoreflect.FileDescriptor
 
 const file_meshtrade_type_v1_address_proto_rawDesc = "" +
 	"\n" +
-	"\x1fmeshtrade/type/v1/address.proto\x12\x11meshtrade.type.v1\"\xc0\x01\n" +
-	"\rPostalAddress\x12#\n" +
+	"\x1fmeshtrade/type/v1/address.proto\x12\x11meshtrade.type.v1\"\xba\x01\n" +
+	"\aAddress\x12#\n" +
 	"\raddress_lines\x18\x01 \x03(\tR\faddressLines\x12\x16\n" +
 	"\x06suburb\x18\x02 \x01(\tR\x06suburb\x12\x12\n" +
 	"\x04city\x18\x03 \x01(\tR\x04city\x12\x1a\n" +
@@ -167,7 +168,7 @@ func file_meshtrade_type_v1_address_proto_rawDescGZIP() []byte {
 
 var file_meshtrade_type_v1_address_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_meshtrade_type_v1_address_proto_goTypes = []any{
-	(*PostalAddress)(nil), // 0: meshtrade.type.v1.PostalAddress
+	(*Address)(nil), // 0: meshtrade.type.v1.Address
 }
 var file_meshtrade_type_v1_address_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type

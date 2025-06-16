@@ -9,7 +9,6 @@ package clientv1
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -22,13 +21,32 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// KYCInfo represents the Know Your Customer (KYC) information for an individual client.
+// This message is used to collect and verify the identity and financial profile of a person.
+// NOTE: where a field is marked `Required`, this indicates: 'Required for a Successful Client KYC Approval' (i.e. not for entity creation)
 type KYCInfo struct {
-	state    protoimpl.MessageState `protogen:"open.v1"`
-	FullName string                 `protobuf:"bytes,1,opt,name=full_name,json=fullName,proto3" json:"full_name,omitempty"`
-	// The date on which the verification status went good!
-	VerificationDate *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=verification_date,json=verificationDate,proto3" json:"verification_date,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Details of the natural person represented by this kyc profile.
+	// This contains the core identity information (name, DOB, address, identity document etc.).
+	//
+	// Required
+	NaturalPerson *NaturalPerson `protobuf:"bytes,1,opt,name=natural_person,json=naturalPerson,proto3" json:"natural_person,omitempty"`
+	// The primary sources of the client's regular income (e.g., employment, pension).
+	//
+	// Required
+	SourcesOfIncome []SourceOfIncomeAndWealth `protobuf:"varint,2,rep,packed,name=sources_of_income,json=sourcesOfIncome,proto3,enum=meshtrade.compliance.client.v1.SourceOfIncomeAndWealth" json:"sources_of_income,omitempty"`
+	// The origins of the client's total net worth or assets (e.g., inheritance, investments).
+	// This is distinct from the source of income.
+	//
+	// Required
+	SourcesOfWealth []SourceOfIncomeAndWealth `protobuf:"varint,3,rep,packed,name=sources_of_wealth,json=sourcesOfWealth,proto3,enum=meshtrade.compliance.client.v1.SourceOfIncomeAndWealth" json:"sources_of_wealth,omitempty"`
+	// The client's tax residency information, required for CRS/FATCA reporting.
+	// A client can be a tax resident in multiple jurisdictions.
+	//
+	// Required
+	TaxResidencies []*TaxResidency `protobuf:"bytes,4,rep,name=tax_residencies,json=taxResidencies,proto3" json:"tax_residencies,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *KYCInfo) Reset() {
@@ -61,16 +79,30 @@ func (*KYCInfo) Descriptor() ([]byte, []int) {
 	return file_meshtrade_compliance_client_v1_kyc_info_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *KYCInfo) GetFullName() string {
+func (x *KYCInfo) GetNaturalPerson() *NaturalPerson {
 	if x != nil {
-		return x.FullName
+		return x.NaturalPerson
 	}
-	return ""
+	return nil
 }
 
-func (x *KYCInfo) GetVerificationDate() *timestamppb.Timestamp {
+func (x *KYCInfo) GetSourcesOfIncome() []SourceOfIncomeAndWealth {
 	if x != nil {
-		return x.VerificationDate
+		return x.SourcesOfIncome
+	}
+	return nil
+}
+
+func (x *KYCInfo) GetSourcesOfWealth() []SourceOfIncomeAndWealth {
+	if x != nil {
+		return x.SourcesOfWealth
+	}
+	return nil
+}
+
+func (x *KYCInfo) GetTaxResidencies() []*TaxResidency {
+	if x != nil {
+		return x.TaxResidencies
 	}
 	return nil
 }
@@ -79,10 +111,12 @@ var File_meshtrade_compliance_client_v1_kyc_info_proto protoreflect.FileDescript
 
 const file_meshtrade_compliance_client_v1_kyc_info_proto_rawDesc = "" +
 	"\n" +
-	"-meshtrade/compliance/client/v1/kyc_info.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"o\n" +
-	"\aKYCInfo\x12\x1b\n" +
-	"\tfull_name\x18\x01 \x01(\tR\bfullName\x12G\n" +
-	"\x11verification_date\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x10verificationDateB;Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
+	"-meshtrade/compliance/client/v1/kyc_info.proto\x12\x1emeshtrade.compliance.client.v1\x1a3meshtrade/compliance/client/v1/natural_person.proto\x1a@meshtrade/compliance/client/v1/source_of_income_and_wealth.proto\x1a2meshtrade/compliance/client/v1/tax_residency.proto\"\x80\x03\n" +
+	"\aKYCInfo\x12T\n" +
+	"\x0enatural_person\x18\x01 \x01(\v2-.meshtrade.compliance.client.v1.NaturalPersonR\rnaturalPerson\x12c\n" +
+	"\x11sources_of_income\x18\x02 \x03(\x0e27.meshtrade.compliance.client.v1.SourceOfIncomeAndWealthR\x0fsourcesOfIncome\x12c\n" +
+	"\x11sources_of_wealth\x18\x03 \x03(\x0e27.meshtrade.compliance.client.v1.SourceOfIncomeAndWealthR\x0fsourcesOfWealth\x12U\n" +
+	"\x0ftax_residencies\x18\x04 \x03(\v2,.meshtrade.compliance.client.v1.TaxResidencyR\x0etaxResidenciesB;Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
 
 var (
 	file_meshtrade_compliance_client_v1_kyc_info_proto_rawDescOnce sync.Once
@@ -98,16 +132,21 @@ func file_meshtrade_compliance_client_v1_kyc_info_proto_rawDescGZIP() []byte {
 
 var file_meshtrade_compliance_client_v1_kyc_info_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_meshtrade_compliance_client_v1_kyc_info_proto_goTypes = []any{
-	(*KYCInfo)(nil),               // 0: meshtrade.compliance.client.v1.KYCInfo
-	(*timestamppb.Timestamp)(nil), // 1: google.protobuf.Timestamp
+	(*KYCInfo)(nil),              // 0: meshtrade.compliance.client.v1.KYCInfo
+	(*NaturalPerson)(nil),        // 1: meshtrade.compliance.client.v1.NaturalPerson
+	(SourceOfIncomeAndWealth)(0), // 2: meshtrade.compliance.client.v1.SourceOfIncomeAndWealth
+	(*TaxResidency)(nil),         // 3: meshtrade.compliance.client.v1.TaxResidency
 }
 var file_meshtrade_compliance_client_v1_kyc_info_proto_depIdxs = []int32{
-	1, // 0: meshtrade.compliance.client.v1.KYCInfo.verification_date:type_name -> google.protobuf.Timestamp
-	1, // [1:1] is the sub-list for method output_type
-	1, // [1:1] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	1, // 0: meshtrade.compliance.client.v1.KYCInfo.natural_person:type_name -> meshtrade.compliance.client.v1.NaturalPerson
+	2, // 1: meshtrade.compliance.client.v1.KYCInfo.sources_of_income:type_name -> meshtrade.compliance.client.v1.SourceOfIncomeAndWealth
+	2, // 2: meshtrade.compliance.client.v1.KYCInfo.sources_of_wealth:type_name -> meshtrade.compliance.client.v1.SourceOfIncomeAndWealth
+	3, // 3: meshtrade.compliance.client.v1.KYCInfo.tax_residencies:type_name -> meshtrade.compliance.client.v1.TaxResidency
+	4, // [4:4] is the sub-list for method output_type
+	4, // [4:4] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_compliance_client_v1_kyc_info_proto_init() }
@@ -115,6 +154,9 @@ func file_meshtrade_compliance_client_v1_kyc_info_proto_init() {
 	if File_meshtrade_compliance_client_v1_kyc_info_proto != nil {
 		return
 	}
+	file_meshtrade_compliance_client_v1_natural_person_proto_init()
+	file_meshtrade_compliance_client_v1_source_of_income_and_wealth_proto_init()
+	file_meshtrade_compliance_client_v1_tax_residency_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

@@ -9,6 +9,7 @@ package clientv1
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -21,23 +22,63 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Client is an authorised legal entity, individual or business (company, trust etc.).
-// Clients resources (accounts, instruments etc.) are owned by an associated group
-// hierarchy containing at least 1 group (the default 'top level' group of the client).
+// Client represents an authorized legal entity, which can be either an individual (KYC)
+// or a business (KYB). It serves as the central resource for all compliance information
+// and verification status related to a single party.
 type Client struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Name the unique name of the client resource and takes on the format:
-	// clients/<<owner_group_id>>/<client_id>
+	// The unique, immutable, and canonical name of the client resource in the format clients/{client_id}.
+	// The {client_id} is a system-generated unique identifier (e.g., UUID) that
+	// will never change.
+	// This name field will never change and should be used as the permanent primary key
+	// for this resource in all systems.
 	//
-	// FIXME: consider if it is fine for this to be able to change if
-	// the group owner changes. An external system my have stored this as
-	// a unique reference in their system!! It is not reasonable to consider
-	// that they would have ownly stored the last bit of this string.
+	// System set on creation.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	// Display name is a non-unique name field.
-	DisplayName   string `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	// The resource name of the group that owns this client in the format groups/{group_id}.
+	// This field establishes the ownership link and can be updated if the client's ownership changes,
+	// without affecting the client's stable `name`.
+	//
+	// Required on creation.
+	OwnerGroup string `protobuf:"bytes,2,opt,name=owner_group,json=ownerGroup,proto3" json:"owner_group,omitempty"`
+	// A non-unique, user-provided name for the client, used for display purposes
+	// in user interfaces and reports.
+	//
+	// Required on creation.
+	DisplayName string `protobuf:"bytes,3,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
+	// Contains either the KYC or KYB information, defining if the client is an
+	// individual or a business. This choice is permanent and cannot be changed
+	// after the client is created.
+	//
+	// Required on creation.
+	//
+	// Types that are valid to be assigned to Info:
+	//
+	//	*Client_KycInfo
+	//	*Client_KybInfo
+	Info isClient_Info `protobuf_oneof:"info"`
+	// The definitive, most recent compliance status of the client (e.g.,
+	// VERIFICATION_STATUS_VERIFIED, VERIFICATION_STATUS_FAILED).
+	//
+	// System controlled.
+	VerificationStatus VerificationStatus `protobuf:"varint,6,opt,name=verification_status,json=verificationStatus,proto3,enum=meshtrade.compliance.client.v1.VerificationStatus" json:"verification_status,omitempty"`
+	// The resource name of the client (acting as a verifier) that last set the
+	// `verification_status`. This provides an audit trail for status changes.
+	//
+	// System set when verification_status changes.
+	VerificationAuthorityName string `protobuf:"bytes,7,opt,name=verification_authority_name,json=verificationAuthorityName,proto3" json:"verification_authority_name,omitempty"`
+	// The timestamp when the `verification_status` was last set to a conclusive
+	// state, specifically `VERIFICATION_STATUS_VERIFIED`.
+	//
+	// System set when verification_status changes to VERIFICATION_STATUS_VERIFIED.
+	VerificationDate *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=verification_date,json=verificationDate,proto3" json:"verification_date,omitempty"`
+	// The timestamp indicating when the client's next periodic compliance review
+	// is due. This field drives re-verification workflows.
+	//
+	// Optional for Verification.
+	NextVerificationDate *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=next_verification_date,json=nextVerificationDate,proto3" json:"next_verification_date,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
 }
 
 func (x *Client) Reset() {
@@ -77,6 +118,13 @@ func (x *Client) GetName() string {
 	return ""
 }
 
+func (x *Client) GetOwnerGroup() string {
+	if x != nil {
+		return x.OwnerGroup
+	}
+	return ""
+}
+
 func (x *Client) GetDisplayName() string {
 	if x != nil {
 		return x.DisplayName
@@ -84,14 +132,92 @@ func (x *Client) GetDisplayName() string {
 	return ""
 }
 
+func (x *Client) GetInfo() isClient_Info {
+	if x != nil {
+		return x.Info
+	}
+	return nil
+}
+
+func (x *Client) GetKycInfo() *KYCInfo {
+	if x != nil {
+		if x, ok := x.Info.(*Client_KycInfo); ok {
+			return x.KycInfo
+		}
+	}
+	return nil
+}
+
+func (x *Client) GetKybInfo() *KYBInfo {
+	if x != nil {
+		if x, ok := x.Info.(*Client_KybInfo); ok {
+			return x.KybInfo
+		}
+	}
+	return nil
+}
+
+func (x *Client) GetVerificationStatus() VerificationStatus {
+	if x != nil {
+		return x.VerificationStatus
+	}
+	return VerificationStatus_VERIFICATION_STATUS_UNSPECIFIED
+}
+
+func (x *Client) GetVerificationAuthorityName() string {
+	if x != nil {
+		return x.VerificationAuthorityName
+	}
+	return ""
+}
+
+func (x *Client) GetVerificationDate() *timestamppb.Timestamp {
+	if x != nil {
+		return x.VerificationDate
+	}
+	return nil
+}
+
+func (x *Client) GetNextVerificationDate() *timestamppb.Timestamp {
+	if x != nil {
+		return x.NextVerificationDate
+	}
+	return nil
+}
+
+type isClient_Info interface {
+	isClient_Info()
+}
+
+type Client_KycInfo struct {
+	KycInfo *KYCInfo `protobuf:"bytes,4,opt,name=kyc_info,json=kycInfo,proto3,oneof"`
+}
+
+type Client_KybInfo struct {
+	KybInfo *KYBInfo `protobuf:"bytes,5,opt,name=kyb_info,json=kybInfo,proto3,oneof"`
+}
+
+func (*Client_KycInfo) isClient_Info() {}
+
+func (*Client_KybInfo) isClient_Info() {}
+
 var File_meshtrade_compliance_client_v1_client_proto protoreflect.FileDescriptor
 
 const file_meshtrade_compliance_client_v1_client_proto_rawDesc = "" +
 	"\n" +
-	"+meshtrade/compliance/client/v1/client.proto\x12\x1emeshtrade.compliance.client.v1\"?\n" +
+	"+meshtrade/compliance/client/v1/client.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a-meshtrade/compliance/client/v1/kyb_info.proto\x1a-meshtrade/compliance/client/v1/kyc_info.proto\x1a8meshtrade/compliance/client/v1/verification_status.proto\"\xb4\x04\n" +
 	"\x06Client\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12!\n" +
-	"\fdisplay_name\x18\x02 \x01(\tR\vdisplayNameB;Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\x1f\n" +
+	"\vowner_group\x18\x02 \x01(\tR\n" +
+	"ownerGroup\x12!\n" +
+	"\fdisplay_name\x18\x03 \x01(\tR\vdisplayName\x12D\n" +
+	"\bkyc_info\x18\x04 \x01(\v2'.meshtrade.compliance.client.v1.KYCInfoH\x00R\akycInfo\x12D\n" +
+	"\bkyb_info\x18\x05 \x01(\v2'.meshtrade.compliance.client.v1.KYBInfoH\x00R\akybInfo\x12c\n" +
+	"\x13verification_status\x18\x06 \x01(\x0e22.meshtrade.compliance.client.v1.VerificationStatusR\x12verificationStatus\x12>\n" +
+	"\x1bverification_authority_name\x18\a \x01(\tR\x19verificationAuthorityName\x12G\n" +
+	"\x11verification_date\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\x10verificationDate\x12P\n" +
+	"\x16next_verification_date\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\x14nextVerificationDateB\x06\n" +
+	"\x04infoB;Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
 
 var (
 	file_meshtrade_compliance_client_v1_client_proto_rawDescOnce sync.Once
@@ -107,20 +233,36 @@ func file_meshtrade_compliance_client_v1_client_proto_rawDescGZIP() []byte {
 
 var file_meshtrade_compliance_client_v1_client_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_meshtrade_compliance_client_v1_client_proto_goTypes = []any{
-	(*Client)(nil), // 0: meshtrade.compliance.client.v1.Client
+	(*Client)(nil),                // 0: meshtrade.compliance.client.v1.Client
+	(*KYCInfo)(nil),               // 1: meshtrade.compliance.client.v1.KYCInfo
+	(*KYBInfo)(nil),               // 2: meshtrade.compliance.client.v1.KYBInfo
+	(VerificationStatus)(0),       // 3: meshtrade.compliance.client.v1.VerificationStatus
+	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
 }
 var file_meshtrade_compliance_client_v1_client_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	1, // 0: meshtrade.compliance.client.v1.Client.kyc_info:type_name -> meshtrade.compliance.client.v1.KYCInfo
+	2, // 1: meshtrade.compliance.client.v1.Client.kyb_info:type_name -> meshtrade.compliance.client.v1.KYBInfo
+	3, // 2: meshtrade.compliance.client.v1.Client.verification_status:type_name -> meshtrade.compliance.client.v1.VerificationStatus
+	4, // 3: meshtrade.compliance.client.v1.Client.verification_date:type_name -> google.protobuf.Timestamp
+	4, // 4: meshtrade.compliance.client.v1.Client.next_verification_date:type_name -> google.protobuf.Timestamp
+	5, // [5:5] is the sub-list for method output_type
+	5, // [5:5] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_compliance_client_v1_client_proto_init() }
 func file_meshtrade_compliance_client_v1_client_proto_init() {
 	if File_meshtrade_compliance_client_v1_client_proto != nil {
 		return
+	}
+	file_meshtrade_compliance_client_v1_kyb_info_proto_init()
+	file_meshtrade_compliance_client_v1_kyc_info_proto_init()
+	file_meshtrade_compliance_client_v1_verification_status_proto_init()
+	file_meshtrade_compliance_client_v1_client_proto_msgTypes[0].OneofWrappers = []any{
+		(*Client_KycInfo)(nil),
+		(*Client_KybInfo)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

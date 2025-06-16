@@ -22,10 +22,12 @@ _runtime_version.ValidateProtobufRuntimeVersion(
 _sym_db = _symbol_database.Default()
 
 
-from google.protobuf import timestamp_pb2 as google_dot_protobuf_dot_timestamp__pb2
+from meshtrade.compliance.client.v1 import natural_person_pb2 as meshtrade_dot_compliance_dot_client_dot_v1_dot_natural__person__pb2
+from meshtrade.compliance.client.v1 import source_of_income_and_wealth_pb2 as meshtrade_dot_compliance_dot_client_dot_v1_dot_source__of__income__and__wealth__pb2
+from meshtrade.compliance.client.v1 import tax_residency_pb2 as meshtrade_dot_compliance_dot_client_dot_v1_dot_tax__residency__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n-meshtrade/compliance/client/v1/kyc_info.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"o\n\x07KYCInfo\x12\x1b\n\tfull_name\x18\x01 \x01(\tR\x08\x66ullName\x12G\n\x11verification_date\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\x10verificationDateB;Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n-meshtrade/compliance/client/v1/kyc_info.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x33meshtrade/compliance/client/v1/natural_person.proto\x1a@meshtrade/compliance/client/v1/source_of_income_and_wealth.proto\x1a\x32meshtrade/compliance/client/v1/tax_residency.proto\"\x80\x03\n\x07KYCInfo\x12T\n\x0enatural_person\x18\x01 \x01(\x0b\x32-.meshtrade.compliance.client.v1.NaturalPersonR\rnaturalPerson\x12\x63\n\x11sources_of_income\x18\x02 \x03(\x0e\x32\x37.meshtrade.compliance.client.v1.SourceOfIncomeAndWealthR\x0fsourcesOfIncome\x12\x63\n\x11sources_of_wealth\x18\x03 \x03(\x0e\x32\x37.meshtrade.compliance.client.v1.SourceOfIncomeAndWealthR\x0fsourcesOfWealth\x12U\n\x0ftax_residencies\x18\x04 \x03(\x0b\x32,.meshtrade.compliance.client.v1.TaxResidencyR\x0etaxResidenciesB;Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -33,6 +35,6 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'meshtrade.compliance.client
 if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1'
-  _globals['_KYCINFO']._serialized_start=114
-  _globals['_KYCINFO']._serialized_end=225
+  _globals['_KYCINFO']._serialized_start=253
+  _globals['_KYCINFO']._serialized_end=637
 # @@protoc_insertion_point(module_scope)

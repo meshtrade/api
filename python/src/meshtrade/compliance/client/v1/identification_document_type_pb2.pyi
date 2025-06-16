@@ -1,0 +1,18 @@
+from google.protobuf.internal import enum_type_wrapper as _enum_type_wrapper
+from google.protobuf import descriptor as _descriptor
+from typing import ClassVar as _ClassVar
+
+DESCRIPTOR: _descriptor.FileDescriptor
+
+class IdentificationDocumentType(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    IDENTIFICATION_DOCUMENT_TYPE_UNSPECIFIED: _ClassVar[IdentificationDocumentType]
+    IDENTIFICATION_DOCUMENT_TYPE_PASSPORT: _ClassVar[IdentificationDocumentType]
+    IDENTIFICATION_DOCUMENT_TYPE_NATIONAL_ID: _ClassVar[IdentificationDocumentType]
+    IDENTIFICATION_DOCUMENT_TYPE_DRIVERS_LICENSE: _ClassVar[IdentificationDocumentType]
+    IDENTIFICATION_DOCUMENT_TYPE_RESIDENCE_PERMIT: _ClassVar[IdentificationDocumentType]
+IDENTIFICATION_DOCUMENT_TYPE_UNSPECIFIED: IdentificationDocumentType
+IDENTIFICATION_DOCUMENT_TYPE_PASSPORT: IdentificationDocumentType
+IDENTIFICATION_DOCUMENT_TYPE_NATIONAL_ID: IdentificationDocumentType
+IDENTIFICATION_DOCUMENT_TYPE_DRIVERS_LICENSE: IdentificationDocumentType
+IDENTIFICATION_DOCUMENT_TYPE_RESIDENCE_PERMIT: IdentificationDocumentType
