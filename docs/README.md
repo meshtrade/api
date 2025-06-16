@@ -7,10 +7,10 @@ This guide is for developers contributing to the docs files under this directory
 ### 1. Prerequisites (Mac OS with zsh)
 A few prerequisites are required to develop the site locally.
 
-#### 1.1 Jekyl (Ruby Tool)
-While macOS comes preinstalled with Ruby, it is notrecommended to use that version to install Jekyll.
+#### 1.1 Ruby
+While macOS comes preinstalled with Ruby, it is not recommended to use that version for active development.
 
-First setup a separate newer version of Ruby using the chruby version manager and then install jekyl.
+First setup a separate newer version of Ruby using the chruby version manager:
 ```
 # Install chruby and ruby-install with Homebrew:
 brew install chruby ruby-install
@@ -21,11 +21,11 @@ echo "source $(brew --prefix)/opt/chruby/share/chruby/chruby.sh" >> ~/.zshrc
 echo "source $(brew --prefix)/opt/chruby/share/chruby/auto.sh" >> ~/.zshrc
 echo "chruby ruby-3.4.1" >> ~/.zshrc
 
-# Apply the changes to the CURRENT terminal session
-source ~/.zshrc
+# Restart the terminal to ensure above has taken effect
+# then test with:
+which ruby
 
-# install jekyl
-gem install jekyll
+# should print out something like: /Users/yourUser/.rubies/ruby-3.4.1/bin/ruby
 ```
 
 ### 2. Install dependencies
@@ -34,6 +34,7 @@ Install dependencies for the static site using bundle:
 cd docs
 bundle install
 ```
+Tip: if you get asked for sudo or your password then you are using the system ruby and not the one installed in step 1.
 
 ### 3. Run local webserver
 Run local webserver.
