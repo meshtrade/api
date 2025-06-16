@@ -6,8 +6,8 @@ option go_package = "github.com/meshtrade/api/go/type/v1;typev1";
 
 // A generic set of contact information for an individual or an entity.
 message ContactDetails {
-  // Email address valiated according to:
-  // ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$
+  // Email address validated according to RFC 5322.
+  // Example: "user@example.com"
   //
   // Must be valid if provided.
   string email_address = 1;
@@ -15,18 +15,22 @@ message ContactDetails {
   // Phone number in E.164 international format.
   // This consists of a '+' sign followed by the country code and subscriber number.
   // Example: "+14155552671"
+  //
   // Must be valid if provided.
   string phone_number = 3;
 
   // Mobile phone number in E.164 international format.
   // This consists of a '+' sign followed by the country code and subscriber number.
   // Example: "+14155552671"
+  //
   // Must be valid if provided.
   string mobile_number = 5;
 
   // The domain name of the website without the protocol (http or https).
   // Any provided protocol will be stripped by services processing this entity.
   // Example: "www.mesh.trade"
+  //
+  // Optional
   string website = 6;
 
   // LinkedIn profile ID. This is the unique identifier found in the profile URL.
@@ -36,17 +40,25 @@ message ContactDetails {
 
   // Facebook profile username or ID.
   // Example: "Mesh.trade"
+  //
+  // Optional
   string facebook = 8;
 
   // Instagram handle, without the '@' symbol.
   // Example: "mesh.trade"
+  //
+  // Optional
   string instagram = 9;
 
   // X (formerly Twitter) handle, without the '@' symbol.
   // Example: "mesh_trade"
+  //
+  // Optional
   string x_twitter = 10;
 
   //  YouTube handle, without the '@' symbol.
   // Example: "Mesh_Trade"
+  //
+  // Optional
   string youtube = 11;
 }
