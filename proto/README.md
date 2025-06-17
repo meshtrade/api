@@ -1,3 +1,8 @@
+---
+title: Go
+layout: home
+---
+
 # Protobuf Definitions for the Mesh API
 STILL UNDER DEVELOPMENT
 
@@ -60,9 +65,11 @@ message Client {
    Line 1
 
    Line 2
-   
+
    Line 3
   */ <--- BAD STYLE
   string email = 2;
 }
 ```
+
+{% include_relative api_doc.md %}
