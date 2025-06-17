@@ -26,26 +26,21 @@ type ContactDetails struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Email address validated according to RFC 5322.
 	// Example: "user@example.com"
-	//
 	// Must be valid if provided.
 	EmailAddress string `protobuf:"bytes,1,opt,name=email_address,json=emailAddress,proto3" json:"email_address,omitempty"`
 	// Phone number in E.164 international format.
 	// This consists of a '+' sign followed by the country code and subscriber number.
 	// Example: "+14155552671"
-	//
 	// Must be valid if provided.
 	PhoneNumber string `protobuf:"bytes,3,opt,name=phone_number,json=phoneNumber,proto3" json:"phone_number,omitempty"`
 	// Mobile phone number in E.164 international format.
 	// This consists of a '+' sign followed by the country code and subscriber number.
 	// Example: "+14155552671"
-	//
 	// Must be valid if provided.
 	MobileNumber string `protobuf:"bytes,5,opt,name=mobile_number,json=mobileNumber,proto3" json:"mobile_number,omitempty"`
 	// The domain name of the website without the protocol (http or https).
 	// Any provided protocol will be stripped by services processing this entity.
-	// Example: "www.mesh.trade"
-	//
-	// Optional
+	// Example: "www.mesh.trade".
 	Website string `protobuf:"bytes,6,opt,name=website,proto3" json:"website,omitempty"`
 	// LinkedIn profile ID. This is the unique identifier found in the profile URL.
 	// Example for an individual: "in/john-doe-12345678"
@@ -53,23 +48,15 @@ type ContactDetails struct {
 	Linkedin string `protobuf:"bytes,7,opt,name=linkedin,proto3" json:"linkedin,omitempty"`
 	// Facebook profile username or ID.
 	// Example: "Mesh.trade"
-	//
-	// Optional
 	Facebook string `protobuf:"bytes,8,opt,name=facebook,proto3" json:"facebook,omitempty"`
 	// Instagram handle, without the '@' symbol.
 	// Example: "mesh.trade"
-	//
-	// Optional
 	Instagram string `protobuf:"bytes,9,opt,name=instagram,proto3" json:"instagram,omitempty"`
 	// X (formerly Twitter) handle, without the '@' symbol.
 	// Example: "mesh_trade"
-	//
-	// Optional
 	XTwitter string `protobuf:"bytes,10,opt,name=x_twitter,json=xTwitter,proto3" json:"x_twitter,omitempty"`
 	// YouTube handle, without the '@' symbol.
 	// Example: "Mesh_Trade"
-	//
-	// Optional
 	Youtube       string `protobuf:"bytes,11,opt,name=youtube,proto3" json:"youtube,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache

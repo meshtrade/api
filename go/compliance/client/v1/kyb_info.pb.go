@@ -23,56 +23,44 @@ const (
 
 // KYBInfo is the Know Your Customer (KYB) information for an business client.
 // This message is used to collect and verify the identity and financial profile a business.
-//
 // Note on Field Requirements: Fields marked as 'Required for verification' are essential
 // for a successful compliance check, but are not mandatory for creation.
 type KYBInfo struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The core identity of the legal person being onboarded.
-	//
 	// Required for verification.
 	LegalPerson *LegalPerson `protobuf:"bytes,1,opt,name=legal_person,json=legalPerson,proto3" json:"legal_person,omitempty"`
-	// Company Representatives (The "Actors")
-	//
+	// Company Representatives (The "Actors").
 	// Represents individuals with a formal, appointed role who are empowered to act on
 	// behalf of the company (e.g., Directors, CEO, Authorized Signatories).
 	// This list answers the regulatory question: "Who can legally bind this company?"
 	// It is focused on operational control and representation.
-	//
 	// Required for verification.
 	CompanyRepresentatives []*CompanyRepresentative `protobuf:"bytes,2,rep,name=company_representatives,json=companyRepresentatives,proto3" json:"company_representatives,omitempty"`
-	// Connected Natural Persons (The "Beneficiaries")
-	//
+	// Connected Natural Persons (The "Beneficiaries").
 	// Represents the Ultimate Beneficial Owners (UBOs) – the individuals who ultimately
 	// own or profit from the company, especially those without a formal representative title.
 	// This list is the result of the "look-through" due diligence process and answers
 	// the question: "Who ultimately benefits from and controls this company?"
-	//
 	// Required for verification.
 	ConnectedNaturalPersons []*ConnectedNaturalPerson `protobuf:"bytes,3,rep,name=connected_natural_persons,json=connectedNaturalPersons,proto3" json:"connected_natural_persons,omitempty"`
-	// Connected Legal Persons (The "Corporate Structure")
-	//
+	// Connected Legal Persons (The "Corporate Structure").
 	// Represents all non-human entities in the ownership chain (e.g., parent companies,
 	// holding companies, trusts). Each entity here requires its own recursive KYB check
 	// to map the full ownership structure.
 	// This list answers the question: "What other companies own this company?"
-	//
 	// NOTE: it is only necessary to connect other company details here if they do not form
 	// part of the hierarchy of clients on the Mesh platform.
-	//
 	// Required for verification (if the ownership structure includes other companies that are not present on Mesh).
 	ConnectedLegalPersons []*ConnectedLegalPerson `protobuf:"bytes,4,rep,name=connected_legal_persons,json=connectedLegalPersons,proto3" json:"connected_legal_persons,omitempty"`
 	// The industry classification of the business (e.g., using NACE, SIC codes).
 	// This is critical for risk assessment.
-	//
 	// Optional for verification.
 	IndustryClassification *IndustryClassification `protobuf:"bytes,5,opt,name=industry_classification,json=industryClassification,proto3" json:"industry_classification,omitempty"`
 	// The stock exchange where the company is listed (e.g., "NASDAQ", "LSE").
-	//
 	// Optional for verification.
 	ListedExchangeCode string `protobuf:"bytes,6,opt,name=listed_exchange_code,json=listedExchangeCode,proto3" json:"listed_exchange_code,omitempty"`
 	// The reference/ticker symbol for the company on the exchange (e.g., "GOOGL").
-	//
 	// Optional for verification.
 	ListingReference string `protobuf:"bytes,7,opt,name=listing_reference,json=listingReference,proto3" json:"listing_reference,omitempty"`
 	unknownFields    protoimpl.UnknownFields

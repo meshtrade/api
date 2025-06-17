@@ -39,7 +39,7 @@ type Address struct {
 	// An optional field for a neighborhood, district, or suburb within a city.
 	// The usage of this field can vary by country.
 	// Optional
-	Suburb string `protobuf:"bytes,2,opt,name=suburb,proto3" json:"suburb,omitempty"` // and here??
+	Suburb string `protobuf:"bytes,2,opt,name=suburb,proto3" json:"suburb,omitempty"`
 	// The city, town, or village of the address.
 	// Required
 	City string `protobuf:"bytes,3,opt,name=city,proto3" json:"city,omitempty"`

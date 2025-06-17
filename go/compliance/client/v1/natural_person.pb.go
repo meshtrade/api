@@ -26,57 +26,45 @@ const (
 // NaturalPerson is the identity of an individual person.
 // It contains the core, verifiable components of an individual's identity. which are
 // verified against their passport, utility bills, government records etc. during Know Your Client (KYC) checks.
-//
 // Note on Required Fields: Fields marked as 'Required' are essential
 // for a successful compliance check, but are not mandatory for creation.
 type NaturalPerson struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The client's full legal name, as it appears on their official identification documents.
-	//
 	// Required for verification.
 	FullName string `protobuf:"bytes,1,opt,name=full_name,json=fullName,proto3" json:"full_name,omitempty"`
 	// The client's date of birth.
-	//
 	// Required for verification.
 	DateOfBirth *date.Date `protobuf:"bytes,2,opt,name=date_of_birth,json=dateOfBirth,proto3" json:"date_of_birth,omitempty"`
 	// The ISO 3166-1 alpha-2 country code of the client's nationality/citizenship.
 	// This is the two-letter country code (e.g., "ZA" for South Africa,
 	// "NL" for the Netherlands). The value should be in uppercase.
-	//
 	// See https://www.iso.org/iso-3166-country-codes.html for a full list.
-	//
 	// Required for verification.
 	CountryOfCitizenship string `protobuf:"bytes,3,opt,name=country_of_citizenship,json=countryOfCitizenship,proto3" json:"country_of_citizenship,omitempty"`
 	// An identification number for the client, as found on the provided document.
 	// The format is dependent on the identification_document_type.
-	//
 	// Required for verification.
 	IdentificationNumber string `protobuf:"bytes,4,opt,name=identification_number,json=identificationNumber,proto3" json:"identification_number,omitempty"`
 	// The type of identification document provided to prove the correctness of the
 	// given identification_number (e.g., Passport, Driver's License).
-	//
 	// Required for verification.
 	IdentificationDocumentType IdentificationDocumentType `protobuf:"varint,5,opt,name=identification_document_type,json=identificationDocumentType,proto3,enum=meshtrade.compliance.client.v1.IdentificationDocumentType" json:"identification_document_type,omitempty"`
 	// The expiration date of the identification document, if applicable.
-	//
 	// Required for verification if the document has an expiry date.
 	IdentificationDocumentExpiryDate *date.Date `protobuf:"bytes,6,opt,name=identification_document_expiry_date,json=identificationDocumentExpiryDate,proto3" json:"identification_document_expiry_date,omitempty"`
 	// The client's primary physical residential address.
 	// If `postal_address` is not provided, this address will also be used for postal mail.
-	//
 	// Required for verification.
 	PhysicalAddress *v1.Address `protobuf:"bytes,7,opt,name=physical_address,json=physicalAddress,proto3" json:"physical_address,omitempty"`
 	// The client's status as a Politically Exposed Person (PEP).
 	// This is a mandatory check for regulatory compliance.
-	//
 	// Required for verification.
 	PepStatus PepStatus `protobuf:"varint,8,opt,name=pep_status,json=pepStatus,proto3,enum=meshtrade.compliance.client.v1.PepStatus" json:"pep_status,omitempty"`
 	// The client's postal address, if it is different from the physical address.
-	//
 	// Optional for verification.
 	PostalAddress *v1.Address `protobuf:"bytes,9,opt,name=postal_address,json=postalAddress,proto3" json:"postal_address,omitempty"`
 	// The individual's personal contact details (personal email, personal mobile).
-	//
 	// Optional for verification.
 	PersonalContactDetails *v1.ContactDetails `protobuf:"bytes,10,opt,name=personal_contact_details,json=personalContactDetails,proto3" json:"personal_contact_details,omitempty"`
 	unknownFields          protoimpl.UnknownFields

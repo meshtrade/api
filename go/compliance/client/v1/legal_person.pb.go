@@ -26,47 +26,38 @@ const (
 // LegalPerson represents the identity of a business, trust, or other non-individual entity.
 // It contains the core, verifiable components of the entity's identity used during
 // Know Your Business (KYB) checks.
-//
 // Note on Field Requirements: Fields marked as 'Required for verification' are essential
 // for a successful compliance check, but are not mandatory for creation.
 type LegalPerson struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The official, registered name of the legal person (e.g., the company or trust name
 	// as specified in its articles of incorporation).
-	//
 	// Required for verification.
 	RegisteredName string `protobuf:"bytes,1,opt,name=registered_name,json=registeredName,proto3" json:"registered_name,omitempty"`
 	// The legal form of the entity (e.g., LTD, PLC, BV).
-	//
 	// Required for verification.
 	LegalForm LegalPersonForm `protobuf:"varint,2,opt,name=legal_form,json=legalForm,proto3,enum=meshtrade.compliance.client.v1.LegalPersonForm" json:"legal_form,omitempty"`
 	// The official registration number assigned by the relevant companies registry.
 	// e.g., UK Companies House number, NL KVK-nummer, US EIN, or
 	// ZA CIPC Company Registration Number (e.g., 2024/123456/07).
-	//
 	// Conditionally required for verification, especially for corporate entities.
 	RegistrationNumber *string `protobuf:"bytes,3,opt,name=registration_number,json=registrationNumber,proto3,oneof" json:"registration_number,omitempty"`
 	// The primary tax identifier for the legal person.
 	// e.g., VAT number in the EU, TIN in the US, or
 	// ZA SARS Income Tax Reference Number (e.g., 9123456789).
-	//
 	// Optional for verification.
 	TaxIdentifier *string `protobuf:"bytes,4,opt,name=tax_identifier,json=taxIdentifier,proto3,oneof" json:"tax_identifier,omitempty"`
 	// The ISO 3166-1 alpha-2 country code of incorporation. This is the two-letter
 	// country code (e.g., "ZA" for South Africa, "NL" for the Netherlands).
 	// The value should be in uppercase.
-	//
 	// See https://www.iso.org/iso-3166-country-codes.html for a full list.
-	//
 	// Required for verification.
 	CountryOfIncorporation string `protobuf:"bytes,5,opt,name=country_of_incorporation,json=countryOfIncorporation,proto3" json:"country_of_incorporation,omitempty"`
 	// The date of incorporation or registration of the legal person.
-	//
 	// Required for verification.
 	DateOfIncorporation *date.Date `protobuf:"bytes,6,opt,name=date_of_incorporation,json=dateOfIncorporation,proto3" json:"date_of_incorporation,omitempty"`
 	// The official, legal address of the entity as recorded with the incorporation registry.
 	// This is the most critical address for verification purposes.
-	//
 	// Required for verification.
 	RegisteredAddress *v1.Address `protobuf:"bytes,7,opt,name=registered_address,json=registeredAddress,proto3" json:"registered_address,omitempty"`
 	// The principal physical location where the business operates from (principal place of business).

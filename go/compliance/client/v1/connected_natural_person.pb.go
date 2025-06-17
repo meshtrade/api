@@ -28,22 +28,18 @@ const (
 type ConnectedNaturalPerson struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The core identity of the connected natural person.
-	//
 	// Required for verification.
 	NaturalPerson *NaturalPerson `protobuf:"bytes,1,opt,name=natural_person,json=naturalPerson,proto3" json:"natural_person,omitempty"`
 	// The nature of the connection(s) of the natural person to the company.
 	// (e.g., Shareholder, Beneficial Owner, Partner etc.).
-	//
 	// Required for verification.
 	ConnectionTypes []NaturalPersonConnectionType `protobuf:"varint,2,rep,packed,name=connection_types,json=connectionTypes,proto3,enum=meshtrade.compliance.client.v1.NaturalPersonConnectionType" json:"connection_types,omitempty"`
 	// The percentage of direct or indirect ownership this person holds.
 	// e.g. a value of 25.5 represents 25.5% ownership.
-	//
 	// Required for verification (if connection types includes NATURAL_PERSON_CONNECTION_TYPE_SHAREHOLDER or similar ownership role)
 	OwnershipPercentage *float32 `protobuf:"fixed32,3,opt,name=ownership_percentage,json=ownershipPercentage,proto3,oneof" json:"ownership_percentage,omitempty"`
 	// The percentage of voting rights this person holds, which can differ from ownership.
 	// e.g. a value of 25.5 represents 25.5% ownership.
-	//
 	// Optional
 	VotingRightsPercentage *float32 `protobuf:"fixed32,4,opt,name=voting_rights_percentage,json=votingRightsPercentage,proto3,oneof" json:"voting_rights_percentage,omitempty"`
 	unknownFields          protoimpl.UnknownFields

@@ -28,26 +28,21 @@ const (
 type ConnectedLegalPerson struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The core identity of the connected legal person.
-	//
 	// Required for verification.
 	LegalPerson *LegalPerson `protobuf:"bytes,1,opt,name=legal_person,json=legalPerson,proto3" json:"legal_person,omitempty"`
 	// The nature of the connection(s) of the legal person to the company.
 	// (e.g., Shareholder, Guarantor etc.).
-	//
 	// Required for verification.
 	ConnectionTypes []LegalPersonConnectionType `protobuf:"varint,2,rep,packed,name=connection_types,json=connectionTypes,proto3,enum=meshtrade.compliance.client.v1.LegalPersonConnectionType" json:"connection_types,omitempty"`
 	// The percentage of direct or indirect ownership this person holds.
 	// e.g. a value of 25.5 represents 25.5% ownership.
-	//
 	// Required for verification (if the connection_types includes LEGAL_PERSON_CONNECTION_TYPE_SHAREHOLDER or similar ownership role)
 	OwnershipPercentage *float32 `protobuf:"fixed32,3,opt,name=ownership_percentage,json=ownershipPercentage,proto3,oneof" json:"ownership_percentage,omitempty"`
 	// The percentage of voting rights this person holds, which can differ from ownership.
 	// e.g. a value of 25.5 represents 25.5% ownership.
-	//
 	// Optional for verification.
 	VotingRightsPercentage *float32 `protobuf:"fixed32,4,opt,name=voting_rights_percentage,json=votingRightsPercentage,proto3,oneof" json:"voting_rights_percentage,omitempty"`
 	// A plain text description of the relationship.
-	//
 	// Optional for verification.
 	ConnectionDescription string `protobuf:"bytes,5,opt,name=connection_description,json=connectionDescription,proto3" json:"connection_description,omitempty"`
 	unknownFields         protoimpl.UnknownFields

@@ -22,7 +22,6 @@ const (
 )
 
 // Holds tax residency information for a single jurisdiction.
-//
 // Note on Required Fields: Fields marked as 'Required' are essential
 // for a successful compliance check, but are not mandatory for creation.
 type TaxResidency struct {
@@ -30,13 +29,10 @@ type TaxResidency struct {
 	// The ISO 3166-1 alpha-2 country code of the tax jurisdiction.
 	// This is the two-letter country code (e.g., "ZA" for South Africa,
 	// "NL" for the Netherlands). The value should be in uppercase.
-	//
 	// See https://www.iso.org/iso-3166-country-codes.html for a full list.
-	//
 	// Required for verification.
 	CountryCode string `protobuf:"bytes,1,opt,name=country_code,json=countryCode,proto3" json:"country_code,omitempty"`
 	// The Tax Identification Number (TIN) for the client in that jurisdiction.
-	//
 	// Required for verification.
 	Tin           string `protobuf:"bytes,2,opt,name=tin,proto3" json:"tin,omitempty"`
 	unknownFields protoimpl.UnknownFields

@@ -34,20 +34,16 @@ type Client struct {
 	// The resource name of the group that owns this client in the format groups/{group_id}.
 	// This field establishes the ownership link and can be updated if the client's ownership changes,
 	// without affecting the client's stable `name`.
-	//
 	// The executing user needs to have permission to perform client.Create in this group.
-	//
 	// Required on creation.
 	OwnerGroup string `protobuf:"bytes,2,opt,name=owner_group,json=ownerGroup,proto3" json:"owner_group,omitempty"`
 	// A non-unique, user-provided name for the client, used for display purposes
 	// in user interfaces and reports.
-	//
 	// Required on creation.
 	DisplayName string `protobuf:"bytes,3,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// Contains either the KYC or KYB information, defining if the client is an
 	// individual or a business. This choice is permanent and cannot be changed
 	// after the client is created.
-	//
 	// Required on creation.
 	//
 	// Types that are valid to be assigned to Info:
@@ -55,23 +51,19 @@ type Client struct {
 	//	*Client_KycInfo
 	//	*Client_KybInfo
 	Info isClient_Info `protobuf_oneof:"info"`
-	// The definitive, most recent compliance status of the client (e.g.,
-	// VERIFICATION_STATUS_VERIFIED, VERIFICATION_STATUS_FAILED).
+	// The definitive, most recent compliance status of the client (e.g., VERIFICATION_STATUS_VERIFIED, VERIFICATION_STATUS_FAILED).
 	// System controlled.
 	VerificationStatus VerificationStatus `protobuf:"varint,6,opt,name=verification_status,json=verificationStatus,proto3,enum=meshtrade.compliance.client.v1.VerificationStatus" json:"verification_status,omitempty"`
 	// The resource name of the client (acting as a verifier) that last set the
 	// `verification_status`. This provides an audit trail for status changes.
-	//
 	// System set when verification_status changes.
 	VerificationAuthorityName string `protobuf:"bytes,7,opt,name=verification_authority_name,json=verificationAuthorityName,proto3" json:"verification_authority_name,omitempty"`
 	// The timestamp when the `verification_status` was last set to a conclusive
 	// state, specifically `VERIFICATION_STATUS_VERIFIED`.
-	//
 	// System set when verification_status changes to VERIFICATION_STATUS_VERIFIED.
 	VerificationDate *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=verification_date,json=verificationDate,proto3" json:"verification_date,omitempty"`
 	// The timestamp indicating when the client's next periodic compliance review
 	// is due. This field drives re-verification workflows.
-	//
 	// Optional for Verification.
 	NextVerificationDate *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=next_verification_date,json=nextVerificationDate,proto3" json:"next_verification_date,omitempty"`
 	unknownFields        protoimpl.UnknownFields

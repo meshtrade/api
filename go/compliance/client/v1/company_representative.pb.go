@@ -26,7 +26,6 @@ const (
 // CompanyRepresentative models an individual acting in an official capacity for a legal entity.
 // This person is typically subject to KYC verification as part of the overall KYB process
 // for the legal entity they represent.
-//
 // Note on Field Requirements: Fields marked as 'Required for verification' are essential
 // for a successful compliance check, but are not mandatory for creation.
 type CompanyRepresentative struct {
@@ -34,31 +33,25 @@ type CompanyRepresentative struct {
 	// Details of the natural person that is the company representative.
 	// This contains the core personal identity information (name, residential address,
 	// ID document, personal contact details, etc.) required for their individual KYC check.
-	//
 	// Required for verification.
 	NaturalPerson *NaturalPerson `protobuf:"bytes,1,opt,name=natural_person,json=naturalPerson,proto3" json:"natural_person,omitempty"`
 	// The official role this person holds in relation to the company.
-	//
 	// Required for verification.
 	Role CompanyRepresentativeRole `protobuf:"varint,2,opt,name=role,proto3,enum=meshtrade.compliance.client.v1.CompanyRepresentativeRole" json:"role,omitempty"`
 	// The person's job title or position within the company (e.g., "CEO", "Managing Partner").
-	//
-	// Optional
+	// Optional for verification.
 	Position string `protobuf:"bytes,3,opt,name=position,proto3" json:"position,omitempty"`
 	// For UBOs and Shareholders, this specifies the percentage of ownership or voting rights.
 	// Should be a value between 0.0 and 100.0.
 	// Required by business logic if the role is ULTIMATE_BENEFICIAL_OWNER or SHAREHOLDER.
-	//
-	// Optional
+	// Optional for verification.
 	OwnershipPercentage float32 `protobuf:"fixed32,4,opt,name=ownership_percentage,json=ownershipPercentage,proto3" json:"ownership_percentage,omitempty"`
 	// The professional contact details for the representative in their capacity at the company
 	// (e.g., work email, work phone).
-	//
-	// Optional
+	// Optional for verification.
 	ProfessionalContactDetails *v1.ContactDetails `protobuf:"bytes,5,opt,name=professional_contact_details,json=professionalContactDetails,proto3" json:"professional_contact_details,omitempty"`
 	// The date when the person was appointed to this role.
-	//
-	// Optional
+	// Optional for verification.
 	DateOfAppointment *date.Date `protobuf:"bytes,6,opt,name=date_of_appointment,json=dateOfAppointment,proto3" json:"date_of_appointment,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache

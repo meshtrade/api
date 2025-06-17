@@ -251,9 +251,7 @@ this entity.
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | address_lines | [string](#string) | repeated | The unstructured lines of the address. This typically includes the street name, house number, apartment or suite number, and building name. It is recommended to have the most specific details (e.g., apartment number) in the first lines and the more general ones (e.g., street address) in the subsequent lines. Example: address_lines: 456 Oak Avenue, Apartment 3B, 123 Main Street. Required |
-| suburb | [string](#string) |  | An optional field for a neighborhood, district, or suburb within a city. The usage of this field can vary by country. Optional
-
-and here?? |
+| suburb | [string](#string) |  | An optional field for a neighborhood, district, or suburb within a city. The usage of this field can vary by country. Optional |
 | city | [string](#string) |  | The city, town, or village of the address. Required |
 | province | [string](#string) |  | The top-level administrative subdivision of a country, such as a state, province, region, or prefecture. Required |
 | country_code | [string](#string) |  | The ISO 3166-1 alpha-2 country code. This is the two-letter country code (e.g. &#34;ZA&#34; for South Africa, &#34;NL&#34; for the Netherlands). The value should be in uppercase. See https://www.iso.org/iso-3166-country-codes.html for a full list. Required |
@@ -288,31 +286,15 @@ A generic set of contact information for an individual or an entity.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| email_address | [string](#string) |  | Email address validated according to RFC 5322. Example: &#34;user@example.com&#34;
-
-Must be valid if provided. |
-| phone_number | [string](#string) |  | Phone number in E.164 international format. This consists of a &#39;&#43;&#39; sign followed by the country code and subscriber number. Example: &#34;&#43;14155552671&#34;
-
-Must be valid if provided. |
-| mobile_number | [string](#string) |  | Mobile phone number in E.164 international format. This consists of a &#39;&#43;&#39; sign followed by the country code and subscriber number. Example: &#34;&#43;14155552671&#34;
-
-Must be valid if provided. |
-| website | [string](#string) |  | The domain name of the website without the protocol (http or https). Any provided protocol will be stripped by services processing this entity. Example: &#34;www.mesh.trade&#34;
-
-Optional |
+| email_address | [string](#string) |  | Email address validated according to RFC 5322. Example: &#34;user@example.com&#34; Must be valid if provided. |
+| phone_number | [string](#string) |  | Phone number in E.164 international format. This consists of a &#39;&#43;&#39; sign followed by the country code and subscriber number. Example: &#34;&#43;14155552671&#34; Must be valid if provided. |
+| mobile_number | [string](#string) |  | Mobile phone number in E.164 international format. This consists of a &#39;&#43;&#39; sign followed by the country code and subscriber number. Example: &#34;&#43;14155552671&#34; Must be valid if provided. |
+| website | [string](#string) |  | The domain name of the website without the protocol (http or https). Any provided protocol will be stripped by services processing this entity. Example: &#34;www.mesh.trade&#34;. |
 | linkedin | [string](#string) |  | LinkedIn profile ID. This is the unique identifier found in the profile URL. Example for an individual: &#34;in/john-doe-12345678&#34; Example for a company: &#34;company/mesh-trade&#34; |
-| facebook | [string](#string) |  | Facebook profile username or ID. Example: &#34;Mesh.trade&#34;
-
-Optional |
-| instagram | [string](#string) |  | Instagram handle, without the &#39;@&#39; symbol. Example: &#34;mesh.trade&#34;
-
-Optional |
-| x_twitter | [string](#string) |  | X (formerly Twitter) handle, without the &#39;@&#39; symbol. Example: &#34;mesh_trade&#34;
-
-Optional |
-| youtube | [string](#string) |  | YouTube handle, without the &#39;@&#39; symbol. Example: &#34;Mesh_Trade&#34;
-
-Optional |
+| facebook | [string](#string) |  | Facebook profile username or ID. Example: &#34;Mesh.trade&#34; |
+| instagram | [string](#string) |  | Instagram handle, without the &#39;@&#39; symbol. Example: &#34;mesh.trade&#34; |
+| x_twitter | [string](#string) |  | X (formerly Twitter) handle, without the &#39;@&#39; symbol. Example: &#34;mesh_trade&#34; |
+| youtube | [string](#string) |  | YouTube handle, without the &#39;@&#39; symbol. Example: &#34;Mesh_Trade&#34; |
 
 
 
@@ -341,45 +323,22 @@ Optional |
 NaturalPerson is the identity of an individual person.
 It contains the core, verifiable components of an individual&#39;s identity. which are
 verified against their passport, utility bills, government records etc. during Know Your Client (KYC) checks.
-
 Note on Required Fields: Fields marked as &#39;Required&#39; are essential
 for a successful compliance check, but are not mandatory for creation.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| full_name | [string](#string) |  | The client&#39;s full legal name, as it appears on their official identification documents.
-
-Required for verification. |
-| date_of_birth | [google.type.Date](#google-type-Date) |  | The client&#39;s date of birth.
-
-Required for verification. |
-| country_of_citizenship | [string](#string) |  | The ISO 3166-1 alpha-2 country code of the client&#39;s nationality/citizenship. This is the two-letter country code (e.g., &#34;ZA&#34; for South Africa, &#34;NL&#34; for the Netherlands). The value should be in uppercase.
-
-See https://www.iso.org/iso-3166-country-codes.html for a full list.
-
-Required for verification. |
-| identification_number | [string](#string) |  | An identification number for the client, as found on the provided document. The format is dependent on the identification_document_type.
-
-Required for verification. |
-| identification_document_type | [IdentificationDocumentType](#meshtrade-compliance-client-v1-IdentificationDocumentType) |  | The type of identification document provided to prove the correctness of the given identification_number (e.g., Passport, Driver&#39;s License).
-
-Required for verification. |
-| identification_document_expiry_date | [google.type.Date](#google-type-Date) |  | The expiration date of the identification document, if applicable.
-
-Required for verification if the document has an expiry date. |
-| physical_address | [meshtrade.type.v1.Address](#meshtrade-type-v1-Address) |  | The client&#39;s primary physical residential address. If `postal_address` is not provided, this address will also be used for postal mail.
-
-Required for verification. |
-| pep_status | [PepStatus](#meshtrade-compliance-client-v1-PepStatus) |  | The client&#39;s status as a Politically Exposed Person (PEP). This is a mandatory check for regulatory compliance.
-
-Required for verification. |
-| postal_address | [meshtrade.type.v1.Address](#meshtrade-type-v1-Address) |  | The client&#39;s postal address, if it is different from the physical address.
-
-Optional for verification. |
-| personal_contact_details | [meshtrade.type.v1.ContactDetails](#meshtrade-type-v1-ContactDetails) |  | The individual&#39;s personal contact details (personal email, personal mobile).
-
-Optional for verification. |
+| full_name | [string](#string) |  | The client&#39;s full legal name, as it appears on their official identification documents. Required for verification. |
+| date_of_birth | [google.type.Date](#google-type-Date) |  | The client&#39;s date of birth. Required for verification. |
+| country_of_citizenship | [string](#string) |  | The ISO 3166-1 alpha-2 country code of the client&#39;s nationality/citizenship. This is the two-letter country code (e.g., &#34;ZA&#34; for South Africa, &#34;NL&#34; for the Netherlands). The value should be in uppercase. See https://www.iso.org/iso-3166-country-codes.html for a full list. Required for verification. |
+| identification_number | [string](#string) |  | An identification number for the client, as found on the provided document. The format is dependent on the identification_document_type. Required for verification. |
+| identification_document_type | [IdentificationDocumentType](#meshtrade-compliance-client-v1-IdentificationDocumentType) |  | The type of identification document provided to prove the correctness of the given identification_number (e.g., Passport, Driver&#39;s License). Required for verification. |
+| identification_document_expiry_date | [google.type.Date](#google-type-Date) |  | The expiration date of the identification document, if applicable. Required for verification if the document has an expiry date. |
+| physical_address | [meshtrade.type.v1.Address](#meshtrade-type-v1-Address) |  | The client&#39;s primary physical residential address. If `postal_address` is not provided, this address will also be used for postal mail. Required for verification. |
+| pep_status | [PepStatus](#meshtrade-compliance-client-v1-PepStatus) |  | The client&#39;s status as a Politically Exposed Person (PEP). This is a mandatory check for regulatory compliance. Required for verification. |
+| postal_address | [meshtrade.type.v1.Address](#meshtrade-type-v1-Address) |  | The client&#39;s postal address, if it is different from the physical address. Optional for verification. |
+| personal_contact_details | [meshtrade.type.v1.ContactDetails](#meshtrade-type-v1-ContactDetails) |  | The individual&#39;s personal contact details (personal email, personal mobile). Optional for verification. |
 
 
 
@@ -408,31 +367,18 @@ Optional for verification. |
 CompanyRepresentative models an individual acting in an official capacity for a legal entity.
 This person is typically subject to KYC verification as part of the overall KYB process
 for the legal entity they represent.
-
 Note on Field Requirements: Fields marked as &#39;Required for verification&#39; are essential
 for a successful compliance check, but are not mandatory for creation.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| natural_person | [NaturalPerson](#meshtrade-compliance-client-v1-NaturalPerson) |  | Details of the natural person that is the company representative. This contains the core personal identity information (name, residential address, ID document, personal contact details, etc.) required for their individual KYC check.
-
-Required for verification. |
-| role | [CompanyRepresentativeRole](#meshtrade-compliance-client-v1-CompanyRepresentativeRole) |  | The official role this person holds in relation to the company.
-
-Required for verification. |
-| position | [string](#string) |  | The person&#39;s job title or position within the company (e.g., &#34;CEO&#34;, &#34;Managing Partner&#34;).
-
-Optional |
-| ownership_percentage | [float](#float) |  | For UBOs and Shareholders, this specifies the percentage of ownership or voting rights. Should be a value between 0.0 and 100.0. Required by business logic if the role is ULTIMATE_BENEFICIAL_OWNER or SHAREHOLDER.
-
-Optional |
-| professional_contact_details | [meshtrade.type.v1.ContactDetails](#meshtrade-type-v1-ContactDetails) |  | The professional contact details for the representative in their capacity at the company (e.g., work email, work phone).
-
-Optional |
-| date_of_appointment | [google.type.Date](#google-type-Date) |  | The date when the person was appointed to this role.
-
-Optional |
+| natural_person | [NaturalPerson](#meshtrade-compliance-client-v1-NaturalPerson) |  | Details of the natural person that is the company representative. This contains the core personal identity information (name, residential address, ID document, personal contact details, etc.) required for their individual KYC check. Required for verification. |
+| role | [CompanyRepresentativeRole](#meshtrade-compliance-client-v1-CompanyRepresentativeRole) |  | The official role this person holds in relation to the company. Required for verification. |
+| position | [string](#string) |  | The person&#39;s job title or position within the company (e.g., &#34;CEO&#34;, &#34;Managing Partner&#34;). Optional for verification. |
+| ownership_percentage | [float](#float) |  | For UBOs and Shareholders, this specifies the percentage of ownership or voting rights. Should be a value between 0.0 and 100.0. Required by business logic if the role is ULTIMATE_BENEFICIAL_OWNER or SHAREHOLDER. Optional for verification. |
+| professional_contact_details | [meshtrade.type.v1.ContactDetails](#meshtrade-type-v1-ContactDetails) |  | The professional contact details for the representative in their capacity at the company (e.g., work email, work phone). Optional for verification. |
+| date_of_appointment | [google.type.Date](#google-type-Date) |  | The date when the person was appointed to this role. Optional for verification. |
 
 
 
@@ -496,36 +442,19 @@ LegalPersonForm defines the legal structure of the entity.
 LegalPerson represents the identity of a business, trust, or other non-individual entity.
 It contains the core, verifiable components of the entity&#39;s identity used during
 Know Your Business (KYB) checks.
-
 Note on Field Requirements: Fields marked as &#39;Required for verification&#39; are essential
 for a successful compliance check, but are not mandatory for creation.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| registered_name | [string](#string) |  | The official, registered name of the legal person (e.g., the company or trust name as specified in its articles of incorporation).
-
-Required for verification. |
-| legal_form | [LegalPersonForm](#meshtrade-compliance-client-v1-LegalPersonForm) |  | The legal form of the entity (e.g., LTD, PLC, BV).
-
-Required for verification. |
-| registration_number | [string](#string) | optional | The official registration number assigned by the relevant companies registry. e.g., UK Companies House number, NL KVK-nummer, US EIN, or ZA CIPC Company Registration Number (e.g., 2024/123456/07).
-
-Conditionally required for verification, especially for corporate entities. |
-| tax_identifier | [string](#string) | optional | The primary tax identifier for the legal person. e.g., VAT number in the EU, TIN in the US, or ZA SARS Income Tax Reference Number (e.g., 9123456789).
-
-Optional for verification. |
-| country_of_incorporation | [string](#string) |  | The ISO 3166-1 alpha-2 country code of incorporation. This is the two-letter country code (e.g., &#34;ZA&#34; for South Africa, &#34;NL&#34; for the Netherlands). The value should be in uppercase.
-
-See https://www.iso.org/iso-3166-country-codes.html for a full list.
-
-Required for verification. |
-| date_of_incorporation | [google.type.Date](#google-type-Date) |  | The date of incorporation or registration of the legal person.
-
-Required for verification. |
-| registered_address | [meshtrade.type.v1.Address](#meshtrade-type-v1-Address) |  | The official, legal address of the entity as recorded with the incorporation registry. This is the most critical address for verification purposes.
-
-Required for verification. |
+| registered_name | [string](#string) |  | The official, registered name of the legal person (e.g., the company or trust name as specified in its articles of incorporation). Required for verification. |
+| legal_form | [LegalPersonForm](#meshtrade-compliance-client-v1-LegalPersonForm) |  | The legal form of the entity (e.g., LTD, PLC, BV). Required for verification. |
+| registration_number | [string](#string) | optional | The official registration number assigned by the relevant companies registry. e.g., UK Companies House number, NL KVK-nummer, US EIN, or ZA CIPC Company Registration Number (e.g., 2024/123456/07). Conditionally required for verification, especially for corporate entities. |
+| tax_identifier | [string](#string) | optional | The primary tax identifier for the legal person. e.g., VAT number in the EU, TIN in the US, or ZA SARS Income Tax Reference Number (e.g., 9123456789). Optional for verification. |
+| country_of_incorporation | [string](#string) |  | The ISO 3166-1 alpha-2 country code of incorporation. This is the two-letter country code (e.g., &#34;ZA&#34; for South Africa, &#34;NL&#34; for the Netherlands). The value should be in uppercase. See https://www.iso.org/iso-3166-country-codes.html for a full list. Required for verification. |
+| date_of_incorporation | [google.type.Date](#google-type-Date) |  | The date of incorporation or registration of the legal person. Required for verification. |
+| registered_address | [meshtrade.type.v1.Address](#meshtrade-type-v1-Address) |  | The official, legal address of the entity as recorded with the incorporation registry. This is the most critical address for verification purposes. Required for verification. |
 | principal_physical_address | [meshtrade.type.v1.Address](#meshtrade-type-v1-Address) | optional | The principal physical location where the business operates from (principal place of business). Provide this if it is different from the registered address. |
 | postal_address | [meshtrade.type.v1.Address](#meshtrade-type-v1-Address) | optional | The preferred address for receiving mail and correspondence. Provide this if it is different from the registered address. |
 | head_office_address | [meshtrade.type.v1.Address](#meshtrade-type-v1-Address) | optional | The address of the head office of a business. Provide this if it is different from the registered address. |
@@ -596,21 +525,11 @@ for a successful compliance check, but are not mandatory for creation.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| legal_person | [LegalPerson](#meshtrade-compliance-client-v1-LegalPerson) |  | The core identity of the connected legal person.
-
-Required for verification. |
-| connection_types | [LegalPersonConnectionType](#meshtrade-compliance-client-v1-LegalPersonConnectionType) | repeated | The nature of the connection(s) of the legal person to the company. (e.g., Shareholder, Guarantor etc.).
-
-Required for verification. |
-| ownership_percentage | [float](#float) | optional | The percentage of direct or indirect ownership this person holds. e.g. a value of 25.5 represents 25.5% ownership.
-
-Required for verification (if the connection_types includes LEGAL_PERSON_CONNECTION_TYPE_SHAREHOLDER or similar ownership role) |
-| voting_rights_percentage | [float](#float) | optional | The percentage of voting rights this person holds, which can differ from ownership. e.g. a value of 25.5 represents 25.5% ownership.
-
-Optional for verification. |
-| connection_description | [string](#string) |  | A plain text description of the relationship.
-
-Optional for verification. |
+| legal_person | [LegalPerson](#meshtrade-compliance-client-v1-LegalPerson) |  | The core identity of the connected legal person. Required for verification. |
+| connection_types | [LegalPersonConnectionType](#meshtrade-compliance-client-v1-LegalPersonConnectionType) | repeated | The nature of the connection(s) of the legal person to the company. (e.g., Shareholder, Guarantor etc.). Required for verification. |
+| ownership_percentage | [float](#float) | optional | The percentage of direct or indirect ownership this person holds. e.g. a value of 25.5 represents 25.5% ownership. Required for verification (if the connection_types includes LEGAL_PERSON_CONNECTION_TYPE_SHAREHOLDER or similar ownership role) |
+| voting_rights_percentage | [float](#float) | optional | The percentage of voting rights this person holds, which can differ from ownership. e.g. a value of 25.5 represents 25.5% ownership. Optional for verification. |
+| connection_description | [string](#string) |  | A plain text description of the relationship. Optional for verification. |
 
 
 
@@ -688,18 +607,10 @@ for a successful compliance check, but are not mandatory for creation.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| natural_person | [NaturalPerson](#meshtrade-compliance-client-v1-NaturalPerson) |  | The core identity of the connected natural person.
-
-Required for verification. |
-| connection_types | [NaturalPersonConnectionType](#meshtrade-compliance-client-v1-NaturalPersonConnectionType) | repeated | The nature of the connection(s) of the natural person to the company. (e.g., Shareholder, Beneficial Owner, Partner etc.).
-
-Required for verification. |
-| ownership_percentage | [float](#float) | optional | The percentage of direct or indirect ownership this person holds. e.g. a value of 25.5 represents 25.5% ownership.
-
-Required for verification (if connection types includes NATURAL_PERSON_CONNECTION_TYPE_SHAREHOLDER or similar ownership role) |
-| voting_rights_percentage | [float](#float) | optional | The percentage of voting rights this person holds, which can differ from ownership. e.g. a value of 25.5 represents 25.5% ownership.
-
-Optional |
+| natural_person | [NaturalPerson](#meshtrade-compliance-client-v1-NaturalPerson) |  | The core identity of the connected natural person. Required for verification. |
+| connection_types | [NaturalPersonConnectionType](#meshtrade-compliance-client-v1-NaturalPersonConnectionType) | repeated | The nature of the connection(s) of the natural person to the company. (e.g., Shareholder, Beneficial Owner, Partner etc.). Required for verification. |
+| ownership_percentage | [float](#float) | optional | The percentage of direct or indirect ownership this person holds. e.g. a value of 25.5 represents 25.5% ownership. Required for verification (if connection types includes NATURAL_PERSON_CONNECTION_TYPE_SHAREHOLDER or similar ownership role) |
+| voting_rights_percentage | [float](#float) | optional | The percentage of voting rights this person holds, which can differ from ownership. e.g. a value of 25.5 represents 25.5% ownership. Optional |
 
 
 
@@ -768,42 +679,19 @@ four levels provides a complete and precise profile for risk assessment.
 ### KYBInfo
 KYBInfo is the Know Your Customer (KYB) information for an business client.
 This message is used to collect and verify the identity and financial profile a business.
-
 Note on Field Requirements: Fields marked as &#39;Required for verification&#39; are essential
 for a successful compliance check, but are not mandatory for creation.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| legal_person | [LegalPerson](#meshtrade-compliance-client-v1-LegalPerson) |  | The core identity of the legal person being onboarded.
-
-Required for verification. |
-| company_representatives | [CompanyRepresentative](#meshtrade-compliance-client-v1-CompanyRepresentative) | repeated | Company Representatives (The &#34;Actors&#34;)
-
-Represents individuals with a formal, appointed role who are empowered to act on behalf of the company (e.g., Directors, CEO, Authorized Signatories). This list answers the regulatory question: &#34;Who can legally bind this company?&#34; It is focused on operational control and representation.
-
-Required for verification. |
-| connected_natural_persons | [ConnectedNaturalPerson](#meshtrade-compliance-client-v1-ConnectedNaturalPerson) | repeated | Connected Natural Persons (The &#34;Beneficiaries&#34;)
-
-Represents the Ultimate Beneficial Owners (UBOs) – the individuals who ultimately own or profit from the company, especially those without a formal representative title. This list is the result of the &#34;look-through&#34; due diligence process and answers the question: &#34;Who ultimately benefits from and controls this company?&#34;
-
-Required for verification. |
-| connected_legal_persons | [ConnectedLegalPerson](#meshtrade-compliance-client-v1-ConnectedLegalPerson) | repeated | Connected Legal Persons (The &#34;Corporate Structure&#34;)
-
-Represents all non-human entities in the ownership chain (e.g., parent companies, holding companies, trusts). Each entity here requires its own recursive KYB check to map the full ownership structure. This list answers the question: &#34;What other companies own this company?&#34;
-
-NOTE: it is only necessary to connect other company details here if they do not form part of the hierarchy of clients on the Mesh platform.
-
-Required for verification (if the ownership structure includes other companies that are not present on Mesh). |
-| industry_classification | [IndustryClassification](#meshtrade-compliance-client-v1-IndustryClassification) |  | The industry classification of the business (e.g., using NACE, SIC codes). This is critical for risk assessment.
-
-Optional for verification. |
-| listed_exchange_code | [string](#string) |  | The stock exchange where the company is listed (e.g., &#34;NASDAQ&#34;, &#34;LSE&#34;).
-
-Optional for verification. |
-| listing_reference | [string](#string) |  | The reference/ticker symbol for the company on the exchange (e.g., &#34;GOOGL&#34;).
-
-Optional for verification. |
+| legal_person | [LegalPerson](#meshtrade-compliance-client-v1-LegalPerson) |  | The core identity of the legal person being onboarded. Required for verification. |
+| company_representatives | [CompanyRepresentative](#meshtrade-compliance-client-v1-CompanyRepresentative) | repeated | Company Representatives (The &#34;Actors&#34;). Represents individuals with a formal, appointed role who are empowered to act on behalf of the company (e.g., Directors, CEO, Authorized Signatories). This list answers the regulatory question: &#34;Who can legally bind this company?&#34; It is focused on operational control and representation. Required for verification. |
+| connected_natural_persons | [ConnectedNaturalPerson](#meshtrade-compliance-client-v1-ConnectedNaturalPerson) | repeated | Connected Natural Persons (The &#34;Beneficiaries&#34;). Represents the Ultimate Beneficial Owners (UBOs) – the individuals who ultimately own or profit from the company, especially those without a formal representative title. This list is the result of the &#34;look-through&#34; due diligence process and answers the question: &#34;Who ultimately benefits from and controls this company?&#34; Required for verification. |
+| connected_legal_persons | [ConnectedLegalPerson](#meshtrade-compliance-client-v1-ConnectedLegalPerson) | repeated | Connected Legal Persons (The &#34;Corporate Structure&#34;). Represents all non-human entities in the ownership chain (e.g., parent companies, holding companies, trusts). Each entity here requires its own recursive KYB check to map the full ownership structure. This list answers the question: &#34;What other companies own this company?&#34; NOTE: it is only necessary to connect other company details here if they do not form part of the hierarchy of clients on the Mesh platform. Required for verification (if the ownership structure includes other companies that are not present on Mesh). |
+| industry_classification | [IndustryClassification](#meshtrade-compliance-client-v1-IndustryClassification) |  | The industry classification of the business (e.g., using NACE, SIC codes). This is critical for risk assessment. Optional for verification. |
+| listed_exchange_code | [string](#string) |  | The stock exchange where the company is listed (e.g., &#34;NASDAQ&#34;, &#34;LSE&#34;). Optional for verification. |
+| listing_reference | [string](#string) |  | The reference/ticker symbol for the company on the exchange (e.g., &#34;GOOGL&#34;). Optional for verification. |
 
 
 
@@ -880,21 +768,14 @@ This is used for compliance and due diligence purposes.
 
 ### TaxResidency
 Holds tax residency information for a single jurisdiction.
-
 Note on Required Fields: Fields marked as &#39;Required&#39; are essential
 for a successful compliance check, but are not mandatory for creation.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| country_code | [string](#string) |  | The ISO 3166-1 alpha-2 country code of the tax jurisdiction. This is the two-letter country code (e.g., &#34;ZA&#34; for South Africa, &#34;NL&#34; for the Netherlands). The value should be in uppercase.
-
-See https://www.iso.org/iso-3166-country-codes.html for a full list.
-
-Required for verification. |
-| tin | [string](#string) |  | The Tax Identification Number (TIN) for the client in that jurisdiction.
-
-Required for verification. |
+| country_code | [string](#string) |  | The ISO 3166-1 alpha-2 country code of the tax jurisdiction. This is the two-letter country code (e.g., &#34;ZA&#34; for South Africa, &#34;NL&#34; for the Netherlands). The value should be in uppercase. See https://www.iso.org/iso-3166-country-codes.html for a full list. Required for verification. |
+| tin | [string](#string) |  | The Tax Identification Number (TIN) for the client in that jurisdiction. Required for verification. |
 
 
 
@@ -922,25 +803,16 @@ Required for verification. |
 ### KYCInfo
 KYCInfo represents the Know Your Customer (KYC) information for an individual client.
 This message is used to collect and verify the identity and financial profile of a person.
-
 Note on Field Requirements: Fields marked as &#39;Required for verification&#39; are essential
 for a successful compliance check, but are not mandatory for creation.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| natural_person | [NaturalPerson](#meshtrade-compliance-client-v1-NaturalPerson) |  | Details of the natural person represented by this kyc profile. This contains the core identity information (name, DOB, address, identity document etc.).
-
-Required for verification. |
-| sources_of_income | [SourceOfIncomeAndWealth](#meshtrade-compliance-client-v1-SourceOfIncomeAndWealth) | repeated | The primary sources of the client&#39;s regular income (e.g., employment, pension).
-
-Required for verification. |
-| sources_of_wealth | [SourceOfIncomeAndWealth](#meshtrade-compliance-client-v1-SourceOfIncomeAndWealth) | repeated | The origins of the client&#39;s total net worth or assets (e.g., inheritance, investments). This is distinct from the source of income.
-
-Required for verification. |
-| tax_residencies | [TaxResidency](#meshtrade-compliance-client-v1-TaxResidency) | repeated | The client&#39;s tax residency information, required for CRS/FATCA reporting. A client can be a tax resident in multiple jurisdictions.
-
-Required for verification. |
+| natural_person | [NaturalPerson](#meshtrade-compliance-client-v1-NaturalPerson) |  | Details of the natural person represented by this kyc profile. This contains the core identity information (name, DOB, address, identity document etc.). Required for verification. |
+| sources_of_income | [SourceOfIncomeAndWealth](#meshtrade-compliance-client-v1-SourceOfIncomeAndWealth) | repeated | The primary sources of the client&#39;s regular income (e.g., employment, pension). Required for verification. |
+| sources_of_wealth | [SourceOfIncomeAndWealth](#meshtrade-compliance-client-v1-SourceOfIncomeAndWealth) | repeated | The origins of the client&#39;s total net worth or assets (e.g., inheritance, investments). This is distinct from the source of income. Required for verification. |
+| tax_residencies | [TaxResidency](#meshtrade-compliance-client-v1-TaxResidency) | repeated | The client&#39;s tax residency information, required for CRS/FATCA reporting. A client can be a tax resident in multiple jurisdictions. Required for verification. |
 
 
 
@@ -1005,26 +877,14 @@ and verification status related to a single party.
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | name | [string](#string) |  | The unique, immutable, and canonical name of the client resource in the format clients/{client_id}. The {client_id} is a system-generated unique identifier (e.g., UUID) that will never change. This name field will never change and should be used as the permanent primary key for this resource in all systems. System set on creation. |
-| owner_group | [string](#string) |  | The resource name of the group that owns this client in the format groups/{group_id}. This field establishes the ownership link and can be updated if the client&#39;s ownership changes, without affecting the client&#39;s stable `name`.
-
-The executing user needs to have permission to perform client.Create in this group.
-
-Required on creation. |
-| display_name | [string](#string) |  | A non-unique, user-provided name for the client, used for display purposes in user interfaces and reports.
-
-Required on creation. |
+| owner_group | [string](#string) |  | The resource name of the group that owns this client in the format groups/{group_id}. This field establishes the ownership link and can be updated if the client&#39;s ownership changes, without affecting the client&#39;s stable `name`. The executing user needs to have permission to perform client.Create in this group. Required on creation. |
+| display_name | [string](#string) |  | A non-unique, user-provided name for the client, used for display purposes in user interfaces and reports. Required on creation. |
 | kyc_info | [KYCInfo](#meshtrade-compliance-client-v1-KYCInfo) |  |  |
 | kyb_info | [KYBInfo](#meshtrade-compliance-client-v1-KYBInfo) |  |  |
 | verification_status | [VerificationStatus](#meshtrade-compliance-client-v1-VerificationStatus) |  | The definitive, most recent compliance status of the client (e.g., VERIFICATION_STATUS_VERIFIED, VERIFICATION_STATUS_FAILED). System controlled. |
-| verification_authority_name | [string](#string) |  | The resource name of the client (acting as a verifier) that last set the `verification_status`. This provides an audit trail for status changes.
-
-System set when verification_status changes. |
-| verification_date | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  | The timestamp when the `verification_status` was last set to a conclusive state, specifically `VERIFICATION_STATUS_VERIFIED`.
-
-System set when verification_status changes to VERIFICATION_STATUS_VERIFIED. |
-| next_verification_date | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  | The timestamp indicating when the client&#39;s next periodic compliance review is due. This field drives re-verification workflows.
-
-Optional for Verification. |
+| verification_authority_name | [string](#string) |  | The resource name of the client (acting as a verifier) that last set the `verification_status`. This provides an audit trail for status changes. System set when verification_status changes. |
+| verification_date | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  | The timestamp when the `verification_status` was last set to a conclusive state, specifically `VERIFICATION_STATUS_VERIFIED`. System set when verification_status changes to VERIFICATION_STATUS_VERIFIED. |
+| next_verification_date | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  | The timestamp indicating when the client&#39;s next periodic compliance review is due. This field drives re-verification workflows. Optional for Verification. |
 
 
 
