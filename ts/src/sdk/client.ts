@@ -24,6 +24,7 @@ export class Client {
     // construct services
     this._instrument = new Instrument(args);
     this._legal = new Legal(args);
+    // TODO funding client
   }
 
   public get instrument(): Instrument {
