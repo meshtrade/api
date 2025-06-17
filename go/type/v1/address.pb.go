@@ -23,7 +23,6 @@ const (
 
 // Address represents a physical postal address. It is designed to be flexible enough
 // to accommodate various international address formats.
-//
 // Validation rules given are a guideline.
 // A conclusive set of validation rules for an address can be found with the service/type using
 // this entity.
@@ -34,37 +33,28 @@ type Address struct {
 	// It is recommended to have the most specific details (e.g., apartment number)
 	// in the first lines and the more general ones (e.g., street address) in the
 	// subsequent lines.
-	//
-	// Example:
-	// address_lines: 456 Oak Avenue, Apartment 3B, 123 Main Street
-	//
+	// Example: address_lines: 456 Oak Avenue, Apartment 3B, 123 Main Street.
 	// Required
 	AddressLines []string `protobuf:"bytes,1,rep,name=address_lines,json=addressLines,proto3" json:"address_lines,omitempty"`
 	// An optional field for a neighborhood, district, or suburb within a city.
 	// The usage of this field can vary by country.
-	//
 	// Optional
-	Suburb string `protobuf:"bytes,2,opt,name=suburb,proto3" json:"suburb,omitempty"`
+	Suburb string `protobuf:"bytes,2,opt,name=suburb,proto3" json:"suburb,omitempty"` // and here??
 	// The city, town, or village of the address.
-	//
 	// Required
 	City string `protobuf:"bytes,3,opt,name=city,proto3" json:"city,omitempty"`
 	// The top-level administrative subdivision of a country, such as a state,
 	// province, region, or prefecture.
-	//
 	// Required
 	Province string `protobuf:"bytes,4,opt,name=province,proto3" json:"province,omitempty"`
 	// The ISO 3166-1 alpha-2 country code.
 	// This is the two-letter country code (e.g. "ZA" for South Africa,
 	// "NL" for the Netherlands). The value should be in uppercase.
-	//
 	// See https://www.iso.org/iso-3166-country-codes.html for a full list.
-	//
 	// Required
 	CountryCode string `protobuf:"bytes,5,opt,name=country_code,json=countryCode,proto3" json:"country_code,omitempty"`
 	// The postal code or ZIP code of the address.
 	// Although optional, strongly recommended where applicable.
-	//
 	// Optional
 	PostalCode    string `protobuf:"bytes,6,opt,name=postal_code,json=postalCode,proto3" json:"postal_code,omitempty"`
 	unknownFields protoimpl.UnknownFields

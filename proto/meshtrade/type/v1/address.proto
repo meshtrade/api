@@ -7,7 +7,6 @@ option go_package = "github.com/meshtrade/api/go/type/v1;typev1";
 /*
    Address represents a physical postal address. It is designed to be flexible enough
    to accommodate various international address formats.
-
    Validation rules given are a guideline.
    A conclusive set of validation rules for an address can be found with the service/type using
    this entity.
@@ -19,10 +18,7 @@ message Address {
      It is recommended to have the most specific details (e.g., apartment number)
      in the first lines and the more general ones (e.g., street address) in the
      subsequent lines.
-
-     Example:
-     address_lines: 456 Oak Avenue, Apartment 3B, 123 Main Street
-
+     Example: address_lines: 456 Oak Avenue, Apartment 3B, 123 Main Street.
      Required
   */
   repeated string address_lines = 1;
@@ -30,14 +26,12 @@ message Address {
   /*
      An optional field for a neighborhood, district, or suburb within a city.
      The usage of this field can vary by country.
-
      Optional
   */
   string suburb = 2;
 
   /*
      The city, town, or village of the address.
-
      Required
   */
   string city = 3;
@@ -45,7 +39,6 @@ message Address {
   /*
      The top-level administrative subdivision of a country, such as a state,
      province, region, or prefecture.
-
      Required
   */
   string province = 4;
@@ -54,9 +47,7 @@ message Address {
      The ISO 3166-1 alpha-2 country code.
      This is the two-letter country code (e.g. "ZA" for South Africa,
      "NL" for the Netherlands). The value should be in uppercase.
-
      See https://www.iso.org/iso-3166-country-codes.html for a full list.
-
      Required
   */
   string country_code = 5;
@@ -64,7 +55,6 @@ message Address {
   /*
      The postal code or ZIP code of the address.
      Although optional, strongly recommended where applicable.
-
      Optional
   */
   string postal_code = 6;

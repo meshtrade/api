@@ -11,7 +11,6 @@ message ContactDetails {
   /*
      Email address validated according to RFC 5322.
      Example: "user@example.com"
-
      Must be valid if provided.
   */
   string email_address = 1;
@@ -20,7 +19,6 @@ message ContactDetails {
      Phone number in E.164 international format.
      This consists of a '+' sign followed by the country code and subscriber number.
      Example: "+14155552671"
-
      Must be valid if provided.
   */
   string phone_number = 3;
@@ -29,7 +27,6 @@ message ContactDetails {
      Mobile phone number in E.164 international format.
      This consists of a '+' sign followed by the country code and subscriber number.
      Example: "+14155552671"
-
      Must be valid if provided.
   */
   string mobile_number = 5;
@@ -37,9 +34,7 @@ message ContactDetails {
   /*
      The domain name of the website without the protocol (http or https).
      Any provided protocol will be stripped by services processing this entity.
-     Example: "www.mesh.trade"
-
-     Optional
+     Example: "www.mesh.trade".
   */
   string website = 6;
 
@@ -53,32 +48,24 @@ message ContactDetails {
   /*
      Facebook profile username or ID.
      Example: "Mesh.trade"
-
-     Optional
   */
   string facebook = 8;
 
   /*
      Instagram handle, without the '@' symbol.
      Example: "mesh.trade"
-
-     Optional
   */
   string instagram = 9;
 
   /*
      X (formerly Twitter) handle, without the '@' symbol.
      Example: "mesh_trade"
-
-     Optional
   */
   string x_twitter = 10;
 
   /*
-      YouTube handle, without the '@' symbol.
+     YouTube handle, without the '@' symbol.
      Example: "Mesh_Trade"
-
-     Optional
   */
   string youtube = 11;
 }

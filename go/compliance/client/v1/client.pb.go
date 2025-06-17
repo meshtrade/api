@@ -28,11 +28,7 @@ const (
 type Client struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The unique, immutable, and canonical name of the client resource in the format clients/{client_id}.
-	// The {client_id} is a system-generated unique identifier (e.g., UUID) that
-	// will never change.
-	// This name field will never change and should be used as the permanent primary key
-	// for this resource in all systems.
-	//
+	// The {client_id} is a system-generated unique identifier (e.g., UUID) that will never change. This name field will never change and should be used as the permanent primary key for this resource in all systems.
 	// System set on creation.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// The resource name of the group that owns this client in the format groups/{group_id}.

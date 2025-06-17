@@ -14,21 +14,18 @@ option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
    NaturalPerson is the identity of an individual person.
    It contains the core, verifiable components of an individual's identity. which are
    verified against their passport, utility bills, government records etc. during Know Your Client (KYC) checks.
-
    Note on Required Fields: Fields marked as 'Required' are essential
    for a successful compliance check, but are not mandatory for creation.
 */
 message NaturalPerson {
   /*
      The client's full legal name, as it appears on their official identification documents.
-
      Required for verification.
   */
   string full_name = 1;
 
   /*
      The client's date of birth.
-
      Required for verification.
   */
   google.type.Date date_of_birth = 2;
@@ -37,9 +34,7 @@ message NaturalPerson {
      The ISO 3166-1 alpha-2 country code of the client's nationality/citizenship.
      This is the two-letter country code (e.g., "ZA" for South Africa,
      "NL" for the Netherlands). The value should be in uppercase.
-
      See https://www.iso.org/iso-3166-country-codes.html for a full list.
-
      Required for verification.
   */
   string country_of_citizenship = 3;
@@ -47,7 +42,6 @@ message NaturalPerson {
   /*
      An identification number for the client, as found on the provided document.
      The format is dependent on the identification_document_type.
-
      Required for verification.
   */
   string identification_number = 4;
@@ -55,14 +49,12 @@ message NaturalPerson {
   /*
      The type of identification document provided to prove the correctness of the
      given identification_number (e.g., Passport, Driver's License).
-
      Required for verification.
   */
   meshtrade.compliance.client.v1.IdentificationDocumentType identification_document_type = 5;
 
   /*
      The expiration date of the identification document, if applicable.
-
      Required for verification if the document has an expiry date.
   */
   google.type.Date identification_document_expiry_date = 6;
@@ -70,7 +62,6 @@ message NaturalPerson {
   /*
      The client's primary physical residential address.
      If `postal_address` is not provided, this address will also be used for postal mail.
-
      Required for verification.
   */
   meshtrade.type.v1.Address physical_address = 7;
@@ -78,21 +69,18 @@ message NaturalPerson {
   /*
      The client's status as a Politically Exposed Person (PEP).
      This is a mandatory check for regulatory compliance.
-
      Required for verification.
   */
   meshtrade.compliance.client.v1.PepStatus pep_status = 8;
 
   /*
      The client's postal address, if it is different from the physical address.
-
      Optional for verification.
   */
   meshtrade.type.v1.Address postal_address = 9;
 
   /*
      The individual's personal contact details (personal email, personal mobile).
-
      Optional for verification.
   */
   meshtrade.type.v1.ContactDetails personal_contact_details = 10;

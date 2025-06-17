@@ -6,7 +6,6 @@ option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
 
 /*
    Holds tax residency information for a single jurisdiction.
-
    Note on Required Fields: Fields marked as 'Required' are essential
    for a successful compliance check, but are not mandatory for creation.
 */
@@ -15,16 +14,13 @@ message TaxResidency {
      The ISO 3166-1 alpha-2 country code of the tax jurisdiction.
      This is the two-letter country code (e.g., "ZA" for South Africa,
      "NL" for the Netherlands). The value should be in uppercase.
-
      See https://www.iso.org/iso-3166-country-codes.html for a full list.
-
      Required for verification.
   */
   string country_code = 1;
 
   /*
      The Tax Identification Number (TIN) for the client in that jurisdiction.
-
      Required for verification.
   */
   string tin = 2;
