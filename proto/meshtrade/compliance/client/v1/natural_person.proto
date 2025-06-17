@@ -67,21 +67,21 @@ message NaturalPerson {
   meshtrade.type.v1.Address physical_address = 7;
 
   /*
+     The client's postal address, if it is different from the physical address.
+     Optional for verification.
+  */
+  meshtrade.type.v1.Address postal_address = 8;
+
+  /*
      The client's status as a Politically Exposed Person (PEP).
      This is a mandatory check for regulatory compliance.
      Required for verification.
   */
-  meshtrade.compliance.client.v1.PepStatus pep_status = 8;
-
-  /*
-     The client's postal address, if it is different from the physical address.
-     Optional for verification.
-  */
-  meshtrade.type.v1.Address postal_address = 9;
+  meshtrade.compliance.client.v1.PepStatus pep_status = 9;
 
   /*
      The individual's personal contact details (personal email, personal mobile).
      Optional for verification.
   */
-  meshtrade.type.v1.ContactDetails personal_contact_details = 10;
+  meshtrade.type.v1.ContactDetails contact_details = 10;
 }

@@ -1,6 +1,6 @@
-# Mesh API Monorepo
+# Mesh API
 
-Welcome to the Mesh API monorepo - the central hub containing our API definitions and integration SDKs.
+Welcome to the Mesh API Documentation - the central hub containing our API definitions and integration SDKs.
 
 Our APIs are exposed over [gRPC](https://grpc.io/). To facilitate seamless integration we provide [API integration SDKs](#api-integration-sdks) in a number of languages.
 

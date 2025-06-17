@@ -1,4 +1,5 @@
 ---
+parent: API Integration SDKs
 title: Go
 layout: page
 ---
