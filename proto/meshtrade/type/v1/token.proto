@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package meshtrade.type.v1;
 
-import "meshtrade/type/v1/network.proto";
+import "meshtrade/type/v1/ledger.proto";
 
 option go_package = "github.com/meshtrade/api/go/type/v1;typev1";
 
@@ -17,15 +17,15 @@ option go_package = "github.com/meshtrade/api/go/type/v1;typev1";
 message Token {
   /*
      The commonly accepted symbol, ticker, or code for the token (e.g., "BTC", "ETH", "USDC").
-     It is not unique without the `issuer` and `network`.
+     It is not unique without the `issuer` and `ledger`.
      Required field.
   */
   string code = 1;
 
   /*
      Issuer is a reference to issuing entity of the token.
-     For NATIVE assets on a network (e.g., ETH on Ethereum), the issuer is the network itself,
-     represented by the reserved string __NETWORK__.
+     For NATIVE assets on a ledger (e.g., ETH on Ethereum), the issuer is the ledger itself,
+     represented by the reserved string __LEDGER__.
      For ALL other issued assets (e.g., ERC-20 tokens), this is the unique identifier of the issuing entity,
      such as a smart contract address on Ethereum or an issuance account public key on Stellar.
      Required field.
@@ -33,10 +33,10 @@ message Token {
   string issuer = 2;
 
   /*
-     The ledger network on which the token exists. This field disambiguates
+     The ledger ledger on which the token exists. This field disambiguates
      assets that may share a code and issuer across different chains
      (e.g., USDC on Ethereum vs. USDC on Polygon).
      Required field.
   */
-  meshtrade.type.v1.Network network = 3;
+  meshtrade.type.v1.Ledger ledger = 3;
 }

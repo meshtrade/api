@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package meshtrade.type.v1;
+
+option go_package = "github.com/meshtrade/api/go/type/v1;typev1";
+
+/*
+   Ledger represents the various distributed and centralized systems that Mesh
+   interacts with where value is accounted for. The term "Ledger" is used
+   inclusively to cover both blockchain and other value-tracking systems.
+   Note that numbering is not sequential for legacy reasons.
+*/
+enum Ledger {
+  /*
+     Indicates an unknown or unspecified ledger. This default value helps
+     prevent accidental assignment and should not be used in practice.
+  */
+  LEDGER_UNSPECIFIED = 0;
+
+  /*
+     The Stellar public ledger network.
+     See: https://stellar.org
+  */
+  LEDGER_STELLAR = 3;
+
+  /*
+     The Bitcoin public ledger network.
+     See: https://bitcoin.org
+  */
+  LEDGER_BITCOIN = 5;
+
+  /*
+     The Litecoin public ledger network.
+     See: https://litecoin.org
+  */
+  LEDGER_LITECOIN = 7;
+
+  /*
+     The Ethereum public ledger network.
+     See: https://ethereum.org
+  */
+  LEDGER_ETHEREUM = 9;
+
+  /*
+     The XRP Ledger (formerly Ripple).
+     See: https://xrpl.org
+  */
+  LEDGER_XRP = 11;
+
+  /*
+     The proprietary ledger for the SA Stockbrokers platform.
+  */
+  LEDGER_SA_STOCK_BROKERS = 15;
+
+  /*
+     A null ledger, used as a placeholder for assets that do not have
+     an external or on-chain accounting ledger.
+  */
+  LEDGER_NULL = 16;
+}
