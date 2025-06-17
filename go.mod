@@ -1,4 +1,4 @@
-module github.com/meshtrade/api/go
+module github.com/meshtrade/api
 
 go 1.24.3
 
