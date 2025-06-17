@@ -22,7 +22,10 @@ buf lint
 The following style rules are to be followed in addition to the basic linting rules enforced by the buf cli tool.
 
 #### 2.1.1 Comments
-Comments should be specified with block/multi-line comments instead of inline in order to not break [the auto doc generation tool](https://buf.build/community/pseudomuto-doc).
+Documentation for the protobuf files are generated using [this auto doc generation tool](https://buf.build/community/pseudomuto-doc).
+Additional rules need to be followed when writing comments to deal with limitations of this tool.
+
+- Comments should be specified with block/multi-line comments instead of inline:
 ```
 /*
    Block comment for this message.
@@ -34,6 +37,32 @@ message Client {
   string name = 1;
 
   // Inline comment for this field. <--- BAD STYLE
+  string email = 2;
+}
+```
+
+- Comments should be WITHOUT any empty lines. This is necessary also due to a limitation in the 
+```
+/*
+   Line 1
+   Line 2
+   Line 3
+*/ <--- GOOD STYLE
+message Client {
+  /*
+   Line 1
+   Line 2
+   Line 3
+  */ <--- GOOD STYLE
+  string name = 1;
+
+    /*
+   Line 1
+
+   Line 2
+   
+   Line 3
+  */ <--- BAD STYLE
   string email = 2;
 }
 ```
