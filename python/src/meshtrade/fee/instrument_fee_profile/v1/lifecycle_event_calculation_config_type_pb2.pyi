@@ -1,0 +1,14 @@
+from google.protobuf.internal import enum_type_wrapper as _enum_type_wrapper
+from google.protobuf import descriptor as _descriptor
+from typing import ClassVar as _ClassVar
+
+DESCRIPTOR: _descriptor.FileDescriptor
+
+class LifecycleEventCalculationConfigType(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    LIFECYCLE_EVENT_CALCULATION_CONFIG_TYPE_UNSPECIFIED: _ClassVar[LifecycleEventCalculationConfigType]
+    LIFECYCLE_EVENT_CALCULATION_CONFIG_TYPE_AMOUNT: _ClassVar[LifecycleEventCalculationConfigType]
+    LIFECYCLE_EVENT_CALCULATION_CONFIG_TYPE_RATE: _ClassVar[LifecycleEventCalculationConfigType]
+LIFECYCLE_EVENT_CALCULATION_CONFIG_TYPE_UNSPECIFIED: LifecycleEventCalculationConfigType
+LIFECYCLE_EVENT_CALCULATION_CONFIG_TYPE_AMOUNT: LifecycleEventCalculationConfigType
+LIFECYCLE_EVENT_CALCULATION_CONFIG_TYPE_RATE: LifecycleEventCalculationConfigType

@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package meshtrade.fee.instrument_fee_profile.v1;
+
+option go_package = "github.com/meshtrade/api/go/fee/instrument_fee_profile/v1;instrument_fee_profilev1";
+
+/*
+   LifecycleEventCategory defines the different types of lifecycle events that can trigger a Fee.
+*/
+enum LifecycleEventCategory {
+  /*
+     Unknown or not specified.
+     This is a a default value to prevent accidental assignment and should not be used.
+  */
+  LIFECYCLE_EVENT_CATEGORY_UNSPECIFIED = 0;
+  LIFECYCLE_EVENT_CATEGORY_LISTING = 1;
+  LIFECYCLE_EVENT_CATEGORY_PRIMARY_MARKET_SETTLEMENT = 2;
+}

@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package meshtrade.fee.instrument_fee_profile.v1;
+
+import "meshtrade/type/v1/amount.proto";
+
+option go_package = "github.com/meshtrade/api/go/fee/instrument_fee_profile/v1;instrument_fee_profilev1";
+
+/*
+   AmountLifecycleEventCalculationConfig is the calculation data for a
+   lifecycle Fee with a fixed amount.
+   This is used for flat lifecycle event fees that do not depend on a
+   variable base amount and percentage for calculation.
+
+   @bson-marshalled
+*/
+message AmountLifecycleEventCalculationConfig {
+  /*
+     Amount is the fixed (pre-tax) fee amount charged on the lifecycle event.
+  */
+  meshtrade.type.v1.Amount amount = 1;
+}

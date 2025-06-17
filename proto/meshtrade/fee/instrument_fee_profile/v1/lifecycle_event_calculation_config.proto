@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package meshtrade.fee.instrument_fee_profile.v1;
+
+import "meshtrade/fee/instrument_fee_profile/v1/lifecycle_event_calculation_config_amount.proto";
+import "meshtrade/fee/instrument_fee_profile/v1/lifecycle_event_calculation_config_rate.proto";
+
+option go_package = "github.com/meshtrade/api/go/fee/instrument_fee_profile/v1;instrument_fee_profilev1";
+
+/*
+   LifecycleEventCalculationConfig is the calculation configuration that is use to calculate
+   the Fee amount.
+
+   @bson-marshalled
+*/
+message LifecycleEventCalculationConfig {
+  oneof lifecycle_event_calculation_config {
+    meshtrade.fee.instrument_fee_profile.v1.AmountLifecycleEventCalculationConfig amount_lifecycle_event_calculation_config = 1;
+    meshtrade.fee.instrument_fee_profile.v1.RateLifecycleEventCalculationConfig rate_lifecycle_event_calculation_config = 2;
+  }
+}
