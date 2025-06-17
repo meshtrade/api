@@ -14,8 +14,6 @@ option go_package = "github.com/meshtrade/api/go/fee/instrument_fee_profile/v1;i
    primary market settlement amount or subscription order book
    target raise not yet known with certainty at the time of
    setting up the Instrument's FeeProfile.
-
-   @bson-marshalled
 */
 message RateLifecycleEventCalculationConfig {
   /*

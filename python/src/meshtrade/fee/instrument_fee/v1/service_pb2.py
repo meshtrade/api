@@ -23,11 +23,11 @@ _sym_db = _symbol_database.Default()
 
 
 from meshtrade.fee.instrument_fee.v1 import instrument_fee_pb2 as meshtrade_dot_fee_dot_instrument__fee_dot_v1_dot_instrument__fee__pb2
-from meshtrade.fee.instrument_fee.v1 import lifecycle_event_category_pb2 as meshtrade_dot_fee_dot_instrument__fee_dot_v1_dot_lifecycle__event__category__pb2
+from meshtrade.fee.instrument_fee_profile.v1 import lifecycle_event_category_pb2 as meshtrade_dot_fee_dot_instrument__fee__profile_dot_v1_dot_lifecycle__event__category__pb2
 from meshtrade.type.v1 import amount_pb2 as meshtrade_dot_type_dot_v1_dot_amount__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n-meshtrade/fee/instrument_fee/v1/service.proto\x12\x1fmeshtrade.fee.instrument_fee.v1\x1a\x34meshtrade/fee/instrument_fee/v1/instrument_fee.proto\x1a>meshtrade/fee/instrument_fee/v1/lifecycle_event_category.proto\x1a\x1emeshtrade/type/v1/amount.proto\"\r\n\x0bListRequest\"R\n\x0cListResponse\x12\x42\n\x04\x66\x65\x65s\x18\x01 \x03(\x0b\x32..meshtrade.fee.instrument_fee.v1.InstrumentFeeR\x04\x66\x65\x65s\"P\n\x1b\x43\x61lculateMintingFeesRequest\x12\x31\n\x06\x61mount\x18\x01 \x01(\x0b\x32\x19.meshtrade.type.v1.AmountR\x06\x61mount\"b\n\x1c\x43\x61lculateMintingFeesResponse\x12\x42\n\x04\x66\x65\x65s\x18\x01 \x03(\x0b\x32..meshtrade.fee.instrument_fee.v1.InstrumentFeeR\x04\x66\x65\x65s\"P\n\x1b\x43\x61lculateBurningFeesRequest\x12\x31\n\x06\x61mount\x18\x01 \x01(\x0b\x32\x19.meshtrade.type.v1.AmountR\x06\x61mount\"b\n\x1c\x43\x61lculateBurningFeesResponse\x12\x42\n\x04\x66\x65\x65s\x18\x01 \x03(\x0b\x32..meshtrade.fee.instrument_fee.v1.InstrumentFeeR\x04\x66\x65\x65s\"\xb7\x01\n\x1d\x43\x61lculateLifecycleFeesRequest\x12#\n\rinstrument_id\x18\x01 \x01(\tR\x0cinstrumentId\x12q\n\x18lifecycle_event_category\x18\x02 \x01(\x0e\x32\x37.meshtrade.fee.instrument_fee.v1.LifecycleEventCategoryR\x16lifecycleEventCategory\"d\n\x1e\x43\x61lculateLifecycleFeesResponse\x12\x42\n\x04\x66\x65\x65s\x18\x01 \x03(\x0b\x32..meshtrade.fee.instrument_fee.v1.InstrumentFeeR\x04\x66\x65\x65s\"\x13\n\x11\x46ullUpdateRequest\"\x14\n\x12\x46ullUpdateResponse2\xad\x05\n\x07Service\x12\x63\n\x04List\x12,.meshtrade.fee.instrument_fee.v1.ListRequest\x1a-.meshtrade.fee.instrument_fee.v1.ListResponse\x12\x93\x01\n\x14\x43\x61lculateMintingFees\x12<.meshtrade.fee.instrument_fee.v1.CalculateMintingFeesRequest\x1a=.meshtrade.fee.instrument_fee.v1.CalculateMintingFeesResponse\x12\x93\x01\n\x14\x43\x61lculateBurningFees\x12<.meshtrade.fee.instrument_fee.v1.CalculateBurningFeesRequest\x1a=.meshtrade.fee.instrument_fee.v1.CalculateBurningFeesResponse\x12\x99\x01\n\x16\x43\x61lculateLifecycleFees\x12>.meshtrade.fee.instrument_fee.v1.CalculateLifecycleFeesRequest\x1a?.meshtrade.fee.instrument_fee.v1.CalculateLifecycleFeesResponse\x12u\n\nFullUpdate\x12\x32.meshtrade.fee.instrument_fee.v1.FullUpdateRequest\x1a\x33.meshtrade.fee.instrument_fee.v1.FullUpdateResponseBDZBgithub.com/meshtrade/api/go/fee/instrument_fee/v1;instrument_feev1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n-meshtrade/fee/instrument_fee/v1/service.proto\x12\x1fmeshtrade.fee.instrument_fee.v1\x1a\x34meshtrade/fee/instrument_fee/v1/instrument_fee.proto\x1a\x46meshtrade/fee/instrument_fee_profile/v1/lifecycle_event_category.proto\x1a\x1emeshtrade/type/v1/amount.proto\"\r\n\x0bListRequest\"R\n\x0cListResponse\x12\x42\n\x04\x66\x65\x65s\x18\x01 \x03(\x0b\x32..meshtrade.fee.instrument_fee.v1.InstrumentFeeR\x04\x66\x65\x65s\"P\n\x1b\x43\x61lculateMintingFeesRequest\x12\x31\n\x06\x61mount\x18\x01 \x01(\x0b\x32\x19.meshtrade.type.v1.AmountR\x06\x61mount\"b\n\x1c\x43\x61lculateMintingFeesResponse\x12\x42\n\x04\x66\x65\x65s\x18\x01 \x03(\x0b\x32..meshtrade.fee.instrument_fee.v1.InstrumentFeeR\x04\x66\x65\x65s\"P\n\x1b\x43\x61lculateBurningFeesRequest\x12\x31\n\x06\x61mount\x18\x01 \x01(\x0b\x32\x19.meshtrade.type.v1.AmountR\x06\x61mount\"b\n\x1c\x43\x61lculateBurningFeesResponse\x12\x42\n\x04\x66\x65\x65s\x18\x01 \x03(\x0b\x32..meshtrade.fee.instrument_fee.v1.InstrumentFeeR\x04\x66\x65\x65s\"\xbf\x01\n\x1d\x43\x61lculateLifecycleFeesRequest\x12#\n\rinstrument_id\x18\x01 \x01(\tR\x0cinstrumentId\x12y\n\x18lifecycle_event_category\x18\x02 \x01(\x0e\x32?.meshtrade.fee.instrument_fee_profile.v1.LifecycleEventCategoryR\x16lifecycleEventCategory\"d\n\x1e\x43\x61lculateLifecycleFeesResponse\x12\x42\n\x04\x66\x65\x65s\x18\x01 \x03(\x0b\x32..meshtrade.fee.instrument_fee.v1.InstrumentFeeR\x04\x66\x65\x65s\"\x13\n\x11\x46ullUpdateRequest\"\x14\n\x12\x46ullUpdateResponse2\xad\x05\n\x07Service\x12\x63\n\x04List\x12,.meshtrade.fee.instrument_fee.v1.ListRequest\x1a-.meshtrade.fee.instrument_fee.v1.ListResponse\x12\x93\x01\n\x14\x43\x61lculateMintingFees\x12<.meshtrade.fee.instrument_fee.v1.CalculateMintingFeesRequest\x1a=.meshtrade.fee.instrument_fee.v1.CalculateMintingFeesResponse\x12\x93\x01\n\x14\x43\x61lculateBurningFees\x12<.meshtrade.fee.instrument_fee.v1.CalculateBurningFeesRequest\x1a=.meshtrade.fee.instrument_fee.v1.CalculateBurningFeesResponse\x12\x99\x01\n\x16\x43\x61lculateLifecycleFees\x12>.meshtrade.fee.instrument_fee.v1.CalculateLifecycleFeesRequest\x1a?.meshtrade.fee.instrument_fee.v1.CalculateLifecycleFeesResponse\x12u\n\nFullUpdate\x12\x32.meshtrade.fee.instrument_fee.v1.FullUpdateRequest\x1a\x33.meshtrade.fee.instrument_fee.v1.FullUpdateResponseBDZBgithub.com/meshtrade/api/go/fee/instrument_fee/v1;instrument_feev1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -35,26 +35,26 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'meshtrade.fee.instrument_fe
 if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'ZBgithub.com/meshtrade/api/go/fee/instrument_fee/v1;instrument_feev1'
-  _globals['_LISTREQUEST']._serialized_start=232
-  _globals['_LISTREQUEST']._serialized_end=245
-  _globals['_LISTRESPONSE']._serialized_start=247
-  _globals['_LISTRESPONSE']._serialized_end=329
-  _globals['_CALCULATEMINTINGFEESREQUEST']._serialized_start=331
-  _globals['_CALCULATEMINTINGFEESREQUEST']._serialized_end=411
-  _globals['_CALCULATEMINTINGFEESRESPONSE']._serialized_start=413
-  _globals['_CALCULATEMINTINGFEESRESPONSE']._serialized_end=511
-  _globals['_CALCULATEBURNINGFEESREQUEST']._serialized_start=513
-  _globals['_CALCULATEBURNINGFEESREQUEST']._serialized_end=593
-  _globals['_CALCULATEBURNINGFEESRESPONSE']._serialized_start=595
-  _globals['_CALCULATEBURNINGFEESRESPONSE']._serialized_end=693
-  _globals['_CALCULATELIFECYCLEFEESREQUEST']._serialized_start=696
-  _globals['_CALCULATELIFECYCLEFEESREQUEST']._serialized_end=879
-  _globals['_CALCULATELIFECYCLEFEESRESPONSE']._serialized_start=881
-  _globals['_CALCULATELIFECYCLEFEESRESPONSE']._serialized_end=981
-  _globals['_FULLUPDATEREQUEST']._serialized_start=983
-  _globals['_FULLUPDATEREQUEST']._serialized_end=1002
-  _globals['_FULLUPDATERESPONSE']._serialized_start=1004
-  _globals['_FULLUPDATERESPONSE']._serialized_end=1024
-  _globals['_SERVICE']._serialized_start=1027
-  _globals['_SERVICE']._serialized_end=1712
+  _globals['_LISTREQUEST']._serialized_start=240
+  _globals['_LISTREQUEST']._serialized_end=253
+  _globals['_LISTRESPONSE']._serialized_start=255
+  _globals['_LISTRESPONSE']._serialized_end=337
+  _globals['_CALCULATEMINTINGFEESREQUEST']._serialized_start=339
+  _globals['_CALCULATEMINTINGFEESREQUEST']._serialized_end=419
+  _globals['_CALCULATEMINTINGFEESRESPONSE']._serialized_start=421
+  _globals['_CALCULATEMINTINGFEESRESPONSE']._serialized_end=519
+  _globals['_CALCULATEBURNINGFEESREQUEST']._serialized_start=521
+  _globals['_CALCULATEBURNINGFEESREQUEST']._serialized_end=601
+  _globals['_CALCULATEBURNINGFEESRESPONSE']._serialized_start=603
+  _globals['_CALCULATEBURNINGFEESRESPONSE']._serialized_end=701
+  _globals['_CALCULATELIFECYCLEFEESREQUEST']._serialized_start=704
+  _globals['_CALCULATELIFECYCLEFEESREQUEST']._serialized_end=895
+  _globals['_CALCULATELIFECYCLEFEESRESPONSE']._serialized_start=897
+  _globals['_CALCULATELIFECYCLEFEESRESPONSE']._serialized_end=997
+  _globals['_FULLUPDATEREQUEST']._serialized_start=999
+  _globals['_FULLUPDATEREQUEST']._serialized_end=1018
+  _globals['_FULLUPDATERESPONSE']._serialized_start=1020
+  _globals['_FULLUPDATERESPONSE']._serialized_end=1040
+  _globals['_SERVICE']._serialized_start=1043
+  _globals['_SERVICE']._serialized_end=1728
 # @@protoc_insertion_point(module_scope)

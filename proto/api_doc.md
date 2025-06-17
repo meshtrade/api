@@ -90,17 +90,14 @@
 - [meshtrade/fee/instrument_fee/v1/data_rate.proto](#meshtrade_fee_instrument_fee_v1_data_rate-proto)
     - [RateData](#meshtrade-fee-instrument_fee-v1-RateData)
   
-- [meshtrade/fee/instrument_fee/v1/data.proto](#meshtrade_fee_instrument_fee_v1_data-proto)
-    - [Data](#meshtrade-fee-instrument_fee-v1-Data)
-  
 - [meshtrade/fee/instrument_fee/v1/instrument_fee.proto](#meshtrade_fee_instrument_fee_v1_instrument_fee-proto)
     - [InstrumentFee](#meshtrade-fee-instrument_fee-v1-InstrumentFee)
   
     - [Category](#meshtrade-fee-instrument_fee-v1-Category)
     - [State](#meshtrade-fee-instrument_fee-v1-State)
   
-- [meshtrade/fee/instrument_fee/v1/lifecycle_event_category.proto](#meshtrade_fee_instrument_fee_v1_lifecycle_event_category-proto)
-    - [LifecycleEventCategory](#meshtrade-fee-instrument_fee-v1-LifecycleEventCategory)
+- [meshtrade/fee/instrument_fee_profile/v1/lifecycle_event_category.proto](#meshtrade_fee_instrument_fee_profile_v1_lifecycle_event_category-proto)
+    - [LifecycleEventCategory](#meshtrade-fee-instrument_fee_profile-v1-LifecycleEventCategory)
   
 - [meshtrade/fee/instrument_fee/v1/service.proto](#meshtrade_fee_instrument_fee_v1_service-proto)
     - [CalculateBurningFeesRequest](#meshtrade-fee-instrument_fee-v1-CalculateBurningFeesRequest)
@@ -124,12 +121,6 @@
   
 - [meshtrade/fee/instrument_fee_profile/v1/lifecycle_event_calculation_config_rate.proto](#meshtrade_fee_instrument_fee_profile_v1_lifecycle_event_calculation_config_rate-proto)
     - [RateLifecycleEventCalculationConfig](#meshtrade-fee-instrument_fee_profile-v1-RateLifecycleEventCalculationConfig)
-  
-- [meshtrade/fee/instrument_fee_profile/v1/lifecycle_event_calculation_config.proto](#meshtrade_fee_instrument_fee_profile_v1_lifecycle_event_calculation_config-proto)
-    - [LifecycleEventCalculationConfig](#meshtrade-fee-instrument_fee_profile-v1-LifecycleEventCalculationConfig)
-  
-- [meshtrade/fee/instrument_fee_profile/v1/lifecycle_event_category.proto](#meshtrade_fee_instrument_fee_profile_v1_lifecycle_event_category-proto)
-    - [LifecycleEventCategory](#meshtrade-fee-instrument_fee_profile-v1-LifecycleEventCategory)
   
 - [meshtrade/fee/instrument_fee_profile/v1/lifecycle_event.proto](#meshtrade_fee_instrument_fee_profile_v1_lifecycle_event-proto)
     - [LifecycleEvent](#meshtrade-fee-instrument_fee_profile-v1-LifecycleEvent)
@@ -1273,7 +1264,6 @@ This is used for fees that depend on a base amount like the
 primary market settlement amount or subscription order book
 target raise, not yet known with certainty at the time of
 setting up the Instrument&#39;s FeeProfile.
-@bson-marshalled
 
 
 | Field | Type | Label | Description |
@@ -1282,39 +1272,6 @@ setting up the Instrument&#39;s FeeProfile.
 | base_amount | [meshtrade.type.v1.Amount](#meshtrade-type-v1-Amount) |  | BaseAmount is the variable amount that gets multiplied with the Rate to calculate the AmountExclVAT. For example, this might be the primary market settlement amount or subscription order book target raise. |
 | amount_excl_vat | [meshtrade.type.v1.Amount](#meshtrade-type-v1-Amount) |  | AmountExclVAT is the VAT exclusive amount used to calculate Fee.VatAmount and the resulting Fee.AmountInclVAT. |
 | vat_rate | [meshtrade.type.v1.Decimal](#meshtrade-type-v1-Decimal) |  | VATRate is the rate used to calculate Fee.VatAmount. |
-
-
-
-
-
- 
-
- 
-
- 
-
- 
-
-
-
-<a name="meshtrade_fee_instrument_fee_v1_data-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## meshtrade/fee/instrument_fee/v1/data.proto
-
-
-
-<a name="meshtrade-fee-instrument_fee-v1-Data"></a>
-
-### Data
-Data is the generic calculation data that is attached to a Fee for reference.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| amount_data | [AmountData](#meshtrade-fee-instrument_fee-v1-AmountData) |  |  |
-| rate_data | [RateData](#meshtrade-fee-instrument_fee-v1-RateData) |  |  |
-| per_unit_data | [PerUnitData](#meshtrade-fee-instrument_fee-v1-PerUnitData) |  |  |
 
 
 
@@ -1356,7 +1313,9 @@ and other related fields.
 | vat_amount | [meshtrade.type.v1.Amount](#meshtrade-type-v1-Amount) |  | VATAmount is the portion of the AmountInclVAT that constitutes VAT. |
 | category | [Category](#meshtrade-fee-instrument_fee-v1-Category) |  | Category is the type of Fee being applied. It categorises fees based on their purpose and the services they correspond to. Supported categories include: - Tokenisation: Fee for tokenizing assets. - Listing: Fee for listing the instrument on a platform. - PrimaryMarketSettlement: Fee related to primary market transaction settlements. - AUM: Assets Under Management fee. |
 | payment_date | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  | PaymentDate is the date on which the Fee was paid. |
-| data | [Data](#meshtrade-fee-instrument_fee-v1-Data) |  | Data is the additional contextual information related to calculation, taxation and billing of the Fee. |
+| amount_data | [AmountData](#meshtrade-fee-instrument_fee-v1-AmountData) |  |  |
+| rate_data | [RateData](#meshtrade-fee-instrument_fee-v1-RateData) |  |  |
+| per_unit_data | [PerUnitData](#meshtrade-fee-instrument_fee-v1-PerUnitData) |  |  |
 
 
 
@@ -1404,16 +1363,16 @@ State is the state of an instrument Fee in its state diagram.
 
 
 
-<a name="meshtrade_fee_instrument_fee_v1_lifecycle_event_category-proto"></a>
+<a name="meshtrade_fee_instrument_fee_profile_v1_lifecycle_event_category-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## meshtrade/fee/instrument_fee/v1/lifecycle_event_category.proto
+## meshtrade/fee/instrument_fee_profile/v1/lifecycle_event_category.proto
 
 
  
 
 
-<a name="meshtrade-fee-instrument_fee-v1-LifecycleEventCategory"></a>
+<a name="meshtrade-fee-instrument_fee_profile-v1-LifecycleEventCategory"></a>
 
 ### LifecycleEventCategory
 LifecycleEventCategory defines the different types of lifecycle events that can trigger a Fee.
@@ -1479,7 +1438,7 @@ CalculateLifecycleFeesRequest is the CalculateLifecycleFees method request on th
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | instrument_id | [string](#string) |  | InstrumentID is the id of the instrument for which lifecycle fees are calculated. |
-| lifecycle_event_category | [LifecycleEventCategory](#meshtrade-fee-instrument_fee-v1-LifecycleEventCategory) |  | LifecycleEventCategory is the category of lifecycle events for which lifecycle fees are calculated |
+| lifecycle_event_category | [meshtrade.fee.instrument_fee_profile.v1.LifecycleEventCategory](#meshtrade-fee-instrument_fee_profile-v1-LifecycleEventCategory) |  | LifecycleEventCategory is the category of lifecycle events for which lifecycle fees are calculated |
 
 
 
@@ -1649,8 +1608,6 @@ lifecycle Fee with a fixed amount.
 This is used for flat lifecycle event fees that do not depend on a
 variable base amount and percentage for calculation.
 
-@bson-marshalled
-
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
@@ -1688,8 +1645,6 @@ primary market settlement amount or subscription order book
 target raise not yet known with certainty at the time of
 setting up the Instrument&#39;s FeeProfile.
 
-@bson-marshalled
-
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
@@ -1700,70 +1655,6 @@ setting up the Instrument&#39;s FeeProfile.
 
 
  
-
- 
-
- 
-
- 
-
-
-
-<a name="meshtrade_fee_instrument_fee_profile_v1_lifecycle_event_calculation_config-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## meshtrade/fee/instrument_fee_profile/v1/lifecycle_event_calculation_config.proto
-
-
-
-<a name="meshtrade-fee-instrument_fee_profile-v1-LifecycleEventCalculationConfig"></a>
-
-### LifecycleEventCalculationConfig
-LifecycleEventCalculationConfig is the calculation configuration that is use to calculate
-the Fee amount.
-
-@bson-marshalled
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| amount_lifecycle_event_calculation_config | [AmountLifecycleEventCalculationConfig](#meshtrade-fee-instrument_fee_profile-v1-AmountLifecycleEventCalculationConfig) |  |  |
-| rate_lifecycle_event_calculation_config | [RateLifecycleEventCalculationConfig](#meshtrade-fee-instrument_fee_profile-v1-RateLifecycleEventCalculationConfig) |  |  |
-
-
-
-
-
- 
-
- 
-
- 
-
- 
-
-
-
-<a name="meshtrade_fee_instrument_fee_profile_v1_lifecycle_event_category-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## meshtrade/fee/instrument_fee_profile/v1/lifecycle_event_category.proto
-
-
- 
-
-
-<a name="meshtrade-fee-instrument_fee_profile-v1-LifecycleEventCategory"></a>
-
-### LifecycleEventCategory
-LifecycleEventCategory defines the different types of lifecycle events that can trigger a Fee.
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| LIFECYCLE_EVENT_CATEGORY_UNSPECIFIED | 0 | Unknown or not specified. This is a a default value to prevent accidental assignment and should not be used. |
-| LIFECYCLE_EVENT_CATEGORY_LISTING | 1 |  |
-| LIFECYCLE_EVENT_CATEGORY_PRIMARY_MARKET_SETTLEMENT | 2 |  |
-
 
  
 
@@ -1790,7 +1681,6 @@ fees, such as:
 - Listing: Fees for listing the Instrument on Mesh.
 - Primary Market Settlement: Fees related to the settlement of
 transactions in the primary market.
-
 Multiple lifecycle events can be configured and managed within a single
 FeeProfile.
 
@@ -1799,7 +1689,8 @@ FeeProfile.
 | ----- | ---- | ----- | ----------- |
 | description | [string](#string) |  | Description is the description of the Fee charged on this LifecycleEvent. The description must be unique is the sense that the same description cannot be used more than once for a single trigger. |
 | category | [LifecycleEventCategory](#meshtrade-fee-instrument_fee_profile-v1-LifecycleEventCategory) |  | Category is the Instrument lifecycle event type that leads to a Fee being charged. |
-| calculation_config | [LifecycleEventCalculationConfig](#meshtrade-fee-instrument_fee_profile-v1-LifecycleEventCalculationConfig) |  | CalculationConfig defines how the Fee on this lifecycle event is calculated. Implementations include: - Amount: The Fee amount is fixed and pre-determined. - Rate: The Fee amount is variable are calculated as a percentage of a base amount. The base amount used is contextual to the lifecycle event. |
+| amount_lifecycle_event_calculation_config | [AmountLifecycleEventCalculationConfig](#meshtrade-fee-instrument_fee_profile-v1-AmountLifecycleEventCalculationConfig) |  |  |
+| rate_lifecycle_event_calculation_config | [RateLifecycleEventCalculationConfig](#meshtrade-fee-instrument_fee_profile-v1-RateLifecycleEventCalculationConfig) |  |  |
 
 
 

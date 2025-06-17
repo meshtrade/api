@@ -29,8 +29,6 @@ const (
 // primary market settlement amount or subscription order book
 // target raise not yet known with certainty at the time of
 // setting up the Instrument's FeeProfile.
-//
-// @bson-marshalled
 type RateLifecycleEventCalculationConfig struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Rate is the rate used to calculate Fee amount when mulitplied to

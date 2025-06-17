@@ -2,7 +2,8 @@ syntax = "proto3";
 
 package meshtrade.fee.instrument_fee_profile.v1;
 
-import "meshtrade/fee/instrument_fee_profile/v1/lifecycle_event_calculation_config.proto";
+import "meshtrade/fee/instrument_fee_profile/v1/lifecycle_event_calculation_config_amount.proto";
+import "meshtrade/fee/instrument_fee_profile/v1/lifecycle_event_calculation_config_rate.proto";
 import "meshtrade/fee/instrument_fee_profile/v1/lifecycle_event_category.proto";
 
 option go_package = "github.com/meshtrade/api/go/fee/instrument_fee_profile/v1;instrument_fee_profilev1";
@@ -15,7 +16,6 @@ option go_package = "github.com/meshtrade/api/go/fee/instrument_fee_profile/v1;i
      - Listing: Fees for listing the Instrument on Mesh.
      - Primary Market Settlement: Fees related to the settlement of
      transactions in the primary market.
-
    Multiple lifecycle events can be configured and managed within a single
    FeeProfile.
 */
@@ -39,5 +39,8 @@ message LifecycleEvent {
        - Rate: The Fee amount is variable are calculated as a percentage of a
        base amount. The base amount used is contextual to the lifecycle event.
   */
-  meshtrade.fee.instrument_fee_profile.v1.LifecycleEventCalculationConfig calculation_config = 3;
+  oneof lifecycle_event_calculation_config {
+    meshtrade.fee.instrument_fee_profile.v1.AmountLifecycleEventCalculationConfig amount_lifecycle_event_calculation_config = 3;
+    meshtrade.fee.instrument_fee_profile.v1.RateLifecycleEventCalculationConfig rate_lifecycle_event_calculation_config = 4;
+  }
 }

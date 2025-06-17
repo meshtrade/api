@@ -28,7 +28,6 @@ const (
 // - Listing: Fees for listing the Instrument on Mesh.
 // - Primary Market Settlement: Fees related to the settlement of
 // transactions in the primary market.
-//
 // Multiple lifecycle events can be configured and managed within a single
 // FeeProfile.
 type LifecycleEvent struct {
@@ -44,9 +43,14 @@ type LifecycleEvent struct {
 	// - Amount: The Fee amount is fixed and pre-determined.
 	// - Rate: The Fee amount is variable are calculated as a percentage of a
 	// base amount. The base amount used is contextual to the lifecycle event.
-	CalculationConfig *LifecycleEventCalculationConfig `protobuf:"bytes,3,opt,name=calculation_config,json=calculationConfig,proto3" json:"calculation_config,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	//
+	// Types that are valid to be assigned to LifecycleEventCalculationConfig:
+	//
+	//	*LifecycleEvent_AmountLifecycleEventCalculationConfig
+	//	*LifecycleEvent_RateLifecycleEventCalculationConfig
+	LifecycleEventCalculationConfig isLifecycleEvent_LifecycleEventCalculationConfig `protobuf_oneof:"lifecycle_event_calculation_config"`
+	unknownFields                   protoimpl.UnknownFields
+	sizeCache                       protoimpl.SizeCache
 }
 
 func (x *LifecycleEvent) Reset() {
@@ -93,22 +97,60 @@ func (x *LifecycleEvent) GetCategory() LifecycleEventCategory {
 	return LifecycleEventCategory_LIFECYCLE_EVENT_CATEGORY_UNSPECIFIED
 }
 
-func (x *LifecycleEvent) GetCalculationConfig() *LifecycleEventCalculationConfig {
+func (x *LifecycleEvent) GetLifecycleEventCalculationConfig() isLifecycleEvent_LifecycleEventCalculationConfig {
 	if x != nil {
-		return x.CalculationConfig
+		return x.LifecycleEventCalculationConfig
 	}
 	return nil
+}
+
+func (x *LifecycleEvent) GetAmountLifecycleEventCalculationConfig() *AmountLifecycleEventCalculationConfig {
+	if x != nil {
+		if x, ok := x.LifecycleEventCalculationConfig.(*LifecycleEvent_AmountLifecycleEventCalculationConfig); ok {
+			return x.AmountLifecycleEventCalculationConfig
+		}
+	}
+	return nil
+}
+
+func (x *LifecycleEvent) GetRateLifecycleEventCalculationConfig() *RateLifecycleEventCalculationConfig {
+	if x != nil {
+		if x, ok := x.LifecycleEventCalculationConfig.(*LifecycleEvent_RateLifecycleEventCalculationConfig); ok {
+			return x.RateLifecycleEventCalculationConfig
+		}
+	}
+	return nil
+}
+
+type isLifecycleEvent_LifecycleEventCalculationConfig interface {
+	isLifecycleEvent_LifecycleEventCalculationConfig()
+}
+
+type LifecycleEvent_AmountLifecycleEventCalculationConfig struct {
+	AmountLifecycleEventCalculationConfig *AmountLifecycleEventCalculationConfig `protobuf:"bytes,3,opt,name=amount_lifecycle_event_calculation_config,json=amountLifecycleEventCalculationConfig,proto3,oneof"`
+}
+
+type LifecycleEvent_RateLifecycleEventCalculationConfig struct {
+	RateLifecycleEventCalculationConfig *RateLifecycleEventCalculationConfig `protobuf:"bytes,4,opt,name=rate_lifecycle_event_calculation_config,json=rateLifecycleEventCalculationConfig,proto3,oneof"`
+}
+
+func (*LifecycleEvent_AmountLifecycleEventCalculationConfig) isLifecycleEvent_LifecycleEventCalculationConfig() {
+}
+
+func (*LifecycleEvent_RateLifecycleEventCalculationConfig) isLifecycleEvent_LifecycleEventCalculationConfig() {
 }
 
 var File_meshtrade_fee_instrument_fee_profile_v1_lifecycle_event_proto protoreflect.FileDescriptor
 
 const file_meshtrade_fee_instrument_fee_profile_v1_lifecycle_event_proto_rawDesc = "" +
 	"\n" +
-	"=meshtrade/fee/instrument_fee_profile/v1/lifecycle_event.proto\x12'meshtrade.fee.instrument_fee_profile.v1\x1aPmeshtrade/fee/instrument_fee_profile/v1/lifecycle_event_calculation_config.proto\x1aFmeshtrade/fee/instrument_fee_profile/v1/lifecycle_event_category.proto\"\x88\x02\n" +
+	"=meshtrade/fee/instrument_fee_profile/v1/lifecycle_event.proto\x12'meshtrade.fee.instrument_fee_profile.v1\x1aWmeshtrade/fee/instrument_fee_profile/v1/lifecycle_event_calculation_config_amount.proto\x1aUmeshtrade/fee/instrument_fee_profile/v1/lifecycle_event_calculation_config_rate.proto\x1aFmeshtrade/fee/instrument_fee_profile/v1/lifecycle_event_category.proto\"\x89\x04\n" +
 	"\x0eLifecycleEvent\x12 \n" +
 	"\vdescription\x18\x01 \x01(\tR\vdescription\x12[\n" +
-	"\bcategory\x18\x02 \x01(\x0e2?.meshtrade.fee.instrument_fee_profile.v1.LifecycleEventCategoryR\bcategory\x12w\n" +
-	"\x12calculation_config\x18\x03 \x01(\v2H.meshtrade.fee.instrument_fee_profile.v1.LifecycleEventCalculationConfigR\x11calculationConfigBTZRgithub.com/meshtrade/api/go/fee/instrument_fee_profile/v1;instrument_fee_profilev1b\x06proto3"
+	"\bcategory\x18\x02 \x01(\x0e2?.meshtrade.fee.instrument_fee_profile.v1.LifecycleEventCategoryR\bcategory\x12\xaa\x01\n" +
+	")amount_lifecycle_event_calculation_config\x18\x03 \x01(\v2N.meshtrade.fee.instrument_fee_profile.v1.AmountLifecycleEventCalculationConfigH\x00R%amountLifecycleEventCalculationConfig\x12\xa4\x01\n" +
+	"'rate_lifecycle_event_calculation_config\x18\x04 \x01(\v2L.meshtrade.fee.instrument_fee_profile.v1.RateLifecycleEventCalculationConfigH\x00R#rateLifecycleEventCalculationConfigB$\n" +
+	"\"lifecycle_event_calculation_configBTZRgithub.com/meshtrade/api/go/fee/instrument_fee_profile/v1;instrument_fee_profilev1b\x06proto3"
 
 var (
 	file_meshtrade_fee_instrument_fee_profile_v1_lifecycle_event_proto_rawDescOnce sync.Once
@@ -124,18 +166,20 @@ func file_meshtrade_fee_instrument_fee_profile_v1_lifecycle_event_proto_rawDescG
 
 var file_meshtrade_fee_instrument_fee_profile_v1_lifecycle_event_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_meshtrade_fee_instrument_fee_profile_v1_lifecycle_event_proto_goTypes = []any{
-	(*LifecycleEvent)(nil),                  // 0: meshtrade.fee.instrument_fee_profile.v1.LifecycleEvent
-	(LifecycleEventCategory)(0),             // 1: meshtrade.fee.instrument_fee_profile.v1.LifecycleEventCategory
-	(*LifecycleEventCalculationConfig)(nil), // 2: meshtrade.fee.instrument_fee_profile.v1.LifecycleEventCalculationConfig
+	(*LifecycleEvent)(nil),                        // 0: meshtrade.fee.instrument_fee_profile.v1.LifecycleEvent
+	(LifecycleEventCategory)(0),                   // 1: meshtrade.fee.instrument_fee_profile.v1.LifecycleEventCategory
+	(*AmountLifecycleEventCalculationConfig)(nil), // 2: meshtrade.fee.instrument_fee_profile.v1.AmountLifecycleEventCalculationConfig
+	(*RateLifecycleEventCalculationConfig)(nil),   // 3: meshtrade.fee.instrument_fee_profile.v1.RateLifecycleEventCalculationConfig
 }
 var file_meshtrade_fee_instrument_fee_profile_v1_lifecycle_event_proto_depIdxs = []int32{
 	1, // 0: meshtrade.fee.instrument_fee_profile.v1.LifecycleEvent.category:type_name -> meshtrade.fee.instrument_fee_profile.v1.LifecycleEventCategory
-	2, // 1: meshtrade.fee.instrument_fee_profile.v1.LifecycleEvent.calculation_config:type_name -> meshtrade.fee.instrument_fee_profile.v1.LifecycleEventCalculationConfig
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	2, // 1: meshtrade.fee.instrument_fee_profile.v1.LifecycleEvent.amount_lifecycle_event_calculation_config:type_name -> meshtrade.fee.instrument_fee_profile.v1.AmountLifecycleEventCalculationConfig
+	3, // 2: meshtrade.fee.instrument_fee_profile.v1.LifecycleEvent.rate_lifecycle_event_calculation_config:type_name -> meshtrade.fee.instrument_fee_profile.v1.RateLifecycleEventCalculationConfig
+	3, // [3:3] is the sub-list for method output_type
+	3, // [3:3] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_fee_instrument_fee_profile_v1_lifecycle_event_proto_init() }
@@ -143,8 +187,13 @@ func file_meshtrade_fee_instrument_fee_profile_v1_lifecycle_event_proto_init() {
 	if File_meshtrade_fee_instrument_fee_profile_v1_lifecycle_event_proto != nil {
 		return
 	}
-	file_meshtrade_fee_instrument_fee_profile_v1_lifecycle_event_calculation_config_proto_init()
+	file_meshtrade_fee_instrument_fee_profile_v1_lifecycle_event_calculation_config_amount_proto_init()
+	file_meshtrade_fee_instrument_fee_profile_v1_lifecycle_event_calculation_config_rate_proto_init()
 	file_meshtrade_fee_instrument_fee_profile_v1_lifecycle_event_category_proto_init()
+	file_meshtrade_fee_instrument_fee_profile_v1_lifecycle_event_proto_msgTypes[0].OneofWrappers = []any{
+		(*LifecycleEvent_AmountLifecycleEventCalculationConfig)(nil),
+		(*LifecycleEvent_RateLifecycleEventCalculationConfig)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

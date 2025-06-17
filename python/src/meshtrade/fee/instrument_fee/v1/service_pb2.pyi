@@ -1,5 +1,5 @@
 from meshtrade.fee.instrument_fee.v1 import instrument_fee_pb2 as _instrument_fee_pb2
-from meshtrade.fee.instrument_fee.v1 import lifecycle_event_category_pb2 as _lifecycle_event_category_pb2
+from meshtrade.fee.instrument_fee_profile.v1 import lifecycle_event_category_pb2 as _lifecycle_event_category_pb2
 from meshtrade.type.v1 import amount_pb2 as _amount_pb2
 from google.protobuf.internal import containers as _containers
 from google.protobuf import descriptor as _descriptor

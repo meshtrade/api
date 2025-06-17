@@ -1,7 +1,9 @@
 import datetime
 
 from google.protobuf import timestamp_pb2 as _timestamp_pb2
-from meshtrade.fee.instrument_fee.v1 import data_pb2 as _data_pb2
+from meshtrade.fee.instrument_fee.v1 import data_amount_pb2 as _data_amount_pb2
+from meshtrade.fee.instrument_fee.v1 import data_per_unit_pb2 as _data_per_unit_pb2
+from meshtrade.fee.instrument_fee.v1 import data_rate_pb2 as _data_rate_pb2
 from meshtrade.type.v1 import amount_pb2 as _amount_pb2
 from google.protobuf.internal import enum_type_wrapper as _enum_type_wrapper
 from google.protobuf import descriptor as _descriptor
@@ -42,7 +44,7 @@ CATEGORY_PRIMARY_MARKET_SETTLEMENT: Category
 CATEGORY_AUM: Category
 
 class InstrumentFee(_message.Message):
-    __slots__ = ("id", "instrument_name", "state", "description", "amount_incl_vat", "vat_amount", "category", "payment_date", "data")
+    __slots__ = ("id", "instrument_name", "state", "description", "amount_incl_vat", "vat_amount", "category", "payment_date", "amount_data", "rate_data", "per_unit_data")
     ID_FIELD_NUMBER: _ClassVar[int]
     INSTRUMENT_NAME_FIELD_NUMBER: _ClassVar[int]
     STATE_FIELD_NUMBER: _ClassVar[int]
@@ -51,7 +53,9 @@ class InstrumentFee(_message.Message):
     VAT_AMOUNT_FIELD_NUMBER: _ClassVar[int]
     CATEGORY_FIELD_NUMBER: _ClassVar[int]
     PAYMENT_DATE_FIELD_NUMBER: _ClassVar[int]
-    DATA_FIELD_NUMBER: _ClassVar[int]
+    AMOUNT_DATA_FIELD_NUMBER: _ClassVar[int]
+    RATE_DATA_FIELD_NUMBER: _ClassVar[int]
+    PER_UNIT_DATA_FIELD_NUMBER: _ClassVar[int]
     id: str
     instrument_name: str
     state: State
@@ -60,5 +64,7 @@ class InstrumentFee(_message.Message):
     vat_amount: _amount_pb2.Amount
     category: Category
     payment_date: _timestamp_pb2.Timestamp
-    data: _data_pb2.Data
-    def __init__(self, id: _Optional[str] = ..., instrument_name: _Optional[str] = ..., state: _Optional[_Union[State, str]] = ..., description: _Optional[str] = ..., amount_incl_vat: _Optional[_Union[_amount_pb2.Amount, _Mapping]] = ..., vat_amount: _Optional[_Union[_amount_pb2.Amount, _Mapping]] = ..., category: _Optional[_Union[Category, str]] = ..., payment_date: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., data: _Optional[_Union[_data_pb2.Data, _Mapping]] = ...) -> None: ...
+    amount_data: _data_amount_pb2.AmountData
+    rate_data: _data_rate_pb2.RateData
+    per_unit_data: _data_per_unit_pb2.PerUnitData
+    def __init__(self, id: _Optional[str] = ..., instrument_name: _Optional[str] = ..., state: _Optional[_Union[State, str]] = ..., description: _Optional[str] = ..., amount_incl_vat: _Optional[_Union[_amount_pb2.Amount, _Mapping]] = ..., vat_amount: _Optional[_Union[_amount_pb2.Amount, _Mapping]] = ..., category: _Optional[_Union[Category, str]] = ..., payment_date: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., amount_data: _Optional[_Union[_data_amount_pb2.AmountData, _Mapping]] = ..., rate_data: _Optional[_Union[_data_rate_pb2.RateData, _Mapping]] = ..., per_unit_data: _Optional[_Union[_data_per_unit_pb2.PerUnitData, _Mapping]] = ...) -> None: ...

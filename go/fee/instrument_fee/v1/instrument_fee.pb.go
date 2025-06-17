@@ -178,7 +178,13 @@ type InstrumentFee struct {
 	PaymentDate *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=payment_date,json=paymentDate,proto3" json:"payment_date,omitempty"`
 	// Data is the additional contextual information related to calculation,
 	// taxation and billing of the Fee.
-	Data          *Data `protobuf:"bytes,9,opt,name=data,proto3" json:"data,omitempty"`
+	//
+	// Types that are valid to be assigned to Data:
+	//
+	//	*InstrumentFee_AmountData
+	//	*InstrumentFee_RateData
+	//	*InstrumentFee_PerUnitData
+	Data          isInstrumentFee_Data `protobuf_oneof:"data"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -269,18 +275,67 @@ func (x *InstrumentFee) GetPaymentDate() *timestamppb.Timestamp {
 	return nil
 }
 
-func (x *InstrumentFee) GetData() *Data {
+func (x *InstrumentFee) GetData() isInstrumentFee_Data {
 	if x != nil {
 		return x.Data
 	}
 	return nil
 }
 
+func (x *InstrumentFee) GetAmountData() *AmountData {
+	if x != nil {
+		if x, ok := x.Data.(*InstrumentFee_AmountData); ok {
+			return x.AmountData
+		}
+	}
+	return nil
+}
+
+func (x *InstrumentFee) GetRateData() *RateData {
+	if x != nil {
+		if x, ok := x.Data.(*InstrumentFee_RateData); ok {
+			return x.RateData
+		}
+	}
+	return nil
+}
+
+func (x *InstrumentFee) GetPerUnitData() *PerUnitData {
+	if x != nil {
+		if x, ok := x.Data.(*InstrumentFee_PerUnitData); ok {
+			return x.PerUnitData
+		}
+	}
+	return nil
+}
+
+type isInstrumentFee_Data interface {
+	isInstrumentFee_Data()
+}
+
+type InstrumentFee_AmountData struct {
+	AmountData *AmountData `protobuf:"bytes,9,opt,name=amount_data,json=amountData,proto3,oneof"`
+}
+
+type InstrumentFee_RateData struct {
+	RateData *RateData `protobuf:"bytes,10,opt,name=rate_data,json=rateData,proto3,oneof"`
+}
+
+type InstrumentFee_PerUnitData struct {
+	PerUnitData *PerUnitData `protobuf:"bytes,11,opt,name=per_unit_data,json=perUnitData,proto3,oneof"`
+}
+
+func (*InstrumentFee_AmountData) isInstrumentFee_Data() {}
+
+func (*InstrumentFee_RateData) isInstrumentFee_Data() {}
+
+func (*InstrumentFee_PerUnitData) isInstrumentFee_Data() {}
+
 var File_meshtrade_fee_instrument_fee_v1_instrument_fee_proto protoreflect.FileDescriptor
 
 const file_meshtrade_fee_instrument_fee_v1_instrument_fee_proto_rawDesc = "" +
 	"\n" +
-	"4meshtrade/fee/instrument_fee/v1/instrument_fee.proto\x12\x1fmeshtrade.fee.instrument_fee.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a*meshtrade/fee/instrument_fee/v1/data.proto\x1a\x1emeshtrade/type/v1/amount.proto\"\xe6\x03\n" +
+	"4meshtrade/fee/instrument_fee/v1/instrument_fee.proto\x12\x1fmeshtrade.fee.instrument_fee.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a1meshtrade/fee/instrument_fee/v1/data_amount.proto\x1a3meshtrade/fee/instrument_fee/v1/data_per_unit.proto\x1a/meshtrade/fee/instrument_fee/v1/data_rate.proto\x1a\x1emeshtrade/type/v1/amount.proto\"\xa1\x05\n" +
 	"\rInstrumentFee\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12'\n" +
 	"\x0finstrument_name\x18\x02 \x01(\tR\x0einstrumentName\x12<\n" +
@@ -290,8 +345,13 @@ const file_meshtrade_fee_instrument_fee_v1_instrument_fee_proto_rawDesc = "" +
 	"\n" +
 	"vat_amount\x18\x06 \x01(\v2\x19.meshtrade.type.v1.AmountR\tvatAmount\x12E\n" +
 	"\bcategory\x18\a \x01(\x0e2).meshtrade.fee.instrument_fee.v1.CategoryR\bcategory\x12=\n" +
-	"\fpayment_date\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\vpaymentDate\x129\n" +
-	"\x04data\x18\t \x01(\v2%.meshtrade.fee.instrument_fee.v1.DataR\x04data*\x97\x01\n" +
+	"\fpayment_date\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\vpaymentDate\x12N\n" +
+	"\vamount_data\x18\t \x01(\v2+.meshtrade.fee.instrument_fee.v1.AmountDataH\x00R\n" +
+	"amountData\x12H\n" +
+	"\trate_data\x18\n" +
+	" \x01(\v2).meshtrade.fee.instrument_fee.v1.RateDataH\x00R\brateData\x12R\n" +
+	"\rper_unit_data\x18\v \x01(\v2,.meshtrade.fee.instrument_fee.v1.PerUnitDataH\x00R\vperUnitDataB\x06\n" +
+	"\x04data*\x97\x01\n" +
 	"\x05State\x12\x15\n" +
 	"\x11STATE_UNSPECIFIED\x10\x00\x12\x12\n" +
 	"\x0eSTATE_UPCOMING\x10\x01\x12\r\n" +
@@ -328,7 +388,9 @@ var file_meshtrade_fee_instrument_fee_v1_instrument_fee_proto_goTypes = []any{
 	(*InstrumentFee)(nil),         // 2: meshtrade.fee.instrument_fee.v1.InstrumentFee
 	(*v1.Amount)(nil),             // 3: meshtrade.type.v1.Amount
 	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
-	(*Data)(nil),                  // 5: meshtrade.fee.instrument_fee.v1.Data
+	(*AmountData)(nil),            // 5: meshtrade.fee.instrument_fee.v1.AmountData
+	(*RateData)(nil),              // 6: meshtrade.fee.instrument_fee.v1.RateData
+	(*PerUnitData)(nil),           // 7: meshtrade.fee.instrument_fee.v1.PerUnitData
 }
 var file_meshtrade_fee_instrument_fee_v1_instrument_fee_proto_depIdxs = []int32{
 	0, // 0: meshtrade.fee.instrument_fee.v1.InstrumentFee.state:type_name -> meshtrade.fee.instrument_fee.v1.State
@@ -336,12 +398,14 @@ var file_meshtrade_fee_instrument_fee_v1_instrument_fee_proto_depIdxs = []int32{
 	3, // 2: meshtrade.fee.instrument_fee.v1.InstrumentFee.vat_amount:type_name -> meshtrade.type.v1.Amount
 	1, // 3: meshtrade.fee.instrument_fee.v1.InstrumentFee.category:type_name -> meshtrade.fee.instrument_fee.v1.Category
 	4, // 4: meshtrade.fee.instrument_fee.v1.InstrumentFee.payment_date:type_name -> google.protobuf.Timestamp
-	5, // 5: meshtrade.fee.instrument_fee.v1.InstrumentFee.data:type_name -> meshtrade.fee.instrument_fee.v1.Data
-	6, // [6:6] is the sub-list for method output_type
-	6, // [6:6] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	5, // 5: meshtrade.fee.instrument_fee.v1.InstrumentFee.amount_data:type_name -> meshtrade.fee.instrument_fee.v1.AmountData
+	6, // 6: meshtrade.fee.instrument_fee.v1.InstrumentFee.rate_data:type_name -> meshtrade.fee.instrument_fee.v1.RateData
+	7, // 7: meshtrade.fee.instrument_fee.v1.InstrumentFee.per_unit_data:type_name -> meshtrade.fee.instrument_fee.v1.PerUnitData
+	8, // [8:8] is the sub-list for method output_type
+	8, // [8:8] is the sub-list for method input_type
+	8, // [8:8] is the sub-list for extension type_name
+	8, // [8:8] is the sub-list for extension extendee
+	0, // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_fee_instrument_fee_v1_instrument_fee_proto_init() }
@@ -349,7 +413,14 @@ func file_meshtrade_fee_instrument_fee_v1_instrument_fee_proto_init() {
 	if File_meshtrade_fee_instrument_fee_v1_instrument_fee_proto != nil {
 		return
 	}
-	file_meshtrade_fee_instrument_fee_v1_data_proto_init()
+	file_meshtrade_fee_instrument_fee_v1_data_amount_proto_init()
+	file_meshtrade_fee_instrument_fee_v1_data_per_unit_proto_init()
+	file_meshtrade_fee_instrument_fee_v1_data_rate_proto_init()
+	file_meshtrade_fee_instrument_fee_v1_instrument_fee_proto_msgTypes[0].OneofWrappers = []any{
+		(*InstrumentFee_AmountData)(nil),
+		(*InstrumentFee_RateData)(nil),
+		(*InstrumentFee_PerUnitData)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

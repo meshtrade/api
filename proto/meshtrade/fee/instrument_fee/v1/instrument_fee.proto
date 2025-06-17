@@ -3,7 +3,9 @@ syntax = "proto3";
 package meshtrade.fee.instrument_fee.v1;
 
 import "google/protobuf/timestamp.proto";
-import "meshtrade/fee/instrument_fee/v1/data.proto";
+import "meshtrade/fee/instrument_fee/v1/data_amount.proto";
+import "meshtrade/fee/instrument_fee/v1/data_per_unit.proto";
+import "meshtrade/fee/instrument_fee/v1/data_rate.proto";
 import "meshtrade/type/v1/amount.proto";
 
 option go_package = "github.com/meshtrade/api/go/fee/instrument_fee/v1;instrument_feev1";
@@ -68,7 +70,11 @@ message InstrumentFee {
      Data is the additional contextual information related to calculation,
      taxation and billing of the Fee.
   */
-  meshtrade.fee.instrument_fee.v1.Data data = 9;
+  oneof data {
+    meshtrade.fee.instrument_fee.v1.AmountData amount_data = 9;
+    meshtrade.fee.instrument_fee.v1.RateData rate_data = 10;
+    meshtrade.fee.instrument_fee.v1.PerUnitData per_unit_data = 11;
+  }
 }
 
 /*

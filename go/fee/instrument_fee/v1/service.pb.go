@@ -7,6 +7,7 @@
 package instrument_feev1
 
 import (
+	v11 "github.com/meshtrade/api/go/fee/instrument_fee_profile/v1"
 	v1 "github.com/meshtrade/api/go/type/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -296,7 +297,7 @@ type CalculateLifecycleFeesRequest struct {
 	InstrumentId string `protobuf:"bytes,1,opt,name=instrument_id,json=instrumentId,proto3" json:"instrument_id,omitempty"`
 	// LifecycleEventCategory is the category of lifecycle events for which
 	// lifecycle fees are calculated
-	LifecycleEventCategory LifecycleEventCategory `protobuf:"varint,2,opt,name=lifecycle_event_category,json=lifecycleEventCategory,proto3,enum=meshtrade.fee.instrument_fee.v1.LifecycleEventCategory" json:"lifecycle_event_category,omitempty"`
+	LifecycleEventCategory v11.LifecycleEventCategory `protobuf:"varint,2,opt,name=lifecycle_event_category,json=lifecycleEventCategory,proto3,enum=meshtrade.fee.instrument_fee_profile.v1.LifecycleEventCategory" json:"lifecycle_event_category,omitempty"`
 	unknownFields          protoimpl.UnknownFields
 	sizeCache              protoimpl.SizeCache
 }
@@ -338,11 +339,11 @@ func (x *CalculateLifecycleFeesRequest) GetInstrumentId() string {
 	return ""
 }
 
-func (x *CalculateLifecycleFeesRequest) GetLifecycleEventCategory() LifecycleEventCategory {
+func (x *CalculateLifecycleFeesRequest) GetLifecycleEventCategory() v11.LifecycleEventCategory {
 	if x != nil {
 		return x.LifecycleEventCategory
 	}
-	return LifecycleEventCategory_LIFECYCLE_EVENT_CATEGORY_UNSPECIFIED
+	return v11.LifecycleEventCategory(0)
 }
 
 // CalculateLifecycleFeesResponse is the CalculateLifecycleFees method response on the Fee Service.
@@ -469,7 +470,7 @@ var File_meshtrade_fee_instrument_fee_v1_service_proto protoreflect.FileDescript
 
 const file_meshtrade_fee_instrument_fee_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"-meshtrade/fee/instrument_fee/v1/service.proto\x12\x1fmeshtrade.fee.instrument_fee.v1\x1a4meshtrade/fee/instrument_fee/v1/instrument_fee.proto\x1a>meshtrade/fee/instrument_fee/v1/lifecycle_event_category.proto\x1a\x1emeshtrade/type/v1/amount.proto\"\r\n" +
+	"-meshtrade/fee/instrument_fee/v1/service.proto\x12\x1fmeshtrade.fee.instrument_fee.v1\x1a4meshtrade/fee/instrument_fee/v1/instrument_fee.proto\x1aFmeshtrade/fee/instrument_fee_profile/v1/lifecycle_event_category.proto\x1a\x1emeshtrade/type/v1/amount.proto\"\r\n" +
 	"\vListRequest\"R\n" +
 	"\fListResponse\x12B\n" +
 	"\x04fees\x18\x01 \x03(\v2..meshtrade.fee.instrument_fee.v1.InstrumentFeeR\x04fees\"P\n" +
@@ -480,10 +481,10 @@ const file_meshtrade_fee_instrument_fee_v1_service_proto_rawDesc = "" +
 	"\x1bCalculateBurningFeesRequest\x121\n" +
 	"\x06amount\x18\x01 \x01(\v2\x19.meshtrade.type.v1.AmountR\x06amount\"b\n" +
 	"\x1cCalculateBurningFeesResponse\x12B\n" +
-	"\x04fees\x18\x01 \x03(\v2..meshtrade.fee.instrument_fee.v1.InstrumentFeeR\x04fees\"\xb7\x01\n" +
+	"\x04fees\x18\x01 \x03(\v2..meshtrade.fee.instrument_fee.v1.InstrumentFeeR\x04fees\"\xbf\x01\n" +
 	"\x1dCalculateLifecycleFeesRequest\x12#\n" +
-	"\rinstrument_id\x18\x01 \x01(\tR\finstrumentId\x12q\n" +
-	"\x18lifecycle_event_category\x18\x02 \x01(\x0e27.meshtrade.fee.instrument_fee.v1.LifecycleEventCategoryR\x16lifecycleEventCategory\"d\n" +
+	"\rinstrument_id\x18\x01 \x01(\tR\finstrumentId\x12y\n" +
+	"\x18lifecycle_event_category\x18\x02 \x01(\x0e2?.meshtrade.fee.instrument_fee_profile.v1.LifecycleEventCategoryR\x16lifecycleEventCategory\"d\n" +
 	"\x1eCalculateLifecycleFeesResponse\x12B\n" +
 	"\x04fees\x18\x01 \x03(\v2..meshtrade.fee.instrument_fee.v1.InstrumentFeeR\x04fees\"\x13\n" +
 	"\x11FullUpdateRequest\"\x14\n" +
@@ -522,7 +523,7 @@ var file_meshtrade_fee_instrument_fee_v1_service_proto_goTypes = []any{
 	(*FullUpdateResponse)(nil),             // 9: meshtrade.fee.instrument_fee.v1.FullUpdateResponse
 	(*InstrumentFee)(nil),                  // 10: meshtrade.fee.instrument_fee.v1.InstrumentFee
 	(*v1.Amount)(nil),                      // 11: meshtrade.type.v1.Amount
-	(LifecycleEventCategory)(0),            // 12: meshtrade.fee.instrument_fee.v1.LifecycleEventCategory
+	(v11.LifecycleEventCategory)(0),        // 12: meshtrade.fee.instrument_fee_profile.v1.LifecycleEventCategory
 }
 var file_meshtrade_fee_instrument_fee_v1_service_proto_depIdxs = []int32{
 	10, // 0: meshtrade.fee.instrument_fee.v1.ListResponse.fees:type_name -> meshtrade.fee.instrument_fee.v1.InstrumentFee
@@ -530,7 +531,7 @@ var file_meshtrade_fee_instrument_fee_v1_service_proto_depIdxs = []int32{
 	10, // 2: meshtrade.fee.instrument_fee.v1.CalculateMintingFeesResponse.fees:type_name -> meshtrade.fee.instrument_fee.v1.InstrumentFee
 	11, // 3: meshtrade.fee.instrument_fee.v1.CalculateBurningFeesRequest.amount:type_name -> meshtrade.type.v1.Amount
 	10, // 4: meshtrade.fee.instrument_fee.v1.CalculateBurningFeesResponse.fees:type_name -> meshtrade.fee.instrument_fee.v1.InstrumentFee
-	12, // 5: meshtrade.fee.instrument_fee.v1.CalculateLifecycleFeesRequest.lifecycle_event_category:type_name -> meshtrade.fee.instrument_fee.v1.LifecycleEventCategory
+	12, // 5: meshtrade.fee.instrument_fee.v1.CalculateLifecycleFeesRequest.lifecycle_event_category:type_name -> meshtrade.fee.instrument_fee_profile.v1.LifecycleEventCategory
 	10, // 6: meshtrade.fee.instrument_fee.v1.CalculateLifecycleFeesResponse.fees:type_name -> meshtrade.fee.instrument_fee.v1.InstrumentFee
 	0,  // 7: meshtrade.fee.instrument_fee.v1.Service.List:input_type -> meshtrade.fee.instrument_fee.v1.ListRequest
 	2,  // 8: meshtrade.fee.instrument_fee.v1.Service.CalculateMintingFees:input_type -> meshtrade.fee.instrument_fee.v1.CalculateMintingFeesRequest
@@ -555,7 +556,6 @@ func file_meshtrade_fee_instrument_fee_v1_service_proto_init() {
 		return
 	}
 	file_meshtrade_fee_instrument_fee_v1_instrument_fee_proto_init()
-	file_meshtrade_fee_instrument_fee_v1_lifecycle_event_category_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

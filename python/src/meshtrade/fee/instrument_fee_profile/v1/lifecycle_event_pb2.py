@@ -22,11 +22,12 @@ _runtime_version.ValidateProtobufRuntimeVersion(
 _sym_db = _symbol_database.Default()
 
 
-from meshtrade.fee.instrument_fee_profile.v1 import lifecycle_event_calculation_config_pb2 as meshtrade_dot_fee_dot_instrument__fee__profile_dot_v1_dot_lifecycle__event__calculation__config__pb2
+from meshtrade.fee.instrument_fee_profile.v1 import lifecycle_event_calculation_config_amount_pb2 as meshtrade_dot_fee_dot_instrument__fee__profile_dot_v1_dot_lifecycle__event__calculation__config__amount__pb2
+from meshtrade.fee.instrument_fee_profile.v1 import lifecycle_event_calculation_config_rate_pb2 as meshtrade_dot_fee_dot_instrument__fee__profile_dot_v1_dot_lifecycle__event__calculation__config__rate__pb2
 from meshtrade.fee.instrument_fee_profile.v1 import lifecycle_event_category_pb2 as meshtrade_dot_fee_dot_instrument__fee__profile_dot_v1_dot_lifecycle__event__category__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n=meshtrade/fee/instrument_fee_profile/v1/lifecycle_event.proto\x12\'meshtrade.fee.instrument_fee_profile.v1\x1aPmeshtrade/fee/instrument_fee_profile/v1/lifecycle_event_calculation_config.proto\x1a\x46meshtrade/fee/instrument_fee_profile/v1/lifecycle_event_category.proto\"\x88\x02\n\x0eLifecycleEvent\x12 \n\x0b\x64\x65scription\x18\x01 \x01(\tR\x0b\x64\x65scription\x12[\n\x08\x63\x61tegory\x18\x02 \x01(\x0e\x32?.meshtrade.fee.instrument_fee_profile.v1.LifecycleEventCategoryR\x08\x63\x61tegory\x12w\n\x12\x63\x61lculation_config\x18\x03 \x01(\x0b\x32H.meshtrade.fee.instrument_fee_profile.v1.LifecycleEventCalculationConfigR\x11\x63\x61lculationConfigBTZRgithub.com/meshtrade/api/go/fee/instrument_fee_profile/v1;instrument_fee_profilev1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n=meshtrade/fee/instrument_fee_profile/v1/lifecycle_event.proto\x12\'meshtrade.fee.instrument_fee_profile.v1\x1aWmeshtrade/fee/instrument_fee_profile/v1/lifecycle_event_calculation_config_amount.proto\x1aUmeshtrade/fee/instrument_fee_profile/v1/lifecycle_event_calculation_config_rate.proto\x1a\x46meshtrade/fee/instrument_fee_profile/v1/lifecycle_event_category.proto\"\x89\x04\n\x0eLifecycleEvent\x12 \n\x0b\x64\x65scription\x18\x01 \x01(\tR\x0b\x64\x65scription\x12[\n\x08\x63\x61tegory\x18\x02 \x01(\x0e\x32?.meshtrade.fee.instrument_fee_profile.v1.LifecycleEventCategoryR\x08\x63\x61tegory\x12\xaa\x01\n)amount_lifecycle_event_calculation_config\x18\x03 \x01(\x0b\x32N.meshtrade.fee.instrument_fee_profile.v1.AmountLifecycleEventCalculationConfigH\x00R%amountLifecycleEventCalculationConfig\x12\xa4\x01\n\'rate_lifecycle_event_calculation_config\x18\x04 \x01(\x0b\x32L.meshtrade.fee.instrument_fee_profile.v1.RateLifecycleEventCalculationConfigH\x00R#rateLifecycleEventCalculationConfigB$\n\"lifecycle_event_calculation_configBTZRgithub.com/meshtrade/api/go/fee/instrument_fee_profile/v1;instrument_fee_profilev1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -34,6 +35,6 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'meshtrade.fee.instrument_fe
 if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'ZRgithub.com/meshtrade/api/go/fee/instrument_fee_profile/v1;instrument_fee_profilev1'
-  _globals['_LIFECYCLEEVENT']._serialized_start=261
-  _globals['_LIFECYCLEEVENT']._serialized_end=525
+  _globals['_LIFECYCLEEVENT']._serialized_start=355
+  _globals['_LIFECYCLEEVENT']._serialized_end=876
 # @@protoc_insertion_point(module_scope)

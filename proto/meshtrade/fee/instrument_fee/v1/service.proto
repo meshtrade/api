@@ -3,7 +3,7 @@ syntax = "proto3";
 package meshtrade.fee.instrument_fee.v1;
 
 import "meshtrade/fee/instrument_fee/v1/instrument_fee.proto";
-import "meshtrade/fee/instrument_fee/v1/lifecycle_event_category.proto";
+import "meshtrade/fee/instrument_fee_profile/v1/lifecycle_event_category.proto";
 import "meshtrade/type/v1/amount.proto";
 
 option go_package = "github.com/meshtrade/api/go/fee/instrument_fee/v1;instrument_feev1";
@@ -87,7 +87,7 @@ message CalculateLifecycleFeesRequest {
      LifecycleEventCategory is the category of lifecycle events for which
      lifecycle fees are calculated
   */
-  meshtrade.fee.instrument_fee.v1.LifecycleEventCategory lifecycle_event_category = 2;
+  meshtrade.fee.instrument_fee_profile.v1.LifecycleEventCategory lifecycle_event_category = 2;
 }
 
 /*
