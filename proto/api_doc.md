@@ -167,6 +167,12 @@
   
     - [Service](#meshtrade-iam-role-v1-Service)
   
+- [meshtrade/ledger/transaction/v1/transaction_action.proto](#meshtrade_ledger_transaction_v1_transaction_action-proto)
+    - [TransactionAction](#meshtrade-ledger-transaction-v1-TransactionAction)
+  
+- [meshtrade/ledger/transaction/v1/transaction_state.proto](#meshtrade_ledger_transaction_v1_transaction_state-proto)
+    - [TransactionState](#meshtrade-ledger-transaction-v1-TransactionState)
+  
 - [meshtrade/trading/direct_order/v1/direct_order.proto](#meshtrade_trading_direct_order_v1_direct_order-proto)
     - [DirectOrder](#meshtrade-trading-direct_order-v1-DirectOrder)
   
@@ -2146,6 +2152,73 @@ Role is a collection of permissions.
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
 | Get | [GetRequest](#meshtrade-iam-role-v1-GetRequest) | [GetResponse](#meshtrade-iam-role-v1-GetResponse) |  |
+
+ 
+
+
+
+<a name="meshtrade_ledger_transaction_v1_transaction_action-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/ledger/transaction/v1/transaction_action.proto
+
+
+ 
+
+
+<a name="meshtrade-ledger-transaction-v1-TransactionAction"></a>
+
+### TransactionAction
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| TRANSACTION_ACTION_UNSPECIFIED | 0 | Unknown or not specified. This is a default value to prevent accidental assignment and should not be used. |
+| TRANSACTION_ACTION_DO_NOTHING | 1 |  |
+| TRANSACTION_ACTION_BUILD | 2 |  |
+| TRANSACTION_ACTION_COMMIT | 3 |  |
+| TRANSACTION_ACTION_SIGN | 4 |  |
+| TRANSACTION_ACTION_MARK_PENDING | 5 |  |
+| TRANSACTION_ACTION_SUBMIT | 6 |  |
+
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="meshtrade_ledger_transaction_v1_transaction_state-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/ledger/transaction/v1/transaction_state.proto
+
+
+ 
+
+
+<a name="meshtrade-ledger-transaction-v1-TransactionState"></a>
+
+### TransactionState
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| TRANSACTION_STATE_UNSPECIFIED | 0 | Unknown or not specified. This is a default value to prevent accidental assignment and should not be used. |
+| TRANSACTION_STATE_DRAFT | 1 |  |
+| TRANSACTION_STATE_SIGNING_IN_PROGRESS | 2 |  |
+| TRANSACTION_STATE_PENDING | 3 |  |
+| TRANSACTION_STATE_SUBMISSION_IN_PROGRESS | 4 |  |
+| TRANSACTION_STATE_FAILED | 5 |  |
+| TRANSACTION_STATE_INDETERMINATE | 6 |  |
+| TRANSACTION_STATE_SUCCESSFUL | 7 |  |
+
+
+ 
+
+ 
 
  
 
