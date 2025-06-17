@@ -1,7 +1,7 @@
 version: v2
 modules:
   - path: proto
-    name: buf.build/mesh/api
+    name: buf.build/meshtrade/api
 
 deps:
   - buf.build/googleapis/googleapis

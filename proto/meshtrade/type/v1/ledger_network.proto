@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package meshtrade.type.v1;
+
+option go_package = "github.com/meshtrade/api/go/type/v1;typev1";
+
+/*
+   LedgerNetwork represents the various distributed ledger and traditional
+   accounting systems that Mesh interacts with. The term "Ledger" is used
+   inclusively to cover both blockchain and other value-tracking systems.
+   Note that numbering is not sequential for legacy reasons.
+*/
+enum LedgerNetwork {
+  /*
+     Unknown or not specified.
+     This is a default value to prevent accidental assignment and should not be used.
+  */
+  LEDGER_NETWORK_UNSPECIFIED = 0;
+
+  /*
+     The Stellar Network.
+     https://stellar.org
+  */
+  LEDGER_NETWORK_STELLAR = 3;
+
+  /*
+     The Bitcoin Network.
+     https://bitcoin.org
+  */
+  LEDGER_NETWORK_BITCOIN = 5;
+
+  /*
+     The Litecoin Network.
+     https://litecoin.org
+  */
+  LEDGER_NETWORK_LITECOIN = 7;
+
+  /*
+     The Ethereum Network.
+     https://ethereum.org
+  */
+  LEDGER_NETWORK_ETHEREUM = 9;
+
+  /*
+     The Ripple Network.
+     https://ripple.com
+  */
+  LEDGER_NETWORK_RIPPLE = 11;
+
+  /*
+     The SA Stockbrokers Platform.
+     https://www.sastockbrokers.net
+  */
+  LEDGER_NETWORK_SA_STOCK_BROKERS = 15;
+
+  /*
+     Null Network is a placeholder for assets without an accounting ledger.
+  */
+  LEDGER_NETWORK_NULL = 16;
+}
