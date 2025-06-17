@@ -1,6 +1,6 @@
 ---
 title: Go
-layout: home
+layout: page
 ---
 
 # Go Mesh API Integration SDKs

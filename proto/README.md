@@ -1,6 +1,8 @@
 ---
-title: Go
-layout: home
+layout: page
+title: Proto
+description: Full Mesh API protocol description.
+nav_order: 2
 ---
 
 # Protobuf Definitions for the Mesh API

@@ -1,6 +1,6 @@
 ---
 title: Docs
-layout: home
+layout: page
 ---
 
 # Source for the Docs Site of Mesh API

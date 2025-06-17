@@ -6,3 +6,6 @@ url: https://github.com/meshtrade/api
 
 mermaid:
   version: "11.6.0"
+
+logo: "/docs/assets/images/logo.svg"
+favicon_ico: "/docs/assets/images/favicon.svg"

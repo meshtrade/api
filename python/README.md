@@ -1,6 +1,6 @@
 ---
 title: Python
-layout: home
+layout: page
 ---
 # Python SDKs for Mesh APIs
 
