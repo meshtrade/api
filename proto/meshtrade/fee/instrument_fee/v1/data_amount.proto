@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package meshtrade.fee.instrument_fee.v1;
+
+import "meshtrade/type/v1/amount.proto";
+import "meshtrade/type/v1/decimal.proto";
+
+option go_package = "github.com/meshtrade/api/go/fee/instrument_fee/v1;instrument_feev1";
+
+/*
+   AmountData is the additional calculation data for a Fee
+   of a fixed amount.
+   This is used for flat fees that do not depend on a variable
+   base amount and percentage for calculation.
+*/
+message AmountData {
+  /*
+     AmountExclVAT is the VAT exclusive amount used to calculate
+     Fee.VatAmount and the resulting Fee.AmountInclVAT.
+  */
+  meshtrade.type.v1.Amount amount_excl_vat = 1;
+
+  /*
+     VATRate is the rate used to calculate Fee.VatAmount.
+  */
+  meshtrade.type.v1.Decimal vat_rate = 2;
+}

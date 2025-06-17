@@ -21,7 +21,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Address represents a physical postal address. It is designed to be flexible enough
+// Address is a physical postal address. It is designed to be flexible enough
 // to accommodate various international address formats.
 // Validation rules given are a guideline.
 // A conclusive set of validation rules for an address can be found with the service/type using

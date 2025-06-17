@@ -57,18 +57,18 @@ type NaturalPerson struct {
 	// If `postal_address` is not provided, this address will also be used for postal mail.
 	// Required for verification.
 	PhysicalAddress *v1.Address `protobuf:"bytes,7,opt,name=physical_address,json=physicalAddress,proto3" json:"physical_address,omitempty"`
+	// The client's postal address, if it is different from the physical address.
+	// Optional for verification.
+	PostalAddress *v1.Address `protobuf:"bytes,8,opt,name=postal_address,json=postalAddress,proto3" json:"postal_address,omitempty"`
 	// The client's status as a Politically Exposed Person (PEP).
 	// This is a mandatory check for regulatory compliance.
 	// Required for verification.
-	PepStatus PepStatus `protobuf:"varint,8,opt,name=pep_status,json=pepStatus,proto3,enum=meshtrade.compliance.client.v1.PepStatus" json:"pep_status,omitempty"`
-	// The client's postal address, if it is different from the physical address.
-	// Optional for verification.
-	PostalAddress *v1.Address `protobuf:"bytes,9,opt,name=postal_address,json=postalAddress,proto3" json:"postal_address,omitempty"`
+	PepStatus PepStatus `protobuf:"varint,9,opt,name=pep_status,json=pepStatus,proto3,enum=meshtrade.compliance.client.v1.PepStatus" json:"pep_status,omitempty"`
 	// The individual's personal contact details (personal email, personal mobile).
 	// Optional for verification.
-	PersonalContactDetails *v1.ContactDetails `protobuf:"bytes,10,opt,name=personal_contact_details,json=personalContactDetails,proto3" json:"personal_contact_details,omitempty"`
-	unknownFields          protoimpl.UnknownFields
-	sizeCache              protoimpl.SizeCache
+	ContactDetails *v1.ContactDetails `protobuf:"bytes,10,opt,name=contact_details,json=contactDetails,proto3" json:"contact_details,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *NaturalPerson) Reset() {
@@ -150,13 +150,6 @@ func (x *NaturalPerson) GetPhysicalAddress() *v1.Address {
 	return nil
 }
 
-func (x *NaturalPerson) GetPepStatus() PepStatus {
-	if x != nil {
-		return x.PepStatus
-	}
-	return PepStatus_PEP_STATUS_UNSPECIFIED
-}
-
 func (x *NaturalPerson) GetPostalAddress() *v1.Address {
 	if x != nil {
 		return x.PostalAddress
@@ -164,9 +157,16 @@ func (x *NaturalPerson) GetPostalAddress() *v1.Address {
 	return nil
 }
 
-func (x *NaturalPerson) GetPersonalContactDetails() *v1.ContactDetails {
+func (x *NaturalPerson) GetPepStatus() PepStatus {
 	if x != nil {
-		return x.PersonalContactDetails
+		return x.PepStatus
+	}
+	return PepStatus_PEP_STATUS_UNSPECIFIED
+}
+
+func (x *NaturalPerson) GetContactDetails() *v1.ContactDetails {
+	if x != nil {
+		return x.ContactDetails
 	}
 	return nil
 }
@@ -175,7 +175,7 @@ var File_meshtrade_compliance_client_v1_natural_person_proto protoreflect.FileDe
 
 const file_meshtrade_compliance_client_v1_natural_person_proto_rawDesc = "" +
 	"\n" +
-	"3meshtrade/compliance/client/v1/natural_person.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x16google/type/date.proto\x1aAmeshtrade/compliance/client/v1/identification_document_type.proto\x1a/meshtrade/compliance/client/v1/pep_status.proto\x1a\x1fmeshtrade/type/v1/address.proto\x1a'meshtrade/type/v1/contact_details.proto\"\xdf\x05\n" +
+	"3meshtrade/compliance/client/v1/natural_person.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x16google/type/date.proto\x1aAmeshtrade/compliance/client/v1/identification_document_type.proto\x1a/meshtrade/compliance/client/v1/pep_status.proto\x1a\x1fmeshtrade/type/v1/address.proto\x1a'meshtrade/type/v1/contact_details.proto\"\xce\x05\n" +
 	"\rNaturalPerson\x12\x1b\n" +
 	"\tfull_name\x18\x01 \x01(\tR\bfullName\x125\n" +
 	"\rdate_of_birth\x18\x02 \x01(\v2\x11.google.type.DateR\vdateOfBirth\x124\n" +
@@ -183,12 +183,12 @@ const file_meshtrade_compliance_client_v1_natural_person_proto_rawDesc = "" +
 	"\x15identification_number\x18\x04 \x01(\tR\x14identificationNumber\x12|\n" +
 	"\x1cidentification_document_type\x18\x05 \x01(\x0e2:.meshtrade.compliance.client.v1.IdentificationDocumentTypeR\x1aidentificationDocumentType\x12`\n" +
 	"#identification_document_expiry_date\x18\x06 \x01(\v2\x11.google.type.DateR identificationDocumentExpiryDate\x12E\n" +
-	"\x10physical_address\x18\a \x01(\v2\x1a.meshtrade.type.v1.AddressR\x0fphysicalAddress\x12H\n" +
+	"\x10physical_address\x18\a \x01(\v2\x1a.meshtrade.type.v1.AddressR\x0fphysicalAddress\x12A\n" +
+	"\x0epostal_address\x18\b \x01(\v2\x1a.meshtrade.type.v1.AddressR\rpostalAddress\x12H\n" +
 	"\n" +
-	"pep_status\x18\b \x01(\x0e2).meshtrade.compliance.client.v1.PepStatusR\tpepStatus\x12A\n" +
-	"\x0epostal_address\x18\t \x01(\v2\x1a.meshtrade.type.v1.AddressR\rpostalAddress\x12[\n" +
-	"\x18personal_contact_details\x18\n" +
-	" \x01(\v2!.meshtrade.type.v1.ContactDetailsR\x16personalContactDetailsB;Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
+	"pep_status\x18\t \x01(\x0e2).meshtrade.compliance.client.v1.PepStatusR\tpepStatus\x12J\n" +
+	"\x0fcontact_details\x18\n" +
+	" \x01(\v2!.meshtrade.type.v1.ContactDetailsR\x0econtactDetailsB;Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
 
 var (
 	file_meshtrade_compliance_client_v1_natural_person_proto_rawDescOnce sync.Once
@@ -216,9 +216,9 @@ var file_meshtrade_compliance_client_v1_natural_person_proto_depIdxs = []int32{
 	2, // 1: meshtrade.compliance.client.v1.NaturalPerson.identification_document_type:type_name -> meshtrade.compliance.client.v1.IdentificationDocumentType
 	1, // 2: meshtrade.compliance.client.v1.NaturalPerson.identification_document_expiry_date:type_name -> google.type.Date
 	3, // 3: meshtrade.compliance.client.v1.NaturalPerson.physical_address:type_name -> meshtrade.type.v1.Address
-	4, // 4: meshtrade.compliance.client.v1.NaturalPerson.pep_status:type_name -> meshtrade.compliance.client.v1.PepStatus
-	3, // 5: meshtrade.compliance.client.v1.NaturalPerson.postal_address:type_name -> meshtrade.type.v1.Address
-	5, // 6: meshtrade.compliance.client.v1.NaturalPerson.personal_contact_details:type_name -> meshtrade.type.v1.ContactDetails
+	3, // 4: meshtrade.compliance.client.v1.NaturalPerson.postal_address:type_name -> meshtrade.type.v1.Address
+	4, // 5: meshtrade.compliance.client.v1.NaturalPerson.pep_status:type_name -> meshtrade.compliance.client.v1.PepStatus
+	5, // 6: meshtrade.compliance.client.v1.NaturalPerson.contact_details:type_name -> meshtrade.type.v1.ContactDetails
 	7, // [7:7] is the sub-list for method output_type
 	7, // [7:7] is the sub-list for method input_type
 	7, // [7:7] is the sub-list for extension type_name

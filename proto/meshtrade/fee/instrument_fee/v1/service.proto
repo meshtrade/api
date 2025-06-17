@@ -1,0 +1,111 @@
+syntax = "proto3";
+
+package meshtrade.fee.instrument_fee.v1;
+
+import "meshtrade/fee/instrument_fee/v1/instrument_fee.proto";
+import "meshtrade/fee/instrument_fee/v1/lifecycle_event_category.proto";
+import "meshtrade/type/v1/amount.proto";
+
+option go_package = "github.com/meshtrade/api/go/fee/instrument_fee/v1;instrument_feev1";
+
+/*
+   Service is the Fee Service.
+*/
+service Service {
+  rpc List(ListRequest) returns (ListResponse);
+  rpc CalculateMintingFees(CalculateMintingFeesRequest) returns (CalculateMintingFeesResponse);
+  rpc CalculateBurningFees(CalculateBurningFeesRequest) returns (CalculateBurningFeesResponse);
+  rpc CalculateLifecycleFees(CalculateLifecycleFeesRequest) returns (CalculateLifecycleFeesResponse);
+  rpc FullUpdate(FullUpdateRequest) returns (FullUpdateResponse);
+}
+
+/*
+   ListRequest is the List method request on the Fee Service.
+*/
+message ListRequest {}
+
+/*
+   ListResponse is the List method response on the Fee Service.
+*/
+message ListResponse {
+  /*
+     Fees are the list of fees that were retrieved.
+  */
+  repeated meshtrade.fee.instrument_fee.v1.InstrumentFee fees = 1;
+}
+
+/*
+   CalculateMintingFeesRequest is the CalculateMintingFees method request on the Fee Service.
+*/
+message CalculateMintingFeesRequest {
+  /*
+     Amount is the mint Amount for which fees are calculated.
+  */
+  meshtrade.type.v1.Amount amount = 1;
+}
+
+/*
+   CalculateMintingFeesResponse is the CalculateMintingFees method response on the Fee Service.
+*/
+message CalculateMintingFeesResponse {
+  /*
+     Fees are the fees calculated for the requested mint amount.
+  */
+  repeated meshtrade.fee.instrument_fee.v1.InstrumentFee fees = 1;
+}
+
+/*
+   CalculateBurningFeesRequest is the CalculateBurningFees method request on the Fee Service.
+*/
+message CalculateBurningFeesRequest {
+  /*
+     Amount is the burn Amount for which fees are calculated.
+  */
+  meshtrade.type.v1.Amount amount = 1;
+}
+
+/*
+   CalculateBurningFeesResponse is the CalculateBurningFees method response on the Fee Service.
+*/
+message CalculateBurningFeesResponse {
+  /*
+     Fees are the fees calculated for the requested burn amount.
+  */
+  repeated meshtrade.fee.instrument_fee.v1.InstrumentFee fees = 1;
+}
+
+/*
+   CalculateLifecycleFeesRequest is the CalculateLifecycleFees method request on the Fee Service.
+*/
+message CalculateLifecycleFeesRequest {
+  /*
+     InstrumentID is the id of the instrument for which lifecycle fees are calculated.
+  */
+  string instrument_id = 1;
+
+  /*
+     LifecycleEventCategory is the category of lifecycle events for which
+     lifecycle fees are calculated
+  */
+  meshtrade.fee.instrument_fee.v1.LifecycleEventCategory lifecycle_event_category = 2;
+}
+
+/*
+   CalculateLifecycleFeesResponse is the CalculateLifecycleFees method response on the Fee Service.
+*/
+message CalculateLifecycleFeesResponse {
+  /*
+     Fees are the fees calculated for the requested instrument.
+  */
+  repeated meshtrade.fee.instrument_fee.v1.InstrumentFee fees = 1;
+}
+
+/*
+   FullUpdateRequest is the empty FullUpdate method request on the Fee Service.
+*/
+message FullUpdateRequest {}
+
+/*
+   FullUpdateResponse is the empty FullUpdate method response on the Fee Service.
+*/
+message FullUpdateResponse {}
