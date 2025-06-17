@@ -9,7 +9,7 @@ option go_package = "github.com/meshtrade/api/go/type/v1;typev1";
 /*
    Token is Mesh's canonical model for uniquely and unambiguously identifying any
    digital asset across any supported ledger. It provides a powerful abstraction
-   layer that resolves the complexities of multi-chain asset representation.
+   layer that resolves the complexities of multi-chain/ledger asset representation.
    This allows any part of the Mesh system to work with a single, universal
    concept of a token, regardless of the underlying ledger's specific
    implementation.
