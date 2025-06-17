@@ -1,11 +1,12 @@
 import { LoggingInterceptor } from "../grpc_web";
 import { ConfigOpts, getConfigFromOpts } from "./config";
 import { ServiceConstructorArgs } from "./service";
-import { Instrument, Legal } from "./services";
+import { Instrument, Legal, Banking } from "./services";
 
 export class Client {
   private _instrument: Instrument;
   private _legal: Legal;
+  private _banking: Banking;
 
   constructor(config?: ConfigOpts) {
     // process config
@@ -24,7 +25,7 @@ export class Client {
     // construct services
     this._instrument = new Instrument(args);
     this._legal = new Legal(args);
-    // TODO funding client
+    this._banking = new Banking(args);
   }
 
   public get instrument(): Instrument {
@@ -33,5 +34,9 @@ export class Client {
 
   public get legal(): Legal {
     return this._legal;
+  }
+
+  public get banking(): Banking {
+    return this._banking;
   }
 }
