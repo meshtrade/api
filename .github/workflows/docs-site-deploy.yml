@@ -1,15 +1,10 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
+name: Deploy Docs Site
 
-# Sample workflow for building and deploying a Jekyll site to GitHub Pages
-name: Deploy Jekyll site to Pages
-
+# Triggers on tags like 'api-dev-v1.0', 'api-dev-v0.2-alpha'
 on:
-  # Runs on pushes targeting the default branch
   push:
-    branches: ["api-dev"]
+    tags:
+      - 'api-dev-v*'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
