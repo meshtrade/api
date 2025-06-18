@@ -5,6 +5,7 @@ package api.banking.funding;
 option go_package = "github.com/meshtrade/api/go/banking/funding";
 
 import "api/proto/ledger/amount.proto";
+import "google/protobuf/timestamp.proto";
 
 /*
 TODO
@@ -39,6 +40,16 @@ message Funding {
   The state of the funding order.
   */
   FundingState state = 6;
+
+  /*
+  The stateReason for the funding order.
+  */
+  string stateReason = 7;
+
+  /*
+  The date the funding amount was available to Mesh
+  */
+  google.protobuf.Timestamp valueDate = 8;
 }
 
 enum FundingState {
@@ -74,10 +85,19 @@ message FundingOrderMetaData {
   }
 }
 
+message InvestecDirectEFTMetaData {
+  string transactionID = 1;
+  string externalTransactionID = 2;
+  string externalReference = 3; // bankReference
+  string reference = 4; // The reference used  to identify the account to be funded.
+  string bankName = 5;
+}
+
 message PeachSettlementMetaData {
   string transactionID = 1;
   string externalTransactionID = 2;
   string externalReference = 3;
+  string bankName = 4;
 }
 
 message PeachPaymentMetaData {
@@ -89,6 +109,7 @@ message PeachPaymentMetaData {
   PeachFee fee = 6;
   PeachClientDetails clientDetails = 7;
   string userSpecifiedAccount = 8;
+  string bankName = 9;
 }
 
 message PeachClientDetails {
@@ -100,10 +121,4 @@ message PeachFee {
   api.ledger.Amount FeeIncVat = 1;
   api.ledger.Amount FeeExlVat = 2;
   api.ledger.Amount VatAmount = 3;
-}
-
-message InvestecDirectEFTMetaData {
-  string transactionID = 1;
-  string externalTransactionID = 2;
-  string externalReference = 3;
 }

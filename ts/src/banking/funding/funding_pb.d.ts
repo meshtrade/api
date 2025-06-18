@@ -6,6 +6,7 @@
 
 import * as jspb from "google-protobuf";
 import * as api_proto_ledger_amount_pb from "../../ledger/amount_pb";
+import * as google_protobuf_timestamp_pb from "google-protobuf/google/protobuf/timestamp_pb";
 
 export class Funding extends jspb.Message { 
     getNumber(): string;
@@ -26,6 +27,13 @@ export class Funding extends jspb.Message {
     setAccountnumber(value: string): Funding;
     getState(): FundingState;
     setState(value: FundingState): Funding;
+    getStatereason(): string;
+    setStatereason(value: string): Funding;
+
+    hasValuedate(): boolean;
+    clearValuedate(): void;
+    getValuedate(): google_protobuf_timestamp_pb.Timestamp | undefined;
+    setValuedate(value?: google_protobuf_timestamp_pb.Timestamp): Funding;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): Funding.AsObject;
@@ -45,6 +53,8 @@ export namespace Funding {
         metadata?: FundingOrderMetaData.AsObject,
         accountnumber: string,
         state: FundingState,
+        statereason: string,
+        valuedate?: google_protobuf_timestamp_pb.Timestamp.AsObject,
     }
 }
 
@@ -93,6 +103,38 @@ export namespace FundingOrderMetaData {
 
 }
 
+export class InvestecDirectEFTMetaData extends jspb.Message { 
+    getTransactionid(): string;
+    setTransactionid(value: string): InvestecDirectEFTMetaData;
+    getExternaltransactionid(): string;
+    setExternaltransactionid(value: string): InvestecDirectEFTMetaData;
+    getExternalreference(): string;
+    setExternalreference(value: string): InvestecDirectEFTMetaData;
+    getReference(): string;
+    setReference(value: string): InvestecDirectEFTMetaData;
+    getBankname(): string;
+    setBankname(value: string): InvestecDirectEFTMetaData;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): InvestecDirectEFTMetaData.AsObject;
+    static toObject(includeInstance: boolean, msg: InvestecDirectEFTMetaData): InvestecDirectEFTMetaData.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: InvestecDirectEFTMetaData, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): InvestecDirectEFTMetaData;
+    static deserializeBinaryFromReader(message: InvestecDirectEFTMetaData, reader: jspb.BinaryReader): InvestecDirectEFTMetaData;
+}
+
+export namespace InvestecDirectEFTMetaData {
+    export type AsObject = {
+        transactionid: string,
+        externaltransactionid: string,
+        externalreference: string,
+        reference: string,
+        bankname: string,
+    }
+}
+
 export class PeachSettlementMetaData extends jspb.Message { 
     getTransactionid(): string;
     setTransactionid(value: string): PeachSettlementMetaData;
@@ -100,6 +142,8 @@ export class PeachSettlementMetaData extends jspb.Message {
     setExternaltransactionid(value: string): PeachSettlementMetaData;
     getExternalreference(): string;
     setExternalreference(value: string): PeachSettlementMetaData;
+    getBankname(): string;
+    setBankname(value: string): PeachSettlementMetaData;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): PeachSettlementMetaData.AsObject;
@@ -116,6 +160,7 @@ export namespace PeachSettlementMetaData {
         transactionid: string,
         externaltransactionid: string,
         externalreference: string,
+        bankname: string,
     }
 }
 
@@ -142,6 +187,8 @@ export class PeachPaymentMetaData extends jspb.Message {
     setClientdetails(value?: PeachClientDetails): PeachPaymentMetaData;
     getUserspecifiedaccount(): string;
     setUserspecifiedaccount(value: string): PeachPaymentMetaData;
+    getBankname(): string;
+    setBankname(value: string): PeachPaymentMetaData;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): PeachPaymentMetaData.AsObject;
@@ -163,6 +210,7 @@ export namespace PeachPaymentMetaData {
         fee?: PeachFee.AsObject,
         clientdetails?: PeachClientDetails.AsObject,
         userspecifiedaccount: string,
+        bankname: string,
     }
 }
 
@@ -221,32 +269,6 @@ export namespace PeachFee {
         feeincvat?: api_proto_ledger_amount_pb.Amount.AsObject,
         feeexlvat?: api_proto_ledger_amount_pb.Amount.AsObject,
         vatamount?: api_proto_ledger_amount_pb.Amount.AsObject,
-    }
-}
-
-export class InvestecDirectEFTMetaData extends jspb.Message { 
-    getTransactionid(): string;
-    setTransactionid(value: string): InvestecDirectEFTMetaData;
-    getExternaltransactionid(): string;
-    setExternaltransactionid(value: string): InvestecDirectEFTMetaData;
-    getExternalreference(): string;
-    setExternalreference(value: string): InvestecDirectEFTMetaData;
-
-    serializeBinary(): Uint8Array;
-    toObject(includeInstance?: boolean): InvestecDirectEFTMetaData.AsObject;
-    static toObject(includeInstance: boolean, msg: InvestecDirectEFTMetaData): InvestecDirectEFTMetaData.AsObject;
-    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-    static serializeBinaryToWriter(message: InvestecDirectEFTMetaData, writer: jspb.BinaryWriter): void;
-    static deserializeBinary(bytes: Uint8Array): InvestecDirectEFTMetaData;
-    static deserializeBinaryFromReader(message: InvestecDirectEFTMetaData, reader: jspb.BinaryReader): InvestecDirectEFTMetaData;
-}
-
-export namespace InvestecDirectEFTMetaData {
-    export type AsObject = {
-        transactionid: string,
-        externaltransactionid: string,
-        externalreference: string,
     }
 }
 
