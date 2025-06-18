@@ -5,6 +5,9 @@ set -Eeuo pipefail
 find ./go \
   \( -name '*.pb.go' \) \
   -print0 | xargs -0 -P 4 -n 1 rm -v
+find ./go \
+  \( -name '*.pb.gw.go' \) \
+  -print0 | xargs -0 -P 4 -n 1 rm -v
 
 # python clean
 find ./python/src/meshtrade \
