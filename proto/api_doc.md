@@ -69,83 +69,6 @@
   
     - [Service](#meshtrade-compliance-client-v1-Service)
   
-- [meshtrade/type/v1/decimal.proto](#meshtrade_type_v1_decimal-proto)
-    - [Decimal](#meshtrade-type-v1-Decimal)
-  
-- [meshtrade/type/v1/ledger.proto](#meshtrade_type_v1_ledger-proto)
-    - [Ledger](#meshtrade-type-v1-Ledger)
-  
-- [meshtrade/type/v1/token.proto](#meshtrade_type_v1_token-proto)
-    - [Token](#meshtrade-type-v1-Token)
-  
-- [meshtrade/type/v1/amount.proto](#meshtrade_type_v1_amount-proto)
-    - [Amount](#meshtrade-type-v1-Amount)
-  
-- [meshtrade/fee/instrument_fee/v1/data_amount.proto](#meshtrade_fee_instrument_fee_v1_data_amount-proto)
-    - [AmountData](#meshtrade-fee-instrument_fee-v1-AmountData)
-  
-- [meshtrade/fee/instrument_fee/v1/data_per_unit.proto](#meshtrade_fee_instrument_fee_v1_data_per_unit-proto)
-    - [PerUnitData](#meshtrade-fee-instrument_fee-v1-PerUnitData)
-  
-- [meshtrade/fee/instrument_fee/v1/data_rate.proto](#meshtrade_fee_instrument_fee_v1_data_rate-proto)
-    - [RateData](#meshtrade-fee-instrument_fee-v1-RateData)
-  
-- [meshtrade/fee/instrument_fee/v1/instrument_fee.proto](#meshtrade_fee_instrument_fee_v1_instrument_fee-proto)
-    - [InstrumentFee](#meshtrade-fee-instrument_fee-v1-InstrumentFee)
-  
-    - [Category](#meshtrade-fee-instrument_fee-v1-Category)
-    - [State](#meshtrade-fee-instrument_fee-v1-State)
-  
-- [meshtrade/fee/instrument_fee_profile/v1/lifecycle_event_category.proto](#meshtrade_fee_instrument_fee_profile_v1_lifecycle_event_category-proto)
-    - [LifecycleEventCategory](#meshtrade-fee-instrument_fee_profile-v1-LifecycleEventCategory)
-  
-- [meshtrade/fee/instrument_fee/v1/service.proto](#meshtrade_fee_instrument_fee_v1_service-proto)
-    - [CalculateBurningFeesRequest](#meshtrade-fee-instrument_fee-v1-CalculateBurningFeesRequest)
-    - [CalculateBurningFeesResponse](#meshtrade-fee-instrument_fee-v1-CalculateBurningFeesResponse)
-    - [CalculateLifecycleFeesRequest](#meshtrade-fee-instrument_fee-v1-CalculateLifecycleFeesRequest)
-    - [CalculateLifecycleFeesResponse](#meshtrade-fee-instrument_fee-v1-CalculateLifecycleFeesResponse)
-    - [CalculateMintingFeesRequest](#meshtrade-fee-instrument_fee-v1-CalculateMintingFeesRequest)
-    - [CalculateMintingFeesResponse](#meshtrade-fee-instrument_fee-v1-CalculateMintingFeesResponse)
-    - [FullUpdateRequest](#meshtrade-fee-instrument_fee-v1-FullUpdateRequest)
-    - [FullUpdateResponse](#meshtrade-fee-instrument_fee-v1-FullUpdateResponse)
-    - [ListRequest](#meshtrade-fee-instrument_fee-v1-ListRequest)
-    - [ListResponse](#meshtrade-fee-instrument_fee-v1-ListResponse)
-  
-    - [Service](#meshtrade-fee-instrument_fee-v1-Service)
-  
-- [meshtrade/fee/instrument_fee_profile/v1/aum.proto](#meshtrade_fee_instrument_fee_profile_v1_aum-proto)
-    - [AUM](#meshtrade-fee-instrument_fee_profile-v1-AUM)
-  
-- [meshtrade/fee/instrument_fee_profile/v1/lifecycle_event_calculation_config_amount.proto](#meshtrade_fee_instrument_fee_profile_v1_lifecycle_event_calculation_config_amount-proto)
-    - [AmountLifecycleEventCalculationConfig](#meshtrade-fee-instrument_fee_profile-v1-AmountLifecycleEventCalculationConfig)
-  
-- [meshtrade/fee/instrument_fee_profile/v1/lifecycle_event_calculation_config_rate.proto](#meshtrade_fee_instrument_fee_profile_v1_lifecycle_event_calculation_config_rate-proto)
-    - [RateLifecycleEventCalculationConfig](#meshtrade-fee-instrument_fee_profile-v1-RateLifecycleEventCalculationConfig)
-  
-- [meshtrade/fee/instrument_fee_profile/v1/lifecycle_event.proto](#meshtrade_fee_instrument_fee_profile_v1_lifecycle_event-proto)
-    - [LifecycleEvent](#meshtrade-fee-instrument_fee_profile-v1-LifecycleEvent)
-  
-- [meshtrade/fee/instrument_fee_profile/v1/tokenisation.proto](#meshtrade_fee_instrument_fee_profile_v1_tokenisation-proto)
-    - [Tokenisation](#meshtrade-fee-instrument_fee_profile-v1-Tokenisation)
-  
-- [meshtrade/fee/instrument_fee_profile/v1/fee_profile.proto](#meshtrade_fee_instrument_fee_profile_v1_fee_profile-proto)
-    - [FeeProfile](#meshtrade-fee-instrument_fee_profile-v1-FeeProfile)
-  
-- [meshtrade/fee/instrument_fee_profile/v1/lifecycle_event_calculation_config_type.proto](#meshtrade_fee_instrument_fee_profile_v1_lifecycle_event_calculation_config_type-proto)
-    - [LifecycleEventCalculationConfigType](#meshtrade-fee-instrument_fee_profile-v1-LifecycleEventCalculationConfigType)
-  
-- [meshtrade/fee/instrument_fee_profile/v1/service.proto](#meshtrade_fee_instrument_fee_profile_v1_service-proto)
-    - [CreateRequest](#meshtrade-fee-instrument_fee_profile-v1-CreateRequest)
-    - [CreateResponse](#meshtrade-fee-instrument_fee_profile-v1-CreateResponse)
-    - [GetRequest](#meshtrade-fee-instrument_fee_profile-v1-GetRequest)
-    - [GetResponse](#meshtrade-fee-instrument_fee_profile-v1-GetResponse)
-    - [ListRequest](#meshtrade-fee-instrument_fee_profile-v1-ListRequest)
-    - [ListResponse](#meshtrade-fee-instrument_fee_profile-v1-ListResponse)
-    - [UpdateRequest](#meshtrade-fee-instrument_fee_profile-v1-UpdateRequest)
-    - [UpdateResponse](#meshtrade-fee-instrument_fee_profile-v1-UpdateResponse)
-  
-    - [Service](#meshtrade-fee-instrument_fee_profile-v1-Service)
-  
 - [meshtrade/iam/group/v1/group.proto](#meshtrade_iam_group_v1_group-proto)
     - [Group](#meshtrade-iam-group-v1-Group)
   
@@ -199,6 +122,18 @@
     - [GetResponse](#meshtrade-trading-spot-v1-GetResponse)
   
     - [Service](#meshtrade-trading-spot-v1-Service)
+  
+- [meshtrade/type/v1/decimal.proto](#meshtrade_type_v1_decimal-proto)
+    - [Decimal](#meshtrade-type-v1-Decimal)
+  
+- [meshtrade/type/v1/ledger.proto](#meshtrade_type_v1_ledger-proto)
+    - [Ledger](#meshtrade-type-v1-Ledger)
+  
+- [meshtrade/type/v1/token.proto](#meshtrade_type_v1_token-proto)
+    - [Token](#meshtrade-type-v1-Token)
+  
+- [meshtrade/type/v1/amount.proto](#meshtrade_type_v1_amount-proto)
+    - [Amount](#meshtrade-type-v1-Amount)
   
 - [meshtrade/wallet/account/v1/account.proto](#meshtrade_wallet_account_v1_account-proto)
     - [Account](#meshtrade-wallet-account-v1-Account)
@@ -1036,929 +971,6 @@ and verification status related to a single party.
 
 
 
-<a name="meshtrade_type_v1_decimal-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## meshtrade/type/v1/decimal.proto
-
-
-
-<a name="meshtrade-type-v1-Decimal"></a>
-
-### Decimal
-Decimal is a representation of a decimal value, such as 2.5.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| value | [string](#string) |  | The decimal value, as a string. |
-
-
-
-
-
- 
-
- 
-
- 
-
- 
-
-
-
-<a name="meshtrade_type_v1_ledger-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## meshtrade/type/v1/ledger.proto
-
-
- 
-
-
-<a name="meshtrade-type-v1-Ledger"></a>
-
-### Ledger
-Ledger represents the various distributed and centralized systems that Mesh
-interacts with where value is accounted for. The term &#34;Ledger&#34; is used
-inclusively to cover both blockchain and other value-tracking systems.
-Note that numbering is not sequential for legacy reasons.
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| LEDGER_UNSPECIFIED | 0 | Indicates an unknown or unspecified ledger. This default value helps prevent accidental assignment and should not be used in practice. |
-| LEDGER_STELLAR | 3 | The Stellar public ledger network. See: https://stellar.org |
-| LEDGER_BITCOIN | 5 | The Bitcoin public ledger network. See: https://bitcoin.org |
-| LEDGER_LITECOIN | 7 | The Litecoin public ledger network. See: https://litecoin.org |
-| LEDGER_ETHEREUM | 9 | The Ethereum public ledger network. See: https://ethereum.org |
-| LEDGER_XRP | 11 | The XRP Ledger (formerly Ripple). See: https://xrpl.org |
-| LEDGER_SA_STOCK_BROKERS | 15 | The proprietary ledger for the SA Stockbrokers platform. |
-| LEDGER_NULL | 16 | A null ledger, used as a placeholder for assets that do not have an external or on-chain accounting ledger. |
-
-
- 
-
- 
-
- 
-
-
-
-<a name="meshtrade_type_v1_token-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## meshtrade/type/v1/token.proto
-
-
-
-<a name="meshtrade-type-v1-Token"></a>
-
-### Token
-Token is Mesh&#39;s canonical model for uniquely and unambiguously identifying any
-digital asset across any supported ledger. It provides a powerful abstraction
-layer that resolves the complexities of multi-chain/ledger asset representation.
-This allows any part of the Mesh system to work with a single, universal
-concept of a token, regardless of the underlying ledger&#39;s specific
-implementation.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| code | [string](#string) |  | The commonly accepted symbol, ticker, or code for the token (e.g., &#34;BTC&#34;, &#34;ETH&#34;, &#34;USDC&#34;). It is not unique without the `issuer` and `ledger`. Required field. |
-| issuer | [string](#string) |  | Issuer is a reference to issuing entity of the token. For NATIVE assets on a ledger (e.g., ETH on Ethereum), the issuer is the ledger itself, represented by the reserved string __LEDGER__. For ALL other issued assets (e.g., ERC-20 tokens), this is the unique identifier of the issuing entity, such as a smart contract address on Ethereum or an issuance account public key on Stellar. Required field. |
-| ledger | [Ledger](#meshtrade-type-v1-Ledger) |  | The ledger ledger on which the token exists. This field disambiguates assets that may share a code and issuer across different chains (e.g., USDC on Ethereum vs. USDC on Polygon). Required field. |
-
-
-
-
-
- 
-
- 
-
- 
-
- 
-
-
-
-<a name="meshtrade_type_v1_amount-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## meshtrade/type/v1/amount.proto
-
-
-
-<a name="meshtrade-type-v1-Amount"></a>
-
-### Amount
-A canonical structure for representing a precise quantity of a specific
-digital asset.
-An Amount is a self-describing monetary value, pairing a Universal Token
-Identifier (the &#39;what&#39;) with a high-precision Decimal value (the &#39;how much&#39;).
-This model ensures that a quantity of an asset is never ambiguous.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| token | [Token](#meshtrade-type-v1-Token) |  | Token is the unit of account. This field uses the Universal Token Identifier to define exactly WHAT asset is being quantified. |
-| value | [Decimal](#meshtrade-type-v1-Decimal) |  | Value is the magnitude of the amount, representing HOW MUCH of the specified token this value holds. CRITICAL: To prevent precision errors, this decimal value MUST be truncated to the exact number of decimal places supported by the token&#39;s native ledger. |
-
-
-
-
-
- 
-
- 
-
- 
-
- 
-
-
-
-<a name="meshtrade_fee_instrument_fee_v1_data_amount-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## meshtrade/fee/instrument_fee/v1/data_amount.proto
-
-
-
-<a name="meshtrade-fee-instrument_fee-v1-AmountData"></a>
-
-### AmountData
-AmountData is the additional calculation data for a Fee
-of a fixed amount.
-This is used for flat fees that do not depend on a variable
-base amount and percentage for calculation.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| amount_excl_vat | [meshtrade.type.v1.Amount](#meshtrade-type-v1-Amount) |  | AmountExclVAT is the VAT exclusive amount used to calculate Fee.VatAmount and the resulting Fee.AmountInclVAT. |
-| vat_rate | [meshtrade.type.v1.Decimal](#meshtrade-type-v1-Decimal) |  | VATRate is the rate used to calculate Fee.VatAmount. |
-
-
-
-
-
- 
-
- 
-
- 
-
- 
-
-
-
-<a name="meshtrade_fee_instrument_fee_v1_data_per_unit-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## meshtrade/fee/instrument_fee/v1/data_per_unit.proto
-
-
-
-<a name="meshtrade-fee-instrument_fee-v1-PerUnitData"></a>
-
-### PerUnitData
-PerUnitData is the additional calculation data for a Fee
-calculated using a variable amount of tokens and a set
-amount per token.
-For example, this is used for minting and burning fees where
-the Fee amount depends on the number of tokens minted
-or burned, and the fee amount per token minted or burned.
-@bson-marshalled
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| no_units | [meshtrade.type.v1.Decimal](#meshtrade-type-v1-Decimal) |  | NoUnits is the number of tokens for which a set fee amount is charged and is used to calculate the AmountExclVAT. |
-| per_unit_amount | [meshtrade.type.v1.Amount](#meshtrade-type-v1-Amount) |  | PerUnitAmount is the fee amount per token that gets multiplied with the NoUnits to calculate the AmountExclVAT. |
-| amount_excl_vat | [meshtrade.type.v1.Amount](#meshtrade-type-v1-Amount) |  | AmountExclVAT is the VAT exclusive amount used to calculate Fee.VatAmount and the resulting Fee.AmountInclVAT. |
-| vat_rate | [meshtrade.type.v1.Decimal](#meshtrade-type-v1-Decimal) |  | VATRate is the rate used to calculate Fee.VatAmount. |
-
-
-
-
-
- 
-
- 
-
- 
-
- 
-
-
-
-<a name="meshtrade_fee_instrument_fee_v1_data_rate-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## meshtrade/fee/instrument_fee/v1/data_rate.proto
-
-
-
-<a name="meshtrade-fee-instrument_fee-v1-RateData"></a>
-
-### RateData
-RateData is the additional calculation data for a Fee
-calculated using a percentage rate and a variable base
-amount.
-This is used for fees that depend on a base amount like the
-primary market settlement amount or subscription order book
-target raise, not yet known with certainty at the time of
-setting up the Instrument&#39;s FeeProfile.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| rate | [meshtrade.type.v1.Decimal](#meshtrade-type-v1-Decimal) |  | Rate is the rate applied to the BaseAmount to calculate the resulting AmountExclVAT. |
-| base_amount | [meshtrade.type.v1.Amount](#meshtrade-type-v1-Amount) |  | BaseAmount is the variable amount that gets multiplied with the Rate to calculate the AmountExclVAT. For example, this might be the primary market settlement amount or subscription order book target raise. |
-| amount_excl_vat | [meshtrade.type.v1.Amount](#meshtrade-type-v1-Amount) |  | AmountExclVAT is the VAT exclusive amount used to calculate Fee.VatAmount and the resulting Fee.AmountInclVAT. |
-| vat_rate | [meshtrade.type.v1.Decimal](#meshtrade-type-v1-Decimal) |  | VATRate is the rate used to calculate Fee.VatAmount. |
-
-
-
-
-
- 
-
- 
-
- 
-
- 
-
-
-
-<a name="meshtrade_fee_instrument_fee_v1_instrument_fee-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## meshtrade/fee/instrument_fee/v1/instrument_fee.proto
-
-
-
-<a name="meshtrade-fee-instrument_fee-v1-InstrumentFee"></a>
-
-### InstrumentFee
-InstrumentFee represents a financial charge associated with an Instrument,
-imposed on the Instrument Issuer.
-A Fee is generated using a FeeProfile, which determines its amount
-and other related fields.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| id | [string](#string) |  | ID is a universally unique identifier set in the application layer. |
-| instrument_name | [string](#string) |  | InstrumentName refers to the instrument against which this Fee applied. |
-| state | [State](#meshtrade-fee-instrument_fee-v1-State) |  | State is the fee status. |
-| description | [string](#string) |  | Description is the description of this Fee. It explains the purpose and context behind the charge. |
-| amount_incl_vat | [meshtrade.type.v1.Amount](#meshtrade-type-v1-Amount) |  | AmountInclVAT is the total amount charged, inclusive of VAT. This field captures the gross charge that the instrument issuer must pay. |
-| vat_amount | [meshtrade.type.v1.Amount](#meshtrade-type-v1-Amount) |  | VATAmount is the portion of the AmountInclVAT that constitutes VAT. |
-| category | [Category](#meshtrade-fee-instrument_fee-v1-Category) |  | Category is the type of Fee being applied. It categorises fees based on their purpose and the services they correspond to. Supported categories include: - Tokenisation: Fee for tokenizing assets. - Listing: Fee for listing the instrument on a platform. - PrimaryMarketSettlement: Fee related to primary market transaction settlements. - AUM: Assets Under Management fee. |
-| payment_date | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  | PaymentDate is the date on which the Fee was paid. |
-| amount_data | [AmountData](#meshtrade-fee-instrument_fee-v1-AmountData) |  |  |
-| rate_data | [RateData](#meshtrade-fee-instrument_fee-v1-RateData) |  |  |
-| per_unit_data | [PerUnitData](#meshtrade-fee-instrument_fee-v1-PerUnitData) |  |  |
-
-
-
-
-
- 
-
-
-<a name="meshtrade-fee-instrument_fee-v1-Category"></a>
-
-### Category
-Category defines the different types of Fees that can be applied to an instrument.
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| CATEGORY_UNSPECIFIED | 0 | Unknown or not specified. This is a a default value to prevent accidental assignment and should not be used. |
-| CATEGORY_TOKENISATION | 1 |  |
-| CATEGORY_LISTING | 2 |  |
-| CATEGORY_PRIMARY_MARKET_SETTLEMENT | 3 |  |
-| CATEGORY_AUM | 4 |  |
-
-
-
-<a name="meshtrade-fee-instrument_fee-v1-State"></a>
-
-### State
-State is the state of an instrument Fee in its state diagram.
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| STATE_UNSPECIFIED | 0 | Unknown or not specified. This is a a default value to prevent accidental assignment and should not be used. |
-| STATE_UPCOMING | 1 |  |
-| STATE_DUE | 2 |  |
-| STATE_PAYMENT_IN_PROGRESS | 3 |  |
-| STATE_FAILED | 4 |  |
-| STATE_CANCELLED | 5 |  |
-| STATE_PAID | 6 |  |
-
-
- 
-
- 
-
- 
-
-
-
-<a name="meshtrade_fee_instrument_fee_profile_v1_lifecycle_event_category-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## meshtrade/fee/instrument_fee_profile/v1/lifecycle_event_category.proto
-
-
- 
-
-
-<a name="meshtrade-fee-instrument_fee_profile-v1-LifecycleEventCategory"></a>
-
-### LifecycleEventCategory
-LifecycleEventCategory defines the different types of lifecycle events that can trigger a Fee.
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| LIFECYCLE_EVENT_CATEGORY_UNSPECIFIED | 0 | Unknown or not specified. This is a a default value to prevent accidental assignment and should not be used. |
-| LIFECYCLE_EVENT_CATEGORY_LISTING | 1 |  |
-| LIFECYCLE_EVENT_CATEGORY_PRIMARY_MARKET_SETTLEMENT | 2 |  |
-
-
- 
-
- 
-
- 
-
-
-
-<a name="meshtrade_fee_instrument_fee_v1_service-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## meshtrade/fee/instrument_fee/v1/service.proto
-
-
-
-<a name="meshtrade-fee-instrument_fee-v1-CalculateBurningFeesRequest"></a>
-
-### CalculateBurningFeesRequest
-CalculateBurningFeesRequest is the CalculateBurningFees method request on the Fee Service.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| amount | [meshtrade.type.v1.Amount](#meshtrade-type-v1-Amount) |  | Amount is the burn Amount for which fees are calculated. |
-
-
-
-
-
-
-<a name="meshtrade-fee-instrument_fee-v1-CalculateBurningFeesResponse"></a>
-
-### CalculateBurningFeesResponse
-CalculateBurningFeesResponse is the CalculateBurningFees method response on the Fee Service.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| fees | [InstrumentFee](#meshtrade-fee-instrument_fee-v1-InstrumentFee) | repeated | Fees are the fees calculated for the requested burn amount. |
-
-
-
-
-
-
-<a name="meshtrade-fee-instrument_fee-v1-CalculateLifecycleFeesRequest"></a>
-
-### CalculateLifecycleFeesRequest
-CalculateLifecycleFeesRequest is the CalculateLifecycleFees method request on the Fee Service.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| instrument_id | [string](#string) |  | InstrumentID is the id of the instrument for which lifecycle fees are calculated. |
-| lifecycle_event_category | [meshtrade.fee.instrument_fee_profile.v1.LifecycleEventCategory](#meshtrade-fee-instrument_fee_profile-v1-LifecycleEventCategory) |  | LifecycleEventCategory is the category of lifecycle events for which lifecycle fees are calculated |
-
-
-
-
-
-
-<a name="meshtrade-fee-instrument_fee-v1-CalculateLifecycleFeesResponse"></a>
-
-### CalculateLifecycleFeesResponse
-CalculateLifecycleFeesResponse is the CalculateLifecycleFees method response on the Fee Service.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| fees | [InstrumentFee](#meshtrade-fee-instrument_fee-v1-InstrumentFee) | repeated | Fees are the fees calculated for the requested instrument. |
-
-
-
-
-
-
-<a name="meshtrade-fee-instrument_fee-v1-CalculateMintingFeesRequest"></a>
-
-### CalculateMintingFeesRequest
-CalculateMintingFeesRequest is the CalculateMintingFees method request on the Fee Service.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| amount | [meshtrade.type.v1.Amount](#meshtrade-type-v1-Amount) |  | Amount is the mint Amount for which fees are calculated. |
-
-
-
-
-
-
-<a name="meshtrade-fee-instrument_fee-v1-CalculateMintingFeesResponse"></a>
-
-### CalculateMintingFeesResponse
-CalculateMintingFeesResponse is the CalculateMintingFees method response on the Fee Service.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| fees | [InstrumentFee](#meshtrade-fee-instrument_fee-v1-InstrumentFee) | repeated | Fees are the fees calculated for the requested mint amount. |
-
-
-
-
-
-
-<a name="meshtrade-fee-instrument_fee-v1-FullUpdateRequest"></a>
-
-### FullUpdateRequest
-FullUpdateRequest is the empty FullUpdate method request on the Fee Service.
-
-
-
-
-
-
-<a name="meshtrade-fee-instrument_fee-v1-FullUpdateResponse"></a>
-
-### FullUpdateResponse
-FullUpdateResponse is the empty FullUpdate method response on the Fee Service.
-
-
-
-
-
-
-<a name="meshtrade-fee-instrument_fee-v1-ListRequest"></a>
-
-### ListRequest
-ListRequest is the List method request on the Fee Service.
-
-
-
-
-
-
-<a name="meshtrade-fee-instrument_fee-v1-ListResponse"></a>
-
-### ListResponse
-ListResponse is the List method response on the Fee Service.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| fees | [InstrumentFee](#meshtrade-fee-instrument_fee-v1-InstrumentFee) | repeated | Fees are the list of fees that were retrieved. |
-
-
-
-
-
- 
-
- 
-
- 
-
-
-<a name="meshtrade-fee-instrument_fee-v1-Service"></a>
-
-### Service
-Service is the Fee Service.
-
-| Method Name | Request Type | Response Type | Description |
-| ----------- | ------------ | ------------- | ------------|
-| List | [ListRequest](#meshtrade-fee-instrument_fee-v1-ListRequest) | [ListResponse](#meshtrade-fee-instrument_fee-v1-ListResponse) |  |
-| CalculateMintingFees | [CalculateMintingFeesRequest](#meshtrade-fee-instrument_fee-v1-CalculateMintingFeesRequest) | [CalculateMintingFeesResponse](#meshtrade-fee-instrument_fee-v1-CalculateMintingFeesResponse) |  |
-| CalculateBurningFees | [CalculateBurningFeesRequest](#meshtrade-fee-instrument_fee-v1-CalculateBurningFeesRequest) | [CalculateBurningFeesResponse](#meshtrade-fee-instrument_fee-v1-CalculateBurningFeesResponse) |  |
-| CalculateLifecycleFees | [CalculateLifecycleFeesRequest](#meshtrade-fee-instrument_fee-v1-CalculateLifecycleFeesRequest) | [CalculateLifecycleFeesResponse](#meshtrade-fee-instrument_fee-v1-CalculateLifecycleFeesResponse) |  |
-| FullUpdate | [FullUpdateRequest](#meshtrade-fee-instrument_fee-v1-FullUpdateRequest) | [FullUpdateResponse](#meshtrade-fee-instrument_fee-v1-FullUpdateResponse) |  |
-
- 
-
-
-
-<a name="meshtrade_fee_instrument_fee_profile_v1_aum-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## meshtrade/fee/instrument_fee_profile/v1/aum.proto
-
-
-
-<a name="meshtrade-fee-instrument_fee_profile-v1-AUM"></a>
-
-### AUM
-NOT COMPLETE
-AUM (Assets Under Management) configures the fees related to the
-management of the Instrument on Mesh.
-These fees are typically based on the total value of assets being
-managed on Mesh, or a flat amount.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| rate | [meshtrade.type.v1.Decimal](#meshtrade-type-v1-Decimal) |  | Rate is fee rate applied to the total value of assets on Mesh to calculate the Fee.AmountExclVAT. |
-
-
-
-
-
- 
-
- 
-
- 
-
- 
-
-
-
-<a name="meshtrade_fee_instrument_fee_profile_v1_lifecycle_event_calculation_config_amount-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## meshtrade/fee/instrument_fee_profile/v1/lifecycle_event_calculation_config_amount.proto
-
-
-
-<a name="meshtrade-fee-instrument_fee_profile-v1-AmountLifecycleEventCalculationConfig"></a>
-
-### AmountLifecycleEventCalculationConfig
-AmountLifecycleEventCalculationConfig is the calculation data for a
-lifecycle Fee with a fixed amount.
-This is used for flat lifecycle event fees that do not depend on a
-variable base amount and percentage for calculation.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| amount | [meshtrade.type.v1.Amount](#meshtrade-type-v1-Amount) |  | Amount is the fixed (pre-tax) fee amount charged on the lifecycle event. |
-
-
-
-
-
- 
-
- 
-
- 
-
- 
-
-
-
-<a name="meshtrade_fee_instrument_fee_profile_v1_lifecycle_event_calculation_config_rate-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## meshtrade/fee/instrument_fee_profile/v1/lifecycle_event_calculation_config_rate.proto
-
-
-
-<a name="meshtrade-fee-instrument_fee_profile-v1-RateLifecycleEventCalculationConfig"></a>
-
-### RateLifecycleEventCalculationConfig
-RateLifecycleEventCalculationConfig is the calculation configuration for a Fee
-calculated using a percentage rate and a variable base
-amount.
-This is used for fees that depend on base amount like the
-primary market settlement amount or subscription order book
-target raise not yet known with certainty at the time of
-setting up the Instrument&#39;s FeeProfile.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| rate | [meshtrade.type.v1.Decimal](#meshtrade-type-v1-Decimal) |  | Rate is the rate used to calculate Fee amount when mulitplied to a base amount specific to the lifecycle event. The base amount used is typically one of the following: - Subscription order book target raise amount - Primary market settlement amount |
-
-
-
-
-
- 
-
- 
-
- 
-
- 
-
-
-
-<a name="meshtrade_fee_instrument_fee_profile_v1_lifecycle_event-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## meshtrade/fee/instrument_fee_profile/v1/lifecycle_event.proto
-
-
-
-<a name="meshtrade-fee-instrument_fee_profile-v1-LifecycleEvent"></a>
-
-### LifecycleEvent
-LifecycleEvents configures the fees associated with various stages in the
-Instrument&#39;s lifecycle.
-Lifecycle events are significant milestones or actions that may incur
-fees, such as:
-- Listing: Fees for listing the Instrument on Mesh.
-- Primary Market Settlement: Fees related to the settlement of
-transactions in the primary market.
-Multiple lifecycle events can be configured and managed within a single
-FeeProfile.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| description | [string](#string) |  | Description is the description of the Fee charged on this LifecycleEvent. The description must be unique is the sense that the same description cannot be used more than once for a single trigger. |
-| category | [LifecycleEventCategory](#meshtrade-fee-instrument_fee_profile-v1-LifecycleEventCategory) |  | Category is the Instrument lifecycle event type that leads to a Fee being charged. |
-| amount_lifecycle_event_calculation_config | [AmountLifecycleEventCalculationConfig](#meshtrade-fee-instrument_fee_profile-v1-AmountLifecycleEventCalculationConfig) |  |  |
-| rate_lifecycle_event_calculation_config | [RateLifecycleEventCalculationConfig](#meshtrade-fee-instrument_fee_profile-v1-RateLifecycleEventCalculationConfig) |  |  |
-
-
-
-
-
- 
-
- 
-
- 
-
- 
-
-
-
-<a name="meshtrade_fee_instrument_fee_profile_v1_tokenisation-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## meshtrade/fee/instrument_fee_profile/v1/tokenisation.proto
-
-
-
-<a name="meshtrade-fee-instrument_fee_profile-v1-Tokenisation"></a>
-
-### Tokenisation
-Tokenisation configures the fees related to the tokenisation
-processes of the Instrument.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| first_time_minting_amount | [meshtrade.type.v1.Amount](#meshtrade-type-v1-Amount) |  | FirstTimeMintingAmount is the fee amount charged when minting tokens of the Instrument for the first time. |
-| minting_amount | [meshtrade.type.v1.Amount](#meshtrade-type-v1-Amount) |  | MintingAmount is minting fee charged per token minted. |
-| burning_amount | [meshtrade.type.v1.Amount](#meshtrade-type-v1-Amount) |  | BurningAmount is minting fee charged per token burned. |
-
-
-
-
-
- 
-
- 
-
- 
-
- 
-
-
-
-<a name="meshtrade_fee_instrument_fee_profile_v1_fee_profile-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## meshtrade/fee/instrument_fee_profile/v1/fee_profile.proto
-
-
-
-<a name="meshtrade-fee-instrument_fee_profile-v1-FeeProfile"></a>
-
-### FeeProfile
-FeeProfile defines the fee structure associated with a specific
-Instrument.
-It determines the types of fees applicable, the conditions under
-which they are generated, and the schedule for charging these fees
-to the Issuer.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| instrument_id | [string](#string) |  | InstrumentID references the instrument against which this FeeProfile is applied. |
-| tokenisation | [Tokenisation](#meshtrade-fee-instrument_fee_profile-v1-Tokenisation) |  | Tokenisation configures the fees related to the tokenisation processes of the Instrument. Tokenisation involves converting the Instrument into digital tokens, which may include actions like: - Minting: The creation of new tokens representing the Instrument. - Burning: The destruction of existing tokens, reducing the total supply. |
-| lifecycle_events | [LifecycleEvent](#meshtrade-fee-instrument_fee_profile-v1-LifecycleEvent) | repeated | LifecycleEvents configures the fees associated with various stages in the Instrument&#39;s lifecycle. Lifecycle events are significant milestones or actions that may incur fees, such as: - Listing: Fees for listing the Instrument on Mesh. - Primary Market Settlement: Fees related to the settlement of transactions in the primary market.
-
-Multiple lifecycle events can be configured and managed within a single FeeProfile. |
-| aum | [AUM](#meshtrade-fee-instrument_fee_profile-v1-AUM) |  | AUM (Assets Under Management) configures the fees related to the management of the Instrument on Mesh. These fees are typically based on the total value of assets being managed on Mesh, or a flat amount. |
-
-
-
-
-
- 
-
- 
-
- 
-
- 
-
-
-
-<a name="meshtrade_fee_instrument_fee_profile_v1_lifecycle_event_calculation_config_type-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## meshtrade/fee/instrument_fee_profile/v1/lifecycle_event_calculation_config_type.proto
-
-
- 
-
-
-<a name="meshtrade-fee-instrument_fee_profile-v1-LifecycleEventCalculationConfigType"></a>
-
-### LifecycleEventCalculationConfigType
-LifecycleEventCalculationConfigType is a convenience enum that lists all possible calculation configuration types.
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| LIFECYCLE_EVENT_CALCULATION_CONFIG_TYPE_UNSPECIFIED | 0 | Unknown or not specified. This is a a default value to prevent accidental assignment and should not be used. |
-| LIFECYCLE_EVENT_CALCULATION_CONFIG_TYPE_AMOUNT | 1 |  |
-| LIFECYCLE_EVENT_CALCULATION_CONFIG_TYPE_RATE | 2 |  |
-
-
- 
-
- 
-
- 
-
-
-
-<a name="meshtrade_fee_instrument_fee_profile_v1_service-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## meshtrade/fee/instrument_fee_profile/v1/service.proto
-
-
-
-<a name="meshtrade-fee-instrument_fee_profile-v1-CreateRequest"></a>
-
-### CreateRequest
-CreateRequest is the Create method request on the Fee Profile Service.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| fee_profile | [FeeProfile](#meshtrade-fee-instrument_fee_profile-v1-FeeProfile) |  | FeeProfile is the FeeProfile to be created. |
-
-
-
-
-
-
-<a name="meshtrade-fee-instrument_fee_profile-v1-CreateResponse"></a>
-
-### CreateResponse
-CreateResponse is the Create method response on the Fee Profile Service.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| fee_profile | [FeeProfile](#meshtrade-fee-instrument_fee_profile-v1-FeeProfile) |  | FeeProfile is the FeeProfile that was created. |
-
-
-
-
-
-
-<a name="meshtrade-fee-instrument_fee_profile-v1-GetRequest"></a>
-
-### GetRequest
-GetRequest is the Get method request on the Fee Profile Service.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| instrument_id | [string](#string) |  | InstrumentID of the fee profile to retrieve. |
-
-
-
-
-
-
-<a name="meshtrade-fee-instrument_fee_profile-v1-GetResponse"></a>
-
-### GetResponse
-GetResponse is the Get method response on the Fee Profile Service.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| fee_profile | [FeeProfile](#meshtrade-fee-instrument_fee_profile-v1-FeeProfile) |  | FeeProfile are the is the fee profile that was retrieved. |
-
-
-
-
-
-
-<a name="meshtrade-fee-instrument_fee_profile-v1-ListRequest"></a>
-
-### ListRequest
-ListRequest is the List method request on the Fee Profile Service.
-
-
-
-
-
-
-<a name="meshtrade-fee-instrument_fee_profile-v1-ListResponse"></a>
-
-### ListResponse
-ListResponse is the List method response on the Fee Profile Service.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| fee_profiles | [FeeProfile](#meshtrade-fee-instrument_fee_profile-v1-FeeProfile) | repeated | FeeProfiles are the list of fee profiles that were retrieved. |
-
-
-
-
-
-
-<a name="meshtrade-fee-instrument_fee_profile-v1-UpdateRequest"></a>
-
-### UpdateRequest
-UpdateRequest is the Update method request on the Fee Profile Service.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| fee_profile | [FeeProfile](#meshtrade-fee-instrument_fee_profile-v1-FeeProfile) |  | FeeProfile is the FeeProfile to be updated. |
-
-
-
-
-
-
-<a name="meshtrade-fee-instrument_fee_profile-v1-UpdateResponse"></a>
-
-### UpdateResponse
-UpdateResponse is the Update method response on the Fee Profile Service.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| fee_profile | [FeeProfile](#meshtrade-fee-instrument_fee_profile-v1-FeeProfile) |  | FeeProfile is the FeeProfile that was updated. |
-
-
-
-
-
- 
-
- 
-
- 
-
-
-<a name="meshtrade-fee-instrument_fee_profile-v1-Service"></a>
-
-### Service
-Service is the Fee Profile Service.
-
-| Method Name | Request Type | Response Type | Description |
-| ----------- | ------------ | ------------- | ------------|
-| Create | [CreateRequest](#meshtrade-fee-instrument_fee_profile-v1-CreateRequest) | [CreateResponse](#meshtrade-fee-instrument_fee_profile-v1-CreateResponse) |  |
-| Update | [UpdateRequest](#meshtrade-fee-instrument_fee_profile-v1-UpdateRequest) | [UpdateResponse](#meshtrade-fee-instrument_fee_profile-v1-UpdateResponse) |  |
-| List | [ListRequest](#meshtrade-fee-instrument_fee_profile-v1-ListRequest) | [ListResponse](#meshtrade-fee-instrument_fee_profile-v1-ListResponse) |  |
-| Get | [GetRequest](#meshtrade-fee-instrument_fee_profile-v1-GetRequest) | [GetResponse](#meshtrade-fee-instrument_fee_profile-v1-GetResponse) |  |
-
- 
-
-
-
 <a name="meshtrade_iam_group_v1_group-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
@@ -2480,6 +1492,148 @@ Role is a collection of permissions.
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
 | Get | [GetRequest](#meshtrade-trading-spot-v1-GetRequest) | [GetResponse](#meshtrade-trading-spot-v1-GetResponse) |  |
+
+ 
+
+
+
+<a name="meshtrade_type_v1_decimal-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/type/v1/decimal.proto
+
+
+
+<a name="meshtrade-type-v1-Decimal"></a>
+
+### Decimal
+Decimal is a representation of a decimal value, such as 2.5.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| value | [string](#string) |  | The decimal value, as a string. |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="meshtrade_type_v1_ledger-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/type/v1/ledger.proto
+
+
+ 
+
+
+<a name="meshtrade-type-v1-Ledger"></a>
+
+### Ledger
+Ledger represents the various distributed and centralized systems that Mesh
+interacts with where value is accounted for. The term &#34;Ledger&#34; is used
+inclusively to cover both blockchain and other value-tracking systems.
+Note that numbering is not sequential for legacy reasons.
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| LEDGER_UNSPECIFIED | 0 | Indicates an unknown or unspecified ledger. This default value helps prevent accidental assignment and should not be used in practice. |
+| LEDGER_STELLAR | 3 | The Stellar public ledger network. See: https://stellar.org |
+| LEDGER_BITCOIN | 5 | The Bitcoin public ledger network. See: https://bitcoin.org |
+| LEDGER_LITECOIN | 7 | The Litecoin public ledger network. See: https://litecoin.org |
+| LEDGER_ETHEREUM | 9 | The Ethereum public ledger network. See: https://ethereum.org |
+| LEDGER_XRP | 11 | The XRP Ledger (formerly Ripple). See: https://xrpl.org |
+| LEDGER_SA_STOCK_BROKERS | 15 | The proprietary ledger for the SA Stockbrokers platform. |
+| LEDGER_NULL | 16 | A null ledger, used as a placeholder for assets that do not have an external or on-chain accounting ledger. |
+
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="meshtrade_type_v1_token-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/type/v1/token.proto
+
+
+
+<a name="meshtrade-type-v1-Token"></a>
+
+### Token
+Token is Mesh&#39;s canonical model for uniquely and unambiguously identifying any
+digital asset across any supported ledger. It provides a powerful abstraction
+layer that resolves the complexities of multi-chain/ledger asset representation.
+This allows any part of the Mesh system to work with a single, universal
+concept of a token, regardless of the underlying ledger&#39;s specific
+implementation.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| code | [string](#string) |  | The commonly accepted symbol, ticker, or code for the token (e.g., &#34;BTC&#34;, &#34;ETH&#34;, &#34;USDC&#34;). It is not unique without the `issuer` and `ledger`. Required field. |
+| issuer | [string](#string) |  | Issuer is a reference to issuing entity of the token. For NATIVE assets on a ledger (e.g., ETH on Ethereum), the issuer is the ledger itself, represented by the reserved string __LEDGER__. For ALL other issued assets (e.g., ERC-20 tokens), this is the unique identifier of the issuing entity, such as a smart contract address on Ethereum or an issuance account public key on Stellar. Required field. |
+| ledger | [Ledger](#meshtrade-type-v1-Ledger) |  | The ledger ledger on which the token exists. This field disambiguates assets that may share a code and issuer across different chains (e.g., USDC on Ethereum vs. USDC on Polygon). Required field. |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="meshtrade_type_v1_amount-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/type/v1/amount.proto
+
+
+
+<a name="meshtrade-type-v1-Amount"></a>
+
+### Amount
+A canonical structure for representing a precise quantity of a specific
+digital asset.
+An Amount is a self-describing monetary value, pairing a Universal Token
+Identifier (the &#39;what&#39;) with a high-precision Decimal value (the &#39;how much&#39;).
+This model ensures that a quantity of an asset is never ambiguous.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| token | [Token](#meshtrade-type-v1-Token) |  | Token is the unit of account. This field uses the Universal Token Identifier to define exactly WHAT asset is being quantified. |
+| value | [Decimal](#meshtrade-type-v1-Decimal) |  | Value is the magnitude of the amount, representing HOW MUCH of the specified token this value holds. CRITICAL: To prevent precision errors, this decimal value MUST be truncated to the exact number of decimal places supported by the token&#39;s native ledger. |
+
+
+
+
+
+ 
+
+ 
+
+ 
 
  
 
