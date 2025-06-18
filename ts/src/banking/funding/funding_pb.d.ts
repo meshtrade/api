@@ -104,14 +104,10 @@ export namespace FundingOrderMetaData {
 }
 
 export class InvestecDirectEFTMetaData extends jspb.Message { 
-    getTransactionid(): string;
-    setTransactionid(value: string): InvestecDirectEFTMetaData;
     getExternaltransactionid(): string;
     setExternaltransactionid(value: string): InvestecDirectEFTMetaData;
     getExternalreference(): string;
     setExternalreference(value: string): InvestecDirectEFTMetaData;
-    getReference(): string;
-    setReference(value: string): InvestecDirectEFTMetaData;
     getBankname(): string;
     setBankname(value: string): InvestecDirectEFTMetaData;
 
@@ -127,17 +123,13 @@ export class InvestecDirectEFTMetaData extends jspb.Message {
 
 export namespace InvestecDirectEFTMetaData {
     export type AsObject = {
-        transactionid: string,
         externaltransactionid: string,
         externalreference: string,
-        reference: string,
         bankname: string,
     }
 }
 
 export class PeachSettlementMetaData extends jspb.Message { 
-    getTransactionid(): string;
-    setTransactionid(value: string): PeachSettlementMetaData;
     getExternaltransactionid(): string;
     setExternaltransactionid(value: string): PeachSettlementMetaData;
     getExternalreference(): string;
@@ -157,7 +149,6 @@ export class PeachSettlementMetaData extends jspb.Message {
 
 export namespace PeachSettlementMetaData {
     export type AsObject = {
-        transactionid: string,
         externaltransactionid: string,
         externalreference: string,
         bankname: string,
@@ -165,12 +156,12 @@ export namespace PeachSettlementMetaData {
 }
 
 export class PeachPaymentMetaData extends jspb.Message { 
-    getTransactionid(): string;
-    setTransactionid(value: string): PeachPaymentMetaData;
     getExternaltransactionid(): string;
     setExternaltransactionid(value: string): PeachPaymentMetaData;
     getExternalreference(): string;
     setExternalreference(value: string): PeachPaymentMetaData;
+    getBankname(): string;
+    setBankname(value: string): PeachPaymentMetaData;
     getPeachpaymentmethod(): PeachPaymentMethod;
     setPeachpaymentmethod(value: PeachPaymentMethod): PeachPaymentMetaData;
     getCheckoutid(): string;
@@ -187,8 +178,6 @@ export class PeachPaymentMetaData extends jspb.Message {
     setClientdetails(value?: PeachClientDetails): PeachPaymentMetaData;
     getUserspecifiedaccount(): string;
     setUserspecifiedaccount(value: string): PeachPaymentMetaData;
-    getBankname(): string;
-    setBankname(value: string): PeachPaymentMetaData;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): PeachPaymentMetaData.AsObject;
@@ -202,15 +191,14 @@ export class PeachPaymentMetaData extends jspb.Message {
 
 export namespace PeachPaymentMetaData {
     export type AsObject = {
-        transactionid: string,
         externaltransactionid: string,
         externalreference: string,
+        bankname: string,
         peachpaymentmethod: PeachPaymentMethod,
         checkoutid: string,
         fee?: PeachFee.AsObject,
         clientdetails?: PeachClientDetails.AsObject,
         userspecifiedaccount: string,
-        bankname: string,
     }
 }
 

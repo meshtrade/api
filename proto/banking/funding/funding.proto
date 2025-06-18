@@ -8,7 +8,7 @@ import "api/proto/ledger/amount.proto";
 import "google/protobuf/timestamp.proto";
 
 /*
-TODO
+Api FUnding
 */
 message Funding {
   /*
@@ -86,30 +86,27 @@ message FundingOrderMetaData {
 }
 
 message InvestecDirectEFTMetaData {
-  string transactionID = 1;
-  string externalTransactionID = 2;
-  string externalReference = 3; // bankReference
-  string reference = 4; // The reference used  to identify the account to be funded.
-  string bankName = 5;
+  string externalTransactionID = 1;
+  string externalReference = 2;
+  string bankName = 3;
 }
 
 message PeachSettlementMetaData {
-  string transactionID = 1;
-  string externalTransactionID = 2;
-  string externalReference = 3;
-  string bankName = 4;
+  string externalTransactionID = 1;
+  string externalReference = 2;
+  string bankName = 3;
 }
 
 message PeachPaymentMetaData {
-  string transactionID = 1;
-  string externalTransactionID = 2;
-  string externalReference = 3;
+  string externalTransactionID = 1;
+  string externalReference = 2;
+  string bankName = 3;
   PeachPaymentMethod peachPaymentMethod = 4;
   string checkoutId = 5;
   PeachFee fee = 6;
   PeachClientDetails clientDetails = 7;
   string userSpecifiedAccount = 8;
-  string bankName = 9;
+
 }
 
 message PeachClientDetails {

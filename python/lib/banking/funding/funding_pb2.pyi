@@ -77,52 +77,44 @@ class FundingOrderMetaData(_message.Message):
     def __init__(self, PeachPayment: _Optional[_Union[PeachPaymentMetaData, _Mapping]] = ..., PeachSettlement: _Optional[_Union[PeachSettlementMetaData, _Mapping]] = ..., InvestecDirectEFT: _Optional[_Union[InvestecDirectEFTMetaData, _Mapping]] = ...) -> None: ...
 
 class InvestecDirectEFTMetaData(_message.Message):
-    __slots__ = ("transactionID", "externalTransactionID", "externalReference", "reference", "bankName")
-    TRANSACTIONID_FIELD_NUMBER: _ClassVar[int]
+    __slots__ = ("externalTransactionID", "externalReference", "bankName")
     EXTERNALTRANSACTIONID_FIELD_NUMBER: _ClassVar[int]
     EXTERNALREFERENCE_FIELD_NUMBER: _ClassVar[int]
-    REFERENCE_FIELD_NUMBER: _ClassVar[int]
     BANKNAME_FIELD_NUMBER: _ClassVar[int]
-    transactionID: str
     externalTransactionID: str
     externalReference: str
-    reference: str
     bankName: str
-    def __init__(self, transactionID: _Optional[str] = ..., externalTransactionID: _Optional[str] = ..., externalReference: _Optional[str] = ..., reference: _Optional[str] = ..., bankName: _Optional[str] = ...) -> None: ...
+    def __init__(self, externalTransactionID: _Optional[str] = ..., externalReference: _Optional[str] = ..., bankName: _Optional[str] = ...) -> None: ...
 
 class PeachSettlementMetaData(_message.Message):
-    __slots__ = ("transactionID", "externalTransactionID", "externalReference", "bankName")
-    TRANSACTIONID_FIELD_NUMBER: _ClassVar[int]
+    __slots__ = ("externalTransactionID", "externalReference", "bankName")
     EXTERNALTRANSACTIONID_FIELD_NUMBER: _ClassVar[int]
     EXTERNALREFERENCE_FIELD_NUMBER: _ClassVar[int]
     BANKNAME_FIELD_NUMBER: _ClassVar[int]
-    transactionID: str
     externalTransactionID: str
     externalReference: str
     bankName: str
-    def __init__(self, transactionID: _Optional[str] = ..., externalTransactionID: _Optional[str] = ..., externalReference: _Optional[str] = ..., bankName: _Optional[str] = ...) -> None: ...
+    def __init__(self, externalTransactionID: _Optional[str] = ..., externalReference: _Optional[str] = ..., bankName: _Optional[str] = ...) -> None: ...
 
 class PeachPaymentMetaData(_message.Message):
-    __slots__ = ("transactionID", "externalTransactionID", "externalReference", "peachPaymentMethod", "checkoutId", "fee", "clientDetails", "userSpecifiedAccount", "bankName")
-    TRANSACTIONID_FIELD_NUMBER: _ClassVar[int]
+    __slots__ = ("externalTransactionID", "externalReference", "bankName", "peachPaymentMethod", "checkoutId", "fee", "clientDetails", "userSpecifiedAccount")
     EXTERNALTRANSACTIONID_FIELD_NUMBER: _ClassVar[int]
     EXTERNALREFERENCE_FIELD_NUMBER: _ClassVar[int]
+    BANKNAME_FIELD_NUMBER: _ClassVar[int]
     PEACHPAYMENTMETHOD_FIELD_NUMBER: _ClassVar[int]
     CHECKOUTID_FIELD_NUMBER: _ClassVar[int]
     FEE_FIELD_NUMBER: _ClassVar[int]
     CLIENTDETAILS_FIELD_NUMBER: _ClassVar[int]
     USERSPECIFIEDACCOUNT_FIELD_NUMBER: _ClassVar[int]
-    BANKNAME_FIELD_NUMBER: _ClassVar[int]
-    transactionID: str
     externalTransactionID: str
     externalReference: str
+    bankName: str
     peachPaymentMethod: PeachPaymentMethod
     checkoutId: str
     fee: PeachFee
     clientDetails: PeachClientDetails
     userSpecifiedAccount: str
-    bankName: str
-    def __init__(self, transactionID: _Optional[str] = ..., externalTransactionID: _Optional[str] = ..., externalReference: _Optional[str] = ..., peachPaymentMethod: _Optional[_Union[PeachPaymentMethod, str]] = ..., checkoutId: _Optional[str] = ..., fee: _Optional[_Union[PeachFee, _Mapping]] = ..., clientDetails: _Optional[_Union[PeachClientDetails, _Mapping]] = ..., userSpecifiedAccount: _Optional[str] = ..., bankName: _Optional[str] = ...) -> None: ...
+    def __init__(self, externalTransactionID: _Optional[str] = ..., externalReference: _Optional[str] = ..., bankName: _Optional[str] = ..., peachPaymentMethod: _Optional[_Union[PeachPaymentMethod, str]] = ..., checkoutId: _Optional[str] = ..., fee: _Optional[_Union[PeachFee, _Mapping]] = ..., clientDetails: _Optional[_Union[PeachClientDetails, _Mapping]] = ..., userSpecifiedAccount: _Optional[str] = ...) -> None: ...
 
 class PeachClientDetails(_message.Message):
     __slots__ = ("name", "surname")

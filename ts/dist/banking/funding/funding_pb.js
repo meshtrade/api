@@ -900,11 +900,9 @@ proto.api.banking.funding.InvestecDirectEFTMetaData.prototype.toObject = functio
  */
 proto.api.banking.funding.InvestecDirectEFTMetaData.toObject = function(includeInstance, msg) {
   var f, obj = {
-transactionid: jspb.Message.getFieldWithDefault(msg, 1, ""),
-externaltransactionid: jspb.Message.getFieldWithDefault(msg, 2, ""),
-externalreference: jspb.Message.getFieldWithDefault(msg, 3, ""),
-reference: jspb.Message.getFieldWithDefault(msg, 4, ""),
-bankname: jspb.Message.getFieldWithDefault(msg, 5, "")
+externaltransactionid: jspb.Message.getFieldWithDefault(msg, 1, ""),
+externalreference: jspb.Message.getFieldWithDefault(msg, 2, ""),
+bankname: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
 
   if (includeInstance) {
@@ -943,21 +941,13 @@ proto.api.banking.funding.InvestecDirectEFTMetaData.deserializeBinaryFromReader 
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.setTransactionid(value);
+      msg.setExternaltransactionid(value);
       break;
     case 2:
       var value = /** @type {string} */ (reader.readString());
-      msg.setExternaltransactionid(value);
-      break;
-    case 3:
-      var value = /** @type {string} */ (reader.readString());
       msg.setExternalreference(value);
       break;
-    case 4:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setReference(value);
-      break;
-    case 5:
+    case 3:
       var value = /** @type {string} */ (reader.readString());
       msg.setBankname(value);
       break;
@@ -990,38 +980,24 @@ proto.api.banking.funding.InvestecDirectEFTMetaData.prototype.serializeBinary = 
  */
 proto.api.banking.funding.InvestecDirectEFTMetaData.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getTransactionid();
+  f = message.getExternaltransactionid();
   if (f.length > 0) {
     writer.writeString(
       1,
       f
     );
   }
-  f = message.getExternaltransactionid();
+  f = message.getExternalreference();
   if (f.length > 0) {
     writer.writeString(
       2,
       f
     );
   }
-  f = message.getExternalreference();
-  if (f.length > 0) {
-    writer.writeString(
-      3,
-      f
-    );
-  }
-  f = message.getReference();
-  if (f.length > 0) {
-    writer.writeString(
-      4,
-      f
-    );
-  }
   f = message.getBankname();
   if (f.length > 0) {
     writer.writeString(
-      5,
+      3,
       f
     );
   }
@@ -1029,10 +1005,10 @@ proto.api.banking.funding.InvestecDirectEFTMetaData.serializeBinaryToWriter = fu
 
 
 /**
- * optional string transactionID = 1;
+ * optional string externalTransactionID = 1;
  * @return {string}
  */
-proto.api.banking.funding.InvestecDirectEFTMetaData.prototype.getTransactionid = function() {
+proto.api.banking.funding.InvestecDirectEFTMetaData.prototype.getExternaltransactionid = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
@@ -1041,16 +1017,16 @@ proto.api.banking.funding.InvestecDirectEFTMetaData.prototype.getTransactionid =
  * @param {string} value
  * @return {!proto.api.banking.funding.InvestecDirectEFTMetaData} returns this
  */
-proto.api.banking.funding.InvestecDirectEFTMetaData.prototype.setTransactionid = function(value) {
+proto.api.banking.funding.InvestecDirectEFTMetaData.prototype.setExternaltransactionid = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
 /**
- * optional string externalTransactionID = 2;
+ * optional string externalReference = 2;
  * @return {string}
  */
-proto.api.banking.funding.InvestecDirectEFTMetaData.prototype.getExternaltransactionid = function() {
+proto.api.banking.funding.InvestecDirectEFTMetaData.prototype.getExternalreference = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
@@ -1059,16 +1035,16 @@ proto.api.banking.funding.InvestecDirectEFTMetaData.prototype.getExternaltransac
  * @param {string} value
  * @return {!proto.api.banking.funding.InvestecDirectEFTMetaData} returns this
  */
-proto.api.banking.funding.InvestecDirectEFTMetaData.prototype.setExternaltransactionid = function(value) {
+proto.api.banking.funding.InvestecDirectEFTMetaData.prototype.setExternalreference = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
 
 
 /**
- * optional string externalReference = 3;
+ * optional string bankName = 3;
  * @return {string}
  */
-proto.api.banking.funding.InvestecDirectEFTMetaData.prototype.getExternalreference = function() {
+proto.api.banking.funding.InvestecDirectEFTMetaData.prototype.getBankname = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
@@ -1077,44 +1053,8 @@ proto.api.banking.funding.InvestecDirectEFTMetaData.prototype.getExternalreferen
  * @param {string} value
  * @return {!proto.api.banking.funding.InvestecDirectEFTMetaData} returns this
  */
-proto.api.banking.funding.InvestecDirectEFTMetaData.prototype.setExternalreference = function(value) {
-  return jspb.Message.setProto3StringField(this, 3, value);
-};
-
-
-/**
- * optional string reference = 4;
- * @return {string}
- */
-proto.api.banking.funding.InvestecDirectEFTMetaData.prototype.getReference = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
-};
-
-
-/**
- * @param {string} value
- * @return {!proto.api.banking.funding.InvestecDirectEFTMetaData} returns this
- */
-proto.api.banking.funding.InvestecDirectEFTMetaData.prototype.setReference = function(value) {
-  return jspb.Message.setProto3StringField(this, 4, value);
-};
-
-
-/**
- * optional string bankName = 5;
- * @return {string}
- */
-proto.api.banking.funding.InvestecDirectEFTMetaData.prototype.getBankname = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
-};
-
-
-/**
- * @param {string} value
- * @return {!proto.api.banking.funding.InvestecDirectEFTMetaData} returns this
- */
 proto.api.banking.funding.InvestecDirectEFTMetaData.prototype.setBankname = function(value) {
-  return jspb.Message.setProto3StringField(this, 5, value);
+  return jspb.Message.setProto3StringField(this, 3, value);
 };
 
 
@@ -1150,10 +1090,9 @@ proto.api.banking.funding.PeachSettlementMetaData.prototype.toObject = function(
  */
 proto.api.banking.funding.PeachSettlementMetaData.toObject = function(includeInstance, msg) {
   var f, obj = {
-transactionid: jspb.Message.getFieldWithDefault(msg, 1, ""),
-externaltransactionid: jspb.Message.getFieldWithDefault(msg, 2, ""),
-externalreference: jspb.Message.getFieldWithDefault(msg, 3, ""),
-bankname: jspb.Message.getFieldWithDefault(msg, 4, "")
+externaltransactionid: jspb.Message.getFieldWithDefault(msg, 1, ""),
+externalreference: jspb.Message.getFieldWithDefault(msg, 2, ""),
+bankname: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
 
   if (includeInstance) {
@@ -1192,17 +1131,13 @@ proto.api.banking.funding.PeachSettlementMetaData.deserializeBinaryFromReader = 
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.setTransactionid(value);
+      msg.setExternaltransactionid(value);
       break;
     case 2:
       var value = /** @type {string} */ (reader.readString());
-      msg.setExternaltransactionid(value);
-      break;
-    case 3:
-      var value = /** @type {string} */ (reader.readString());
       msg.setExternalreference(value);
       break;
-    case 4:
+    case 3:
       var value = /** @type {string} */ (reader.readString());
       msg.setBankname(value);
       break;
@@ -1235,31 +1170,24 @@ proto.api.banking.funding.PeachSettlementMetaData.prototype.serializeBinary = fu
  */
 proto.api.banking.funding.PeachSettlementMetaData.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getTransactionid();
+  f = message.getExternaltransactionid();
   if (f.length > 0) {
     writer.writeString(
       1,
       f
     );
   }
-  f = message.getExternaltransactionid();
+  f = message.getExternalreference();
   if (f.length > 0) {
     writer.writeString(
       2,
       f
     );
   }
-  f = message.getExternalreference();
-  if (f.length > 0) {
-    writer.writeString(
-      3,
-      f
-    );
-  }
   f = message.getBankname();
   if (f.length > 0) {
     writer.writeString(
-      4,
+      3,
       f
     );
   }
@@ -1267,10 +1195,10 @@ proto.api.banking.funding.PeachSettlementMetaData.serializeBinaryToWriter = func
 
 
 /**
- * optional string transactionID = 1;
+ * optional string externalTransactionID = 1;
  * @return {string}
  */
-proto.api.banking.funding.PeachSettlementMetaData.prototype.getTransactionid = function() {
+proto.api.banking.funding.PeachSettlementMetaData.prototype.getExternaltransactionid = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
@@ -1279,16 +1207,16 @@ proto.api.banking.funding.PeachSettlementMetaData.prototype.getTransactionid = f
  * @param {string} value
  * @return {!proto.api.banking.funding.PeachSettlementMetaData} returns this
  */
-proto.api.banking.funding.PeachSettlementMetaData.prototype.setTransactionid = function(value) {
+proto.api.banking.funding.PeachSettlementMetaData.prototype.setExternaltransactionid = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
 /**
- * optional string externalTransactionID = 2;
+ * optional string externalReference = 2;
  * @return {string}
  */
-proto.api.banking.funding.PeachSettlementMetaData.prototype.getExternaltransactionid = function() {
+proto.api.banking.funding.PeachSettlementMetaData.prototype.getExternalreference = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
@@ -1297,16 +1225,16 @@ proto.api.banking.funding.PeachSettlementMetaData.prototype.getExternaltransacti
  * @param {string} value
  * @return {!proto.api.banking.funding.PeachSettlementMetaData} returns this
  */
-proto.api.banking.funding.PeachSettlementMetaData.prototype.setExternaltransactionid = function(value) {
+proto.api.banking.funding.PeachSettlementMetaData.prototype.setExternalreference = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
 
 
 /**
- * optional string externalReference = 3;
+ * optional string bankName = 3;
  * @return {string}
  */
-proto.api.banking.funding.PeachSettlementMetaData.prototype.getExternalreference = function() {
+proto.api.banking.funding.PeachSettlementMetaData.prototype.getBankname = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
@@ -1315,26 +1243,8 @@ proto.api.banking.funding.PeachSettlementMetaData.prototype.getExternalreference
  * @param {string} value
  * @return {!proto.api.banking.funding.PeachSettlementMetaData} returns this
  */
-proto.api.banking.funding.PeachSettlementMetaData.prototype.setExternalreference = function(value) {
-  return jspb.Message.setProto3StringField(this, 3, value);
-};
-
-
-/**
- * optional string bankName = 4;
- * @return {string}
- */
-proto.api.banking.funding.PeachSettlementMetaData.prototype.getBankname = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
-};
-
-
-/**
- * @param {string} value
- * @return {!proto.api.banking.funding.PeachSettlementMetaData} returns this
- */
 proto.api.banking.funding.PeachSettlementMetaData.prototype.setBankname = function(value) {
-  return jspb.Message.setProto3StringField(this, 4, value);
+  return jspb.Message.setProto3StringField(this, 3, value);
 };
 
 
@@ -1370,15 +1280,14 @@ proto.api.banking.funding.PeachPaymentMetaData.prototype.toObject = function(opt
  */
 proto.api.banking.funding.PeachPaymentMetaData.toObject = function(includeInstance, msg) {
   var f, obj = {
-transactionid: jspb.Message.getFieldWithDefault(msg, 1, ""),
-externaltransactionid: jspb.Message.getFieldWithDefault(msg, 2, ""),
-externalreference: jspb.Message.getFieldWithDefault(msg, 3, ""),
+externaltransactionid: jspb.Message.getFieldWithDefault(msg, 1, ""),
+externalreference: jspb.Message.getFieldWithDefault(msg, 2, ""),
+bankname: jspb.Message.getFieldWithDefault(msg, 3, ""),
 peachpaymentmethod: jspb.Message.getFieldWithDefault(msg, 4, 0),
 checkoutid: jspb.Message.getFieldWithDefault(msg, 5, ""),
 fee: (f = msg.getFee()) && proto.api.banking.funding.PeachFee.toObject(includeInstance, f),
 clientdetails: (f = msg.getClientdetails()) && proto.api.banking.funding.PeachClientDetails.toObject(includeInstance, f),
-userspecifiedaccount: jspb.Message.getFieldWithDefault(msg, 8, ""),
-bankname: jspb.Message.getFieldWithDefault(msg, 9, "")
+userspecifiedaccount: jspb.Message.getFieldWithDefault(msg, 8, "")
   };
 
   if (includeInstance) {
@@ -1417,15 +1326,15 @@ proto.api.banking.funding.PeachPaymentMetaData.deserializeBinaryFromReader = fun
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.setTransactionid(value);
+      msg.setExternaltransactionid(value);
       break;
     case 2:
       var value = /** @type {string} */ (reader.readString());
-      msg.setExternaltransactionid(value);
+      msg.setExternalreference(value);
       break;
     case 3:
       var value = /** @type {string} */ (reader.readString());
-      msg.setExternalreference(value);
+      msg.setBankname(value);
       break;
     case 4:
       var value = /** @type {!proto.api.banking.funding.PeachPaymentMethod} */ (reader.readEnum());
@@ -1448,10 +1357,6 @@ proto.api.banking.funding.PeachPaymentMetaData.deserializeBinaryFromReader = fun
     case 8:
       var value = /** @type {string} */ (reader.readString());
       msg.setUserspecifiedaccount(value);
-      break;
-    case 9:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setBankname(value);
       break;
     default:
       reader.skipField();
@@ -1482,21 +1387,21 @@ proto.api.banking.funding.PeachPaymentMetaData.prototype.serializeBinary = funct
  */
 proto.api.banking.funding.PeachPaymentMetaData.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getTransactionid();
+  f = message.getExternaltransactionid();
   if (f.length > 0) {
     writer.writeString(
       1,
       f
     );
   }
-  f = message.getExternaltransactionid();
+  f = message.getExternalreference();
   if (f.length > 0) {
     writer.writeString(
       2,
       f
     );
   }
-  f = message.getExternalreference();
+  f = message.getBankname();
   if (f.length > 0) {
     writer.writeString(
       3,
@@ -1540,21 +1445,14 @@ proto.api.banking.funding.PeachPaymentMetaData.serializeBinaryToWriter = functio
       f
     );
   }
-  f = message.getBankname();
-  if (f.length > 0) {
-    writer.writeString(
-      9,
-      f
-    );
-  }
 };
 
 
 /**
- * optional string transactionID = 1;
+ * optional string externalTransactionID = 1;
  * @return {string}
  */
-proto.api.banking.funding.PeachPaymentMetaData.prototype.getTransactionid = function() {
+proto.api.banking.funding.PeachPaymentMetaData.prototype.getExternaltransactionid = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
@@ -1563,16 +1461,16 @@ proto.api.banking.funding.PeachPaymentMetaData.prototype.getTransactionid = func
  * @param {string} value
  * @return {!proto.api.banking.funding.PeachPaymentMetaData} returns this
  */
-proto.api.banking.funding.PeachPaymentMetaData.prototype.setTransactionid = function(value) {
+proto.api.banking.funding.PeachPaymentMetaData.prototype.setExternaltransactionid = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
 /**
- * optional string externalTransactionID = 2;
+ * optional string externalReference = 2;
  * @return {string}
  */
-proto.api.banking.funding.PeachPaymentMetaData.prototype.getExternaltransactionid = function() {
+proto.api.banking.funding.PeachPaymentMetaData.prototype.getExternalreference = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
@@ -1581,16 +1479,16 @@ proto.api.banking.funding.PeachPaymentMetaData.prototype.getExternaltransactioni
  * @param {string} value
  * @return {!proto.api.banking.funding.PeachPaymentMetaData} returns this
  */
-proto.api.banking.funding.PeachPaymentMetaData.prototype.setExternaltransactionid = function(value) {
+proto.api.banking.funding.PeachPaymentMetaData.prototype.setExternalreference = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
 
 
 /**
- * optional string externalReference = 3;
+ * optional string bankName = 3;
  * @return {string}
  */
-proto.api.banking.funding.PeachPaymentMetaData.prototype.getExternalreference = function() {
+proto.api.banking.funding.PeachPaymentMetaData.prototype.getBankname = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
@@ -1599,7 +1497,7 @@ proto.api.banking.funding.PeachPaymentMetaData.prototype.getExternalreference = 
  * @param {string} value
  * @return {!proto.api.banking.funding.PeachPaymentMetaData} returns this
  */
-proto.api.banking.funding.PeachPaymentMetaData.prototype.setExternalreference = function(value) {
+proto.api.banking.funding.PeachPaymentMetaData.prototype.setBankname = function(value) {
   return jspb.Message.setProto3StringField(this, 3, value);
 };
 
@@ -1729,24 +1627,6 @@ proto.api.banking.funding.PeachPaymentMetaData.prototype.getUserspecifiedaccount
  */
 proto.api.banking.funding.PeachPaymentMetaData.prototype.setUserspecifiedaccount = function(value) {
   return jspb.Message.setProto3StringField(this, 8, value);
-};
-
-
-/**
- * optional string bankName = 9;
- * @return {string}
- */
-proto.api.banking.funding.PeachPaymentMetaData.prototype.getBankname = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 9, ""));
-};
-
-
-/**
- * @param {string} value
- * @return {!proto.api.banking.funding.PeachPaymentMetaData} returns this
- */
-proto.api.banking.funding.PeachPaymentMetaData.prototype.setBankname = function(value) {
-  return jspb.Message.setProto3StringField(this, 9, value);
 };
 
 
