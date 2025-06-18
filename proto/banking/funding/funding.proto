@@ -77,6 +77,18 @@ enum PeachPaymentMethod {
   PEACH_PAY_BY_CARD = 2;
 }
 
+enum PaymentType {
+  UNDEFINED_PAYMENT_TYPE = 0;
+  DB = 1;
+  RG = 2;
+  PA = 3;
+  RF = 4;
+  CP = 5;
+  RV = 6;
+  CD = 7;
+  RB = 8;
+}
+
 message FundingOrderMetaData {
   oneof metaData {
     PeachPaymentMetaData PeachPayment = 1;
@@ -93,7 +105,7 @@ message InvestecDirectEFTMetaData {
 
 message PeachSettlementMetaData {
   string externalTransactionID = 1;
-  string externalReference = 2;
+  string externalSettlementReference = 2;
   string bankName = 3;
 }
 
@@ -104,14 +116,11 @@ message PeachPaymentMetaData {
   PeachPaymentMethod peachPaymentMethod = 4;
   string checkoutId = 5;
   PeachFee fee = 6;
-  PeachClientDetails clientDetails = 7;
-  string userSpecifiedAccount = 8;
+  string customerName = 7;
+  string accountHolder = 8;
+  PaymentType paymentType = 9;
+  string userSpecifiedAccount = 10;
 
-}
-
-message PeachClientDetails {
-  string name = 1;
-  string surname = 2;
 }
 
 message PeachFee {

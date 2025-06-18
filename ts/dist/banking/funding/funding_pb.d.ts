@@ -134,8 +134,8 @@ export namespace InvestecDirectEFTMetaData {
 export class PeachSettlementMetaData extends jspb.Message { 
     getExternaltransactionid(): string;
     setExternaltransactionid(value: string): PeachSettlementMetaData;
-    getExternalreference(): string;
-    setExternalreference(value: string): PeachSettlementMetaData;
+    getExternalsettlementreference(): string;
+    setExternalsettlementreference(value: string): PeachSettlementMetaData;
     getBankname(): string;
     setBankname(value: string): PeachSettlementMetaData;
 
@@ -152,7 +152,7 @@ export class PeachSettlementMetaData extends jspb.Message {
 export namespace PeachSettlementMetaData {
     export type AsObject = {
         externaltransactionid: string,
-        externalreference: string,
+        externalsettlementreference: string,
         bankname: string,
     }
 }
@@ -173,11 +173,12 @@ export class PeachPaymentMetaData extends jspb.Message {
     clearFee(): void;
     getFee(): PeachFee | undefined;
     setFee(value?: PeachFee): PeachPaymentMetaData;
-
-    hasClientdetails(): boolean;
-    clearClientdetails(): void;
-    getClientdetails(): PeachClientDetails | undefined;
-    setClientdetails(value?: PeachClientDetails): PeachPaymentMetaData;
+    getCustomername(): string;
+    setCustomername(value: string): PeachPaymentMetaData;
+    getAccountholder(): string;
+    setAccountholder(value: string): PeachPaymentMetaData;
+    getPaymenttype(): PaymentType;
+    setPaymenttype(value: PaymentType): PeachPaymentMetaData;
     getUserspecifiedaccount(): string;
     setUserspecifiedaccount(value: string): PeachPaymentMetaData;
 
@@ -199,31 +200,10 @@ export namespace PeachPaymentMetaData {
         peachpaymentmethod: PeachPaymentMethod,
         checkoutid: string,
         fee?: PeachFee.AsObject,
-        clientdetails?: PeachClientDetails.AsObject,
+        customername: string,
+        accountholder: string,
+        paymenttype: PaymentType,
         userspecifiedaccount: string,
-    }
-}
-
-export class PeachClientDetails extends jspb.Message { 
-    getName(): string;
-    setName(value: string): PeachClientDetails;
-    getSurname(): string;
-    setSurname(value: string): PeachClientDetails;
-
-    serializeBinary(): Uint8Array;
-    toObject(includeInstance?: boolean): PeachClientDetails.AsObject;
-    static toObject(includeInstance: boolean, msg: PeachClientDetails): PeachClientDetails.AsObject;
-    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-    static serializeBinaryToWriter(message: PeachClientDetails, writer: jspb.BinaryWriter): void;
-    static deserializeBinary(bytes: Uint8Array): PeachClientDetails;
-    static deserializeBinaryFromReader(message: PeachClientDetails, reader: jspb.BinaryReader): PeachClientDetails;
-}
-
-export namespace PeachClientDetails {
-    export type AsObject = {
-        name: string,
-        surname: string,
     }
 }
 
@@ -284,4 +264,16 @@ export enum PeachPaymentMethod {
     UNDEFINED_PEACH_FUNDING_CATEGORY = 0,
     PEACH_PAY_BY_BANK = 1,
     PEACH_PAY_BY_CARD = 2,
+}
+
+export enum PaymentType {
+    UNDEFINED_PAYMENT_TYPE = 0,
+    DB = 1,
+    RG = 2,
+    PA = 3,
+    RF = 4,
+    CP = 5,
+    RV = 6,
+    CD = 7,
+    RB = 8,
 }
