@@ -6,7 +6,6 @@ import "google/type/date.proto";
 import "meshtrade/compliance/client/v1/company_representative.proto";
 import "meshtrade/compliance/client/v1/fund.proto";
 import "meshtrade/compliance/client/v1/industry_classification.proto";
-import "meshtrade/compliance/client/v1/legal_person_connection_type.proto";
 import "meshtrade/compliance/client/v1/natural_person.proto";
 import "meshtrade/compliance/client/v1/trust.proto";
 import "meshtrade/type/v1/address.proto";
@@ -168,4 +167,52 @@ message ConnectedLegalPerson {
      Optional for verification.
   */
   string connection_description = 8;
+}
+
+/*
+   LegalPersonConnectionType describes how a legal person is connected to a business,
+   which is essential for understanding corporate ownership and control structures in KYB.
+*/
+enum LegalPersonConnectionType {
+  /*
+     Unknown or not specified.
+     This is a default value to prevent accidental assignment and should not be used.
+  */
+  LEGAL_PERSON_CONNECTION_TYPE_UNSPECIFIED = 0;
+
+  /*
+     The legal person is a direct shareholder in the company, but may not have
+     a controlling stake. This is a general ownership connection.
+  */
+  LEGAL_PERSON_CONNECTION_TYPE_SHAREHOLDER = 1;
+
+  /*
+     The legal person has a controlling ownership stake in the company, making
+     the company its subsidiary.
+  */
+  LEGAL_PERSON_CONNECTION_TYPE_PARENT_COMPANY = 2;
+
+  /*
+     The legal person (often a trust or specialized firm) acts as a director
+     on the board of the company. This represents a connection of control.
+  */
+  LEGAL_PERSON_CONNECTION_TYPE_CORPORATE_DIRECTOR = 3;
+
+  /*
+     The legal person is a trust that holds shares or has a controlling interest
+     in the company on behalf of its beneficiaries.
+  */
+  LEGAL_PERSON_CONNECTION_TYPE_TRUST = 4;
+
+  /*
+     The legal person is a general partner in a partnership structure (e.g., LP/LLP),
+     typically implying management control and unlimited liability.
+  */
+  LEGAL_PERSON_CONNECTION_TYPE_GENERAL_PARTNER = 5;
+
+  /*
+     The legal person guarantees the financial obligations or performance of the company,
+     indicating a significant financial connection.
+  */
+  LEGAL_PERSON_CONNECTION_TYPE_GUARANTOR = 6;
 }
