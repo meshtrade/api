@@ -25,6 +25,8 @@ type MockService struct {
 	GetFuncInvocations    int
 	SettleFunc            func(t *testing.T, m *MockService, ctx context.Context, request *SettleRequest) (*SettleResponse, error)
 	SettleFuncInvocations int
+	CancelFunc            func(t *testing.T, m *MockService, ctx context.Context, request *CancelRequest) (*CancelResponse, error)
+	CancelFuncInvocations int
 }
 
 func (m *MockService) Create(ctx context.Context, request *CreateRequest) (*CreateResponse, error) {
@@ -75,4 +77,14 @@ func (m *MockService) Settle(ctx context.Context, request *SettleRequest) (*Sett
 		return nil, nil
 	}
 	return m.SettleFunc(m.T, m, ctx, request)
+}
+
+func (m *MockService) Cancel(ctx context.Context, request *CancelRequest) (*CancelResponse, error) {
+	m.mutex.Lock()
+	m.CancelFuncInvocations++
+	m.mutex.Unlock()
+	if m.CancelFunc == nil {
+		return nil, nil
+	}
+	return m.CancelFunc(m.T, m, ctx, request)
 }

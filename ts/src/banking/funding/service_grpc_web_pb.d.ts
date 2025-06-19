@@ -43,6 +43,13 @@ export class ServiceClient {
                response: api_proto_banking_funding_service_pb.SettleResponse) => void
   ): grpcWeb.ClientReadableStream<api_proto_banking_funding_service_pb.SettleResponse>;
 
+  cancel(
+    request: api_proto_banking_funding_service_pb.CancelRequest,
+    metadata: grpcWeb.Metadata | undefined,
+    callback: (err: grpcWeb.RpcError,
+               response: api_proto_banking_funding_service_pb.CancelResponse) => void
+  ): grpcWeb.ClientReadableStream<api_proto_banking_funding_service_pb.CancelResponse>;
+
 }
 
 export class ServicePromiseClient {
@@ -74,6 +81,11 @@ export class ServicePromiseClient {
     request: api_proto_banking_funding_service_pb.SettleRequest,
     metadata?: grpcWeb.Metadata
   ): Promise<api_proto_banking_funding_service_pb.SettleResponse>;
+
+  cancel(
+    request: api_proto_banking_funding_service_pb.CancelRequest,
+    metadata?: grpcWeb.Metadata
+  ): Promise<api_proto_banking_funding_service_pb.CancelResponse>;
 
 }
 

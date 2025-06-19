@@ -389,5 +389,66 @@ proto.api.banking.funding.ServicePromiseClient.prototype.settle =
 };
 
 
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.api.banking.funding.CancelRequest,
+ *   !proto.api.banking.funding.CancelResponse>}
+ */
+const methodDescriptor_Service_Cancel = new grpc.web.MethodDescriptor(
+  '/api.banking.funding.Service/Cancel',
+  grpc.web.MethodType.UNARY,
+  proto.api.banking.funding.CancelRequest,
+  proto.api.banking.funding.CancelResponse,
+  /**
+   * @param {!proto.api.banking.funding.CancelRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.api.banking.funding.CancelResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.api.banking.funding.CancelRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.api.banking.funding.CancelResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.api.banking.funding.CancelResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.api.banking.funding.ServiceClient.prototype.cancel =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/api.banking.funding.Service/Cancel',
+      request,
+      metadata || {},
+      methodDescriptor_Service_Cancel,
+      callback);
+};
+
+
+/**
+ * @param {!proto.api.banking.funding.CancelRequest} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.api.banking.funding.CancelResponse>}
+ *     Promise that resolves to the response
+ */
+proto.api.banking.funding.ServicePromiseClient.prototype.cancel =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/api.banking.funding.Service/Cancel',
+      request,
+      metadata || {},
+      methodDescriptor_Service_Cancel);
+};
+
+
 module.exports = proto.api.banking.funding;
 

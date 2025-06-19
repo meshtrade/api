@@ -73,3 +73,17 @@ class SettleResponse(_message.Message):
     FUNDING_FIELD_NUMBER: _ClassVar[int]
     funding: _funding_pb2.Funding
     def __init__(self, funding: _Optional[_Union[_funding_pb2.Funding, _Mapping]] = ...) -> None: ...
+
+class CancelRequest(_message.Message):
+    __slots__ = ("fundingNumber", "reason")
+    FUNDINGNUMBER_FIELD_NUMBER: _ClassVar[int]
+    REASON_FIELD_NUMBER: _ClassVar[int]
+    fundingNumber: str
+    reason: str
+    def __init__(self, fundingNumber: _Optional[str] = ..., reason: _Optional[str] = ...) -> None: ...
+
+class CancelResponse(_message.Message):
+    __slots__ = ("funding",)
+    FUNDING_FIELD_NUMBER: _ClassVar[int]
+    funding: _funding_pb2.Funding
+    def __init__(self, funding: _Optional[_Union[_funding_pb2.Funding, _Mapping]] = ...) -> None: ...

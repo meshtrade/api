@@ -6,7 +6,7 @@ import (
 )
 
 func (r *CreateRequest) Validate() error {
-	reasons := []string{}
+	var reasons []string
 
 	if r.Funding == nil {
 		reasons = append(reasons, "Funding is required")
@@ -34,7 +34,7 @@ func (r *UpdateRequest) Validate() error {
 }
 
 func (r *ListRequest) Validate() error {
-	reasons := []string{}
+	var reasons []string
 
 	if len(reasons) > 0 {
 		return fmt.Errorf("validation failed: %s ", strings.Join(reasons, "; "))
@@ -58,6 +58,24 @@ func (r *GetRequest) Validate() error {
 }
 
 func (r *SettleRequest) Validate() error {
+	var reasons []string
+
+	if r.FundingNumber == "" {
+		reasons = append(reasons, "FundingNumber is required")
+	}
+
+	if r.Reason == "" {
+		reasons = append(reasons, "reason is required")
+	}
+
+	if len(reasons) > 0 {
+		return fmt.Errorf("validation failed: %s ", strings.Join(reasons, "; "))
+	}
+
+	return nil
+}
+
+func (r *CancelRequest) Validate() error {
 	reasons := []string{}
 
 	if r.FundingNumber == "" {

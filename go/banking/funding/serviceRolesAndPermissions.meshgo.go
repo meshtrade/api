@@ -42,6 +42,13 @@ var (
 		Description:     "Provides permission to call the Service.Settle method",
 	}
 
+	// CancelPermission provides permission to call the Cancel method on the Service service provider
+	CancelPermission = &role.Permission{
+		ServiceProvider: ServiceServiceProviderName,
+		Service:         "Cancel",
+		Description:     "Provides permission to call the Service.Cancel method",
+	}
+
 	// ServiceReaderRole contains read only service permissions for the Service
 	ServiceReaderRole = role.Role{
 		Name: "ServiceReader",
@@ -60,6 +67,7 @@ var (
 			ListPermission,
 			GetPermission,
 			SettlePermission,
+			CancelPermission,
 		},
 	}
 )

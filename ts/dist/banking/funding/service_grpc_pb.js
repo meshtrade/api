@@ -9,6 +9,28 @@ var api_proto_banking_funding_funding_pb = require('../../banking/funding/fundin
 var api_proto_search_criterion_pb = require('../../search/criterion_pb.js');
 var api_proto_search_query_pb = require('../../search/query_pb.js');
 
+function serialize_api_banking_funding_CancelRequest(arg) {
+  if (!(arg instanceof api_proto_banking_funding_service_pb.CancelRequest)) {
+    throw new Error('Expected argument of type api.banking.funding.CancelRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_api_banking_funding_CancelRequest(buffer_arg) {
+  return api_proto_banking_funding_service_pb.CancelRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_api_banking_funding_CancelResponse(arg) {
+  if (!(arg instanceof api_proto_banking_funding_service_pb.CancelResponse)) {
+    throw new Error('Expected argument of type api.banking.funding.CancelResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_api_banking_funding_CancelResponse(buffer_arg) {
+  return api_proto_banking_funding_service_pb.CancelResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_api_banking_funding_CreateRequest(arg) {
   if (!(arg instanceof api_proto_banking_funding_service_pb.CreateRequest)) {
     throw new Error('Expected argument of type api.banking.funding.CreateRequest');
@@ -179,6 +201,17 @@ var ServiceService = exports.ServiceService = {
     requestDeserialize: deserialize_api_banking_funding_SettleRequest,
     responseSerialize: serialize_api_banking_funding_SettleResponse,
     responseDeserialize: deserialize_api_banking_funding_SettleResponse,
+  },
+  cancel: {
+    path: '/api.banking.funding.Service/Cancel',
+    requestStream: false,
+    responseStream: false,
+    requestType: api_proto_banking_funding_service_pb.CancelRequest,
+    responseType: api_proto_banking_funding_service_pb.CancelResponse,
+    requestSerialize: serialize_api_banking_funding_CancelRequest,
+    requestDeserialize: deserialize_api_banking_funding_CancelRequest,
+    responseSerialize: serialize_api_banking_funding_CancelResponse,
+    responseDeserialize: deserialize_api_banking_funding_CancelResponse,
   },
 };
 

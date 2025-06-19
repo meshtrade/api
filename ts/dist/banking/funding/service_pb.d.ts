@@ -246,3 +246,49 @@ export namespace SettleResponse {
         funding?: api_proto_banking_funding_funding_pb.Funding.AsObject,
     }
 }
+
+export class CancelRequest extends jspb.Message { 
+    getFundingnumber(): string;
+    setFundingnumber(value: string): CancelRequest;
+    getReason(): string;
+    setReason(value: string): CancelRequest;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): CancelRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: CancelRequest): CancelRequest.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: CancelRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): CancelRequest;
+    static deserializeBinaryFromReader(message: CancelRequest, reader: jspb.BinaryReader): CancelRequest;
+}
+
+export namespace CancelRequest {
+    export type AsObject = {
+        fundingnumber: string,
+        reason: string,
+    }
+}
+
+export class CancelResponse extends jspb.Message { 
+
+    hasFunding(): boolean;
+    clearFunding(): void;
+    getFunding(): api_proto_banking_funding_funding_pb.Funding | undefined;
+    setFunding(value?: api_proto_banking_funding_funding_pb.Funding): CancelResponse;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): CancelResponse.AsObject;
+    static toObject(includeInstance: boolean, msg: CancelResponse): CancelResponse.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: CancelResponse, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): CancelResponse;
+    static deserializeBinaryFromReader(message: CancelResponse, reader: jspb.BinaryReader): CancelResponse;
+}
+
+export namespace CancelResponse {
+    export type AsObject = {
+        funding?: api_proto_banking_funding_funding_pb.Funding.AsObject,
+    }
+}

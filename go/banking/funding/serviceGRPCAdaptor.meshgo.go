@@ -122,3 +122,20 @@ func (g *ServiceGRPCAdaptor) Settle(ctx context.Context, request *SettleRequest)
 
 	return settleResponse, nil
 }
+
+// Cancel exposes the Cancel method of the given implementation of the Service interface over gRPC
+func (g *ServiceGRPCAdaptor) Cancel(ctx context.Context, request *CancelRequest) (*CancelResponse, error) {
+	ctx, span := g.tracer.Start(
+		ctx,
+		ServiceServiceProviderName+"GRPCAdaptor.Cancel",
+	)
+	defer span.End()
+
+	// call given implementation of the adapted service provider interface
+	cancelResponse, err := g.service.Cancel(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+
+	return cancelResponse, nil
+}

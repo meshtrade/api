@@ -63,6 +63,11 @@ class ServiceStub(object):
                 request_serializer=api_dot_proto_dot_banking_dot_funding_dot_service__pb2.SettleRequest.SerializeToString,
                 response_deserializer=api_dot_proto_dot_banking_dot_funding_dot_service__pb2.SettleResponse.FromString,
                 _registered_method=True)
+        self.Cancel = channel.unary_unary(
+                '/api.banking.funding.Service/Cancel',
+                request_serializer=api_dot_proto_dot_banking_dot_funding_dot_service__pb2.CancelRequest.SerializeToString,
+                response_deserializer=api_dot_proto_dot_banking_dot_funding_dot_service__pb2.CancelResponse.FromString,
+                _registered_method=True)
 
 
 class ServiceServicer(object):
@@ -102,6 +107,12 @@ class ServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def Cancel(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_ServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -129,6 +140,11 @@ def add_ServiceServicer_to_server(servicer, server):
                     servicer.Settle,
                     request_deserializer=api_dot_proto_dot_banking_dot_funding_dot_service__pb2.SettleRequest.FromString,
                     response_serializer=api_dot_proto_dot_banking_dot_funding_dot_service__pb2.SettleResponse.SerializeToString,
+            ),
+            'Cancel': grpc.unary_unary_rpc_method_handler(
+                    servicer.Cancel,
+                    request_deserializer=api_dot_proto_dot_banking_dot_funding_dot_service__pb2.CancelRequest.FromString,
+                    response_serializer=api_dot_proto_dot_banking_dot_funding_dot_service__pb2.CancelResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -270,6 +286,33 @@ class Service(object):
             '/api.banking.funding.Service/Settle',
             api_dot_proto_dot_banking_dot_funding_dot_service__pb2.SettleRequest.SerializeToString,
             api_dot_proto_dot_banking_dot_funding_dot_service__pb2.SettleResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def Cancel(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/api.banking.funding.Service/Cancel',
+            api_dot_proto_dot_banking_dot_funding_dot_service__pb2.CancelRequest.SerializeToString,
+            api_dot_proto_dot_banking_dot_funding_dot_service__pb2.CancelResponse.FromString,
             options,
             channel_credentials,
             insecure,

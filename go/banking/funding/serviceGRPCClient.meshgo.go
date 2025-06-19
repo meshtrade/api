@@ -113,3 +113,20 @@ func (g *GRPCClientService) Settle(ctx context.Context, request *SettleRequest) 
 
 	return settleResponse, nil
 }
+
+func (g *GRPCClientService) Cancel(ctx context.Context, request *CancelRequest) (*CancelResponse, error) {
+	ctx, span := g.tracer.Start(
+		ctx,
+		ServiceServiceProviderName+"Cancel",
+	)
+	defer span.End()
+
+	// call given implementation of the adapted service provider interface
+	cancelResponse, err := g.grpcClient.Cancel(ctx, request)
+	if err != nil {
+		log.Ctx(ctx).Error().Err(err).Msg("could not Cancel")
+		return nil, fmt.Errorf("could not Cancel: %s", err)
+	}
+
+	return cancelResponse, nil
+}
