@@ -3,8 +3,10 @@ syntax = "proto3";
 package meshtrade.compliance.client.v1;
 
 import "google/protobuf/timestamp.proto";
-import "meshtrade/compliance/client/v1/kyb_info.proto";
-import "meshtrade/compliance/client/v1/kyc_info.proto";
+import "meshtrade/compliance/client/v1/company.proto";
+import "meshtrade/compliance/client/v1/fund.proto";
+import "meshtrade/compliance/client/v1/natural_person.proto";
+import "meshtrade/compliance/client/v1/trust.proto";
 import "meshtrade/compliance/client/v1/verification_status.proto";
 
 option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
@@ -29,7 +31,7 @@ message Client {
      The executing user needs to have permission to perform client.Create in this group.
      Required on creation.
   */
-  string owner_group = 2;
+  string owner = 2;
 
   /*
      A non-unique, user-provided name for the client, used for display purposes
@@ -39,40 +41,55 @@ message Client {
   string display_name = 3;
 
   /*
-     Contains either the KYC or KYB information, defining if the client is an
-     individual or a business. This choice is permanent and cannot be changed
-     after the client is created.
-     Required on creation.
+     Contains the specific data for the legal entity type.
+     Only one of these may be set at a time.
   */
-  oneof info {
-    meshtrade.compliance.client.v1.KYCInfo kyc_info = 4;
-    meshtrade.compliance.client.v1.KYBInfo kyb_info = 5;
+  oneof legal_person {
+    /*
+       Set when the legal entity is an individual human being.
+    */
+    meshtrade.compliance.client.v1.NaturalPerson natural_person = 4;
+
+    /*
+       Set when the legal entity is a company or corporation.
+    */
+    meshtrade.compliance.client.v1.Company company = 5;
+
+    /*
+       Set when the legal entity is an investment fund.
+    */
+    meshtrade.compliance.client.v1.Fund fund = 6;
+
+    /*
+       Set when the legal entity is a trust.
+    */
+    meshtrade.compliance.client.v1.Trust trust = 7;
   }
 
   /*
      The definitive, most recent compliance status of the client (e.g., VERIFICATION_STATUS_VERIFIED, VERIFICATION_STATUS_FAILED).
      System controlled.
   */
-  meshtrade.compliance.client.v1.VerificationStatus verification_status = 6;
+  meshtrade.compliance.client.v1.VerificationStatus verification_status = 8;
 
   /*
      The resource name of the client (acting as a verifier) that last set the
      `verification_status`. This provides an audit trail for status changes.
      System set when verification_status changes.
   */
-  string verification_authority_name = 7;
+  string verification_authority = 9;
 
   /*
      The timestamp when the `verification_status` was last set to a conclusive
      state, specifically `VERIFICATION_STATUS_VERIFIED`.
      System set when verification_status changes to VERIFICATION_STATUS_VERIFIED.
   */
-  google.protobuf.Timestamp verification_date = 8;
+  google.protobuf.Timestamp verification_date = 10;
 
   /*
      The timestamp indicating when the client's next periodic compliance review
      is due. This field drives re-verification workflows.
      Optional for Verification.
   */
-  google.protobuf.Timestamp next_verification_date = 9;
+  google.protobuf.Timestamp next_verification_date = 11;
 }

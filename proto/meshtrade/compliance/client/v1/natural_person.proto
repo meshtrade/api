@@ -5,6 +5,8 @@ package meshtrade.compliance.client.v1;
 import "google/type/date.proto";
 import "meshtrade/compliance/client/v1/identification_document_type.proto";
 import "meshtrade/compliance/client/v1/pep_status.proto";
+import "meshtrade/compliance/client/v1/source_of_income_and_wealth.proto";
+import "meshtrade/compliance/client/v1/tax_residency.proto";
 import "meshtrade/type/v1/address.proto";
 import "meshtrade/type/v1/contact_details.proto";
 
@@ -84,4 +86,24 @@ message NaturalPerson {
      Optional for verification.
   */
   meshtrade.type.v1.ContactDetails contact_details = 10;
+
+  /*
+     The primary sources of the client's regular income (e.g., employment, pension).
+     Required for verification.
+  */
+  repeated meshtrade.compliance.client.v1.SourceOfIncomeAndWealth sources_of_income = 11;
+
+  /*
+     The origins of the client's total net worth or assets (e.g., inheritance, investments).
+     This is distinct from the source of income.
+     Required for verification.
+  */
+  repeated meshtrade.compliance.client.v1.SourceOfIncomeAndWealth sources_of_wealth = 12;
+
+  /*
+     The client's tax residency information, required for CRS/FATCA reporting.
+     A client can be a tax resident in multiple jurisdictions.
+     Required for verification.
+  */
+  repeated meshtrade.compliance.client.v1.TaxResidency tax_residencies = 13;
 }
