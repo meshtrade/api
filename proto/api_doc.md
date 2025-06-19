@@ -12,6 +12,12 @@
 - [meshtrade/compliance/client/v1/pep_status.proto](#meshtrade_compliance_client_v1_pep_status-proto)
     - [PepStatus](#meshtrade-compliance-client-v1-PepStatus)
   
+- [meshtrade/compliance/client/v1/source_of_income_and_wealth.proto](#meshtrade_compliance_client_v1_source_of_income_and_wealth-proto)
+    - [SourceOfIncomeAndWealth](#meshtrade-compliance-client-v1-SourceOfIncomeAndWealth)
+  
+- [meshtrade/compliance/client/v1/tax_residency.proto](#meshtrade_compliance_client_v1_tax_residency-proto)
+    - [TaxResidency](#meshtrade-compliance-client-v1-TaxResidency)
+  
 - [meshtrade/type/v1/address.proto](#meshtrade_type_v1_address-proto)
     - [Address](#meshtrade-type-v1-Address)
   
@@ -24,44 +30,29 @@
 - [meshtrade/compliance/client/v1/company_representative.proto](#meshtrade_compliance_client_v1_company_representative-proto)
     - [CompanyRepresentative](#meshtrade-compliance-client-v1-CompanyRepresentative)
   
-- [meshtrade/compliance/client/v1/legal_person_form.proto](#meshtrade_compliance_client_v1_legal_person_form-proto)
-    - [LegalPersonForm](#meshtrade-compliance-client-v1-LegalPersonForm)
-  
-- [meshtrade/compliance/client/v1/legal_person.proto](#meshtrade_compliance_client_v1_legal_person-proto)
-    - [LegalPerson](#meshtrade-compliance-client-v1-LegalPerson)
-  
-- [meshtrade/compliance/client/v1/legal_person_connection_type.proto](#meshtrade_compliance_client_v1_legal_person_connection_type-proto)
-    - [LegalPersonConnectionType](#meshtrade-compliance-client-v1-LegalPersonConnectionType)
-  
-- [meshtrade/compliance/client/v1/connected_legal_person.proto](#meshtrade_compliance_client_v1_connected_legal_person-proto)
-    - [ConnectedLegalPerson](#meshtrade-compliance-client-v1-ConnectedLegalPerson)
-  
-- [meshtrade/compliance/client/v1/natural_person_connection_type.proto](#meshtrade_compliance_client_v1_natural_person_connection_type-proto)
-    - [NaturalPersonConnectionType](#meshtrade-compliance-client-v1-NaturalPersonConnectionType)
-  
-- [meshtrade/compliance/client/v1/connected_natural_person.proto](#meshtrade_compliance_client_v1_connected_natural_person-proto)
-    - [ConnectedNaturalPerson](#meshtrade-compliance-client-v1-ConnectedNaturalPerson)
+- [meshtrade/compliance/client/v1/fund.proto](#meshtrade_compliance_client_v1_fund-proto)
+    - [Fund](#meshtrade-compliance-client-v1-Fund)
   
 - [meshtrade/compliance/client/v1/industry_classification.proto](#meshtrade_compliance_client_v1_industry_classification-proto)
     - [IndustryClassification](#meshtrade-compliance-client-v1-IndustryClassification)
   
-- [meshtrade/compliance/client/v1/kyb_info.proto](#meshtrade_compliance_client_v1_kyb_info-proto)
-    - [KYBInfo](#meshtrade-compliance-client-v1-KYBInfo)
+- [meshtrade/compliance/client/v1/trust.proto](#meshtrade_compliance_client_v1_trust-proto)
+    - [Trust](#meshtrade-compliance-client-v1-Trust)
   
-- [meshtrade/compliance/client/v1/source_of_income_and_wealth.proto](#meshtrade_compliance_client_v1_source_of_income_and_wealth-proto)
-    - [SourceOfIncomeAndWealth](#meshtrade-compliance-client-v1-SourceOfIncomeAndWealth)
+- [meshtrade/compliance/client/v1/company.proto](#meshtrade_compliance_client_v1_company-proto)
+    - [Company](#meshtrade-compliance-client-v1-Company)
+    - [ConnectedLegalPerson](#meshtrade-compliance-client-v1-ConnectedLegalPerson)
   
-- [meshtrade/compliance/client/v1/tax_residency.proto](#meshtrade_compliance_client_v1_tax_residency-proto)
-    - [TaxResidency](#meshtrade-compliance-client-v1-TaxResidency)
-  
-- [meshtrade/compliance/client/v1/kyc_info.proto](#meshtrade_compliance_client_v1_kyc_info-proto)
-    - [KYCInfo](#meshtrade-compliance-client-v1-KYCInfo)
+    - [LegalPersonConnectionType](#meshtrade-compliance-client-v1-LegalPersonConnectionType)
   
 - [meshtrade/compliance/client/v1/verification_status.proto](#meshtrade_compliance_client_v1_verification_status-proto)
     - [VerificationStatus](#meshtrade-compliance-client-v1-VerificationStatus)
   
 - [meshtrade/compliance/client/v1/client.proto](#meshtrade_compliance_client_v1_client-proto)
     - [Client](#meshtrade-compliance-client-v1-Client)
+  
+- [meshtrade/compliance/client/v1/natural_person_connection_type.proto](#meshtrade_compliance_client_v1_natural_person_connection_type-proto)
+    - [NaturalPersonConnectionType](#meshtrade-compliance-client-v1-NaturalPersonConnectionType)
   
 - [meshtrade/compliance/client/v1/service.proto](#meshtrade_compliance_client_v1_service-proto)
     - [GetRequest](#meshtrade-compliance-client-v1-GetRequest)
@@ -246,6 +237,90 @@ Defines the possible statuses for a Politically Exposed Person check.
 
 
 
+<a name="meshtrade_compliance_client_v1_source_of_income_and_wealth-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/compliance/client/v1/source_of_income_and_wealth.proto
+
+
+ 
+
+
+<a name="meshtrade-compliance-client-v1-SourceOfIncomeAndWealth"></a>
+
+### SourceOfIncomeAndWealth
+SourceOfIncomeAndWealth specifies the origin of a client&#39;s funds or assets.
+This is used for compliance and due diligence purposes.
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| SOURCE_OF_INCOME_AND_WEALTH_UNSPECIFIED | 0 | Unknown or not specified. This is a default value to prevent accidental assignment and should not be used. |
+| SOURCE_OF_INCOME_AND_WEALTH_ALLOWANCES | 1 | Funds from allowances. |
+| SOURCE_OF_INCOME_AND_WEALTH_BURSARY | 2 | Funds from a bursary or scholarship. |
+| SOURCE_OF_INCOME_AND_WEALTH_COURT_ORDER | 3 | Funds received as part of a court order. |
+| SOURCE_OF_INCOME_AND_WEALTH_LOAN_FINANCIAL_INSTITUTION | 4 | Funds from a loan provided by a financial institution. |
+| SOURCE_OF_INCOME_AND_WEALTH_LOAN_OTHER | 5 | Funds from a loan provided by another entity or individual. |
+| SOURCE_OF_INCOME_AND_WEALTH_MAINTENANCE | 6 | Funds from maintenance payments. |
+| SOURCE_OF_INCOME_AND_WEALTH_MATURING_INVESTMENTS | 7 | Funds from investments that have reached maturity. |
+| SOURCE_OF_INCOME_AND_WEALTH_PENSION | 8 | Funds from a pension. |
+| SOURCE_OF_INCOME_AND_WEALTH_RENTAL_INCOME | 9 | Income generated from rental properties. |
+| SOURCE_OF_INCOME_AND_WEALTH_COMPANY_PROFITS | 10 | Profits generated from a company. |
+| SOURCE_OF_INCOME_AND_WEALTH_COMPANY_SALE | 11 | Proceeds from the sale of a company. |
+| SOURCE_OF_INCOME_AND_WEALTH_DECEASED_ESTATE | 12 | Funds from a deceased estate. |
+| SOURCE_OF_INCOME_AND_WEALTH_DIVORCE_SETTLEMENT | 13 | Funds received as part of a divorce settlement. |
+| SOURCE_OF_INCOME_AND_WEALTH_GIFT_OR_DONATION | 14 | Funds received as a gift or donation. |
+| SOURCE_OF_INCOME_AND_WEALTH_INCOME_FROM_EMPLOYMENT | 15 | Salary or wages from current employment. |
+| SOURCE_OF_INCOME_AND_WEALTH_INCOME_FROM_PREVIOUS_EMPLOYMENT | 16 | Income from a previous employer, such as severance. |
+| SOURCE_OF_INCOME_AND_WEALTH_INHERITANCE | 17 | Funds received as an inheritance. |
+| SOURCE_OF_INCOME_AND_WEALTH_LOTTERY_WINNINGS_OR_GAMBLING | 18 | Winnings from a lottery, gambling, or other prizes. |
+| SOURCE_OF_INCOME_AND_WEALTH_SALE_OF_ASSET | 19 | Proceeds from the sale of a physical or digital asset. |
+| SOURCE_OF_INCOME_AND_WEALTH_SALE_OF_SHARES | 20 | Proceeds from the sale of stocks or shares. |
+| SOURCE_OF_INCOME_AND_WEALTH_SAVINGS_INVESTMENT_OR_DIVIDEND | 21 | Income from savings, investments, or dividends. |
+| SOURCE_OF_INCOME_AND_WEALTH_TRUST_DISTRIBUTIONS | 22 | Funds distributed from a trust. |
+
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="meshtrade_compliance_client_v1_tax_residency-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/compliance/client/v1/tax_residency.proto
+
+
+
+<a name="meshtrade-compliance-client-v1-TaxResidency"></a>
+
+### TaxResidency
+Holds tax residency information for a single jurisdiction.
+Note on Required Fields: Fields marked as &#39;Required&#39; are essential
+for a successful compliance check, but are not mandatory for creation.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| country_code | [string](#string) |  | The ISO 3166-1 alpha-2 country code of the tax jurisdiction. This is the two-letter country code (e.g., &#34;ZA&#34; for South Africa, &#34;NL&#34; for the Netherlands). The value should be in uppercase. See https://www.iso.org/iso-3166-country-codes.html for a full list. Required for verification. |
+| tin | [string](#string) |  | The Tax Identification Number (TIN) for the client in that jurisdiction. Required for verification. |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
 <a name="meshtrade_type_v1_address-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
@@ -354,6 +429,9 @@ for a successful compliance check, but are not mandatory for creation.
 | postal_address | [meshtrade.type.v1.Address](#meshtrade-type-v1-Address) |  | The client&#39;s postal address, if it is different from the physical address. Optional for verification. |
 | pep_status | [PepStatus](#meshtrade-compliance-client-v1-PepStatus) |  | The client&#39;s status as a Politically Exposed Person (PEP). This is a mandatory check for regulatory compliance. Required for verification. |
 | contact_details | [meshtrade.type.v1.ContactDetails](#meshtrade-type-v1-ContactDetails) |  | The individual&#39;s personal contact details (personal email, personal mobile). Optional for verification. |
+| sources_of_income | [SourceOfIncomeAndWealth](#meshtrade-compliance-client-v1-SourceOfIncomeAndWealth) | repeated | The primary sources of the client&#39;s regular income (e.g., employment, pension). Required for verification. |
+| sources_of_wealth | [SourceOfIncomeAndWealth](#meshtrade-compliance-client-v1-SourceOfIncomeAndWealth) | repeated | The origins of the client&#39;s total net worth or assets (e.g., inheritance, investments). This is distinct from the source of income. Required for verification. |
+| tax_residencies | [TaxResidency](#meshtrade-compliance-client-v1-TaxResidency) | repeated | The client&#39;s tax residency information, required for CRS/FATCA reporting. A client can be a tax resident in multiple jurisdictions. Required for verification. |
 
 
 
@@ -409,223 +487,28 @@ for a successful compliance check, but are not mandatory for creation.
 
 
 
-<a name="meshtrade_compliance_client_v1_legal_person_form-proto"></a>
+<a name="meshtrade_compliance_client_v1_fund-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## meshtrade/compliance/client/v1/legal_person_form.proto
-
-
- 
-
-
-<a name="meshtrade-compliance-client-v1-LegalPersonForm"></a>
-
-### LegalPersonForm
-LegalPersonForm defines the legal structure of the entity.
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| LEGAL_PERSON_FORM_UNSPECIFIED | 0 | Unknown or not specified. This is a default value to prevent accidental assignment and should not be used. |
-| LEGAL_PERSON_FORM_SOLE_PROPRIETORSHIP | 1 | A business owned and run by one individual. |
-| LEGAL_PERSON_FORM_PRIVATE_COMPANY | 2 | A privately held company (e.g., Ltd., GmbH, BV). |
-| LEGAL_PERSON_FORM_PUBLICLY_LISTED_COMPANY | 3 | A company whose shares are traded on a public stock exchange. |
-| LEGAL_PERSON_FORM_PARTNERSHIP | 4 | A business structure where two or more individuals own a business together. |
-| LEGAL_PERSON_FORM_TRUST | 5 | A legal arrangement where a trustee holds assets on behalf of beneficiaries. |
-| LEGAL_PERSON_FORM_NON_PROFIT_ORGANIZATION | 6 | A non-profit organization. |
-| LEGAL_PERSON_FORM_GOVERNMENT_ENTITY | 7 | A government entity or agency. |
-| LEGAL_PERSON_FORM_OTHER | 8 | Any other legal form not covered by the above categories. |
-
-
- 
-
- 
-
- 
+## meshtrade/compliance/client/v1/fund.proto
 
 
 
-<a name="meshtrade_compliance_client_v1_legal_person-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
+<a name="meshtrade-compliance-client-v1-Fund"></a>
 
-## meshtrade/compliance/client/v1/legal_person.proto
-
-
-
-<a name="meshtrade-compliance-client-v1-LegalPerson"></a>
-
-### LegalPerson
-LegalPerson represents the identity of a business, trust, or other non-individual entity.
-It contains the core, verifiable components of the entity&#39;s identity used during
-Know Your Business (KYB) checks.
-Note on Field Requirements: Fields marked as &#39;Required for verification&#39; are essential
-for a successful compliance check, but are not mandatory for creation.
+### Fund
+Defines a Fund as a legal entity. It contains the core, verifiable components of a fund&#39;s
+identity required for Know Your Fund (KYF) compliance checks.
+Fields essential for verification are noted but are not strictly mandatory for creating the record.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| registered_name | [string](#string) |  | The official, registered name of the legal person (e.g., the company or trust name as specified in its articles of incorporation). Required for verification. |
-| legal_form | [LegalPersonForm](#meshtrade-compliance-client-v1-LegalPersonForm) |  | The legal form of the entity (e.g., LTD, PLC, BV). Required for verification. |
-| registration_number | [string](#string) | optional | The official registration number assigned by the relevant companies registry. e.g., UK Companies House number, NL KVK-nummer, US EIN, or ZA CIPC Company Registration Number (e.g., 2024/123456/07). Conditionally required for verification, especially for corporate entities. |
-| tax_identifier | [string](#string) | optional | The primary tax identifier for the legal person. e.g., VAT number in the EU, TIN in the US, or ZA SARS Income Tax Reference Number (e.g., 9123456789). Optional for verification. |
-| country_of_incorporation | [string](#string) |  | The ISO 3166-1 alpha-2 country code of incorporation. This is the two-letter country code (e.g., &#34;ZA&#34; for South Africa, &#34;NL&#34; for the Netherlands). The value should be in uppercase. See https://www.iso.org/iso-3166-country-codes.html for a full list. Required for verification. |
-| date_of_incorporation | [google.type.Date](#google-type-Date) |  | The date of incorporation or registration of the legal person. Required for verification. |
-| registered_address | [meshtrade.type.v1.Address](#meshtrade-type-v1-Address) |  | The official, legal address of the entity as recorded with the incorporation registry. This is the most critical address for verification purposes. Required for verification. |
-| principal_physical_address | [meshtrade.type.v1.Address](#meshtrade-type-v1-Address) | optional | The principal physical location where the business operates from (principal place of business). Provide this if it is different from the registered address. |
-| postal_address | [meshtrade.type.v1.Address](#meshtrade-type-v1-Address) | optional | The preferred address for receiving mail and correspondence. Provide this if it is different from the registered address. |
-| head_office_address | [meshtrade.type.v1.Address](#meshtrade-type-v1-Address) | optional | The address of the head office of a business. Provide this if it is different from the registered address. |
-
-
-
-
-
- 
-
- 
-
- 
-
- 
-
-
-
-<a name="meshtrade_compliance_client_v1_legal_person_connection_type-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## meshtrade/compliance/client/v1/legal_person_connection_type.proto
-
-
- 
-
-
-<a name="meshtrade-compliance-client-v1-LegalPersonConnectionType"></a>
-
-### LegalPersonConnectionType
-LegalPersonConnectionType describes how a legal person is connected to a business,
-which is essential for understanding corporate ownership and control structures in KYB.
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| LEGAL_PERSON_CONNECTION_TYPE_UNSPECIFIED | 0 | Unknown or not specified. This is a default value to prevent accidental assignment and should not be used. |
-| LEGAL_PERSON_CONNECTION_TYPE_SHAREHOLDER | 1 | The legal person is a direct shareholder in the company, but may not have a controlling stake. This is a general ownership connection. |
-| LEGAL_PERSON_CONNECTION_TYPE_PARENT_COMPANY | 2 | The legal person has a controlling ownership stake in the company, making the company its subsidiary. |
-| LEGAL_PERSON_CONNECTION_TYPE_CORPORATE_DIRECTOR | 3 | The legal person (often a trust or specialized firm) acts as a director on the board of the company. This represents a connection of control. |
-| LEGAL_PERSON_CONNECTION_TYPE_TRUST | 4 | The legal person is a trust that holds shares or has a controlling interest in the company on behalf of its beneficiaries. |
-| LEGAL_PERSON_CONNECTION_TYPE_GENERAL_PARTNER | 5 | The legal person is a general partner in a partnership structure (e.g., LP/LLP), typically implying management control and unlimited liability. |
-| LEGAL_PERSON_CONNECTION_TYPE_GUARANTOR | 6 | The legal person guarantees the financial obligations or performance of the company, indicating a significant financial connection. |
-
-
- 
-
- 
-
- 
-
-
-
-<a name="meshtrade_compliance_client_v1_connected_legal_person-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## meshtrade/compliance/client/v1/connected_legal_person.proto
-
-
-
-<a name="meshtrade-compliance-client-v1-ConnectedLegalPerson"></a>
-
-### ConnectedLegalPerson
-ConnectedLegalPerson is a legal person and how they are connected to the company.
-
-Note on Field Requirements: Fields marked as &#39;Required for verification&#39; are essential
-for a successful compliance check, but are not mandatory for creation.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| legal_person | [LegalPerson](#meshtrade-compliance-client-v1-LegalPerson) |  | The core identity of the connected legal person. Required for verification. |
-| connection_types | [LegalPersonConnectionType](#meshtrade-compliance-client-v1-LegalPersonConnectionType) | repeated | The nature of the connection(s) of the legal person to the company. (e.g., Shareholder, Guarantor etc.). Required for verification. |
-| ownership_percentage | [float](#float) | optional | The percentage of direct or indirect ownership this person holds. e.g. a value of 25.5 represents 25.5% ownership. Required for verification (if the connection_types includes LEGAL_PERSON_CONNECTION_TYPE_SHAREHOLDER or similar ownership role) |
-| voting_rights_percentage | [float](#float) | optional | The percentage of voting rights this person holds, which can differ from ownership. e.g. a value of 25.5 represents 25.5% ownership. Optional for verification. |
-| connection_description | [string](#string) |  | A plain text description of the relationship. Optional for verification. |
-
-
-
-
-
- 
-
- 
-
- 
-
- 
-
-
-
-<a name="meshtrade_compliance_client_v1_natural_person_connection_type-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## meshtrade/compliance/client/v1/natural_person_connection_type.proto
-
-
- 
-
-
-<a name="meshtrade-compliance-client-v1-NaturalPersonConnectionType"></a>
-
-### NaturalPersonConnectionType
-NaturalPersonConnectionType describes how a natural person is connected to a business
-or to another key individual (like a PEP). It covers primary roles for KYB (ownership, control)
-as well as secondary relationships for screening (familial, professional).
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| NATURAL_PERSON_CONNECTION_TYPE_UNSPECIFIED | 0 | Unknown or not specified. This is a a default value to prevent accidental assignment and should not be used. |
-| NATURAL_PERSON_CONNECTION_TYPE_ULTIMATE_BENEFICIAL_OWNER | 1 | The person is an Ultimate Beneficial Owner as defined by AML regulations (e.g., &gt;25% ownership/voting rights). This is the most critical connection type for KYB. |
-| NATURAL_PERSON_CONNECTION_TYPE_SHAREHOLDER | 2 | The person owns shares but may be below the UBO threshold. |
-| NATURAL_PERSON_CONNECTION_TYPE_DIRECTOR | 3 | The person is a formal Director on the company&#39;s board. |
-| NATURAL_PERSON_CONNECTION_TYPE_SENIOR_MANAGEMENT | 4 | The person holds a senior management position with significant operational control (e.g., CEO, CFO, COO). |
-| NATURAL_PERSON_CONNECTION_TYPE_AUTHORIZED_SIGNATORY | 5 | The person is formally authorized to sign documents and act on the company&#39;s behalf. |
-| NATURAL_PERSON_CONNECTION_TYPE_FOUNDER | 6 | The person is the founder of the company. |
-| NATURAL_PERSON_CONNECTION_TYPE_SPOUSE | 20 | The person is a legally married partner. |
-| NATURAL_PERSON_CONNECTION_TYPE_DOMESTIC_PARTNER | 21 | The person is a partner in a long-term relationship, equivalent to a spouse. |
-| NATURAL_PERSON_CONNECTION_TYPE_PARENT | 22 | The person is a mother or father. |
-| NATURAL_PERSON_CONNECTION_TYPE_CHILD | 23 | The person is a son or daughter. |
-| NATURAL_PERSON_CONNECTION_TYPE_SIBLING | 24 | The person is a brother or sister. |
-| NATURAL_PERSON_CONNECTION_TYPE_BUSINESS_PARTNER | 30 | The person is a business partner. |
-| NATURAL_PERSON_CONNECTION_TYPE_CLOSE_ASSOCIATE | 31 | A generic term for a known professional or personal associate, as defined by FATF guidelines for PEPs. |
-| NATURAL_PERSON_CONNECTION_TYPE_GUARANTOR | 32 | The person is a guarantor for the company&#39;s financial obligations. |
-| NATURAL_PERSON_CONNECTION_TYPE_BENEFICIARY_OF_TRUST | 33 | The person is a beneficiary of a trust that owns or controls the company. |
-
-
- 
-
- 
-
- 
-
-
-
-<a name="meshtrade_compliance_client_v1_connected_natural_person-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## meshtrade/compliance/client/v1/connected_natural_person.proto
-
-
-
-<a name="meshtrade-compliance-client-v1-ConnectedNaturalPerson"></a>
-
-### ConnectedNaturalPerson
-ConnectedNaturalPerson is a natural person and how they are connected to the company.
-
-Note on Field Requirements: Fields marked as &#39;Required for verification&#39; are essential
-for a successful compliance check, but are not mandatory for creation.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| natural_person | [NaturalPerson](#meshtrade-compliance-client-v1-NaturalPerson) |  | The core identity of the connected natural person. Required for verification. |
-| connection_types | [NaturalPersonConnectionType](#meshtrade-compliance-client-v1-NaturalPersonConnectionType) | repeated | The nature of the connection(s) of the natural person to the company. (e.g., Shareholder, Beneficial Owner, Partner etc.). Required for verification. |
-| ownership_percentage | [float](#float) | optional | The percentage of direct or indirect ownership this person holds. e.g. a value of 25.5 represents 25.5% ownership. Required for verification (if connection types includes NATURAL_PERSON_CONNECTION_TYPE_SHAREHOLDER or similar ownership role) |
-| voting_rights_percentage | [float](#float) | optional | The percentage of voting rights this person holds, which can differ from ownership. e.g. a value of 25.5 represents 25.5% ownership. Optional |
+| registered_name | [string](#string) |  | The official, registered name of the fund as it appears in its prospectus or formation documents. Required for verification. |
+| registration_number | [string](#string) |  | The unique registration or identification number assigned by a regulatory body or authority. Examples: SEC CIK number, LEI (Legal Entity Identifier). Required for verification. |
+| tax_identifier | [string](#string) |  | The primary tax identifier for the fund. Example: TIN in the US. |
+| country_of_domicile | [string](#string) |  | The ISO 3166-1 alpha-2 country code where the fund is domiciled (e.g., &#34;KY&#34; for Cayman Islands, &#34;LU&#34; for Luxembourg). The value must be the uppercase, two-letter code. See: https://www.iso.org/iso-3166-country-codes.html Required for verification. |
+| date_of_inception | [google.type.Date](#google-type-Date) |  | The date on which the fund was established or began operations (inception date). Required for verification. |
 
 
 
@@ -682,31 +565,99 @@ four levels provides a complete and precise profile for risk assessment.
 
 
 
-<a name="meshtrade_compliance_client_v1_kyb_info-proto"></a>
+<a name="meshtrade_compliance_client_v1_trust-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## meshtrade/compliance/client/v1/kyb_info.proto
+## meshtrade/compliance/client/v1/trust.proto
 
 
 
-<a name="meshtrade-compliance-client-v1-KYBInfo"></a>
+<a name="meshtrade-compliance-client-v1-Trust"></a>
 
-### KYBInfo
-KYBInfo is the Know Your Customer (KYB) information for an business client.
-This message is used to collect and verify the identity and financial profile a business.
+### Trust
+Defines a Trust as a legal entity. It contains the core, verifiable components of a trust&#39;s
+identity required for Know Your Trust (KYT) compliance checks.
+Fields essential for verification are noted but are not strictly mandatory for creating the record.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| registered_name | [string](#string) |  | The official, registered name of the trust as it appears in its prospectus or formation documents. Required for verification. |
+| registration_number | [string](#string) |  | The unique registration or identification number assigned by a regulatory body or authority. Examples: SEC CIK number, LEI (Legal Entity Identifier). Required for verification. |
+| tax_identifier | [string](#string) |  | The primary tax identifier for the trust. Example: TIN in the US. |
+| country_of_domicile | [string](#string) |  | The ISO 3166-1 alpha-2 country code where the trust is domiciled (e.g., &#34;KY&#34; for Cayman Islands, &#34;LU&#34; for Luxembourg). The value must be the uppercase, two-letter code. See: https://www.iso.org/iso-3166-country-codes.html Required for verification. |
+| date_of_inception | [google.type.Date](#google-type-Date) |  | The date on which the trust was established or began operations (inception date). Required for verification. |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="meshtrade_compliance_client_v1_company-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/compliance/client/v1/company.proto
+
+
+
+<a name="meshtrade-compliance-client-v1-Company"></a>
+
+### Company
+Defines a legal company entity. It contains the core, verifiable components of a company&#39;s
+identity required for Know Your Business (KYB) compliance checks.
+Fields essential for verification are noted but are not strictly mandatory for creating the record.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| registered_name | [string](#string) |  | The official, registered name of the company as it appears in its articles of incorporation. Required for verification. |
+| registration_number | [string](#string) | optional | The unique number assigned by the relevant companies registry upon incorporation. Examples: UK Companies House number, NL KVK-nummer, US EIN. Required for verification. |
+| tax_identifier | [string](#string) | optional | The primary tax identifier for the company. Examples: VAT number in the EU, TIN in the US. |
+| country_of_incorporation | [string](#string) |  | The ISO 3166-1 alpha-2 country code where the company was incorporated (e.g., &#34;ZA&#34;, &#34;NL&#34;). The value must be the uppercase, two-letter code. See: https://www.iso.org/iso-3166-country-codes.html Required for verification. |
+| date_of_incorporation | [google.type.Date](#google-type-Date) |  | The date on which the company was incorporated. Required for verification. |
+| registered_address | [meshtrade.type.v1.Address](#meshtrade-type-v1-Address) |  | The official, legal address of the entity as recorded with the incorporation registry. This is the primary address used for verification. Required for verification. |
+| principal_physical_address | [meshtrade.type.v1.Address](#meshtrade-type-v1-Address) | optional | The main physical location where the business conducts its operations. Provide only if different from the registered address. |
+| postal_address | [meshtrade.type.v1.Address](#meshtrade-type-v1-Address) | optional | The address designated for receiving mail and correspondence. Provide only if different from the registered address. |
+| head_office_address | [meshtrade.type.v1.Address](#meshtrade-type-v1-Address) | optional | The address of the company&#39;s head office. Provide only if different from the registered and principal physical addresses. |
+| company_representatives | [CompanyRepresentative](#meshtrade-compliance-client-v1-CompanyRepresentative) | repeated | A list of individuals empowered to act on behalf of the company (e.g., Directors, CEO). This field defines who has operational control and representation rights. Required for verification. |
+| connected_legal_persons | [ConnectedLegalPerson](#meshtrade-compliance-client-v1-ConnectedLegalPerson) | repeated | A list of all other legal persons (companies, trusts, etc.) in the ownership structure. This is used to perform recursive KYB checks and map the full ownership hierarchy. IMPORTANT: Only add legal persons here if they are NOT already clients on the Mesh platform. Required for verification if the ownership structure includes off-platform entities. |
+| industry_classification | [IndustryClassification](#meshtrade-compliance-client-v1-IndustryClassification) |  | The company&#39;s industry classification (e.g., using NACE or SIC codes), used for risk assessment. |
+| listed_exchange_code | [string](#string) |  | The stock exchange where the company is listed, if applicable (e.g., &#34;NASDAQ&#34;, &#34;LSE&#34;). |
+| listing_reference | [string](#string) |  | The ticker symbol for the company on the specified stock exchange (e.g., &#34;GOOGL&#34;). |
+
+
+
+
+
+
+<a name="meshtrade-compliance-client-v1-ConnectedLegalPerson"></a>
+
+### ConnectedLegalPerson
+ConnectedLegalPerson is a legal person and how they are connected to the company.
+
 Note on Field Requirements: Fields marked as &#39;Required for verification&#39; are essential
 for a successful compliance check, but are not mandatory for creation.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| legal_person | [LegalPerson](#meshtrade-compliance-client-v1-LegalPerson) |  | The core identity of the legal person being onboarded. Required for verification. |
-| company_representatives | [CompanyRepresentative](#meshtrade-compliance-client-v1-CompanyRepresentative) | repeated | Company Representatives (The &#34;Actors&#34;). Represents individuals with a formal, appointed role who are empowered to act on behalf of the company (e.g., Directors, CEO, Authorized Signatories). This list answers the regulatory question: &#34;Who can legally bind this company?&#34; It is focused on operational control and representation. Required for verification. |
-| connected_natural_persons | [ConnectedNaturalPerson](#meshtrade-compliance-client-v1-ConnectedNaturalPerson) | repeated | Connected Natural Persons (The &#34;Beneficiaries&#34;). Represents the Ultimate Beneficial Owners (UBOs) – the individuals who ultimately own or profit from the company, especially those without a formal representative title. This list is the result of the &#34;look-through&#34; due diligence process and answers the question: &#34;Who ultimately benefits from and controls this company?&#34; Required for verification. |
-| connected_legal_persons | [ConnectedLegalPerson](#meshtrade-compliance-client-v1-ConnectedLegalPerson) | repeated | Connected Legal Persons (The &#34;Corporate Structure&#34;). Represents all non-human entities in the ownership chain (e.g., parent companies, holding companies, trusts). Each entity here requires its own recursive KYB check to map the full ownership structure. This list answers the question: &#34;What other companies own this company?&#34; NOTE: it is only necessary to connect other company details here if they do not form part of the hierarchy of clients on the Mesh platform. Required for verification (if the ownership structure includes other companies that are not present on Mesh). |
-| industry_classification | [IndustryClassification](#meshtrade-compliance-client-v1-IndustryClassification) |  | The industry classification of the business (e.g., using NACE, SIC codes). This is critical for risk assessment. Optional for verification. |
-| listed_exchange_code | [string](#string) |  | The stock exchange where the company is listed (e.g., &#34;NASDAQ&#34;, &#34;LSE&#34;). Optional for verification. |
-| listing_reference | [string](#string) |  | The reference/ticker symbol for the company on the exchange (e.g., &#34;GOOGL&#34;). Optional for verification. |
+| natural_person | [NaturalPerson](#meshtrade-compliance-client-v1-NaturalPerson) |  | Set when the legal entity is an individual human being. |
+| company | [Company](#meshtrade-compliance-client-v1-Company) |  | Set when the legal entity is a company or corporation. |
+| fund | [Fund](#meshtrade-compliance-client-v1-Fund) |  | Set when the legal entity is an investment fund. |
+| trust | [Trust](#meshtrade-compliance-client-v1-Trust) |  | Set when the legal entity is a trust. |
+| connection_types | [LegalPersonConnectionType](#meshtrade-compliance-client-v1-LegalPersonConnectionType) | repeated | The nature of the connection(s) of the legal person to the company. (e.g., Shareholder, Guarantor etc.). Required for verification. |
+| ownership_percentage | [float](#float) | optional | The percentage of direct or indirect ownership this person holds. e.g. a value of 25.5 represents 25.5% ownership. Required for verification (if the connection_types includes LEGAL_PERSON_CONNECTION_TYPE_SHAREHOLDER or similar ownership role) |
+| voting_rights_percentage | [float](#float) | optional | The percentage of voting rights this person holds, which can differ from ownership. e.g. a value of 25.5 represents 25.5% ownership. Optional for verification. |
+| connection_description | [string](#string) |  | A plain text description of the relationship. Optional for verification. |
 
 
 
@@ -714,126 +665,23 @@ for a successful compliance check, but are not mandatory for creation.
 
  
 
- 
 
- 
+<a name="meshtrade-compliance-client-v1-LegalPersonConnectionType"></a>
 
- 
-
-
-
-<a name="meshtrade_compliance_client_v1_source_of_income_and_wealth-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## meshtrade/compliance/client/v1/source_of_income_and_wealth.proto
-
-
- 
-
-
-<a name="meshtrade-compliance-client-v1-SourceOfIncomeAndWealth"></a>
-
-### SourceOfIncomeAndWealth
-SourceOfIncomeAndWealth specifies the origin of a client&#39;s funds or assets.
-This is used for compliance and due diligence purposes.
+### LegalPersonConnectionType
+LegalPersonConnectionType describes how a legal person is connected to a business,
+which is essential for understanding corporate ownership and control structures in KYB.
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| SOURCE_OF_INCOME_AND_WEALTH_UNSPECIFIED | 0 | Unknown or not specified. This is a default value to prevent accidental assignment and should not be used. |
-| SOURCE_OF_INCOME_AND_WEALTH_ALLOWANCES | 1 | Funds from allowances. |
-| SOURCE_OF_INCOME_AND_WEALTH_BURSARY | 2 | Funds from a bursary or scholarship. |
-| SOURCE_OF_INCOME_AND_WEALTH_COURT_ORDER | 3 | Funds received as part of a court order. |
-| SOURCE_OF_INCOME_AND_WEALTH_LOAN_FINANCIAL_INSTITUTION | 4 | Funds from a loan provided by a financial institution. |
-| SOURCE_OF_INCOME_AND_WEALTH_LOAN_OTHER | 5 | Funds from a loan provided by another entity or individual. |
-| SOURCE_OF_INCOME_AND_WEALTH_MAINTENANCE | 6 | Funds from maintenance payments. |
-| SOURCE_OF_INCOME_AND_WEALTH_MATURING_INVESTMENTS | 7 | Funds from investments that have reached maturity. |
-| SOURCE_OF_INCOME_AND_WEALTH_PENSION | 8 | Funds from a pension. |
-| SOURCE_OF_INCOME_AND_WEALTH_RENTAL_INCOME | 9 | Income generated from rental properties. |
-| SOURCE_OF_INCOME_AND_WEALTH_COMPANY_PROFITS | 10 | Profits generated from a company. |
-| SOURCE_OF_INCOME_AND_WEALTH_COMPANY_SALE | 11 | Proceeds from the sale of a company. |
-| SOURCE_OF_INCOME_AND_WEALTH_DECEASED_ESTATE | 12 | Funds from a deceased estate. |
-| SOURCE_OF_INCOME_AND_WEALTH_DIVORCE_SETTLEMENT | 13 | Funds received as part of a divorce settlement. |
-| SOURCE_OF_INCOME_AND_WEALTH_GIFT_OR_DONATION | 14 | Funds received as a gift or donation. |
-| SOURCE_OF_INCOME_AND_WEALTH_INCOME_FROM_EMPLOYMENT | 15 | Salary or wages from current employment. |
-| SOURCE_OF_INCOME_AND_WEALTH_INCOME_FROM_PREVIOUS_EMPLOYMENT | 16 | Income from a previous employer, such as severance. |
-| SOURCE_OF_INCOME_AND_WEALTH_INHERITANCE | 17 | Funds received as an inheritance. |
-| SOURCE_OF_INCOME_AND_WEALTH_LOTTERY_WINNINGS_OR_GAMBLING | 18 | Winnings from a lottery, gambling, or other prizes. |
-| SOURCE_OF_INCOME_AND_WEALTH_SALE_OF_ASSET | 19 | Proceeds from the sale of a physical or digital asset. |
-| SOURCE_OF_INCOME_AND_WEALTH_SALE_OF_SHARES | 20 | Proceeds from the sale of stocks or shares. |
-| SOURCE_OF_INCOME_AND_WEALTH_SAVINGS_INVESTMENT_OR_DIVIDEND | 21 | Income from savings, investments, or dividends. |
-| SOURCE_OF_INCOME_AND_WEALTH_TRUST_DISTRIBUTIONS | 22 | Funds distributed from a trust. |
+| LEGAL_PERSON_CONNECTION_TYPE_UNSPECIFIED | 0 | Unknown or not specified. This is a default value to prevent accidental assignment and should not be used. |
+| LEGAL_PERSON_CONNECTION_TYPE_SHAREHOLDER | 1 | The legal person is a direct shareholder in the company, but may not have a controlling stake. This is a general ownership connection. |
+| LEGAL_PERSON_CONNECTION_TYPE_PARENT_COMPANY | 2 | The legal person has a controlling ownership stake in the company, making the company its subsidiary. |
+| LEGAL_PERSON_CONNECTION_TYPE_CORPORATE_DIRECTOR | 3 | The legal person (often a trust or specialized firm) acts as a director on the board of the company. This represents a connection of control. |
+| LEGAL_PERSON_CONNECTION_TYPE_TRUST | 4 | The legal person is a trust that holds shares or has a controlling interest in the company on behalf of its beneficiaries. |
+| LEGAL_PERSON_CONNECTION_TYPE_GENERAL_PARTNER | 5 | The legal person is a general partner in a partnership structure (e.g., LP/LLP), typically implying management control and unlimited liability. |
+| LEGAL_PERSON_CONNECTION_TYPE_GUARANTOR | 6 | The legal person guarantees the financial obligations or performance of the company, indicating a significant financial connection. |
 
-
- 
-
- 
-
- 
-
-
-
-<a name="meshtrade_compliance_client_v1_tax_residency-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## meshtrade/compliance/client/v1/tax_residency.proto
-
-
-
-<a name="meshtrade-compliance-client-v1-TaxResidency"></a>
-
-### TaxResidency
-Holds tax residency information for a single jurisdiction.
-Note on Required Fields: Fields marked as &#39;Required&#39; are essential
-for a successful compliance check, but are not mandatory for creation.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| country_code | [string](#string) |  | The ISO 3166-1 alpha-2 country code of the tax jurisdiction. This is the two-letter country code (e.g., &#34;ZA&#34; for South Africa, &#34;NL&#34; for the Netherlands). The value should be in uppercase. See https://www.iso.org/iso-3166-country-codes.html for a full list. Required for verification. |
-| tin | [string](#string) |  | The Tax Identification Number (TIN) for the client in that jurisdiction. Required for verification. |
-
-
-
-
-
- 
-
- 
-
- 
-
- 
-
-
-
-<a name="meshtrade_compliance_client_v1_kyc_info-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## meshtrade/compliance/client/v1/kyc_info.proto
-
-
-
-<a name="meshtrade-compliance-client-v1-KYCInfo"></a>
-
-### KYCInfo
-KYCInfo represents the Know Your Customer (KYC) information for an individual client.
-This message is used to collect and verify the identity and financial profile of a person.
-Note on Field Requirements: Fields marked as &#39;Required for verification&#39; are essential
-for a successful compliance check, but are not mandatory for creation.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| natural_person | [NaturalPerson](#meshtrade-compliance-client-v1-NaturalPerson) |  | Details of the natural person represented by this kyc profile. This contains the core identity information (name, DOB, address, identity document etc.). Required for verification. |
-| sources_of_income | [SourceOfIncomeAndWealth](#meshtrade-compliance-client-v1-SourceOfIncomeAndWealth) | repeated | The primary sources of the client&#39;s regular income (e.g., employment, pension). Required for verification. |
-| sources_of_wealth | [SourceOfIncomeAndWealth](#meshtrade-compliance-client-v1-SourceOfIncomeAndWealth) | repeated | The origins of the client&#39;s total net worth or assets (e.g., inheritance, investments). This is distinct from the source of income. Required for verification. |
-| tax_residencies | [TaxResidency](#meshtrade-compliance-client-v1-TaxResidency) | repeated | The client&#39;s tax residency information, required for CRS/FATCA reporting. A client can be a tax resident in multiple jurisdictions. Required for verification. |
-
-
-
-
-
- 
 
  
 
@@ -892,12 +740,14 @@ and verification status related to a single party.
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | name | [string](#string) |  | The unique, immutable, and canonical name of the client resource in the format clients/{client_id}. The {client_id} is a system-generated unique identifier (e.g., UUID) that will never change. This name field will never change and should be used as the permanent primary key for this resource in all systems. System set on creation. |
-| owner_group | [string](#string) |  | The resource name of the group that owns this client in the format groups/{group_id}. This field establishes the ownership link and can be updated if the client&#39;s ownership changes, without affecting the client&#39;s stable `name`. The executing user needs to have permission to perform client.Create in this group. Required on creation. |
+| owner | [string](#string) |  | The resource name of the group that owns this client in the format groups/{group_id}. This field establishes the ownership link and can be updated if the client&#39;s ownership changes, without affecting the client&#39;s stable `name`. The executing user needs to have permission to perform client.Create in this group. Required on creation. |
 | display_name | [string](#string) |  | A non-unique, user-provided name for the client, used for display purposes in user interfaces and reports. Required on creation. |
-| kyc_info | [KYCInfo](#meshtrade-compliance-client-v1-KYCInfo) |  |  |
-| kyb_info | [KYBInfo](#meshtrade-compliance-client-v1-KYBInfo) |  |  |
+| natural_person | [NaturalPerson](#meshtrade-compliance-client-v1-NaturalPerson) |  | Set when the legal entity is an individual human being. |
+| company | [Company](#meshtrade-compliance-client-v1-Company) |  | Set when the legal entity is a company or corporation. |
+| fund | [Fund](#meshtrade-compliance-client-v1-Fund) |  | Set when the legal entity is an investment fund. |
+| trust | [Trust](#meshtrade-compliance-client-v1-Trust) |  | Set when the legal entity is a trust. |
 | verification_status | [VerificationStatus](#meshtrade-compliance-client-v1-VerificationStatus) |  | The definitive, most recent compliance status of the client (e.g., VERIFICATION_STATUS_VERIFIED, VERIFICATION_STATUS_FAILED). System controlled. |
-| verification_authority_name | [string](#string) |  | The resource name of the client (acting as a verifier) that last set the `verification_status`. This provides an audit trail for status changes. System set when verification_status changes. |
+| verification_authority | [string](#string) |  | The resource name of the client (acting as a verifier) that last set the `verification_status`. This provides an audit trail for status changes. System set when verification_status changes. |
 | verification_date | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  | The timestamp when the `verification_status` was last set to a conclusive state, specifically `VERIFICATION_STATUS_VERIFIED`. System set when verification_status changes to VERIFICATION_STATUS_VERIFIED. |
 | next_verification_date | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  | The timestamp indicating when the client&#39;s next periodic compliance review is due. This field drives re-verification workflows. Optional for Verification. |
 
@@ -906,6 +756,50 @@ and verification status related to a single party.
 
 
  
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="meshtrade_compliance_client_v1_natural_person_connection_type-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/compliance/client/v1/natural_person_connection_type.proto
+
+
+ 
+
+
+<a name="meshtrade-compliance-client-v1-NaturalPersonConnectionType"></a>
+
+### NaturalPersonConnectionType
+NaturalPersonConnectionType describes how a natural person is connected to a business
+or to another key individual (like a PEP). It covers primary roles for KYB (ownership, control)
+as well as secondary relationships for screening (familial, professional).
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| NATURAL_PERSON_CONNECTION_TYPE_UNSPECIFIED | 0 | Unknown or not specified. This is a a default value to prevent accidental assignment and should not be used. |
+| NATURAL_PERSON_CONNECTION_TYPE_ULTIMATE_BENEFICIAL_OWNER | 1 | The person is an Ultimate Beneficial Owner as defined by AML regulations (e.g., &gt;25% ownership/voting rights). This is the most critical connection type for KYB. |
+| NATURAL_PERSON_CONNECTION_TYPE_SHAREHOLDER | 2 | The person owns shares but may be below the UBO threshold. |
+| NATURAL_PERSON_CONNECTION_TYPE_DIRECTOR | 3 | The person is a formal Director on the company&#39;s board. |
+| NATURAL_PERSON_CONNECTION_TYPE_SENIOR_MANAGEMENT | 4 | The person holds a senior management position with significant operational control (e.g., CEO, CFO, COO). |
+| NATURAL_PERSON_CONNECTION_TYPE_AUTHORIZED_SIGNATORY | 5 | The person is formally authorized to sign documents and act on the company&#39;s behalf. |
+| NATURAL_PERSON_CONNECTION_TYPE_FOUNDER | 6 | The person is the founder of the company. |
+| NATURAL_PERSON_CONNECTION_TYPE_SPOUSE | 20 | The person is a legally married partner. |
+| NATURAL_PERSON_CONNECTION_TYPE_DOMESTIC_PARTNER | 21 | The person is a partner in a long-term relationship, equivalent to a spouse. |
+| NATURAL_PERSON_CONNECTION_TYPE_PARENT | 22 | The person is a mother or father. |
+| NATURAL_PERSON_CONNECTION_TYPE_CHILD | 23 | The person is a son or daughter. |
+| NATURAL_PERSON_CONNECTION_TYPE_SIBLING | 24 | The person is a brother or sister. |
+| NATURAL_PERSON_CONNECTION_TYPE_BUSINESS_PARTNER | 30 | The person is a business partner. |
+| NATURAL_PERSON_CONNECTION_TYPE_CLOSE_ASSOCIATE | 31 | A generic term for a known professional or personal associate, as defined by FATF guidelines for PEPs. |
+| NATURAL_PERSON_CONNECTION_TYPE_GUARANTOR | 32 | The person is a guarantor for the company&#39;s financial obligations. |
+| NATURAL_PERSON_CONNECTION_TYPE_BENEFICIARY_OF_TRUST | 33 | The person is a beneficiary of a trust that owns or controls the company. |
+
 
  
 

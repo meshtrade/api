@@ -36,36 +36,36 @@ type Client struct {
 	// without affecting the client's stable `name`.
 	// The executing user needs to have permission to perform client.Create in this group.
 	// Required on creation.
-	OwnerGroup string `protobuf:"bytes,2,opt,name=owner_group,json=ownerGroup,proto3" json:"owner_group,omitempty"`
+	Owner string `protobuf:"bytes,2,opt,name=owner,proto3" json:"owner,omitempty"`
 	// A non-unique, user-provided name for the client, used for display purposes
 	// in user interfaces and reports.
 	// Required on creation.
 	DisplayName string `protobuf:"bytes,3,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
-	// Contains either the KYC or KYB information, defining if the client is an
-	// individual or a business. This choice is permanent and cannot be changed
-	// after the client is created.
-	// Required on creation.
+	// Contains the specific data for the legal entity type.
+	// Only one of these may be set at a time.
 	//
-	// Types that are valid to be assigned to Info:
+	// Types that are valid to be assigned to LegalPerson:
 	//
-	//	*Client_KycInfo
-	//	*Client_KybInfo
-	Info isClient_Info `protobuf_oneof:"info"`
+	//	*Client_NaturalPerson
+	//	*Client_Company
+	//	*Client_Fund
+	//	*Client_Trust
+	LegalPerson isClient_LegalPerson `protobuf_oneof:"legal_person"`
 	// The definitive, most recent compliance status of the client (e.g., VERIFICATION_STATUS_VERIFIED, VERIFICATION_STATUS_FAILED).
 	// System controlled.
-	VerificationStatus VerificationStatus `protobuf:"varint,6,opt,name=verification_status,json=verificationStatus,proto3,enum=meshtrade.compliance.client.v1.VerificationStatus" json:"verification_status,omitempty"`
+	VerificationStatus VerificationStatus `protobuf:"varint,8,opt,name=verification_status,json=verificationStatus,proto3,enum=meshtrade.compliance.client.v1.VerificationStatus" json:"verification_status,omitempty"`
 	// The resource name of the client (acting as a verifier) that last set the
 	// `verification_status`. This provides an audit trail for status changes.
 	// System set when verification_status changes.
-	VerificationAuthorityName string `protobuf:"bytes,7,opt,name=verification_authority_name,json=verificationAuthorityName,proto3" json:"verification_authority_name,omitempty"`
+	VerificationAuthority string `protobuf:"bytes,9,opt,name=verification_authority,json=verificationAuthority,proto3" json:"verification_authority,omitempty"`
 	// The timestamp when the `verification_status` was last set to a conclusive
 	// state, specifically `VERIFICATION_STATUS_VERIFIED`.
 	// System set when verification_status changes to VERIFICATION_STATUS_VERIFIED.
-	VerificationDate *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=verification_date,json=verificationDate,proto3" json:"verification_date,omitempty"`
+	VerificationDate *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=verification_date,json=verificationDate,proto3" json:"verification_date,omitempty"`
 	// The timestamp indicating when the client's next periodic compliance review
 	// is due. This field drives re-verification workflows.
 	// Optional for Verification.
-	NextVerificationDate *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=next_verification_date,json=nextVerificationDate,proto3" json:"next_verification_date,omitempty"`
+	NextVerificationDate *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=next_verification_date,json=nextVerificationDate,proto3" json:"next_verification_date,omitempty"`
 	unknownFields        protoimpl.UnknownFields
 	sizeCache            protoimpl.SizeCache
 }
@@ -107,9 +107,9 @@ func (x *Client) GetName() string {
 	return ""
 }
 
-func (x *Client) GetOwnerGroup() string {
+func (x *Client) GetOwner() string {
 	if x != nil {
-		return x.OwnerGroup
+		return x.Owner
 	}
 	return ""
 }
@@ -121,26 +121,44 @@ func (x *Client) GetDisplayName() string {
 	return ""
 }
 
-func (x *Client) GetInfo() isClient_Info {
+func (x *Client) GetLegalPerson() isClient_LegalPerson {
 	if x != nil {
-		return x.Info
+		return x.LegalPerson
 	}
 	return nil
 }
 
-func (x *Client) GetKycInfo() *KYCInfo {
+func (x *Client) GetNaturalPerson() *NaturalPerson {
 	if x != nil {
-		if x, ok := x.Info.(*Client_KycInfo); ok {
-			return x.KycInfo
+		if x, ok := x.LegalPerson.(*Client_NaturalPerson); ok {
+			return x.NaturalPerson
 		}
 	}
 	return nil
 }
 
-func (x *Client) GetKybInfo() *KYBInfo {
+func (x *Client) GetCompany() *Company {
 	if x != nil {
-		if x, ok := x.Info.(*Client_KybInfo); ok {
-			return x.KybInfo
+		if x, ok := x.LegalPerson.(*Client_Company); ok {
+			return x.Company
+		}
+	}
+	return nil
+}
+
+func (x *Client) GetFund() *Fund {
+	if x != nil {
+		if x, ok := x.LegalPerson.(*Client_Fund); ok {
+			return x.Fund
+		}
+	}
+	return nil
+}
+
+func (x *Client) GetTrust() *Trust {
+	if x != nil {
+		if x, ok := x.LegalPerson.(*Client_Trust); ok {
+			return x.Trust
 		}
 	}
 	return nil
@@ -153,9 +171,9 @@ func (x *Client) GetVerificationStatus() VerificationStatus {
 	return VerificationStatus_VERIFICATION_STATUS_UNSPECIFIED
 }
 
-func (x *Client) GetVerificationAuthorityName() string {
+func (x *Client) GetVerificationAuthority() string {
 	if x != nil {
-		return x.VerificationAuthorityName
+		return x.VerificationAuthority
 	}
 	return ""
 }
@@ -174,39 +192,57 @@ func (x *Client) GetNextVerificationDate() *timestamppb.Timestamp {
 	return nil
 }
 
-type isClient_Info interface {
-	isClient_Info()
+type isClient_LegalPerson interface {
+	isClient_LegalPerson()
 }
 
-type Client_KycInfo struct {
-	KycInfo *KYCInfo `protobuf:"bytes,4,opt,name=kyc_info,json=kycInfo,proto3,oneof"`
+type Client_NaturalPerson struct {
+	// Set when the legal entity is an individual human being.
+	NaturalPerson *NaturalPerson `protobuf:"bytes,4,opt,name=natural_person,json=naturalPerson,proto3,oneof"`
 }
 
-type Client_KybInfo struct {
-	KybInfo *KYBInfo `protobuf:"bytes,5,opt,name=kyb_info,json=kybInfo,proto3,oneof"`
+type Client_Company struct {
+	// Set when the legal entity is a company or corporation.
+	Company *Company `protobuf:"bytes,5,opt,name=company,proto3,oneof"`
 }
 
-func (*Client_KycInfo) isClient_Info() {}
+type Client_Fund struct {
+	// Set when the legal entity is an investment fund.
+	Fund *Fund `protobuf:"bytes,6,opt,name=fund,proto3,oneof"`
+}
 
-func (*Client_KybInfo) isClient_Info() {}
+type Client_Trust struct {
+	// Set when the legal entity is a trust.
+	Trust *Trust `protobuf:"bytes,7,opt,name=trust,proto3,oneof"`
+}
+
+func (*Client_NaturalPerson) isClient_LegalPerson() {}
+
+func (*Client_Company) isClient_LegalPerson() {}
+
+func (*Client_Fund) isClient_LegalPerson() {}
+
+func (*Client_Trust) isClient_LegalPerson() {}
 
 var File_meshtrade_compliance_client_v1_client_proto protoreflect.FileDescriptor
 
 const file_meshtrade_compliance_client_v1_client_proto_rawDesc = "" +
 	"\n" +
-	"+meshtrade/compliance/client/v1/client.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a-meshtrade/compliance/client/v1/kyb_info.proto\x1a-meshtrade/compliance/client/v1/kyc_info.proto\x1a8meshtrade/compliance/client/v1/verification_status.proto\"\xb4\x04\n" +
+	"+meshtrade/compliance/client/v1/client.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a,meshtrade/compliance/client/v1/company.proto\x1a)meshtrade/compliance/client/v1/fund.proto\x1a3meshtrade/compliance/client/v1/natural_person.proto\x1a*meshtrade/compliance/client/v1/trust.proto\x1a8meshtrade/compliance/client/v1/verification_status.proto\"\xb4\x05\n" +
 	"\x06Client\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12\x1f\n" +
-	"\vowner_group\x18\x02 \x01(\tR\n" +
-	"ownerGroup\x12!\n" +
-	"\fdisplay_name\x18\x03 \x01(\tR\vdisplayName\x12D\n" +
-	"\bkyc_info\x18\x04 \x01(\v2'.meshtrade.compliance.client.v1.KYCInfoH\x00R\akycInfo\x12D\n" +
-	"\bkyb_info\x18\x05 \x01(\v2'.meshtrade.compliance.client.v1.KYBInfoH\x00R\akybInfo\x12c\n" +
-	"\x13verification_status\x18\x06 \x01(\x0e22.meshtrade.compliance.client.v1.VerificationStatusR\x12verificationStatus\x12>\n" +
-	"\x1bverification_authority_name\x18\a \x01(\tR\x19verificationAuthorityName\x12G\n" +
-	"\x11verification_date\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\x10verificationDate\x12P\n" +
-	"\x16next_verification_date\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\x14nextVerificationDateB\x06\n" +
-	"\x04infoB;Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +
+	"\x05owner\x18\x02 \x01(\tR\x05owner\x12!\n" +
+	"\fdisplay_name\x18\x03 \x01(\tR\vdisplayName\x12V\n" +
+	"\x0enatural_person\x18\x04 \x01(\v2-.meshtrade.compliance.client.v1.NaturalPersonH\x00R\rnaturalPerson\x12C\n" +
+	"\acompany\x18\x05 \x01(\v2'.meshtrade.compliance.client.v1.CompanyH\x00R\acompany\x12:\n" +
+	"\x04fund\x18\x06 \x01(\v2$.meshtrade.compliance.client.v1.FundH\x00R\x04fund\x12=\n" +
+	"\x05trust\x18\a \x01(\v2%.meshtrade.compliance.client.v1.TrustH\x00R\x05trust\x12c\n" +
+	"\x13verification_status\x18\b \x01(\x0e22.meshtrade.compliance.client.v1.VerificationStatusR\x12verificationStatus\x125\n" +
+	"\x16verification_authority\x18\t \x01(\tR\x15verificationAuthority\x12G\n" +
+	"\x11verification_date\x18\n" +
+	" \x01(\v2\x1a.google.protobuf.TimestampR\x10verificationDate\x12P\n" +
+	"\x16next_verification_date\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\x14nextVerificationDateB\x0e\n" +
+	"\flegal_personB;Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
 
 var (
 	file_meshtrade_compliance_client_v1_client_proto_rawDescOnce sync.Once
@@ -223,22 +259,26 @@ func file_meshtrade_compliance_client_v1_client_proto_rawDescGZIP() []byte {
 var file_meshtrade_compliance_client_v1_client_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_meshtrade_compliance_client_v1_client_proto_goTypes = []any{
 	(*Client)(nil),                // 0: meshtrade.compliance.client.v1.Client
-	(*KYCInfo)(nil),               // 1: meshtrade.compliance.client.v1.KYCInfo
-	(*KYBInfo)(nil),               // 2: meshtrade.compliance.client.v1.KYBInfo
-	(VerificationStatus)(0),       // 3: meshtrade.compliance.client.v1.VerificationStatus
-	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
+	(*NaturalPerson)(nil),         // 1: meshtrade.compliance.client.v1.NaturalPerson
+	(*Company)(nil),               // 2: meshtrade.compliance.client.v1.Company
+	(*Fund)(nil),                  // 3: meshtrade.compliance.client.v1.Fund
+	(*Trust)(nil),                 // 4: meshtrade.compliance.client.v1.Trust
+	(VerificationStatus)(0),       // 5: meshtrade.compliance.client.v1.VerificationStatus
+	(*timestamppb.Timestamp)(nil), // 6: google.protobuf.Timestamp
 }
 var file_meshtrade_compliance_client_v1_client_proto_depIdxs = []int32{
-	1, // 0: meshtrade.compliance.client.v1.Client.kyc_info:type_name -> meshtrade.compliance.client.v1.KYCInfo
-	2, // 1: meshtrade.compliance.client.v1.Client.kyb_info:type_name -> meshtrade.compliance.client.v1.KYBInfo
-	3, // 2: meshtrade.compliance.client.v1.Client.verification_status:type_name -> meshtrade.compliance.client.v1.VerificationStatus
-	4, // 3: meshtrade.compliance.client.v1.Client.verification_date:type_name -> google.protobuf.Timestamp
-	4, // 4: meshtrade.compliance.client.v1.Client.next_verification_date:type_name -> google.protobuf.Timestamp
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	1, // 0: meshtrade.compliance.client.v1.Client.natural_person:type_name -> meshtrade.compliance.client.v1.NaturalPerson
+	2, // 1: meshtrade.compliance.client.v1.Client.company:type_name -> meshtrade.compliance.client.v1.Company
+	3, // 2: meshtrade.compliance.client.v1.Client.fund:type_name -> meshtrade.compliance.client.v1.Fund
+	4, // 3: meshtrade.compliance.client.v1.Client.trust:type_name -> meshtrade.compliance.client.v1.Trust
+	5, // 4: meshtrade.compliance.client.v1.Client.verification_status:type_name -> meshtrade.compliance.client.v1.VerificationStatus
+	6, // 5: meshtrade.compliance.client.v1.Client.verification_date:type_name -> google.protobuf.Timestamp
+	6, // 6: meshtrade.compliance.client.v1.Client.next_verification_date:type_name -> google.protobuf.Timestamp
+	7, // [7:7] is the sub-list for method output_type
+	7, // [7:7] is the sub-list for method input_type
+	7, // [7:7] is the sub-list for extension type_name
+	7, // [7:7] is the sub-list for extension extendee
+	0, // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_compliance_client_v1_client_proto_init() }
@@ -246,12 +286,16 @@ func file_meshtrade_compliance_client_v1_client_proto_init() {
 	if File_meshtrade_compliance_client_v1_client_proto != nil {
 		return
 	}
-	file_meshtrade_compliance_client_v1_kyb_info_proto_init()
-	file_meshtrade_compliance_client_v1_kyc_info_proto_init()
+	file_meshtrade_compliance_client_v1_company_proto_init()
+	file_meshtrade_compliance_client_v1_fund_proto_init()
+	file_meshtrade_compliance_client_v1_natural_person_proto_init()
+	file_meshtrade_compliance_client_v1_trust_proto_init()
 	file_meshtrade_compliance_client_v1_verification_status_proto_init()
 	file_meshtrade_compliance_client_v1_client_proto_msgTypes[0].OneofWrappers = []any{
-		(*Client_KycInfo)(nil),
-		(*Client_KybInfo)(nil),
+		(*Client_NaturalPerson)(nil),
+		(*Client_Company)(nil),
+		(*Client_Fund)(nil),
+		(*Client_Trust)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

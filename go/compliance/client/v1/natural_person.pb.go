@@ -67,6 +67,17 @@ type NaturalPerson struct {
 	// The individual's personal contact details (personal email, personal mobile).
 	// Optional for verification.
 	ContactDetails *v1.ContactDetails `protobuf:"bytes,10,opt,name=contact_details,json=contactDetails,proto3" json:"contact_details,omitempty"`
+	// The primary sources of the client's regular income (e.g., employment, pension).
+	// Required for verification.
+	SourcesOfIncome []SourceOfIncomeAndWealth `protobuf:"varint,11,rep,packed,name=sources_of_income,json=sourcesOfIncome,proto3,enum=meshtrade.compliance.client.v1.SourceOfIncomeAndWealth" json:"sources_of_income,omitempty"`
+	// The origins of the client's total net worth or assets (e.g., inheritance, investments).
+	// This is distinct from the source of income.
+	// Required for verification.
+	SourcesOfWealth []SourceOfIncomeAndWealth `protobuf:"varint,12,rep,packed,name=sources_of_wealth,json=sourcesOfWealth,proto3,enum=meshtrade.compliance.client.v1.SourceOfIncomeAndWealth" json:"sources_of_wealth,omitempty"`
+	// The client's tax residency information, required for CRS/FATCA reporting.
+	// A client can be a tax resident in multiple jurisdictions.
+	// Required for verification.
+	TaxResidencies []*TaxResidency `protobuf:"bytes,13,rep,name=tax_residencies,json=taxResidencies,proto3" json:"tax_residencies,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -171,11 +182,32 @@ func (x *NaturalPerson) GetContactDetails() *v1.ContactDetails {
 	return nil
 }
 
+func (x *NaturalPerson) GetSourcesOfIncome() []SourceOfIncomeAndWealth {
+	if x != nil {
+		return x.SourcesOfIncome
+	}
+	return nil
+}
+
+func (x *NaturalPerson) GetSourcesOfWealth() []SourceOfIncomeAndWealth {
+	if x != nil {
+		return x.SourcesOfWealth
+	}
+	return nil
+}
+
+func (x *NaturalPerson) GetTaxResidencies() []*TaxResidency {
+	if x != nil {
+		return x.TaxResidencies
+	}
+	return nil
+}
+
 var File_meshtrade_compliance_client_v1_natural_person_proto protoreflect.FileDescriptor
 
 const file_meshtrade_compliance_client_v1_natural_person_proto_rawDesc = "" +
 	"\n" +
-	"3meshtrade/compliance/client/v1/natural_person.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x16google/type/date.proto\x1aAmeshtrade/compliance/client/v1/identification_document_type.proto\x1a/meshtrade/compliance/client/v1/pep_status.proto\x1a\x1fmeshtrade/type/v1/address.proto\x1a'meshtrade/type/v1/contact_details.proto\"\xce\x05\n" +
+	"3meshtrade/compliance/client/v1/natural_person.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x16google/type/date.proto\x1aAmeshtrade/compliance/client/v1/identification_document_type.proto\x1a/meshtrade/compliance/client/v1/pep_status.proto\x1a@meshtrade/compliance/client/v1/source_of_income_and_wealth.proto\x1a2meshtrade/compliance/client/v1/tax_residency.proto\x1a\x1fmeshtrade/type/v1/address.proto\x1a'meshtrade/type/v1/contact_details.proto\"\xef\a\n" +
 	"\rNaturalPerson\x12\x1b\n" +
 	"\tfull_name\x18\x01 \x01(\tR\bfullName\x125\n" +
 	"\rdate_of_birth\x18\x02 \x01(\v2\x11.google.type.DateR\vdateOfBirth\x124\n" +
@@ -188,7 +220,10 @@ const file_meshtrade_compliance_client_v1_natural_person_proto_rawDesc = "" +
 	"\n" +
 	"pep_status\x18\t \x01(\x0e2).meshtrade.compliance.client.v1.PepStatusR\tpepStatus\x12J\n" +
 	"\x0fcontact_details\x18\n" +
-	" \x01(\v2!.meshtrade.type.v1.ContactDetailsR\x0econtactDetailsB;Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
+	" \x01(\v2!.meshtrade.type.v1.ContactDetailsR\x0econtactDetails\x12c\n" +
+	"\x11sources_of_income\x18\v \x03(\x0e27.meshtrade.compliance.client.v1.SourceOfIncomeAndWealthR\x0fsourcesOfIncome\x12c\n" +
+	"\x11sources_of_wealth\x18\f \x03(\x0e27.meshtrade.compliance.client.v1.SourceOfIncomeAndWealthR\x0fsourcesOfWealth\x12U\n" +
+	"\x0ftax_residencies\x18\r \x03(\v2,.meshtrade.compliance.client.v1.TaxResidencyR\x0etaxResidenciesB;Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
 
 var (
 	file_meshtrade_compliance_client_v1_natural_person_proto_rawDescOnce sync.Once
@@ -210,20 +245,25 @@ var file_meshtrade_compliance_client_v1_natural_person_proto_goTypes = []any{
 	(*v1.Address)(nil),              // 3: meshtrade.type.v1.Address
 	(PepStatus)(0),                  // 4: meshtrade.compliance.client.v1.PepStatus
 	(*v1.ContactDetails)(nil),       // 5: meshtrade.type.v1.ContactDetails
+	(SourceOfIncomeAndWealth)(0),    // 6: meshtrade.compliance.client.v1.SourceOfIncomeAndWealth
+	(*TaxResidency)(nil),            // 7: meshtrade.compliance.client.v1.TaxResidency
 }
 var file_meshtrade_compliance_client_v1_natural_person_proto_depIdxs = []int32{
-	1, // 0: meshtrade.compliance.client.v1.NaturalPerson.date_of_birth:type_name -> google.type.Date
-	2, // 1: meshtrade.compliance.client.v1.NaturalPerson.identification_document_type:type_name -> meshtrade.compliance.client.v1.IdentificationDocumentType
-	1, // 2: meshtrade.compliance.client.v1.NaturalPerson.identification_document_expiry_date:type_name -> google.type.Date
-	3, // 3: meshtrade.compliance.client.v1.NaturalPerson.physical_address:type_name -> meshtrade.type.v1.Address
-	3, // 4: meshtrade.compliance.client.v1.NaturalPerson.postal_address:type_name -> meshtrade.type.v1.Address
-	4, // 5: meshtrade.compliance.client.v1.NaturalPerson.pep_status:type_name -> meshtrade.compliance.client.v1.PepStatus
-	5, // 6: meshtrade.compliance.client.v1.NaturalPerson.contact_details:type_name -> meshtrade.type.v1.ContactDetails
-	7, // [7:7] is the sub-list for method output_type
-	7, // [7:7] is the sub-list for method input_type
-	7, // [7:7] is the sub-list for extension type_name
-	7, // [7:7] is the sub-list for extension extendee
-	0, // [0:7] is the sub-list for field type_name
+	1,  // 0: meshtrade.compliance.client.v1.NaturalPerson.date_of_birth:type_name -> google.type.Date
+	2,  // 1: meshtrade.compliance.client.v1.NaturalPerson.identification_document_type:type_name -> meshtrade.compliance.client.v1.IdentificationDocumentType
+	1,  // 2: meshtrade.compliance.client.v1.NaturalPerson.identification_document_expiry_date:type_name -> google.type.Date
+	3,  // 3: meshtrade.compliance.client.v1.NaturalPerson.physical_address:type_name -> meshtrade.type.v1.Address
+	3,  // 4: meshtrade.compliance.client.v1.NaturalPerson.postal_address:type_name -> meshtrade.type.v1.Address
+	4,  // 5: meshtrade.compliance.client.v1.NaturalPerson.pep_status:type_name -> meshtrade.compliance.client.v1.PepStatus
+	5,  // 6: meshtrade.compliance.client.v1.NaturalPerson.contact_details:type_name -> meshtrade.type.v1.ContactDetails
+	6,  // 7: meshtrade.compliance.client.v1.NaturalPerson.sources_of_income:type_name -> meshtrade.compliance.client.v1.SourceOfIncomeAndWealth
+	6,  // 8: meshtrade.compliance.client.v1.NaturalPerson.sources_of_wealth:type_name -> meshtrade.compliance.client.v1.SourceOfIncomeAndWealth
+	7,  // 9: meshtrade.compliance.client.v1.NaturalPerson.tax_residencies:type_name -> meshtrade.compliance.client.v1.TaxResidency
+	10, // [10:10] is the sub-list for method output_type
+	10, // [10:10] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_compliance_client_v1_natural_person_proto_init() }
@@ -233,6 +273,8 @@ func file_meshtrade_compliance_client_v1_natural_person_proto_init() {
 	}
 	file_meshtrade_compliance_client_v1_identification_document_type_proto_init()
 	file_meshtrade_compliance_client_v1_pep_status_proto_init()
+	file_meshtrade_compliance_client_v1_source_of_income_and_wealth_proto_init()
+	file_meshtrade_compliance_client_v1_tax_residency_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
