@@ -24,6 +24,7 @@ class FundingOrigin(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     INVESTEC_DIRECT_EFT: _ClassVar[FundingOrigin]
     PEACH_SETTLEMENT: _ClassVar[FundingOrigin]
     PEACH_PAYMENT: _ClassVar[FundingOrigin]
+    DIRECT_EFT: _ClassVar[FundingOrigin]
 
 class PeachPaymentMethod(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
@@ -42,6 +43,26 @@ class PaymentType(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     RV: _ClassVar[PaymentType]
     CD: _ClassVar[PaymentType]
     RB: _ClassVar[PaymentType]
+
+class BankName(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    BANK_NAME_STANDARD_BANK: _ClassVar[BankName]
+    BANK_NAME_ABSA: _ClassVar[BankName]
+    BANK_NAME_AFRICAN_BANK: _ClassVar[BankName]
+    BANK_NAME_BIDVEST_BANK: _ClassVar[BankName]
+    BANK_NAME_CAPITEC_BANK: _ClassVar[BankName]
+    BANK_NAME_DISCOVERY_BANK: _ClassVar[BankName]
+    BANK_NAME_FIRST_NATIONAL_BANK: _ClassVar[BankName]
+    BANK_NAME_FIRST_RAND_BANK: _ClassVar[BankName]
+    BANK_NAME_GRINDROD_BANK: _ClassVar[BankName]
+    BANK_NAME_INVESTEC: _ClassVar[BankName]
+    BANK_NAME_MERCANTILE_BANK: _ClassVar[BankName]
+    BANK_NAME_NEDBANK: _ClassVar[BankName]
+    BANK_NAME_OLD_MUTUAL: _ClassVar[BankName]
+    BANK_NAME_SASFIN_BANK: _ClassVar[BankName]
+    BANK_NAME_TYME_BANK: _ClassVar[BankName]
+    BANK_NAME_POSTBANK: _ClassVar[BankName]
+    BANK_NAME_UNDEFINED: _ClassVar[BankName]
 UNDEFINED_FUNDING_ORDER_STATE: FundingState
 PENDING_CONFIRMATION_FUNDING_ORDER_STATE: FundingState
 AWAITING_APPROVAL_FUNDING_ORDER_STATE: FundingState
@@ -54,6 +75,7 @@ UNDEFINED_FUNDING_ORIGIN: FundingOrigin
 INVESTEC_DIRECT_EFT: FundingOrigin
 PEACH_SETTLEMENT: FundingOrigin
 PEACH_PAYMENT: FundingOrigin
+DIRECT_EFT: FundingOrigin
 UNDEFINED_PEACH_FUNDING_CATEGORY: PeachPaymentMethod
 PEACH_PAY_BY_BANK: PeachPaymentMethod
 PEACH_PAY_BY_CARD: PeachPaymentMethod
@@ -66,6 +88,23 @@ CP: PaymentType
 RV: PaymentType
 CD: PaymentType
 RB: PaymentType
+BANK_NAME_STANDARD_BANK: BankName
+BANK_NAME_ABSA: BankName
+BANK_NAME_AFRICAN_BANK: BankName
+BANK_NAME_BIDVEST_BANK: BankName
+BANK_NAME_CAPITEC_BANK: BankName
+BANK_NAME_DISCOVERY_BANK: BankName
+BANK_NAME_FIRST_NATIONAL_BANK: BankName
+BANK_NAME_FIRST_RAND_BANK: BankName
+BANK_NAME_GRINDROD_BANK: BankName
+BANK_NAME_INVESTEC: BankName
+BANK_NAME_MERCANTILE_BANK: BankName
+BANK_NAME_NEDBANK: BankName
+BANK_NAME_OLD_MUTUAL: BankName
+BANK_NAME_SASFIN_BANK: BankName
+BANK_NAME_TYME_BANK: BankName
+BANK_NAME_POSTBANK: BankName
+BANK_NAME_UNDEFINED: BankName
 
 class Funding(_message.Message):
     __slots__ = ("number", "amount", "fundingOrigin", "metaData", "accountNumber", "state", "stateReason", "valueDate")
@@ -88,14 +127,16 @@ class Funding(_message.Message):
     def __init__(self, number: _Optional[str] = ..., amount: _Optional[_Union[_amount_pb2.Amount, _Mapping]] = ..., fundingOrigin: _Optional[_Union[FundingOrigin, str]] = ..., metaData: _Optional[_Union[FundingOrderMetaData, _Mapping]] = ..., accountNumber: _Optional[str] = ..., state: _Optional[_Union[FundingState, str]] = ..., stateReason: _Optional[str] = ..., valueDate: _Optional[_Union[_timestamp_pb2.Timestamp, _Mapping]] = ...) -> None: ...
 
 class FundingOrderMetaData(_message.Message):
-    __slots__ = ("PeachPayment", "PeachSettlement", "InvestecDirectEFT")
+    __slots__ = ("PeachPayment", "PeachSettlement", "InvestecDirectEFT", "DirectEFT")
     PEACHPAYMENT_FIELD_NUMBER: _ClassVar[int]
     PEACHSETTLEMENT_FIELD_NUMBER: _ClassVar[int]
     INVESTECDIRECTEFT_FIELD_NUMBER: _ClassVar[int]
+    DIRECTEFT_FIELD_NUMBER: _ClassVar[int]
     PeachPayment: PeachPaymentMetaData
     PeachSettlement: PeachSettlementMetaData
     InvestecDirectEFT: InvestecDirectEFTMetaData
-    def __init__(self, PeachPayment: _Optional[_Union[PeachPaymentMetaData, _Mapping]] = ..., PeachSettlement: _Optional[_Union[PeachSettlementMetaData, _Mapping]] = ..., InvestecDirectEFT: _Optional[_Union[InvestecDirectEFTMetaData, _Mapping]] = ...) -> None: ...
+    DirectEFT: DirectEFTMetaData
+    def __init__(self, PeachPayment: _Optional[_Union[PeachPaymentMetaData, _Mapping]] = ..., PeachSettlement: _Optional[_Union[PeachSettlementMetaData, _Mapping]] = ..., InvestecDirectEFT: _Optional[_Union[InvestecDirectEFTMetaData, _Mapping]] = ..., DirectEFT: _Optional[_Union[DirectEFTMetaData, _Mapping]] = ...) -> None: ...
 
 class InvestecDirectEFTMetaData(_message.Message):
     __slots__ = ("externalTransactionID", "externalReference", "bankName")
@@ -104,8 +145,18 @@ class InvestecDirectEFTMetaData(_message.Message):
     BANKNAME_FIELD_NUMBER: _ClassVar[int]
     externalTransactionID: str
     externalReference: str
-    bankName: str
-    def __init__(self, externalTransactionID: _Optional[str] = ..., externalReference: _Optional[str] = ..., bankName: _Optional[str] = ...) -> None: ...
+    bankName: BankName
+    def __init__(self, externalTransactionID: _Optional[str] = ..., externalReference: _Optional[str] = ..., bankName: _Optional[_Union[BankName, str]] = ...) -> None: ...
+
+class DirectEFTMetaData(_message.Message):
+    __slots__ = ("externalReference", "bankName", "bankReference")
+    EXTERNALREFERENCE_FIELD_NUMBER: _ClassVar[int]
+    BANKNAME_FIELD_NUMBER: _ClassVar[int]
+    BANKREFERENCE_FIELD_NUMBER: _ClassVar[int]
+    externalReference: str
+    bankName: BankName
+    bankReference: str
+    def __init__(self, externalReference: _Optional[str] = ..., bankName: _Optional[_Union[BankName, str]] = ..., bankReference: _Optional[str] = ...) -> None: ...
 
 class PeachSettlementMetaData(_message.Message):
     __slots__ = ("externalTransactionID", "externalSettlementReference", "bankName")
@@ -114,8 +165,8 @@ class PeachSettlementMetaData(_message.Message):
     BANKNAME_FIELD_NUMBER: _ClassVar[int]
     externalTransactionID: str
     externalSettlementReference: str
-    bankName: str
-    def __init__(self, externalTransactionID: _Optional[str] = ..., externalSettlementReference: _Optional[str] = ..., bankName: _Optional[str] = ...) -> None: ...
+    bankName: BankName
+    def __init__(self, externalTransactionID: _Optional[str] = ..., externalSettlementReference: _Optional[str] = ..., bankName: _Optional[_Union[BankName, str]] = ...) -> None: ...
 
 class PeachPaymentMetaData(_message.Message):
     __slots__ = ("externalTransactionID", "externalReference", "bankName", "peachPaymentMethod", "checkoutId", "fee", "customerName", "accountHolder", "paymentType", "userSpecifiedAccount")
@@ -131,7 +182,7 @@ class PeachPaymentMetaData(_message.Message):
     USERSPECIFIEDACCOUNT_FIELD_NUMBER: _ClassVar[int]
     externalTransactionID: str
     externalReference: str
-    bankName: str
+    bankName: BankName
     peachPaymentMethod: PeachPaymentMethod
     checkoutId: str
     fee: PeachFee
@@ -139,7 +190,7 @@ class PeachPaymentMetaData(_message.Message):
     accountHolder: str
     paymentType: PaymentType
     userSpecifiedAccount: str
-    def __init__(self, externalTransactionID: _Optional[str] = ..., externalReference: _Optional[str] = ..., bankName: _Optional[str] = ..., peachPaymentMethod: _Optional[_Union[PeachPaymentMethod, str]] = ..., checkoutId: _Optional[str] = ..., fee: _Optional[_Union[PeachFee, _Mapping]] = ..., customerName: _Optional[str] = ..., accountHolder: _Optional[str] = ..., paymentType: _Optional[_Union[PaymentType, str]] = ..., userSpecifiedAccount: _Optional[str] = ...) -> None: ...
+    def __init__(self, externalTransactionID: _Optional[str] = ..., externalReference: _Optional[str] = ..., bankName: _Optional[_Union[BankName, str]] = ..., peachPaymentMethod: _Optional[_Union[PeachPaymentMethod, str]] = ..., checkoutId: _Optional[str] = ..., fee: _Optional[_Union[PeachFee, _Mapping]] = ..., customerName: _Optional[str] = ..., accountHolder: _Optional[str] = ..., paymentType: _Optional[_Union[PaymentType, str]] = ..., userSpecifiedAccount: _Optional[str] = ...) -> None: ...
 
 class PeachFee(_message.Message):
     __slots__ = ("FeeIncVat", "FeeExlVat", "VatAmount")

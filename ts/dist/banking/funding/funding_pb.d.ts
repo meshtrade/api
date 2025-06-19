@@ -77,6 +77,11 @@ export class FundingOrderMetaData extends jspb.Message {
     getInvestecdirecteft(): InvestecDirectEFTMetaData | undefined;
     setInvestecdirecteft(value?: InvestecDirectEFTMetaData): FundingOrderMetaData;
 
+    hasDirecteft(): boolean;
+    clearDirecteft(): void;
+    getDirecteft(): DirectEFTMetaData | undefined;
+    setDirecteft(value?: DirectEFTMetaData): FundingOrderMetaData;
+
     getMetadataCase(): FundingOrderMetaData.MetadataCase;
 
     serializeBinary(): Uint8Array;
@@ -94,6 +99,7 @@ export namespace FundingOrderMetaData {
         peachpayment?: PeachPaymentMetaData.AsObject,
         peachsettlement?: PeachSettlementMetaData.AsObject,
         investecdirecteft?: InvestecDirectEFTMetaData.AsObject,
+        directeft?: DirectEFTMetaData.AsObject,
     }
 
     export enum MetadataCase {
@@ -101,6 +107,7 @@ export namespace FundingOrderMetaData {
         PEACHPAYMENT = 1,
         PEACHSETTLEMENT = 2,
         INVESTECDIRECTEFT = 3,
+        DIRECTEFT = 4,
     }
 
 }
@@ -110,8 +117,8 @@ export class InvestecDirectEFTMetaData extends jspb.Message {
     setExternaltransactionid(value: string): InvestecDirectEFTMetaData;
     getExternalreference(): string;
     setExternalreference(value: string): InvestecDirectEFTMetaData;
-    getBankname(): string;
-    setBankname(value: string): InvestecDirectEFTMetaData;
+    getBankname(): BankName;
+    setBankname(value: BankName): InvestecDirectEFTMetaData;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): InvestecDirectEFTMetaData.AsObject;
@@ -127,7 +134,33 @@ export namespace InvestecDirectEFTMetaData {
     export type AsObject = {
         externaltransactionid: string,
         externalreference: string,
-        bankname: string,
+        bankname: BankName,
+    }
+}
+
+export class DirectEFTMetaData extends jspb.Message { 
+    getExternalreference(): string;
+    setExternalreference(value: string): DirectEFTMetaData;
+    getBankname(): BankName;
+    setBankname(value: BankName): DirectEFTMetaData;
+    getBankreference(): string;
+    setBankreference(value: string): DirectEFTMetaData;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): DirectEFTMetaData.AsObject;
+    static toObject(includeInstance: boolean, msg: DirectEFTMetaData): DirectEFTMetaData.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: DirectEFTMetaData, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): DirectEFTMetaData;
+    static deserializeBinaryFromReader(message: DirectEFTMetaData, reader: jspb.BinaryReader): DirectEFTMetaData;
+}
+
+export namespace DirectEFTMetaData {
+    export type AsObject = {
+        externalreference: string,
+        bankname: BankName,
+        bankreference: string,
     }
 }
 
@@ -136,8 +169,8 @@ export class PeachSettlementMetaData extends jspb.Message {
     setExternaltransactionid(value: string): PeachSettlementMetaData;
     getExternalsettlementreference(): string;
     setExternalsettlementreference(value: string): PeachSettlementMetaData;
-    getBankname(): string;
-    setBankname(value: string): PeachSettlementMetaData;
+    getBankname(): BankName;
+    setBankname(value: BankName): PeachSettlementMetaData;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): PeachSettlementMetaData.AsObject;
@@ -153,7 +186,7 @@ export namespace PeachSettlementMetaData {
     export type AsObject = {
         externaltransactionid: string,
         externalsettlementreference: string,
-        bankname: string,
+        bankname: BankName,
     }
 }
 
@@ -162,8 +195,8 @@ export class PeachPaymentMetaData extends jspb.Message {
     setExternaltransactionid(value: string): PeachPaymentMetaData;
     getExternalreference(): string;
     setExternalreference(value: string): PeachPaymentMetaData;
-    getBankname(): string;
-    setBankname(value: string): PeachPaymentMetaData;
+    getBankname(): BankName;
+    setBankname(value: BankName): PeachPaymentMetaData;
     getPeachpaymentmethod(): PeachPaymentMethod;
     setPeachpaymentmethod(value: PeachPaymentMethod): PeachPaymentMetaData;
     getCheckoutid(): string;
@@ -196,7 +229,7 @@ export namespace PeachPaymentMetaData {
     export type AsObject = {
         externaltransactionid: string,
         externalreference: string,
-        bankname: string,
+        bankname: BankName,
         peachpaymentmethod: PeachPaymentMethod,
         checkoutid: string,
         fee?: PeachFee.AsObject,
@@ -258,6 +291,7 @@ export enum FundingOrigin {
     INVESTEC_DIRECT_EFT = 1,
     PEACH_SETTLEMENT = 2,
     PEACH_PAYMENT = 3,
+    DIRECT_EFT = 4,
 }
 
 export enum PeachPaymentMethod {
@@ -276,4 +310,24 @@ export enum PaymentType {
     RV = 6,
     CD = 7,
     RB = 8,
+}
+
+export enum BankName {
+    BANK_NAME_STANDARD_BANK = 0,
+    BANK_NAME_ABSA = 1,
+    BANK_NAME_AFRICAN_BANK = 2,
+    BANK_NAME_BIDVEST_BANK = 3,
+    BANK_NAME_CAPITEC_BANK = 4,
+    BANK_NAME_DISCOVERY_BANK = 5,
+    BANK_NAME_FIRST_NATIONAL_BANK = 6,
+    BANK_NAME_FIRST_RAND_BANK = 7,
+    BANK_NAME_GRINDROD_BANK = 8,
+    BANK_NAME_INVESTEC = 9,
+    BANK_NAME_MERCANTILE_BANK = 10,
+    BANK_NAME_NEDBANK = 11,
+    BANK_NAME_OLD_MUTUAL = 12,
+    BANK_NAME_SASFIN_BANK = 13,
+    BANK_NAME_TYME_BANK = 14,
+    BANK_NAME_POSTBANK = 15,
+    BANK_NAME_UNDEFINED = 16,
 }

@@ -26,15 +26,15 @@ func (m *FundingOrderMetaData) GetExternalReference() string {
 	}
 }
 
-func (m *FundingOrderMetaData) GetBankName() string {
-	switch m.GetMetaData().(type) {
-	case *FundingOrderMetaData_PeachPayment:
-		return m.GetPeachPayment().GetBankName()
-	case *FundingOrderMetaData_PeachSettlement:
-		return m.GetPeachSettlement().GetBankName()
-	case *FundingOrderMetaData_InvestecDirectEFT:
-		return m.GetInvestecDirectEFT().GetBankName()
-	default:
-		return ""
-	}
-}
+//func (m *FundingOrderMetaData) GetBankName() BankName {
+//	switch m.GetMetaData().(type) {
+//	case *FundingOrderMetaData_PeachPayment:
+//		return m.GetPeachPayment().GetBankName()
+//	case *FundingOrderMetaData_PeachSettlement:
+//		return m.GetPeachSettlement().GetBankName()
+//	case *FundingOrderMetaData_InvestecDirectEFT:
+//		return m.GetInvestecDirectEFT().GetBankName()
+//	default:
+//		return nil
+//	}
+//}
