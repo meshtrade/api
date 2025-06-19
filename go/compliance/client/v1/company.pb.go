@@ -111,10 +111,10 @@ type Company struct {
 	// The unique number assigned by the relevant companies registry upon incorporation.
 	// Examples: UK Companies House number, NL KVK-nummer, US EIN.
 	// Required for verification.
-	RegistrationNumber *string `protobuf:"bytes,3,opt,name=registration_number,json=registrationNumber,proto3,oneof" json:"registration_number,omitempty"`
+	RegistrationNumber string `protobuf:"bytes,3,opt,name=registration_number,json=registrationNumber,proto3" json:"registration_number,omitempty"`
 	// The primary tax identifier for the company.
 	// Examples: VAT number in the EU, TIN in the US.
-	TaxIdentifier *string `protobuf:"bytes,4,opt,name=tax_identifier,json=taxIdentifier,proto3,oneof" json:"tax_identifier,omitempty"`
+	TaxIdentifier string `protobuf:"bytes,4,opt,name=tax_identifier,json=taxIdentifier,proto3" json:"tax_identifier,omitempty"`
 	// The ISO 3166-1 alpha-2 country code where the company was incorporated (e.g., "ZA", "NL").
 	// The value must be the uppercase, two-letter code.
 	// See: https://www.iso.org/iso-3166-country-codes.html
@@ -129,13 +129,13 @@ type Company struct {
 	RegisteredAddress *v1.Address `protobuf:"bytes,7,opt,name=registered_address,json=registeredAddress,proto3" json:"registered_address,omitempty"`
 	// The main physical location where the business conducts its operations.
 	// Provide only if different from the registered address.
-	PrincipalPhysicalAddress *v1.Address `protobuf:"bytes,8,opt,name=principal_physical_address,json=principalPhysicalAddress,proto3,oneof" json:"principal_physical_address,omitempty"`
+	PrincipalPhysicalAddress *v1.Address `protobuf:"bytes,8,opt,name=principal_physical_address,json=principalPhysicalAddress,proto3" json:"principal_physical_address,omitempty"`
 	// The address designated for receiving mail and correspondence.
 	// Provide only if different from the registered address.
-	PostalAddress *v1.Address `protobuf:"bytes,9,opt,name=postal_address,json=postalAddress,proto3,oneof" json:"postal_address,omitempty"`
+	PostalAddress *v1.Address `protobuf:"bytes,9,opt,name=postal_address,json=postalAddress,proto3" json:"postal_address,omitempty"`
 	// The address of the company's head office.
 	// Provide only if different from the registered and principal physical addresses.
-	HeadOfficeAddress *v1.Address `protobuf:"bytes,10,opt,name=head_office_address,json=headOfficeAddress,proto3,oneof" json:"head_office_address,omitempty"`
+	HeadOfficeAddress *v1.Address `protobuf:"bytes,10,opt,name=head_office_address,json=headOfficeAddress,proto3" json:"head_office_address,omitempty"`
 	// A list of individuals empowered to act on behalf of the company (e.g., Directors, CEO).
 	// This field defines who has operational control and representation rights.
 	// Required for verification.
@@ -193,15 +193,15 @@ func (x *Company) GetRegisteredName() string {
 }
 
 func (x *Company) GetRegistrationNumber() string {
-	if x != nil && x.RegistrationNumber != nil {
-		return *x.RegistrationNumber
+	if x != nil {
+		return x.RegistrationNumber
 	}
 	return ""
 }
 
 func (x *Company) GetTaxIdentifier() string {
-	if x != nil && x.TaxIdentifier != nil {
-		return *x.TaxIdentifier
+	if x != nil {
+		return x.TaxIdentifier
 	}
 	return ""
 }
@@ -456,28 +456,23 @@ var File_meshtrade_compliance_client_v1_company_proto protoreflect.FileDescripto
 
 const file_meshtrade_compliance_client_v1_company_proto_rawDesc = "" +
 	"\n" +
-	",meshtrade/compliance/client/v1/company.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x16google/type/date.proto\x1a;meshtrade/compliance/client/v1/company_representative.proto\x1a)meshtrade/compliance/client/v1/fund.proto\x1a<meshtrade/compliance/client/v1/industry_classification.proto\x1a3meshtrade/compliance/client/v1/natural_person.proto\x1a*meshtrade/compliance/client/v1/trust.proto\x1a\x1fmeshtrade/type/v1/address.proto\"\xfb\b\n" +
+	",meshtrade/compliance/client/v1/company.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x16google/type/date.proto\x1a;meshtrade/compliance/client/v1/company_representative.proto\x1a)meshtrade/compliance/client/v1/fund.proto\x1a<meshtrade/compliance/client/v1/industry_classification.proto\x1a3meshtrade/compliance/client/v1/natural_person.proto\x1a*meshtrade/compliance/client/v1/trust.proto\x1a\x1fmeshtrade/type/v1/address.proto\"\xed\a\n" +
 	"\aCompany\x12'\n" +
-	"\x0fregistered_name\x18\x01 \x01(\tR\x0eregisteredName\x124\n" +
-	"\x13registration_number\x18\x03 \x01(\tH\x00R\x12registrationNumber\x88\x01\x01\x12*\n" +
-	"\x0etax_identifier\x18\x04 \x01(\tH\x01R\rtaxIdentifier\x88\x01\x01\x128\n" +
+	"\x0fregistered_name\x18\x01 \x01(\tR\x0eregisteredName\x12/\n" +
+	"\x13registration_number\x18\x03 \x01(\tR\x12registrationNumber\x12%\n" +
+	"\x0etax_identifier\x18\x04 \x01(\tR\rtaxIdentifier\x128\n" +
 	"\x18country_of_incorporation\x18\x05 \x01(\tR\x16countryOfIncorporation\x12E\n" +
 	"\x15date_of_incorporation\x18\x06 \x01(\v2\x11.google.type.DateR\x13dateOfIncorporation\x12I\n" +
-	"\x12registered_address\x18\a \x01(\v2\x1a.meshtrade.type.v1.AddressR\x11registeredAddress\x12]\n" +
-	"\x1aprincipal_physical_address\x18\b \x01(\v2\x1a.meshtrade.type.v1.AddressH\x02R\x18principalPhysicalAddress\x88\x01\x01\x12F\n" +
-	"\x0epostal_address\x18\t \x01(\v2\x1a.meshtrade.type.v1.AddressH\x03R\rpostalAddress\x88\x01\x01\x12O\n" +
+	"\x12registered_address\x18\a \x01(\v2\x1a.meshtrade.type.v1.AddressR\x11registeredAddress\x12X\n" +
+	"\x1aprincipal_physical_address\x18\b \x01(\v2\x1a.meshtrade.type.v1.AddressR\x18principalPhysicalAddress\x12A\n" +
+	"\x0epostal_address\x18\t \x01(\v2\x1a.meshtrade.type.v1.AddressR\rpostalAddress\x12J\n" +
 	"\x13head_office_address\x18\n" +
-	" \x01(\v2\x1a.meshtrade.type.v1.AddressH\x04R\x11headOfficeAddress\x88\x01\x01\x12n\n" +
+	" \x01(\v2\x1a.meshtrade.type.v1.AddressR\x11headOfficeAddress\x12n\n" +
 	"\x17company_representatives\x18\v \x03(\v25.meshtrade.compliance.client.v1.CompanyRepresentativeR\x16companyRepresentatives\x12l\n" +
 	"\x17connected_legal_persons\x18\f \x03(\v24.meshtrade.compliance.client.v1.ConnectedLegalPersonR\x15connectedLegalPersons\x12o\n" +
 	"\x17industry_classification\x18\r \x01(\v26.meshtrade.compliance.client.v1.IndustryClassificationR\x16industryClassification\x120\n" +
 	"\x14listed_exchange_code\x18\x0e \x01(\tR\x12listedExchangeCode\x12+\n" +
-	"\x11listing_reference\x18\x0f \x01(\tR\x10listingReferenceB\x16\n" +
-	"\x14_registration_numberB\x11\n" +
-	"\x0f_tax_identifierB\x1d\n" +
-	"\x1b_principal_physical_addressB\x11\n" +
-	"\x0f_postal_addressB\x16\n" +
-	"\x14_head_office_address\"\x88\x05\n" +
+	"\x11listing_reference\x18\x0f \x01(\tR\x10listingReference\"\x88\x05\n" +
 	"\x14ConnectedLegalPerson\x12V\n" +
 	"\x0enatural_person\x18\x01 \x01(\v2-.meshtrade.compliance.client.v1.NaturalPersonH\x00R\rnaturalPerson\x12C\n" +
 	"\acompany\x18\x02 \x01(\v2'.meshtrade.compliance.client.v1.CompanyH\x00R\acompany\x12:\n" +
@@ -556,7 +551,6 @@ func file_meshtrade_compliance_client_v1_company_proto_init() {
 	file_meshtrade_compliance_client_v1_industry_classification_proto_init()
 	file_meshtrade_compliance_client_v1_natural_person_proto_init()
 	file_meshtrade_compliance_client_v1_trust_proto_init()
-	file_meshtrade_compliance_client_v1_company_proto_msgTypes[0].OneofWrappers = []any{}
 	file_meshtrade_compliance_client_v1_company_proto_msgTypes[1].OneofWrappers = []any{
 		(*ConnectedLegalPerson_NaturalPerson)(nil),
 		(*ConnectedLegalPerson_Company)(nil),

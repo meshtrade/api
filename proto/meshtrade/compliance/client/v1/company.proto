@@ -29,13 +29,13 @@ message Company {
      Examples: UK Companies House number, NL KVK-nummer, US EIN.
      Required for verification.
   */
-  optional string registration_number = 3;
+  string registration_number = 3;
 
   /*
      The primary tax identifier for the company.
      Examples: VAT number in the EU, TIN in the US.
   */
-  optional string tax_identifier = 4;
+  string tax_identifier = 4;
 
   /*
      The ISO 3166-1 alpha-2 country code where the company was incorporated (e.g., "ZA", "NL").
@@ -62,19 +62,19 @@ message Company {
      The main physical location where the business conducts its operations.
      Provide only if different from the registered address.
   */
-  optional meshtrade.type.v1.Address principal_physical_address = 8;
+  meshtrade.type.v1.Address principal_physical_address = 8;
 
   /*
      The address designated for receiving mail and correspondence.
      Provide only if different from the registered address.
   */
-  optional meshtrade.type.v1.Address postal_address = 9;
+  meshtrade.type.v1.Address postal_address = 9;
 
   /*
      The address of the company's head office.
      Provide only if different from the registered and principal physical addresses.
   */
-  optional meshtrade.type.v1.Address head_office_address = 10;
+  meshtrade.type.v1.Address head_office_address = 10;
 
   /*
      A list of individuals empowered to act on behalf of the company (e.g., Directors, CEO).
