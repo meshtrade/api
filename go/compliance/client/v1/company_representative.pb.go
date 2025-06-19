@@ -45,7 +45,7 @@ type CompanyRepresentative struct {
 	// Should be a value between 0.0 and 100.0.
 	// Required by business logic if the role is ULTIMATE_BENEFICIAL_OWNER or SHAREHOLDER.
 	// Optional for verification.
-	OwnershipPercentage float32 `protobuf:"fixed32,4,opt,name=ownership_percentage,json=ownershipPercentage,proto3" json:"ownership_percentage,omitempty"`
+	OwnershipPercentage *v1.Decimal `protobuf:"bytes,4,opt,name=ownership_percentage,json=ownershipPercentage,proto3" json:"ownership_percentage,omitempty"`
 	// The professional contact details for the representative in their capacity at the company
 	// (e.g., work email, work phone).
 	// Optional for verification.
@@ -108,11 +108,11 @@ func (x *CompanyRepresentative) GetPosition() string {
 	return ""
 }
 
-func (x *CompanyRepresentative) GetOwnershipPercentage() float32 {
+func (x *CompanyRepresentative) GetOwnershipPercentage() *v1.Decimal {
 	if x != nil {
 		return x.OwnershipPercentage
 	}
-	return 0
+	return nil
 }
 
 func (x *CompanyRepresentative) GetProfessionalContactDetails() *v1.ContactDetails {
@@ -133,12 +133,12 @@ var File_meshtrade_compliance_client_v1_company_representative_proto protoreflec
 
 const file_meshtrade_compliance_client_v1_company_representative_proto_rawDesc = "" +
 	"\n" +
-	";meshtrade/compliance/client/v1/company_representative.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x16google/type/date.proto\x1a@meshtrade/compliance/client/v1/company_representative_role.proto\x1a3meshtrade/compliance/client/v1/natural_person.proto\x1a'meshtrade/type/v1/contact_details.proto\"\xb3\x03\n" +
+	";meshtrade/compliance/client/v1/company_representative.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x16google/type/date.proto\x1a@meshtrade/compliance/client/v1/company_representative_role.proto\x1a3meshtrade/compliance/client/v1/natural_person.proto\x1a'meshtrade/type/v1/contact_details.proto\x1a\x1fmeshtrade/type/v1/decimal.proto\"\xcf\x03\n" +
 	"\x15CompanyRepresentative\x12T\n" +
 	"\x0enatural_person\x18\x01 \x01(\v2-.meshtrade.compliance.client.v1.NaturalPersonR\rnaturalPerson\x12M\n" +
 	"\x04role\x18\x02 \x01(\x0e29.meshtrade.compliance.client.v1.CompanyRepresentativeRoleR\x04role\x12\x1a\n" +
-	"\bposition\x18\x03 \x01(\tR\bposition\x121\n" +
-	"\x14ownership_percentage\x18\x04 \x01(\x02R\x13ownershipPercentage\x12c\n" +
+	"\bposition\x18\x03 \x01(\tR\bposition\x12M\n" +
+	"\x14ownership_percentage\x18\x04 \x01(\v2\x1a.meshtrade.type.v1.DecimalR\x13ownershipPercentage\x12c\n" +
 	"\x1cprofessional_contact_details\x18\x05 \x01(\v2!.meshtrade.type.v1.ContactDetailsR\x1aprofessionalContactDetails\x12A\n" +
 	"\x13date_of_appointment\x18\x06 \x01(\v2\x11.google.type.DateR\x11dateOfAppointmentB;Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
 
@@ -159,19 +159,21 @@ var file_meshtrade_compliance_client_v1_company_representative_proto_goTypes = [
 	(*CompanyRepresentative)(nil),  // 0: meshtrade.compliance.client.v1.CompanyRepresentative
 	(*NaturalPerson)(nil),          // 1: meshtrade.compliance.client.v1.NaturalPerson
 	(CompanyRepresentativeRole)(0), // 2: meshtrade.compliance.client.v1.CompanyRepresentativeRole
-	(*v1.ContactDetails)(nil),      // 3: meshtrade.type.v1.ContactDetails
-	(*date.Date)(nil),              // 4: google.type.Date
+	(*v1.Decimal)(nil),             // 3: meshtrade.type.v1.Decimal
+	(*v1.ContactDetails)(nil),      // 4: meshtrade.type.v1.ContactDetails
+	(*date.Date)(nil),              // 5: google.type.Date
 }
 var file_meshtrade_compliance_client_v1_company_representative_proto_depIdxs = []int32{
 	1, // 0: meshtrade.compliance.client.v1.CompanyRepresentative.natural_person:type_name -> meshtrade.compliance.client.v1.NaturalPerson
 	2, // 1: meshtrade.compliance.client.v1.CompanyRepresentative.role:type_name -> meshtrade.compliance.client.v1.CompanyRepresentativeRole
-	3, // 2: meshtrade.compliance.client.v1.CompanyRepresentative.professional_contact_details:type_name -> meshtrade.type.v1.ContactDetails
-	4, // 3: meshtrade.compliance.client.v1.CompanyRepresentative.date_of_appointment:type_name -> google.type.Date
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	3, // 2: meshtrade.compliance.client.v1.CompanyRepresentative.ownership_percentage:type_name -> meshtrade.type.v1.Decimal
+	4, // 3: meshtrade.compliance.client.v1.CompanyRepresentative.professional_contact_details:type_name -> meshtrade.type.v1.ContactDetails
+	5, // 4: meshtrade.compliance.client.v1.CompanyRepresentative.date_of_appointment:type_name -> google.type.Date
+	5, // [5:5] is the sub-list for method output_type
+	5, // [5:5] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_compliance_client_v1_company_representative_proto_init() }

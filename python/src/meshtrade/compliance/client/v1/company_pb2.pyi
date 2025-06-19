@@ -5,6 +5,7 @@ from meshtrade.compliance.client.v1 import industry_classification_pb2 as _indus
 from meshtrade.compliance.client.v1 import natural_person_pb2 as _natural_person_pb2
 from meshtrade.compliance.client.v1 import trust_pb2 as _trust_pb2
 from meshtrade.type.v1 import address_pb2 as _address_pb2
+from meshtrade.type.v1 import decimal_pb2 as _decimal_pb2
 from google.protobuf.internal import containers as _containers
 from google.protobuf.internal import enum_type_wrapper as _enum_type_wrapper
 from google.protobuf import descriptor as _descriptor
@@ -78,7 +79,7 @@ class ConnectedLegalPerson(_message.Message):
     fund: _fund_pb2.Fund
     trust: _trust_pb2.Trust
     connection_types: _containers.RepeatedScalarFieldContainer[LegalPersonConnectionType]
-    ownership_percentage: float
-    voting_rights_percentage: float
+    ownership_percentage: _decimal_pb2.Decimal
+    voting_rights_percentage: _decimal_pb2.Decimal
     connection_description: str
-    def __init__(self, natural_person: _Optional[_Union[_natural_person_pb2.NaturalPerson, _Mapping]] = ..., company: _Optional[_Union[Company, _Mapping]] = ..., fund: _Optional[_Union[_fund_pb2.Fund, _Mapping]] = ..., trust: _Optional[_Union[_trust_pb2.Trust, _Mapping]] = ..., connection_types: _Optional[_Iterable[_Union[LegalPersonConnectionType, str]]] = ..., ownership_percentage: _Optional[float] = ..., voting_rights_percentage: _Optional[float] = ..., connection_description: _Optional[str] = ...) -> None: ...
+    def __init__(self, natural_person: _Optional[_Union[_natural_person_pb2.NaturalPerson, _Mapping]] = ..., company: _Optional[_Union[Company, _Mapping]] = ..., fund: _Optional[_Union[_fund_pb2.Fund, _Mapping]] = ..., trust: _Optional[_Union[_trust_pb2.Trust, _Mapping]] = ..., connection_types: _Optional[_Iterable[_Union[LegalPersonConnectionType, str]]] = ..., ownership_percentage: _Optional[_Union[_decimal_pb2.Decimal, _Mapping]] = ..., voting_rights_percentage: _Optional[_Union[_decimal_pb2.Decimal, _Mapping]] = ..., connection_description: _Optional[str] = ...) -> None: ...

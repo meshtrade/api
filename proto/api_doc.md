@@ -27,6 +27,9 @@
 - [meshtrade/compliance/client/v1/natural_person.proto](#meshtrade_compliance_client_v1_natural_person-proto)
     - [NaturalPerson](#meshtrade-compliance-client-v1-NaturalPerson)
   
+- [meshtrade/type/v1/decimal.proto](#meshtrade_type_v1_decimal-proto)
+    - [Decimal](#meshtrade-type-v1-Decimal)
+  
 - [meshtrade/compliance/client/v1/company_representative.proto](#meshtrade_compliance_client_v1_company_representative-proto)
     - [CompanyRepresentative](#meshtrade-compliance-client-v1-CompanyRepresentative)
   
@@ -113,9 +116,6 @@
     - [GetResponse](#meshtrade-trading-spot-v1-GetResponse)
   
     - [Service](#meshtrade-trading-spot-v1-Service)
-  
-- [meshtrade/type/v1/decimal.proto](#meshtrade_type_v1_decimal-proto)
-    - [Decimal](#meshtrade-type-v1-Decimal)
   
 - [meshtrade/type/v1/ledger.proto](#meshtrade_type_v1_ledger-proto)
     - [Ledger](#meshtrade-type-v1-Ledger)
@@ -447,6 +447,37 @@ for a successful compliance check, but are not mandatory for creation.
 
 
 
+<a name="meshtrade_type_v1_decimal-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/type/v1/decimal.proto
+
+
+
+<a name="meshtrade-type-v1-Decimal"></a>
+
+### Decimal
+Decimal is a representation of a decimal value, such as 2.5.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| value | [string](#string) |  | The decimal value, as a string. |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
 <a name="meshtrade_compliance_client_v1_company_representative-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
@@ -469,7 +500,7 @@ for a successful compliance check, but are not mandatory for creation.
 | natural_person | [NaturalPerson](#meshtrade-compliance-client-v1-NaturalPerson) |  | Details of the natural person that is the company representative. This contains the core personal identity information (name, residential address, ID document, personal contact details, etc.) required for their individual KYC check. Required for verification. |
 | role | [CompanyRepresentativeRole](#meshtrade-compliance-client-v1-CompanyRepresentativeRole) |  | The official role this person holds in relation to the company. Required for verification. |
 | position | [string](#string) |  | The person&#39;s job title or position within the company (e.g., &#34;CEO&#34;, &#34;Managing Partner&#34;). Optional for verification. |
-| ownership_percentage | [float](#float) |  | For UBOs and Shareholders, this specifies the percentage of ownership or voting rights. Should be a value between 0.0 and 100.0. Required by business logic if the role is ULTIMATE_BENEFICIAL_OWNER or SHAREHOLDER. Optional for verification. |
+| ownership_percentage | [meshtrade.type.v1.Decimal](#meshtrade-type-v1-Decimal) |  | For UBOs and Shareholders, this specifies the percentage of ownership or voting rights. Should be a value between 0.0 and 100.0. Required by business logic if the role is ULTIMATE_BENEFICIAL_OWNER or SHAREHOLDER. Optional for verification. |
 | professional_contact_details | [meshtrade.type.v1.ContactDetails](#meshtrade-type-v1-ContactDetails) |  | The professional contact details for the representative in their capacity at the company (e.g., work email, work phone). Optional for verification. |
 | date_of_appointment | [google.type.Date](#google-type-Date) |  | The date when the person was appointed to this role. Optional for verification. |
 
@@ -655,8 +686,8 @@ for a successful compliance check, but are not mandatory for creation.
 | fund | [Fund](#meshtrade-compliance-client-v1-Fund) |  | Set when the legal entity is an investment fund. |
 | trust | [Trust](#meshtrade-compliance-client-v1-Trust) |  | Set when the legal entity is a trust. |
 | connection_types | [LegalPersonConnectionType](#meshtrade-compliance-client-v1-LegalPersonConnectionType) | repeated | The nature of the connection(s) of the legal person to the company. (e.g., Shareholder, Guarantor etc.). Required for verification. |
-| ownership_percentage | [float](#float) | optional | The percentage of direct or indirect ownership this person holds. e.g. a value of 25.5 represents 25.5% ownership. Required for verification (if the connection_types includes LEGAL_PERSON_CONNECTION_TYPE_SHAREHOLDER or similar ownership role) |
-| voting_rights_percentage | [float](#float) | optional | The percentage of voting rights this person holds, which can differ from ownership. e.g. a value of 25.5 represents 25.5% ownership. Optional for verification. |
+| ownership_percentage | [meshtrade.type.v1.Decimal](#meshtrade-type-v1-Decimal) |  | The percentage of direct or indirect ownership this person holds. e.g. a value of 25.5 represents 25.5% ownership. Required for verification (if the connection_types includes LEGAL_PERSON_CONNECTION_TYPE_SHAREHOLDER or similar ownership role) |
+| voting_rights_percentage | [meshtrade.type.v1.Decimal](#meshtrade-type-v1-Decimal) |  | The percentage of voting rights this person holds, which can differ from ownership. e.g. a value of 25.5 represents 25.5% ownership. Optional for verification. |
 | connection_description | [string](#string) |  | A plain text description of the relationship. Optional for verification. |
 
 
@@ -1386,37 +1417,6 @@ Role is a collection of permissions.
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
 | Get | [GetRequest](#meshtrade-trading-spot-v1-GetRequest) | [GetResponse](#meshtrade-trading-spot-v1-GetResponse) |  |
-
- 
-
-
-
-<a name="meshtrade_type_v1_decimal-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## meshtrade/type/v1/decimal.proto
-
-
-
-<a name="meshtrade-type-v1-Decimal"></a>
-
-### Decimal
-Decimal is a representation of a decimal value, such as 2.5.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| value | [string](#string) |  | The decimal value, as a string. |
-
-
-
-
-
- 
-
- 
-
- 
 
  
 

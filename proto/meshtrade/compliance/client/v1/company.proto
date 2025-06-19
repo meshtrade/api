@@ -9,6 +9,7 @@ import "meshtrade/compliance/client/v1/industry_classification.proto";
 import "meshtrade/compliance/client/v1/natural_person.proto";
 import "meshtrade/compliance/client/v1/trust.proto";
 import "meshtrade/type/v1/address.proto";
+import "meshtrade/type/v1/decimal.proto";
 
 option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
 
@@ -153,14 +154,14 @@ message ConnectedLegalPerson {
      e.g. a value of 25.5 represents 25.5% ownership.
      Required for verification (if the connection_types includes LEGAL_PERSON_CONNECTION_TYPE_SHAREHOLDER or similar ownership role)
   */
-  optional float ownership_percentage = 6;
+  meshtrade.type.v1.Decimal ownership_percentage = 6;
 
   /*
      The percentage of voting rights this person holds, which can differ from ownership.
      e.g. a value of 25.5 represents 25.5% ownership.
      Optional for verification.
   */
-  optional float voting_rights_percentage = 7;
+  meshtrade.type.v1.Decimal voting_rights_percentage = 7;
 
   /*
      A plain text description of the relationship.

@@ -6,6 +6,7 @@ import "google/type/date.proto";
 import "meshtrade/compliance/client/v1/company_representative_role.proto";
 import "meshtrade/compliance/client/v1/natural_person.proto";
 import "meshtrade/type/v1/contact_details.proto";
+import "meshtrade/type/v1/decimal.proto";
 
 option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
 
@@ -43,7 +44,7 @@ message CompanyRepresentative {
      Required by business logic if the role is ULTIMATE_BENEFICIAL_OWNER or SHAREHOLDER.
      Optional for verification.
   */
-  float ownership_percentage = 4;
+  meshtrade.type.v1.Decimal ownership_percentage = 4;
 
   /*
      The professional contact details for the representative in their capacity at the company

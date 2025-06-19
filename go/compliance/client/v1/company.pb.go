@@ -307,11 +307,11 @@ type ConnectedLegalPerson struct {
 	// The percentage of direct or indirect ownership this person holds.
 	// e.g. a value of 25.5 represents 25.5% ownership.
 	// Required for verification (if the connection_types includes LEGAL_PERSON_CONNECTION_TYPE_SHAREHOLDER or similar ownership role)
-	OwnershipPercentage *float32 `protobuf:"fixed32,6,opt,name=ownership_percentage,json=ownershipPercentage,proto3,oneof" json:"ownership_percentage,omitempty"`
+	OwnershipPercentage *v1.Decimal `protobuf:"bytes,6,opt,name=ownership_percentage,json=ownershipPercentage,proto3" json:"ownership_percentage,omitempty"`
 	// The percentage of voting rights this person holds, which can differ from ownership.
 	// e.g. a value of 25.5 represents 25.5% ownership.
 	// Optional for verification.
-	VotingRightsPercentage *float32 `protobuf:"fixed32,7,opt,name=voting_rights_percentage,json=votingRightsPercentage,proto3,oneof" json:"voting_rights_percentage,omitempty"`
+	VotingRightsPercentage *v1.Decimal `protobuf:"bytes,7,opt,name=voting_rights_percentage,json=votingRightsPercentage,proto3" json:"voting_rights_percentage,omitempty"`
 	// A plain text description of the relationship.
 	// Optional for verification.
 	ConnectionDescription string `protobuf:"bytes,8,opt,name=connection_description,json=connectionDescription,proto3" json:"connection_description,omitempty"`
@@ -399,18 +399,18 @@ func (x *ConnectedLegalPerson) GetConnectionTypes() []LegalPersonConnectionType 
 	return nil
 }
 
-func (x *ConnectedLegalPerson) GetOwnershipPercentage() float32 {
-	if x != nil && x.OwnershipPercentage != nil {
-		return *x.OwnershipPercentage
+func (x *ConnectedLegalPerson) GetOwnershipPercentage() *v1.Decimal {
+	if x != nil {
+		return x.OwnershipPercentage
 	}
-	return 0
+	return nil
 }
 
-func (x *ConnectedLegalPerson) GetVotingRightsPercentage() float32 {
-	if x != nil && x.VotingRightsPercentage != nil {
-		return *x.VotingRightsPercentage
+func (x *ConnectedLegalPerson) GetVotingRightsPercentage() *v1.Decimal {
+	if x != nil {
+		return x.VotingRightsPercentage
 	}
-	return 0
+	return nil
 }
 
 func (x *ConnectedLegalPerson) GetConnectionDescription() string {
@@ -456,7 +456,7 @@ var File_meshtrade_compliance_client_v1_company_proto protoreflect.FileDescripto
 
 const file_meshtrade_compliance_client_v1_company_proto_rawDesc = "" +
 	"\n" +
-	",meshtrade/compliance/client/v1/company.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x16google/type/date.proto\x1a;meshtrade/compliance/client/v1/company_representative.proto\x1a)meshtrade/compliance/client/v1/fund.proto\x1a<meshtrade/compliance/client/v1/industry_classification.proto\x1a3meshtrade/compliance/client/v1/natural_person.proto\x1a*meshtrade/compliance/client/v1/trust.proto\x1a\x1fmeshtrade/type/v1/address.proto\"\xed\a\n" +
+	",meshtrade/compliance/client/v1/company.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x16google/type/date.proto\x1a;meshtrade/compliance/client/v1/company_representative.proto\x1a)meshtrade/compliance/client/v1/fund.proto\x1a<meshtrade/compliance/client/v1/industry_classification.proto\x1a3meshtrade/compliance/client/v1/natural_person.proto\x1a*meshtrade/compliance/client/v1/trust.proto\x1a\x1fmeshtrade/type/v1/address.proto\x1a\x1fmeshtrade/type/v1/decimal.proto\"\xed\a\n" +
 	"\aCompany\x12'\n" +
 	"\x0fregistered_name\x18\x01 \x01(\tR\x0eregisteredName\x12/\n" +
 	"\x13registration_number\x18\x03 \x01(\tR\x12registrationNumber\x12%\n" +
@@ -472,19 +472,17 @@ const file_meshtrade_compliance_client_v1_company_proto_rawDesc = "" +
 	"\x17connected_legal_persons\x18\f \x03(\v24.meshtrade.compliance.client.v1.ConnectedLegalPersonR\x15connectedLegalPersons\x12o\n" +
 	"\x17industry_classification\x18\r \x01(\v26.meshtrade.compliance.client.v1.IndustryClassificationR\x16industryClassification\x120\n" +
 	"\x14listed_exchange_code\x18\x0e \x01(\tR\x12listedExchangeCode\x12+\n" +
-	"\x11listing_reference\x18\x0f \x01(\tR\x10listingReference\"\x88\x05\n" +
+	"\x11listing_reference\x18\x0f \x01(\tR\x10listingReference\"\x80\x05\n" +
 	"\x14ConnectedLegalPerson\x12V\n" +
 	"\x0enatural_person\x18\x01 \x01(\v2-.meshtrade.compliance.client.v1.NaturalPersonH\x00R\rnaturalPerson\x12C\n" +
 	"\acompany\x18\x02 \x01(\v2'.meshtrade.compliance.client.v1.CompanyH\x00R\acompany\x12:\n" +
 	"\x04fund\x18\x03 \x01(\v2$.meshtrade.compliance.client.v1.FundH\x00R\x04fund\x12=\n" +
 	"\x05trust\x18\x04 \x01(\v2%.meshtrade.compliance.client.v1.TrustH\x00R\x05trust\x12d\n" +
-	"\x10connection_types\x18\x05 \x03(\x0e29.meshtrade.compliance.client.v1.LegalPersonConnectionTypeR\x0fconnectionTypes\x126\n" +
-	"\x14ownership_percentage\x18\x06 \x01(\x02H\x01R\x13ownershipPercentage\x88\x01\x01\x12=\n" +
-	"\x18voting_rights_percentage\x18\a \x01(\x02H\x02R\x16votingRightsPercentage\x88\x01\x01\x125\n" +
+	"\x10connection_types\x18\x05 \x03(\x0e29.meshtrade.compliance.client.v1.LegalPersonConnectionTypeR\x0fconnectionTypes\x12M\n" +
+	"\x14ownership_percentage\x18\x06 \x01(\v2\x1a.meshtrade.type.v1.DecimalR\x13ownershipPercentage\x12T\n" +
+	"\x18voting_rights_percentage\x18\a \x01(\v2\x1a.meshtrade.type.v1.DecimalR\x16votingRightsPercentage\x125\n" +
 	"\x16connection_description\x18\b \x01(\tR\x15connectionDescriptionB\x0e\n" +
-	"\flegal_personB\x17\n" +
-	"\x15_ownership_percentageB\x1b\n" +
-	"\x19_voting_rights_percentage*\xe3\x02\n" +
+	"\flegal_person*\xe3\x02\n" +
 	"\x19LegalPersonConnectionType\x12,\n" +
 	"(LEGAL_PERSON_CONNECTION_TYPE_UNSPECIFIED\x10\x00\x12,\n" +
 	"(LEGAL_PERSON_CONNECTION_TYPE_SHAREHOLDER\x10\x01\x12/\n" +
@@ -519,6 +517,7 @@ var file_meshtrade_compliance_client_v1_company_proto_goTypes = []any{
 	(*NaturalPerson)(nil),          // 7: meshtrade.compliance.client.v1.NaturalPerson
 	(*Fund)(nil),                   // 8: meshtrade.compliance.client.v1.Fund
 	(*Trust)(nil),                  // 9: meshtrade.compliance.client.v1.Trust
+	(*v1.Decimal)(nil),             // 10: meshtrade.type.v1.Decimal
 }
 var file_meshtrade_compliance_client_v1_company_proto_depIdxs = []int32{
 	3,  // 0: meshtrade.compliance.client.v1.Company.date_of_incorporation:type_name -> google.type.Date
@@ -534,11 +533,13 @@ var file_meshtrade_compliance_client_v1_company_proto_depIdxs = []int32{
 	8,  // 10: meshtrade.compliance.client.v1.ConnectedLegalPerson.fund:type_name -> meshtrade.compliance.client.v1.Fund
 	9,  // 11: meshtrade.compliance.client.v1.ConnectedLegalPerson.trust:type_name -> meshtrade.compliance.client.v1.Trust
 	0,  // 12: meshtrade.compliance.client.v1.ConnectedLegalPerson.connection_types:type_name -> meshtrade.compliance.client.v1.LegalPersonConnectionType
-	13, // [13:13] is the sub-list for method output_type
-	13, // [13:13] is the sub-list for method input_type
-	13, // [13:13] is the sub-list for extension type_name
-	13, // [13:13] is the sub-list for extension extendee
-	0,  // [0:13] is the sub-list for field type_name
+	10, // 13: meshtrade.compliance.client.v1.ConnectedLegalPerson.ownership_percentage:type_name -> meshtrade.type.v1.Decimal
+	10, // 14: meshtrade.compliance.client.v1.ConnectedLegalPerson.voting_rights_percentage:type_name -> meshtrade.type.v1.Decimal
+	15, // [15:15] is the sub-list for method output_type
+	15, // [15:15] is the sub-list for method input_type
+	15, // [15:15] is the sub-list for extension type_name
+	15, // [15:15] is the sub-list for extension extendee
+	0,  // [0:15] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_compliance_client_v1_company_proto_init() }
