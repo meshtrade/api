@@ -12,16 +12,18 @@ erDiagram
         name string
         owner string
         display_name string
-        legal_person ONE_OF_THE_LEGAL_PERSON_ENTITIES
+        legal_person LegalPerson
         verification_status VerificationStatus
         verification_authority string
         verification_date Timestamp
         next_verification_date Timestamp
     }
     Client ||--|{ LegalPerson : contains
-    Client ||--|{ LegalPerson : contains
-    Client ||--|{ LegalPerson : contains
-    Client ||--|{ LegalPerson : contains
+
+    LegalPerson ||--|| NaturalPerson : is
+    LegalPerson ||--|| Company : is
+    LegalPerson ||--|| Fund : is
+    LegalPerson ||--|| Trust : is
 
     NaturalPerson {
         full_name string
