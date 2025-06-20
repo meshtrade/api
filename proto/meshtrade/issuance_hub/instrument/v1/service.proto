@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package meshtrade.issuance_hub.instrument.v1;
+
+import "meshtrade/issuance_hub/instrument/v1/instrument.proto";
+import "meshtrade/type/v1/amount.proto";
+
+option go_package = "github.com/meshtrade/api/go/issuance_hub/instrument/v1;instrumentv1";
+
+// Service defines the RPC methods for interacting with the instrument resource,
+// such as creating, updating, minting or burning it.
+service Service {
+  // Retrieve a specific instrument.
+  rpc Get(GetRequest) returns (GetResponse);
+
+  // Mints new units of an instrument into a given destination account.
+  rpc Mint(MintRequest) returns (MintResponse);
+
+  // Burns a specified amount of an instrument from a source account.
+  rpc Burn(BurnRequest) returns (BurnResponse);
+}
+
+message GetRequest {
+  // The unique name of the instrument resource to fetch.
+  string name = 1;
+}
+
+message GetResponse {
+  // The instrument resource.
+  meshtrade.issuance_hub.instrument.v1.Instrument instrument = 1;
+}
+
+message MintRequest {
+  // The quantity of the instrument to mint (denominated in token of the instrument).
+  meshtrade.type.v1.Amount amount = 1;
+
+  // The account identifier that will pay the transaction fees for the mint operation.
+  string fee_account = 2;
+
+  // The account identifier that will receive the newly created instrument units.
+  string destination_account = 3;
+}
+
+message MintResponse {
+  // The unique identifier for the minting transaction. This ID can be used to
+  // query a transaction monitoring service to check for completion and success.
+  string transaction_id = 1;
+}
+
+message BurnRequest {
+  // The quantity of the instrument to burn (denominated in token of the instrument).
+  meshtrade.type.v1.Amount amount = 1;
+
+  // The account identifier that will pay the transaction fees for the burn operation.
+  string fee_account = 2;
+
+  // The account from which the instrument units will be burned. This account
+  // must have a sufficient balance.
+  string source_account = 3;
+}
+
+message BurnResponse {
+  // The unique identifier for the burning transaction. This ID can be used to
+  // query a transaction monitoring service to check for completion and success.
+  string transaction_id = 1;
+}

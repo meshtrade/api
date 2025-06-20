@@ -84,6 +84,28 @@
   
     - [Service](#meshtrade-iam-role-v1-Service)
   
+- [meshtrade/issuance_hub/instrument/v1/instrument.proto](#meshtrade_issuance_hub_instrument_v1_instrument-proto)
+    - [Instrument](#meshtrade-issuance_hub-instrument-v1-Instrument)
+  
+- [meshtrade/type/v1/ledger.proto](#meshtrade_type_v1_ledger-proto)
+    - [Ledger](#meshtrade-type-v1-Ledger)
+  
+- [meshtrade/type/v1/token.proto](#meshtrade_type_v1_token-proto)
+    - [Token](#meshtrade-type-v1-Token)
+  
+- [meshtrade/type/v1/amount.proto](#meshtrade_type_v1_amount-proto)
+    - [Amount](#meshtrade-type-v1-Amount)
+  
+- [meshtrade/issuance_hub/instrument/v1/service.proto](#meshtrade_issuance_hub_instrument_v1_service-proto)
+    - [BurnRequest](#meshtrade-issuance_hub-instrument-v1-BurnRequest)
+    - [BurnResponse](#meshtrade-issuance_hub-instrument-v1-BurnResponse)
+    - [GetRequest](#meshtrade-issuance_hub-instrument-v1-GetRequest)
+    - [GetResponse](#meshtrade-issuance_hub-instrument-v1-GetResponse)
+    - [MintRequest](#meshtrade-issuance_hub-instrument-v1-MintRequest)
+    - [MintResponse](#meshtrade-issuance_hub-instrument-v1-MintResponse)
+  
+    - [Service](#meshtrade-issuance_hub-instrument-v1-Service)
+  
 - [meshtrade/ledger/transaction/v1/transaction_action.proto](#meshtrade_ledger_transaction_v1_transaction_action-proto)
     - [TransactionAction](#meshtrade-ledger-transaction-v1-TransactionAction)
   
@@ -116,15 +138,6 @@
     - [GetResponse](#meshtrade-trading-spot-v1-GetResponse)
   
     - [Service](#meshtrade-trading-spot-v1-Service)
-  
-- [meshtrade/type/v1/ledger.proto](#meshtrade_type_v1_ledger-proto)
-    - [Ledger](#meshtrade-type-v1-Ledger)
-  
-- [meshtrade/type/v1/token.proto](#meshtrade_type_v1_token-proto)
-    - [Token](#meshtrade-type-v1-Token)
-  
-- [meshtrade/type/v1/amount.proto](#meshtrade_type_v1_amount-proto)
-    - [Amount](#meshtrade-type-v1-Amount)
   
 - [meshtrade/wallet/account/v1/account.proto](#meshtrade_wallet_account_v1_account-proto)
     - [Account](#meshtrade-wallet-account-v1-Account)
@@ -1094,6 +1107,271 @@ Role is a collection of permissions.
 
 
 
+<a name="meshtrade_issuance_hub_instrument_v1_instrument-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/issuance_hub/instrument/v1/instrument.proto
+
+
+
+<a name="meshtrade-issuance_hub-instrument-v1-Instrument"></a>
+
+### Instrument
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| number | [string](#string) |  |  |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="meshtrade_type_v1_ledger-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/type/v1/ledger.proto
+
+
+ 
+
+
+<a name="meshtrade-type-v1-Ledger"></a>
+
+### Ledger
+Ledger represents the various distributed and centralized systems that Mesh
+interacts with where value is accounted for. The term &#34;Ledger&#34; is used
+inclusively to cover both blockchain and other value-tracking systems.
+Note that numbering is not sequential for legacy reasons.
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| LEDGER_UNSPECIFIED | 0 | Indicates an unknown or unspecified ledger. This default value helps prevent accidental assignment and should not be used in practice. |
+| LEDGER_STELLAR | 3 | The Stellar public ledger network. See: https://stellar.org |
+| LEDGER_BITCOIN | 5 | The Bitcoin public ledger network. See: https://bitcoin.org |
+| LEDGER_LITECOIN | 7 | The Litecoin public ledger network. See: https://litecoin.org |
+| LEDGER_ETHEREUM | 9 | The Ethereum public ledger network. See: https://ethereum.org |
+| LEDGER_XRP | 11 | The XRP Ledger (formerly Ripple). See: https://xrpl.org |
+| LEDGER_SA_STOCK_BROKERS | 15 | The proprietary ledger for the SA Stockbrokers platform. |
+| LEDGER_NULL | 16 | A null ledger, used as a placeholder for assets that do not have an external or on-chain accounting ledger. |
+
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="meshtrade_type_v1_token-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/type/v1/token.proto
+
+
+
+<a name="meshtrade-type-v1-Token"></a>
+
+### Token
+Token is Mesh&#39;s canonical model for uniquely and unambiguously identifying any
+digital asset across any supported ledger. It provides a powerful abstraction
+layer that resolves the complexities of multi-chain/ledger asset representation.
+This allows any part of the Mesh system to work with a single, universal
+concept of a token, regardless of the underlying ledger&#39;s specific
+implementation.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| code | [string](#string) |  | The commonly accepted symbol, ticker, or code for the token (e.g., &#34;BTC&#34;, &#34;ETH&#34;, &#34;USDC&#34;). It is not unique without the `issuer` and `ledger`. Required field. |
+| issuer | [string](#string) |  | Issuer is a reference to issuing entity of the token. For NATIVE assets on a ledger (e.g., ETH on Ethereum), the issuer is the ledger itself, represented by the reserved string __LEDGER__. For ALL other issued assets (e.g., ERC-20 tokens), this is the unique identifier of the issuing entity, such as a smart contract address on Ethereum or an issuance account public key on Stellar. Required field. |
+| ledger | [Ledger](#meshtrade-type-v1-Ledger) |  | The ledger ledger on which the token exists. This field disambiguates assets that may share a code and issuer across different chains (e.g., USDC on Ethereum vs. USDC on Polygon). Required field. |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="meshtrade_type_v1_amount-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/type/v1/amount.proto
+
+
+
+<a name="meshtrade-type-v1-Amount"></a>
+
+### Amount
+A canonical structure for representing a precise quantity of a specific
+digital asset.
+An Amount is a self-describing monetary value, pairing a Universal Token
+Identifier (the &#39;what&#39;) with a high-precision Decimal value (the &#39;how much&#39;).
+This model ensures that a quantity of an asset is never ambiguous.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| token | [Token](#meshtrade-type-v1-Token) |  | Token is the unit of account. This field uses the Universal Token Identifier to define exactly WHAT asset is being quantified. |
+| value | [Decimal](#meshtrade-type-v1-Decimal) |  | Value is the magnitude of the amount, representing HOW MUCH of the specified token this value holds. CRITICAL: To prevent precision errors, this decimal value MUST be truncated to the exact number of decimal places supported by the token&#39;s native ledger. |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="meshtrade_issuance_hub_instrument_v1_service-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/issuance_hub/instrument/v1/service.proto
+
+
+
+<a name="meshtrade-issuance_hub-instrument-v1-BurnRequest"></a>
+
+### BurnRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| amount | [meshtrade.type.v1.Amount](#meshtrade-type-v1-Amount) |  | The quantity of the instrument to burn (denominated in token of the instrument). |
+| fee_account | [string](#string) |  | The account identifier that will pay the transaction fees for the burn operation. |
+| source_account | [string](#string) |  | The account from which the instrument units will be burned. This account must have a sufficient balance. |
+
+
+
+
+
+
+<a name="meshtrade-issuance_hub-instrument-v1-BurnResponse"></a>
+
+### BurnResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| transaction_id | [string](#string) |  | The unique identifier for the burning transaction. This ID can be used to query a transaction monitoring service to check for completion and success. |
+
+
+
+
+
+
+<a name="meshtrade-issuance_hub-instrument-v1-GetRequest"></a>
+
+### GetRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| name | [string](#string) |  | The unique name of the instrument resource to fetch. |
+
+
+
+
+
+
+<a name="meshtrade-issuance_hub-instrument-v1-GetResponse"></a>
+
+### GetResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| instrument | [Instrument](#meshtrade-issuance_hub-instrument-v1-Instrument) |  | The instrument resource. |
+
+
+
+
+
+
+<a name="meshtrade-issuance_hub-instrument-v1-MintRequest"></a>
+
+### MintRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| amount | [meshtrade.type.v1.Amount](#meshtrade-type-v1-Amount) |  | The quantity of the instrument to mint (denominated in token of the instrument). |
+| fee_account | [string](#string) |  | The account identifier that will pay the transaction fees for the mint operation. |
+| destination_account | [string](#string) |  | The account identifier that will receive the newly created instrument units. |
+
+
+
+
+
+
+<a name="meshtrade-issuance_hub-instrument-v1-MintResponse"></a>
+
+### MintResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| transaction_id | [string](#string) |  | The unique identifier for the minting transaction. This ID can be used to query a transaction monitoring service to check for completion and success. |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+
+<a name="meshtrade-issuance_hub-instrument-v1-Service"></a>
+
+### Service
+Service defines the RPC methods for interacting with the instrument resource,
+such as creating, updating, minting or burning it.
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| Get | [GetRequest](#meshtrade-issuance_hub-instrument-v1-GetRequest) | [GetResponse](#meshtrade-issuance_hub-instrument-v1-GetResponse) | Retrieve a specific instrument. |
+| Mint | [MintRequest](#meshtrade-issuance_hub-instrument-v1-MintRequest) | [MintResponse](#meshtrade-issuance_hub-instrument-v1-MintResponse) | Mints new units of an instrument into a given destination account. |
+| Burn | [BurnRequest](#meshtrade-issuance_hub-instrument-v1-BurnRequest) | [BurnResponse](#meshtrade-issuance_hub-instrument-v1-BurnResponse) | Burns a specified amount of an instrument from a source account. |
+
+ 
+
+
+
 <a name="meshtrade_ledger_transaction_v1_transaction_action-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
@@ -1417,117 +1695,6 @@ Role is a collection of permissions.
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
 | Get | [GetRequest](#meshtrade-trading-spot-v1-GetRequest) | [GetResponse](#meshtrade-trading-spot-v1-GetResponse) |  |
-
- 
-
-
-
-<a name="meshtrade_type_v1_ledger-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## meshtrade/type/v1/ledger.proto
-
-
- 
-
-
-<a name="meshtrade-type-v1-Ledger"></a>
-
-### Ledger
-Ledger represents the various distributed and centralized systems that Mesh
-interacts with where value is accounted for. The term &#34;Ledger&#34; is used
-inclusively to cover both blockchain and other value-tracking systems.
-Note that numbering is not sequential for legacy reasons.
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| LEDGER_UNSPECIFIED | 0 | Indicates an unknown or unspecified ledger. This default value helps prevent accidental assignment and should not be used in practice. |
-| LEDGER_STELLAR | 3 | The Stellar public ledger network. See: https://stellar.org |
-| LEDGER_BITCOIN | 5 | The Bitcoin public ledger network. See: https://bitcoin.org |
-| LEDGER_LITECOIN | 7 | The Litecoin public ledger network. See: https://litecoin.org |
-| LEDGER_ETHEREUM | 9 | The Ethereum public ledger network. See: https://ethereum.org |
-| LEDGER_XRP | 11 | The XRP Ledger (formerly Ripple). See: https://xrpl.org |
-| LEDGER_SA_STOCK_BROKERS | 15 | The proprietary ledger for the SA Stockbrokers platform. |
-| LEDGER_NULL | 16 | A null ledger, used as a placeholder for assets that do not have an external or on-chain accounting ledger. |
-
-
- 
-
- 
-
- 
-
-
-
-<a name="meshtrade_type_v1_token-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## meshtrade/type/v1/token.proto
-
-
-
-<a name="meshtrade-type-v1-Token"></a>
-
-### Token
-Token is Mesh&#39;s canonical model for uniquely and unambiguously identifying any
-digital asset across any supported ledger. It provides a powerful abstraction
-layer that resolves the complexities of multi-chain/ledger asset representation.
-This allows any part of the Mesh system to work with a single, universal
-concept of a token, regardless of the underlying ledger&#39;s specific
-implementation.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| code | [string](#string) |  | The commonly accepted symbol, ticker, or code for the token (e.g., &#34;BTC&#34;, &#34;ETH&#34;, &#34;USDC&#34;). It is not unique without the `issuer` and `ledger`. Required field. |
-| issuer | [string](#string) |  | Issuer is a reference to issuing entity of the token. For NATIVE assets on a ledger (e.g., ETH on Ethereum), the issuer is the ledger itself, represented by the reserved string __LEDGER__. For ALL other issued assets (e.g., ERC-20 tokens), this is the unique identifier of the issuing entity, such as a smart contract address on Ethereum or an issuance account public key on Stellar. Required field. |
-| ledger | [Ledger](#meshtrade-type-v1-Ledger) |  | The ledger ledger on which the token exists. This field disambiguates assets that may share a code and issuer across different chains (e.g., USDC on Ethereum vs. USDC on Polygon). Required field. |
-
-
-
-
-
- 
-
- 
-
- 
-
- 
-
-
-
-<a name="meshtrade_type_v1_amount-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## meshtrade/type/v1/amount.proto
-
-
-
-<a name="meshtrade-type-v1-Amount"></a>
-
-### Amount
-A canonical structure for representing a precise quantity of a specific
-digital asset.
-An Amount is a self-describing monetary value, pairing a Universal Token
-Identifier (the &#39;what&#39;) with a high-precision Decimal value (the &#39;how much&#39;).
-This model ensures that a quantity of an asset is never ambiguous.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| token | [Token](#meshtrade-type-v1-Token) |  | Token is the unit of account. This field uses the Universal Token Identifier to define exactly WHAT asset is being quantified. |
-| value | [Decimal](#meshtrade-type-v1-Decimal) |  | Value is the magnitude of the amount, representing HOW MUCH of the specified token this value holds. CRITICAL: To prevent precision errors, this decimal value MUST be truncated to the exact number of decimal places supported by the token&#39;s native ledger. |
-
-
-
-
-
- 
-
- 
-
- 
 
  
 
