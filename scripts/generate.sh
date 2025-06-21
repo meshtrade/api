@@ -33,6 +33,10 @@ echo
 # --- Completion ---
 echo "########################################################"
 echo "#                                                      #"
-echo "#  Done! All code generation is complete!   -\(^-^)/-  #"
+echo "#  Done! All code generation is complete!              #"
+echo "#                          / \                         #"
+echo "#                       -\(^-^)/-                      #"
+echo "#                         ( | )                        #"
+echo "#                         _/ \_                        #"
 echo "#                                                      #"
 echo "########################################################"
