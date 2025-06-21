@@ -11,5 +11,5 @@ func GenerateFilename(filename, suffix string) string {
 	// remove .proto from filename
 	filename = strings.TrimSuffix(filename, ".proto")
 
-	return filename + suffix + ".meshgo.go"
+	return strings.ReplaceAll(filename, "meshtrade/", "") + suffix + ".meshgo.go"
 }

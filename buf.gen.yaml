@@ -12,6 +12,9 @@ plugins:
     out: .
     opt:
       - module=github.com/meshtrade/api
+  - local: ["go", "run", "./tool/protoc-gen-meshgo"]
+    out: ./go
+    strategy: all
 
 ### Python ###
   - remote: buf.build/protocolbuffers/python:v31.1
