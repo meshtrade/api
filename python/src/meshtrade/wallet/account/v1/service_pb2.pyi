@@ -1,3 +1,4 @@
+from buf.validate import validate_pb2 as _validate_pb2
 from meshtrade.option.v1 import auth_pb2 as _auth_pb2
 from meshtrade.option.v1 import service_type_pb2 as _service_type_pb2
 from meshtrade.type.v1 import ledger_pb2 as _ledger_pb2

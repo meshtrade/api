@@ -33,3 +33,14 @@ plugins:
     out: proto
     opt:
       - markdown,api_doc.md
+
+managed:
+  enabled: true
+  override:
+    - file_option: go_package_prefix
+      value: github.com/bufbuild/buf-examples/protovalidate/quickstart-go/start/gen
+  # Don't modify any file option or field option for protovalidate. Without
+  # this, generated Go will fail to compile.
+  disable:
+    - file_option: go_package
+      module: buf.build/bufbuild/protovalidate

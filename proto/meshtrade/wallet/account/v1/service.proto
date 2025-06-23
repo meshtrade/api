@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package meshtrade.wallet.account.v1;
 
+import "buf/validate/validate.proto";
 import "meshtrade/option/v1/auth.proto";
 import "meshtrade/option/v1/service_type.proto";
 import "meshtrade/type/v1/ledger.proto";
@@ -82,12 +83,16 @@ message CreateRequest {
   /*
      A user-defined label for the new account, e.g., "Primary Savings".
   */
-  string label = 1;
+  string label = 1 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).string.min_len = 3,
+    (buf.validate.field).string.max_len = 50
+  ];
 
   /*
      The ledger upon which the account should be created.
   */
-  meshtrade.type.v1.Ledger ledger = 2;
+  meshtrade.type.v1.Ledger ledger = 2 [(buf.validate.field).enum.defined_only = true];
 
   /*
      If true, the account will be opened immediately after creation, which
@@ -115,7 +120,10 @@ message GetRequest {
   /*
      The unique account number to retrieve.
   */
-  string number = 1;
+  string number = 1 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).string.len = 7
+  ];
 }
 
 /* GetResponse contains the requested account. */
@@ -142,7 +150,11 @@ message SearchRequest {
   /*
      A substring to search for within account labels.
   */
-  string label = 1;
+  string label = 1 [
+    (buf.validate.field).required = false,
+    (buf.validate.field).string.min_len = 3,
+    (buf.validate.field).string.max_len = 50
+  ];
 }
 
 /* SearchResponse contains the accounts that matched the search query. */

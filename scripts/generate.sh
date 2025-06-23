@@ -15,7 +15,7 @@ fi
 echo "🧹 Cleaning Go generated files..."
 # Find and remove all generated Go files in a single command.
 find ./go \
-  \( -name '*.pb.go' -o -name '*.pb.gw.go' -o -name '*.meshgo.go' \) \
+  \( -name '*.pb.go' -o -name '*.pb.gw.go' -o -name '*.meshgo.go' -o -name '*.validate.go' \) \
   -print0 | xargs -0 -P 4 -n 1 rm $VERBOSE_FLAG
 echo
 
