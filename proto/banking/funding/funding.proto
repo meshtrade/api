@@ -6,9 +6,12 @@ option go_package = "github.com/meshtrade/api/go/banking/funding";
 
 import "api/proto/ledger/amount.proto";
 import "google/protobuf/timestamp.proto";
+import "api/proto/banking/funding/fundingOrderMetadata.proto";
 
 /*
 Api Funding
+
+@bson-marshalled
 */
 message Funding {
   /*
@@ -29,7 +32,7 @@ message Funding {
   /*
   Funding origin specific metaData
   */
-  FundingOrderMetaData metaData = 4;
+ api.banking.funding.MetaData metaData = 4;
 
   /*
   The account number to be funded.
@@ -69,89 +72,4 @@ enum FundingOrigin {
   PEACH_SETTLEMENT = 2;
   PEACH_PAYMENT = 3;
   DIRECT_EFT = 4;
-}
-
-enum PeachPaymentMethod {
-  UNDEFINED_PEACH_FUNDING_CATEGORY = 0;
-  PEACH_PAY_BY_BANK = 1;
-  PEACH_PAY_BY_CARD = 2;
-}
-
-enum PaymentType {
-  UNDEFINED_PAYMENT_TYPE = 0;
-  DB = 1;
-  RG = 2;
-  PA = 3;
-  RF = 4;
-  CP = 5;
-  RV = 6;
-  CD = 7;
-  RB = 8;
-}
-
-message FundingOrderMetaData {
-  oneof metaData {
-    PeachPaymentMetaData PeachPayment = 1;
-    PeachSettlementMetaData PeachSettlement = 2;
-    InvestecDirectEFTMetaData InvestecDirectEFT = 3;
-    DirectEFTMetaData DirectEFT = 4;
-  }
-}
-
-message InvestecDirectEFTMetaData {
-  string externalTransactionID = 1;
-  string externalReference = 2;
-  BankName bankName = 3;
-}
-
-message DirectEFTMetaData {
-  string externalReference = 1;
-  BankName bankName = 2;
-  string bankReference = 3;
-}
-
-message PeachSettlementMetaData {
-  string externalTransactionID = 1;
-  string externalSettlementReference = 2;
-  BankName bankName = 3;
-}
-
-message PeachPaymentMetaData {
-  string externalTransactionID = 1;
-  string externalReference = 2;
-  BankName bankName = 3;
-  PeachPaymentMethod peachPaymentMethod = 4;
-  string checkoutId = 5;
-  PeachFee fee = 6;
-  string customerName = 7;
-  string accountHolder = 8;
-  PaymentType paymentType = 9;
-  string userSpecifiedAccount = 10;
-
-}
-
-message PeachFee {
-  api.ledger.Amount FeeIncVat = 1;
-  api.ledger.Amount FeeExlVat = 2;
-  api.ledger.Amount VatAmount = 3;
-}
-
-enum BankName {
-  BANK_NAME_STANDARD_BANK = 0;
-  BANK_NAME_ABSA = 1;
-  BANK_NAME_AFRICAN_BANK = 2;
-  BANK_NAME_BIDVEST_BANK = 3;
-  BANK_NAME_CAPITEC_BANK = 4;
-  BANK_NAME_DISCOVERY_BANK = 5;
-  BANK_NAME_FIRST_NATIONAL_BANK = 6;
-  BANK_NAME_FIRST_RAND_BANK = 7;
-  BANK_NAME_GRINDROD_BANK = 8;
-  BANK_NAME_INVESTEC = 9;
-  BANK_NAME_MERCANTILE_BANK = 10;
-  BANK_NAME_NEDBANK = 11;
-  BANK_NAME_OLD_MUTUAL = 12;
-  BANK_NAME_SASFIN_BANK = 13;
-  BANK_NAME_TYME_BANK = 14;
-  BANK_NAME_POSTBANK = 15;
-  BANK_NAME_UNDEFINED = 16;
 }

@@ -24,9 +24,10 @@ _sym_db = _symbol_database.Default()
 
 from api.python.lib.ledger import amount_pb2 as api_dot_proto_dot_ledger_dot_amount__pb2
 from google.protobuf import timestamp_pb2 as google_dot_protobuf_dot_timestamp__pb2
+from api.python.lib.banking.funding import fundingOrderMetadata_pb2 as api_dot_proto_dot_banking_dot_funding_dot_fundingOrderMetadata__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\'api/proto/banking/funding/funding.proto\x12\x13\x61pi.banking.funding\x1a\x1d\x61pi/proto/ledger/amount.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc2\x02\n\x07\x46unding\x12\x0e\n\x06number\x18\x01 \x01(\t\x12\"\n\x06\x61mount\x18\x02 \x01(\x0b\x32\x12.api.ledger.Amount\x12\x39\n\rfundingOrigin\x18\x03 \x01(\x0e\x32\".api.banking.funding.FundingOrigin\x12;\n\x08metaData\x18\x04 \x01(\x0b\x32).api.banking.funding.FundingOrderMetaData\x12\x15\n\raccountNumber\x18\x05 \x01(\t\x12\x30\n\x05state\x18\x06 \x01(\x0e\x32!.api.banking.funding.FundingState\x12\x13\n\x0bstateReason\x18\x07 \x01(\t\x12-\n\tvalueDate\x18\x08 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\"\xb8\x02\n\x14\x46undingOrderMetaData\x12\x41\n\x0cPeachPayment\x18\x01 \x01(\x0b\x32).api.banking.funding.PeachPaymentMetaDataH\x00\x12G\n\x0fPeachSettlement\x18\x02 \x01(\x0b\x32,.api.banking.funding.PeachSettlementMetaDataH\x00\x12K\n\x11InvestecDirectEFT\x18\x03 \x01(\x0b\x32..api.banking.funding.InvestecDirectEFTMetaDataH\x00\x12;\n\tDirectEFT\x18\x04 \x01(\x0b\x32&.api.banking.funding.DirectEFTMetaDataH\x00\x42\n\n\x08metaData\"\x86\x01\n\x19InvestecDirectEFTMetaData\x12\x1d\n\x15\x65xternalTransactionID\x18\x01 \x01(\t\x12\x19\n\x11\x65xternalReference\x18\x02 \x01(\t\x12/\n\x08\x62\x61nkName\x18\x03 \x01(\x0e\x32\x1d.api.banking.funding.BankName\"v\n\x11\x44irectEFTMetaData\x12\x19\n\x11\x65xternalReference\x18\x01 \x01(\t\x12/\n\x08\x62\x61nkName\x18\x02 \x01(\x0e\x32\x1d.api.banking.funding.BankName\x12\x15\n\rbankReference\x18\x03 \x01(\t\"\x8e\x01\n\x17PeachSettlementMetaData\x12\x1d\n\x15\x65xternalTransactionID\x18\x01 \x01(\t\x12#\n\x1b\x65xternalSettlementReference\x18\x02 \x01(\t\x12/\n\x08\x62\x61nkName\x18\x03 \x01(\x0e\x32\x1d.api.banking.funding.BankName\"\x88\x03\n\x14PeachPaymentMetaData\x12\x1d\n\x15\x65xternalTransactionID\x18\x01 \x01(\t\x12\x19\n\x11\x65xternalReference\x18\x02 \x01(\t\x12/\n\x08\x62\x61nkName\x18\x03 \x01(\x0e\x32\x1d.api.banking.funding.BankName\x12\x43\n\x12peachPaymentMethod\x18\x04 \x01(\x0e\x32\'.api.banking.funding.PeachPaymentMethod\x12\x12\n\ncheckoutId\x18\x05 \x01(\t\x12*\n\x03\x66\x65\x65\x18\x06 \x01(\x0b\x32\x1d.api.banking.funding.PeachFee\x12\x14\n\x0c\x63ustomerName\x18\x07 \x01(\t\x12\x15\n\raccountHolder\x18\x08 \x01(\t\x12\x35\n\x0bpaymentType\x18\t \x01(\x0e\x32 .api.banking.funding.PaymentType\x12\x1c\n\x14userSpecifiedAccount\x18\n \x01(\t\"\x7f\n\x08PeachFee\x12%\n\tFeeIncVat\x18\x01 \x01(\x0b\x32\x12.api.ledger.Amount\x12%\n\tFeeExlVat\x18\x02 \x01(\x0b\x32\x12.api.ledger.Amount\x12%\n\tVatAmount\x18\x03 \x01(\x0b\x32\x12.api.ledger.Amount*\xcb\x02\n\x0c\x46undingState\x12!\n\x1dUNDEFINED_FUNDING_ORDER_STATE\x10\x00\x12,\n(PENDING_CONFIRMATION_FUNDING_ORDER_STATE\x10\x01\x12)\n%AWAITING_APPROVAL_FUNDING_ORDER_STATE\x10\x02\x12.\n*SETTLEMENT_IN_PROGRESS_FUNDING_ORDER_STATE\x10\x03\x12!\n\x1d\x43\x41NCELLED_FUNDING_ORDER_STATE\x10\x04\x12\x1e\n\x1a\x46\x41ILED_FUNDING_ORDER_STATE\x10\x05\x12\x1f\n\x1bSETTLED_FUNDING_ORDER_STATE\x10\x06\x12+\n\'UNDER_INVESTIGATION_FUNDING_ORDER_STATE\x10\x07*\x7f\n\rFundingOrigin\x12\x1c\n\x18UNDEFINED_FUNDING_ORIGIN\x10\x00\x12\x17\n\x13INVESTEC_DIRECT_EFT\x10\x01\x12\x14\n\x10PEACH_SETTLEMENT\x10\x02\x12\x11\n\rPEACH_PAYMENT\x10\x03\x12\x0e\n\nDIRECT_EFT\x10\x04*h\n\x12PeachPaymentMethod\x12$\n UNDEFINED_PEACH_FUNDING_CATEGORY\x10\x00\x12\x15\n\x11PEACH_PAY_BY_BANK\x10\x01\x12\x15\n\x11PEACH_PAY_BY_CARD\x10\x02*i\n\x0bPaymentType\x12\x1a\n\x16UNDEFINED_PAYMENT_TYPE\x10\x00\x12\x06\n\x02\x44\x42\x10\x01\x12\x06\n\x02RG\x10\x02\x12\x06\n\x02PA\x10\x03\x12\x06\n\x02RF\x10\x04\x12\x06\n\x02\x43P\x10\x05\x12\x06\n\x02RV\x10\x06\x12\x06\n\x02\x43\x44\x10\x07\x12\x06\n\x02RB\x10\x08*\xd9\x03\n\x08\x42\x61nkName\x12\x1b\n\x17\x42\x41NK_NAME_STANDARD_BANK\x10\x00\x12\x12\n\x0e\x42\x41NK_NAME_ABSA\x10\x01\x12\x1a\n\x16\x42\x41NK_NAME_AFRICAN_BANK\x10\x02\x12\x1a\n\x16\x42\x41NK_NAME_BIDVEST_BANK\x10\x03\x12\x1a\n\x16\x42\x41NK_NAME_CAPITEC_BANK\x10\x04\x12\x1c\n\x18\x42\x41NK_NAME_DISCOVERY_BANK\x10\x05\x12!\n\x1d\x42\x41NK_NAME_FIRST_NATIONAL_BANK\x10\x06\x12\x1d\n\x19\x42\x41NK_NAME_FIRST_RAND_BANK\x10\x07\x12\x1b\n\x17\x42\x41NK_NAME_GRINDROD_BANK\x10\x08\x12\x16\n\x12\x42\x41NK_NAME_INVESTEC\x10\t\x12\x1d\n\x19\x42\x41NK_NAME_MERCANTILE_BANK\x10\n\x12\x15\n\x11\x42\x41NK_NAME_NEDBANK\x10\x0b\x12\x18\n\x14\x42\x41NK_NAME_OLD_MUTUAL\x10\x0c\x12\x19\n\x15\x42\x41NK_NAME_SASFIN_BANK\x10\r\x12\x17\n\x13\x42\x41NK_NAME_TYME_BANK\x10\x0e\x12\x16\n\x12\x42\x41NK_NAME_POSTBANK\x10\x0f\x12\x17\n\x13\x42\x41NK_NAME_UNDEFINED\x10\x10\x42-Z+github.com/meshtrade/api/go/banking/fundingb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\'api/proto/banking/funding/funding.proto\x12\x13\x61pi.banking.funding\x1a\x1d\x61pi/proto/ledger/amount.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x34\x61pi/proto/banking/funding/fundingOrderMetadata.proto\"\xb6\x02\n\x07\x46unding\x12\x0e\n\x06number\x18\x01 \x01(\t\x12\"\n\x06\x61mount\x18\x02 \x01(\x0b\x32\x12.api.ledger.Amount\x12\x39\n\rfundingOrigin\x18\x03 \x01(\x0e\x32\".api.banking.funding.FundingOrigin\x12/\n\x08metaData\x18\x04 \x01(\x0b\x32\x1d.api.banking.funding.MetaData\x12\x15\n\raccountNumber\x18\x05 \x01(\t\x12\x30\n\x05state\x18\x06 \x01(\x0e\x32!.api.banking.funding.FundingState\x12\x13\n\x0bstateReason\x18\x07 \x01(\t\x12-\n\tvalueDate\x18\x08 \x01(\x0b\x32\x1a.google.protobuf.Timestamp*\xcb\x02\n\x0c\x46undingState\x12!\n\x1dUNDEFINED_FUNDING_ORDER_STATE\x10\x00\x12,\n(PENDING_CONFIRMATION_FUNDING_ORDER_STATE\x10\x01\x12)\n%AWAITING_APPROVAL_FUNDING_ORDER_STATE\x10\x02\x12.\n*SETTLEMENT_IN_PROGRESS_FUNDING_ORDER_STATE\x10\x03\x12!\n\x1d\x43\x41NCELLED_FUNDING_ORDER_STATE\x10\x04\x12\x1e\n\x1a\x46\x41ILED_FUNDING_ORDER_STATE\x10\x05\x12\x1f\n\x1bSETTLED_FUNDING_ORDER_STATE\x10\x06\x12+\n\'UNDER_INVESTIGATION_FUNDING_ORDER_STATE\x10\x07*\x7f\n\rFundingOrigin\x12\x1c\n\x18UNDEFINED_FUNDING_ORIGIN\x10\x00\x12\x17\n\x13INVESTEC_DIRECT_EFT\x10\x01\x12\x14\n\x10PEACH_SETTLEMENT\x10\x02\x12\x11\n\rPEACH_PAYMENT\x10\x03\x12\x0e\n\nDIRECT_EFT\x10\x04\x42-Z+github.com/meshtrade/api/go/banking/fundingb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -34,28 +35,10 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'api.python.lib.banking.fund
 if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'Z+github.com/meshtrade/api/go/banking/funding'
-  _globals['_FUNDINGSTATE']._serialized_start=1695
-  _globals['_FUNDINGSTATE']._serialized_end=2026
-  _globals['_FUNDINGORIGIN']._serialized_start=2028
-  _globals['_FUNDINGORIGIN']._serialized_end=2155
-  _globals['_PEACHPAYMENTMETHOD']._serialized_start=2157
-  _globals['_PEACHPAYMENTMETHOD']._serialized_end=2261
-  _globals['_PAYMENTTYPE']._serialized_start=2263
-  _globals['_PAYMENTTYPE']._serialized_end=2368
-  _globals['_BANKNAME']._serialized_start=2371
-  _globals['_BANKNAME']._serialized_end=2844
-  _globals['_FUNDING']._serialized_start=129
-  _globals['_FUNDING']._serialized_end=451
-  _globals['_FUNDINGORDERMETADATA']._serialized_start=454
-  _globals['_FUNDINGORDERMETADATA']._serialized_end=766
-  _globals['_INVESTECDIRECTEFTMETADATA']._serialized_start=769
-  _globals['_INVESTECDIRECTEFTMETADATA']._serialized_end=903
-  _globals['_DIRECTEFTMETADATA']._serialized_start=905
-  _globals['_DIRECTEFTMETADATA']._serialized_end=1023
-  _globals['_PEACHSETTLEMENTMETADATA']._serialized_start=1026
-  _globals['_PEACHSETTLEMENTMETADATA']._serialized_end=1168
-  _globals['_PEACHPAYMENTMETADATA']._serialized_start=1171
-  _globals['_PEACHPAYMENTMETADATA']._serialized_end=1563
-  _globals['_PEACHFEE']._serialized_start=1565
-  _globals['_PEACHFEE']._serialized_end=1692
+  _globals['_FUNDINGSTATE']._serialized_start=496
+  _globals['_FUNDINGSTATE']._serialized_end=827
+  _globals['_FUNDINGORIGIN']._serialized_start=829
+  _globals['_FUNDINGORIGIN']._serialized_end=956
+  _globals['_FUNDING']._serialized_start=183
+  _globals['_FUNDING']._serialized_end=493
 # @@protoc_insertion_point(module_scope)
