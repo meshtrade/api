@@ -1,8 +1,10 @@
 syntax = "proto3";
 
-package meshtrade.api.type.v1;
+package meshtrade.option.v1;
 
 import "google/protobuf/descriptor.proto";
+
+option go_package = "github.com/meshtrade/api/go/option/v1;optionv1";
 
 /*
    StandardRole defines a named collection of permissions.
@@ -26,24 +28,30 @@ message StandardRole {
 
 /*
    A method-level option to explicitly list the permissions required to call an RPC.
-   This overrides the default behavior where the required permission is derived
-   from the method's full path. It is useful for granting access to a method
-   without creating a full role, or for methods that require multiple specific
-   permissions.
+   Used to grant access to a method without assigning a standard role (which is usually
+   the approach taken to assign access) i.e. when you make a custom role.
 */
 extend google.protobuf.MethodOptions {
-  repeated string required_permissions = 50001;
+  PermissionStringList required_permissions = 50001;
+}
+
+message PermissionStringList {
+  repeated string permissions = 1;
 }
 
 /*
-   A method-level option to restrict an RPC to specific standard roles.
-
-   If this option is present on a method, a user must have one of the listed
-   roles to gain access. This takes precedence over any granular permission checks
-   and is the preferred way to protect highly sensitive or administrative endpoints.
+   A method-level option to explicitly list the role required to call an RPC.
+   This overrides the default behavior where you have access to a service once
+   you have all the necessary lower level permissions ensuring that only holders
+   of the specific role can access the service. This enforces thinking when making
+   a new custom role.
 */
 extend google.protobuf.MethodOptions {
-  repeated string required_roles = 50002;
+  StandardRoleNameList required_roles = 50002;
+}
+
+message StandardRoleNameList {
+  repeated string roles = 1;
 }
 
 /*
@@ -54,5 +62,9 @@ extend google.protobuf.MethodOptions {
    model for the service self-contained and easy to discover.
 */
 extend google.protobuf.FileOptions {
-  repeated StandardRole standard_roles = 50003;
+  StandardRoleList standard_roles = 50003;
+}
+
+message StandardRoleList {
+  repeated StandardRole roles = 1;
 }
