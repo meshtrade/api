@@ -6,14 +6,46 @@ import "meshtrade/compliance/client/v1/client.proto";
 
 option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
 
+// Service manages client profiles for compliance and Know Your Customer (KYC)
+// purposes.
+//
+// The main entity managed by this service is the `Client` resource. A client can
+// be a natural person, company, or trust. This service allows you to retrieve
+// the compliance profiles for these clients.
 service Service {
+  // Get retrieves a single client's compliance profile by its unique resource name.
+  //
+  // This allows for fetching the complete compliance details of a specific client,
+  // including all associated information like identification documents, tax residencies,
+  // and company structures.
   rpc Get(GetRequest) returns (GetResponse);
+
+  // List retrieves a collection of client compliance profiles.
+  //
+  // This method is useful for fetching multiple client records at once.
+  // Note: This endpoint does not currently support pagination or filtering.
+  rpc List(ListRequest) returns (ListResponse);
 }
 
+// GetRequest is the message used to request a single client resource.
 message GetRequest {
-  string number = 1;
+  // The unique resource name of the client to be retrieved.
+  // The name serves as the primary identifier for the client resource.
+  // Format: "clients/{client_id}"
+  string name = 1;
 }
 
+// GetResponse contains the client resource requested.
 message GetResponse {
+  // The client resource object containing the full compliance profile.
   meshtrade.compliance.client.v1.Client client = 1;
+}
+
+// ListRequest is the message used to request a list of client resources.
+message ListRequest {}
+
+// ListResponse contains a list of client resources.
+message ListResponse {
+  // A repeated field containing the client resource objects.
+  repeated meshtrade.compliance.client.v1.Client client = 1;
 }

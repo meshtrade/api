@@ -19,14 +19,32 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Service_Get_FullMethodName = "/meshtrade.compliance.client.v1.Service/Get"
+	Service_Get_FullMethodName  = "/meshtrade.compliance.client.v1.Service/Get"
+	Service_List_FullMethodName = "/meshtrade.compliance.client.v1.Service/List"
 )
 
 // ServiceClient is the client API for Service service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// Service manages client profiles for compliance and Know Your Customer (KYC)
+// purposes.
+//
+// The main entity managed by this service is the `Client` resource. A client can
+// be a natural person, company, or trust. This service allows you to retrieve
+// the compliance profiles for these clients.
 type ServiceClient interface {
+	// Get retrieves a single client's compliance profile by its unique resource name.
+	//
+	// This allows for fetching the complete compliance details of a specific client,
+	// including all associated information like identification documents, tax residencies,
+	// and company structures.
 	Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error)
+	// List retrieves a collection of client compliance profiles.
+	//
+	// This method is useful for fetching multiple client records at once.
+	// Note: This endpoint does not currently support pagination or filtering.
+	List(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error)
 }
 
 type serviceClient struct {
@@ -47,11 +65,38 @@ func (c *serviceClient) Get(ctx context.Context, in *GetRequest, opts ...grpc.Ca
 	return out, nil
 }
 
+func (c *serviceClient) List(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListResponse)
+	err := c.cc.Invoke(ctx, Service_List_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ServiceServer is the server API for Service service.
 // All implementations must embed UnimplementedServiceServer
 // for forward compatibility.
+//
+// Service manages client profiles for compliance and Know Your Customer (KYC)
+// purposes.
+//
+// The main entity managed by this service is the `Client` resource. A client can
+// be a natural person, company, or trust. This service allows you to retrieve
+// the compliance profiles for these clients.
 type ServiceServer interface {
+	// Get retrieves a single client's compliance profile by its unique resource name.
+	//
+	// This allows for fetching the complete compliance details of a specific client,
+	// including all associated information like identification documents, tax residencies,
+	// and company structures.
 	Get(context.Context, *GetRequest) (*GetResponse, error)
+	// List retrieves a collection of client compliance profiles.
+	//
+	// This method is useful for fetching multiple client records at once.
+	// Note: This endpoint does not currently support pagination or filtering.
+	List(context.Context, *ListRequest) (*ListResponse, error)
 	mustEmbedUnimplementedServiceServer()
 }
 
@@ -64,6 +109,9 @@ type UnimplementedServiceServer struct{}
 
 func (UnimplementedServiceServer) Get(context.Context, *GetRequest) (*GetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
+}
+func (UnimplementedServiceServer) List(context.Context, *ListRequest) (*ListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method List not implemented")
 }
 func (UnimplementedServiceServer) mustEmbedUnimplementedServiceServer() {}
 func (UnimplementedServiceServer) testEmbeddedByValue()                 {}
@@ -104,6 +152,24 @@ func _Service_Get_Handler(srv interface{}, ctx context.Context, dec func(interfa
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Service_List_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ServiceServer).List(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Service_List_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ServiceServer).List(ctx, req.(*ListRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Service_ServiceDesc is the grpc.ServiceDesc for Service service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -114,6 +180,10 @@ var Service_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Get",
 			Handler:    _Service_Get_Handler,
+		},
+		{
+			MethodName: "List",
+			Handler:    _Service_List_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

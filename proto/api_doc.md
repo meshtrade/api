@@ -60,6 +60,8 @@
 - [meshtrade/compliance/client/v1/service.proto](#meshtrade_compliance_client_v1_service-proto)
     - [GetRequest](#meshtrade-compliance-client-v1-GetRequest)
     - [GetResponse](#meshtrade-compliance-client-v1-GetResponse)
+    - [ListRequest](#meshtrade-compliance-client-v1-ListRequest)
+    - [ListResponse](#meshtrade-compliance-client-v1-ListResponse)
   
     - [Service](#meshtrade-compliance-client-v1-Service)
   
@@ -863,12 +865,12 @@ as well as secondary relationships for screening (familial, professional).
 <a name="meshtrade-compliance-client-v1-GetRequest"></a>
 
 ### GetRequest
-
+GetRequest is the message used to request a single client resource.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| number | [string](#string) |  |  |
+| name | [string](#string) |  | The unique resource name of the client to be retrieved. The name serves as the primary identifier for the client resource. Format: &#34;clients/{client_id}&#34; |
 
 
 
@@ -878,12 +880,37 @@ as well as secondary relationships for screening (familial, professional).
 <a name="meshtrade-compliance-client-v1-GetResponse"></a>
 
 ### GetResponse
-
+GetResponse contains the client resource requested.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| client | [Client](#meshtrade-compliance-client-v1-Client) |  |  |
+| client | [Client](#meshtrade-compliance-client-v1-Client) |  | The client resource object containing the full compliance profile. |
+
+
+
+
+
+
+<a name="meshtrade-compliance-client-v1-ListRequest"></a>
+
+### ListRequest
+ListRequest is the message used to request a list of client resources.
+
+
+
+
+
+
+<a name="meshtrade-compliance-client-v1-ListResponse"></a>
+
+### ListResponse
+ListResponse contains a list of client resources.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| client | [Client](#meshtrade-compliance-client-v1-Client) | repeated | A repeated field containing the client resource objects. |
 
 
 
@@ -899,11 +926,21 @@ as well as secondary relationships for screening (familial, professional).
 <a name="meshtrade-compliance-client-v1-Service"></a>
 
 ### Service
+Service manages client profiles for compliance and Know Your Customer (KYC)
+purposes.
 
+The main entity managed by this service is the `Client` resource. A client can
+be a natural person, company, or trust. This service allows you to retrieve
+the compliance profiles for these clients.
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| Get | [GetRequest](#meshtrade-compliance-client-v1-GetRequest) | [GetResponse](#meshtrade-compliance-client-v1-GetResponse) |  |
+| Get | [GetRequest](#meshtrade-compliance-client-v1-GetRequest) | [GetResponse](#meshtrade-compliance-client-v1-GetResponse) | Get retrieves a single client&#39;s compliance profile by its unique resource name.
+
+This allows for fetching the complete compliance details of a specific client, including all associated information like identification documents, tax residencies, and company structures. |
+| List | [ListRequest](#meshtrade-compliance-client-v1-ListRequest) | [ListResponse](#meshtrade-compliance-client-v1-ListResponse) | List retrieves a collection of client compliance profiles.
+
+This method is useful for fetching multiple client records at once. Note: This endpoint does not currently support pagination or filtering. |
 
  
 

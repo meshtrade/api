@@ -13,10 +13,12 @@ var _ Service = &MockService{}
 
 // MockService is a mock implementation of the Service interface.
 type MockService struct {
-	mutex              sync.Mutex
-	T                  *testing.T
-	GetFunc            func(t *testing.T, m *MockService, ctx context.Context, request *GetRequest) (*GetResponse, error)
-	GetFuncInvocations int
+	mutex               sync.Mutex
+	T                   *testing.T
+	GetFunc             func(t *testing.T, m *MockService, ctx context.Context, request *GetRequest) (*GetResponse, error)
+	GetFuncInvocations  int
+	ListFunc            func(t *testing.T, m *MockService, ctx context.Context, request *ListRequest) (*ListResponse, error)
+	ListFuncInvocations int
 }
 
 func (m *MockService) Get(ctx context.Context, request *GetRequest) (*GetResponse, error) {
@@ -27,4 +29,14 @@ func (m *MockService) Get(ctx context.Context, request *GetRequest) (*GetRespons
 		return nil, nil
 	}
 	return m.GetFunc(m.T, m, ctx, request)
+}
+
+func (m *MockService) List(ctx context.Context, request *ListRequest) (*ListResponse, error) {
+	m.mutex.Lock()
+	m.ListFuncInvocations++
+	m.mutex.Unlock()
+	if m.ListFunc == nil {
+		return nil, nil
+	}
+	return m.ListFunc(m.T, m, ctx, request)
 }

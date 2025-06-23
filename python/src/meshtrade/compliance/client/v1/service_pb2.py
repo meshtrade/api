@@ -25,7 +25,7 @@ _sym_db = _symbol_database.Default()
 from meshtrade.compliance.client.v1 import client_pb2 as meshtrade_dot_compliance_dot_client_dot_v1_dot_client__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n,meshtrade/compliance/client/v1/service.proto\x12\x1emeshtrade.compliance.client.v1\x1a+meshtrade/compliance/client/v1/client.proto\"$\n\nGetRequest\x12\x16\n\x06number\x18\x01 \x01(\tR\x06number\"M\n\x0bGetResponse\x12>\n\x06\x63lient\x18\x01 \x01(\x0b\x32&.meshtrade.compliance.client.v1.ClientR\x06\x63lient2i\n\x07Service\x12^\n\x03Get\x12*.meshtrade.compliance.client.v1.GetRequest\x1a+.meshtrade.compliance.client.v1.GetResponseB;Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n,meshtrade/compliance/client/v1/service.proto\x12\x1emeshtrade.compliance.client.v1\x1a+meshtrade/compliance/client/v1/client.proto\" \n\nGetRequest\x12\x12\n\x04name\x18\x01 \x01(\tR\x04name\"M\n\x0bGetResponse\x12>\n\x06\x63lient\x18\x01 \x01(\x0b\x32&.meshtrade.compliance.client.v1.ClientR\x06\x63lient\"\r\n\x0bListRequest\"N\n\x0cListResponse\x12>\n\x06\x63lient\x18\x01 \x03(\x0b\x32&.meshtrade.compliance.client.v1.ClientR\x06\x63lient2\xcc\x01\n\x07Service\x12^\n\x03Get\x12*.meshtrade.compliance.client.v1.GetRequest\x1a+.meshtrade.compliance.client.v1.GetResponse\x12\x61\n\x04List\x12+.meshtrade.compliance.client.v1.ListRequest\x1a,.meshtrade.compliance.client.v1.ListResponseB;Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -34,9 +34,13 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1'
   _globals['_GETREQUEST']._serialized_start=125
-  _globals['_GETREQUEST']._serialized_end=161
-  _globals['_GETRESPONSE']._serialized_start=163
-  _globals['_GETRESPONSE']._serialized_end=240
-  _globals['_SERVICE']._serialized_start=242
-  _globals['_SERVICE']._serialized_end=347
+  _globals['_GETREQUEST']._serialized_end=157
+  _globals['_GETRESPONSE']._serialized_start=159
+  _globals['_GETRESPONSE']._serialized_end=236
+  _globals['_LISTREQUEST']._serialized_start=238
+  _globals['_LISTREQUEST']._serialized_end=251
+  _globals['_LISTRESPONSE']._serialized_start=253
+  _globals['_LISTRESPONSE']._serialized_end=331
+  _globals['_SERVICE']._serialized_start=334
+  _globals['_SERVICE']._serialized_end=538
 # @@protoc_insertion_point(module_scope)
