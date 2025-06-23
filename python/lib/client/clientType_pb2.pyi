@@ -6,11 +6,11 @@ DESCRIPTOR: _descriptor.FileDescriptor
 
 class ClientType(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
-    UNDEFINED_COMPANY_ClientType: _ClassVar[ClientType]
-    Issuer_COMPANY_ClientType: _ClassVar[ClientType]
-    Investor_COMPANY_ClientType: _ClassVar[ClientType]
-    Managing_Company_ClientType: _ClassVar[ClientType]
-UNDEFINED_COMPANY_ClientType: ClientType
-Issuer_COMPANY_ClientType: ClientType
-Investor_COMPANY_ClientType: ClientType
-Managing_Company_ClientType: ClientType
+    UNDEFINED_COMPANY_CLIENT_TYPE: _ClassVar[ClientType]
+    ISSUER_COMPANY_CLIENT_TYPE: _ClassVar[ClientType]
+    INVESTOR_COMPANY_CLIENT_TYPE: _ClassVar[ClientType]
+    MANAGING_COMPANY_CLIENT_TYPE: _ClassVar[ClientType]
+UNDEFINED_COMPANY_CLIENT_TYPE: ClientType
+ISSUER_COMPANY_CLIENT_TYPE: ClientType
+INVESTOR_COMPANY_CLIENT_TYPE: ClientType
+MANAGING_COMPANY_CLIENT_TYPE: ClientType

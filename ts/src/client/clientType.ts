@@ -4,10 +4,10 @@ import { ClientType } from './clientType_pb';
 const clientTypeToStringMapping: {
     [key in ClientType]: string;
 } = {
-    [ClientType.UNDEFINED_COMPANY_CLIENTTYPE]: 'Undefined',
-    [ClientType.ISSUER_COMPANY_CLIENTTYPE]: 'Issuer',
-    [ClientType.INVESTOR_COMPANY_CLIENTTYPE]: 'Investor',
-    [ClientType.MANAGING_COMPANY_CLIENTTYPE]: 'Managing Company',
+    [ClientType.UNDEFINED_COMPANY_CLIENT_TYPE]: 'Undefined',
+    [ClientType.ISSUER_COMPANY_CLIENT_TYPE]: 'Issuer',
+    [ClientType.INVESTOR_COMPANY_CLIENT_TYPE]: 'Investor',
+    [ClientType.MANAGING_COMPANY_CLIENT_TYPE]: 'Managing Company',
 };
 
 // Define a custom error for unsupported ClientType

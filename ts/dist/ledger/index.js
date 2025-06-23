@@ -21,3 +21,4 @@ __exportStar(require("./amountWrapper"), exports);
 __exportStar(require("./network"), exports);
 __exportStar(require("./token"), exports);
 __exportStar(require("./tokenWrapper"), exports);
+__exportStar(require("./transaction"), exports);
