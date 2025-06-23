@@ -29,6 +29,23 @@ func NewGRPCClientService(
 	}
 }
 
+func (g *GRPCClientService) Create(ctx context.Context, request *CreateRequest) (*CreateResponse, error) {
+	ctx, span := g.tracer.Start(
+		ctx,
+		ServiceServiceProviderName+"Create",
+	)
+	defer span.End()
+
+	// call given implementation of the adapted service provider interface
+	createResponse, err := g.grpcClient.Create(ctx, request)
+	if err != nil {
+		log.Ctx(ctx).Error().Err(err).Msg("could not Create")
+		return nil, fmt.Errorf("could not Create: %s", err)
+	}
+
+	return createResponse, nil
+}
+
 func (g *GRPCClientService) Get(ctx context.Context, request *GetRequest) (*GetResponse, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
@@ -44,4 +61,38 @@ func (g *GRPCClientService) Get(ctx context.Context, request *GetRequest) (*GetR
 	}
 
 	return getResponse, nil
+}
+
+func (g *GRPCClientService) List(ctx context.Context, request *ListRequest) (*ListResponse, error) {
+	ctx, span := g.tracer.Start(
+		ctx,
+		ServiceServiceProviderName+"List",
+	)
+	defer span.End()
+
+	// call given implementation of the adapted service provider interface
+	listResponse, err := g.grpcClient.List(ctx, request)
+	if err != nil {
+		log.Ctx(ctx).Error().Err(err).Msg("could not List")
+		return nil, fmt.Errorf("could not List: %s", err)
+	}
+
+	return listResponse, nil
+}
+
+func (g *GRPCClientService) Search(ctx context.Context, request *SearchRequest) (*SearchResponse, error) {
+	ctx, span := g.tracer.Start(
+		ctx,
+		ServiceServiceProviderName+"Search",
+	)
+	defer span.End()
+
+	// call given implementation of the adapted service provider interface
+	searchResponse, err := g.grpcClient.Search(ctx, request)
+	if err != nil {
+		log.Ctx(ctx).Error().Err(err).Msg("could not Search")
+		return nil, fmt.Errorf("could not Search: %s", err)
+	}
+
+	return searchResponse, nil
 }

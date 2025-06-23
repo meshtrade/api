@@ -114,6 +114,21 @@
 - [meshtrade/ledger/transaction/v1/transaction_state.proto](#meshtrade_ledger_transaction_v1_transaction_state-proto)
     - [TransactionState](#meshtrade-ledger-transaction-v1-TransactionState)
   
+- [meshtrade/option/v1/auth.proto](#meshtrade_option_v1_auth-proto)
+    - [PermissionStringList](#meshtrade-option-v1-PermissionStringList)
+    - [StandardRole](#meshtrade-option-v1-StandardRole)
+    - [StandardRoleList](#meshtrade-option-v1-StandardRoleList)
+    - [StandardRoleNameList](#meshtrade-option-v1-StandardRoleNameList)
+  
+    - [File-level Extensions](#meshtrade_option_v1_auth-proto-extensions)
+    - [File-level Extensions](#meshtrade_option_v1_auth-proto-extensions)
+    - [File-level Extensions](#meshtrade_option_v1_auth-proto-extensions)
+  
+- [meshtrade/option/v1/service_type.proto](#meshtrade_option_v1_service_type-proto)
+    - [ServiceType](#meshtrade-option-v1-ServiceType)
+  
+    - [File-level Extensions](#meshtrade_option_v1_service_type-proto-extensions)
+  
 - [meshtrade/trading/direct_order/v1/direct_order.proto](#meshtrade_trading_direct_order_v1_direct_order-proto)
     - [DirectOrder](#meshtrade-trading-direct_order-v1-DirectOrder)
   
@@ -145,8 +160,14 @@
     - [Account](#meshtrade-wallet-account-v1-Account)
   
 - [meshtrade/wallet/account/v1/service.proto](#meshtrade_wallet_account_v1_service-proto)
+    - [CreateRequest](#meshtrade-wallet-account-v1-CreateRequest)
+    - [CreateResponse](#meshtrade-wallet-account-v1-CreateResponse)
     - [GetRequest](#meshtrade-wallet-account-v1-GetRequest)
     - [GetResponse](#meshtrade-wallet-account-v1-GetResponse)
+    - [ListRequest](#meshtrade-wallet-account-v1-ListRequest)
+    - [ListResponse](#meshtrade-wallet-account-v1-ListResponse)
+    - [SearchRequest](#meshtrade-wallet-account-v1-SearchRequest)
+    - [SearchResponse](#meshtrade-wallet-account-v1-SearchResponse)
   
     - [Service](#meshtrade-wallet-account-v1-Service)
   
@@ -1476,6 +1497,134 @@ such as creating, updating, minting or burning it.
 
 
 
+<a name="meshtrade_option_v1_auth-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/option/v1/auth.proto
+
+
+
+<a name="meshtrade-option-v1-PermissionStringList"></a>
+
+### PermissionStringList
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| permissions | [string](#string) | repeated |  |
+
+
+
+
+
+
+<a name="meshtrade-option-v1-StandardRole"></a>
+
+### StandardRole
+StandardRole defines a named collection of permissions.
+This allows for the creation of business-level roles (e.g., &#34;AccountReader&#34;, &#34;AccountAdmin&#34;)
+that group a set of granular, string-based permissions. Roles are
+defined at the file level in a service&#39;s `.proto` file.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| name | [string](#string) |  | The unique name of the role, e.g., &#34;AccountAdmin&#34;. |
+| permissions | [string](#string) | repeated | The list of permissions this role contains. Each string corresponds to a full gRPC method path, e.g., &#34;meshtrade.wallet.account.v1.Service/GetAccount&#34;. |
+
+
+
+
+
+
+<a name="meshtrade-option-v1-StandardRoleList"></a>
+
+### StandardRoleList
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| roles | [StandardRole](#meshtrade-option-v1-StandardRole) | repeated |  |
+
+
+
+
+
+
+<a name="meshtrade-option-v1-StandardRoleNameList"></a>
+
+### StandardRoleNameList
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| roles | [string](#string) | repeated |  |
+
+
+
+
+
+ 
+
+ 
+
+
+<a name="meshtrade_option_v1_auth-proto-extensions"></a>
+
+### File-level Extensions
+| Extension | Type | Base | Number | Description |
+| --------- | ---- | ---- | ------ | ----------- |
+| standard_roles | StandardRoleList | .google.protobuf.FileOptions | 50003 |  |
+| required_permissions | PermissionStringList | .google.protobuf.MethodOptions | 50001 |  |
+| required_roles | StandardRoleNameList | .google.protobuf.MethodOptions | 50002 |  |
+
+ 
+
+ 
+
+
+
+<a name="meshtrade_option_v1_service_type-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/option/v1/service_type.proto
+
+
+ 
+
+
+<a name="meshtrade-option-v1-ServiceType"></a>
+
+### ServiceType
+ServiceType indicates the access nature of an RPC method, classifying it
+as either a read or a write operation.
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| SERVICE_TYPE_UNSPECIFIED | 0 | The default value, indicating the service type is unknown or not specified. This should be treated as an error and not be used explicitly. |
+| SERVICE_TYPE_READ | 1 | Indicates a safe, idempotent operation that does not change system state. |
+| SERVICE_TYPE_WRITE | 2 | Indicates an operation that may change system state. |
+
+
+ 
+
+
+<a name="meshtrade_option_v1_service_type-proto-extensions"></a>
+
+### File-level Extensions
+| Extension | Type | Base | Number | Description |
+| --------- | ---- | ---- | ------ | ----------- |
+| service_type | ServiceType | .google.protobuf.MethodOptions | 50004 |  |
+
+ 
+
+ 
+
+
+
 <a name="meshtrade_trading_direct_order_v1_direct_order-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
@@ -1775,15 +1924,48 @@ such as creating, updating, minting or burning it.
 
 
 
-<a name="meshtrade-wallet-account-v1-GetRequest"></a>
+<a name="meshtrade-wallet-account-v1-CreateRequest"></a>
 
-### GetRequest
-
+### CreateRequest
+CreateRequest contains the parameters for creating a new account.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| number | [string](#string) |  |  |
+| label | [string](#string) |  | A user-defined label for the new account, e.g., &#34;Primary Savings&#34;. |
+| ledger | [meshtrade.type.v1.Ledger](#meshtrade-type-v1-Ledger) |  | The ledger upon which the account should be created. |
+| open | [bool](#bool) |  | If true, the account will be opened immediately after creation, which may result in a transaction. |
+
+
+
+
+
+
+<a name="meshtrade-wallet-account-v1-CreateResponse"></a>
+
+### CreateResponse
+CreateResponse contains the newly created account.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| account | [Account](#meshtrade-wallet-account-v1-Account) |  | The newly created account object. |
+| transaction_id | [string](#string) |  | The ID of the account opening transaction. This field is only populated if &#39;open&#39; was set to true in the request. |
+
+
+
+
+
+
+<a name="meshtrade-wallet-account-v1-GetRequest"></a>
+
+### GetRequest
+GetRequest specifies which account to retrieve.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| number | [string](#string) |  | The unique account number to retrieve. |
 
 
 
@@ -1793,12 +1975,67 @@ such as creating, updating, minting or burning it.
 <a name="meshtrade-wallet-account-v1-GetResponse"></a>
 
 ### GetResponse
-
+GetResponse contains the requested account.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| account | [Account](#meshtrade-wallet-account-v1-Account) |  |  |
+| account | [Account](#meshtrade-wallet-account-v1-Account) |  | The retrieved account object. |
+
+
+
+
+
+
+<a name="meshtrade-wallet-account-v1-ListRequest"></a>
+
+### ListRequest
+ListRequest requires no parameters to list accounts for the caller.
+
+
+
+
+
+
+<a name="meshtrade-wallet-account-v1-ListResponse"></a>
+
+### ListResponse
+ListResponse contains a list of accounts.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| account | [Account](#meshtrade-wallet-account-v1-Account) | repeated | A list of accounts owned by the authenticated principal. |
+
+
+
+
+
+
+<a name="meshtrade-wallet-account-v1-SearchRequest"></a>
+
+### SearchRequest
+SearchRequest specifies the query for finding accounts.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| label | [string](#string) |  | A substring to search for within account labels. |
+
+
+
+
+
+
+<a name="meshtrade-wallet-account-v1-SearchResponse"></a>
+
+### SearchResponse
+SearchResponse contains the accounts that matched the search query.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| account | [Account](#meshtrade-wallet-account-v1-Account) | repeated | A list of accounts that matched the label search query. |
 
 
 
@@ -1814,11 +2051,14 @@ such as creating, updating, minting or burning it.
 <a name="meshtrade-wallet-account-v1-Service"></a>
 
 ### Service
-
+Service provides access to and management of wallet accounts.
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| Get | [GetRequest](#meshtrade-wallet-account-v1-GetRequest) | [GetResponse](#meshtrade-wallet-account-v1-GetResponse) |  |
+| Create | [CreateRequest](#meshtrade-wallet-account-v1-CreateRequest) | [CreateResponse](#meshtrade-wallet-account-v1-CreateResponse) | Creates a new wallet account. This is a write operation restricted to administrative roles. |
+| Get | [GetRequest](#meshtrade-wallet-account-v1-GetRequest) | [GetResponse](#meshtrade-wallet-account-v1-GetResponse) | Retrieves a single wallet account by its unique number. |
+| List | [ListRequest](#meshtrade-wallet-account-v1-ListRequest) | [ListResponse](#meshtrade-wallet-account-v1-ListResponse) | Retrieves a list of all accounts for the authenticated principal. |
+| Search | [SearchRequest](#meshtrade-wallet-account-v1-SearchRequest) | [SearchResponse](#meshtrade-wallet-account-v1-SearchResponse) | Searches for accounts based on a partial label match. |
 
  
 

@@ -22,21 +22,44 @@ _runtime_version.ValidateProtobufRuntimeVersion(
 _sym_db = _symbol_database.Default()
 
 
+from meshtrade.option.v1 import auth_pb2 as meshtrade_dot_option_dot_v1_dot_auth__pb2
+from meshtrade.option.v1 import service_type_pb2 as meshtrade_dot_option_dot_v1_dot_service__type__pb2
+from meshtrade.type.v1 import ledger_pb2 as meshtrade_dot_type_dot_v1_dot_ledger__pb2
 from meshtrade.wallet.account.v1 import account_pb2 as meshtrade_dot_wallet_dot_account_dot_v1_dot_account__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n)meshtrade/wallet/account/v1/service.proto\x12\x1bmeshtrade.wallet.account.v1\x1a)meshtrade/wallet/account/v1/account.proto\"$\n\nGetRequest\x12\x16\n\x06number\x18\x01 \x01(\tR\x06number\"M\n\x0bGetResponse\x12>\n\x07\x61\x63\x63ount\x18\x01 \x01(\x0b\x32$.meshtrade.wallet.account.v1.AccountR\x07\x61\x63\x63ount2c\n\x07Service\x12X\n\x03Get\x12\'.meshtrade.wallet.account.v1.GetRequest\x1a(.meshtrade.wallet.account.v1.GetResponseB9Z7github.com/meshtrade/api/go/wallet/account/v1;accountv1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n)meshtrade/wallet/account/v1/service.proto\x12\x1bmeshtrade.wallet.account.v1\x1a\x1emeshtrade/option/v1/auth.proto\x1a&meshtrade/option/v1/service_type.proto\x1a\x1emeshtrade/type/v1/ledger.proto\x1a)meshtrade/wallet/account/v1/account.proto\"l\n\rCreateRequest\x12\x14\n\x05label\x18\x01 \x01(\tR\x05label\x12\x31\n\x06ledger\x18\x02 \x01(\x0e\x32\x19.meshtrade.type.v1.LedgerR\x06ledger\x12\x12\n\x04open\x18\x03 \x01(\x08R\x04open\"w\n\x0e\x43reateResponse\x12>\n\x07\x61\x63\x63ount\x18\x01 \x01(\x0b\x32$.meshtrade.wallet.account.v1.AccountR\x07\x61\x63\x63ount\x12%\n\x0etransaction_id\x18\x02 \x01(\tR\rtransactionId\"$\n\nGetRequest\x12\x16\n\x06number\x18\x01 \x01(\tR\x06number\"M\n\x0bGetResponse\x12>\n\x07\x61\x63\x63ount\x18\x01 \x01(\x0b\x32$.meshtrade.wallet.account.v1.AccountR\x07\x61\x63\x63ount\"\r\n\x0bListRequest\"N\n\x0cListResponse\x12>\n\x07\x61\x63\x63ount\x18\x01 \x03(\x0b\x32$.meshtrade.wallet.account.v1.AccountR\x07\x61\x63\x63ount\"%\n\rSearchRequest\x12\x14\n\x05label\x18\x01 \x01(\tR\x05label\"P\n\x0eSearchResponse\x12>\n\x07\x61\x63\x63ount\x18\x01 \x03(\x0b\x32$.meshtrade.wallet.account.v1.AccountR\x07\x61\x63\x63ount2\xdb\x04\n\x07Service\x12\x95\x01\n\x06\x43reate\x12*.meshtrade.wallet.account.v1.CreateRequest\x1a+.meshtrade.wallet.account.v1.CreateResponse\"2\x92\xb5\x18*\n(meshtrade.wallet.account.v1.AccountAdmin\xa0\xb5\x18\x02\x12\x8b\x01\n\x03Get\x12\'.meshtrade.wallet.account.v1.GetRequest\x1a(.meshtrade.wallet.account.v1.GetResponse\"1\x8a\xb5\x18)\n\'meshtrade.wallet.account.v1.Service.Get\xa0\xb5\x18\x01\x12\x8f\x01\n\x04List\x12(.meshtrade.wallet.account.v1.ListRequest\x1a).meshtrade.wallet.account.v1.ListResponse\"2\x8a\xb5\x18*\n(meshtrade.wallet.account.v1.Service.List\xa0\xb5\x18\x01\x12\x97\x01\n\x06Search\x12*.meshtrade.wallet.account.v1.SearchRequest\x1a+.meshtrade.wallet.account.v1.SearchResponse\"4\x8a\xb5\x18,\n*meshtrade.wallet.account.v1.Service.Search\xa0\xb5\x18\x01\x42\xc3\x03Z7github.com/meshtrade/api/go/wallet/account/v1;accountv1\x9a\xb5\x18\x85\x03\n\xaa\x01\n)meshtrade.wallet.account.v1.AccountReader\x12\'meshtrade.wallet.account.v1.Service.Get\x12(meshtrade.wallet.account.v1.Service.List\x12*meshtrade.wallet.account.v1.Service.Search\n\xd5\x01\n(meshtrade.wallet.account.v1.AccountAdmin\x12*meshtrade.wallet.account.v1.Service.Create\x12\'meshtrade.wallet.account.v1.Service.Get\x12(meshtrade.wallet.account.v1.Service.List\x12*meshtrade.wallet.account.v1.Service.Searchb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'meshtrade.wallet.account.v1.service_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
-  _globals['DESCRIPTOR']._serialized_options = b'Z7github.com/meshtrade/api/go/wallet/account/v1;accountv1'
-  _globals['_GETREQUEST']._serialized_start=117
-  _globals['_GETREQUEST']._serialized_end=153
-  _globals['_GETRESPONSE']._serialized_start=155
-  _globals['_GETRESPONSE']._serialized_end=232
-  _globals['_SERVICE']._serialized_start=234
-  _globals['_SERVICE']._serialized_end=333
+  _globals['DESCRIPTOR']._serialized_options = b'Z7github.com/meshtrade/api/go/wallet/account/v1;accountv1\232\265\030\205\003\n\252\001\n)meshtrade.wallet.account.v1.AccountReader\022\'meshtrade.wallet.account.v1.Service.Get\022(meshtrade.wallet.account.v1.Service.List\022*meshtrade.wallet.account.v1.Service.Search\n\325\001\n(meshtrade.wallet.account.v1.AccountAdmin\022*meshtrade.wallet.account.v1.Service.Create\022\'meshtrade.wallet.account.v1.Service.Get\022(meshtrade.wallet.account.v1.Service.List\022*meshtrade.wallet.account.v1.Service.Search'
+  _globals['_SERVICE'].methods_by_name['Create']._loaded_options = None
+  _globals['_SERVICE'].methods_by_name['Create']._serialized_options = b'\222\265\030*\n(meshtrade.wallet.account.v1.AccountAdmin\240\265\030\002'
+  _globals['_SERVICE'].methods_by_name['Get']._loaded_options = None
+  _globals['_SERVICE'].methods_by_name['Get']._serialized_options = b'\212\265\030)\n\'meshtrade.wallet.account.v1.Service.Get\240\265\030\001'
+  _globals['_SERVICE'].methods_by_name['List']._loaded_options = None
+  _globals['_SERVICE'].methods_by_name['List']._serialized_options = b'\212\265\030*\n(meshtrade.wallet.account.v1.Service.List\240\265\030\001'
+  _globals['_SERVICE'].methods_by_name['Search']._loaded_options = None
+  _globals['_SERVICE'].methods_by_name['Search']._serialized_options = b'\212\265\030,\n*meshtrade.wallet.account.v1.Service.Search\240\265\030\001'
+  _globals['_CREATEREQUEST']._serialized_start=221
+  _globals['_CREATEREQUEST']._serialized_end=329
+  _globals['_CREATERESPONSE']._serialized_start=331
+  _globals['_CREATERESPONSE']._serialized_end=450
+  _globals['_GETREQUEST']._serialized_start=452
+  _globals['_GETREQUEST']._serialized_end=488
+  _globals['_GETRESPONSE']._serialized_start=490
+  _globals['_GETRESPONSE']._serialized_end=567
+  _globals['_LISTREQUEST']._serialized_start=569
+  _globals['_LISTREQUEST']._serialized_end=582
+  _globals['_LISTRESPONSE']._serialized_start=584
+  _globals['_LISTRESPONSE']._serialized_end=662
+  _globals['_SEARCHREQUEST']._serialized_start=664
+  _globals['_SEARCHREQUEST']._serialized_end=701
+  _globals['_SEARCHRESPONSE']._serialized_start=703
+  _globals['_SEARCHRESPONSE']._serialized_end=783
+  _globals['_SERVICE']._serialized_start=786
+  _globals['_SERVICE']._serialized_end=1389
 # @@protoc_insertion_point(module_scope)
