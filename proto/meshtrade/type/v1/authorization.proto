@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package meshtrade.api.type.v1;
+
+import "google/protobuf/descriptor.proto";
+
+/*
+   StandardRole defines a named collection of permissions.
+   This allows for the creation of business-level roles (e.g., "AccountReader", "AccountAdmin")
+   that group a set of granular, string-based permissions. Roles are
+   defined at the file level in a service's `.proto` file.
+*/
+message StandardRole {
+  /*
+     The unique name of the role, e.g., "AccountAdmin".
+  */
+  string name = 1;
+
+  /*
+     The list of permissions this role contains.
+     Each string corresponds to a full gRPC method path,
+     e.g., "meshtrade.wallet.account.v1.Service/GetAccount".
+  */
+  repeated string permissions = 2;
+}
+
+/*
+   A method-level option to explicitly list the permissions required to call an RPC.
+   This overrides the default behavior where the required permission is derived
+   from the method's full path. It is useful for granting access to a method
+   without creating a full role, or for methods that require multiple specific
+   permissions.
+*/
+extend google.protobuf.MethodOptions {
+  repeated string required_permissions = 50001;
+}
+
+/*
+   A method-level option to restrict an RPC to specific standard roles.
+
+   If this option is present on a method, a user must have one of the listed
+   roles to gain access. This takes precedence over any granular permission checks
+   and is the preferred way to protect highly sensitive or administrative endpoints.
+*/
+extend google.protobuf.MethodOptions {
+  repeated string required_roles = 50002;
+}
+
+/*
+   A file-level option to define a list of standard roles for a service domain.
+
+   This is used at the top of a `service.proto` file to declare all the
+   standard business roles relevant to that service, making the authorization
+   model for the service self-contained and easy to discover.
+*/
+extend google.protobuf.FileOptions {
+  repeated StandardRole standard_roles = 50003;
+}
