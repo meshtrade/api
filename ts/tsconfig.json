@@ -2,6 +2,10 @@
   "compilerOptions": {
     "module": "node16",
     "target": "ES6",
+    "lib": [
+      "ES2017",
+      "DOM"
+    ],    
     "moduleResolution": "node16",
     "declaration": true,
     "outDir": "./dist",

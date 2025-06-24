@@ -1,48 +1,35 @@
 {
-  "name": "@mesh/ts-api",
-  "version": "1.0.0",
+  "name": "@meshtrade/api",
+  "version": "0.0.1",
+  "description": "Mesh Typescript SDK",
+  "author": "Bernard Bussy <bernard@meshtrade.co>",
+  "keywords": [
+    "api",
+    "meshtrade",
+    "sdk"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/meshtrade/api.git"
+  },
+  "homepage": "https://meshtrade.github.io/api",
   "type": "commonjs",
   "exports": {
-    "./instrument/fee": {
-      "types": "./dist/instrument/fee/index.d.ts",
-      "require": "./dist/instrument/fee/index.js",
-      "import": "./dist/instrument/fee/index.js"
-    },
-    "./num": {
-      "types": "./dist/num/index.d.ts",
-      "require": "./dist/num/index.js",
-      "import": "./dist/num/index.js"
-    },
-    "./ledger": {
-      "types": "./dist/ledger/index.d.ts",
-      "require": "./dist/ledger/index.js",
-      "import": "./dist/ledger/index.js"
-    },
-    "./sdk": {
-      "types": "./dist/sdk/index.d.ts",
-      "require": "./dist/sdk/index.js",
-      "import": "./dist/sdk/index.js"
-    },
-    "./search": {
-      "types": "./dist/search/index.d.ts",
-      "require": "./dist/search/index.js",
-      "import": "./dist/search/index.js"
-    },
-    "./config": {
-      "types": "./dist/config/index.d.ts",
-      "require": "./dist/config/index.js",
-      "import": "./dist/config/index.js"
-    },
+    "./type/v1": {
+      "types": "./dist/meshtrade/type/v1/index.d.ts",
+      "require": "./dist/meshtrade/type/v1/index.js",
+      "import": "./dist/meshtrade/type/v1/index.js"
+    },    
     "./*": {
-      "types": "./dist/*.d.ts",
-      "require": "./dist/*.js",
-      "import": "./dist/*.js"
+      "types": "./dist/meshtrade/*.d.ts",
+      "require": "./dist/meshtrade/*.js",
+      "import": "./dist/meshtrade/*.js"
     }
   },
   "typesVersions": {
     "*": {
       "*": [
-        "dist/*"
+        "dist/meshtrade/*"
       ]
     }
   },
@@ -50,9 +37,7 @@
     "dist"
   ],
   "dependencies": {
-    "@bufbuild/protobuf": "^2.5.1",
-    "@connectrpc/connect": "^2.0.2",
-    "@connectrpc/connect-web": "^2.0.2",
+    "bignumber.js": "^9.3.0",
     "google-protobuf": "^3.21.4",
     "grpc-web": "^1.5.0"
   },
@@ -60,7 +45,10 @@
     "typescript": "^5.2.2"
   },
   "scripts": {
-    "build": "tsc",
-    "test:ci": "react-scripts test --ci --watchAll=false --passWithNoTests"
-  }
+    "build": "tsc"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

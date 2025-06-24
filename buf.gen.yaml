@@ -22,6 +22,17 @@ plugins:
   - remote: buf.build/protocolbuffers/pyi:v31.1
     out: ./python/src
 
+### TS ###
+  - remote: buf.build/protocolbuffers/js:v3.21.4
+    out: ./ts/src
+    opt:
+      - import_style=commonjs,binary
+  - remote: buf.build/grpc/web:v1.5.0
+    out: ./ts/src
+    opt:
+      - import_style=commonjs+dts
+      - mode=grpcweb
+
 # ### REST API Gateway ###
 #   - remote: buf.build/grpc-ecosystem/gateway:v2.26.3
 #     out: .
@@ -33,14 +44,3 @@ plugins:
     out: proto
     opt:
       - markdown,api_doc.md
-
-managed:
-  enabled: true
-  override:
-    - file_option: go_package_prefix
-      value: github.com/bufbuild/buf-examples/protovalidate/quickstart-go/start/gen
-  # Don't modify any file option or field option for protovalidate. Without
-  # this, generated Go will fail to compile.
-  disable:
-    - file_option: go_package
-      module: buf.build/bufbuild/protovalidate
