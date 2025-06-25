@@ -21,20 +21,24 @@ echo "🧹 Cleaning Python generated files..."
 find ./python/src/meshtrade \
   \( -name '*_pb2*.py*' \) \
   -print0 | xargs -0 -P 4 -n 1 rm $VERBOSE_FLAG
+echo
 
 echo "🧹 Cleaning Js + Ts generated files..."
 rm -rf ./ts/dist
 find ./ts/src \
   \( -name '*pb.d.ts' -o -name '*pb.js' -o -name '*Pb.ts' \) \
   -print0 | xargs -0 -P 4 -n 1 rm $VERBOSE_FLAG
+echo  
 
 echo "🚀 Generating new files from protobuf definitions..."
 buf generate
+echo
 
 echo "⚙️ Typescript Library Build..."
 cd ts
 yarn build
 cd ..
+echo
 
 echo "############################################################"
 echo "#                                                          #"

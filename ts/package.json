@@ -35,13 +35,25 @@
       "types": "./dist/meshtrade/ledger/transaction/v1/index.d.ts",
       "require": "./dist/meshtrade/ledger/transaction/v1/index.js"
     },
+    "./trading/direct_order/v1": {
+      "types": "./dist/meshtrade/trading/direct_order/v1/index.d.ts",
+      "require": "./dist/meshtrade/trading/direct_order/v1/index.js"
+    },
+    "./trading/limit_order/v1": {
+      "types": "./dist/meshtrade/trading/limit_order/v1/index.d.ts",
+      "require": "./dist/meshtrade/trading/limit_order/v1/index.js"
+    },
+    "./trading/spot/v1": {
+      "types": "./dist/meshtrade/trading/spot/v1/index.d.ts",
+      "require": "./dist/meshtrade/trading/spot/v1/index.js"
+    },
+    "./wallet/account/v1": {
+      "types": "./dist/meshtrade/wallet/account/v1/index.d.ts",
+      "require": "./dist/meshtrade/wallet/account/v1/index.js"
+    },
     "./type/v1": {
       "types": "./dist/meshtrade/type/v1/index.d.ts",
       "require": "./dist/meshtrade/type/v1/index.js"
-    },
-    "./*": {
-      "types": "./dist/meshtrade/*.d.ts",
-      "require": "./dist/meshtrade/*.js"
     }
   },
   "files": [
