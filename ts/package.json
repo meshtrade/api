@@ -67,10 +67,15 @@
     "grpc-web": "^1.5.0"
   },
   "devDependencies": {
+    "copyfiles": "^2.4.1",
+    "rimraf": "^6.0.1",
     "typescript": "^5.2.2"
   },
   "scripts": {
-    "build": "tsc"
+    "clean": "rimraf ./dist",
+    "copy-proto": "copyfiles -u 1 \"src/**/*.js\" \"src/**/*.d.ts\" dist",
+    "build:ts": "tsc",
+    "build": "yarn run clean && yarn run copy-proto && yarn run build:ts"
   },
   "publishConfig": {
     "access": "public"
