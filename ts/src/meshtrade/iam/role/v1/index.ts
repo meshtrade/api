@@ -1,2 +1,4 @@
-export {Role} from "./role_pb";
-export {Permission} from "./permission_pb";
+export * from "./permission_pb";
+export * from "./role_pb";
+export * from "./service_grpc_web_pb";
+export * from "./service_pb";
