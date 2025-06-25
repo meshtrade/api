@@ -14,3 +14,4 @@ export * from "./source_of_income_and_wealth_pb";
 export * from "./tax_residency_pb";
 export * from "./trust_pb";
 export * from "./verification_status_pb";
+export * from "./client_grpc_web";
