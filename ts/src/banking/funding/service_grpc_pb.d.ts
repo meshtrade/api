@@ -17,6 +17,7 @@ interface IServiceService extends grpc.ServiceDefinition<grpc.UntypedServiceImpl
     get: IServiceService_IGet;
     settle: IServiceService_ISettle;
     cancel: IServiceService_ICancel;
+    resolveState: IServiceService_IResolveState;
 }
 
 interface IServiceService_ICreate extends grpc.MethodDefinition<api_proto_banking_funding_service_pb.CreateRequest, api_proto_banking_funding_service_pb.CreateResponse> {
@@ -73,6 +74,15 @@ interface IServiceService_ICancel extends grpc.MethodDefinition<api_proto_bankin
     responseSerialize: grpc.serialize<api_proto_banking_funding_service_pb.CancelResponse>;
     responseDeserialize: grpc.deserialize<api_proto_banking_funding_service_pb.CancelResponse>;
 }
+interface IServiceService_IResolveState extends grpc.MethodDefinition<api_proto_banking_funding_service_pb.ResolveStateRequest, api_proto_banking_funding_service_pb.ResolveStateResponse> {
+    path: "/api.banking.funding.Service/ResolveState";
+    requestStream: false;
+    responseStream: false;
+    requestSerialize: grpc.serialize<api_proto_banking_funding_service_pb.ResolveStateRequest>;
+    requestDeserialize: grpc.deserialize<api_proto_banking_funding_service_pb.ResolveStateRequest>;
+    responseSerialize: grpc.serialize<api_proto_banking_funding_service_pb.ResolveStateResponse>;
+    responseDeserialize: grpc.deserialize<api_proto_banking_funding_service_pb.ResolveStateResponse>;
+}
 
 export const ServiceService: IServiceService;
 
@@ -83,6 +93,7 @@ export interface IServiceServer extends grpc.UntypedServiceImplementation {
     get: grpc.handleUnaryCall<api_proto_banking_funding_service_pb.GetRequest, api_proto_banking_funding_service_pb.GetResponse>;
     settle: grpc.handleUnaryCall<api_proto_banking_funding_service_pb.SettleRequest, api_proto_banking_funding_service_pb.SettleResponse>;
     cancel: grpc.handleUnaryCall<api_proto_banking_funding_service_pb.CancelRequest, api_proto_banking_funding_service_pb.CancelResponse>;
+    resolveState: grpc.handleUnaryCall<api_proto_banking_funding_service_pb.ResolveStateRequest, api_proto_banking_funding_service_pb.ResolveStateResponse>;
 }
 
 export interface IServiceClient {
@@ -104,6 +115,9 @@ export interface IServiceClient {
     cancel(request: api_proto_banking_funding_service_pb.CancelRequest, callback: (error: grpc.ServiceError | null, response: api_proto_banking_funding_service_pb.CancelResponse) => void): grpc.ClientUnaryCall;
     cancel(request: api_proto_banking_funding_service_pb.CancelRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: api_proto_banking_funding_service_pb.CancelResponse) => void): grpc.ClientUnaryCall;
     cancel(request: api_proto_banking_funding_service_pb.CancelRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: api_proto_banking_funding_service_pb.CancelResponse) => void): grpc.ClientUnaryCall;
+    resolveState(request: api_proto_banking_funding_service_pb.ResolveStateRequest, callback: (error: grpc.ServiceError | null, response: api_proto_banking_funding_service_pb.ResolveStateResponse) => void): grpc.ClientUnaryCall;
+    resolveState(request: api_proto_banking_funding_service_pb.ResolveStateRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: api_proto_banking_funding_service_pb.ResolveStateResponse) => void): grpc.ClientUnaryCall;
+    resolveState(request: api_proto_banking_funding_service_pb.ResolveStateRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: api_proto_banking_funding_service_pb.ResolveStateResponse) => void): grpc.ClientUnaryCall;
 }
 
 export class ServiceClient extends grpc.Client implements IServiceClient {
@@ -126,4 +140,7 @@ export class ServiceClient extends grpc.Client implements IServiceClient {
     public cancel(request: api_proto_banking_funding_service_pb.CancelRequest, callback: (error: grpc.ServiceError | null, response: api_proto_banking_funding_service_pb.CancelResponse) => void): grpc.ClientUnaryCall;
     public cancel(request: api_proto_banking_funding_service_pb.CancelRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: api_proto_banking_funding_service_pb.CancelResponse) => void): grpc.ClientUnaryCall;
     public cancel(request: api_proto_banking_funding_service_pb.CancelRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: api_proto_banking_funding_service_pb.CancelResponse) => void): grpc.ClientUnaryCall;
+    public resolveState(request: api_proto_banking_funding_service_pb.ResolveStateRequest, callback: (error: grpc.ServiceError | null, response: api_proto_banking_funding_service_pb.ResolveStateResponse) => void): grpc.ClientUnaryCall;
+    public resolveState(request: api_proto_banking_funding_service_pb.ResolveStateRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: api_proto_banking_funding_service_pb.ResolveStateResponse) => void): grpc.ClientUnaryCall;
+    public resolveState(request: api_proto_banking_funding_service_pb.ResolveStateRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: api_proto_banking_funding_service_pb.ResolveStateResponse) => void): grpc.ClientUnaryCall;
 }

@@ -19,6 +19,8 @@ type Service interface {
 	Settle(ctx context.Context, request *SettleRequest) (*SettleResponse, error)
 
 	Cancel(ctx context.Context, request *CancelRequest) (*CancelResponse, error)
+
+	ResolveState(ctx context.Context, request *ResolveStateRequest) (*ResolveStateResponse, error)
 }
 
 const ServiceServiceProviderName = "api-banking-funding-Service"

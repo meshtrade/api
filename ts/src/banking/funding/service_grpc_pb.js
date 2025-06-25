@@ -95,6 +95,28 @@ function deserialize_api_banking_funding_ListResponse(buffer_arg) {
   return api_proto_banking_funding_service_pb.ListResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_api_banking_funding_ResolveStateRequest(arg) {
+  if (!(arg instanceof api_proto_banking_funding_service_pb.ResolveStateRequest)) {
+    throw new Error('Expected argument of type api.banking.funding.ResolveStateRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_api_banking_funding_ResolveStateRequest(buffer_arg) {
+  return api_proto_banking_funding_service_pb.ResolveStateRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_api_banking_funding_ResolveStateResponse(arg) {
+  if (!(arg instanceof api_proto_banking_funding_service_pb.ResolveStateResponse)) {
+    throw new Error('Expected argument of type api.banking.funding.ResolveStateResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_api_banking_funding_ResolveStateResponse(buffer_arg) {
+  return api_proto_banking_funding_service_pb.ResolveStateResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_api_banking_funding_SettleRequest(arg) {
   if (!(arg instanceof api_proto_banking_funding_service_pb.SettleRequest)) {
     throw new Error('Expected argument of type api.banking.funding.SettleRequest');
@@ -210,6 +232,17 @@ var ServiceService = exports.ServiceService = {
     requestDeserialize: deserialize_api_banking_funding_CancelRequest,
     responseSerialize: serialize_api_banking_funding_CancelResponse,
     responseDeserialize: deserialize_api_banking_funding_CancelResponse,
+  },
+  resolveState: {
+    path: '/api.banking.funding.Service/ResolveState',
+    requestStream: false,
+    responseStream: false,
+    requestType: api_proto_banking_funding_service_pb.ResolveStateRequest,
+    responseType: api_proto_banking_funding_service_pb.ResolveStateResponse,
+    requestSerialize: serialize_api_banking_funding_ResolveStateRequest,
+    requestDeserialize: deserialize_api_banking_funding_ResolveStateRequest,
+    responseSerialize: serialize_api_banking_funding_ResolveStateResponse,
+    responseDeserialize: deserialize_api_banking_funding_ResolveStateResponse,
   },
 };
 

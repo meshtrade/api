@@ -49,6 +49,13 @@ var (
 		Description:     "Provides permission to call the Service.Cancel method",
 	}
 
+	// ResolveStatePermission provides permission to call the ResolveState method on the Service service provider
+	ResolveStatePermission = &role.Permission{
+		ServiceProvider: ServiceServiceProviderName,
+		Service:         "ResolveState",
+		Description:     "Provides permission to call the Service.ResolveState method",
+	}
+
 	// ServiceReaderRole contains read only service permissions for the Service
 	ServiceReaderRole = role.Role{
 		Name: "ServiceReader",
@@ -68,6 +75,7 @@ var (
 			GetPermission,
 			SettlePermission,
 			CancelPermission,
+			ResolveStatePermission,
 		},
 	}
 )

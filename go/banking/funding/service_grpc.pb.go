@@ -19,12 +19,13 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Service_Create_FullMethodName = "/api.banking.funding.Service/Create"
-	Service_Update_FullMethodName = "/api.banking.funding.Service/Update"
-	Service_List_FullMethodName   = "/api.banking.funding.Service/List"
-	Service_Get_FullMethodName    = "/api.banking.funding.Service/Get"
-	Service_Settle_FullMethodName = "/api.banking.funding.Service/Settle"
-	Service_Cancel_FullMethodName = "/api.banking.funding.Service/Cancel"
+	Service_Create_FullMethodName       = "/api.banking.funding.Service/Create"
+	Service_Update_FullMethodName       = "/api.banking.funding.Service/Update"
+	Service_List_FullMethodName         = "/api.banking.funding.Service/List"
+	Service_Get_FullMethodName          = "/api.banking.funding.Service/Get"
+	Service_Settle_FullMethodName       = "/api.banking.funding.Service/Settle"
+	Service_Cancel_FullMethodName       = "/api.banking.funding.Service/Cancel"
+	Service_ResolveState_FullMethodName = "/api.banking.funding.Service/ResolveState"
 )
 
 // ServiceClient is the client API for Service service.
@@ -39,6 +40,7 @@ type ServiceClient interface {
 	Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error)
 	Settle(ctx context.Context, in *SettleRequest, opts ...grpc.CallOption) (*SettleResponse, error)
 	Cancel(ctx context.Context, in *CancelRequest, opts ...grpc.CallOption) (*CancelResponse, error)
+	ResolveState(ctx context.Context, in *ResolveStateRequest, opts ...grpc.CallOption) (*ResolveStateResponse, error)
 }
 
 type serviceClient struct {
@@ -109,6 +111,16 @@ func (c *serviceClient) Cancel(ctx context.Context, in *CancelRequest, opts ...g
 	return out, nil
 }
 
+func (c *serviceClient) ResolveState(ctx context.Context, in *ResolveStateRequest, opts ...grpc.CallOption) (*ResolveStateResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ResolveStateResponse)
+	err := c.cc.Invoke(ctx, Service_ResolveState_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ServiceServer is the server API for Service service.
 // All implementations must embed UnimplementedServiceServer
 // for forward compatibility.
@@ -121,6 +133,7 @@ type ServiceServer interface {
 	Get(context.Context, *GetRequest) (*GetResponse, error)
 	Settle(context.Context, *SettleRequest) (*SettleResponse, error)
 	Cancel(context.Context, *CancelRequest) (*CancelResponse, error)
+	ResolveState(context.Context, *ResolveStateRequest) (*ResolveStateResponse, error)
 	mustEmbedUnimplementedServiceServer()
 }
 
@@ -148,6 +161,9 @@ func (UnimplementedServiceServer) Settle(context.Context, *SettleRequest) (*Sett
 }
 func (UnimplementedServiceServer) Cancel(context.Context, *CancelRequest) (*CancelResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Cancel not implemented")
+}
+func (UnimplementedServiceServer) ResolveState(context.Context, *ResolveStateRequest) (*ResolveStateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ResolveState not implemented")
 }
 func (UnimplementedServiceServer) mustEmbedUnimplementedServiceServer() {}
 func (UnimplementedServiceServer) testEmbeddedByValue()                 {}
@@ -278,6 +294,24 @@ func _Service_Cancel_Handler(srv interface{}, ctx context.Context, dec func(inte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Service_ResolveState_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ResolveStateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ServiceServer).ResolveState(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Service_ResolveState_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ServiceServer).ResolveState(ctx, req.(*ResolveStateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Service_ServiceDesc is the grpc.ServiceDesc for Service service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -308,6 +342,10 @@ var Service_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Cancel",
 			Handler:    _Service_Cancel_Handler,
+		},
+		{
+			MethodName: "ResolveState",
+			Handler:    _Service_ResolveState_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

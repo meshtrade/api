@@ -88,3 +88,17 @@ func (r *CancelRequest) Validate() error {
 
 	return nil
 }
+
+func (r *ResolveStateRequest) Validate() error {
+	reasons := []string{}
+
+	if r.FundingNumber == "" {
+		reasons = append(reasons, "FundingNumber is required")
+	}
+
+	if len(reasons) > 0 {
+		return fmt.Errorf("validation failed: %s ", strings.Join(reasons, "; "))
+	}
+
+	return nil
+}

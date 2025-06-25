@@ -87,3 +87,15 @@ class CancelResponse(_message.Message):
     FUNDING_FIELD_NUMBER: _ClassVar[int]
     funding: _funding_pb2.Funding
     def __init__(self, funding: _Optional[_Union[_funding_pb2.Funding, _Mapping]] = ...) -> None: ...
+
+class ResolveStateRequest(_message.Message):
+    __slots__ = ("fundingNumber",)
+    FUNDINGNUMBER_FIELD_NUMBER: _ClassVar[int]
+    fundingNumber: str
+    def __init__(self, fundingNumber: _Optional[str] = ...) -> None: ...
+
+class ResolveStateResponse(_message.Message):
+    __slots__ = ("funding",)
+    FUNDING_FIELD_NUMBER: _ClassVar[int]
+    funding: _funding_pb2.Funding
+    def __init__(self, funding: _Optional[_Union[_funding_pb2.Funding, _Mapping]] = ...) -> None: ...

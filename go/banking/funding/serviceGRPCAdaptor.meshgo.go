@@ -139,3 +139,20 @@ func (g *ServiceGRPCAdaptor) Cancel(ctx context.Context, request *CancelRequest)
 
 	return cancelResponse, nil
 }
+
+// ResolveState exposes the ResolveState method of the given implementation of the Service interface over gRPC
+func (g *ServiceGRPCAdaptor) ResolveState(ctx context.Context, request *ResolveStateRequest) (*ResolveStateResponse, error) {
+	ctx, span := g.tracer.Start(
+		ctx,
+		ServiceServiceProviderName+"GRPCAdaptor.ResolveState",
+	)
+	defer span.End()
+
+	// call given implementation of the adapted service provider interface
+	resolveStateResponse, err := g.service.ResolveState(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+
+	return resolveStateResponse, nil
+}

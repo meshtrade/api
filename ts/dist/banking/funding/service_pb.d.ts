@@ -292,3 +292,46 @@ export namespace CancelResponse {
         funding?: api_proto_banking_funding_funding_pb.Funding.AsObject,
     }
 }
+
+export class ResolveStateRequest extends jspb.Message { 
+    getFundingnumber(): string;
+    setFundingnumber(value: string): ResolveStateRequest;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): ResolveStateRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: ResolveStateRequest): ResolveStateRequest.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: ResolveStateRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): ResolveStateRequest;
+    static deserializeBinaryFromReader(message: ResolveStateRequest, reader: jspb.BinaryReader): ResolveStateRequest;
+}
+
+export namespace ResolveStateRequest {
+    export type AsObject = {
+        fundingnumber: string,
+    }
+}
+
+export class ResolveStateResponse extends jspb.Message { 
+
+    hasFunding(): boolean;
+    clearFunding(): void;
+    getFunding(): api_proto_banking_funding_funding_pb.Funding | undefined;
+    setFunding(value?: api_proto_banking_funding_funding_pb.Funding): ResolveStateResponse;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): ResolveStateResponse.AsObject;
+    static toObject(includeInstance: boolean, msg: ResolveStateResponse): ResolveStateResponse.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: ResolveStateResponse, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): ResolveStateResponse;
+    static deserializeBinaryFromReader(message: ResolveStateResponse, reader: jspb.BinaryReader): ResolveStateResponse;
+}
+
+export namespace ResolveStateResponse {
+    export type AsObject = {
+        funding?: api_proto_banking_funding_funding_pb.Funding.AsObject,
+    }
+}

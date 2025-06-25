@@ -130,3 +130,20 @@ func (g *GRPCClientService) Cancel(ctx context.Context, request *CancelRequest) 
 
 	return cancelResponse, nil
 }
+
+func (g *GRPCClientService) ResolveState(ctx context.Context, request *ResolveStateRequest) (*ResolveStateResponse, error) {
+	ctx, span := g.tracer.Start(
+		ctx,
+		ServiceServiceProviderName+"ResolveState",
+	)
+	defer span.End()
+
+	// call given implementation of the adapted service provider interface
+	resolveStateResponse, err := g.grpcClient.ResolveState(ctx, request)
+	if err != nil {
+		log.Ctx(ctx).Error().Err(err).Msg("could not ResolveState")
+		return nil, fmt.Errorf("could not ResolveState: %s", err)
+	}
+
+	return resolveStateResponse, nil
+}

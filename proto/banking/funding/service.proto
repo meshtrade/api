@@ -19,6 +19,7 @@ service Service {
   rpc Get(GetRequest) returns (GetResponse);
   rpc Settle(SettleRequest) returns (SettleResponse);
   rpc Cancel(CancelRequest) returns (CancelResponse);
+  rpc ResolveState(ResolveStateRequest) returns (ResolveStateResponse);
 }
 
 /*
@@ -140,7 +141,7 @@ CancelRequest is the Settle method request on the Funding Service.
 */
 message CancelRequest {
   /*
-  FundingNumber is the identifier of the funding to be settled.
+  FundingNumber is the identifier of the funding to be cancelled.
   */
   string fundingNumber = 1;
   /*
@@ -155,6 +156,26 @@ SettleResponse is the Settle method response on the Funding Service.
 message CancelResponse {
   /*
   Funding is the funding that was settled.
+  */
+  api.banking.funding.Funding funding = 1;
+}
+
+/*
+ResolveStateRequest is the Resolve state method request on the Funding Service.
+*/
+message ResolveStateRequest {
+  /*
+  FundingNumber is the identifier of the funding to be resolved.
+  */
+  string fundingNumber = 1;
+}
+
+/*
+ResolveStateResponse is the Resolve state method response on the Funding Service.
+*/
+message ResolveStateResponse {
+  /*
+  Funding is the funding that was resolved.
   */
   api.banking.funding.Funding funding = 1;
 }

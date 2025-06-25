@@ -13,20 +13,22 @@ var _ Service = &MockService{}
 
 // MockService is a mock implementation of the Service interface.
 type MockService struct {
-	mutex                 sync.Mutex
-	T                     *testing.T
-	CreateFunc            func(t *testing.T, m *MockService, ctx context.Context, request *CreateRequest) (*CreateResponse, error)
-	CreateFuncInvocations int
-	UpdateFunc            func(t *testing.T, m *MockService, ctx context.Context, request *UpdateRequest) (*UpdateResponse, error)
-	UpdateFuncInvocations int
-	ListFunc              func(t *testing.T, m *MockService, ctx context.Context, request *ListRequest) (*ListResponse, error)
-	ListFuncInvocations   int
-	GetFunc               func(t *testing.T, m *MockService, ctx context.Context, request *GetRequest) (*GetResponse, error)
-	GetFuncInvocations    int
-	SettleFunc            func(t *testing.T, m *MockService, ctx context.Context, request *SettleRequest) (*SettleResponse, error)
-	SettleFuncInvocations int
-	CancelFunc            func(t *testing.T, m *MockService, ctx context.Context, request *CancelRequest) (*CancelResponse, error)
-	CancelFuncInvocations int
+	mutex                       sync.Mutex
+	T                           *testing.T
+	CreateFunc                  func(t *testing.T, m *MockService, ctx context.Context, request *CreateRequest) (*CreateResponse, error)
+	CreateFuncInvocations       int
+	UpdateFunc                  func(t *testing.T, m *MockService, ctx context.Context, request *UpdateRequest) (*UpdateResponse, error)
+	UpdateFuncInvocations       int
+	ListFunc                    func(t *testing.T, m *MockService, ctx context.Context, request *ListRequest) (*ListResponse, error)
+	ListFuncInvocations         int
+	GetFunc                     func(t *testing.T, m *MockService, ctx context.Context, request *GetRequest) (*GetResponse, error)
+	GetFuncInvocations          int
+	SettleFunc                  func(t *testing.T, m *MockService, ctx context.Context, request *SettleRequest) (*SettleResponse, error)
+	SettleFuncInvocations       int
+	CancelFunc                  func(t *testing.T, m *MockService, ctx context.Context, request *CancelRequest) (*CancelResponse, error)
+	CancelFuncInvocations       int
+	ResolveStateFunc            func(t *testing.T, m *MockService, ctx context.Context, request *ResolveStateRequest) (*ResolveStateResponse, error)
+	ResolveStateFuncInvocations int
 }
 
 func (m *MockService) Create(ctx context.Context, request *CreateRequest) (*CreateResponse, error) {
@@ -87,4 +89,14 @@ func (m *MockService) Cancel(ctx context.Context, request *CancelRequest) (*Canc
 		return nil, nil
 	}
 	return m.CancelFunc(m.T, m, ctx, request)
+}
+
+func (m *MockService) ResolveState(ctx context.Context, request *ResolveStateRequest) (*ResolveStateResponse, error) {
+	m.mutex.Lock()
+	m.ResolveStateFuncInvocations++
+	m.mutex.Unlock()
+	if m.ResolveStateFunc == nil {
+		return nil, nil
+	}
+	return m.ResolveStateFunc(m.T, m, ctx, request)
 }

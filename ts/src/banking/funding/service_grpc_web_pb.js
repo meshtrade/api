@@ -448,5 +448,66 @@ proto.api.banking.funding.ServicePromiseClient.prototype.cancel =
 };
 
 
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.api.banking.funding.ResolveStateRequest,
+ *   !proto.api.banking.funding.ResolveStateResponse>}
+ */
+const methodDescriptor_Service_ResolveState = new grpc.web.MethodDescriptor(
+  '/api.banking.funding.Service/ResolveState',
+  grpc.web.MethodType.UNARY,
+  proto.api.banking.funding.ResolveStateRequest,
+  proto.api.banking.funding.ResolveStateResponse,
+  /**
+   * @param {!proto.api.banking.funding.ResolveStateRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.api.banking.funding.ResolveStateResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.api.banking.funding.ResolveStateRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.api.banking.funding.ResolveStateResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.api.banking.funding.ResolveStateResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.api.banking.funding.ServiceClient.prototype.resolveState =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/api.banking.funding.Service/ResolveState',
+      request,
+      metadata || {},
+      methodDescriptor_Service_ResolveState,
+      callback);
+};
+
+
+/**
+ * @param {!proto.api.banking.funding.ResolveStateRequest} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.api.banking.funding.ResolveStateResponse>}
+ *     Promise that resolves to the response
+ */
+proto.api.banking.funding.ServicePromiseClient.prototype.resolveState =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/api.banking.funding.Service/ResolveState',
+      request,
+      metadata || {},
+      methodDescriptor_Service_ResolveState);
+};
+
+
 module.exports = proto.api.banking.funding;
 
