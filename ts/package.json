@@ -17,45 +17,31 @@
   "exports": {
     "./compliance/client/v1": {
       "types": "./dist/meshtrade/compliance/client/v1/index.d.ts",
-      "require": "./dist/meshtrade/compliance/client/v1/index.js",
-      "import": "./dist/meshtrade/compliance/client/v1/index.js"
+      "require": "./dist/meshtrade/compliance/client/v1/index.js"
     },
     "./iam/role/v1": {
       "types": "./dist/meshtrade/iam/role/v1/index.d.ts",
-      "require": "./dist/meshtrade/iam/role/v1/index.js",
-      "import": "./dist/meshtrade/iam/role/v1/index.js"
+      "require": "./dist/meshtrade/iam/role/v1/index.js"
     },
     "./iam/group/v1": {
       "types": "./dist/meshtrade/iam/group/v1/index.d.ts",
-      "require": "./dist/meshtrade/iam/group/v1/index.js",
-      "import": "./dist/meshtrade/iam/group/v1/index.js"
+      "require": "./dist/meshtrade/iam/group/v1/index.js"
     },
     "./issuance_hub/instrument/v1": {
       "types": "./dist/meshtrade/issuance_hub/instrument/v1/index.d.ts",
-      "require": "./dist/meshtrade/issuance_hub/instrument/v1/index.js",
-      "import": "./dist/meshtrade/issuance_hub/instrument/v1/index.js"
+      "require": "./dist/meshtrade/issuance_hub/instrument/v1/index.js"
     },
     "./ledger/transaction/v1": {
       "types": "./dist/meshtrade/ledger/transaction/v1/index.d.ts",
-      "require": "./dist/meshtrade/ledger/transaction/v1/index.js",
-      "import": "./dist/meshtrade/ledger/transaction/v1/index.js"
+      "require": "./dist/meshtrade/ledger/transaction/v1/index.js"
     },
     "./type/v1": {
       "types": "./dist/meshtrade/type/v1/index.d.ts",
-      "require": "./dist/meshtrade/type/v1/index.js",
-      "import": "./dist/meshtrade/type/v1/index.js"
+      "require": "./dist/meshtrade/type/v1/index.js"
     },
     "./*": {
       "types": "./dist/meshtrade/*.d.ts",
-      "require": "./dist/meshtrade/*.js",
-      "import": "./dist/meshtrade/*.js"
-    }
-  },
-  "typesVersions": {
-    "*": {
-      "*": [
-        "dist/meshtrade/*"
-      ]
+      "require": "./dist/meshtrade/*.js"
     }
   },
   "files": [
