@@ -7,6 +7,7 @@ option go_package = "github.com/meshtrade/api/go/banking/funding";
 import "api/proto/banking/funding/funding.proto";
 import "api/proto/search/criterion.proto";
 import "api/proto/search/query.proto";
+import "google/protobuf/field_mask.proto";
 
 /*
 Service is the Funding Service.
@@ -50,6 +51,8 @@ message UpdateRequest {
   Funding is the funding to be updated.
   */
   api.banking.funding.Funding funding = 1;
+
+  google.protobuf.FieldMask update_mask = 2;
 }
 
 /*
@@ -178,4 +181,9 @@ message ResolveStateResponse {
   Funding is the funding that was resolved.
   */
   api.banking.funding.Funding funding = 1;
+}
+
+enum FundingUpdatePaths {
+  ACCOUNT_NUMBER = 0;
+  STATE = 1;
 }

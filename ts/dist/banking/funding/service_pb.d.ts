@@ -10,6 +10,7 @@ import * as jspb from "google-protobuf";
 import * as api_proto_banking_funding_funding_pb from "../../banking/funding/funding_pb";
 import * as api_proto_search_criterion_pb from "../../search/criterion_pb";
 import * as api_proto_search_query_pb from "../../search/query_pb";
+import * as google_protobuf_field_mask_pb from "google-protobuf/google/protobuf/field_mask_pb";
 
 export class CreateRequest extends jspb.Message { 
 
@@ -64,6 +65,11 @@ export class UpdateRequest extends jspb.Message {
     getFunding(): api_proto_banking_funding_funding_pb.Funding | undefined;
     setFunding(value?: api_proto_banking_funding_funding_pb.Funding): UpdateRequest;
 
+    hasUpdateMask(): boolean;
+    clearUpdateMask(): void;
+    getUpdateMask(): google_protobuf_field_mask_pb.FieldMask | undefined;
+    setUpdateMask(value?: google_protobuf_field_mask_pb.FieldMask): UpdateRequest;
+
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): UpdateRequest.AsObject;
     static toObject(includeInstance: boolean, msg: UpdateRequest): UpdateRequest.AsObject;
@@ -77,6 +83,7 @@ export class UpdateRequest extends jspb.Message {
 export namespace UpdateRequest {
     export type AsObject = {
         funding?: api_proto_banking_funding_funding_pb.Funding.AsObject,
+        updateMask?: google_protobuf_field_mask_pb.FieldMask.AsObject,
     }
 }
 
@@ -334,4 +341,9 @@ export namespace ResolveStateResponse {
     export type AsObject = {
         funding?: api_proto_banking_funding_funding_pb.Funding.AsObject,
     }
+}
+
+export enum FundingUpdatePaths {
+    ACCOUNT_NUMBER = 0,
+    STATE = 1,
 }

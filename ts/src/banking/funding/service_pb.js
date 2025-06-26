@@ -27,10 +27,13 @@ var api_proto_search_criterion_pb = require('../../search/criterion_pb.js');
 goog.object.extend(proto, api_proto_search_criterion_pb);
 var api_proto_search_query_pb = require('../../search/query_pb.js');
 goog.object.extend(proto, api_proto_search_query_pb);
+var google_protobuf_field_mask_pb = require('google-protobuf/google/protobuf/field_mask_pb.js');
+goog.object.extend(proto, google_protobuf_field_mask_pb);
 goog.exportSymbol('proto.api.banking.funding.CancelRequest', null, global);
 goog.exportSymbol('proto.api.banking.funding.CancelResponse', null, global);
 goog.exportSymbol('proto.api.banking.funding.CreateRequest', null, global);
 goog.exportSymbol('proto.api.banking.funding.CreateResponse', null, global);
+goog.exportSymbol('proto.api.banking.funding.FundingUpdatePaths', null, global);
 goog.exportSymbol('proto.api.banking.funding.GetRequest', null, global);
 goog.exportSymbol('proto.api.banking.funding.GetResponse', null, global);
 goog.exportSymbol('proto.api.banking.funding.ListRequest', null, global);
@@ -669,7 +672,8 @@ proto.api.banking.funding.UpdateRequest.prototype.toObject = function(opt_includ
  */
 proto.api.banking.funding.UpdateRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-funding: (f = msg.getFunding()) && api_proto_banking_funding_funding_pb.Funding.toObject(includeInstance, f)
+funding: (f = msg.getFunding()) && api_proto_banking_funding_funding_pb.Funding.toObject(includeInstance, f),
+updateMask: (f = msg.getUpdateMask()) && google_protobuf_field_mask_pb.FieldMask.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -711,6 +715,11 @@ proto.api.banking.funding.UpdateRequest.deserializeBinaryFromReader = function(m
       reader.readMessage(value,api_proto_banking_funding_funding_pb.Funding.deserializeBinaryFromReader);
       msg.setFunding(value);
       break;
+    case 2:
+      var value = new google_protobuf_field_mask_pb.FieldMask;
+      reader.readMessage(value,google_protobuf_field_mask_pb.FieldMask.deserializeBinaryFromReader);
+      msg.setUpdateMask(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -746,6 +755,14 @@ proto.api.banking.funding.UpdateRequest.serializeBinaryToWriter = function(messa
       1,
       f,
       api_proto_banking_funding_funding_pb.Funding.serializeBinaryToWriter
+    );
+  }
+  f = message.getUpdateMask();
+  if (f != null) {
+    writer.writeMessage(
+      2,
+      f,
+      google_protobuf_field_mask_pb.FieldMask.serializeBinaryToWriter
     );
   }
 };
@@ -785,6 +802,43 @@ proto.api.banking.funding.UpdateRequest.prototype.clearFunding = function() {
  */
 proto.api.banking.funding.UpdateRequest.prototype.hasFunding = function() {
   return jspb.Message.getField(this, 1) != null;
+};
+
+
+/**
+ * optional google.protobuf.FieldMask update_mask = 2;
+ * @return {?proto.google.protobuf.FieldMask}
+ */
+proto.api.banking.funding.UpdateRequest.prototype.getUpdateMask = function() {
+  return /** @type{?proto.google.protobuf.FieldMask} */ (
+    jspb.Message.getWrapperField(this, google_protobuf_field_mask_pb.FieldMask, 2));
+};
+
+
+/**
+ * @param {?proto.google.protobuf.FieldMask|undefined} value
+ * @return {!proto.api.banking.funding.UpdateRequest} returns this
+*/
+proto.api.banking.funding.UpdateRequest.prototype.setUpdateMask = function(value) {
+  return jspb.Message.setWrapperField(this, 2, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.api.banking.funding.UpdateRequest} returns this
+ */
+proto.api.banking.funding.UpdateRequest.prototype.clearUpdateMask = function() {
+  return this.setUpdateMask(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.api.banking.funding.UpdateRequest.prototype.hasUpdateMask = function() {
+  return jspb.Message.getField(this, 2) != null;
 };
 
 
@@ -2553,5 +2607,13 @@ proto.api.banking.funding.ResolveStateResponse.prototype.hasFunding = function()
   return jspb.Message.getField(this, 1) != null;
 };
 
+
+/**
+ * @enum {number}
+ */
+proto.api.banking.funding.FundingUpdatePaths = {
+  ACCOUNT_NUMBER: 0,
+  STATE: 1
+};
 
 goog.object.extend(exports, proto.api.banking.funding);

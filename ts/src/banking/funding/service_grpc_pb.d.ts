@@ -9,6 +9,7 @@ import * as api_proto_banking_funding_service_pb from "../../banking/funding/ser
 import * as api_proto_banking_funding_funding_pb from "../../banking/funding/funding_pb";
 import * as api_proto_search_criterion_pb from "../../search/criterion_pb";
 import * as api_proto_search_query_pb from "../../search/query_pb";
+import * as google_protobuf_field_mask_pb from "google-protobuf/google/protobuf/field_mask_pb";
 
 interface IServiceService extends grpc.ServiceDefinition<grpc.UntypedServiceImplementation> {
     create: IServiceService_ICreate;

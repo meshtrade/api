@@ -25,3 +25,16 @@ func (m *MetaData) GetExternalReference() string {
 		return ""
 	}
 }
+
+func (m *PeachPaymentMetaData) GetPaymentMethod() string {
+	switch m.GetPeachPaymentMethod() {
+	case PeachPaymentMethod_PEACH_PAY_BY_BANK:
+		return "PAYBYBANK"
+
+	case PeachPaymentMethod_PEACH_PAY_BY_CARD:
+		return "CARD"
+
+	default:
+		return ""
+	}
+}

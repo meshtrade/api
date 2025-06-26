@@ -77,3 +77,8 @@ export enum FundingOrigin {
     PEACH_PAYMENT = 3,
     DIRECT_EFT = 4,
 }
+
+export enum FundingAction {
+    DO_NOTHING_FUNDING_ACTION = 0,
+    MARK_AWAITING_CONFIRMATION_ACTION = 2,
+}

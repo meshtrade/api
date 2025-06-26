@@ -30,6 +30,7 @@ goog.object.extend(proto, google_protobuf_timestamp_pb);
 var api_proto_banking_funding_fundingOrderMetadata_pb = require('../../banking/funding/fundingOrderMetadata_pb.js');
 goog.object.extend(proto, api_proto_banking_funding_fundingOrderMetadata_pb);
 goog.exportSymbol('proto.api.banking.funding.Funding', null, global);
+goog.exportSymbol('proto.api.banking.funding.FundingAction', null, global);
 goog.exportSymbol('proto.api.banking.funding.FundingOrigin', null, global);
 goog.exportSymbol('proto.api.banking.funding.FundingState', null, global);
 /**
@@ -479,6 +480,14 @@ proto.api.banking.funding.FundingOrigin = {
   PEACH_SETTLEMENT: 2,
   PEACH_PAYMENT: 3,
   DIRECT_EFT: 4
+};
+
+/**
+ * @enum {number}
+ */
+proto.api.banking.funding.FundingAction = {
+  DO_NOTHING_FUNDING_ACTION: 0,
+  MARK_AWAITING_CONFIRMATION_ACTION: 2
 };
 
 goog.object.extend(exports, proto.api.banking.funding);

@@ -25,6 +25,8 @@ var api_proto_banking_funding_funding_pb = require('../../banking/funding/fundin
 var api_proto_search_criterion_pb = require('../../search/criterion_pb.js')
 
 var api_proto_search_query_pb = require('../../search/query_pb.js')
+
+var google_protobuf_field_mask_pb = require('google-protobuf/google/protobuf/field_mask_pb.js')
 const proto = {};
 proto.api = {};
 proto.api.banking = {};
