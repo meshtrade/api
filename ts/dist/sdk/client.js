@@ -22,12 +22,16 @@ class Client {
         // construct services
         this._instrument = new services_1.Instrument(args);
         this._legal = new services_1.Legal(args);
+        this._banking = new services_1.Banking(args);
     }
     get instrument() {
         return this._instrument;
     }
     get legal() {
         return this._legal;
+    }
+    get banking() {
+        return this._banking;
     }
 }
 exports.Client = Client;

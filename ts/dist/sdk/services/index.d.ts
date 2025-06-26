@@ -2,4 +2,5 @@
 // @ts-nocheck
 import { Instrument } from "./instrument";
 import { Legal } from "./legal";
-export { Instrument, Legal };
+import { Banking } from "./banking";
+export { Instrument, Legal, Banking };
