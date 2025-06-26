@@ -1,6 +1,6 @@
 {
   "name": "@meshtrade/api",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Mesh Typescript SDK",
   "author": "Bernard Bussy <bernard@meshtrade.co>",
   "keywords": [
@@ -54,6 +54,10 @@
     "./type/v1": {
       "types": "./dist/meshtrade/type/v1/index.d.ts",
       "require": "./dist/meshtrade/type/v1/index.js"
+    },
+    "./*": {
+      "types": "./dist/meshtrade/*.d.ts",
+      "require": "./dist/meshtrade/*.js"
     }
   },
   "files": [
