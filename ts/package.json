@@ -56,8 +56,8 @@
       "require": "./dist/meshtrade/type/v1/index.js"
     },
     "./*": {
-      "types": "./dist/meshtrade/*.d.ts",
-      "require": "./dist/meshtrade/*.js"
+      "types": "./dist/meshtrade/*",
+      "require": "./dist/meshtrade/*"
     }
   },
   "files": [
