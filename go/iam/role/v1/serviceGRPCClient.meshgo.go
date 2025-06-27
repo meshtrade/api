@@ -10,29 +10,29 @@ import (
 	grpc "google.golang.org/grpc"
 )
 
-// Ensure that GRPCClientService implements the Service interface
-var _ Service = &GRPCClientService{}
+// Ensure that GRPCClientRoleService implements the RoleService interface
+var _ RoleService = &GRPCClientRoleService{}
 
-// GRPCClientService is a gRPC client implementation of the Service interface.
-type GRPCClientService struct {
+// GRPCClientRoleService is a gRPC client implementation of the RoleService interface.
+type GRPCClientRoleService struct {
 	tracer     trace.Tracer
-	grpcClient ServiceClient
+	grpcClient RoleServiceClient
 }
 
-func NewGRPCClientService(
+func NewGRPCClientRoleService(
 	tracer trace.Tracer,
 	grpcClientConnection *grpc.ClientConn,
-) *GRPCClientService {
-	return &GRPCClientService{
+) *GRPCClientRoleService {
+	return &GRPCClientRoleService{
 		tracer:     tracer,
-		grpcClient: NewServiceClient(grpcClientConnection),
+		grpcClient: NewRoleServiceClient(grpcClientConnection),
 	}
 }
 
-func (g *GRPCClientService) Get(ctx context.Context, request *GetRequest) (*GetResponse, error) {
+func (g *GRPCClientRoleService) Get(ctx context.Context, request *GetRoleRequest) (*GetRoleResponse, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
-		ServiceServiceProviderName+"Get",
+		RoleServiceServiceProviderName+"Get",
 	)
 	defer span.End()
 

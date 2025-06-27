@@ -17,3 +17,4 @@ message GetSpotRequest {
 message GetSpotResponse {
   meshtrade.trading.spot.v1.Spot spot = 1;
 }
+

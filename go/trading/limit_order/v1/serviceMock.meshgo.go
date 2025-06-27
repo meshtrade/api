@@ -8,18 +8,18 @@ import (
 	testing "testing"
 )
 
-// Ensure that MockService implements the Service interface
-var _ Service = &MockService{}
+// Ensure that MockLimitOrderService implements the LimitOrderService interface
+var _ LimitOrderService = &MockLimitOrderService{}
 
-// MockService is a mock implementation of the Service interface.
-type MockService struct {
+// MockLimitOrderService is a mock implementation of the LimitOrderService interface.
+type MockLimitOrderService struct {
 	mutex              sync.Mutex
 	T                  *testing.T
-	GetFunc            func(t *testing.T, m *MockService, ctx context.Context, request *GetRequest) (*GetResponse, error)
+	GetFunc            func(t *testing.T, m *MockLimitOrderService, ctx context.Context, request *GetLimitOrderRequest) (*GetLimitOrderResponse, error)
 	GetFuncInvocations int
 }
 
-func (m *MockService) Get(ctx context.Context, request *GetRequest) (*GetResponse, error) {
+func (m *MockLimitOrderService) Get(ctx context.Context, request *GetLimitOrderRequest) (*GetLimitOrderResponse, error) {
 	m.mutex.Lock()
 	m.GetFuncInvocations++
 	m.mutex.Unlock()

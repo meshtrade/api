@@ -6,13 +6,13 @@ from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
-class GetRequest(_message.Message):
+class GetSpotRequest(_message.Message):
     __slots__ = ("number",)
     NUMBER_FIELD_NUMBER: _ClassVar[int]
     number: str
     def __init__(self, number: _Optional[str] = ...) -> None: ...
 
-class GetResponse(_message.Message):
+class GetSpotResponse(_message.Message):
     __slots__ = ("spot",)
     SPOT_FIELD_NUMBER: _ClassVar[int]
     spot: _spot_pb2.Spot

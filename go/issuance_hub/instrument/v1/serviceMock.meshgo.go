@@ -8,22 +8,22 @@ import (
 	testing "testing"
 )
 
-// Ensure that MockService implements the Service interface
-var _ Service = &MockService{}
+// Ensure that MockInstrumentService implements the InstrumentService interface
+var _ InstrumentService = &MockInstrumentService{}
 
-// MockService is a mock implementation of the Service interface.
-type MockService struct {
+// MockInstrumentService is a mock implementation of the InstrumentService interface.
+type MockInstrumentService struct {
 	mutex               sync.Mutex
 	T                   *testing.T
-	GetFunc             func(t *testing.T, m *MockService, ctx context.Context, request *GetRequest) (*GetResponse, error)
+	GetFunc             func(t *testing.T, m *MockInstrumentService, ctx context.Context, request *GetInstrumentRequest) (*GetInstrumentResponse, error)
 	GetFuncInvocations  int
-	MintFunc            func(t *testing.T, m *MockService, ctx context.Context, request *MintRequest) (*MintResponse, error)
+	MintFunc            func(t *testing.T, m *MockInstrumentService, ctx context.Context, request *MintInstrumentRequest) (*MintInstrumentResponse, error)
 	MintFuncInvocations int
-	BurnFunc            func(t *testing.T, m *MockService, ctx context.Context, request *BurnRequest) (*BurnResponse, error)
+	BurnFunc            func(t *testing.T, m *MockInstrumentService, ctx context.Context, request *BurnInstrumentRequest) (*BurnInstrumentResponse, error)
 	BurnFuncInvocations int
 }
 
-func (m *MockService) Get(ctx context.Context, request *GetRequest) (*GetResponse, error) {
+func (m *MockInstrumentService) Get(ctx context.Context, request *GetInstrumentRequest) (*GetInstrumentResponse, error) {
 	m.mutex.Lock()
 	m.GetFuncInvocations++
 	m.mutex.Unlock()
@@ -33,7 +33,7 @@ func (m *MockService) Get(ctx context.Context, request *GetRequest) (*GetRespons
 	return m.GetFunc(m.T, m, ctx, request)
 }
 
-func (m *MockService) Mint(ctx context.Context, request *MintRequest) (*MintResponse, error) {
+func (m *MockInstrumentService) Mint(ctx context.Context, request *MintInstrumentRequest) (*MintInstrumentResponse, error) {
 	m.mutex.Lock()
 	m.MintFuncInvocations++
 	m.mutex.Unlock()
@@ -43,7 +43,7 @@ func (m *MockService) Mint(ctx context.Context, request *MintRequest) (*MintResp
 	return m.MintFunc(m.T, m, ctx, request)
 }
 
-func (m *MockService) Burn(ctx context.Context, request *BurnRequest) (*BurnResponse, error) {
+func (m *MockInstrumentService) Burn(ctx context.Context, request *BurnInstrumentRequest) (*BurnInstrumentResponse, error) {
 	m.mutex.Lock()
 	m.BurnFuncInvocations++
 	m.mutex.Unlock()

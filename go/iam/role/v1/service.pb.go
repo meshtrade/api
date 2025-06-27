@@ -21,26 +21,26 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type GetRequest struct {
+type GetRoleRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetRequest) Reset() {
-	*x = GetRequest{}
+func (x *GetRoleRequest) Reset() {
+	*x = GetRoleRequest{}
 	mi := &file_meshtrade_iam_role_v1_service_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetRequest) String() string {
+func (x *GetRoleRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetRequest) ProtoMessage() {}
+func (*GetRoleRequest) ProtoMessage() {}
 
-func (x *GetRequest) ProtoReflect() protoreflect.Message {
+func (x *GetRoleRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_meshtrade_iam_role_v1_service_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -52,32 +52,32 @@ func (x *GetRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetRequest.ProtoReflect.Descriptor instead.
-func (*GetRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetRoleRequest.ProtoReflect.Descriptor instead.
+func (*GetRoleRequest) Descriptor() ([]byte, []int) {
 	return file_meshtrade_iam_role_v1_service_proto_rawDescGZIP(), []int{0}
 }
 
-type GetResponse struct {
+type GetRoleResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Role          *Role                  `protobuf:"bytes,1,opt,name=role,proto3" json:"role,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetResponse) Reset() {
-	*x = GetResponse{}
+func (x *GetRoleResponse) Reset() {
+	*x = GetRoleResponse{}
 	mi := &file_meshtrade_iam_role_v1_service_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetResponse) String() string {
+func (x *GetRoleResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetResponse) ProtoMessage() {}
+func (*GetRoleResponse) ProtoMessage() {}
 
-func (x *GetResponse) ProtoReflect() protoreflect.Message {
+func (x *GetRoleResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_meshtrade_iam_role_v1_service_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -89,12 +89,12 @@ func (x *GetResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetResponse.ProtoReflect.Descriptor instead.
-func (*GetResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetRoleResponse.ProtoReflect.Descriptor instead.
+func (*GetRoleResponse) Descriptor() ([]byte, []int) {
 	return file_meshtrade_iam_role_v1_service_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *GetResponse) GetRole() *Role {
+func (x *GetRoleResponse) GetRole() *Role {
 	if x != nil {
 		return x.Role
 	}
@@ -105,13 +105,12 @@ var File_meshtrade_iam_role_v1_service_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_role_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"#meshtrade/iam/role/v1/service.proto\x12\x15meshtrade.iam.role.v1\x1a meshtrade/iam/role/v1/role.proto\"\f\n" +
-	"\n" +
-	"GetRequest\">\n" +
-	"\vGetResponse\x12/\n" +
-	"\x04role\x18\x01 \x01(\v2\x1b.meshtrade.iam.role.v1.RoleR\x04role2W\n" +
-	"\aService\x12L\n" +
-	"\x03Get\x12!.meshtrade.iam.role.v1.GetRequest\x1a\".meshtrade.iam.role.v1.GetResponseB0Z.github.com/meshtrade/api/go/iam/role/v1;rolev1b\x06proto3"
+	"#meshtrade/iam/role/v1/service.proto\x12\x15meshtrade.iam.role.v1\x1a meshtrade/iam/role/v1/role.proto\"\x10\n" +
+	"\x0eGetRoleRequest\"B\n" +
+	"\x0fGetRoleResponse\x12/\n" +
+	"\x04role\x18\x01 \x01(\v2\x1b.meshtrade.iam.role.v1.RoleR\x04role2c\n" +
+	"\vRoleService\x12T\n" +
+	"\x03Get\x12%.meshtrade.iam.role.v1.GetRoleRequest\x1a&.meshtrade.iam.role.v1.GetRoleResponseB0Z.github.com/meshtrade/api/go/iam/role/v1;rolev1b\x06proto3"
 
 var (
 	file_meshtrade_iam_role_v1_service_proto_rawDescOnce sync.Once
@@ -127,14 +126,14 @@ func file_meshtrade_iam_role_v1_service_proto_rawDescGZIP() []byte {
 
 var file_meshtrade_iam_role_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_meshtrade_iam_role_v1_service_proto_goTypes = []any{
-	(*GetRequest)(nil),  // 0: meshtrade.iam.role.v1.GetRequest
-	(*GetResponse)(nil), // 1: meshtrade.iam.role.v1.GetResponse
-	(*Role)(nil),        // 2: meshtrade.iam.role.v1.Role
+	(*GetRoleRequest)(nil),  // 0: meshtrade.iam.role.v1.GetRoleRequest
+	(*GetRoleResponse)(nil), // 1: meshtrade.iam.role.v1.GetRoleResponse
+	(*Role)(nil),            // 2: meshtrade.iam.role.v1.Role
 }
 var file_meshtrade_iam_role_v1_service_proto_depIdxs = []int32{
-	2, // 0: meshtrade.iam.role.v1.GetResponse.role:type_name -> meshtrade.iam.role.v1.Role
-	0, // 1: meshtrade.iam.role.v1.Service.Get:input_type -> meshtrade.iam.role.v1.GetRequest
-	1, // 2: meshtrade.iam.role.v1.Service.Get:output_type -> meshtrade.iam.role.v1.GetResponse
+	2, // 0: meshtrade.iam.role.v1.GetRoleResponse.role:type_name -> meshtrade.iam.role.v1.Role
+	0, // 1: meshtrade.iam.role.v1.RoleService.Get:input_type -> meshtrade.iam.role.v1.GetRoleRequest
+	1, // 2: meshtrade.iam.role.v1.RoleService.Get:output_type -> meshtrade.iam.role.v1.GetRoleResponse
 	2, // [2:3] is the sub-list for method output_type
 	1, // [1:2] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name

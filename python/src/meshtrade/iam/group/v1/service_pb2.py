@@ -25,7 +25,7 @@ _sym_db = _symbol_database.Default()
 from meshtrade.iam.group.v1 import group_pb2 as meshtrade_dot_iam_dot_group_dot_v1_dot_group__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n$meshtrade/iam/group/v1/service.proto\x12\x16meshtrade.iam.group.v1\x1a\"meshtrade/iam/group/v1/group.proto\"\x0c\n\nGetRequest\"B\n\x0bGetResponse\x12\x33\n\x05group\x18\x01 \x01(\x0b\x32\x1d.meshtrade.iam.group.v1.GroupR\x05group2^\n\x0cGroupService\x12N\n\x03Get\x12\".meshtrade.iam.group.v1.GetRequest\x1a#.meshtrade.iam.group.v1.GetResponseB2Z0github.com/meshtrade/api/go/iam/group/v1;groupv1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n$meshtrade/iam/group/v1/service.proto\x12\x16meshtrade.iam.group.v1\x1a\"meshtrade/iam/group/v1/group.proto\"\x11\n\x0fGetGroupRequest\"G\n\x10GetGroupResponse\x12\x33\n\x05group\x18\x01 \x01(\x0b\x32\x1d.meshtrade.iam.group.v1.GroupR\x05group2h\n\x0cGroupService\x12X\n\x03Get\x12\'.meshtrade.iam.group.v1.GetGroupRequest\x1a(.meshtrade.iam.group.v1.GetGroupResponseB2Z0github.com/meshtrade/api/go/iam/group/v1;groupv1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -33,10 +33,10 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'meshtrade.iam.group.v1.serv
 if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'Z0github.com/meshtrade/api/go/iam/group/v1;groupv1'
-  _globals['_GETREQUEST']._serialized_start=100
-  _globals['_GETREQUEST']._serialized_end=112
-  _globals['_GETRESPONSE']._serialized_start=114
-  _globals['_GETRESPONSE']._serialized_end=180
-  _globals['_GROUPSERVICE']._serialized_start=182
-  _globals['_GROUPSERVICE']._serialized_end=276
+  _globals['_GETGROUPREQUEST']._serialized_start=100
+  _globals['_GETGROUPREQUEST']._serialized_end=117
+  _globals['_GETGROUPRESPONSE']._serialized_start=119
+  _globals['_GETGROUPRESPONSE']._serialized_end=190
+  _globals['_GROUPSERVICE']._serialized_start=192
+  _globals['_GROUPSERVICE']._serialized_end=296
 # @@protoc_insertion_point(module_scope)

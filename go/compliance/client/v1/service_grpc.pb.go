@@ -19,11 +19,11 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Service_Get_FullMethodName  = "/meshtrade.compliance.client.v1.Service/Get"
-	Service_List_FullMethodName = "/meshtrade.compliance.client.v1.Service/List"
+	ClientService_Get_FullMethodName  = "/meshtrade.compliance.client.v1.ClientService/Get"
+	ClientService_List_FullMethodName = "/meshtrade.compliance.client.v1.ClientService/List"
 )
 
-// ServiceClient is the client API for Service service.
+// ClientServiceClient is the client API for ClientService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
@@ -33,50 +33,50 @@ const (
 // The main entity managed by this service is the `Client` resource. A client can
 // be a natural person, company, or trust. This service allows you to retrieve
 // the compliance profiles for these clients.
-type ServiceClient interface {
+type ClientServiceClient interface {
 	// Get retrieves a single client's compliance profile by its unique resource name.
 	//
 	// This allows for fetching the complete compliance details of a specific client,
 	// including all associated information like identification documents, tax residencies,
 	// and company structures.
-	Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error)
+	Get(ctx context.Context, in *GetClientRequest, opts ...grpc.CallOption) (*GetClientResponse, error)
 	// List retrieves a collection of client compliance profiles.
 	//
 	// This method is useful for fetching multiple client records at once.
 	// Note: This endpoint does not currently support pagination or filtering.
-	List(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error)
+	List(ctx context.Context, in *ListClientsRequest, opts ...grpc.CallOption) (*ListClientsResponse, error)
 }
 
-type serviceClient struct {
+type clientServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewServiceClient(cc grpc.ClientConnInterface) ServiceClient {
-	return &serviceClient{cc}
+func NewClientServiceClient(cc grpc.ClientConnInterface) ClientServiceClient {
+	return &clientServiceClient{cc}
 }
 
-func (c *serviceClient) Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error) {
+func (c *clientServiceClient) Get(ctx context.Context, in *GetClientRequest, opts ...grpc.CallOption) (*GetClientResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetResponse)
-	err := c.cc.Invoke(ctx, Service_Get_FullMethodName, in, out, cOpts...)
+	out := new(GetClientResponse)
+	err := c.cc.Invoke(ctx, ClientService_Get_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *serviceClient) List(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error) {
+func (c *clientServiceClient) List(ctx context.Context, in *ListClientsRequest, opts ...grpc.CallOption) (*ListClientsResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ListResponse)
-	err := c.cc.Invoke(ctx, Service_List_FullMethodName, in, out, cOpts...)
+	out := new(ListClientsResponse)
+	err := c.cc.Invoke(ctx, ClientService_List_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// ServiceServer is the server API for Service service.
-// All implementations must embed UnimplementedServiceServer
+// ClientServiceServer is the server API for ClientService service.
+// All implementations must embed UnimplementedClientServiceServer
 // for forward compatibility.
 //
 // Service manages client profiles for compliance and Know Your Customer (KYC)
@@ -85,105 +85,105 @@ func (c *serviceClient) List(ctx context.Context, in *ListRequest, opts ...grpc.
 // The main entity managed by this service is the `Client` resource. A client can
 // be a natural person, company, or trust. This service allows you to retrieve
 // the compliance profiles for these clients.
-type ServiceServer interface {
+type ClientServiceServer interface {
 	// Get retrieves a single client's compliance profile by its unique resource name.
 	//
 	// This allows for fetching the complete compliance details of a specific client,
 	// including all associated information like identification documents, tax residencies,
 	// and company structures.
-	Get(context.Context, *GetRequest) (*GetResponse, error)
+	Get(context.Context, *GetClientRequest) (*GetClientResponse, error)
 	// List retrieves a collection of client compliance profiles.
 	//
 	// This method is useful for fetching multiple client records at once.
 	// Note: This endpoint does not currently support pagination or filtering.
-	List(context.Context, *ListRequest) (*ListResponse, error)
-	mustEmbedUnimplementedServiceServer()
+	List(context.Context, *ListClientsRequest) (*ListClientsResponse, error)
+	mustEmbedUnimplementedClientServiceServer()
 }
 
-// UnimplementedServiceServer must be embedded to have
+// UnimplementedClientServiceServer must be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
 // pointer dereference when methods are called.
-type UnimplementedServiceServer struct{}
+type UnimplementedClientServiceServer struct{}
 
-func (UnimplementedServiceServer) Get(context.Context, *GetRequest) (*GetResponse, error) {
+func (UnimplementedClientServiceServer) Get(context.Context, *GetClientRequest) (*GetClientResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
-func (UnimplementedServiceServer) List(context.Context, *ListRequest) (*ListResponse, error) {
+func (UnimplementedClientServiceServer) List(context.Context, *ListClientsRequest) (*ListClientsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method List not implemented")
 }
-func (UnimplementedServiceServer) mustEmbedUnimplementedServiceServer() {}
-func (UnimplementedServiceServer) testEmbeddedByValue()                 {}
+func (UnimplementedClientServiceServer) mustEmbedUnimplementedClientServiceServer() {}
+func (UnimplementedClientServiceServer) testEmbeddedByValue()                       {}
 
-// UnsafeServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to ServiceServer will
+// UnsafeClientServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to ClientServiceServer will
 // result in compilation errors.
-type UnsafeServiceServer interface {
-	mustEmbedUnimplementedServiceServer()
+type UnsafeClientServiceServer interface {
+	mustEmbedUnimplementedClientServiceServer()
 }
 
-func RegisterServiceServer(s grpc.ServiceRegistrar, srv ServiceServer) {
-	// If the following call pancis, it indicates UnimplementedServiceServer was
+func RegisterClientServiceServer(s grpc.ServiceRegistrar, srv ClientServiceServer) {
+	// If the following call pancis, it indicates UnimplementedClientServiceServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
 	// time to prevent it from happening at runtime later due to I/O.
 	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
 		t.testEmbeddedByValue()
 	}
-	s.RegisterService(&Service_ServiceDesc, srv)
+	s.RegisterService(&ClientService_ServiceDesc, srv)
 }
 
-func _Service_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetRequest)
+func _ClientService_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetClientRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ServiceServer).Get(ctx, in)
+		return srv.(ClientServiceServer).Get(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Service_Get_FullMethodName,
+		FullMethod: ClientService_Get_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ServiceServer).Get(ctx, req.(*GetRequest))
+		return srv.(ClientServiceServer).Get(ctx, req.(*GetClientRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Service_List_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListRequest)
+func _ClientService_List_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListClientsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ServiceServer).List(ctx, in)
+		return srv.(ClientServiceServer).List(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Service_List_FullMethodName,
+		FullMethod: ClientService_List_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ServiceServer).List(ctx, req.(*ListRequest))
+		return srv.(ClientServiceServer).List(ctx, req.(*ListClientsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// Service_ServiceDesc is the grpc.ServiceDesc for Service service.
+// ClientService_ServiceDesc is the grpc.ServiceDesc for ClientService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var Service_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "meshtrade.compliance.client.v1.Service",
-	HandlerType: (*ServiceServer)(nil),
+var ClientService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "meshtrade.compliance.client.v1.ClientService",
+	HandlerType: (*ClientServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "Get",
-			Handler:    _Service_Get_Handler,
+			Handler:    _ClientService_Get_Handler,
 		},
 		{
 			MethodName: "List",
-			Handler:    _Service_List_Handler,
+			Handler:    _ClientService_List_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

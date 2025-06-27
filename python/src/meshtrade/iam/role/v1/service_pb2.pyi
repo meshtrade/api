@@ -6,11 +6,11 @@ from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
-class GetRequest(_message.Message):
+class GetRoleRequest(_message.Message):
     __slots__ = ()
     def __init__(self) -> None: ...
 
-class GetResponse(_message.Message):
+class GetRoleResponse(_message.Message):
     __slots__ = ("role",)
     ROLE_FIELD_NUMBER: _ClassVar[int]
     role: _role_pb2.Role

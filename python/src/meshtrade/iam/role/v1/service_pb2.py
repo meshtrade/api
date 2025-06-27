@@ -25,7 +25,7 @@ _sym_db = _symbol_database.Default()
 from meshtrade.iam.role.v1 import role_pb2 as meshtrade_dot_iam_dot_role_dot_v1_dot_role__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n#meshtrade/iam/role/v1/service.proto\x12\x15meshtrade.iam.role.v1\x1a meshtrade/iam/role/v1/role.proto\"\x0c\n\nGetRequest\">\n\x0bGetResponse\x12/\n\x04role\x18\x01 \x01(\x0b\x32\x1b.meshtrade.iam.role.v1.RoleR\x04role2W\n\x07Service\x12L\n\x03Get\x12!.meshtrade.iam.role.v1.GetRequest\x1a\".meshtrade.iam.role.v1.GetResponseB0Z.github.com/meshtrade/api/go/iam/role/v1;rolev1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n#meshtrade/iam/role/v1/service.proto\x12\x15meshtrade.iam.role.v1\x1a meshtrade/iam/role/v1/role.proto\"\x10\n\x0eGetRoleRequest\"B\n\x0fGetRoleResponse\x12/\n\x04role\x18\x01 \x01(\x0b\x32\x1b.meshtrade.iam.role.v1.RoleR\x04role2c\n\x0bRoleService\x12T\n\x03Get\x12%.meshtrade.iam.role.v1.GetRoleRequest\x1a&.meshtrade.iam.role.v1.GetRoleResponseB0Z.github.com/meshtrade/api/go/iam/role/v1;rolev1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -33,10 +33,10 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'meshtrade.iam.role.v1.servi
 if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'Z.github.com/meshtrade/api/go/iam/role/v1;rolev1'
-  _globals['_GETREQUEST']._serialized_start=96
-  _globals['_GETREQUEST']._serialized_end=108
-  _globals['_GETRESPONSE']._serialized_start=110
-  _globals['_GETRESPONSE']._serialized_end=172
-  _globals['_SERVICE']._serialized_start=174
-  _globals['_SERVICE']._serialized_end=261
+  _globals['_GETROLEREQUEST']._serialized_start=96
+  _globals['_GETROLEREQUEST']._serialized_end=112
+  _globals['_GETROLERESPONSE']._serialized_start=114
+  _globals['_GETROLERESPONSE']._serialized_end=180
+  _globals['_ROLESERVICE']._serialized_start=182
+  _globals['_ROLESERVICE']._serialized_end=281
 # @@protoc_insertion_point(module_scope)

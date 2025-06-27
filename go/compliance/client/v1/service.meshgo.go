@@ -12,19 +12,19 @@ import (
 // The main entity managed by this service is the `Client` resource. A client can
 // be a natural person, company, or trust. This service allows you to retrieve
 // the compliance profiles for these clients.
-type Service interface {
+type ClientService interface {
 	// Get retrieves a single client's compliance profile by its unique resource name.
 	//
 	// This allows for fetching the complete compliance details of a specific client,
 	// including all associated information like identification documents, tax residencies,
 	// and company structures.
-	Get(ctx context.Context, request *GetRequest) (*GetResponse, error)
+	Get(ctx context.Context, request *GetClientRequest) (*GetClientResponse, error)
 
 	// List retrieves a collection of client compliance profiles.
 	//
 	// This method is useful for fetching multiple client records at once.
 	// Note: This endpoint does not currently support pagination or filtering.
-	List(ctx context.Context, request *ListRequest) (*ListResponse, error)
+	List(ctx context.Context, request *ListClientsRequest) (*ListClientsResponse, error)
 }
 
-const ServiceServiceProviderName = "meshtrade-compliance-client-v1-Service"
+const ClientServiceServiceProviderName = "meshtrade-compliance-client-v1-ClientService"

@@ -7,19 +7,19 @@ from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
-class GetRequest(_message.Message):
+class GetInstrumentRequest(_message.Message):
     __slots__ = ("name",)
     NAME_FIELD_NUMBER: _ClassVar[int]
     name: str
     def __init__(self, name: _Optional[str] = ...) -> None: ...
 
-class GetResponse(_message.Message):
+class GetInstrumentResponse(_message.Message):
     __slots__ = ("instrument",)
     INSTRUMENT_FIELD_NUMBER: _ClassVar[int]
     instrument: _instrument_pb2.Instrument
     def __init__(self, instrument: _Optional[_Union[_instrument_pb2.Instrument, _Mapping]] = ...) -> None: ...
 
-class MintRequest(_message.Message):
+class MintInstrumentRequest(_message.Message):
     __slots__ = ("amount", "fee_account", "destination_account")
     AMOUNT_FIELD_NUMBER: _ClassVar[int]
     FEE_ACCOUNT_FIELD_NUMBER: _ClassVar[int]
@@ -29,13 +29,13 @@ class MintRequest(_message.Message):
     destination_account: str
     def __init__(self, amount: _Optional[_Union[_amount_pb2.Amount, _Mapping]] = ..., fee_account: _Optional[str] = ..., destination_account: _Optional[str] = ...) -> None: ...
 
-class MintResponse(_message.Message):
+class MintInstrumentResponse(_message.Message):
     __slots__ = ("transaction_id",)
     TRANSACTION_ID_FIELD_NUMBER: _ClassVar[int]
     transaction_id: str
     def __init__(self, transaction_id: _Optional[str] = ...) -> None: ...
 
-class BurnRequest(_message.Message):
+class BurnInstrumentRequest(_message.Message):
     __slots__ = ("amount", "fee_account", "source_account")
     AMOUNT_FIELD_NUMBER: _ClassVar[int]
     FEE_ACCOUNT_FIELD_NUMBER: _ClassVar[int]
@@ -45,7 +45,7 @@ class BurnRequest(_message.Message):
     source_account: str
     def __init__(self, amount: _Optional[_Union[_amount_pb2.Amount, _Mapping]] = ..., fee_account: _Optional[str] = ..., source_account: _Optional[str] = ...) -> None: ...
 
-class BurnResponse(_message.Message):
+class BurnInstrumentResponse(_message.Message):
     __slots__ = ("transaction_id",)
     TRANSACTION_ID_FIELD_NUMBER: _ClassVar[int]
     transaction_id: str

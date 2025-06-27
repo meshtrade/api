@@ -10,29 +10,29 @@ import (
 	grpc "google.golang.org/grpc"
 )
 
-// Ensure that GRPCClientService implements the Service interface
-var _ Service = &GRPCClientService{}
+// Ensure that GRPCClientLimitOrderService implements the LimitOrderService interface
+var _ LimitOrderService = &GRPCClientLimitOrderService{}
 
-// GRPCClientService is a gRPC client implementation of the Service interface.
-type GRPCClientService struct {
+// GRPCClientLimitOrderService is a gRPC client implementation of the LimitOrderService interface.
+type GRPCClientLimitOrderService struct {
 	tracer     trace.Tracer
-	grpcClient ServiceClient
+	grpcClient LimitOrderServiceClient
 }
 
-func NewGRPCClientService(
+func NewGRPCClientLimitOrderService(
 	tracer trace.Tracer,
 	grpcClientConnection *grpc.ClientConn,
-) *GRPCClientService {
-	return &GRPCClientService{
+) *GRPCClientLimitOrderService {
+	return &GRPCClientLimitOrderService{
 		tracer:     tracer,
-		grpcClient: NewServiceClient(grpcClientConnection),
+		grpcClient: NewLimitOrderServiceClient(grpcClientConnection),
 	}
 }
 
-func (g *GRPCClientService) Get(ctx context.Context, request *GetRequest) (*GetResponse, error) {
+func (g *GRPCClientLimitOrderService) Get(ctx context.Context, request *GetLimitOrderRequest) (*GetLimitOrderResponse, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
-		ServiceServiceProviderName+"Get",
+		LimitOrderServiceServiceProviderName+"Get",
 	)
 	defer span.End()
 

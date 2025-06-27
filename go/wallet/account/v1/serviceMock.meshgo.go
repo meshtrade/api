@@ -8,24 +8,24 @@ import (
 	testing "testing"
 )
 
-// Ensure that MockService implements the Service interface
-var _ Service = &MockService{}
+// Ensure that MockAccountService implements the AccountService interface
+var _ AccountService = &MockAccountService{}
 
-// MockService is a mock implementation of the Service interface.
-type MockService struct {
+// MockAccountService is a mock implementation of the AccountService interface.
+type MockAccountService struct {
 	mutex                 sync.Mutex
 	T                     *testing.T
-	CreateFunc            func(t *testing.T, m *MockService, ctx context.Context, request *CreateRequest) (*CreateResponse, error)
+	CreateFunc            func(t *testing.T, m *MockAccountService, ctx context.Context, request *CreateAccountRequest) (*CreateAccountResponse, error)
 	CreateFuncInvocations int
-	GetFunc               func(t *testing.T, m *MockService, ctx context.Context, request *GetRequest) (*GetResponse, error)
+	GetFunc               func(t *testing.T, m *MockAccountService, ctx context.Context, request *GetAccountRequest) (*GetAccountResponse, error)
 	GetFuncInvocations    int
-	ListFunc              func(t *testing.T, m *MockService, ctx context.Context, request *ListRequest) (*ListResponse, error)
+	ListFunc              func(t *testing.T, m *MockAccountService, ctx context.Context, request *ListAccountsRequest) (*ListAccountsResponse, error)
 	ListFuncInvocations   int
-	SearchFunc            func(t *testing.T, m *MockService, ctx context.Context, request *SearchRequest) (*SearchResponse, error)
+	SearchFunc            func(t *testing.T, m *MockAccountService, ctx context.Context, request *SearchAccountsRequest) (*SearchAccountsResponse, error)
 	SearchFuncInvocations int
 }
 
-func (m *MockService) Create(ctx context.Context, request *CreateRequest) (*CreateResponse, error) {
+func (m *MockAccountService) Create(ctx context.Context, request *CreateAccountRequest) (*CreateAccountResponse, error) {
 	m.mutex.Lock()
 	m.CreateFuncInvocations++
 	m.mutex.Unlock()
@@ -35,7 +35,7 @@ func (m *MockService) Create(ctx context.Context, request *CreateRequest) (*Crea
 	return m.CreateFunc(m.T, m, ctx, request)
 }
 
-func (m *MockService) Get(ctx context.Context, request *GetRequest) (*GetResponse, error) {
+func (m *MockAccountService) Get(ctx context.Context, request *GetAccountRequest) (*GetAccountResponse, error) {
 	m.mutex.Lock()
 	m.GetFuncInvocations++
 	m.mutex.Unlock()
@@ -45,7 +45,7 @@ func (m *MockService) Get(ctx context.Context, request *GetRequest) (*GetRespons
 	return m.GetFunc(m.T, m, ctx, request)
 }
 
-func (m *MockService) List(ctx context.Context, request *ListRequest) (*ListResponse, error) {
+func (m *MockAccountService) List(ctx context.Context, request *ListAccountsRequest) (*ListAccountsResponse, error) {
 	m.mutex.Lock()
 	m.ListFuncInvocations++
 	m.mutex.Unlock()
@@ -55,7 +55,7 @@ func (m *MockService) List(ctx context.Context, request *ListRequest) (*ListResp
 	return m.ListFunc(m.T, m, ctx, request)
 }
 
-func (m *MockService) Search(ctx context.Context, request *SearchRequest) (*SearchResponse, error) {
+func (m *MockAccountService) Search(ctx context.Context, request *SearchAccountsRequest) (*SearchAccountsResponse, error) {
 	m.mutex.Lock()
 	m.SearchFuncInvocations++
 	m.mutex.Unlock()

@@ -10,29 +10,29 @@ import (
 	grpc "google.golang.org/grpc"
 )
 
-// Ensure that GRPCClientService implements the Service interface
-var _ Service = &GRPCClientService{}
+// Ensure that GRPCClientSpotService implements the SpotService interface
+var _ SpotService = &GRPCClientSpotService{}
 
-// GRPCClientService is a gRPC client implementation of the Service interface.
-type GRPCClientService struct {
+// GRPCClientSpotService is a gRPC client implementation of the SpotService interface.
+type GRPCClientSpotService struct {
 	tracer     trace.Tracer
-	grpcClient ServiceClient
+	grpcClient SpotServiceClient
 }
 
-func NewGRPCClientService(
+func NewGRPCClientSpotService(
 	tracer trace.Tracer,
 	grpcClientConnection *grpc.ClientConn,
-) *GRPCClientService {
-	return &GRPCClientService{
+) *GRPCClientSpotService {
+	return &GRPCClientSpotService{
 		tracer:     tracer,
-		grpcClient: NewServiceClient(grpcClientConnection),
+		grpcClient: NewSpotServiceClient(grpcClientConnection),
 	}
 }
 
-func (g *GRPCClientService) Get(ctx context.Context, request *GetRequest) (*GetResponse, error) {
+func (g *GRPCClientSpotService) Get(ctx context.Context, request *GetSpotRequest) (*GetSpotResponse, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
-		ServiceServiceProviderName+"Get",
+		SpotServiceServiceProviderName+"Get",
 	)
 	defer span.End()
 

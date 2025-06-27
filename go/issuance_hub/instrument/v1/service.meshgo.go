@@ -8,15 +8,15 @@ import (
 
 // Service defines the RPC methods for interacting with the instrument resource,
 // such as creating, updating, minting or burning it.
-type Service interface {
+type InstrumentService interface {
 	// Retrieve a specific instrument.
-	Get(ctx context.Context, request *GetRequest) (*GetResponse, error)
+	Get(ctx context.Context, request *GetInstrumentRequest) (*GetInstrumentResponse, error)
 
 	// Mints new units of an instrument into a given destination account.
-	Mint(ctx context.Context, request *MintRequest) (*MintResponse, error)
+	Mint(ctx context.Context, request *MintInstrumentRequest) (*MintInstrumentResponse, error)
 
 	// Burns a specified amount of an instrument from a source account.
-	Burn(ctx context.Context, request *BurnRequest) (*BurnResponse, error)
+	Burn(ctx context.Context, request *BurnInstrumentRequest) (*BurnInstrumentResponse, error)
 }
 
-const ServiceServiceProviderName = "meshtrade-issuance_hub-instrument-v1-Service"
+const InstrumentServiceServiceProviderName = "meshtrade-issuance_hub-instrument-v1-InstrumentService"

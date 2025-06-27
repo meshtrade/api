@@ -1,12 +1,12 @@
 import { LoggingInterceptor } from "../../../common/grpc_web";
-import { ServicePromiseClient } from "./service_grpc_web_pb";
+import { InstrumentServicePromiseClient } from "./service_grpc_web_pb";
 import {
-  GetRequest,
-  GetResponse,
-  MintRequest,
-  MintResponse,
-  BurnRequest,
-  BurnResponse,
+  GetInstrumentRequest,
+  GetInstrumentResponse,
+  MintInstrumentRequest,
+  MintInstrumentResponse,
+  BurnInstrumentRequest,
+  BurnInstrumentResponse,
 } from "./service_pb";
 import { ConfigOpts, getConfigFromOpts } from "../../../common/config";
 
@@ -14,7 +14,7 @@ import { ConfigOpts, getConfigFromOpts } from "../../../common/config";
  * Client for interacting with the issuance_hub instrument v1 API resource service.
  */
 export class InstrumentGrpcWebClientV1 {
-  private _service: ServicePromiseClient;
+  private _service: InstrumentServicePromiseClient;
 
   /**
    * Constructs an instance of InstrumentGrpcWebClientV1.
@@ -25,7 +25,7 @@ export class InstrumentGrpcWebClientV1 {
     const _config = getConfigFromOpts(config);
 
     // construct service
-    this._service = new ServicePromiseClient(_config.apiServerURL, null, {
+    this._service = new InstrumentServicePromiseClient(_config.apiServerURL, null, {
       withCredentials: true,
       unaryInterceptors: [new LoggingInterceptor()],
     });
@@ -33,28 +33,28 @@ export class InstrumentGrpcWebClientV1 {
 
   /**
    * Retrieves an instrument.
-   * @param {GetRequest} request - The request object for getting an instrument.
-   * @returns {Promise<GetResponse>} A promise that resolves with the instrument.
+   * @param {GetInstrumentRequest} request - The request object for getting an instrument.
+   * @returns {Promise<GetInstrumentResponse>} A promise that resolves with the instrument.
    */
-  get(request: GetRequest): Promise<GetResponse> {
+  get(request: GetInstrumentRequest): Promise<GetInstrumentResponse> {
     return this._service.get(request);
   }
 
   /**
    * Mints new instruments.
-   * @param {MintRequest} request - The request object for minting instruments.
-   * @returns {Promise<MintResponse>} A promise that resolves with the minting response.
+   * @param {MintInstrumentRequest} request - The request object for minting instruments.
+   * @returns {Promise<MintInstrumentResponse>} A promise that resolves with the minting response.
    */
-  mint(request: MintRequest): Promise<MintResponse> {
+  mint(request: MintInstrumentRequest): Promise<MintInstrumentResponse> {
     return this._service.mint(request);
   }
 
   /**
    * Burns instruments.
-   * @param {BurnRequest} request - The request object for burning instruments.
-   * @returns {Promise<BurnResponse>} A promise that resolves with the burning response.
+   * @param {BurnInstrumentRequest} request - The request object for burning instruments.
+   * @returns {Promise<BurnInstrumentResponse>} A promise that resolves with the burning response.
    */
-  burn(request: BurnRequest): Promise<BurnResponse> {
+  burn(request: BurnInstrumentRequest): Promise<BurnInstrumentResponse> {
     return this._service.burn(request);
   }
 }

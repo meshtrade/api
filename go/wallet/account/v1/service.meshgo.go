@@ -6,20 +6,20 @@ import (
 	context "context"
 )
 
-// Service provides access to and management of wallet accounts.
-type Service interface {
+// AccountService provides access to and management of wallet accounts.
+type AccountService interface {
 	// Creates a new wallet account.
 	// This is a write operation restricted to administrative roles.
-	Create(ctx context.Context, request *CreateRequest) (*CreateResponse, error)
+	Create(ctx context.Context, request *CreateAccountRequest) (*CreateAccountResponse, error)
 
 	// Retrieves a single wallet account by its unique number.
-	Get(ctx context.Context, request *GetRequest) (*GetResponse, error)
+	Get(ctx context.Context, request *GetAccountRequest) (*GetAccountResponse, error)
 
 	// Retrieves a list of all accounts for the authenticated principal.
-	List(ctx context.Context, request *ListRequest) (*ListResponse, error)
+	List(ctx context.Context, request *ListAccountsRequest) (*ListAccountsResponse, error)
 
 	// Searches for accounts based on a partial label match.
-	Search(ctx context.Context, request *SearchRequest) (*SearchResponse, error)
+	Search(ctx context.Context, request *SearchAccountsRequest) (*SearchAccountsResponse, error)
 }
 
-const ServiceServiceProviderName = "meshtrade-wallet-account-v1-Service"
+const AccountServiceServiceProviderName = "meshtrade-wallet-account-v1-AccountService"

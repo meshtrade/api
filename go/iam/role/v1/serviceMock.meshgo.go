@@ -8,18 +8,18 @@ import (
 	testing "testing"
 )
 
-// Ensure that MockService implements the Service interface
-var _ Service = &MockService{}
+// Ensure that MockRoleService implements the RoleService interface
+var _ RoleService = &MockRoleService{}
 
-// MockService is a mock implementation of the Service interface.
-type MockService struct {
+// MockRoleService is a mock implementation of the RoleService interface.
+type MockRoleService struct {
 	mutex              sync.Mutex
 	T                  *testing.T
-	GetFunc            func(t *testing.T, m *MockService, ctx context.Context, request *GetRequest) (*GetResponse, error)
+	GetFunc            func(t *testing.T, m *MockRoleService, ctx context.Context, request *GetRoleRequest) (*GetRoleResponse, error)
 	GetFuncInvocations int
 }
 
-func (m *MockService) Get(ctx context.Context, request *GetRequest) (*GetResponse, error) {
+func (m *MockRoleService) Get(ctx context.Context, request *GetRoleRequest) (*GetRoleResponse, error) {
 	m.mutex.Lock()
 	m.GetFuncInvocations++
 	m.mutex.Unlock()

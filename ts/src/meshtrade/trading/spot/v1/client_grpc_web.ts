@@ -1,8 +1,8 @@
 import { LoggingInterceptor } from "../../../common/grpc_web";
-import { ServicePromiseClient } from "./service_grpc_web_pb";
+import { SpotServicePromiseClient } from "./service_grpc_web_pb";
 import {
-  GetRequest,
-  GetResponse,
+  GetSpotRequest,
+  GetSpotResponse,
 } from "./service_pb";
 import { ConfigOpts, getConfigFromOpts } from "../../../common/config";
 
@@ -10,7 +10,7 @@ import { ConfigOpts, getConfigFromOpts } from "../../../common/config";
  * Client for interacting with the trading spot v1 API resource service.
  */
 export class SpotGrpcWebClientV1 {
-  private _service: ServicePromiseClient;
+  private _service: SpotServicePromiseClient;
 
   /**
    * Constructs an instance of SpotGrpcWebClientV1.
@@ -21,7 +21,7 @@ export class SpotGrpcWebClientV1 {
     const _config = getConfigFromOpts(config);
 
     // construct service
-    this._service = new ServicePromiseClient(_config.apiServerURL, null, {
+    this._service = new SpotServicePromiseClient(_config.apiServerURL, null, {
       withCredentials: true,
       unaryInterceptors: [new LoggingInterceptor()],
     });
@@ -29,10 +29,10 @@ export class SpotGrpcWebClientV1 {
 
   /**
    * Retrieves a spot.
-   * @param {GetRequest} request - The request object for getting a spot.
-   * @returns {Promise<GetResponse>} A promise that resolves with the spot.
+   * @param {GetSpotRequest} request - The request object for getting a spot.
+   * @returns {Promise<GetSpotResponse>} A promise that resolves with the spot.
    */
-  get(request: GetRequest): Promise<GetResponse> {
+  get(request: GetSpotRequest): Promise<GetSpotResponse> {
     return this._service.get(request);
   }
 }

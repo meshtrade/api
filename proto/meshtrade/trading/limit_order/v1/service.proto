@@ -17,3 +17,4 @@ message GetLimitOrderRequest {
 message GetLimitOrderResponse {
   meshtrade.trading.limit_order.v1.LimitOrder limitorder = 1;
 }
+

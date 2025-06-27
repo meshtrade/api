@@ -21,27 +21,27 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type GetRequest struct {
+type GetSpotRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Number        string                 `protobuf:"bytes,1,opt,name=number,proto3" json:"number,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetRequest) Reset() {
-	*x = GetRequest{}
+func (x *GetSpotRequest) Reset() {
+	*x = GetSpotRequest{}
 	mi := &file_meshtrade_trading_spot_v1_service_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetRequest) String() string {
+func (x *GetSpotRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetRequest) ProtoMessage() {}
+func (*GetSpotRequest) ProtoMessage() {}
 
-func (x *GetRequest) ProtoReflect() protoreflect.Message {
+func (x *GetSpotRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_meshtrade_trading_spot_v1_service_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -53,39 +53,39 @@ func (x *GetRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetRequest.ProtoReflect.Descriptor instead.
-func (*GetRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetSpotRequest.ProtoReflect.Descriptor instead.
+func (*GetSpotRequest) Descriptor() ([]byte, []int) {
 	return file_meshtrade_trading_spot_v1_service_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *GetRequest) GetNumber() string {
+func (x *GetSpotRequest) GetNumber() string {
 	if x != nil {
 		return x.Number
 	}
 	return ""
 }
 
-type GetResponse struct {
+type GetSpotResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Spot          *Spot                  `protobuf:"bytes,1,opt,name=spot,proto3" json:"spot,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetResponse) Reset() {
-	*x = GetResponse{}
+func (x *GetSpotResponse) Reset() {
+	*x = GetSpotResponse{}
 	mi := &file_meshtrade_trading_spot_v1_service_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetResponse) String() string {
+func (x *GetSpotResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetResponse) ProtoMessage() {}
+func (*GetSpotResponse) ProtoMessage() {}
 
-func (x *GetResponse) ProtoReflect() protoreflect.Message {
+func (x *GetSpotResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_meshtrade_trading_spot_v1_service_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -97,12 +97,12 @@ func (x *GetResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetResponse.ProtoReflect.Descriptor instead.
-func (*GetResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetSpotResponse.ProtoReflect.Descriptor instead.
+func (*GetSpotResponse) Descriptor() ([]byte, []int) {
 	return file_meshtrade_trading_spot_v1_service_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *GetResponse) GetSpot() *Spot {
+func (x *GetSpotResponse) GetSpot() *Spot {
 	if x != nil {
 		return x.Spot
 	}
@@ -113,14 +113,13 @@ var File_meshtrade_trading_spot_v1_service_proto protoreflect.FileDescriptor
 
 const file_meshtrade_trading_spot_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"'meshtrade/trading/spot/v1/service.proto\x12\x19meshtrade.trading.spot.v1\x1a$meshtrade/trading/spot/v1/spot.proto\"$\n" +
-	"\n" +
-	"GetRequest\x12\x16\n" +
-	"\x06number\x18\x01 \x01(\tR\x06number\"B\n" +
-	"\vGetResponse\x123\n" +
-	"\x04spot\x18\x01 \x01(\v2\x1f.meshtrade.trading.spot.v1.SpotR\x04spot2_\n" +
-	"\aService\x12T\n" +
-	"\x03Get\x12%.meshtrade.trading.spot.v1.GetRequest\x1a&.meshtrade.trading.spot.v1.GetResponseB4Z2github.com/meshtrade/api/go/trading/spot/v1;spotv1b\x06proto3"
+	"'meshtrade/trading/spot/v1/service.proto\x12\x19meshtrade.trading.spot.v1\x1a$meshtrade/trading/spot/v1/spot.proto\"(\n" +
+	"\x0eGetSpotRequest\x12\x16\n" +
+	"\x06number\x18\x01 \x01(\tR\x06number\"F\n" +
+	"\x0fGetSpotResponse\x123\n" +
+	"\x04spot\x18\x01 \x01(\v2\x1f.meshtrade.trading.spot.v1.SpotR\x04spot2k\n" +
+	"\vSpotService\x12\\\n" +
+	"\x03Get\x12).meshtrade.trading.spot.v1.GetSpotRequest\x1a*.meshtrade.trading.spot.v1.GetSpotResponseB4Z2github.com/meshtrade/api/go/trading/spot/v1;spotv1b\x06proto3"
 
 var (
 	file_meshtrade_trading_spot_v1_service_proto_rawDescOnce sync.Once
@@ -136,14 +135,14 @@ func file_meshtrade_trading_spot_v1_service_proto_rawDescGZIP() []byte {
 
 var file_meshtrade_trading_spot_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_meshtrade_trading_spot_v1_service_proto_goTypes = []any{
-	(*GetRequest)(nil),  // 0: meshtrade.trading.spot.v1.GetRequest
-	(*GetResponse)(nil), // 1: meshtrade.trading.spot.v1.GetResponse
-	(*Spot)(nil),        // 2: meshtrade.trading.spot.v1.Spot
+	(*GetSpotRequest)(nil),  // 0: meshtrade.trading.spot.v1.GetSpotRequest
+	(*GetSpotResponse)(nil), // 1: meshtrade.trading.spot.v1.GetSpotResponse
+	(*Spot)(nil),            // 2: meshtrade.trading.spot.v1.Spot
 }
 var file_meshtrade_trading_spot_v1_service_proto_depIdxs = []int32{
-	2, // 0: meshtrade.trading.spot.v1.GetResponse.spot:type_name -> meshtrade.trading.spot.v1.Spot
-	0, // 1: meshtrade.trading.spot.v1.Service.Get:input_type -> meshtrade.trading.spot.v1.GetRequest
-	1, // 2: meshtrade.trading.spot.v1.Service.Get:output_type -> meshtrade.trading.spot.v1.GetResponse
+	2, // 0: meshtrade.trading.spot.v1.GetSpotResponse.spot:type_name -> meshtrade.trading.spot.v1.Spot
+	0, // 1: meshtrade.trading.spot.v1.SpotService.Get:input_type -> meshtrade.trading.spot.v1.GetSpotRequest
+	1, // 2: meshtrade.trading.spot.v1.SpotService.Get:output_type -> meshtrade.trading.spot.v1.GetSpotResponse
 	2, // [2:3] is the sub-list for method output_type
 	1, // [1:2] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name

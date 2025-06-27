@@ -8,18 +8,18 @@ import (
 	testing "testing"
 )
 
-// Ensure that MockService implements the Service interface
-var _ Service = &MockService{}
+// Ensure that MockDirectOrderService implements the DirectOrderService interface
+var _ DirectOrderService = &MockDirectOrderService{}
 
-// MockService is a mock implementation of the Service interface.
-type MockService struct {
+// MockDirectOrderService is a mock implementation of the DirectOrderService interface.
+type MockDirectOrderService struct {
 	mutex              sync.Mutex
 	T                  *testing.T
-	GetFunc            func(t *testing.T, m *MockService, ctx context.Context, request *GetRequest) (*GetResponse, error)
+	GetFunc            func(t *testing.T, m *MockDirectOrderService, ctx context.Context, request *GetDirectOrderRequest) (*GetDirectOrderResponse, error)
 	GetFuncInvocations int
 }
 
-func (m *MockService) Get(ctx context.Context, request *GetRequest) (*GetResponse, error) {
+func (m *MockDirectOrderService) Get(ctx context.Context, request *GetDirectOrderRequest) (*GetDirectOrderResponse, error) {
 	m.mutex.Lock()
 	m.GetFuncInvocations++
 	m.mutex.Unlock()

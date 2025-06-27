@@ -15,3 +15,4 @@ message GetGroupRequest {}
 message GetGroupResponse {
   meshtrade.iam.group.v1.Group group = 1;
 }
+

@@ -88,7 +88,8 @@
     "clean": "rimraf ./dist",
     "copy-proto": "copyfiles -u 1 \"src/**/*.js\" \"src/**/*.d.ts\" dist",
     "build:ts": "tsc",
-    "build": "yarn run clean && yarn run copy-proto && yarn run build:ts"
+    "build": "yarn run clean && yarn run copy-proto && yarn run build:ts",
+    "lint": "eslint . --ext .ts"
   },
   "publishConfig": {
     "access": "public"

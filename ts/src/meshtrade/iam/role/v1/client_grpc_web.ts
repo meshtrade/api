@@ -1,8 +1,8 @@
 import { LoggingInterceptor } from "../../../common/grpc_web";
-import { ServicePromiseClient } from "./service_grpc_web_pb";
+import { RoleServicePromiseClient } from "./service_grpc_web_pb";
 import {
-  GetRequest,
-  GetResponse,
+  GetRoleRequest,
+  GetRoleResponse,
 } from "./service_pb";
 import { ConfigOpts, getConfigFromOpts } from "../../../common/config";
 
@@ -10,7 +10,7 @@ import { ConfigOpts, getConfigFromOpts } from "../../../common/config";
  * Client for interacting with the iam role v1 API resource service.
  */
 export class RoleGrpcWebClientV1 {
-  private _service: ServicePromiseClient;
+  private _service: RoleServicePromiseClient;
 
   /**
    * Constructs an instance of RoleGrpcWebClientV1.
@@ -21,7 +21,7 @@ export class RoleGrpcWebClientV1 {
     const _config = getConfigFromOpts(config);
 
     // construct service
-    this._service = new ServicePromiseClient(_config.apiServerURL, null, {
+    this._service = new RoleServicePromiseClient(_config.apiServerURL, null, {
       withCredentials: true,
       unaryInterceptors: [new LoggingInterceptor()],
     });
@@ -29,10 +29,10 @@ export class RoleGrpcWebClientV1 {
 
   /**
    * Retrieves a role.
-   * @param {GetRequest} request - The request object for getting a role.
-   * @returns {Promise<GetResponse>} A promise that resolves with the role.
+   * @param {GetRoleRequest} request - The request object for getting a role.
+   * @returns {Promise<GetRoleResponse>} A promise that resolves with the role.
    */
-  get(request: GetRequest): Promise<GetResponse> {
+  get(request: GetRoleRequest): Promise<GetRoleResponse> {
     return this._service.get(request);
   }
 }

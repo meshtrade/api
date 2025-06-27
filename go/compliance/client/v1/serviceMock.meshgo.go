@@ -8,20 +8,20 @@ import (
 	testing "testing"
 )
 
-// Ensure that MockService implements the Service interface
-var _ Service = &MockService{}
+// Ensure that MockClientService implements the ClientService interface
+var _ ClientService = &MockClientService{}
 
-// MockService is a mock implementation of the Service interface.
-type MockService struct {
+// MockClientService is a mock implementation of the ClientService interface.
+type MockClientService struct {
 	mutex               sync.Mutex
 	T                   *testing.T
-	GetFunc             func(t *testing.T, m *MockService, ctx context.Context, request *GetRequest) (*GetResponse, error)
+	GetFunc             func(t *testing.T, m *MockClientService, ctx context.Context, request *GetClientRequest) (*GetClientResponse, error)
 	GetFuncInvocations  int
-	ListFunc            func(t *testing.T, m *MockService, ctx context.Context, request *ListRequest) (*ListResponse, error)
+	ListFunc            func(t *testing.T, m *MockClientService, ctx context.Context, request *ListClientsRequest) (*ListClientsResponse, error)
 	ListFuncInvocations int
 }
 
-func (m *MockService) Get(ctx context.Context, request *GetRequest) (*GetResponse, error) {
+func (m *MockClientService) Get(ctx context.Context, request *GetClientRequest) (*GetClientResponse, error) {
 	m.mutex.Lock()
 	m.GetFuncInvocations++
 	m.mutex.Unlock()
@@ -31,7 +31,7 @@ func (m *MockService) Get(ctx context.Context, request *GetRequest) (*GetRespons
 	return m.GetFunc(m.T, m, ctx, request)
 }
 
-func (m *MockService) List(ctx context.Context, request *ListRequest) (*ListResponse, error) {
+func (m *MockClientService) List(ctx context.Context, request *ListClientsRequest) (*ListClientsResponse, error) {
 	m.mutex.Lock()
 	m.ListFuncInvocations++
 	m.mutex.Unlock()

@@ -10,29 +10,29 @@ import (
 	grpc "google.golang.org/grpc"
 )
 
-// Ensure that GRPCClientService implements the Service interface
-var _ Service = &GRPCClientService{}
+// Ensure that GRPCClientInstrumentService implements the InstrumentService interface
+var _ InstrumentService = &GRPCClientInstrumentService{}
 
-// GRPCClientService is a gRPC client implementation of the Service interface.
-type GRPCClientService struct {
+// GRPCClientInstrumentService is a gRPC client implementation of the InstrumentService interface.
+type GRPCClientInstrumentService struct {
 	tracer     trace.Tracer
-	grpcClient ServiceClient
+	grpcClient InstrumentServiceClient
 }
 
-func NewGRPCClientService(
+func NewGRPCClientInstrumentService(
 	tracer trace.Tracer,
 	grpcClientConnection *grpc.ClientConn,
-) *GRPCClientService {
-	return &GRPCClientService{
+) *GRPCClientInstrumentService {
+	return &GRPCClientInstrumentService{
 		tracer:     tracer,
-		grpcClient: NewServiceClient(grpcClientConnection),
+		grpcClient: NewInstrumentServiceClient(grpcClientConnection),
 	}
 }
 
-func (g *GRPCClientService) Get(ctx context.Context, request *GetRequest) (*GetResponse, error) {
+func (g *GRPCClientInstrumentService) Get(ctx context.Context, request *GetInstrumentRequest) (*GetInstrumentResponse, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
-		ServiceServiceProviderName+"Get",
+		InstrumentServiceServiceProviderName+"Get",
 	)
 	defer span.End()
 
@@ -46,10 +46,10 @@ func (g *GRPCClientService) Get(ctx context.Context, request *GetRequest) (*GetR
 	return getResponse, nil
 }
 
-func (g *GRPCClientService) Mint(ctx context.Context, request *MintRequest) (*MintResponse, error) {
+func (g *GRPCClientInstrumentService) Mint(ctx context.Context, request *MintInstrumentRequest) (*MintInstrumentResponse, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
-		ServiceServiceProviderName+"Mint",
+		InstrumentServiceServiceProviderName+"Mint",
 	)
 	defer span.End()
 
@@ -63,10 +63,10 @@ func (g *GRPCClientService) Mint(ctx context.Context, request *MintRequest) (*Mi
 	return mintResponse, nil
 }
 
-func (g *GRPCClientService) Burn(ctx context.Context, request *BurnRequest) (*BurnResponse, error) {
+func (g *GRPCClientInstrumentService) Burn(ctx context.Context, request *BurnInstrumentRequest) (*BurnInstrumentResponse, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
-		ServiceServiceProviderName+"Burn",
+		InstrumentServiceServiceProviderName+"Burn",
 	)
 	defer span.End()
 

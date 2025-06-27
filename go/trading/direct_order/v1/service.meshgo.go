@@ -6,8 +6,8 @@ import (
 	context "context"
 )
 
-type Service interface {
-	Get(ctx context.Context, request *GetRequest) (*GetResponse, error)
+type DirectOrderService interface {
+	Get(ctx context.Context, request *GetDirectOrderRequest) (*GetDirectOrderResponse, error)
 }
 
-const ServiceServiceProviderName = "meshtrade-trading-direct_order-v1-Service"
+const DirectOrderServiceServiceProviderName = "meshtrade-trading-direct_order-v1-DirectOrderService"

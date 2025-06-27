@@ -1,8 +1,8 @@
 import { LoggingInterceptor } from "../../../common/grpc_web";
-import { ServicePromiseClient } from "./service_grpc_web_pb";
+import { DirectOrderServicePromiseClient } from "./service_grpc_web_pb";
 import {
-  GetRequest,
-  GetResponse,
+  GetDirectOrderRequest,
+  GetDirectOrderResponse,
 } from "./service_pb";
 import { ConfigOpts, getConfigFromOpts } from "../../../common/config";
 
@@ -10,7 +10,7 @@ import { ConfigOpts, getConfigFromOpts } from "../../../common/config";
  * Client for interacting with the trading direct_order v1 API resource service.
  */
 export class DirectOrderGrpcWebClientV1 {
-  private _service: ServicePromiseClient;
+  private _service: DirectOrderServicePromiseClient;
 
   /**
    * Constructs an instance of DirectOrderGrpcWebClientV1.
@@ -21,7 +21,7 @@ export class DirectOrderGrpcWebClientV1 {
     const _config = getConfigFromOpts(config);
 
     // construct service
-    this._service = new ServicePromiseClient(_config.apiServerURL, null, {
+    this._service = new DirectOrderServicePromiseClient(_config.apiServerURL, null, {
       withCredentials: true,
       unaryInterceptors: [new LoggingInterceptor()],
     });
@@ -29,10 +29,10 @@ export class DirectOrderGrpcWebClientV1 {
 
   /**
    * Retrieves a direct order.
-   * @param {GetRequest} request - The request object for getting a direct order.
-   * @returns {Promise<GetResponse>} A promise that resolves with the direct order.
+   * @param {GetDirectOrderRequest} request - The request object for getting a direct order.
+   * @returns {Promise<GetDirectOrderResponse>} A promise that resolves with the direct order.
    */
-  get(request: GetRequest): Promise<GetResponse> {
+  get(request: GetDirectOrderRequest): Promise<GetDirectOrderResponse> {
     return this._service.get(request);
   }
 }

@@ -29,7 +29,7 @@ func NewGRPCClientGroupService(
 	}
 }
 
-func (g *GRPCClientGroupService) Get(ctx context.Context, request *GetRequest) (*GetResponse, error) {
+func (g *GRPCClientGroupService) Get(ctx context.Context, request *GetGroupRequest) (*GetGroupResponse, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
 		GroupServiceServiceProviderName+"Get",

@@ -10,29 +10,29 @@ import (
 	grpc "google.golang.org/grpc"
 )
 
-// Ensure that GRPCClientService implements the Service interface
-var _ Service = &GRPCClientService{}
+// Ensure that GRPCClientDirectOrderService implements the DirectOrderService interface
+var _ DirectOrderService = &GRPCClientDirectOrderService{}
 
-// GRPCClientService is a gRPC client implementation of the Service interface.
-type GRPCClientService struct {
+// GRPCClientDirectOrderService is a gRPC client implementation of the DirectOrderService interface.
+type GRPCClientDirectOrderService struct {
 	tracer     trace.Tracer
-	grpcClient ServiceClient
+	grpcClient DirectOrderServiceClient
 }
 
-func NewGRPCClientService(
+func NewGRPCClientDirectOrderService(
 	tracer trace.Tracer,
 	grpcClientConnection *grpc.ClientConn,
-) *GRPCClientService {
-	return &GRPCClientService{
+) *GRPCClientDirectOrderService {
+	return &GRPCClientDirectOrderService{
 		tracer:     tracer,
-		grpcClient: NewServiceClient(grpcClientConnection),
+		grpcClient: NewDirectOrderServiceClient(grpcClientConnection),
 	}
 }
 
-func (g *GRPCClientService) Get(ctx context.Context, request *GetRequest) (*GetResponse, error) {
+func (g *GRPCClientDirectOrderService) Get(ctx context.Context, request *GetDirectOrderRequest) (*GetDirectOrderResponse, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
-		ServiceServiceProviderName+"Get",
+		DirectOrderServiceServiceProviderName+"Get",
 	)
 	defer span.End()
 

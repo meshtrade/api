@@ -26,7 +26,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type GroupServiceClient interface {
-	Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error)
+	Get(ctx context.Context, in *GetGroupRequest, opts ...grpc.CallOption) (*GetGroupResponse, error)
 }
 
 type groupServiceClient struct {
@@ -37,9 +37,9 @@ func NewGroupServiceClient(cc grpc.ClientConnInterface) GroupServiceClient {
 	return &groupServiceClient{cc}
 }
 
-func (c *groupServiceClient) Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error) {
+func (c *groupServiceClient) Get(ctx context.Context, in *GetGroupRequest, opts ...grpc.CallOption) (*GetGroupResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetResponse)
+	out := new(GetGroupResponse)
 	err := c.cc.Invoke(ctx, GroupService_Get_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -51,7 +51,7 @@ func (c *groupServiceClient) Get(ctx context.Context, in *GetRequest, opts ...gr
 // All implementations must embed UnimplementedGroupServiceServer
 // for forward compatibility.
 type GroupServiceServer interface {
-	Get(context.Context, *GetRequest) (*GetResponse, error)
+	Get(context.Context, *GetGroupRequest) (*GetGroupResponse, error)
 	mustEmbedUnimplementedGroupServiceServer()
 }
 
@@ -62,7 +62,7 @@ type GroupServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedGroupServiceServer struct{}
 
-func (UnimplementedGroupServiceServer) Get(context.Context, *GetRequest) (*GetResponse, error) {
+func (UnimplementedGroupServiceServer) Get(context.Context, *GetGroupRequest) (*GetGroupResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
 func (UnimplementedGroupServiceServer) mustEmbedUnimplementedGroupServiceServer() {}
@@ -87,7 +87,7 @@ func RegisterGroupServiceServer(s grpc.ServiceRegistrar, srv GroupServiceServer)
 }
 
 func _GroupService_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetRequest)
+	in := new(GetGroupRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -99,7 +99,7 @@ func _GroupService_Get_Handler(srv interface{}, ctx context.Context, dec func(in
 		FullMethod: GroupService_Get_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GroupServiceServer).Get(ctx, req.(*GetRequest))
+		return srv.(GroupServiceServer).Get(ctx, req.(*GetGroupRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

@@ -10,29 +10,29 @@ import (
 	grpc "google.golang.org/grpc"
 )
 
-// Ensure that GRPCClientService implements the Service interface
-var _ Service = &GRPCClientService{}
+// Ensure that GRPCClientClientService implements the ClientService interface
+var _ ClientService = &GRPCClientClientService{}
 
-// GRPCClientService is a gRPC client implementation of the Service interface.
-type GRPCClientService struct {
+// GRPCClientClientService is a gRPC client implementation of the ClientService interface.
+type GRPCClientClientService struct {
 	tracer     trace.Tracer
-	grpcClient ServiceClient
+	grpcClient ClientServiceClient
 }
 
-func NewGRPCClientService(
+func NewGRPCClientClientService(
 	tracer trace.Tracer,
 	grpcClientConnection *grpc.ClientConn,
-) *GRPCClientService {
-	return &GRPCClientService{
+) *GRPCClientClientService {
+	return &GRPCClientClientService{
 		tracer:     tracer,
-		grpcClient: NewServiceClient(grpcClientConnection),
+		grpcClient: NewClientServiceClient(grpcClientConnection),
 	}
 }
 
-func (g *GRPCClientService) Get(ctx context.Context, request *GetRequest) (*GetResponse, error) {
+func (g *GRPCClientClientService) Get(ctx context.Context, request *GetClientRequest) (*GetClientResponse, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
-		ServiceServiceProviderName+"Get",
+		ClientServiceServiceProviderName+"Get",
 	)
 	defer span.End()
 
@@ -46,10 +46,10 @@ func (g *GRPCClientService) Get(ctx context.Context, request *GetRequest) (*GetR
 	return getResponse, nil
 }
 
-func (g *GRPCClientService) List(ctx context.Context, request *ListRequest) (*ListResponse, error) {
+func (g *GRPCClientClientService) List(ctx context.Context, request *ListClientsRequest) (*ListClientsResponse, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
-		ServiceServiceProviderName+"List",
+		ClientServiceServiceProviderName+"List",
 	)
 	defer span.End()
 

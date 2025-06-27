@@ -25,7 +25,7 @@ _sym_db = _symbol_database.Default()
 from meshtrade.trading.limit_order.v1 import limit_order_pb2 as meshtrade_dot_trading_dot_limit__order_dot_v1_dot_limit__order__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n.meshtrade/trading/limit_order/v1/service.proto\x12 meshtrade.trading.limit_order.v1\x1a\x32meshtrade/trading/limit_order/v1/limit_order.proto\"$\n\nGetRequest\x12\x16\n\x06number\x18\x01 \x01(\tR\x06number\"[\n\x0bGetResponse\x12L\n\nlimitorder\x18\x01 \x01(\x0b\x32,.meshtrade.trading.limit_order.v1.LimitOrderR\nlimitorder2m\n\x07Service\x12\x62\n\x03Get\x12,.meshtrade.trading.limit_order.v1.GetRequest\x1a-.meshtrade.trading.limit_order.v1.GetResponseBAZ?github.com/meshtrade/api/go/trading/limit_order/v1;limitorderv1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n.meshtrade/trading/limit_order/v1/service.proto\x12 meshtrade.trading.limit_order.v1\x1a\x32meshtrade/trading/limit_order/v1/limit_order.proto\".\n\x14GetLimitOrderRequest\x12\x16\n\x06number\x18\x01 \x01(\tR\x06number\"e\n\x15GetLimitOrderResponse\x12L\n\nlimitorder\x18\x01 \x01(\x0b\x32,.meshtrade.trading.limit_order.v1.LimitOrderR\nlimitorder2\x8b\x01\n\x11LimitOrderService\x12v\n\x03Get\x12\x36.meshtrade.trading.limit_order.v1.GetLimitOrderRequest\x1a\x37.meshtrade.trading.limit_order.v1.GetLimitOrderResponseBAZ?github.com/meshtrade/api/go/trading/limit_order/v1;limitorderv1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -33,10 +33,10 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'meshtrade.trading.limit_ord
 if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'Z?github.com/meshtrade/api/go/trading/limit_order/v1;limitorderv1'
-  _globals['_GETREQUEST']._serialized_start=136
-  _globals['_GETREQUEST']._serialized_end=172
-  _globals['_GETRESPONSE']._serialized_start=174
-  _globals['_GETRESPONSE']._serialized_end=265
-  _globals['_SERVICE']._serialized_start=267
-  _globals['_SERVICE']._serialized_end=376
+  _globals['_GETLIMITORDERREQUEST']._serialized_start=136
+  _globals['_GETLIMITORDERREQUEST']._serialized_end=182
+  _globals['_GETLIMITORDERRESPONSE']._serialized_start=184
+  _globals['_GETLIMITORDERRESPONSE']._serialized_end=285
+  _globals['_LIMITORDERSERVICE']._serialized_start=288
+  _globals['_LIMITORDERSERVICE']._serialized_end=427
 # @@protoc_insertion_point(module_scope)

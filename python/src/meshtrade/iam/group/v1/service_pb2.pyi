@@ -6,11 +6,11 @@ from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
-class GetRequest(_message.Message):
+class GetGroupRequest(_message.Message):
     __slots__ = ()
     def __init__(self) -> None: ...
 
-class GetResponse(_message.Message):
+class GetGroupResponse(_message.Message):
     __slots__ = ("group",)
     GROUP_FIELD_NUMBER: _ClassVar[int]
     group: _group_pb2.Group

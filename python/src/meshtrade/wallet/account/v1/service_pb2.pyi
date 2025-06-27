@@ -11,7 +11,7 @@ from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
-class CreateRequest(_message.Message):
+class CreateAccountRequest(_message.Message):
     __slots__ = ("label", "ledger", "open")
     LABEL_FIELD_NUMBER: _ClassVar[int]
     LEDGER_FIELD_NUMBER: _ClassVar[int]
@@ -21,7 +21,7 @@ class CreateRequest(_message.Message):
     open: bool
     def __init__(self, label: _Optional[str] = ..., ledger: _Optional[_Union[_ledger_pb2.Ledger, str]] = ..., open: bool = ...) -> None: ...
 
-class CreateResponse(_message.Message):
+class CreateAccountResponse(_message.Message):
     __slots__ = ("account", "transaction_id")
     ACCOUNT_FIELD_NUMBER: _ClassVar[int]
     TRANSACTION_ID_FIELD_NUMBER: _ClassVar[int]
@@ -29,36 +29,36 @@ class CreateResponse(_message.Message):
     transaction_id: str
     def __init__(self, account: _Optional[_Union[_account_pb2.Account, _Mapping]] = ..., transaction_id: _Optional[str] = ...) -> None: ...
 
-class GetRequest(_message.Message):
+class GetAccountRequest(_message.Message):
     __slots__ = ("number",)
     NUMBER_FIELD_NUMBER: _ClassVar[int]
     number: str
     def __init__(self, number: _Optional[str] = ...) -> None: ...
 
-class GetResponse(_message.Message):
+class GetAccountResponse(_message.Message):
     __slots__ = ("account",)
     ACCOUNT_FIELD_NUMBER: _ClassVar[int]
     account: _account_pb2.Account
     def __init__(self, account: _Optional[_Union[_account_pb2.Account, _Mapping]] = ...) -> None: ...
 
-class ListRequest(_message.Message):
+class ListAccountsRequest(_message.Message):
     __slots__ = ()
     def __init__(self) -> None: ...
 
-class ListResponse(_message.Message):
-    __slots__ = ("account",)
-    ACCOUNT_FIELD_NUMBER: _ClassVar[int]
-    account: _containers.RepeatedCompositeFieldContainer[_account_pb2.Account]
-    def __init__(self, account: _Optional[_Iterable[_Union[_account_pb2.Account, _Mapping]]] = ...) -> None: ...
+class ListAccountsResponse(_message.Message):
+    __slots__ = ("accounts",)
+    ACCOUNTS_FIELD_NUMBER: _ClassVar[int]
+    accounts: _containers.RepeatedCompositeFieldContainer[_account_pb2.Account]
+    def __init__(self, accounts: _Optional[_Iterable[_Union[_account_pb2.Account, _Mapping]]] = ...) -> None: ...
 
-class SearchRequest(_message.Message):
+class SearchAccountsRequest(_message.Message):
     __slots__ = ("label",)
     LABEL_FIELD_NUMBER: _ClassVar[int]
     label: str
     def __init__(self, label: _Optional[str] = ...) -> None: ...
 
-class SearchResponse(_message.Message):
-    __slots__ = ("account",)
-    ACCOUNT_FIELD_NUMBER: _ClassVar[int]
-    account: _containers.RepeatedCompositeFieldContainer[_account_pb2.Account]
-    def __init__(self, account: _Optional[_Iterable[_Union[_account_pb2.Account, _Mapping]]] = ...) -> None: ...
+class SearchAccountsResponse(_message.Message):
+    __slots__ = ("accounts",)
+    ACCOUNTS_FIELD_NUMBER: _ClassVar[int]
+    accounts: _containers.RepeatedCompositeFieldContainer[_account_pb2.Account]
+    def __init__(self, accounts: _Optional[_Iterable[_Union[_account_pb2.Account, _Mapping]]] = ...) -> None: ...

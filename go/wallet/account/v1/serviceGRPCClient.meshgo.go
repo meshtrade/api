@@ -10,29 +10,29 @@ import (
 	grpc "google.golang.org/grpc"
 )
 
-// Ensure that GRPCClientService implements the Service interface
-var _ Service = &GRPCClientService{}
+// Ensure that GRPCClientAccountService implements the AccountService interface
+var _ AccountService = &GRPCClientAccountService{}
 
-// GRPCClientService is a gRPC client implementation of the Service interface.
-type GRPCClientService struct {
+// GRPCClientAccountService is a gRPC client implementation of the AccountService interface.
+type GRPCClientAccountService struct {
 	tracer     trace.Tracer
-	grpcClient ServiceClient
+	grpcClient AccountServiceClient
 }
 
-func NewGRPCClientService(
+func NewGRPCClientAccountService(
 	tracer trace.Tracer,
 	grpcClientConnection *grpc.ClientConn,
-) *GRPCClientService {
-	return &GRPCClientService{
+) *GRPCClientAccountService {
+	return &GRPCClientAccountService{
 		tracer:     tracer,
-		grpcClient: NewServiceClient(grpcClientConnection),
+		grpcClient: NewAccountServiceClient(grpcClientConnection),
 	}
 }
 
-func (g *GRPCClientService) Create(ctx context.Context, request *CreateRequest) (*CreateResponse, error) {
+func (g *GRPCClientAccountService) Create(ctx context.Context, request *CreateAccountRequest) (*CreateAccountResponse, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
-		ServiceServiceProviderName+"Create",
+		AccountServiceServiceProviderName+"Create",
 	)
 	defer span.End()
 
@@ -46,10 +46,10 @@ func (g *GRPCClientService) Create(ctx context.Context, request *CreateRequest) 
 	return createResponse, nil
 }
 
-func (g *GRPCClientService) Get(ctx context.Context, request *GetRequest) (*GetResponse, error) {
+func (g *GRPCClientAccountService) Get(ctx context.Context, request *GetAccountRequest) (*GetAccountResponse, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
-		ServiceServiceProviderName+"Get",
+		AccountServiceServiceProviderName+"Get",
 	)
 	defer span.End()
 
@@ -63,10 +63,10 @@ func (g *GRPCClientService) Get(ctx context.Context, request *GetRequest) (*GetR
 	return getResponse, nil
 }
 
-func (g *GRPCClientService) List(ctx context.Context, request *ListRequest) (*ListResponse, error) {
+func (g *GRPCClientAccountService) List(ctx context.Context, request *ListAccountsRequest) (*ListAccountsResponse, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
-		ServiceServiceProviderName+"List",
+		AccountServiceServiceProviderName+"List",
 	)
 	defer span.End()
 
@@ -80,10 +80,10 @@ func (g *GRPCClientService) List(ctx context.Context, request *ListRequest) (*Li
 	return listResponse, nil
 }
 
-func (g *GRPCClientService) Search(ctx context.Context, request *SearchRequest) (*SearchResponse, error) {
+func (g *GRPCClientAccountService) Search(ctx context.Context, request *SearchAccountsRequest) (*SearchAccountsResponse, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
-		ServiceServiceProviderName+"Search",
+		AccountServiceServiceProviderName+"Search",
 	)
 	defer span.End()
 

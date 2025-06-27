@@ -19,101 +19,101 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Service_Get_FullMethodName = "/meshtrade.iam.role.v1.Service/Get"
+	RoleService_Get_FullMethodName = "/meshtrade.iam.role.v1.RoleService/Get"
 )
 
-// ServiceClient is the client API for Service service.
+// RoleServiceClient is the client API for RoleService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type ServiceClient interface {
-	Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error)
+type RoleServiceClient interface {
+	Get(ctx context.Context, in *GetRoleRequest, opts ...grpc.CallOption) (*GetRoleResponse, error)
 }
 
-type serviceClient struct {
+type roleServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewServiceClient(cc grpc.ClientConnInterface) ServiceClient {
-	return &serviceClient{cc}
+func NewRoleServiceClient(cc grpc.ClientConnInterface) RoleServiceClient {
+	return &roleServiceClient{cc}
 }
 
-func (c *serviceClient) Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error) {
+func (c *roleServiceClient) Get(ctx context.Context, in *GetRoleRequest, opts ...grpc.CallOption) (*GetRoleResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetResponse)
-	err := c.cc.Invoke(ctx, Service_Get_FullMethodName, in, out, cOpts...)
+	out := new(GetRoleResponse)
+	err := c.cc.Invoke(ctx, RoleService_Get_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// ServiceServer is the server API for Service service.
-// All implementations must embed UnimplementedServiceServer
+// RoleServiceServer is the server API for RoleService service.
+// All implementations must embed UnimplementedRoleServiceServer
 // for forward compatibility.
-type ServiceServer interface {
-	Get(context.Context, *GetRequest) (*GetResponse, error)
-	mustEmbedUnimplementedServiceServer()
+type RoleServiceServer interface {
+	Get(context.Context, *GetRoleRequest) (*GetRoleResponse, error)
+	mustEmbedUnimplementedRoleServiceServer()
 }
 
-// UnimplementedServiceServer must be embedded to have
+// UnimplementedRoleServiceServer must be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
 // pointer dereference when methods are called.
-type UnimplementedServiceServer struct{}
+type UnimplementedRoleServiceServer struct{}
 
-func (UnimplementedServiceServer) Get(context.Context, *GetRequest) (*GetResponse, error) {
+func (UnimplementedRoleServiceServer) Get(context.Context, *GetRoleRequest) (*GetRoleResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
-func (UnimplementedServiceServer) mustEmbedUnimplementedServiceServer() {}
-func (UnimplementedServiceServer) testEmbeddedByValue()                 {}
+func (UnimplementedRoleServiceServer) mustEmbedUnimplementedRoleServiceServer() {}
+func (UnimplementedRoleServiceServer) testEmbeddedByValue()                     {}
 
-// UnsafeServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to ServiceServer will
+// UnsafeRoleServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to RoleServiceServer will
 // result in compilation errors.
-type UnsafeServiceServer interface {
-	mustEmbedUnimplementedServiceServer()
+type UnsafeRoleServiceServer interface {
+	mustEmbedUnimplementedRoleServiceServer()
 }
 
-func RegisterServiceServer(s grpc.ServiceRegistrar, srv ServiceServer) {
-	// If the following call pancis, it indicates UnimplementedServiceServer was
+func RegisterRoleServiceServer(s grpc.ServiceRegistrar, srv RoleServiceServer) {
+	// If the following call pancis, it indicates UnimplementedRoleServiceServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
 	// time to prevent it from happening at runtime later due to I/O.
 	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
 		t.testEmbeddedByValue()
 	}
-	s.RegisterService(&Service_ServiceDesc, srv)
+	s.RegisterService(&RoleService_ServiceDesc, srv)
 }
 
-func _Service_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetRequest)
+func _RoleService_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetRoleRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ServiceServer).Get(ctx, in)
+		return srv.(RoleServiceServer).Get(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Service_Get_FullMethodName,
+		FullMethod: RoleService_Get_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ServiceServer).Get(ctx, req.(*GetRequest))
+		return srv.(RoleServiceServer).Get(ctx, req.(*GetRoleRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// Service_ServiceDesc is the grpc.ServiceDesc for Service service.
+// RoleService_ServiceDesc is the grpc.ServiceDesc for RoleService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var Service_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "meshtrade.iam.role.v1.Service",
-	HandlerType: (*ServiceServer)(nil),
+var RoleService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "meshtrade.iam.role.v1.RoleService",
+	HandlerType: (*RoleServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "Get",
-			Handler:    _Service_Get_Handler,
+			Handler:    _RoleService_Get_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -58,19 +58,19 @@
     - [NaturalPersonConnectionType](#meshtrade-compliance-client-v1-NaturalPersonConnectionType)
   
 - [meshtrade/compliance/client/v1/service.proto](#meshtrade_compliance_client_v1_service-proto)
-    - [GetRequest](#meshtrade-compliance-client-v1-GetRequest)
-    - [GetResponse](#meshtrade-compliance-client-v1-GetResponse)
-    - [ListRequest](#meshtrade-compliance-client-v1-ListRequest)
-    - [ListResponse](#meshtrade-compliance-client-v1-ListResponse)
+    - [GetClientRequest](#meshtrade-compliance-client-v1-GetClientRequest)
+    - [GetClientResponse](#meshtrade-compliance-client-v1-GetClientResponse)
+    - [ListClientsRequest](#meshtrade-compliance-client-v1-ListClientsRequest)
+    - [ListClientsResponse](#meshtrade-compliance-client-v1-ListClientsResponse)
   
-    - [Service](#meshtrade-compliance-client-v1-Service)
+    - [ClientService](#meshtrade-compliance-client-v1-ClientService)
   
 - [meshtrade/iam/group/v1/group.proto](#meshtrade_iam_group_v1_group-proto)
     - [Group](#meshtrade-iam-group-v1-Group)
   
 - [meshtrade/iam/group/v1/service.proto](#meshtrade_iam_group_v1_service-proto)
-    - [GetRequest](#meshtrade-iam-group-v1-GetRequest)
-    - [GetResponse](#meshtrade-iam-group-v1-GetResponse)
+    - [GetGroupRequest](#meshtrade-iam-group-v1-GetGroupRequest)
+    - [GetGroupResponse](#meshtrade-iam-group-v1-GetGroupResponse)
   
     - [GroupService](#meshtrade-iam-group-v1-GroupService)
   
@@ -81,10 +81,10 @@
     - [Role](#meshtrade-iam-role-v1-Role)
   
 - [meshtrade/iam/role/v1/service.proto](#meshtrade_iam_role_v1_service-proto)
-    - [GetRequest](#meshtrade-iam-role-v1-GetRequest)
-    - [GetResponse](#meshtrade-iam-role-v1-GetResponse)
+    - [GetRoleRequest](#meshtrade-iam-role-v1-GetRoleRequest)
+    - [GetRoleResponse](#meshtrade-iam-role-v1-GetRoleResponse)
   
-    - [Service](#meshtrade-iam-role-v1-Service)
+    - [RoleService](#meshtrade-iam-role-v1-RoleService)
   
 - [meshtrade/issuance_hub/instrument/v1/instrument.proto](#meshtrade_issuance_hub_instrument_v1_instrument-proto)
     - [Instrument](#meshtrade-issuance_hub-instrument-v1-Instrument)
@@ -99,14 +99,14 @@
     - [Amount](#meshtrade-type-v1-Amount)
   
 - [meshtrade/issuance_hub/instrument/v1/service.proto](#meshtrade_issuance_hub_instrument_v1_service-proto)
-    - [BurnRequest](#meshtrade-issuance_hub-instrument-v1-BurnRequest)
-    - [BurnResponse](#meshtrade-issuance_hub-instrument-v1-BurnResponse)
-    - [GetRequest](#meshtrade-issuance_hub-instrument-v1-GetRequest)
-    - [GetResponse](#meshtrade-issuance_hub-instrument-v1-GetResponse)
-    - [MintRequest](#meshtrade-issuance_hub-instrument-v1-MintRequest)
-    - [MintResponse](#meshtrade-issuance_hub-instrument-v1-MintResponse)
+    - [BurnInstrumentRequest](#meshtrade-issuance_hub-instrument-v1-BurnInstrumentRequest)
+    - [BurnInstrumentResponse](#meshtrade-issuance_hub-instrument-v1-BurnInstrumentResponse)
+    - [GetInstrumentRequest](#meshtrade-issuance_hub-instrument-v1-GetInstrumentRequest)
+    - [GetInstrumentResponse](#meshtrade-issuance_hub-instrument-v1-GetInstrumentResponse)
+    - [MintInstrumentRequest](#meshtrade-issuance_hub-instrument-v1-MintInstrumentRequest)
+    - [MintInstrumentResponse](#meshtrade-issuance_hub-instrument-v1-MintInstrumentResponse)
   
-    - [Service](#meshtrade-issuance_hub-instrument-v1-Service)
+    - [InstrumentService](#meshtrade-issuance_hub-instrument-v1-InstrumentService)
   
 - [meshtrade/ledger/transaction/v1/transaction_action.proto](#meshtrade_ledger_transaction_v1_transaction_action-proto)
     - [TransactionAction](#meshtrade-ledger-transaction-v1-TransactionAction)
@@ -133,43 +133,43 @@
     - [DirectOrder](#meshtrade-trading-direct_order-v1-DirectOrder)
   
 - [meshtrade/trading/direct_order/v1/service.proto](#meshtrade_trading_direct_order_v1_service-proto)
-    - [GetRequest](#meshtrade-trading-direct_order-v1-GetRequest)
-    - [GetResponse](#meshtrade-trading-direct_order-v1-GetResponse)
+    - [GetDirectOrderRequest](#meshtrade-trading-direct_order-v1-GetDirectOrderRequest)
+    - [GetDirectOrderResponse](#meshtrade-trading-direct_order-v1-GetDirectOrderResponse)
   
-    - [Service](#meshtrade-trading-direct_order-v1-Service)
+    - [DirectOrderService](#meshtrade-trading-direct_order-v1-DirectOrderService)
   
 - [meshtrade/trading/limit_order/v1/limit_order.proto](#meshtrade_trading_limit_order_v1_limit_order-proto)
     - [LimitOrder](#meshtrade-trading-limit_order-v1-LimitOrder)
   
 - [meshtrade/trading/limit_order/v1/service.proto](#meshtrade_trading_limit_order_v1_service-proto)
-    - [GetRequest](#meshtrade-trading-limit_order-v1-GetRequest)
-    - [GetResponse](#meshtrade-trading-limit_order-v1-GetResponse)
+    - [GetLimitOrderRequest](#meshtrade-trading-limit_order-v1-GetLimitOrderRequest)
+    - [GetLimitOrderResponse](#meshtrade-trading-limit_order-v1-GetLimitOrderResponse)
   
-    - [Service](#meshtrade-trading-limit_order-v1-Service)
+    - [LimitOrderService](#meshtrade-trading-limit_order-v1-LimitOrderService)
   
 - [meshtrade/trading/spot/v1/spot.proto](#meshtrade_trading_spot_v1_spot-proto)
     - [Spot](#meshtrade-trading-spot-v1-Spot)
   
 - [meshtrade/trading/spot/v1/service.proto](#meshtrade_trading_spot_v1_service-proto)
-    - [GetRequest](#meshtrade-trading-spot-v1-GetRequest)
-    - [GetResponse](#meshtrade-trading-spot-v1-GetResponse)
+    - [GetSpotRequest](#meshtrade-trading-spot-v1-GetSpotRequest)
+    - [GetSpotResponse](#meshtrade-trading-spot-v1-GetSpotResponse)
   
-    - [Service](#meshtrade-trading-spot-v1-Service)
+    - [SpotService](#meshtrade-trading-spot-v1-SpotService)
   
 - [meshtrade/wallet/account/v1/account.proto](#meshtrade_wallet_account_v1_account-proto)
     - [Account](#meshtrade-wallet-account-v1-Account)
   
 - [meshtrade/wallet/account/v1/service.proto](#meshtrade_wallet_account_v1_service-proto)
-    - [CreateRequest](#meshtrade-wallet-account-v1-CreateRequest)
-    - [CreateResponse](#meshtrade-wallet-account-v1-CreateResponse)
-    - [GetRequest](#meshtrade-wallet-account-v1-GetRequest)
-    - [GetResponse](#meshtrade-wallet-account-v1-GetResponse)
-    - [ListRequest](#meshtrade-wallet-account-v1-ListRequest)
-    - [ListResponse](#meshtrade-wallet-account-v1-ListResponse)
-    - [SearchRequest](#meshtrade-wallet-account-v1-SearchRequest)
-    - [SearchResponse](#meshtrade-wallet-account-v1-SearchResponse)
+    - [CreateAccountRequest](#meshtrade-wallet-account-v1-CreateAccountRequest)
+    - [CreateAccountResponse](#meshtrade-wallet-account-v1-CreateAccountResponse)
+    - [GetAccountRequest](#meshtrade-wallet-account-v1-GetAccountRequest)
+    - [GetAccountResponse](#meshtrade-wallet-account-v1-GetAccountResponse)
+    - [ListAccountsRequest](#meshtrade-wallet-account-v1-ListAccountsRequest)
+    - [ListAccountsResponse](#meshtrade-wallet-account-v1-ListAccountsResponse)
+    - [SearchAccountsRequest](#meshtrade-wallet-account-v1-SearchAccountsRequest)
+    - [SearchAccountsResponse](#meshtrade-wallet-account-v1-SearchAccountsResponse)
   
-    - [Service](#meshtrade-wallet-account-v1-Service)
+    - [AccountService](#meshtrade-wallet-account-v1-AccountService)
   
 - [Scalar Value Types](#scalar-value-types)
 
@@ -883,10 +883,10 @@ as well as secondary relationships for screening (familial, professional).
 
 
 
-<a name="meshtrade-compliance-client-v1-GetRequest"></a>
+<a name="meshtrade-compliance-client-v1-GetClientRequest"></a>
 
-### GetRequest
-GetRequest is the message used to request a single client resource.
+### GetClientRequest
+GetClientRequest is the message used to request a single client resource.
 
 
 | Field | Type | Label | Description |
@@ -898,10 +898,10 @@ GetRequest is the message used to request a single client resource.
 
 
 
-<a name="meshtrade-compliance-client-v1-GetResponse"></a>
+<a name="meshtrade-compliance-client-v1-GetClientResponse"></a>
 
-### GetResponse
-GetResponse contains the client resource requested.
+### GetClientResponse
+GetClientResponse contains the client resource requested.
 
 
 | Field | Type | Label | Description |
@@ -913,25 +913,25 @@ GetResponse contains the client resource requested.
 
 
 
-<a name="meshtrade-compliance-client-v1-ListRequest"></a>
+<a name="meshtrade-compliance-client-v1-ListClientsRequest"></a>
 
-### ListRequest
-ListRequest is the message used to request a list of client resources.
-
-
+### ListClientsRequest
+ListClientsRequest is the message used to request a list of client resources.
 
 
 
 
-<a name="meshtrade-compliance-client-v1-ListResponse"></a>
 
-### ListResponse
-ListResponse contains a list of client resources.
+
+<a name="meshtrade-compliance-client-v1-ListClientsResponse"></a>
+
+### ListClientsResponse
+ListClientsResponse contains a list of client resources.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| client | [Client](#meshtrade-compliance-client-v1-Client) | repeated | A repeated field containing the client resource objects. |
+| clients | [Client](#meshtrade-compliance-client-v1-Client) | repeated | A repeated field containing the client resource objects. |
 
 
 
@@ -944,9 +944,9 @@ ListResponse contains a list of client resources.
  
 
 
-<a name="meshtrade-compliance-client-v1-Service"></a>
+<a name="meshtrade-compliance-client-v1-ClientService"></a>
 
-### Service
+### ClientService
 Service manages client profiles for compliance and Know Your Customer (KYC)
 purposes.
 
@@ -956,10 +956,10 @@ the compliance profiles for these clients.
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| Get | [GetRequest](#meshtrade-compliance-client-v1-GetRequest) | [GetResponse](#meshtrade-compliance-client-v1-GetResponse) | Get retrieves a single client&#39;s compliance profile by its unique resource name.
+| Get | [GetClientRequest](#meshtrade-compliance-client-v1-GetClientRequest) | [GetClientResponse](#meshtrade-compliance-client-v1-GetClientResponse) | Get retrieves a single client&#39;s compliance profile by its unique resource name.
 
 This allows for fetching the complete compliance details of a specific client, including all associated information like identification documents, tax residencies, and company structures. |
-| List | [ListRequest](#meshtrade-compliance-client-v1-ListRequest) | [ListResponse](#meshtrade-compliance-client-v1-ListResponse) | List retrieves a collection of client compliance profiles.
+| List | [ListClientsRequest](#meshtrade-compliance-client-v1-ListClientsRequest) | [ListClientsResponse](#meshtrade-compliance-client-v1-ListClientsResponse) | List retrieves a collection of client compliance profiles.
 
 This method is useful for fetching multiple client records at once. Note: This endpoint does not currently support pagination or filtering. |
 
@@ -1005,19 +1005,19 @@ This method is useful for fetching multiple client records at once. Note: This e
 
 
 
-<a name="meshtrade-iam-group-v1-GetRequest"></a>
+<a name="meshtrade-iam-group-v1-GetGroupRequest"></a>
 
-### GetRequest
-
-
+### GetGroupRequest
 
 
 
 
 
-<a name="meshtrade-iam-group-v1-GetResponse"></a>
 
-### GetResponse
+
+<a name="meshtrade-iam-group-v1-GetGroupResponse"></a>
+
+### GetGroupResponse
 
 
 
@@ -1043,7 +1043,7 @@ This method is useful for fetching multiple client records at once. Note: This e
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| Get | [GetRequest](#meshtrade-iam-group-v1-GetRequest) | [GetResponse](#meshtrade-iam-group-v1-GetResponse) |  |
+| Get | [GetGroupRequest](#meshtrade-iam-group-v1-GetGroupRequest) | [GetGroupResponse](#meshtrade-iam-group-v1-GetGroupResponse) |  |
 
  
 
@@ -1121,19 +1121,19 @@ Role is a collection of permissions.
 
 
 
-<a name="meshtrade-iam-role-v1-GetRequest"></a>
+<a name="meshtrade-iam-role-v1-GetRoleRequest"></a>
 
-### GetRequest
-
-
+### GetRoleRequest
 
 
 
 
 
-<a name="meshtrade-iam-role-v1-GetResponse"></a>
 
-### GetResponse
+
+<a name="meshtrade-iam-role-v1-GetRoleResponse"></a>
+
+### GetRoleResponse
 
 
 
@@ -1152,14 +1152,14 @@ Role is a collection of permissions.
  
 
 
-<a name="meshtrade-iam-role-v1-Service"></a>
+<a name="meshtrade-iam-role-v1-RoleService"></a>
 
-### Service
+### RoleService
 
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| Get | [GetRequest](#meshtrade-iam-role-v1-GetRequest) | [GetResponse](#meshtrade-iam-role-v1-GetResponse) |  |
+| Get | [GetRoleRequest](#meshtrade-iam-role-v1-GetRoleRequest) | [GetRoleResponse](#meshtrade-iam-role-v1-GetRoleResponse) |  |
 
  
 
@@ -1314,9 +1314,9 @@ This model ensures that a quantity of an asset is never ambiguous.
 
 
 
-<a name="meshtrade-issuance_hub-instrument-v1-BurnRequest"></a>
+<a name="meshtrade-issuance_hub-instrument-v1-BurnInstrumentRequest"></a>
 
-### BurnRequest
+### BurnInstrumentRequest
 
 
 
@@ -1331,9 +1331,9 @@ This model ensures that a quantity of an asset is never ambiguous.
 
 
 
-<a name="meshtrade-issuance_hub-instrument-v1-BurnResponse"></a>
+<a name="meshtrade-issuance_hub-instrument-v1-BurnInstrumentResponse"></a>
 
-### BurnResponse
+### BurnInstrumentResponse
 
 
 
@@ -1346,9 +1346,9 @@ This model ensures that a quantity of an asset is never ambiguous.
 
 
 
-<a name="meshtrade-issuance_hub-instrument-v1-GetRequest"></a>
+<a name="meshtrade-issuance_hub-instrument-v1-GetInstrumentRequest"></a>
 
-### GetRequest
+### GetInstrumentRequest
 
 
 
@@ -1361,9 +1361,9 @@ This model ensures that a quantity of an asset is never ambiguous.
 
 
 
-<a name="meshtrade-issuance_hub-instrument-v1-GetResponse"></a>
+<a name="meshtrade-issuance_hub-instrument-v1-GetInstrumentResponse"></a>
 
-### GetResponse
+### GetInstrumentResponse
 
 
 
@@ -1376,9 +1376,9 @@ This model ensures that a quantity of an asset is never ambiguous.
 
 
 
-<a name="meshtrade-issuance_hub-instrument-v1-MintRequest"></a>
+<a name="meshtrade-issuance_hub-instrument-v1-MintInstrumentRequest"></a>
 
-### MintRequest
+### MintInstrumentRequest
 
 
 
@@ -1393,9 +1393,9 @@ This model ensures that a quantity of an asset is never ambiguous.
 
 
 
-<a name="meshtrade-issuance_hub-instrument-v1-MintResponse"></a>
+<a name="meshtrade-issuance_hub-instrument-v1-MintInstrumentResponse"></a>
 
-### MintResponse
+### MintInstrumentResponse
 
 
 
@@ -1414,17 +1414,17 @@ This model ensures that a quantity of an asset is never ambiguous.
  
 
 
-<a name="meshtrade-issuance_hub-instrument-v1-Service"></a>
+<a name="meshtrade-issuance_hub-instrument-v1-InstrumentService"></a>
 
-### Service
+### InstrumentService
 Service defines the RPC methods for interacting with the instrument resource,
 such as creating, updating, minting or burning it.
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| Get | [GetRequest](#meshtrade-issuance_hub-instrument-v1-GetRequest) | [GetResponse](#meshtrade-issuance_hub-instrument-v1-GetResponse) | Retrieve a specific instrument. |
-| Mint | [MintRequest](#meshtrade-issuance_hub-instrument-v1-MintRequest) | [MintResponse](#meshtrade-issuance_hub-instrument-v1-MintResponse) | Mints new units of an instrument into a given destination account. |
-| Burn | [BurnRequest](#meshtrade-issuance_hub-instrument-v1-BurnRequest) | [BurnResponse](#meshtrade-issuance_hub-instrument-v1-BurnResponse) | Burns a specified amount of an instrument from a source account. |
+| Get | [GetInstrumentRequest](#meshtrade-issuance_hub-instrument-v1-GetInstrumentRequest) | [GetInstrumentResponse](#meshtrade-issuance_hub-instrument-v1-GetInstrumentResponse) | Retrieve a specific instrument. |
+| Mint | [MintInstrumentRequest](#meshtrade-issuance_hub-instrument-v1-MintInstrumentRequest) | [MintInstrumentResponse](#meshtrade-issuance_hub-instrument-v1-MintInstrumentResponse) | Mints new units of an instrument into a given destination account. |
+| Burn | [BurnInstrumentRequest](#meshtrade-issuance_hub-instrument-v1-BurnInstrumentRequest) | [BurnInstrumentResponse](#meshtrade-issuance_hub-instrument-v1-BurnInstrumentResponse) | Burns a specified amount of an instrument from a source account. |
 
  
 
@@ -1663,9 +1663,9 @@ as either a read or a write operation.
 
 
 
-<a name="meshtrade-trading-direct_order-v1-GetRequest"></a>
+<a name="meshtrade-trading-direct_order-v1-GetDirectOrderRequest"></a>
 
-### GetRequest
+### GetDirectOrderRequest
 
 
 
@@ -1678,9 +1678,9 @@ as either a read or a write operation.
 
 
 
-<a name="meshtrade-trading-direct_order-v1-GetResponse"></a>
+<a name="meshtrade-trading-direct_order-v1-GetDirectOrderResponse"></a>
 
-### GetResponse
+### GetDirectOrderResponse
 
 
 
@@ -1699,14 +1699,14 @@ as either a read or a write operation.
  
 
 
-<a name="meshtrade-trading-direct_order-v1-Service"></a>
+<a name="meshtrade-trading-direct_order-v1-DirectOrderService"></a>
 
-### Service
+### DirectOrderService
 
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| Get | [GetRequest](#meshtrade-trading-direct_order-v1-GetRequest) | [GetResponse](#meshtrade-trading-direct_order-v1-GetResponse) |  |
+| Get | [GetDirectOrderRequest](#meshtrade-trading-direct_order-v1-GetDirectOrderRequest) | [GetDirectOrderResponse](#meshtrade-trading-direct_order-v1-GetDirectOrderResponse) |  |
 
  
 
@@ -1750,9 +1750,9 @@ as either a read or a write operation.
 
 
 
-<a name="meshtrade-trading-limit_order-v1-GetRequest"></a>
+<a name="meshtrade-trading-limit_order-v1-GetLimitOrderRequest"></a>
 
-### GetRequest
+### GetLimitOrderRequest
 
 
 
@@ -1765,9 +1765,9 @@ as either a read or a write operation.
 
 
 
-<a name="meshtrade-trading-limit_order-v1-GetResponse"></a>
+<a name="meshtrade-trading-limit_order-v1-GetLimitOrderResponse"></a>
 
-### GetResponse
+### GetLimitOrderResponse
 
 
 
@@ -1786,14 +1786,14 @@ as either a read or a write operation.
  
 
 
-<a name="meshtrade-trading-limit_order-v1-Service"></a>
+<a name="meshtrade-trading-limit_order-v1-LimitOrderService"></a>
 
-### Service
+### LimitOrderService
 
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| Get | [GetRequest](#meshtrade-trading-limit_order-v1-GetRequest) | [GetResponse](#meshtrade-trading-limit_order-v1-GetResponse) |  |
+| Get | [GetLimitOrderRequest](#meshtrade-trading-limit_order-v1-GetLimitOrderRequest) | [GetLimitOrderResponse](#meshtrade-trading-limit_order-v1-GetLimitOrderResponse) |  |
 
  
 
@@ -1837,9 +1837,9 @@ as either a read or a write operation.
 
 
 
-<a name="meshtrade-trading-spot-v1-GetRequest"></a>
+<a name="meshtrade-trading-spot-v1-GetSpotRequest"></a>
 
-### GetRequest
+### GetSpotRequest
 
 
 
@@ -1852,9 +1852,9 @@ as either a read or a write operation.
 
 
 
-<a name="meshtrade-trading-spot-v1-GetResponse"></a>
+<a name="meshtrade-trading-spot-v1-GetSpotResponse"></a>
 
-### GetResponse
+### GetSpotResponse
 
 
 
@@ -1873,14 +1873,14 @@ as either a read or a write operation.
  
 
 
-<a name="meshtrade-trading-spot-v1-Service"></a>
+<a name="meshtrade-trading-spot-v1-SpotService"></a>
 
-### Service
+### SpotService
 
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| Get | [GetRequest](#meshtrade-trading-spot-v1-GetRequest) | [GetResponse](#meshtrade-trading-spot-v1-GetResponse) |  |
+| Get | [GetSpotRequest](#meshtrade-trading-spot-v1-GetSpotRequest) | [GetSpotResponse](#meshtrade-trading-spot-v1-GetSpotResponse) |  |
 
  
 
@@ -1924,10 +1924,10 @@ as either a read or a write operation.
 
 
 
-<a name="meshtrade-wallet-account-v1-CreateRequest"></a>
+<a name="meshtrade-wallet-account-v1-CreateAccountRequest"></a>
 
-### CreateRequest
-CreateRequest contains the parameters for creating a new account.
+### CreateAccountRequest
+CreateAccountRequest contains the parameters for creating a new account.
 
 
 | Field | Type | Label | Description |
@@ -1941,10 +1941,10 @@ CreateRequest contains the parameters for creating a new account.
 
 
 
-<a name="meshtrade-wallet-account-v1-CreateResponse"></a>
+<a name="meshtrade-wallet-account-v1-CreateAccountResponse"></a>
 
-### CreateResponse
-CreateResponse contains the newly created account.
+### CreateAccountResponse
+CreateAccountResponse contains the newly created account.
 
 
 | Field | Type | Label | Description |
@@ -1957,10 +1957,10 @@ CreateResponse contains the newly created account.
 
 
 
-<a name="meshtrade-wallet-account-v1-GetRequest"></a>
+<a name="meshtrade-wallet-account-v1-GetAccountRequest"></a>
 
-### GetRequest
-GetRequest specifies which account to retrieve.
+### GetAccountRequest
+GetAccountRequest specifies which account to retrieve.
 
 
 | Field | Type | Label | Description |
@@ -1972,10 +1972,10 @@ GetRequest specifies which account to retrieve.
 
 
 
-<a name="meshtrade-wallet-account-v1-GetResponse"></a>
+<a name="meshtrade-wallet-account-v1-GetAccountResponse"></a>
 
-### GetResponse
-GetResponse contains the requested account.
+### GetAccountResponse
+GetAccountResponse contains the requested account.
 
 
 | Field | Type | Label | Description |
@@ -1987,35 +1987,35 @@ GetResponse contains the requested account.
 
 
 
-<a name="meshtrade-wallet-account-v1-ListRequest"></a>
+<a name="meshtrade-wallet-account-v1-ListAccountsRequest"></a>
 
-### ListRequest
-ListRequest requires no parameters to list accounts for the caller.
-
-
+### ListAccountsRequest
+ListAccountsRequest requires no parameters to list accounts for the caller.
 
 
 
 
-<a name="meshtrade-wallet-account-v1-ListResponse"></a>
 
-### ListResponse
-ListResponse contains a list of accounts.
+
+<a name="meshtrade-wallet-account-v1-ListAccountsResponse"></a>
+
+### ListAccountsResponse
+ListAccountsResponse contains a list of accounts.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| account | [Account](#meshtrade-wallet-account-v1-Account) | repeated | A list of accounts owned by the authenticated principal. |
+| accounts | [Account](#meshtrade-wallet-account-v1-Account) | repeated | A list of accounts owned by the authenticated principal. |
 
 
 
 
 
 
-<a name="meshtrade-wallet-account-v1-SearchRequest"></a>
+<a name="meshtrade-wallet-account-v1-SearchAccountsRequest"></a>
 
-### SearchRequest
-SearchRequest specifies the query for finding accounts.
+### SearchAccountsRequest
+SearchAccountsRequest specifies the query for finding accounts.
 
 
 | Field | Type | Label | Description |
@@ -2027,15 +2027,15 @@ SearchRequest specifies the query for finding accounts.
 
 
 
-<a name="meshtrade-wallet-account-v1-SearchResponse"></a>
+<a name="meshtrade-wallet-account-v1-SearchAccountsResponse"></a>
 
-### SearchResponse
-SearchResponse contains the accounts that matched the search query.
+### SearchAccountsResponse
+SearchAccountsResponse contains the accounts that matched the search query.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| account | [Account](#meshtrade-wallet-account-v1-Account) | repeated | A list of accounts that matched the label search query. |
+| accounts | [Account](#meshtrade-wallet-account-v1-Account) | repeated | A list of accounts that matched the label search query. |
 
 
 
@@ -2048,17 +2048,17 @@ SearchResponse contains the accounts that matched the search query.
  
 
 
-<a name="meshtrade-wallet-account-v1-Service"></a>
+<a name="meshtrade-wallet-account-v1-AccountService"></a>
 
-### Service
-Service provides access to and management of wallet accounts.
+### AccountService
+AccountService provides access to and management of wallet accounts.
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| Create | [CreateRequest](#meshtrade-wallet-account-v1-CreateRequest) | [CreateResponse](#meshtrade-wallet-account-v1-CreateResponse) | Creates a new wallet account. This is a write operation restricted to administrative roles. |
-| Get | [GetRequest](#meshtrade-wallet-account-v1-GetRequest) | [GetResponse](#meshtrade-wallet-account-v1-GetResponse) | Retrieves a single wallet account by its unique number. |
-| List | [ListRequest](#meshtrade-wallet-account-v1-ListRequest) | [ListResponse](#meshtrade-wallet-account-v1-ListResponse) | Retrieves a list of all accounts for the authenticated principal. |
-| Search | [SearchRequest](#meshtrade-wallet-account-v1-SearchRequest) | [SearchResponse](#meshtrade-wallet-account-v1-SearchResponse) | Searches for accounts based on a partial label match. |
+| Create | [CreateAccountRequest](#meshtrade-wallet-account-v1-CreateAccountRequest) | [CreateAccountResponse](#meshtrade-wallet-account-v1-CreateAccountResponse) | Creates a new wallet account. This is a write operation restricted to administrative roles. |
+| Get | [GetAccountRequest](#meshtrade-wallet-account-v1-GetAccountRequest) | [GetAccountResponse](#meshtrade-wallet-account-v1-GetAccountResponse) | Retrieves a single wallet account by its unique number. |
+| List | [ListAccountsRequest](#meshtrade-wallet-account-v1-ListAccountsRequest) | [ListAccountsResponse](#meshtrade-wallet-account-v1-ListAccountsResponse) | Retrieves a list of all accounts for the authenticated principal. |
+| Search | [SearchAccountsRequest](#meshtrade-wallet-account-v1-SearchAccountsRequest) | [SearchAccountsResponse](#meshtrade-wallet-account-v1-SearchAccountsResponse) | Searches for accounts based on a partial label match. |
 
  
 

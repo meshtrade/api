@@ -19,101 +19,101 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Service_Get_FullMethodName = "/meshtrade.trading.spot.v1.Service/Get"
+	SpotService_Get_FullMethodName = "/meshtrade.trading.spot.v1.SpotService/Get"
 )
 
-// ServiceClient is the client API for Service service.
+// SpotServiceClient is the client API for SpotService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type ServiceClient interface {
-	Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error)
+type SpotServiceClient interface {
+	Get(ctx context.Context, in *GetSpotRequest, opts ...grpc.CallOption) (*GetSpotResponse, error)
 }
 
-type serviceClient struct {
+type spotServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewServiceClient(cc grpc.ClientConnInterface) ServiceClient {
-	return &serviceClient{cc}
+func NewSpotServiceClient(cc grpc.ClientConnInterface) SpotServiceClient {
+	return &spotServiceClient{cc}
 }
 
-func (c *serviceClient) Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error) {
+func (c *spotServiceClient) Get(ctx context.Context, in *GetSpotRequest, opts ...grpc.CallOption) (*GetSpotResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetResponse)
-	err := c.cc.Invoke(ctx, Service_Get_FullMethodName, in, out, cOpts...)
+	out := new(GetSpotResponse)
+	err := c.cc.Invoke(ctx, SpotService_Get_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// ServiceServer is the server API for Service service.
-// All implementations must embed UnimplementedServiceServer
+// SpotServiceServer is the server API for SpotService service.
+// All implementations must embed UnimplementedSpotServiceServer
 // for forward compatibility.
-type ServiceServer interface {
-	Get(context.Context, *GetRequest) (*GetResponse, error)
-	mustEmbedUnimplementedServiceServer()
+type SpotServiceServer interface {
+	Get(context.Context, *GetSpotRequest) (*GetSpotResponse, error)
+	mustEmbedUnimplementedSpotServiceServer()
 }
 
-// UnimplementedServiceServer must be embedded to have
+// UnimplementedSpotServiceServer must be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
 // pointer dereference when methods are called.
-type UnimplementedServiceServer struct{}
+type UnimplementedSpotServiceServer struct{}
 
-func (UnimplementedServiceServer) Get(context.Context, *GetRequest) (*GetResponse, error) {
+func (UnimplementedSpotServiceServer) Get(context.Context, *GetSpotRequest) (*GetSpotResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
-func (UnimplementedServiceServer) mustEmbedUnimplementedServiceServer() {}
-func (UnimplementedServiceServer) testEmbeddedByValue()                 {}
+func (UnimplementedSpotServiceServer) mustEmbedUnimplementedSpotServiceServer() {}
+func (UnimplementedSpotServiceServer) testEmbeddedByValue()                     {}
 
-// UnsafeServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to ServiceServer will
+// UnsafeSpotServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to SpotServiceServer will
 // result in compilation errors.
-type UnsafeServiceServer interface {
-	mustEmbedUnimplementedServiceServer()
+type UnsafeSpotServiceServer interface {
+	mustEmbedUnimplementedSpotServiceServer()
 }
 
-func RegisterServiceServer(s grpc.ServiceRegistrar, srv ServiceServer) {
-	// If the following call pancis, it indicates UnimplementedServiceServer was
+func RegisterSpotServiceServer(s grpc.ServiceRegistrar, srv SpotServiceServer) {
+	// If the following call pancis, it indicates UnimplementedSpotServiceServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
 	// time to prevent it from happening at runtime later due to I/O.
 	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
 		t.testEmbeddedByValue()
 	}
-	s.RegisterService(&Service_ServiceDesc, srv)
+	s.RegisterService(&SpotService_ServiceDesc, srv)
 }
 
-func _Service_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetRequest)
+func _SpotService_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetSpotRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ServiceServer).Get(ctx, in)
+		return srv.(SpotServiceServer).Get(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Service_Get_FullMethodName,
+		FullMethod: SpotService_Get_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ServiceServer).Get(ctx, req.(*GetRequest))
+		return srv.(SpotServiceServer).Get(ctx, req.(*GetSpotRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// Service_ServiceDesc is the grpc.ServiceDesc for Service service.
+// SpotService_ServiceDesc is the grpc.ServiceDesc for SpotService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var Service_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "meshtrade.trading.spot.v1.Service",
-	HandlerType: (*ServiceServer)(nil),
+var SpotService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "meshtrade.trading.spot.v1.SpotService",
+	HandlerType: (*SpotServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "Get",
-			Handler:    _Service_Get_Handler,
+			Handler:    _SpotService_Get_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -15,11 +15,11 @@ var _ GroupService = &MockGroupService{}
 type MockGroupService struct {
 	mutex              sync.Mutex
 	T                  *testing.T
-	GetFunc            func(t *testing.T, m *MockGroupService, ctx context.Context, request *GetRequest) (*GetResponse, error)
+	GetFunc            func(t *testing.T, m *MockGroupService, ctx context.Context, request *GetGroupRequest) (*GetGroupResponse, error)
 	GetFuncInvocations int
 }
 
-func (m *MockGroupService) Get(ctx context.Context, request *GetRequest) (*GetResponse, error) {
+func (m *MockGroupService) Get(ctx context.Context, request *GetGroupRequest) (*GetGroupResponse, error) {
 	m.mutex.Lock()
 	m.GetFuncInvocations++
 	m.mutex.Unlock()

@@ -6,8 +6,8 @@ import (
 	context "context"
 )
 
-type Service interface {
-	Get(ctx context.Context, request *GetRequest) (*GetResponse, error)
+type SpotService interface {
+	Get(ctx context.Context, request *GetSpotRequest) (*GetSpotResponse, error)
 }
 
-const ServiceServiceProviderName = "meshtrade-trading-spot-v1-Service"
+const SpotServiceServiceProviderName = "meshtrade-trading-spot-v1-SpotService"

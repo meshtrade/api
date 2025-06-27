@@ -64,3 +64,4 @@ message BurnInstrumentResponse {
   // query a transaction monitoring service to check for completion and success.
   string transaction_id = 1;
 }
+

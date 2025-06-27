@@ -6,8 +6,8 @@ import (
 	context "context"
 )
 
-type Service interface {
-	Get(ctx context.Context, request *GetRequest) (*GetResponse, error)
+type RoleService interface {
+	Get(ctx context.Context, request *GetRoleRequest) (*GetRoleResponse, error)
 }
 
-const ServiceServiceProviderName = "meshtrade-iam-role-v1-Service"
+const RoleServiceServiceProviderName = "meshtrade-iam-role-v1-RoleService"

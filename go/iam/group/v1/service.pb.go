@@ -21,26 +21,26 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type GetRequest struct {
+type GetGroupRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetRequest) Reset() {
-	*x = GetRequest{}
+func (x *GetGroupRequest) Reset() {
+	*x = GetGroupRequest{}
 	mi := &file_meshtrade_iam_group_v1_service_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetRequest) String() string {
+func (x *GetGroupRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetRequest) ProtoMessage() {}
+func (*GetGroupRequest) ProtoMessage() {}
 
-func (x *GetRequest) ProtoReflect() protoreflect.Message {
+func (x *GetGroupRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_meshtrade_iam_group_v1_service_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -52,32 +52,32 @@ func (x *GetRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetRequest.ProtoReflect.Descriptor instead.
-func (*GetRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetGroupRequest.ProtoReflect.Descriptor instead.
+func (*GetGroupRequest) Descriptor() ([]byte, []int) {
 	return file_meshtrade_iam_group_v1_service_proto_rawDescGZIP(), []int{0}
 }
 
-type GetResponse struct {
+type GetGroupResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Group         *Group                 `protobuf:"bytes,1,opt,name=group,proto3" json:"group,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetResponse) Reset() {
-	*x = GetResponse{}
+func (x *GetGroupResponse) Reset() {
+	*x = GetGroupResponse{}
 	mi := &file_meshtrade_iam_group_v1_service_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetResponse) String() string {
+func (x *GetGroupResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetResponse) ProtoMessage() {}
+func (*GetGroupResponse) ProtoMessage() {}
 
-func (x *GetResponse) ProtoReflect() protoreflect.Message {
+func (x *GetGroupResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_meshtrade_iam_group_v1_service_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -89,12 +89,12 @@ func (x *GetResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetResponse.ProtoReflect.Descriptor instead.
-func (*GetResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetGroupResponse.ProtoReflect.Descriptor instead.
+func (*GetGroupResponse) Descriptor() ([]byte, []int) {
 	return file_meshtrade_iam_group_v1_service_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *GetResponse) GetGroup() *Group {
+func (x *GetGroupResponse) GetGroup() *Group {
 	if x != nil {
 		return x.Group
 	}
@@ -105,13 +105,12 @@ var File_meshtrade_iam_group_v1_service_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_group_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"$meshtrade/iam/group/v1/service.proto\x12\x16meshtrade.iam.group.v1\x1a\"meshtrade/iam/group/v1/group.proto\"\f\n" +
-	"\n" +
-	"GetRequest\"B\n" +
-	"\vGetResponse\x123\n" +
-	"\x05group\x18\x01 \x01(\v2\x1d.meshtrade.iam.group.v1.GroupR\x05group2^\n" +
-	"\fGroupService\x12N\n" +
-	"\x03Get\x12\".meshtrade.iam.group.v1.GetRequest\x1a#.meshtrade.iam.group.v1.GetResponseB2Z0github.com/meshtrade/api/go/iam/group/v1;groupv1b\x06proto3"
+	"$meshtrade/iam/group/v1/service.proto\x12\x16meshtrade.iam.group.v1\x1a\"meshtrade/iam/group/v1/group.proto\"\x11\n" +
+	"\x0fGetGroupRequest\"G\n" +
+	"\x10GetGroupResponse\x123\n" +
+	"\x05group\x18\x01 \x01(\v2\x1d.meshtrade.iam.group.v1.GroupR\x05group2h\n" +
+	"\fGroupService\x12X\n" +
+	"\x03Get\x12'.meshtrade.iam.group.v1.GetGroupRequest\x1a(.meshtrade.iam.group.v1.GetGroupResponseB2Z0github.com/meshtrade/api/go/iam/group/v1;groupv1b\x06proto3"
 
 var (
 	file_meshtrade_iam_group_v1_service_proto_rawDescOnce sync.Once
@@ -127,14 +126,14 @@ func file_meshtrade_iam_group_v1_service_proto_rawDescGZIP() []byte {
 
 var file_meshtrade_iam_group_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_meshtrade_iam_group_v1_service_proto_goTypes = []any{
-	(*GetRequest)(nil),  // 0: meshtrade.iam.group.v1.GetRequest
-	(*GetResponse)(nil), // 1: meshtrade.iam.group.v1.GetResponse
-	(*Group)(nil),       // 2: meshtrade.iam.group.v1.Group
+	(*GetGroupRequest)(nil),  // 0: meshtrade.iam.group.v1.GetGroupRequest
+	(*GetGroupResponse)(nil), // 1: meshtrade.iam.group.v1.GetGroupResponse
+	(*Group)(nil),            // 2: meshtrade.iam.group.v1.Group
 }
 var file_meshtrade_iam_group_v1_service_proto_depIdxs = []int32{
-	2, // 0: meshtrade.iam.group.v1.GetResponse.group:type_name -> meshtrade.iam.group.v1.Group
-	0, // 1: meshtrade.iam.group.v1.GroupService.Get:input_type -> meshtrade.iam.group.v1.GetRequest
-	1, // 2: meshtrade.iam.group.v1.GroupService.Get:output_type -> meshtrade.iam.group.v1.GetResponse
+	2, // 0: meshtrade.iam.group.v1.GetGroupResponse.group:type_name -> meshtrade.iam.group.v1.Group
+	0, // 1: meshtrade.iam.group.v1.GroupService.Get:input_type -> meshtrade.iam.group.v1.GetGroupRequest
+	1, // 2: meshtrade.iam.group.v1.GroupService.Get:output_type -> meshtrade.iam.group.v1.GetGroupResponse
 	2, // [2:3] is the sub-list for method output_type
 	1, // [1:2] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name

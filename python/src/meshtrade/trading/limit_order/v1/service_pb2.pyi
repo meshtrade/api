@@ -6,13 +6,13 @@ from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
-class GetRequest(_message.Message):
+class GetLimitOrderRequest(_message.Message):
     __slots__ = ("number",)
     NUMBER_FIELD_NUMBER: _ClassVar[int]
     number: str
     def __init__(self, number: _Optional[str] = ...) -> None: ...
 
-class GetResponse(_message.Message):
+class GetLimitOrderResponse(_message.Message):
     __slots__ = ("limitorder",)
     LIMITORDER_FIELD_NUMBER: _ClassVar[int]
     limitorder: _limit_order_pb2.LimitOrder

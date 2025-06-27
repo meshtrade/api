@@ -1,8 +1,8 @@
 import { LoggingInterceptor } from "../../../common/grpc_web";
-import { ServicePromiseClient } from "./service_grpc_web_pb";
+import { LimitOrderServicePromiseClient } from "./service_grpc_web_pb";
 import {
-  GetRequest,
-  GetResponse,
+  GetLimitOrderRequest,
+  GetLimitOrderResponse,
 } from "./service_pb";
 import { ConfigOpts, getConfigFromOpts } from "../../../common/config";
 
@@ -10,7 +10,7 @@ import { ConfigOpts, getConfigFromOpts } from "../../../common/config";
  * Client for interacting with the trading limit_order v1 API resource service.
  */
 export class LimitOrderGrpcWebClientV1 {
-  private _service: ServicePromiseClient;
+  private _service: LimitOrderServicePromiseClient;
 
   /**
    * Constructs an instance of LimitOrderGrpcWebClientV1.
@@ -21,7 +21,7 @@ export class LimitOrderGrpcWebClientV1 {
     const _config = getConfigFromOpts(config);
 
     // construct service
-    this._service = new ServicePromiseClient(_config.apiServerURL, null, {
+    this._service = new LimitOrderServicePromiseClient(_config.apiServerURL, null, {
       withCredentials: true,
       unaryInterceptors: [new LoggingInterceptor()],
     });
@@ -29,10 +29,10 @@ export class LimitOrderGrpcWebClientV1 {
 
   /**
    * Retrieves a limit order.
-   * @param {GetRequest} request - The request object for getting a limit order.
-   * @returns {Promise<GetResponse>} A promise that resolves with the limit order.
+   * @param {GetLimitOrderRequest} request - The request object for getting a limit order.
+   * @returns {Promise<GetLimitOrderResponse>} A promise that resolves with the limit order.
    */
-  get(request: GetRequest): Promise<GetResponse> {
+  get(request: GetLimitOrderRequest): Promise<GetLimitOrderResponse> {
     return this._service.get(request);
   }
 }

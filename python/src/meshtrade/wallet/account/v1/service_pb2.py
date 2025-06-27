@@ -29,46 +29,46 @@ from meshtrade.type.v1 import ledger_pb2 as meshtrade_dot_type_dot_v1_dot_ledger
 from meshtrade.wallet.account.v1 import account_pb2 as meshtrade_dot_wallet_dot_account_dot_v1_dot_account__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n)meshtrade/wallet/account/v1/service.proto\x12\x1bmeshtrade.wallet.account.v1\x1a\x1b\x62uf/validate/validate.proto\x1a\x1emeshtrade/option/v1/auth.proto\x1a&meshtrade/option/v1/service_type.proto\x1a\x1emeshtrade/type/v1/ledger.proto\x1a)meshtrade/wallet/account/v1/account.proto\"\x84\x01\n\rCreateRequest\x12\"\n\x05label\x18\x01 \x01(\tB\x0c\xbaH\tr\x04\x10\x03\x18\x32\xc8\x01\x01R\x05label\x12;\n\x06ledger\x18\x02 \x01(\x0e\x32\x19.meshtrade.type.v1.LedgerB\x08\xbaH\x05\x82\x01\x02\x10\x01R\x06ledger\x12\x12\n\x04open\x18\x03 \x01(\x08R\x04open\"w\n\x0e\x43reateResponse\x12>\n\x07\x61\x63\x63ount\x18\x01 \x01(\x0b\x32$.meshtrade.wallet.account.v1.AccountR\x07\x61\x63\x63ount\x12%\n\x0etransaction_id\x18\x02 \x01(\tR\rtransactionId\"1\n\nGetRequest\x12#\n\x06number\x18\x01 \x01(\tB\x0b\xbaH\x08r\x03\x98\x01\x07\xc8\x01\x01R\x06number\"M\n\x0bGetResponse\x12>\n\x07\x61\x63\x63ount\x18\x01 \x01(\x0b\x32$.meshtrade.wallet.account.v1.AccountR\x07\x61\x63\x63ount\"\r\n\x0bListRequest\"N\n\x0cListResponse\x12>\n\x07\x61\x63\x63ount\x18\x01 \x03(\x0b\x32$.meshtrade.wallet.account.v1.AccountR\x07\x61\x63\x63ount\"3\n\rSearchRequest\x12\"\n\x05label\x18\x01 \x01(\tB\x0c\xbaH\tr\x04\x10\x03\x18\x32\xc8\x01\x00R\x05label\"P\n\x0eSearchResponse\x12>\n\x07\x61\x63\x63ount\x18\x01 \x03(\x0b\x32$.meshtrade.wallet.account.v1.AccountR\x07\x61\x63\x63ount2\xdb\x04\n\x07Service\x12\x95\x01\n\x06\x43reate\x12*.meshtrade.wallet.account.v1.CreateRequest\x1a+.meshtrade.wallet.account.v1.CreateResponse\"2\x92\xb5\x18*\n(meshtrade.wallet.account.v1.AccountAdmin\xa0\xb5\x18\x02\x12\x8b\x01\n\x03Get\x12\'.meshtrade.wallet.account.v1.GetRequest\x1a(.meshtrade.wallet.account.v1.GetResponse\"1\x8a\xb5\x18)\n\'meshtrade.wallet.account.v1.Service.Get\xa0\xb5\x18\x01\x12\x8f\x01\n\x04List\x12(.meshtrade.wallet.account.v1.ListRequest\x1a).meshtrade.wallet.account.v1.ListResponse\"2\x8a\xb5\x18*\n(meshtrade.wallet.account.v1.Service.List\xa0\xb5\x18\x01\x12\x97\x01\n\x06Search\x12*.meshtrade.wallet.account.v1.SearchRequest\x1a+.meshtrade.wallet.account.v1.SearchResponse\"4\x8a\xb5\x18,\n*meshtrade.wallet.account.v1.Service.Search\xa0\xb5\x18\x01\x42\xc3\x03Z7github.com/meshtrade/api/go/wallet/account/v1;accountv1\x9a\xb5\x18\x85\x03\n\xaa\x01\n)meshtrade.wallet.account.v1.AccountReader\x12\'meshtrade.wallet.account.v1.Service.Get\x12(meshtrade.wallet.account.v1.Service.List\x12*meshtrade.wallet.account.v1.Service.Search\n\xd5\x01\n(meshtrade.wallet.account.v1.AccountAdmin\x12*meshtrade.wallet.account.v1.Service.Create\x12\'meshtrade.wallet.account.v1.Service.Get\x12(meshtrade.wallet.account.v1.Service.List\x12*meshtrade.wallet.account.v1.Service.Searchb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n)meshtrade/wallet/account/v1/service.proto\x12\x1bmeshtrade.wallet.account.v1\x1a\x1b\x62uf/validate/validate.proto\x1a\x1emeshtrade/option/v1/auth.proto\x1a&meshtrade/option/v1/service_type.proto\x1a\x1emeshtrade/type/v1/ledger.proto\x1a)meshtrade/wallet/account/v1/account.proto\"\x8b\x01\n\x14\x43reateAccountRequest\x12\"\n\x05label\x18\x01 \x01(\tB\x0c\xbaH\tr\x04\x10\x03\x18\x32\xc8\x01\x01R\x05label\x12;\n\x06ledger\x18\x02 \x01(\x0e\x32\x19.meshtrade.type.v1.LedgerB\x08\xbaH\x05\x82\x01\x02\x10\x01R\x06ledger\x12\x12\n\x04open\x18\x03 \x01(\x08R\x04open\"~\n\x15\x43reateAccountResponse\x12>\n\x07\x61\x63\x63ount\x18\x01 \x01(\x0b\x32$.meshtrade.wallet.account.v1.AccountR\x07\x61\x63\x63ount\x12%\n\x0etransaction_id\x18\x02 \x01(\tR\rtransactionId\"8\n\x11GetAccountRequest\x12#\n\x06number\x18\x01 \x01(\tB\x0b\xbaH\x08r\x03\x98\x01\x07\xc8\x01\x01R\x06number\"T\n\x12GetAccountResponse\x12>\n\x07\x61\x63\x63ount\x18\x01 \x01(\x0b\x32$.meshtrade.wallet.account.v1.AccountR\x07\x61\x63\x63ount\"\x15\n\x13ListAccountsRequest\"X\n\x14ListAccountsResponse\x12@\n\x08\x61\x63\x63ounts\x18\x01 \x03(\x0b\x32$.meshtrade.wallet.account.v1.AccountR\x08\x61\x63\x63ounts\";\n\x15SearchAccountsRequest\x12\"\n\x05label\x18\x01 \x01(\tB\x0c\xbaH\tr\x04\x10\x03\x18\x32\xc8\x01\x00R\x05label\"Z\n\x16SearchAccountsResponse\x12@\n\x08\x61\x63\x63ounts\x18\x01 \x03(\x0b\x32$.meshtrade.wallet.account.v1.AccountR\x08\x61\x63\x63ounts2\xca\x05\n\x0e\x41\x63\x63ountService\x12\xa3\x01\n\x06\x43reate\x12\x31.meshtrade.wallet.account.v1.CreateAccountRequest\x1a\x32.meshtrade.wallet.account.v1.CreateAccountResponse\"2\x92\xb5\x18*\n(meshtrade.wallet.account.v1.AccountAdmin\xa0\xb5\x18\x02\x12\xa7\x01\n\x03Get\x12..meshtrade.wallet.account.v1.GetAccountRequest\x1a/.meshtrade.wallet.account.v1.GetAccountResponse\"?\x8a\xb5\x18\x37\n5meshtrade.wallet.account.v1.AccountService.GetAccount\xa0\xb5\x18\x01\x12\xae\x01\n\x04List\x12\x30.meshtrade.wallet.account.v1.ListAccountsRequest\x1a\x31.meshtrade.wallet.account.v1.ListAccountsResponse\"A\x8a\xb5\x18\x39\n7meshtrade.wallet.account.v1.AccountService.ListAccounts\xa0\xb5\x18\x01\x12\xb6\x01\n\x06Search\x12\x32.meshtrade.wallet.account.v1.SearchAccountsRequest\x1a\x33.meshtrade.wallet.account.v1.SearchAccountsResponse\"C\x8a\xb5\x18;\n9meshtrade.wallet.account.v1.AccountService.SearchAccounts\xa0\xb5\x18\x01\x42\xa9\x04Z7github.com/meshtrade/api/go/wallet/account/v1;accountv1\x9a\xb5\x18\xeb\x03\n\xd6\x01\n)meshtrade.wallet.account.v1.AccountReader\x12\x35meshtrade.wallet.account.v1.AccountService.GetAccount\x12\x37meshtrade.wallet.account.v1.AccountService.ListAccounts\x12\x39meshtrade.wallet.account.v1.AccountService.SearchAccounts\n\x8f\x02\n(meshtrade.wallet.account.v1.AccountAdmin\x12\x38meshtrade.wallet.account.v1.AccountService.CreateAccount\x12\x35meshtrade.wallet.account.v1.AccountService.GetAccount\x12\x37meshtrade.wallet.account.v1.AccountService.ListAccounts\x12\x39meshtrade.wallet.account.v1.AccountService.SearchAccountsb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'meshtrade.wallet.account.v1.service_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
-  _globals['DESCRIPTOR']._serialized_options = b'Z7github.com/meshtrade/api/go/wallet/account/v1;accountv1\232\265\030\205\003\n\252\001\n)meshtrade.wallet.account.v1.AccountReader\022\'meshtrade.wallet.account.v1.Service.Get\022(meshtrade.wallet.account.v1.Service.List\022*meshtrade.wallet.account.v1.Service.Search\n\325\001\n(meshtrade.wallet.account.v1.AccountAdmin\022*meshtrade.wallet.account.v1.Service.Create\022\'meshtrade.wallet.account.v1.Service.Get\022(meshtrade.wallet.account.v1.Service.List\022*meshtrade.wallet.account.v1.Service.Search'
-  _globals['_CREATEREQUEST'].fields_by_name['label']._loaded_options = None
-  _globals['_CREATEREQUEST'].fields_by_name['label']._serialized_options = b'\272H\tr\004\020\003\0302\310\001\001'
-  _globals['_CREATEREQUEST'].fields_by_name['ledger']._loaded_options = None
-  _globals['_CREATEREQUEST'].fields_by_name['ledger']._serialized_options = b'\272H\005\202\001\002\020\001'
-  _globals['_GETREQUEST'].fields_by_name['number']._loaded_options = None
-  _globals['_GETREQUEST'].fields_by_name['number']._serialized_options = b'\272H\010r\003\230\001\007\310\001\001'
-  _globals['_SEARCHREQUEST'].fields_by_name['label']._loaded_options = None
-  _globals['_SEARCHREQUEST'].fields_by_name['label']._serialized_options = b'\272H\tr\004\020\003\0302\310\001\000'
-  _globals['_SERVICE'].methods_by_name['Create']._loaded_options = None
-  _globals['_SERVICE'].methods_by_name['Create']._serialized_options = b'\222\265\030*\n(meshtrade.wallet.account.v1.AccountAdmin\240\265\030\002'
-  _globals['_SERVICE'].methods_by_name['Get']._loaded_options = None
-  _globals['_SERVICE'].methods_by_name['Get']._serialized_options = b'\212\265\030)\n\'meshtrade.wallet.account.v1.Service.Get\240\265\030\001'
-  _globals['_SERVICE'].methods_by_name['List']._loaded_options = None
-  _globals['_SERVICE'].methods_by_name['List']._serialized_options = b'\212\265\030*\n(meshtrade.wallet.account.v1.Service.List\240\265\030\001'
-  _globals['_SERVICE'].methods_by_name['Search']._loaded_options = None
-  _globals['_SERVICE'].methods_by_name['Search']._serialized_options = b'\212\265\030,\n*meshtrade.wallet.account.v1.Service.Search\240\265\030\001'
-  _globals['_CREATEREQUEST']._serialized_start=251
-  _globals['_CREATEREQUEST']._serialized_end=383
-  _globals['_CREATERESPONSE']._serialized_start=385
-  _globals['_CREATERESPONSE']._serialized_end=504
-  _globals['_GETREQUEST']._serialized_start=506
-  _globals['_GETREQUEST']._serialized_end=555
-  _globals['_GETRESPONSE']._serialized_start=557
-  _globals['_GETRESPONSE']._serialized_end=634
-  _globals['_LISTREQUEST']._serialized_start=636
-  _globals['_LISTREQUEST']._serialized_end=649
-  _globals['_LISTRESPONSE']._serialized_start=651
-  _globals['_LISTRESPONSE']._serialized_end=729
-  _globals['_SEARCHREQUEST']._serialized_start=731
-  _globals['_SEARCHREQUEST']._serialized_end=782
-  _globals['_SEARCHRESPONSE']._serialized_start=784
-  _globals['_SEARCHRESPONSE']._serialized_end=864
-  _globals['_SERVICE']._serialized_start=867
-  _globals['_SERVICE']._serialized_end=1470
+  _globals['DESCRIPTOR']._serialized_options = b'Z7github.com/meshtrade/api/go/wallet/account/v1;accountv1\232\265\030\353\003\n\326\001\n)meshtrade.wallet.account.v1.AccountReader\0225meshtrade.wallet.account.v1.AccountService.GetAccount\0227meshtrade.wallet.account.v1.AccountService.ListAccounts\0229meshtrade.wallet.account.v1.AccountService.SearchAccounts\n\217\002\n(meshtrade.wallet.account.v1.AccountAdmin\0228meshtrade.wallet.account.v1.AccountService.CreateAccount\0225meshtrade.wallet.account.v1.AccountService.GetAccount\0227meshtrade.wallet.account.v1.AccountService.ListAccounts\0229meshtrade.wallet.account.v1.AccountService.SearchAccounts'
+  _globals['_CREATEACCOUNTREQUEST'].fields_by_name['label']._loaded_options = None
+  _globals['_CREATEACCOUNTREQUEST'].fields_by_name['label']._serialized_options = b'\272H\tr\004\020\003\0302\310\001\001'
+  _globals['_CREATEACCOUNTREQUEST'].fields_by_name['ledger']._loaded_options = None
+  _globals['_CREATEACCOUNTREQUEST'].fields_by_name['ledger']._serialized_options = b'\272H\005\202\001\002\020\001'
+  _globals['_GETACCOUNTREQUEST'].fields_by_name['number']._loaded_options = None
+  _globals['_GETACCOUNTREQUEST'].fields_by_name['number']._serialized_options = b'\272H\010r\003\230\001\007\310\001\001'
+  _globals['_SEARCHACCOUNTSREQUEST'].fields_by_name['label']._loaded_options = None
+  _globals['_SEARCHACCOUNTSREQUEST'].fields_by_name['label']._serialized_options = b'\272H\tr\004\020\003\0302\310\001\000'
+  _globals['_ACCOUNTSERVICE'].methods_by_name['Create']._loaded_options = None
+  _globals['_ACCOUNTSERVICE'].methods_by_name['Create']._serialized_options = b'\222\265\030*\n(meshtrade.wallet.account.v1.AccountAdmin\240\265\030\002'
+  _globals['_ACCOUNTSERVICE'].methods_by_name['Get']._loaded_options = None
+  _globals['_ACCOUNTSERVICE'].methods_by_name['Get']._serialized_options = b'\212\265\0307\n5meshtrade.wallet.account.v1.AccountService.GetAccount\240\265\030\001'
+  _globals['_ACCOUNTSERVICE'].methods_by_name['List']._loaded_options = None
+  _globals['_ACCOUNTSERVICE'].methods_by_name['List']._serialized_options = b'\212\265\0309\n7meshtrade.wallet.account.v1.AccountService.ListAccounts\240\265\030\001'
+  _globals['_ACCOUNTSERVICE'].methods_by_name['Search']._loaded_options = None
+  _globals['_ACCOUNTSERVICE'].methods_by_name['Search']._serialized_options = b'\212\265\030;\n9meshtrade.wallet.account.v1.AccountService.SearchAccounts\240\265\030\001'
+  _globals['_CREATEACCOUNTREQUEST']._serialized_start=251
+  _globals['_CREATEACCOUNTREQUEST']._serialized_end=390
+  _globals['_CREATEACCOUNTRESPONSE']._serialized_start=392
+  _globals['_CREATEACCOUNTRESPONSE']._serialized_end=518
+  _globals['_GETACCOUNTREQUEST']._serialized_start=520
+  _globals['_GETACCOUNTREQUEST']._serialized_end=576
+  _globals['_GETACCOUNTRESPONSE']._serialized_start=578
+  _globals['_GETACCOUNTRESPONSE']._serialized_end=662
+  _globals['_LISTACCOUNTSREQUEST']._serialized_start=664
+  _globals['_LISTACCOUNTSREQUEST']._serialized_end=685
+  _globals['_LISTACCOUNTSRESPONSE']._serialized_start=687
+  _globals['_LISTACCOUNTSRESPONSE']._serialized_end=775
+  _globals['_SEARCHACCOUNTSREQUEST']._serialized_start=777
+  _globals['_SEARCHACCOUNTSREQUEST']._serialized_end=836
+  _globals['_SEARCHACCOUNTSRESPONSE']._serialized_start=838
+  _globals['_SEARCHACCOUNTSRESPONSE']._serialized_end=928
+  _globals['_ACCOUNTSERVICE']._serialized_start=931
+  _globals['_ACCOUNTSERVICE']._serialized_end=1645
 # @@protoc_insertion_point(module_scope)

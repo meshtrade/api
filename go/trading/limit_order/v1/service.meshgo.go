@@ -6,8 +6,8 @@ import (
 	context "context"
 )
 
-type Service interface {
-	Get(ctx context.Context, request *GetRequest) (*GetResponse, error)
+type LimitOrderService interface {
+	Get(ctx context.Context, request *GetLimitOrderRequest) (*GetLimitOrderResponse, error)
 }
 
-const ServiceServiceProviderName = "meshtrade-trading-limit_order-v1-Service"
+const LimitOrderServiceServiceProviderName = "meshtrade-trading-limit_order-v1-LimitOrderService"

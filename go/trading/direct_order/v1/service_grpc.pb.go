@@ -19,101 +19,101 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Service_Get_FullMethodName = "/meshtrade.trading.direct_order.v1.Service/Get"
+	DirectOrderService_Get_FullMethodName = "/meshtrade.trading.direct_order.v1.DirectOrderService/Get"
 )
 
-// ServiceClient is the client API for Service service.
+// DirectOrderServiceClient is the client API for DirectOrderService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type ServiceClient interface {
-	Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error)
+type DirectOrderServiceClient interface {
+	Get(ctx context.Context, in *GetDirectOrderRequest, opts ...grpc.CallOption) (*GetDirectOrderResponse, error)
 }
 
-type serviceClient struct {
+type directOrderServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewServiceClient(cc grpc.ClientConnInterface) ServiceClient {
-	return &serviceClient{cc}
+func NewDirectOrderServiceClient(cc grpc.ClientConnInterface) DirectOrderServiceClient {
+	return &directOrderServiceClient{cc}
 }
 
-func (c *serviceClient) Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error) {
+func (c *directOrderServiceClient) Get(ctx context.Context, in *GetDirectOrderRequest, opts ...grpc.CallOption) (*GetDirectOrderResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetResponse)
-	err := c.cc.Invoke(ctx, Service_Get_FullMethodName, in, out, cOpts...)
+	out := new(GetDirectOrderResponse)
+	err := c.cc.Invoke(ctx, DirectOrderService_Get_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// ServiceServer is the server API for Service service.
-// All implementations must embed UnimplementedServiceServer
+// DirectOrderServiceServer is the server API for DirectOrderService service.
+// All implementations must embed UnimplementedDirectOrderServiceServer
 // for forward compatibility.
-type ServiceServer interface {
-	Get(context.Context, *GetRequest) (*GetResponse, error)
-	mustEmbedUnimplementedServiceServer()
+type DirectOrderServiceServer interface {
+	Get(context.Context, *GetDirectOrderRequest) (*GetDirectOrderResponse, error)
+	mustEmbedUnimplementedDirectOrderServiceServer()
 }
 
-// UnimplementedServiceServer must be embedded to have
+// UnimplementedDirectOrderServiceServer must be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
 // pointer dereference when methods are called.
-type UnimplementedServiceServer struct{}
+type UnimplementedDirectOrderServiceServer struct{}
 
-func (UnimplementedServiceServer) Get(context.Context, *GetRequest) (*GetResponse, error) {
+func (UnimplementedDirectOrderServiceServer) Get(context.Context, *GetDirectOrderRequest) (*GetDirectOrderResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
-func (UnimplementedServiceServer) mustEmbedUnimplementedServiceServer() {}
-func (UnimplementedServiceServer) testEmbeddedByValue()                 {}
+func (UnimplementedDirectOrderServiceServer) mustEmbedUnimplementedDirectOrderServiceServer() {}
+func (UnimplementedDirectOrderServiceServer) testEmbeddedByValue()                            {}
 
-// UnsafeServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to ServiceServer will
+// UnsafeDirectOrderServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to DirectOrderServiceServer will
 // result in compilation errors.
-type UnsafeServiceServer interface {
-	mustEmbedUnimplementedServiceServer()
+type UnsafeDirectOrderServiceServer interface {
+	mustEmbedUnimplementedDirectOrderServiceServer()
 }
 
-func RegisterServiceServer(s grpc.ServiceRegistrar, srv ServiceServer) {
-	// If the following call pancis, it indicates UnimplementedServiceServer was
+func RegisterDirectOrderServiceServer(s grpc.ServiceRegistrar, srv DirectOrderServiceServer) {
+	// If the following call pancis, it indicates UnimplementedDirectOrderServiceServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
 	// time to prevent it from happening at runtime later due to I/O.
 	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
 		t.testEmbeddedByValue()
 	}
-	s.RegisterService(&Service_ServiceDesc, srv)
+	s.RegisterService(&DirectOrderService_ServiceDesc, srv)
 }
 
-func _Service_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetRequest)
+func _DirectOrderService_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDirectOrderRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ServiceServer).Get(ctx, in)
+		return srv.(DirectOrderServiceServer).Get(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Service_Get_FullMethodName,
+		FullMethod: DirectOrderService_Get_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ServiceServer).Get(ctx, req.(*GetRequest))
+		return srv.(DirectOrderServiceServer).Get(ctx, req.(*GetDirectOrderRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// Service_ServiceDesc is the grpc.ServiceDesc for Service service.
+// DirectOrderService_ServiceDesc is the grpc.ServiceDesc for DirectOrderService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var Service_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "meshtrade.trading.direct_order.v1.Service",
-	HandlerType: (*ServiceServer)(nil),
+var DirectOrderService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "meshtrade.trading.direct_order.v1.DirectOrderService",
+	HandlerType: (*DirectOrderServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "Get",
-			Handler:    _Service_Get_Handler,
+			Handler:    _DirectOrderService_Get_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

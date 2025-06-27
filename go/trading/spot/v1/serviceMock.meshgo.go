@@ -8,18 +8,18 @@ import (
 	testing "testing"
 )
 
-// Ensure that MockService implements the Service interface
-var _ Service = &MockService{}
+// Ensure that MockSpotService implements the SpotService interface
+var _ SpotService = &MockSpotService{}
 
-// MockService is a mock implementation of the Service interface.
-type MockService struct {
+// MockSpotService is a mock implementation of the SpotService interface.
+type MockSpotService struct {
 	mutex              sync.Mutex
 	T                  *testing.T
-	GetFunc            func(t *testing.T, m *MockService, ctx context.Context, request *GetRequest) (*GetResponse, error)
+	GetFunc            func(t *testing.T, m *MockSpotService, ctx context.Context, request *GetSpotRequest) (*GetSpotResponse, error)
 	GetFuncInvocations int
 }
 
-func (m *MockService) Get(ctx context.Context, request *GetRequest) (*GetResponse, error) {
+func (m *MockSpotService) Get(ctx context.Context, request *GetSpotRequest) (*GetSpotResponse, error) {
 	m.mutex.Lock()
 	m.GetFuncInvocations++
 	m.mutex.Unlock()
