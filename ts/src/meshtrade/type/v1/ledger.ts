@@ -1,22 +1,22 @@
-import { Ledger } from "./ledger_pb";
+import { Ledger } from './ledger_pb';
 
 // Get all Ledgers as enum values
 export const allLedgers: Ledger[] = Object.values(Ledger).filter(
-  (value) => typeof value === "number",
+  (value) => typeof value === 'number'
 ) as Ledger[];
 
 // Define explicit mappings between Ledger enums and custom string representations
 const ledgerToStringMapping: {
   [key in Ledger]: string;
 } = {
-  [Ledger.LEDGER_UNSPECIFIED]: "-",
-  [Ledger.LEDGER_STELLAR]: "Stellar",
-  [Ledger.LEDGER_BITCOIN]: "Bitcoin",
-  [Ledger.LEDGER_LITECOIN]: "Litecoin",
-  [Ledger.LEDGER_ETHEREUM]: "Ethereum",
-  [Ledger.LEDGER_XRP ]: "Ripple",
-  [Ledger.LEDGER_SA_STOCK_BROKERS ]: "SA Stock Brokers",
-  [Ledger.LEDGER_NULL ]: "NULL",
+  [Ledger.LEDGER_UNSPECIFIED]: '-',
+  [Ledger.LEDGER_STELLAR]: 'Stellar',
+  [Ledger.LEDGER_BITCOIN]: 'Bitcoin',
+  [Ledger.LEDGER_LITECOIN]: 'Litecoin',
+  [Ledger.LEDGER_ETHEREUM]: 'Ethereum',
+  [Ledger.LEDGER_XRP]: 'Ripple',
+  [Ledger.LEDGER_SA_STOCK_BROKERS]: 'SA Stock Brokers',
+  [Ledger.LEDGER_NULL]: 'NULL',
 };
 
 // Reverse mapping from string to Ledger enum
@@ -103,14 +103,14 @@ export function getLedgerNoDecimalPlaces(ledger: Ledger): number {
 const ledgerToBEStringMapping: {
   [key in Ledger]: string;
 } = {
-  [Ledger.LEDGER_UNSPECIFIED]: "LEDGER_UNSPECIFIED",
-  [Ledger.LEDGER_STELLAR]: "LEDGER_STELLAR",
-  [Ledger.LEDGER_BITCOIN]: "LEDGER_BITCOIN",
-  [Ledger.LEDGER_LITECOIN]: "LEDGER_LITECOIN",
-  [Ledger.LEDGER_ETHEREUM]: "LEDGER_ETHEREUM",
-  [Ledger.LEDGER_XRP]: "LEDGER_XRP",
-  [Ledger.LEDGER_SA_STOCK_BROKERS]: "LEDGER_SA_STOCK_BROKERS",
-  [Ledger.LEDGER_NULL]: "LEDGER_NULL",
+  [Ledger.LEDGER_UNSPECIFIED]: 'LEDGER_UNSPECIFIED',
+  [Ledger.LEDGER_STELLAR]: 'LEDGER_STELLAR',
+  [Ledger.LEDGER_BITCOIN]: 'LEDGER_BITCOIN',
+  [Ledger.LEDGER_LITECOIN]: 'LEDGER_LITECOIN',
+  [Ledger.LEDGER_ETHEREUM]: 'LEDGER_ETHEREUM',
+  [Ledger.LEDGER_XRP]: 'LEDGER_XRP',
+  [Ledger.LEDGER_SA_STOCK_BROKERS]: 'LEDGER_SA_STOCK_BROKERS',
+  [Ledger.LEDGER_NULL]: 'LEDGER_NULL',
 };
 
 /**

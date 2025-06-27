@@ -1,12 +1,12 @@
-import { LoggingInterceptor } from "../../../common/grpc_web";
-import { ClientServicePromiseClient } from "./service_grpc_web_pb";
+import { LoggingInterceptor } from '../../../common/grpc_web';
+import { ClientServicePromiseClient } from './service_grpc_web_pb';
 import {
   GetClientRequest,
   GetClientResponse,
   ListClientsRequest,
   ListClientsResponse,
-} from "./service_pb";
-import { ConfigOpts, getConfigFromOpts } from "../../../common/config";
+} from './service_pb';
+import { ConfigOpts, getConfigFromOpts } from '../../../common/config';
 
 /**
  * Client for interacting with the compliance client v1 API resource service.

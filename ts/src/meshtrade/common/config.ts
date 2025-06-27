@@ -7,7 +7,7 @@ export type Config = {
 };
 
 export function getConfigFromOpts(config?: ConfigOpts): Config {
-  const apiServerURL = config?.apiServerURL ?? "http://localhost:10000";
+  const apiServerURL = config?.apiServerURL ?? 'http://localhost:10000';
 
   return {
     apiServerURL,

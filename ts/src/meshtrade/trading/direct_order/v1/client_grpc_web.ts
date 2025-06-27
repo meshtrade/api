@@ -1,10 +1,7 @@
-import { LoggingInterceptor } from "../../../common/grpc_web";
-import { DirectOrderServicePromiseClient } from "./service_grpc_web_pb";
-import {
-  GetDirectOrderRequest,
-  GetDirectOrderResponse,
-} from "./service_pb";
-import { ConfigOpts, getConfigFromOpts } from "../../../common/config";
+import { LoggingInterceptor } from '../../../common/grpc_web';
+import { DirectOrderServicePromiseClient } from './service_grpc_web_pb';
+import { GetDirectOrderRequest, GetDirectOrderResponse } from './service_pb';
+import { ConfigOpts, getConfigFromOpts } from '../../../common/config';
 
 /**
  * Client for interacting with the trading direct_order v1 API resource service.
@@ -21,10 +18,14 @@ export class DirectOrderGrpcWebClientV1 {
     const _config = getConfigFromOpts(config);
 
     // construct service
-    this._service = new DirectOrderServicePromiseClient(_config.apiServerURL, null, {
-      withCredentials: true,
-      unaryInterceptors: [new LoggingInterceptor()],
-    });
+    this._service = new DirectOrderServicePromiseClient(
+      _config.apiServerURL,
+      null,
+      {
+        withCredentials: true,
+        unaryInterceptors: [new LoggingInterceptor()],
+      }
+    );
   }
 
   /**

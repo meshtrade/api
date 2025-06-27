@@ -1,10 +1,7 @@
-import { LoggingInterceptor } from "../../../common/grpc_web";
-import { RoleServicePromiseClient } from "./service_grpc_web_pb";
-import {
-  GetRoleRequest,
-  GetRoleResponse,
-} from "./service_pb";
-import { ConfigOpts, getConfigFromOpts } from "../../../common/config";
+import { LoggingInterceptor } from '../../../common/grpc_web';
+import { RoleServicePromiseClient } from './service_grpc_web_pb';
+import { GetRoleRequest, GetRoleResponse } from './service_pb';
+import { ConfigOpts, getConfigFromOpts } from '../../../common/config';
 
 /**
  * Client for interacting with the iam role v1 API resource service.

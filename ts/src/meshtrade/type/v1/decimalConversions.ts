@@ -1,5 +1,5 @@
-import BigNumber from "bignumber.js";
-import { Decimal } from "./decimal_pb";
+import BigNumber from 'bignumber.js';
+import { Decimal } from './decimal_pb';
 
 /**
  * Converts a BigNumber instance to a Decimal object.
@@ -28,8 +28,8 @@ export function bigNumberToDecimal(bigNumberToConvert: BigNumber): Decimal {
  * to construct a BigNumber instance.
  */
 export function decimalToBigNumber(decimal?: Decimal): BigNumber {
-  if (!decimal || decimal.getValue() == "") {
-    return new BigNumber("0");
+  if (!decimal || decimal.getValue() == '') {
+    return new BigNumber('0');
   }
   const value = decimal.getValue();
   return new BigNumber(`${value}`);

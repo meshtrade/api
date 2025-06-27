@@ -1,9 +1,9 @@
-import { BigNumber } from "bignumber.js";
-import { Token } from "./token_pb";
-import { Decimal } from "./decimal_pb";
-import { Amount } from "./amount_pb";
-import { newAmountOfToken } from "./amount";
-import { Ledger } from "./ledger_pb";
+import { BigNumber } from 'bignumber.js';
+import { Token } from './token_pb';
+import { Decimal } from './decimal_pb';
+import { Amount } from './amount_pb';
+import { newAmountOfToken } from './amount';
+import { Ledger } from './ledger_pb';
 
 /**
  * Class representing a wrapper around a Amount.
@@ -25,8 +25,8 @@ export class TokenWrapper {
    */
   constructor(token?: Token) {
     this._token = new Token()
-      .setCode(token?.getCode() ?? "")
-      .setIssuer(token?.getIssuer() ?? "")
+      .setCode(token?.getCode() ?? '')
+      .setIssuer(token?.getIssuer() ?? '')
       .setLedger(token?.getLedger() ?? Ledger.LEDGER_UNSPECIFIED);
   }
 
