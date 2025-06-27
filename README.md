@@ -36,12 +36,10 @@ graph TD
     subgraph proto ["proto"]
         subgraph p_meshtrade ["proto/meshtrade"]
             subgraph p_api_services ["API Services"]
-                subgraph p_account ["proto/meshtrade/account/v1"]
-                    p_account_files("*.proto")
+                subgraph p_compliance ["proto/meshtrade/compliance/client/v1"]
+                    p_compliance_files("*.proto")
                 end
-                subgraph p_iam ["proto/meshtrade/iam/v1"]
-                    p_iam_files("*.proto")
-                end
+                p_other_services(...)
             end
             subgraph p_type ["proto/meshtrade/type/v1"]
                 p_type_files("*.proto")
@@ -53,43 +51,37 @@ graph TD
         subgraph ts ["ts"]
             subgraph ts_meshtrade ["ts/src"]
                 subgraph ts_api_services ["API Services"]
-                    subgraph ts_account ["ts/src/account/v1"]
-                        ts_account_files("*.pb.ts")
+                    subgraph ts_compliance ["ts/src/compliance/client/v1"]
+                        ts_compliance_files("*.ts")
                     end
-                    subgraph ts_iam ["ts/src/iam/v1"]
-                        ts_iam_files("*.pb.ts")
-                    end
+                    ts_other_services(...)
                 end
                 subgraph ts_type ["ts/type/v1"]
-                    ts_type_files("*.pb.ts")
+                    ts_type_files("*.ts")
                 end
             end
         end
         subgraph go ["go"]
             subgraph go_api_services ["API Services"]
-                subgraph go_account ["go/account/v1"]
-                    go_account_files("*.pb.go")
+                subgraph go_compliance ["go/compliance/client/v1"]
+                    go_compliance_files("*.go")
                 end
-                subgraph go_iam ["go/iam/v1"]
-                    go_iam_files("*.pb.go")
-                end
+                go_other_services(...)
             end
             subgraph go_type ["go/type/v1"]
-                go_type_files("*.pb.go")
+                go_type_files("*.go")
             end
         end
         subgraph python ["python"]
             subgraph python_meshtrade ["python/src/meshtrade"]
                 subgraph python_api_services ["API Services"]
-                    subgraph python_account ["python/src/meshtrade/account/v1"]
-                        python_account_files("*.pb.py")
+                    subgraph python_compliance ["python/src/meshtrade/compliance/client/v1"]
+                        python_compliance_files("*.py")
                     end
-                    subgraph python_iam ["python/src/meshtrade/iam/v1"]
-                        python_iam_files("*.pbpy")
-                    end
+                    python_other_services(...)
                 end
                 subgraph python_type ["python/src/meshtrade/type/v1"]
-                    python_type_files("*.pb.py")
+                    python_type_files("*.py")
                 end
             end
         end
@@ -105,17 +97,10 @@ graph TD
     style generated_code fill:#f8f9fa,stroke:#000
 
     %% API Service Modules
-    style p_iam fill:#e9f2fa,stroke:#000
-    style p_account fill:#e9f2fa,stroke:#000
-
-    style go_iam fill:#e9f2fa,stroke:#000
-    style go_account fill:#e9f2fa,stroke:#000
-
-    style python_iam fill:#e9f2fa,stroke:#000
-    style python_account fill:#e9f2fa,stroke:#000
-
-    style ts_iam fill:#e9f2fa,stroke:#000
-    style ts_account fill:#e9f2fa,stroke:#000
+    style p_compliance fill:#e9f2fa,stroke:#000
+    style go_compliance fill:#e9f2fa,stroke:#000
+    style python_compliance fill:#e9f2fa,stroke:#000
+    style ts_compliance fill:#e9f2fa,stroke:#000
 
     %% Shared Type Modules
     style p_type fill:#e7f5e8,stroke:#000
@@ -152,26 +137,23 @@ These directories contain the the API integration SDKs for our supported languag
 * **/python**: Python packages managed by a central `pythonproject.toml`.
 * **/ts**: TypeScript packages managed as a monorepo.
 
-### Full API Spec
-High level of API products available:
-```
-└── meshtrade
-    ├── iam
-    │   └── v1
-    │       ├── user_service
-    │       ├── group_service
-    │       ├── role_service
-    │       ├── user
-    │       ├── group
-    │       └── role
-    ├── account
-    │   └── v1
-    │       ├── account_service
-    │       └── account
-    └── trading
-        └── v1
-            ├── spot_trade_service
-            ├── limit_order_service
-            ├── spot_trade
-            └── limt_order
-```
+### API Product Status
+
+The following table provides a high-level overview of our API products and their current status across different languages and versions.
+
+| Module | Resource | <div align="center">Proto</div> | <div align="center">Go</div> | <div align="center">Python</div> | <div align="center">TS</div> |
+| :--- | :--- | :---: | :---: | :---: | :---: |
+| | | **v1** | **v1** | **v1** | **v1** | **v1** |
+| **compliance** | client | 🚧 | 🚧 | 🚧 | 🚧 |
+| **iam** | group | 🚧 | 🚧 | 🚧 | 🚧 |
+| | role | 🚧 | 🚧 | 🚧 | 🚧 |
+| **issuance_hub** | instrument | 🚧 | 🚧 | 🚧 | 🚧 |
+| **trading** | direct_order | 🚧 | 🚧 | 🚧 | 🚧 |
+| | limit_order | 🚧 | 🚧 | 🚧 | 🚧 |
+| | spot | 🚧 | 🚧 | 🚧 | 🚧 |
+| **wallet** | account | 🚧 | 🚧 | 🚧 | 🚧 |
+
+**Legend:**
+*   `✅` - **Available**: The API product is fully supported and ready for use.
+*   `🚧` - **Under Construction**: The API product is currently in development and may be subject to change.
+*   `❌` - **Not Available**: The API product is not yet available in this language or version.
