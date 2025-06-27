@@ -12,40 +12,40 @@ option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
 // The main entity managed by this service is the `Client` resource. A client can
 // be a natural person, company, or trust. This service allows you to retrieve
 // the compliance profiles for these clients.
-service Service {
+service ClientService {
   // Get retrieves a single client's compliance profile by its unique resource name.
   //
   // This allows for fetching the complete compliance details of a specific client,
   // including all associated information like identification documents, tax residencies,
   // and company structures.
-  rpc Get(GetRequest) returns (GetResponse);
+  rpc Get(GetClientRequest) returns (GetClientResponse);
 
   // List retrieves a collection of client compliance profiles.
   //
   // This method is useful for fetching multiple client records at once.
   // Note: This endpoint does not currently support pagination or filtering.
-  rpc List(ListRequest) returns (ListResponse);
+  rpc List(ListClientsRequest) returns (ListClientsResponse);
 }
 
-// GetRequest is the message used to request a single client resource.
-message GetRequest {
+// GetClientRequest is the message used to request a single client resource.
+message GetClientRequest {
   // The unique resource name of the client to be retrieved.
   // The name serves as the primary identifier for the client resource.
   // Format: "clients/{client_id}"
   string name = 1;
 }
 
-// GetResponse contains the client resource requested.
-message GetResponse {
+// GetClientResponse contains the client resource requested.
+message GetClientResponse {
   // The client resource object containing the full compliance profile.
   meshtrade.compliance.client.v1.Client client = 1;
 }
 
-// ListRequest is the message used to request a list of client resources.
-message ListRequest {}
+// ListClientsRequest is the message used to request a list of client resources.
+message ListClientsRequest {}
 
-// ListResponse contains a list of client resources.
-message ListResponse {
+// ListClientsResponse contains a list of client resources.
+message ListClientsResponse {
   // A repeated field containing the client resource objects.
-  repeated meshtrade.compliance.client.v1.Client client = 1;
+  repeated meshtrade.compliance.client.v1.Client clients = 1;
 }

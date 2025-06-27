@@ -6,14 +6,14 @@ import "meshtrade/trading/spot/v1/spot.proto";
 
 option go_package = "github.com/meshtrade/api/go/trading/spot/v1;spotv1";
 
-service Service {
-  rpc Get(GetRequest) returns (GetResponse);
+service SpotService {
+  rpc Get(GetSpotRequest) returns (GetSpotResponse);
 }
 
-message GetRequest {
+message GetSpotRequest {
   string number = 1;
 }
 
-message GetResponse {
+message GetSpotResponse {
   meshtrade.trading.spot.v1.Spot spot = 1;
 }

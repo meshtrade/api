@@ -9,28 +9,28 @@ option go_package = "github.com/meshtrade/api/go/issuance_hub/instrument/v1;inst
 
 // Service defines the RPC methods for interacting with the instrument resource,
 // such as creating, updating, minting or burning it.
-service Service {
+service InstrumentService {
   // Retrieve a specific instrument.
-  rpc Get(GetRequest) returns (GetResponse);
+  rpc Get(GetInstrumentRequest) returns (GetInstrumentResponse);
 
   // Mints new units of an instrument into a given destination account.
-  rpc Mint(MintRequest) returns (MintResponse);
+  rpc Mint(MintInstrumentRequest) returns (MintInstrumentResponse);
 
   // Burns a specified amount of an instrument from a source account.
-  rpc Burn(BurnRequest) returns (BurnResponse);
+  rpc Burn(BurnInstrumentRequest) returns (BurnInstrumentResponse);
 }
 
-message GetRequest {
+message GetInstrumentRequest {
   // The unique name of the instrument resource to fetch.
   string name = 1;
 }
 
-message GetResponse {
+message GetInstrumentResponse {
   // The instrument resource.
   meshtrade.issuance_hub.instrument.v1.Instrument instrument = 1;
 }
 
-message MintRequest {
+message MintInstrumentRequest {
   // The quantity of the instrument to mint (denominated in token of the instrument).
   meshtrade.type.v1.Amount amount = 1;
 
@@ -41,13 +41,13 @@ message MintRequest {
   string destination_account = 3;
 }
 
-message MintResponse {
+message MintInstrumentResponse {
   // The unique identifier for the minting transaction. This ID can be used to
   // query a transaction monitoring service to check for completion and success.
   string transaction_id = 1;
 }
 
-message BurnRequest {
+message BurnInstrumentRequest {
   // The quantity of the instrument to burn (denominated in token of the instrument).
   meshtrade.type.v1.Amount amount = 1;
 
@@ -59,7 +59,7 @@ message BurnRequest {
   string source_account = 3;
 }
 
-message BurnResponse {
+message BurnInstrumentResponse {
   // The unique identifier for the burning transaction. This ID can be used to
   // query a transaction monitoring service to check for completion and success.
   string transaction_id = 1;

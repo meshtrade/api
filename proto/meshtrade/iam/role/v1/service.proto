@@ -6,12 +6,12 @@ import "meshtrade/iam/role/v1/role.proto";
 
 option go_package = "github.com/meshtrade/api/go/iam/role/v1;rolev1";
 
-service Service {
-  rpc Get(GetRequest) returns (GetResponse);
+service RoleService {
+  rpc Get(GetRoleRequest) returns (GetRoleResponse);
 }
 
-message GetRequest {}
+message GetRoleRequest {}
 
-message GetResponse {
+message GetRoleResponse {
   meshtrade.iam.role.v1.Role role = 1;
 }
