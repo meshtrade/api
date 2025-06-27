@@ -15,11 +15,11 @@ npm install @meshtrade/api
 To use a specific API client, you import it from its corresponding package path. For example, to use the `iam/group/v1` client:
 
 ```typescript
-import { GroupGrpcWebClientV1 } from "@meshtrade/api/iam/group/v1";
+import { GroupV1GrpcWebClient } from "@meshtrade/api/iam/group/v1";
 import { GetRequest } from "@meshtrade/api/iam/group/v1";
 
 // Construct the client, optionally providing the API server URL
-const groupClient = new GroupGrpcWebClientV1({
+const groupClient = new GroupV1GrpcWebClient({
   apiServerURL: "http://localhost:10000",
 });
 
@@ -55,8 +55,6 @@ The following table lists the available API products and their current status.
 | trading | limit_order | v1 | 🚧 Under Construction |
 | trading | spot | v1 | 🚧 Under Construction |
 | wallet | account | v1 | 🚧 Under Construction |
-| type | - | v1 | 🚧 Under Construction |
-| option | - | v1 | 🚧 Under Construction |
 
 **Status Key:**
 *   🚧 **Under Construction**: The API is currently under development and may change.
