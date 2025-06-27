@@ -32,10 +32,8 @@
   "include": [
     "src/**/*.ts"
   ],
-  // Tells TypeScript to ignore test files and its own output directory.
+  // Tells TypeScript to ignore its own output directory.
   "exclude": [
-    "dist",
-    "**/*.test.ts",
-    "**/*.spec.ts"
+    "dist"
   ]
 }
