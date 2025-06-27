@@ -147,9 +147,9 @@ The following table provides a high-level overview of our API products and their
 | **compliance** | client | 🚧 | 🚧 | 🚧 | 🚧 |
 | **iam** | group | 🚧 | 🚧 | 🚧 | 🚧 |
 | | role | 🚧 | 🚧 | 🚧 | 🚧 |
-| **issuance_hub** | instrument | 🚧 | 🚧 | 🚧 | 🚧 |
-| **trading** | direct_order | 🚧 | 🚧 | 🚧 | 🚧 |
-| | limit_order | 🚧 | 🚧 | 🚧 | 🚧 |
+| **issuance hub** | instrument | 🚧 | 🚧 | 🚧 | 🚧 |
+| **trading** | direct order | 🚧 | 🚧 | 🚧 | 🚧 |
+| | limit order | 🚧 | 🚧 | 🚧 | 🚧 |
 | | spot | 🚧 | 🚧 | 🚧 | 🚧 |
 | **wallet** | account | 🚧 | 🚧 | 🚧 | 🚧 |
 
