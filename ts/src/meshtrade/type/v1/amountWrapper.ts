@@ -1,8 +1,8 @@
-import { BigNumber } from 'bignumber.js';
-import { Amount } from './amount_pb';
-import { Token } from './token_pb';
-import { Decimal } from './decimal_pb';
-import { TokenWrapper } from './tokenWrapper';
+import { BigNumber } from "bignumber.js";
+import { Amount } from "./amount_pb";
+import { Token } from "./token_pb";
+import { Decimal } from "./decimal_pb";
+import { TokenWrapper } from "./tokenWrapper";
 
 /**
  * Wrapper class around a Amount.
@@ -28,7 +28,7 @@ export class AmountWrapper {
   constructor(amount?: Amount) {
     if (!amount) {
       throw new TypeError(
-        'constructing amount wrapper with an undefined amount'
+        "constructing amount wrapper with an undefined amount"
       );
     }
     this._amount = amount;
@@ -57,7 +57,7 @@ export class AmountWrapper {
   get token(): Token {
     const token = this._amount.getToken();
     if (!token) {
-      throw new TypeError('token is undefined in wrapped amount');
+      throw new TypeError("token is undefined in wrapped amount");
     }
     return token;
   }
@@ -74,7 +74,7 @@ export class AmountWrapper {
   get value(): Decimal {
     const value = this._amount.getValue();
     if (!value) {
-      throw new TypeError('value is undefined in wrapped amount');
+      throw new TypeError("value is undefined in wrapped amount");
     }
     return value;
   }

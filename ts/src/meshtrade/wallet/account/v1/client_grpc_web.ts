@@ -1,5 +1,5 @@
-import { LoggingInterceptor } from '../../../common/grpc_web';
-import { AccountServicePromiseClient } from './service_grpc_web_pb';
+import { LoggingInterceptor } from "../../../common/grpc_web";
+import { AccountServicePromiseClient } from "./service_grpc_web_pb";
 import {
   CreateAccountRequest,
   CreateAccountResponse,
@@ -9,8 +9,8 @@ import {
   ListAccountsResponse,
   SearchAccountsRequest,
   SearchAccountsResponse,
-} from './service_pb';
-import { ConfigOpts, getConfigFromOpts } from '../../../common/config';
+} from "./service_pb";
+import { ConfigOpts, getConfigFromOpts } from "../../../common/config";
 
 /**
  * Client for interacting with the wallet account v1 API resource service.

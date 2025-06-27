@@ -1,4 +1,4 @@
-import { UnaryInterceptor, Request, UnaryResponse } from 'grpc-web';
+import { UnaryInterceptor, Request, UnaryResponse } from "grpc-web";
 
 /**
  * `LoggingInterceptor` is a class responsible for intercepting requests and logging out requests and responses.
@@ -23,7 +23,7 @@ export class LoggingInterceptor implements UnaryInterceptor<unknown, unknown> {
   ): Promise<UnaryResponse<unknown, unknown>> {
     // log request
     console.debug(
-      'request: ',
+      "request: ",
       request.getMethodDescriptor().getName(),
       request
     );
@@ -32,7 +32,7 @@ export class LoggingInterceptor implements UnaryInterceptor<unknown, unknown> {
     try {
       const response = await invoker(request);
       console.debug(
-        'response: ',
+        "response: ",
         request.getMethodDescriptor().getName(),
         response
       );

@@ -1,7 +1,7 @@
-import { LoggingInterceptor } from '../../../common/grpc_web';
-import { SpotServicePromiseClient } from './service_grpc_web_pb';
-import { GetSpotRequest, GetSpotResponse } from './service_pb';
-import { ConfigOpts, getConfigFromOpts } from '../../../common/config';
+import { LoggingInterceptor } from "../../../common/grpc_web";
+import { SpotServicePromiseClient } from "./service_grpc_web_pb";
+import { GetSpotRequest, GetSpotResponse } from "./service_pb";
+import { ConfigOpts, getConfigFromOpts } from "../../../common/config";
 
 /**
  * Client for interacting with the trading spot v1 API resource service.

@@ -15,6 +15,16 @@ module.exports = tseslint.config(
   },
   prettier,
   {
+    rules: {
+      "prettier/prettier": [
+        "error",
+        {
+          "singleQuote": false
+        }
+      ]
+    }
+  },
+  {
     ignores: ["dist/**", ".prettierrc.js", "eslint.config.js", "src/**/*.d.ts", "src/**/*.js"],
   }
 );

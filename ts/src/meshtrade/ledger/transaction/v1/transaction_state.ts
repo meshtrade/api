@@ -1,24 +1,24 @@
-import { TransactionState } from './transaction_state_pb';
+import { TransactionState } from "./transaction_state_pb";
 
 // Get all transactionStates as enum values
 export const allTransactionStates: TransactionState[] = Object.values(
   TransactionState
-).filter((value) => typeof value === 'number') as TransactionState[];
+).filter((value) => typeof value === "number") as TransactionState[];
 
 // Define explicit mappings between TransactionState enums and custom string representations
 const networkToStringMapping: {
   [key in TransactionState]: string;
 } = {
-  [TransactionState.TRANSACTION_STATE_UNSPECIFIED]: '-',
-  [TransactionState.TRANSACTION_STATE_DRAFT]: 'Draft',
+  [TransactionState.TRANSACTION_STATE_UNSPECIFIED]: "-",
+  [TransactionState.TRANSACTION_STATE_DRAFT]: "Draft",
   [TransactionState.TRANSACTION_STATE_SIGNING_IN_PROGRESS]:
-    'Signing in Progress',
-  [TransactionState.TRANSACTION_STATE_PENDING]: 'Pending',
+    "Signing in Progress",
+  [TransactionState.TRANSACTION_STATE_PENDING]: "Pending",
   [TransactionState.TRANSACTION_STATE_SUBMISSION_IN_PROGRESS]:
-    'Submission in Progress',
-  [TransactionState.TRANSACTION_STATE_FAILED]: 'Failed',
-  [TransactionState.TRANSACTION_STATE_INDETERMINATE]: 'Indeterminate',
-  [TransactionState.TRANSACTION_STATE_SUCCESSFUL]: 'Successful',
+    "Submission in Progress",
+  [TransactionState.TRANSACTION_STATE_FAILED]: "Failed",
+  [TransactionState.TRANSACTION_STATE_INDETERMINATE]: "Indeterminate",
+  [TransactionState.TRANSACTION_STATE_SUCCESSFUL]: "Successful",
 };
 
 // Reverse mapping from string to TransactionState enum

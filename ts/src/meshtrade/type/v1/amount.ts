@@ -1,11 +1,11 @@
-import { Amount } from './amount_pb';
-import { Token } from './token_pb';
-import { bigNumberToDecimal, decimalToBigNumber } from './decimalConversions';
-import { getLedgerNoDecimalPlaces } from './ledger';
-import BigNumber from 'bignumber.js';
-import { Decimal } from './decimal_pb';
-import { Ledger } from './ledger_pb';
-import { tokenIsUndefined } from './token';
+import { Amount } from "./amount_pb";
+import { Token } from "./token_pb";
+import { bigNumberToDecimal, decimalToBigNumber } from "./decimalConversions";
+import { getLedgerNoDecimalPlaces } from "./ledger";
+import BigNumber from "bignumber.js";
+import { Decimal } from "./decimal_pb";
+import { Ledger } from "./ledger_pb";
+import { tokenIsUndefined } from "./token";
 
 /**
  * Creates a new Amount object using a BigNumber and a Token.
@@ -46,16 +46,16 @@ export function newAmountOfToken(
   amount: BigNumber | Decimal | string | undefined,
   token?: Token
 ): Amount {
-  let value: BigNumber = new BigNumber('0');
+  let value: BigNumber = new BigNumber("0");
   if (!amount) {
-    value = new BigNumber('0');
+    value = new BigNumber("0");
   } else if (amount instanceof BigNumber) {
     value = amount;
   } else if (amount instanceof Decimal) {
     value = decimalToBigNumber(amount);
   } else {
     if (isNaN(Number(amount))) {
-      value = new BigNumber('0');
+      value = new BigNumber("0");
     } else {
       value = new BigNumber(amount);
     }

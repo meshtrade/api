@@ -1,5 +1,5 @@
-import { LoggingInterceptor } from '../../../common/grpc_web';
-import { InstrumentServicePromiseClient } from './service_grpc_web_pb';
+import { LoggingInterceptor } from "../../../common/grpc_web";
+import { InstrumentServicePromiseClient } from "./service_grpc_web_pb";
 import {
   GetInstrumentRequest,
   GetInstrumentResponse,
@@ -7,8 +7,8 @@ import {
   MintInstrumentResponse,
   BurnInstrumentRequest,
   BurnInstrumentResponse,
-} from './service_pb';
-import { ConfigOpts, getConfigFromOpts } from '../../../common/config';
+} from "./service_pb";
+import { ConfigOpts, getConfigFromOpts } from "../../../common/config";
 
 /**
  * Client for interacting with the issuance_hub instrument v1 API resource service.

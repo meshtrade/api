@@ -1,7 +1,7 @@
-import { LoggingInterceptor } from '../../../common/grpc_web';
-import { LimitOrderServicePromiseClient } from './service_grpc_web_pb';
-import { GetLimitOrderRequest, GetLimitOrderResponse } from './service_pb';
-import { ConfigOpts, getConfigFromOpts } from '../../../common/config';
+import { LoggingInterceptor } from "../../../common/grpc_web";
+import { LimitOrderServicePromiseClient } from "./service_grpc_web_pb";
+import { GetLimitOrderRequest, GetLimitOrderResponse } from "./service_pb";
+import { ConfigOpts, getConfigFromOpts } from "../../../common/config";
 
 /**
  * Client for interacting with the trading limit_order v1 API resource service.
