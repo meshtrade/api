@@ -1,4 +1,5 @@
 import decimal
+
 from .decimal_pb2 import Decimal
 
 
