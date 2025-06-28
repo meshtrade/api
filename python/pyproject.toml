@@ -4,12 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "meshtrade"
-version = "v0.0.1"
+version = "v0.0.4"
 authors = [
     { name = "Bernard Bussy", email = "bernard@meshtrade.co" },
 ]
 description = "Integration SDK for Mesh API Services"
-requires-python = ">=3.8"
+requires-python = ">=3.12"
 keywords = ["meshtrade", "mesh", "mesh-sdk", "grpc", "betterproto", "grpclib"]
 license = "LicenseRef-My-Custom-License"
 license-files = ["LICENSE"]

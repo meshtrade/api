@@ -160,5 +160,5 @@ tox -e build
 
 - *Publish to PyPi:* The `twine` tool is used to securely upload the built packages to PyPI. This is done as part of the official release process.
 ```
-twine upload lib/*/v*/dist/*
+twine upload ./dist/*
 ```
