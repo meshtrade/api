@@ -22,10 +22,9 @@ class FundingState(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
 class FundingOrigin(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
     UNDEFINED_FUNDING_ORIGIN: _ClassVar[FundingOrigin]
-    INVESTEC_DIRECT_EFT: _ClassVar[FundingOrigin]
+    DIRECT_EFT: _ClassVar[FundingOrigin]
     PEACH_SETTLEMENT: _ClassVar[FundingOrigin]
     PEACH_PAYMENT: _ClassVar[FundingOrigin]
-    DIRECT_EFT: _ClassVar[FundingOrigin]
 
 class FundingAction(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
@@ -40,10 +39,9 @@ FAILED_FUNDING_ORDER_STATE: FundingState
 SETTLED_FUNDING_ORDER_STATE: FundingState
 UNDER_INVESTIGATION_FUNDING_ORDER_STATE: FundingState
 UNDEFINED_FUNDING_ORIGIN: FundingOrigin
-INVESTEC_DIRECT_EFT: FundingOrigin
+DIRECT_EFT: FundingOrigin
 PEACH_SETTLEMENT: FundingOrigin
 PEACH_PAYMENT: FundingOrigin
-DIRECT_EFT: FundingOrigin
 DO_NOTHING_FUNDING_ACTION: FundingAction
 MARK_AWAITING_CONFIRMATION_ACTION: FundingAction
 

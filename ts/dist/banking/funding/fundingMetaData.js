@@ -7,7 +7,7 @@ const fundingOrderMetadata_pb_1 = require("./fundingOrderMetadata_pb");
 const fee_pb_1 = require("./fee_pb");
 const paymentType_pb_1 = require("./paymentType_pb");
 function fundingMetaData(fundingMetaData) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r;
     switch (fundingMetaData === null || fundingMetaData === void 0 ? void 0 : fundingMetaData.getMetadataCase()) {
         case fundingOrderMetadata_pb_1.MetaData.MetadataCase.PEACHPAYMENTMETADATA:
             return new FundingMetaData({
@@ -25,19 +25,11 @@ function fundingMetaData(fundingMetaData) {
                 fee: (_m = (_l = fundingMetaData.getPeachsettlementmetadata()) === null || _l === void 0 ? void 0 : _l.getFee()) !== null && _m !== void 0 ? _m : new fee_pb_1.Fee(),
                 paymentType: paymentType_pb_1.PaymentType.UNDEFINED_PAYMENT_TYPE,
             });
-        case fundingOrderMetadata_pb_1.MetaData.MetadataCase.INVESTECDIRECTEFTMETADATA:
-            return new FundingMetaData({
-                checkoutId: "",
-                externalReference: (_p = (_o = fundingMetaData
-                    .getInvestecdirecteftmetadata()) === null || _o === void 0 ? void 0 : _o.getExternalreference()) !== null && _p !== void 0 ? _p : "",
-                fee: (_r = (_q = fundingMetaData.getInvestecdirecteftmetadata()) === null || _q === void 0 ? void 0 : _q.getFee()) !== null && _r !== void 0 ? _r : new fee_pb_1.Fee(),
-                paymentType: paymentType_pb_1.PaymentType.UNDEFINED_PAYMENT_TYPE,
-            });
         case fundingOrderMetadata_pb_1.MetaData.MetadataCase.DIRECTEFTMETADATA:
             return new FundingMetaData({
                 checkoutId: "",
-                externalReference: (_t = (_s = fundingMetaData.getDirecteftmetadata()) === null || _s === void 0 ? void 0 : _s.getExternalreference()) !== null && _t !== void 0 ? _t : "",
-                fee: (_v = (_u = fundingMetaData.getDirecteftmetadata()) === null || _u === void 0 ? void 0 : _u.getFee()) !== null && _v !== void 0 ? _v : new fee_pb_1.Fee(),
+                externalReference: (_p = (_o = fundingMetaData.getDirecteftmetadata()) === null || _o === void 0 ? void 0 : _o.getExternalreference()) !== null && _p !== void 0 ? _p : "",
+                fee: (_r = (_q = fundingMetaData.getDirecteftmetadata()) === null || _q === void 0 ? void 0 : _q.getFee()) !== null && _r !== void 0 ? _r : new fee_pb_1.Fee(),
                 paymentType: paymentType_pb_1.PaymentType.UNDEFINED_PAYMENT_TYPE,
             });
         case fundingOrderMetadata_pb_1.MetaData.MetadataCase.METADATA_NOT_SET:

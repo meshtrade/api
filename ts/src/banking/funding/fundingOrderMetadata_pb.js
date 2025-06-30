@@ -21,8 +21,6 @@ var global =
     (function () { return this; }).call(null) ||
     Function('return this')();
 
-var api_proto_banking_funding_investecDirectEFTMetadata_pb = require('../../banking/funding/investecDirectEFTMetadata_pb.js');
-goog.object.extend(proto, api_proto_banking_funding_investecDirectEFTMetadata_pb);
 var api_proto_banking_funding_directEFTMetaData_pb = require('../../banking/funding/directEFTMetaData_pb.js');
 goog.object.extend(proto, api_proto_banking_funding_directEFTMetaData_pb);
 var api_proto_banking_funding_peachPaymentMetaData_pb = require('../../banking/funding/peachPaymentMetaData_pb.js');
@@ -61,7 +59,7 @@ if (goog.DEBUG && !COMPILED) {
  * @private {!Array<!Array<number>>}
  * @const
  */
-proto.api.banking.funding.MetaData.oneofGroups_ = [[1,2,3,4]];
+proto.api.banking.funding.MetaData.oneofGroups_ = [[1,2,4]];
 
 /**
  * @enum {number}
@@ -70,7 +68,6 @@ proto.api.banking.funding.MetaData.MetadataCase = {
   METADATA_NOT_SET: 0,
   PEACHPAYMENTMETADATA: 1,
   PEACHSETTLEMENTMETADATA: 2,
-  INVESTECDIRECTEFTMETADATA: 3,
   DIRECTEFTMETADATA: 4
 };
 
@@ -114,7 +111,6 @@ proto.api.banking.funding.MetaData.toObject = function(includeInstance, msg) {
   var f, obj = {
 peachpaymentmetadata: (f = msg.getPeachpaymentmetadata()) && api_proto_banking_funding_peachPaymentMetaData_pb.PeachPaymentMetaData.toObject(includeInstance, f),
 peachsettlementmetadata: (f = msg.getPeachsettlementmetadata()) && api_proto_banking_funding_peachSettlementMetadata_pb.PeachSettlementMetaData.toObject(includeInstance, f),
-investecdirecteftmetadata: (f = msg.getInvestecdirecteftmetadata()) && api_proto_banking_funding_investecDirectEFTMetadata_pb.InvestecDirectEFTMetaData.toObject(includeInstance, f),
 directeftmetadata: (f = msg.getDirecteftmetadata()) && api_proto_banking_funding_directEFTMetaData_pb.DirectEFTMetaData.toObject(includeInstance, f)
   };
 
@@ -161,11 +157,6 @@ proto.api.banking.funding.MetaData.deserializeBinaryFromReader = function(msg, r
       var value = new api_proto_banking_funding_peachSettlementMetadata_pb.PeachSettlementMetaData;
       reader.readMessage(value,api_proto_banking_funding_peachSettlementMetadata_pb.PeachSettlementMetaData.deserializeBinaryFromReader);
       msg.setPeachsettlementmetadata(value);
-      break;
-    case 3:
-      var value = new api_proto_banking_funding_investecDirectEFTMetadata_pb.InvestecDirectEFTMetaData;
-      reader.readMessage(value,api_proto_banking_funding_investecDirectEFTMetadata_pb.InvestecDirectEFTMetaData.deserializeBinaryFromReader);
-      msg.setInvestecdirecteftmetadata(value);
       break;
     case 4:
       var value = new api_proto_banking_funding_directEFTMetaData_pb.DirectEFTMetaData;
@@ -215,14 +206,6 @@ proto.api.banking.funding.MetaData.serializeBinaryToWriter = function(message, w
       2,
       f,
       api_proto_banking_funding_peachSettlementMetadata_pb.PeachSettlementMetaData.serializeBinaryToWriter
-    );
-  }
-  f = message.getInvestecdirecteftmetadata();
-  if (f != null) {
-    writer.writeMessage(
-      3,
-      f,
-      api_proto_banking_funding_investecDirectEFTMetadata_pb.InvestecDirectEFTMetaData.serializeBinaryToWriter
     );
   }
   f = message.getDirecteftmetadata();
@@ -307,43 +290,6 @@ proto.api.banking.funding.MetaData.prototype.clearPeachsettlementmetadata = func
  */
 proto.api.banking.funding.MetaData.prototype.hasPeachsettlementmetadata = function() {
   return jspb.Message.getField(this, 2) != null;
-};
-
-
-/**
- * optional InvestecDirectEFTMetaData InvestecDirectEFTMetaData = 3;
- * @return {?proto.api.banking.funding.InvestecDirectEFTMetaData}
- */
-proto.api.banking.funding.MetaData.prototype.getInvestecdirecteftmetadata = function() {
-  return /** @type{?proto.api.banking.funding.InvestecDirectEFTMetaData} */ (
-    jspb.Message.getWrapperField(this, api_proto_banking_funding_investecDirectEFTMetadata_pb.InvestecDirectEFTMetaData, 3));
-};
-
-
-/**
- * @param {?proto.api.banking.funding.InvestecDirectEFTMetaData|undefined} value
- * @return {!proto.api.banking.funding.MetaData} returns this
-*/
-proto.api.banking.funding.MetaData.prototype.setInvestecdirecteftmetadata = function(value) {
-  return jspb.Message.setOneofWrapperField(this, 3, proto.api.banking.funding.MetaData.oneofGroups_[0], value);
-};
-
-
-/**
- * Clears the message field making it undefined.
- * @return {!proto.api.banking.funding.MetaData} returns this
- */
-proto.api.banking.funding.MetaData.prototype.clearInvestecdirecteftmetadata = function() {
-  return this.setInvestecdirecteftmetadata(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.api.banking.funding.MetaData.prototype.hasInvestecdirecteftmetadata = function() {
-  return jspb.Message.getField(this, 3) != null;
 };
 
 

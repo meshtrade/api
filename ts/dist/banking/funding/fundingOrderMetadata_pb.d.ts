@@ -7,7 +7,6 @@
 /* eslint-disable */
 
 import * as jspb from "google-protobuf";
-import * as api_proto_banking_funding_investecDirectEFTMetadata_pb from "../../banking/funding/investecDirectEFTMetadata_pb";
 import * as api_proto_banking_funding_directEFTMetaData_pb from "../../banking/funding/directEFTMetaData_pb";
 import * as api_proto_banking_funding_peachPaymentMetaData_pb from "../../banking/funding/peachPaymentMetaData_pb";
 import * as api_proto_banking_funding_peachSettlementMetadata_pb from "../../banking/funding/peachSettlementMetadata_pb";
@@ -23,11 +22,6 @@ export class MetaData extends jspb.Message {
     clearPeachsettlementmetadata(): void;
     getPeachsettlementmetadata(): api_proto_banking_funding_peachSettlementMetadata_pb.PeachSettlementMetaData | undefined;
     setPeachsettlementmetadata(value?: api_proto_banking_funding_peachSettlementMetadata_pb.PeachSettlementMetaData): MetaData;
-
-    hasInvestecdirecteftmetadata(): boolean;
-    clearInvestecdirecteftmetadata(): void;
-    getInvestecdirecteftmetadata(): api_proto_banking_funding_investecDirectEFTMetadata_pb.InvestecDirectEFTMetaData | undefined;
-    setInvestecdirecteftmetadata(value?: api_proto_banking_funding_investecDirectEFTMetadata_pb.InvestecDirectEFTMetaData): MetaData;
 
     hasDirecteftmetadata(): boolean;
     clearDirecteftmetadata(): void;
@@ -50,7 +44,6 @@ export namespace MetaData {
     export type AsObject = {
         peachpaymentmetadata?: api_proto_banking_funding_peachPaymentMetaData_pb.PeachPaymentMetaData.AsObject,
         peachsettlementmetadata?: api_proto_banking_funding_peachSettlementMetadata_pb.PeachSettlementMetaData.AsObject,
-        investecdirecteftmetadata?: api_proto_banking_funding_investecDirectEFTMetadata_pb.InvestecDirectEFTMetaData.AsObject,
         directeftmetadata?: api_proto_banking_funding_directEFTMetaData_pb.DirectEFTMetaData.AsObject,
     }
 
@@ -58,7 +51,6 @@ export namespace MetaData {
         METADATA_NOT_SET = 0,
         PEACHPAYMENTMETADATA = 1,
         PEACHSETTLEMENTMETADATA = 2,
-        INVESTECDIRECTEFTMETADATA = 3,
         DIRECTEFTMETADATA = 4,
     }
 

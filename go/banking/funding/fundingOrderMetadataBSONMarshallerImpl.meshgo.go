@@ -43,9 +43,6 @@ func (m *MetaData) MarshalBSON() ([]byte, error) {
 	case *MetaData_PeachSettlementMetaData:
 		return bson.Marshal(typed.PeachSettlementMetaData)
 
-	case *MetaData_InvestecDirectEFTMetaData:
-		return bson.Marshal(typed.InvestecDirectEFTMetaData)
-
 	case *MetaData_DirectEFTMetaData:
 		return bson.Marshal(typed.DirectEFTMetaData)
 
@@ -85,15 +82,6 @@ func (m *MetaData) UnmarshalBSON(data []byte) error {
 		}
 		m.MetaData = &MetaData_PeachSettlementMetaData{
 			PeachSettlementMetaData: unmarshalledImplementation,
-		}
-
-	case investecDirectEFTMetaDataBSONAtTypeName:
-		unmarshalledImplementation := new(InvestecDirectEFTMetaData)
-		if err := bson.Unmarshal(data, unmarshalledImplementation); err != nil {
-			return fmt.Errorf("error unmarshalling implementation of MetaData 'InvestecDirectEFTMetaData': %w", err)
-		}
-		m.MetaData = &MetaData_InvestecDirectEFTMetaData{
-			InvestecDirectEFTMetaData: unmarshalledImplementation,
 		}
 
 	case directEFTMetaDataBSONAtTypeName:

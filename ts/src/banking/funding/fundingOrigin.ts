@@ -1,11 +1,10 @@
-import { FundingOrigin, FundingState } from "./funding_pb";
+import { FundingOrigin } from "./funding_pb";
 
 const fundingOriginToStringMapping: {
   [key in FundingOrigin]: string;
 } = {
   [FundingOrigin.UNDEFINED_FUNDING_ORIGIN]: "-",
-  [FundingOrigin.DIRECT_EFT]: "Manual EFT",
-  [FundingOrigin.INVESTEC_DIRECT_EFT]: "Investec EFT",
+  [FundingOrigin.DIRECT_EFT]: "Direct EFT",
   [FundingOrigin.PEACH_PAYMENT]: "Peach Payment",
   [FundingOrigin.PEACH_SETTLEMENT]: "Peach Settlement",
 };

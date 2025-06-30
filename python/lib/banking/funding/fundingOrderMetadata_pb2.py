@@ -22,13 +22,12 @@ _runtime_version.ValidateProtobufRuntimeVersion(
 _sym_db = _symbol_database.Default()
 
 
-from api.python.lib.banking.funding import investecDirectEFTMetadata_pb2 as api_dot_proto_dot_banking_dot_funding_dot_investecDirectEFTMetadata__pb2
 from api.python.lib.banking.funding import directEFTMetaData_pb2 as api_dot_proto_dot_banking_dot_funding_dot_directEFTMetaData__pb2
 from api.python.lib.banking.funding import peachPaymentMetaData_pb2 as api_dot_proto_dot_banking_dot_funding_dot_peachPaymentMetaData__pb2
 from api.python.lib.banking.funding import peachSettlementMetadata_pb2 as api_dot_proto_dot_banking_dot_funding_dot_peachSettlementMetadata__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n4api/proto/banking/funding/fundingOrderMetadata.proto\x12\x13\x61pi.banking.funding\x1a\x39\x61pi/proto/banking/funding/investecDirectEFTMetadata.proto\x1a\x31\x61pi/proto/banking/funding/directEFTMetaData.proto\x1a\x34\x61pi/proto/banking/funding/peachPaymentMetaData.proto\x1a\x37\x61pi/proto/banking/funding/peachSettlementMetadata.proto\"\xcc\x02\n\x08MetaData\x12I\n\x14PeachPaymentMetaData\x18\x01 \x01(\x0b\x32).api.banking.funding.PeachPaymentMetaDataH\x00\x12O\n\x17PeachSettlementMetaData\x18\x02 \x01(\x0b\x32,.api.banking.funding.PeachSettlementMetaDataH\x00\x12S\n\x19InvestecDirectEFTMetaData\x18\x03 \x01(\x0b\x32..api.banking.funding.InvestecDirectEFTMetaDataH\x00\x12\x43\n\x11\x44irectEFTMetaData\x18\x04 \x01(\x0b\x32&.api.banking.funding.DirectEFTMetaDataH\x00\x42\n\n\x08metaDataB-Z+github.com/meshtrade/api/go/banking/fundingb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n4api/proto/banking/funding/fundingOrderMetadata.proto\x12\x13\x61pi.banking.funding\x1a\x31\x61pi/proto/banking/funding/directEFTMetaData.proto\x1a\x34\x61pi/proto/banking/funding/peachPaymentMetaData.proto\x1a\x37\x61pi/proto/banking/funding/peachSettlementMetadata.proto\"\xf7\x01\n\x08MetaData\x12I\n\x14PeachPaymentMetaData\x18\x01 \x01(\x0b\x32).api.banking.funding.PeachPaymentMetaDataH\x00\x12O\n\x17PeachSettlementMetaData\x18\x02 \x01(\x0b\x32,.api.banking.funding.PeachSettlementMetaDataH\x00\x12\x43\n\x11\x44irectEFTMetaData\x18\x04 \x01(\x0b\x32&.api.banking.funding.DirectEFTMetaDataH\x00\x42\n\n\x08metaDataB-Z+github.com/meshtrade/api/go/banking/fundingb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -36,6 +35,6 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'api.python.lib.banking.fund
 if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'Z+github.com/meshtrade/api/go/banking/funding'
-  _globals['_METADATA']._serialized_start=299
-  _globals['_METADATA']._serialized_end=631
+  _globals['_METADATA']._serialized_start=240
+  _globals['_METADATA']._serialized_end=487
 # @@protoc_insertion_point(module_scope)

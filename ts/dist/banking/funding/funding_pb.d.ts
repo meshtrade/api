@@ -74,10 +74,9 @@ export enum FundingState {
 
 export enum FundingOrigin {
     UNDEFINED_FUNDING_ORIGIN = 0,
-    INVESTEC_DIRECT_EFT = 1,
+    DIRECT_EFT = 1,
     PEACH_SETTLEMENT = 2,
     PEACH_PAYMENT = 3,
-    DIRECT_EFT = 4,
 }
 
 export enum FundingAction {

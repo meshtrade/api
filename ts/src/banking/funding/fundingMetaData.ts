@@ -17,6 +17,7 @@ export function fundingMetaData(fundingMetaData?: MetaData): FundingMetaData {
           fundingMetaData.getPeachpaymentmetadata()?.getPaymenttype() ??
           PaymentType.UNDEFINED_PAYMENT_TYPE,
       });
+
     case MetaData.MetadataCase.PEACHSETTLEMENTMETADATA:
       return new FundingMetaData({
         checkoutId: "",
@@ -28,17 +29,7 @@ export function fundingMetaData(fundingMetaData?: MetaData): FundingMetaData {
           fundingMetaData.getPeachsettlementmetadata()?.getFee() ?? new Fee(),
         paymentType: PaymentType.UNDEFINED_PAYMENT_TYPE,
       });
-    case MetaData.MetadataCase.INVESTECDIRECTEFTMETADATA:
-      return new FundingMetaData({
-        checkoutId: "",
-        externalReference:
-          fundingMetaData
-            .getInvestecdirecteftmetadata()
-            ?.getExternalreference() ?? "",
-        fee:
-          fundingMetaData.getInvestecdirecteftmetadata()?.getFee() ?? new Fee(),
-        paymentType: PaymentType.UNDEFINED_PAYMENT_TYPE,
-      });
+
     case MetaData.MetadataCase.DIRECTEFTMETADATA:
       return new FundingMetaData({
         checkoutId: "",
@@ -47,6 +38,7 @@ export function fundingMetaData(fundingMetaData?: MetaData): FundingMetaData {
         fee: fundingMetaData.getDirecteftmetadata()?.getFee() ?? new Fee(),
         paymentType: PaymentType.UNDEFINED_PAYMENT_TYPE,
       });
+
     case MetaData.MetadataCase.METADATA_NOT_SET:
     default:
       return new FundingMetaData({
