@@ -11,13 +11,13 @@ option go_package = "github.com/meshtrade/api/go/issuance_hub/instrument/v1;inst
 // such as creating, updating, minting or burning it.
 service InstrumentService {
   // Retrieve a specific instrument.
-  rpc Get(GetInstrumentRequest) returns (GetInstrumentResponse);
+  rpc GetInstrument(GetInstrumentRequest) returns (meshtrade.issuance_hub.instrument.v1.Instrument);
 
   // Mints new units of an instrument into a given destination account.
-  rpc Mint(MintInstrumentRequest) returns (MintInstrumentResponse);
+  rpc MintInstrument(MintInstrumentRequest) returns (MintInstrumentResponse);
 
   // Burns a specified amount of an instrument from a source account.
-  rpc Burn(BurnInstrumentRequest) returns (BurnInstrumentResponse);
+  rpc BurnInstrument(BurnInstrumentRequest) returns (BurnInstrumentResponse);
 }
 
 message GetInstrumentRequest {
@@ -25,10 +25,6 @@ message GetInstrumentRequest {
   string name = 1;
 }
 
-message GetInstrumentResponse {
-  // The instrument resource.
-  meshtrade.issuance_hub.instrument.v1.Instrument instrument = 1;
-}
 
 message MintInstrumentRequest {
   // The quantity of the instrument to mint (denominated in token of the instrument).

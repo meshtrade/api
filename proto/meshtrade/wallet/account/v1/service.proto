@@ -4,12 +4,18 @@ package meshtrade.wallet.account.v1;
 
 import "buf/validate/validate.proto";
 import "meshtrade/option/v1/auth.proto";
-import "meshtrade/option/v1/role.proto";
 import "meshtrade/option/v1/service_type.proto";
 import "meshtrade/type/v1/ledger.proto";
 import "meshtrade/wallet/account/v1/account.proto";
 
 option go_package = "github.com/meshtrade/api/go/wallet/account/v1;accountv1";
+
+option (meshtrade.option.v1.standard_roles) = {
+  roles: [
+    STANDARD_ROLE_WALLET_ADMIN,
+    STANDARD_ROLE_WALLET_VIEWER
+  ]
+};
 
 /*
    AccountService provides access to and management of wallet accounts.
@@ -86,19 +92,6 @@ message CreateAccountRequest {
   bool open = 3;
 }
 
-/* CreateAccountResponse contains the newly created account. */
-message CreateAccountResponse {
-  /*
-     The newly created account object.
-  */
-  meshtrade.wallet.account.v1.Account account = 1;
-
-  /*
-     The ID of the account opening transaction. This field is only populated
-     if 'open' was set to true in the request.
-  */
-  string transaction_id = 2;
-}
 
 /* GetAccountRequest specifies which account to retrieve. */
 message GetAccountRequest {
@@ -111,13 +104,6 @@ message GetAccountRequest {
   ];
 }
 
-/* GetAccountResponse contains the requested account. */
-message GetAccountResponse {
-  /*
-     The retrieved account object.
-  */
-  meshtrade.wallet.account.v1.Account account = 1;
-}
 
 /* ListAccountsRequest requires no parameters to list accounts for the caller. */
 message ListAccountsRequest {}

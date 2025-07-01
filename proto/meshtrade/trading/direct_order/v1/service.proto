@@ -7,14 +7,11 @@ import "meshtrade/trading/direct_order/v1/direct_order.proto";
 option go_package = "github.com/meshtrade/api/go/trading/direct_order/v1;directorderv1";
 
 service DirectOrderService {
-  rpc Get(GetDirectOrderRequest) returns (GetDirectOrderResponse);
+  rpc GetDirectOrder(GetDirectOrderRequest) returns (meshtrade.trading.direct_order.v1.DirectOrder);
 }
 
 message GetDirectOrderRequest {
   string number = 1;
 }
 
-message GetDirectOrderResponse {
-  meshtrade.trading.direct_order.v1.DirectOrder directorder = 1;
-}
 

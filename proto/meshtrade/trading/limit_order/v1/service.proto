@@ -7,14 +7,11 @@ import "meshtrade/trading/limit_order/v1/limit_order.proto";
 option go_package = "github.com/meshtrade/api/go/trading/limit_order/v1;limitorderv1";
 
 service LimitOrderService {
-  rpc Get(GetLimitOrderRequest) returns (GetLimitOrderResponse);
+  rpc GetLimitOrder(GetLimitOrderRequest) returns (meshtrade.trading.limit_order.v1.LimitOrder);
 }
 
 message GetLimitOrderRequest {
   string number = 1;
 }
 
-message GetLimitOrderResponse {
-  meshtrade.trading.limit_order.v1.LimitOrder limitorder = 1;
-}
 

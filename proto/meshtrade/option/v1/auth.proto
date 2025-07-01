@@ -35,6 +35,10 @@ extend google.protobuf.FileOptions {
   StandardRoleList standard_roles = 50003;
 }
 
+extend google.protobuf.MethodOptions {
+  StandardRoleList required_roles = 50005;
+}
+
 message StandardRoleList {
   repeated StandardRole roles = 1;
 }

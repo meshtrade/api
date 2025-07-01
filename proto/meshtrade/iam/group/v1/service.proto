@@ -7,12 +7,9 @@ import "meshtrade/iam/group/v1/group.proto";
 option go_package = "github.com/meshtrade/api/go/iam/group/v1;groupv1";
 
 service GroupService {
-  rpc Get(GetGroupRequest) returns (GetGroupResponse);
+  rpc GetGroup(GetGroupRequest) returns (meshtrade.iam.group.v1.Group);
 }
 
 message GetGroupRequest {}
 
-message GetGroupResponse {
-  meshtrade.iam.group.v1.Group group = 1;
-}
 
