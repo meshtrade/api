@@ -25,7 +25,7 @@ _sym_db = _symbol_database.Default()
 from google.protobuf import descriptor_pb2 as google_dot_protobuf_dot_descriptor__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1emeshtrade/option/v1/auth.proto\x12\x13meshtrade.option.v1\x1a google/protobuf/descriptor.proto\"K\n\x10StandardRoleList\x12\x37\n\x05roles\x18\x01 \x03(\x0e\x32!.meshtrade.option.v1.StandardRoleR\x05roles*n\n\x0cStandardRole\x12\x1d\n\x19STANDARD_ROLE_UNSPECIFIED\x10\x00\x12\x1e\n\x1aSTANDARD_ROLE_WALLET_ADMIN\x10\x01\x12\x1f\n\x1bSTANDARD_ROLE_WALLET_VIEWER\x10\x02:l\n\x0estandard_roles\x12\x1c.google.protobuf.FileOptions\x18\xd3\x86\x03 \x01(\x0b\x32%.meshtrade.option.v1.StandardRoleListR\rstandardRoles:n\n\x0erequired_roles\x12\x1e.google.protobuf.MethodOptions\x18\xd5\x86\x03 \x01(\x0b\x32%.meshtrade.option.v1.StandardRoleListR\rrequiredRolesB0Z.github.com/meshtrade/api/go/option/v1;optionv1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1emeshtrade/option/v1/auth.proto\x12\x13meshtrade.option.v1\x1a google/protobuf/descriptor.proto\";\n\x08RoleList\x12/\n\x05roles\x18\x01 \x03(\x0e\x32\x19.meshtrade.option.v1.RoleR\x05roles*K\n\x04Role\x12\x14\n\x10ROLE_UNSPECIFIED\x10\x00\x12\x15\n\x11ROLE_WALLET_ADMIN\x10\x01\x12\x16\n\x12ROLE_WALLET_VIEWER\x10\x02:d\n\x0estandard_roles\x12\x1c.google.protobuf.FileOptions\x18\xd3\x86\x03 \x01(\x0b\x32\x1d.meshtrade.option.v1.RoleListR\rstandardRoles:U\n\x05roles\x12\x1e.google.protobuf.MethodOptions\x18\xd5\x86\x03 \x01(\x0b\x32\x1d.meshtrade.option.v1.RoleListR\x05rolesB0Z.github.com/meshtrade/api/go/option/v1;optionv1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -33,8 +33,8 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'meshtrade.option.v1.auth_pb
 if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'Z.github.com/meshtrade/api/go/option/v1;optionv1'
-  _globals['_STANDARDROLE']._serialized_start=166
-  _globals['_STANDARDROLE']._serialized_end=276
-  _globals['_STANDARDROLELIST']._serialized_start=89
-  _globals['_STANDARDROLELIST']._serialized_end=164
+  _globals['_ROLE']._serialized_start=150
+  _globals['_ROLE']._serialized_end=225
+  _globals['_ROLELIST']._serialized_start=89
+  _globals['_ROLELIST']._serialized_end=148
 # @@protoc_insertion_point(module_scope)

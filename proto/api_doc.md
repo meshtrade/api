@@ -100,9 +100,9 @@
     - [TransactionState](#meshtrade-ledger-transaction-v1-TransactionState)
   
 - [meshtrade/option/v1/auth.proto](#meshtrade_option_v1_auth-proto)
-    - [StandardRoleList](#meshtrade-option-v1-StandardRoleList)
+    - [RoleList](#meshtrade-option-v1-RoleList)
   
-    - [StandardRole](#meshtrade-option-v1-StandardRole)
+    - [Role](#meshtrade-option-v1-Role)
   
     - [File-level Extensions](#meshtrade_option_v1_auth-proto-extensions)
     - [File-level Extensions](#meshtrade_option_v1_auth-proto-extensions)
@@ -1321,15 +1321,15 @@ such as creating, updating, minting or burning it.
 
 
 
-<a name="meshtrade-option-v1-StandardRoleList"></a>
+<a name="meshtrade-option-v1-RoleList"></a>
 
-### StandardRoleList
+### RoleList
 
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| roles | [StandardRole](#meshtrade-option-v1-StandardRole) | repeated |  |
+| roles | [Role](#meshtrade-option-v1-Role) | repeated |  |
 
 
 
@@ -1338,19 +1338,19 @@ such as creating, updating, minting or burning it.
  
 
 
-<a name="meshtrade-option-v1-StandardRole"></a>
+<a name="meshtrade-option-v1-Role"></a>
 
-### StandardRole
-StandardRole defines a named collection of permissions.
+### Role
+Role defines a named collection of permissions.
 This allows for the creation of business-level roles (e.g., &#34;AccountReader&#34;, &#34;AccountAdmin&#34;)
 that group a set of granular, string-based permissions. Roles are
 defined at the file level in a service&#39;s `.proto` file.
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| STANDARD_ROLE_UNSPECIFIED | 0 | The default value, indicating the service type is unknown or not specified. This should be treated as an error and not be used explicitly. |
-| STANDARD_ROLE_WALLET_ADMIN | 1 |  |
-| STANDARD_ROLE_WALLET_VIEWER | 2 |  |
+| ROLE_UNSPECIFIED | 0 | The default value, indicating the service type is unknown or not specified. This should be treated as an error and not be used explicitly. |
+| ROLE_WALLET_ADMIN | 1 |  |
+| ROLE_WALLET_VIEWER | 2 |  |
 
 
  
@@ -1361,8 +1361,8 @@ defined at the file level in a service&#39;s `.proto` file.
 ### File-level Extensions
 | Extension | Type | Base | Number | Description |
 | --------- | ---- | ---- | ------ | ----------- |
-| standard_roles | StandardRoleList | .google.protobuf.FileOptions | 50003 |  |
-| required_roles | StandardRoleList | .google.protobuf.MethodOptions | 50005 |  |
+| standard_roles | RoleList | .google.protobuf.FileOptions | 50003 |  |
+| roles | RoleList | .google.protobuf.MethodOptions | 50005 |  |
 
  
 

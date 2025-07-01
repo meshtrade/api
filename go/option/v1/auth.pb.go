@@ -22,82 +22,82 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// StandardRole defines a named collection of permissions.
+// Role defines a named collection of permissions.
 // This allows for the creation of business-level roles (e.g., "AccountReader", "AccountAdmin")
 // that group a set of granular, string-based permissions. Roles are
 // defined at the file level in a service's `.proto` file.
-type StandardRole int32
+type Role int32
 
 const (
 	// The default value, indicating the service type is unknown or not specified.
 	// This should be treated as an error and not be used explicitly.
-	StandardRole_STANDARD_ROLE_UNSPECIFIED   StandardRole = 0
-	StandardRole_STANDARD_ROLE_WALLET_ADMIN  StandardRole = 1
-	StandardRole_STANDARD_ROLE_WALLET_VIEWER StandardRole = 2
+	Role_ROLE_UNSPECIFIED   Role = 0
+	Role_ROLE_WALLET_ADMIN  Role = 1
+	Role_ROLE_WALLET_VIEWER Role = 2
 )
 
-// Enum value maps for StandardRole.
+// Enum value maps for Role.
 var (
-	StandardRole_name = map[int32]string{
-		0: "STANDARD_ROLE_UNSPECIFIED",
-		1: "STANDARD_ROLE_WALLET_ADMIN",
-		2: "STANDARD_ROLE_WALLET_VIEWER",
+	Role_name = map[int32]string{
+		0: "ROLE_UNSPECIFIED",
+		1: "ROLE_WALLET_ADMIN",
+		2: "ROLE_WALLET_VIEWER",
 	}
-	StandardRole_value = map[string]int32{
-		"STANDARD_ROLE_UNSPECIFIED":   0,
-		"STANDARD_ROLE_WALLET_ADMIN":  1,
-		"STANDARD_ROLE_WALLET_VIEWER": 2,
+	Role_value = map[string]int32{
+		"ROLE_UNSPECIFIED":   0,
+		"ROLE_WALLET_ADMIN":  1,
+		"ROLE_WALLET_VIEWER": 2,
 	}
 )
 
-func (x StandardRole) Enum() *StandardRole {
-	p := new(StandardRole)
+func (x Role) Enum() *Role {
+	p := new(Role)
 	*p = x
 	return p
 }
 
-func (x StandardRole) String() string {
+func (x Role) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (StandardRole) Descriptor() protoreflect.EnumDescriptor {
+func (Role) Descriptor() protoreflect.EnumDescriptor {
 	return file_meshtrade_option_v1_auth_proto_enumTypes[0].Descriptor()
 }
 
-func (StandardRole) Type() protoreflect.EnumType {
+func (Role) Type() protoreflect.EnumType {
 	return &file_meshtrade_option_v1_auth_proto_enumTypes[0]
 }
 
-func (x StandardRole) Number() protoreflect.EnumNumber {
+func (x Role) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use StandardRole.Descriptor instead.
-func (StandardRole) EnumDescriptor() ([]byte, []int) {
+// Deprecated: Use Role.Descriptor instead.
+func (Role) EnumDescriptor() ([]byte, []int) {
 	return file_meshtrade_option_v1_auth_proto_rawDescGZIP(), []int{0}
 }
 
-type StandardRoleList struct {
+type RoleList struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Roles         []StandardRole         `protobuf:"varint,1,rep,packed,name=roles,proto3,enum=meshtrade.option.v1.StandardRole" json:"roles,omitempty"`
+	Roles         []Role                 `protobuf:"varint,1,rep,packed,name=roles,proto3,enum=meshtrade.option.v1.Role" json:"roles,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *StandardRoleList) Reset() {
-	*x = StandardRoleList{}
+func (x *RoleList) Reset() {
+	*x = RoleList{}
 	mi := &file_meshtrade_option_v1_auth_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *StandardRoleList) String() string {
+func (x *RoleList) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*StandardRoleList) ProtoMessage() {}
+func (*RoleList) ProtoMessage() {}
 
-func (x *StandardRoleList) ProtoReflect() protoreflect.Message {
+func (x *RoleList) ProtoReflect() protoreflect.Message {
 	mi := &file_meshtrade_option_v1_auth_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -109,12 +109,12 @@ func (x *StandardRoleList) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use StandardRoleList.ProtoReflect.Descriptor instead.
-func (*StandardRoleList) Descriptor() ([]byte, []int) {
+// Deprecated: Use RoleList.ProtoReflect.Descriptor instead.
+func (*RoleList) Descriptor() ([]byte, []int) {
 	return file_meshtrade_option_v1_auth_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *StandardRoleList) GetRoles() []StandardRole {
+func (x *RoleList) GetRoles() []Role {
 	if x != nil {
 		return x.Roles
 	}
@@ -124,7 +124,7 @@ func (x *StandardRoleList) GetRoles() []StandardRole {
 var file_meshtrade_option_v1_auth_proto_extTypes = []protoimpl.ExtensionInfo{
 	{
 		ExtendedType:  (*descriptorpb.FileOptions)(nil),
-		ExtensionType: (*StandardRoleList)(nil),
+		ExtensionType: (*RoleList)(nil),
 		Field:         50003,
 		Name:          "meshtrade.option.v1.standard_roles",
 		Tag:           "bytes,50003,opt,name=standard_roles",
@@ -132,39 +132,39 @@ var file_meshtrade_option_v1_auth_proto_extTypes = []protoimpl.ExtensionInfo{
 	},
 	{
 		ExtendedType:  (*descriptorpb.MethodOptions)(nil),
-		ExtensionType: (*StandardRoleList)(nil),
+		ExtensionType: (*RoleList)(nil),
 		Field:         50005,
-		Name:          "meshtrade.option.v1.required_roles",
-		Tag:           "bytes,50005,opt,name=required_roles",
+		Name:          "meshtrade.option.v1.roles",
+		Tag:           "bytes,50005,opt,name=roles",
 		Filename:      "meshtrade/option/v1/auth.proto",
 	},
 }
 
 // Extension fields to descriptorpb.FileOptions.
 var (
-	// optional meshtrade.option.v1.StandardRoleList standard_roles = 50003;
+	// optional meshtrade.option.v1.RoleList standard_roles = 50003;
 	E_StandardRoles = &file_meshtrade_option_v1_auth_proto_extTypes[0]
 )
 
 // Extension fields to descriptorpb.MethodOptions.
 var (
-	// optional meshtrade.option.v1.StandardRoleList required_roles = 50005;
-	E_RequiredRoles = &file_meshtrade_option_v1_auth_proto_extTypes[1]
+	// optional meshtrade.option.v1.RoleList roles = 50005;
+	E_Roles = &file_meshtrade_option_v1_auth_proto_extTypes[1]
 )
 
 var File_meshtrade_option_v1_auth_proto protoreflect.FileDescriptor
 
 const file_meshtrade_option_v1_auth_proto_rawDesc = "" +
 	"\n" +
-	"\x1emeshtrade/option/v1/auth.proto\x12\x13meshtrade.option.v1\x1a google/protobuf/descriptor.proto\"K\n" +
-	"\x10StandardRoleList\x127\n" +
-	"\x05roles\x18\x01 \x03(\x0e2!.meshtrade.option.v1.StandardRoleR\x05roles*n\n" +
-	"\fStandardRole\x12\x1d\n" +
-	"\x19STANDARD_ROLE_UNSPECIFIED\x10\x00\x12\x1e\n" +
-	"\x1aSTANDARD_ROLE_WALLET_ADMIN\x10\x01\x12\x1f\n" +
-	"\x1bSTANDARD_ROLE_WALLET_VIEWER\x10\x02:l\n" +
-	"\x0estandard_roles\x12\x1c.google.protobuf.FileOptions\x18ӆ\x03 \x01(\v2%.meshtrade.option.v1.StandardRoleListR\rstandardRoles:n\n" +
-	"\x0erequired_roles\x12\x1e.google.protobuf.MethodOptions\x18Ն\x03 \x01(\v2%.meshtrade.option.v1.StandardRoleListR\rrequiredRolesB0Z.github.com/meshtrade/api/go/option/v1;optionv1b\x06proto3"
+	"\x1emeshtrade/option/v1/auth.proto\x12\x13meshtrade.option.v1\x1a google/protobuf/descriptor.proto\";\n" +
+	"\bRoleList\x12/\n" +
+	"\x05roles\x18\x01 \x03(\x0e2\x19.meshtrade.option.v1.RoleR\x05roles*K\n" +
+	"\x04Role\x12\x14\n" +
+	"\x10ROLE_UNSPECIFIED\x10\x00\x12\x15\n" +
+	"\x11ROLE_WALLET_ADMIN\x10\x01\x12\x16\n" +
+	"\x12ROLE_WALLET_VIEWER\x10\x02:d\n" +
+	"\x0estandard_roles\x12\x1c.google.protobuf.FileOptions\x18ӆ\x03 \x01(\v2\x1d.meshtrade.option.v1.RoleListR\rstandardRoles:U\n" +
+	"\x05roles\x12\x1e.google.protobuf.MethodOptions\x18Ն\x03 \x01(\v2\x1d.meshtrade.option.v1.RoleListR\x05rolesB0Z.github.com/meshtrade/api/go/option/v1;optionv1b\x06proto3"
 
 var (
 	file_meshtrade_option_v1_auth_proto_rawDescOnce sync.Once
@@ -181,17 +181,17 @@ func file_meshtrade_option_v1_auth_proto_rawDescGZIP() []byte {
 var file_meshtrade_option_v1_auth_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_meshtrade_option_v1_auth_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_meshtrade_option_v1_auth_proto_goTypes = []any{
-	(StandardRole)(0),                  // 0: meshtrade.option.v1.StandardRole
-	(*StandardRoleList)(nil),           // 1: meshtrade.option.v1.StandardRoleList
+	(Role)(0),                          // 0: meshtrade.option.v1.Role
+	(*RoleList)(nil),                   // 1: meshtrade.option.v1.RoleList
 	(*descriptorpb.FileOptions)(nil),   // 2: google.protobuf.FileOptions
 	(*descriptorpb.MethodOptions)(nil), // 3: google.protobuf.MethodOptions
 }
 var file_meshtrade_option_v1_auth_proto_depIdxs = []int32{
-	0, // 0: meshtrade.option.v1.StandardRoleList.roles:type_name -> meshtrade.option.v1.StandardRole
+	0, // 0: meshtrade.option.v1.RoleList.roles:type_name -> meshtrade.option.v1.Role
 	2, // 1: meshtrade.option.v1.standard_roles:extendee -> google.protobuf.FileOptions
-	3, // 2: meshtrade.option.v1.required_roles:extendee -> google.protobuf.MethodOptions
-	1, // 3: meshtrade.option.v1.standard_roles:type_name -> meshtrade.option.v1.StandardRoleList
-	1, // 4: meshtrade.option.v1.required_roles:type_name -> meshtrade.option.v1.StandardRoleList
+	3, // 2: meshtrade.option.v1.roles:extendee -> google.protobuf.MethodOptions
+	1, // 3: meshtrade.option.v1.standard_roles:type_name -> meshtrade.option.v1.RoleList
+	1, // 4: meshtrade.option.v1.roles:type_name -> meshtrade.option.v1.RoleList
 	5, // [5:5] is the sub-list for method output_type
 	5, // [5:5] is the sub-list for method input_type
 	3, // [3:5] is the sub-list for extension type_name

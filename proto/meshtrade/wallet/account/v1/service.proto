@@ -12,8 +12,8 @@ option go_package = "github.com/meshtrade/api/go/wallet/account/v1;accountv1";
 
 option (meshtrade.option.v1.standard_roles) = {
   roles: [
-    STANDARD_ROLE_WALLET_ADMIN,
-    STANDARD_ROLE_WALLET_VIEWER
+    ROLE_WALLET_ADMIN,
+    ROLE_WALLET_VIEWER
   ]
 };
 
@@ -27,8 +27,8 @@ service AccountService {
   */
   rpc CreateAccount(CreateAccountRequest) returns (meshtrade.wallet.account.v1.Account) {
     option (meshtrade.option.v1.service_type) = SERVICE_TYPE_WRITE;
-    option (meshtrade.option.v1.required_roles) = {
-      roles: [STANDARD_ROLE_WALLET_ADMIN]
+    option (meshtrade.option.v1.roles) = {
+      roles: [ROLE_WALLET_ADMIN]
     };
   }
   /*
@@ -36,10 +36,10 @@ service AccountService {
   */
   rpc GetAccount(GetAccountRequest) returns (meshtrade.wallet.account.v1.Account) {
     option (meshtrade.option.v1.service_type) = SERVICE_TYPE_READ;
-    option (meshtrade.option.v1.required_roles) = {
+    option (meshtrade.option.v1.roles) = {
       roles: [
-        STANDARD_ROLE_WALLET_ADMIN,
-        STANDARD_ROLE_WALLET_VIEWER
+        ROLE_WALLET_ADMIN,
+        ROLE_WALLET_VIEWER
       ]
     };
   }
@@ -48,10 +48,10 @@ service AccountService {
   */
   rpc ListAccounts(ListAccountsRequest) returns (ListAccountsResponse) {
     option (meshtrade.option.v1.service_type) = SERVICE_TYPE_READ;
-    option (meshtrade.option.v1.required_roles) = {
+    option (meshtrade.option.v1.roles) = {
       roles: [
-        STANDARD_ROLE_WALLET_ADMIN,
-        STANDARD_ROLE_WALLET_VIEWER
+        ROLE_WALLET_ADMIN,
+        ROLE_WALLET_VIEWER
       ]
     };
   }
@@ -60,10 +60,10 @@ service AccountService {
   */
   rpc SearchAccounts(SearchAccountsRequest) returns (SearchAccountsResponse) {
     option (meshtrade.option.v1.service_type) = SERVICE_TYPE_READ;
-    option (meshtrade.option.v1.required_roles) = {
+    option (meshtrade.option.v1.roles) = {
       roles: [
-        STANDARD_ROLE_WALLET_ADMIN,
-        STANDARD_ROLE_WALLET_VIEWER
+        ROLE_WALLET_ADMIN,
+        ROLE_WALLET_VIEWER
       ]
     };
   }
