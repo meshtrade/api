@@ -29,36 +29,36 @@ func NewGRPCClientClientService(
 	}
 }
 
-func (g *GRPCClientClientService) Get(ctx context.Context, request *GetClientRequest) (*GetClientResponse, error) {
+func (g *GRPCClientClientService) GetClient(ctx context.Context, request *GetClientRequest) (*Client, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
-		ClientServiceServiceProviderName+"Get",
+		ClientServiceServiceProviderName+"GetClient",
 	)
 	defer span.End()
 
 	// call given implementation of the adapted service provider interface
-	getResponse, err := g.grpcClient.Get(ctx, request)
+	getClientResponse, err := g.grpcClient.GetClient(ctx, request)
 	if err != nil {
-		log.Ctx(ctx).Error().Err(err).Msg("could not Get")
-		return nil, fmt.Errorf("could not Get: %s", err)
+		log.Ctx(ctx).Error().Err(err).Msg("could not GetClient")
+		return nil, fmt.Errorf("could not GetClient: %s", err)
 	}
 
-	return getResponse, nil
+	return getClientResponse, nil
 }
 
-func (g *GRPCClientClientService) List(ctx context.Context, request *ListClientsRequest) (*ListClientsResponse, error) {
+func (g *GRPCClientClientService) ListClients(ctx context.Context, request *ListClientsRequest) (*ListClientsResponse, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
-		ClientServiceServiceProviderName+"List",
+		ClientServiceServiceProviderName+"ListClients",
 	)
 	defer span.End()
 
 	// call given implementation of the adapted service provider interface
-	listResponse, err := g.grpcClient.List(ctx, request)
+	listClientsResponse, err := g.grpcClient.ListClients(ctx, request)
 	if err != nil {
-		log.Ctx(ctx).Error().Err(err).Msg("could not List")
-		return nil, fmt.Errorf("could not List: %s", err)
+		log.Ctx(ctx).Error().Err(err).Msg("could not ListClients")
+		return nil, fmt.Errorf("could not ListClients: %s", err)
 	}
 
-	return listResponse, nil
+	return listClientsResponse, nil
 }

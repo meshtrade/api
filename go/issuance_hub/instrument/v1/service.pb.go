@@ -67,51 +67,6 @@ func (x *GetInstrumentRequest) GetName() string {
 	return ""
 }
 
-type GetInstrumentResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// The instrument resource.
-	Instrument    *Instrument `protobuf:"bytes,1,opt,name=instrument,proto3" json:"instrument,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetInstrumentResponse) Reset() {
-	*x = GetInstrumentResponse{}
-	mi := &file_meshtrade_issuance_hub_instrument_v1_service_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetInstrumentResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetInstrumentResponse) ProtoMessage() {}
-
-func (x *GetInstrumentResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_issuance_hub_instrument_v1_service_proto_msgTypes[1]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetInstrumentResponse.ProtoReflect.Descriptor instead.
-func (*GetInstrumentResponse) Descriptor() ([]byte, []int) {
-	return file_meshtrade_issuance_hub_instrument_v1_service_proto_rawDescGZIP(), []int{1}
-}
-
-func (x *GetInstrumentResponse) GetInstrument() *Instrument {
-	if x != nil {
-		return x.Instrument
-	}
-	return nil
-}
-
 type MintInstrumentRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The quantity of the instrument to mint (denominated in token of the instrument).
@@ -126,7 +81,7 @@ type MintInstrumentRequest struct {
 
 func (x *MintInstrumentRequest) Reset() {
 	*x = MintInstrumentRequest{}
-	mi := &file_meshtrade_issuance_hub_instrument_v1_service_proto_msgTypes[2]
+	mi := &file_meshtrade_issuance_hub_instrument_v1_service_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -138,7 +93,7 @@ func (x *MintInstrumentRequest) String() string {
 func (*MintInstrumentRequest) ProtoMessage() {}
 
 func (x *MintInstrumentRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_issuance_hub_instrument_v1_service_proto_msgTypes[2]
+	mi := &file_meshtrade_issuance_hub_instrument_v1_service_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -151,7 +106,7 @@ func (x *MintInstrumentRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MintInstrumentRequest.ProtoReflect.Descriptor instead.
 func (*MintInstrumentRequest) Descriptor() ([]byte, []int) {
-	return file_meshtrade_issuance_hub_instrument_v1_service_proto_rawDescGZIP(), []int{2}
+	return file_meshtrade_issuance_hub_instrument_v1_service_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *MintInstrumentRequest) GetAmount() *v1.Amount {
@@ -186,7 +141,7 @@ type MintInstrumentResponse struct {
 
 func (x *MintInstrumentResponse) Reset() {
 	*x = MintInstrumentResponse{}
-	mi := &file_meshtrade_issuance_hub_instrument_v1_service_proto_msgTypes[3]
+	mi := &file_meshtrade_issuance_hub_instrument_v1_service_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -198,7 +153,7 @@ func (x *MintInstrumentResponse) String() string {
 func (*MintInstrumentResponse) ProtoMessage() {}
 
 func (x *MintInstrumentResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_issuance_hub_instrument_v1_service_proto_msgTypes[3]
+	mi := &file_meshtrade_issuance_hub_instrument_v1_service_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -211,7 +166,7 @@ func (x *MintInstrumentResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MintInstrumentResponse.ProtoReflect.Descriptor instead.
 func (*MintInstrumentResponse) Descriptor() ([]byte, []int) {
-	return file_meshtrade_issuance_hub_instrument_v1_service_proto_rawDescGZIP(), []int{3}
+	return file_meshtrade_issuance_hub_instrument_v1_service_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *MintInstrumentResponse) GetTransactionId() string {
@@ -236,7 +191,7 @@ type BurnInstrumentRequest struct {
 
 func (x *BurnInstrumentRequest) Reset() {
 	*x = BurnInstrumentRequest{}
-	mi := &file_meshtrade_issuance_hub_instrument_v1_service_proto_msgTypes[4]
+	mi := &file_meshtrade_issuance_hub_instrument_v1_service_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -248,7 +203,7 @@ func (x *BurnInstrumentRequest) String() string {
 func (*BurnInstrumentRequest) ProtoMessage() {}
 
 func (x *BurnInstrumentRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_issuance_hub_instrument_v1_service_proto_msgTypes[4]
+	mi := &file_meshtrade_issuance_hub_instrument_v1_service_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -261,7 +216,7 @@ func (x *BurnInstrumentRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BurnInstrumentRequest.ProtoReflect.Descriptor instead.
 func (*BurnInstrumentRequest) Descriptor() ([]byte, []int) {
-	return file_meshtrade_issuance_hub_instrument_v1_service_proto_rawDescGZIP(), []int{4}
+	return file_meshtrade_issuance_hub_instrument_v1_service_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *BurnInstrumentRequest) GetAmount() *v1.Amount {
@@ -296,7 +251,7 @@ type BurnInstrumentResponse struct {
 
 func (x *BurnInstrumentResponse) Reset() {
 	*x = BurnInstrumentResponse{}
-	mi := &file_meshtrade_issuance_hub_instrument_v1_service_proto_msgTypes[5]
+	mi := &file_meshtrade_issuance_hub_instrument_v1_service_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -308,7 +263,7 @@ func (x *BurnInstrumentResponse) String() string {
 func (*BurnInstrumentResponse) ProtoMessage() {}
 
 func (x *BurnInstrumentResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_issuance_hub_instrument_v1_service_proto_msgTypes[5]
+	mi := &file_meshtrade_issuance_hub_instrument_v1_service_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -321,7 +276,7 @@ func (x *BurnInstrumentResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BurnInstrumentResponse.ProtoReflect.Descriptor instead.
 func (*BurnInstrumentResponse) Descriptor() ([]byte, []int) {
-	return file_meshtrade_issuance_hub_instrument_v1_service_proto_rawDescGZIP(), []int{5}
+	return file_meshtrade_issuance_hub_instrument_v1_service_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *BurnInstrumentResponse) GetTransactionId() string {
@@ -337,11 +292,7 @@ const file_meshtrade_issuance_hub_instrument_v1_service_proto_rawDesc = "" +
 	"\n" +
 	"2meshtrade/issuance_hub/instrument/v1/service.proto\x12$meshtrade.issuance_hub.instrument.v1\x1a5meshtrade/issuance_hub/instrument/v1/instrument.proto\x1a\x1emeshtrade/type/v1/amount.proto\"*\n" +
 	"\x14GetInstrumentRequest\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\"i\n" +
-	"\x15GetInstrumentResponse\x12P\n" +
-	"\n" +
-	"instrument\x18\x01 \x01(\v20.meshtrade.issuance_hub.instrument.v1.InstrumentR\n" +
-	"instrument\"\x9c\x01\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\"\x9c\x01\n" +
 	"\x15MintInstrumentRequest\x121\n" +
 	"\x06amount\x18\x01 \x01(\v2\x19.meshtrade.type.v1.AmountR\x06amount\x12\x1f\n" +
 	"\vfee_account\x18\x02 \x01(\tR\n" +
@@ -355,11 +306,11 @@ const file_meshtrade_issuance_hub_instrument_v1_service_proto_rawDesc = "" +
 	"feeAccount\x12%\n" +
 	"\x0esource_account\x18\x03 \x01(\tR\rsourceAccount\"?\n" +
 	"\x16BurnInstrumentResponse\x12%\n" +
-	"\x0etransaction_id\x18\x01 \x01(\tR\rtransactionId2\x9b\x03\n" +
-	"\x11InstrumentService\x12~\n" +
-	"\x03Get\x12:.meshtrade.issuance_hub.instrument.v1.GetInstrumentRequest\x1a;.meshtrade.issuance_hub.instrument.v1.GetInstrumentResponse\x12\x81\x01\n" +
-	"\x04Mint\x12;.meshtrade.issuance_hub.instrument.v1.MintInstrumentRequest\x1a<.meshtrade.issuance_hub.instrument.v1.MintInstrumentResponse\x12\x81\x01\n" +
-	"\x04Burn\x12;.meshtrade.issuance_hub.instrument.v1.BurnInstrumentRequest\x1a<.meshtrade.issuance_hub.instrument.v1.BurnInstrumentResponseBEZCgithub.com/meshtrade/api/go/issuance_hub/instrument/v1;instrumentv1b\x06proto3"
+	"\x0etransaction_id\x18\x01 \x01(\tR\rtransactionId2\xae\x03\n" +
+	"\x11InstrumentService\x12}\n" +
+	"\rGetInstrument\x12:.meshtrade.issuance_hub.instrument.v1.GetInstrumentRequest\x1a0.meshtrade.issuance_hub.instrument.v1.Instrument\x12\x8b\x01\n" +
+	"\x0eMintInstrument\x12;.meshtrade.issuance_hub.instrument.v1.MintInstrumentRequest\x1a<.meshtrade.issuance_hub.instrument.v1.MintInstrumentResponse\x12\x8b\x01\n" +
+	"\x0eBurnInstrument\x12;.meshtrade.issuance_hub.instrument.v1.BurnInstrumentRequest\x1a<.meshtrade.issuance_hub.instrument.v1.BurnInstrumentResponseBEZCgithub.com/meshtrade/api/go/issuance_hub/instrument/v1;instrumentv1b\x06proto3"
 
 var (
 	file_meshtrade_issuance_hub_instrument_v1_service_proto_rawDescOnce sync.Once
@@ -373,32 +324,30 @@ func file_meshtrade_issuance_hub_instrument_v1_service_proto_rawDescGZIP() []byt
 	return file_meshtrade_issuance_hub_instrument_v1_service_proto_rawDescData
 }
 
-var file_meshtrade_issuance_hub_instrument_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_meshtrade_issuance_hub_instrument_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_meshtrade_issuance_hub_instrument_v1_service_proto_goTypes = []any{
 	(*GetInstrumentRequest)(nil),   // 0: meshtrade.issuance_hub.instrument.v1.GetInstrumentRequest
-	(*GetInstrumentResponse)(nil),  // 1: meshtrade.issuance_hub.instrument.v1.GetInstrumentResponse
-	(*MintInstrumentRequest)(nil),  // 2: meshtrade.issuance_hub.instrument.v1.MintInstrumentRequest
-	(*MintInstrumentResponse)(nil), // 3: meshtrade.issuance_hub.instrument.v1.MintInstrumentResponse
-	(*BurnInstrumentRequest)(nil),  // 4: meshtrade.issuance_hub.instrument.v1.BurnInstrumentRequest
-	(*BurnInstrumentResponse)(nil), // 5: meshtrade.issuance_hub.instrument.v1.BurnInstrumentResponse
+	(*MintInstrumentRequest)(nil),  // 1: meshtrade.issuance_hub.instrument.v1.MintInstrumentRequest
+	(*MintInstrumentResponse)(nil), // 2: meshtrade.issuance_hub.instrument.v1.MintInstrumentResponse
+	(*BurnInstrumentRequest)(nil),  // 3: meshtrade.issuance_hub.instrument.v1.BurnInstrumentRequest
+	(*BurnInstrumentResponse)(nil), // 4: meshtrade.issuance_hub.instrument.v1.BurnInstrumentResponse
+	(*v1.Amount)(nil),              // 5: meshtrade.type.v1.Amount
 	(*Instrument)(nil),             // 6: meshtrade.issuance_hub.instrument.v1.Instrument
-	(*v1.Amount)(nil),              // 7: meshtrade.type.v1.Amount
 }
 var file_meshtrade_issuance_hub_instrument_v1_service_proto_depIdxs = []int32{
-	6, // 0: meshtrade.issuance_hub.instrument.v1.GetInstrumentResponse.instrument:type_name -> meshtrade.issuance_hub.instrument.v1.Instrument
-	7, // 1: meshtrade.issuance_hub.instrument.v1.MintInstrumentRequest.amount:type_name -> meshtrade.type.v1.Amount
-	7, // 2: meshtrade.issuance_hub.instrument.v1.BurnInstrumentRequest.amount:type_name -> meshtrade.type.v1.Amount
-	0, // 3: meshtrade.issuance_hub.instrument.v1.InstrumentService.Get:input_type -> meshtrade.issuance_hub.instrument.v1.GetInstrumentRequest
-	2, // 4: meshtrade.issuance_hub.instrument.v1.InstrumentService.Mint:input_type -> meshtrade.issuance_hub.instrument.v1.MintInstrumentRequest
-	4, // 5: meshtrade.issuance_hub.instrument.v1.InstrumentService.Burn:input_type -> meshtrade.issuance_hub.instrument.v1.BurnInstrumentRequest
-	1, // 6: meshtrade.issuance_hub.instrument.v1.InstrumentService.Get:output_type -> meshtrade.issuance_hub.instrument.v1.GetInstrumentResponse
-	3, // 7: meshtrade.issuance_hub.instrument.v1.InstrumentService.Mint:output_type -> meshtrade.issuance_hub.instrument.v1.MintInstrumentResponse
-	5, // 8: meshtrade.issuance_hub.instrument.v1.InstrumentService.Burn:output_type -> meshtrade.issuance_hub.instrument.v1.BurnInstrumentResponse
-	6, // [6:9] is the sub-list for method output_type
-	3, // [3:6] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	5, // 0: meshtrade.issuance_hub.instrument.v1.MintInstrumentRequest.amount:type_name -> meshtrade.type.v1.Amount
+	5, // 1: meshtrade.issuance_hub.instrument.v1.BurnInstrumentRequest.amount:type_name -> meshtrade.type.v1.Amount
+	0, // 2: meshtrade.issuance_hub.instrument.v1.InstrumentService.GetInstrument:input_type -> meshtrade.issuance_hub.instrument.v1.GetInstrumentRequest
+	1, // 3: meshtrade.issuance_hub.instrument.v1.InstrumentService.MintInstrument:input_type -> meshtrade.issuance_hub.instrument.v1.MintInstrumentRequest
+	3, // 4: meshtrade.issuance_hub.instrument.v1.InstrumentService.BurnInstrument:input_type -> meshtrade.issuance_hub.instrument.v1.BurnInstrumentRequest
+	6, // 5: meshtrade.issuance_hub.instrument.v1.InstrumentService.GetInstrument:output_type -> meshtrade.issuance_hub.instrument.v1.Instrument
+	2, // 6: meshtrade.issuance_hub.instrument.v1.InstrumentService.MintInstrument:output_type -> meshtrade.issuance_hub.instrument.v1.MintInstrumentResponse
+	4, // 7: meshtrade.issuance_hub.instrument.v1.InstrumentService.BurnInstrument:output_type -> meshtrade.issuance_hub.instrument.v1.BurnInstrumentResponse
+	5, // [5:8] is the sub-list for method output_type
+	2, // [2:5] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_issuance_hub_instrument_v1_service_proto_init() }
@@ -413,7 +362,7 @@ func file_meshtrade_issuance_hub_instrument_v1_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_meshtrade_issuance_hub_instrument_v1_service_proto_rawDesc), len(file_meshtrade_issuance_hub_instrument_v1_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

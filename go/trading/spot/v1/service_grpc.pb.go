@@ -19,14 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	SpotService_Get_FullMethodName = "/meshtrade.trading.spot.v1.SpotService/Get"
+	SpotService_GetSpot_FullMethodName = "/meshtrade.trading.spot.v1.SpotService/GetSpot"
 )
 
 // SpotServiceClient is the client API for SpotService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SpotServiceClient interface {
-	Get(ctx context.Context, in *GetSpotRequest, opts ...grpc.CallOption) (*GetSpotResponse, error)
+	GetSpot(ctx context.Context, in *GetSpotRequest, opts ...grpc.CallOption) (*Spot, error)
 }
 
 type spotServiceClient struct {
@@ -37,10 +37,10 @@ func NewSpotServiceClient(cc grpc.ClientConnInterface) SpotServiceClient {
 	return &spotServiceClient{cc}
 }
 
-func (c *spotServiceClient) Get(ctx context.Context, in *GetSpotRequest, opts ...grpc.CallOption) (*GetSpotResponse, error) {
+func (c *spotServiceClient) GetSpot(ctx context.Context, in *GetSpotRequest, opts ...grpc.CallOption) (*Spot, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetSpotResponse)
-	err := c.cc.Invoke(ctx, SpotService_Get_FullMethodName, in, out, cOpts...)
+	out := new(Spot)
+	err := c.cc.Invoke(ctx, SpotService_GetSpot_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +51,7 @@ func (c *spotServiceClient) Get(ctx context.Context, in *GetSpotRequest, opts ..
 // All implementations must embed UnimplementedSpotServiceServer
 // for forward compatibility.
 type SpotServiceServer interface {
-	Get(context.Context, *GetSpotRequest) (*GetSpotResponse, error)
+	GetSpot(context.Context, *GetSpotRequest) (*Spot, error)
 	mustEmbedUnimplementedSpotServiceServer()
 }
 
@@ -62,8 +62,8 @@ type SpotServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedSpotServiceServer struct{}
 
-func (UnimplementedSpotServiceServer) Get(context.Context, *GetSpotRequest) (*GetSpotResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
+func (UnimplementedSpotServiceServer) GetSpot(context.Context, *GetSpotRequest) (*Spot, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSpot not implemented")
 }
 func (UnimplementedSpotServiceServer) mustEmbedUnimplementedSpotServiceServer() {}
 func (UnimplementedSpotServiceServer) testEmbeddedByValue()                     {}
@@ -86,20 +86,20 @@ func RegisterSpotServiceServer(s grpc.ServiceRegistrar, srv SpotServiceServer) {
 	s.RegisterService(&SpotService_ServiceDesc, srv)
 }
 
-func _SpotService_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _SpotService_GetSpot_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetSpotRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SpotServiceServer).Get(ctx, in)
+		return srv.(SpotServiceServer).GetSpot(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: SpotService_Get_FullMethodName,
+		FullMethod: SpotService_GetSpot_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SpotServiceServer).Get(ctx, req.(*GetSpotRequest))
+		return srv.(SpotServiceServer).GetSpot(ctx, req.(*GetSpotRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -112,8 +112,8 @@ var SpotService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*SpotServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Get",
-			Handler:    _SpotService_Get_Handler,
+			MethodName: "GetSpot",
+			Handler:    _SpotService_GetSpot_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

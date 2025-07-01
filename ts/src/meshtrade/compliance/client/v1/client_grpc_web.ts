@@ -2,10 +2,10 @@ import { LoggingInterceptor } from "../../../common/grpc_web";
 import { ClientServicePromiseClient } from "./service_grpc_web_pb";
 import {
   GetClientRequest,
-  GetClientResponse,
   ListClientsRequest,
   ListClientsResponse,
 } from "./service_pb";
+import { Client } from "./client_pb";
 import { ConfigOpts, getConfigFromOpts } from "../../../common/config";
 
 /**
@@ -32,10 +32,10 @@ export class ClientGrpcWebClientV1 {
   /**
    * Retrieves a client.
    * @param {GetClientRequest} request - The request object for getting a client.
-   * @returns {Promise<GetClientResponse>} A promise that resolves with the client.
+   * @returns {Promise<Client>} A promise that resolves with the client.
    */
-  get(request: GetClientRequest): Promise<GetClientResponse> {
-    return this._service.get(request);
+  getClient(request: GetClientRequest): Promise<Client> {
+    return this._service.getClient(request);
   }
 
   /**
@@ -43,7 +43,7 @@ export class ClientGrpcWebClientV1 {
    * @param {ListClientsRequest} request - The request object for listing clients.
    * @returns {Promise<ListClientsResponse>} A promise that resolves with the list of clients.
    */
-  list(request: ListClientsRequest): Promise<ListClientsResponse> {
-    return this._service.list(request);
+  listClients(request: ListClientsRequest): Promise<ListClientsResponse> {
+    return this._service.listClients(request);
   }
 }

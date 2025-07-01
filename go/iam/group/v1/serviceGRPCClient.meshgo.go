@@ -29,19 +29,19 @@ func NewGRPCClientGroupService(
 	}
 }
 
-func (g *GRPCClientGroupService) Get(ctx context.Context, request *GetGroupRequest) (*GetGroupResponse, error) {
+func (g *GRPCClientGroupService) GetGroup(ctx context.Context, request *GetGroupRequest) (*Group, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
-		GroupServiceServiceProviderName+"Get",
+		GroupServiceServiceProviderName+"GetGroup",
 	)
 	defer span.End()
 
 	// call given implementation of the adapted service provider interface
-	getResponse, err := g.grpcClient.Get(ctx, request)
+	getGroupResponse, err := g.grpcClient.GetGroup(ctx, request)
 	if err != nil {
-		log.Ctx(ctx).Error().Err(err).Msg("could not Get")
-		return nil, fmt.Errorf("could not Get: %s", err)
+		log.Ctx(ctx).Error().Err(err).Msg("could not GetGroup")
+		return nil, fmt.Errorf("could not GetGroup: %s", err)
 	}
 
-	return getResponse, nil
+	return getGroupResponse, nil
 }

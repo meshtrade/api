@@ -26,7 +26,7 @@ from meshtrade.issuance_hub.instrument.v1 import instrument_pb2 as meshtrade_dot
 from meshtrade.type.v1 import amount_pb2 as meshtrade_dot_type_dot_v1_dot_amount__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n2meshtrade/issuance_hub/instrument/v1/service.proto\x12$meshtrade.issuance_hub.instrument.v1\x1a\x35meshtrade/issuance_hub/instrument/v1/instrument.proto\x1a\x1emeshtrade/type/v1/amount.proto\"*\n\x14GetInstrumentRequest\x12\x12\n\x04name\x18\x01 \x01(\tR\x04name\"i\n\x15GetInstrumentResponse\x12P\n\ninstrument\x18\x01 \x01(\x0b\x32\x30.meshtrade.issuance_hub.instrument.v1.InstrumentR\ninstrument\"\x9c\x01\n\x15MintInstrumentRequest\x12\x31\n\x06\x61mount\x18\x01 \x01(\x0b\x32\x19.meshtrade.type.v1.AmountR\x06\x61mount\x12\x1f\n\x0b\x66\x65\x65_account\x18\x02 \x01(\tR\nfeeAccount\x12/\n\x13\x64\x65stination_account\x18\x03 \x01(\tR\x12\x64\x65stinationAccount\"?\n\x16MintInstrumentResponse\x12%\n\x0etransaction_id\x18\x01 \x01(\tR\rtransactionId\"\x92\x01\n\x15\x42urnInstrumentRequest\x12\x31\n\x06\x61mount\x18\x01 \x01(\x0b\x32\x19.meshtrade.type.v1.AmountR\x06\x61mount\x12\x1f\n\x0b\x66\x65\x65_account\x18\x02 \x01(\tR\nfeeAccount\x12%\n\x0esource_account\x18\x03 \x01(\tR\rsourceAccount\"?\n\x16\x42urnInstrumentResponse\x12%\n\x0etransaction_id\x18\x01 \x01(\tR\rtransactionId2\x9b\x03\n\x11InstrumentService\x12~\n\x03Get\x12:.meshtrade.issuance_hub.instrument.v1.GetInstrumentRequest\x1a;.meshtrade.issuance_hub.instrument.v1.GetInstrumentResponse\x12\x81\x01\n\x04Mint\x12;.meshtrade.issuance_hub.instrument.v1.MintInstrumentRequest\x1a<.meshtrade.issuance_hub.instrument.v1.MintInstrumentResponse\x12\x81\x01\n\x04\x42urn\x12;.meshtrade.issuance_hub.instrument.v1.BurnInstrumentRequest\x1a<.meshtrade.issuance_hub.instrument.v1.BurnInstrumentResponseBEZCgithub.com/meshtrade/api/go/issuance_hub/instrument/v1;instrumentv1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n2meshtrade/issuance_hub/instrument/v1/service.proto\x12$meshtrade.issuance_hub.instrument.v1\x1a\x35meshtrade/issuance_hub/instrument/v1/instrument.proto\x1a\x1emeshtrade/type/v1/amount.proto\"*\n\x14GetInstrumentRequest\x12\x12\n\x04name\x18\x01 \x01(\tR\x04name\"\x9c\x01\n\x15MintInstrumentRequest\x12\x31\n\x06\x61mount\x18\x01 \x01(\x0b\x32\x19.meshtrade.type.v1.AmountR\x06\x61mount\x12\x1f\n\x0b\x66\x65\x65_account\x18\x02 \x01(\tR\nfeeAccount\x12/\n\x13\x64\x65stination_account\x18\x03 \x01(\tR\x12\x64\x65stinationAccount\"?\n\x16MintInstrumentResponse\x12%\n\x0etransaction_id\x18\x01 \x01(\tR\rtransactionId\"\x92\x01\n\x15\x42urnInstrumentRequest\x12\x31\n\x06\x61mount\x18\x01 \x01(\x0b\x32\x19.meshtrade.type.v1.AmountR\x06\x61mount\x12\x1f\n\x0b\x66\x65\x65_account\x18\x02 \x01(\tR\nfeeAccount\x12%\n\x0esource_account\x18\x03 \x01(\tR\rsourceAccount\"?\n\x16\x42urnInstrumentResponse\x12%\n\x0etransaction_id\x18\x01 \x01(\tR\rtransactionId2\xae\x03\n\x11InstrumentService\x12}\n\rGetInstrument\x12:.meshtrade.issuance_hub.instrument.v1.GetInstrumentRequest\x1a\x30.meshtrade.issuance_hub.instrument.v1.Instrument\x12\x8b\x01\n\x0eMintInstrument\x12;.meshtrade.issuance_hub.instrument.v1.MintInstrumentRequest\x1a<.meshtrade.issuance_hub.instrument.v1.MintInstrumentResponse\x12\x8b\x01\n\x0e\x42urnInstrument\x12;.meshtrade.issuance_hub.instrument.v1.BurnInstrumentRequest\x1a<.meshtrade.issuance_hub.instrument.v1.BurnInstrumentResponseBEZCgithub.com/meshtrade/api/go/issuance_hub/instrument/v1;instrumentv1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -36,16 +36,14 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._serialized_options = b'ZCgithub.com/meshtrade/api/go/issuance_hub/instrument/v1;instrumentv1'
   _globals['_GETINSTRUMENTREQUEST']._serialized_start=179
   _globals['_GETINSTRUMENTREQUEST']._serialized_end=221
-  _globals['_GETINSTRUMENTRESPONSE']._serialized_start=223
-  _globals['_GETINSTRUMENTRESPONSE']._serialized_end=328
-  _globals['_MINTINSTRUMENTREQUEST']._serialized_start=331
-  _globals['_MINTINSTRUMENTREQUEST']._serialized_end=487
-  _globals['_MINTINSTRUMENTRESPONSE']._serialized_start=489
-  _globals['_MINTINSTRUMENTRESPONSE']._serialized_end=552
-  _globals['_BURNINSTRUMENTREQUEST']._serialized_start=555
-  _globals['_BURNINSTRUMENTREQUEST']._serialized_end=701
-  _globals['_BURNINSTRUMENTRESPONSE']._serialized_start=703
-  _globals['_BURNINSTRUMENTRESPONSE']._serialized_end=766
-  _globals['_INSTRUMENTSERVICE']._serialized_start=769
-  _globals['_INSTRUMENTSERVICE']._serialized_end=1180
+  _globals['_MINTINSTRUMENTREQUEST']._serialized_start=224
+  _globals['_MINTINSTRUMENTREQUEST']._serialized_end=380
+  _globals['_MINTINSTRUMENTRESPONSE']._serialized_start=382
+  _globals['_MINTINSTRUMENTRESPONSE']._serialized_end=445
+  _globals['_BURNINSTRUMENTREQUEST']._serialized_start=448
+  _globals['_BURNINSTRUMENTREQUEST']._serialized_end=594
+  _globals['_BURNINSTRUMENTRESPONSE']._serialized_start=596
+  _globals['_BURNINSTRUMENTRESPONSE']._serialized_end=659
+  _globals['_INSTRUMENTSERVICE']._serialized_start=662
+  _globals['_INSTRUMENTSERVICE']._serialized_end=1092
 # @@protoc_insertion_point(module_scope)

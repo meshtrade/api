@@ -19,14 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	DirectOrderService_Get_FullMethodName = "/meshtrade.trading.direct_order.v1.DirectOrderService/Get"
+	DirectOrderService_GetDirectOrder_FullMethodName = "/meshtrade.trading.direct_order.v1.DirectOrderService/GetDirectOrder"
 )
 
 // DirectOrderServiceClient is the client API for DirectOrderService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type DirectOrderServiceClient interface {
-	Get(ctx context.Context, in *GetDirectOrderRequest, opts ...grpc.CallOption) (*GetDirectOrderResponse, error)
+	GetDirectOrder(ctx context.Context, in *GetDirectOrderRequest, opts ...grpc.CallOption) (*DirectOrder, error)
 }
 
 type directOrderServiceClient struct {
@@ -37,10 +37,10 @@ func NewDirectOrderServiceClient(cc grpc.ClientConnInterface) DirectOrderService
 	return &directOrderServiceClient{cc}
 }
 
-func (c *directOrderServiceClient) Get(ctx context.Context, in *GetDirectOrderRequest, opts ...grpc.CallOption) (*GetDirectOrderResponse, error) {
+func (c *directOrderServiceClient) GetDirectOrder(ctx context.Context, in *GetDirectOrderRequest, opts ...grpc.CallOption) (*DirectOrder, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetDirectOrderResponse)
-	err := c.cc.Invoke(ctx, DirectOrderService_Get_FullMethodName, in, out, cOpts...)
+	out := new(DirectOrder)
+	err := c.cc.Invoke(ctx, DirectOrderService_GetDirectOrder_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +51,7 @@ func (c *directOrderServiceClient) Get(ctx context.Context, in *GetDirectOrderRe
 // All implementations must embed UnimplementedDirectOrderServiceServer
 // for forward compatibility.
 type DirectOrderServiceServer interface {
-	Get(context.Context, *GetDirectOrderRequest) (*GetDirectOrderResponse, error)
+	GetDirectOrder(context.Context, *GetDirectOrderRequest) (*DirectOrder, error)
 	mustEmbedUnimplementedDirectOrderServiceServer()
 }
 
@@ -62,8 +62,8 @@ type DirectOrderServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedDirectOrderServiceServer struct{}
 
-func (UnimplementedDirectOrderServiceServer) Get(context.Context, *GetDirectOrderRequest) (*GetDirectOrderResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
+func (UnimplementedDirectOrderServiceServer) GetDirectOrder(context.Context, *GetDirectOrderRequest) (*DirectOrder, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDirectOrder not implemented")
 }
 func (UnimplementedDirectOrderServiceServer) mustEmbedUnimplementedDirectOrderServiceServer() {}
 func (UnimplementedDirectOrderServiceServer) testEmbeddedByValue()                            {}
@@ -86,20 +86,20 @@ func RegisterDirectOrderServiceServer(s grpc.ServiceRegistrar, srv DirectOrderSe
 	s.RegisterService(&DirectOrderService_ServiceDesc, srv)
 }
 
-func _DirectOrderService_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _DirectOrderService_GetDirectOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetDirectOrderRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(DirectOrderServiceServer).Get(ctx, in)
+		return srv.(DirectOrderServiceServer).GetDirectOrder(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: DirectOrderService_Get_FullMethodName,
+		FullMethod: DirectOrderService_GetDirectOrder_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DirectOrderServiceServer).Get(ctx, req.(*GetDirectOrderRequest))
+		return srv.(DirectOrderServiceServer).GetDirectOrder(ctx, req.(*GetDirectOrderRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -112,8 +112,8 @@ var DirectOrderService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*DirectOrderServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Get",
-			Handler:    _DirectOrderService_Get_Handler,
+			MethodName: "GetDirectOrder",
+			Handler:    _DirectOrderService_GetDirectOrder_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

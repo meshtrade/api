@@ -29,53 +29,53 @@ func NewGRPCClientInstrumentService(
 	}
 }
 
-func (g *GRPCClientInstrumentService) Get(ctx context.Context, request *GetInstrumentRequest) (*GetInstrumentResponse, error) {
+func (g *GRPCClientInstrumentService) GetInstrument(ctx context.Context, request *GetInstrumentRequest) (*Instrument, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
-		InstrumentServiceServiceProviderName+"Get",
+		InstrumentServiceServiceProviderName+"GetInstrument",
 	)
 	defer span.End()
 
 	// call given implementation of the adapted service provider interface
-	getResponse, err := g.grpcClient.Get(ctx, request)
+	getInstrumentResponse, err := g.grpcClient.GetInstrument(ctx, request)
 	if err != nil {
-		log.Ctx(ctx).Error().Err(err).Msg("could not Get")
-		return nil, fmt.Errorf("could not Get: %s", err)
+		log.Ctx(ctx).Error().Err(err).Msg("could not GetInstrument")
+		return nil, fmt.Errorf("could not GetInstrument: %s", err)
 	}
 
-	return getResponse, nil
+	return getInstrumentResponse, nil
 }
 
-func (g *GRPCClientInstrumentService) Mint(ctx context.Context, request *MintInstrumentRequest) (*MintInstrumentResponse, error) {
+func (g *GRPCClientInstrumentService) MintInstrument(ctx context.Context, request *MintInstrumentRequest) (*MintInstrumentResponse, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
-		InstrumentServiceServiceProviderName+"Mint",
+		InstrumentServiceServiceProviderName+"MintInstrument",
 	)
 	defer span.End()
 
 	// call given implementation of the adapted service provider interface
-	mintResponse, err := g.grpcClient.Mint(ctx, request)
+	mintInstrumentResponse, err := g.grpcClient.MintInstrument(ctx, request)
 	if err != nil {
-		log.Ctx(ctx).Error().Err(err).Msg("could not Mint")
-		return nil, fmt.Errorf("could not Mint: %s", err)
+		log.Ctx(ctx).Error().Err(err).Msg("could not MintInstrument")
+		return nil, fmt.Errorf("could not MintInstrument: %s", err)
 	}
 
-	return mintResponse, nil
+	return mintInstrumentResponse, nil
 }
 
-func (g *GRPCClientInstrumentService) Burn(ctx context.Context, request *BurnInstrumentRequest) (*BurnInstrumentResponse, error) {
+func (g *GRPCClientInstrumentService) BurnInstrument(ctx context.Context, request *BurnInstrumentRequest) (*BurnInstrumentResponse, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
-		InstrumentServiceServiceProviderName+"Burn",
+		InstrumentServiceServiceProviderName+"BurnInstrument",
 	)
 	defer span.End()
 
 	// call given implementation of the adapted service provider interface
-	burnResponse, err := g.grpcClient.Burn(ctx, request)
+	burnInstrumentResponse, err := g.grpcClient.BurnInstrument(ctx, request)
 	if err != nil {
-		log.Ctx(ctx).Error().Err(err).Msg("could not Burn")
-		return nil, fmt.Errorf("could not Burn: %s", err)
+		log.Ctx(ctx).Error().Err(err).Msg("could not BurnInstrument")
+		return nil, fmt.Errorf("could not BurnInstrument: %s", err)
 	}
 
-	return burnResponse, nil
+	return burnInstrumentResponse, nil
 }

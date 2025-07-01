@@ -19,14 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	GroupService_Get_FullMethodName = "/meshtrade.iam.group.v1.GroupService/Get"
+	GroupService_GetGroup_FullMethodName = "/meshtrade.iam.group.v1.GroupService/GetGroup"
 )
 
 // GroupServiceClient is the client API for GroupService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type GroupServiceClient interface {
-	Get(ctx context.Context, in *GetGroupRequest, opts ...grpc.CallOption) (*GetGroupResponse, error)
+	GetGroup(ctx context.Context, in *GetGroupRequest, opts ...grpc.CallOption) (*Group, error)
 }
 
 type groupServiceClient struct {
@@ -37,10 +37,10 @@ func NewGroupServiceClient(cc grpc.ClientConnInterface) GroupServiceClient {
 	return &groupServiceClient{cc}
 }
 
-func (c *groupServiceClient) Get(ctx context.Context, in *GetGroupRequest, opts ...grpc.CallOption) (*GetGroupResponse, error) {
+func (c *groupServiceClient) GetGroup(ctx context.Context, in *GetGroupRequest, opts ...grpc.CallOption) (*Group, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetGroupResponse)
-	err := c.cc.Invoke(ctx, GroupService_Get_FullMethodName, in, out, cOpts...)
+	out := new(Group)
+	err := c.cc.Invoke(ctx, GroupService_GetGroup_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +51,7 @@ func (c *groupServiceClient) Get(ctx context.Context, in *GetGroupRequest, opts 
 // All implementations must embed UnimplementedGroupServiceServer
 // for forward compatibility.
 type GroupServiceServer interface {
-	Get(context.Context, *GetGroupRequest) (*GetGroupResponse, error)
+	GetGroup(context.Context, *GetGroupRequest) (*Group, error)
 	mustEmbedUnimplementedGroupServiceServer()
 }
 
@@ -62,8 +62,8 @@ type GroupServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedGroupServiceServer struct{}
 
-func (UnimplementedGroupServiceServer) Get(context.Context, *GetGroupRequest) (*GetGroupResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
+func (UnimplementedGroupServiceServer) GetGroup(context.Context, *GetGroupRequest) (*Group, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetGroup not implemented")
 }
 func (UnimplementedGroupServiceServer) mustEmbedUnimplementedGroupServiceServer() {}
 func (UnimplementedGroupServiceServer) testEmbeddedByValue()                      {}
@@ -86,20 +86,20 @@ func RegisterGroupServiceServer(s grpc.ServiceRegistrar, srv GroupServiceServer)
 	s.RegisterService(&GroupService_ServiceDesc, srv)
 }
 
-func _GroupService_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _GroupService_GetGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetGroupRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GroupServiceServer).Get(ctx, in)
+		return srv.(GroupServiceServer).GetGroup(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: GroupService_Get_FullMethodName,
+		FullMethod: GroupService_GetGroup_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GroupServiceServer).Get(ctx, req.(*GetGroupRequest))
+		return srv.(GroupServiceServer).GetGroup(ctx, req.(*GetGroupRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -112,8 +112,8 @@ var GroupService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*GroupServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Get",
-			Handler:    _GroupService_Get_Handler,
+			MethodName: "GetGroup",
+			Handler:    _GroupService_GetGroup_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

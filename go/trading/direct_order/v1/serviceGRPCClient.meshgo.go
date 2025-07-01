@@ -29,19 +29,19 @@ func NewGRPCClientDirectOrderService(
 	}
 }
 
-func (g *GRPCClientDirectOrderService) Get(ctx context.Context, request *GetDirectOrderRequest) (*GetDirectOrderResponse, error) {
+func (g *GRPCClientDirectOrderService) GetDirectOrder(ctx context.Context, request *GetDirectOrderRequest) (*DirectOrder, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
-		DirectOrderServiceServiceProviderName+"Get",
+		DirectOrderServiceServiceProviderName+"GetDirectOrder",
 	)
 	defer span.End()
 
 	// call given implementation of the adapted service provider interface
-	getResponse, err := g.grpcClient.Get(ctx, request)
+	getDirectOrderResponse, err := g.grpcClient.GetDirectOrder(ctx, request)
 	if err != nil {
-		log.Ctx(ctx).Error().Err(err).Msg("could not Get")
-		return nil, fmt.Errorf("could not Get: %s", err)
+		log.Ctx(ctx).Error().Err(err).Msg("could not GetDirectOrder")
+		return nil, fmt.Errorf("could not GetDirectOrder: %s", err)
 	}
 
-	return getResponse, nil
+	return getDirectOrderResponse, nil
 }

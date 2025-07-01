@@ -57,60 +57,14 @@ func (*GetGroupRequest) Descriptor() ([]byte, []int) {
 	return file_meshtrade_iam_group_v1_service_proto_rawDescGZIP(), []int{0}
 }
 
-type GetGroupResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Group         *Group                 `protobuf:"bytes,1,opt,name=group,proto3" json:"group,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetGroupResponse) Reset() {
-	*x = GetGroupResponse{}
-	mi := &file_meshtrade_iam_group_v1_service_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetGroupResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetGroupResponse) ProtoMessage() {}
-
-func (x *GetGroupResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_iam_group_v1_service_proto_msgTypes[1]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetGroupResponse.ProtoReflect.Descriptor instead.
-func (*GetGroupResponse) Descriptor() ([]byte, []int) {
-	return file_meshtrade_iam_group_v1_service_proto_rawDescGZIP(), []int{1}
-}
-
-func (x *GetGroupResponse) GetGroup() *Group {
-	if x != nil {
-		return x.Group
-	}
-	return nil
-}
-
 var File_meshtrade_iam_group_v1_service_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_group_v1_service_proto_rawDesc = "" +
 	"\n" +
 	"$meshtrade/iam/group/v1/service.proto\x12\x16meshtrade.iam.group.v1\x1a\"meshtrade/iam/group/v1/group.proto\"\x11\n" +
-	"\x0fGetGroupRequest\"G\n" +
-	"\x10GetGroupResponse\x123\n" +
-	"\x05group\x18\x01 \x01(\v2\x1d.meshtrade.iam.group.v1.GroupR\x05group2h\n" +
-	"\fGroupService\x12X\n" +
-	"\x03Get\x12'.meshtrade.iam.group.v1.GetGroupRequest\x1a(.meshtrade.iam.group.v1.GetGroupResponseB2Z0github.com/meshtrade/api/go/iam/group/v1;groupv1b\x06proto3"
+	"\x0fGetGroupRequest2b\n" +
+	"\fGroupService\x12R\n" +
+	"\bGetGroup\x12'.meshtrade.iam.group.v1.GetGroupRequest\x1a\x1d.meshtrade.iam.group.v1.GroupB2Z0github.com/meshtrade/api/go/iam/group/v1;groupv1b\x06proto3"
 
 var (
 	file_meshtrade_iam_group_v1_service_proto_rawDescOnce sync.Once
@@ -124,21 +78,19 @@ func file_meshtrade_iam_group_v1_service_proto_rawDescGZIP() []byte {
 	return file_meshtrade_iam_group_v1_service_proto_rawDescData
 }
 
-var file_meshtrade_iam_group_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_meshtrade_iam_group_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_meshtrade_iam_group_v1_service_proto_goTypes = []any{
-	(*GetGroupRequest)(nil),  // 0: meshtrade.iam.group.v1.GetGroupRequest
-	(*GetGroupResponse)(nil), // 1: meshtrade.iam.group.v1.GetGroupResponse
-	(*Group)(nil),            // 2: meshtrade.iam.group.v1.Group
+	(*GetGroupRequest)(nil), // 0: meshtrade.iam.group.v1.GetGroupRequest
+	(*Group)(nil),           // 1: meshtrade.iam.group.v1.Group
 }
 var file_meshtrade_iam_group_v1_service_proto_depIdxs = []int32{
-	2, // 0: meshtrade.iam.group.v1.GetGroupResponse.group:type_name -> meshtrade.iam.group.v1.Group
-	0, // 1: meshtrade.iam.group.v1.GroupService.Get:input_type -> meshtrade.iam.group.v1.GetGroupRequest
-	1, // 2: meshtrade.iam.group.v1.GroupService.Get:output_type -> meshtrade.iam.group.v1.GetGroupResponse
-	2, // [2:3] is the sub-list for method output_type
-	1, // [1:2] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	0, // 0: meshtrade.iam.group.v1.GroupService.GetGroup:input_type -> meshtrade.iam.group.v1.GetGroupRequest
+	1, // 1: meshtrade.iam.group.v1.GroupService.GetGroup:output_type -> meshtrade.iam.group.v1.Group
+	1, // [1:2] is the sub-list for method output_type
+	0, // [0:1] is the sub-list for method input_type
+	0, // [0:0] is the sub-list for extension type_name
+	0, // [0:0] is the sub-list for extension extendee
+	0, // [0:0] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_iam_group_v1_service_proto_init() }
@@ -153,7 +105,7 @@ func file_meshtrade_iam_group_v1_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_meshtrade_iam_group_v1_service_proto_rawDesc), len(file_meshtrade_iam_group_v1_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

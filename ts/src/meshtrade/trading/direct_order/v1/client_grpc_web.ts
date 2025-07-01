@@ -1,6 +1,7 @@
 import { LoggingInterceptor } from "../../../common/grpc_web";
 import { DirectOrderServicePromiseClient } from "./service_grpc_web_pb";
-import { GetDirectOrderRequest, GetDirectOrderResponse } from "./service_pb";
+import { GetDirectOrderRequest } from "./service_pb";
+import { DirectOrder } from "./direct_order_pb";
 import { ConfigOpts, getConfigFromOpts } from "../../../common/config";
 
 /**
@@ -31,9 +32,9 @@ export class DirectOrderGrpcWebClientV1 {
   /**
    * Retrieves a direct order.
    * @param {GetDirectOrderRequest} request - The request object for getting a direct order.
-   * @returns {Promise<GetDirectOrderResponse>} A promise that resolves with the direct order.
+   * @returns {Promise<DirectOrder>} A promise that resolves with the direct order.
    */
-  get(request: GetDirectOrderRequest): Promise<GetDirectOrderResponse> {
-    return this._service.get(request);
+  getDirectOrder(request: GetDirectOrderRequest): Promise<DirectOrder> {
+    return this._service.getDirectOrder(request);
   }
 }

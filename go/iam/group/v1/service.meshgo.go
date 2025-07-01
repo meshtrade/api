@@ -7,7 +7,7 @@ import (
 )
 
 type GroupService interface {
-	Get(ctx context.Context, request *GetGroupRequest) (*GetGroupResponse, error)
+	GetGroup(ctx context.Context, request *GetGroupRequest) (*Group, error)
 }
 
 const GroupServiceServiceProviderName = "meshtrade-iam-group-v1-GroupService"

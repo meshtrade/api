@@ -13,12 +13,6 @@ class GetClientRequest(_message.Message):
     name: str
     def __init__(self, name: _Optional[str] = ...) -> None: ...
 
-class GetClientResponse(_message.Message):
-    __slots__ = ("client",)
-    CLIENT_FIELD_NUMBER: _ClassVar[int]
-    client: _client_pb2.Client
-    def __init__(self, client: _Optional[_Union[_client_pb2.Client, _Mapping]] = ...) -> None: ...
-
 class ListClientsRequest(_message.Message):
     __slots__ = ()
     def __init__(self) -> None: ...

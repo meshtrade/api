@@ -65,61 +65,15 @@ func (x *GetSpotRequest) GetNumber() string {
 	return ""
 }
 
-type GetSpotResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Spot          *Spot                  `protobuf:"bytes,1,opt,name=spot,proto3" json:"spot,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetSpotResponse) Reset() {
-	*x = GetSpotResponse{}
-	mi := &file_meshtrade_trading_spot_v1_service_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetSpotResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetSpotResponse) ProtoMessage() {}
-
-func (x *GetSpotResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_trading_spot_v1_service_proto_msgTypes[1]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetSpotResponse.ProtoReflect.Descriptor instead.
-func (*GetSpotResponse) Descriptor() ([]byte, []int) {
-	return file_meshtrade_trading_spot_v1_service_proto_rawDescGZIP(), []int{1}
-}
-
-func (x *GetSpotResponse) GetSpot() *Spot {
-	if x != nil {
-		return x.Spot
-	}
-	return nil
-}
-
 var File_meshtrade_trading_spot_v1_service_proto protoreflect.FileDescriptor
 
 const file_meshtrade_trading_spot_v1_service_proto_rawDesc = "" +
 	"\n" +
 	"'meshtrade/trading/spot/v1/service.proto\x12\x19meshtrade.trading.spot.v1\x1a$meshtrade/trading/spot/v1/spot.proto\"(\n" +
 	"\x0eGetSpotRequest\x12\x16\n" +
-	"\x06number\x18\x01 \x01(\tR\x06number\"F\n" +
-	"\x0fGetSpotResponse\x123\n" +
-	"\x04spot\x18\x01 \x01(\v2\x1f.meshtrade.trading.spot.v1.SpotR\x04spot2k\n" +
-	"\vSpotService\x12\\\n" +
-	"\x03Get\x12).meshtrade.trading.spot.v1.GetSpotRequest\x1a*.meshtrade.trading.spot.v1.GetSpotResponseB4Z2github.com/meshtrade/api/go/trading/spot/v1;spotv1b\x06proto3"
+	"\x06number\x18\x01 \x01(\tR\x06number2d\n" +
+	"\vSpotService\x12U\n" +
+	"\aGetSpot\x12).meshtrade.trading.spot.v1.GetSpotRequest\x1a\x1f.meshtrade.trading.spot.v1.SpotB4Z2github.com/meshtrade/api/go/trading/spot/v1;spotv1b\x06proto3"
 
 var (
 	file_meshtrade_trading_spot_v1_service_proto_rawDescOnce sync.Once
@@ -133,21 +87,19 @@ func file_meshtrade_trading_spot_v1_service_proto_rawDescGZIP() []byte {
 	return file_meshtrade_trading_spot_v1_service_proto_rawDescData
 }
 
-var file_meshtrade_trading_spot_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_meshtrade_trading_spot_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_meshtrade_trading_spot_v1_service_proto_goTypes = []any{
-	(*GetSpotRequest)(nil),  // 0: meshtrade.trading.spot.v1.GetSpotRequest
-	(*GetSpotResponse)(nil), // 1: meshtrade.trading.spot.v1.GetSpotResponse
-	(*Spot)(nil),            // 2: meshtrade.trading.spot.v1.Spot
+	(*GetSpotRequest)(nil), // 0: meshtrade.trading.spot.v1.GetSpotRequest
+	(*Spot)(nil),           // 1: meshtrade.trading.spot.v1.Spot
 }
 var file_meshtrade_trading_spot_v1_service_proto_depIdxs = []int32{
-	2, // 0: meshtrade.trading.spot.v1.GetSpotResponse.spot:type_name -> meshtrade.trading.spot.v1.Spot
-	0, // 1: meshtrade.trading.spot.v1.SpotService.Get:input_type -> meshtrade.trading.spot.v1.GetSpotRequest
-	1, // 2: meshtrade.trading.spot.v1.SpotService.Get:output_type -> meshtrade.trading.spot.v1.GetSpotResponse
-	2, // [2:3] is the sub-list for method output_type
-	1, // [1:2] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	0, // 0: meshtrade.trading.spot.v1.SpotService.GetSpot:input_type -> meshtrade.trading.spot.v1.GetSpotRequest
+	1, // 1: meshtrade.trading.spot.v1.SpotService.GetSpot:output_type -> meshtrade.trading.spot.v1.Spot
+	1, // [1:2] is the sub-list for method output_type
+	0, // [0:1] is the sub-list for method input_type
+	0, // [0:0] is the sub-list for extension type_name
+	0, // [0:0] is the sub-list for extension extendee
+	0, // [0:0] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_trading_spot_v1_service_proto_init() }
@@ -162,7 +114,7 @@ func file_meshtrade_trading_spot_v1_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_meshtrade_trading_spot_v1_service_proto_rawDesc), len(file_meshtrade_trading_spot_v1_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

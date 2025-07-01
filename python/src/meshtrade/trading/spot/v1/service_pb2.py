@@ -25,7 +25,7 @@ _sym_db = _symbol_database.Default()
 from meshtrade.trading.spot.v1 import spot_pb2 as meshtrade_dot_trading_dot_spot_dot_v1_dot_spot__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\'meshtrade/trading/spot/v1/service.proto\x12\x19meshtrade.trading.spot.v1\x1a$meshtrade/trading/spot/v1/spot.proto\"(\n\x0eGetSpotRequest\x12\x16\n\x06number\x18\x01 \x01(\tR\x06number\"F\n\x0fGetSpotResponse\x12\x33\n\x04spot\x18\x01 \x01(\x0b\x32\x1f.meshtrade.trading.spot.v1.SpotR\x04spot2k\n\x0bSpotService\x12\\\n\x03Get\x12).meshtrade.trading.spot.v1.GetSpotRequest\x1a*.meshtrade.trading.spot.v1.GetSpotResponseB4Z2github.com/meshtrade/api/go/trading/spot/v1;spotv1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\'meshtrade/trading/spot/v1/service.proto\x12\x19meshtrade.trading.spot.v1\x1a$meshtrade/trading/spot/v1/spot.proto\"(\n\x0eGetSpotRequest\x12\x16\n\x06number\x18\x01 \x01(\tR\x06number2d\n\x0bSpotService\x12U\n\x07GetSpot\x12).meshtrade.trading.spot.v1.GetSpotRequest\x1a\x1f.meshtrade.trading.spot.v1.SpotB4Z2github.com/meshtrade/api/go/trading/spot/v1;spotv1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -35,8 +35,6 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._serialized_options = b'Z2github.com/meshtrade/api/go/trading/spot/v1;spotv1'
   _globals['_GETSPOTREQUEST']._serialized_start=108
   _globals['_GETSPOTREQUEST']._serialized_end=148
-  _globals['_GETSPOTRESPONSE']._serialized_start=150
-  _globals['_GETSPOTRESPONSE']._serialized_end=220
-  _globals['_SPOTSERVICE']._serialized_start=222
-  _globals['_SPOTSERVICE']._serialized_end=329
+  _globals['_SPOTSERVICE']._serialized_start=150
+  _globals['_SPOTSERVICE']._serialized_end=250
 # @@protoc_insertion_point(module_scope)

@@ -25,7 +25,7 @@ _sym_db = _symbol_database.Default()
 from meshtrade.trading.direct_order.v1 import direct_order_pb2 as meshtrade_dot_trading_dot_direct__order_dot_v1_dot_direct__order__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n/meshtrade/trading/direct_order/v1/service.proto\x12!meshtrade.trading.direct_order.v1\x1a\x34meshtrade/trading/direct_order/v1/direct_order.proto\"/\n\x15GetDirectOrderRequest\x12\x16\n\x06number\x18\x01 \x01(\tR\x06number\"j\n\x16GetDirectOrderResponse\x12P\n\x0b\x64irectorder\x18\x01 \x01(\x0b\x32..meshtrade.trading.direct_order.v1.DirectOrderR\x0b\x64irectorder2\x90\x01\n\x12\x44irectOrderService\x12z\n\x03Get\x12\x38.meshtrade.trading.direct_order.v1.GetDirectOrderRequest\x1a\x39.meshtrade.trading.direct_order.v1.GetDirectOrderResponseBCZAgithub.com/meshtrade/api/go/trading/direct_order/v1;directorderv1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n/meshtrade/trading/direct_order/v1/service.proto\x12!meshtrade.trading.direct_order.v1\x1a\x34meshtrade/trading/direct_order/v1/direct_order.proto\"/\n\x15GetDirectOrderRequest\x12\x16\n\x06number\x18\x01 \x01(\tR\x06number2\x90\x01\n\x12\x44irectOrderService\x12z\n\x0eGetDirectOrder\x12\x38.meshtrade.trading.direct_order.v1.GetDirectOrderRequest\x1a..meshtrade.trading.direct_order.v1.DirectOrderBCZAgithub.com/meshtrade/api/go/trading/direct_order/v1;directorderv1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -35,8 +35,6 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._serialized_options = b'ZAgithub.com/meshtrade/api/go/trading/direct_order/v1;directorderv1'
   _globals['_GETDIRECTORDERREQUEST']._serialized_start=140
   _globals['_GETDIRECTORDERREQUEST']._serialized_end=187
-  _globals['_GETDIRECTORDERRESPONSE']._serialized_start=189
-  _globals['_GETDIRECTORDERRESPONSE']._serialized_end=295
-  _globals['_DIRECTORDERSERVICE']._serialized_start=298
-  _globals['_DIRECTORDERSERVICE']._serialized_end=442
+  _globals['_DIRECTORDERSERVICE']._serialized_start=190
+  _globals['_DIRECTORDERSERVICE']._serialized_end=334
 # @@protoc_insertion_point(module_scope)

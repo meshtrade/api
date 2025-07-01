@@ -149,3 +149,20 @@ The `/proto/meshtrade/type/v1/` directory contains foundational types used acros
   - Extension tags: `standard_roles` = 50003, `required_roles` = 50005, `service_type` = 50004
 - **Extension Tag Management**: Be careful with protobuf extension tag conflicts across option files
 - **Response Message Cleanup**: Remove unused response messages when methods return resources directly
+
+### TypeScript Hand-Written Code Maintenance
+- **Post-Generation Updates**: After running `./scripts/generate.sh`, hand-written TypeScript client wrappers may need updates:
+  - Method name changes: `get()` → `getResource()`, `create()` → `createResource()`
+  - Return type changes: Get/Create methods return resources directly, not response wrappers
+  - Import statement updates: Remove imports for deleted response message types
+  - Add imports for resource types (e.g., `import { Client } from "./client_pb"`)
+- **Breaking Change Detection**: TypeScript compilation errors after generation indicate needed updates:
+  - Missing exported members = removed response types that need import cleanup
+  - Missing properties on service clients = method name changes
+  - Use `yarn build` and `yarn lint` in `/ts` to validate all changes
+- **Hand-Written Client Pattern**: Client wrapper classes in `*_grpc_web.ts` files should:
+  - Mirror the generated gRPC service interface exactly
+  - Use consistent method naming with resource names included
+  - Return the same types as the generated service (resources directly for Get/Create)
+  - Maintain proper JSDoc documentation with updated parameter and return types
+- **Orphaned File Cleanup**: Remove hand-written files when their corresponding proto services are deleted

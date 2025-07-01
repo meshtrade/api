@@ -29,19 +29,19 @@ func NewGRPCClientLimitOrderService(
 	}
 }
 
-func (g *GRPCClientLimitOrderService) Get(ctx context.Context, request *GetLimitOrderRequest) (*GetLimitOrderResponse, error) {
+func (g *GRPCClientLimitOrderService) GetLimitOrder(ctx context.Context, request *GetLimitOrderRequest) (*LimitOrder, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
-		LimitOrderServiceServiceProviderName+"Get",
+		LimitOrderServiceServiceProviderName+"GetLimitOrder",
 	)
 	defer span.End()
 
 	// call given implementation of the adapted service provider interface
-	getResponse, err := g.grpcClient.Get(ctx, request)
+	getLimitOrderResponse, err := g.grpcClient.GetLimitOrder(ctx, request)
 	if err != nil {
-		log.Ctx(ctx).Error().Err(err).Msg("could not Get")
-		return nil, fmt.Errorf("could not Get: %s", err)
+		log.Ctx(ctx).Error().Err(err).Msg("could not GetLimitOrder")
+		return nil, fmt.Errorf("could not GetLimitOrder: %s", err)
 	}
 
-	return getResponse, nil
+	return getLimitOrderResponse, nil
 }

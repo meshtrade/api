@@ -19,14 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	LimitOrderService_Get_FullMethodName = "/meshtrade.trading.limit_order.v1.LimitOrderService/Get"
+	LimitOrderService_GetLimitOrder_FullMethodName = "/meshtrade.trading.limit_order.v1.LimitOrderService/GetLimitOrder"
 )
 
 // LimitOrderServiceClient is the client API for LimitOrderService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type LimitOrderServiceClient interface {
-	Get(ctx context.Context, in *GetLimitOrderRequest, opts ...grpc.CallOption) (*GetLimitOrderResponse, error)
+	GetLimitOrder(ctx context.Context, in *GetLimitOrderRequest, opts ...grpc.CallOption) (*LimitOrder, error)
 }
 
 type limitOrderServiceClient struct {
@@ -37,10 +37,10 @@ func NewLimitOrderServiceClient(cc grpc.ClientConnInterface) LimitOrderServiceCl
 	return &limitOrderServiceClient{cc}
 }
 
-func (c *limitOrderServiceClient) Get(ctx context.Context, in *GetLimitOrderRequest, opts ...grpc.CallOption) (*GetLimitOrderResponse, error) {
+func (c *limitOrderServiceClient) GetLimitOrder(ctx context.Context, in *GetLimitOrderRequest, opts ...grpc.CallOption) (*LimitOrder, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetLimitOrderResponse)
-	err := c.cc.Invoke(ctx, LimitOrderService_Get_FullMethodName, in, out, cOpts...)
+	out := new(LimitOrder)
+	err := c.cc.Invoke(ctx, LimitOrderService_GetLimitOrder_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +51,7 @@ func (c *limitOrderServiceClient) Get(ctx context.Context, in *GetLimitOrderRequ
 // All implementations must embed UnimplementedLimitOrderServiceServer
 // for forward compatibility.
 type LimitOrderServiceServer interface {
-	Get(context.Context, *GetLimitOrderRequest) (*GetLimitOrderResponse, error)
+	GetLimitOrder(context.Context, *GetLimitOrderRequest) (*LimitOrder, error)
 	mustEmbedUnimplementedLimitOrderServiceServer()
 }
 
@@ -62,8 +62,8 @@ type LimitOrderServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedLimitOrderServiceServer struct{}
 
-func (UnimplementedLimitOrderServiceServer) Get(context.Context, *GetLimitOrderRequest) (*GetLimitOrderResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
+func (UnimplementedLimitOrderServiceServer) GetLimitOrder(context.Context, *GetLimitOrderRequest) (*LimitOrder, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetLimitOrder not implemented")
 }
 func (UnimplementedLimitOrderServiceServer) mustEmbedUnimplementedLimitOrderServiceServer() {}
 func (UnimplementedLimitOrderServiceServer) testEmbeddedByValue()                           {}
@@ -86,20 +86,20 @@ func RegisterLimitOrderServiceServer(s grpc.ServiceRegistrar, srv LimitOrderServ
 	s.RegisterService(&LimitOrderService_ServiceDesc, srv)
 }
 
-func _LimitOrderService_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _LimitOrderService_GetLimitOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetLimitOrderRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(LimitOrderServiceServer).Get(ctx, in)
+		return srv.(LimitOrderServiceServer).GetLimitOrder(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: LimitOrderService_Get_FullMethodName,
+		FullMethod: LimitOrderService_GetLimitOrder_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(LimitOrderServiceServer).Get(ctx, req.(*GetLimitOrderRequest))
+		return srv.(LimitOrderServiceServer).GetLimitOrder(ctx, req.(*GetLimitOrderRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -112,8 +112,8 @@ var LimitOrderService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*LimitOrderServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Get",
-			Handler:    _LimitOrderService_Get_Handler,
+			MethodName: "GetLimitOrder",
+			Handler:    _LimitOrderService_GetLimitOrder_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -13,18 +13,18 @@ var _ DirectOrderService = &MockDirectOrderService{}
 
 // MockDirectOrderService is a mock implementation of the DirectOrderService interface.
 type MockDirectOrderService struct {
-	mutex              sync.Mutex
-	T                  *testing.T
-	GetFunc            func(t *testing.T, m *MockDirectOrderService, ctx context.Context, request *GetDirectOrderRequest) (*GetDirectOrderResponse, error)
-	GetFuncInvocations int
+	mutex                         sync.Mutex
+	T                             *testing.T
+	GetDirectOrderFunc            func(t *testing.T, m *MockDirectOrderService, ctx context.Context, request *GetDirectOrderRequest) (*DirectOrder, error)
+	GetDirectOrderFuncInvocations int
 }
 
-func (m *MockDirectOrderService) Get(ctx context.Context, request *GetDirectOrderRequest) (*GetDirectOrderResponse, error) {
+func (m *MockDirectOrderService) GetDirectOrder(ctx context.Context, request *GetDirectOrderRequest) (*DirectOrder, error) {
 	m.mutex.Lock()
-	m.GetFuncInvocations++
+	m.GetDirectOrderFuncInvocations++
 	m.mutex.Unlock()
-	if m.GetFunc == nil {
+	if m.GetDirectOrderFunc == nil {
 		return nil, nil
 	}
-	return m.GetFunc(m.T, m, ctx, request)
+	return m.GetDirectOrderFunc(m.T, m, ctx, request)
 }

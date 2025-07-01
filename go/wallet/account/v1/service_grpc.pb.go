@@ -19,10 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	AccountService_Create_FullMethodName = "/meshtrade.wallet.account.v1.AccountService/Create"
-	AccountService_Get_FullMethodName    = "/meshtrade.wallet.account.v1.AccountService/Get"
-	AccountService_List_FullMethodName   = "/meshtrade.wallet.account.v1.AccountService/List"
-	AccountService_Search_FullMethodName = "/meshtrade.wallet.account.v1.AccountService/Search"
+	AccountService_CreateAccount_FullMethodName  = "/meshtrade.wallet.account.v1.AccountService/CreateAccount"
+	AccountService_GetAccount_FullMethodName     = "/meshtrade.wallet.account.v1.AccountService/GetAccount"
+	AccountService_ListAccounts_FullMethodName   = "/meshtrade.wallet.account.v1.AccountService/ListAccounts"
+	AccountService_SearchAccounts_FullMethodName = "/meshtrade.wallet.account.v1.AccountService/SearchAccounts"
 )
 
 // AccountServiceClient is the client API for AccountService service.
@@ -33,13 +33,13 @@ const (
 type AccountServiceClient interface {
 	// Creates a new wallet account.
 	// This is a write operation restricted to administrative roles.
-	Create(ctx context.Context, in *CreateAccountRequest, opts ...grpc.CallOption) (*CreateAccountResponse, error)
+	CreateAccount(ctx context.Context, in *CreateAccountRequest, opts ...grpc.CallOption) (*Account, error)
 	// Retrieves a single wallet account by its unique number.
-	Get(ctx context.Context, in *GetAccountRequest, opts ...grpc.CallOption) (*GetAccountResponse, error)
+	GetAccount(ctx context.Context, in *GetAccountRequest, opts ...grpc.CallOption) (*Account, error)
 	// Retrieves a list of all accounts for the authenticated principal.
-	List(ctx context.Context, in *ListAccountsRequest, opts ...grpc.CallOption) (*ListAccountsResponse, error)
+	ListAccounts(ctx context.Context, in *ListAccountsRequest, opts ...grpc.CallOption) (*ListAccountsResponse, error)
 	// Searches for accounts based on a partial label match.
-	Search(ctx context.Context, in *SearchAccountsRequest, opts ...grpc.CallOption) (*SearchAccountsResponse, error)
+	SearchAccounts(ctx context.Context, in *SearchAccountsRequest, opts ...grpc.CallOption) (*SearchAccountsResponse, error)
 }
 
 type accountServiceClient struct {
@@ -50,40 +50,40 @@ func NewAccountServiceClient(cc grpc.ClientConnInterface) AccountServiceClient {
 	return &accountServiceClient{cc}
 }
 
-func (c *accountServiceClient) Create(ctx context.Context, in *CreateAccountRequest, opts ...grpc.CallOption) (*CreateAccountResponse, error) {
+func (c *accountServiceClient) CreateAccount(ctx context.Context, in *CreateAccountRequest, opts ...grpc.CallOption) (*Account, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CreateAccountResponse)
-	err := c.cc.Invoke(ctx, AccountService_Create_FullMethodName, in, out, cOpts...)
+	out := new(Account)
+	err := c.cc.Invoke(ctx, AccountService_CreateAccount_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *accountServiceClient) Get(ctx context.Context, in *GetAccountRequest, opts ...grpc.CallOption) (*GetAccountResponse, error) {
+func (c *accountServiceClient) GetAccount(ctx context.Context, in *GetAccountRequest, opts ...grpc.CallOption) (*Account, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetAccountResponse)
-	err := c.cc.Invoke(ctx, AccountService_Get_FullMethodName, in, out, cOpts...)
+	out := new(Account)
+	err := c.cc.Invoke(ctx, AccountService_GetAccount_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *accountServiceClient) List(ctx context.Context, in *ListAccountsRequest, opts ...grpc.CallOption) (*ListAccountsResponse, error) {
+func (c *accountServiceClient) ListAccounts(ctx context.Context, in *ListAccountsRequest, opts ...grpc.CallOption) (*ListAccountsResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListAccountsResponse)
-	err := c.cc.Invoke(ctx, AccountService_List_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, AccountService_ListAccounts_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *accountServiceClient) Search(ctx context.Context, in *SearchAccountsRequest, opts ...grpc.CallOption) (*SearchAccountsResponse, error) {
+func (c *accountServiceClient) SearchAccounts(ctx context.Context, in *SearchAccountsRequest, opts ...grpc.CallOption) (*SearchAccountsResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SearchAccountsResponse)
-	err := c.cc.Invoke(ctx, AccountService_Search_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, AccountService_SearchAccounts_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -98,13 +98,13 @@ func (c *accountServiceClient) Search(ctx context.Context, in *SearchAccountsReq
 type AccountServiceServer interface {
 	// Creates a new wallet account.
 	// This is a write operation restricted to administrative roles.
-	Create(context.Context, *CreateAccountRequest) (*CreateAccountResponse, error)
+	CreateAccount(context.Context, *CreateAccountRequest) (*Account, error)
 	// Retrieves a single wallet account by its unique number.
-	Get(context.Context, *GetAccountRequest) (*GetAccountResponse, error)
+	GetAccount(context.Context, *GetAccountRequest) (*Account, error)
 	// Retrieves a list of all accounts for the authenticated principal.
-	List(context.Context, *ListAccountsRequest) (*ListAccountsResponse, error)
+	ListAccounts(context.Context, *ListAccountsRequest) (*ListAccountsResponse, error)
 	// Searches for accounts based on a partial label match.
-	Search(context.Context, *SearchAccountsRequest) (*SearchAccountsResponse, error)
+	SearchAccounts(context.Context, *SearchAccountsRequest) (*SearchAccountsResponse, error)
 	mustEmbedUnimplementedAccountServiceServer()
 }
 
@@ -115,17 +115,17 @@ type AccountServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedAccountServiceServer struct{}
 
-func (UnimplementedAccountServiceServer) Create(context.Context, *CreateAccountRequest) (*CreateAccountResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
+func (UnimplementedAccountServiceServer) CreateAccount(context.Context, *CreateAccountRequest) (*Account, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateAccount not implemented")
 }
-func (UnimplementedAccountServiceServer) Get(context.Context, *GetAccountRequest) (*GetAccountResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
+func (UnimplementedAccountServiceServer) GetAccount(context.Context, *GetAccountRequest) (*Account, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAccount not implemented")
 }
-func (UnimplementedAccountServiceServer) List(context.Context, *ListAccountsRequest) (*ListAccountsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method List not implemented")
+func (UnimplementedAccountServiceServer) ListAccounts(context.Context, *ListAccountsRequest) (*ListAccountsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListAccounts not implemented")
 }
-func (UnimplementedAccountServiceServer) Search(context.Context, *SearchAccountsRequest) (*SearchAccountsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Search not implemented")
+func (UnimplementedAccountServiceServer) SearchAccounts(context.Context, *SearchAccountsRequest) (*SearchAccountsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SearchAccounts not implemented")
 }
 func (UnimplementedAccountServiceServer) mustEmbedUnimplementedAccountServiceServer() {}
 func (UnimplementedAccountServiceServer) testEmbeddedByValue()                        {}
@@ -148,74 +148,74 @@ func RegisterAccountServiceServer(s grpc.ServiceRegistrar, srv AccountServiceSer
 	s.RegisterService(&AccountService_ServiceDesc, srv)
 }
 
-func _AccountService_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _AccountService_CreateAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateAccountRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AccountServiceServer).Create(ctx, in)
+		return srv.(AccountServiceServer).CreateAccount(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: AccountService_Create_FullMethodName,
+		FullMethod: AccountService_CreateAccount_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServiceServer).Create(ctx, req.(*CreateAccountRequest))
+		return srv.(AccountServiceServer).CreateAccount(ctx, req.(*CreateAccountRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AccountService_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _AccountService_GetAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetAccountRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AccountServiceServer).Get(ctx, in)
+		return srv.(AccountServiceServer).GetAccount(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: AccountService_Get_FullMethodName,
+		FullMethod: AccountService_GetAccount_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServiceServer).Get(ctx, req.(*GetAccountRequest))
+		return srv.(AccountServiceServer).GetAccount(ctx, req.(*GetAccountRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AccountService_List_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _AccountService_ListAccounts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListAccountsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AccountServiceServer).List(ctx, in)
+		return srv.(AccountServiceServer).ListAccounts(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: AccountService_List_FullMethodName,
+		FullMethod: AccountService_ListAccounts_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServiceServer).List(ctx, req.(*ListAccountsRequest))
+		return srv.(AccountServiceServer).ListAccounts(ctx, req.(*ListAccountsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AccountService_Search_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _AccountService_SearchAccounts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SearchAccountsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AccountServiceServer).Search(ctx, in)
+		return srv.(AccountServiceServer).SearchAccounts(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: AccountService_Search_FullMethodName,
+		FullMethod: AccountService_SearchAccounts_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServiceServer).Search(ctx, req.(*SearchAccountsRequest))
+		return srv.(AccountServiceServer).SearchAccounts(ctx, req.(*SearchAccountsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -228,20 +228,20 @@ var AccountService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*AccountServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Create",
-			Handler:    _AccountService_Create_Handler,
+			MethodName: "CreateAccount",
+			Handler:    _AccountService_CreateAccount_Handler,
 		},
 		{
-			MethodName: "Get",
-			Handler:    _AccountService_Get_Handler,
+			MethodName: "GetAccount",
+			Handler:    _AccountService_GetAccount_Handler,
 		},
 		{
-			MethodName: "List",
-			Handler:    _AccountService_List_Handler,
+			MethodName: "ListAccounts",
+			Handler:    _AccountService_ListAccounts_Handler,
 		},
 		{
-			MethodName: "Search",
-			Handler:    _AccountService_Search_Handler,
+			MethodName: "SearchAccounts",
+			Handler:    _AccountService_SearchAccounts_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

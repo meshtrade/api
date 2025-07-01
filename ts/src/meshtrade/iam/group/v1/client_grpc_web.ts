@@ -1,6 +1,7 @@
 import { LoggingInterceptor } from "../../../common/grpc_web";
 import { GroupServicePromiseClient } from "./service_grpc_web_pb";
-import { GetGroupRequest, GetGroupResponse } from "./service_pb";
+import { GetGroupRequest } from "./service_pb";
+import { Group } from "./group_pb";
 import { ConfigOpts, getConfigFromOpts } from "../../../common/config";
 
 /**
@@ -27,9 +28,9 @@ export class GroupGrpcWebClientV1 {
   /**
    * Retrieves a group.
    * @param {GetGroupRequest} request - The request object for getting a group.
-   * @returns {Promise<GetGroupResponse>} A promise that resolves with the group.
+   * @returns {Promise<Group>} A promise that resolves with the group.
    */
-  get(request: GetGroupRequest): Promise<GetGroupResponse> {
-    return this._service.get(request);
+  getGroup(request: GetGroupRequest): Promise<Group> {
+    return this._service.getGroup(request);
   }
 }

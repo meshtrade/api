@@ -7,7 +7,7 @@ import (
 )
 
 type DirectOrderService interface {
-	Get(ctx context.Context, request *GetDirectOrderRequest) (*GetDirectOrderResponse, error)
+	GetDirectOrder(ctx context.Context, request *GetDirectOrderRequest) (*DirectOrder, error)
 }
 
 const DirectOrderServiceServiceProviderName = "meshtrade-trading-direct_order-v1-DirectOrderService"

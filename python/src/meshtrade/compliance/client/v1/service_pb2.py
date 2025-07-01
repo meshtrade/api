@@ -25,7 +25,7 @@ _sym_db = _symbol_database.Default()
 from meshtrade.compliance.client.v1 import client_pb2 as meshtrade_dot_compliance_dot_client_dot_v1_dot_client__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n,meshtrade/compliance/client/v1/service.proto\x12\x1emeshtrade.compliance.client.v1\x1a+meshtrade/compliance/client/v1/client.proto\"&\n\x10GetClientRequest\x12\x12\n\x04name\x18\x01 \x01(\tR\x04name\"S\n\x11GetClientResponse\x12>\n\x06\x63lient\x18\x01 \x01(\x0b\x32&.meshtrade.compliance.client.v1.ClientR\x06\x63lient\"\x14\n\x12ListClientsRequest\"W\n\x13ListClientsResponse\x12@\n\x07\x63lients\x18\x01 \x03(\x0b\x32&.meshtrade.compliance.client.v1.ClientR\x07\x63lients2\xec\x01\n\rClientService\x12j\n\x03Get\x12\x30.meshtrade.compliance.client.v1.GetClientRequest\x1a\x31.meshtrade.compliance.client.v1.GetClientResponse\x12o\n\x04List\x12\x32.meshtrade.compliance.client.v1.ListClientsRequest\x1a\x33.meshtrade.compliance.client.v1.ListClientsResponseB;Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n,meshtrade/compliance/client/v1/service.proto\x12\x1emeshtrade.compliance.client.v1\x1a+meshtrade/compliance/client/v1/client.proto\"&\n\x10GetClientRequest\x12\x12\n\x04name\x18\x01 \x01(\tR\x04name\"\x14\n\x12ListClientsRequest\"W\n\x13ListClientsResponse\x12@\n\x07\x63lients\x18\x01 \x03(\x0b\x32&.meshtrade.compliance.client.v1.ClientR\x07\x63lients2\xee\x01\n\rClientService\x12\x65\n\tGetClient\x12\x30.meshtrade.compliance.client.v1.GetClientRequest\x1a&.meshtrade.compliance.client.v1.Client\x12v\n\x0bListClients\x12\x32.meshtrade.compliance.client.v1.ListClientsRequest\x1a\x33.meshtrade.compliance.client.v1.ListClientsResponseB;Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -35,12 +35,10 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._serialized_options = b'Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1'
   _globals['_GETCLIENTREQUEST']._serialized_start=125
   _globals['_GETCLIENTREQUEST']._serialized_end=163
-  _globals['_GETCLIENTRESPONSE']._serialized_start=165
-  _globals['_GETCLIENTRESPONSE']._serialized_end=248
-  _globals['_LISTCLIENTSREQUEST']._serialized_start=250
-  _globals['_LISTCLIENTSREQUEST']._serialized_end=270
-  _globals['_LISTCLIENTSRESPONSE']._serialized_start=272
-  _globals['_LISTCLIENTSRESPONSE']._serialized_end=359
-  _globals['_CLIENTSERVICE']._serialized_start=362
-  _globals['_CLIENTSERVICE']._serialized_end=598
+  _globals['_LISTCLIENTSREQUEST']._serialized_start=165
+  _globals['_LISTCLIENTSREQUEST']._serialized_end=185
+  _globals['_LISTCLIENTSRESPONSE']._serialized_start=187
+  _globals['_LISTCLIENTSRESPONSE']._serialized_end=274
+  _globals['_CLIENTSERVICE']._serialized_start=277
+  _globals['_CLIENTSERVICE']._serialized_end=515
 # @@protoc_insertion_point(module_scope)

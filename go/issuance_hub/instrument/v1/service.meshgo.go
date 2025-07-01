@@ -10,13 +10,13 @@ import (
 // such as creating, updating, minting or burning it.
 type InstrumentService interface {
 	// Retrieve a specific instrument.
-	Get(ctx context.Context, request *GetInstrumentRequest) (*GetInstrumentResponse, error)
+	GetInstrument(ctx context.Context, request *GetInstrumentRequest) (*Instrument, error)
 
 	// Mints new units of an instrument into a given destination account.
-	Mint(ctx context.Context, request *MintInstrumentRequest) (*MintInstrumentResponse, error)
+	MintInstrument(ctx context.Context, request *MintInstrumentRequest) (*MintInstrumentResponse, error)
 
 	// Burns a specified amount of an instrument from a source account.
-	Burn(ctx context.Context, request *BurnInstrumentRequest) (*BurnInstrumentResponse, error)
+	BurnInstrument(ctx context.Context, request *BurnInstrumentRequest) (*BurnInstrumentResponse, error)
 }
 
 const InstrumentServiceServiceProviderName = "meshtrade-issuance_hub-instrument-v1-InstrumentService"

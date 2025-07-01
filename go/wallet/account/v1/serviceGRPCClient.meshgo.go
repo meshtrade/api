@@ -29,70 +29,70 @@ func NewGRPCClientAccountService(
 	}
 }
 
-func (g *GRPCClientAccountService) Create(ctx context.Context, request *CreateAccountRequest) (*CreateAccountResponse, error) {
+func (g *GRPCClientAccountService) CreateAccount(ctx context.Context, request *CreateAccountRequest) (*Account, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
-		AccountServiceServiceProviderName+"Create",
+		AccountServiceServiceProviderName+"CreateAccount",
 	)
 	defer span.End()
 
 	// call given implementation of the adapted service provider interface
-	createResponse, err := g.grpcClient.Create(ctx, request)
+	createAccountResponse, err := g.grpcClient.CreateAccount(ctx, request)
 	if err != nil {
-		log.Ctx(ctx).Error().Err(err).Msg("could not Create")
-		return nil, fmt.Errorf("could not Create: %s", err)
+		log.Ctx(ctx).Error().Err(err).Msg("could not CreateAccount")
+		return nil, fmt.Errorf("could not CreateAccount: %s", err)
 	}
 
-	return createResponse, nil
+	return createAccountResponse, nil
 }
 
-func (g *GRPCClientAccountService) Get(ctx context.Context, request *GetAccountRequest) (*GetAccountResponse, error) {
+func (g *GRPCClientAccountService) GetAccount(ctx context.Context, request *GetAccountRequest) (*Account, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
-		AccountServiceServiceProviderName+"Get",
+		AccountServiceServiceProviderName+"GetAccount",
 	)
 	defer span.End()
 
 	// call given implementation of the adapted service provider interface
-	getResponse, err := g.grpcClient.Get(ctx, request)
+	getAccountResponse, err := g.grpcClient.GetAccount(ctx, request)
 	if err != nil {
-		log.Ctx(ctx).Error().Err(err).Msg("could not Get")
-		return nil, fmt.Errorf("could not Get: %s", err)
+		log.Ctx(ctx).Error().Err(err).Msg("could not GetAccount")
+		return nil, fmt.Errorf("could not GetAccount: %s", err)
 	}
 
-	return getResponse, nil
+	return getAccountResponse, nil
 }
 
-func (g *GRPCClientAccountService) List(ctx context.Context, request *ListAccountsRequest) (*ListAccountsResponse, error) {
+func (g *GRPCClientAccountService) ListAccounts(ctx context.Context, request *ListAccountsRequest) (*ListAccountsResponse, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
-		AccountServiceServiceProviderName+"List",
+		AccountServiceServiceProviderName+"ListAccounts",
 	)
 	defer span.End()
 
 	// call given implementation of the adapted service provider interface
-	listResponse, err := g.grpcClient.List(ctx, request)
+	listAccountsResponse, err := g.grpcClient.ListAccounts(ctx, request)
 	if err != nil {
-		log.Ctx(ctx).Error().Err(err).Msg("could not List")
-		return nil, fmt.Errorf("could not List: %s", err)
+		log.Ctx(ctx).Error().Err(err).Msg("could not ListAccounts")
+		return nil, fmt.Errorf("could not ListAccounts: %s", err)
 	}
 
-	return listResponse, nil
+	return listAccountsResponse, nil
 }
 
-func (g *GRPCClientAccountService) Search(ctx context.Context, request *SearchAccountsRequest) (*SearchAccountsResponse, error) {
+func (g *GRPCClientAccountService) SearchAccounts(ctx context.Context, request *SearchAccountsRequest) (*SearchAccountsResponse, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
-		AccountServiceServiceProviderName+"Search",
+		AccountServiceServiceProviderName+"SearchAccounts",
 	)
 	defer span.End()
 
 	// call given implementation of the adapted service provider interface
-	searchResponse, err := g.grpcClient.Search(ctx, request)
+	searchAccountsResponse, err := g.grpcClient.SearchAccounts(ctx, request)
 	if err != nil {
-		log.Ctx(ctx).Error().Err(err).Msg("could not Search")
-		return nil, fmt.Errorf("could not Search: %s", err)
+		log.Ctx(ctx).Error().Err(err).Msg("could not SearchAccounts")
+		return nil, fmt.Errorf("could not SearchAccounts: %s", err)
 	}
 
-	return searchResponse, nil
+	return searchAccountsResponse, nil
 }

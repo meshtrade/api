@@ -7,7 +7,7 @@ import (
 )
 
 type LimitOrderService interface {
-	Get(ctx context.Context, request *GetLimitOrderRequest) (*GetLimitOrderResponse, error)
+	GetLimitOrder(ctx context.Context, request *GetLimitOrderRequest) (*LimitOrder, error)
 }
 
 const LimitOrderServiceServiceProviderName = "meshtrade-trading-limit_order-v1-LimitOrderService"

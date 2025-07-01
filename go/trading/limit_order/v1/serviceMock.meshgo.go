@@ -13,18 +13,18 @@ var _ LimitOrderService = &MockLimitOrderService{}
 
 // MockLimitOrderService is a mock implementation of the LimitOrderService interface.
 type MockLimitOrderService struct {
-	mutex              sync.Mutex
-	T                  *testing.T
-	GetFunc            func(t *testing.T, m *MockLimitOrderService, ctx context.Context, request *GetLimitOrderRequest) (*GetLimitOrderResponse, error)
-	GetFuncInvocations int
+	mutex                        sync.Mutex
+	T                            *testing.T
+	GetLimitOrderFunc            func(t *testing.T, m *MockLimitOrderService, ctx context.Context, request *GetLimitOrderRequest) (*LimitOrder, error)
+	GetLimitOrderFuncInvocations int
 }
 
-func (m *MockLimitOrderService) Get(ctx context.Context, request *GetLimitOrderRequest) (*GetLimitOrderResponse, error) {
+func (m *MockLimitOrderService) GetLimitOrder(ctx context.Context, request *GetLimitOrderRequest) (*LimitOrder, error) {
 	m.mutex.Lock()
-	m.GetFuncInvocations++
+	m.GetLimitOrderFuncInvocations++
 	m.mutex.Unlock()
-	if m.GetFunc == nil {
+	if m.GetLimitOrderFunc == nil {
 		return nil, nil
 	}
-	return m.GetFunc(m.T, m, ctx, request)
+	return m.GetLimitOrderFunc(m.T, m, ctx, request)
 }

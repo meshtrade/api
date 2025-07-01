@@ -65,61 +65,15 @@ func (x *GetDirectOrderRequest) GetNumber() string {
 	return ""
 }
 
-type GetDirectOrderResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Directorder   *DirectOrder           `protobuf:"bytes,1,opt,name=directorder,proto3" json:"directorder,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetDirectOrderResponse) Reset() {
-	*x = GetDirectOrderResponse{}
-	mi := &file_meshtrade_trading_direct_order_v1_service_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetDirectOrderResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetDirectOrderResponse) ProtoMessage() {}
-
-func (x *GetDirectOrderResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_trading_direct_order_v1_service_proto_msgTypes[1]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetDirectOrderResponse.ProtoReflect.Descriptor instead.
-func (*GetDirectOrderResponse) Descriptor() ([]byte, []int) {
-	return file_meshtrade_trading_direct_order_v1_service_proto_rawDescGZIP(), []int{1}
-}
-
-func (x *GetDirectOrderResponse) GetDirectorder() *DirectOrder {
-	if x != nil {
-		return x.Directorder
-	}
-	return nil
-}
-
 var File_meshtrade_trading_direct_order_v1_service_proto protoreflect.FileDescriptor
 
 const file_meshtrade_trading_direct_order_v1_service_proto_rawDesc = "" +
 	"\n" +
 	"/meshtrade/trading/direct_order/v1/service.proto\x12!meshtrade.trading.direct_order.v1\x1a4meshtrade/trading/direct_order/v1/direct_order.proto\"/\n" +
 	"\x15GetDirectOrderRequest\x12\x16\n" +
-	"\x06number\x18\x01 \x01(\tR\x06number\"j\n" +
-	"\x16GetDirectOrderResponse\x12P\n" +
-	"\vdirectorder\x18\x01 \x01(\v2..meshtrade.trading.direct_order.v1.DirectOrderR\vdirectorder2\x90\x01\n" +
+	"\x06number\x18\x01 \x01(\tR\x06number2\x90\x01\n" +
 	"\x12DirectOrderService\x12z\n" +
-	"\x03Get\x128.meshtrade.trading.direct_order.v1.GetDirectOrderRequest\x1a9.meshtrade.trading.direct_order.v1.GetDirectOrderResponseBCZAgithub.com/meshtrade/api/go/trading/direct_order/v1;directorderv1b\x06proto3"
+	"\x0eGetDirectOrder\x128.meshtrade.trading.direct_order.v1.GetDirectOrderRequest\x1a..meshtrade.trading.direct_order.v1.DirectOrderBCZAgithub.com/meshtrade/api/go/trading/direct_order/v1;directorderv1b\x06proto3"
 
 var (
 	file_meshtrade_trading_direct_order_v1_service_proto_rawDescOnce sync.Once
@@ -133,21 +87,19 @@ func file_meshtrade_trading_direct_order_v1_service_proto_rawDescGZIP() []byte {
 	return file_meshtrade_trading_direct_order_v1_service_proto_rawDescData
 }
 
-var file_meshtrade_trading_direct_order_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_meshtrade_trading_direct_order_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_meshtrade_trading_direct_order_v1_service_proto_goTypes = []any{
-	(*GetDirectOrderRequest)(nil),  // 0: meshtrade.trading.direct_order.v1.GetDirectOrderRequest
-	(*GetDirectOrderResponse)(nil), // 1: meshtrade.trading.direct_order.v1.GetDirectOrderResponse
-	(*DirectOrder)(nil),            // 2: meshtrade.trading.direct_order.v1.DirectOrder
+	(*GetDirectOrderRequest)(nil), // 0: meshtrade.trading.direct_order.v1.GetDirectOrderRequest
+	(*DirectOrder)(nil),           // 1: meshtrade.trading.direct_order.v1.DirectOrder
 }
 var file_meshtrade_trading_direct_order_v1_service_proto_depIdxs = []int32{
-	2, // 0: meshtrade.trading.direct_order.v1.GetDirectOrderResponse.directorder:type_name -> meshtrade.trading.direct_order.v1.DirectOrder
-	0, // 1: meshtrade.trading.direct_order.v1.DirectOrderService.Get:input_type -> meshtrade.trading.direct_order.v1.GetDirectOrderRequest
-	1, // 2: meshtrade.trading.direct_order.v1.DirectOrderService.Get:output_type -> meshtrade.trading.direct_order.v1.GetDirectOrderResponse
-	2, // [2:3] is the sub-list for method output_type
-	1, // [1:2] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	0, // 0: meshtrade.trading.direct_order.v1.DirectOrderService.GetDirectOrder:input_type -> meshtrade.trading.direct_order.v1.GetDirectOrderRequest
+	1, // 1: meshtrade.trading.direct_order.v1.DirectOrderService.GetDirectOrder:output_type -> meshtrade.trading.direct_order.v1.DirectOrder
+	1, // [1:2] is the sub-list for method output_type
+	0, // [0:1] is the sub-list for method input_type
+	0, // [0:0] is the sub-list for extension type_name
+	0, // [0:0] is the sub-list for extension extendee
+	0, // [0:0] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_trading_direct_order_v1_service_proto_init() }
@@ -162,7 +114,7 @@ func file_meshtrade_trading_direct_order_v1_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_meshtrade_trading_direct_order_v1_service_proto_rawDesc), len(file_meshtrade_trading_direct_order_v1_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

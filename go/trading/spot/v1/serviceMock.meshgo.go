@@ -13,18 +13,18 @@ var _ SpotService = &MockSpotService{}
 
 // MockSpotService is a mock implementation of the SpotService interface.
 type MockSpotService struct {
-	mutex              sync.Mutex
-	T                  *testing.T
-	GetFunc            func(t *testing.T, m *MockSpotService, ctx context.Context, request *GetSpotRequest) (*GetSpotResponse, error)
-	GetFuncInvocations int
+	mutex                  sync.Mutex
+	T                      *testing.T
+	GetSpotFunc            func(t *testing.T, m *MockSpotService, ctx context.Context, request *GetSpotRequest) (*Spot, error)
+	GetSpotFuncInvocations int
 }
 
-func (m *MockSpotService) Get(ctx context.Context, request *GetSpotRequest) (*GetSpotResponse, error) {
+func (m *MockSpotService) GetSpot(ctx context.Context, request *GetSpotRequest) (*Spot, error) {
 	m.mutex.Lock()
-	m.GetFuncInvocations++
+	m.GetSpotFuncInvocations++
 	m.mutex.Unlock()
-	if m.GetFunc == nil {
+	if m.GetSpotFunc == nil {
 		return nil, nil
 	}
-	return m.GetFunc(m.T, m, ctx, request)
+	return m.GetSpotFunc(m.T, m, ctx, request)
 }

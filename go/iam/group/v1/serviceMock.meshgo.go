@@ -13,18 +13,18 @@ var _ GroupService = &MockGroupService{}
 
 // MockGroupService is a mock implementation of the GroupService interface.
 type MockGroupService struct {
-	mutex              sync.Mutex
-	T                  *testing.T
-	GetFunc            func(t *testing.T, m *MockGroupService, ctx context.Context, request *GetGroupRequest) (*GetGroupResponse, error)
-	GetFuncInvocations int
+	mutex                   sync.Mutex
+	T                       *testing.T
+	GetGroupFunc            func(t *testing.T, m *MockGroupService, ctx context.Context, request *GetGroupRequest) (*Group, error)
+	GetGroupFuncInvocations int
 }
 
-func (m *MockGroupService) Get(ctx context.Context, request *GetGroupRequest) (*GetGroupResponse, error) {
+func (m *MockGroupService) GetGroup(ctx context.Context, request *GetGroupRequest) (*Group, error) {
 	m.mutex.Lock()
-	m.GetFuncInvocations++
+	m.GetGroupFuncInvocations++
 	m.mutex.Unlock()
-	if m.GetFunc == nil {
+	if m.GetGroupFunc == nil {
 		return nil, nil
 	}
-	return m.GetFunc(m.T, m, ctx, request)
+	return m.GetGroupFunc(m.T, m, ctx, request)
 }

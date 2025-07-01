@@ -19,9 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	InstrumentService_Get_FullMethodName  = "/meshtrade.issuance_hub.instrument.v1.InstrumentService/Get"
-	InstrumentService_Mint_FullMethodName = "/meshtrade.issuance_hub.instrument.v1.InstrumentService/Mint"
-	InstrumentService_Burn_FullMethodName = "/meshtrade.issuance_hub.instrument.v1.InstrumentService/Burn"
+	InstrumentService_GetInstrument_FullMethodName  = "/meshtrade.issuance_hub.instrument.v1.InstrumentService/GetInstrument"
+	InstrumentService_MintInstrument_FullMethodName = "/meshtrade.issuance_hub.instrument.v1.InstrumentService/MintInstrument"
+	InstrumentService_BurnInstrument_FullMethodName = "/meshtrade.issuance_hub.instrument.v1.InstrumentService/BurnInstrument"
 )
 
 // InstrumentServiceClient is the client API for InstrumentService service.
@@ -32,11 +32,11 @@ const (
 // such as creating, updating, minting or burning it.
 type InstrumentServiceClient interface {
 	// Retrieve a specific instrument.
-	Get(ctx context.Context, in *GetInstrumentRequest, opts ...grpc.CallOption) (*GetInstrumentResponse, error)
+	GetInstrument(ctx context.Context, in *GetInstrumentRequest, opts ...grpc.CallOption) (*Instrument, error)
 	// Mints new units of an instrument into a given destination account.
-	Mint(ctx context.Context, in *MintInstrumentRequest, opts ...grpc.CallOption) (*MintInstrumentResponse, error)
+	MintInstrument(ctx context.Context, in *MintInstrumentRequest, opts ...grpc.CallOption) (*MintInstrumentResponse, error)
 	// Burns a specified amount of an instrument from a source account.
-	Burn(ctx context.Context, in *BurnInstrumentRequest, opts ...grpc.CallOption) (*BurnInstrumentResponse, error)
+	BurnInstrument(ctx context.Context, in *BurnInstrumentRequest, opts ...grpc.CallOption) (*BurnInstrumentResponse, error)
 }
 
 type instrumentServiceClient struct {
@@ -47,30 +47,30 @@ func NewInstrumentServiceClient(cc grpc.ClientConnInterface) InstrumentServiceCl
 	return &instrumentServiceClient{cc}
 }
 
-func (c *instrumentServiceClient) Get(ctx context.Context, in *GetInstrumentRequest, opts ...grpc.CallOption) (*GetInstrumentResponse, error) {
+func (c *instrumentServiceClient) GetInstrument(ctx context.Context, in *GetInstrumentRequest, opts ...grpc.CallOption) (*Instrument, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetInstrumentResponse)
-	err := c.cc.Invoke(ctx, InstrumentService_Get_FullMethodName, in, out, cOpts...)
+	out := new(Instrument)
+	err := c.cc.Invoke(ctx, InstrumentService_GetInstrument_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *instrumentServiceClient) Mint(ctx context.Context, in *MintInstrumentRequest, opts ...grpc.CallOption) (*MintInstrumentResponse, error) {
+func (c *instrumentServiceClient) MintInstrument(ctx context.Context, in *MintInstrumentRequest, opts ...grpc.CallOption) (*MintInstrumentResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(MintInstrumentResponse)
-	err := c.cc.Invoke(ctx, InstrumentService_Mint_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, InstrumentService_MintInstrument_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *instrumentServiceClient) Burn(ctx context.Context, in *BurnInstrumentRequest, opts ...grpc.CallOption) (*BurnInstrumentResponse, error) {
+func (c *instrumentServiceClient) BurnInstrument(ctx context.Context, in *BurnInstrumentRequest, opts ...grpc.CallOption) (*BurnInstrumentResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(BurnInstrumentResponse)
-	err := c.cc.Invoke(ctx, InstrumentService_Burn_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, InstrumentService_BurnInstrument_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -85,11 +85,11 @@ func (c *instrumentServiceClient) Burn(ctx context.Context, in *BurnInstrumentRe
 // such as creating, updating, minting or burning it.
 type InstrumentServiceServer interface {
 	// Retrieve a specific instrument.
-	Get(context.Context, *GetInstrumentRequest) (*GetInstrumentResponse, error)
+	GetInstrument(context.Context, *GetInstrumentRequest) (*Instrument, error)
 	// Mints new units of an instrument into a given destination account.
-	Mint(context.Context, *MintInstrumentRequest) (*MintInstrumentResponse, error)
+	MintInstrument(context.Context, *MintInstrumentRequest) (*MintInstrumentResponse, error)
 	// Burns a specified amount of an instrument from a source account.
-	Burn(context.Context, *BurnInstrumentRequest) (*BurnInstrumentResponse, error)
+	BurnInstrument(context.Context, *BurnInstrumentRequest) (*BurnInstrumentResponse, error)
 	mustEmbedUnimplementedInstrumentServiceServer()
 }
 
@@ -100,14 +100,14 @@ type InstrumentServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedInstrumentServiceServer struct{}
 
-func (UnimplementedInstrumentServiceServer) Get(context.Context, *GetInstrumentRequest) (*GetInstrumentResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
+func (UnimplementedInstrumentServiceServer) GetInstrument(context.Context, *GetInstrumentRequest) (*Instrument, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetInstrument not implemented")
 }
-func (UnimplementedInstrumentServiceServer) Mint(context.Context, *MintInstrumentRequest) (*MintInstrumentResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Mint not implemented")
+func (UnimplementedInstrumentServiceServer) MintInstrument(context.Context, *MintInstrumentRequest) (*MintInstrumentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MintInstrument not implemented")
 }
-func (UnimplementedInstrumentServiceServer) Burn(context.Context, *BurnInstrumentRequest) (*BurnInstrumentResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Burn not implemented")
+func (UnimplementedInstrumentServiceServer) BurnInstrument(context.Context, *BurnInstrumentRequest) (*BurnInstrumentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BurnInstrument not implemented")
 }
 func (UnimplementedInstrumentServiceServer) mustEmbedUnimplementedInstrumentServiceServer() {}
 func (UnimplementedInstrumentServiceServer) testEmbeddedByValue()                           {}
@@ -130,56 +130,56 @@ func RegisterInstrumentServiceServer(s grpc.ServiceRegistrar, srv InstrumentServ
 	s.RegisterService(&InstrumentService_ServiceDesc, srv)
 }
 
-func _InstrumentService_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _InstrumentService_GetInstrument_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetInstrumentRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(InstrumentServiceServer).Get(ctx, in)
+		return srv.(InstrumentServiceServer).GetInstrument(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: InstrumentService_Get_FullMethodName,
+		FullMethod: InstrumentService_GetInstrument_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(InstrumentServiceServer).Get(ctx, req.(*GetInstrumentRequest))
+		return srv.(InstrumentServiceServer).GetInstrument(ctx, req.(*GetInstrumentRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _InstrumentService_Mint_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _InstrumentService_MintInstrument_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(MintInstrumentRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(InstrumentServiceServer).Mint(ctx, in)
+		return srv.(InstrumentServiceServer).MintInstrument(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: InstrumentService_Mint_FullMethodName,
+		FullMethod: InstrumentService_MintInstrument_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(InstrumentServiceServer).Mint(ctx, req.(*MintInstrumentRequest))
+		return srv.(InstrumentServiceServer).MintInstrument(ctx, req.(*MintInstrumentRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _InstrumentService_Burn_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _InstrumentService_BurnInstrument_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(BurnInstrumentRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(InstrumentServiceServer).Burn(ctx, in)
+		return srv.(InstrumentServiceServer).BurnInstrument(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: InstrumentService_Burn_FullMethodName,
+		FullMethod: InstrumentService_BurnInstrument_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(InstrumentServiceServer).Burn(ctx, req.(*BurnInstrumentRequest))
+		return srv.(InstrumentServiceServer).BurnInstrument(ctx, req.(*BurnInstrumentRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -192,16 +192,16 @@ var InstrumentService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*InstrumentServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Get",
-			Handler:    _InstrumentService_Get_Handler,
+			MethodName: "GetInstrument",
+			Handler:    _InstrumentService_GetInstrument_Handler,
 		},
 		{
-			MethodName: "Mint",
-			Handler:    _InstrumentService_Mint_Handler,
+			MethodName: "MintInstrument",
+			Handler:    _InstrumentService_MintInstrument_Handler,
 		},
 		{
-			MethodName: "Burn",
-			Handler:    _InstrumentService_Burn_Handler,
+			MethodName: "BurnInstrument",
+			Handler:    _InstrumentService_BurnInstrument_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

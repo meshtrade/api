@@ -21,25 +21,11 @@ class CreateAccountRequest(_message.Message):
     open: bool
     def __init__(self, label: _Optional[str] = ..., ledger: _Optional[_Union[_ledger_pb2.Ledger, str]] = ..., open: bool = ...) -> None: ...
 
-class CreateAccountResponse(_message.Message):
-    __slots__ = ("account", "transaction_id")
-    ACCOUNT_FIELD_NUMBER: _ClassVar[int]
-    TRANSACTION_ID_FIELD_NUMBER: _ClassVar[int]
-    account: _account_pb2.Account
-    transaction_id: str
-    def __init__(self, account: _Optional[_Union[_account_pb2.Account, _Mapping]] = ..., transaction_id: _Optional[str] = ...) -> None: ...
-
 class GetAccountRequest(_message.Message):
     __slots__ = ("number",)
     NUMBER_FIELD_NUMBER: _ClassVar[int]
     number: str
     def __init__(self, number: _Optional[str] = ...) -> None: ...
-
-class GetAccountResponse(_message.Message):
-    __slots__ = ("account",)
-    ACCOUNT_FIELD_NUMBER: _ClassVar[int]
-    account: _account_pb2.Account
-    def __init__(self, account: _Optional[_Union[_account_pb2.Account, _Mapping]] = ...) -> None: ...
 
 class ListAccountsRequest(_message.Message):
     __slots__ = ()

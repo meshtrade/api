@@ -13,12 +13,6 @@ class GetInstrumentRequest(_message.Message):
     name: str
     def __init__(self, name: _Optional[str] = ...) -> None: ...
 
-class GetInstrumentResponse(_message.Message):
-    __slots__ = ("instrument",)
-    INSTRUMENT_FIELD_NUMBER: _ClassVar[int]
-    instrument: _instrument_pb2.Instrument
-    def __init__(self, instrument: _Optional[_Union[_instrument_pb2.Instrument, _Mapping]] = ...) -> None: ...
-
 class MintInstrumentRequest(_message.Message):
     __slots__ = ("amount", "fee_account", "destination_account")
     AMOUNT_FIELD_NUMBER: _ClassVar[int]

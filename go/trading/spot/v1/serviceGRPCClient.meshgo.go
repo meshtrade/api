@@ -29,19 +29,19 @@ func NewGRPCClientSpotService(
 	}
 }
 
-func (g *GRPCClientSpotService) Get(ctx context.Context, request *GetSpotRequest) (*GetSpotResponse, error) {
+func (g *GRPCClientSpotService) GetSpot(ctx context.Context, request *GetSpotRequest) (*Spot, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
-		SpotServiceServiceProviderName+"Get",
+		SpotServiceServiceProviderName+"GetSpot",
 	)
 	defer span.End()
 
 	// call given implementation of the adapted service provider interface
-	getResponse, err := g.grpcClient.Get(ctx, request)
+	getSpotResponse, err := g.grpcClient.GetSpot(ctx, request)
 	if err != nil {
-		log.Ctx(ctx).Error().Err(err).Msg("could not Get")
-		return nil, fmt.Errorf("could not Get: %s", err)
+		log.Ctx(ctx).Error().Err(err).Msg("could not GetSpot")
+		return nil, fmt.Errorf("could not GetSpot: %s", err)
 	}
 
-	return getResponse, nil
+	return getSpotResponse, nil
 }

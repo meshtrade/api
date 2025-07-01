@@ -7,7 +7,7 @@ import (
 )
 
 type SpotService interface {
-	Get(ctx context.Context, request *GetSpotRequest) (*GetSpotResponse, error)
+	GetSpot(ctx context.Context, request *GetSpotRequest) (*Spot, error)
 }
 
 const SpotServiceServiceProviderName = "meshtrade-trading-spot-v1-SpotService"

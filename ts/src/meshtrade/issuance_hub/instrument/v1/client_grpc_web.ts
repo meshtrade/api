@@ -2,12 +2,12 @@ import { LoggingInterceptor } from "../../../common/grpc_web";
 import { InstrumentServicePromiseClient } from "./service_grpc_web_pb";
 import {
   GetInstrumentRequest,
-  GetInstrumentResponse,
   MintInstrumentRequest,
   MintInstrumentResponse,
   BurnInstrumentRequest,
   BurnInstrumentResponse,
 } from "./service_pb";
+import { Instrument } from "./instrument_pb";
 import { ConfigOpts, getConfigFromOpts } from "../../../common/config";
 
 /**
@@ -38,10 +38,10 @@ export class InstrumentGrpcWebClientV1 {
   /**
    * Retrieves an instrument.
    * @param {GetInstrumentRequest} request - The request object for getting an instrument.
-   * @returns {Promise<GetInstrumentResponse>} A promise that resolves with the instrument.
+   * @returns {Promise<Instrument>} A promise that resolves with the instrument.
    */
-  get(request: GetInstrumentRequest): Promise<GetInstrumentResponse> {
-    return this._service.get(request);
+  getInstrument(request: GetInstrumentRequest): Promise<Instrument> {
+    return this._service.getInstrument(request);
   }
 
   /**
@@ -49,8 +49,10 @@ export class InstrumentGrpcWebClientV1 {
    * @param {MintInstrumentRequest} request - The request object for minting instruments.
    * @returns {Promise<MintInstrumentResponse>} A promise that resolves with the minting response.
    */
-  mint(request: MintInstrumentRequest): Promise<MintInstrumentResponse> {
-    return this._service.mint(request);
+  mintInstrument(
+    request: MintInstrumentRequest
+  ): Promise<MintInstrumentResponse> {
+    return this._service.mintInstrument(request);
   }
 
   /**
@@ -58,7 +60,9 @@ export class InstrumentGrpcWebClientV1 {
    * @param {BurnInstrumentRequest} request - The request object for burning instruments.
    * @returns {Promise<BurnInstrumentResponse>} A promise that resolves with the burning response.
    */
-  burn(request: BurnInstrumentRequest): Promise<BurnInstrumentResponse> {
-    return this._service.burn(request);
+  burnInstrument(
+    request: BurnInstrumentRequest
+  ): Promise<BurnInstrumentResponse> {
+    return this._service.burnInstrument(request);
   }
 }

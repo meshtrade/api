@@ -10,16 +10,16 @@ import (
 type AccountService interface {
 	// Creates a new wallet account.
 	// This is a write operation restricted to administrative roles.
-	Create(ctx context.Context, request *CreateAccountRequest) (*CreateAccountResponse, error)
+	CreateAccount(ctx context.Context, request *CreateAccountRequest) (*Account, error)
 
 	// Retrieves a single wallet account by its unique number.
-	Get(ctx context.Context, request *GetAccountRequest) (*GetAccountResponse, error)
+	GetAccount(ctx context.Context, request *GetAccountRequest) (*Account, error)
 
 	// Retrieves a list of all accounts for the authenticated principal.
-	List(ctx context.Context, request *ListAccountsRequest) (*ListAccountsResponse, error)
+	ListAccounts(ctx context.Context, request *ListAccountsRequest) (*ListAccountsResponse, error)
 
 	// Searches for accounts based on a partial label match.
-	Search(ctx context.Context, request *SearchAccountsRequest) (*SearchAccountsResponse, error)
+	SearchAccounts(ctx context.Context, request *SearchAccountsRequest) (*SearchAccountsResponse, error)
 }
 
 const AccountServiceServiceProviderName = "meshtrade-wallet-account-v1-AccountService"

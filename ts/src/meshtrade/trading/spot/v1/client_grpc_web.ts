@@ -1,6 +1,7 @@
 import { LoggingInterceptor } from "../../../common/grpc_web";
 import { SpotServicePromiseClient } from "./service_grpc_web_pb";
-import { GetSpotRequest, GetSpotResponse } from "./service_pb";
+import { GetSpotRequest } from "./service_pb";
+import { Spot } from "./spot_pb";
 import { ConfigOpts, getConfigFromOpts } from "../../../common/config";
 
 /**
@@ -27,9 +28,9 @@ export class SpotGrpcWebClientV1 {
   /**
    * Retrieves a spot.
    * @param {GetSpotRequest} request - The request object for getting a spot.
-   * @returns {Promise<GetSpotResponse>} A promise that resolves with the spot.
+   * @returns {Promise<Spot>} A promise that resolves with the spot.
    */
-  get(request: GetSpotRequest): Promise<GetSpotResponse> {
-    return this._service.get(request);
+  getSpot(request: GetSpotRequest): Promise<Spot> {
+    return this._service.getSpot(request);
   }
 }

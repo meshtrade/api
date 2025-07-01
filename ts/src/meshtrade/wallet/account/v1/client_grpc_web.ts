@@ -2,14 +2,13 @@ import { LoggingInterceptor } from "../../../common/grpc_web";
 import { AccountServicePromiseClient } from "./service_grpc_web_pb";
 import {
   CreateAccountRequest,
-  CreateAccountResponse,
   GetAccountRequest,
-  GetAccountResponse,
   ListAccountsRequest,
   ListAccountsResponse,
   SearchAccountsRequest,
   SearchAccountsResponse,
 } from "./service_pb";
+import { Account } from "./account_pb";
 import { ConfigOpts, getConfigFromOpts } from "../../../common/config";
 
 /**
@@ -40,19 +39,19 @@ export class AccountGrpcWebClientV1 {
   /**
    * Creates an account.
    * @param {CreateAccountRequest} request - The request object for creating an account.
-   * @returns {Promise<CreateAccountResponse>} A promise that resolves with the created account.
+   * @returns {Promise<Account>} A promise that resolves with the created account.
    */
-  create(request: CreateAccountRequest): Promise<CreateAccountResponse> {
-    return this._service.create(request);
+  createAccount(request: CreateAccountRequest): Promise<Account> {
+    return this._service.createAccount(request);
   }
 
   /**
    * Retrieves an account.
    * @param {GetAccountRequest} request - The request object for getting an account.
-   * @returns {Promise<GetAccountResponse>} A promise that resolves with the account.
+   * @returns {Promise<Account>} A promise that resolves with the account.
    */
-  get(request: GetAccountRequest): Promise<GetAccountResponse> {
-    return this._service.get(request);
+  getAccount(request: GetAccountRequest): Promise<Account> {
+    return this._service.getAccount(request);
   }
 
   /**
@@ -60,8 +59,8 @@ export class AccountGrpcWebClientV1 {
    * @param {ListAccountsRequest} request - The request object for listing accounts.
    * @returns {Promise<ListAccountsResponse>} A promise that resolves with the list of accounts.
    */
-  list(request: ListAccountsRequest): Promise<ListAccountsResponse> {
-    return this._service.list(request);
+  listAccounts(request: ListAccountsRequest): Promise<ListAccountsResponse> {
+    return this._service.listAccounts(request);
   }
 
   /**
@@ -69,7 +68,9 @@ export class AccountGrpcWebClientV1 {
    * @param {SearchAccountsRequest} request - The request object for searching accounts.
    * @returns {Promise<SearchAccountsResponse>} A promise that resolves with the list of accounts.
    */
-  search(request: SearchAccountsRequest): Promise<SearchAccountsResponse> {
-    return this._service.search(request);
+  searchAccounts(
+    request: SearchAccountsRequest
+  ): Promise<SearchAccountsResponse> {
+    return this._service.searchAccounts(request);
   }
 }
