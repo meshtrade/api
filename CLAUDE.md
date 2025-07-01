@@ -10,8 +10,9 @@ This is the Mesh API repository containing protobuf definitions and multi-langua
 
 ### Documentation Site
 - `cd docs && bundle install` - Install Jekyll dependencies
-- `cd docs && bundle exec jekyll serve` - Run Jekyll development server
+- `cd docs && bundle exec jekyll serve` - Run Jekyll development server (http://127.0.0.1:4000)
 - `cd docs && bundle exec jekyll build` - Build static Jekyll site
+- Site URL: https://meshtrade.github.io/api
 
 ### Code Generation
 - `./scripts/generate.sh` - Main build script that cleans and regenerates all client libraries from protobuf definitions
@@ -47,9 +48,12 @@ This is the Mesh API repository containing protobuf definitions and multi-langua
 - `/python/` - Generated Python packages with additional utilities
 - `/ts/` - Generated TypeScript modules
 - `/docs/` - Jekyll-based documentation site
-  - `/pages/` - Documentation pages with Jekyll front matter
-  - `/assets/` - Site assets (images, etc.)
-  - `/_sass/` - Sass stylesheets for Jekyll theme
+  - `index.md` - Home page with complete API documentation (no external includes)
+  - `pages/` - Individual documentation pages with Jekyll front matter
+  - `assets/` - Site assets (images, logos, etc.)
+  - `_sass/` - Custom Sass stylesheets for Jekyll theme customization
+  - `Gemfile` - Jekyll dependencies
+  - `_config.yml` - Jekyll site configuration
 - `/scripts/` - Build and generation scripts
 - `/tool/protoc-gen-meshgo/` - Custom protobuf generator for Go
 
@@ -86,10 +90,62 @@ The `/proto/meshtrade/type/v1/` directory contains foundational types used acros
 3. **Testing**: Each language has its own test suite - run them after generation
 4. **Version Management**: API versions are managed through protobuf package paths (v1, v2, etc.)
 
+## Documentation Site Workflow
+
+### Structure and Organization
+- **Root README.md**: Simplified overview with link to full documentation site
+- **docs/index.md**: Complete documentation content (mermaid diagrams, API philosophy, etc.)
+- **docs/pages/**: Individual pages for Go, Python, TypeScript, and Proto documentation
+- **Stub READMEs**: Language directories contain minimal READMEs linking to docs/pages
+
+### Jekyll Configuration
+- Uses `just-the-docs` theme with custom `wider` color scheme
+- Configured to exclude all non-docs directories (go/, ts/, python/, proto/, etc.)
+- Mermaid diagrams supported (v11.6.0)
+- Custom Sass styling in `_sass/` directory
+
+### Adding Documentation Pages
+1. Create markdown files in `docs/pages/` with Jekyll front matter:
+   ```yaml
+   ---
+   title: Page Title
+   layout: page
+   nav_order: 2
+   parent: Parent Page (optional)
+   ---
+   ```
+2. Jekyll automatically includes them in site navigation
+3. Use `{% include_relative filename.md %}` for including other markdown files within docs/
+
+### Documentation Maintenance
+- **docs/pages/api_doc.md**: Auto-generated API reference (copied from proto/api_doc.md)
+- **Language-specific pages**: Go, Python, TypeScript documentation moved from language directories
+- **Navigation**: Managed through Jekyll front matter `nav_order` and `parent` properties
+
 ## Important Notes
 
+### Code Generation
 - All generated files (*.pb.go, *_pb2.py, *pb.js, etc.) should not be manually edited
 - The repository uses buf for protobuf management and linting
 - Each language SDK is independently packaged and versioned
 - Breaking changes require new API versions (e.g., v1 -> v2)
 - Custom protobuf generator `protoc-gen-meshgo` creates additional Go utilities
+
+### Documentation Site
+- Jekyll site is self-contained in `/docs/` directory
+- Do not use `../` paths in Jekyll includes - copy files to docs/ instead
+- API documentation (api_doc.md) must be copied from proto/ to docs/pages/ when updated
+- Theme deprecation warnings are non-blocking (related to Sass @import usage)
+- Site builds successfully despite warnings and serves on http://127.0.0.1:4000
+
+### Protobuf Service Patterns
+- **Resource Service Naming**: All resource services follow consistent pattern:
+  - Method names include resource name (e.g., `GetAccount`, `CreateClient`, `MintInstrument`)
+  - Request/Response messages include resource name (e.g., `GetAccountRequest`, `ListClientsResponse`)
+  - Get/Create methods return the resource directly, not a response wrapper
+- **Authorization Model**: Uses StandardRole enum from `meshtrade/option/v1/auth.proto`:
+  - File-level `standard_roles` option declares all roles used by service
+  - Method-level `required_roles` option specifies which roles can access each method
+  - Extension tags: `standard_roles` = 50003, `required_roles` = 50005, `service_type` = 50004
+- **Extension Tag Management**: Be careful with protobuf extension tag conflicts across option files
+- **Response Message Cleanup**: Remove unused response messages when methods return resources directly
