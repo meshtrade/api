@@ -1,6 +1,6 @@
 {
   "name": "@meshtrade/api",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Mesh Typescript SDK",
   "author": "Bernard Bussy <bernard@meshtrade.co>",
   "keywords": [
