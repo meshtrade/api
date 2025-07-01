@@ -4,7 +4,7 @@ const fundingOriginToStringMapping: {
   [key in FundingOrigin]: string;
 } = {
   [FundingOrigin.UNDEFINED_FUNDING_ORIGIN]: "-",
-  [FundingOrigin.DIRECT_EFT]: "Direct EFT",
+  [FundingOrigin.DIRECT_EFT]: "EFT",
   [FundingOrigin.PEACH_PAYMENT]: "Peach Payment",
   [FundingOrigin.PEACH_SETTLEMENT]: "Peach Settlement",
 };

@@ -7,7 +7,7 @@ exports.fundingOriginToString = fundingOriginToString;
 const funding_pb_1 = require("./funding_pb");
 const fundingOriginToStringMapping = {
     [funding_pb_1.FundingOrigin.UNDEFINED_FUNDING_ORIGIN]: "-",
-    [funding_pb_1.FundingOrigin.DIRECT_EFT]: "Direct EFT",
+    [funding_pb_1.FundingOrigin.DIRECT_EFT]: "EFT",
     [funding_pb_1.FundingOrigin.PEACH_PAYMENT]: "Peach Payment",
     [funding_pb_1.FundingOrigin.PEACH_SETTLEMENT]: "Peach Settlement",
 };
