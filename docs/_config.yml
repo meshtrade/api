@@ -1,0 +1,33 @@
+title: Mesh API
+description: Home of the Mesh API Documentation.
+theme: just-the-docs
+color_scheme: wider
+
+url: https://github.com/meshtrade/api
+
+mermaid:
+  version: "11.6.0"
+
+logo: "/assets/images/logo.svg"
+favicon_ico: "/assets/images/favicon.svg"
+
+# Jekyll processing configuration
+exclude:
+  - ../go/
+  - ../ts/
+  - ../python/
+  - ../proto/
+  - ../scripts/
+  - ../tool/
+  - ../buf.yaml
+  - ../buf.gen.yaml
+  - ../buf.lock
+  - ../go.mod
+  - ../go.sum
+  - ../go.work
+  - ../go.work.sum
+  - ../scratch.txt
+  - ../CLAUDE.md
+  - ../.gitignore
+  - ../.jekyll-cache/
+  - ../_site/

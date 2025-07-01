@@ -12,46 +12,16 @@ option go_package = "github.com/meshtrade/api/go/option/v1;optionv1";
    that group a set of granular, string-based permissions. Roles are
    defined at the file level in a service's `.proto` file.
 */
-message StandardRole {
+enum StandardRole {
   /*
-     The unique name of the role, e.g., "AccountAdmin".
+     The default value, indicating the service type is unknown or not specified.
+     This should be treated as an error and not be used explicitly.
   */
-  string name = 1;
+  STANDARD_ROLE_UNSPECIFIED = 0;
 
-  /*
-     The list of permissions this role contains.
-     Each string corresponds to a full gRPC method path,
-     e.g., "meshtrade.wallet.account.v1.Service/GetAccount".
-  */
-  repeated string permissions = 2;
-}
+  STANDARD_ROLE_WALLET_ADMIN = 1;
 
-/*
-   A method-level option to explicitly list the permissions required to call an RPC.
-   Used to grant access to a method without assigning a standard role (which is usually
-   the approach taken to assign access) i.e. when you make a custom role.
-*/
-extend google.protobuf.MethodOptions {
-  PermissionStringList required_permissions = 50001;
-}
-
-message PermissionStringList {
-  repeated string permissions = 1;
-}
-
-/*
-   A method-level option to explicitly list the role required to call an RPC.
-   This overrides the default behavior where you have access to a service once
-   you have all the necessary lower level permissions ensuring that only holders
-   of the specific role can access the service. This enforces thinking when making
-   a new custom role.
-*/
-extend google.protobuf.MethodOptions {
-  StandardRoleNameList required_roles = 50002;
-}
-
-message StandardRoleNameList {
-  repeated string roles = 1;
+  STANDARD_ROLE_WALLET_VIEWER = 2;
 }
 
 /*

@@ -4,36 +4,12 @@ package meshtrade.wallet.account.v1;
 
 import "buf/validate/validate.proto";
 import "meshtrade/option/v1/auth.proto";
+import "meshtrade/option/v1/role.proto";
 import "meshtrade/option/v1/service_type.proto";
 import "meshtrade/type/v1/ledger.proto";
 import "meshtrade/wallet/account/v1/account.proto";
 
 option go_package = "github.com/meshtrade/api/go/wallet/account/v1;accountv1";
-/*
-   Defines the standard business roles for the Account service.
-   These roles group permissions to grant coarse-grained access to principals.
-*/
-option (meshtrade.option.v1.standard_roles) = {
-  roles: [
-    {
-      name: "meshtrade.wallet.account.v1.AccountReader"
-      permissions: [
-        "meshtrade.wallet.account.v1.AccountService.GetAccount",
-        "meshtrade.wallet.account.v1.AccountService.ListAccounts",
-        "meshtrade.wallet.account.v1.AccountService.SearchAccounts"
-      ]
-    },
-    {
-      name: "meshtrade.wallet.account.v1.AccountAdmin"
-      permissions: [
-        "meshtrade.wallet.account.v1.AccountService.CreateAccount",
-        "meshtrade.wallet.account.v1.AccountService.GetAccount",
-        "meshtrade.wallet.account.v1.AccountService.ListAccounts",
-        "meshtrade.wallet.account.v1.AccountService.SearchAccounts"
-      ]
-    }
-  ]
-};
 
 /*
    AccountService provides access to and management of wallet accounts.
@@ -43,37 +19,46 @@ service AccountService {
      Creates a new wallet account.
      This is a write operation restricted to administrative roles.
   */
-  rpc Create(CreateAccountRequest) returns (CreateAccountResponse) {
+  rpc CreateAccount(CreateAccountRequest) returns (meshtrade.wallet.account.v1.Account) {
     option (meshtrade.option.v1.service_type) = SERVICE_TYPE_WRITE;
     option (meshtrade.option.v1.required_roles) = {
-      roles: ["meshtrade.wallet.account.v1.AccountAdmin"]
+      roles: [STANDARD_ROLE_WALLET_ADMIN]
     };
   }
   /*
      Retrieves a single wallet account by its unique number.
   */
-  rpc Get(GetAccountRequest) returns (GetAccountResponse) {
+  rpc GetAccount(GetAccountRequest) returns (meshtrade.wallet.account.v1.Account) {
     option (meshtrade.option.v1.service_type) = SERVICE_TYPE_READ;
-    option (meshtrade.option.v1.required_permissions) = {
-      permissions: ["meshtrade.wallet.account.v1.AccountService.GetAccount"]
+    option (meshtrade.option.v1.required_roles) = {
+      roles: [
+        STANDARD_ROLE_WALLET_ADMIN,
+        STANDARD_ROLE_WALLET_VIEWER
+      ]
     };
   }
   /*
      Retrieves a list of all accounts for the authenticated principal.
   */
-  rpc List(ListAccountsRequest) returns (ListAccountsResponse) {
+  rpc ListAccounts(ListAccountsRequest) returns (ListAccountsResponse) {
     option (meshtrade.option.v1.service_type) = SERVICE_TYPE_READ;
-    option (meshtrade.option.v1.required_permissions) = {
-      permissions: ["meshtrade.wallet.account.v1.AccountService.ListAccounts"]
+    option (meshtrade.option.v1.required_roles) = {
+      roles: [
+        STANDARD_ROLE_WALLET_ADMIN,
+        STANDARD_ROLE_WALLET_VIEWER
+      ]
     };
   }
   /*
      Searches for accounts based on a partial label match.
   */
-  rpc Search(SearchAccountsRequest) returns (SearchAccountsResponse) {
+  rpc SearchAccounts(SearchAccountsRequest) returns (SearchAccountsResponse) {
     option (meshtrade.option.v1.service_type) = SERVICE_TYPE_READ;
-    option (meshtrade.option.v1.required_permissions) = {
-      permissions: ["meshtrade.wallet.account.v1.AccountService.SearchAccounts"]
+    option (meshtrade.option.v1.required_roles) = {
+      roles: [
+        STANDARD_ROLE_WALLET_ADMIN,
+        STANDARD_ROLE_WALLET_VIEWER
+      ]
     };
   }
 }

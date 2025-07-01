@@ -10,6 +10,8 @@
 *.nuget.props
 *.nuget.targets
 
+.claude
+
 # Packages #
 ############
 # it's better to unpack these files and commit the raw source
@@ -97,7 +99,7 @@ jspm_packages/
 public/bundles/ # Symfony
 var/ # Symfony
 vendor/ # Composer dependencies
-/docs/vendor/
+docs/vendor/
 
 # Environment files #
 #####################
@@ -206,4 +208,6 @@ scratch*
 
 .jekyll-cache
 _site
+docs/.jekyll-cache
+docs/_site
 .pytest_cache

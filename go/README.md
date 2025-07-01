@@ -1,8 +1,3 @@
----
-parent: API Integration SDKs
-title: Go
-layout: page
----
+# Go SDK
 
-# Go Mesh API Integration SDKs
-STILL UNDER DEVELOPMENT
+Please find the complete Go SDK documentation here: [docs/pages/go.md](../docs/pages/go.md)
