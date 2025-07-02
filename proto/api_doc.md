@@ -136,6 +136,12 @@
   
     - [SpotService](#meshtrade-trading-spot-v1-SpotService)
   
+- [meshtrade/type/v1/date.proto](#meshtrade_type_v1_date-proto)
+    - [Date](#meshtrade-type-v1-Date)
+  
+- [meshtrade/type/v1/time_of_day.proto](#meshtrade_type_v1_time_of_day-proto)
+    - [TimeOfDay](#meshtrade-type-v1-TimeOfDay)
+  
 - [meshtrade/wallet/account/v1/account.proto](#meshtrade_wallet_account_v1_account-proto)
     - [Account](#meshtrade-wallet-account-v1-Account)
   
@@ -1619,6 +1625,88 @@ as either a read or a write operation.
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
 | GetSpot | [GetSpotRequest](#meshtrade-trading-spot-v1-GetSpotRequest) | [Spot](#meshtrade-trading-spot-v1-Spot) |  |
+
+ 
+
+
+
+<a name="meshtrade_type_v1_date-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/type/v1/date.proto
+
+
+
+<a name="meshtrade-type-v1-Date"></a>
+
+### Date
+Represents a whole or partial calendar date, such as a birthday. The time of
+day and time zone are either specified elsewhere or are insignificant. The
+date is relative to the Gregorian Calendar. This can represent one of the
+following:
+
+* A full date, with non-zero year, month, and day values
+* A month and day value, with a zero year, such as an anniversary
+* A year on its own, with zero month and day values
+* A year and month value, with a zero day, such as a credit card expiration
+date
+
+Related types are [google.type.TimeOfDay][google.type.TimeOfDay] and
+`google.protobuf.Timestamp`.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| year | [int32](#int32) |  | Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. |
+| month | [int32](#int32) |  | Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. |
+| day | [int32](#int32) |  | Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn&#39;t significant. |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="meshtrade_type_v1_time_of_day-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/type/v1/time_of_day.proto
+
+
+
+<a name="meshtrade-type-v1-TimeOfDay"></a>
+
+### TimeOfDay
+Represents a time of day. The date and time zone are either not significant
+or are specified elsewhere. An API may choose to allow leap seconds. Related
+types are [google.type.Date][google.type.Date] and
+`google.protobuf.Timestamp`.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| hours | [int32](#int32) |  | Hours of day in 24 hour format. Should be from 0 to 23. An API may choose to allow the value &#34;24:00:00&#34; for scenarios like business closing time. |
+| minutes | [int32](#int32) |  | Minutes of hour of day. Must be from 0 to 59. |
+| seconds | [int32](#int32) |  | Seconds of minutes of the time. Must normally be from 0 to 59. An API may allow the value 60 if it allows leap-seconds. |
+| nanos | [int32](#int32) |  | Fractions of seconds in nanoseconds. Must be from 0 to 999,999,999. |
+
+
+
+
+
+ 
+
+ 
+
+ 
 
  
 
