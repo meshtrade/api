@@ -2,6 +2,8 @@ package funding
 
 func (m *MetaData) GetExternalTransactionId() string {
 	switch m.GetMetaData().(type) {
+	case *MetaData_DirectEFTMetaData:
+		return m.GetPeachPaymentMetaData().GetExternalTransactionID()
 	case *MetaData_PeachPaymentMetaData:
 		return m.GetPeachPaymentMetaData().GetExternalTransactionID()
 	case *MetaData_PeachSettlementMetaData:
@@ -19,6 +21,26 @@ func (m *MetaData) GetExternalReference() string {
 		return m.GetPeachSettlementMetaData().GetExternalSettlementReference()
 	default:
 		return ""
+	}
+}
+
+func (m *MetaData) IsValid() bool {
+	switch m.GetMetaData().(type) {
+	case *MetaData_DirectEFTMetaData,
+		*MetaData_PeachPaymentMetaData,
+		*MetaData_PeachSettlementMetaData:
+		if m.GetExternalReference() == "" {
+			return false
+		}
+
+		if m.GetExternalTransactionId() == "" {
+			return false
+		}
+
+		return true
+
+	default:
+		return false
 	}
 }
 
