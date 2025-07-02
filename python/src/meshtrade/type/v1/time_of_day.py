@@ -2,11 +2,12 @@
 This module provides helper functions for working with TimeOfDay protobuf messages.
 """
 
-from datetime import datetime, time as python_time, timedelta
-from typing import Optional, Tuple
+from datetime import datetime, timedelta
+from datetime import time as python_time
+from typing import Optional
 
-from .time_of_day_pb2 import TimeOfDay
 from .date_pb2 import Date
+from .time_of_day_pb2 import TimeOfDay
 
 
 def new_time_of_day(hours: int, minutes: int, seconds: int = 0, nanos: int = 0) -> TimeOfDay:
@@ -74,15 +75,15 @@ def new_time_of_day_from_timedelta(delta: timedelta) -> TimeOfDay:
         raise ValueError(f"Timedelta cannot be negative: {delta}")
     if delta.total_seconds() >= 24 * 3600:
         raise ValueError(f"Timedelta cannot be 24 hours or more: {delta}")
-    
+
     total_seconds = int(delta.total_seconds())
     hours = total_seconds // 3600
     minutes = (total_seconds % 3600) // 60
     seconds = total_seconds % 60
-    
+
     # Calculate nanoseconds from microseconds
     nanos = delta.microseconds * 1000
-    
+
     return TimeOfDay(hours=hours, minutes=minutes, seconds=seconds, nanos=nanos)
 
 
@@ -100,14 +101,14 @@ def time_of_day_to_python_time(time_obj: TimeOfDay) -> python_time:
     """
     if not time_obj:
         raise ValueError("TimeOfDay object is None")
-    
+
     if time_obj.hours == 24:
         raise ValueError("Cannot convert 24:00:00 to Python time object")
-    
+
     try:
         return python_time(
             hour=time_obj.hours,
-            minute=time_obj.minutes, 
+            minute=time_obj.minutes,
             second=time_obj.seconds,
             microsecond=time_obj.nanos // 1000  # Convert nanoseconds to microseconds
         )
@@ -126,7 +127,7 @@ def time_of_day_to_timedelta(time_obj: TimeOfDay) -> timedelta:
     """
     if not time_obj:
         return timedelta()
-    
+
     return timedelta(
         hours=time_obj.hours,
         minutes=time_obj.minutes,
@@ -152,13 +153,13 @@ def time_of_day_to_datetime_with_date(time_obj: TimeOfDay, date_obj: Date) -> da
         raise ValueError("TimeOfDay object is None")
     if not date_obj:
         raise ValueError("Date object is None")
-    
+
     # Import here to avoid circular imports
     from .date import is_complete
-    
+
     if not is_complete(date_obj):
         raise ValueError("Date must be complete")
-    
+
     if time_obj.hours == 24:
         # Handle end of day by adding a day and setting time to midnight
         base_datetime = datetime(
@@ -171,7 +172,7 @@ def time_of_day_to_datetime_with_date(time_obj: TimeOfDay, date_obj: Date) -> da
             microsecond=0
         )
         return base_datetime + timedelta(days=1)
-    
+
     try:
         return datetime(
             year=date_obj.year,
@@ -197,7 +198,7 @@ def is_valid(time_obj: Optional[TimeOfDay]) -> bool:
     """
     if not time_obj:
         return False
-    
+
     try:
         _validate_time_of_day(time_obj.hours, time_obj.minutes, time_obj.seconds, time_obj.nanos)
         return True
@@ -216,7 +217,7 @@ def is_midnight(time_obj: Optional[TimeOfDay]) -> bool:
     """
     if not time_obj:
         return False
-    return (time_obj.hours == 0 and time_obj.minutes == 0 and 
+    return (time_obj.hours == 0 and time_obj.minutes == 0 and
             time_obj.seconds == 0 and time_obj.nanos == 0)
 
 
@@ -231,7 +232,7 @@ def is_end_of_day(time_obj: Optional[TimeOfDay]) -> bool:
     """
     if not time_obj:
         return False
-    return (time_obj.hours == 24 and time_obj.minutes == 0 and 
+    return (time_obj.hours == 24 and time_obj.minutes == 0 and
             time_obj.seconds == 0 and time_obj.nanos == 0)
 
 
@@ -246,7 +247,7 @@ def time_of_day_to_string(time_obj: Optional[TimeOfDay]) -> str:
     """
     if not time_obj:
         return "<None>"
-    
+
     if time_obj.nanos == 0:
         return f"{time_obj.hours:02d}:{time_obj.minutes:02d}:{time_obj.seconds:02d}"
     else:
@@ -264,8 +265,8 @@ def total_seconds(time_obj: Optional[TimeOfDay]) -> float:
     """
     if not time_obj:
         return 0.0
-    
-    return (time_obj.hours * 3600 + time_obj.minutes * 60 + 
+
+    return (time_obj.hours * 3600 + time_obj.minutes * 60 +
             time_obj.seconds + time_obj.nanos / 1e9)
 
 
@@ -286,15 +287,15 @@ def _validate_time_of_day(hours: int, minutes: int, seconds: int, nanos: int) ->
         raise ValueError(f"Hours must be between 0 and 24, got {hours}")
     if hours == 24 and (minutes != 0 or seconds != 0 or nanos != 0):
         raise ValueError("When hours is 24, minutes, seconds, and nanos must be 0")
-    
+
     # Minutes validation
     if minutes < 0 or minutes > 59:
         raise ValueError(f"Minutes must be between 0 and 59, got {minutes}")
-    
+
     # Seconds validation (0-59, or 60 for leap seconds if allowed)
     if seconds < 0 or seconds > 60:
         raise ValueError(f"Seconds must be between 0 and 60, got {seconds}")
-    
+
     # Nanos validation
     if nanos < 0 or nanos > 999999999:
         raise ValueError(f"Nanos must be between 0 and 999,999,999, got {nanos}")

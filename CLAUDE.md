@@ -32,6 +32,69 @@ This is the Mesh API repository containing protobuf definitions and multi-langua
 - `cd python && ruff format` - Format Python code
 - `cd python && tox` - Run full test suite with tox
 
+### Python Environment Setup
+
+**CRITICAL**: Python code must run in the virtual environment with proper PYTHONPATH setup:
+
+```bash
+# go to python directory
+cd python
+
+# Setup virtual environment
+python -m venv .venv
+source .venv/bin/activate
+
+# Install dependencies
+pip install -r requirements-dev.txt
+
+# Run tests (required PYTHONPATH)
+PYTHONPATH="./common/python/lib:./common/python/tests" pytest ./common/python/tests -v
+
+# Run linting
+ruff check .
+ruff format .
+```
+
+### Python Linting Standards
+
+**Configuration**: Uses `ruff` with 150-character line limit (see `pyproject.toml`)
+
+**Key Linting Rules**:
+- **E501**: Line length (150 chars max)
+- **E711**: Use `is`/`is not` for None comparisons (never `== None`)
+- **F401**: Remove unused imports OR add proper `__all__` lists to modules
+- **SIM112**: Environment variables must use UPPER_CASE naming
+
+**Best Practices for Line Length**:
+1. Use parentheses for implicit line continuation on function calls
+2. Break long docstrings across multiple lines
+3. Use `# noqa: E501` ONLY for extreme cases (300+ chars) like malformed test data
+4. Break long f-strings using multiple f-string concatenation
+
+**Example Good Line Breaking**:
+```python
+# Good - function call with parentheses
+result = (
+    some_long_function_name_that_exceeds_limit(
+        parameter_one=value,
+        parameter_two=other_value,
+    )
+)
+
+# Good - docstring breaking
+def function():
+    """
+    This is a long docstring that needs to be broken across multiple lines
+    to respect the line length limit while maintaining readability.
+    """
+
+# Good - f-string breaking
+message = (
+    f"This is a long message with {variable_one} and "
+    f"another {variable_two} that spans multiple lines"
+)
+```
+
 #### TypeScript
 - `cd ts && yarn install` - Install dependencies
 - `cd ts && yarn build` - Build TypeScript library

@@ -1,4 +1,4 @@
-from meshtrade.account.v1 import Account
+from meshtrade.wallet.account.v1 import Account
 
 
 def test_account_creation():
