@@ -7,29 +7,29 @@ DESCRIPTOR: _descriptor.FileDescriptor
 class PaymentType(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
     UNDEFINED_PAYMENT_TYPE: _ClassVar[PaymentType]
-    DB: _ClassVar[PaymentType]
-    RG: _ClassVar[PaymentType]
-    PA: _ClassVar[PaymentType]
-    RF: _ClassVar[PaymentType]
-    CP: _ClassVar[PaymentType]
-    RV: _ClassVar[PaymentType]
-    CD: _ClassVar[PaymentType]
-    RB: _ClassVar[PaymentType]
+    DB_PAYMENT_TYPE: _ClassVar[PaymentType]
+    RG_PAYMENT_TYPE: _ClassVar[PaymentType]
+    PA_PAYMENT_TYPE: _ClassVar[PaymentType]
+    RF_PAYMENT_TYPE: _ClassVar[PaymentType]
+    CP_PAYMENT_TYPE: _ClassVar[PaymentType]
+    RV_PAYMENT_TYPE: _ClassVar[PaymentType]
+    CD_PAYMENT_TYPE: _ClassVar[PaymentType]
+    RB_PAYMENT_TYPE: _ClassVar[PaymentType]
 
 class PeachPaymentMethod(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
-    UNDEFINED_PEACH_FUNDING_CATEGORY: _ClassVar[PeachPaymentMethod]
-    PEACH_PAY_BY_BANK: _ClassVar[PeachPaymentMethod]
-    PEACH_PAY_BY_CARD: _ClassVar[PeachPaymentMethod]
+    UNDEFINED_PEACH_PAYMENT_METHOD: _ClassVar[PeachPaymentMethod]
+    PEACH_PAY_BY_BANK_PAYMENT_METHOD: _ClassVar[PeachPaymentMethod]
+    PEACH_PAY_BY_CARD_PAYMENT_METHOD: _ClassVar[PeachPaymentMethod]
 UNDEFINED_PAYMENT_TYPE: PaymentType
-DB: PaymentType
-RG: PaymentType
-PA: PaymentType
-RF: PaymentType
-CP: PaymentType
-RV: PaymentType
-CD: PaymentType
-RB: PaymentType
-UNDEFINED_PEACH_FUNDING_CATEGORY: PeachPaymentMethod
-PEACH_PAY_BY_BANK: PeachPaymentMethod
-PEACH_PAY_BY_CARD: PeachPaymentMethod
+DB_PAYMENT_TYPE: PaymentType
+RG_PAYMENT_TYPE: PaymentType
+PA_PAYMENT_TYPE: PaymentType
+RF_PAYMENT_TYPE: PaymentType
+CP_PAYMENT_TYPE: PaymentType
+RV_PAYMENT_TYPE: PaymentType
+CD_PAYMENT_TYPE: PaymentType
+RB_PAYMENT_TYPE: PaymentType
+UNDEFINED_PEACH_PAYMENT_METHOD: PeachPaymentMethod
+PEACH_PAY_BY_BANK_PAYMENT_METHOD: PeachPaymentMethod
+PEACH_PAY_BY_CARD_PAYMENT_METHOD: PeachPaymentMethod

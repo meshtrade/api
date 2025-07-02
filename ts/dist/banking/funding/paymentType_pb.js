@@ -30,23 +30,23 @@ goog.exportSymbol('proto.api.banking.funding.PeachPaymentMethod', null, global);
  */
 proto.api.banking.funding.PaymentType = {
   UNDEFINED_PAYMENT_TYPE: 0,
-  DB: 1,
-  RG: 2,
-  PA: 3,
-  RF: 4,
-  CP: 5,
-  RV: 6,
-  CD: 7,
-  RB: 8
+  DB_PAYMENT_TYPE: 1,
+  RG_PAYMENT_TYPE: 2,
+  PA_PAYMENT_TYPE: 3,
+  RF_PAYMENT_TYPE: 4,
+  CP_PAYMENT_TYPE: 5,
+  RV_PAYMENT_TYPE: 6,
+  CD_PAYMENT_TYPE: 7,
+  RB_PAYMENT_TYPE: 8
 };
 
 /**
  * @enum {number}
  */
 proto.api.banking.funding.PeachPaymentMethod = {
-  UNDEFINED_PEACH_FUNDING_CATEGORY: 0,
-  PEACH_PAY_BY_BANK: 1,
-  PEACH_PAY_BY_CARD: 2
+  UNDEFINED_PEACH_PAYMENT_METHOD: 0,
+  PEACH_PAY_BY_BANK_PAYMENT_METHOD: 1,
+  PEACH_PAY_BY_CARD_PAYMENT_METHOD: 2
 };
 
 goog.object.extend(exports, proto.api.banking.funding);

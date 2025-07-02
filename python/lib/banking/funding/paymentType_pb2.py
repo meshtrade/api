@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n+api/proto/banking/funding/paymentType.proto\x12\x13\x61pi.banking.funding*i\n\x0bPaymentType\x12\x1a\n\x16UNDEFINED_PAYMENT_TYPE\x10\x00\x12\x06\n\x02\x44\x42\x10\x01\x12\x06\n\x02RG\x10\x02\x12\x06\n\x02PA\x10\x03\x12\x06\n\x02RF\x10\x04\x12\x06\n\x02\x43P\x10\x05\x12\x06\n\x02RV\x10\x06\x12\x06\n\x02\x43\x44\x10\x07\x12\x06\n\x02RB\x10\x08*h\n\x12PeachPaymentMethod\x12$\n UNDEFINED_PEACH_FUNDING_CATEGORY\x10\x00\x12\x15\n\x11PEACH_PAY_BY_BANK\x10\x01\x12\x15\n\x11PEACH_PAY_BY_CARD\x10\x02\x42-Z+github.com/meshtrade/api/go/banking/fundingb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n+api/proto/banking/funding/paymentType.proto\x12\x13\x61pi.banking.funding*\xd1\x01\n\x0bPaymentType\x12\x1a\n\x16UNDEFINED_PAYMENT_TYPE\x10\x00\x12\x13\n\x0f\x44\x42_PAYMENT_TYPE\x10\x01\x12\x13\n\x0fRG_PAYMENT_TYPE\x10\x02\x12\x13\n\x0fPA_PAYMENT_TYPE\x10\x03\x12\x13\n\x0fRF_PAYMENT_TYPE\x10\x04\x12\x13\n\x0f\x43P_PAYMENT_TYPE\x10\x05\x12\x13\n\x0fRV_PAYMENT_TYPE\x10\x06\x12\x13\n\x0f\x43\x44_PAYMENT_TYPE\x10\x07\x12\x13\n\x0fRB_PAYMENT_TYPE\x10\x08*\x84\x01\n\x12PeachPaymentMethod\x12\"\n\x1eUNDEFINED_PEACH_PAYMENT_METHOD\x10\x00\x12$\n PEACH_PAY_BY_BANK_PAYMENT_METHOD\x10\x01\x12$\n PEACH_PAY_BY_CARD_PAYMENT_METHOD\x10\x02\x42-Z+github.com/meshtrade/api/go/banking/fundingb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -32,8 +32,8 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'api.python.lib.banking.fund
 if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'Z+github.com/meshtrade/api/go/banking/funding'
-  _globals['_PAYMENTTYPE']._serialized_start=68
-  _globals['_PAYMENTTYPE']._serialized_end=173
-  _globals['_PEACHPAYMENTMETHOD']._serialized_start=175
-  _globals['_PEACHPAYMENTMETHOD']._serialized_end=279
+  _globals['_PAYMENTTYPE']._serialized_start=69
+  _globals['_PAYMENTTYPE']._serialized_end=278
+  _globals['_PEACHPAYMENTMETHOD']._serialized_start=281
+  _globals['_PEACHPAYMENTMETHOD']._serialized_end=413
 # @@protoc_insertion_point(module_scope)

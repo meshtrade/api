@@ -95,7 +95,7 @@ func (x *PeachPaymentMetaData) GetPeachPaymentMethod() PeachPaymentMethod {
 	if x != nil {
 		return x.PeachPaymentMethod
 	}
-	return PeachPaymentMethod_UNDEFINED_PEACH_FUNDING_CATEGORY
+	return PeachPaymentMethod_UNDEFINED_PEACH_PAYMENT_METHOD
 }
 
 func (x *PeachPaymentMetaData) GetCheckoutId() string {
