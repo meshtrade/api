@@ -29,16 +29,7 @@ func (m *MetaData) IsValid() bool {
 	case *MetaData_DirectEFTMetaData,
 		*MetaData_PeachPaymentMetaData,
 		*MetaData_PeachSettlementMetaData:
-		if m.GetExternalReference() == "" {
-			return false
-		}
-
-		if m.GetExternalTransactionId() == "" {
-			return false
-		}
-
 		return true
-
 	default:
 		return false
 	}
