@@ -28,7 +28,8 @@ function fundingMetaData(fundingMetaData) {
         case fundingOrderMetadata_pb_1.MetaData.MetadataCase.DIRECTEFTMETADATA:
             return new FundingMetaData({
                 checkoutId: "",
-                externalReference: (_p = (_o = fundingMetaData.getDirecteftmetadata()) === null || _o === void 0 ? void 0 : _o.getExternalreference()) !== null && _p !== void 0 ? _p : "",
+                externalReference: (_p = (_o = fundingMetaData
+                    .getDirecteftmetadata()) === null || _o === void 0 ? void 0 : _o.getExternaltransactionreference()) !== null && _p !== void 0 ? _p : "",
                 fee: (_r = (_q = fundingMetaData.getDirecteftmetadata()) === null || _q === void 0 ? void 0 : _q.getFee()) !== null && _r !== void 0 ? _r : new fee_pb_1.Fee(),
                 paymentType: paymentType_pb_1.PaymentType.UNDEFINED_PAYMENT_TYPE,
             });

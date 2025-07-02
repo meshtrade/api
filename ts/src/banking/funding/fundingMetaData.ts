@@ -34,7 +34,9 @@ export function fundingMetaData(fundingMetaData?: MetaData): FundingMetaData {
       return new FundingMetaData({
         checkoutId: "",
         externalReference:
-          fundingMetaData.getDirecteftmetadata()?.getExternalreference() ?? "",
+          fundingMetaData
+            .getDirecteftmetadata()
+            ?.getExternaltransactionreference() ?? "",
         fee: fundingMetaData.getDirecteftmetadata()?.getFee() ?? new Fee(),
         paymentType: PaymentType.UNDEFINED_PAYMENT_TYPE,
       });

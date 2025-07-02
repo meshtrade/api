@@ -11,12 +11,12 @@ import * as api_proto_banking_funding_bankName_pb from "../../banking/funding/ba
 import * as api_proto_banking_funding_fee_pb from "../../banking/funding/fee_pb";
 
 export class DirectEFTMetaData extends jspb.Message { 
-    getExternalreference(): string;
-    setExternalreference(value: string): DirectEFTMetaData;
+    getExternaltransactionid(): string;
+    setExternaltransactionid(value: string): DirectEFTMetaData;
     getBankname(): api_proto_banking_funding_bankName_pb.BankName;
     setBankname(value: api_proto_banking_funding_bankName_pb.BankName): DirectEFTMetaData;
-    getBankreference(): string;
-    setBankreference(value: string): DirectEFTMetaData;
+    getExternaltransactionreference(): string;
+    setExternaltransactionreference(value: string): DirectEFTMetaData;
 
     hasFee(): boolean;
     clearFee(): void;
@@ -35,9 +35,9 @@ export class DirectEFTMetaData extends jspb.Message {
 
 export namespace DirectEFTMetaData {
     export type AsObject = {
-        externalreference: string,
+        externaltransactionid: string,
         bankname: api_proto_banking_funding_bankName_pb.BankName,
-        bankreference: string,
+        externaltransactionreference: string,
         fee?: api_proto_banking_funding_fee_pb.Fee.AsObject,
     }
 }

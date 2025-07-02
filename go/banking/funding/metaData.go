@@ -15,6 +15,8 @@ func (m *MetaData) GetExternalTransactionId() string {
 
 func (m *MetaData) GetExternalReference() string {
 	switch m.GetMetaData().(type) {
+	case *MetaData_DirectEFTMetaData:
+		return m.GetPeachPaymentMetaData().GetExternalReference()
 	case *MetaData_PeachPaymentMetaData:
 		return m.GetPeachPaymentMetaData().GetExternalReference()
 	case *MetaData_PeachSettlementMetaData:
@@ -37,10 +39,10 @@ func (m *MetaData) IsValid() bool {
 
 func (m *PeachPaymentMetaData) GetPaymentMethod() string {
 	switch m.GetPeachPaymentMethod() {
-	case PeachPaymentMethod_PEACH_PAY_BY_BANK:
+	case PeachPaymentMethod_PEACH_PAY_BY_BANK_PAYMENT_METHOD:
 		return "PAYBYBANK"
 
-	case PeachPaymentMethod_PEACH_PAY_BY_CARD:
+	case PeachPaymentMethod_PEACH_PAY_BY_CARD_PAYMENT_METHOD:
 		return "CARD"
 
 	default:

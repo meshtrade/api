@@ -12,8 +12,8 @@ import "api/proto/banking/funding/fee.proto";
 @bson-marshalled
  */
 message DirectEFTMetaData {
-  string externalReference = 1;
+  string externalTransactionID = 1;
   api.banking.funding.BankName bankName = 2;
-  string bankReference = 3;
+  string externalTransactionReference = 3;
   api.banking.funding.Fee fee = 4;
 }

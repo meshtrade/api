@@ -7,13 +7,13 @@ from typing import ClassVar as _ClassVar, Mapping as _Mapping, Optional as _Opti
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class DirectEFTMetaData(_message.Message):
-    __slots__ = ("externalReference", "bankName", "bankReference", "fee")
-    EXTERNALREFERENCE_FIELD_NUMBER: _ClassVar[int]
+    __slots__ = ("externalTransactionID", "bankName", "externalTransactionReference", "fee")
+    EXTERNALTRANSACTIONID_FIELD_NUMBER: _ClassVar[int]
     BANKNAME_FIELD_NUMBER: _ClassVar[int]
-    BANKREFERENCE_FIELD_NUMBER: _ClassVar[int]
+    EXTERNALTRANSACTIONREFERENCE_FIELD_NUMBER: _ClassVar[int]
     FEE_FIELD_NUMBER: _ClassVar[int]
-    externalReference: str
+    externalTransactionID: str
     bankName: _bankName_pb2.BankName
-    bankReference: str
+    externalTransactionReference: str
     fee: _fee_pb2.Fee
-    def __init__(self, externalReference: _Optional[str] = ..., bankName: _Optional[_Union[_bankName_pb2.BankName, str]] = ..., bankReference: _Optional[str] = ..., fee: _Optional[_Union[_fee_pb2.Fee, _Mapping]] = ...) -> None: ...
+    def __init__(self, externalTransactionID: _Optional[str] = ..., bankName: _Optional[_Union[_bankName_pb2.BankName, str]] = ..., externalTransactionReference: _Optional[str] = ..., fee: _Optional[_Union[_fee_pb2.Fee, _Mapping]] = ...) -> None: ...

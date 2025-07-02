@@ -79,9 +79,9 @@ proto.api.banking.funding.DirectEFTMetaData.prototype.toObject = function(opt_in
  */
 proto.api.banking.funding.DirectEFTMetaData.toObject = function(includeInstance, msg) {
   var f, obj = {
-externalreference: jspb.Message.getFieldWithDefault(msg, 1, ""),
+externaltransactionid: jspb.Message.getFieldWithDefault(msg, 1, ""),
 bankname: jspb.Message.getFieldWithDefault(msg, 2, 0),
-bankreference: jspb.Message.getFieldWithDefault(msg, 3, ""),
+externaltransactionreference: jspb.Message.getFieldWithDefault(msg, 3, ""),
 fee: (f = msg.getFee()) && api_proto_banking_funding_fee_pb.Fee.toObject(includeInstance, f)
   };
 
@@ -121,7 +121,7 @@ proto.api.banking.funding.DirectEFTMetaData.deserializeBinaryFromReader = functi
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.setExternalreference(value);
+      msg.setExternaltransactionid(value);
       break;
     case 2:
       var value = /** @type {!proto.api.banking.funding.BankName} */ (reader.readEnum());
@@ -129,7 +129,7 @@ proto.api.banking.funding.DirectEFTMetaData.deserializeBinaryFromReader = functi
       break;
     case 3:
       var value = /** @type {string} */ (reader.readString());
-      msg.setBankreference(value);
+      msg.setExternaltransactionreference(value);
       break;
     case 4:
       var value = new api_proto_banking_funding_fee_pb.Fee;
@@ -165,7 +165,7 @@ proto.api.banking.funding.DirectEFTMetaData.prototype.serializeBinary = function
  */
 proto.api.banking.funding.DirectEFTMetaData.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getExternalreference();
+  f = message.getExternaltransactionid();
   if (f.length > 0) {
     writer.writeString(
       1,
@@ -179,7 +179,7 @@ proto.api.banking.funding.DirectEFTMetaData.serializeBinaryToWriter = function(m
       f
     );
   }
-  f = message.getBankreference();
+  f = message.getExternaltransactionreference();
   if (f.length > 0) {
     writer.writeString(
       3,
@@ -198,10 +198,10 @@ proto.api.banking.funding.DirectEFTMetaData.serializeBinaryToWriter = function(m
 
 
 /**
- * optional string externalReference = 1;
+ * optional string externalTransactionID = 1;
  * @return {string}
  */
-proto.api.banking.funding.DirectEFTMetaData.prototype.getExternalreference = function() {
+proto.api.banking.funding.DirectEFTMetaData.prototype.getExternaltransactionid = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
@@ -210,7 +210,7 @@ proto.api.banking.funding.DirectEFTMetaData.prototype.getExternalreference = fun
  * @param {string} value
  * @return {!proto.api.banking.funding.DirectEFTMetaData} returns this
  */
-proto.api.banking.funding.DirectEFTMetaData.prototype.setExternalreference = function(value) {
+proto.api.banking.funding.DirectEFTMetaData.prototype.setExternaltransactionid = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -234,10 +234,10 @@ proto.api.banking.funding.DirectEFTMetaData.prototype.setBankname = function(val
 
 
 /**
- * optional string bankReference = 3;
+ * optional string externalTransactionReference = 3;
  * @return {string}
  */
-proto.api.banking.funding.DirectEFTMetaData.prototype.getBankreference = function() {
+proto.api.banking.funding.DirectEFTMetaData.prototype.getExternaltransactionreference = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
@@ -246,7 +246,7 @@ proto.api.banking.funding.DirectEFTMetaData.prototype.getBankreference = functio
  * @param {string} value
  * @return {!proto.api.banking.funding.DirectEFTMetaData} returns this
  */
-proto.api.banking.funding.DirectEFTMetaData.prototype.setBankreference = function(value) {
+proto.api.banking.funding.DirectEFTMetaData.prototype.setExternaltransactionreference = function(value) {
   return jspb.Message.setProto3StringField(this, 3, value);
 };
 
