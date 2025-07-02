@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package api.banking.funding;
+
+option go_package = "github.com/meshtrade/api/go/banking/funding";
+
+enum StandardPeachAccountLabel {
+  // The default, unspecified value. This should be treated as an error
+  // or an uninitialized state.
+  ACCOUNT_LABEL_UNSPECIFIED = 0;
+
+  // Represents a fee-related account for Peach Payments.
+  PEACH_FEE_ACCOUNT_STANDARD_LABEL = 1;
+
+  // Represents a settlement account for Peach Payments.
+  PEACH_SETTLEMENT_ACCOUNT_STANDARD_LABEL = 2;
+
+  // Represents a float account for Peach Payments.
+  PEACH_FLOAT_ACCOUNT_STANDARD_LABEL = 3;
+}
