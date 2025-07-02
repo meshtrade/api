@@ -15,8 +15,6 @@ const (
 	StringsPackage    = protogen.GoImportPath("strings")
 	SlogPackage       = protogen.GoImportPath("log/slog")
 	Base64Package     = protogen.GoImportPath("encoding/base64")
-	// Mesh-API packages
-	RolePkg = protogen.GoImportPath("github.com/meshtrade/api/go/iam/role/v1")
 	// External packages
 	TracingPkg         = protogen.GoImportPath("go.opentelemetry.io/otel/trace")
 	GRPCPkg            = protogen.GoImportPath("google.golang.org/grpc")

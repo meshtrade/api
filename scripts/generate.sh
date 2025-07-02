@@ -18,9 +18,7 @@ find ./go \
 echo
 
 echo "🧹 Cleaning Python generated files..."
-find ./python/src/meshtrade \
-  \( -name '*_pb2*.py*' \) \
-  -print0 | xargs -0 -P 4 -n 1 rm $VERBOSE_FLAG
+find ./python/src/meshtrade -type f \( -name '*_pb2_grpc.py' -o -name '*_pb2.py' -o -name '*_pb2.pyi' \) -print0 | xargs -0 -r -P 4 rm $VERBOSE_FLAG
 echo
 
 echo "🧹 Cleaning Js + Ts generated files..."
