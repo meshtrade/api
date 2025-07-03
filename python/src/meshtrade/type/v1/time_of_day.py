@@ -4,7 +4,6 @@ This module provides helper functions for working with TimeOfDay protobuf messag
 
 from datetime import datetime, timedelta
 from datetime import time as python_time
-from typing import Optional
 
 from .date_pb2 import Date
 from .time_of_day_pb2 import TimeOfDay
@@ -187,7 +186,7 @@ def time_of_day_to_datetime_with_date(time_obj: TimeOfDay, date_obj: Date) -> da
         raise ValueError(f"Invalid datetime values: {e}")
 
 
-def is_valid(time_obj: Optional[TimeOfDay]) -> bool:
+def is_valid(time_obj: TimeOfDay | None) -> bool:
     """Checks if a TimeOfDay has valid values according to the protobuf constraints.
     
     Args:
@@ -206,7 +205,7 @@ def is_valid(time_obj: Optional[TimeOfDay]) -> bool:
         return False
 
 
-def is_midnight(time_obj: Optional[TimeOfDay]) -> bool:
+def is_midnight(time_obj: TimeOfDay | None) -> bool:
     """Returns True if the time represents midnight (00:00:00.000000000).
     
     Args:
@@ -221,7 +220,7 @@ def is_midnight(time_obj: Optional[TimeOfDay]) -> bool:
             time_obj.seconds == 0 and time_obj.nanos == 0)
 
 
-def is_end_of_day(time_obj: Optional[TimeOfDay]) -> bool:
+def is_end_of_day(time_obj: TimeOfDay | None) -> bool:
     """Returns True if the time represents 24:00:00 (end of day).
     
     Args:
@@ -236,7 +235,7 @@ def is_end_of_day(time_obj: Optional[TimeOfDay]) -> bool:
             time_obj.seconds == 0 and time_obj.nanos == 0)
 
 
-def time_of_day_to_string(time_obj: Optional[TimeOfDay]) -> str:
+def time_of_day_to_string(time_obj: TimeOfDay | None) -> str:
     """Returns a string representation of the time in HH:MM:SS.nnnnnnnnn format.
     
     Args:
@@ -254,7 +253,7 @@ def time_of_day_to_string(time_obj: Optional[TimeOfDay]) -> str:
         return f"{time_obj.hours:02d}:{time_obj.minutes:02d}:{time_obj.seconds:02d}.{time_obj.nanos:09d}"
 
 
-def total_seconds(time_obj: Optional[TimeOfDay]) -> float:
+def total_seconds(time_obj: TimeOfDay | None) -> float:
     """Returns the total number of seconds since midnight as a float.
     
     Args:

@@ -1,7 +1,19 @@
 from .account_pb2 import Account
-from .service_pb2 import AccountService
+from .service_pb2 import (
+    CreateAccountRequest,
+    GetAccountRequest,
+    ListAccountsRequest,
+    ListAccountsResponse,
+    SearchAccountsRequest,
+    SearchAccountsResponse,
+)
 
 __all__ = [
     "Account",
-    "AccountService",
+    "CreateAccountRequest",
+    "GetAccountRequest",
+    "ListAccountsRequest",
+    "ListAccountsResponse",
+    "SearchAccountsRequest",
+    "SearchAccountsResponse",
 ]

@@ -7,7 +7,6 @@
 package accountv1
 
 import (
-	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	_ "github.com/meshtrade/api/go/option/v1"
 	v1 "github.com/meshtrade/api/go/type/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -314,18 +313,18 @@ var File_meshtrade_wallet_account_v1_service_proto protoreflect.FileDescriptor
 
 const file_meshtrade_wallet_account_v1_service_proto_rawDesc = "" +
 	"\n" +
-	")meshtrade/wallet/account/v1/service.proto\x12\x1bmeshtrade.wallet.account.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1emeshtrade/option/v1/auth.proto\x1a&meshtrade/option/v1/service_type.proto\x1a\x1emeshtrade/type/v1/ledger.proto\x1a)meshtrade/wallet/account/v1/account.proto\"\x8b\x01\n" +
-	"\x14CreateAccountRequest\x12\"\n" +
-	"\x05label\x18\x01 \x01(\tB\f\xbaH\t\xc8\x01\x01r\x04\x10\x03\x182R\x05label\x12;\n" +
-	"\x06ledger\x18\x02 \x01(\x0e2\x19.meshtrade.type.v1.LedgerB\b\xbaH\x05\x82\x01\x02\x10\x01R\x06ledger\x12\x12\n" +
-	"\x04open\x18\x03 \x01(\bR\x04open\"8\n" +
-	"\x11GetAccountRequest\x12#\n" +
-	"\x06number\x18\x01 \x01(\tB\v\xbaH\b\xc8\x01\x01r\x03\x98\x01\aR\x06number\"\x15\n" +
+	")meshtrade/wallet/account/v1/service.proto\x12\x1bmeshtrade.wallet.account.v1\x1a\x1emeshtrade/option/v1/auth.proto\x1a&meshtrade/option/v1/service_type.proto\x1a\x1emeshtrade/type/v1/ledger.proto\x1a)meshtrade/wallet/account/v1/account.proto\"s\n" +
+	"\x14CreateAccountRequest\x12\x14\n" +
+	"\x05label\x18\x01 \x01(\tR\x05label\x121\n" +
+	"\x06ledger\x18\x02 \x01(\x0e2\x19.meshtrade.type.v1.LedgerR\x06ledger\x12\x12\n" +
+	"\x04open\x18\x03 \x01(\bR\x04open\"+\n" +
+	"\x11GetAccountRequest\x12\x16\n" +
+	"\x06number\x18\x01 \x01(\tR\x06number\"\x15\n" +
 	"\x13ListAccountsRequest\"X\n" +
 	"\x14ListAccountsResponse\x12@\n" +
-	"\baccounts\x18\x01 \x03(\v2$.meshtrade.wallet.account.v1.AccountR\baccounts\";\n" +
-	"\x15SearchAccountsRequest\x12\"\n" +
-	"\x05label\x18\x01 \x01(\tB\f\xbaH\t\xc8\x01\x00r\x04\x10\x03\x182R\x05label\"Z\n" +
+	"\baccounts\x18\x01 \x03(\v2$.meshtrade.wallet.account.v1.AccountR\baccounts\"-\n" +
+	"\x15SearchAccountsRequest\x12\x14\n" +
+	"\x05label\x18\x01 \x01(\tR\x05label\"Z\n" +
 	"\x16SearchAccountsResponse\x12@\n" +
 	"\baccounts\x18\x01 \x03(\v2$.meshtrade.wallet.account.v1.AccountR\baccounts2\x87\x04\n" +
 	"\x0eAccountService\x12u\n" +

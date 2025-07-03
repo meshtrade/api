@@ -1,7 +1,11 @@
 from .instrument_pb2 import Instrument
-from .service_pb2 import InstrumentService
+from .service_pb2 import BurnInstrumentRequest, BurnInstrumentResponse, GetInstrumentRequest, MintInstrumentRequest, MintInstrumentResponse
 
 __all__ = [
     "Instrument",
-    "InstrumentService",
+    "GetInstrumentRequest",
+    "MintInstrumentRequest",
+    "MintInstrumentResponse",
+    "BurnInstrumentRequest",
+    "BurnInstrumentResponse",
 ]
