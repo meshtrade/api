@@ -23,6 +23,8 @@ from .date import (
     is_before,
     is_after,
     is_equal,
+    is_before_or_equal,
+    is_after_or_equal,
     add_days,
     add_months,
     add_years,

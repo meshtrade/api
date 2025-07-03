@@ -2,8 +2,8 @@
 This module provides helper functions for working with Date protobuf messages.
 """
 
-from datetime import date as python_date
 from typing import Optional
+from datetime import date as python_date
 
 from .date_pb2 import Date
 
@@ -246,6 +246,38 @@ def is_equal(date1: Optional[Date], date2: Optional[Date]) -> bool:
     return (date1.year == date2.year and 
             date1.month == date2.month and 
             date1.day == date2.day)
+
+
+def is_before_or_equal(date1: Optional[Date], date2: Optional[Date]) -> bool:
+    """Returns True if date1 is before or equal to date2.
+    
+    Args:
+        date1: First Date protobuf message or None
+        date2: Second Date protobuf message or None
+        
+    Returns:
+        True if date1 is before or equal to date2, False otherwise
+        
+    Raises:
+        ValueError: If either date is None or incomplete
+    """
+    return is_before(date1, date2) or is_equal(date1, date2)
+
+
+def is_after_or_equal(date1: Optional[Date], date2: Optional[Date]) -> bool:
+    """Returns True if date1 is after or equal to date2.
+    
+    Args:
+        date1: First Date protobuf message or None
+        date2: Second Date protobuf message or None
+        
+    Returns:
+        True if date1 is after or equal to date2, False otherwise
+        
+    Raises:
+        ValueError: If either date is None or incomplete
+    """
+    return is_after(date1, date2) or is_equal(date1, date2)
 
 
 def add_days(date_obj: Date, days: int) -> Date:
