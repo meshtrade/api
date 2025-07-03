@@ -165,6 +165,89 @@ def date_to_string(date_obj: Optional[Date]) -> str:
         return f"Date(year={date_obj.year}, month={date_obj.month}, day={date_obj.day})"
 
 
+def is_before(date1: Optional[Date], date2: Optional[Date]) -> bool:
+    """Returns True if date1 is before date2.
+    
+    Args:
+        date1: First Date protobuf message or None
+        date2: Second Date protobuf message or None
+        
+    Returns:
+        True if date1 is before date2, False otherwise
+        
+    Raises:
+        ValueError: If either date is None or incomplete
+    """
+    if not date1 or not date2:
+        raise ValueError("Both dates must be provided")
+    
+    if not is_complete(date1) or not is_complete(date2):
+        raise ValueError("Both dates must be complete for comparison")
+    
+    # Compare year first
+    if date1.year != date2.year:
+        return date1.year < date2.year
+    
+    # Compare month if years are equal
+    if date1.month != date2.month:
+        return date1.month < date2.month
+    
+    # Compare day if years and months are equal
+    return date1.day < date2.day
+
+
+def is_after(date1: Optional[Date], date2: Optional[Date]) -> bool:
+    """Returns True if date1 is after date2.
+    
+    Args:
+        date1: First Date protobuf message or None
+        date2: Second Date protobuf message or None
+        
+    Returns:
+        True if date1 is after date2, False otherwise
+        
+    Raises:
+        ValueError: If either date is None or incomplete
+    """
+    if not date1 or not date2:
+        raise ValueError("Both dates must be provided")
+    
+    if not is_complete(date1) or not is_complete(date2):
+        raise ValueError("Both dates must be complete for comparison")
+    
+    # Compare year first
+    if date1.year != date2.year:
+        return date1.year > date2.year
+    
+    # Compare month if years are equal
+    if date1.month != date2.month:
+        return date1.month > date2.month
+    
+    # Compare day if years and months are equal
+    return date1.day > date2.day
+
+
+def is_equal(date1: Optional[Date], date2: Optional[Date]) -> bool:
+    """Returns True if date1 is equal to date2.
+    
+    Args:
+        date1: First Date protobuf message or None
+        date2: Second Date protobuf message or None
+        
+    Returns:
+        True if date1 is equal to date2, False otherwise
+    """
+    if not date1 and not date2:
+        return True
+    
+    if not date1 or not date2:
+        return False
+    
+    return (date1.year == date2.year and 
+            date1.month == date2.month and 
+            date1.day == date2.day)
+
+
 def _validate_date(year: int, month: int, day: int) -> None:
     """Validates the year, month, and day values according to Date constraints.
     
