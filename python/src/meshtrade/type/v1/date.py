@@ -248,6 +248,101 @@ def is_equal(date1: Optional[Date], date2: Optional[Date]) -> bool:
             date1.day == date2.day)
 
 
+def add_days(date_obj: Date, days: int) -> Date:
+    """Adds a specified number of days to a date.
+    
+    Args:
+        date_obj: A Date protobuf message
+        days: Number of days to add (can be negative to subtract)
+        
+    Returns:
+        A new Date protobuf message with the days added
+        
+    Raises:
+        ValueError: If the date is None or incomplete
+    """
+    if not date_obj:
+        raise ValueError("Date object is None")
+    
+    if not is_complete(date_obj):
+        raise ValueError("Date must be complete to add days")
+    
+    # Convert to Python date, add days, then convert back
+    py_date = date_to_python_date(date_obj)
+    from datetime import timedelta
+    new_py_date = py_date + timedelta(days=days)
+    
+    return new_date_from_python_date(new_py_date)
+
+
+def add_months(date_obj: Date, months: int) -> Date:
+    """Adds a specified number of months to a date.
+    
+    Args:
+        date_obj: A Date protobuf message
+        months: Number of months to add (can be negative to subtract)
+        
+    Returns:
+        A new Date protobuf message with the months added
+        
+    Raises:
+        ValueError: If the date is None or incomplete, or if the result is invalid
+    """
+    if not date_obj:
+        raise ValueError("Date object is None")
+    
+    if not is_complete(date_obj):
+        raise ValueError("Date must be complete to add months")
+    
+    # Calculate new year and month
+    total_months = date_obj.year * 12 + date_obj.month - 1 + months
+    new_year = total_months // 12
+    new_month = (total_months % 12) + 1
+    
+    # Handle day overflow (e.g., Jan 31 + 1 month should be Feb 28/29)
+    new_day = date_obj.day
+    
+    # Check if the day is valid for the new month
+    import calendar
+    max_day = calendar.monthrange(new_year, new_month)[1]
+    if new_day > max_day:
+        new_day = max_day
+    
+    return new_date(new_year, new_month, new_day)
+
+
+def add_years(date_obj: Date, years: int) -> Date:
+    """Adds a specified number of years to a date.
+    
+    Args:
+        date_obj: A Date protobuf message
+        years: Number of years to add (can be negative to subtract)
+        
+    Returns:
+        A new Date protobuf message with the years added
+        
+    Raises:
+        ValueError: If the date is None or incomplete, or if the result is invalid
+    """
+    if not date_obj:
+        raise ValueError("Date object is None")
+    
+    if not is_complete(date_obj):
+        raise ValueError("Date must be complete to add years")
+    
+    new_year = date_obj.year + years
+    new_month = date_obj.month
+    new_day = date_obj.day
+    
+    # Handle leap year edge case (Feb 29 + 1 year when next year is not leap)
+    if new_month == 2 and new_day == 29:
+        import calendar
+        if not calendar.isleap(new_year):
+            new_day = 28
+    
+    return new_date(new_year, new_month, new_day)
+
+
 def _validate_date(year: int, month: int, day: int) -> None:
     """Validates the year, month, and day values according to Date constraints.
     

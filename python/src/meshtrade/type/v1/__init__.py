@@ -23,6 +23,9 @@ from .date import (
     is_before,
     is_after,
     is_equal,
+    add_days,
+    add_months,
+    add_years,
 )
 
 # Decimal types and utilities
