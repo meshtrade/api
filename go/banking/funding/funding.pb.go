@@ -138,52 +138,6 @@ func (FundingOrigin) EnumDescriptor() ([]byte, []int) {
 	return file_api_proto_banking_funding_funding_proto_rawDescGZIP(), []int{1}
 }
 
-type FundingAction int32
-
-const (
-	FundingAction_DO_NOTHING_FUNDING_ACTION         FundingAction = 0
-	FundingAction_MARK_AWAITING_CONFIRMATION_ACTION FundingAction = 2
-)
-
-// Enum value maps for FundingAction.
-var (
-	FundingAction_name = map[int32]string{
-		0: "DO_NOTHING_FUNDING_ACTION",
-		2: "MARK_AWAITING_CONFIRMATION_ACTION",
-	}
-	FundingAction_value = map[string]int32{
-		"DO_NOTHING_FUNDING_ACTION":         0,
-		"MARK_AWAITING_CONFIRMATION_ACTION": 2,
-	}
-)
-
-func (x FundingAction) Enum() *FundingAction {
-	p := new(FundingAction)
-	*p = x
-	return p
-}
-
-func (x FundingAction) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (FundingAction) Descriptor() protoreflect.EnumDescriptor {
-	return file_api_proto_banking_funding_funding_proto_enumTypes[2].Descriptor()
-}
-
-func (FundingAction) Type() protoreflect.EnumType {
-	return &file_api_proto_banking_funding_funding_proto_enumTypes[2]
-}
-
-func (x FundingAction) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use FundingAction.Descriptor instead.
-func (FundingAction) EnumDescriptor() ([]byte, []int) {
-	return file_api_proto_banking_funding_funding_proto_rawDescGZIP(), []int{2}
-}
-
 // Api Funding
 //
 // @bson-marshalled
@@ -364,16 +318,11 @@ var file_api_proto_banking_funding_funding_proto_rawDesc = []byte{
 	0x00, 0x12, 0x0e, 0x0a, 0x0a, 0x44, 0x49, 0x52, 0x45, 0x43, 0x54, 0x5f, 0x45, 0x46, 0x54, 0x10,
 	0x01, 0x12, 0x14, 0x0a, 0x10, 0x50, 0x45, 0x41, 0x43, 0x48, 0x5f, 0x53, 0x45, 0x54, 0x54, 0x4c,
 	0x45, 0x4d, 0x45, 0x4e, 0x54, 0x10, 0x02, 0x12, 0x11, 0x0a, 0x0d, 0x50, 0x45, 0x41, 0x43, 0x48,
-	0x5f, 0x50, 0x41, 0x59, 0x4d, 0x45, 0x4e, 0x54, 0x10, 0x03, 0x2a, 0x55, 0x0a, 0x0d, 0x46, 0x75,
-	0x6e, 0x64, 0x69, 0x6e, 0x67, 0x41, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x1d, 0x0a, 0x19, 0x44,
-	0x4f, 0x5f, 0x4e, 0x4f, 0x54, 0x48, 0x49, 0x4e, 0x47, 0x5f, 0x46, 0x55, 0x4e, 0x44, 0x49, 0x4e,
-	0x47, 0x5f, 0x41, 0x43, 0x54, 0x49, 0x4f, 0x4e, 0x10, 0x00, 0x12, 0x25, 0x0a, 0x21, 0x4d, 0x41,
-	0x52, 0x4b, 0x5f, 0x41, 0x57, 0x41, 0x49, 0x54, 0x49, 0x4e, 0x47, 0x5f, 0x43, 0x4f, 0x4e, 0x46,
-	0x49, 0x52, 0x4d, 0x41, 0x54, 0x49, 0x4f, 0x4e, 0x5f, 0x41, 0x43, 0x54, 0x49, 0x4f, 0x4e, 0x10,
-	0x02, 0x42, 0x2d, 0x5a, 0x2b, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f,
-	0x6d, 0x65, 0x73, 0x68, 0x74, 0x72, 0x61, 0x64, 0x65, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x67, 0x6f,
-	0x2f, 0x62, 0x61, 0x6e, 0x6b, 0x69, 0x6e, 0x67, 0x2f, 0x66, 0x75, 0x6e, 0x64, 0x69, 0x6e, 0x67,
-	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x5f, 0x50, 0x41, 0x59, 0x4d, 0x45, 0x4e, 0x54, 0x10, 0x03, 0x42, 0x2d, 0x5a, 0x2b, 0x67, 0x69,
+	0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x6d, 0x65, 0x73, 0x68, 0x74, 0x72, 0x61,
+	0x64, 0x65, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x67, 0x6f, 0x2f, 0x62, 0x61, 0x6e, 0x6b, 0x69, 0x6e,
+	0x67, 0x2f, 0x66, 0x75, 0x6e, 0x64, 0x69, 0x6e, 0x67, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x33,
 }
 
 var (
@@ -388,23 +337,22 @@ func file_api_proto_banking_funding_funding_proto_rawDescGZIP() []byte {
 	return file_api_proto_banking_funding_funding_proto_rawDescData
 }
 
-var file_api_proto_banking_funding_funding_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
+var file_api_proto_banking_funding_funding_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_api_proto_banking_funding_funding_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_api_proto_banking_funding_funding_proto_goTypes = []interface{}{
 	(FundingState)(0),             // 0: api.banking.funding.FundingState
 	(FundingOrigin)(0),            // 1: api.banking.funding.FundingOrigin
-	(FundingAction)(0),            // 2: api.banking.funding.FundingAction
-	(*Funding)(nil),               // 3: api.banking.funding.Funding
-	(*ledger.Amount)(nil),         // 4: api.ledger.Amount
-	(*MetaData)(nil),              // 5: api.banking.funding.MetaData
-	(*timestamppb.Timestamp)(nil), // 6: google.protobuf.Timestamp
+	(*Funding)(nil),               // 2: api.banking.funding.Funding
+	(*ledger.Amount)(nil),         // 3: api.ledger.Amount
+	(*MetaData)(nil),              // 4: api.banking.funding.MetaData
+	(*timestamppb.Timestamp)(nil), // 5: google.protobuf.Timestamp
 }
 var file_api_proto_banking_funding_funding_proto_depIdxs = []int32{
-	4, // 0: api.banking.funding.Funding.amount:type_name -> api.ledger.Amount
+	3, // 0: api.banking.funding.Funding.amount:type_name -> api.ledger.Amount
 	1, // 1: api.banking.funding.Funding.fundingOrigin:type_name -> api.banking.funding.FundingOrigin
-	5, // 2: api.banking.funding.Funding.metaData:type_name -> api.banking.funding.MetaData
+	4, // 2: api.banking.funding.Funding.metaData:type_name -> api.banking.funding.MetaData
 	0, // 3: api.banking.funding.Funding.state:type_name -> api.banking.funding.FundingState
-	6, // 4: api.banking.funding.Funding.valueDate:type_name -> google.protobuf.Timestamp
+	5, // 4: api.banking.funding.Funding.valueDate:type_name -> google.protobuf.Timestamp
 	5, // [5:5] is the sub-list for method output_type
 	5, // [5:5] is the sub-list for method input_type
 	5, // [5:5] is the sub-list for extension type_name
@@ -437,7 +385,7 @@ func file_api_proto_banking_funding_funding_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_api_proto_banking_funding_funding_proto_rawDesc,
-			NumEnums:      3,
+			NumEnums:      2,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
