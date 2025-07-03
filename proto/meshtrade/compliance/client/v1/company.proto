@@ -1,0 +1,219 @@
+syntax = "proto3";
+
+package meshtrade.compliance.client.v1;
+
+import "google/type/date.proto";
+import "meshtrade/compliance/client/v1/company_representative.proto";
+import "meshtrade/compliance/client/v1/fund.proto";
+import "meshtrade/compliance/client/v1/industry_classification.proto";
+import "meshtrade/compliance/client/v1/natural_person.proto";
+import "meshtrade/compliance/client/v1/trust.proto";
+import "meshtrade/type/v1/address.proto";
+import "meshtrade/type/v1/decimal.proto";
+
+option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
+
+/*
+   Defines a legal company entity. It contains the core, verifiable components of a company's
+   identity required for Know Your Business (KYB) compliance checks.
+   Fields essential for verification are noted but are not strictly mandatory for creating the record.
+*/
+message Company {
+  /*
+     The official, registered name of the company as it appears in its articles of incorporation.
+     Required for verification.
+  */
+  string registered_name = 1;
+
+  /*
+     The unique number assigned by the relevant companies registry upon incorporation.
+     Examples: UK Companies House number, NL KVK-nummer, US EIN.
+     Required for verification.
+  */
+  string registration_number = 3;
+
+  /*
+     The primary tax identifier for the company.
+     Examples: VAT number in the EU, TIN in the US.
+  */
+  string tax_identifier = 4;
+
+  /*
+     The ISO 3166-1 alpha-2 country code where the company was incorporated (e.g., "ZA", "NL").
+     The value must be the uppercase, two-letter code.
+     See: https://www.iso.org/iso-3166-country-codes.html
+     Required for verification.
+  */
+  string country_of_incorporation = 5;
+
+  /*
+     The date on which the company was incorporated.
+     Required for verification.
+  */
+  google.type.Date date_of_incorporation = 6;
+
+  /*
+     The official, legal address of the entity as recorded with the incorporation registry.
+     This is the primary address used for verification.
+     Required for verification.
+  */
+  meshtrade.type.v1.Address registered_address = 7;
+
+  /*
+     The main physical location where the business conducts its operations.
+     Provide only if different from the registered address.
+  */
+  meshtrade.type.v1.Address principal_physical_address = 8;
+
+  /*
+     The address designated for receiving mail and correspondence.
+     Provide only if different from the registered address.
+  */
+  meshtrade.type.v1.Address postal_address = 9;
+
+  /*
+     The address of the company's head office.
+     Provide only if different from the registered and principal physical addresses.
+  */
+  meshtrade.type.v1.Address head_office_address = 10;
+
+  /*
+     A list of individuals empowered to act on behalf of the company (e.g., Directors, CEO).
+     This field defines who has operational control and representation rights.
+     Required for verification.
+  */
+  repeated meshtrade.compliance.client.v1.CompanyRepresentative company_representatives = 11;
+
+  /*
+     A list of all other legal persons (companies, trusts, etc.) in the ownership structure.
+     This is used to perform recursive KYB checks and map the full ownership hierarchy.
+     IMPORTANT: Only add legal persons here if they are NOT already clients on the Mesh platform.
+     Required for verification if the ownership structure includes off-platform entities.
+  */
+  repeated meshtrade.compliance.client.v1.ConnectedLegalPerson connected_legal_persons = 12;
+
+  /*
+     The company's industry classification (e.g., using NACE or SIC codes), used for risk assessment.
+  */
+  meshtrade.compliance.client.v1.IndustryClassification industry_classification = 13;
+
+  /*
+     The stock exchange where the company is listed, if applicable (e.g., "NASDAQ", "LSE").
+  */
+  string listed_exchange_code = 14;
+
+  /*
+     The ticker symbol for the company on the specified stock exchange (e.g., "GOOGL").
+  */
+  string listing_reference = 15;
+}
+
+/*
+   ConnectedLegalPerson is a legal person and how they are connected to the company.
+
+   Note on Field Requirements: Fields marked as 'Required for verification' are essential
+   for a successful compliance check, but are not mandatory for creation.
+*/
+message ConnectedLegalPerson {
+  /*
+     Contains the specific data for the legal entity type.
+     Only one of these may be set at a time.
+     Required for verification.
+  */
+  oneof legal_person {
+    /*
+       Set when the legal entity is an individual human being.
+    */
+    meshtrade.compliance.client.v1.NaturalPerson natural_person = 1;
+
+    /*
+       Set when the legal entity is a company or corporation.
+    */
+    meshtrade.compliance.client.v1.Company company = 2;
+
+    /*
+       Set when the legal entity is an investment fund.
+    */
+    meshtrade.compliance.client.v1.Fund fund = 3;
+
+    /*
+       Set when the legal entity is a trust.
+    */
+    meshtrade.compliance.client.v1.Trust trust = 4;
+  }
+
+  /*
+     The nature of the connection(s) of the legal person to the company.
+     (e.g., Shareholder, Guarantor etc.).
+     Required for verification.
+  */
+  repeated meshtrade.compliance.client.v1.LegalPersonConnectionType connection_types = 5;
+
+  /*
+     The percentage of direct or indirect ownership this person holds.
+     e.g. a value of 25.5 represents 25.5% ownership.
+     Required for verification (if the connection_types includes LEGAL_PERSON_CONNECTION_TYPE_SHAREHOLDER or similar ownership role)
+  */
+  meshtrade.type.v1.Decimal ownership_percentage = 6;
+
+  /*
+     The percentage of voting rights this person holds, which can differ from ownership.
+     e.g. a value of 25.5 represents 25.5% ownership.
+     Optional for verification.
+  */
+  meshtrade.type.v1.Decimal voting_rights_percentage = 7;
+
+  /*
+     A plain text description of the relationship.
+     Optional for verification.
+  */
+  string connection_description = 8;
+}
+
+/*
+   LegalPersonConnectionType describes how a legal person is connected to a business,
+   which is essential for understanding corporate ownership and control structures in KYB.
+*/
+enum LegalPersonConnectionType {
+  /*
+     Unknown or not specified.
+     This is a default value to prevent accidental assignment and should not be used.
+  */
+  LEGAL_PERSON_CONNECTION_TYPE_UNSPECIFIED = 0;
+
+  /*
+     The legal person is a direct shareholder in the company, but may not have
+     a controlling stake. This is a general ownership connection.
+  */
+  LEGAL_PERSON_CONNECTION_TYPE_SHAREHOLDER = 1;
+
+  /*
+     The legal person has a controlling ownership stake in the company, making
+     the company its subsidiary.
+  */
+  LEGAL_PERSON_CONNECTION_TYPE_PARENT_COMPANY = 2;
+
+  /*
+     The legal person (often a trust or specialized firm) acts as a director
+     on the board of the company. This represents a connection of control.
+  */
+  LEGAL_PERSON_CONNECTION_TYPE_CORPORATE_DIRECTOR = 3;
+
+  /*
+     The legal person is a trust that holds shares or has a controlling interest
+     in the company on behalf of its beneficiaries.
+  */
+  LEGAL_PERSON_CONNECTION_TYPE_TRUST = 4;
+
+  /*
+     The legal person is a general partner in a partnership structure (e.g., LP/LLP),
+     typically implying management control and unlimited liability.
+  */
+  LEGAL_PERSON_CONNECTION_TYPE_GENERAL_PARTNER = 5;
+
+  /*
+     The legal person guarantees the financial obligations or performance of the company,
+     indicating a significant financial connection.
+  */
+  LEGAL_PERSON_CONNECTION_TYPE_GUARANTOR = 6;
+}

@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package meshtrade.iam.group.v1;
+
+import "meshtrade/iam/group/v1/group.proto";
+
+option go_package = "github.com/meshtrade/api/go/iam/group/v1;groupv1";
+
+service GroupService {
+  rpc GetGroup(GetGroupRequest) returns (meshtrade.iam.group.v1.Group);
+}
+
+message GetGroupRequest {}
+
+

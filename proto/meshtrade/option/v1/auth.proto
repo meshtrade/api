@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package meshtrade.option.v1;
+
+import "google/protobuf/descriptor.proto";
+
+option go_package = "github.com/meshtrade/api/go/option/v1;optionv1";
+
+/*
+   Role defines a named collection of permissions.
+   This allows for the creation of business-level roles (e.g., "AccountReader", "AccountAdmin")
+   that group a set of granular, string-based permissions. Roles are
+   defined at the file level in a service's `.proto` file.
+*/
+enum Role {
+  /*
+     The default value, indicating the service type is unknown or not specified.
+     This should be treated as an error and not be used explicitly.
+  */
+  ROLE_UNSPECIFIED = 0;
+
+  ROLE_WALLET_ADMIN = 1;
+
+  ROLE_WALLET_VIEWER = 2;
+}
+
+/*
+   A file-level option to define a list of roles for a service domain.
+
+   This is used at the top of a `service.proto` file to declare all the
+   business roles relevant to that service, making the authorization
+   model for the service self-contained and easy to discover.
+*/
+extend google.protobuf.FileOptions {
+  RoleList standard_roles = 50003;
+}
+
+extend google.protobuf.MethodOptions {
+  RoleList roles = 50005;
+}
+
+message RoleList {
+  repeated Role roles = 1;
+}

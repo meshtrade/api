@@ -1,6 +1,4 @@
-/* eslint-disable */
-// @ts-nocheck
-// source: api/proto/ledger/transaction.proto
+// source: ledger/transaction.proto
 /**
  * @fileoverview
  * @enhanceable

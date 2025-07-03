@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package meshtrade.type.v1;
+
+import "meshtrade/type/v1/decimal.proto";
+import "meshtrade/type/v1/token.proto";
+
+option go_package = "github.com/meshtrade/api/go/type/v1;typev1";
+
+/*
+   A canonical structure for representing a precise quantity of a specific
+   digital asset.
+   An Amount is a self-describing monetary value, pairing a Universal Token
+   Identifier (the 'what') with a high-precision Decimal value (the 'how much').
+   This model ensures that a quantity of an asset is never ambiguous.
+*/
+message Amount {
+  /*
+     Token is the unit of account. This field uses the Universal Token Identifier to
+     define exactly WHAT asset is being quantified.
+  */
+  meshtrade.type.v1.Token token = 1;
+
+  /*
+     Value is the magnitude of the amount, representing HOW MUCH of the specified
+     token this value holds.
+     CRITICAL: To prevent precision errors, this decimal value MUST be
+     truncated to the exact number of decimal places supported by the
+     token's native ledger.
+  */
+  meshtrade.type.v1.Decimal value = 2;
+}

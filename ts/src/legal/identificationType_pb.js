@@ -1,4 +1,4 @@
-// source: api/proto/legal/identificationType.proto
+// source: legal/identificationType.proto
 /**
  * @fileoverview
  * @enhanceable

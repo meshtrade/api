@@ -1,0 +1,137 @@
+syntax = "proto3";
+
+package meshtrade.wallet.account.v1;
+
+import "buf/validate/validate.proto";
+import "meshtrade/option/v1/auth.proto";
+import "meshtrade/option/v1/service_type.proto";
+import "meshtrade/type/v1/ledger.proto";
+import "meshtrade/wallet/account/v1/account.proto";
+
+option go_package = "github.com/meshtrade/api/go/wallet/account/v1;accountv1";
+
+option (meshtrade.option.v1.standard_roles) = {
+  roles: [
+    ROLE_WALLET_ADMIN,
+    ROLE_WALLET_VIEWER
+  ]
+};
+
+/*
+   AccountService provides access to and management of wallet accounts.
+*/
+service AccountService {
+  /*
+     Creates a new wallet account.
+     This is a write operation restricted to administrative roles.
+  */
+  rpc CreateAccount(CreateAccountRequest) returns (meshtrade.wallet.account.v1.Account) {
+    option (meshtrade.option.v1.service_type) = SERVICE_TYPE_WRITE;
+    option (meshtrade.option.v1.roles) = {
+      roles: [ROLE_WALLET_ADMIN]
+    };
+  }
+  /*
+     Retrieves a single wallet account by its unique number.
+  */
+  rpc GetAccount(GetAccountRequest) returns (meshtrade.wallet.account.v1.Account) {
+    option (meshtrade.option.v1.service_type) = SERVICE_TYPE_READ;
+    option (meshtrade.option.v1.roles) = {
+      roles: [
+        ROLE_WALLET_ADMIN,
+        ROLE_WALLET_VIEWER
+      ]
+    };
+  }
+  /*
+     Retrieves a list of all accounts for the authenticated principal.
+  */
+  rpc ListAccounts(ListAccountsRequest) returns (ListAccountsResponse) {
+    option (meshtrade.option.v1.service_type) = SERVICE_TYPE_READ;
+    option (meshtrade.option.v1.roles) = {
+      roles: [
+        ROLE_WALLET_ADMIN,
+        ROLE_WALLET_VIEWER
+      ]
+    };
+  }
+  /*
+     Searches for accounts based on a partial label match.
+  */
+  rpc SearchAccounts(SearchAccountsRequest) returns (SearchAccountsResponse) {
+    option (meshtrade.option.v1.service_type) = SERVICE_TYPE_READ;
+    option (meshtrade.option.v1.roles) = {
+      roles: [
+        ROLE_WALLET_ADMIN,
+        ROLE_WALLET_VIEWER
+      ]
+    };
+  }
+}
+
+/* CreateAccountRequest contains the parameters for creating a new account. */
+message CreateAccountRequest {
+  /*
+     A user-defined label for the new account, e.g., "Primary Savings".
+  */
+  string label = 1 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).string.min_len = 3,
+    (buf.validate.field).string.max_len = 50
+  ];
+
+  /*
+     The ledger upon which the account should be created.
+  */
+  meshtrade.type.v1.Ledger ledger = 2 [(buf.validate.field).enum.defined_only = true];
+
+  /*
+     If true, the account will be opened immediately after creation, which
+     may result in a transaction.
+  */
+  bool open = 3;
+}
+
+
+/* GetAccountRequest specifies which account to retrieve. */
+message GetAccountRequest {
+  /*
+     The unique account number to retrieve.
+  */
+  string number = 1 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).string.len = 7
+  ];
+}
+
+
+/* ListAccountsRequest requires no parameters to list accounts for the caller. */
+message ListAccountsRequest {}
+
+/* ListAccountsResponse contains a list of accounts. */
+message ListAccountsResponse {
+  /*
+     A list of accounts owned by the authenticated principal.
+  */
+  repeated meshtrade.wallet.account.v1.Account accounts = 1;
+}
+
+/* SearchAccountsRequest specifies the query for finding accounts. */
+message SearchAccountsRequest {
+  /*
+     A substring to search for within account labels.
+  */
+  string label = 1 [
+    (buf.validate.field).required = false,
+    (buf.validate.field).string.min_len = 3,
+    (buf.validate.field).string.max_len = 50
+  ];
+}
+
+/* SearchAccountsResponse contains the accounts that matched the search query. */
+message SearchAccountsResponse {
+  /*
+     A list of accounts that matched the label search query.
+  */
+  repeated meshtrade.wallet.account.v1.Account accounts = 1;
+}

@@ -1,6 +1,4 @@
-/* eslint-disable */
-// @ts-nocheck
-// source: api/proto/legal/connectedIndividialConnectionType.proto
+// source: legal/connectedIndividialConnectionType.proto
 /**
  * @fileoverview
  * @enhanceable

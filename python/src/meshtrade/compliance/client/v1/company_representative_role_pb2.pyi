@@ -1,0 +1,26 @@
+from google.protobuf.internal import enum_type_wrapper as _enum_type_wrapper
+from google.protobuf import descriptor as _descriptor
+from typing import ClassVar as _ClassVar
+
+DESCRIPTOR: _descriptor.FileDescriptor
+
+class CompanyRepresentativeRole(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    COMPANY_REPRESENTATIVE_ROLE_UNSPECIFIED: _ClassVar[CompanyRepresentativeRole]
+    COMPANY_REPRESENTATIVE_ROLE_ULTIMATE_BENEFICIAL_OWNER: _ClassVar[CompanyRepresentativeRole]
+    COMPANY_REPRESENTATIVE_ROLE_SHAREHOLDER: _ClassVar[CompanyRepresentativeRole]
+    COMPANY_REPRESENTATIVE_ROLE_SOLE_PROPRIETOR: _ClassVar[CompanyRepresentativeRole]
+    COMPANY_REPRESENTATIVE_ROLE_PARTNER: _ClassVar[CompanyRepresentativeRole]
+    COMPANY_REPRESENTATIVE_ROLE_DIRECTOR: _ClassVar[CompanyRepresentativeRole]
+    COMPANY_REPRESENTATIVE_ROLE_MANAGER: _ClassVar[CompanyRepresentativeRole]
+    COMPANY_REPRESENTATIVE_ROLE_AUTHORIZED_SIGNATORY: _ClassVar[CompanyRepresentativeRole]
+    COMPANY_REPRESENTATIVE_ROLE_PRIMARY_CONTACT: _ClassVar[CompanyRepresentativeRole]
+COMPANY_REPRESENTATIVE_ROLE_UNSPECIFIED: CompanyRepresentativeRole
+COMPANY_REPRESENTATIVE_ROLE_ULTIMATE_BENEFICIAL_OWNER: CompanyRepresentativeRole
+COMPANY_REPRESENTATIVE_ROLE_SHAREHOLDER: CompanyRepresentativeRole
+COMPANY_REPRESENTATIVE_ROLE_SOLE_PROPRIETOR: CompanyRepresentativeRole
+COMPANY_REPRESENTATIVE_ROLE_PARTNER: CompanyRepresentativeRole
+COMPANY_REPRESENTATIVE_ROLE_DIRECTOR: CompanyRepresentativeRole
+COMPANY_REPRESENTATIVE_ROLE_MANAGER: CompanyRepresentativeRole
+COMPANY_REPRESENTATIVE_ROLE_AUTHORIZED_SIGNATORY: CompanyRepresentativeRole
+COMPANY_REPRESENTATIVE_ROLE_PRIMARY_CONTACT: CompanyRepresentativeRole
