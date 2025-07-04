@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package meshtrade.iam.user.v1;
+
+option go_package = "github.com/meshtrade/api/go/iam/user/v1;userv1";
+
+message User {
+  string name = 1;
+}

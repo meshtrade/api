@@ -72,6 +72,14 @@
   
     - [GroupService](#meshtrade-iam-group-v1-GroupService)
   
+- [meshtrade/iam/user/v1/user.proto](#meshtrade_iam_user_v1_user-proto)
+    - [User](#meshtrade-iam-user-v1-User)
+  
+- [meshtrade/iam/user/v1/service.proto](#meshtrade_iam_user_v1_service-proto)
+    - [GetUserRequest](#meshtrade-iam-user-v1-GetUserRequest)
+  
+    - [UserService](#meshtrade-iam-user-v1-UserService)
+  
 - [meshtrade/issuance_hub/instrument/v1/instrument.proto](#meshtrade_issuance_hub_instrument_v1_instrument-proto)
     - [Instrument](#meshtrade-issuance_hub-instrument-v1-Instrument)
   
@@ -998,6 +1006,73 @@ This method is useful for fetching multiple client records at once. Note: This e
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
 | GetGroup | [GetGroupRequest](#meshtrade-iam-group-v1-GetGroupRequest) | [Group](#meshtrade-iam-group-v1-Group) |  |
+
+ 
+
+
+
+<a name="meshtrade_iam_user_v1_user-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/iam/user/v1/user.proto
+
+
+
+<a name="meshtrade-iam-user-v1-User"></a>
+
+### User
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| name | [string](#string) |  |  |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="meshtrade_iam_user_v1_service-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/iam/user/v1/service.proto
+
+
+
+<a name="meshtrade-iam-user-v1-GetUserRequest"></a>
+
+### GetUserRequest
+
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+
+<a name="meshtrade-iam-user-v1-UserService"></a>
+
+### UserService
+
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| GetUser | [GetUserRequest](#meshtrade-iam-user-v1-GetUserRequest) | [User](#meshtrade-iam-user-v1-User) |  |
 
  
 
