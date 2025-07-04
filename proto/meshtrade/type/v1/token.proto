@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package meshtrade.type.v1;
+
+import "meshtrade/type/v1/ledger.proto";
+
+option go_package = "github.com/meshtrade/api/go/type/v1;typev1";
+
+/*
+   Token is Mesh's canonical model for uniquely and unambiguously identifying any
+   digital asset across any supported ledger. It provides a powerful abstraction
+   layer that resolves the complexities of multi-chain/ledger asset representation.
+   This allows any part of the Mesh system to work with a single, universal
+   concept of a token, regardless of the underlying ledger's specific
+   implementation.
+*/
+message Token {
+  /*
+     The commonly accepted symbol, ticker, or code for the token (e.g., "BTC", "ETH", "USDC").
+     It is not unique without the `issuer` and `ledger`.
+     Required field.
+  */
+  string code = 1;
+
+  /*
+     Issuer is a reference to issuing entity of the token.
+     For NATIVE assets on a ledger (e.g., ETH on Ethereum), the issuer is the ledger itself,
+     represented by the reserved string __LEDGER__.
+     For ALL other issued assets (e.g., ERC-20 tokens), this is the unique identifier of the issuing entity,
+     such as a smart contract address on Ethereum or an issuance account public key on Stellar.
+     Required field.
+  */
+  string issuer = 2;
+
+  /*
+     The ledger ledger on which the token exists. This field disambiguates
+     assets that may share a code and issuer across different chains
+     (e.g., USDC on Ethereum vs. USDC on Polygon).
+     Required field.
+  */
+  meshtrade.type.v1.Ledger ledger = 3;
+}

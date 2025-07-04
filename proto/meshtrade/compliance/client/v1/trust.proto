@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package meshtrade.compliance.client.v1;
+
+import "google/type/date.proto";
+
+option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
+
+/*
+   Defines a Trust as a legal entity. It contains the core, verifiable components of a trust's
+   identity required for Know Your Trust (KYT) compliance checks.
+   Fields essential for verification are noted but are not strictly mandatory for creating the record.
+*/
+message Trust {
+  /*
+     The official, registered name of the trust as it appears in its prospectus or formation documents.
+     Required for verification.
+  */
+  string registered_name = 1;
+
+  /*
+     The unique registration or identification number assigned by a regulatory body or authority.
+     Examples: SEC CIK number, LEI (Legal Entity Identifier).
+     Required for verification.
+  */
+  string registration_number = 2;
+
+  /*
+     The primary tax identifier for the trust.
+     Example: TIN in the US.
+  */
+  string tax_identifier = 3;
+
+  /*
+     The ISO 3166-1 alpha-2 country code where the trust is domiciled (e.g., "KY" for Cayman Islands, "LU" for Luxembourg).
+     The value must be the uppercase, two-letter code.
+     See: https://www.iso.org/iso-3166-country-codes.html
+     Required for verification.
+  */
+  string country_of_domicile = 4;
+
+  /*
+     The date on which the trust was established or began operations (inception date).
+     Required for verification.
+  */
+  google.type.Date date_of_inception = 5;
+}

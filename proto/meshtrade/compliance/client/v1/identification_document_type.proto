@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package meshtrade.compliance.client.v1;
+
+option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
+
+/*
+   IdentificationDocumentType specifies the type of official document used to
+   verify a client's identity.
+*/
+enum IdentificationDocumentType {
+  /*
+     Unknown or not specified.
+     This is a default value to prevent accidental assignment and should not be used.
+  */
+  IDENTIFICATION_DOCUMENT_TYPE_UNSPECIFIED = 0;
+
+  /*
+     An international passport.
+  */
+  IDENTIFICATION_DOCUMENT_TYPE_PASSPORT = 1;
+
+  /*
+     A government-issued national identity card/book/paper.
+     This covers documents like the South African ID, a European ID card, etc.
+  */
+  IDENTIFICATION_DOCUMENT_TYPE_NATIONAL_ID = 2;
+
+  /*
+     A government-issued driver's license.
+  */
+  IDENTIFICATION_DOCUMENT_TYPE_DRIVERS_LICENSE = 3;
+
+  /*
+     A residence permit or visa issued to a foreign national.
+  */
+  IDENTIFICATION_DOCUMENT_TYPE_RESIDENCE_PERMIT = 4;
+}

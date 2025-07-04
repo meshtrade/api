@@ -1,0 +1,18 @@
+version: v2
+modules:
+  - path: proto
+    name: buf.build/meshtrade/api
+
+deps:
+  - buf.build/googleapis/googleapis
+
+# Workspace-level lint and breaking change detection settings.
+lint:
+  use:
+    - STANDARD
+  except:
+    - RPC_REQUEST_RESPONSE_UNIQUE
+    - RPC_RESPONSE_STANDARD_NAME
+breaking:
+  use:
+    - FILE

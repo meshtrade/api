@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package meshtrade.ledger.transaction.v1;
+
+option go_package = "github.com/meshtrade/api/go/ledger/transaction/v1;transactionv1";
+
+enum TransactionState {
+  /*
+     Unknown or not specified.
+     This is a default value to prevent accidental assignment and should not be used.
+  */
+  TRANSACTION_STATE_UNSPECIFIED = 0;
+  TRANSACTION_STATE_DRAFT = 1;
+  TRANSACTION_STATE_SIGNING_IN_PROGRESS = 2;
+  TRANSACTION_STATE_PENDING = 3;
+  TRANSACTION_STATE_SUBMISSION_IN_PROGRESS = 4;
+  TRANSACTION_STATE_FAILED = 5;
+  TRANSACTION_STATE_INDETERMINATE = 6;
+  TRANSACTION_STATE_SUCCESSFUL = 7;
+}

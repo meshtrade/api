@@ -1,2 +1,3 @@
-# Mesh Go SDK
-This is the Mesh Go SDK. See quick start.
+# Go SDK
+
+Please find the complete Go SDK documentation here: [docs/pages/go.md](../docs/pages/go.md)

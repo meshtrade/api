@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package meshtrade.compliance.client.v1;
+
+option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
+
+/*
+   Defines the possible statuses for a Politically Exposed Person check.
+*/
+enum PepStatus {
+  /*
+     Unknown or not specified.
+     This is a default value to prevent accidental assignment and should not be used.
+  */
+  PEP_STATUS_UNSPECIFIED = 0;
+
+  /*
+     The client has been verified as not being a PEP.
+  */
+  PEP_STATUS_IS_NOT_PEP = 1;
+
+  /*
+     The client has been identified as a Politically Exposed Person.
+  */
+  PEP_STATUS_IS_PEP = 2;
+
+  /*
+     The client is a family member or close associate of a PEP.
+  */
+  PEP_STATUS_IS_ASSOCIATE = 3;
+}
