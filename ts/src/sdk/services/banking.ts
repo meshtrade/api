@@ -1,4 +1,4 @@
-import { ServicePromiseClient as FundingServiceClient } from "../../banking/funding/service_grpc_web_pb";
+import { ServicePromiseClient as FundingServiceClient } from "../../../../../mesh-funding/api/private/ts/src/meshtrade/private/banking/funding/service_grpc_web_pb";
 import { ServiceConstructorArgs } from "../service";
 
 export class Banking {
