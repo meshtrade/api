@@ -20,6 +20,7 @@ service Service {
   rpc Get(GetRequest) returns (GetResponse);
   rpc Settle(SettleRequest) returns (SettleResponse);
   rpc Cancel(CancelRequest) returns (CancelResponse);
+  rpc MarkAwaitingApproval(MarkAwaitingApprovalRequest) returns (MarkAwaitingApprovalResponse);
   rpc ResolveState(ResolveStateRequest) returns (ResolveStateResponse);
 }
 
@@ -177,6 +178,31 @@ message ResolveStateRequest {
 ResolveStateResponse is the Resolve state method response on the Funding Service.
 */
 message ResolveStateResponse {
+  /*
+  Funding is the funding that was resolved.
+  */
+  api.banking.funding.Funding funding = 1;
+}
+
+
+/*
+MarkAwaitingApprovalRequest is the request for MarkAwaitingApproval.
+*/
+message MarkAwaitingApprovalRequest {
+  /*
+  FundingNumber is the identifier of the funding to be resolved.
+  */
+  string fundingNumber = 1;
+  /*
+  reason is the reason for marking the funding as awaiting approval
+  */
+  string reason = 2;
+}
+
+/*
+MarkAwaitingApprovalResponse is the response for MarkAwaitingApproval.
+*/
+message MarkAwaitingApprovalResponse {
   /*
   Funding is the funding that was resolved.
   */
