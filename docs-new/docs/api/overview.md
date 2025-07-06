@@ -4,7 +4,8 @@ sidebar_position: 1
 
 # API Overview
 
-The Mesh API is organized around **services** that handle specific business domains. Each service is versioned independently and provides a focused set of capabilities.
+The Mesh API is organized around **services** that handle specific business domains.
+Each service is versioned independently and provides a focused set of capabilities.
 
 ## Service Architecture
 
@@ -16,7 +17,7 @@ graph LR
     B --> E[Wallet Service]
     B --> F[IAM Service]
     B --> G[Issuance Service]
-    
+
     C --> C1[KYC/AML]
     D --> D1[Order Management]
     E --> E1[Account Management]
@@ -27,6 +28,7 @@ graph LR
 ## Available Services
 
 ### 🔍 Compliance Service
+
 **Endpoint:** `compliance.client.v1.ClientService`
 
 Handle client onboarding, KYC processes, and regulatory compliance.
@@ -34,13 +36,16 @@ Handle client onboarding, KYC processes, and regulatory compliance.
 <div className="api-method api-method--post">POST</div>
 
 **Key Methods:**
+
 - `CreateClient` - Onboard new clients
 - `GetClient` - Retrieve client information
 - `UpdateClient` - Update client details
 - `ListClients` - List all clients with filtering
 
 ### 📈 Trading Service
-**Endpoints:** 
+
+**Endpoints:**
+
 - `trading.spot.v1.SpotService`
 - `trading.limit_order.v1.LimitOrderService`
 - `trading.direct_order.v1.DirectOrderService`
@@ -50,12 +55,14 @@ Execute trades and manage orders across different trading modes.
 <div className="api-method api-method--post">POST</div>
 
 **Key Methods:**
+
 - `PlaceOrder` - Submit new trading orders
 - `CancelOrder` - Cancel existing orders
 - `GetOrderStatus` - Check order status
 - `ListOrders` - Retrieve order history
 
 ### 💰 Wallet Service
+
 **Endpoint:** `wallet.account.v1.AccountService`
 
 Manage user accounts, balances, and wallet operations.
@@ -64,13 +71,16 @@ Manage user accounts, balances, and wallet operations.
 <div className="api-method api-method--post">POST</div>
 
 **Key Methods:**
+
 - `CreateAccount` - Create new accounts
 - `GetAccount` - Retrieve account details
 - `GetBalance` - Check account balances
 - `TransferFunds` - Move funds between accounts
 
 ### 🔐 IAM Service
+
 **Endpoints:**
+
 - `iam.role.v1.RoleService`
 - `iam.group.v1.GroupService`
 
@@ -82,12 +92,14 @@ Handle authentication, authorization, and access control.
 <div className="api-method api-method--delete">DELETE</div>
 
 **Key Methods:**
+
 - `CreateRole` - Define new roles
 - `AssignRole` - Assign roles to users
 - `CreateGroup` - Create user groups
 - `ManagePermissions` - Control access rights
 
 ### 🏭 Issuance Service
+
 **Endpoint:** `issuance_hub.instrument.v1.InstrumentService`
 
 Create and manage financial instruments and securities.
@@ -95,6 +107,7 @@ Create and manage financial instruments and securities.
 <div className="api-method api-method--post">POST</div>
 
 **Key Methods:**
+
 - `CreateInstrument` - Issue new financial instruments
 - `MintInstrument` - Mint additional units
 - `GetInstrument` - Retrieve instrument details
@@ -152,6 +165,7 @@ message ListAccountsResponse {
 ## Common Types
 
 ### Decimal Type
+
 High-precision decimal arithmetic for financial calculations:
 
 ```protobuf title="Decimal"
@@ -162,6 +176,7 @@ message Decimal {
 ```
 
 ### Amount Type
+
 Monetary amounts with currency information:
 
 ```protobuf title="Amount"
@@ -173,6 +188,7 @@ message Amount {
 ```
 
 ### Token Type
+
 Blockchain token representations:
 
 ```protobuf title="Token"
@@ -190,6 +206,7 @@ message Token {
 All API calls require authentication using one of these methods:
 
 ### API Key Authentication
+
 ```bash
 # Include API key in headers
 curl -H "Authorization: Bearer YOUR_API_KEY" \
@@ -198,6 +215,7 @@ curl -H "Authorization: Bearer YOUR_API_KEY" \
 ```
 
 ### JWT Authentication
+
 ```bash
 # Include JWT token in headers
 curl -H "Authorization: Bearer YOUR_JWT_TOKEN" \
@@ -209,15 +227,16 @@ curl -H "Authorization: Bearer YOUR_JWT_TOKEN" \
 
 The API uses standard gRPC status codes:
 
-| Code | Status | Description |
-|------|--------|-------------|
-| 0 | OK | Success |
-| 3 | INVALID_ARGUMENT | Invalid request parameters |
-| 5 | NOT_FOUND | Resource not found |
-| 7 | PERMISSION_DENIED | Insufficient permissions |
-| 16 | UNAUTHENTICATED | Authentication required |
+| Code | Status            | Description                |
+| ---- | ----------------- | -------------------------- |
+| 0    | OK                | Success                    |
+| 3    | INVALID_ARGUMENT  | Invalid request parameters |
+| 5    | NOT_FOUND         | Resource not found         |
+| 7    | PERMISSION_DENIED | Insufficient permissions   |
+| 16   | UNAUTHENTICATED   | Authentication required    |
 
 Example error response:
+
 ```json
 {
   "error": {

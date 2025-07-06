@@ -55,7 +55,7 @@ graph TB
     B --> E[Wallet Service]
     B --> F[IAM Service]
     B --> G[Issuance Service]
-    
+
     C --> H[KYC Database]
     D --> I[Order Book]
     E --> J[Account Ledger]
@@ -66,16 +66,19 @@ graph TB
 ## API Design Principles
 
 ### Schema-First Development
+
 - All APIs are defined using Protocol Buffers
 - Generated client libraries ensure type safety
 - Versioned APIs maintain backward compatibility
 
 ### gRPC & REST
+
 - Primary interface is gRPC for high performance
 - REST endpoints available for web clients
 - Streaming support for real-time updates
 
 ### Security by Design
+
 - Role-based access control (RBAC)
 - TLS encryption for all communications
 - API key and JWT authentication
@@ -90,7 +93,7 @@ package main
 import (
     "context"
     "log"
-    
+
     "github.com/meshtrade/api/go/wallet/account/v1"
 )
 
@@ -99,14 +102,14 @@ func main() {
     if err != nil {
         log.Fatal(err)
     }
-    
+
     resp, err := client.GetAccount(ctx, &account.GetAccountRequest{
         AccountId: "your-account-id",
     })
     if err != nil {
         log.Fatal(err)
     }
-    
+
     log.Printf("Account: %+v", resp)
 }
 ```
@@ -117,11 +120,11 @@ from meshtrade.wallet.account.v1 import AccountServiceClient
 
 async def main():
     client = AccountServiceClient("your-api-key")
-    
+
     response = await client.get_account(
         account_id="your-account-id"
     )
-    
+
     print(f"Account: {response}")
 
 asyncio.run(main())
@@ -132,11 +135,11 @@ import { AccountServiceClient } from '@meshtrade/api/wallet/account/v1';
 
 async function main() {
   const client = new AccountServiceClient('your-api-key');
-  
+
   const response = await client.getAccount({
-    accountId: 'your-account-id'
+    accountId: 'your-account-id',
   });
-  
+
   console.log('Account:', response);
 }
 

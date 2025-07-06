@@ -78,11 +78,6 @@ export default [
     exact: true
   },
   {
-    path: '/api/search',
-    component: ComponentCreator('/api/search', '975'),
-    exact: true
-  },
-  {
     path: '/api/docs',
     component: ComponentCreator('/api/docs', '2b2'),
     routes: [

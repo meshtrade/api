@@ -4,26 +4,31 @@ sidebar_position: 1
 
 # SDK Overview
 
-Mesh provides official SDKs for Go, Python, and TypeScript, all generated from the same protobuf definitions to ensure consistency across languages.
+Mesh provides official SDKs for Go, Python, and TypeScript, all generated from the same protobuf definitions
+to ensure consistency across languages.
 
 ## SDK Features
 
 ### ✅ Type Safety
+
 - **Generated from protobuf** - All SDKs maintain strict type safety
 - **IDE support** - Full autocomplete and IntelliSense
 - **Compile-time validation** - Catch errors before runtime
 
 ### ✅ Consistent API
+
 - **Same method signatures** - Consistent across all languages
 - **Identical request/response** - Same data structures everywhere
 - **Unified documentation** - One source of truth
 
 ### ✅ Modern Async Support
+
 - **Go** - Context-based cancellation and timeouts
 - **Python** - async/await with asyncio support
 - **TypeScript** - Promise-based with async/await
 
 ### ✅ Production Ready
+
 - **Error handling** - Comprehensive error types and codes
 - **Retry logic** - Built-in exponential backoff
 - **Connection pooling** - Efficient resource management
@@ -31,28 +36,31 @@ Mesh provides official SDKs for Go, Python, and TypeScript, all generated from t
 
 ## Quick Comparison
 
-| Feature | Go | Python | TypeScript |
-|---------|----|---------|-----------| 
-| **Package Manager** | Go modules | pip | npm/yarn |
-| **Async Support** | Context | asyncio | Promises |
-| **Type System** | Static | Dynamic + hints | Static |
-| **Error Handling** | error values | Exceptions | Promises/try-catch |
-| **Streaming** | ✅ | ✅ | ✅ |
-| **Middleware** | ✅ | ✅ | ✅ |
+| Feature             | Go           | Python          | TypeScript         |
+| ------------------- | ------------ | --------------- | ------------------ |
+| **Package Manager** | Go modules   | pip             | npm/yarn           |
+| **Async Support**   | Context      | asyncio         | Promises           |
+| **Type System**     | Static       | Dynamic + hints | Static             |
+| **Error Handling**  | error values | Exceptions      | Promises/try-catch |
+| **Streaming**       | ✅           | ✅              | ✅                 |
+| **Middleware**      | ✅           | ✅              | ✅                 |
 
 ## Installation
 
 ### Go
+
 ```bash
 go get github.com/meshtrade/api/go
 ```
 
 ### Python
+
 ```bash
 pip install meshtrade-api
 ```
 
 ### TypeScript
+
 ```bash
 npm install @meshtrade/api
 ```
@@ -60,19 +68,20 @@ npm install @meshtrade/api
 ## Basic Usage Examples
 
 ### Go Example
+
 ```go title="Go Client Example"
 package main
 
 import (
     "context"
     "log"
-    
+
     "github.com/meshtrade/api/go/wallet/account/v1"
 )
 
 func main() {
     ctx := context.Background()
-    
+
     // Create client with API key
     client, err := account.NewClient(ctx, account.Config{
         APIKey: "your-api-key",
@@ -82,7 +91,7 @@ func main() {
         log.Fatal(err)
     }
     defer client.Close()
-    
+
     // Make API call
     resp, err := client.GetAccount(ctx, &account.GetAccountRequest{
         AccountId: "acc_123",
@@ -90,12 +99,13 @@ func main() {
     if err != nil {
         log.Fatal(err)
     }
-    
+
     log.Printf("Account: %v", resp.Id)
 }
 ```
 
 ### Python Example
+
 ```python title="Python Client Example"
 import asyncio
 from meshtrade.wallet.account.v1 import AccountServiceClient
@@ -106,15 +116,15 @@ async def main():
         api_key="your-api-key",
         endpoint="api.mesh.dev:443"
     )
-    
+
     try:
         # Make API call
         response = await client.get_account(
             account_id="acc_123"
         )
-        
+
         print(f"Account: {response.id}")
-        
+
     finally:
         await client.close()
 
@@ -123,6 +133,7 @@ asyncio.run(main())
 ```
 
 ### TypeScript Example
+
 ```typescript title="TypeScript Client Example"
 import { AccountServiceClient } from '@meshtrade/api/wallet/account/v1';
 
@@ -130,17 +141,16 @@ async function main() {
   // Create client with API key
   const client = new AccountServiceClient({
     apiKey: 'your-api-key',
-    endpoint: 'api.mesh.dev:443'
+    endpoint: 'api.mesh.dev:443',
   });
-  
+
   try {
     // Make API call
     const response = await client.getAccount({
-      accountId: 'acc_123'
+      accountId: 'acc_123',
     });
-    
+
     console.log(`Account: ${response.id}`);
-    
   } finally {
     await client.close();
   }
@@ -180,7 +190,7 @@ client = AccountServiceClient(
 const client = new AccountServiceClient({
   apiKey: 'your-api-key',
   maxConnections: 10,
-  keepAlive: 30000
+  keepAlive: 30000,
 });
 ```
 
@@ -249,7 +259,7 @@ for {
     if err != nil {
         log.Fatal(err)
     }
-    
+
     log.Printf("Update: %v", update)
 }
 ```
@@ -291,22 +301,23 @@ export MESH_LOG_FORMAT=json
 
 ```yaml title="mesh-config.yaml"
 api:
-  key: "your-api-key"
-  endpoint: "api.mesh.dev:443"
+  key: 'your-api-key'
+  endpoint: 'api.mesh.dev:443'
   timeout: 30s
-  
+
 tls:
-  cert_file: "/path/to/cert.pem"
-  key_file: "/path/to/key.pem"
-  
+  cert_file: '/path/to/cert.pem'
+  key_file: '/path/to/key.pem'
+
 logging:
-  level: "info"
-  format: "json"
+  level: 'info'
+  format: 'json'
 ```
 
 ## Best Practices
 
 ### 1. Connection Reuse
+
 ```go
 // ✅ Good - Reuse client connections
 client, err := account.NewClient(ctx, config)
@@ -319,6 +330,7 @@ for i := 0; i < 100; i++ {
 ```
 
 ### 2. Context Timeouts
+
 ```go
 // ✅ Good - Set appropriate timeouts
 ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -328,6 +340,7 @@ client.GetAccount(ctx, req)
 ```
 
 ### 3. Error Handling
+
 ```python
 # ✅ Good - Handle specific errors
 try:
@@ -342,6 +355,7 @@ except RateLimitError:
 ```
 
 ### 4. Resource Cleanup
+
 ```typescript
 // ✅ Good - Always clean up resources
 const client = new AccountServiceClient(config);

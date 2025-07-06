@@ -1,7 +1,7 @@
 {
   "id": "api/overview",
   "title": "API Overview",
-  "description": "The Mesh API is organized around services that handle specific business domains. Each service is versioned independently and provides a focused set of capabilities.",
+  "description": "The Mesh API is organized around services that handle specific business domains.",
   "source": "@site/docs/api/overview.md",
   "sourceDirName": "api",
   "slug": "/api/overview",

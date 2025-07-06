@@ -131,12 +131,6 @@
     "sidebar": "sidebar---api-blog-814-225",
     "content": "content---api-blog-welcome-3-f-1-300"
   },
-  "/api/search-975": {
-    "__comp": "__comp---theme-search-page-1-a-4-d6f",
-    "__context": {
-      "plugin": "plugin---api-searchc-14-6a1"
-    }
-  },
   "/api/docs-2b2": {
     "__comp": "__comp---theme-docs-root-5-e-9-0b6",
     "__context": {

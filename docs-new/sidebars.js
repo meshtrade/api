@@ -18,30 +18,22 @@ const sidebars = {
     {
       type: 'category',
       label: 'Getting Started',
-      items: [
-        'getting-started/installation',
-      ],
+      items: ['getting-started/installation'],
     },
     {
       type: 'category',
       label: 'API Reference',
-      items: [
-        'api/overview',
-      ],
+      items: ['api/overview'],
     },
     {
       type: 'category',
       label: 'SDK Documentation',
-      items: [
-        'sdks/overview',
-      ],
+      items: ['sdks/overview'],
     },
     {
       type: 'category',
       label: 'Examples',
-      items: [
-        'examples/basic-usage',
-      ],
+      items: ['examples/basic-usage'],
     },
   ],
 };

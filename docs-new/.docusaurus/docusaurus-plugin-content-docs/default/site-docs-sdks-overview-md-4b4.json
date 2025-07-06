@@ -1,7 +1,7 @@
 {
   "id": "sdks/overview",
   "title": "SDK Overview",
-  "description": "Mesh provides official SDKs for Go, Python, and TypeScript, all generated from the same protobuf definitions to ensure consistency across languages.",
+  "description": "Mesh provides official SDKs for Go, Python, and TypeScript, all generated from the same protobuf definitions",
   "source": "@site/docs/sdks/overview.md",
   "sourceDirName": "sdks",
   "slug": "/sdks/overview",

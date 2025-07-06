@@ -3,7 +3,7 @@
   "editUrl": "https://github.com/meshtrade/api/tree/main/docs-new/blog/2025-01-01-welcome.md",
   "source": "@site/blog/2025-01-01-welcome.md",
   "title": "Welcome to Mesh API Documentation",
-  "description": "We're excited to announce the launch of our comprehensive API documentation site built with Docusaurus. This new platform provides a modern, interactive experience for developers integrating with the Mesh trading platform.",
+  "description": "We're excited to announce the launch of our comprehensive API documentation site built with Docusaurus.",
   "date": "2025-01-01T00:00:00.000Z",
   "tags": [
     {
@@ -22,7 +22,7 @@
       "permalink": "/api/blog/tags/documentation"
     }
   ],
-  "readingTime": 1.97,
+  "readingTime": 1.99,
   "hasTruncateMarker": true,
   "authors": [
     {

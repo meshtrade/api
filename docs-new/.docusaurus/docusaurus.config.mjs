@@ -21,6 +21,18 @@ export default {
     "path": "i18n",
     "localeConfigs": {}
   },
+  "markdown": {
+    "format": "mdx",
+    "mermaid": false,
+    "mdx1Compat": {
+      "comments": true,
+      "admonitions": true,
+      "headingIds": true
+    },
+    "anchors": {
+      "maintainCase": false
+    }
+  },
   "presets": [
     [
       "classic",
@@ -29,7 +41,9 @@ export default {
           "sidebarPath": "./sidebars.js",
           "editUrl": "https://github.com/meshtrade/api/tree/main/docs-new/",
           "showLastUpdateAuthor": true,
-          "showLastUpdateTime": true
+          "showLastUpdateTime": true,
+          "remarkPlugins": [],
+          "rehypePlugins": []
         },
         "blog": {
           "showReadingTime": true,
@@ -52,7 +66,7 @@ export default {
     ]
   ],
   "themeConfig": {
-    "image": "img/docusaurus-social-card.jpg",
+    "image": "img/logo.svg",
     "navbar": {
       "title": "Mesh API",
       "logo": {
@@ -329,14 +343,6 @@ export default {
         }
       ]
     },
-    "algolia": {
-      "appId": "YOUR_APP_ID",
-      "apiKey": "YOUR_SEARCH_API_KEY",
-      "indexName": "YOUR_INDEX_NAME",
-      "contextualSearch": true,
-      "searchParameters": {},
-      "searchPagePath": "search"
-    },
     "colorMode": {
       "defaultMode": "light",
       "disableSwitch": false,
@@ -395,17 +401,5 @@ export default {
   "stylesheets": [],
   "clientModules": [],
   "titleDelimiter": "|",
-  "noIndex": false,
-  "markdown": {
-    "format": "mdx",
-    "mermaid": false,
-    "mdx1Compat": {
-      "comments": true,
-      "admonitions": true,
-      "headingIds": true
-    },
-    "anchors": {
-      "maintainCase": false
-    }
-  }
+  "noIndex": false
 };

@@ -27,6 +27,7 @@ go get github.com/meshtrade/api/go/compliance/client/v1
 ```
 
 Example `go.mod`:
+
 ```go title="go.mod"
 module your-app
 
@@ -54,6 +55,7 @@ pip install -e .
 ```
 
 Example `requirements.txt`:
+
 ```txt title="requirements.txt"
 meshtrade-api>=0.0.8
 grpcio>=1.60.0
@@ -74,6 +76,7 @@ pnpm add @meshtrade/api
 ```
 
 Example `package.json`:
+
 ```json title="package.json"
 {
   "dependencies": {
@@ -125,6 +128,7 @@ CMD ["yarn", "start"]
 Verify your installation with a simple test:
 
 ### Go
+
 ```go title="test.go"
 package main
 
@@ -132,25 +136,26 @@ import (
     "context"
     "fmt"
     "log"
-    
+
     "github.com/meshtrade/api/go/wallet/account/v1"
 )
 
 func main() {
     ctx := context.Background()
-    
+
     // This will fail without proper credentials, but tests the import
     client, err := account.NewClient(ctx, "test-key")
     if err != nil {
         log.Printf("Expected error (no valid credentials): %v", err)
         return
     }
-    
+
     fmt.Println("SDK imported successfully!")
 }
 ```
 
 ### Python
+
 ```python title="test.py"
 try:
     from meshtrade.wallet.account.v1 import AccountServiceClient
@@ -160,6 +165,7 @@ except ImportError as e:
 ```
 
 ### TypeScript
+
 ```typescript title="test.ts"
 try {
   const { AccountServiceClient } = require('@meshtrade/api/wallet/account/v1');

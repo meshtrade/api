@@ -1,4 +1,4 @@
-import {themes as prismThemes} from 'prism-react-renderer';
+import { themes as prismThemes } from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -20,9 +20,10 @@ const config = {
     locales: ['en'],
   },
 
-  // markdown: {
-  //   mermaid: true,
-  // },
+  markdown: {
+    format: 'mdx',
+    mermaid: false, // Disabled due to dependency conflicts
+  },
 
   // themes: ['@docusaurus/theme-mermaid'], // Temporarily disabled due to dependency issues
 
@@ -36,6 +37,8 @@ const config = {
           editUrl: 'https://github.com/meshtrade/api/tree/main/docs-new/',
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
+          remarkPlugins: [],
+          rehypePlugins: [],
         },
         blog: {
           showReadingTime: true,
@@ -58,7 +61,7 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      image: 'img/docusaurus-social-card.jpg',
+      image: 'img/logo.svg',
       navbar: {
         title: 'Mesh API',
         logo: {
@@ -72,7 +75,7 @@ const config = {
             position: 'left',
             label: 'Documentation',
           },
-          {to: '/blog', label: 'Blog', position: 'left'},
+          { to: '/blog', label: 'Blog', position: 'left' },
           {
             href: 'https://github.com/meshtrade/api',
             label: 'GitHub',
@@ -126,14 +129,14 @@ const config = {
         darkTheme: prismThemes.dracula,
         additionalLanguages: ['protobuf', 'go', 'python', 'typescript'],
       },
-      algolia: {
-        appId: 'YOUR_APP_ID',
-        apiKey: 'YOUR_SEARCH_API_KEY',
-        indexName: 'YOUR_INDEX_NAME',
-        contextualSearch: true,
-        searchParameters: {},
-        searchPagePath: 'search',
-      },
+      // algolia: {
+      //   appId: 'YOUR_APP_ID',
+      //   apiKey: 'YOUR_SEARCH_API_KEY',
+      //   indexName: 'YOUR_INDEX_NAME',
+      //   contextualSearch: true,
+      //   searchParameters: {},
+      //   searchPagePath: 'search',
+      // },
       // mermaid: {
       //   theme: {light: 'neutral', dark: 'dark'},
       // },

@@ -21,7 +21,7 @@ The documentation site will be available at `http://localhost:3000` when running
 
 ### Directory Structure
 
-```
+```text
 docs-new/
 ├── docs/                    # Documentation content
 │   ├── intro.md            # Introduction page
