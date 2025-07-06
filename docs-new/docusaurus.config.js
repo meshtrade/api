@@ -7,7 +7,7 @@ const config = {
   favicon: 'img/favicon.ico',
 
   url: 'https://meshtrade.github.io',
-  baseUrl: '/api/',
+  baseUrl: '/',
 
   organizationName: 'meshtrade',
   projectName: 'api',
