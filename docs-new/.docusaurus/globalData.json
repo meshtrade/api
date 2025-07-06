@@ -1,0 +1,53 @@
+{
+  "docusaurus-plugin-content-docs": {
+    "default": {
+      "path": "/api/docs",
+      "versions": [
+        {
+          "name": "current",
+          "label": "Next",
+          "isLast": true,
+          "path": "/api/docs",
+          "mainDocId": "intro",
+          "docs": [
+            {
+              "id": "api/overview",
+              "path": "/api/docs/api/overview",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "examples/basic-usage",
+              "path": "/api/docs/examples/basic-usage",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "getting-started/installation",
+              "path": "/api/docs/getting-started/installation",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "intro",
+              "path": "/api/docs/intro",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "sdks/overview",
+              "path": "/api/docs/sdks/overview",
+              "sidebar": "tutorialSidebar"
+            }
+          ],
+          "draftIds": [],
+          "sidebars": {
+            "tutorialSidebar": {
+              "link": {
+                "path": "/api/docs/intro",
+                "label": "intro"
+              }
+            }
+          }
+        }
+      ],
+      "breadcrumbs": true
+    }
+  }
+}

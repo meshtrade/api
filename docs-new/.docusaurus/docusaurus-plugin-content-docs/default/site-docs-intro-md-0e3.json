@@ -1,0 +1,25 @@
+{
+  "id": "intro",
+  "title": "Introduction",
+  "description": "Welcome to the Mesh API Documentation - your comprehensive guide to integrating with the Mesh trading platform.",
+  "source": "@site/docs/intro.md",
+  "sourceDirName": ".",
+  "slug": "/intro",
+  "permalink": "/api/docs/intro",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/meshtrade/api/tree/main/docs-new/docs/intro.md",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "tutorialSidebar",
+  "next": {
+    "title": "Installation",
+    "permalink": "/api/docs/getting-started/installation"
+  }
+}

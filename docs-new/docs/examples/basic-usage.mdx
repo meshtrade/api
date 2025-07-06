@@ -1,0 +1,724 @@
+---
+sidebar_position: 1
+---
+
+# Basic Usage Examples
+
+This guide provides practical examples for common API operations using all three SDKs.
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+## Account Management
+
+### Creating an Account
+
+<Tabs>
+<TabItem value="go" label="Go">
+
+```go title="Create Account"
+package main
+
+import (
+    "context"
+    "fmt"
+    "log"
+    
+    "github.com/meshtrade/api/go/wallet/account/v1"
+    "github.com/meshtrade/api/go/type/v1"
+)
+
+func createAccount() {
+    ctx := context.Background()
+    
+    client, err := account.NewClient(ctx, account.Config{
+        APIKey: "your-api-key",
+    })
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer client.Close()
+    
+    // Create new account
+    newAccount, err := client.CreateAccount(ctx, &account.CreateAccountRequest{
+        UserId:   "user_123",
+        Currency: "USD",
+        InitialBalance: &typev1.Decimal{
+            Value: "1000.00",
+            Scale: 2,
+        },
+    })
+    if err != nil {
+        log.Fatal(err)
+    }
+    
+    fmt.Printf("Created account: %s\n", newAccount.Id)
+    fmt.Printf("Balance: %s %s\n", newAccount.Balance.Value, newAccount.Currency)
+}
+```
+
+</TabItem>
+<TabItem value="python" label="Python">
+
+```python title="Create Account"
+import asyncio
+from meshtrade.wallet.account.v1 import AccountServiceClient
+from meshtrade.type.v1 import Decimal
+
+async def create_account():
+    client = AccountServiceClient(api_key="your-api-key")
+    
+    try:
+        # Create new account
+        new_account = await client.create_account(
+            user_id="user_123",
+            currency="USD",
+            initial_balance=Decimal(
+                value="1000.00",
+                scale=2
+            )
+        )
+        
+        print(f"Created account: {new_account.id}")
+        print(f"Balance: {new_account.balance.value} {new_account.currency}")
+        
+    finally:
+        await client.close()
+
+# Run the example
+asyncio.run(create_account())
+```
+
+</TabItem>
+<TabItem value="typescript" label="TypeScript">
+
+```typescript title="Create Account"
+import { AccountServiceClient } from '@meshtrade/api/wallet/account/v1';
+import { Decimal } from '@meshtrade/api/type/v1';
+
+async function createAccount() {
+  const client = new AccountServiceClient({
+    apiKey: 'your-api-key'
+  });
+  
+  try {
+    // Create new account
+    const newAccount = await client.createAccount({
+      userId: 'user_123',
+      currency: 'USD',
+      initialBalance: {
+        value: '1000.00',
+        scale: 2
+      }
+    });
+    
+    console.log(`Created account: ${newAccount.id}`);
+    console.log(`Balance: ${newAccount.balance?.value} ${newAccount.currency}`);
+    
+  } finally {
+    await client.close();
+  }
+}
+
+createAccount().catch(console.error);
+```
+
+</TabItem>
+</Tabs>
+
+### Fetching Account Details
+
+<Tabs>
+<TabItem value="go" label="Go">
+
+```go title="Get Account"
+func getAccount(accountId string) {
+    ctx := context.Background()
+    
+    client, err := account.NewClient(ctx, account.Config{
+        APIKey: "your-api-key",
+    })
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer client.Close()
+    
+    // Get account details
+    acc, err := client.GetAccount(ctx, &account.GetAccountRequest{
+        AccountId: accountId,
+    })
+    if err != nil {
+        log.Fatal(err)
+    }
+    
+    fmt.Printf("Account ID: %s\n", acc.Id)
+    fmt.Printf("User ID: %s\n", acc.UserId)
+    fmt.Printf("Currency: %s\n", acc.Currency)
+    fmt.Printf("Balance: %s\n", acc.Balance.Value)
+    fmt.Printf("Status: %s\n", acc.Status.String())
+}
+```
+
+</TabItem>
+<TabItem value="python" label="Python">
+
+```python title="Get Account"
+async def get_account(account_id: str):
+    client = AccountServiceClient(api_key="your-api-key")
+    
+    try:
+        # Get account details
+        account = await client.get_account(account_id=account_id)
+        
+        print(f"Account ID: {account.id}")
+        print(f"User ID: {account.user_id}")
+        print(f"Currency: {account.currency}")
+        print(f"Balance: {account.balance.value}")
+        print(f"Status: {account.status}")
+        
+    finally:
+        await client.close()
+```
+
+</TabItem>
+<TabItem value="typescript" label="TypeScript">
+
+```typescript title="Get Account"
+async function getAccount(accountId: string) {
+  const client = new AccountServiceClient({
+    apiKey: 'your-api-key'
+  });
+  
+  try {
+    // Get account details
+    const account = await client.getAccount({
+      accountId: accountId
+    });
+    
+    console.log(`Account ID: ${account.id}`);
+    console.log(`User ID: ${account.userId}`);
+    console.log(`Currency: ${account.currency}`);
+    console.log(`Balance: ${account.balance?.value}`);
+    console.log(`Status: ${account.status}`);
+    
+  } finally {
+    await client.close();
+  }
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Trading Operations
+
+### Placing a Spot Order
+
+<Tabs>
+<TabItem value="go" label="Go">
+
+```go title="Place Spot Order"
+package main
+
+import (
+    "context"
+    "log"
+    
+    "github.com/meshtrade/api/go/trading/spot/v1"
+    "github.com/meshtrade/api/go/type/v1"
+)
+
+func placeSpotOrder() {
+    ctx := context.Background()
+    
+    client, err := spot.NewClient(ctx, spot.Config{
+        APIKey: "your-api-key",
+    })
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer client.Close()
+    
+    // Place a buy order
+    order, err := client.PlaceOrder(ctx, &spot.PlaceOrderRequest{
+        AccountId: "acc_123",
+        Symbol:    "BTC/USD",
+        Side:      spot.OrderSide_BUY,
+        OrderType: spot.OrderType_MARKET,
+        Quantity: &typev1.Decimal{
+            Value: "0.001",
+            Scale: 6,
+        },
+    })
+    if err != nil {
+        log.Fatal(err)
+    }
+    
+    log.Printf("Order placed: %s", order.Id)
+    log.Printf("Status: %s", order.Status.String())
+}
+```
+
+</TabItem>
+<TabItem value="python" label="Python">
+
+```python title="Place Spot Order"
+import asyncio
+from meshtrade.trading.spot.v1 import SpotServiceClient, OrderSide, OrderType
+from meshtrade.type.v1 import Decimal
+
+async def place_spot_order():
+    client = SpotServiceClient(api_key="your-api-key")
+    
+    try:
+        # Place a buy order
+        order = await client.place_order(
+            account_id="acc_123",
+            symbol="BTC/USD",
+            side=OrderSide.BUY,
+            order_type=OrderType.MARKET,
+            quantity=Decimal(
+                value="0.001",
+                scale=6
+            )
+        )
+        
+        print(f"Order placed: {order.id}")
+        print(f"Status: {order.status}")
+        
+    finally:
+        await client.close()
+
+asyncio.run(place_spot_order())
+```
+
+</TabItem>
+<TabItem value="typescript" label="TypeScript">
+
+```typescript title="Place Spot Order"
+import { SpotServiceClient, OrderSide, OrderType } from '@meshtrade/api/trading/spot/v1';
+
+async function placeSpotOrder() {
+  const client = new SpotServiceClient({
+    apiKey: 'your-api-key'
+  });
+  
+  try {
+    // Place a buy order
+    const order = await client.placeOrder({
+      accountId: 'acc_123',
+      symbol: 'BTC/USD',
+      side: OrderSide.BUY,
+      orderType: OrderType.MARKET,
+      quantity: {
+        value: '0.001',
+        scale: 6
+      }
+    });
+    
+    console.log(`Order placed: ${order.id}`);
+    console.log(`Status: ${order.status}`);
+    
+  } finally {
+    await client.close();
+  }
+}
+
+placeSpotOrder().catch(console.error);
+```
+
+</TabItem>
+</Tabs>
+
+## Client Onboarding
+
+### Creating a Compliance Client
+
+<Tabs>
+<TabItem value="go" label="Go">
+
+```go title="Create Compliance Client"
+package main
+
+import (
+    "context"
+    "log"
+    
+    "github.com/meshtrade/api/go/compliance/client/v1"
+)
+
+func createClient() {
+    ctx := context.Background()
+    
+    client, err := clientv1.NewClient(ctx, clientv1.Config{
+        APIKey: "your-api-key",
+    })
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer client.Close()
+    
+    // Create new compliance client
+    newClient, err := client.CreateClient(ctx, &clientv1.CreateClientRequest{
+        Email:     "john.doe@example.com",
+        FirstName: "John",
+        LastName:  "Doe",
+        Phone:     "+1234567890",
+        Address: &clientv1.Address{
+            Street:  "123 Main St",
+            City:    "New York",
+            State:   "NY",
+            Country: "US",
+            ZipCode: "10001",
+        },
+    })
+    if err != nil {
+        log.Fatal(err)
+    }
+    
+    log.Printf("Client created: %s", newClient.Id)
+    log.Printf("Status: %s", newClient.Status.String())
+}
+```
+
+</TabItem>
+<TabItem value="python" label="Python">
+
+```python title="Create Compliance Client"
+import asyncio
+from meshtrade.compliance.client.v1 import ClientServiceClient, Address
+
+async def create_client():
+    client = ClientServiceClient(api_key="your-api-key")
+    
+    try:
+        # Create new compliance client
+        new_client = await client.create_client(
+            email="john.doe@example.com",
+            first_name="John",
+            last_name="Doe",
+            phone="+1234567890",
+            address=Address(
+                street="123 Main St",
+                city="New York",
+                state="NY",
+                country="US",
+                zip_code="10001"
+            )
+        )
+        
+        print(f"Client created: {new_client.id}")
+        print(f"Status: {new_client.status}")
+        
+    finally:
+        await client.close()
+
+asyncio.run(create_client())
+```
+
+</TabItem>
+<TabItem value="typescript" label="TypeScript">
+
+```typescript title="Create Compliance Client"
+import { ClientServiceClient } from '@meshtrade/api/compliance/client/v1';
+
+async function createClient() {
+  const client = new ClientServiceClient({
+    apiKey: 'your-api-key'
+  });
+  
+  try {
+    // Create new compliance client
+    const newClient = await client.createClient({
+      email: 'john.doe@example.com',
+      firstName: 'John',
+      lastName: 'Doe',
+      phone: '+1234567890',
+      address: {
+        street: '123 Main St',
+        city: 'New York',
+        state: 'NY',
+        country: 'US',
+        zipCode: '10001'
+      }
+    });
+    
+    console.log(`Client created: ${newClient.id}`);
+    console.log(`Status: ${newClient.status}`);
+    
+  } finally {
+    await client.close();
+  }
+}
+
+createClient().catch(console.error);
+```
+
+</TabItem>
+</Tabs>
+
+## Error Handling Patterns
+
+### Comprehensive Error Handling
+
+<Tabs>
+<TabItem value="go" label="Go">
+
+```go title="Error Handling"
+package main
+
+import (
+    "context"
+    "errors"
+    "log"
+    
+    "github.com/meshtrade/api/go/wallet/account/v1"
+    "google.golang.org/grpc/codes"
+    "google.golang.org/grpc/status"
+)
+
+func handleErrors() {
+    ctx := context.Background()
+    
+    client, err := account.NewClient(ctx, account.Config{
+        APIKey: "your-api-key",
+    })
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer client.Close()
+    
+    // Attempt to get account with error handling
+    acc, err := client.GetAccount(ctx, &account.GetAccountRequest{
+        AccountId: "invalid-id",
+    })
+    if err != nil {
+        // Check if it's a gRPC error
+        if st, ok := status.FromError(err); ok {
+            switch st.Code() {
+            case codes.NotFound:
+                log.Println("Account not found")
+                return
+            case codes.PermissionDenied:
+                log.Println("Permission denied")
+                return
+            case codes.InvalidArgument:
+                log.Printf("Invalid argument: %s", st.Message())
+                return
+            case codes.Unauthenticated:
+                log.Println("Authentication required")
+                return
+            default:
+                log.Printf("gRPC error: %v", st.Message())
+                return
+            }
+        }
+        
+        // Handle other errors
+        log.Printf("Unexpected error: %v", err)
+        return
+    }
+    
+    log.Printf("Account found: %s", acc.Id)
+}
+```
+
+</TabItem>
+<TabItem value="python" label="Python">
+
+```python title="Error Handling"
+import asyncio
+from meshtrade.wallet.account.v1 import AccountServiceClient
+from meshtrade.exceptions import (
+    AccountNotFoundError,
+    PermissionDeniedError,
+    InvalidArgumentError,
+    UnauthenticatedError,
+    MeshAPIError
+)
+
+async def handle_errors():
+    client = AccountServiceClient(api_key="your-api-key")
+    
+    try:
+        # Attempt to get account with error handling
+        account = await client.get_account(account_id="invalid-id")
+        print(f"Account found: {account.id}")
+        
+    except AccountNotFoundError:
+        print("Account not found")
+    except PermissionDeniedError:
+        print("Permission denied")
+    except InvalidArgumentError as e:
+        print(f"Invalid argument: {e.message}")
+    except UnauthenticatedError:
+        print("Authentication required")
+    except MeshAPIError as e:
+        print(f"API error: {e.message}")
+    except Exception as e:
+        print(f"Unexpected error: {e}")
+        
+    finally:
+        await client.close()
+
+asyncio.run(handle_errors())
+```
+
+</TabItem>
+<TabItem value="typescript" label="TypeScript">
+
+```typescript title="Error Handling"
+import { AccountServiceClient } from '@meshtrade/api/wallet/account/v1';
+import {
+  AccountNotFoundError,
+  PermissionDeniedError,
+  InvalidArgumentError,
+  UnauthenticatedError,
+  MeshAPIError
+} from '@meshtrade/api/errors';
+
+async function handleErrors() {
+  const client = new AccountServiceClient({
+    apiKey: 'your-api-key'
+  });
+  
+  try {
+    // Attempt to get account with error handling
+    const account = await client.getAccount({
+      accountId: 'invalid-id'
+    });
+    
+    console.log(`Account found: ${account.id}`);
+    
+  } catch (error) {
+    if (error instanceof AccountNotFoundError) {
+      console.log('Account not found');
+    } else if (error instanceof PermissionDeniedError) {
+      console.log('Permission denied');
+    } else if (error instanceof InvalidArgumentError) {
+      console.log(`Invalid argument: ${error.message}`);
+    } else if (error instanceof UnauthenticatedError) {
+      console.log('Authentication required');
+    } else if (error instanceof MeshAPIError) {
+      console.log(`API error: ${error.message}`);
+    } else {
+      console.error('Unexpected error:', error);
+    }
+    
+  } finally {
+    await client.close();
+  }
+}
+
+handleErrors().catch(console.error);
+```
+
+</TabItem>
+</Tabs>
+
+## Configuration and Environment
+
+### Environment-Based Configuration
+
+<Tabs>
+<TabItem value="go" label="Go">
+
+```go title="Environment Configuration"
+package main
+
+import (
+    "context"
+    "os"
+    "time"
+    
+    "github.com/meshtrade/api/go/wallet/account/v1"
+)
+
+func environmentConfig() {
+    ctx := context.Background()
+    
+    // Load configuration from environment
+    config := account.Config{
+        APIKey:   os.Getenv("MESH_API_KEY"),
+        Endpoint: os.Getenv("MESH_API_ENDPOINT"),
+        Timeout:  30 * time.Second,
+    }
+    
+    // Use default endpoint if not specified
+    if config.Endpoint == "" {
+        config.Endpoint = "api.mesh.dev:443"
+    }
+    
+    client, err := account.NewClient(ctx, config)
+    if err != nil {
+        panic(err)
+    }
+    defer client.Close()
+    
+    // Use client...
+}
+```
+
+</TabItem>
+<TabItem value="python" label="Python">
+
+```python title="Environment Configuration"
+import os
+import asyncio
+from meshtrade.wallet.account.v1 import AccountServiceClient
+
+async def environment_config():
+    # Load configuration from environment
+    api_key = os.getenv("MESH_API_KEY")
+    endpoint = os.getenv("MESH_API_ENDPOINT", "api.mesh.dev:443")
+    
+    client = AccountServiceClient(
+        api_key=api_key,
+        endpoint=endpoint,
+        timeout=30
+    )
+    
+    try:
+        # Use client...
+        pass
+    finally:
+        await client.close()
+
+asyncio.run(environment_config())
+```
+
+</TabItem>
+<TabItem value="typescript" label="TypeScript">
+
+```typescript title="Environment Configuration"
+import { AccountServiceClient } from '@meshtrade/api/wallet/account/v1';
+
+async function environmentConfig() {
+  // Load configuration from environment
+  const apiKey = process.env.MESH_API_KEY;
+  const endpoint = process.env.MESH_API_ENDPOINT || 'api.mesh.dev:443';
+  
+  const client = new AccountServiceClient({
+    apiKey: apiKey,
+    endpoint: endpoint,
+    timeout: 30000
+  });
+  
+  try {
+    // Use client...
+  } finally {
+    await client.close();
+  }
+}
+
+environmentConfig().catch(console.error);
+```
+
+</TabItem>
+</Tabs>
+
+## Next Steps
+
+- 🔧 **[Advanced Patterns](./advanced-patterns)** - Complex usage scenarios
+- ⚠️ **[Error Handling](./error-handling)** - Comprehensive error management
+- 📖 **[API Reference](../api/overview)** - Complete API documentation

@@ -1,0 +1,50 @@
+{
+  "permalink": "/api/blog/welcome",
+  "editUrl": "https://github.com/meshtrade/api/tree/main/docs-new/blog/2025-01-01-welcome.md",
+  "source": "@site/blog/2025-01-01-welcome.md",
+  "title": "Welcome to Mesh API Documentation",
+  "description": "We're excited to announce the launch of our comprehensive API documentation site built with Docusaurus. This new platform provides a modern, interactive experience for developers integrating with the Mesh trading platform.",
+  "date": "2025-01-01T00:00:00.000Z",
+  "tags": [
+    {
+      "inline": true,
+      "label": "mesh",
+      "permalink": "/api/blog/tags/mesh"
+    },
+    {
+      "inline": true,
+      "label": "api",
+      "permalink": "/api/blog/tags/api"
+    },
+    {
+      "inline": true,
+      "label": "documentation",
+      "permalink": "/api/blog/tags/documentation"
+    }
+  ],
+  "readingTime": 1.97,
+  "hasTruncateMarker": true,
+  "authors": [
+    {
+      "name": "Mesh Team",
+      "title": "API Development Team",
+      "url": "https://github.com/meshtrade/api",
+      "imageURL": "https://github.com/meshtrade.png",
+      "key": "mesh-team",
+      "page": null
+    }
+  ],
+  "frontMatter": {
+    "slug": "welcome",
+    "title": "Welcome to Mesh API Documentation",
+    "authors": [
+      "mesh-team"
+    ],
+    "tags": [
+      "mesh",
+      "api",
+      "documentation"
+    ]
+  },
+  "unlisted": false
+}
