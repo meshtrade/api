@@ -1,5 +1,0 @@
-{
-  "blogBasePath": "/api/blog",
-  "blogTitle": "Blog",
-  "authorsListPath": "/api/blog/authors"
-}
