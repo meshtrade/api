@@ -32,6 +32,10 @@ echo "🚀 Generating new files from protobuf definitions..."
 buf generate
 echo
 
+echo "🚀 Generating buf/validate TypeScript files..."
+buf generate buf.build/bufbuild/protovalidate --template buf.gen.validate.yaml
+echo
+
 echo "⚙️ Typescript Library Build..."
 cd ts
 yarn build
