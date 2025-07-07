@@ -30,6 +30,11 @@
       "require": "./dist/meshtrade/iam/group/v1/index.js",
       "import": "./dist/meshtrade/iam/group/v1/index.js"
     },
+    "./iam/user/v1": {
+      "types": "./dist/meshtrade/iam/user/v1/index.d.ts",
+      "require": "./dist/meshtrade/iam/user/v1/index.js",
+      "import": "./dist/meshtrade/iam/user/v1/index.js"
+    },
     "./issuance_hub/instrument/v1": {
       "types": "./dist/meshtrade/issuance_hub/instrument/v1/index.d.ts",
       "require": "./dist/meshtrade/issuance_hub/instrument/v1/index.js",
