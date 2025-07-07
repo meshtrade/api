@@ -1,7 +1,7 @@
 import { themes as prismThemes } from 'prism-react-renderer';
+import type { Config } from '@docusaurus/types';
 
-/** @type {import('@docusaurus/types').Config} */
-const config = {
+const config: Config = {
   title: 'Mesh API Documentation',
   tagline: 'Comprehensive API documentation for Mesh trading platform',
   favicon: 'img/favicon.ico',
@@ -30,10 +30,9 @@ const config = {
   presets: [
     [
       'classic',
-      /** @type {import('@docusaurus/preset-classic').Options} */
-      ({
+      {
         docs: {
-          sidebarPath: './sidebars.js',
+          sidebarPath: './sidebars.ts',
           editUrl: 'https://github.com/meshtrade/api/tree/main/docs-new/',
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
@@ -54,13 +53,11 @@ const config = {
         theme: {
           customCss: './src/css/custom.css',
         },
-      }),
+      },
     ],
   ],
 
-  themeConfig:
-    /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
-    ({
+  themeConfig: {
       image: 'img/logo.svg',
       navbar: {
         title: 'Mesh API',
@@ -140,7 +137,7 @@ const config = {
       // mermaid: {
       //   theme: {light: 'neutral', dark: 'dark'},
       // },
-    }),
+    },
 };
 
 export default config;
