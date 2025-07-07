@@ -1,7 +1,7 @@
-from .auth_pb2 import Role
-from .service_type_pb2 import ServiceType
+from .method_type_pb2 import MethodType
+from .role_pb2 import Role
 
 __all__ = [
     "Role",
-    "ServiceType",
+    "MethodType",
 ]

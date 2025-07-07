@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package meshtrade.iam.user.v1;
 
+import "buf/validate/validate.proto";
 import "meshtrade/iam/user/v1/user.proto";
 import "meshtrade/option/v1/method_type.proto";
 import "meshtrade/option/v1/role.proto";
@@ -21,11 +22,42 @@ service UserService {
 
 message AssignRoleToUserRequest {
   // The email address of the user to assign a role to
-  string email = 1;
+  string email = 1 [(buf.validate.field) = {
+    string: {
+      min_len: 1,
+      max_len: 254,
+      pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+    }
+    cel: {
+      id: "email.required",
+      message: "email is required and must be a valid email address",
+      expression: "size(this) > 0"
+    }
+  }];
 
   // The name of the group in which the user is to be assigned the given role
-  string group = 2;
+  string group = 2 [(buf.validate.field) = {
+    string: {
+      min_len: 1,
+      max_len: 255
+    }
+    cel: {
+      id: "group.required",
+      message: "group name is required and must be between 1 and 255 characters",
+      expression: "size(this) > 0 && size(this) <= 255"
+    }
+  }];
 
   // Role is the role to assign to the user
-  meshtrade.option.v1.Role role = 3;
+  meshtrade.option.v1.Role role = 3 [(buf.validate.field) = {
+    enum: {
+      defined_only: true,
+      not_in: [0]
+    }
+    cel: {
+      id: "role.required",
+      message: "role is required and must be a valid role type (not UNSPECIFIED)",
+      expression: "int(this) != 0"
+    }
+  }];
 }

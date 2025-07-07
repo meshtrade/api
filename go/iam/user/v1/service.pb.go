@@ -7,6 +7,7 @@
 package userv1
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	v1 "github.com/meshtrade/api/go/option/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -89,11 +90,14 @@ var File_meshtrade_iam_user_v1_service_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_user_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"#meshtrade/iam/user/v1/service.proto\x12\x15meshtrade.iam.user.v1\x1a meshtrade/iam/user/v1/user.proto\x1a%meshtrade/option/v1/method_type.proto\x1a\x1emeshtrade/option/v1/role.proto\"t\n" +
-	"\x17AssignRoleToUserRequest\x12\x14\n" +
-	"\x05email\x18\x01 \x01(\tR\x05email\x12\x14\n" +
-	"\x05group\x18\x02 \x01(\tR\x05group\x12-\n" +
-	"\x04role\x18\x03 \x01(\x0e2\x19.meshtrade.option.v1.RoleR\x04role2{\n" +
+	"#meshtrade/iam/user/v1/service.proto\x12\x15meshtrade.iam.user.v1\x1a\x1bbuf/validate/validate.proto\x1a meshtrade/iam/user/v1/user.proto\x1a%meshtrade/option/v1/method_type.proto\x1a\x1emeshtrade/option/v1/role.proto\"\x86\x04\n" +
+	"\x17AssignRoleToUserRequest\x12\xac\x01\n" +
+	"\x05email\x18\x01 \x01(\tB\x95\x01\xbaH\x91\x01\xba\x01U\n" +
+	"\x0eemail.required\x123email is required and must be a valid email address\x1a\x0esize(this) > 0r7\x10\x01\x18\xfe\x0120^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$R\x05email\x12\x9b\x01\n" +
+	"\x05group\x18\x02 \x01(\tB\x84\x01\xbaH\x80\x01\xba\x01v\n" +
+	"\x0egroup.required\x12?group name is required and must be between 1 and 255 characters\x1a#size(this) > 0 && size(this) <= 255r\x05\x10\x01\x18\xff\x01R\x05group\x12\x9d\x01\n" +
+	"\x04role\x18\x03 \x01(\x0e2\x19.meshtrade.option.v1.RoleBn\xbaHk\xba\x01a\n" +
+	"\rrole.required\x12@role is required and must be a valid role type (not UNSPECIFIED)\x1a\x0eint(this) != 0\x82\x01\x04\x10\x01 \x00R\x04role2{\n" +
 	"\vUserService\x12l\n" +
 	"\x10AssignRoleToUser\x12..meshtrade.iam.user.v1.AssignRoleToUserRequest\x1a\x1b.meshtrade.iam.user.v1.User\"\v\xa0\xb5\x18\x02\xaa\xb5\x18\x03\n" +
 	"\x01\x05B0Z.github.com/meshtrade/api/go/iam/user/v1;userv1b\x06proto3"
