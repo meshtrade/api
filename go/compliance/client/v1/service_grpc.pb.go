@@ -19,8 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ClientService_GetClient_FullMethodName   = "/meshtrade.compliance.client.v1.ClientService/GetClient"
-	ClientService_ListClients_FullMethodName = "/meshtrade.compliance.client.v1.ClientService/ListClients"
+	ClientService_CreateClient_FullMethodName = "/meshtrade.compliance.client.v1.ClientService/CreateClient"
+	ClientService_GetClient_FullMethodName    = "/meshtrade.compliance.client.v1.ClientService/GetClient"
+	ClientService_ListClients_FullMethodName  = "/meshtrade.compliance.client.v1.ClientService/ListClients"
 )
 
 // ClientServiceClient is the client API for ClientService service.
@@ -34,6 +35,8 @@ const (
 // be a natural person, company, or trust. This service allows you to retrieve
 // the compliance profiles for these clients.
 type ClientServiceClient interface {
+	// CreateClient creates a single client.
+	CreateClient(ctx context.Context, in *CreateClientRequest, opts ...grpc.CallOption) (*Client, error)
 	// GetClient retrieves a single client's compliance profile by its unique resource name.
 	//
 	// This allows for fetching the complete compliance details of a specific client,
@@ -53,6 +56,16 @@ type clientServiceClient struct {
 
 func NewClientServiceClient(cc grpc.ClientConnInterface) ClientServiceClient {
 	return &clientServiceClient{cc}
+}
+
+func (c *clientServiceClient) CreateClient(ctx context.Context, in *CreateClientRequest, opts ...grpc.CallOption) (*Client, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Client)
+	err := c.cc.Invoke(ctx, ClientService_CreateClient_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *clientServiceClient) GetClient(ctx context.Context, in *GetClientRequest, opts ...grpc.CallOption) (*Client, error) {
@@ -86,6 +99,8 @@ func (c *clientServiceClient) ListClients(ctx context.Context, in *ListClientsRe
 // be a natural person, company, or trust. This service allows you to retrieve
 // the compliance profiles for these clients.
 type ClientServiceServer interface {
+	// CreateClient creates a single client.
+	CreateClient(context.Context, *CreateClientRequest) (*Client, error)
 	// GetClient retrieves a single client's compliance profile by its unique resource name.
 	//
 	// This allows for fetching the complete compliance details of a specific client,
@@ -107,6 +122,9 @@ type ClientServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedClientServiceServer struct{}
 
+func (UnimplementedClientServiceServer) CreateClient(context.Context, *CreateClientRequest) (*Client, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateClient not implemented")
+}
 func (UnimplementedClientServiceServer) GetClient(context.Context, *GetClientRequest) (*Client, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetClient not implemented")
 }
@@ -132,6 +150,24 @@ func RegisterClientServiceServer(s grpc.ServiceRegistrar, srv ClientServiceServe
 		t.testEmbeddedByValue()
 	}
 	s.RegisterService(&ClientService_ServiceDesc, srv)
+}
+
+func _ClientService_CreateClient_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateClientRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ClientServiceServer).CreateClient(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ClientService_CreateClient_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ClientServiceServer).CreateClient(ctx, req.(*CreateClientRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _ClientService_GetClient_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -177,6 +213,10 @@ var ClientService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "meshtrade.compliance.client.v1.ClientService",
 	HandlerType: (*ClientServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateClient",
+			Handler:    _ClientService_CreateClient_Handler,
+		},
 		{
 			MethodName: "GetClient",
 			Handler:    _ClientService_GetClient_Handler,

@@ -57,7 +57,21 @@
 - [meshtrade/compliance/client/v1/natural_person_connection_type.proto](#meshtrade_compliance_client_v1_natural_person_connection_type-proto)
     - [NaturalPersonConnectionType](#meshtrade-compliance-client-v1-NaturalPersonConnectionType)
   
+- [meshtrade/option/v1/role.proto](#meshtrade_option_v1_role-proto)
+    - [RoleList](#meshtrade-option-v1-RoleList)
+  
+    - [Role](#meshtrade-option-v1-Role)
+  
+    - [File-level Extensions](#meshtrade_option_v1_role-proto-extensions)
+    - [File-level Extensions](#meshtrade_option_v1_role-proto-extensions)
+  
+- [meshtrade/option/v1/method_type.proto](#meshtrade_option_v1_method_type-proto)
+    - [MethodType](#meshtrade-option-v1-MethodType)
+  
+    - [File-level Extensions](#meshtrade_option_v1_method_type-proto-extensions)
+  
 - [meshtrade/compliance/client/v1/service.proto](#meshtrade_compliance_client_v1_service-proto)
+    - [CreateClientRequest](#meshtrade-compliance-client-v1-CreateClientRequest)
     - [GetClientRequest](#meshtrade-compliance-client-v1-GetClientRequest)
     - [ListClientsRequest](#meshtrade-compliance-client-v1-ListClientsRequest)
     - [ListClientsResponse](#meshtrade-compliance-client-v1-ListClientsResponse)
@@ -69,6 +83,10 @@
   
 - [meshtrade/iam/group/v1/service.proto](#meshtrade_iam_group_v1_service-proto)
     - [GetGroupRequest](#meshtrade-iam-group-v1-GetGroupRequest)
+    - [ListGroupsRequest](#meshtrade-iam-group-v1-ListGroupsRequest)
+    - [ListGroupsResponse](#meshtrade-iam-group-v1-ListGroupsResponse)
+    - [SearchGroupsRequest](#meshtrade-iam-group-v1-SearchGroupsRequest)
+    - [SearchGroupsResponse](#meshtrade-iam-group-v1-SearchGroupsResponse)
   
     - [GroupService](#meshtrade-iam-group-v1-GroupService)
   
@@ -98,19 +116,6 @@
   
 - [meshtrade/ledger/transaction/v1/transaction_state.proto](#meshtrade_ledger_transaction_v1_transaction_state-proto)
     - [TransactionState](#meshtrade-ledger-transaction-v1-TransactionState)
-  
-- [meshtrade/option/v1/auth.proto](#meshtrade_option_v1_auth-proto)
-    - [RoleList](#meshtrade-option-v1-RoleList)
-  
-    - [Role](#meshtrade-option-v1-Role)
-  
-    - [File-level Extensions](#meshtrade_option_v1_auth-proto-extensions)
-    - [File-level Extensions](#meshtrade_option_v1_auth-proto-extensions)
-  
-- [meshtrade/option/v1/service_type.proto](#meshtrade_option_v1_service_type-proto)
-    - [ServiceType](#meshtrade-option-v1-ServiceType)
-  
-    - [File-level Extensions](#meshtrade_option_v1_service_type-proto-extensions)
   
 - [meshtrade/trading/direct_order/v1/direct_order.proto](#meshtrade_trading_direct_order_v1_direct_order-proto)
     - [DirectOrder](#meshtrade-trading-direct_order-v1-DirectOrder)
@@ -860,6 +865,108 @@ as well as secondary relationships for screening (familial, professional).
 
 
 
+<a name="meshtrade_option_v1_role-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/option/v1/role.proto
+
+
+
+<a name="meshtrade-option-v1-RoleList"></a>
+
+### RoleList
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| roles | [Role](#meshtrade-option-v1-Role) | repeated |  |
+
+
+
+
+
+ 
+
+
+<a name="meshtrade-option-v1-Role"></a>
+
+### Role
+Role defines a named collection of permissions.
+This allows for the creation of business-level roles (e.g., &#34;AccountReader&#34;, &#34;AccountAdmin&#34;)
+that group a set of granular, string-based permissions. Roles are
+defined at the file level in a service&#39;s `.proto` file.
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| ROLE_UNSPECIFIED | 0 | The default value, indicating the role is unknown or not specified. This should be treated as an error and not be used explicitly. |
+| ROLE_WALLET_ADMIN | 1 |  |
+| ROLE_WALLET_VIEWER | 2 |  |
+| ROLE_COMPLIANCE_ADMIN | 3 |  |
+| ROLE_COMPLIANCE_VIEWER | 4 |  |
+| ROLE_IAM_ADMIN | 5 |  |
+| ROLE_IAM_VIEWER | 6 |  |
+| ROLE_ISSUANCE_HUB_ADMIN | 7 |  |
+| ROLE_ISSUANCE_HUB_VIEWER | 8 |  |
+| ROLE_TRADING_ADMIN | 9 |  |
+| ROLE_TRADING_VIEWER | 10 |  |
+
+
+ 
+
+
+<a name="meshtrade_option_v1_role-proto-extensions"></a>
+
+### File-level Extensions
+| Extension | Type | Base | Number | Description |
+| --------- | ---- | ---- | ------ | ----------- |
+| standard_roles | RoleList | .google.protobuf.FileOptions | 50003 |  |
+| roles | RoleList | .google.protobuf.MethodOptions | 50005 |  |
+
+ 
+
+ 
+
+
+
+<a name="meshtrade_option_v1_method_type-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/option/v1/method_type.proto
+
+
+ 
+
+
+<a name="meshtrade-option-v1-MethodType"></a>
+
+### MethodType
+MethodType indicates the access nature of an RPC method, classifying it
+as either a read or a write operation.
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| METHOD_TYPE_UNSPECIFIED | 0 | The default value, indicating the method type is unknown or not specified. This should be treated as an error and not be used explicitly. |
+| METHOD_TYPE_READ | 1 | Indicates a safe, idempotent operation that does not change system state. |
+| METHOD_TYPE_WRITE | 2 | Indicates an operation that may change system state. |
+
+
+ 
+
+
+<a name="meshtrade_option_v1_method_type-proto-extensions"></a>
+
+### File-level Extensions
+| Extension | Type | Base | Number | Description |
+| --------- | ---- | ---- | ------ | ----------- |
+| method_type | MethodType | .google.protobuf.MethodOptions | 50004 |  |
+
+ 
+
+ 
+
+
+
 <a name="meshtrade_compliance_client_v1_service-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
@@ -867,10 +974,25 @@ as well as secondary relationships for screening (familial, professional).
 
 
 
+<a name="meshtrade-compliance-client-v1-CreateClientRequest"></a>
+
+### CreateClientRequest
+GetClientRequest is the message used to request a single client resource.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| client | [Client](#meshtrade-compliance-client-v1-Client) |  | Client is the client resource to create. |
+
+
+
+
+
+
 <a name="meshtrade-compliance-client-v1-GetClientRequest"></a>
 
 ### GetClientRequest
-GetClientRequest is the message used to request a single client resource.
+CreateClientRequest is the message used to create a single client resource.
 
 
 | Field | Type | Label | Description |
@@ -925,6 +1047,7 @@ the compliance profiles for these clients.
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
+| CreateClient | [CreateClientRequest](#meshtrade-compliance-client-v1-CreateClientRequest) | [Client](#meshtrade-compliance-client-v1-Client) | CreateClient creates a single client. |
 | GetClient | [GetClientRequest](#meshtrade-compliance-client-v1-GetClientRequest) | [Client](#meshtrade-compliance-client-v1-Client) | GetClient retrieves a single client&#39;s compliance profile by its unique resource name.
 
 This allows for fetching the complete compliance details of a specific client, including all associated information like identification documents, tax residencies, and company structures. |
@@ -980,6 +1103,66 @@ This method is useful for fetching multiple client records at once. Note: This e
 
 
 
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| name | [string](#string) |  | Name of the group to get. |
+
+
+
+
+
+
+<a name="meshtrade-iam-group-v1-ListGroupsRequest"></a>
+
+### ListGroupsRequest
+
+
+
+
+
+
+
+<a name="meshtrade-iam-group-v1-ListGroupsResponse"></a>
+
+### ListGroupsResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| groups | [Group](#meshtrade-iam-group-v1-Group) | repeated |  |
+
+
+
+
+
+
+<a name="meshtrade-iam-group-v1-SearchGroupsRequest"></a>
+
+### SearchGroupsRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| name | [string](#string) |  | Name is a substring search for groups. |
+
+
+
+
+
+
+<a name="meshtrade-iam-group-v1-SearchGroupsResponse"></a>
+
+### SearchGroupsResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| groups | [Group](#meshtrade-iam-group-v1-Group) | repeated |  |
+
+
 
 
 
@@ -997,7 +1180,9 @@ This method is useful for fetching multiple client records at once. Note: This e
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| GetGroup | [GetGroupRequest](#meshtrade-iam-group-v1-GetGroupRequest) | [Group](#meshtrade-iam-group-v1-Group) |  |
+| GetGroup | [GetGroupRequest](#meshtrade-iam-group-v1-GetGroupRequest) | [Group](#meshtrade-iam-group-v1-Group) | Get Specific Group. |
+| ListGroups | [ListGroupsRequest](#meshtrade-iam-group-v1-ListGroupsRequest) | [ListGroupsResponse](#meshtrade-iam-group-v1-ListGroupsResponse) | Get all groups |
+| SearchGroups | [SearchGroupsRequest](#meshtrade-iam-group-v1-SearchGroupsRequest) | [SearchGroupsResponse](#meshtrade-iam-group-v1-SearchGroupsResponse) | Get all groups with search filtering options. |
 
  
 
@@ -1313,100 +1498,6 @@ such as creating, updating, minting or burning it.
 
 
  
-
- 
-
- 
-
-
-
-<a name="meshtrade_option_v1_auth-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## meshtrade/option/v1/auth.proto
-
-
-
-<a name="meshtrade-option-v1-RoleList"></a>
-
-### RoleList
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| roles | [Role](#meshtrade-option-v1-Role) | repeated |  |
-
-
-
-
-
- 
-
-
-<a name="meshtrade-option-v1-Role"></a>
-
-### Role
-Role defines a named collection of permissions.
-This allows for the creation of business-level roles (e.g., &#34;AccountReader&#34;, &#34;AccountAdmin&#34;)
-that group a set of granular, string-based permissions. Roles are
-defined at the file level in a service&#39;s `.proto` file.
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| ROLE_UNSPECIFIED | 0 | The default value, indicating the service type is unknown or not specified. This should be treated as an error and not be used explicitly. |
-| ROLE_WALLET_ADMIN | 1 |  |
-| ROLE_WALLET_VIEWER | 2 |  |
-
-
- 
-
-
-<a name="meshtrade_option_v1_auth-proto-extensions"></a>
-
-### File-level Extensions
-| Extension | Type | Base | Number | Description |
-| --------- | ---- | ---- | ------ | ----------- |
-| standard_roles | RoleList | .google.protobuf.FileOptions | 50003 |  |
-| roles | RoleList | .google.protobuf.MethodOptions | 50005 |  |
-
- 
-
- 
-
-
-
-<a name="meshtrade_option_v1_service_type-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## meshtrade/option/v1/service_type.proto
-
-
- 
-
-
-<a name="meshtrade-option-v1-ServiceType"></a>
-
-### ServiceType
-ServiceType indicates the access nature of an RPC method, classifying it
-as either a read or a write operation.
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| SERVICE_TYPE_UNSPECIFIED | 0 | The default value, indicating the service type is unknown or not specified. This should be treated as an error and not be used explicitly. |
-| SERVICE_TYPE_READ | 1 | Indicates a safe, idempotent operation that does not change system state. |
-| SERVICE_TYPE_WRITE | 2 | Indicates an operation that may change system state. |
-
-
- 
-
-
-<a name="meshtrade_option_v1_service_type-proto-extensions"></a>
-
-### File-level Extensions
-| Extension | Type | Base | Number | Description |
-| --------- | ---- | ---- | ------ | ----------- |
-| service_type | ServiceType | .google.protobuf.MethodOptions | 50004 |  |
 
  
 

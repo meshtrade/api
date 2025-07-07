@@ -7,6 +7,7 @@
 package limitorderv1
 
 import (
+	_ "github.com/meshtrade/api/go/option/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -69,11 +70,15 @@ var File_meshtrade_trading_limit_order_v1_service_proto protoreflect.FileDescrip
 
 const file_meshtrade_trading_limit_order_v1_service_proto_rawDesc = "" +
 	"\n" +
-	".meshtrade/trading/limit_order/v1/service.proto\x12 meshtrade.trading.limit_order.v1\x1a2meshtrade/trading/limit_order/v1/limit_order.proto\".\n" +
+	".meshtrade/trading/limit_order/v1/service.proto\x12 meshtrade.trading.limit_order.v1\x1a2meshtrade/trading/limit_order/v1/limit_order.proto\x1a\x1emeshtrade/option/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\".\n" +
 	"\x14GetLimitOrderRequest\x12\x16\n" +
-	"\x06number\x18\x01 \x01(\tR\x06number2\x8a\x01\n" +
-	"\x11LimitOrderService\x12u\n" +
-	"\rGetLimitOrder\x126.meshtrade.trading.limit_order.v1.GetLimitOrderRequest\x1a,.meshtrade.trading.limit_order.v1.LimitOrderBAZ?github.com/meshtrade/api/go/trading/limit_order/v1;limitorderv1b\x06proto3"
+	"\x06number\x18\x01 \x01(\tR\x06number2\x99\x01\n" +
+	"\x11LimitOrderService\x12\x83\x01\n" +
+	"\rGetLimitOrder\x126.meshtrade.trading.limit_order.v1.GetLimitOrderRequest\x1a,.meshtrade.trading.limit_order.v1.LimitOrder\"\f\xa0\xb5\x18\x01\xaa\xb5\x18\x04\n" +
+	"\x02\t\n" +
+	"BI\x9a\xb5\x18\x04\n" +
+	"\x02\t\n" +
+	"Z?github.com/meshtrade/api/go/trading/limit_order/v1;limitorderv1b\x06proto3"
 
 var (
 	file_meshtrade_trading_limit_order_v1_service_proto_rawDescOnce sync.Once
