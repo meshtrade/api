@@ -83,6 +83,16 @@
   
     - [APIUserState](#meshtrade-iam-api_user-v1-APIUserState)
   
+- [meshtrade/iam/api_user/v1/service.proto](#meshtrade_iam_api_user_v1_service-proto)
+    - [CreateApiUserRequest](#meshtrade-iam-api_user-v1-CreateApiUserRequest)
+    - [GetApiUserRequest](#meshtrade-iam-api_user-v1-GetApiUserRequest)
+    - [ListApiUsersRequest](#meshtrade-iam-api_user-v1-ListApiUsersRequest)
+    - [ListApiUsersResponse](#meshtrade-iam-api_user-v1-ListApiUsersResponse)
+    - [SearchApiUsersRequest](#meshtrade-iam-api_user-v1-SearchApiUsersRequest)
+    - [SearchApiUsersResponse](#meshtrade-iam-api_user-v1-SearchApiUsersResponse)
+  
+    - [ApiUserService](#meshtrade-iam-api_user-v1-ApiUserService)
+  
 - [meshtrade/iam/group/v1/group.proto](#meshtrade_iam_group_v1_group-proto)
     - [Group](#meshtrade-iam-group-v1-Group)
   
@@ -1116,6 +1126,120 @@ This method is useful for fetching multiple client records at once. Note: This e
  
 
  
+
+ 
+
+
+
+<a name="meshtrade_iam_api_user_v1_service-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/iam/api_user/v1/service.proto
+
+
+
+<a name="meshtrade-iam-api_user-v1-CreateApiUserRequest"></a>
+
+### CreateApiUserRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| api_user | [APIUser](#meshtrade-iam-api_user-v1-APIUser) |  | The API user resource to create. The name field will be ignored and assigned by the server. |
+
+
+
+
+
+
+<a name="meshtrade-iam-api_user-v1-GetApiUserRequest"></a>
+
+### GetApiUserRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| name | [string](#string) |  | Name of the API user to get. |
+
+
+
+
+
+
+<a name="meshtrade-iam-api_user-v1-ListApiUsersRequest"></a>
+
+### ListApiUsersRequest
+
+
+
+
+
+
+
+<a name="meshtrade-iam-api_user-v1-ListApiUsersResponse"></a>
+
+### ListApiUsersResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| api_users | [APIUser](#meshtrade-iam-api_user-v1-APIUser) | repeated |  |
+
+
+
+
+
+
+<a name="meshtrade-iam-api_user-v1-SearchApiUsersRequest"></a>
+
+### SearchApiUsersRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| display_name | [string](#string) |  | Display name is a substring search for API users. |
+
+
+
+
+
+
+<a name="meshtrade-iam-api_user-v1-SearchApiUsersResponse"></a>
+
+### SearchApiUsersResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| api_users | [APIUser](#meshtrade-iam-api_user-v1-APIUser) | repeated |  |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+
+<a name="meshtrade-iam-api_user-v1-ApiUserService"></a>
+
+### ApiUserService
+
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| GetApiUser | [GetApiUserRequest](#meshtrade-iam-api_user-v1-GetApiUserRequest) | [APIUser](#meshtrade-iam-api_user-v1-APIUser) | Get Specific API User. |
+| CreateApiUser | [CreateApiUserRequest](#meshtrade-iam-api_user-v1-CreateApiUserRequest) | [APIUser](#meshtrade-iam-api_user-v1-APIUser) | Create a new API User. |
+| ListApiUsers | [ListApiUsersRequest](#meshtrade-iam-api_user-v1-ListApiUsersRequest) | [ListApiUsersResponse](#meshtrade-iam-api_user-v1-ListApiUsersResponse) | Get all API users |
+| SearchApiUsers | [SearchApiUsersRequest](#meshtrade-iam-api_user-v1-SearchApiUsersRequest) | [SearchApiUsersResponse](#meshtrade-iam-api_user-v1-SearchApiUsersResponse) | Search API users with filtering options. |
 
  
 

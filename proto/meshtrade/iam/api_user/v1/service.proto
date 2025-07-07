@@ -1,0 +1,100 @@
+syntax = "proto3";
+
+package meshtrade.iam.api_user.v1;
+
+import "meshtrade/iam/api_user/v1/api_user.proto";
+import "meshtrade/option/v1/role.proto";
+import "meshtrade/option/v1/method_type.proto";
+
+option go_package = "github.com/meshtrade/api/go/iam/api_user/v1;api_userv1";
+option (meshtrade.option.v1.standard_roles) = {
+  roles: [
+    ROLE_IAM_ADMIN,
+    ROLE_IAM_VIEWER
+  ]
+};
+
+service ApiUserService {
+  /*
+     Get Specific API User.
+  */
+  rpc GetApiUser(GetApiUserRequest) returns (meshtrade.iam.api_user.v1.APIUser) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
+    option (meshtrade.option.v1.roles) = {
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_VIEWER
+      ]
+    };
+  }
+
+  /*
+     Create a new API User.
+  */
+  rpc CreateApiUser(CreateApiUserRequest) returns (meshtrade.iam.api_user.v1.APIUser) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
+    option (meshtrade.option.v1.roles) = {
+      roles: [
+        ROLE_IAM_ADMIN
+      ]
+    };
+  }
+
+  /*
+     Get all API users
+  */
+  rpc ListApiUsers(ListApiUsersRequest) returns (ListApiUsersResponse) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
+    option (meshtrade.option.v1.roles) = {
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_VIEWER
+      ]
+    };
+  }
+
+  /*
+     Search API users with filtering options.
+  */
+  rpc SearchApiUsers(SearchApiUsersRequest) returns (SearchApiUsersResponse) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
+    option (meshtrade.option.v1.roles) = {
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_VIEWER
+      ]
+    };
+  }
+}
+
+message GetApiUserRequest {
+  /*
+     Name of the API user to get.
+  */
+  string name = 1;
+}
+
+message CreateApiUserRequest {
+  /*
+     The API user resource to create.
+     The name field will be ignored and assigned by the server.
+  */
+  meshtrade.iam.api_user.v1.APIUser api_user = 1;
+}
+
+message ListApiUsersRequest {}
+
+message ListApiUsersResponse {
+  repeated meshtrade.iam.api_user.v1.APIUser api_users = 1;
+}
+
+message SearchApiUsersRequest {
+  /*
+     Display name is a substring search for API users.
+  */
+  string display_name = 1;
+}
+
+message SearchApiUsersResponse {
+  repeated meshtrade.iam.api_user.v1.APIUser api_users = 1;
+}
