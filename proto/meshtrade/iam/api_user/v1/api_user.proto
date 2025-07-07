@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package meshtrade.iam.api_user.v1;
+
+import "meshtrade/option/v1/role.proto";
+
+option go_package = "github.com/meshtrade/api/go/iam/api_user/v1;api_userv1";
+
+message APIUser {
+  /*
+     The unique, immutable, and canonical name of the api user resource in the format api_users/{api_user_id}.
+     The {api_user_id} is a system-generated unique identifier (e.g., UUID) that will never change.
+     System set on creation.
+  */
+  string name = 1;
+
+  /*
+     The resource name of the group that owns this api user in the format groups/{group_id}.
+     This field establishes the ownership link.
+     Required on creation.
+  */
+  string owner = 2;
+
+  /*
+     The resource name of the group that owns this api user in the format groups/{group_id}.
+     This field establishes the ownership link.
+     Required on creation.
+  */
+  repeated string owners = 3;
+
+  /*
+     A non-unique, user-provided name for the api key, used for display purposes.
+     Required on creation.
+  */
+  string display_name = 4;
+
+  /*
+     The state of the api user.
+  */
+  meshtrade.iam.api_user.v1.APIUserState state = 5;
+
+  /*
+     Roles granted to the api api user.
+     The API user can use these roles in the appointed owner group.
+  */
+  repeated meshtrade.option.v1.Role roles = 6;
+}
+
+enum APIUserState {
+  /*
+     Unknown or not specified.
+     This is a default value to prevent accidental assignment and should not be used.
+  */
+  API_USER_STATE_UNSPECIFIED = 0;
+
+  /*
+     API user is active and associated api keys can be used.
+  */
+  API_USER_STATE_ACTIVE = 1;
+
+  /*
+     API user is active and associated api keys cannot be used.
+  */
+  API_USER_STATE_INACTIVE = 2;
+}

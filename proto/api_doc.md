@@ -78,6 +78,11 @@
   
     - [ClientService](#meshtrade-compliance-client-v1-ClientService)
   
+- [meshtrade/iam/api_user/v1/api_user.proto](#meshtrade_iam_api_user_v1_api_user-proto)
+    - [APIUser](#meshtrade-iam-api_user-v1-APIUser)
+  
+    - [APIUserState](#meshtrade-iam-api_user-v1-APIUserState)
+  
 - [meshtrade/iam/group/v1/group.proto](#meshtrade_iam_group_v1_group-proto)
     - [Group](#meshtrade-iam-group-v1-Group)
   
@@ -89,6 +94,14 @@
     - [SearchGroupsResponse](#meshtrade-iam-group-v1-SearchGroupsResponse)
   
     - [GroupService](#meshtrade-iam-group-v1-GroupService)
+  
+- [meshtrade/iam/user/v1/user.proto](#meshtrade_iam_user_v1_user-proto)
+    - [User](#meshtrade-iam-user-v1-User)
+  
+- [meshtrade/iam/user/v1/service.proto](#meshtrade_iam_user_v1_service-proto)
+    - [AssignRoleToUserRequest](#meshtrade-iam-user-v1-AssignRoleToUserRequest)
+  
+    - [UserService](#meshtrade-iam-user-v1-UserService)
   
 - [meshtrade/issuance_hub/instrument/v1/instrument.proto](#meshtrade_issuance_hub_instrument_v1_instrument-proto)
     - [Instrument](#meshtrade-issuance_hub-instrument-v1-Instrument)
@@ -1059,6 +1072,55 @@ This method is useful for fetching multiple client records at once. Note: This e
 
 
 
+<a name="meshtrade_iam_api_user_v1_api_user-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/iam/api_user/v1/api_user.proto
+
+
+
+<a name="meshtrade-iam-api_user-v1-APIUser"></a>
+
+### APIUser
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| name | [string](#string) |  | The unique, immutable, and canonical name of the api user resource in the format api_users/{api_user_id}. The {api_user_id} is a system-generated unique identifier (e.g., UUID) that will never change. System set on creation. |
+| owner | [string](#string) |  | The resource name of the group that owns this api user in the format groups/{group_id}. This field establishes the ownership link. Required on creation. |
+| owners | [string](#string) | repeated | The resource name of the group that owns this api user in the format groups/{group_id}. This field establishes the ownership link. Required on creation. |
+| display_name | [string](#string) |  | A non-unique, user-provided name for the api key, used for display purposes. Required on creation. |
+| state | [APIUserState](#meshtrade-iam-api_user-v1-APIUserState) |  | The state of the api user. |
+| roles | [meshtrade.option.v1.Role](#meshtrade-option-v1-Role) | repeated | Roles granted to the api api user. The API user can use these roles in the appointed owner group. |
+
+
+
+
+
+ 
+
+
+<a name="meshtrade-iam-api_user-v1-APIUserState"></a>
+
+### APIUserState
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| API_USER_STATE_UNSPECIFIED | 0 | Unknown or not specified. This is a default value to prevent accidental assignment and should not be used. |
+| API_USER_STATE_ACTIVE | 1 | API user is active and associated api keys can be used. |
+| API_USER_STATE_INACTIVE | 2 | API user is active and associated api keys cannot be used. |
+
+
+ 
+
+ 
+
+ 
+
+
+
 <a name="meshtrade_iam_group_v1_group-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
@@ -1183,6 +1245,81 @@ This method is useful for fetching multiple client records at once. Note: This e
 | GetGroup | [GetGroupRequest](#meshtrade-iam-group-v1-GetGroupRequest) | [Group](#meshtrade-iam-group-v1-Group) | Get Specific Group. |
 | ListGroups | [ListGroupsRequest](#meshtrade-iam-group-v1-ListGroupsRequest) | [ListGroupsResponse](#meshtrade-iam-group-v1-ListGroupsResponse) | Get all groups |
 | SearchGroups | [SearchGroupsRequest](#meshtrade-iam-group-v1-SearchGroupsRequest) | [SearchGroupsResponse](#meshtrade-iam-group-v1-SearchGroupsResponse) | Get all groups with search filtering options. |
+
+ 
+
+
+
+<a name="meshtrade_iam_user_v1_user-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/iam/user/v1/user.proto
+
+
+
+<a name="meshtrade-iam-user-v1-User"></a>
+
+### User
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| email | [string](#string) |  | Email address of the user. |
+| roles | [string](#string) | repeated | Roles is a list of the standard roles assigned to this user prepended by the name of the group in which they have been assigned that role. e.g. groups/{group_id}/{role}, where role is one of the optionv1.Role enum |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="meshtrade_iam_user_v1_service-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/iam/user/v1/service.proto
+
+
+
+<a name="meshtrade-iam-user-v1-AssignRoleToUserRequest"></a>
+
+### AssignRoleToUserRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| email | [string](#string) |  | The email address of the user to assign a role to |
+| group | [string](#string) |  | The name of the group in which the user is to be assigned the given role |
+| role | [meshtrade.option.v1.Role](#meshtrade-option-v1-Role) |  | Role is the role to assign to the user |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+
+<a name="meshtrade-iam-user-v1-UserService"></a>
+
+### UserService
+Service defines the RPC methods for interacting with the user resource,
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| AssignRoleToUser | [AssignRoleToUserRequest](#meshtrade-iam-user-v1-AssignRoleToUserRequest) | [User](#meshtrade-iam-user-v1-User) | Assign Role To User |
 
  
 

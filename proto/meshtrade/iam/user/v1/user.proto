@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package meshtrade.iam.user.v1;
+
+option go_package = "github.com/meshtrade/api/go/iam/user/v1;userv1";
+
+message User {
+  /*
+     Email address of the user.
+  */
+  string email = 1;
+
+  /*
+     Roles is a list of the standard roles assigned to this user
+     prepended by the name of the group in which they have been assigned that role.
+     e.g. groups/{group_id}/{role}, where role is one of the optionv1.Role enum
+  */
+  repeated string roles = 6;
+}

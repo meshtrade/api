@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package meshtrade.iam.user.v1;
+
+import "meshtrade/iam/user/v1/user.proto";
+import "meshtrade/option/v1/method_type.proto";
+import "meshtrade/option/v1/role.proto";
+
+option go_package = "github.com/meshtrade/api/go/iam/user/v1;userv1";
+
+// Service defines the RPC methods for interacting with the user resource,
+service UserService {
+  // Assign Role To User
+  rpc AssignRoleToUser(AssignRoleToUserRequest) returns (meshtrade.iam.user.v1.User) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
+    option (meshtrade.option.v1.roles) = {
+      roles: [ROLE_IAM_ADMIN]
+    };
+  }
+}
+
+message AssignRoleToUserRequest {
+  // The email address of the user to assign a role to
+  string email = 1;
+
+  // The name of the group in which the user is to be assigned the given role
+  string group = 2;
+
+  // Role is the role to assign to the user
+  meshtrade.option.v1.Role role = 3;
+}
