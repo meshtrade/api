@@ -4,6 +4,9 @@ sidebar_position: 1
 
 # Installation
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 Get started with the Mesh API by installing the SDK for your preferred programming language.
 
 ## System Requirements
@@ -14,7 +17,8 @@ Get started with the Mesh API by installing the SDK for your preferred programmi
 
 ## SDK Installation
 
-### Go SDK
+<Tabs>
+<TabItem value="go" label="Go">
 
 ```bash
 # Install the Go SDK
@@ -39,7 +43,8 @@ require (
 )
 ```
 
-### Python SDK
+</TabItem>
+<TabItem value="python" label="Python">
 
 ```bash
 # Install via pip
@@ -62,7 +67,8 @@ grpcio>=1.60.0
 protobuf>=4.25.0
 ```
 
-### TypeScript SDK
+</TabItem>
+<TabItem value="typescript" label="TypeScript">
 
 ```bash
 # Install via yarn (recommended)
@@ -86,6 +92,9 @@ Example `package.json`:
   }
 }
 ```
+
+</TabItem>
+</Tabs>
 
 ## Development Setup
 
@@ -127,7 +136,8 @@ CMD ["yarn", "start"]
 
 Verify your installation with a simple test:
 
-### Go
+<Tabs>
+<TabItem value="go" label="Go">
 
 ```go title="test.go"
 package main
@@ -154,7 +164,8 @@ func main() {
 }
 ```
 
-### Python
+</TabItem>
+<TabItem value="python" label="Python">
 
 ```python title="test.py"
 try:
@@ -164,7 +175,8 @@ except ImportError as e:
     print(f"❌ Import error: {e}")
 ```
 
-### TypeScript
+</TabItem>
+<TabItem value="typescript" label="TypeScript">
 
 ```typescript title="test.ts"
 try {
@@ -174,6 +186,9 @@ try {
   console.error('❌ Import error:', error);
 }
 ```
+
+</TabItem>
+</Tabs>
 
 ## Common Issues
 

@@ -4,6 +4,9 @@ sidebar_position: 1
 
 # SDK Overview
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 Mesh provides official SDKs for Go, Python, and TypeScript, all generated from the same protobuf definitions
 to ensure consistency across languages.
 
@@ -47,27 +50,34 @@ to ensure consistency across languages.
 
 ## Installation
 
-### Go
+<Tabs>
+<TabItem value="go" label="Go">
 
 ```bash
 go get github.com/meshtrade/api/go
 ```
 
-### Python
+</TabItem>
+<TabItem value="python" label="Python">
 
 ```bash
 pip install meshtrade-api
 ```
 
-### TypeScript
+</TabItem>
+<TabItem value="typescript" label="TypeScript">
 
 ```bash
 npm install @meshtrade/api
 ```
 
+</TabItem>
+</Tabs>
+
 ## Basic Usage Examples
 
-### Go Example
+<Tabs>
+<TabItem value="go" label="Go">
 
 ```go title="Go Client Example"
 package main
@@ -104,7 +114,8 @@ func main() {
 }
 ```
 
-### Python Example
+</TabItem>
+<TabItem value="python" label="Python">
 
 ```python title="Python Client Example"
 import asyncio
@@ -132,7 +143,8 @@ async def main():
 asyncio.run(main())
 ```
 
-### TypeScript Example
+</TabItem>
+<TabItem value="typescript" label="TypeScript">
 
 ```typescript title="TypeScript Client Example"
 import { AccountServiceClient } from '@meshtrade/api/wallet/account/v1';
@@ -159,11 +171,17 @@ async function main() {
 main().catch(console.error);
 ```
 
+</TabItem>
+</Tabs>
+
 ## Advanced Features
 
 ### Connection Management
 
 All SDKs support connection pooling and reuse:
+
+<Tabs>
+<TabItem value="go" label="Go">
 
 ```go title="Go Connection Pool"
 // Configure connection pool
@@ -176,6 +194,9 @@ config := account.Config{
 client, err := account.NewClient(ctx, config)
 ```
 
+</TabItem>
+<TabItem value="python" label="Python">
+
 ```python title="Python Connection Pool"
 # Configure connection pool
 client = AccountServiceClient(
@@ -184,6 +205,9 @@ client = AccountServiceClient(
     keep_alive=30
 )
 ```
+
+</TabItem>
+<TabItem value="typescript" label="TypeScript">
 
 ```typescript title="TypeScript Connection Pool"
 // Configure connection pool
@@ -194,9 +218,15 @@ const client = new AccountServiceClient({
 });
 ```
 
+</TabItem>
+</Tabs>
+
 ### Error Handling
 
 Each SDK provides rich error information:
+
+<Tabs>
+<TabItem value="go" label="Go">
 
 ```go title="Go Error Handling"
 resp, err := client.GetAccount(ctx, req)
@@ -214,6 +244,9 @@ if err != nil {
 }
 ```
 
+</TabItem>
+<TabItem value="python" label="Python">
+
 ```python title="Python Error Handling"
 try:
     response = await client.get_account(account_id="acc_123")
@@ -224,6 +257,9 @@ except PermissionDeniedError:
 except MeshAPIError as e:
     print(f"API error: {e.message}")
 ```
+
+</TabItem>
+<TabItem value="typescript" label="TypeScript">
 
 ```typescript title="TypeScript Error Handling"
 try {
@@ -239,9 +275,15 @@ try {
 }
 ```
 
+</TabItem>
+</Tabs>
+
 ### Streaming Support
 
 All SDKs support streaming for real-time updates:
+
+<Tabs>
+<TabItem value="go" label="Go">
 
 ```go title="Go Streaming"
 stream, err := client.StreamAccountUpdates(ctx, &account.StreamRequest{
@@ -264,10 +306,16 @@ for {
 }
 ```
 
+</TabItem>
+<TabItem value="python" label="Python">
+
 ```python title="Python Streaming"
 async for update in client.stream_account_updates(account_id="acc_123"):
     print(f"Update: {update}")
 ```
+
+</TabItem>
+<TabItem value="typescript" label="TypeScript">
 
 ```typescript title="TypeScript Streaming"
 const stream = client.streamAccountUpdates({ accountId: 'acc_123' });
@@ -276,6 +324,9 @@ for await (const update of stream) {
   console.log('Update:', update);
 }
 ```
+
+</TabItem>
+</Tabs>
 
 ## Environment Configuration
 

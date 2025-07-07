@@ -4,6 +4,9 @@ sidebar_position: 1
 
 # Introduction
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 Welcome to the **Mesh API Documentation** - your comprehensive guide to integrating with the Mesh trading platform.
 
 ## What is Mesh API?
@@ -34,16 +37,32 @@ All API requests require proper authentication. Get started by:
 2. **Configuring your client** with the provided credentials
 3. **Making your first authenticated request**
 
+<Tabs>
+<TabItem value="go" label="Go">
+
 ```bash
 # Install the Go SDK
 go get github.com/meshtrade/api/go
+```
 
+</TabItem>
+<TabItem value="python" label="Python">
+
+```bash
 # Install the Python SDK
 pip install meshtrade-api
+```
 
+</TabItem>
+<TabItem value="typescript" label="TypeScript">
+
+```bash
 # Install the TypeScript SDK
 npm install @meshtrade/api
 ```
+
+</TabItem>
+</Tabs>
 
 ## Architecture Overview
 
@@ -87,6 +106,9 @@ graph TB
 
 Here's a simple example of creating a client and fetching account information:
 
+<Tabs>
+<TabItem value="go" label="Go">
+
 ```go title="Go Example"
 package main
 
@@ -114,6 +136,9 @@ func main() {
 }
 ```
 
+</TabItem>
+<TabItem value="python" label="Python">
+
 ```python title="Python Example"
 import asyncio
 from meshtrade.wallet.account.v1 import AccountServiceClient
@@ -130,6 +155,9 @@ async def main():
 asyncio.run(main())
 ```
 
+</TabItem>
+<TabItem value="typescript" label="TypeScript">
+
 ```typescript title="TypeScript Example"
 import { AccountServiceClient } from '@meshtrade/api/wallet/account/v1';
 
@@ -145,6 +173,9 @@ async function main() {
 
 main();
 ```
+
+</TabItem>
+</Tabs>
 
 ## Next Steps
 

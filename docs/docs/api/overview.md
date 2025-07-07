@@ -4,6 +4,9 @@ sidebar_position: 1
 
 # API Overview
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 The Mesh API is organized around **services** that handle specific business domains.
 Each service is versioned independently and provides a focused set of capabilities.
 
@@ -205,7 +208,8 @@ message Token {
 
 All API calls require authentication using one of these methods:
 
-### API Key Authentication
+<Tabs>
+<TabItem value="apikey" label="API Key">
 
 ```bash
 # Include API key in headers
@@ -214,7 +218,8 @@ curl -H "Authorization: Bearer YOUR_API_KEY" \
      https://api.mesh.dev/v1/accounts
 ```
 
-### JWT Authentication
+</TabItem>
+<TabItem value="jwt" label="JWT Token">
 
 ```bash
 # Include JWT token in headers
@@ -222,6 +227,9 @@ curl -H "Authorization: Bearer YOUR_JWT_TOKEN" \
      -H "Content-Type: application/json" \
      https://api.mesh.dev/v1/accounts
 ```
+
+</TabItem>
+</Tabs>
 
 ## Error Handling
 
