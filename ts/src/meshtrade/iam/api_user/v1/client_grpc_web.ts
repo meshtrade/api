@@ -9,28 +9,68 @@ import {
   SearchApiUsersResponse,
 } from "./service_pb";
 import { APIUser } from "./api_user_pb";
+import { UnaryInterceptor } from "grpc-web";
 import { ConfigOpts, getConfigFromOpts } from "../../../common/config";
+import {GroupHeaderInterceptor} from "../../../common/groupHeaderInterceptor";
 
 /**
  * Client for interacting with the iam api_user v1 API resource service.
  */
 export class ApiUserGrpcWebClientV1 {
   private _service: ApiUserServicePromiseClient;
+  private readonly _config: ReturnType<typeof getConfigFromOpts>;
+  private readonly _interceptors: UnaryInterceptor<any, any>[];
 
   /**
    * Constructs an instance of ApiUserGrpcWebClientV1.
    * @param {ConfigOpts} [config] - Optional configuration for the client.
+   * @param {UnaryInterceptor<any, any>[]} [interceptors] - For internal use by `withGroup`.
    */
-  constructor(config?: ConfigOpts) {
-    // process config
-    const _config = getConfigFromOpts(config);
+  constructor(config?: ConfigOpts, interceptors?: UnaryInterceptor<any, any>[]) {
+    this._config = getConfigFromOpts(config);
+    this._interceptors = interceptors || [new LoggingInterceptor()];
 
-    // construct service
-    this._service = new ApiUserServicePromiseClient(_config.apiServerURL, null, {
-      withCredentials: true,
-      unaryInterceptors: [new LoggingInterceptor()],
-    });
+    // Construct the underlying gRPC-web service client
+    this._service = new ApiUserServicePromiseClient(
+      this._config.apiServerURL,
+      null,
+      {
+        withCredentials: true,
+        unaryInterceptors: this._interceptors,
+      }
+    );
   }
+
+  /**
+   * Returns a new client instance configured to send the specified groupID
+   * in the request headers for subsequent API calls.
+   * @param {string} groupID - The operating group context ID to inject into the request.
+   * @returns {ApiUserGrpcWebClientV1} A new, configured instance of the client.
+   */
+  withGroup(groupID: string): ApiUserGrpcWebClientV1 {
+    // Check if a GroupHeaderInterceptor already exists.
+    const hasGroupInterceptor = this._interceptors.some(
+      (interceptor) => interceptor instanceof GroupHeaderInterceptor
+    );
+
+    if (hasGroupInterceptor) {
+      throw new Error(
+        "Attempted to set group context twice. A group has already been set for this client instance."
+      );
+    }
+
+    // Create a new interceptor for the group context
+    const groupInterceptor = new GroupHeaderInterceptor(groupID);
+
+    // Return a new client instance with the existing interceptors plus the new one
+    return new ApiUserGrpcWebClientV1(
+      this._config,
+      [
+      ...this._interceptors,
+      groupInterceptor,
+    ],
+  );
+  }  
 
   /**
    * Retrieves an API user.
