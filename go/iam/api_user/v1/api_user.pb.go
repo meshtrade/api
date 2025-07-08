@@ -7,6 +7,7 @@
 package api_userv1
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	v1 "github.com/meshtrade/api/go/option/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -177,13 +178,15 @@ var File_meshtrade_iam_api_user_v1_api_user_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_api_user_v1_api_user_proto_rawDesc = "" +
 	"\n" +
-	"(meshtrade/iam/api_user/v1/api_user.proto\x12\x19meshtrade.iam.api_user.v1\x1a\x1emeshtrade/option/v1/role.proto\"\xde\x01\n" +
+	"(meshtrade/iam/api_user/v1/api_user.proto\x12\x19meshtrade.iam.api_user.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1emeshtrade/option/v1/role.proto\"\xe4\x03\n" +
 	"\aAPIUser\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +
 	"\x05owner\x18\x02 \x01(\tR\x05owner\x12\x16\n" +
-	"\x06owners\x18\x03 \x03(\tR\x06owners\x12!\n" +
-	"\fdisplay_name\x18\x04 \x01(\tR\vdisplayName\x12=\n" +
-	"\x05state\x18\x05 \x01(\x0e2'.meshtrade.iam.api_user.v1.APIUserStateR\x05state\x12/\n" +
+	"\x06owners\x18\x03 \x03(\tR\x06owners\x12\xb1\x01\n" +
+	"\fdisplay_name\x18\x04 \x01(\tB\x8d\x01\xbaH\x89\x01\xba\x01\x7f\n" +
+	"\x15display_name.required\x12Adisplay name is required and must be between 1 and 255 characters\x1a#size(this) > 0 && size(this) <= 255r\x05\x10\x01\x18\xff\x01R\vdisplayName\x12\xb1\x01\n" +
+	"\x05state\x18\x05 \x01(\x0e2'.meshtrade.iam.api_user.v1.APIUserStateBr\xbaHo\xba\x01e\n" +
+	"\x0estate.required\x12Cstate is required and must be a valid state value (not UNSPECIFIED)\x1a\x0eint(this) != 0\x82\x01\x04\x10\x01 \x00R\x05state\x12/\n" +
 	"\x05roles\x18\x06 \x03(\x0e2\x19.meshtrade.option.v1.RoleR\x05roles*f\n" +
 	"\fAPIUserState\x12\x1e\n" +
 	"\x1aAPI_USER_STATE_UNSPECIFIED\x10\x00\x12\x19\n" +

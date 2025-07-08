@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package meshtrade.iam.api_user.v1;
 
+import "buf/validate/validate.proto";
 import "meshtrade/option/v1/role.proto";
 
 option go_package = "github.com/meshtrade/api/go/iam/api_user/v1;api_userv1";
@@ -32,12 +33,32 @@ message APIUser {
      A non-unique, user-provided name for the api key, used for display purposes.
      Required on creation.
   */
-  string display_name = 4;
+  string display_name = 4 [(buf.validate.field) = {
+    string: {
+      min_len: 1
+      max_len: 255
+    }
+    cel: {
+      id: "display_name.required"
+      message: "display name is required and must be between 1 and 255 characters"
+      expression: "size(this) > 0 && size(this) <= 255"
+    }
+  }];
 
   /*
      The state of the api user.
   */
-  meshtrade.iam.api_user.v1.APIUserState state = 5;
+  meshtrade.iam.api_user.v1.APIUserState state = 5 [(buf.validate.field) = {
+    enum: {
+      defined_only: true
+      not_in: [0]
+    }
+    cel: {
+      id: "state.required"
+      message: "state is required and must be a valid state value (not UNSPECIFIED)"
+      expression: "int(this) != 0"
+    }
+  }];
 
   /*
      Roles granted to the api api user.
