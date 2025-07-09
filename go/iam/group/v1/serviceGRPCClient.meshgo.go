@@ -45,3 +45,37 @@ func (g *GRPCClientGroupService) GetGroup(ctx context.Context, request *GetGroup
 
 	return getGroupResponse, nil
 }
+
+func (g *GRPCClientGroupService) ListGroups(ctx context.Context, request *ListGroupsRequest) (*ListGroupsResponse, error) {
+	ctx, span := g.tracer.Start(
+		ctx,
+		GroupServiceServiceProviderName+"ListGroups",
+	)
+	defer span.End()
+
+	// call given implementation of the adapted service provider interface
+	listGroupsResponse, err := g.grpcClient.ListGroups(ctx, request)
+	if err != nil {
+		log.Ctx(ctx).Error().Err(err).Msg("could not ListGroups")
+		return nil, fmt.Errorf("could not ListGroups: %s", err)
+	}
+
+	return listGroupsResponse, nil
+}
+
+func (g *GRPCClientGroupService) SearchGroups(ctx context.Context, request *SearchGroupsRequest) (*SearchGroupsResponse, error) {
+	ctx, span := g.tracer.Start(
+		ctx,
+		GroupServiceServiceProviderName+"SearchGroups",
+	)
+	defer span.End()
+
+	// call given implementation of the adapted service provider interface
+	searchGroupsResponse, err := g.grpcClient.SearchGroups(ctx, request)
+	if err != nil {
+		log.Ctx(ctx).Error().Err(err).Msg("could not SearchGroups")
+		return nil, fmt.Errorf("could not SearchGroups: %s", err)
+	}
+
+	return searchGroupsResponse, nil
+}

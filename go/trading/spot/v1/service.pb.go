@@ -7,6 +7,7 @@
 package spotv1
 
 import (
+	_ "github.com/meshtrade/api/go/option/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -69,11 +70,15 @@ var File_meshtrade_trading_spot_v1_service_proto protoreflect.FileDescriptor
 
 const file_meshtrade_trading_spot_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"'meshtrade/trading/spot/v1/service.proto\x12\x19meshtrade.trading.spot.v1\x1a$meshtrade/trading/spot/v1/spot.proto\"(\n" +
+	"'meshtrade/trading/spot/v1/service.proto\x12\x19meshtrade.trading.spot.v1\x1a$meshtrade/trading/spot/v1/spot.proto\x1a\x1emeshtrade/option/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\"(\n" +
 	"\x0eGetSpotRequest\x12\x16\n" +
-	"\x06number\x18\x01 \x01(\tR\x06number2d\n" +
-	"\vSpotService\x12U\n" +
-	"\aGetSpot\x12).meshtrade.trading.spot.v1.GetSpotRequest\x1a\x1f.meshtrade.trading.spot.v1.SpotB4Z2github.com/meshtrade/api/go/trading/spot/v1;spotv1b\x06proto3"
+	"\x06number\x18\x01 \x01(\tR\x06number2r\n" +
+	"\vSpotService\x12c\n" +
+	"\aGetSpot\x12).meshtrade.trading.spot.v1.GetSpotRequest\x1a\x1f.meshtrade.trading.spot.v1.Spot\"\f\xa0\xb5\x18\x01\xaa\xb5\x18\x04\n" +
+	"\x02\t\n" +
+	"B<\x9a\xb5\x18\x04\n" +
+	"\x02\t\n" +
+	"Z2github.com/meshtrade/api/go/trading/spot/v1;spotv1b\x06proto3"
 
 var (
 	file_meshtrade_trading_spot_v1_service_proto_rawDescOnce sync.Once

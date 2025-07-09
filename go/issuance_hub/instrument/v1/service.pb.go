@@ -7,6 +7,7 @@
 package instrumentv1
 
 import (
+	_ "github.com/meshtrade/api/go/option/v1"
 	v1 "github.com/meshtrade/api/go/type/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -290,7 +291,7 @@ var File_meshtrade_issuance_hub_instrument_v1_service_proto protoreflect.FileDes
 
 const file_meshtrade_issuance_hub_instrument_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"2meshtrade/issuance_hub/instrument/v1/service.proto\x12$meshtrade.issuance_hub.instrument.v1\x1a5meshtrade/issuance_hub/instrument/v1/instrument.proto\x1a\x1emeshtrade/type/v1/amount.proto\"*\n" +
+	"2meshtrade/issuance_hub/instrument/v1/service.proto\x12$meshtrade.issuance_hub.instrument.v1\x1a5meshtrade/issuance_hub/instrument/v1/instrument.proto\x1a\x1emeshtrade/type/v1/amount.proto\x1a\x1emeshtrade/option/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\"*\n" +
 	"\x14GetInstrumentRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\"\x9c\x01\n" +
 	"\x15MintInstrumentRequest\x121\n" +
@@ -306,11 +307,15 @@ const file_meshtrade_issuance_hub_instrument_v1_service_proto_rawDesc = "" +
 	"feeAccount\x12%\n" +
 	"\x0esource_account\x18\x03 \x01(\tR\rsourceAccount\"?\n" +
 	"\x16BurnInstrumentResponse\x12%\n" +
-	"\x0etransaction_id\x18\x01 \x01(\tR\rtransactionId2\xae\x03\n" +
-	"\x11InstrumentService\x12}\n" +
-	"\rGetInstrument\x12:.meshtrade.issuance_hub.instrument.v1.GetInstrumentRequest\x1a0.meshtrade.issuance_hub.instrument.v1.Instrument\x12\x8b\x01\n" +
-	"\x0eMintInstrument\x12;.meshtrade.issuance_hub.instrument.v1.MintInstrumentRequest\x1a<.meshtrade.issuance_hub.instrument.v1.MintInstrumentResponse\x12\x8b\x01\n" +
-	"\x0eBurnInstrument\x12;.meshtrade.issuance_hub.instrument.v1.BurnInstrumentRequest\x1a<.meshtrade.issuance_hub.instrument.v1.BurnInstrumentResponseBEZCgithub.com/meshtrade/api/go/issuance_hub/instrument/v1;instrumentv1b\x06proto3"
+	"\x0etransaction_id\x18\x01 \x01(\tR\rtransactionId2\xd7\x03\n" +
+	"\x11InstrumentService\x12\x8b\x01\n" +
+	"\rGetInstrument\x12:.meshtrade.issuance_hub.instrument.v1.GetInstrumentRequest\x1a0.meshtrade.issuance_hub.instrument.v1.Instrument\"\f\xa0\xb5\x18\x01\xaa\xb5\x18\x04\n" +
+	"\x02\a\b\x12\x98\x01\n" +
+	"\x0eMintInstrument\x12;.meshtrade.issuance_hub.instrument.v1.MintInstrumentRequest\x1a<.meshtrade.issuance_hub.instrument.v1.MintInstrumentResponse\"\v\xa0\xb5\x18\x02\xaa\xb5\x18\x03\n" +
+	"\x01\a\x12\x98\x01\n" +
+	"\x0eBurnInstrument\x12;.meshtrade.issuance_hub.instrument.v1.BurnInstrumentRequest\x1a<.meshtrade.issuance_hub.instrument.v1.BurnInstrumentResponse\"\v\xa0\xb5\x18\x02\xaa\xb5\x18\x03\n" +
+	"\x01\aBM\x9a\xb5\x18\x04\n" +
+	"\x02\a\bZCgithub.com/meshtrade/api/go/issuance_hub/instrument/v1;instrumentv1b\x06proto3"
 
 var (
 	file_meshtrade_issuance_hub_instrument_v1_service_proto_rawDescOnce sync.Once

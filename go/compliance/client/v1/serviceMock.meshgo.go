@@ -13,12 +13,24 @@ var _ ClientService = &MockClientService{}
 
 // MockClientService is a mock implementation of the ClientService interface.
 type MockClientService struct {
-	mutex                      sync.Mutex
-	T                          *testing.T
-	GetClientFunc              func(t *testing.T, m *MockClientService, ctx context.Context, request *GetClientRequest) (*Client, error)
-	GetClientFuncInvocations   int
-	ListClientsFunc            func(t *testing.T, m *MockClientService, ctx context.Context, request *ListClientsRequest) (*ListClientsResponse, error)
-	ListClientsFuncInvocations int
+	mutex                       sync.Mutex
+	T                           *testing.T
+	CreateClientFunc            func(t *testing.T, m *MockClientService, ctx context.Context, request *CreateClientRequest) (*Client, error)
+	CreateClientFuncInvocations int
+	GetClientFunc               func(t *testing.T, m *MockClientService, ctx context.Context, request *GetClientRequest) (*Client, error)
+	GetClientFuncInvocations    int
+	ListClientsFunc             func(t *testing.T, m *MockClientService, ctx context.Context, request *ListClientsRequest) (*ListClientsResponse, error)
+	ListClientsFuncInvocations  int
+}
+
+func (m *MockClientService) CreateClient(ctx context.Context, request *CreateClientRequest) (*Client, error) {
+	m.mutex.Lock()
+	m.CreateClientFuncInvocations++
+	m.mutex.Unlock()
+	if m.CreateClientFunc == nil {
+		return nil, nil
+	}
+	return m.CreateClientFunc(m.T, m, ctx, request)
 }
 
 func (m *MockClientService) GetClient(ctx context.Context, request *GetClientRequest) (*Client, error) {

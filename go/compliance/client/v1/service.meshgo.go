@@ -13,6 +13,9 @@ import (
 // be a natural person, company, or trust. This service allows you to retrieve
 // the compliance profiles for these clients.
 type ClientService interface {
+	// CreateClient creates a single client.
+	CreateClient(ctx context.Context, request *CreateClientRequest) (*Client, error)
+
 	// GetClient retrieves a single client's compliance profile by its unique resource name.
 	//
 	// This allows for fetching the complete compliance details of a specific client,

@@ -3,13 +3,78 @@ syntax = "proto3";
 package meshtrade.iam.group.v1;
 
 import "meshtrade/iam/group/v1/group.proto";
+import "meshtrade/option/v1/role.proto";
+import "meshtrade/option/v1/method_type.proto";
 
 option go_package = "github.com/meshtrade/api/go/iam/group/v1;groupv1";
+option (meshtrade.option.v1.standard_roles) = {
+  roles: [
+    ROLE_IAM_ADMIN,
+    ROLE_IAM_VIEWER
+  ]
+};
 
 service GroupService {
-  rpc GetGroup(GetGroupRequest) returns (meshtrade.iam.group.v1.Group);
+  /*
+     Get Specific Group.
+  */
+  rpc GetGroup(GetGroupRequest) returns (meshtrade.iam.group.v1.Group) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
+    option (meshtrade.option.v1.roles) = {
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_VIEWER
+      ]
+    };
+  }
+
+  /*
+     Get all groups
+  */
+  rpc ListGroups(ListGroupsRequest) returns (ListGroupsResponse) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
+    option (meshtrade.option.v1.roles) = {
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_VIEWER
+      ]
+    };
+  }
+
+  /*
+     Get all groups with search filtering options.
+  */
+  rpc SearchGroups(SearchGroupsRequest) returns (SearchGroupsResponse) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
+    option (meshtrade.option.v1.roles) = {
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_VIEWER
+      ]
+    };
+  }
 }
 
-message GetGroupRequest {}
+message GetGroupRequest {
+  /*
+     Name of the group to get.
+  */
+  string name = 1;
+}
 
+message ListGroupsRequest {}
 
+message ListGroupsResponse {
+  repeated meshtrade.iam.group.v1.Group groups = 1;
+}
+
+message SearchGroupsRequest {
+  /*
+     Name is a substring search for groups.
+  */
+  string name = 1;
+}
+
+message SearchGroupsResponse {
+  repeated meshtrade.iam.group.v1.Group groups = 1;
+}

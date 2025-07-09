@@ -1,0 +1,120 @@
+syntax = "proto3";
+
+package meshtrade.iam.api_user.v1;
+
+import "buf/validate/validate.proto";
+import "meshtrade/option/v1/role.proto";
+
+option go_package = "github.com/meshtrade/api/go/iam/api_user/v1;api_userv1";
+
+message APIUser {
+  /*
+     The unique, immutable, and canonical name of the api user resource in the format api_users/{api_user_id}.
+     The {api_user_id} is a system-generated unique identifier (e.g., UUID) that will never change.
+     System set on creation.
+  */
+  string name = 1;
+
+  /*
+     The resource name of the group that owns this api user in the format groups/{group_id}.
+     This field establishes the ownership link.
+     Required on creation.
+  */
+  string owner = 2;
+
+  /*
+     The resource name of the group that owns this api user in the format groups/{group_id}.
+     This field establishes the ownership link.
+     Required on creation.
+  */
+  repeated string owners = 3;
+
+  /*
+     A non-unique, user-provided name for the api key, used for display purposes.
+     Required on creation.
+  */
+  string display_name = 4 [(buf.validate.field) = {
+    string: {
+      min_len: 1
+      max_len: 255
+    }
+    cel: {
+      id: "display_name.required"
+      message: "display name is required and must be between 1 and 255 characters"
+      expression: "size(this) > 0 && size(this) <= 255"
+    }
+  }];
+
+  /*
+     The state of the api user.
+  */
+  meshtrade.iam.api_user.v1.APIUserState state = 5 [(buf.validate.field) = {
+    enum: {
+      defined_only: true
+      not_in: [0]
+    }
+    cel: {
+      id: "state.required"
+      message: "state is required and must be a valid state value (not UNSPECIFIED)"
+      expression: "int(this) != 0"
+    }
+  }];
+
+  /*
+     Roles granted to the api api user.
+     The API user can use these roles in the appointed owner group.
+  */
+  repeated meshtrade.option.v1.Role roles = 6;
+
+  /*
+     API key for the API user.
+     This field is only populated on creation and is not stored.
+  */
+  string api_key = 7;
+}
+
+enum APIUserState {
+  /*
+     Unknown or not specified.
+     This is a default value to prevent accidental assignment and should not be used.
+  */
+  API_USER_STATE_UNSPECIFIED = 0;
+
+  /*
+     API user is active and associated api keys can be used.
+  */
+  API_USER_STATE_ACTIVE = 1;
+
+  /*
+     API user is active and associated api keys cannot be used.
+  */
+  API_USER_STATE_INACTIVE = 2;
+}
+
+enum APIUserAction {
+  /*
+     Unknown or not specified.
+     This is a default value to prevent accidental assignment and should not be used.
+  */
+  API_USER_ACTION_UNSPECIFIED = 0;
+
+  /*
+     Activate an API user.
+  */
+  API_USER_ACTION_ACTIVATE = 1;
+
+  /*
+     Deactivate an API user.
+  */
+  API_USER_ACTION_DEACTIVATE = 2;
+
+  /*
+     Create an API user.
+  */
+  API_USER_ACTION_CREATE = 3;
+
+  /*
+     Update an API user.
+  */
+  API_USER_ACTION_UPDATE = 4;
+}

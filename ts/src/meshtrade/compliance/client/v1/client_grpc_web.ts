@@ -1,6 +1,7 @@
 import { LoggingInterceptor } from "../../../common/grpc_web";
 import { ClientServicePromiseClient } from "./service_grpc_web_pb";
 import {
+  CreateClientRequest,
   GetClientRequest,
   ListClientsRequest,
   ListClientsResponse,
@@ -27,6 +28,15 @@ export class ClientGrpcWebClientV1 {
       withCredentials: true,
       unaryInterceptors: [new LoggingInterceptor()],
     });
+  }
+
+  /**
+   * Creates a client.
+   * @param {CreateClientRequest} request - The request object for creating a client.
+   * @returns {Promise<Client>} A promise that resolves with the created client.
+   */
+  createClient(request: CreateClientRequest): Promise<Client> {
+    return this._service.createClient(request);
   }
 
   /**

@@ -7,7 +7,14 @@ import (
 )
 
 type GroupService interface {
+	// Get Specific Group.
 	GetGroup(ctx context.Context, request *GetGroupRequest) (*Group, error)
+
+	// Get all groups
+	ListGroups(ctx context.Context, request *ListGroupsRequest) (*ListGroupsResponse, error)
+
+	// Get all groups with search filtering options.
+	SearchGroups(ctx context.Context, request *SearchGroupsRequest) (*SearchGroupsResponse, error)
 }
 
 const GroupServiceServiceProviderName = "meshtrade-iam-group-v1-GroupService"

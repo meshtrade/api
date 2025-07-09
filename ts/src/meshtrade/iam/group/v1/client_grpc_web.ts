@@ -1,6 +1,12 @@
 import { LoggingInterceptor } from "../../../common/grpc_web";
 import { GroupServicePromiseClient } from "./service_grpc_web_pb";
-import { GetGroupRequest } from "./service_pb";
+import {
+  GetGroupRequest,
+  ListGroupsRequest,
+  ListGroupsResponse,
+  SearchGroupsRequest,
+  SearchGroupsResponse,
+} from "./service_pb";
 import { Group } from "./group_pb";
 import { ConfigOpts, getConfigFromOpts } from "../../../common/config";
 
@@ -32,5 +38,23 @@ export class GroupGrpcWebClientV1 {
    */
   getGroup(request: GetGroupRequest): Promise<Group> {
     return this._service.getGroup(request);
+  }
+
+  /**
+   * Retrieves a list of groups.
+   * @param {ListGroupsRequest} request - The request object for listing groups.
+   * @returns {Promise<ListGroupsResponse>} A promise that resolves with the list of groups.
+   */
+  listGroups(request: ListGroupsRequest): Promise<ListGroupsResponse> {
+    return this._service.listGroups(request);
+  }
+
+  /**
+   * Searches for groups.
+   * @param {SearchGroupsRequest} request - The request object for searching groups.
+   * @returns {Promise<SearchGroupsResponse>} A promise that resolves with the search results.
+   */
+  searchGroups(request: SearchGroupsRequest): Promise<SearchGroupsResponse> {
+    return this._service.searchGroups(request);
   }
 }

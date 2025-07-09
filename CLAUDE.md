@@ -206,10 +206,16 @@ The `/proto/meshtrade/type/v1/` directory contains foundational types used acros
   - Method names include resource name (e.g., `GetAccount`, `CreateClient`, `MintInstrument`)
   - Request/Response messages include resource name (e.g., `GetAccountRequest`, `ListClientsResponse`)
   - Get/Create methods return the resource directly, not a response wrapper
-- **Authorization Model**: Uses StandardRole enum from `meshtrade/option/v1/auth.proto`:
+- **Authorization Model**: Uses Role enum from `meshtrade/option/v1/role.proto`:
   - File-level `standard_roles` option declares all roles used by service
-  - Method-level `required_roles` option specifies which roles can access each method
-  - Extension tags: `standard_roles` = 50003, `required_roles` = 50005, `service_type` = 50004
+  - Method-level `roles` option specifies which roles can access each method
+  - Extension tags: `standard_roles` = 50003, `roles` = 50005, `method_type` = 50004
+  - Role definitions follow pattern: `ROLE_{DOMAIN}_{ADMIN|VIEWER}` (e.g., `ROLE_COMPLIANCE_ADMIN`, `ROLE_IAM_VIEWER`)
+  - Each service domain has both admin and viewer roles with appropriate permissions
+- **Method Type Classification**: Uses MethodType enum from `meshtrade/option/v1/method_type.proto`:
+  - All RPC methods must specify `method_type` option as either `METHOD_TYPE_READ` or `METHOD_TYPE_WRITE`
+  - Read operations (Get, List, Search) use `METHOD_TYPE_READ`
+  - Write operations (Create, Update, Delete, Mint, Burn) use `METHOD_TYPE_WRITE`
 - **Extension Tag Management**: Be careful with protobuf extension tag conflicts across option files
 - **Response Message Cleanup**: Remove unused response messages when methods return resources directly
 
@@ -219,6 +225,7 @@ The `/proto/meshtrade/type/v1/` directory contains foundational types used acros
   - Return type changes: Get/Create methods return resources directly, not response wrappers
   - Import statement updates: Remove imports for deleted response message types
   - Add imports for resource types (e.g., `import { Client } from "./client_pb"`)
+  - **Missing Method Detection**: Compare wrapper methods to generated service interface to ensure all RPC methods are exposed
 - **Breaking Change Detection**: TypeScript compilation errors after generation indicate needed updates:
   - Missing exported members = removed response types that need import cleanup
   - Missing properties on service clients = method name changes
@@ -228,4 +235,28 @@ The `/proto/meshtrade/type/v1/` directory contains foundational types used acros
   - Use consistent method naming with resource names included
   - Return the same types as the generated service (resources directly for Get/Create)
   - Maintain proper JSDoc documentation with updated parameter and return types
+  - Include ALL methods from the corresponding protobuf service definition
+- **Client Wrapper Validation Process**:
+  1. After protobuf changes, run `./scripts/generate.sh` to regenerate code
+  2. Check each `*_grpc_web.ts` file to ensure all service methods are wrapped
+  3. Update imports to include all required request/response types
+  4. Run `yarn build` and `yarn lint` in `/ts` to verify compilation
+  5. Look for methods in `service_grpc_web_pb.d.ts` that aren't in the wrapper client
 - **Orphaned File Cleanup**: Remove hand-written files when their corresponding proto services are deleted
+
+## Protobuf Refactoring Best Practices
+
+### Role and Method Type Management
+- **Always run `./scripts/generate.sh`** after protobuf changes to regenerate all language bindings
+- **Use `buf lint`** to validate protobuf syntax and style before generation
+- **Role definitions** must be added to `meshtrade/option/v1/role.proto` following the `ROLE_{DOMAIN}_{ADMIN|VIEWER}` pattern
+- **Method type annotations** are mandatory for all RPC methods using `METHOD_TYPE_READ` or `METHOD_TYPE_WRITE`
+- **File-level role declarations** ensure service authorization model is self-documenting
+- **Method-level role assignments** control granular access permissions per operation
+
+### Code Generation Workflow
+1. Modify protobuf files in `/proto/` directory
+2. Run `buf lint` to validate changes
+3. Run `./scripts/generate.sh` to regenerate all client libraries
+4. Check TypeScript client wrappers for missing methods or imports
+5. Run language-specific tests and linting to verify correctness

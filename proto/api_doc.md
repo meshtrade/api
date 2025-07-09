@@ -57,20 +57,64 @@
 - [meshtrade/compliance/client/v1/natural_person_connection_type.proto](#meshtrade_compliance_client_v1_natural_person_connection_type-proto)
     - [NaturalPersonConnectionType](#meshtrade-compliance-client-v1-NaturalPersonConnectionType)
   
+- [meshtrade/option/v1/role.proto](#meshtrade_option_v1_role-proto)
+    - [RoleList](#meshtrade-option-v1-RoleList)
+  
+    - [Role](#meshtrade-option-v1-Role)
+  
+    - [File-level Extensions](#meshtrade_option_v1_role-proto-extensions)
+    - [File-level Extensions](#meshtrade_option_v1_role-proto-extensions)
+  
+- [meshtrade/option/v1/method_type.proto](#meshtrade_option_v1_method_type-proto)
+    - [MethodType](#meshtrade-option-v1-MethodType)
+  
+    - [File-level Extensions](#meshtrade_option_v1_method_type-proto-extensions)
+  
 - [meshtrade/compliance/client/v1/service.proto](#meshtrade_compliance_client_v1_service-proto)
+    - [CreateClientRequest](#meshtrade-compliance-client-v1-CreateClientRequest)
     - [GetClientRequest](#meshtrade-compliance-client-v1-GetClientRequest)
     - [ListClientsRequest](#meshtrade-compliance-client-v1-ListClientsRequest)
     - [ListClientsResponse](#meshtrade-compliance-client-v1-ListClientsResponse)
   
     - [ClientService](#meshtrade-compliance-client-v1-ClientService)
   
+- [meshtrade/iam/api_user/v1/api_user.proto](#meshtrade_iam_api_user_v1_api_user-proto)
+    - [APIUser](#meshtrade-iam-api_user-v1-APIUser)
+  
+    - [APIUserAction](#meshtrade-iam-api_user-v1-APIUserAction)
+    - [APIUserState](#meshtrade-iam-api_user-v1-APIUserState)
+  
+- [meshtrade/iam/api_user/v1/service.proto](#meshtrade_iam_api_user_v1_service-proto)
+    - [ActivateApiUserRequest](#meshtrade-iam-api_user-v1-ActivateApiUserRequest)
+    - [CreateApiUserRequest](#meshtrade-iam-api_user-v1-CreateApiUserRequest)
+    - [DeactivateApiUserRequest](#meshtrade-iam-api_user-v1-DeactivateApiUserRequest)
+    - [GetApiUserRequest](#meshtrade-iam-api_user-v1-GetApiUserRequest)
+    - [ListApiUsersRequest](#meshtrade-iam-api_user-v1-ListApiUsersRequest)
+    - [ListApiUsersResponse](#meshtrade-iam-api_user-v1-ListApiUsersResponse)
+    - [SearchApiUsersRequest](#meshtrade-iam-api_user-v1-SearchApiUsersRequest)
+    - [SearchApiUsersResponse](#meshtrade-iam-api_user-v1-SearchApiUsersResponse)
+  
+    - [ApiUserService](#meshtrade-iam-api_user-v1-ApiUserService)
+  
 - [meshtrade/iam/group/v1/group.proto](#meshtrade_iam_group_v1_group-proto)
     - [Group](#meshtrade-iam-group-v1-Group)
   
 - [meshtrade/iam/group/v1/service.proto](#meshtrade_iam_group_v1_service-proto)
     - [GetGroupRequest](#meshtrade-iam-group-v1-GetGroupRequest)
+    - [ListGroupsRequest](#meshtrade-iam-group-v1-ListGroupsRequest)
+    - [ListGroupsResponse](#meshtrade-iam-group-v1-ListGroupsResponse)
+    - [SearchGroupsRequest](#meshtrade-iam-group-v1-SearchGroupsRequest)
+    - [SearchGroupsResponse](#meshtrade-iam-group-v1-SearchGroupsResponse)
   
     - [GroupService](#meshtrade-iam-group-v1-GroupService)
+  
+- [meshtrade/iam/user/v1/user.proto](#meshtrade_iam_user_v1_user-proto)
+    - [User](#meshtrade-iam-user-v1-User)
+  
+- [meshtrade/iam/user/v1/service.proto](#meshtrade_iam_user_v1_service-proto)
+    - [AssignRoleToUserRequest](#meshtrade-iam-user-v1-AssignRoleToUserRequest)
+  
+    - [UserService](#meshtrade-iam-user-v1-UserService)
   
 - [meshtrade/issuance_hub/instrument/v1/instrument.proto](#meshtrade_issuance_hub_instrument_v1_instrument-proto)
     - [Instrument](#meshtrade-issuance_hub-instrument-v1-Instrument)
@@ -98,19 +142,6 @@
   
 - [meshtrade/ledger/transaction/v1/transaction_state.proto](#meshtrade_ledger_transaction_v1_transaction_state-proto)
     - [TransactionState](#meshtrade-ledger-transaction-v1-TransactionState)
-  
-- [meshtrade/option/v1/auth.proto](#meshtrade_option_v1_auth-proto)
-    - [RoleList](#meshtrade-option-v1-RoleList)
-  
-    - [Role](#meshtrade-option-v1-Role)
-  
-    - [File-level Extensions](#meshtrade_option_v1_auth-proto-extensions)
-    - [File-level Extensions](#meshtrade_option_v1_auth-proto-extensions)
-  
-- [meshtrade/option/v1/service_type.proto](#meshtrade_option_v1_service_type-proto)
-    - [ServiceType](#meshtrade-option-v1-ServiceType)
-  
-    - [File-level Extensions](#meshtrade_option_v1_service_type-proto-extensions)
   
 - [meshtrade/trading/direct_order/v1/direct_order.proto](#meshtrade_trading_direct_order_v1_direct_order-proto)
     - [DirectOrder](#meshtrade-trading-direct_order-v1-DirectOrder)
@@ -860,6 +891,108 @@ as well as secondary relationships for screening (familial, professional).
 
 
 
+<a name="meshtrade_option_v1_role-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/option/v1/role.proto
+
+
+
+<a name="meshtrade-option-v1-RoleList"></a>
+
+### RoleList
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| roles | [Role](#meshtrade-option-v1-Role) | repeated |  |
+
+
+
+
+
+ 
+
+
+<a name="meshtrade-option-v1-Role"></a>
+
+### Role
+Role defines a named collection of permissions.
+This allows for the creation of business-level roles (e.g., &#34;AccountReader&#34;, &#34;AccountAdmin&#34;)
+that group a set of granular, string-based permissions. Roles are
+defined at the file level in a service&#39;s `.proto` file.
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| ROLE_UNSPECIFIED | 0 | The default value, indicating the role is unknown or not specified. This should be treated as an error and not be used explicitly. |
+| ROLE_WALLET_ADMIN | 1 |  |
+| ROLE_WALLET_VIEWER | 2 |  |
+| ROLE_COMPLIANCE_ADMIN | 3 |  |
+| ROLE_COMPLIANCE_VIEWER | 4 |  |
+| ROLE_IAM_ADMIN | 5 |  |
+| ROLE_IAM_VIEWER | 6 |  |
+| ROLE_ISSUANCE_HUB_ADMIN | 7 |  |
+| ROLE_ISSUANCE_HUB_VIEWER | 8 |  |
+| ROLE_TRADING_ADMIN | 9 |  |
+| ROLE_TRADING_VIEWER | 10 |  |
+
+
+ 
+
+
+<a name="meshtrade_option_v1_role-proto-extensions"></a>
+
+### File-level Extensions
+| Extension | Type | Base | Number | Description |
+| --------- | ---- | ---- | ------ | ----------- |
+| standard_roles | RoleList | .google.protobuf.FileOptions | 50003 |  |
+| roles | RoleList | .google.protobuf.MethodOptions | 50005 |  |
+
+ 
+
+ 
+
+
+
+<a name="meshtrade_option_v1_method_type-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/option/v1/method_type.proto
+
+
+ 
+
+
+<a name="meshtrade-option-v1-MethodType"></a>
+
+### MethodType
+MethodType indicates the access nature of an RPC method, classifying it
+as either a read or a write operation.
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| METHOD_TYPE_UNSPECIFIED | 0 | The default value, indicating the method type is unknown or not specified. This should be treated as an error and not be used explicitly. |
+| METHOD_TYPE_READ | 1 | Indicates a safe, idempotent operation that does not change system state. |
+| METHOD_TYPE_WRITE | 2 | Indicates an operation that may change system state. |
+
+
+ 
+
+
+<a name="meshtrade_option_v1_method_type-proto-extensions"></a>
+
+### File-level Extensions
+| Extension | Type | Base | Number | Description |
+| --------- | ---- | ---- | ------ | ----------- |
+| method_type | MethodType | .google.protobuf.MethodOptions | 50004 |  |
+
+ 
+
+ 
+
+
+
 <a name="meshtrade_compliance_client_v1_service-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
@@ -867,10 +1000,25 @@ as well as secondary relationships for screening (familial, professional).
 
 
 
+<a name="meshtrade-compliance-client-v1-CreateClientRequest"></a>
+
+### CreateClientRequest
+GetClientRequest is the message used to request a single client resource.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| client | [Client](#meshtrade-compliance-client-v1-Client) |  | Client is the client resource to create. |
+
+
+
+
+
+
 <a name="meshtrade-compliance-client-v1-GetClientRequest"></a>
 
 ### GetClientRequest
-GetClientRequest is the message used to request a single client resource.
+CreateClientRequest is the message used to create a single client resource.
 
 
 | Field | Type | Label | Description |
@@ -925,12 +1073,224 @@ the compliance profiles for these clients.
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
+| CreateClient | [CreateClientRequest](#meshtrade-compliance-client-v1-CreateClientRequest) | [Client](#meshtrade-compliance-client-v1-Client) | CreateClient creates a single client. |
 | GetClient | [GetClientRequest](#meshtrade-compliance-client-v1-GetClientRequest) | [Client](#meshtrade-compliance-client-v1-Client) | GetClient retrieves a single client&#39;s compliance profile by its unique resource name.
 
 This allows for fetching the complete compliance details of a specific client, including all associated information like identification documents, tax residencies, and company structures. |
 | ListClients | [ListClientsRequest](#meshtrade-compliance-client-v1-ListClientsRequest) | [ListClientsResponse](#meshtrade-compliance-client-v1-ListClientsResponse) | ListClients retrieves a collection of client compliance profiles.
 
 This method is useful for fetching multiple client records at once. Note: This endpoint does not currently support pagination or filtering. |
+
+ 
+
+
+
+<a name="meshtrade_iam_api_user_v1_api_user-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/iam/api_user/v1/api_user.proto
+
+
+
+<a name="meshtrade-iam-api_user-v1-APIUser"></a>
+
+### APIUser
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| name | [string](#string) |  | The unique, immutable, and canonical name of the api user resource in the format api_users/{api_user_id}. The {api_user_id} is a system-generated unique identifier (e.g., UUID) that will never change. System set on creation. |
+| owner | [string](#string) |  | The resource name of the group that owns this api user in the format groups/{group_id}. This field establishes the ownership link. Required on creation. |
+| owners | [string](#string) | repeated | The resource name of the group that owns this api user in the format groups/{group_id}. This field establishes the ownership link. Required on creation. |
+| display_name | [string](#string) |  | A non-unique, user-provided name for the api key, used for display purposes. Required on creation. |
+| state | [APIUserState](#meshtrade-iam-api_user-v1-APIUserState) |  | The state of the api user. |
+| roles | [meshtrade.option.v1.Role](#meshtrade-option-v1-Role) | repeated | Roles granted to the api api user. The API user can use these roles in the appointed owner group. |
+| api_key | [string](#string) |  | API key for the API user. This field is only populated on creation and is not stored. |
+
+
+
+
+
+ 
+
+
+<a name="meshtrade-iam-api_user-v1-APIUserAction"></a>
+
+### APIUserAction
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| API_USER_ACTION_UNSPECIFIED | 0 | Unknown or not specified. This is a default value to prevent accidental assignment and should not be used. |
+| API_USER_ACTION_ACTIVATE | 1 | Activate an API user. |
+| API_USER_ACTION_DEACTIVATE | 2 | Deactivate an API user. |
+| API_USER_ACTION_CREATE | 3 | Create an API user. |
+| API_USER_ACTION_UPDATE | 4 | Update an API user. |
+
+
+
+<a name="meshtrade-iam-api_user-v1-APIUserState"></a>
+
+### APIUserState
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| API_USER_STATE_UNSPECIFIED | 0 | Unknown or not specified. This is a default value to prevent accidental assignment and should not be used. |
+| API_USER_STATE_ACTIVE | 1 | API user is active and associated api keys can be used. |
+| API_USER_STATE_INACTIVE | 2 | API user is active and associated api keys cannot be used. |
+
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="meshtrade_iam_api_user_v1_service-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/iam/api_user/v1/service.proto
+
+
+
+<a name="meshtrade-iam-api_user-v1-ActivateApiUserRequest"></a>
+
+### ActivateApiUserRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| name | [string](#string) |  | Name of the API user to activate. |
+
+
+
+
+
+
+<a name="meshtrade-iam-api_user-v1-CreateApiUserRequest"></a>
+
+### CreateApiUserRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| api_user | [APIUser](#meshtrade-iam-api_user-v1-APIUser) |  | The API user resource to create. The name field will be ignored and assigned by the server. |
+
+
+
+
+
+
+<a name="meshtrade-iam-api_user-v1-DeactivateApiUserRequest"></a>
+
+### DeactivateApiUserRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| name | [string](#string) |  | Name of the API user to deactivate. |
+
+
+
+
+
+
+<a name="meshtrade-iam-api_user-v1-GetApiUserRequest"></a>
+
+### GetApiUserRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| name | [string](#string) |  | Name of the API user to get. |
+
+
+
+
+
+
+<a name="meshtrade-iam-api_user-v1-ListApiUsersRequest"></a>
+
+### ListApiUsersRequest
+
+
+
+
+
+
+
+<a name="meshtrade-iam-api_user-v1-ListApiUsersResponse"></a>
+
+### ListApiUsersResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| api_users | [APIUser](#meshtrade-iam-api_user-v1-APIUser) | repeated |  |
+
+
+
+
+
+
+<a name="meshtrade-iam-api_user-v1-SearchApiUsersRequest"></a>
+
+### SearchApiUsersRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| display_name | [string](#string) |  | Display name is a substring search for API users. |
+
+
+
+
+
+
+<a name="meshtrade-iam-api_user-v1-SearchApiUsersResponse"></a>
+
+### SearchApiUsersResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| api_users | [APIUser](#meshtrade-iam-api_user-v1-APIUser) | repeated |  |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+
+<a name="meshtrade-iam-api_user-v1-ApiUserService"></a>
+
+### ApiUserService
+
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| GetApiUser | [GetApiUserRequest](#meshtrade-iam-api_user-v1-GetApiUserRequest) | [APIUser](#meshtrade-iam-api_user-v1-APIUser) | Get Specific API User. |
+| CreateApiUser | [CreateApiUserRequest](#meshtrade-iam-api_user-v1-CreateApiUserRequest) | [APIUser](#meshtrade-iam-api_user-v1-APIUser) | Create a new API User. |
+| ListApiUsers | [ListApiUsersRequest](#meshtrade-iam-api_user-v1-ListApiUsersRequest) | [ListApiUsersResponse](#meshtrade-iam-api_user-v1-ListApiUsersResponse) | Get all API users |
+| SearchApiUsers | [SearchApiUsersRequest](#meshtrade-iam-api_user-v1-SearchApiUsersRequest) | [SearchApiUsersResponse](#meshtrade-iam-api_user-v1-SearchApiUsersResponse) | Search API users with filtering options. |
+| ActivateApiUser | [ActivateApiUserRequest](#meshtrade-iam-api_user-v1-ActivateApiUserRequest) | [APIUser](#meshtrade-iam-api_user-v1-APIUser) | Activate an API user. |
+| DeactivateApiUser | [DeactivateApiUserRequest](#meshtrade-iam-api_user-v1-DeactivateApiUserRequest) | [APIUser](#meshtrade-iam-api_user-v1-APIUser) | Deactivate an API user. |
 
  
 
@@ -980,6 +1340,66 @@ This method is useful for fetching multiple client records at once. Note: This e
 
 
 
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| name | [string](#string) |  | Name of the group to get. |
+
+
+
+
+
+
+<a name="meshtrade-iam-group-v1-ListGroupsRequest"></a>
+
+### ListGroupsRequest
+
+
+
+
+
+
+
+<a name="meshtrade-iam-group-v1-ListGroupsResponse"></a>
+
+### ListGroupsResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| groups | [Group](#meshtrade-iam-group-v1-Group) | repeated |  |
+
+
+
+
+
+
+<a name="meshtrade-iam-group-v1-SearchGroupsRequest"></a>
+
+### SearchGroupsRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| name | [string](#string) |  | Name is a substring search for groups. |
+
+
+
+
+
+
+<a name="meshtrade-iam-group-v1-SearchGroupsResponse"></a>
+
+### SearchGroupsResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| groups | [Group](#meshtrade-iam-group-v1-Group) | repeated |  |
+
+
 
 
 
@@ -997,7 +1417,84 @@ This method is useful for fetching multiple client records at once. Note: This e
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| GetGroup | [GetGroupRequest](#meshtrade-iam-group-v1-GetGroupRequest) | [Group](#meshtrade-iam-group-v1-Group) |  |
+| GetGroup | [GetGroupRequest](#meshtrade-iam-group-v1-GetGroupRequest) | [Group](#meshtrade-iam-group-v1-Group) | Get Specific Group. |
+| ListGroups | [ListGroupsRequest](#meshtrade-iam-group-v1-ListGroupsRequest) | [ListGroupsResponse](#meshtrade-iam-group-v1-ListGroupsResponse) | Get all groups |
+| SearchGroups | [SearchGroupsRequest](#meshtrade-iam-group-v1-SearchGroupsRequest) | [SearchGroupsResponse](#meshtrade-iam-group-v1-SearchGroupsResponse) | Get all groups with search filtering options. |
+
+ 
+
+
+
+<a name="meshtrade_iam_user_v1_user-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/iam/user/v1/user.proto
+
+
+
+<a name="meshtrade-iam-user-v1-User"></a>
+
+### User
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| email | [string](#string) |  | Email address of the user. |
+| roles | [string](#string) | repeated | Roles is a list of the standard roles assigned to this user prepended by the name of the group in which they have been assigned that role. e.g. groups/{group_id}/{role}, where role is one of the optionv1.Role enum |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="meshtrade_iam_user_v1_service-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/iam/user/v1/service.proto
+
+
+
+<a name="meshtrade-iam-user-v1-AssignRoleToUserRequest"></a>
+
+### AssignRoleToUserRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| email | [string](#string) |  | The email address of the user to assign a role to |
+| group | [string](#string) |  | The name of the group in which the user is to be assigned the given role |
+| role | [meshtrade.option.v1.Role](#meshtrade-option-v1-Role) |  | Role is the role to assign to the user |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+
+<a name="meshtrade-iam-user-v1-UserService"></a>
+
+### UserService
+Service defines the RPC methods for interacting with the user resource,
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| AssignRoleToUser | [AssignRoleToUserRequest](#meshtrade-iam-user-v1-AssignRoleToUserRequest) | [User](#meshtrade-iam-user-v1-User) | Assign Role To User |
 
  
 
@@ -1313,100 +1810,6 @@ such as creating, updating, minting or burning it.
 
 
  
-
- 
-
- 
-
-
-
-<a name="meshtrade_option_v1_auth-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## meshtrade/option/v1/auth.proto
-
-
-
-<a name="meshtrade-option-v1-RoleList"></a>
-
-### RoleList
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| roles | [Role](#meshtrade-option-v1-Role) | repeated |  |
-
-
-
-
-
- 
-
-
-<a name="meshtrade-option-v1-Role"></a>
-
-### Role
-Role defines a named collection of permissions.
-This allows for the creation of business-level roles (e.g., &#34;AccountReader&#34;, &#34;AccountAdmin&#34;)
-that group a set of granular, string-based permissions. Roles are
-defined at the file level in a service&#39;s `.proto` file.
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| ROLE_UNSPECIFIED | 0 | The default value, indicating the service type is unknown or not specified. This should be treated as an error and not be used explicitly. |
-| ROLE_WALLET_ADMIN | 1 |  |
-| ROLE_WALLET_VIEWER | 2 |  |
-
-
- 
-
-
-<a name="meshtrade_option_v1_auth-proto-extensions"></a>
-
-### File-level Extensions
-| Extension | Type | Base | Number | Description |
-| --------- | ---- | ---- | ------ | ----------- |
-| standard_roles | RoleList | .google.protobuf.FileOptions | 50003 |  |
-| roles | RoleList | .google.protobuf.MethodOptions | 50005 |  |
-
- 
-
- 
-
-
-
-<a name="meshtrade_option_v1_service_type-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## meshtrade/option/v1/service_type.proto
-
-
- 
-
-
-<a name="meshtrade-option-v1-ServiceType"></a>
-
-### ServiceType
-ServiceType indicates the access nature of an RPC method, classifying it
-as either a read or a write operation.
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| SERVICE_TYPE_UNSPECIFIED | 0 | The default value, indicating the service type is unknown or not specified. This should be treated as an error and not be used explicitly. |
-| SERVICE_TYPE_READ | 1 | Indicates a safe, idempotent operation that does not change system state. |
-| SERVICE_TYPE_WRITE | 2 | Indicates an operation that may change system state. |
-
-
- 
-
-
-<a name="meshtrade_option_v1_service_type-proto-extensions"></a>
-
-### File-level Extensions
-| Extension | Type | Base | Number | Description |
-| --------- | ---- | ---- | ------ | ----------- |
-| service_type | ServiceType | .google.protobuf.MethodOptions | 50004 |  |
 
  
 

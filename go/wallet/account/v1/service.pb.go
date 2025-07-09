@@ -313,7 +313,7 @@ var File_meshtrade_wallet_account_v1_service_proto protoreflect.FileDescriptor
 
 const file_meshtrade_wallet_account_v1_service_proto_rawDesc = "" +
 	"\n" +
-	")meshtrade/wallet/account/v1/service.proto\x12\x1bmeshtrade.wallet.account.v1\x1a\x1emeshtrade/option/v1/auth.proto\x1a&meshtrade/option/v1/service_type.proto\x1a\x1emeshtrade/type/v1/ledger.proto\x1a)meshtrade/wallet/account/v1/account.proto\"s\n" +
+	")meshtrade/wallet/account/v1/service.proto\x12\x1bmeshtrade.wallet.account.v1\x1a\x1emeshtrade/option/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\x1a\x1emeshtrade/type/v1/ledger.proto\x1a)meshtrade/wallet/account/v1/account.proto\"s\n" +
 	"\x14CreateAccountRequest\x12\x14\n" +
 	"\x05label\x18\x01 \x01(\tR\x05label\x121\n" +
 	"\x06ledger\x18\x02 \x01(\x0e2\x19.meshtrade.type.v1.LedgerR\x06ledger\x12\x12\n" +

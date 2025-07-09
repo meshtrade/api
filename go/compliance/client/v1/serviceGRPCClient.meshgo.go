@@ -29,6 +29,23 @@ func NewGRPCClientClientService(
 	}
 }
 
+func (g *GRPCClientClientService) CreateClient(ctx context.Context, request *CreateClientRequest) (*Client, error) {
+	ctx, span := g.tracer.Start(
+		ctx,
+		ClientServiceServiceProviderName+"CreateClient",
+	)
+	defer span.End()
+
+	// call given implementation of the adapted service provider interface
+	createClientResponse, err := g.grpcClient.CreateClient(ctx, request)
+	if err != nil {
+		log.Ctx(ctx).Error().Err(err).Msg("could not CreateClient")
+		return nil, fmt.Errorf("could not CreateClient: %s", err)
+	}
+
+	return createClientResponse, nil
+}
+
 func (g *GRPCClientClientService) GetClient(ctx context.Context, request *GetClientRequest) (*Client, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
