@@ -19,10 +19,12 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ApiUserService_GetApiUser_FullMethodName     = "/meshtrade.iam.api_user.v1.ApiUserService/GetApiUser"
-	ApiUserService_CreateApiUser_FullMethodName  = "/meshtrade.iam.api_user.v1.ApiUserService/CreateApiUser"
-	ApiUserService_ListApiUsers_FullMethodName   = "/meshtrade.iam.api_user.v1.ApiUserService/ListApiUsers"
-	ApiUserService_SearchApiUsers_FullMethodName = "/meshtrade.iam.api_user.v1.ApiUserService/SearchApiUsers"
+	ApiUserService_GetApiUser_FullMethodName        = "/meshtrade.iam.api_user.v1.ApiUserService/GetApiUser"
+	ApiUserService_CreateApiUser_FullMethodName     = "/meshtrade.iam.api_user.v1.ApiUserService/CreateApiUser"
+	ApiUserService_ListApiUsers_FullMethodName      = "/meshtrade.iam.api_user.v1.ApiUserService/ListApiUsers"
+	ApiUserService_SearchApiUsers_FullMethodName    = "/meshtrade.iam.api_user.v1.ApiUserService/SearchApiUsers"
+	ApiUserService_ActivateApiUser_FullMethodName   = "/meshtrade.iam.api_user.v1.ApiUserService/ActivateApiUser"
+	ApiUserService_DeactivateApiUser_FullMethodName = "/meshtrade.iam.api_user.v1.ApiUserService/DeactivateApiUser"
 )
 
 // ApiUserServiceClient is the client API for ApiUserService service.
@@ -37,6 +39,10 @@ type ApiUserServiceClient interface {
 	ListApiUsers(ctx context.Context, in *ListApiUsersRequest, opts ...grpc.CallOption) (*ListApiUsersResponse, error)
 	// Search API users with filtering options.
 	SearchApiUsers(ctx context.Context, in *SearchApiUsersRequest, opts ...grpc.CallOption) (*SearchApiUsersResponse, error)
+	// Activate an API user.
+	ActivateApiUser(ctx context.Context, in *ActivateApiUserRequest, opts ...grpc.CallOption) (*APIUser, error)
+	// Deactivate an API user.
+	DeactivateApiUser(ctx context.Context, in *DeactivateApiUserRequest, opts ...grpc.CallOption) (*APIUser, error)
 }
 
 type apiUserServiceClient struct {
@@ -87,6 +93,26 @@ func (c *apiUserServiceClient) SearchApiUsers(ctx context.Context, in *SearchApi
 	return out, nil
 }
 
+func (c *apiUserServiceClient) ActivateApiUser(ctx context.Context, in *ActivateApiUserRequest, opts ...grpc.CallOption) (*APIUser, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(APIUser)
+	err := c.cc.Invoke(ctx, ApiUserService_ActivateApiUser_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiUserServiceClient) DeactivateApiUser(ctx context.Context, in *DeactivateApiUserRequest, opts ...grpc.CallOption) (*APIUser, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(APIUser)
+	err := c.cc.Invoke(ctx, ApiUserService_DeactivateApiUser_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ApiUserServiceServer is the server API for ApiUserService service.
 // All implementations must embed UnimplementedApiUserServiceServer
 // for forward compatibility.
@@ -99,6 +125,10 @@ type ApiUserServiceServer interface {
 	ListApiUsers(context.Context, *ListApiUsersRequest) (*ListApiUsersResponse, error)
 	// Search API users with filtering options.
 	SearchApiUsers(context.Context, *SearchApiUsersRequest) (*SearchApiUsersResponse, error)
+	// Activate an API user.
+	ActivateApiUser(context.Context, *ActivateApiUserRequest) (*APIUser, error)
+	// Deactivate an API user.
+	DeactivateApiUser(context.Context, *DeactivateApiUserRequest) (*APIUser, error)
 	mustEmbedUnimplementedApiUserServiceServer()
 }
 
@@ -120,6 +150,12 @@ func (UnimplementedApiUserServiceServer) ListApiUsers(context.Context, *ListApiU
 }
 func (UnimplementedApiUserServiceServer) SearchApiUsers(context.Context, *SearchApiUsersRequest) (*SearchApiUsersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SearchApiUsers not implemented")
+}
+func (UnimplementedApiUserServiceServer) ActivateApiUser(context.Context, *ActivateApiUserRequest) (*APIUser, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ActivateApiUser not implemented")
+}
+func (UnimplementedApiUserServiceServer) DeactivateApiUser(context.Context, *DeactivateApiUserRequest) (*APIUser, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeactivateApiUser not implemented")
 }
 func (UnimplementedApiUserServiceServer) mustEmbedUnimplementedApiUserServiceServer() {}
 func (UnimplementedApiUserServiceServer) testEmbeddedByValue()                        {}
@@ -214,6 +250,42 @@ func _ApiUserService_SearchApiUsers_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ApiUserService_ActivateApiUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ActivateApiUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiUserServiceServer).ActivateApiUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ApiUserService_ActivateApiUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiUserServiceServer).ActivateApiUser(ctx, req.(*ActivateApiUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ApiUserService_DeactivateApiUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeactivateApiUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiUserServiceServer).DeactivateApiUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ApiUserService_DeactivateApiUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiUserServiceServer).DeactivateApiUser(ctx, req.(*DeactivateApiUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ApiUserService_ServiceDesc is the grpc.ServiceDesc for ApiUserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -236,6 +308,14 @@ var ApiUserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SearchApiUsers",
 			Handler:    _ApiUserService_SearchApiUsers_Handler,
+		},
+		{
+			MethodName: "ActivateApiUser",
+			Handler:    _ApiUserService_ActivateApiUser_Handler,
+		},
+		{
+			MethodName: "DeactivateApiUser",
+			Handler:    _ApiUserService_DeactivateApiUser_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

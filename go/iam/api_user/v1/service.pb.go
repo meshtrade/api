@@ -7,6 +7,7 @@
 package api_userv1
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	_ "github.com/meshtrade/api/go/option/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -282,11 +283,101 @@ func (x *SearchApiUsersResponse) GetApiUsers() []*APIUser {
 	return nil
 }
 
+type ActivateApiUserRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Name of the API user to activate.
+	Name          string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ActivateApiUserRequest) Reset() {
+	*x = ActivateApiUserRequest{}
+	mi := &file_meshtrade_iam_api_user_v1_service_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ActivateApiUserRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ActivateApiUserRequest) ProtoMessage() {}
+
+func (x *ActivateApiUserRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_iam_api_user_v1_service_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ActivateApiUserRequest.ProtoReflect.Descriptor instead.
+func (*ActivateApiUserRequest) Descriptor() ([]byte, []int) {
+	return file_meshtrade_iam_api_user_v1_service_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *ActivateApiUserRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+type DeactivateApiUserRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Name of the API user to deactivate.
+	Name          string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeactivateApiUserRequest) Reset() {
+	*x = DeactivateApiUserRequest{}
+	mi := &file_meshtrade_iam_api_user_v1_service_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeactivateApiUserRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeactivateApiUserRequest) ProtoMessage() {}
+
+func (x *DeactivateApiUserRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_iam_api_user_v1_service_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeactivateApiUserRequest.ProtoReflect.Descriptor instead.
+func (*DeactivateApiUserRequest) Descriptor() ([]byte, []int) {
+	return file_meshtrade_iam_api_user_v1_service_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *DeactivateApiUserRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
 var File_meshtrade_iam_api_user_v1_service_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_api_user_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"'meshtrade/iam/api_user/v1/service.proto\x12\x19meshtrade.iam.api_user.v1\x1a(meshtrade/iam/api_user/v1/api_user.proto\x1a\x1emeshtrade/option/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\"'\n" +
+	"'meshtrade/iam/api_user/v1/service.proto\x12\x19meshtrade.iam.api_user.v1\x1a\x1bbuf/validate/validate.proto\x1a(meshtrade/iam/api_user/v1/api_user.proto\x1a\x1emeshtrade/option/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\"'\n" +
 	"\x11GetApiUserRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\"U\n" +
 	"\x14CreateApiUserRequest\x12=\n" +
@@ -297,7 +388,13 @@ const file_meshtrade_iam_api_user_v1_service_proto_rawDesc = "" +
 	"\x15SearchApiUsersRequest\x12!\n" +
 	"\fdisplay_name\x18\x01 \x01(\tR\vdisplayName\"Y\n" +
 	"\x16SearchApiUsersResponse\x12?\n" +
-	"\tapi_users\x18\x01 \x03(\v2\".meshtrade.iam.api_user.v1.APIUserR\bapiUsers2\xf6\x03\n" +
+	"\tapi_users\x18\x01 \x03(\v2\".meshtrade.iam.api_user.v1.APIUserR\bapiUsers\"\xd9\x01\n" +
+	"\x16ActivateApiUserRequest\x12\xbe\x01\n" +
+	"\x04name\x18\x01 \x01(\tB\xa9\x01\xbaH\xa5\x01\xba\x01z\n" +
+	"\rname.required\x125name is required and must be in format api_users/{id}\x1a2this.matches('^api_users/[0-9A-HJKMNP-TV-Z]{26}$')r&\x10\x012\"^api_users/[0-9A-HJKMNP-TV-Z]{26}$R\x04name\"\xdb\x01\n" +
+	"\x18DeactivateApiUserRequest\x12\xbe\x01\n" +
+	"\x04name\x18\x01 \x01(\tB\xa9\x01\xbaH\xa5\x01\xba\x01z\n" +
+	"\rname.required\x125name is required and must be in format api_users/{id}\x1a2this.matches('^api_users/[0-9A-HJKMNP-TV-Z]{26}$')r&\x10\x012\"^api_users/[0-9A-HJKMNP-TV-Z]{26}$R\x04name2\xe8\x05\n" +
 	"\x0eApiUserService\x12l\n" +
 	"\n" +
 	"GetApiUser\x12,.meshtrade.iam.api_user.v1.GetApiUserRequest\x1a\".meshtrade.iam.api_user.v1.APIUser\"\f\xa0\xb5\x18\x01\xaa\xb5\x18\x04\n" +
@@ -307,7 +404,11 @@ const file_meshtrade_iam_api_user_v1_service_proto_rawDesc = "" +
 	"\fListApiUsers\x12..meshtrade.iam.api_user.v1.ListApiUsersRequest\x1a/.meshtrade.iam.api_user.v1.ListApiUsersResponse\"\f\xa0\xb5\x18\x01\xaa\xb5\x18\x04\n" +
 	"\x02\x05\x06\x12\x83\x01\n" +
 	"\x0eSearchApiUsers\x120.meshtrade.iam.api_user.v1.SearchApiUsersRequest\x1a1.meshtrade.iam.api_user.v1.SearchApiUsersResponse\"\f\xa0\xb5\x18\x01\xaa\xb5\x18\x04\n" +
-	"\x02\x05\x06B@\x9a\xb5\x18\x04\n" +
+	"\x02\x05\x06\x12u\n" +
+	"\x0fActivateApiUser\x121.meshtrade.iam.api_user.v1.ActivateApiUserRequest\x1a\".meshtrade.iam.api_user.v1.APIUser\"\v\xa0\xb5\x18\x02\xaa\xb5\x18\x03\n" +
+	"\x01\x05\x12y\n" +
+	"\x11DeactivateApiUser\x123.meshtrade.iam.api_user.v1.DeactivateApiUserRequest\x1a\".meshtrade.iam.api_user.v1.APIUser\"\v\xa0\xb5\x18\x02\xaa\xb5\x18\x03\n" +
+	"\x01\x05B@\x9a\xb5\x18\x04\n" +
 	"\x02\x05\x06Z6github.com/meshtrade/api/go/iam/api_user/v1;api_userv1b\x06proto3"
 
 var (
@@ -322,30 +423,36 @@ func file_meshtrade_iam_api_user_v1_service_proto_rawDescGZIP() []byte {
 	return file_meshtrade_iam_api_user_v1_service_proto_rawDescData
 }
 
-var file_meshtrade_iam_api_user_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_meshtrade_iam_api_user_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_meshtrade_iam_api_user_v1_service_proto_goTypes = []any{
-	(*GetApiUserRequest)(nil),      // 0: meshtrade.iam.api_user.v1.GetApiUserRequest
-	(*CreateApiUserRequest)(nil),   // 1: meshtrade.iam.api_user.v1.CreateApiUserRequest
-	(*ListApiUsersRequest)(nil),    // 2: meshtrade.iam.api_user.v1.ListApiUsersRequest
-	(*ListApiUsersResponse)(nil),   // 3: meshtrade.iam.api_user.v1.ListApiUsersResponse
-	(*SearchApiUsersRequest)(nil),  // 4: meshtrade.iam.api_user.v1.SearchApiUsersRequest
-	(*SearchApiUsersResponse)(nil), // 5: meshtrade.iam.api_user.v1.SearchApiUsersResponse
-	(*APIUser)(nil),                // 6: meshtrade.iam.api_user.v1.APIUser
+	(*GetApiUserRequest)(nil),        // 0: meshtrade.iam.api_user.v1.GetApiUserRequest
+	(*CreateApiUserRequest)(nil),     // 1: meshtrade.iam.api_user.v1.CreateApiUserRequest
+	(*ListApiUsersRequest)(nil),      // 2: meshtrade.iam.api_user.v1.ListApiUsersRequest
+	(*ListApiUsersResponse)(nil),     // 3: meshtrade.iam.api_user.v1.ListApiUsersResponse
+	(*SearchApiUsersRequest)(nil),    // 4: meshtrade.iam.api_user.v1.SearchApiUsersRequest
+	(*SearchApiUsersResponse)(nil),   // 5: meshtrade.iam.api_user.v1.SearchApiUsersResponse
+	(*ActivateApiUserRequest)(nil),   // 6: meshtrade.iam.api_user.v1.ActivateApiUserRequest
+	(*DeactivateApiUserRequest)(nil), // 7: meshtrade.iam.api_user.v1.DeactivateApiUserRequest
+	(*APIUser)(nil),                  // 8: meshtrade.iam.api_user.v1.APIUser
 }
 var file_meshtrade_iam_api_user_v1_service_proto_depIdxs = []int32{
-	6, // 0: meshtrade.iam.api_user.v1.CreateApiUserRequest.api_user:type_name -> meshtrade.iam.api_user.v1.APIUser
-	6, // 1: meshtrade.iam.api_user.v1.ListApiUsersResponse.api_users:type_name -> meshtrade.iam.api_user.v1.APIUser
-	6, // 2: meshtrade.iam.api_user.v1.SearchApiUsersResponse.api_users:type_name -> meshtrade.iam.api_user.v1.APIUser
+	8, // 0: meshtrade.iam.api_user.v1.CreateApiUserRequest.api_user:type_name -> meshtrade.iam.api_user.v1.APIUser
+	8, // 1: meshtrade.iam.api_user.v1.ListApiUsersResponse.api_users:type_name -> meshtrade.iam.api_user.v1.APIUser
+	8, // 2: meshtrade.iam.api_user.v1.SearchApiUsersResponse.api_users:type_name -> meshtrade.iam.api_user.v1.APIUser
 	0, // 3: meshtrade.iam.api_user.v1.ApiUserService.GetApiUser:input_type -> meshtrade.iam.api_user.v1.GetApiUserRequest
 	1, // 4: meshtrade.iam.api_user.v1.ApiUserService.CreateApiUser:input_type -> meshtrade.iam.api_user.v1.CreateApiUserRequest
 	2, // 5: meshtrade.iam.api_user.v1.ApiUserService.ListApiUsers:input_type -> meshtrade.iam.api_user.v1.ListApiUsersRequest
 	4, // 6: meshtrade.iam.api_user.v1.ApiUserService.SearchApiUsers:input_type -> meshtrade.iam.api_user.v1.SearchApiUsersRequest
-	6, // 7: meshtrade.iam.api_user.v1.ApiUserService.GetApiUser:output_type -> meshtrade.iam.api_user.v1.APIUser
-	6, // 8: meshtrade.iam.api_user.v1.ApiUserService.CreateApiUser:output_type -> meshtrade.iam.api_user.v1.APIUser
-	3, // 9: meshtrade.iam.api_user.v1.ApiUserService.ListApiUsers:output_type -> meshtrade.iam.api_user.v1.ListApiUsersResponse
-	5, // 10: meshtrade.iam.api_user.v1.ApiUserService.SearchApiUsers:output_type -> meshtrade.iam.api_user.v1.SearchApiUsersResponse
-	7, // [7:11] is the sub-list for method output_type
-	3, // [3:7] is the sub-list for method input_type
+	6, // 7: meshtrade.iam.api_user.v1.ApiUserService.ActivateApiUser:input_type -> meshtrade.iam.api_user.v1.ActivateApiUserRequest
+	7, // 8: meshtrade.iam.api_user.v1.ApiUserService.DeactivateApiUser:input_type -> meshtrade.iam.api_user.v1.DeactivateApiUserRequest
+	8, // 9: meshtrade.iam.api_user.v1.ApiUserService.GetApiUser:output_type -> meshtrade.iam.api_user.v1.APIUser
+	8, // 10: meshtrade.iam.api_user.v1.ApiUserService.CreateApiUser:output_type -> meshtrade.iam.api_user.v1.APIUser
+	3, // 11: meshtrade.iam.api_user.v1.ApiUserService.ListApiUsers:output_type -> meshtrade.iam.api_user.v1.ListApiUsersResponse
+	5, // 12: meshtrade.iam.api_user.v1.ApiUserService.SearchApiUsers:output_type -> meshtrade.iam.api_user.v1.SearchApiUsersResponse
+	8, // 13: meshtrade.iam.api_user.v1.ApiUserService.ActivateApiUser:output_type -> meshtrade.iam.api_user.v1.APIUser
+	8, // 14: meshtrade.iam.api_user.v1.ApiUserService.DeactivateApiUser:output_type -> meshtrade.iam.api_user.v1.APIUser
+	9, // [9:15] is the sub-list for method output_type
+	3, // [3:9] is the sub-list for method input_type
 	3, // [3:3] is the sub-list for extension type_name
 	3, // [3:3] is the sub-list for extension extendee
 	0, // [0:3] is the sub-list for field type_name
@@ -363,7 +470,7 @@ func file_meshtrade_iam_api_user_v1_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_meshtrade_iam_api_user_v1_service_proto_rawDesc), len(file_meshtrade_iam_api_user_v1_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

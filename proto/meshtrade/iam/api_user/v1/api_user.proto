@@ -65,6 +65,12 @@ message APIUser {
      The API user can use these roles in the appointed owner group.
   */
   repeated meshtrade.option.v1.Role roles = 6;
+
+  /*
+     API key for the API user.
+     This field is only populated on creation and is not stored.
+  */
+  string api_key = 7;
 }
 
 enum APIUserState {
@@ -83,4 +89,32 @@ enum APIUserState {
      API user is active and associated api keys cannot be used.
   */
   API_USER_STATE_INACTIVE = 2;
+}
+
+enum APIUserAction {
+  /*
+     Unknown or not specified.
+     This is a default value to prevent accidental assignment and should not be used.
+  */
+  API_USER_ACTION_UNSPECIFIED = 0;
+
+  /*
+     Activate an API user.
+  */
+  API_USER_ACTION_ACTIVATE = 1;
+
+  /*
+     Deactivate an API user.
+  */
+  API_USER_ACTION_DEACTIVATE = 2;
+
+  /*
+     Create an API user.
+  */
+  API_USER_ACTION_CREATE = 3;
+
+  /*
+     Update an API user.
+  */
+  API_USER_ACTION_UPDATE = 4;
 }

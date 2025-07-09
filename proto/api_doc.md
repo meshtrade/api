@@ -81,10 +81,13 @@
 - [meshtrade/iam/api_user/v1/api_user.proto](#meshtrade_iam_api_user_v1_api_user-proto)
     - [APIUser](#meshtrade-iam-api_user-v1-APIUser)
   
+    - [APIUserAction](#meshtrade-iam-api_user-v1-APIUserAction)
     - [APIUserState](#meshtrade-iam-api_user-v1-APIUserState)
   
 - [meshtrade/iam/api_user/v1/service.proto](#meshtrade_iam_api_user_v1_service-proto)
+    - [ActivateApiUserRequest](#meshtrade-iam-api_user-v1-ActivateApiUserRequest)
     - [CreateApiUserRequest](#meshtrade-iam-api_user-v1-CreateApiUserRequest)
+    - [DeactivateApiUserRequest](#meshtrade-iam-api_user-v1-DeactivateApiUserRequest)
     - [GetApiUserRequest](#meshtrade-iam-api_user-v1-GetApiUserRequest)
     - [ListApiUsersRequest](#meshtrade-iam-api_user-v1-ListApiUsersRequest)
     - [ListApiUsersResponse](#meshtrade-iam-api_user-v1-ListApiUsersResponse)
@@ -1103,12 +1106,28 @@ This method is useful for fetching multiple client records at once. Note: This e
 | display_name | [string](#string) |  | A non-unique, user-provided name for the api key, used for display purposes. Required on creation. |
 | state | [APIUserState](#meshtrade-iam-api_user-v1-APIUserState) |  | The state of the api user. |
 | roles | [meshtrade.option.v1.Role](#meshtrade-option-v1-Role) | repeated | Roles granted to the api api user. The API user can use these roles in the appointed owner group. |
+| api_key | [string](#string) |  | API key for the API user. This field is only populated on creation and is not stored. |
 
 
 
 
 
  
+
+
+<a name="meshtrade-iam-api_user-v1-APIUserAction"></a>
+
+### APIUserAction
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| API_USER_ACTION_UNSPECIFIED | 0 | Unknown or not specified. This is a default value to prevent accidental assignment and should not be used. |
+| API_USER_ACTION_ACTIVATE | 1 | Activate an API user. |
+| API_USER_ACTION_DEACTIVATE | 2 | Deactivate an API user. |
+| API_USER_ACTION_CREATE | 3 | Create an API user. |
+| API_USER_ACTION_UPDATE | 4 | Update an API user. |
+
 
 
 <a name="meshtrade-iam-api_user-v1-APIUserState"></a>
@@ -1138,6 +1157,21 @@ This method is useful for fetching multiple client records at once. Note: This e
 
 
 
+<a name="meshtrade-iam-api_user-v1-ActivateApiUserRequest"></a>
+
+### ActivateApiUserRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| name | [string](#string) |  | Name of the API user to activate. |
+
+
+
+
+
+
 <a name="meshtrade-iam-api_user-v1-CreateApiUserRequest"></a>
 
 ### CreateApiUserRequest
@@ -1147,6 +1181,21 @@ This method is useful for fetching multiple client records at once. Note: This e
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | api_user | [APIUser](#meshtrade-iam-api_user-v1-APIUser) |  | The API user resource to create. The name field will be ignored and assigned by the server. |
+
+
+
+
+
+
+<a name="meshtrade-iam-api_user-v1-DeactivateApiUserRequest"></a>
+
+### DeactivateApiUserRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| name | [string](#string) |  | Name of the API user to deactivate. |
 
 
 
@@ -1240,6 +1289,8 @@ This method is useful for fetching multiple client records at once. Note: This e
 | CreateApiUser | [CreateApiUserRequest](#meshtrade-iam-api_user-v1-CreateApiUserRequest) | [APIUser](#meshtrade-iam-api_user-v1-APIUser) | Create a new API User. |
 | ListApiUsers | [ListApiUsersRequest](#meshtrade-iam-api_user-v1-ListApiUsersRequest) | [ListApiUsersResponse](#meshtrade-iam-api_user-v1-ListApiUsersResponse) | Get all API users |
 | SearchApiUsers | [SearchApiUsersRequest](#meshtrade-iam-api_user-v1-SearchApiUsersRequest) | [SearchApiUsersResponse](#meshtrade-iam-api_user-v1-SearchApiUsersResponse) | Search API users with filtering options. |
+| ActivateApiUser | [ActivateApiUserRequest](#meshtrade-iam-api_user-v1-ActivateApiUserRequest) | [APIUser](#meshtrade-iam-api_user-v1-APIUser) | Activate an API user. |
+| DeactivateApiUser | [DeactivateApiUserRequest](#meshtrade-iam-api_user-v1-DeactivateApiUserRequest) | [APIUser](#meshtrade-iam-api_user-v1-APIUser) | Deactivate an API user. |
 
  
 

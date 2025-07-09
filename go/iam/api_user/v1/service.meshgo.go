@@ -18,6 +18,12 @@ type ApiUserService interface {
 
 	// Search API users with filtering options.
 	SearchApiUsers(ctx context.Context, request *SearchApiUsersRequest) (*SearchApiUsersResponse, error)
+
+	// Activate an API user.
+	ActivateApiUser(ctx context.Context, request *ActivateApiUserRequest) (*APIUser, error)
+
+	// Deactivate an API user.
+	DeactivateApiUser(ctx context.Context, request *DeactivateApiUserRequest) (*APIUser, error)
 }
 
 const ApiUserServiceServiceProviderName = "meshtrade-iam-api_user-v1-ApiUserService"

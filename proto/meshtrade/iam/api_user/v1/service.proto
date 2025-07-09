@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package meshtrade.iam.api_user.v1;
 
+import "buf/validate/validate.proto";
 import "meshtrade/iam/api_user/v1/api_user.proto";
 import "meshtrade/option/v1/role.proto";
 import "meshtrade/option/v1/method_type.proto";
@@ -65,6 +66,30 @@ service ApiUserService {
       ]
     };
   }
+
+  /*
+     Activate an API user.
+  */
+  rpc ActivateApiUser(ActivateApiUserRequest) returns (meshtrade.iam.api_user.v1.APIUser) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
+    option (meshtrade.option.v1.roles) = {
+      roles: [
+        ROLE_IAM_ADMIN
+      ]
+    };
+  }
+
+  /*
+     Deactivate an API user.
+  */
+  rpc DeactivateApiUser(DeactivateApiUserRequest) returns (meshtrade.iam.api_user.v1.APIUser) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
+    option (meshtrade.option.v1.roles) = {
+      roles: [
+        ROLE_IAM_ADMIN
+      ]
+    };
+  }
 }
 
 message GetApiUserRequest {
@@ -97,4 +122,38 @@ message SearchApiUsersRequest {
 
 message SearchApiUsersResponse {
   repeated meshtrade.iam.api_user.v1.APIUser api_users = 1;
+}
+
+message ActivateApiUserRequest {
+  /*
+     Name of the API user to activate.
+  */
+  string name = 1 [(buf.validate.field) = {
+    string: {
+      min_len: 1
+      pattern: "^api_users/[0-9A-HJKMNP-TV-Z]{26}$"
+    }
+    cel: {
+      id: "name.required"
+      message: "name is required and must be in format api_users/{id}"
+      expression: "this.matches('^api_users/[0-9A-HJKMNP-TV-Z]{26}$')"
+    }
+  }];
+}
+
+message DeactivateApiUserRequest {
+  /*
+     Name of the API user to deactivate.
+  */
+  string name = 1 [(buf.validate.field) = {
+    string: {
+      min_len: 1
+      pattern: "^api_users/[0-9A-HJKMNP-TV-Z]{26}$"
+    }
+    cel: {
+      id: "name.required"
+      message: "name is required and must be in format api_users/{id}"
+      expression: "this.matches('^api_users/[0-9A-HJKMNP-TV-Z]{26}$')"
+    }
+  }];
 }

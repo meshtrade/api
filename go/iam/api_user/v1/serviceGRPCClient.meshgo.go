@@ -96,3 +96,37 @@ func (g *GRPCClientApiUserService) SearchApiUsers(ctx context.Context, request *
 
 	return searchApiUsersResponse, nil
 }
+
+func (g *GRPCClientApiUserService) ActivateApiUser(ctx context.Context, request *ActivateApiUserRequest) (*APIUser, error) {
+	ctx, span := g.tracer.Start(
+		ctx,
+		ApiUserServiceServiceProviderName+"ActivateApiUser",
+	)
+	defer span.End()
+
+	// call given implementation of the adapted service provider interface
+	activateApiUserResponse, err := g.grpcClient.ActivateApiUser(ctx, request)
+	if err != nil {
+		log.Ctx(ctx).Error().Err(err).Msg("could not ActivateApiUser")
+		return nil, fmt.Errorf("could not ActivateApiUser: %s", err)
+	}
+
+	return activateApiUserResponse, nil
+}
+
+func (g *GRPCClientApiUserService) DeactivateApiUser(ctx context.Context, request *DeactivateApiUserRequest) (*APIUser, error) {
+	ctx, span := g.tracer.Start(
+		ctx,
+		ApiUserServiceServiceProviderName+"DeactivateApiUser",
+	)
+	defer span.End()
+
+	// call given implementation of the adapted service provider interface
+	deactivateApiUserResponse, err := g.grpcClient.DeactivateApiUser(ctx, request)
+	if err != nil {
+		log.Ctx(ctx).Error().Err(err).Msg("could not DeactivateApiUser")
+		return nil, fmt.Errorf("could not DeactivateApiUser: %s", err)
+	}
+
+	return deactivateApiUserResponse, nil
+}

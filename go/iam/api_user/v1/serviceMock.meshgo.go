@@ -13,16 +13,20 @@ var _ ApiUserService = &MockApiUserService{}
 
 // MockApiUserService is a mock implementation of the ApiUserService interface.
 type MockApiUserService struct {
-	mutex                         sync.Mutex
-	T                             *testing.T
-	GetApiUserFunc                func(t *testing.T, m *MockApiUserService, ctx context.Context, request *GetApiUserRequest) (*APIUser, error)
-	GetApiUserFuncInvocations     int
-	CreateApiUserFunc             func(t *testing.T, m *MockApiUserService, ctx context.Context, request *CreateApiUserRequest) (*APIUser, error)
-	CreateApiUserFuncInvocations  int
-	ListApiUsersFunc              func(t *testing.T, m *MockApiUserService, ctx context.Context, request *ListApiUsersRequest) (*ListApiUsersResponse, error)
-	ListApiUsersFuncInvocations   int
-	SearchApiUsersFunc            func(t *testing.T, m *MockApiUserService, ctx context.Context, request *SearchApiUsersRequest) (*SearchApiUsersResponse, error)
-	SearchApiUsersFuncInvocations int
+	mutex                            sync.Mutex
+	T                                *testing.T
+	GetApiUserFunc                   func(t *testing.T, m *MockApiUserService, ctx context.Context, request *GetApiUserRequest) (*APIUser, error)
+	GetApiUserFuncInvocations        int
+	CreateApiUserFunc                func(t *testing.T, m *MockApiUserService, ctx context.Context, request *CreateApiUserRequest) (*APIUser, error)
+	CreateApiUserFuncInvocations     int
+	ListApiUsersFunc                 func(t *testing.T, m *MockApiUserService, ctx context.Context, request *ListApiUsersRequest) (*ListApiUsersResponse, error)
+	ListApiUsersFuncInvocations      int
+	SearchApiUsersFunc               func(t *testing.T, m *MockApiUserService, ctx context.Context, request *SearchApiUsersRequest) (*SearchApiUsersResponse, error)
+	SearchApiUsersFuncInvocations    int
+	ActivateApiUserFunc              func(t *testing.T, m *MockApiUserService, ctx context.Context, request *ActivateApiUserRequest) (*APIUser, error)
+	ActivateApiUserFuncInvocations   int
+	DeactivateApiUserFunc            func(t *testing.T, m *MockApiUserService, ctx context.Context, request *DeactivateApiUserRequest) (*APIUser, error)
+	DeactivateApiUserFuncInvocations int
 }
 
 func (m *MockApiUserService) GetApiUser(ctx context.Context, request *GetApiUserRequest) (*APIUser, error) {
@@ -63,4 +67,24 @@ func (m *MockApiUserService) SearchApiUsers(ctx context.Context, request *Search
 		return nil, nil
 	}
 	return m.SearchApiUsersFunc(m.T, m, ctx, request)
+}
+
+func (m *MockApiUserService) ActivateApiUser(ctx context.Context, request *ActivateApiUserRequest) (*APIUser, error) {
+	m.mutex.Lock()
+	m.ActivateApiUserFuncInvocations++
+	m.mutex.Unlock()
+	if m.ActivateApiUserFunc == nil {
+		return nil, nil
+	}
+	return m.ActivateApiUserFunc(m.T, m, ctx, request)
+}
+
+func (m *MockApiUserService) DeactivateApiUser(ctx context.Context, request *DeactivateApiUserRequest) (*APIUser, error) {
+	m.mutex.Lock()
+	m.DeactivateApiUserFuncInvocations++
+	m.mutex.Unlock()
+	if m.DeactivateApiUserFunc == nil {
+		return nil, nil
+	}
+	return m.DeactivateApiUserFunc(m.T, m, ctx, request)
 }

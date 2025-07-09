@@ -76,6 +76,67 @@ func (APIUserState) EnumDescriptor() ([]byte, []int) {
 	return file_meshtrade_iam_api_user_v1_api_user_proto_rawDescGZIP(), []int{0}
 }
 
+type APIUserAction int32
+
+const (
+	// Unknown or not specified.
+	// This is a default value to prevent accidental assignment and should not be used.
+	APIUserAction_API_USER_ACTION_UNSPECIFIED APIUserAction = 0
+	// Activate an API user.
+	APIUserAction_API_USER_ACTION_ACTIVATE APIUserAction = 1
+	// Deactivate an API user.
+	APIUserAction_API_USER_ACTION_DEACTIVATE APIUserAction = 2
+	// Create an API user.
+	APIUserAction_API_USER_ACTION_CREATE APIUserAction = 3
+	// Update an API user.
+	APIUserAction_API_USER_ACTION_UPDATE APIUserAction = 4
+)
+
+// Enum value maps for APIUserAction.
+var (
+	APIUserAction_name = map[int32]string{
+		0: "API_USER_ACTION_UNSPECIFIED",
+		1: "API_USER_ACTION_ACTIVATE",
+		2: "API_USER_ACTION_DEACTIVATE",
+		3: "API_USER_ACTION_CREATE",
+		4: "API_USER_ACTION_UPDATE",
+	}
+	APIUserAction_value = map[string]int32{
+		"API_USER_ACTION_UNSPECIFIED": 0,
+		"API_USER_ACTION_ACTIVATE":    1,
+		"API_USER_ACTION_DEACTIVATE":  2,
+		"API_USER_ACTION_CREATE":      3,
+		"API_USER_ACTION_UPDATE":      4,
+	}
+)
+
+func (x APIUserAction) Enum() *APIUserAction {
+	p := new(APIUserAction)
+	*p = x
+	return p
+}
+
+func (x APIUserAction) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (APIUserAction) Descriptor() protoreflect.EnumDescriptor {
+	return file_meshtrade_iam_api_user_v1_api_user_proto_enumTypes[1].Descriptor()
+}
+
+func (APIUserAction) Type() protoreflect.EnumType {
+	return &file_meshtrade_iam_api_user_v1_api_user_proto_enumTypes[1]
+}
+
+func (x APIUserAction) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use APIUserAction.Descriptor instead.
+func (APIUserAction) EnumDescriptor() ([]byte, []int) {
+	return file_meshtrade_iam_api_user_v1_api_user_proto_rawDescGZIP(), []int{1}
+}
+
 type APIUser struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The unique, immutable, and canonical name of the api user resource in the format api_users/{api_user_id}.
@@ -97,7 +158,10 @@ type APIUser struct {
 	State APIUserState `protobuf:"varint,5,opt,name=state,proto3,enum=meshtrade.iam.api_user.v1.APIUserState" json:"state,omitempty"`
 	// Roles granted to the api api user.
 	// The API user can use these roles in the appointed owner group.
-	Roles         []v1.Role `protobuf:"varint,6,rep,packed,name=roles,proto3,enum=meshtrade.option.v1.Role" json:"roles,omitempty"`
+	Roles []v1.Role `protobuf:"varint,6,rep,packed,name=roles,proto3,enum=meshtrade.option.v1.Role" json:"roles,omitempty"`
+	// API key for the API user.
+	// This field is only populated on creation and is not stored.
+	ApiKey        string `protobuf:"bytes,7,opt,name=api_key,json=apiKey,proto3" json:"api_key,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -174,11 +238,18 @@ func (x *APIUser) GetRoles() []v1.Role {
 	return nil
 }
 
+func (x *APIUser) GetApiKey() string {
+	if x != nil {
+		return x.ApiKey
+	}
+	return ""
+}
+
 var File_meshtrade_iam_api_user_v1_api_user_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_api_user_v1_api_user_proto_rawDesc = "" +
 	"\n" +
-	"(meshtrade/iam/api_user/v1/api_user.proto\x12\x19meshtrade.iam.api_user.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1emeshtrade/option/v1/role.proto\"\xe4\x03\n" +
+	"(meshtrade/iam/api_user/v1/api_user.proto\x12\x19meshtrade.iam.api_user.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1emeshtrade/option/v1/role.proto\"\xfd\x03\n" +
 	"\aAPIUser\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +
 	"\x05owner\x18\x02 \x01(\tR\x05owner\x12\x16\n" +
@@ -187,11 +258,18 @@ const file_meshtrade_iam_api_user_v1_api_user_proto_rawDesc = "" +
 	"\x15display_name.required\x12Adisplay name is required and must be between 1 and 255 characters\x1a#size(this) > 0 && size(this) <= 255r\x05\x10\x01\x18\xff\x01R\vdisplayName\x12\xb1\x01\n" +
 	"\x05state\x18\x05 \x01(\x0e2'.meshtrade.iam.api_user.v1.APIUserStateBr\xbaHo\xba\x01e\n" +
 	"\x0estate.required\x12Cstate is required and must be a valid state value (not UNSPECIFIED)\x1a\x0eint(this) != 0\x82\x01\x04\x10\x01 \x00R\x05state\x12/\n" +
-	"\x05roles\x18\x06 \x03(\x0e2\x19.meshtrade.option.v1.RoleR\x05roles*f\n" +
+	"\x05roles\x18\x06 \x03(\x0e2\x19.meshtrade.option.v1.RoleR\x05roles\x12\x17\n" +
+	"\aapi_key\x18\a \x01(\tR\x06apiKey*f\n" +
 	"\fAPIUserState\x12\x1e\n" +
 	"\x1aAPI_USER_STATE_UNSPECIFIED\x10\x00\x12\x19\n" +
 	"\x15API_USER_STATE_ACTIVE\x10\x01\x12\x1b\n" +
-	"\x17API_USER_STATE_INACTIVE\x10\x02B8Z6github.com/meshtrade/api/go/iam/api_user/v1;api_userv1b\x06proto3"
+	"\x17API_USER_STATE_INACTIVE\x10\x02*\xa6\x01\n" +
+	"\rAPIUserAction\x12\x1f\n" +
+	"\x1bAPI_USER_ACTION_UNSPECIFIED\x10\x00\x12\x1c\n" +
+	"\x18API_USER_ACTION_ACTIVATE\x10\x01\x12\x1e\n" +
+	"\x1aAPI_USER_ACTION_DEACTIVATE\x10\x02\x12\x1a\n" +
+	"\x16API_USER_ACTION_CREATE\x10\x03\x12\x1a\n" +
+	"\x16API_USER_ACTION_UPDATE\x10\x04B8Z6github.com/meshtrade/api/go/iam/api_user/v1;api_userv1b\x06proto3"
 
 var (
 	file_meshtrade_iam_api_user_v1_api_user_proto_rawDescOnce sync.Once
@@ -205,16 +283,17 @@ func file_meshtrade_iam_api_user_v1_api_user_proto_rawDescGZIP() []byte {
 	return file_meshtrade_iam_api_user_v1_api_user_proto_rawDescData
 }
 
-var file_meshtrade_iam_api_user_v1_api_user_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_meshtrade_iam_api_user_v1_api_user_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_meshtrade_iam_api_user_v1_api_user_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_meshtrade_iam_api_user_v1_api_user_proto_goTypes = []any{
-	(APIUserState)(0), // 0: meshtrade.iam.api_user.v1.APIUserState
-	(*APIUser)(nil),   // 1: meshtrade.iam.api_user.v1.APIUser
-	(v1.Role)(0),      // 2: meshtrade.option.v1.Role
+	(APIUserState)(0),  // 0: meshtrade.iam.api_user.v1.APIUserState
+	(APIUserAction)(0), // 1: meshtrade.iam.api_user.v1.APIUserAction
+	(*APIUser)(nil),    // 2: meshtrade.iam.api_user.v1.APIUser
+	(v1.Role)(0),       // 3: meshtrade.option.v1.Role
 }
 var file_meshtrade_iam_api_user_v1_api_user_proto_depIdxs = []int32{
 	0, // 0: meshtrade.iam.api_user.v1.APIUser.state:type_name -> meshtrade.iam.api_user.v1.APIUserState
-	2, // 1: meshtrade.iam.api_user.v1.APIUser.roles:type_name -> meshtrade.option.v1.Role
+	3, // 1: meshtrade.iam.api_user.v1.APIUser.roles:type_name -> meshtrade.option.v1.Role
 	2, // [2:2] is the sub-list for method output_type
 	2, // [2:2] is the sub-list for method input_type
 	2, // [2:2] is the sub-list for extension type_name
@@ -232,7 +311,7 @@ func file_meshtrade_iam_api_user_v1_api_user_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_meshtrade_iam_api_user_v1_api_user_proto_rawDesc), len(file_meshtrade_iam_api_user_v1_api_user_proto_rawDesc)),
-			NumEnums:      1,
+			NumEnums:      2,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,

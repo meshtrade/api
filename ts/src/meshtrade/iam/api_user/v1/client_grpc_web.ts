@@ -7,6 +7,8 @@ import {
   ListApiUsersResponse,
   SearchApiUsersRequest,
   SearchApiUsersResponse,
+  ActivateApiUserRequest,
+  DeactivateApiUserRequest,
 } from "./service_pb";
 import { APIUser } from "./api_user_pb";
 import { UnaryInterceptor } from "grpc-web";
@@ -106,5 +108,23 @@ export class ApiUserGrpcWebClientV1 {
    */
   searchApiUsers(request: SearchApiUsersRequest): Promise<SearchApiUsersResponse> {
     return this._service.searchApiUsers(request);
+  }
+
+  /**
+   * Activates an API user.
+   * @param {ActivateApiUserRequest} request - The request object for activating an API user.
+   * @returns {Promise<APIUser>} A promise that resolves with the activated API user.
+   */
+  activateApiUser(request: ActivateApiUserRequest): Promise<APIUser> {
+    return this._service.activateApiUser(request);
+  }
+
+  /**
+   * Deactivates an API user.
+   * @param {DeactivateApiUserRequest} request - The request object for deactivating an API user.
+   * @returns {Promise<APIUser>} A promise that resolves with the deactivated API user.
+   */
+  deactivateApiUser(request: DeactivateApiUserRequest): Promise<APIUser> {
+    return this._service.deactivateApiUser(request);
   }
 }
