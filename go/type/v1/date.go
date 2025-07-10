@@ -28,15 +28,8 @@ func NewDateFromTime(t time.Time) *Date {
 }
 
 // ToTime converts the Date to a time.Time.
-// Returns an error if the date is invalid or incomplete.
-func (d *Date) ToTime() (time.Time, error) {
-	if d == nil {
-		return time.Time{}, fmt.Errorf("date is nil")
-	}
-	if d.Year == 0 || d.Month == 0 || d.Day == 0 {
-		return time.Time{}, fmt.Errorf("incomplete date: year=%d, month=%d, day=%d", d.Year, d.Month, d.Day)
-	}
-	return time.Date(int(d.Year), time.Month(d.Month), int(d.Day), 0, 0, 0, 0, time.UTC), nil
+func (d *Date) ToTime() time.Time {
+	return time.Date(int(d.Year), time.Month(d.Month), int(d.Day), 0, 0, 0, 0, time.UTC)
 }
 
 // IsValid checks if the Date has valid values according to the protobuf constraints.
@@ -78,7 +71,6 @@ func (d *Date) IsMonthDay() bool {
 	}
 	return d.Year == 0 && d.Month != 0 && d.Day != 0
 }
-
 
 // validateDate validates the year, month, and day values according to Date constraints.
 func validateDate(year, month, day int32) error {
