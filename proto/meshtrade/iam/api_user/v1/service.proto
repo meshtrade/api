@@ -4,8 +4,8 @@ package meshtrade.iam.api_user.v1;
 
 import "buf/validate/validate.proto";
 import "meshtrade/iam/api_user/v1/api_user.proto";
-import "meshtrade/option/v1/role.proto";
 import "meshtrade/option/v1/method_type.proto";
+import "meshtrade/option/v1/role.proto";
 
 option go_package = "github.com/meshtrade/api/go/iam/api_user/v1;api_userv1";
 option (meshtrade.option.v1.standard_roles) = {
@@ -35,9 +35,7 @@ service ApiUserService {
   rpc CreateApiUser(CreateApiUserRequest) returns (meshtrade.iam.api_user.v1.APIUser) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
     option (meshtrade.option.v1.roles) = {
-      roles: [
-        ROLE_IAM_ADMIN
-      ]
+      roles: [ROLE_IAM_ADMIN]
     };
   }
 
@@ -73,9 +71,7 @@ service ApiUserService {
   rpc ActivateApiUser(ActivateApiUserRequest) returns (meshtrade.iam.api_user.v1.APIUser) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
     option (meshtrade.option.v1.roles) = {
-      roles: [
-        ROLE_IAM_ADMIN
-      ]
+      roles: [ROLE_IAM_ADMIN]
     };
   }
 
@@ -85,8 +81,19 @@ service ApiUserService {
   rpc DeactivateApiUser(DeactivateApiUserRequest) returns (meshtrade.iam.api_user.v1.APIUser) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
     option (meshtrade.option.v1.roles) = {
+      roles: [ROLE_IAM_ADMIN]
+    };
+  }
+
+  /*
+     Get API user by key hash.
+  */
+  rpc GetApiUserByKeyHash(GetApiUserByKeyHashRequest) returns (meshtrade.iam.api_user.v1.APIUser) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
+    option (meshtrade.option.v1.roles) = {
       roles: [
-        ROLE_IAM_ADMIN
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_VIEWER
       ]
     };
   }
@@ -97,6 +104,13 @@ message GetApiUserRequest {
      Name of the API user to get.
   */
   string name = 1;
+}
+
+message GetApiUserByKeyHashRequest {
+  /*
+     Key hash of the API user to get.
+  */
+  string key_hash = 1;
 }
 
 message CreateApiUserRequest {

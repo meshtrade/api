@@ -9,6 +9,7 @@ import {
   SearchApiUsersResponse,
   ActivateApiUserRequest,
   DeactivateApiUserRequest,
+  GetApiUserByKeyHashRequest,
 } from "./service_pb";
 import { APIUser } from "./api_user_pb";
 import { UnaryInterceptor } from "grpc-web";
@@ -126,5 +127,14 @@ export class ApiUserGrpcWebClientV1 {
    */
   deactivateApiUser(request: DeactivateApiUserRequest): Promise<APIUser> {
     return this._service.deactivateApiUser(request);
+  }
+
+  /**
+   * Retrieves an API user by key hash.
+   * @param {GetAPIUserByKeyHashRequest} request - The request object for getting an API user by key hash.
+   * @returns {Promise<APIUser>} A promise that resolves with the API user.
+   */
+  getAPIUserByKeyHash(request: GetApiUserByKeyHashRequest): Promise<APIUser> {
+    return this._service.getApiUserByKeyHash(request);
   }
 }

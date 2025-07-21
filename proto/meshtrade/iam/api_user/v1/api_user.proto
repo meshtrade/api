@@ -3,9 +3,17 @@ syntax = "proto3";
 package meshtrade.iam.api_user.v1;
 
 import "buf/validate/validate.proto";
+import "meshtrade/option/v1/method_type.proto";
 import "meshtrade/option/v1/role.proto";
 
 option go_package = "github.com/meshtrade/api/go/iam/api_user/v1;api_userv1";
+
+option (meshtrade.option.v1.standard_roles) = {
+  roles: [
+    ROLE_IAM_ADMIN,
+    ROLE_IAM_VIEWER
+  ]
+};
 
 message APIUser {
   /*
@@ -71,6 +79,45 @@ message APIUser {
      This field is only populated on creation and is not stored.
   */
   string api_key = 7;
+
+  /*
+     Hashed version of the API key for storage and lookup.
+     System set on creation.
+  */
+  string key_hash = 8;
+}
+
+service APIUserService {
+
+  rpc GetAPIUser(GetAPIUserRequest) returns (APIUser) {
+    option (meshtrade.option.v1.roles) = {
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_VIEWER
+      ]
+    };
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
+  }
+
+  rpc GetAPIUserByKeyHash(GetAPIUserByKeyHashRequest) returns (APIUser) {
+    option (meshtrade.option.v1.roles) = {
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_VIEWER
+      ]
+    };
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
+  }
+}
+
+message GetAPIUserRequest {
+  // The resource name of the API user to retrieve.
+  string name = 1;
+}
+
+message GetAPIUserByKeyHashRequest {
+  // The key hash of the API user to retrieve.
+  string key_hash = 1;
 }
 
 enum APIUserState {

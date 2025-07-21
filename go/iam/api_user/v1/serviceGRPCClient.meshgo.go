@@ -130,3 +130,20 @@ func (g *GRPCClientApiUserService) DeactivateApiUser(ctx context.Context, reques
 
 	return deactivateApiUserResponse, nil
 }
+
+func (g *GRPCClientApiUserService) GetApiUserByKeyHash(ctx context.Context, request *GetApiUserByKeyHashRequest) (*APIUser, error) {
+	ctx, span := g.tracer.Start(
+		ctx,
+		ApiUserServiceServiceProviderName+"GetApiUserByKeyHash",
+	)
+	defer span.End()
+
+	// call given implementation of the adapted service provider interface
+	getApiUserByKeyHashResponse, err := g.grpcClient.GetApiUserByKeyHash(ctx, request)
+	if err != nil {
+		log.Ctx(ctx).Error().Err(err).Msg("could not GetApiUserByKeyHash")
+		return nil, fmt.Errorf("could not GetApiUserByKeyHash: %s", err)
+	}
+
+	return getApiUserByKeyHashResponse, nil
+}

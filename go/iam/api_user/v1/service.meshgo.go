@@ -24,6 +24,9 @@ type ApiUserService interface {
 
 	// Deactivate an API user.
 	DeactivateApiUser(ctx context.Context, request *DeactivateApiUserRequest) (*APIUser, error)
+
+	// Get API user by key hash.
+	GetApiUserByKeyHash(ctx context.Context, request *GetApiUserByKeyHashRequest) (*APIUser, error)
 }
 
 const ApiUserServiceServiceProviderName = "meshtrade-iam-api_user-v1-ApiUserService"

@@ -161,7 +161,10 @@ type APIUser struct {
 	Roles []v1.Role `protobuf:"varint,6,rep,packed,name=roles,proto3,enum=meshtrade.option.v1.Role" json:"roles,omitempty"`
 	// API key for the API user.
 	// This field is only populated on creation and is not stored.
-	ApiKey        string `protobuf:"bytes,7,opt,name=api_key,json=apiKey,proto3" json:"api_key,omitempty"`
+	ApiKey string `protobuf:"bytes,7,opt,name=api_key,json=apiKey,proto3" json:"api_key,omitempty"`
+	// Hashed version of the API key for storage and lookup.
+	// System set on creation.
+	KeyHash       string `protobuf:"bytes,8,opt,name=key_hash,json=keyHash,proto3" json:"key_hash,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -245,11 +248,108 @@ func (x *APIUser) GetApiKey() string {
 	return ""
 }
 
+func (x *APIUser) GetKeyHash() string {
+	if x != nil {
+		return x.KeyHash
+	}
+	return ""
+}
+
+type GetAPIUserRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The resource name of the API user to retrieve.
+	Name          string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetAPIUserRequest) Reset() {
+	*x = GetAPIUserRequest{}
+	mi := &file_meshtrade_iam_api_user_v1_api_user_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAPIUserRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAPIUserRequest) ProtoMessage() {}
+
+func (x *GetAPIUserRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_iam_api_user_v1_api_user_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAPIUserRequest.ProtoReflect.Descriptor instead.
+func (*GetAPIUserRequest) Descriptor() ([]byte, []int) {
+	return file_meshtrade_iam_api_user_v1_api_user_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *GetAPIUserRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+type GetAPIUserByKeyHashRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The key hash of the API user to retrieve.
+	KeyHash       string `protobuf:"bytes,1,opt,name=key_hash,json=keyHash,proto3" json:"key_hash,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetAPIUserByKeyHashRequest) Reset() {
+	*x = GetAPIUserByKeyHashRequest{}
+	mi := &file_meshtrade_iam_api_user_v1_api_user_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAPIUserByKeyHashRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAPIUserByKeyHashRequest) ProtoMessage() {}
+
+func (x *GetAPIUserByKeyHashRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_iam_api_user_v1_api_user_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAPIUserByKeyHashRequest.ProtoReflect.Descriptor instead.
+func (*GetAPIUserByKeyHashRequest) Descriptor() ([]byte, []int) {
+	return file_meshtrade_iam_api_user_v1_api_user_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *GetAPIUserByKeyHashRequest) GetKeyHash() string {
+	if x != nil {
+		return x.KeyHash
+	}
+	return ""
+}
+
 var File_meshtrade_iam_api_user_v1_api_user_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_api_user_v1_api_user_proto_rawDesc = "" +
 	"\n" +
-	"(meshtrade/iam/api_user/v1/api_user.proto\x12\x19meshtrade.iam.api_user.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1emeshtrade/option/v1/role.proto\"\xfd\x03\n" +
+	"(meshtrade/iam/api_user/v1/api_user.proto\x12\x19meshtrade.iam.api_user.v1\x1a\x1bbuf/validate/validate.proto\x1a%meshtrade/option/v1/method_type.proto\x1a\x1emeshtrade/option/v1/role.proto\"\x98\x04\n" +
 	"\aAPIUser\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +
 	"\x05owner\x18\x02 \x01(\tR\x05owner\x12\x16\n" +
@@ -259,7 +359,12 @@ const file_meshtrade_iam_api_user_v1_api_user_proto_rawDesc = "" +
 	"\x05state\x18\x05 \x01(\x0e2'.meshtrade.iam.api_user.v1.APIUserStateBr\xbaHo\xba\x01e\n" +
 	"\x0estate.required\x12Cstate is required and must be a valid state value (not UNSPECIFIED)\x1a\x0eint(this) != 0\x82\x01\x04\x10\x01 \x00R\x05state\x12/\n" +
 	"\x05roles\x18\x06 \x03(\x0e2\x19.meshtrade.option.v1.RoleR\x05roles\x12\x17\n" +
-	"\aapi_key\x18\a \x01(\tR\x06apiKey*f\n" +
+	"\aapi_key\x18\a \x01(\tR\x06apiKey\x12\x19\n" +
+	"\bkey_hash\x18\b \x01(\tR\akeyHash\"'\n" +
+	"\x11GetAPIUserRequest\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\"7\n" +
+	"\x1aGetAPIUserByKeyHashRequest\x12\x19\n" +
+	"\bkey_hash\x18\x01 \x01(\tR\akeyHash*f\n" +
 	"\fAPIUserState\x12\x1e\n" +
 	"\x1aAPI_USER_STATE_UNSPECIFIED\x10\x00\x12\x19\n" +
 	"\x15API_USER_STATE_ACTIVE\x10\x01\x12\x1b\n" +
@@ -269,7 +374,14 @@ const file_meshtrade_iam_api_user_v1_api_user_proto_rawDesc = "" +
 	"\x18API_USER_ACTION_ACTIVATE\x10\x01\x12\x1e\n" +
 	"\x1aAPI_USER_ACTION_DEACTIVATE\x10\x02\x12\x1a\n" +
 	"\x16API_USER_ACTION_CREATE\x10\x03\x12\x1a\n" +
-	"\x16API_USER_ACTION_UPDATE\x10\x04B8Z6github.com/meshtrade/api/go/iam/api_user/v1;api_userv1b\x06proto3"
+	"\x16API_USER_ACTION_UPDATE\x10\x042\xfe\x01\n" +
+	"\x0eAPIUserService\x12l\n" +
+	"\n" +
+	"GetAPIUser\x12,.meshtrade.iam.api_user.v1.GetAPIUserRequest\x1a\".meshtrade.iam.api_user.v1.APIUser\"\f\xa0\xb5\x18\x01\xaa\xb5\x18\x04\n" +
+	"\x02\x05\x06\x12~\n" +
+	"\x13GetAPIUserByKeyHash\x125.meshtrade.iam.api_user.v1.GetAPIUserByKeyHashRequest\x1a\".meshtrade.iam.api_user.v1.APIUser\"\f\xa0\xb5\x18\x01\xaa\xb5\x18\x04\n" +
+	"\x02\x05\x06B@\x9a\xb5\x18\x04\n" +
+	"\x02\x05\x06Z6github.com/meshtrade/api/go/iam/api_user/v1;api_userv1b\x06proto3"
 
 var (
 	file_meshtrade_iam_api_user_v1_api_user_proto_rawDescOnce sync.Once
@@ -284,18 +396,24 @@ func file_meshtrade_iam_api_user_v1_api_user_proto_rawDescGZIP() []byte {
 }
 
 var file_meshtrade_iam_api_user_v1_api_user_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_meshtrade_iam_api_user_v1_api_user_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_meshtrade_iam_api_user_v1_api_user_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_meshtrade_iam_api_user_v1_api_user_proto_goTypes = []any{
-	(APIUserState)(0),  // 0: meshtrade.iam.api_user.v1.APIUserState
-	(APIUserAction)(0), // 1: meshtrade.iam.api_user.v1.APIUserAction
-	(*APIUser)(nil),    // 2: meshtrade.iam.api_user.v1.APIUser
-	(v1.Role)(0),       // 3: meshtrade.option.v1.Role
+	(APIUserState)(0),                  // 0: meshtrade.iam.api_user.v1.APIUserState
+	(APIUserAction)(0),                 // 1: meshtrade.iam.api_user.v1.APIUserAction
+	(*APIUser)(nil),                    // 2: meshtrade.iam.api_user.v1.APIUser
+	(*GetAPIUserRequest)(nil),          // 3: meshtrade.iam.api_user.v1.GetAPIUserRequest
+	(*GetAPIUserByKeyHashRequest)(nil), // 4: meshtrade.iam.api_user.v1.GetAPIUserByKeyHashRequest
+	(v1.Role)(0),                       // 5: meshtrade.option.v1.Role
 }
 var file_meshtrade_iam_api_user_v1_api_user_proto_depIdxs = []int32{
 	0, // 0: meshtrade.iam.api_user.v1.APIUser.state:type_name -> meshtrade.iam.api_user.v1.APIUserState
-	3, // 1: meshtrade.iam.api_user.v1.APIUser.roles:type_name -> meshtrade.option.v1.Role
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
+	5, // 1: meshtrade.iam.api_user.v1.APIUser.roles:type_name -> meshtrade.option.v1.Role
+	3, // 2: meshtrade.iam.api_user.v1.APIUserService.GetAPIUser:input_type -> meshtrade.iam.api_user.v1.GetAPIUserRequest
+	4, // 3: meshtrade.iam.api_user.v1.APIUserService.GetAPIUserByKeyHash:input_type -> meshtrade.iam.api_user.v1.GetAPIUserByKeyHashRequest
+	2, // 4: meshtrade.iam.api_user.v1.APIUserService.GetAPIUser:output_type -> meshtrade.iam.api_user.v1.APIUser
+	2, // 5: meshtrade.iam.api_user.v1.APIUserService.GetAPIUserByKeyHash:output_type -> meshtrade.iam.api_user.v1.APIUser
+	4, // [4:6] is the sub-list for method output_type
+	2, // [2:4] is the sub-list for method input_type
 	2, // [2:2] is the sub-list for extension type_name
 	2, // [2:2] is the sub-list for extension extendee
 	0, // [0:2] is the sub-list for field type_name
@@ -312,9 +430,9 @@ func file_meshtrade_iam_api_user_v1_api_user_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_meshtrade_iam_api_user_v1_api_user_proto_rawDesc), len(file_meshtrade_iam_api_user_v1_api_user_proto_rawDesc)),
 			NumEnums:      2,
-			NumMessages:   1,
+			NumMessages:   3,
 			NumExtensions: 0,
-			NumServices:   0,
+			NumServices:   1,
 		},
 		GoTypes:           file_meshtrade_iam_api_user_v1_api_user_proto_goTypes,
 		DependencyIndexes: file_meshtrade_iam_api_user_v1_api_user_proto_depIdxs,

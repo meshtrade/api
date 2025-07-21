@@ -19,12 +19,13 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ApiUserService_GetApiUser_FullMethodName        = "/meshtrade.iam.api_user.v1.ApiUserService/GetApiUser"
-	ApiUserService_CreateApiUser_FullMethodName     = "/meshtrade.iam.api_user.v1.ApiUserService/CreateApiUser"
-	ApiUserService_ListApiUsers_FullMethodName      = "/meshtrade.iam.api_user.v1.ApiUserService/ListApiUsers"
-	ApiUserService_SearchApiUsers_FullMethodName    = "/meshtrade.iam.api_user.v1.ApiUserService/SearchApiUsers"
-	ApiUserService_ActivateApiUser_FullMethodName   = "/meshtrade.iam.api_user.v1.ApiUserService/ActivateApiUser"
-	ApiUserService_DeactivateApiUser_FullMethodName = "/meshtrade.iam.api_user.v1.ApiUserService/DeactivateApiUser"
+	ApiUserService_GetApiUser_FullMethodName          = "/meshtrade.iam.api_user.v1.ApiUserService/GetApiUser"
+	ApiUserService_CreateApiUser_FullMethodName       = "/meshtrade.iam.api_user.v1.ApiUserService/CreateApiUser"
+	ApiUserService_ListApiUsers_FullMethodName        = "/meshtrade.iam.api_user.v1.ApiUserService/ListApiUsers"
+	ApiUserService_SearchApiUsers_FullMethodName      = "/meshtrade.iam.api_user.v1.ApiUserService/SearchApiUsers"
+	ApiUserService_ActivateApiUser_FullMethodName     = "/meshtrade.iam.api_user.v1.ApiUserService/ActivateApiUser"
+	ApiUserService_DeactivateApiUser_FullMethodName   = "/meshtrade.iam.api_user.v1.ApiUserService/DeactivateApiUser"
+	ApiUserService_GetApiUserByKeyHash_FullMethodName = "/meshtrade.iam.api_user.v1.ApiUserService/GetApiUserByKeyHash"
 )
 
 // ApiUserServiceClient is the client API for ApiUserService service.
@@ -43,6 +44,8 @@ type ApiUserServiceClient interface {
 	ActivateApiUser(ctx context.Context, in *ActivateApiUserRequest, opts ...grpc.CallOption) (*APIUser, error)
 	// Deactivate an API user.
 	DeactivateApiUser(ctx context.Context, in *DeactivateApiUserRequest, opts ...grpc.CallOption) (*APIUser, error)
+	// Get API user by key hash.
+	GetApiUserByKeyHash(ctx context.Context, in *GetApiUserByKeyHashRequest, opts ...grpc.CallOption) (*APIUser, error)
 }
 
 type apiUserServiceClient struct {
@@ -113,6 +116,16 @@ func (c *apiUserServiceClient) DeactivateApiUser(ctx context.Context, in *Deacti
 	return out, nil
 }
 
+func (c *apiUserServiceClient) GetApiUserByKeyHash(ctx context.Context, in *GetApiUserByKeyHashRequest, opts ...grpc.CallOption) (*APIUser, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(APIUser)
+	err := c.cc.Invoke(ctx, ApiUserService_GetApiUserByKeyHash_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ApiUserServiceServer is the server API for ApiUserService service.
 // All implementations must embed UnimplementedApiUserServiceServer
 // for forward compatibility.
@@ -129,6 +142,8 @@ type ApiUserServiceServer interface {
 	ActivateApiUser(context.Context, *ActivateApiUserRequest) (*APIUser, error)
 	// Deactivate an API user.
 	DeactivateApiUser(context.Context, *DeactivateApiUserRequest) (*APIUser, error)
+	// Get API user by key hash.
+	GetApiUserByKeyHash(context.Context, *GetApiUserByKeyHashRequest) (*APIUser, error)
 	mustEmbedUnimplementedApiUserServiceServer()
 }
 
@@ -156,6 +171,9 @@ func (UnimplementedApiUserServiceServer) ActivateApiUser(context.Context, *Activ
 }
 func (UnimplementedApiUserServiceServer) DeactivateApiUser(context.Context, *DeactivateApiUserRequest) (*APIUser, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeactivateApiUser not implemented")
+}
+func (UnimplementedApiUserServiceServer) GetApiUserByKeyHash(context.Context, *GetApiUserByKeyHashRequest) (*APIUser, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetApiUserByKeyHash not implemented")
 }
 func (UnimplementedApiUserServiceServer) mustEmbedUnimplementedApiUserServiceServer() {}
 func (UnimplementedApiUserServiceServer) testEmbeddedByValue()                        {}
@@ -286,6 +304,24 @@ func _ApiUserService_DeactivateApiUser_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ApiUserService_GetApiUserByKeyHash_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetApiUserByKeyHashRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiUserServiceServer).GetApiUserByKeyHash(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ApiUserService_GetApiUserByKeyHash_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiUserServiceServer).GetApiUserByKeyHash(ctx, req.(*GetApiUserByKeyHashRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ApiUserService_ServiceDesc is the grpc.ServiceDesc for ApiUserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -316,6 +352,10 @@ var ApiUserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeactivateApiUser",
 			Handler:    _ApiUserService_DeactivateApiUser_Handler,
+		},
+		{
+			MethodName: "GetApiUserByKeyHash",
+			Handler:    _ApiUserService_GetApiUserByKeyHash_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

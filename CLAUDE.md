@@ -260,3 +260,12 @@ The `/proto/meshtrade/type/v1/` directory contains foundational types used acros
 3. Run `./scripts/generate.sh` to regenerate all client libraries
 4. Check TypeScript client wrappers for missing methods or imports
 5. Run language-specific tests and linting to verify correctness
+
+### Protobuf Syntax for Options
+
+When adding options to protobuf files, keep the following in mind:
+
+- **Option Syntax:** Custom options for services or methods should be declared directly. The correct syntax is `option (custom.option) = VALUE;` and not `option (custom.option) = { key: VALUE };`.
+- **Enum Scopes:** When referencing enums from an imported `.proto` file (like `method_type.proto` or `role.proto`), you should use the enum value directly (e.g., `METHOD_TYPE_READ`) without the fully qualified package path, as long as the necessary import statement is present.
+- **Option Scopes (`FileOptions` vs. `ServiceOptions`):** It's critical to apply options at the correct level. For example, `standard_roles` is a `FileOption` and must be declared at the top level of the file, not within a `service` definition, which uses `ServiceOptions`.
+- **TypeScript Wrapper Dependencies:** When adding new RPC methods, you must manually update any hand-written client wrappers. This includes not only adding the new client method but also importing the newly generated request/response message types (e.g., `GetApiUserByKeyHashRequest` from `service_pb.ts`).
