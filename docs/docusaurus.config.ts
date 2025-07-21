@@ -97,19 +97,19 @@ const config: Config = {
             ],
           },
           {
-            title: 'SDKs',
+            title: 'Guides',
             items: [
               {
-                label: 'Go SDK',
-                to: '/docs/sdks/go',
+                label: 'Service Structure',
+                to: '/docs/guides/service-structure',
               },
               {
-                label: 'Python SDK',
-                to: '/docs/sdks/python',
+                label: 'Group Ownership',
+                to: '/docs/guides/group-ownership',
               },
               {
-                label: 'TypeScript SDK',
-                to: '/docs/sdks/typescript',
+                label: 'Schema-driven Authorization',
+                to: '/docs/guides/schema-driven-authorization',
               },
             ],
           },

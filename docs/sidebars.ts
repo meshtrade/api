@@ -28,11 +28,7 @@ const sidebars: SidebarsConfig = {
       label: 'API Reference',
       items: ['api/reference'],
     },
-    {
-      type: 'category',
-      label: 'SDK Documentation',
-      items: ['sdks/go', 'sdks/python', 'sdks/typescript'],
-    },
+
     'roadmap',
   ],
 };

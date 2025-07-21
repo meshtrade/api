@@ -198,7 +198,6 @@ Discover our schema-driven authorization system and role-based access control.
 ### 📚 Additional Resources
 
 - **[API Reference](./api/reference)** - Complete API documentation
-- **[SDK Documentation](./sdks/go)** - Language-specific guides  
 - **[Roadmap](./roadmap)** - Upcoming features and improvements
 
 ---
