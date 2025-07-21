@@ -99,23 +99,6 @@ func (t *TimeOfDay) IsValid() bool {
 	return validateTimeOfDay(t.Hours, t.Minutes, t.Seconds, t.Nanos) == nil
 }
 
-// IsMidnight returns true if the time represents midnight (00:00:00.000000000).
-func (t *TimeOfDay) IsMidnight() bool {
-	if t == nil {
-		return false
-	}
-	return t.Hours == 0 && t.Minutes == 0 && t.Seconds == 0 && t.Nanos == 0
-}
-
-// IsEndOfDay returns true if the time represents 24:00:00 (which may be allowed in some APIs).
-func (t *TimeOfDay) IsEndOfDay() bool {
-	if t == nil {
-		return false
-	}
-	return t.Hours == 24 && t.Minutes == 0 && t.Seconds == 0 && t.Nanos == 0
-}
-
-
 // TotalSeconds returns the total number of seconds since midnight as a float64.
 func (t *TimeOfDay) TotalSeconds() float64 {
 	if t == nil {
@@ -126,12 +109,9 @@ func (t *TimeOfDay) TotalSeconds() float64 {
 
 // validateTimeOfDay validates the hours, minutes, seconds, and nanos values according to TimeOfDay constraints.
 func validateTimeOfDay(hours, minutes, seconds, nanos int32) error {
-	// Hours validation (0-23, or 24 for end of day scenarios)
-	if hours < 0 || hours > 24 {
-		return fmt.Errorf("hours must be between 0 and 24, got %d", hours)
-	}
-	if hours == 24 && (minutes != 0 || seconds != 0 || nanos != 0) {
-		return fmt.Errorf("when hours is 24, minutes, seconds, and nanos must be 0")
+	// Hours validation
+	if hours < 0 || hours > 23 {
+		return fmt.Errorf("hours must be between 0 and 23, got %d", hours)
 	}
 
 	// Minutes validation
@@ -139,8 +119,8 @@ func validateTimeOfDay(hours, minutes, seconds, nanos int32) error {
 		return fmt.Errorf("minutes must be between 0 and 59, got %d", minutes)
 	}
 
-	// Seconds validation (0-59, or 60 for leap seconds if allowed)
-	if seconds < 0 || seconds > 60 {
+	// Seconds validation
+	if seconds < 0 || seconds > 59 {
 		return fmt.Errorf("seconds must be between 0 and 60, got %d", seconds)
 	}
 
