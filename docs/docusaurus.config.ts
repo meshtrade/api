@@ -4,7 +4,7 @@ import type { Config } from '@docusaurus/types';
 const config: Config = {
   title: 'Mesh API Documentation',
   tagline: 'Comprehensive API documentation for Mesh trading platform',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/favicon.svg',
 
   url: 'https://meshtrade.github.io',
   baseUrl: '/api/',
@@ -58,12 +58,12 @@ const config: Config = {
   ],
 
   themeConfig: {
-      image: 'img/logo.svg',
+      image: 'img/favicon.svg',
       navbar: {
         title: 'Mesh API',
         logo: {
           alt: 'Mesh Logo',
-          src: 'img/logo.svg',
+          src: 'img/favicon.svg',
         },
         items: [
           {
@@ -92,7 +92,7 @@ const config: Config = {
               },
               {
                 label: 'API Reference',
-                to: '/docs/api/overview',
+                to: '/docs/api/reference',
               },
             ],
           },
@@ -100,8 +100,16 @@ const config: Config = {
             title: 'SDKs',
             items: [
               {
-                label: 'SDK Overview',
-                to: '/docs/sdks/overview',
+                label: 'Go SDK',
+                to: '/docs/sdks/go',
+              },
+              {
+                label: 'Python SDK',
+                to: '/docs/sdks/python',
+              },
+              {
+                label: 'TypeScript SDK',
+                to: '/docs/sdks/typescript',
               },
             ],
           },

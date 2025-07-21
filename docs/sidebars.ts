@@ -16,24 +16,24 @@ const sidebars: SidebarsConfig = {
     'intro',
     {
       type: 'category',
-      label: 'Getting Started',
-      items: ['getting-started/installation'],
+      label: 'Guides',
+      items: [
+        'guides/service-structure',
+        'guides/group-ownership', 
+        'guides/schema-driven-authorization'
+      ],
     },
     {
       type: 'category',
       label: 'API Reference',
-      items: ['api/overview'],
+      items: ['api/reference'],
     },
     {
       type: 'category',
       label: 'SDK Documentation',
-      items: ['sdks/overview'],
+      items: ['sdks/go', 'sdks/python', 'sdks/typescript'],
     },
-    {
-      type: 'category',
-      label: 'Examples',
-      items: ['examples/basic-usage'],
-    },
+    'roadmap',
   ],
 };
 

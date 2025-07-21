@@ -19,23 +19,13 @@ Mesh API is a modern, gRPC-based API that provides access to:
 - **Identity & Access Management** - Role-based access control
 - **Issuance Hub** - Financial instrument creation and management
 
-## Getting Started
+## Quick Start
 
-Let's discover **Mesh API in less than 5 minutes**.
+Let's get you up and running with **Mesh API in less than 5 minutes**.
 
-### What you'll need
+### 1. Installation
 
-- [Node.js](https://nodejs.org/en/download/) version 18.0 or above
-- [Go](https://golang.org/dl/) version 1.21 or above
-- [Python](https://www.python.org/downloads/) version 3.9 or above
-
-### Authentication
-
-All API requests require proper authentication. Get started by:
-
-1. **Obtaining API credentials** from your Mesh account
-2. **Configuring your client** with the provided credentials
-3. **Making your first authenticated request**
+First, install the SDK for your preferred language:
 
 <Tabs>
 <TabItem value="go" label="Go">
@@ -45,13 +35,17 @@ All API requests require proper authentication. Get started by:
 go get github.com/meshtrade/api/go
 ```
 
+Requirements: [Go](https://golang.org/dl/) version 1.21 or above
+
 </TabItem>
 <TabItem value="python" label="Python">
 
 ```bash
 # Install the Python SDK
-pip install meshtrade-api
+pip install meshtrade
 ```
+
+Requirements: [Python](https://www.python.org/downloads/) version 3.9 or above
 
 </TabItem>
 <TabItem value="typescript" label="TypeScript">
@@ -61,126 +55,152 @@ pip install meshtrade-api
 npm install @meshtrade/api
 ```
 
+Requirements: [Node.js](https://nodejs.org/en/download/) version 18.0 or above
+
 </TabItem>
 </Tabs>
 
-## Architecture Overview
+### 2. Getting Your API Key
 
-```mermaid
-graph TB
-    A[Client Applications] --> B[Mesh API Gateway]
-    B --> C[Compliance Service]
-    B --> D[Trading Service]
-    B --> E[Wallet Service]
-    B --> F[IAM Service]
-    B --> G[Issuance Service]
+To use the Mesh API, you'll need an API key:
 
-    C --> H[KYC Database]
-    D --> I[Order Book]
-    E --> J[Account Ledger]
-    F --> K[Auth Store]
-    G --> L[Instrument Registry]
-```
+1. **Sign up** for a Mesh developer account (coming soon)
+2. **Navigate** to the API Keys section in your dashboard
+3. **Create** a new API key with appropriate permissions
+4. **Copy** your API key securely
 
-## API Design Principles
+:::tip
+Keep your API key secure and never commit it to version control. Use environment variables or secure configuration management.
+:::
 
-### Schema-First Development
+### 3. Your First API Request
 
-- All APIs are defined using Protocol Buffers
-- Generated client libraries ensure type safety
-- Versioned APIs maintain backward compatibility
-
-### gRPC & REST
-
-- Primary interface is gRPC for high performance
-- REST endpoints available for web clients
-- Streaming support for real-time updates
-
-### Security by Design
-
-- Role-based access control (RBAC)
-- TLS encryption for all communications
-- API key and JWT authentication
-
-## Quick Example
-
-Here's a simple example of creating a client and fetching account information:
+Let's test your setup by calling the version service to verify connectivity:
 
 <Tabs>
 <TabItem value="go" label="Go">
 
-```go title="Go Example"
+```go
 package main
 
 import (
     "context"
     "log"
+    "os"
 
-    "github.com/meshtrade/api/go/wallet/account/v1"
+    "github.com/meshtrade/api/go/system/version/v1"
 )
 
 func main() {
-    client, err := account.NewClient(ctx, "your-api-key")
-    if err != nil {
-        log.Fatal(err)
-    }
+    ctx := context.Background()
 
-    resp, err := client.GetAccount(ctx, &account.GetAccountRequest{
-        AccountId: "your-account-id",
+    // Create client with API key from environment
+    client, err := version.NewClient(ctx, version.Config{
+        APIKey:   os.Getenv("MESH_API_KEY"),
+        Endpoint: "api.mesh.dev:443",
     })
     if err != nil {
         log.Fatal(err)
     }
+    defer client.Close()
 
-    log.Printf("Account: %+v", resp)
+    // Make API call to check connectivity
+    resp, err := client.GetVersion(ctx, &version.GetVersionRequest{})
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    log.Printf("Connected to Mesh API version: %s", resp.Version)
 }
 ```
 
 </TabItem>
 <TabItem value="python" label="Python">
 
-```python title="Python Example"
+```python
 import asyncio
-from meshtrade.wallet.account.v1 import AccountServiceClient
+import os
+from meshtrade.system.version.v1 import VersionServiceClient
 
 async def main():
-    client = AccountServiceClient("your-api-key")
-
-    response = await client.get_account(
-        account_id="your-account-id"
+    # Create client with API key from environment
+    client = VersionServiceClient(
+        api_key=os.getenv("MESH_API_KEY"),
+        endpoint="api.mesh.dev:443"
     )
 
-    print(f"Account: {response}")
+    try:
+        # Make API call to check connectivity
+        response = await client.get_version()
+        print(f"Connected to Mesh API version: {response.version}")
+    finally:
+        await client.close()
 
+# Run the example
 asyncio.run(main())
 ```
 
 </TabItem>
 <TabItem value="typescript" label="TypeScript">
 
-```typescript title="TypeScript Example"
-import { AccountServiceClient } from '@meshtrade/api/wallet/account/v1';
+```typescript
+import { VersionServiceClient } from '@meshtrade/api/system/version/v1';
 
 async function main() {
-  const client = new AccountServiceClient('your-api-key');
-
-  const response = await client.getAccount({
-    accountId: 'your-account-id',
+  // Create client with API key from environment
+  const client = new VersionServiceClient({
+    apiKey: process.env.MESH_API_KEY,
+    endpoint: 'api.mesh.dev:443',
   });
 
-  console.log('Account:', response);
+  try {
+    // Make API call to check connectivity
+    const response = await client.getVersion({});
+    console.log(`Connected to Mesh API version: ${response.version}`);
+  } finally {
+    await client.close();
+  }
 }
 
-main();
+main().catch(console.error);
 ```
 
 </TabItem>
 </Tabs>
 
+Set your API key as an environment variable:
+
+```bash
+export MESH_API_KEY=your-api-key-here
+```
+
+If everything is set up correctly, you should see a message confirming your connection to the Mesh API.
+
 ## Next Steps
 
-- 📚 **[Getting Started](./getting-started/installation)** - Set up your development environment
-- 🔐 **[Authentication](./getting-started/authentication)** - Learn about API authentication
-- 📖 **[API Reference](./api/overview)** - Explore all available endpoints
-- 🛠️ **[SDK Documentation](./sdks/overview)** - Language-specific guides
-- 💡 **[Examples](./examples/basic-usage)** - Real-world integration patterns
+Now that you have a working connection to the Mesh API, explore these key concepts:
+
+### 📋 Learn About Service Structure
+Understanding how our APIs are organized and the common patterns used across all services.
+
+👉 **[Service Structure Guide](./guides/service-structure)** - Learn about resource-oriented design, standard verbs, and API patterns
+
+### 🏢 Group Ownership Structure  
+Learn how groups provide ownership and isolation boundaries for your resources.
+
+👉 **[Group Ownership Guide](./guides/group-ownership)** - Understand multi-tenancy, resource isolation, and group management
+
+### 🔐 Permissions Structure
+Discover our schema-driven authorization system and role-based access control.
+
+👉 **[Permissions Guide](./guides/schema-driven-authorization)** - Master RBAC, roles, and permission management
+
+### 📚 Additional Resources
+
+- **[API Reference](./api/reference)** - Complete API documentation
+- **[SDK Documentation](./sdks/go)** - Language-specific guides  
+- **[Roadmap](./roadmap)** - Upcoming features and improvements
+
+---
+
+*Ready to build something amazing with Mesh API? Let's get started!*

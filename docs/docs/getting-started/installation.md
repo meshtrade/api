@@ -238,4 +238,4 @@ nvm install 18
 
 - 🔐 **[Authentication](./authentication)** - Set up API authentication
 - 🚀 **[First Request](./first-request)** - Make your first API call
-- 📖 **[API Reference](../api/overview)** - Explore available endpoints
+- 📖 **[API Reference](../api/reference)** - Explore available endpoints
