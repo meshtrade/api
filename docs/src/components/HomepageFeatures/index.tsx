@@ -4,14 +4,15 @@ import styles from './styles.module.css';
 
 type FeatureItem = {
   title: string;
-  Svg: React.ComponentType<React.ComponentProps<'svg'>>;
+  Svg?: React.ComponentType<React.ComponentProps<'svg'>>;
+  imageSrc?: string;
   description: React.ReactNode;
 };
 
 const FeatureList: FeatureItem[] = [
   {
     title: 'Multi-Language SDKs',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    imageSrc: require('@site/static/img/multilingual_support.png').default,
     description: (
       <>
         Official SDKs for Go, Python, and TypeScript generated from the same
@@ -20,48 +21,41 @@ const FeatureList: FeatureItem[] = [
     ),
   },
   {
-    title: 'gRPC & REST APIs',
+    title: 'gRPC Native',
     Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
-        High-performance gRPC APIs with REST gateway support. Streaming
-        capabilities for real-time updates and efficient communication.
-      </>
-    ),
-  },
-  {
-    title: 'Production Ready',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
-    description: (
-      <>
-        Built for scale with comprehensive error handling, retry logic,
-        connection pooling, and security best practices.
+        High-performance gRPC protocol with schema-first development and strong typing.
       </>
     ),
   },
 ];
 
-function Feature({ Svg, title, description }: FeatureItem): React.JSX.Element {
-  return (
-    <div className={clsx('col col--4')}>
-      <div className="text--center">
-        <Svg className={styles.featureSvg} role="img" />
-      </div>
-      <div className="text--center padding-horiz--md">
-        <h3>{title}</h3>
-        <p>{description}</p>
-      </div>
-    </div>
-  );
-}
-
 export default function HomepageFeatures(): React.JSX.Element {
   return (
     <section className={styles.features}>
       <div className="container">
-        <div className="row">
-          {FeatureList.map((props, idx) => (
-            <Feature key={idx} {...props} />
+        <div className={styles.featuresGrid}>
+          {/* Image Row */}
+          {FeatureList.map((feature, idx) => (
+            <div key={`image-${idx}`} className={styles.imageSection}>
+              {feature.Svg && <feature.Svg className={styles.featureSvg} role="img" />}
+              {feature.imageSrc && <img src={feature.imageSrc} className={styles.featureImg} alt={feature.title} />}
+            </div>
+          ))}
+          
+          {/* Title Row */}
+          {FeatureList.map((feature, idx) => (
+            <div key={`title-${idx}`} className={styles.titleSection}>
+              <h3>{feature.title}</h3>
+            </div>
+          ))}
+          
+          {/* Description Row */}
+          {FeatureList.map((feature, idx) => (
+            <div key={`desc-${idx}`} className={styles.descriptionSection}>
+              <p className="padding-horiz--md">{feature.description}</p>
+            </div>
           ))}
         </div>
       </div>

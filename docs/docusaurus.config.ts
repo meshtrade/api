@@ -127,7 +127,7 @@ const config: Config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} Mesh Trading Platform. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Mesh B.V.`,
       },
       prism: {
         theme: prismThemes.github,
