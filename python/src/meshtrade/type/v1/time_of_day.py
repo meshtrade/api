@@ -10,13 +10,13 @@ from .date_pb2 import Date
 from .time_of_day_pb2 import TimeOfDay
 
 
-def new_time_of_day(hours: int, minutes: int, seconds: int = 0, nanos: int = 0) -> TimeOfDay:
+def new_time_of_day(hours: int = 0, minutes: int = 0, seconds: int = 0, nanos: int = 0) -> TimeOfDay:
     """Creates a new TimeOfDay from hours, minutes, seconds, and nanos values.
     
     Args:
-        hours: Hours value (0-24)
-        minutes: Minutes value (0-59)
-        seconds: Seconds value (0-60, default 0)
+        hours: Hours value (0-59, default 0)
+        minutes: Minutes value (0-59, default 0)
+        seconds: Seconds value (0-59, default 0)
         nanos: Nanoseconds value (0-999999999, default 0)
         
     Returns:
@@ -282,19 +282,17 @@ def _validate_time_of_day(hours: int, minutes: int, seconds: int, nanos: int) ->
     Raises:
         ValueError: If the time values are invalid
     """
-    # Hours validation (0-23, or 24 for end of day scenarios)
-    if hours < 0 or hours > 24:
-        raise ValueError(f"Hours must be between 0 and 24, got {hours}")
-    if hours == 24 and (minutes != 0 or seconds != 0 or nanos != 0):
-        raise ValueError("When hours is 24, minutes, seconds, and nanos must be 0")
-
+    # Hours validation 
+    if hours < 0 or hours > 23:
+        raise ValueError(f"Hours must be between 0 and 23, got {hours}")
+   
     # Minutes validation
     if minutes < 0 or minutes > 59:
         raise ValueError(f"Minutes must be between 0 and 59, got {minutes}")
 
-    # Seconds validation (0-59, or 60 for leap seconds if allowed)
-    if seconds < 0 or seconds > 60:
-        raise ValueError(f"Seconds must be between 0 and 60, got {seconds}")
+    # Seconds validation 
+    if seconds < 0 or seconds > 59:
+        raise ValueError(f"Seconds must be between 0 and 59, got {seconds}")
 
     # Nanos validation
     if nanos < 0 or nanos > 999999999:

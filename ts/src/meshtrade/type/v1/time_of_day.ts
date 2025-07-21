@@ -6,16 +6,16 @@ import { isComplete as isDateComplete } from "./date";
  * Creates a new TimeOfDay protobuf message from hours, minutes, seconds, and nanos values.
  * Validates the input values according to the TimeOfDay message constraints.
  *
- * @param hours - Hours value (0-24)
- * @param minutes - Minutes value (0-59)
- * @param seconds - Seconds value (0-60, default 0)
+ * @param hours - Hours value (0-23, default 0)
+ * @param minutes - Minutes value (0-59, default 0)
+ * @param seconds - Seconds value (0-59, default 0)
  * @param nanos - Nanoseconds value (0-999999999, default 0)
  * @returns A TimeOfDay protobuf message
  * @throws Error if the time values are invalid
  */
 export function newTimeOfDay(
-  hours: number,
-  minutes: number,
+  hours: number = 0,
+  minutes: number = 0,
   seconds: number = 0,
   nanos: number = 0
 ): TimeOfDay {
@@ -255,12 +255,9 @@ function validateTimeOfDay(
   seconds: number,
   nanos: number
 ): void {
-  // Hours validation (0-23, or 24 for end of day scenarios)
+  // Hours validation
   if (hours < 0 || hours > 24) {
-    throw new Error(`Hours must be between 0 and 24, got ${hours}`);
-  }
-  if (hours === 24 && (minutes !== 0 || seconds !== 0 || nanos !== 0)) {
-    throw new Error("When hours is 24, minutes, seconds, and nanos must be 0");
+    throw new Error(`Hours must be between 0 and 23, got ${hours}`);
   }
 
   // Minutes validation
@@ -268,9 +265,9 @@ function validateTimeOfDay(
     throw new Error(`Minutes must be between 0 and 59, got ${minutes}`);
   }
 
-  // Seconds validation (0-59, or 60 for leap seconds if allowed)
-  if (seconds < 0 || seconds > 60) {
-    throw new Error(`Seconds must be between 0 and 60, got ${seconds}`);
+  // Seconds validation
+  if (seconds < 0 || seconds > 59) {
+    throw new Error(`Seconds must be between 0 and 59, got ${seconds}`);
   }
 
   // Nanos validation
