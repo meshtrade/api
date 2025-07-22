@@ -1,76 +1,166 @@
 package api_userv1
 
-// options to configure the apiUserServiceGRPCClient
-type apiUserServiceGRPCClientOption interface {
-	apply(*apiUserServiceGRPCClient) *apiUserServiceGRPCClient
+import (
+	"time"
+
+	trace "go.opentelemetry.io/otel/trace"
+)
+
+// ClientOption is a functional option for configuring the API User Service gRPC client.
+// This pattern provides a clean, extensible way to configure the client with optional
+// parameters while maintaining backward compatibility and readability.
+type ClientOption func(*apiUserServiceGRPCClient)
+
+// WithTLS configures whether to use TLS encryption for the gRPC connection.
+// When enabled (true), the client will establish a secure connection using TLS.
+// When disabled (false), the client will use an insecure connection.
+//
+// Default: true (secure connection)
+//
+// Example:
+//   client, err := NewAPIUserServiceGRPCClient(
+//       WithTLS(true), // Enable TLS encryption
+//   )
+func WithTLS(enabled bool) ClientOption {
+	return func(c *apiUserServiceGRPCClient) {
+		c.tls = enabled
+	}
 }
 
-// withTLS option
-type withTLS struct{ tls bool }
-
-func WithTLS(tls bool) apiUserServiceGRPCClientOption {
-	return &withTLS{tls: tls}
+// WithAddress configures the server address (URL and port) for the gRPC connection.
+// This allows you to connect to different environments or custom deployments.
+//
+// Parameters:
+//   - url: The server hostname or IP address (e.g., "api.example.com", "localhost")
+//   - port: The server port number (e.g., 443 for HTTPS, 8080 for development)
+//
+// Default: Uses common.DefaultGRPCURL and common.DefaultGRPCPort
+//
+// Example:
+//   client, err := NewAPIUserServiceGRPCClient(
+//       WithAddress("staging-api.example.com", 443), // Connect to staging
+//   )
+func WithAddress(url string, port int) ClientOption {
+	return func(c *apiUserServiceGRPCClient) {
+		c.url = url
+		c.port = port
+	}
 }
 
-var _ apiUserServiceGRPCClientOption = &withTLS{}
-
-func (w *withTLS) apply(client *apiUserServiceGRPCClient) *apiUserServiceGRPCClient {
-	client.tls = w.tls
-	return client
+// WithURL configures only the server URL/hostname for the gRPC connection.
+// The port will remain unchanged (uses existing port or default).
+// Use WithAddress() if you need to set both URL and port together.
+//
+// Parameter:
+//   - url: The server hostname or IP address
+//
+// Example:
+//   client, err := NewAPIUserServiceGRPCClient(
+//       WithURL("production-api.mesh.trade"), // Use production server
+//   )
+func WithURL(url string) ClientOption {
+	return func(c *apiUserServiceGRPCClient) {
+		c.url = url
+	}
 }
 
-// withAccessTokenCookie option
-type withAccessTokenCookie struct{ accessTokenCookie string }
-
-func WithAccessTokenCookie(accessTokenCookie string) apiUserServiceGRPCClientOption {
-	return &withAccessTokenCookie{accessTokenCookie: accessTokenCookie}
+// WithPort configures only the server port for the gRPC connection.
+// The URL will remain unchanged (uses existing URL or default).
+// Use WithAddress() if you need to set both URL and port together.
+//
+// Parameter:
+//   - port: The server port number
+//
+// Example:
+//   client, err := NewAPIUserServiceGRPCClient(
+//       WithPort(9090), // Connect to port 9090
+//   )
+func WithPort(port int) ClientOption {
+	return func(c *apiUserServiceGRPCClient) {
+		c.port = port
+	}
 }
 
-var _ apiUserServiceGRPCClientOption = &withAccessTokenCookie{}
-
-func (w *withAccessTokenCookie) apply(client *apiUserServiceGRPCClient) *apiUserServiceGRPCClient {
-	client.accessTokenCookie = w.accessTokenCookie
-	return client
+// WithAPIKey configures API key authentication for the gRPC client.
+// The API key will be sent as a Bearer token in the Authorization header.
+// This is the primary authentication method for service-to-service communication.
+//
+// The API key takes precedence over access token cookies if both are configured.
+//
+// Parameter:
+//   - apiKey: The API key string (without "Bearer " prefix)
+//
+// Example:
+//   client, err := NewAPIUserServiceGRPCClient(
+//       WithAPIKey("your-api-key-here"),
+//   )
+//
+// Note: Alternatively, you can set the MESH_API_KEY environment variable
+func WithAPIKey(apiKey string) ClientOption {
+	return func(c *apiUserServiceGRPCClient) {
+		c.apiKey = apiKey
+	}
 }
 
-// withAPIKey option
-type withAPIKey struct{ apiKey string }
-
-func WithAPIKey(apiKey string) apiUserServiceGRPCClientOption {
-	return &withAPIKey{apiKey: apiKey}
+// WithAccessTokenCookie configures cookie-based authentication for the gRPC client.
+// The access token will be sent as a cookie in the Cookie header as "AccessToken=value".
+// This authentication method is typically used for user-facing applications.
+//
+// If both API key and access token cookie are configured, the API key takes precedence.
+//
+// Parameter:
+//   - accessToken: The access token string (without "AccessToken=" prefix)
+//
+// Example:
+//   client, err := NewAPIUserServiceGRPCClient(
+//       WithAccessTokenCookie("your-access-token-here"),
+//   )
+func WithAccessTokenCookie(accessToken string) ClientOption {
+	return func(c *apiUserServiceGRPCClient) {
+		c.accessTokenCookie = accessToken
+	}
 }
 
-var _ apiUserServiceGRPCClientOption = &withAPIKey{}
-
-func (w *withAPIKey) apply(client *apiUserServiceGRPCClient) *apiUserServiceGRPCClient {
-	client.apiKey = w.apiKey
-	return client
+// WithTracer configures OpenTelemetry distributed tracing for the gRPC client.
+// This enables observability and monitoring of API calls across service boundaries.
+// Each gRPC method call will create a trace span for tracking request flow.
+//
+// Parameter:
+//   - tracer: An OpenTelemetry tracer instance
+//
+// Default: Uses a no-op tracer (tracing disabled)
+//
+// Example:
+//   tracer := otel.Tracer("api-user-client")
+//   client, err := NewAPIUserServiceGRPCClient(
+//       WithTracer(tracer),
+//   )
+func WithTracer(tracer trace.Tracer) ClientOption {
+	return func(c *apiUserServiceGRPCClient) {
+		c.tracer = tracer
+	}
 }
 
-// withURL option
-type withURL struct{ url string }
-
-func WithURL(url string) apiUserServiceGRPCClientOption {
-	return &withURL{url: url}
-}
-
-var _ apiUserServiceGRPCClientOption = &withURL{}
-
-func (w *withURL) apply(client *apiUserServiceGRPCClient) *apiUserServiceGRPCClient {
-	client.url = w.url
-	return client
-}
-
-// withPort option
-type withPort struct{ port int }
-
-func WithPort(port int) apiUserServiceGRPCClientOption {
-	return &withPort{port: port}
-}
-
-var _ apiUserServiceGRPCClientOption = &withPort{}
-
-func (w *withPort) apply(client *apiUserServiceGRPCClient) *apiUserServiceGRPCClient {
-	client.port = w.port
-	return client
+// WithTimeout configures the default timeout for all gRPC method calls.
+// This timeout applies to individual method calls and helps prevent hanging requests.
+// If a request takes longer than the specified timeout, it will be cancelled.
+//
+// The timeout is implemented using context.WithTimeout() for each method call.
+//
+// Parameter:
+//   - timeout: The maximum duration to wait for a method call to complete
+//
+// Default: 30 seconds
+//
+// Example:
+//   client, err := NewAPIUserServiceGRPCClient(
+//       WithTimeout(10 * time.Second), // Set 10 second timeout
+//   )
+//
+// Note: Individual method calls can still override this timeout by providing
+// a context with a shorter deadline.
+func WithTimeout(timeout time.Duration) ClientOption {
+	return func(c *apiUserServiceGRPCClient) {
+		c.timeout = timeout
+	}
 }

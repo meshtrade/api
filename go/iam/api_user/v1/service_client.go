@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	fmt "fmt"
+	"time"
 
 	"github.com/meshtrade/api/go/common"
 	trace "go.opentelemetry.io/otel/trace"
@@ -14,28 +15,38 @@ import (
 	"google.golang.org/grpc/metadata"
 )
 
-// ensure apiUserServiceGRPCClient implements the ApiUserService interface
-var _ ApiUserService = &apiUserServiceGRPCClient{}
+// APIUserServiceGRPCClient combines the service interface with the base gRPC client interface
+// for proper resource management
+type APIUserServiceGRPCClient interface {
+	ApiUserService
+	common.GRPCClient
+}
+
+// ensure apiUserServiceGRPCClient implements the APIUserServiceGRPCClient interface
+var _ APIUserServiceGRPCClient = &apiUserServiceGRPCClient{}
 
 type apiUserServiceGRPCClient struct {
 	url                     string
 	port                    int
 	tls                     bool
+	conn                    *grpc.ClientConn
 	grpcClient              ApiUserServiceClient
 	tracer                  trace.Tracer
 	apiKey                  string
 	accessTokenCookie       string
+	timeout                 time.Duration
 	unaryClientInterceptors []grpc.UnaryClientInterceptor
 }
 
-func NewAPIUserServiceGRPCClient(opts ...apiUserServiceGRPCClientOption) (ApiUserService, error) {
+func NewAPIUserServiceGRPCClient(opts ...ClientOption) (APIUserServiceGRPCClient, error) {
 	// prepare client with default configuration
 	client := &apiUserServiceGRPCClient{
-		url:    common.DefaultGRPCURL,
-		port:   common.DefaultGRPCPort,
-		tls:    common.DefaultTLS,
-		tracer: noop.NewTracerProvider().Tracer(""),
-		apiKey: common.APIKEYFromEnvironment(),
+		url:     common.DefaultGRPCURL,
+		port:    common.DefaultGRPCPort,
+		tls:     common.DefaultTLS,
+		tracer:  noop.NewTracerProvider().Tracer(""),
+		apiKey:  common.APIKEYFromEnvironment(),
+		timeout: 30 * time.Second, // default 30 second timeout
 
 		// set once options are applied and connection opened
 		grpcClient:              nil,
@@ -44,37 +55,17 @@ func NewAPIUserServiceGRPCClient(opts ...apiUserServiceGRPCClientOption) (ApiUse
 
 	// apply options to the client
 	for _, opt := range opts {
-		client = opt.apply(client)
+		opt(client)
 	}
 
-	// confirm api key is set
-	if client.apiKey == "" && client.accessTokenCookie == "" {
-		return nil, errors.New("neither api key nor access token cookie set. set api key via WithAPIKey option or as MESH_API_KEY environment variable. set access token cookie via WithAccessTokenCooke option")
+	// validate authentication credentials
+	if err := client.validateAuth(); err != nil {
+		return nil, err
 	}
 
-	// prepare unary client interceptors using api key or access token cookie
-	if client.apiKey != "" {
-		client.unaryClientInterceptors = []grpc.UnaryClientInterceptor{
-			func(ctx context.Context, method string, req, reply any, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
-				ctx = metadata.AppendToOutgoingContext(
-					ctx,
-					"authorization",
-					fmt.Sprintf("Bearer %s", client.apiKey),
-				)
-				return invoker(ctx, method, req, reply, cc, opts...)
-			},
-		}
-	} else if client.accessTokenCookie != "" {
-		client.unaryClientInterceptors = []grpc.UnaryClientInterceptor{
-			func(ctx context.Context, method string, req, reply any, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
-				ctx = metadata.AppendToOutgoingContext(
-					ctx,
-					"cookie",
-					fmt.Sprintf("AccessToken=%s", client.accessTokenCookie),
-				)
-				return invoker(ctx, method, req, reply, cc, opts...)
-			},
-		}
+	// prepare authentication interceptor
+	client.unaryClientInterceptors = []grpc.UnaryClientInterceptor{
+		client.authInterceptor(),
 	}
 
 	// prepare dial options
@@ -90,7 +81,7 @@ func NewAPIUserServiceGRPCClient(opts ...apiUserServiceGRPCClientOption) (ApiUse
 	dialOpts = append(dialOpts, grpc.WithChainUnaryInterceptor(client.unaryClientInterceptors...))
 
 	// construct gRPC client connection
-	gRRPClientConnection, err := grpc.NewClient(
+	conn, err := grpc.NewClient(
 		fmt.Sprintf("%s:%d", client.url, client.port),
 		dialOpts...,
 	)
@@ -98,8 +89,9 @@ func NewAPIUserServiceGRPCClient(opts ...apiUserServiceGRPCClientOption) (ApiUse
 		return nil, fmt.Errorf("error constructing grpc client connection: %w", err)
 	}
 
-	// set client connection
-	client.grpcClient = NewApiUserServiceClient(gRRPClientConnection)
+	// set client connection and gRPC client
+	client.conn = conn
+	client.grpcClient = NewApiUserServiceClient(conn)
 
 	// return constructed client
 	return client, nil
@@ -107,6 +99,13 @@ func NewAPIUserServiceGRPCClient(opts ...apiUserServiceGRPCClientOption) (ApiUse
 
 // ActivateApiUser implements ApiUserService.
 func (s *apiUserServiceGRPCClient) ActivateApiUser(ctx context.Context, request *ActivateApiUserRequest) (*APIUser, error) {
+	// apply timeout if no deadline is already set
+	if _, hasDeadline := ctx.Deadline(); !hasDeadline {
+		var cancel context.CancelFunc
+		ctx, cancel = context.WithTimeout(ctx, s.timeout)
+		defer cancel()
+	}
+
 	ctx, span := s.tracer.Start(
 		ctx,
 		ApiUserServiceServiceProviderName+"ActivateApiUser",
@@ -124,6 +123,13 @@ func (s *apiUserServiceGRPCClient) ActivateApiUser(ctx context.Context, request 
 
 // CreateApiUser implements ApiUserService.
 func (s *apiUserServiceGRPCClient) CreateApiUser(ctx context.Context, request *CreateApiUserRequest) (*APIUser, error) {
+	// apply timeout if no deadline is already set
+	if _, hasDeadline := ctx.Deadline(); !hasDeadline {
+		var cancel context.CancelFunc
+		ctx, cancel = context.WithTimeout(ctx, s.timeout)
+		defer cancel()
+	}
+
 	ctx, span := s.tracer.Start(
 		ctx,
 		ApiUserServiceServiceProviderName+"CreateApiUser",
@@ -141,6 +147,13 @@ func (s *apiUserServiceGRPCClient) CreateApiUser(ctx context.Context, request *C
 
 // DeactivateApiUser implements ApiUserService.
 func (s *apiUserServiceGRPCClient) DeactivateApiUser(ctx context.Context, request *DeactivateApiUserRequest) (*APIUser, error) {
+	// apply timeout if no deadline is already set
+	if _, hasDeadline := ctx.Deadline(); !hasDeadline {
+		var cancel context.CancelFunc
+		ctx, cancel = context.WithTimeout(ctx, s.timeout)
+		defer cancel()
+	}
+
 	ctx, span := s.tracer.Start(
 		ctx,
 		ApiUserServiceServiceProviderName+"DeactivateApiUser",
@@ -158,6 +171,13 @@ func (s *apiUserServiceGRPCClient) DeactivateApiUser(ctx context.Context, reques
 
 // GetApiUser implements ApiUserService.
 func (s *apiUserServiceGRPCClient) GetApiUser(ctx context.Context, request *GetApiUserRequest) (*APIUser, error) {
+	// apply timeout if no deadline is already set
+	if _, hasDeadline := ctx.Deadline(); !hasDeadline {
+		var cancel context.CancelFunc
+		ctx, cancel = context.WithTimeout(ctx, s.timeout)
+		defer cancel()
+	}
+
 	ctx, span := s.tracer.Start(
 		ctx,
 		ApiUserServiceServiceProviderName+"GetApiUser",
@@ -175,6 +195,13 @@ func (s *apiUserServiceGRPCClient) GetApiUser(ctx context.Context, request *GetA
 
 // GetApiUserByKeyHash implements ApiUserService.
 func (s *apiUserServiceGRPCClient) GetApiUserByKeyHash(ctx context.Context, request *GetApiUserByKeyHashRequest) (*APIUser, error) {
+	// apply timeout if no deadline is already set
+	if _, hasDeadline := ctx.Deadline(); !hasDeadline {
+		var cancel context.CancelFunc
+		ctx, cancel = context.WithTimeout(ctx, s.timeout)
+		defer cancel()
+	}
+
 	ctx, span := s.tracer.Start(
 		ctx,
 		ApiUserServiceServiceProviderName+"GetApiUserByKeyHash",
@@ -192,6 +219,13 @@ func (s *apiUserServiceGRPCClient) GetApiUserByKeyHash(ctx context.Context, requ
 
 // ListApiUsers implements ApiUserService.
 func (s *apiUserServiceGRPCClient) ListApiUsers(ctx context.Context, request *ListApiUsersRequest) (*ListApiUsersResponse, error) {
+	// apply timeout if no deadline is already set
+	if _, hasDeadline := ctx.Deadline(); !hasDeadline {
+		var cancel context.CancelFunc
+		ctx, cancel = context.WithTimeout(ctx, s.timeout)
+		defer cancel()
+	}
+
 	ctx, span := s.tracer.Start(
 		ctx,
 		ApiUserServiceServiceProviderName+"ListApiUsers",
@@ -209,6 +243,13 @@ func (s *apiUserServiceGRPCClient) ListApiUsers(ctx context.Context, request *Li
 
 // SearchApiUsers implements ApiUserService.
 func (s *apiUserServiceGRPCClient) SearchApiUsers(ctx context.Context, request *SearchApiUsersRequest) (*SearchApiUsersResponse, error) {
+	// apply timeout if no deadline is already set
+	if _, hasDeadline := ctx.Deadline(); !hasDeadline {
+		var cancel context.CancelFunc
+		ctx, cancel = context.WithTimeout(ctx, s.timeout)
+		defer cancel()
+	}
+
 	ctx, span := s.tracer.Start(
 		ctx,
 		ApiUserServiceServiceProviderName+"SearchApiUsers",
@@ -222,4 +263,43 @@ func (s *apiUserServiceGRPCClient) SearchApiUsers(ctx context.Context, request *
 	}
 
 	return searchApiUsersResponse, nil
+}
+
+// Close implements common.GRPCClient
+func (s *apiUserServiceGRPCClient) Close() error {
+	if s.conn != nil {
+		return s.conn.Close()
+	}
+	return nil
+}
+
+// validateAuth validates that at least one authentication method is configured
+func (c *apiUserServiceGRPCClient) validateAuth() error {
+	if c.apiKey == "" && c.accessTokenCookie == "" {
+		return errors.New("neither api key nor access token cookie set. set api key via WithAPIKey option or as MESH_API_KEY environment variable. set access token cookie via WithAccessTokenCookie option")
+	}
+	return nil
+}
+
+// authInterceptor returns the appropriate authentication interceptor based on configured credentials
+func (c *apiUserServiceGRPCClient) authInterceptor() grpc.UnaryClientInterceptor {
+	if c.apiKey != "" {
+		return func(ctx context.Context, method string, req, reply any, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
+			ctx = metadata.AppendToOutgoingContext(
+				ctx,
+				common.AuthorizationHeaderKey,
+				common.BearerPrefix+c.apiKey,
+			)
+			return invoker(ctx, method, req, reply, cc, opts...)
+		}
+	}
+	
+	return func(ctx context.Context, method string, req, reply any, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
+		ctx = metadata.AppendToOutgoingContext(
+			ctx,
+			common.CookieHeaderKey,
+			common.AccessTokenPrefix+c.accessTokenCookie,
+		)
+		return invoker(ctx, method, req, reply, cc, opts...)
+	}
 }
