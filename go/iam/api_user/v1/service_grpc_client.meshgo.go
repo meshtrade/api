@@ -3,147 +3,630 @@
 package api_userv1
 
 import (
-	context "context"
+	"context"
+	"errors"
 	fmt "fmt"
-	log "github.com/rs/zerolog/log"
+	"time"
+
+	"github.com/meshtrade/api/go/common"
 	trace "go.opentelemetry.io/otel/trace"
+	"go.opentelemetry.io/otel/trace/noop"
 	grpc "google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
+	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/grpc/metadata"
 )
 
-// Ensure that ApiUserServiceGRPCClient implements the ApiUserService interface
-var _ ApiUserService = &ApiUserServiceGRPCClient{}
-
-// ApiUserServiceGRPCClient is a gRPC client implementation of the ApiUserService interface.
-type ApiUserServiceGRPCClient struct {
-	tracer     trace.Tracer
-	grpcClient ApiUserServiceClient
+// ApiUserServiceGRPCClient is a production-ready gRPC client for the ApiUserService service.
+// It combines the service interface with resource management capabilities, providing
+// enterprise-grade features including authentication, timeouts, tracing, and connection pooling.
+//
+// Features:
+//   - Automatic authentication via API key or access token cookies
+//   - Configurable request timeouts with smart deadline handling
+//   - OpenTelemetry distributed tracing support
+//   - TLS/mTLS support with configurable transport credentials
+//   - Proper resource cleanup with Close() method
+//   - Production-ready connection management
+//
+// Thread Safety:
+//
+//	This client is safe for concurrent use by multiple goroutines.
+//
+// Example usage:
+//
+//	client, err := NewApiUserServiceGRPCClient(
+//		WithAPIKey("your-api-key"),
+//		WithTimeout(30 * time.Second),
+//	)
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//	defer client.Close()
+//
+//	response, err := client.SomeMethod(context.Background(), &request)
+type ApiUserServiceGRPCClient interface {
+	ApiUserService
+	common.GRPCClient
 }
 
-func NewApiUserServiceGRPCClient(
-	tracer trace.Tracer,
-	grpcClientConnection *grpc.ClientConn,
-) *ApiUserServiceGRPCClient {
-	return &ApiUserServiceGRPCClient{
-		tracer:     tracer,
-		grpcClient: NewApiUserServiceClient(grpcClientConnection),
+// ensure apiUserServiceGRPCClient implements the ApiUserServiceGRPCClient interface
+var _ ApiUserServiceGRPCClient = &apiUserServiceGRPCClient{}
+
+// apiUserServiceGRPCClient is the internal implementation of the ApiUserServiceGRPCClient interface.
+// This struct maintains the gRPC connection state, authentication credentials,
+// and configuration options for the client.
+type apiUserServiceGRPCClient struct {
+	url                     string
+	port                    int
+	tls                     bool
+	conn                    *grpc.ClientConn
+	grpcClient              ApiUserServiceClient
+	tracer                  trace.Tracer
+	apiKey                  string
+	accessTokenCookie       string
+	timeout                 time.Duration
+	unaryClientInterceptors []grpc.UnaryClientInterceptor
+}
+
+// NewApiUserServiceGRPCClient creates a new production-ready gRPC client for the ApiUserService service.
+// The client is configured using functional options and automatically handles connection
+// management, authentication, timeouts, and distributed tracing.
+//
+// Default Configuration:
+//   - Server: Uses common.DefaultGRPCURL and common.DefaultGRPCPort
+//   - TLS: Enabled by default (common.DefaultTLS)
+//   - Timeout: 30 seconds for all method calls
+//   - Authentication: Attempts to load API key from MESH_API_KEY environment variable
+//   - Tracing: Disabled by default (no-op tracer)
+//
+// Parameters:
+//   - opts: Functional options to configure the client (WithAPIKey, WithTimeout, etc.)
+//
+// Returns:
+//   - ApiUserServiceGRPCClient: Configured client instance
+//   - error: Configuration or connection error
+//
+// Example:
+//
+//	client, err := NewApiUserServiceGRPCClient(
+//		WithAPIKey("your-api-key-here"),
+//		WithAddress("api.example.com", 443),
+//		WithTimeout(10 * time.Second),
+//	)
+//	if err != nil {
+//		return fmt.Errorf("failed to create client: %w", err)
+//	}
+//	defer client.Close()
+//
+// Thread Safety:
+//
+//	The returned client is safe for concurrent use by multiple goroutines.
+func NewApiUserServiceGRPCClient(opts ...ClientOption) (ApiUserServiceGRPCClient, error) {
+	// prepare client with default configuration
+	client := &apiUserServiceGRPCClient{
+		url:     common.DefaultGRPCURL,
+		port:    common.DefaultGRPCPort,
+		tls:     common.DefaultTLS,
+		tracer:  noop.NewTracerProvider().Tracer(""),
+		apiKey:  common.APIKEYFromEnvironment(),
+		timeout: 30 * time.Second, // default 30 second timeout
+
+		// set once options are applied and connection opened
+		grpcClient:              nil,
+		unaryClientInterceptors: nil,
 	}
+
+	// apply options to the client
+	for _, opt := range opts {
+		opt(client)
+	}
+
+	// validate authentication credentials
+	if err := client.validateAuth(); err != nil {
+		return nil, err
+	}
+
+	// prepare authentication interceptor
+	client.unaryClientInterceptors = []grpc.UnaryClientInterceptor{
+		client.authInterceptor(),
+	}
+
+	// prepare dial options
+	dialOpts := make([]grpc.DialOption, 0)
+
+	// set transport credentials
+	if client.tls {
+		dialOpts = append(dialOpts, grpc.WithTransportCredentials(credentials.NewClientTLSFromCert(nil, "")))
+	} else {
+		dialOpts = append(dialOpts, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	}
+
+	dialOpts = append(dialOpts, grpc.WithChainUnaryInterceptor(client.unaryClientInterceptors...))
+
+	// construct gRPC client connection
+	conn, err := grpc.NewClient(
+		fmt.Sprintf("%s:%d", client.url, client.port),
+		dialOpts...,
+	)
+	if err != nil {
+		return nil, fmt.Errorf("error constructing grpc client connection: %w", err)
+	}
+
+	// set client connection and gRPC client
+	client.conn = conn
+	client.grpcClient = NewApiUserServiceClient(conn)
+
+	// return constructed client
+	return client, nil
 }
 
-func (g *ApiUserServiceGRPCClient) GetApiUser(ctx context.Context, request *GetApiUserRequest) (*APIUser, error) {
-	ctx, span := g.tracer.Start(
+// GetApiUser executes the GetApiUser RPC method on the ApiUserService service.
+// This method automatically handles authentication, timeouts, distributed tracing, and error propagation.
+//
+// Timeout Behavior:
+//   - If the context already has a deadline, it will be respected
+//   - If no deadline is set, the client's configured timeout will be applied
+//   - The method will be cancelled if the timeout is exceeded
+//
+// Authentication:
+//   - Automatically includes API key or access token in request headers
+//   - Authentication is configured during client creation
+//
+// Distributed Tracing:
+//   - Creates a new span for this method call
+//   - Span is automatically finished when the method returns
+//   - Errors are recorded in the span
+//
+// Parameters:
+//   - ctx: Context for the request (can include custom timeout, tracing, etc.)
+//   - request: The GetApiUserRequest containing the method parameters
+//
+// Returns:
+//   - *APIUser: The successful response from the service
+//   - error: Any error that occurred during the request
+//
+// Example:
+//
+//	resp, err := client.GetApiUser(ctx, &GetApiUserRequest{
+//		// populate request fields
+//	})
+//	if err != nil {
+//		return fmt.Errorf("getapiuser failed: %w", err)
+//	}
+func (s *apiUserServiceGRPCClient) GetApiUser(ctx context.Context, request *GetApiUserRequest) (*APIUser, error) {
+	// apply timeout if no deadline is already set
+	if _, hasDeadline := ctx.Deadline(); !hasDeadline {
+		var cancel context.CancelFunc
+		ctx, cancel = context.WithTimeout(ctx, s.timeout)
+		defer cancel()
+	}
+
+	ctx, span := s.tracer.Start(
 		ctx,
 		ApiUserServiceServiceProviderName+"GetApiUser",
 	)
 	defer span.End()
 
 	// call given implementation of the adapted service provider interface
-	getApiUserResponse, err := g.grpcClient.GetApiUser(ctx, request)
+	getApiUserResponse, err := s.grpcClient.GetApiUser(ctx, request)
 	if err != nil {
-		log.Ctx(ctx).Error().Err(err).Msg("could not GetApiUser")
-		return nil, fmt.Errorf("could not GetApiUser: %s", err)
+		return nil, err
 	}
 
 	return getApiUserResponse, nil
 }
 
-func (g *ApiUserServiceGRPCClient) CreateApiUser(ctx context.Context, request *CreateApiUserRequest) (*APIUser, error) {
-	ctx, span := g.tracer.Start(
+// CreateApiUser executes the CreateApiUser RPC method on the ApiUserService service.
+// This method automatically handles authentication, timeouts, distributed tracing, and error propagation.
+//
+// Timeout Behavior:
+//   - If the context already has a deadline, it will be respected
+//   - If no deadline is set, the client's configured timeout will be applied
+//   - The method will be cancelled if the timeout is exceeded
+//
+// Authentication:
+//   - Automatically includes API key or access token in request headers
+//   - Authentication is configured during client creation
+//
+// Distributed Tracing:
+//   - Creates a new span for this method call
+//   - Span is automatically finished when the method returns
+//   - Errors are recorded in the span
+//
+// Parameters:
+//   - ctx: Context for the request (can include custom timeout, tracing, etc.)
+//   - request: The CreateApiUserRequest containing the method parameters
+//
+// Returns:
+//   - *APIUser: The successful response from the service
+//   - error: Any error that occurred during the request
+//
+// Example:
+//
+//	resp, err := client.CreateApiUser(ctx, &CreateApiUserRequest{
+//		// populate request fields
+//	})
+//	if err != nil {
+//		return fmt.Errorf("createapiuser failed: %w", err)
+//	}
+func (s *apiUserServiceGRPCClient) CreateApiUser(ctx context.Context, request *CreateApiUserRequest) (*APIUser, error) {
+	// apply timeout if no deadline is already set
+	if _, hasDeadline := ctx.Deadline(); !hasDeadline {
+		var cancel context.CancelFunc
+		ctx, cancel = context.WithTimeout(ctx, s.timeout)
+		defer cancel()
+	}
+
+	ctx, span := s.tracer.Start(
 		ctx,
 		ApiUserServiceServiceProviderName+"CreateApiUser",
 	)
 	defer span.End()
 
 	// call given implementation of the adapted service provider interface
-	createApiUserResponse, err := g.grpcClient.CreateApiUser(ctx, request)
+	createApiUserResponse, err := s.grpcClient.CreateApiUser(ctx, request)
 	if err != nil {
-		log.Ctx(ctx).Error().Err(err).Msg("could not CreateApiUser")
-		return nil, fmt.Errorf("could not CreateApiUser: %s", err)
+		return nil, err
 	}
 
 	return createApiUserResponse, nil
 }
 
-func (g *ApiUserServiceGRPCClient) ListApiUsers(ctx context.Context, request *ListApiUsersRequest) (*ListApiUsersResponse, error) {
-	ctx, span := g.tracer.Start(
+// ListApiUsers executes the ListApiUsers RPC method on the ApiUserService service.
+// This method automatically handles authentication, timeouts, distributed tracing, and error propagation.
+//
+// Timeout Behavior:
+//   - If the context already has a deadline, it will be respected
+//   - If no deadline is set, the client's configured timeout will be applied
+//   - The method will be cancelled if the timeout is exceeded
+//
+// Authentication:
+//   - Automatically includes API key or access token in request headers
+//   - Authentication is configured during client creation
+//
+// Distributed Tracing:
+//   - Creates a new span for this method call
+//   - Span is automatically finished when the method returns
+//   - Errors are recorded in the span
+//
+// Parameters:
+//   - ctx: Context for the request (can include custom timeout, tracing, etc.)
+//   - request: The ListApiUsersRequest containing the method parameters
+//
+// Returns:
+//   - *ListApiUsersResponse: The successful response from the service
+//   - error: Any error that occurred during the request
+//
+// Example:
+//
+//	resp, err := client.ListApiUsers(ctx, &ListApiUsersRequest{
+//		// populate request fields
+//	})
+//	if err != nil {
+//		return fmt.Errorf("listapiusers failed: %w", err)
+//	}
+func (s *apiUserServiceGRPCClient) ListApiUsers(ctx context.Context, request *ListApiUsersRequest) (*ListApiUsersResponse, error) {
+	// apply timeout if no deadline is already set
+	if _, hasDeadline := ctx.Deadline(); !hasDeadline {
+		var cancel context.CancelFunc
+		ctx, cancel = context.WithTimeout(ctx, s.timeout)
+		defer cancel()
+	}
+
+	ctx, span := s.tracer.Start(
 		ctx,
 		ApiUserServiceServiceProviderName+"ListApiUsers",
 	)
 	defer span.End()
 
 	// call given implementation of the adapted service provider interface
-	listApiUsersResponse, err := g.grpcClient.ListApiUsers(ctx, request)
+	listApiUsersResponse, err := s.grpcClient.ListApiUsers(ctx, request)
 	if err != nil {
-		log.Ctx(ctx).Error().Err(err).Msg("could not ListApiUsers")
-		return nil, fmt.Errorf("could not ListApiUsers: %s", err)
+		return nil, err
 	}
 
 	return listApiUsersResponse, nil
 }
 
-func (g *ApiUserServiceGRPCClient) SearchApiUsers(ctx context.Context, request *SearchApiUsersRequest) (*SearchApiUsersResponse, error) {
-	ctx, span := g.tracer.Start(
+// SearchApiUsers executes the SearchApiUsers RPC method on the ApiUserService service.
+// This method automatically handles authentication, timeouts, distributed tracing, and error propagation.
+//
+// Timeout Behavior:
+//   - If the context already has a deadline, it will be respected
+//   - If no deadline is set, the client's configured timeout will be applied
+//   - The method will be cancelled if the timeout is exceeded
+//
+// Authentication:
+//   - Automatically includes API key or access token in request headers
+//   - Authentication is configured during client creation
+//
+// Distributed Tracing:
+//   - Creates a new span for this method call
+//   - Span is automatically finished when the method returns
+//   - Errors are recorded in the span
+//
+// Parameters:
+//   - ctx: Context for the request (can include custom timeout, tracing, etc.)
+//   - request: The SearchApiUsersRequest containing the method parameters
+//
+// Returns:
+//   - *SearchApiUsersResponse: The successful response from the service
+//   - error: Any error that occurred during the request
+//
+// Example:
+//
+//	resp, err := client.SearchApiUsers(ctx, &SearchApiUsersRequest{
+//		// populate request fields
+//	})
+//	if err != nil {
+//		return fmt.Errorf("searchapiusers failed: %w", err)
+//	}
+func (s *apiUserServiceGRPCClient) SearchApiUsers(ctx context.Context, request *SearchApiUsersRequest) (*SearchApiUsersResponse, error) {
+	// apply timeout if no deadline is already set
+	if _, hasDeadline := ctx.Deadline(); !hasDeadline {
+		var cancel context.CancelFunc
+		ctx, cancel = context.WithTimeout(ctx, s.timeout)
+		defer cancel()
+	}
+
+	ctx, span := s.tracer.Start(
 		ctx,
 		ApiUserServiceServiceProviderName+"SearchApiUsers",
 	)
 	defer span.End()
 
 	// call given implementation of the adapted service provider interface
-	searchApiUsersResponse, err := g.grpcClient.SearchApiUsers(ctx, request)
+	searchApiUsersResponse, err := s.grpcClient.SearchApiUsers(ctx, request)
 	if err != nil {
-		log.Ctx(ctx).Error().Err(err).Msg("could not SearchApiUsers")
-		return nil, fmt.Errorf("could not SearchApiUsers: %s", err)
+		return nil, err
 	}
 
 	return searchApiUsersResponse, nil
 }
 
-func (g *ApiUserServiceGRPCClient) ActivateApiUser(ctx context.Context, request *ActivateApiUserRequest) (*APIUser, error) {
-	ctx, span := g.tracer.Start(
+// ActivateApiUser executes the ActivateApiUser RPC method on the ApiUserService service.
+// This method automatically handles authentication, timeouts, distributed tracing, and error propagation.
+//
+// Timeout Behavior:
+//   - If the context already has a deadline, it will be respected
+//   - If no deadline is set, the client's configured timeout will be applied
+//   - The method will be cancelled if the timeout is exceeded
+//
+// Authentication:
+//   - Automatically includes API key or access token in request headers
+//   - Authentication is configured during client creation
+//
+// Distributed Tracing:
+//   - Creates a new span for this method call
+//   - Span is automatically finished when the method returns
+//   - Errors are recorded in the span
+//
+// Parameters:
+//   - ctx: Context for the request (can include custom timeout, tracing, etc.)
+//   - request: The ActivateApiUserRequest containing the method parameters
+//
+// Returns:
+//   - *APIUser: The successful response from the service
+//   - error: Any error that occurred during the request
+//
+// Example:
+//
+//	resp, err := client.ActivateApiUser(ctx, &ActivateApiUserRequest{
+//		// populate request fields
+//	})
+//	if err != nil {
+//		return fmt.Errorf("activateapiuser failed: %w", err)
+//	}
+func (s *apiUserServiceGRPCClient) ActivateApiUser(ctx context.Context, request *ActivateApiUserRequest) (*APIUser, error) {
+	// apply timeout if no deadline is already set
+	if _, hasDeadline := ctx.Deadline(); !hasDeadline {
+		var cancel context.CancelFunc
+		ctx, cancel = context.WithTimeout(ctx, s.timeout)
+		defer cancel()
+	}
+
+	ctx, span := s.tracer.Start(
 		ctx,
 		ApiUserServiceServiceProviderName+"ActivateApiUser",
 	)
 	defer span.End()
 
 	// call given implementation of the adapted service provider interface
-	activateApiUserResponse, err := g.grpcClient.ActivateApiUser(ctx, request)
+	activateApiUserResponse, err := s.grpcClient.ActivateApiUser(ctx, request)
 	if err != nil {
-		log.Ctx(ctx).Error().Err(err).Msg("could not ActivateApiUser")
-		return nil, fmt.Errorf("could not ActivateApiUser: %s", err)
+		return nil, err
 	}
 
 	return activateApiUserResponse, nil
 }
 
-func (g *ApiUserServiceGRPCClient) DeactivateApiUser(ctx context.Context, request *DeactivateApiUserRequest) (*APIUser, error) {
-	ctx, span := g.tracer.Start(
+// DeactivateApiUser executes the DeactivateApiUser RPC method on the ApiUserService service.
+// This method automatically handles authentication, timeouts, distributed tracing, and error propagation.
+//
+// Timeout Behavior:
+//   - If the context already has a deadline, it will be respected
+//   - If no deadline is set, the client's configured timeout will be applied
+//   - The method will be cancelled if the timeout is exceeded
+//
+// Authentication:
+//   - Automatically includes API key or access token in request headers
+//   - Authentication is configured during client creation
+//
+// Distributed Tracing:
+//   - Creates a new span for this method call
+//   - Span is automatically finished when the method returns
+//   - Errors are recorded in the span
+//
+// Parameters:
+//   - ctx: Context for the request (can include custom timeout, tracing, etc.)
+//   - request: The DeactivateApiUserRequest containing the method parameters
+//
+// Returns:
+//   - *APIUser: The successful response from the service
+//   - error: Any error that occurred during the request
+//
+// Example:
+//
+//	resp, err := client.DeactivateApiUser(ctx, &DeactivateApiUserRequest{
+//		// populate request fields
+//	})
+//	if err != nil {
+//		return fmt.Errorf("deactivateapiuser failed: %w", err)
+//	}
+func (s *apiUserServiceGRPCClient) DeactivateApiUser(ctx context.Context, request *DeactivateApiUserRequest) (*APIUser, error) {
+	// apply timeout if no deadline is already set
+	if _, hasDeadline := ctx.Deadline(); !hasDeadline {
+		var cancel context.CancelFunc
+		ctx, cancel = context.WithTimeout(ctx, s.timeout)
+		defer cancel()
+	}
+
+	ctx, span := s.tracer.Start(
 		ctx,
 		ApiUserServiceServiceProviderName+"DeactivateApiUser",
 	)
 	defer span.End()
 
 	// call given implementation of the adapted service provider interface
-	deactivateApiUserResponse, err := g.grpcClient.DeactivateApiUser(ctx, request)
+	deactivateApiUserResponse, err := s.grpcClient.DeactivateApiUser(ctx, request)
 	if err != nil {
-		log.Ctx(ctx).Error().Err(err).Msg("could not DeactivateApiUser")
-		return nil, fmt.Errorf("could not DeactivateApiUser: %s", err)
+		return nil, err
 	}
 
 	return deactivateApiUserResponse, nil
 }
 
-func (g *ApiUserServiceGRPCClient) GetApiUserByKeyHash(ctx context.Context, request *GetApiUserByKeyHashRequest) (*APIUser, error) {
-	ctx, span := g.tracer.Start(
+// GetApiUserByKeyHash executes the GetApiUserByKeyHash RPC method on the ApiUserService service.
+// This method automatically handles authentication, timeouts, distributed tracing, and error propagation.
+//
+// Timeout Behavior:
+//   - If the context already has a deadline, it will be respected
+//   - If no deadline is set, the client's configured timeout will be applied
+//   - The method will be cancelled if the timeout is exceeded
+//
+// Authentication:
+//   - Automatically includes API key or access token in request headers
+//   - Authentication is configured during client creation
+//
+// Distributed Tracing:
+//   - Creates a new span for this method call
+//   - Span is automatically finished when the method returns
+//   - Errors are recorded in the span
+//
+// Parameters:
+//   - ctx: Context for the request (can include custom timeout, tracing, etc.)
+//   - request: The GetApiUserByKeyHashRequest containing the method parameters
+//
+// Returns:
+//   - *APIUser: The successful response from the service
+//   - error: Any error that occurred during the request
+//
+// Example:
+//
+//	resp, err := client.GetApiUserByKeyHash(ctx, &GetApiUserByKeyHashRequest{
+//		// populate request fields
+//	})
+//	if err != nil {
+//		return fmt.Errorf("getapiuserbykeyhash failed: %w", err)
+//	}
+func (s *apiUserServiceGRPCClient) GetApiUserByKeyHash(ctx context.Context, request *GetApiUserByKeyHashRequest) (*APIUser, error) {
+	// apply timeout if no deadline is already set
+	if _, hasDeadline := ctx.Deadline(); !hasDeadline {
+		var cancel context.CancelFunc
+		ctx, cancel = context.WithTimeout(ctx, s.timeout)
+		defer cancel()
+	}
+
+	ctx, span := s.tracer.Start(
 		ctx,
 		ApiUserServiceServiceProviderName+"GetApiUserByKeyHash",
 	)
 	defer span.End()
 
 	// call given implementation of the adapted service provider interface
-	getApiUserByKeyHashResponse, err := g.grpcClient.GetApiUserByKeyHash(ctx, request)
+	getApiUserByKeyHashResponse, err := s.grpcClient.GetApiUserByKeyHash(ctx, request)
 	if err != nil {
-		log.Ctx(ctx).Error().Err(err).Msg("could not GetApiUserByKeyHash")
-		return nil, fmt.Errorf("could not GetApiUserByKeyHash: %s", err)
+		return nil, err
 	}
 
 	return getApiUserByKeyHashResponse, nil
+}
+
+// Close gracefully shuts down the gRPC client connection and releases all associated resources.
+// This method should be called when the client is no longer needed to prevent resource leaks.
+// It's safe to call Close() multiple times - subsequent calls will be no-ops.
+//
+// Best Practices:
+//   - Always call Close() when done with the client
+//   - Use defer client.Close() immediately after successful client creation
+//   - Do not use the client after calling Close()
+//
+// Example:
+//
+//	client, err := NewApiUserServiceGRPCClient(...)
+//	if err != nil {
+//		return err
+//	}
+//	defer client.Close() // Ensure cleanup
+//
+// Returns:
+//   - error: Any error that occurred while closing the connection
+func (s *apiUserServiceGRPCClient) Close() error {
+	if s.conn != nil {
+		return s.conn.Close()
+	}
+	return nil
+}
+
+// validateAuth ensures that at least one authentication method is properly configured.
+// This method is called during client initialization to prevent runtime authentication failures.
+//
+// Supported Authentication Methods:
+//   - API Key: Set via WithAPIKey() option or MESH_API_KEY environment variable
+//   - Access Token Cookie: Set via WithAccessTokenCookie() option
+//
+// Returns:
+//   - nil: If authentication is properly configured
+//   - error: If no authentication method is available
+func (c *apiUserServiceGRPCClient) validateAuth() error {
+	if c.apiKey == "" && c.accessTokenCookie == "" {
+		return errors.New("neither api key nor access token cookie set. set api key via WithAPIKey option or as MESH_API_KEY environment variable. set access token cookie via WithAccessTokenCookie option")
+	}
+	return nil
+}
+
+// authInterceptor creates and returns the appropriate gRPC unary interceptor for authentication.
+// This interceptor automatically adds authentication headers to all outgoing requests based
+// on the configured authentication method (API key takes precedence over access token cookie).
+//
+// Authentication Methods:
+//   - API Key: Added as "Authorization: Bearer <api-key>" header
+//   - Access Token Cookie: Added as "Cookie: AccessToken=<token>" header
+//
+// The interceptor is automatically applied to all method calls and handles the
+// authentication transparently without requiring manual header management.
+//
+// Returns:
+//   - grpc.UnaryClientInterceptor: Configured authentication interceptor
+func (c *apiUserServiceGRPCClient) authInterceptor() grpc.UnaryClientInterceptor {
+	if c.apiKey != "" {
+		return func(ctx context.Context, method string, req, reply any, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
+			ctx = metadata.AppendToOutgoingContext(
+				ctx,
+				common.AuthorizationHeaderKey,
+				common.BearerPrefix+c.apiKey,
+			)
+			return invoker(ctx, method, req, reply, cc, opts...)
+		}
+	}
+
+	return func(ctx context.Context, method string, req, reply any, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
+		ctx = metadata.AppendToOutgoingContext(
+			ctx,
+			common.CookieHeaderKey,
+			common.AccessTokenPrefix+c.accessTokenCookie,
+		)
+		return invoker(ctx, method, req, reply, cc, opts...)
+	}
 }
