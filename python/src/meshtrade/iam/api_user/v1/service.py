@@ -23,36 +23,36 @@ class ApiUserService(ABC):
     """Abstract base class defining the ApiUserService interface."""
 
     @abstractmethod
-    async def get_api_user(self, request: GetApiUserRequest, timeout: timedelta | None = None) -> APIUser:
+    def get_api_user(self, request: GetApiUserRequest, timeout: timedelta | None = None) -> APIUser:
         """Get an API user by name."""
         pass
 
     @abstractmethod
-    async def create_api_user(self, request: CreateApiUserRequest, timeout: timedelta | None = None) -> APIUser:
+    def create_api_user(self, request: CreateApiUserRequest, timeout: timedelta | None = None) -> APIUser:
         """Create a new API user."""
         pass
 
     @abstractmethod
-    async def list_api_users(self, request: ListApiUsersRequest, timeout: timedelta | None = None) -> ListApiUsersResponse:
+    def list_api_users(self, request: ListApiUsersRequest, timeout: timedelta | None = None) -> ListApiUsersResponse:
         """List API users."""
         pass
 
     @abstractmethod
-    async def search_api_users(self, request: SearchApiUsersRequest, timeout: timedelta | None = None) -> SearchApiUsersResponse:
+    def search_api_users(self, request: SearchApiUsersRequest, timeout: timedelta | None = None) -> SearchApiUsersResponse:
         """Search API users by display name."""
         pass
 
     @abstractmethod
-    async def activate_api_user(self, request: ActivateApiUserRequest, timeout: timedelta | None = None) -> APIUser:
+    def activate_api_user(self, request: ActivateApiUserRequest, timeout: timedelta | None = None) -> APIUser:
         """Activate an API user."""
         pass
 
     @abstractmethod
-    async def deactivate_api_user(self, request: DeactivateApiUserRequest, timeout: timedelta | None = None) -> APIUser:
+    def deactivate_api_user(self, request: DeactivateApiUserRequest, timeout: timedelta | None = None) -> APIUser:
         """Deactivate an API user."""
         pass
 
     @abstractmethod
-    async def get_api_user_by_key_hash(self, request: GetApiUserByKeyHashRequest, timeout: timedelta | None = None) -> APIUser:
+    def get_api_user_by_key_hash(self, request: GetApiUserByKeyHashRequest, timeout: timedelta | None = None) -> APIUser:
         """Get an API user by key hash."""
         pass

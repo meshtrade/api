@@ -17,6 +17,7 @@ from .api_user_pb2 import APIUser, APIUserAction, APIUserState
 from .service import ApiUserService
 from .service_grpc_client import (
     ApiUserServiceGRPCClient,
+    ApiUserServiceGRPCClientInterface,
     create_api_user_service_grpc_client,
 )
 from .service_grpc_client_options import (
@@ -44,6 +45,7 @@ from .service_pb2 import (
 __all__ = [
     # Client classes
     "ApiUserServiceGRPCClient",
+    "ApiUserServiceGRPCClientInterface",
     "create_api_user_service_grpc_client",
     "ApiUserService",
     "GRPCClient",
