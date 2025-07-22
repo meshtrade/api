@@ -12,8 +12,8 @@ const MESH_API_KEY_ENV_VAR = "MESH_API_KEY"
 const (
 	AuthorizationHeaderKey = "authorization"
 	CookieHeaderKey        = "cookie"
-	BearerPrefix          = "Bearer "
-	AccessTokenPrefix     = "AccessToken="
+	BearerPrefix           = "Bearer "
+	AccessTokenPrefix      = "AccessToken="
 )
 
 func APIKEYFromEnvironment() string {

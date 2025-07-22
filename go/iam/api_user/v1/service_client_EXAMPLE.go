@@ -15,17 +15,17 @@ import (
 	"google.golang.org/grpc/metadata"
 )
 
-// APIUserServiceGRPCClient combines the service interface with the base gRPC client interface
+// APIUserServiceGRPCClientEXAMPLE combines the service interface with the base gRPC client interface
 // for proper resource management
-type APIUserServiceGRPCClient interface {
+type APIUserServiceGRPCClientEXAMPLE interface {
 	ApiUserService
 	common.GRPCClient
 }
 
 // ensure apiUserServiceGRPCClient implements the APIUserServiceGRPCClient interface
-var _ APIUserServiceGRPCClient = &apiUserServiceGRPCClient{}
+var _ APIUserServiceGRPCClientEXAMPLE = &apiUserServiceGRPCClientEXAMPLE{}
 
-type apiUserServiceGRPCClient struct {
+type apiUserServiceGRPCClientEXAMPLE struct {
 	url                     string
 	port                    int
 	tls                     bool
@@ -38,9 +38,9 @@ type apiUserServiceGRPCClient struct {
 	unaryClientInterceptors []grpc.UnaryClientInterceptor
 }
 
-func NewAPIUserServiceGRPCClient(opts ...ClientOption) (APIUserServiceGRPCClient, error) {
+func NewAPIUserServiceGRPCClientEXAMPLE(opts ...EXAMPLEClientOption) (APIUserServiceGRPCClientEXAMPLE, error) {
 	// prepare client with default configuration
-	client := &apiUserServiceGRPCClient{
+	client := &apiUserServiceGRPCClientEXAMPLE{
 		url:     common.DefaultGRPCURL,
 		port:    common.DefaultGRPCPort,
 		tls:     common.DefaultTLS,
@@ -98,7 +98,7 @@ func NewAPIUserServiceGRPCClient(opts ...ClientOption) (APIUserServiceGRPCClient
 }
 
 // ActivateApiUser implements ApiUserService.
-func (s *apiUserServiceGRPCClient) ActivateApiUser(ctx context.Context, request *ActivateApiUserRequest) (*APIUser, error) {
+func (s *apiUserServiceGRPCClientEXAMPLE) ActivateApiUser(ctx context.Context, request *ActivateApiUserRequest) (*APIUser, error) {
 	// apply timeout if no deadline is already set
 	if _, hasDeadline := ctx.Deadline(); !hasDeadline {
 		var cancel context.CancelFunc
@@ -122,7 +122,7 @@ func (s *apiUserServiceGRPCClient) ActivateApiUser(ctx context.Context, request 
 }
 
 // CreateApiUser implements ApiUserService.
-func (s *apiUserServiceGRPCClient) CreateApiUser(ctx context.Context, request *CreateApiUserRequest) (*APIUser, error) {
+func (s *apiUserServiceGRPCClientEXAMPLE) CreateApiUser(ctx context.Context, request *CreateApiUserRequest) (*APIUser, error) {
 	// apply timeout if no deadline is already set
 	if _, hasDeadline := ctx.Deadline(); !hasDeadline {
 		var cancel context.CancelFunc
@@ -146,7 +146,7 @@ func (s *apiUserServiceGRPCClient) CreateApiUser(ctx context.Context, request *C
 }
 
 // DeactivateApiUser implements ApiUserService.
-func (s *apiUserServiceGRPCClient) DeactivateApiUser(ctx context.Context, request *DeactivateApiUserRequest) (*APIUser, error) {
+func (s *apiUserServiceGRPCClientEXAMPLE) DeactivateApiUser(ctx context.Context, request *DeactivateApiUserRequest) (*APIUser, error) {
 	// apply timeout if no deadline is already set
 	if _, hasDeadline := ctx.Deadline(); !hasDeadline {
 		var cancel context.CancelFunc
@@ -170,7 +170,7 @@ func (s *apiUserServiceGRPCClient) DeactivateApiUser(ctx context.Context, reques
 }
 
 // GetApiUser implements ApiUserService.
-func (s *apiUserServiceGRPCClient) GetApiUser(ctx context.Context, request *GetApiUserRequest) (*APIUser, error) {
+func (s *apiUserServiceGRPCClientEXAMPLE) GetApiUser(ctx context.Context, request *GetApiUserRequest) (*APIUser, error) {
 	// apply timeout if no deadline is already set
 	if _, hasDeadline := ctx.Deadline(); !hasDeadline {
 		var cancel context.CancelFunc
@@ -194,7 +194,7 @@ func (s *apiUserServiceGRPCClient) GetApiUser(ctx context.Context, request *GetA
 }
 
 // GetApiUserByKeyHash implements ApiUserService.
-func (s *apiUserServiceGRPCClient) GetApiUserByKeyHash(ctx context.Context, request *GetApiUserByKeyHashRequest) (*APIUser, error) {
+func (s *apiUserServiceGRPCClientEXAMPLE) GetApiUserByKeyHash(ctx context.Context, request *GetApiUserByKeyHashRequest) (*APIUser, error) {
 	// apply timeout if no deadline is already set
 	if _, hasDeadline := ctx.Deadline(); !hasDeadline {
 		var cancel context.CancelFunc
@@ -218,7 +218,7 @@ func (s *apiUserServiceGRPCClient) GetApiUserByKeyHash(ctx context.Context, requ
 }
 
 // ListApiUsers implements ApiUserService.
-func (s *apiUserServiceGRPCClient) ListApiUsers(ctx context.Context, request *ListApiUsersRequest) (*ListApiUsersResponse, error) {
+func (s *apiUserServiceGRPCClientEXAMPLE) ListApiUsers(ctx context.Context, request *ListApiUsersRequest) (*ListApiUsersResponse, error) {
 	// apply timeout if no deadline is already set
 	if _, hasDeadline := ctx.Deadline(); !hasDeadline {
 		var cancel context.CancelFunc
@@ -242,7 +242,7 @@ func (s *apiUserServiceGRPCClient) ListApiUsers(ctx context.Context, request *Li
 }
 
 // SearchApiUsers implements ApiUserService.
-func (s *apiUserServiceGRPCClient) SearchApiUsers(ctx context.Context, request *SearchApiUsersRequest) (*SearchApiUsersResponse, error) {
+func (s *apiUserServiceGRPCClientEXAMPLE) SearchApiUsers(ctx context.Context, request *SearchApiUsersRequest) (*SearchApiUsersResponse, error) {
 	// apply timeout if no deadline is already set
 	if _, hasDeadline := ctx.Deadline(); !hasDeadline {
 		var cancel context.CancelFunc
@@ -266,7 +266,7 @@ func (s *apiUserServiceGRPCClient) SearchApiUsers(ctx context.Context, request *
 }
 
 // Close implements common.GRPCClient
-func (s *apiUserServiceGRPCClient) Close() error {
+func (s *apiUserServiceGRPCClientEXAMPLE) Close() error {
 	if s.conn != nil {
 		return s.conn.Close()
 	}
@@ -274,7 +274,7 @@ func (s *apiUserServiceGRPCClient) Close() error {
 }
 
 // validateAuth validates that at least one authentication method is configured
-func (c *apiUserServiceGRPCClient) validateAuth() error {
+func (c *apiUserServiceGRPCClientEXAMPLE) validateAuth() error {
 	if c.apiKey == "" && c.accessTokenCookie == "" {
 		return errors.New("neither api key nor access token cookie set. set api key via WithAPIKey option or as MESH_API_KEY environment variable. set access token cookie via WithAccessTokenCookie option")
 	}
@@ -282,7 +282,7 @@ func (c *apiUserServiceGRPCClient) validateAuth() error {
 }
 
 // authInterceptor returns the appropriate authentication interceptor based on configured credentials
-func (c *apiUserServiceGRPCClient) authInterceptor() grpc.UnaryClientInterceptor {
+func (c *apiUserServiceGRPCClientEXAMPLE) authInterceptor() grpc.UnaryClientInterceptor {
 	if c.apiKey != "" {
 		return func(ctx context.Context, method string, req, reply any, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
 			ctx = metadata.AppendToOutgoingContext(
@@ -293,7 +293,7 @@ func (c *apiUserServiceGRPCClient) authInterceptor() grpc.UnaryClientInterceptor
 			return invoker(ctx, method, req, reply, cc, opts...)
 		}
 	}
-	
+
 	return func(ctx context.Context, method string, req, reply any, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
 		ctx = metadata.AppendToOutgoingContext(
 			ctx,

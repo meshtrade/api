@@ -10,26 +10,26 @@ import (
 	grpc "google.golang.org/grpc"
 )
 
-// Ensure that GRPCClientApiUserService implements the ApiUserService interface
-var _ ApiUserService = &GRPCClientApiUserService{}
+// Ensure that ApiUserServiceGRPCClient implements the ApiUserService interface
+var _ ApiUserService = &ApiUserServiceGRPCClient{}
 
-// GRPCClientApiUserService is a gRPC client implementation of the ApiUserService interface.
-type GRPCClientApiUserService struct {
+// ApiUserServiceGRPCClient is a gRPC client implementation of the ApiUserService interface.
+type ApiUserServiceGRPCClient struct {
 	tracer     trace.Tracer
 	grpcClient ApiUserServiceClient
 }
 
-func NewGRPCClientApiUserService(
+func NewApiUserServiceGRPCClient(
 	tracer trace.Tracer,
 	grpcClientConnection *grpc.ClientConn,
-) *GRPCClientApiUserService {
-	return &GRPCClientApiUserService{
+) *ApiUserServiceGRPCClient {
+	return &ApiUserServiceGRPCClient{
 		tracer:     tracer,
 		grpcClient: NewApiUserServiceClient(grpcClientConnection),
 	}
 }
 
-func (g *GRPCClientApiUserService) GetApiUser(ctx context.Context, request *GetApiUserRequest) (*APIUser, error) {
+func (g *ApiUserServiceGRPCClient) GetApiUser(ctx context.Context, request *GetApiUserRequest) (*APIUser, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
 		ApiUserServiceServiceProviderName+"GetApiUser",
@@ -46,7 +46,7 @@ func (g *GRPCClientApiUserService) GetApiUser(ctx context.Context, request *GetA
 	return getApiUserResponse, nil
 }
 
-func (g *GRPCClientApiUserService) CreateApiUser(ctx context.Context, request *CreateApiUserRequest) (*APIUser, error) {
+func (g *ApiUserServiceGRPCClient) CreateApiUser(ctx context.Context, request *CreateApiUserRequest) (*APIUser, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
 		ApiUserServiceServiceProviderName+"CreateApiUser",
@@ -63,7 +63,7 @@ func (g *GRPCClientApiUserService) CreateApiUser(ctx context.Context, request *C
 	return createApiUserResponse, nil
 }
 
-func (g *GRPCClientApiUserService) ListApiUsers(ctx context.Context, request *ListApiUsersRequest) (*ListApiUsersResponse, error) {
+func (g *ApiUserServiceGRPCClient) ListApiUsers(ctx context.Context, request *ListApiUsersRequest) (*ListApiUsersResponse, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
 		ApiUserServiceServiceProviderName+"ListApiUsers",
@@ -80,7 +80,7 @@ func (g *GRPCClientApiUserService) ListApiUsers(ctx context.Context, request *Li
 	return listApiUsersResponse, nil
 }
 
-func (g *GRPCClientApiUserService) SearchApiUsers(ctx context.Context, request *SearchApiUsersRequest) (*SearchApiUsersResponse, error) {
+func (g *ApiUserServiceGRPCClient) SearchApiUsers(ctx context.Context, request *SearchApiUsersRequest) (*SearchApiUsersResponse, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
 		ApiUserServiceServiceProviderName+"SearchApiUsers",
@@ -97,7 +97,7 @@ func (g *GRPCClientApiUserService) SearchApiUsers(ctx context.Context, request *
 	return searchApiUsersResponse, nil
 }
 
-func (g *GRPCClientApiUserService) ActivateApiUser(ctx context.Context, request *ActivateApiUserRequest) (*APIUser, error) {
+func (g *ApiUserServiceGRPCClient) ActivateApiUser(ctx context.Context, request *ActivateApiUserRequest) (*APIUser, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
 		ApiUserServiceServiceProviderName+"ActivateApiUser",
@@ -114,7 +114,7 @@ func (g *GRPCClientApiUserService) ActivateApiUser(ctx context.Context, request 
 	return activateApiUserResponse, nil
 }
 
-func (g *GRPCClientApiUserService) DeactivateApiUser(ctx context.Context, request *DeactivateApiUserRequest) (*APIUser, error) {
+func (g *ApiUserServiceGRPCClient) DeactivateApiUser(ctx context.Context, request *DeactivateApiUserRequest) (*APIUser, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
 		ApiUserServiceServiceProviderName+"DeactivateApiUser",
@@ -131,7 +131,7 @@ func (g *GRPCClientApiUserService) DeactivateApiUser(ctx context.Context, reques
 	return deactivateApiUserResponse, nil
 }
 
-func (g *GRPCClientApiUserService) GetApiUserByKeyHash(ctx context.Context, request *GetApiUserByKeyHashRequest) (*APIUser, error) {
+func (g *ApiUserServiceGRPCClient) GetApiUserByKeyHash(ctx context.Context, request *GetApiUserByKeyHashRequest) (*APIUser, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
 		ApiUserServiceServiceProviderName+"GetApiUserByKeyHash",

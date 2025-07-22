@@ -10,26 +10,26 @@ import (
 	grpc "google.golang.org/grpc"
 )
 
-// Ensure that GRPCClientUserService implements the UserService interface
-var _ UserService = &GRPCClientUserService{}
+// Ensure that UserServiceGRPCClient implements the UserService interface
+var _ UserService = &UserServiceGRPCClient{}
 
-// GRPCClientUserService is a gRPC client implementation of the UserService interface.
-type GRPCClientUserService struct {
+// UserServiceGRPCClient is a gRPC client implementation of the UserService interface.
+type UserServiceGRPCClient struct {
 	tracer     trace.Tracer
 	grpcClient UserServiceClient
 }
 
-func NewGRPCClientUserService(
+func NewUserServiceGRPCClient(
 	tracer trace.Tracer,
 	grpcClientConnection *grpc.ClientConn,
-) *GRPCClientUserService {
-	return &GRPCClientUserService{
+) *UserServiceGRPCClient {
+	return &UserServiceGRPCClient{
 		tracer:     tracer,
 		grpcClient: NewUserServiceClient(grpcClientConnection),
 	}
 }
 
-func (g *GRPCClientUserService) AssignRoleToUser(ctx context.Context, request *AssignRoleToUserRequest) (*User, error) {
+func (g *UserServiceGRPCClient) AssignRoleToUser(ctx context.Context, request *AssignRoleToUserRequest) (*User, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
 		UserServiceServiceProviderName+"AssignRoleToUser",

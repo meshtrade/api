@@ -6,10 +6,10 @@ import (
 	trace "go.opentelemetry.io/otel/trace"
 )
 
-// ClientOption is a functional option for configuring the API User Service gRPC client.
+// EXAMPLEClientOption is a functional option for configuring the API User Service gRPC client.
 // This pattern provides a clean, extensible way to configure the client with optional
 // parameters while maintaining backward compatibility and readability.
-type ClientOption func(*apiUserServiceGRPCClient)
+type EXAMPLEClientOption func(*apiUserServiceGRPCClientEXAMPLE)
 
 // WithTLS configures whether to use TLS encryption for the gRPC connection.
 // When enabled (true), the client will establish a secure connection using TLS.
@@ -18,11 +18,12 @@ type ClientOption func(*apiUserServiceGRPCClient)
 // Default: true (secure connection)
 //
 // Example:
-//   client, err := NewAPIUserServiceGRPCClient(
-//       WithTLS(true), // Enable TLS encryption
-//   )
-func WithTLS(enabled bool) ClientOption {
-	return func(c *apiUserServiceGRPCClient) {
+//
+//	client, err := NewAPIUserServiceGRPCClient(
+//	    WithTLS(true), // Enable TLS encryption
+//	)
+func EXAMPLEWithTLS(enabled bool) EXAMPLEClientOption {
+	return func(c *apiUserServiceGRPCClientEXAMPLE) {
 		c.tls = enabled
 	}
 }
@@ -37,11 +38,12 @@ func WithTLS(enabled bool) ClientOption {
 // Default: Uses common.DefaultGRPCURL and common.DefaultGRPCPort
 //
 // Example:
-//   client, err := NewAPIUserServiceGRPCClient(
-//       WithAddress("staging-api.example.com", 443), // Connect to staging
-//   )
-func WithAddress(url string, port int) ClientOption {
-	return func(c *apiUserServiceGRPCClient) {
+//
+//	client, err := NewAPIUserServiceGRPCClient(
+//	    WithAddress("staging-api.example.com", 443), // Connect to staging
+//	)
+func EXAMPLEWithAddress(url string, port int) EXAMPLEClientOption {
+	return func(c *apiUserServiceGRPCClientEXAMPLE) {
 		c.url = url
 		c.port = port
 	}
@@ -55,11 +57,12 @@ func WithAddress(url string, port int) ClientOption {
 //   - url: The server hostname or IP address
 //
 // Example:
-//   client, err := NewAPIUserServiceGRPCClient(
-//       WithURL("production-api.mesh.trade"), // Use production server
-//   )
-func WithURL(url string) ClientOption {
-	return func(c *apiUserServiceGRPCClient) {
+//
+//	client, err := NewAPIUserServiceGRPCClient(
+//	    WithURL("production-api.mesh.trade"), // Use production server
+//	)
+func EXAMPLEWithURL(url string) EXAMPLEClientOption {
+	return func(c *apiUserServiceGRPCClientEXAMPLE) {
 		c.url = url
 	}
 }
@@ -72,11 +75,12 @@ func WithURL(url string) ClientOption {
 //   - port: The server port number
 //
 // Example:
-//   client, err := NewAPIUserServiceGRPCClient(
-//       WithPort(9090), // Connect to port 9090
-//   )
-func WithPort(port int) ClientOption {
-	return func(c *apiUserServiceGRPCClient) {
+//
+//	client, err := NewAPIUserServiceGRPCClient(
+//	    WithPort(9090), // Connect to port 9090
+//	)
+func EXAMPLEWithPort(port int) EXAMPLEClientOption {
+	return func(c *apiUserServiceGRPCClientEXAMPLE) {
 		c.port = port
 	}
 }
@@ -91,13 +95,14 @@ func WithPort(port int) ClientOption {
 //   - apiKey: The API key string (without "Bearer " prefix)
 //
 // Example:
-//   client, err := NewAPIUserServiceGRPCClient(
-//       WithAPIKey("your-api-key-here"),
-//   )
+//
+//	client, err := NewAPIUserServiceGRPCClient(
+//	    WithAPIKey("your-api-key-here"),
+//	)
 //
 // Note: Alternatively, you can set the MESH_API_KEY environment variable
-func WithAPIKey(apiKey string) ClientOption {
-	return func(c *apiUserServiceGRPCClient) {
+func EXAMPLEWithAPIKey(apiKey string) EXAMPLEClientOption {
+	return func(c *apiUserServiceGRPCClientEXAMPLE) {
 		c.apiKey = apiKey
 	}
 }
@@ -112,11 +117,12 @@ func WithAPIKey(apiKey string) ClientOption {
 //   - accessToken: The access token string (without "AccessToken=" prefix)
 //
 // Example:
-//   client, err := NewAPIUserServiceGRPCClient(
-//       WithAccessTokenCookie("your-access-token-here"),
-//   )
-func WithAccessTokenCookie(accessToken string) ClientOption {
-	return func(c *apiUserServiceGRPCClient) {
+//
+//	client, err := NewAPIUserServiceGRPCClient(
+//	    WithAccessTokenCookie("your-access-token-here"),
+//	)
+func EXAMPLEWithAccessTokenCookie(accessToken string) EXAMPLEClientOption {
+	return func(c *apiUserServiceGRPCClientEXAMPLE) {
 		c.accessTokenCookie = accessToken
 	}
 }
@@ -131,12 +137,13 @@ func WithAccessTokenCookie(accessToken string) ClientOption {
 // Default: Uses a no-op tracer (tracing disabled)
 //
 // Example:
-//   tracer := otel.Tracer("api-user-client")
-//   client, err := NewAPIUserServiceGRPCClient(
-//       WithTracer(tracer),
-//   )
-func WithTracer(tracer trace.Tracer) ClientOption {
-	return func(c *apiUserServiceGRPCClient) {
+//
+//	tracer := otel.Tracer("api-user-client")
+//	client, err := NewAPIUserServiceGRPCClient(
+//	    WithTracer(tracer),
+//	)
+func EXAMPLEWithTracer(tracer trace.Tracer) EXAMPLEClientOption {
+	return func(c *apiUserServiceGRPCClientEXAMPLE) {
 		c.tracer = tracer
 	}
 }
@@ -153,14 +160,15 @@ func WithTracer(tracer trace.Tracer) ClientOption {
 // Default: 30 seconds
 //
 // Example:
-//   client, err := NewAPIUserServiceGRPCClient(
-//       WithTimeout(10 * time.Second), // Set 10 second timeout
-//   )
+//
+//	client, err := NewAPIUserServiceGRPCClient(
+//	    WithTimeout(10 * time.Second), // Set 10 second timeout
+//	)
 //
 // Note: Individual method calls can still override this timeout by providing
 // a context with a shorter deadline.
-func WithTimeout(timeout time.Duration) ClientOption {
-	return func(c *apiUserServiceGRPCClient) {
+func EXAMPLEWithTimeout(timeout time.Duration) EXAMPLEClientOption {
+	return func(c *apiUserServiceGRPCClientEXAMPLE) {
 		c.timeout = timeout
 	}
 }

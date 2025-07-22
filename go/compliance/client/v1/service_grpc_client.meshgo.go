@@ -10,26 +10,26 @@ import (
 	grpc "google.golang.org/grpc"
 )
 
-// Ensure that GRPCClientClientService implements the ClientService interface
-var _ ClientService = &GRPCClientClientService{}
+// Ensure that ClientServiceGRPCClient implements the ClientService interface
+var _ ClientService = &ClientServiceGRPCClient{}
 
-// GRPCClientClientService is a gRPC client implementation of the ClientService interface.
-type GRPCClientClientService struct {
+// ClientServiceGRPCClient is a gRPC client implementation of the ClientService interface.
+type ClientServiceGRPCClient struct {
 	tracer     trace.Tracer
 	grpcClient ClientServiceClient
 }
 
-func NewGRPCClientClientService(
+func NewClientServiceGRPCClient(
 	tracer trace.Tracer,
 	grpcClientConnection *grpc.ClientConn,
-) *GRPCClientClientService {
-	return &GRPCClientClientService{
+) *ClientServiceGRPCClient {
+	return &ClientServiceGRPCClient{
 		tracer:     tracer,
 		grpcClient: NewClientServiceClient(grpcClientConnection),
 	}
 }
 
-func (g *GRPCClientClientService) CreateClient(ctx context.Context, request *CreateClientRequest) (*Client, error) {
+func (g *ClientServiceGRPCClient) CreateClient(ctx context.Context, request *CreateClientRequest) (*Client, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
 		ClientServiceServiceProviderName+"CreateClient",
@@ -46,7 +46,7 @@ func (g *GRPCClientClientService) CreateClient(ctx context.Context, request *Cre
 	return createClientResponse, nil
 }
 
-func (g *GRPCClientClientService) GetClient(ctx context.Context, request *GetClientRequest) (*Client, error) {
+func (g *ClientServiceGRPCClient) GetClient(ctx context.Context, request *GetClientRequest) (*Client, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
 		ClientServiceServiceProviderName+"GetClient",
@@ -63,7 +63,7 @@ func (g *GRPCClientClientService) GetClient(ctx context.Context, request *GetCli
 	return getClientResponse, nil
 }
 
-func (g *GRPCClientClientService) ListClients(ctx context.Context, request *ListClientsRequest) (*ListClientsResponse, error) {
+func (g *ClientServiceGRPCClient) ListClients(ctx context.Context, request *ListClientsRequest) (*ListClientsResponse, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
 		ClientServiceServiceProviderName+"ListClients",

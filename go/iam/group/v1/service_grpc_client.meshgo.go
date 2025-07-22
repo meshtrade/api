@@ -10,26 +10,26 @@ import (
 	grpc "google.golang.org/grpc"
 )
 
-// Ensure that GRPCClientGroupService implements the GroupService interface
-var _ GroupService = &GRPCClientGroupService{}
+// Ensure that GroupServiceGRPCClient implements the GroupService interface
+var _ GroupService = &GroupServiceGRPCClient{}
 
-// GRPCClientGroupService is a gRPC client implementation of the GroupService interface.
-type GRPCClientGroupService struct {
+// GroupServiceGRPCClient is a gRPC client implementation of the GroupService interface.
+type GroupServiceGRPCClient struct {
 	tracer     trace.Tracer
 	grpcClient GroupServiceClient
 }
 
-func NewGRPCClientGroupService(
+func NewGroupServiceGRPCClient(
 	tracer trace.Tracer,
 	grpcClientConnection *grpc.ClientConn,
-) *GRPCClientGroupService {
-	return &GRPCClientGroupService{
+) *GroupServiceGRPCClient {
+	return &GroupServiceGRPCClient{
 		tracer:     tracer,
 		grpcClient: NewGroupServiceClient(grpcClientConnection),
 	}
 }
 
-func (g *GRPCClientGroupService) GetGroup(ctx context.Context, request *GetGroupRequest) (*Group, error) {
+func (g *GroupServiceGRPCClient) GetGroup(ctx context.Context, request *GetGroupRequest) (*Group, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
 		GroupServiceServiceProviderName+"GetGroup",
@@ -46,7 +46,7 @@ func (g *GRPCClientGroupService) GetGroup(ctx context.Context, request *GetGroup
 	return getGroupResponse, nil
 }
 
-func (g *GRPCClientGroupService) ListGroups(ctx context.Context, request *ListGroupsRequest) (*ListGroupsResponse, error) {
+func (g *GroupServiceGRPCClient) ListGroups(ctx context.Context, request *ListGroupsRequest) (*ListGroupsResponse, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
 		GroupServiceServiceProviderName+"ListGroups",
@@ -63,7 +63,7 @@ func (g *GRPCClientGroupService) ListGroups(ctx context.Context, request *ListGr
 	return listGroupsResponse, nil
 }
 
-func (g *GRPCClientGroupService) SearchGroups(ctx context.Context, request *SearchGroupsRequest) (*SearchGroupsResponse, error) {
+func (g *GroupServiceGRPCClient) SearchGroups(ctx context.Context, request *SearchGroupsRequest) (*SearchGroupsResponse, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
 		GroupServiceServiceProviderName+"SearchGroups",

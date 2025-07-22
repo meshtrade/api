@@ -10,26 +10,26 @@ import (
 	grpc "google.golang.org/grpc"
 )
 
-// Ensure that GRPCClientInstrumentService implements the InstrumentService interface
-var _ InstrumentService = &GRPCClientInstrumentService{}
+// Ensure that InstrumentServiceGRPCClient implements the InstrumentService interface
+var _ InstrumentService = &InstrumentServiceGRPCClient{}
 
-// GRPCClientInstrumentService is a gRPC client implementation of the InstrumentService interface.
-type GRPCClientInstrumentService struct {
+// InstrumentServiceGRPCClient is a gRPC client implementation of the InstrumentService interface.
+type InstrumentServiceGRPCClient struct {
 	tracer     trace.Tracer
 	grpcClient InstrumentServiceClient
 }
 
-func NewGRPCClientInstrumentService(
+func NewInstrumentServiceGRPCClient(
 	tracer trace.Tracer,
 	grpcClientConnection *grpc.ClientConn,
-) *GRPCClientInstrumentService {
-	return &GRPCClientInstrumentService{
+) *InstrumentServiceGRPCClient {
+	return &InstrumentServiceGRPCClient{
 		tracer:     tracer,
 		grpcClient: NewInstrumentServiceClient(grpcClientConnection),
 	}
 }
 
-func (g *GRPCClientInstrumentService) GetInstrument(ctx context.Context, request *GetInstrumentRequest) (*Instrument, error) {
+func (g *InstrumentServiceGRPCClient) GetInstrument(ctx context.Context, request *GetInstrumentRequest) (*Instrument, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
 		InstrumentServiceServiceProviderName+"GetInstrument",
@@ -46,7 +46,7 @@ func (g *GRPCClientInstrumentService) GetInstrument(ctx context.Context, request
 	return getInstrumentResponse, nil
 }
 
-func (g *GRPCClientInstrumentService) MintInstrument(ctx context.Context, request *MintInstrumentRequest) (*MintInstrumentResponse, error) {
+func (g *InstrumentServiceGRPCClient) MintInstrument(ctx context.Context, request *MintInstrumentRequest) (*MintInstrumentResponse, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
 		InstrumentServiceServiceProviderName+"MintInstrument",
@@ -63,7 +63,7 @@ func (g *GRPCClientInstrumentService) MintInstrument(ctx context.Context, reques
 	return mintInstrumentResponse, nil
 }
 
-func (g *GRPCClientInstrumentService) BurnInstrument(ctx context.Context, request *BurnInstrumentRequest) (*BurnInstrumentResponse, error) {
+func (g *InstrumentServiceGRPCClient) BurnInstrument(ctx context.Context, request *BurnInstrumentRequest) (*BurnInstrumentResponse, error) {
 	ctx, span := g.tracer.Start(
 		ctx,
 		InstrumentServiceServiceProviderName+"BurnInstrument",
