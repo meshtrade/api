@@ -5,7 +5,7 @@ import (
 	"errors"
 	fmt "fmt"
 
-	"github.com/meshtrade/api/go/config"
+	"github.com/meshtrade/api/go/common"
 	trace "go.opentelemetry.io/otel/trace"
 	"go.opentelemetry.io/otel/trace/noop"
 	grpc "google.golang.org/grpc"
@@ -16,11 +16,6 @@ import (
 
 // ensure apiUserServiceGRPCClient implements the APIUserService interface
 var _ APIUserService = &apiUserServiceGRPCClient{}
-
-// options to configure the apiUserServiceGRPCClient
-type apiUserServiceGRPCClientOption interface {
-	apply(*apiUserServiceGRPCClient) *apiUserServiceGRPCClient
-}
 
 type apiUserServiceGRPCClient struct {
 	url                     string
@@ -33,42 +28,14 @@ type apiUserServiceGRPCClient struct {
 	unaryClientInterceptors []grpc.UnaryClientInterceptor
 }
 
-// withTLS option
-type withTLS struct{ tls bool }
-
-func WithTLS(tls bool) apiUserServiceGRPCClientOption {
-	return &withTLS{tls: tls}
-}
-
-var _ apiUserServiceGRPCClientOption = &withTLS{}
-
-func (w *withTLS) apply(client *apiUserServiceGRPCClient) *apiUserServiceGRPCClient {
-	client.tls = w.tls
-	return client
-}
-
-// withAccessTokenCookie option
-type withAccessTokenCooke struct{ accessTokenCookie string }
-
-func WithAccessTokenCooke(accessTokenCookie string) apiUserServiceGRPCClientOption {
-	return &withAccessTokenCooke{accessTokenCookie: accessTokenCookie}
-}
-
-var _ apiUserServiceGRPCClientOption = &withAccessTokenCooke{}
-
-func (w *withAccessTokenCooke) apply(client *apiUserServiceGRPCClient) *apiUserServiceGRPCClient {
-	client.accessTokenCookie = w.accessTokenCookie
-	return client
-}
-
 func NewAPIUserServiceGRPCClient(opts ...apiUserServiceGRPCClientOption) (*apiUserServiceGRPCClient, error) {
 	// prepare client with default configuration
 	client := &apiUserServiceGRPCClient{
-		url:    config.DefaultGRPCURL,
-		port:   config.DefaultGRPCPort,
-		tls:    config.DefaultTLS,
+		url:    common.DefaultGRPCURL,
+		port:   common.DefaultGRPCPort,
+		tls:    common.DefaultTLS,
 		tracer: noop.NewTracerProvider().Tracer(""),
-		apiKey: config.APIKEYFromEnvironment(),
+		apiKey: common.APIKEYFromEnvironment(),
 
 		// set once options are applied and connection opened
 		grpcClient:              nil,
