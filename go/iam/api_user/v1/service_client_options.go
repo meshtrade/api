@@ -46,3 +46,31 @@ func (w *withAPIKey) apply(client *apiUserServiceGRPCClient) *apiUserServiceGRPC
 	client.apiKey = w.apiKey
 	return client
 }
+
+// withURL option
+type withURL struct{ url string }
+
+func WithURL(url string) apiUserServiceGRPCClientOption {
+	return &withURL{url: url}
+}
+
+var _ apiUserServiceGRPCClientOption = &withURL{}
+
+func (w *withURL) apply(client *apiUserServiceGRPCClient) *apiUserServiceGRPCClient {
+	client.url = w.url
+	return client
+}
+
+// withPort option
+type withPort struct{ port int }
+
+func WithPort(port int) apiUserServiceGRPCClientOption {
+	return &withPort{port: port}
+}
+
+var _ apiUserServiceGRPCClientOption = &withPort{}
+
+func (w *withPort) apply(client *apiUserServiceGRPCClient) *apiUserServiceGRPCClient {
+	client.port = w.port
+	return client
+}

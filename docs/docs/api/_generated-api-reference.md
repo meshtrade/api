@@ -80,13 +80,9 @@
   
 - [meshtrade/iam/api_user/v1/api_user.proto](#meshtrade_iam_api_user_v1_api_user-proto)
     - [APIUser](#meshtrade-iam-api_user-v1-APIUser)
-    - [GetAPIUserByKeyHashRequest](#meshtrade-iam-api_user-v1-GetAPIUserByKeyHashRequest)
-    - [GetAPIUserRequest](#meshtrade-iam-api_user-v1-GetAPIUserRequest)
   
     - [APIUserAction](#meshtrade-iam-api_user-v1-APIUserAction)
     - [APIUserState](#meshtrade-iam-api_user-v1-APIUserState)
-  
-    - [APIUserService](#meshtrade-iam-api_user-v1-APIUserService)
   
 - [meshtrade/iam/api_user/v1/service.proto](#meshtrade_iam_api_user_v1_service-proto)
     - [ActivateApiUserRequest](#meshtrade-iam-api_user-v1-ActivateApiUserRequest)
@@ -1118,36 +1114,6 @@ This method is useful for fetching multiple client records at once. Note: This e
 
 
 
-
-<a name="meshtrade-iam-api_user-v1-GetAPIUserByKeyHashRequest"></a>
-
-### GetAPIUserByKeyHashRequest
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key_hash | [string](#string) |  | The key hash of the API user to retrieve. |
-
-
-
-
-
-
-<a name="meshtrade-iam-api_user-v1-GetAPIUserRequest"></a>
-
-### GetAPIUserRequest
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| name | [string](#string) |  | The resource name of the API user to retrieve. |
-
-
-
-
-
  
 
 
@@ -1181,17 +1147,6 @@ This method is useful for fetching multiple client records at once. Note: This e
  
 
  
-
-
-<a name="meshtrade-iam-api_user-v1-APIUserService"></a>
-
-### APIUserService
-
-
-| Method Name | Request Type | Response Type | Description |
-| ----------- | ------------ | ------------- | ------------|
-| GetAPIUser | [GetAPIUserRequest](#meshtrade-iam-api_user-v1-GetAPIUserRequest) | [APIUser](#meshtrade-iam-api_user-v1-APIUser) |  |
-| GetAPIUserByKeyHash | [GetAPIUserByKeyHashRequest](#meshtrade-iam-api_user-v1-GetAPIUserByKeyHashRequest) | [APIUser](#meshtrade-iam-api_user-v1-APIUser) |  |
 
  
 

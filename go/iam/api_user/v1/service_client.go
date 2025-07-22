@@ -14,21 +14,21 @@ import (
 	"google.golang.org/grpc/metadata"
 )
 
-// ensure apiUserServiceGRPCClient implements the APIUserService interface
-var _ APIUserService = &apiUserServiceGRPCClient{}
+// ensure apiUserServiceGRPCClient implements the ApiUserService interface
+var _ ApiUserService = &apiUserServiceGRPCClient{}
 
 type apiUserServiceGRPCClient struct {
 	url                     string
 	port                    int
 	tls                     bool
-	grpcClient              APIUserServiceClient
+	grpcClient              ApiUserServiceClient
 	tracer                  trace.Tracer
 	apiKey                  string
 	accessTokenCookie       string
 	unaryClientInterceptors []grpc.UnaryClientInterceptor
 }
 
-func NewAPIUserServiceGRPCClient(opts ...apiUserServiceGRPCClientOption) (*apiUserServiceGRPCClient, error) {
+func NewAPIUserServiceGRPCClient(opts ...apiUserServiceGRPCClientOption) (ApiUserService, error) {
 	// prepare client with default configuration
 	client := &apiUserServiceGRPCClient{
 		url:    common.DefaultGRPCURL,
@@ -99,40 +99,127 @@ func NewAPIUserServiceGRPCClient(opts ...apiUserServiceGRPCClientOption) (*apiUs
 	}
 
 	// set client connection
-	client.grpcClient = NewAPIUserServiceClient(gRRPClientConnection)
+	client.grpcClient = NewApiUserServiceClient(gRRPClientConnection)
 
 	// return constructed client
 	return client, nil
 }
 
-func (s *apiUserServiceGRPCClient) GetAPIUser(ctx context.Context, request *GetAPIUserRequest) (*APIUser, error) {
+// ActivateApiUser implements ApiUserService.
+func (s *apiUserServiceGRPCClient) ActivateApiUser(ctx context.Context, request *ActivateApiUserRequest) (*APIUser, error) {
 	ctx, span := s.tracer.Start(
 		ctx,
-		APIUserServiceServiceProviderName+"GetAPIUser",
+		ApiUserServiceServiceProviderName+"ActivateApiUser",
 	)
 	defer span.End()
 
 	// call given implementation of the adapted service provider interface
-	getAPIUserResponse, err := s.grpcClient.GetAPIUser(ctx, request)
+	activateApiUserResponse, err := s.grpcClient.ActivateApiUser(ctx, request)
 	if err != nil {
 		return nil, err
 	}
 
-	return getAPIUserResponse, nil
+	return activateApiUserResponse, nil
 }
 
-func (s *apiUserServiceGRPCClient) GetAPIUserByKeyHash(ctx context.Context, request *GetAPIUserByKeyHashRequest) (*APIUser, error) {
+// CreateApiUser implements ApiUserService.
+func (s *apiUserServiceGRPCClient) CreateApiUser(ctx context.Context, request *CreateApiUserRequest) (*APIUser, error) {
 	ctx, span := s.tracer.Start(
 		ctx,
-		APIUserServiceServiceProviderName+"GetAPIUserByKeyHash",
+		ApiUserServiceServiceProviderName+"CreateApiUser",
 	)
 	defer span.End()
 
 	// call given implementation of the adapted service provider interface
-	getAPIUserByKeyHashResponse, err := s.grpcClient.GetAPIUserByKeyHash(ctx, request)
+	createApiUserResponse, err := s.grpcClient.CreateApiUser(ctx, request)
 	if err != nil {
 		return nil, err
 	}
 
-	return getAPIUserByKeyHashResponse, nil
+	return createApiUserResponse, nil
+}
+
+// DeactivateApiUser implements ApiUserService.
+func (s *apiUserServiceGRPCClient) DeactivateApiUser(ctx context.Context, request *DeactivateApiUserRequest) (*APIUser, error) {
+	ctx, span := s.tracer.Start(
+		ctx,
+		ApiUserServiceServiceProviderName+"DeactivateApiUser",
+	)
+	defer span.End()
+
+	// call given implementation of the adapted service provider interface
+	deactivateApiUserResponse, err := s.grpcClient.DeactivateApiUser(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+
+	return deactivateApiUserResponse, nil
+}
+
+// GetApiUser implements ApiUserService.
+func (s *apiUserServiceGRPCClient) GetApiUser(ctx context.Context, request *GetApiUserRequest) (*APIUser, error) {
+	ctx, span := s.tracer.Start(
+		ctx,
+		ApiUserServiceServiceProviderName+"GetApiUser",
+	)
+	defer span.End()
+
+	// call given implementation of the adapted service provider interface
+	getApiUserResponse, err := s.grpcClient.GetApiUser(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+
+	return getApiUserResponse, nil
+}
+
+// GetApiUserByKeyHash implements ApiUserService.
+func (s *apiUserServiceGRPCClient) GetApiUserByKeyHash(ctx context.Context, request *GetApiUserByKeyHashRequest) (*APIUser, error) {
+	ctx, span := s.tracer.Start(
+		ctx,
+		ApiUserServiceServiceProviderName+"GetApiUserByKeyHash",
+	)
+	defer span.End()
+
+	// call given implementation of the adapted service provider interface
+	getApiUserByKeyHashResponse, err := s.grpcClient.GetApiUserByKeyHash(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+
+	return getApiUserByKeyHashResponse, nil
+}
+
+// ListApiUsers implements ApiUserService.
+func (s *apiUserServiceGRPCClient) ListApiUsers(ctx context.Context, request *ListApiUsersRequest) (*ListApiUsersResponse, error) {
+	ctx, span := s.tracer.Start(
+		ctx,
+		ApiUserServiceServiceProviderName+"ListApiUsers",
+	)
+	defer span.End()
+
+	// call given implementation of the adapted service provider interface
+	listApiUsersResponse, err := s.grpcClient.ListApiUsers(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+
+	return listApiUsersResponse, nil
+}
+
+// SearchApiUsers implements ApiUserService.
+func (s *apiUserServiceGRPCClient) SearchApiUsers(ctx context.Context, request *SearchApiUsersRequest) (*SearchApiUsersResponse, error) {
+	ctx, span := s.tracer.Start(
+		ctx,
+		ApiUserServiceServiceProviderName+"SearchApiUsers",
+	)
+	defer span.End()
+
+	// call given implementation of the adapted service provider interface
+	searchApiUsersResponse, err := s.grpcClient.SearchApiUsers(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+
+	return searchApiUsersResponse, nil
 }
