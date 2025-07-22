@@ -6,41 +6,31 @@ sidebar_position: 1
 
 Welcome to the Mesh API Reference documentation. This section provides detailed documentation for all available APIs, organized by business domain.
 
-## Domain Organization
+## Services
 
-The Mesh API is organized into logical business domains, each containing related services:
+The Mesh API is organized into logical business domains:
 
-| Domain | Description | Status |
-|--------|-------------|--------|
-| **IAM** | Identity and Access Management | ✅ Available |
-| **Trading** | Order management and trading operations | 🚧 Coming Soon |
-| **Compliance** | Client onboarding and KYC workflows | 🚧 Coming Soon |
-| **Wallet** | Account and balance management | 🚧 Coming Soon |
-| **Issuance Hub** | Financial instrument creation | 🚧 Coming Soon |
+| Domain | Service | Version | Go SDK | Python SDK | Status |
+|--------|---------|---------|--------|------------|--------|
+| **IAM** | API User Service | v1 | ✅ Full SDK | ✅ Protobuf | ✅ Available |
+| **IAM** | Group Service | v1 | 🚧 Coming Soon | 🚧 Coming Soon | 🚧 Coming Soon |
+| **IAM** | Role Service | v1 | 🚧 Coming Soon | 🚧 Coming Soon | 🚧 Coming Soon |
+| **Trading** | Direct Order Service | v1 | 🚧 Coming Soon | 🚧 Coming Soon | 🚧 Coming Soon |
+| **Trading** | Limit Order Service | v1 | 🚧 Coming Soon | 🚧 Coming Soon | 🚧 Coming Soon |
+| **Trading** | Spot Service | v1 | 🚧 Coming Soon | 🚧 Coming Soon | 🚧 Coming Soon |
+| **Compliance** | Client Service | v1 | 🚧 Coming Soon | 🚧 Coming Soon | 🚧 Coming Soon |
+| **Compliance** | KYC Service | v1 | 🚧 Coming Soon | 🚧 Coming Soon | 🚧 Coming Soon |
+| **Wallet** | Account Service | v1 | 🚧 Coming Soon | 🚧 Coming Soon | 🚧 Coming Soon |
+| **Issuance Hub** | Instrument Service | v1 | 🚧 Coming Soon | 🚧 Coming Soon | 🚧 Coming Soon |
 
 ## Architecture Overview
 
 Before diving into specific APIs, we recommend understanding the core architectural concepts:
 
-- **[Service Structure](../architecture/service-structure)** - Resource-oriented design patterns
+- **[Service Structure](../architecture/service-structure)** - Service-oriented design patterns
 - **[Group Ownership](../architecture/group-ownership)** - Multi-tenancy and resource isolation  
 - **[Role-Based Access](../architecture/role-based-access)** - Authorization and permissions
 - **[Authentication](../architecture/authentication)** - SDK features and API key usage
-
-## Available Services
-
-### IAM Domain
-
-Identity and Access Management services for user and permission management:
-
-- **[API User Service](./iam/api_user/v1/)** - Manage API users and authentication credentials
-
-## SDK Support
-
-Each service includes examples for supported programming languages:
-
-- **Go** - Full SDK with functional options pattern, automatic authentication, and resource management
-- **Python** - Basic protobuf classes with manual gRPC client setup
 
 ## Getting Help
 

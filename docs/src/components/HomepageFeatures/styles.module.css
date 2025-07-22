@@ -5,13 +5,21 @@
 
 .featuresGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 200px auto auto;
   row-gap: 0.75rem;
   column-gap: 2rem;
   align-items: center;
   max-width: 1200px;
   margin: 0 auto;
+}
+
+@media screen and (max-width: 996px) {
+  .featuresGrid {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(9, auto);
+    row-gap: 1rem;
+  }
 }
 
 .imageSection {

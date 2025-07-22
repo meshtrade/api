@@ -15,17 +15,28 @@ const FeatureList: FeatureItem[] = [
     imageSrc: require('@site/static/img/multilingual_support.png').default,
     description: (
       <>
-        Official SDKs for Go, Python, and TypeScript generated from the same
-        protobuf definitions. Type-safe, consistent APIs across all languages.
+        Official SDKs for Go and Python generated from protobuf definitions. 
+        Go SDK features functional options and automatic authentication.
       </>
     ),
   },
   {
-    title: 'gRPC Native',
+    title: 'Schema-First Design',
     Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
-        High-performance gRPC protocol with schema-first development and strong typing.
+        gRPC-based API with protobuf single source of truth. Domain-organized 
+        services with comprehensive role-based access control.
+      </>
+    ),
+  },
+  {
+    title: 'Financial Trading Platform',
+    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    description: (
+      <>
+        IAM, trading, compliance, and wallet services for regulated financial operations.
+        Starting with API User Service - more domains coming soon.
       </>
     ),
   },

@@ -11,17 +11,13 @@ Welcome to the **Mesh API Documentation** - your comprehensive guide to integrat
 
 ## What is Mesh API?
 
-Mesh API is a modern, gRPC-based financial trading platform API that provides access to:
+Mesh API is a modern, gRPC-based financial trading platform API organized into business domains including Identity & Access Management, Trading Services, Compliance Services, Wallet Management, and Issuance Hub.
 
-- **Identity & Access Management** - Role-based access control and API user management
-- **Trading Services** - Direct orders, limit orders, and spot trading *(coming soon)*
-- **Compliance Services** - Client onboarding, KYC, and regulatory compliance *(coming soon)*
-- **Wallet Management** - Account creation and balance management *(coming soon)*
-- **Issuance Hub** - Financial instrument creation and management *(coming soon)*
+For a complete overview of all available services and their current status, see the **[Services Reference](./api-reference/)**.
 
 ## Quick Start
 
-Let's get you up and running with **Mesh API in 5 minutes** using the API User Service.
+Get started with the Mesh API using the API User Service.
 
 ### 1. Installation
 
@@ -50,21 +46,29 @@ Requirements: [Python](https://www.python.org/downloads/) version 3.9 or above
 </TabItem>
 </Tabs>
 
-### 2. Get Your API Key
+### 2. Set Up Credentials
 
-To use the Mesh API, you'll need an API key and group ID:
+Create a credentials file and set the environment variable:
 
-1. **Contact** the Mesh team to set up your account
-2. **Receive** your initial API key and group ID
-3. **Store** them securely as environment variables
+```bash
+export MESH_API_CREDENTIALS=/path/to/your/credentials.json
+```
+
+**Credentials file format:**
+```json
+{
+  "api_key": "your-api-key",
+  "group_id": "your-group-id"
+}
+```
 
 :::tip
-Keep your API key secure and never commit it to version control. Use environment variables or secure configuration management.
+Keep your API key secure and never commit it to version control.
 :::
 
 ### 3. Your First API Request
 
-Let's create and manage an API user to test your setup:
+Create and manage an API user using the credentials file:
 
 <Tabs>
 <TabItem value="go" label="Go">
@@ -81,13 +85,8 @@ import (
 )
 
 func main() {
-    // Create API User Service client
-    client, err := api_userv1.NewApiUserServiceGRPCClient(
-        api_userv1.WithAPIKey("your-api-key"),
-        api_userv1.WithGroup("your-group-id"),
-        api_userv1.WithAddress("localhost", 8080), // Replace with actual endpoint
-        api_userv1.WithTLS(false), // Use true in production
-    )
+    // Create API User Service client (loads credentials from MESH_API_CREDENTIALS)
+    client, err := api_userv1.NewApiUserServiceGRPCClient()
     if err != nil {
         log.Fatalf("Failed to create client: %v", err)
     }
@@ -98,7 +97,6 @@ func main() {
         context.Background(),
         &api_userv1.CreateApiUserRequest{
             ApiUser: &api_userv1.APIUser{
-                Owner:       "groups/your-group-id",
                 DisplayName: "My First API User",
                 Roles: []optionv1.Role{
                     optionv1.Role_ROLE_IAM_VIEWER,
@@ -120,24 +118,34 @@ func main() {
 
 ```python
 import grpc
+import json
+import os
 from meshtrade.iam.api_user.v1 import service_pb2, service_pb2_grpc, api_user_pb2
 from meshtrade.option.v1 import role_pb2
 
+def load_credentials():
+    """Load credentials from MESH_API_CREDENTIALS file."""
+    creds_path = os.getenv('MESH_API_CREDENTIALS')
+    with open(creds_path, 'r') as f:
+        return json.load(f)
+
 def main():
+    # Load credentials
+    creds = load_credentials()
+    
     # Create gRPC channel and client
-    channel = grpc.insecure_channel('localhost:8080')  # Replace with actual endpoint
+    channel = grpc.insecure_channel('api.mesh.dev:443')
     client = service_pb2_grpc.ApiUserServiceStub(channel)
     
     # Authentication metadata
     metadata = [
-        ('authorization', 'Bearer your-api-key'),
-        ('x-group-id', 'your-group-id'),
+        ('authorization', f'Bearer {creds["api_key"]}'),
+        ('x-group-id', creds['group_id']),
     ]
     
     try:
         # Create a new API user
         api_user = api_user_pb2.APIUser(
-            owner="groups/your-group-id",
             display_name="My First API User",
             roles=[role_pb2.Role.ROLE_IAM_VIEWER]
         )
@@ -161,14 +169,7 @@ if __name__ == "__main__":
 </TabItem>
 </Tabs>
 
-Set your credentials as environment variables:
-
-```bash
-export MESH_API_KEY=your-api-key-here
-export MESH_GROUP_ID=your-group-id-here
-```
-
-If everything is set up correctly, you'll create your first API user and receive a new API key.
+The client will automatically load your credentials and use default configuration.
 
 ## Next Steps
 

@@ -1,8 +1,8 @@
 ---
-sidebar_position: 1
+sidebar_position: 3
 ---
 
-# Schema-Driven Authorization
+# Role-Based Access Control
 
 ## Overview
 
@@ -140,35 +140,8 @@ Authentication uses API keys issued through the IAM system. The generated gRPC c
 
 For implementation details, reference the authentication interceptor in the generated gRPC clients, such as `go/iam/api_user/v1/service_grpc_client.meshgo.go`.
 
-## Benefits
-
-### ✅ Single Source of Truth
-- Authorization rules live alongside the API definition
-- No separate configuration files to keep in sync
-- Role definitions are part of the protobuf contract
-
-### ✅ Self-Documenting
-- Roles and permissions are visible in the schema
-- Generated documentation includes security information
-- Clear relationship between endpoints and required access
-
-### ✅ Type Safety
-- Compile-time validation of role names
-- IDEs can provide autocomplete for available roles
-- Breaking changes to authorization are caught early
-
-### ✅ Domain-Focused Security
-- Business-aligned role names (Admin/Viewer per domain)
-- Clear separation between read and write operations  
-- Consistent access patterns across all services
-
-### ✅ Automated Tooling
-- Code generation creates enforcement middleware
-- Static analysis can verify authorization coverage
-- CI/CD can validate authorization completeness
-
 ## Related Documentation
 
-- **[API Reference](../api/reference)** - Complete API endpoint documentation
+- **[API Reference](../api-reference/)** - Complete API endpoint documentation  
 - **[Service Structure](./service-structure)** - Understanding API organization
 - **[Group Ownership](./group-ownership)** - Multi-tenancy and resource isolation

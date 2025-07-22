@@ -88,28 +88,32 @@ const config: Config = {
             items: [
               {
                 label: 'Getting Started',
-                to: '/docs/intro',
+                to: '/docs/introduction',
               },
               {
                 label: 'API Reference',
-                to: '/docs/api/reference',
+                to: '/docs/api-reference',
               },
             ],
           },
           {
-            title: 'Guides',
+            title: 'Architecture',
             items: [
               {
                 label: 'Service Structure',
-                to: '/docs/guides/service-structure',
+                to: '/docs/architecture/service-structure',
               },
               {
                 label: 'Group Ownership',
-                to: '/docs/guides/group-ownership',
+                to: '/docs/architecture/group-ownership',
               },
               {
-                label: 'Schema-driven Authorization',
-                to: '/docs/guides/schema-driven-authorization',
+                label: 'Role-based Access',
+                to: '/docs/architecture/role-based-access',
+              },
+              {
+                label: 'Authentication',
+                to: '/docs/architecture/authentication',
               },
             ],
           },
