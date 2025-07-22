@@ -1,0 +1,200 @@
+{
+  "messages": {
+    "APIUser": {
+      "name": "APIUser",
+      "description": "Represents an API user for automated authentication and authorization. API users enable programmatic access to the Mesh API through API key authentication. Each API user belongs to a specific group and has defined roles that determine their permissions within that group.",
+      "fields": {
+        "name": {
+          "type": "string",
+          "description": "The unique, immutable, and canonical name of the api user resource in the format api_users/{api_user_id}. The {api_user_id} is a system-generated unique identifier (e.g., UUID) that will never change. System set on creation.",
+          "required": false,
+          "system_generated": true
+        },
+        "owner": {
+          "type": "string",
+          "description": "The resource name of the group that owns this api user in the format groups/{group_id}. This field establishes the ownership link. NOTE: owner must be set to executing group context. Required on creation.",
+          "required": true,
+          "pattern": "^groups/[a-zA-Z0-9]([a-zA-Z0-9_-]*[a-zA-Z0-9])?$",
+          "validation": "Must be in format groups/{group_id} where group_id contains only alphanumeric characters, underscores, and hyphens"
+        },
+        "owners": {
+          "type": "repeated string",
+          "description": "List of resource names of groups that have ownership access to this api user in the format groups/{group_id}. This field supports multi-group ownership scenarios. System set on creation based on the owner field.",
+          "required": false,
+          "system_generated": true,
+          "validation": "Each owner must be in format groups/{group_id}"
+        },
+        "display_name": {
+          "type": "string",
+          "description": "A non-unique, user-provided name for the api key, used for display purposes. Required on creation.",
+          "required": true,
+          "min_length": 1,
+          "max_length": 255,
+          "validation": "Must be between 1 and 255 characters"
+        },
+        "state": {
+          "type": "APIUserState",
+          "description": "The current state of the API user (active or inactive). System set on creation.",
+          "required": false,
+          "system_generated": true
+        },
+        "roles": {
+          "type": "repeated Role",
+          "description": "Roles granted to the API user. The API user can use these roles in the appointed owner group. Can be empty (0 roles), but if roles are specified, they must be valid.",
+          "required": false,
+          "validation": "Must be valid Role enum values if specified"
+        },
+        "api_key": {
+          "type": "string",
+          "description": "The plaintext API key for the API user. This field is only populated on the entity the first time it is returned after creation - it is NOT stored. Populated once by system on creation.",
+          "required": false,
+          "system_generated": true,
+          "sensitive": true
+        }
+      }
+    },
+    "GetApiUserRequest": {
+      "name": "GetApiUserRequest",
+      "description": "Request message for GetApiUser method.",
+      "fields": {
+        "name": {
+          "type": "string",
+          "description": "Name of the API user to get.",
+          "required": true
+        }
+      }
+    },
+    "GetApiUserByKeyHashRequest": {
+      "name": "GetApiUserByKeyHashRequest", 
+      "description": "Request message for GetApiUserByKeyHash method.",
+      "fields": {
+        "key_hash": {
+          "type": "string",
+          "description": "Key hash of the API user to get.",
+          "required": true
+        }
+      }
+    },
+    "CreateApiUserRequest": {
+      "name": "CreateApiUserRequest",
+      "description": "Request message for CreateApiUser method.",
+      "fields": {
+        "api_user": {
+          "type": "APIUser",
+          "description": "The API user resource to create. The name field will be ignored and assigned by the server.",
+          "required": true
+        }
+      }
+    },
+    "ListApiUsersRequest": {
+      "name": "ListApiUsersRequest",
+      "description": "Request message for ListApiUsers method.",
+      "fields": {}
+    },
+    "ListApiUsersResponse": {
+      "name": "ListApiUsersResponse",
+      "description": "Response message for ListApiUsers method.",
+      "fields": {
+        "api_users": {
+          "type": "repeated APIUser",
+          "description": "List of API users in the group.",
+          "required": false
+        }
+      }
+    },
+    "SearchApiUsersRequest": {
+      "name": "SearchApiUsersRequest",
+      "description": "Request message for SearchApiUsers method.",
+      "fields": {
+        "display_name": {
+          "type": "string",
+          "description": "Display name is a substring search for API users.",
+          "required": false
+        }
+      }
+    },
+    "SearchApiUsersResponse": {
+      "name": "SearchApiUsersResponse", 
+      "description": "Response message for SearchApiUsers method.",
+      "fields": {
+        "api_users": {
+          "type": "repeated APIUser",
+          "description": "List of API users matching search criteria.",
+          "required": false
+        }
+      }
+    },
+    "ActivateApiUserRequest": {
+      "name": "ActivateApiUserRequest",
+      "description": "Request message for ActivateApiUser method.",
+      "fields": {
+        "name": {
+          "type": "string",
+          "description": "Name of the API user to activate.",
+          "required": true,
+          "pattern": "^api_users/[0-9A-HJKMNP-TV-Z]{26}$",
+          "validation": "Must be in format api_users/{id}"
+        }
+      }
+    },
+    "DeactivateApiUserRequest": {
+      "name": "DeactivateApiUserRequest",
+      "description": "Request message for DeactivateApiUser method.",
+      "fields": {
+        "name": {
+          "type": "string",
+          "description": "Name of the API user to deactivate.",
+          "required": true,
+          "pattern": "^api_users/[0-9A-HJKMNP-TV-Z]{26}$",
+          "validation": "Must be in format api_users/{id}"
+        }
+      }
+    }
+  },
+  "enums": {
+    "APIUserState": {
+      "name": "APIUserState",
+      "description": "Represents the current state of an API user.",
+      "values": {
+        "API_USER_STATE_UNSPECIFIED": {
+          "value": 0,
+          "description": "Unknown or not specified. This is a default value to prevent accidental assignment and should not be used."
+        },
+        "API_USER_STATE_ACTIVE": {
+          "value": 1,
+          "description": "API user is active and associated api keys can be used."
+        },
+        "API_USER_STATE_INACTIVE": {
+          "value": 2,
+          "description": "API user is inactive and associated api keys cannot be used."
+        }
+      }
+    },
+    "APIUserAction": {
+      "name": "APIUserAction",
+      "description": "Represents actions that can be performed on API users.",
+      "values": {
+        "API_USER_ACTION_UNSPECIFIED": {
+          "value": 0,
+          "description": "Unknown or not specified. This is a default value to prevent accidental assignment and should not be used."
+        },
+        "API_USER_ACTION_ACTIVATE": {
+          "value": 1,
+          "description": "Activate an API user."
+        },
+        "API_USER_ACTION_DEACTIVATE": {
+          "value": 2,
+          "description": "Deactivate an API user."
+        },
+        "API_USER_ACTION_CREATE": {
+          "value": 3,
+          "description": "Create an API user."
+        },
+        "API_USER_ACTION_UPDATE": {
+          "value": 4,
+          "description": "Update an API user."
+        }
+      }
+    }
+  }
+}

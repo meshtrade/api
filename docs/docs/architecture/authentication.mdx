@@ -1,0 +1,242 @@
+---
+sidebar_position: 4
+---
+
+# Authentication & SDK Features
+
+Understanding authentication methods and SDK capabilities for the Mesh API.
+
+## Authentication Methods
+
+### API Key Authentication
+
+The primary authentication method for programmatic access to the Mesh API.
+
+**Header Format:**
+```
+Authorization: Bearer {api_key}
+x-group-id: {group_id}
+```
+
+**Key Characteristics:**
+- API keys are generated when creating API users
+- Each API key belongs to a specific group context
+- API keys can be activated or deactivated for access control
+- Bearer token format for standard HTTP authorization
+
+**Example:**
+```bash
+curl -H "Authorization: Bearer mesh_12345abcdef..." \
+     -H "x-group-id: my-organization" \
+     https://api.mesh.dev/iam/api_user/v1/api_users
+```
+
+### Group Context
+
+All API operations require a group context header that specifies which group the operation should be performed within.
+
+**Purpose:**
+- Provides resource isolation between different organizations
+- Enforces multi-tenancy boundaries
+- Ensures users can only access resources they own
+
+## SDK Features
+
+### Go SDK
+
+The Go SDK provides a fully-featured client with advanced capabilities:
+
+#### Functional Options Pattern
+Configure clients using functional options for flexibility:
+
+```go
+client, err := api_userv1.NewApiUserServiceGRPCClient(
+    api_userv1.WithAPIKey("your-api-key"),
+    api_userv1.WithGroup("your-group-id"),
+    api_userv1.WithTimeout(30 * time.Second),
+    api_userv1.WithAddress("localhost", 8080),
+    api_userv1.WithTLS(false),
+)
+```
+
+#### Available Configuration Options
+- `WithAPIKey(key)` - Set API key for authentication
+- `WithGroup(groupID)` - Set group context
+- `WithTimeout(duration)` - Configure request timeouts (default: 30s)
+- `WithAddress(host, port)` - Set server address
+- `WithTLS(enabled)` - Enable/disable TLS
+- `WithTracer(tracer)` - Configure OpenTelemetry tracing
+
+#### Automatic Credential Loading
+The client automatically attempts to load credentials from environment:
+
+```bash
+# Set environment variable pointing to credentials file
+export MESH_API_CREDENTIALS=/path/to/credentials.json
+```
+
+**Credentials file format:**
+```json
+{
+  "api_key": "your-api-key",
+  "group_id": "your-group-id"
+}
+```
+
+#### Resource Management
+Proper cleanup with the `Close()` method:
+
+```go
+client, err := api_userv1.NewApiUserServiceGRPCClient(...)
+if err != nil {
+    return err
+}
+defer client.Close() // Always close when done
+```
+
+#### Timeout Handling
+Smart timeout behavior respects context deadlines:
+
+```go
+// Use context with custom timeout
+ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+defer cancel()
+
+response, err := client.GetApiUser(ctx, request)
+```
+
+#### OpenTelemetry Tracing
+Automatic distributed tracing support:
+- Creates spans for each method call
+- Integrates with existing tracing infrastructure
+- Provides observability into API call performance
+
+#### TLS/mTLS Support
+Configurable transport security:
+
+```go
+// Enable TLS
+client, err := api_userv1.NewApiUserServiceGRPCClient(
+    api_userv1.WithTLS(true),
+    // ... other options
+)
+
+// For mTLS, additional certificate configuration required
+```
+
+### Python SDK
+
+The Python SDK provides basic protobuf classes with manual gRPC setup:
+
+#### Manual Client Setup
+Create gRPC clients and handle authentication manually:
+
+```python
+import grpc
+from meshtrade.iam.api_user.v1 import service_pb2_grpc
+
+# Create channel and client
+channel = grpc.insecure_channel('localhost:8080')
+client = service_pb2_grpc.ApiUserServiceStub(channel)
+
+# Create authentication metadata
+metadata = [
+    ('authorization', 'Bearer your-api-key'),
+    ('x-group-id', 'your-group-id'),
+]
+
+# Make calls with metadata
+response = client.GetApiUser(request, metadata=metadata)
+```
+
+#### Manual Resource Management
+Handle channel lifecycle explicitly:
+
+```python
+channel = grpc.insecure_channel('localhost:8080')
+try:
+    # Use client...
+    pass
+finally:
+    channel.close()
+```
+
+#### Basic Protobuf Usage
+Work directly with generated protobuf classes:
+
+```python
+from meshtrade.iam.api_user.v1 import service_pb2, api_user_pb2
+
+# Create request objects
+request = service_pb2.GetApiUserRequest(
+    name="api_users/01HPQR2S3T4U5V6W7X8Y9Z0123"
+)
+
+# Use protobuf message fields directly
+api_user = api_user_pb2.APIUser(
+    owner="groups/my-org",
+    display_name="My API User"
+)
+```
+
+## SDK Comparison
+
+| Feature | Go SDK | Python SDK |
+|---------|--------|------------|
+| Client generation | ✅ Full SDK | ❌ Manual setup |
+| Authentication | ✅ Automatic | ❌ Manual headers |
+| Resource management | ✅ `Close()` method | ❌ Manual cleanup |
+| Timeout handling | ✅ Smart defaults | ❌ Manual configuration |
+| OpenTelemetry | ✅ Built-in | ❌ Not available |
+| TLS/mTLS | ✅ Configurable | ❌ Manual setup |
+| Credential loading | ✅ Environment file | ❌ Manual |
+
+## Security Best Practices
+
+### API Key Management
+- Store API keys securely (environment variables, secret managers)
+- Never commit API keys to version control
+- Rotate API keys regularly
+- Use different API keys for different environments
+
+### Group Context Security
+- Always validate group context matches your organization
+- Don't hardcode group IDs in applications
+- Use environment-specific group configurations
+
+### Network Security
+- Use TLS in production environments
+- Consider mTLS for high-security requirements
+- Implement proper certificate validation
+
+### Access Control
+- Follow principle of least privilege when assigning roles
+- Regularly audit API user permissions
+- Deactivate unused API users promptly
+
+## Error Handling
+
+All SDK methods return errors that should be handled appropriately:
+
+**Go:**
+```go
+response, err := client.GetApiUser(ctx, request)
+if err != nil {
+    return fmt.Errorf("failed to get API user: %w", err)
+}
+```
+
+**Python:**
+```python
+try:
+    response = client.GetApiUser(request, metadata=metadata)
+except grpc.RpcError as e:
+    print(f"Failed to get API user: {e}")
+```
+
+The error information varies by method but typically includes:
+- Authentication failures
+- Authorization denials  
+- Resource not found
+- Validation errors
+- Network connectivity issues

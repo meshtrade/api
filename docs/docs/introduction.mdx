@@ -1,0 +1,199 @@
+---
+sidebar_position: 1
+---
+
+# Introduction
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+Welcome to the **Mesh API Documentation** - your comprehensive guide to integrating with the Mesh trading platform.
+
+## What is Mesh API?
+
+Mesh API is a modern, gRPC-based financial trading platform API that provides access to:
+
+- **Identity & Access Management** - Role-based access control and API user management
+- **Trading Services** - Direct orders, limit orders, and spot trading *(coming soon)*
+- **Compliance Services** - Client onboarding, KYC, and regulatory compliance *(coming soon)*
+- **Wallet Management** - Account creation and balance management *(coming soon)*
+- **Issuance Hub** - Financial instrument creation and management *(coming soon)*
+
+## Quick Start
+
+Let's get you up and running with **Mesh API in 5 minutes** using the API User Service.
+
+### 1. Installation
+
+Install the SDK for your preferred language:
+
+<Tabs>
+<TabItem value="go" label="Go">
+
+```bash
+# Install the Go SDK
+go get github.com/meshtrade/api/go
+```
+
+Requirements: [Go](https://golang.org/dl/) version 1.21 or above
+
+</TabItem>
+<TabItem value="python" label="Python">
+
+```bash
+# Install the Python SDK
+pip install meshtrade
+```
+
+Requirements: [Python](https://www.python.org/downloads/) version 3.9 or above
+
+</TabItem>
+</Tabs>
+
+### 2. Get Your API Key
+
+To use the Mesh API, you'll need an API key and group ID:
+
+1. **Contact** the Mesh team to set up your account
+2. **Receive** your initial API key and group ID
+3. **Store** them securely as environment variables
+
+:::tip
+Keep your API key secure and never commit it to version control. Use environment variables or secure configuration management.
+:::
+
+### 3. Your First API Request
+
+Let's create and manage an API user to test your setup:
+
+<Tabs>
+<TabItem value="go" label="Go">
+
+```go
+package main
+
+import (
+    "context"
+    "log"
+
+    api_userv1 "github.com/meshtrade/api/go/iam/api_user/v1"
+    optionv1 "github.com/meshtrade/api/go/option/v1"
+)
+
+func main() {
+    // Create API User Service client
+    client, err := api_userv1.NewApiUserServiceGRPCClient(
+        api_userv1.WithAPIKey("your-api-key"),
+        api_userv1.WithGroup("your-group-id"),
+        api_userv1.WithAddress("localhost", 8080), // Replace with actual endpoint
+        api_userv1.WithTLS(false), // Use true in production
+    )
+    if err != nil {
+        log.Fatalf("Failed to create client: %v", err)
+    }
+    defer client.Close()
+
+    // Create a new API user
+    apiUser, err := client.CreateApiUser(
+        context.Background(),
+        &api_userv1.CreateApiUserRequest{
+            ApiUser: &api_userv1.APIUser{
+                Owner:       "groups/your-group-id",
+                DisplayName: "My First API User",
+                Roles: []optionv1.Role{
+                    optionv1.Role_ROLE_IAM_VIEWER,
+                },
+            },
+        },
+    )
+    if err != nil {
+        log.Fatalf("Failed to create API user: %v", err)
+    }
+
+    log.Printf("Created API user: %s", apiUser.Name)
+    log.Printf("API key: %s", apiUser.ApiKey) // Save this securely!
+}
+```
+
+</TabItem>
+<TabItem value="python" label="Python">
+
+```python
+import grpc
+from meshtrade.iam.api_user.v1 import service_pb2, service_pb2_grpc, api_user_pb2
+from meshtrade.option.v1 import role_pb2
+
+def main():
+    # Create gRPC channel and client
+    channel = grpc.insecure_channel('localhost:8080')  # Replace with actual endpoint
+    client = service_pb2_grpc.ApiUserServiceStub(channel)
+    
+    # Authentication metadata
+    metadata = [
+        ('authorization', 'Bearer your-api-key'),
+        ('x-group-id', 'your-group-id'),
+    ]
+    
+    try:
+        # Create a new API user
+        api_user = api_user_pb2.APIUser(
+            owner="groups/your-group-id",
+            display_name="My First API User",
+            roles=[role_pb2.Role.ROLE_IAM_VIEWER]
+        )
+        
+        request = service_pb2.CreateApiUserRequest(api_user=api_user)
+        response = client.CreateApiUser(request, metadata=metadata)
+        
+        print(f"Created API user: {response.name}")
+        print(f"API key: {response.api_key}")  # Save this securely!
+        
+    except grpc.RpcError as e:
+        print(f"Failed to create API user: {e}")
+    
+    finally:
+        channel.close()
+
+if __name__ == "__main__":
+    main()
+```
+
+</TabItem>
+</Tabs>
+
+Set your credentials as environment variables:
+
+```bash
+export MESH_API_KEY=your-api-key-here
+export MESH_GROUP_ID=your-group-id-here
+```
+
+If everything is set up correctly, you'll create your first API user and receive a new API key.
+
+## Next Steps
+
+Now that you have a working connection to the Mesh API, explore these key concepts:
+
+### 📋 Learn About Service Structure
+Understanding how our APIs are organized and the common patterns used across all services.
+
+👉 **[Service Structure Guide](./guides/service-structure)** - Learn about resource-oriented design, standard verbs, and API patterns
+
+### 🏢 Group Ownership Structure  
+Learn how groups provide ownership and isolation boundaries for your resources.
+
+👉 **[Group Ownership Guide](./guides/group-ownership)** - Understand multi-tenancy, resource isolation, and group management
+
+### 🔐 Permissions Structure
+Discover our schema-driven authorization system and role-based access control.
+
+👉 **[Permissions Guide](./guides/schema-driven-authorization)** - Master RBAC, roles, and permission management
+
+### 📚 Additional Resources
+
+- **[API Reference](./api/reference)** - Complete API documentation
+- **[Roadmap](./roadmap)** - Upcoming features and improvements
+
+---
+
+*Ready to build something amazing with Mesh API? Let's get started!*

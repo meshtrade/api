@@ -1,0 +1,44 @@
+---
+sidebar_position: 1
+---
+
+# IAM Domain
+
+Identity and Access Management (IAM) services provide authentication, authorization, and user management capabilities for the Mesh platform.
+
+## Services
+
+### API User Service
+Manages API users and their authentication credentials. API users represent automated clients that can authenticate with API keys and perform operations within a specific group context.
+
+**[View API User Service Documentation →](./api_user/v1/)**
+
+## Key Concepts
+
+### API Users
+API users are automated clients that authenticate using API keys rather than human user credentials. Each API user:
+
+- Belongs to a specific group for resource isolation
+- Has assigned roles that determine their permissions
+- Can be activated or deactivated to control access
+- Generates a unique API key for authentication
+
+### Authentication Flow
+1. Create an API user with required roles
+2. Activate the API user to enable the API key
+3. Use the API key in the `Authorization: Bearer {api_key}` header
+4. Include group context in the `x-group-id` header
+
+### Authorization
+All IAM operations require appropriate domain permissions:
+
+- **ROLE_IAM_ADMIN** - Can create, activate, deactivate API users
+- **ROLE_IAM_VIEWER** - Can read API user information
+
+## Coming Soon
+
+Additional IAM services currently in development:
+
+- **Group Service** - Group management and hierarchy
+- **Role Service** - Role definitions and assignments
+- **User Service** - Human user management

@@ -1,128 +1,151 @@
 # Meshtrade API Documentation Site Structure Plan
 
-## Current State Analysis
-The existing docs site has:
-- ✅ **Introduction**: Comprehensive getting started guide with multi-language examples
-- ✅ **Service Structure**: Excellent resource-oriented design documentation (~241 lines)
-- ✅ **Group Ownership**: Comprehensive multi-tenancy guide (~347 lines)
-- ✅ **Schema-Driven Authorization**: Detailed RBAC documentation (~174 lines)
-- ❌ **API Reference**: Placeholder - needs full domain/service documentation
-- ✅ **Roadmap**: Exists but needs expansion
+# Current State Analysis: The existing docs site has comprehensive getting started guide, excellent service structure documentation (~241 lines), multi-tenancy guide (~347 lines), and detailed RBAC documentation (~174 lines). API Reference is currently a placeholder needing full domain/service documentation.
 
-## Proposed Documentation Structure
+## Directory Structure & Implementation Plan
 
 ```
-📖 Meshtrade API Documentation
-├── 📄 Introduction
-|   ├── Quickstart
-│   │   ├── Get API Credentials
-│   │   ├── Installation (Go, Python)
-│   │   └── First API Request (tabbed examples: Go, Python)
-│   └── Next Steps
-│       ├── Learn: go through architecture overview to get knowledge that you need to understand the api
-│       └── Use: go to API reference to get detailed docs of how to leverage each api in each supported language
-|
-├── 📄 Architecture Overview
-│   ├── Service Structure
-│   │   ├── Resource-Oriented Services
-│   │   ├── Standard Verbs (Create, Get, List, Search)
-│   │   └── Custom Verbs (Activate, Mint, Burn, etc.)
-│   ├── Group Ownership & Multi-Tenancy
-│   │   ├── Owner vs Owners Fields
-│   │   ├── Group Hierarchy
-│   │   └── Resource Access Rules
-│   └── Role-Based Access Control
-│       ├── Domain Roles (ROLE_{DOMAIN}_{ADMIN|VIEWER})
-│       ├── API User Role Assignment
-│       ├── Read Permissions (owner + owners hierarchy)
-│       └── Write Permissions (direct owner only)
-│
-├── 📁 API Reference
-│   ├── 📄 API Overview
-│   │   ├── Domain Organization
-│   │   ├── Reference to relevant knowledge: Architecture Overview
-│   │   └── Domain/Service Table: which services & versions in which languages are ready
+📁 docs/docs/
+├── introduction.mdx
+#   Quickstart guide with API credentials, installation (Go, Python), and first API request examples
+#   Next Steps: Learn (architecture overview) → Use (API reference for detailed implementation)
+
+├── 📁 architecture/
+#   Keep existing high-quality guides - they are comprehensive and well-written
+#   Flatten guide structure - move from /guides/ subfolder to top-level architecture section
+│   ├── service-structure.mdx
+#       Resource-Oriented Services, Standard Verbs (Create, Get, List, Search), Custom Verbs (Activate, Mint, Burn, etc.)
+│   ├── group-ownership.mdx  
+#       Owner vs Owners Fields, Group Hierarchy, Resource Access Rules
+│   ├── role-based-access.mdx
+#       Domain Roles (ROLE_{DOMAIN}_{ADMIN|VIEWER}), API User Role Assignment, Read/Write Permissions
+│   └── authentication.mdx
+#       API Key Authentication (Bearer token), Group ID Context Headers, Timeout Configuration (30s default)
+#       TLS/mTLS Support, OpenTelemetry Tracing Integration, Resource Management (Close() method)
+
+├── 📁 api-reference/
+│   ├── index.mdx
+#       API Overview: Domain Organization, Reference to Architecture Overview, Domain/Service Table showing which services & versions are ready in which languages
 │   │
-│   ├── 📁 IAM Domain
-│   │   ├── 📄 API User Service (v1)
-│   │   │   ├── GetApiUser
-│   │   │   │   ├── 🔗 Go Example
-│   │   │   │   └── 🔗 Python Example  
-│   │   │   ├── CreateApiUser
-│   │   │   │   ├── 🔗 Go Example
-│   │   │   │   └── 🔗 Python Example
-│   │   │   ├── ListApiUsers
-│   │   │   │   ├── 🔗 Go Example
-│   │   │   │   └── 🔗 Python Example
-│   │   │   ├── SearchApiUsers
-│   │   │   │   ├── 🔗 Go Example
-│   │   │   │   └── 🔗 Python Example
-│   │   │   ├── ActivateApiUser
-│   │   │   │   ├── 🔗 Go Example
-│   │   │   │   └── 🔗 Python Example
-│   │   │   └── DeactivateApiUser
-│   │   │       ├── 🔗 Go Example
-│   │   │       └── 🔗 Python Example
-│   │   ├── 📄 Group Service (v1) 
-│   │   └── 📄 Role Service (v1)
+│   ├── 📁 iam/
+#       IAM Domain - Identity and Access Management
+│   │   ├── index.mdx
+│   │   ├── 📁 api_user/
+│   │   │   └── 📁 v1/
+#               High Priority: API User Service (already has working examples)
+#               Method-level examples - every API method gets Go and Python examples
+#               Generated + hand-written hybrid - protobuf generates base docs, hand-written examples
+#               SDK-specific patterns - Go functional options vs Python basic protobuf usage
+│   │   │       ├── index.mdx
+│   │   │       ├── types.mdx
+#                   Type-level documentation autogenerated from message and field level comments on protobuf
+│   │   │       ├── service.mdx  
+#                   Service-level documentation autogenerated from service comments
+#                   Method-level documentation autogenerated from service method comments
+#                   Usage code snippets hand-written for each method
+│   │   │       ├── types.generated.json
+#                   Auto-generated from protobuf comments using custom plugin
+│   │   │       ├── service.generated.json
+#                   Auto-generated from protobuf comments using custom plugin
+│   │   │       └── 📁 examples/
+│   │   │           ├── 📁 go/
+#                       Go SDK Features: Generated gRPC client with functional options pattern
+#                       API key authentication with Bearer token, Group ID context headers
+#                       Configurable timeouts (30s default), OpenTelemetry tracing integration  
+#                       TLS/mTLS support, Resource management with Close() method
+#                       Automatic credential loading from MESH_API_CREDENTIALS file
+│   │   │           │   ├── get-api-user.go
+│   │   │           │   ├── create-api-user.go
+│   │   │           │   ├── list-api-users.go
+│   │   │           │   ├── search-api-users.go
+│   │   │           │   ├── activate-api-user.go
+│   │   │           │   ├── deactivate-api-user.go
+│   │   │           │   ├── get-api-user-by-key-hash.go
+│   │   │           │   └── client-setup.go
+│   │   │           └── 📁 python/
+#                       Python SDK Status: Basic protobuf generated classes only
+#                       No fancy client wrapper (direct gRPC usage required)  
+#                       Manual authentication header management needed
+│   │   │               ├── get-api-user.py
+│   │   │               ├── create-api-user.py
+│   │   │               ├── list-api-users.py
+│   │   │               ├── search-api-users.py
+│   │   │               ├── activate-api-user.py
+│   │   │               ├── deactivate-api-user.py
+│   │   │               ├── get-api-user-by-key-hash.py
+│   │   │               └── client-setup.py
+│   │   ├── 📁 group/
+│   │   │   └── 📁 v1/
+│   │   │       └── index.mdx
+#                   Group Service (v1) - placeholder for future detailed documentation
+│   │   └── 📁 role/
+│   │       └── 📁 v1/
+│   │           └── index.mdx
+#                   Role Service (v1) - placeholder for future detailed documentation
 │   │
-│   ├── 📁 Trading Domain
-│   │   ├── 📄 Direct Order Service (v1)
-│   │   ├── 📄 Limit Order Service (v1)  
-│   │   └── 📄 Spot Service (v1)
+│   ├── 📁 trading/
+#       Trading Domain - Medium Priority: Core trading services
+│   │   ├── index.mdx
+│   │   ├── 📁 direct_order/
+│   │   │   └── 📁 v1/
+│   │   │       └── index.mdx
+#                   Direct Order Service (v1) - placeholder for future detailed documentation
+│   │   ├── 📁 limit_order/
+│   │   │   └── 📁 v1/
+│   │   │       └── index.mdx
+#                   Limit Order Service (v1) - placeholder for future detailed documentation
+│   │   └── 📁 spot/
+│   │       └── 📁 v1/
+│   │           └── index.mdx
+#                   Spot Service (v1) - placeholder for future detailed documentation
 │   │
-│   ├── 📁 Compliance Domain
-│   │   ├── 📄 Client Service (v1)
-│   │   └── 📄 KYC Service (v1)
+│   ├── 📁 compliance/
+#       Compliance Domain - Lower Priority: Specialized services
+│   │   ├── index.mdx
+│   │   ├── 📁 client/
+│   │   │   └── 📁 v1/
+│   │   │       └── index.mdx
+#                   Client Service (v1) - placeholder for future detailed documentation
+│   │   └── 📁 kyc/
+│   │       └── 📁 v1/
+│   │           └── index.mdx
+#                   KYC Service (v1) - placeholder for future detailed documentation
 │   │
-│   ├── 📁 Wallet Domain  
-│   │   └── 📄 Account Service (v1)
+│   ├── 📁 wallet/
+#       Wallet Domain - Future: Additional domains as they mature
+│   │   ├── index.mdx
+│   │   └── 📁 account/
+│   │       └── 📁 v1/
+│   │           └── index.mdx
+#                   Account Service (v1) - placeholder for future detailed documentation
 │   │
-│   ├── 📁 Issuance Hub Domain
-│   │   └── 📄 Instrument Service (v1)
+│   ├── 📁 issuance_hub/
+#       Issuance Hub Domain - Future: Additional domains as they mature
+│   │   ├── index.mdx
+│   │   └── 📁 instrument/
+│   │       └── 📁 v1/
+│   │           └── index.mdx
+#                   Instrument Service (v1) - placeholder for future detailed documentation
 │   │
-│   └── 📁 Shared Types
-│       ├── 📄 Common Types (Amount, Decimal, Token)
-│       ├── 📄 Ledger Types
-│       └── 📄 Time & Pagination Types
-│
-└── 📄 Roadmap
-    ├── Upcoming Features
-    ├── API Versioning Plans
-    └── SDK Enhancements
+│   └── 📁 shared/
+#       Shared Types across all domains
+│       ├── index.mdx
+│       ├── 📁 common/
+│       │   └── index.mdx
+#           Common Types (Amount, Decimal, Token)
+│       ├── 📁 ledger/
+│       │   └── index.mdx
+#           Ledger Types
+│       └── 📁 time/
+│           └── index.mdx
+#           Time & Pagination Types
+
+# Implementation Strategy:
+# Phase 1: Content Restructuring - Keep existing high-quality guides, flatten structure, enhance API Reference
+# Phase 2: API Documentation Generation - Domain-by-domain approach, method-level examples, tabbed code examples
+# Phase 3: Enhanced User Experience - Quick navigation, code-first examples, cross-references, search optimization
+#
+# Key Benefits: Visual hierarchy, domain organization, realistic example patterns, preserved quality content
+# Current-state focused: Documents existing SDK features, not future roadmap items
+# Scalable structure: Easy to add new domains/services as they're developed
 ```
-
-## Implementation Strategy
-
-### Phase 1: Content Restructuring
-1. **Keep existing high-quality guides** - they are comprehensive and well-written
-2. **Flatten guide structure** - move from `/guides/` subfolder to top-level architecture section
-3. **Enhance API Reference placeholder** with domain-organized structure
-
-### Phase 2: API Documentation Generation  
-1. **Domain-by-domain approach** - organize by business domains (IAM, Trading, etc.)
-2. **Method-level examples** - every API method gets Go and Python examples
-3. **Tabbed code examples** - consistent UX across all API methods
-4. **Generated + hand-written hybrid** - protobuf generates base docs, hand-written examples
-
-### Phase 3: Enhanced User Experience
-1. **Quick navigation** - clear domain/service hierarchy
-2. **Code-first examples** - practical examples for every endpoint  
-3. **Cross-references** - link related concepts (roles, groups, permissions)
-4. **Search optimization** - ensure all content is searchable
-
-## Key Improvements Over Current Plan
-
-1. **Visual hierarchy**: Clear tree structure shows relationships and nesting
-2. **Domain organization**: Groups related services together logically
-3. **Consistent example pattern**: Every API method gets Go + Python examples
-4. **Preserved quality content**: Builds on existing excellent guides
-5. **Scalable structure**: Easy to add new domains/services as they're developed
-6. **User-focused navigation**: Logical flow from concepts to practical examples
-
-## Content Creation Priority
-
-1. ✅ **High Priority**: API User Service (already has working examples)
-2. 🔄 **Medium Priority**: Core trading services (Direct Order, Spot)
-3. 📋 **Lower Priority**: Specialized services (KYC, Instrument)
-4. 📋 **Future**: Additional domains as they mature

@@ -1,0 +1,88 @@
+{
+  "service": {
+    "name": "ApiUserService",
+    "description": "ApiUserService manages API user lifecycle and authentication credentials. API users represent automated clients that can authenticate with API keys and perform operations within a specific group context. Each API user has: a unique identifier and display name, group ownership for resource isolation, role-based permissions for authorization, and active/inactive state for access control. All operations require IAM domain permissions and operate within the authenticated group context.",
+    "package": "meshtrade.iam.api_user.v1",
+    "authentication_required": true,
+    "group_context_required": true
+  },
+  "methods": {
+    "GetApiUser": {
+      "name": "GetApiUser",
+      "description": "Retrieves a single API user by its unique identifier.",
+      "parameters": "name: The resource name in format api_users/{api_user_id}",
+      "returns": "APIUser: Complete API user resource including metadata and roles",
+      "authorization": "Requires ROLE_IAM_ADMIN or ROLE_IAM_VIEWER",
+      "request_type": "GetApiUserRequest",
+      "response_type": "APIUser",
+      "method_type": "READ",
+      "roles": ["ROLE_IAM_ADMIN", "ROLE_IAM_VIEWER"]
+    },
+    "CreateApiUser": {
+      "name": "CreateApiUser",
+      "description": "Creates a new API user with the specified configuration. The API user will be created in the authenticated group context and assigned the provided roles. The system generates a unique identifier and API key for authentication.",
+      "parameters": "api_user: APIUser configuration (name field ignored, assigned by system)",
+      "returns": "APIUser: Newly created API user with generated name and API key",
+      "authorization": "Requires ROLE_IAM_ADMIN",
+      "request_type": "CreateApiUserRequest",
+      "response_type": "APIUser",
+      "method_type": "WRITE",
+      "roles": ["ROLE_IAM_ADMIN"]
+    },
+    "ListApiUsers": {
+      "name": "ListApiUsers",
+      "description": "Lists all API users in the authenticated group context. Returns all API users that belong to the current group, regardless of their active/inactive state.",
+      "parameters": "None",
+      "returns": "ListApiUsersResponse: Collection of API users in the group",
+      "authorization": "Requires ROLE_IAM_ADMIN or ROLE_IAM_VIEWER",
+      "request_type": "ListApiUsersRequest",
+      "response_type": "ListApiUsersResponse",
+      "method_type": "READ",
+      "roles": ["ROLE_IAM_ADMIN", "ROLE_IAM_VIEWER"]
+    },
+    "SearchApiUsers": {
+      "name": "SearchApiUsers", 
+      "description": "Searches API users using display name filtering. Performs substring matching on API user display names within the authenticated group context.",
+      "parameters": "display_name: Substring to search for in display names",
+      "returns": "SearchApiUsersResponse: Collection of matching API users",
+      "authorization": "Requires ROLE_IAM_ADMIN or ROLE_IAM_VIEWER",
+      "request_type": "SearchApiUsersRequest",
+      "response_type": "SearchApiUsersResponse",
+      "method_type": "READ",
+      "roles": ["ROLE_IAM_ADMIN", "ROLE_IAM_VIEWER"]
+    },
+    "ActivateApiUser": {
+      "name": "ActivateApiUser",
+      "description": "Activates an API user, enabling API key authentication. Changes the API user state to active, allowing the associated API key to be used for authentication and authorization.",
+      "parameters": "name: The resource name in format api_users/{api_user_id}",
+      "returns": "APIUser: Updated API user with active state",
+      "authorization": "Requires ROLE_IAM_ADMIN",
+      "request_type": "ActivateApiUserRequest",
+      "response_type": "APIUser",
+      "method_type": "WRITE",
+      "roles": ["ROLE_IAM_ADMIN"]
+    },
+    "DeactivateApiUser": {
+      "name": "DeactivateApiUser",
+      "description": "Deactivates an API user, disabling API key authentication. Changes the API user state to inactive, preventing the associated API key from being used for authentication.",
+      "parameters": "name: The resource name in format api_users/{api_user_id}",
+      "returns": "APIUser: Updated API user with inactive state",
+      "authorization": "Requires ROLE_IAM_ADMIN",
+      "request_type": "DeactivateApiUserRequest",
+      "response_type": "APIUser",
+      "method_type": "WRITE",
+      "roles": ["ROLE_IAM_ADMIN"]
+    },
+    "GetApiUserByKeyHash": {
+      "name": "GetApiUserByKeyHash",
+      "description": "Retrieves an API user using its API key hash. This method is used for authentication flows to lookup an API user based on the hash of their API key.",
+      "parameters": "key_hash: Hash of the API key to lookup",
+      "returns": "APIUser: Complete API user resource associated with the key",
+      "authorization": "Requires ROLE_IAM_ADMIN or ROLE_IAM_VIEWER",
+      "request_type": "GetApiUserByKeyHashRequest",
+      "response_type": "APIUser",
+      "method_type": "READ",
+      "roles": ["ROLE_IAM_ADMIN", "ROLE_IAM_VIEWER"]
+    }
+  }
+}

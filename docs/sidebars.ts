@@ -13,22 +13,40 @@ import type { SidebarsConfig } from '@docusaurus/plugin-content-docs';
 
 const sidebars: SidebarsConfig = {
   tutorialSidebar: [
-    'intro',
+    'introduction',
     {
       type: 'category',
-      label: 'Guides',
+      label: 'Architecture',
       items: [
-        'guides/service-structure',
-        'guides/group-ownership', 
-        'guides/schema-driven-authorization'
+        'architecture/service-structure',
+        'architecture/group-ownership', 
+        'architecture/role-based-access',
+        'architecture/authentication'
       ],
     },
     {
       type: 'category',
       label: 'API Reference',
-      items: ['api/reference'],
+      items: [
+        'api-reference/index',
+        {
+          type: 'category',
+          label: 'IAM Domain',
+          items: [
+            'api-reference/iam/index',
+            {
+              type: 'category',
+              label: 'API User Service',
+              items: [
+                'api-reference/iam/api_user/v1/index',
+                'api-reference/iam/api_user/v1/types',
+                'api-reference/iam/api_user/v1/service'
+              ]
+            }
+          ]
+        }
+      ],
     },
-
     'roadmap',
   ],
 };

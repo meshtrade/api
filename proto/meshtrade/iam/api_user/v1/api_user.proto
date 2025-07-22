@@ -7,6 +7,13 @@ import "meshtrade/option/v1/role.proto";
 
 option go_package = "github.com/meshtrade/api/go/iam/api_user/v1;api_userv1";
 
+/*
+   Represents an API user for automated authentication and authorization.
+   
+   API users enable programmatic access to the Mesh API through API key
+   authentication. Each API user belongs to a specific group and has
+   defined roles that determine their permissions within that group.
+*/
 message APIUser {
   /*
      The unique, immutable, and canonical name of the api user resource in the format api_users/{api_user_id}.
