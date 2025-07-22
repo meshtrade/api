@@ -66,7 +66,7 @@ def date_to_python_date(date_obj: Date) -> python_date:
         raise ValueError(f"Invalid date values: {e}")
 
 
-def is_valid(date_obj: Optional[Date]) -> bool:
+def is_valid(date_obj: Date | None) -> bool:
     """Checks if a Date has valid values according to the protobuf constraints.
     
     Args:
@@ -85,7 +85,7 @@ def is_valid(date_obj: Optional[Date]) -> bool:
         return False
 
 
-def is_complete(date_obj: Optional[Date]) -> bool:
+def is_complete(date_obj: Date | None) -> bool:
     """Returns True if the date has non-zero year, month, and day values.
     
     Args:
@@ -99,7 +99,7 @@ def is_complete(date_obj: Optional[Date]) -> bool:
     return date_obj.year != 0 and date_obj.month != 0 and date_obj.day != 0
 
 
-def is_year_only(date_obj: Optional[Date]) -> bool:
+def is_year_only(date_obj: Date | None) -> bool:
     """Returns True if only the year is specified (month and day are 0).
     
     Args:
@@ -113,7 +113,7 @@ def is_year_only(date_obj: Optional[Date]) -> bool:
     return date_obj.year != 0 and date_obj.month == 0 and date_obj.day == 0
 
 
-def is_year_month(date_obj: Optional[Date]) -> bool:
+def is_year_month(date_obj: Date | None) -> bool:
     """Returns True if year and month are specified but day is 0.
     
     Args:
@@ -127,7 +127,7 @@ def is_year_month(date_obj: Optional[Date]) -> bool:
     return date_obj.year != 0 and date_obj.month != 0 and date_obj.day == 0
 
 
-def is_month_day(date_obj: Optional[Date]) -> bool:
+def is_month_day(date_obj: Date | None) -> bool:
     """Returns True if month and day are specified but year is 0.
     
     Args:
@@ -141,7 +141,7 @@ def is_month_day(date_obj: Optional[Date]) -> bool:
     return date_obj.year == 0 and date_obj.month != 0 and date_obj.day != 0
 
 
-def date_to_string(date_obj: Optional[Date]) -> str:
+def date_to_string(date_obj: Date | None) -> str:
     """Returns a string representation of the date.
     
     Args:

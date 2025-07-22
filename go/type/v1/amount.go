@@ -39,14 +39,18 @@ func NewUndefinedAmount(value decimal.Decimal) *Amount {
 }
 
 func (x *Amount) Sub(y *Amount) *Amount {
-	if !x.GetToken().IsEqualTo(y.GetToken()) {
+	// FIXME: only check code and issuer for now, there seems to be an inconsistency with persisted ledger vs amount, or something, that is causing this check to give false positive
+	// See: https://meshtrade.slack.com/archives/C0393K91R26/p1752215411553709
+	if x.GetToken().GetCode() != y.GetToken().GetCode() || x.GetToken().GetIssuer() != y.GetToken().GetIssuer() {
 		panic(fmt.Sprintf("cannot do arithmetic on amounts of different token denominations: %s vs. %s", x.GetToken().PrettyString(), y.GetToken().PrettyString()))
 	}
 	return x.SetValue(x.GetValue().ToShopspring().Sub(y.GetValue().ToShopspring()))
 }
 
 func (x *Amount) Add(y *Amount) *Amount {
-	if !x.GetToken().IsEqualTo(y.GetToken()) {
+	// FIXME: only check code and issuer for now, there seems to be an inconsistency with persisted ledger vs amount, or something, that is causing this check to give false positive
+	// See: https://meshtrade.slack.com/archives/C0393K91R26/p1752215411553709
+	if x.GetToken().GetCode() != y.GetToken().GetCode() || x.GetToken().GetIssuer() != y.GetToken().GetIssuer() {
 		panic(fmt.Sprintf("cannot do arithmetic on amounts of different token denominations: %s vs. %s", x.GetToken().PrettyString(), y.GetToken().PrettyString()))
 	}
 	return x.SetValue(x.GetValue().ToShopspring().Add(y.GetValue().ToShopspring()))

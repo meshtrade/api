@@ -2,14 +2,12 @@ syntax = "proto3";
 
 package meshtrade.wallet.account.v1;
 
-import "buf/validate/validate.proto";
 import "meshtrade/option/v1/auth.proto";
 import "meshtrade/option/v1/service_type.proto";
 import "meshtrade/type/v1/ledger.proto";
 import "meshtrade/wallet/account/v1/account.proto";
 
 option go_package = "github.com/meshtrade/api/go/wallet/account/v1;accountv1";
-
 option (meshtrade.option.v1.standard_roles) = {
   roles: [
     ROLE_WALLET_ADMIN,
@@ -74,16 +72,12 @@ message CreateAccountRequest {
   /*
      A user-defined label for the new account, e.g., "Primary Savings".
   */
-  string label = 1 [
-    (buf.validate.field).required = true,
-    (buf.validate.field).string.min_len = 3,
-    (buf.validate.field).string.max_len = 50
-  ];
+  string label = 1;
 
   /*
      The ledger upon which the account should be created.
   */
-  meshtrade.type.v1.Ledger ledger = 2 [(buf.validate.field).enum.defined_only = true];
+  meshtrade.type.v1.Ledger ledger = 2;
 
   /*
      If true, the account will be opened immediately after creation, which
@@ -92,18 +86,13 @@ message CreateAccountRequest {
   bool open = 3;
 }
 
-
 /* GetAccountRequest specifies which account to retrieve. */
 message GetAccountRequest {
   /*
      The unique account number to retrieve.
   */
-  string number = 1 [
-    (buf.validate.field).required = true,
-    (buf.validate.field).string.len = 7
-  ];
+  string number = 1;
 }
-
 
 /* ListAccountsRequest requires no parameters to list accounts for the caller. */
 message ListAccountsRequest {}
@@ -121,11 +110,7 @@ message SearchAccountsRequest {
   /*
      A substring to search for within account labels.
   */
-  string label = 1 [
-    (buf.validate.field).required = false,
-    (buf.validate.field).string.min_len = 3,
-    (buf.validate.field).string.max_len = 50
-  ];
+  string label = 1;
 }
 
 /* SearchAccountsResponse contains the accounts that matched the search query. */

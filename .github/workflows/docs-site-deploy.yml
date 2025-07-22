@@ -1,10 +1,10 @@
 name: Deploy Docs Site
 
-# Triggers on tags like 'api-dev-v1.0', 'api-dev-v0.2-alpha'
+# Triggers on tags like v0.0.1
 on:
   push:
     tags:
-      - 'api-dev-v*'
+      - 'v*'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -33,17 +33,21 @@ jobs:
         with:
           ruby-version: '3.2'
           bundler-cache: true
+          working-directory: docs
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
       - name: Build with Jekyll
         # Outputs to the './_site' directory by default
         run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
+        working-directory: docs
         env:
           JEKYLL_ENV: production
       - name: Upload artifact
-        # Automatically uploads an artifact from the './_site' directory by default
+        # Uploads artifact from the 'docs/_site' directory
         uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/_site
 
   # Deployment job
   deploy:

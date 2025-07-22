@@ -4,3 +4,5 @@ __pycache__/
 *$py.class
 *pb2.py
 *pb2.pyi
+*pb2_grpc.py
+*pb2_grpc.pyi

@@ -1,8 +1,7 @@
-from typing import Dict
 
 from .ledger_pb2 import Ledger
 
-_ledger_decimal_places: Dict[Ledger, int] = {
+_ledger_decimal_places: dict[Ledger, int] = {
     Ledger.LEDGER_STELLAR: 7,
     Ledger.LEDGER_SA_STOCK_BROKERS: 2,
 }
