@@ -8,128 +8,144 @@ sidebar_position: 1
 
 This document describes the authoritative pattern we use for defining and enforcing Role-Based Access Control (RBAC) within the Mesh API.
 
-Our guiding principle is using the **Protobuf schema as the single source of truth** for all permissions and standard role definitions.
+Our guiding principle is using the **Protobuf schema as the single source of truth** for all authorization rules.
 
 This approach ensures our authorization rules are self-documenting, automatically verifiable, and always in sync with the API contract itself.
 
 ## Core Concepts
 
-Our authorization model is built on string-based permissions that are programmatically derived from the gRPC method path. This creates a highly consistent and predictable security model.
-
-The system works by establishing a direct link between an RPC endpoint and the permission required to call it, using a clear, structured format.
+Our authorization model is built on domain-level enum roles that provide clear, business-focused access control. This creates a highly consistent and predictable security model across all services.
 
 The model is built on these components:
 
-1.  **Permission Strings**: Permissions are strings that directly map to a service method. By convention, they are derived from the full gRPC method path (e.g., the path `/meshtrade.wallet.account.v1.Service/GetAccount` corresponds to the permission `meshtrade.wallet.account.v1.Service/GetAccount`).
-2.  **`RoleDefinition` Messages**: A structure that defines a "Standard Role" (e.g., "AccountAdmin", "AccountReader") by grouping a set of these method-path permission strings.
-3.  **Custom `MethodOptions`**: A special option we can attach to RPC methods to override the default behavior or assign roles.
-    * `required_permissions`: Used to explicitly list required permission strings, overriding the default path-derived permission.
-    * `required_roles`: Used to grant access based on a standard, high-level business role.
+1. **Domain-Level Roles**: Enum-based roles organized by business domain (e.g., `ROLE_TRADING_ADMIN`, `ROLE_IAM_VIEWER`)
+2. **Method-Level Authorization**: Each RPC method explicitly declares which roles can access it
+3. **Admin/Viewer Pattern**: Each domain has both administrative and read-only access levels
 
 ---
 
 ## How It Works
 
-Our system achieves schema-driven authorization by following a clear, three-part pattern: defining the authorization model, decorating our services with explicit permissions, and enforcing these rules at runtime.
+Our system achieves schema-driven authorization by following a clear, two-part pattern: centrally defining domain roles and decorating service methods with explicit role requirements.
 
-### 1. The Authorization Primitives Are Centrally Defined
+### 1. Domain Roles Are Centrally Defined
 
-The core options for decorating methods are defined in a central file.
+All authorization roles are defined as an enum in a central protobuf file.
 
-**File Location:** `proto/meshtrade/auth/v1/authorization.proto`
+**File Location:** `proto/meshtrade/option/v1/role.proto`
 ```protobuf
-// proto/meshtrade/auth/v1/authorization.proto
+// proto/meshtrade/option/v1/role.proto
 syntax = "proto3";
 
-package meshtrade.auth.v1;
+package meshtrade.option.v1;
 
 import "google/protobuf/descriptor.proto";
 
-// A message to define the structure of a standard, hardcoded role.
-// 'permissions' is a list of strings, where each string is a full gRPC method path.
-message RoleDefinition {
-  string name = 1;
-  repeated string permissions = 2;
-}
+enum Role {
+  ROLE_UNSPECIFIED = 0;
 
-// --- Custom Options ---
-
-// Option to explicitly list required permissions for a method.
-extend google.protobuf.MethodOptions {
-  repeated string required_permissions = 50001;
-}
-
-// Option to specify standard roles required for a method.
-extend google.protobuf.MethodOptions {
-  repeated string required_roles = 50002;
-}
-
-// File-level option to define a list of standard roles for a domain.
-extend google.protobuf.FileOptions {
-  repeated RoleDefinition standard_roles = 50003;
+  ROLE_WALLET_ADMIN = 1;
+  ROLE_WALLET_VIEWER = 2;
+  
+  ROLE_COMPLIANCE_ADMIN = 3;
+  ROLE_COMPLIANCE_VIEWER = 4;
+  
+  // ... additional domain roles
+  // See the complete list in proto/meshtrade/option/v1/role.proto
 }
 ```
 
-### 2. Standard Roles and Permissions Are Decorated in the Schema
+### 2. Service Methods Are Decorated with Role Requirements
 
-Standard business roles are defined using a file-level option, grouping the full gRPC method paths as permission strings. This keeps the role definitions close to the service they govern.
+Each RPC method explicitly declares which roles can access it using the `roles` option. There are no file-level or service level role declarations - authorization is controlled **entirely** at the method level.
 
-When an RPC method is defined, it implicitly has a required permission corresponding to its full path. We can use our custom options to assign roles for simpler access control on sensitive methods.
+**Example:** Here is how this pattern is applied within the API User service.
 
-**Example:** Here is how this pattern is applied within the Trading service.
-
-**File Location:** `proto/meshtrade/trading/v1/service.proto`
+**File Location:** `proto/meshtrade/iam/api_user/v1/service.proto`
 ```protobuf
-// proto/meshtrade/trading/v1/service.proto
-syntax = "proto3";
-
-package meshtrade.trading.v1;
-
-import "meshtrade/auth/v1/authorization.proto";
-
-// --- Standard Role Definitions for the Trading Service ---
-// Roles are defined locally, grouping permissions derived from full gRPC method paths.
-option (meshtrade.auth.v1.standard_roles) = [
-  {
-    name: "TradingAdmin",
-    permissions: [
-      "meshtrade.trading.v1.TradingService/GetOrder",
-      "meshtrade.trading.v1.TradingService/CreateOrder",
-      "meshtrade.trading.v1.TradingService/DeleteOrder"
-    ]
-  },
-  {
-    name: "TradingAuditor",
-    permissions: ["meshtrade.trading.v1.TradingService/GetOrder"]
+service ApiUserService {
+  // Read operations - can be accessed by both admin and viewer
+  rpc GetApiUser(GetApiUserRequest) returns (APIUser) {
+    option (meshtrade.option.v1.roles) = {
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_VIEWER
+      ]
+    };
   }
-];
 
-// ... message definitions ...
-
-service TradingService {
-  // Implicitly requires the "meshtrade.trading.v1.TradingService/GetOrder" permission.
-  rpc GetOrder(GetOrderRequest) returns (GetOrderResponse) {}
-
-  // Implicitly requires the "meshtrade.trading.v1.TradingService/CreateOrder" permission.
-  rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse) {}
-
-  // This destructive action is restricted to a standard role for cleaner access control.
-  rpc DeleteOrder(DeleteOrderRequest) returns (DeleteOrderResponse) {
-    option (meshtrade.auth.v1.required_roles) = ["TradingAdmin"];
+  // Write operations - can be accessed by admin only
+  rpc CreateApiUser(CreateApiUserRequest) returns (APIUser) {
+    option (meshtrade.option.v1.roles) = {
+      roles: [ROLE_IAM_ADMIN]
+    };
   }
 }
 ```
 
-### 3. Rules Are Enforced at Runtime
+## Authorization Patterns
 
-These schema definitions translate into permission control in our services. You will need to have been assigned a with the required permissions to call services.
+### Admin/Viewer Access Pattern
+
+Each domain follows a consistent two-tier access model:
+
+- **Admin Roles** (`*_ADMIN`): Full read and write access to all domain operations
+- **Viewer Roles** (`*_VIEWER`): Read-only access for monitoring and auditing
+
+**Example Access Patterns:**
+```protobuf
+// Read operations - can be accessed by both admin and viewer
+option (meshtrade.option.v1.roles) = {
+  roles: [
+    ROLE_IAM_ADMIN,
+    ROLE_IAM_VIEWER
+  ]
+};
+
+// Write operations - admin only
+option (meshtrade.option.v1.roles) = {
+  roles: [ROLE_IAM_ADMIN]
+};
+```
+
+### Domain Separation
+
+Roles are strictly separated by business domain:
+
+- **IAM Domain**: User and group management (`ROLE_IAM_*`)
+- **Trading Domain**: Order and market operations (`ROLE_TRADING_*`)
+- **Compliance Domain**: KYC and regulatory workflows (`ROLE_COMPLIANCE_*`)
+- **Wallet Domain**: Account and balance management (`ROLE_WALLET_*`)
+- ... additional domains
+
+For the complete list of domains and their roles, reference the enum definitions in `proto/meshtrade/option/v1/role.proto`.
+
+## Rules Are Enforced at Runtime
+
+These schema definitions translate into permission control in our services. API users must be assigned roles with the required permissions to call protected methods.
+
+The authorization system validates:
+1. **API Credential Authentication**: Valid API key presented as Bearer token
+2. **Group Context**: Valid group ID header establishing the execution context
+3. **Role Assignment**: API user has been granted the required domain role within the group
+4. **Method Permission**: The assigned role includes access to the specific RPC method
+
+### API Key Authentication
+
+Authentication uses API keys issued through the IAM system. The generated gRPC clients automatically handle authentication by:
+
+- Adding `Authorization: Bearer <api-key>` header to all requests
+- Including `x-group-id: <group-id>` header for multi-tenant context
+- Managing credentials through the `MESH_API_CREDENTIALS` environment file
+
+For implementation details, reference the authentication interceptor in the generated gRPC clients, such as `go/iam/api_user/v1/service_grpc_client.meshgo.go`.
 
 ## Benefits
 
 ### ✅ Single Source of Truth
 - Authorization rules live alongside the API definition
 - No separate configuration files to keep in sync
-- Permissions automatically derive from method paths
+- Role definitions are part of the protobuf contract
 
 ### ✅ Self-Documenting
 - Roles and permissions are visible in the schema
@@ -137,83 +153,19 @@ These schema definitions translate into permission control in our services. You 
 - Clear relationship between endpoints and required access
 
 ### ✅ Type Safety
-- Compile-time validation of role and permission names
+- Compile-time validation of role names
 - IDEs can provide autocomplete for available roles
 - Breaking changes to authorization are caught early
 
+### ✅ Domain-Focused Security
+- Business-aligned role names (Admin/Viewer per domain)
+- Clear separation between read and write operations  
+- Consistent access patterns across all services
+
 ### ✅ Automated Tooling
-- Code generation can create enforcement middleware
-- Static analysis can verify permission coverage
+- Code generation creates enforcement middleware
+- Static analysis can verify authorization coverage
 - CI/CD can validate authorization completeness
-
-## Best Practices
-
-### 1. Use Descriptive Role Names
-```protobuf
-// ✅ Good - Clear business intent
-option (standard_roles) = [
-  { name: "AccountReader", permissions: [...] },
-  { name: "AccountAdmin", permissions: [...] }
-];
-
-// ❌ Bad - Generic names
-option (standard_roles) = [
-  { name: "Role1", permissions: [...] },
-  { name: "SuperUser", permissions: [...] }
-];
-```
-
-### 2. Group Related Permissions
-```protobuf
-// ✅ Good - Logical grouping
-{
-  name: "TradingOperator",
-  permissions: [
-    "meshtrade.trading.v1.TradingService/GetOrder",
-    "meshtrade.trading.v1.TradingService/CreateOrder",
-    "meshtrade.trading.v1.TradingService/UpdateOrder"
-  ]
-}
-```
-
-### 3. Use Roles for High-Level Access
-```protobuf
-// ✅ Good - Use roles for business functions
-rpc DeleteOrder(DeleteOrderRequest) returns (DeleteOrderResponse) {
-  option (required_roles) = ["TradingAdmin"];
-}
-
-// ✅ Also good - Use permissions for granular control
-rpc GetOrderHistory(GetOrderHistoryRequest) returns (GetOrderHistoryResponse) {
-  option (required_permissions) = ["custom.permission.name"];
-}
-```
-
-### 4. Document Role Hierarchies
-```protobuf
-// Standard roles with clear hierarchy
-option (standard_roles) = [
-  // Read-only access
-  { name: "TradingViewer", permissions: ["...GetOrder"] },
-  
-  // Operator can view and create
-  { name: "TradingOperator", permissions: ["...GetOrder", "...CreateOrder"] },
-  
-  // Admin has full control
-  { name: "TradingAdmin", permissions: ["...GetOrder", "...CreateOrder", "...DeleteOrder"] }
-];
-```
-
-## Migration Guide
-
-If you're moving from external authorization systems to schema-driven authorization:
-
-1. **Audit existing permissions** - List all current roles and permissions
-2. **Map to gRPC methods** - Create mapping from permissions to method paths
-3. **Define standard roles** - Group related permissions into business roles
-4. **Add schema annotations** - Decorate your proto files with the new options
-5. **Update enforcement code** - Modify middleware to use schema-defined rules
-6. **Validate coverage** - Ensure all methods have appropriate authorization
 
 ## Related Documentation
 

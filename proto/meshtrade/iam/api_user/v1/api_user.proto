@@ -6,12 +6,6 @@ import "buf/validate/validate.proto";
 import "meshtrade/option/v1/role.proto";
 
 option go_package = "github.com/meshtrade/api/go/iam/api_user/v1;api_userv1";
-option (meshtrade.option.v1.standard_roles) = {
-  roles: [
-    ROLE_IAM_ADMIN,
-    ROLE_IAM_VIEWER
-  ]
-};
 
 message APIUser {
   /*
@@ -24,16 +18,46 @@ message APIUser {
   /*
      The resource name of the group that owns this api user in the format groups/{group_id}.
      This field establishes the ownership link.
+     NOTE: owner must be set to executing group context.
      Required on creation.
   */
-  string owner = 2;
+  string owner = 2 [(buf.validate.field) = {
+    string: {
+      min_len: 1
+      pattern: "^groups/[a-zA-Z0-9]([a-zA-Z0-9_-]*[a-zA-Z0-9])?$"
+    }
+    cel: {
+      id: "owner.required"
+      message: "owner is required and must be in format groups/{group_id}"
+      expression: "size(this) > 0"
+    }
+    cel: {
+      id: "owner.format"
+      message: "owner must be in format groups/{group_id} where group_id contains only alphanumeric characters, underscores, and hyphens"
+      expression: "this.matches('^groups/[a-zA-Z0-9]([a-zA-Z0-9_-]*[a-zA-Z0-9])?$')"
+    }
+  }];
 
   /*
-     The resource name of the group that owns this api user in the format groups/{group_id}.
-     This field establishes the ownership link.
-     Required on creation.
+     List of resource names of groups that have ownership access to this api user in the format groups/{group_id}.
+     This field supports multi-group ownership scenarios.
+     System set on creation based on the owner field.
   */
-  repeated string owners = 3;
+  repeated string owners = 3 [(buf.validate.field) = {
+    repeated: {
+      items: {
+        string: {
+          min_len: 1
+          pattern: "^groups/[a-zA-Z0-9]([a-zA-Z0-9_-]*[a-zA-Z0-9])?$"
+        }
+      }
+    }
+    cel: {
+      id: "owners.format"
+      message: "each owner must be in format groups/{group_id} where group_id contains only alphanumeric characters, underscores, and hyphens"
+      expression: "size(this) == 0 || this.all(owner, owner.matches('^groups/[a-zA-Z0-9]([a-zA-Z0-9_-]*[a-zA-Z0-9])?$'))"
+    }
+  }];
 
   /*
      A non-unique, user-provided name for the api key, used for display purposes.
@@ -52,37 +76,37 @@ message APIUser {
   }];
 
   /*
-     The state of the api user.
+     The current state of the API user (active or inactive).
+     System set on creation.
   */
   meshtrade.iam.api_user.v1.APIUserState state = 5 [(buf.validate.field) = {
-    enum: {
-      defined_only: true
-      not_in: [0]
-    }
+    enum: {defined_only: true}
     cel: {
-      id: "state.required"
-      message: "state is required and must be a valid state value (not UNSPECIFIED)"
-      expression: "int(this) != 0"
+      id: "state.valid"
+      message: "state must be a valid APIUserState if specified"
+      expression: "int(this) == 0 || (int(this) >= 1 && int(this) <= 2)"
     }
   }];
 
   /*
-     Roles granted to the api api user.
+     Roles granted to the API user.
      The API user can use these roles in the appointed owner group.
+     Can be empty (0 roles), but if roles are specified, they must be valid.
   */
-  repeated meshtrade.option.v1.Role roles = 6;
+  repeated meshtrade.option.v1.Role roles = 6 [(buf.validate.field) = {
+    repeated: {
+      items: {
+        enum: {defined_only: true}
+      }
+    }
+  }];
 
   /*
-     API key for the API user.
-     This field is only populated on creation and is not stored.
+     The plaintext API key for the API user.
+     This field is only populated on the entity the first time it is returned after creation - it is NOT stored.
+     Populated once by system on creation.
   */
   string api_key = 7;
-
-  /*
-     Hashed version of the API key for storage and lookup.
-     System set on creation.
-  */
-  string key_hash = 8;
 }
 
 enum APIUserState {

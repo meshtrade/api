@@ -76,9 +76,7 @@ const file_meshtrade_trading_spot_v1_service_proto_rawDesc = "" +
 	"\vSpotService\x12c\n" +
 	"\aGetSpot\x12).meshtrade.trading.spot.v1.GetSpotRequest\x1a\x1f.meshtrade.trading.spot.v1.Spot\"\f\xa0\xb5\x18\x01\xaa\xb5\x18\x04\n" +
 	"\x02\t\n" +
-	"B<\x9a\xb5\x18\x04\n" +
-	"\x02\t\n" +
-	"Z2github.com/meshtrade/api/go/trading/spot/v1;spotv1b\x06proto3"
+	"B4Z2github.com/meshtrade/api/go/trading/spot/v1;spotv1b\x06proto3"
 
 var (
 	file_meshtrade_trading_spot_v1_service_proto_rawDescOnce sync.Once

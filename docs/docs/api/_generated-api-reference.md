@@ -1102,13 +1102,12 @@ This method is useful for fetching multiple client records at once. Note: This e
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | name | [string](#string) |  | The unique, immutable, and canonical name of the api user resource in the format api_users/{api_user_id}. The {api_user_id} is a system-generated unique identifier (e.g., UUID) that will never change. System set on creation. |
-| owner | [string](#string) |  | The resource name of the group that owns this api user in the format groups/{group_id}. This field establishes the ownership link. Required on creation. |
-| owners | [string](#string) | repeated | The resource name of the group that owns this api user in the format groups/{group_id}. This field establishes the ownership link. Required on creation. |
+| owner | [string](#string) |  | The resource name of the group that owns this api user in the format groups/{group_id}. This field establishes the ownership link. NOTE: owner must be set to executing group context. Required on creation. |
+| owners | [string](#string) | repeated | List of resource names of groups that have ownership access to this api user in the format groups/{group_id}. This field supports multi-group ownership scenarios. System set on creation based on the owner field. |
 | display_name | [string](#string) |  | A non-unique, user-provided name for the api key, used for display purposes. Required on creation. |
-| state | [APIUserState](#meshtrade-iam-api_user-v1-APIUserState) |  | The state of the api user. |
-| roles | [meshtrade.option.v1.Role](#meshtrade-option-v1-Role) | repeated | Roles granted to the api api user. The API user can use these roles in the appointed owner group. |
-| api_key | [string](#string) |  | API key for the API user. This field is only populated on creation and is not stored. |
-| key_hash | [string](#string) |  | Hashed version of the API key for storage and lookup. System set on creation. |
+| state | [APIUserState](#meshtrade-iam-api_user-v1-APIUserState) |  | The current state of the API user (active or inactive). System set on creation. |
+| roles | [meshtrade.option.v1.Role](#meshtrade-option-v1-Role) | repeated | Roles granted to the API user. The API user can use these roles in the appointed owner group. Can be empty (0 roles), but if roles are specified, they must be valid. |
+| api_key | [string](#string) |  | The plaintext API key for the API user. This field is only populated on the entity the first time it is returned after creation - it is NOT stored. Populated once by system on creation. |
 
 
 

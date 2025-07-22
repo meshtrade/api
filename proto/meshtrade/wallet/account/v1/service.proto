@@ -8,12 +8,6 @@ import "meshtrade/type/v1/ledger.proto";
 import "meshtrade/wallet/account/v1/account.proto";
 
 option go_package = "github.com/meshtrade/api/go/wallet/account/v1;accountv1";
-option (meshtrade.option.v1.standard_roles) = {
-  roles: [
-    ROLE_WALLET_ADMIN,
-    ROLE_WALLET_VIEWER
-  ]
-};
 
 /*
    AccountService provides access to and management of wallet accounts.

@@ -17,22 +17,22 @@ import (
 	"google.golang.org/grpc/metadata"
 )
 
-// InstrumentServiceGRPCClient is a production-ready gRPC client for the InstrumentService service.
+// InstrumentServiceGRPCClient is a gRPC client for the InstrumentService service.
 // It combines the service interface with resource management capabilities, providing
-// enterprise-grade features including authentication, timeouts, tracing, and connection pooling.
+// authentication, timeouts, and tracing.
 //
 // Features:
-//   - Automatic authentication via API key or access token cookies with group ID support
+//   - Automatic authentication via API key with group ID support
 //   - Credentials file loading from MESH_API_CREDENTIALS environment variable
-//   - Configurable request timeouts with smart deadline handling
+//   - Configurable request timeouts with deadline handling
 //   - OpenTelemetry distributed tracing support
-//   - TLS/mTLS support with configurable transport credentials
+//   - TLS support with configurable transport credentials
 //   - Proper resource cleanup with Close() method
-//   - Production-ready connection management
+//   - Proper connection management
 //
 // Thread Safety:
 //
-//	This client is safe for concurrent use by multiple goroutines.
+//	This client uses gRPC's thread-safe underlying connections.
 //
 // Example usage:
 //
@@ -46,7 +46,7 @@ import (
 //	}
 //	defer client.Close()
 //
-//	response, err := client.SomeMethod(context.Background(), &request)
+//	// Use client methods as defined in the service interface
 type InstrumentServiceGRPCClient interface {
 	InstrumentService
 	common.GRPCClient
@@ -66,13 +66,12 @@ type instrumentServiceGRPCClient struct {
 	grpcClient              InstrumentServiceClient
 	tracer                  trace.Tracer
 	apiKey                  string
-	accessTokenCookie       string
 	groupID                 string
 	timeout                 time.Duration
 	unaryClientInterceptors []grpc.UnaryClientInterceptor
 }
 
-// NewInstrumentServiceGRPCClient creates a new production-ready gRPC client for the InstrumentService service.
+// NewInstrumentServiceGRPCClient creates a new gRPC client for the InstrumentService service.
 // The client is configured using functional options and automatically handles connection
 // management, authentication, timeouts, and distributed tracing.
 //
@@ -105,7 +104,7 @@ type instrumentServiceGRPCClient struct {
 //
 // Thread Safety:
 //
-//	The returned client is safe for concurrent use by multiple goroutines.
+//	The returned client uses gRPC's thread-safe underlying connections.
 func NewInstrumentServiceGRPCClient(opts ...ClientOption) (InstrumentServiceGRPCClient, error) {
 	// prepare client with default configuration
 	client := &instrumentServiceGRPCClient{
@@ -171,7 +170,7 @@ func NewInstrumentServiceGRPCClient(opts ...ClientOption) (InstrumentServiceGRPC
 }
 
 // GetInstrument executes the GetInstrument RPC method on the InstrumentService service.
-// This method automatically handles authentication, timeouts, distributed tracing, and error propagation.
+// This method automatically handles authentication, timeouts, and distributed tracing.
 //
 // Timeout Behavior:
 //   - If the context already has a deadline, it will be respected
@@ -179,13 +178,12 @@ func NewInstrumentServiceGRPCClient(opts ...ClientOption) (InstrumentServiceGRPC
 //   - The method will be cancelled if the timeout is exceeded
 //
 // Authentication:
-//   - Automatically includes API key or access token in request headers
+//   - Automatically includes API key in request headers
 //   - Authentication is configured during client creation
 //
 // Distributed Tracing:
 //   - Creates a new span for this method call
 //   - Span is automatically finished when the method returns
-//   - Errors are recorded in the span
 //
 // Parameters:
 //   - ctx: Context for the request (can include custom timeout, tracing, etc.)
@@ -217,7 +215,7 @@ func (s *instrumentServiceGRPCClient) GetInstrument(ctx context.Context, request
 	)
 	defer span.End()
 
-	// call given implementation of the adapted service provider interface
+	// call the underlying gRPC client method
 	getInstrumentResponse, err := s.grpcClient.GetInstrument(ctx, request)
 	if err != nil {
 		return nil, err
@@ -227,7 +225,7 @@ func (s *instrumentServiceGRPCClient) GetInstrument(ctx context.Context, request
 }
 
 // MintInstrument executes the MintInstrument RPC method on the InstrumentService service.
-// This method automatically handles authentication, timeouts, distributed tracing, and error propagation.
+// This method automatically handles authentication, timeouts, and distributed tracing.
 //
 // Timeout Behavior:
 //   - If the context already has a deadline, it will be respected
@@ -235,13 +233,12 @@ func (s *instrumentServiceGRPCClient) GetInstrument(ctx context.Context, request
 //   - The method will be cancelled if the timeout is exceeded
 //
 // Authentication:
-//   - Automatically includes API key or access token in request headers
+//   - Automatically includes API key in request headers
 //   - Authentication is configured during client creation
 //
 // Distributed Tracing:
 //   - Creates a new span for this method call
 //   - Span is automatically finished when the method returns
-//   - Errors are recorded in the span
 //
 // Parameters:
 //   - ctx: Context for the request (can include custom timeout, tracing, etc.)
@@ -273,7 +270,7 @@ func (s *instrumentServiceGRPCClient) MintInstrument(ctx context.Context, reques
 	)
 	defer span.End()
 
-	// call given implementation of the adapted service provider interface
+	// call the underlying gRPC client method
 	mintInstrumentResponse, err := s.grpcClient.MintInstrument(ctx, request)
 	if err != nil {
 		return nil, err
@@ -283,7 +280,7 @@ func (s *instrumentServiceGRPCClient) MintInstrument(ctx context.Context, reques
 }
 
 // BurnInstrument executes the BurnInstrument RPC method on the InstrumentService service.
-// This method automatically handles authentication, timeouts, distributed tracing, and error propagation.
+// This method automatically handles authentication, timeouts, and distributed tracing.
 //
 // Timeout Behavior:
 //   - If the context already has a deadline, it will be respected
@@ -291,13 +288,12 @@ func (s *instrumentServiceGRPCClient) MintInstrument(ctx context.Context, reques
 //   - The method will be cancelled if the timeout is exceeded
 //
 // Authentication:
-//   - Automatically includes API key or access token in request headers
+//   - Automatically includes API key in request headers
 //   - Authentication is configured during client creation
 //
 // Distributed Tracing:
 //   - Creates a new span for this method call
 //   - Span is automatically finished when the method returns
-//   - Errors are recorded in the span
 //
 // Parameters:
 //   - ctx: Context for the request (can include custom timeout, tracing, etc.)
@@ -329,7 +325,7 @@ func (s *instrumentServiceGRPCClient) BurnInstrument(ctx context.Context, reques
 	)
 	defer span.End()
 
-	// call given implementation of the adapted service provider interface
+	// call the underlying gRPC client method
 	burnInstrumentResponse, err := s.grpcClient.BurnInstrument(ctx, request)
 	if err != nil {
 		return nil, err
@@ -373,14 +369,13 @@ func (s *instrumentServiceGRPCClient) Close() error {
 //
 // Supported Authentication Methods:
 //   - API Key: Set via WithAPIKey() option or MESH_API_CREDENTIALS file
-//   - Access Token Cookie: Set via WithAccessTokenCookie() option
 //
 // Returns:
 //   - nil: If authentication and group ID are properly configured
 //   - error: If authentication method or group ID is missing
 func (c *instrumentServiceGRPCClient) validateAuth() error {
-	if c.apiKey == "" && c.accessTokenCookie == "" {
-		return errors.New("neither api key nor access token cookie set. set credentials via MESH_API_CREDENTIALS file, or use WithAPIKey/WithAccessTokenCookie options")
+	if c.apiKey == "" {
+		return errors.New("api key not set. set credentials via MESH_API_CREDENTIALS file, or use WithAPIKey option")
 	}
 	if c.groupID == "" {
 		return errors.New("group id not set. set via MESH_API_CREDENTIALS file or WithGroup option")
@@ -388,14 +383,12 @@ func (c *instrumentServiceGRPCClient) validateAuth() error {
 	return nil
 }
 
-// authInterceptor creates and returns the appropriate gRPC unary interceptor for authentication.
-// This interceptor automatically adds authentication and group ID headers to all outgoing requests
-// based on the configured authentication method (API key takes precedence over access token cookie).
+// authInterceptor creates and returns the gRPC unary interceptor for authentication.
+// This interceptor automatically adds authentication and group ID headers to all outgoing requests.
 //
 // Headers Added:
 //   - API Key: "Authorization: Bearer <api-key>" header
-//   - Access Token Cookie: "Cookie: AccessToken=<token>" header
-//   - Group ID: "x-group-id: <group-id>" header (always included)
+//   - Group ID: "x-group-id: <group-id>" header
 //
 // The interceptor is automatically applied to all method calls and handles the
 // authentication and authorization context transparently without requiring manual header management.
@@ -403,24 +396,11 @@ func (c *instrumentServiceGRPCClient) validateAuth() error {
 // Returns:
 //   - grpc.UnaryClientInterceptor: Configured authentication and group context interceptor
 func (c *instrumentServiceGRPCClient) authInterceptor() grpc.UnaryClientInterceptor {
-	if c.apiKey != "" {
-		return func(ctx context.Context, method string, req, reply any, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
-			ctx = metadata.AppendToOutgoingContext(
-				ctx,
-				common.AuthorizationHeaderKey,
-				common.BearerPrefix+c.apiKey,
-				common.GroupIDHeaderKey,
-				c.groupID,
-			)
-			return invoker(ctx, method, req, reply, cc, opts...)
-		}
-	}
-
 	return func(ctx context.Context, method string, req, reply any, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
 		ctx = metadata.AppendToOutgoingContext(
 			ctx,
-			common.CookieHeaderKey,
-			common.AccessTokenPrefix+c.accessTokenCookie,
+			common.AuthorizationHeaderKey,
+			common.BearerPrefix+c.apiKey,
 			common.GroupIDHeaderKey,
 			c.groupID,
 		)

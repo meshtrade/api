@@ -76,9 +76,7 @@ const file_meshtrade_trading_limit_order_v1_service_proto_rawDesc = "" +
 	"\x11LimitOrderService\x12\x83\x01\n" +
 	"\rGetLimitOrder\x126.meshtrade.trading.limit_order.v1.GetLimitOrderRequest\x1a,.meshtrade.trading.limit_order.v1.LimitOrder\"\f\xa0\xb5\x18\x01\xaa\xb5\x18\x04\n" +
 	"\x02\t\n" +
-	"BI\x9a\xb5\x18\x04\n" +
-	"\x02\t\n" +
-	"Z?github.com/meshtrade/api/go/trading/limit_order/v1;limitorderv1b\x06proto3"
+	"BAZ?github.com/meshtrade/api/go/trading/limit_order/v1;limitorderv1b\x06proto3"
 
 var (
 	file_meshtrade_trading_limit_order_v1_service_proto_rawDescOnce sync.Once

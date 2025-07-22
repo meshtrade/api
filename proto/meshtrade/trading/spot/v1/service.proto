@@ -7,12 +7,6 @@ import "meshtrade/option/v1/role.proto";
 import "meshtrade/option/v1/method_type.proto";
 
 option go_package = "github.com/meshtrade/api/go/trading/spot/v1;spotv1";
-option (meshtrade.option.v1.standard_roles) = {
-  roles: [
-    ROLE_TRADING_ADMIN,
-    ROLE_TRADING_VIEWER
-  ]
-};
 
 service SpotService {
   rpc GetSpot(GetSpotRequest) returns (meshtrade.trading.spot.v1.Spot) {

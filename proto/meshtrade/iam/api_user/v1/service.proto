@@ -8,12 +8,6 @@ import "meshtrade/option/v1/method_type.proto";
 import "meshtrade/option/v1/role.proto";
 
 option go_package = "github.com/meshtrade/api/go/iam/api_user/v1;api_userv1";
-option (meshtrade.option.v1.standard_roles) = {
-  roles: [
-    ROLE_IAM_ADMIN,
-    ROLE_IAM_VIEWER
-  ]
-};
 
 service ApiUserService {
   /*

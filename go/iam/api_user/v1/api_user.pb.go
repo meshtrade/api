@@ -145,26 +145,27 @@ type APIUser struct {
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// The resource name of the group that owns this api user in the format groups/{group_id}.
 	// This field establishes the ownership link.
+	// NOTE: owner must be set to executing group context.
 	// Required on creation.
 	Owner string `protobuf:"bytes,2,opt,name=owner,proto3" json:"owner,omitempty"`
-	// The resource name of the group that owns this api user in the format groups/{group_id}.
-	// This field establishes the ownership link.
-	// Required on creation.
+	// List of resource names of groups that have ownership access to this api user in the format groups/{group_id}.
+	// This field supports multi-group ownership scenarios.
+	// System set on creation based on the owner field.
 	Owners []string `protobuf:"bytes,3,rep,name=owners,proto3" json:"owners,omitempty"`
 	// A non-unique, user-provided name for the api key, used for display purposes.
 	// Required on creation.
 	DisplayName string `protobuf:"bytes,4,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
-	// The state of the api user.
-	State APIUserState `protobuf:"varint,5,opt,name=state,proto3,enum=meshtrade.iam.api_user.v1.APIUserState" json:"state,omitempty"`
-	// Roles granted to the api api user.
-	// The API user can use these roles in the appointed owner group.
-	Roles []v1.Role `protobuf:"varint,6,rep,packed,name=roles,proto3,enum=meshtrade.option.v1.Role" json:"roles,omitempty"`
-	// API key for the API user.
-	// This field is only populated on creation and is not stored.
-	ApiKey string `protobuf:"bytes,7,opt,name=api_key,json=apiKey,proto3" json:"api_key,omitempty"`
-	// Hashed version of the API key for storage and lookup.
+	// The current state of the API user (active or inactive).
 	// System set on creation.
-	KeyHash       string `protobuf:"bytes,8,opt,name=key_hash,json=keyHash,proto3" json:"key_hash,omitempty"`
+	State APIUserState `protobuf:"varint,5,opt,name=state,proto3,enum=meshtrade.iam.api_user.v1.APIUserState" json:"state,omitempty"`
+	// Roles granted to the API user.
+	// The API user can use these roles in the appointed owner group.
+	// Can be empty (0 roles), but if roles are specified, they must be valid.
+	Roles []v1.Role `protobuf:"varint,6,rep,packed,name=roles,proto3,enum=meshtrade.option.v1.Role" json:"roles,omitempty"`
+	// The plaintext API key for the API user.
+	// This field is only populated on the entity the first time it is returned after creation - it is NOT stored.
+	// Populated once by system on creation.
+	ApiKey        string `protobuf:"bytes,7,opt,name=api_key,json=apiKey,proto3" json:"api_key,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -248,29 +249,25 @@ func (x *APIUser) GetApiKey() string {
 	return ""
 }
 
-func (x *APIUser) GetKeyHash() string {
-	if x != nil {
-		return x.KeyHash
-	}
-	return ""
-}
-
 var File_meshtrade_iam_api_user_v1_api_user_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_api_user_v1_api_user_proto_rawDesc = "" +
 	"\n" +
-	"(meshtrade/iam/api_user/v1/api_user.proto\x12\x19meshtrade.iam.api_user.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1emeshtrade/option/v1/role.proto\"\x98\x04\n" +
+	"(meshtrade/iam/api_user/v1/api_user.proto\x12\x19meshtrade.iam.api_user.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1emeshtrade/option/v1/role.proto\"\xbf\t\n" +
 	"\aAPIUser\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +
-	"\x05owner\x18\x02 \x01(\tR\x05owner\x12\x16\n" +
-	"\x06owners\x18\x03 \x03(\tR\x06owners\x12\xb1\x01\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\xfd\x02\n" +
+	"\x05owner\x18\x02 \x01(\tB\xe6\x02\xbaH\xe2\x02\xba\x01[\n" +
+	"\x0eowner.required\x129owner is required and must be in format groups/{group_id}\x1a\x0esize(this) > 0\xba\x01\xca\x01\n" +
+	"\fowner.format\x12xowner must be in format groups/{group_id} where group_id contains only alphanumeric characters, underscores, and hyphens\x1a@this.matches('^groups/[a-zA-Z0-9]([a-zA-Z0-9_-]*[a-zA-Z0-9])?$')r4\x10\x0120^groups/[a-zA-Z0-9]([a-zA-Z0-9_-]*[a-zA-Z0-9])?$R\x05owner\x12\xd1\x02\n" +
+	"\x06owners\x18\x03 \x03(\tB\xb8\x02\xbaH\xb4\x02\xba\x01\xf5\x01\n" +
+	"\rowners.format\x12}each owner must be in format groups/{group_id} where group_id contains only alphanumeric characters, underscores, and hyphens\x1aesize(this) == 0 || this.all(owner, owner.matches('^groups/[a-zA-Z0-9]([a-zA-Z0-9_-]*[a-zA-Z0-9])?$'))\x92\x018\"6r4\x10\x0120^groups/[a-zA-Z0-9]([a-zA-Z0-9_-]*[a-zA-Z0-9])?$R\x06owners\x12\xb1\x01\n" +
 	"\fdisplay_name\x18\x04 \x01(\tB\x8d\x01\xbaH\x89\x01\xba\x01\x7f\n" +
-	"\x15display_name.required\x12Adisplay name is required and must be between 1 and 255 characters\x1a#size(this) > 0 && size(this) <= 255r\x05\x10\x01\x18\xff\x01R\vdisplayName\x12\xb1\x01\n" +
-	"\x05state\x18\x05 \x01(\x0e2'.meshtrade.iam.api_user.v1.APIUserStateBr\xbaHo\xba\x01e\n" +
-	"\x0estate.required\x12Cstate is required and must be a valid state value (not UNSPECIFIED)\x1a\x0eint(this) != 0\x82\x01\x04\x10\x01 \x00R\x05state\x12/\n" +
-	"\x05roles\x18\x06 \x03(\x0e2\x19.meshtrade.option.v1.RoleR\x05roles\x12\x17\n" +
-	"\aapi_key\x18\a \x01(\tR\x06apiKey\x12\x19\n" +
-	"\bkey_hash\x18\b \x01(\tR\akeyHash*f\n" +
+	"\x15display_name.required\x12Adisplay name is required and must be between 1 and 255 characters\x1a#size(this) > 0 && size(this) <= 255r\x05\x10\x01\x18\xff\x01R\vdisplayName\x12\xbe\x01\n" +
+	"\x05state\x18\x05 \x01(\x0e2'.meshtrade.iam.api_user.v1.APIUserStateB\x7f\xbaH|\xba\x01t\n" +
+	"\vstate.valid\x12/state must be a valid APIUserState if specified\x1a4int(this) == 0 || (int(this) >= 1 && int(this) <= 2)\x82\x01\x02\x10\x01R\x05state\x12>\n" +
+	"\x05roles\x18\x06 \x03(\x0e2\x19.meshtrade.option.v1.RoleB\r\xbaH\n" +
+	"\x92\x01\a\"\x05\x82\x01\x02\x10\x01R\x05roles\x12\x17\n" +
+	"\aapi_key\x18\a \x01(\tR\x06apiKey*f\n" +
 	"\fAPIUserState\x12\x1e\n" +
 	"\x1aAPI_USER_STATE_UNSPECIFIED\x10\x00\x12\x19\n" +
 	"\x15API_USER_STATE_ACTIVE\x10\x01\x12\x1b\n" +
@@ -280,8 +277,7 @@ const file_meshtrade_iam_api_user_v1_api_user_proto_rawDesc = "" +
 	"\x18API_USER_ACTION_ACTIVATE\x10\x01\x12\x1e\n" +
 	"\x1aAPI_USER_ACTION_DEACTIVATE\x10\x02\x12\x1a\n" +
 	"\x16API_USER_ACTION_CREATE\x10\x03\x12\x1a\n" +
-	"\x16API_USER_ACTION_UPDATE\x10\x04B@\x9a\xb5\x18\x04\n" +
-	"\x02\x05\x06Z6github.com/meshtrade/api/go/iam/api_user/v1;api_userv1b\x06proto3"
+	"\x16API_USER_ACTION_UPDATE\x10\x04B8Z6github.com/meshtrade/api/go/iam/api_user/v1;api_userv1b\x06proto3"
 
 var (
 	file_meshtrade_iam_api_user_v1_api_user_proto_rawDescOnce sync.Once

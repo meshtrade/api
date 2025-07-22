@@ -94,8 +94,6 @@ func WithPort(port int) ClientOption {
 // IMPORTANT: When using API key authentication, you must also specify a group ID
 // using WithGroup() or load from credentials file via MESH_API_CREDENTIALS.
 //
-// The API key takes precedence over access token cookies if both are configured.
-//
 // Parameter:
 //   - apiKey: The API key string (without "Bearer " prefix)
 //
@@ -108,30 +106,6 @@ func WithPort(port int) ClientOption {
 func WithAPIKey(apiKey string) ClientOption {
 	return func(c *userServiceGRPCClient) {
 		c.apiKey = apiKey
-	}
-}
-
-// WithAccessTokenCookie configures cookie-based authentication for the gRPC client.
-// The access token will be sent as a cookie in the Cookie header as "AccessToken=value".
-// This authentication method is typically used for user-facing applications.
-//
-// IMPORTANT: When using access token cookie authentication, you must also specify a group ID
-// using WithGroup() as group information cannot be loaded from credentials file.
-//
-// If both API key and access token cookie are configured, the API key takes precedence.
-//
-// Parameter:
-//   - accessToken: The access token string (without "AccessToken=" prefix)
-//
-// Example:
-//
-//	client, err := NewUserServiceGRPCClient(
-//	    WithAccessTokenCookie("your-access-token-here"),
-//	    WithGroup("your-group-id"),
-//	)
-func WithAccessTokenCookie(accessToken string) ClientOption {
-	return func(c *userServiceGRPCClient) {
-		c.accessTokenCookie = accessToken
 	}
 }
 

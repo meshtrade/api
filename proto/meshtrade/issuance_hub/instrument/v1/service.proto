@@ -8,12 +8,6 @@ import "meshtrade/option/v1/role.proto";
 import "meshtrade/option/v1/method_type.proto";
 
 option go_package = "github.com/meshtrade/api/go/issuance_hub/instrument/v1;instrumentv1";
-option (meshtrade.option.v1.standard_roles) = {
-  roles: [
-    ROLE_ISSUANCE_HUB_ADMIN,
-    ROLE_ISSUANCE_HUB_VIEWER
-  ]
-};
 
 // Service defines the RPC methods for interacting with the instrument resource,
 // such as creating, updating, minting or burning it.

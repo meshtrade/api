@@ -314,8 +314,7 @@ const file_meshtrade_issuance_hub_instrument_v1_service_proto_rawDesc = "" +
 	"\x0eMintInstrument\x12;.meshtrade.issuance_hub.instrument.v1.MintInstrumentRequest\x1a<.meshtrade.issuance_hub.instrument.v1.MintInstrumentResponse\"\v\xa0\xb5\x18\x02\xaa\xb5\x18\x03\n" +
 	"\x01\a\x12\x98\x01\n" +
 	"\x0eBurnInstrument\x12;.meshtrade.issuance_hub.instrument.v1.BurnInstrumentRequest\x1a<.meshtrade.issuance_hub.instrument.v1.BurnInstrumentResponse\"\v\xa0\xb5\x18\x02\xaa\xb5\x18\x03\n" +
-	"\x01\aBM\x9a\xb5\x18\x04\n" +
-	"\x02\a\bZCgithub.com/meshtrade/api/go/issuance_hub/instrument/v1;instrumentv1b\x06proto3"
+	"\x01\aBEZCgithub.com/meshtrade/api/go/issuance_hub/instrument/v1;instrumentv1b\x06proto3"
 
 var (
 	file_meshtrade_issuance_hub_instrument_v1_service_proto_rawDescOnce sync.Once

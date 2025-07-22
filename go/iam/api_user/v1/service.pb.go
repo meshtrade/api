@@ -457,8 +457,7 @@ const file_meshtrade_iam_api_user_v1_service_proto_rawDesc = "" +
 	"\x11DeactivateApiUser\x123.meshtrade.iam.api_user.v1.DeactivateApiUserRequest\x1a\".meshtrade.iam.api_user.v1.APIUser\"\v\xa0\xb5\x18\x02\xaa\xb5\x18\x03\n" +
 	"\x01\x05\x12~\n" +
 	"\x13GetApiUserByKeyHash\x125.meshtrade.iam.api_user.v1.GetApiUserByKeyHashRequest\x1a\".meshtrade.iam.api_user.v1.APIUser\"\f\xa0\xb5\x18\x01\xaa\xb5\x18\x04\n" +
-	"\x02\x05\x06B@\x9a\xb5\x18\x04\n" +
-	"\x02\x05\x06Z6github.com/meshtrade/api/go/iam/api_user/v1;api_userv1b\x06proto3"
+	"\x02\x05\x06B8Z6github.com/meshtrade/api/go/iam/api_user/v1;api_userv1b\x06proto3"
 
 var (
 	file_meshtrade_iam_api_user_v1_service_proto_rawDescOnce sync.Once
