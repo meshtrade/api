@@ -42,16 +42,6 @@ yarn build
 cd ..
 echo
 
-echo "📖 Copying API documentation to docs site..."
-if [ -f "proto/api_doc.md" ]; then
-    # Copy to docs directory and create a partial that can be included
-    cp proto/api_doc.md docs/docs/api/_generated-api-reference.md
-    echo "✅ API documentation copied to docs/docs/api/_generated-api-reference.md"
-else
-    echo "⚠️  Warning: proto/api_doc.md not found. Make sure buf generate completed successfully."
-fi
-echo
-
 echo "############################################################"
 echo "#                                                          #"
 echo "#  🎉 Done! All code generation is complete!  -\(^-^)/-    #"
