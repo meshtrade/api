@@ -22,7 +22,8 @@ import (
 // enterprise-grade features including authentication, timeouts, tracing, and connection pooling.
 //
 // Features:
-//   - Automatic authentication via API key or access token cookies
+//   - Automatic authentication via API key or access token cookies with group ID support
+//   - Credentials file loading from MESH_API_CREDENTIALS environment variable
 //   - Configurable request timeouts with smart deadline handling
 //   - OpenTelemetry distributed tracing support
 //   - TLS/mTLS support with configurable transport credentials
@@ -37,6 +38,7 @@ import (
 //
 //	client, err := NewAccountServiceGRPCClient(
 //		WithAPIKey("your-api-key"),
+//		WithGroup("your-group-id"),
 //		WithTimeout(30 * time.Second),
 //	)
 //	if err != nil {
@@ -65,6 +67,7 @@ type accountServiceGRPCClient struct {
 	tracer                  trace.Tracer
 	apiKey                  string
 	accessTokenCookie       string
+	groupID                 string
 	timeout                 time.Duration
 	unaryClientInterceptors []grpc.UnaryClientInterceptor
 }
@@ -77,7 +80,7 @@ type accountServiceGRPCClient struct {
 //   - Server: Uses common.DefaultGRPCURL and common.DefaultGRPCPort
 //   - TLS: Enabled by default (common.DefaultTLS)
 //   - Timeout: 30 seconds for all method calls
-//   - Authentication: Attempts to load API key from MESH_API_KEY environment variable
+//   - Authentication: Attempts to load credentials from MESH_API_CREDENTIALS file
 //   - Tracing: Disabled by default (no-op tracer)
 //
 // Parameters:
@@ -91,6 +94,7 @@ type accountServiceGRPCClient struct {
 //
 //	client, err := NewAccountServiceGRPCClient(
 //		WithAPIKey("your-api-key-here"),
+//		WithGroup("your-group-id"),
 //		WithAddress("api.example.com", 443),
 //		WithTimeout(10 * time.Second),
 //	)
@@ -109,7 +113,6 @@ func NewAccountServiceGRPCClient(opts ...ClientOption) (AccountServiceGRPCClient
 		port:    common.DefaultGRPCPort,
 		tls:     common.DefaultTLS,
 		tracer:  noop.NewTracerProvider().Tracer(""),
-		apiKey:  common.APIKEYFromEnvironment(),
 		timeout: 30 * time.Second, // default 30 second timeout
 
 		// set once options are applied and connection opened
@@ -117,7 +120,13 @@ func NewAccountServiceGRPCClient(opts ...ClientOption) (AccountServiceGRPCClient
 		unaryClientInterceptors: nil,
 	}
 
-	// apply options to the client
+	// attempt to load credentials from environment file
+	if creds, err := common.CredentialsFromEnvironment(); err == nil {
+		client.apiKey = creds.APIKey
+		client.groupID = creds.GroupID
+	}
+
+	// apply options to the client (these can override credentials from file)
 	for _, opt := range opts {
 		opt(client)
 	}
@@ -411,36 +420,44 @@ func (s *accountServiceGRPCClient) Close() error {
 	return nil
 }
 
-// validateAuth ensures that at least one authentication method is properly configured.
+// validateAuth ensures that authentication credentials and group ID are properly configured.
 // This method is called during client initialization to prevent runtime authentication failures.
 //
+// Requirements:
+//   - At least one authentication method must be configured
+//   - Group ID must be set for all public API calls
+//
 // Supported Authentication Methods:
-//   - API Key: Set via WithAPIKey() option or MESH_API_KEY environment variable
+//   - API Key: Set via WithAPIKey() option or MESH_API_CREDENTIALS file
 //   - Access Token Cookie: Set via WithAccessTokenCookie() option
 //
 // Returns:
-//   - nil: If authentication is properly configured
-//   - error: If no authentication method is available
+//   - nil: If authentication and group ID are properly configured
+//   - error: If authentication method or group ID is missing
 func (c *accountServiceGRPCClient) validateAuth() error {
 	if c.apiKey == "" && c.accessTokenCookie == "" {
-		return errors.New("neither api key nor access token cookie set. set api key via WithAPIKey option or as MESH_API_KEY environment variable. set access token cookie via WithAccessTokenCookie option")
+		return errors.New("neither api key nor access token cookie set. set credentials via MESH_API_CREDENTIALS file, or use WithAPIKey/WithAccessTokenCookie options")
+	}
+	if c.groupID == "" {
+		return errors.New("group id not set. set via MESH_API_CREDENTIALS file or WithGroup option")
 	}
 	return nil
 }
 
 // authInterceptor creates and returns the appropriate gRPC unary interceptor for authentication.
-// This interceptor automatically adds authentication headers to all outgoing requests based
-// on the configured authentication method (API key takes precedence over access token cookie).
+// This interceptor automatically adds authentication and group ID headers to all outgoing requests
+// based on the configured authentication method (API key takes precedence over access token cookie).
 //
-// Authentication Methods:
-//   - API Key: Added as "Authorization: Bearer <api-key>" header
-//   - Access Token Cookie: Added as "Cookie: AccessToken=<token>" header
+// Headers Added:
+//   - API Key: "Authorization: Bearer <api-key>" header
+//   - Access Token Cookie: "Cookie: AccessToken=<token>" header
+//   - Group ID: "x-group-id: <group-id>" header (always included)
 //
 // The interceptor is automatically applied to all method calls and handles the
-// authentication transparently without requiring manual header management.
+// authentication and authorization context transparently without requiring manual header management.
 //
 // Returns:
-//   - grpc.UnaryClientInterceptor: Configured authentication interceptor
+//   - grpc.UnaryClientInterceptor: Configured authentication and group context interceptor
 func (c *accountServiceGRPCClient) authInterceptor() grpc.UnaryClientInterceptor {
 	if c.apiKey != "" {
 		return func(ctx context.Context, method string, req, reply any, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
@@ -448,6 +465,8 @@ func (c *accountServiceGRPCClient) authInterceptor() grpc.UnaryClientInterceptor
 				ctx,
 				common.AuthorizationHeaderKey,
 				common.BearerPrefix+c.apiKey,
+				common.GroupIDHeaderKey,
+				c.groupID,
 			)
 			return invoker(ctx, method, req, reply, cc, opts...)
 		}
@@ -458,6 +477,8 @@ func (c *accountServiceGRPCClient) authInterceptor() grpc.UnaryClientInterceptor
 			ctx,
 			common.CookieHeaderKey,
 			common.AccessTokenPrefix+c.accessTokenCookie,
+			common.GroupIDHeaderKey,
+			c.groupID,
 		)
 		return invoker(ctx, method, req, reply, cc, opts...)
 	}

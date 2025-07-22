@@ -91,6 +91,9 @@ func WithPort(port int) ClientOption {
 // The API key will be sent as a Bearer token in the Authorization header.
 // This is the primary authentication method for service-to-service communication.
 //
+// IMPORTANT: When using API key authentication, you must also specify a group ID
+// using WithGroup() or load from credentials file via MESH_API_CREDENTIALS.
+//
 // The API key takes precedence over access token cookies if both are configured.
 //
 // Parameter:
@@ -100,9 +103,8 @@ func WithPort(port int) ClientOption {
 //
 //	client, err := NewUserServiceGRPCClient(
 //	    WithAPIKey("your-api-key-here"),
+//	    WithGroup("your-group-id"),
 //	)
-//
-// Note: Alternatively, you can set the MESH_API_KEY environment variable
 func WithAPIKey(apiKey string) ClientOption {
 	return func(c *userServiceGRPCClient) {
 		c.apiKey = apiKey
@@ -113,6 +115,9 @@ func WithAPIKey(apiKey string) ClientOption {
 // The access token will be sent as a cookie in the Cookie header as "AccessToken=value".
 // This authentication method is typically used for user-facing applications.
 //
+// IMPORTANT: When using access token cookie authentication, you must also specify a group ID
+// using WithGroup() as group information cannot be loaded from credentials file.
+//
 // If both API key and access token cookie are configured, the API key takes precedence.
 //
 // Parameter:
@@ -122,10 +127,34 @@ func WithAPIKey(apiKey string) ClientOption {
 //
 //	client, err := NewUserServiceGRPCClient(
 //	    WithAccessTokenCookie("your-access-token-here"),
+//	    WithGroup("your-group-id"),
 //	)
 func WithAccessTokenCookie(accessToken string) ClientOption {
 	return func(c *userServiceGRPCClient) {
 		c.accessTokenCookie = accessToken
+	}
+}
+
+// WithGroup configures the group ID for all API requests made by this client.
+// The group ID is required for public API calls and determines the authorization context
+// for operations. It will be sent as an "x-group-id" header with every request.
+//
+// This option is required when using manual authentication configuration.
+// When loading from credentials file via MESH_API_CREDENTIALS, the group ID
+// is automatically loaded and this option is optional (but will override the file value).
+//
+// Parameter:
+//   - groupID: The group identifier string
+//
+// Example:
+//
+//	client, err := NewUserServiceGRPCClient(
+//	    WithAPIKey("your-api-key"),
+//	    WithGroup("01ABCDEF123456789"),
+//	)
+func WithGroup(groupID string) ClientOption {
+	return func(c *userServiceGRPCClient) {
+		c.groupID = groupID
 	}
 }
 
