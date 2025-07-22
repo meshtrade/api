@@ -1,0 +1,118 @@
+# DeactivateApiUser
+
+Deactivates an API user, disabling API key authentication.
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import serviceData from '../service.generated.json';
+
+## Method Details
+
+**Description:** {serviceData.methods.DeactivateApiUser.description}
+
+**Authorization:** {serviceData.methods.DeactivateApiUser.authorization}
+
+**Parameters:** {serviceData.methods.DeactivateApiUser.parameters}
+
+**Returns:** {serviceData.methods.DeactivateApiUser.returns}
+
+**Method Type:** {serviceData.methods.DeactivateApiUser.method_type}
+
+## Code Examples
+
+<Tabs>
+<TabItem value="go" label="Go">
+
+```go title="deactivate-api-user.go"
+package main
+
+import (
+	"context"
+	"log"
+
+	api_userv1 "github.com/meshtrade/api/go/iam/api_user/v1"
+)
+
+func main() {
+	// Create client (loads credentials from MESH_API_CREDENTIALS)
+	client, err := api_userv1.NewApiUserServiceGRPCClient()
+	if err != nil {
+		log.Fatalf("Failed to create client: %v", err)
+	}
+	defer client.Close()
+
+	// Deactivate the API user by name
+	apiUser, err := client.DeactivateApiUser(
+		context.Background(),
+		&api_userv1.DeactivateApiUserRequest{
+			Name: "api_users/01HPQR2S3T4U5V6W7X8Y9Z0123", // Replace with actual API user name
+		},
+	)
+	if err != nil {
+		log.Fatalf("Failed to deactivate API user: %v", err)
+	}
+
+	log.Printf("Deactivated API user: %s", apiUser.Name)
+	log.Printf("State: %v", apiUser.State)
+}
+```
+
+</TabItem>
+<TabItem value="python" label="Python">
+
+```python title="deactivate-api-user.py"
+import grpc
+import json
+import os
+from meshtrade.iam.api_user.v1 import service_pb2, service_pb2_grpc
+
+def load_credentials():
+    """Load credentials from MESH_API_CREDENTIALS file."""
+    creds_path = os.getenv('MESH_API_CREDENTIALS')
+    with open(creds_path, 'r') as f:
+        return json.load(f)
+
+def main():
+    # Load credentials
+    creds = load_credentials()
+    
+    # Create gRPC channel and client
+    channel = grpc.insecure_channel('api.mesh.dev:443')
+    client = service_pb2_grpc.ApiUserServiceStub(channel)
+    
+    # Authentication metadata
+    metadata = [
+        ('authorization', f'Bearer {creds["api_key"]}'),
+        ('x-group-id', creds['group_id']),
+    ]
+    
+    try:
+        # Create request
+        request = service_pb2.DeactivateApiUserRequest(
+            name="api_users/01HPQR2S3T4U5V6W7X8Y9Z0123"  # Replace with actual API user name
+        )
+        
+        # Make the API call
+        response = client.DeactivateApiUser(request, metadata=metadata)
+        
+        print(f"Deactivated API user: {response.name}")
+        print(f"State: {response.state}")
+        
+    except grpc.RpcError as e:
+        print(f"Failed to deactivate API user: {e}")
+    
+    finally:
+        channel.close()
+
+if __name__ == "__main__":
+    main()
+```
+
+</TabItem>
+</Tabs>
+
+## Related Methods
+
+- **[ActivateApiUser](./activate-api-user)** - Re-activate an API user
+- **[GetApiUser](./get-api-user)** - Check API user state after deactivation
+- **[ListApiUsers](./list-api-users)** - View all API users and their states

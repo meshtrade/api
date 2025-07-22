@@ -40,7 +40,20 @@ const sidebars: SidebarsConfig = {
               items: [
                 'api-reference/iam/api_user/v1/index',
                 'api-reference/iam/api_user/v1/types',
-                'api-reference/iam/api_user/v1/service'
+                {
+                  type: 'category',
+                  label: 'Service Methods',
+                  items: [
+                    'api-reference/iam/api_user/v1/service/index',
+                    'api-reference/iam/api_user/v1/service/create-api-user',
+                    'api-reference/iam/api_user/v1/service/get-api-user',
+                    'api-reference/iam/api_user/v1/service/list-api-users',
+                    'api-reference/iam/api_user/v1/service/search-api-users',
+                    'api-reference/iam/api_user/v1/service/activate-api-user',
+                    'api-reference/iam/api_user/v1/service/deactivate-api-user',
+                    'api-reference/iam/api_user/v1/service/get-api-user-by-key-hash'
+                  ]
+                }
               ]
             }
           ]

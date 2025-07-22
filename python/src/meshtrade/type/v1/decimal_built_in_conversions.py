@@ -26,4 +26,4 @@ def decimal_to_built_in(decimal_value: Decimal) -> decimal.Decimal:
     :param decimal_value: The decimal_pb2.Decimal object to convert.
     :return: The converted decimal.Decimal object.
     """
-    return decimal.Decimal( decimal_value.value if decimal_value.value != "" else "0"  )
+    return decimal.Decimal(decimal_value.value if decimal_value.value != "" else "0")
