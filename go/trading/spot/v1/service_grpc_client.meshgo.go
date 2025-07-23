@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/meshtrade/api/go/common"
+	api_credentials "github.com/meshtrade/api/go/common/api_credentials"
 	trace "go.opentelemetry.io/otel/trace"
 	"go.opentelemetry.io/otel/trace/noop"
 	grpc "google.golang.org/grpc"
@@ -38,7 +39,7 @@ import (
 //
 //	client, err := NewSpotServiceGRPCClient(
 //		WithAPIKey("your-api-key"),
-//		WithGroup("your-group-id"),
+//		WithGroup("groups/your-group-id"),
 //		WithTimeout(30 * time.Second),
 //	)
 //	if err != nil {
@@ -66,7 +67,7 @@ type spotServiceGRPCClient struct {
 	grpcClient              SpotServiceClient
 	tracer                  trace.Tracer
 	apiKey                  string
-	groupID                 string
+	group                   string
 	timeout                 time.Duration
 	unaryClientInterceptors []grpc.UnaryClientInterceptor
 }
@@ -93,7 +94,7 @@ type spotServiceGRPCClient struct {
 //
 //	client, err := NewSpotServiceGRPCClient(
 //		WithAPIKey("your-api-key-here"),
-//		WithGroup("your-group-id"),
+//		WithGroup("groups/your-group-id"),
 //		WithAddress("api.example.com", 443),
 //		WithTimeout(10 * time.Second),
 //	)
@@ -120,9 +121,9 @@ func NewSpotServiceGRPCClient(opts ...ClientOption) (SpotServiceGRPCClient, erro
 	}
 
 	// attempt to load credentials from environment file
-	if creds, err := common.CredentialsFromEnvironment(); err == nil {
+	if creds, err := api_credentials.CredentialsFromEnvironment(); err == nil {
 		client.apiKey = creds.APIKey
-		client.groupID = creds.GroupID
+		client.group = creds.Group
 	}
 
 	// apply options to the client (these can override credentials from file)
@@ -250,14 +251,14 @@ func (s *spotServiceGRPCClient) Close() error {
 	return nil
 }
 
-// Group returns the group ID configured for this client.
-// The group ID determines the authorization context for all API requests
+// Group returns the group resource name configured for this client.
+// The group determines the authorization context for all API requests
 // and is sent as an "x-group-id" header with every request.
 //
 // Returns:
-//   - string: The configured group ID
+//   - string: The configured group resource name in format groups/{group_id}
 func (s *spotServiceGRPCClient) Group() string {
-	return s.groupID
+	return s.group
 }
 
 // validateAuth ensures that authentication credentials and group ID are properly configured.
@@ -265,20 +266,20 @@ func (s *spotServiceGRPCClient) Group() string {
 //
 // Requirements:
 //   - At least one authentication method must be configured
-//   - Group ID must be set for all public API calls
+//   - Group must be set for all public API calls
 //
 // Supported Authentication Methods:
 //   - API Key: Set via WithAPIKey() option or MESH_API_CREDENTIALS file
 //
 // Returns:
-//   - nil: If authentication and group ID are properly configured
-//   - error: If authentication method or group ID is missing
+//   - nil: If authentication and group are properly configured
+//   - error: If authentication method or group is missing
 func (c *spotServiceGRPCClient) validateAuth() error {
 	if c.apiKey == "" {
 		return errors.New("api key not set. set credentials via MESH_API_CREDENTIALS file, or use WithAPIKey option")
 	}
-	if c.groupID == "" {
-		return errors.New("group id not set. set via MESH_API_CREDENTIALS file or WithGroup option")
+	if c.group == "" {
+		return errors.New("group not set. set via MESH_API_CREDENTIALS file or WithGroup option")
 	}
 	return nil
 }
@@ -288,7 +289,7 @@ func (c *spotServiceGRPCClient) validateAuth() error {
 //
 // Headers Added:
 //   - API Key: "Authorization: Bearer <api-key>" header
-//   - Group ID: "x-group-id: <group-id>" header
+//   - Group ID: "x-group-id: <group>" header
 //
 // The interceptor is automatically applied to all method calls and handles the
 // authentication and authorization context transparently without requiring manual header management.
@@ -301,8 +302,8 @@ func (c *spotServiceGRPCClient) authInterceptor() grpc.UnaryClientInterceptor {
 			ctx,
 			common.AuthorizationHeaderKey,
 			common.BearerPrefix+c.apiKey,
-			common.GroupIDHeaderKey,
-			c.groupID,
+			common.GroupHeaderKey,
+			c.group,
 		)
 		return invoker(ctx, method, req, reply, cc, opts...)
 	}

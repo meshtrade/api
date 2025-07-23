@@ -42,3 +42,19 @@ func MustRoleFromFullResourceName(fullResourceName string) Role {
 	}
 	return role
 }
+
+// FullResourceNameFromGroup returns the full qualified resource name of the role given a group resource name.
+// The group parameter should be in the format "groups/{groupID}".
+// This is a convenience method that extracts the group ID and delegates to FullResourceNameFromGroupID.
+func (r Role) FullResourceNameFromGroup(group string) (string, error) {
+	if !strings.HasPrefix(group, "groups/") {
+		return "", fmt.Errorf("invalid group format, expected groups/{groupID}, got: %s", group)
+	}
+	
+	groupID := strings.TrimPrefix(group, "groups/")
+	if groupID == "" {
+		return "", fmt.Errorf("group ID cannot be empty in group resource name: %s", group)
+	}
+	
+	return r.FullResourceNameFromGroupID(groupID), nil
+}

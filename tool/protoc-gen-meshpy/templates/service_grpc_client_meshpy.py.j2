@@ -18,8 +18,8 @@ from meshtrade.common import (
     DEFAULT_GRPC_URL,
     GRPCClient,
     create_auth_metadata,
-    credentials_from_environment,
 )
+from meshtrade.common.api_credentials import credentials_from_environment
 
 from .api_user_pb2 import APIUser
 from .service_meshpy import {{ service_name }}
@@ -68,7 +68,7 @@ class {{ service_name }}GRPCClient({{ service_name }}GRPCClientInterface):
             url="api.staging.example.com",
             port=443,
             api_key="your-api-key",
-            group_id="your-group-id",
+            group="groups/your-group-id",
             timeout=timedelta(seconds=60)
         )
 
@@ -96,7 +96,7 @@ class {{ service_name }}GRPCClient({{ service_name }}GRPCClientInterface):
             options = ClientOptions(
                 url="api.example.com",
                 api_key="your-key",
-                group_id="your-group"
+                group="groups/your-group"
             )
             client = {{ service_name }}GRPCClient(options)
             ```
@@ -114,12 +114,12 @@ class {{ service_name }}GRPCClient({{ service_name }}GRPCClientInterface):
         # Load credentials from options or environment
         if options.api_key:
             self._api_key = options.api_key
-            self._group_id = options.group_id
+            self._group = options.group
         else:
             # Try to load from environment if not provided
             creds = credentials_from_environment()
             self._api_key = creds.api_key if creds else None
-            self._group_id = creds.group_id if creds else None
+            self._group = creds.group if creds else None
 
         # Build target URL
         url = options.url or DEFAULT_GRPC_URL
@@ -174,9 +174,9 @@ class {{ service_name }}GRPCClient({{ service_name }}GRPCClientInterface):
         """
         self._ensure_connected()
 
-        if not self._api_key or not self._group_id:
+        if not self._api_key or not self._group:
             raise ValueError(
-                "API key and group ID are required for authentication. "
+                "API key and group are required for authentication. "
                 "Provide them via ClientOptions or set MESH_API_CREDENTIALS environment variable."
             )
 
@@ -187,7 +187,7 @@ class {{ service_name }}GRPCClient({{ service_name }}GRPCClientInterface):
         method = getattr(self._stub, method_name)
 
         # Create authentication metadata
-        metadata = create_auth_metadata(self._api_key, self._group_id)
+        metadata = create_auth_metadata(self._api_key, self._group)
 
         # Use provided timeout or default from options
         call_timeout = timeout or self._options.timeout
@@ -195,6 +195,21 @@ class {{ service_name }}GRPCClient({{ service_name }}GRPCClientInterface):
 
         # Make the authenticated call
         return method(request, metadata=metadata, timeout=timeout_seconds)
+
+    def group(self) -> str:
+        """Get the group resource name used by this client.
+        
+        Returns:
+            The group resource name in format groups/{group_id}
+            
+        Raises:
+            ValueError: If no group is configured
+        """
+        if not self._group:
+            raise ValueError(
+                "Group not configured. Provide via ClientOptions or set MESH_API_CREDENTIALS environment variable."
+            )
+        return self._group
 
     {% for method in methods %}
     def {{ method.snake_name }}(self, request: {{ method.input_type.split('.')[-1] }}, timeout: timedelta | None = None) -> {{ method.output_type.split('.')[-1] }}:

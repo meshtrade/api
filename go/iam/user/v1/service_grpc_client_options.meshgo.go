@@ -91,7 +91,7 @@ func WithPort(port int) ClientOption {
 // The API key will be sent as a Bearer token in the Authorization header.
 // This is the primary authentication method for service-to-service communication.
 //
-// IMPORTANT: When using API key authentication, you must also specify a group ID
+// IMPORTANT: When using API key authentication, you must also specify a group
 // using WithGroup() or load from credentials file via MESH_API_CREDENTIALS.
 //
 // Parameter:
@@ -101,7 +101,7 @@ func WithPort(port int) ClientOption {
 //
 //	client, err := NewUserServiceGRPCClient(
 //	    WithAPIKey("your-api-key-here"),
-//	    WithGroup("your-group-id"),
+//	    WithGroup("groups/your-group-id"),
 //	)
 func WithAPIKey(apiKey string) ClientOption {
 	return func(c *userServiceGRPCClient) {
@@ -109,26 +109,26 @@ func WithAPIKey(apiKey string) ClientOption {
 	}
 }
 
-// WithGroup configures the group ID for all API requests made by this client.
-// The group ID is required for public API calls and determines the authorization context
+// WithGroup configures the group resource name for all API requests made by this client.
+// The group is required for public API calls and determines the authorization context
 // for operations. It will be sent as an "x-group-id" header with every request.
 //
 // This option is required when using manual authentication configuration.
-// When loading from credentials file via MESH_API_CREDENTIALS, the group ID
+// When loading from credentials file via MESH_API_CREDENTIALS, the group
 // is automatically loaded and this option is optional (but will override the file value).
 //
 // Parameter:
-//   - groupID: The group identifier string
+//   - group: The group resource name in format groups/{group_id}
 //
 // Example:
 //
 //	client, err := NewUserServiceGRPCClient(
 //	    WithAPIKey("your-api-key"),
-//	    WithGroup("01ABCDEF123456789"),
+//	    WithGroup("groups/01ABCDEF123456789"),
 //	)
-func WithGroup(groupID string) ClientOption {
+func WithGroup(group string) ClientOption {
 	return func(c *userServiceGRPCClient) {
-		c.groupID = groupID
+		c.group = group
 	}
 }
 

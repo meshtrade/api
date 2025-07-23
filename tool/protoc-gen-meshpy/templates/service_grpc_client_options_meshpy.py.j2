@@ -23,7 +23,7 @@ class ClientOptions:
         url: str | None = None,
         port: int | None = None,
         api_key: str | None = None,
-        group_id: str | None = None,
+        group: str | None = None,
         timeout: timedelta = timedelta(seconds=30),
     ):
         """Initialize client options.
@@ -44,8 +44,8 @@ class ClientOptions:
                 The API key will be sent as a Bearer token in the Authorization header.
                 This is the primary authentication method for service-to-service communication.
 
-            group_id: The group identifier string required for all API requests.
-                The group ID determines the authorization context for operations
+            group: The group resource name in format groups/{group_id} required for all API requests.
+                The group determines the authorization context for operations
                 and is sent as an "x-group-id" header with every request.
 
             timeout: The default timeout for all gRPC method calls.
@@ -57,5 +57,5 @@ class ClientOptions:
         self.url = url
         self.port = port
         self.api_key = api_key
-        self.group_id = group_id
+        self.group = group
         self.timeout = timeout
