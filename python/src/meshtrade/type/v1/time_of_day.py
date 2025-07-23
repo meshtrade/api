@@ -112,7 +112,7 @@ def time_of_day_to_python_time(time_obj: TimeOfDay) -> python_time:
             microsecond=time_obj.nanos // 1000,  # Convert nanoseconds to microseconds
         )
     except ValueError as e:
-        raise ValueError(f"Invalid time values: {e}")
+        raise ValueError(f"Invalid time values: {e}") from e
 
 
 def time_of_day_to_timedelta(time_obj: TimeOfDay) -> timedelta:
@@ -175,7 +175,7 @@ def time_of_day_to_datetime_with_date(time_obj: TimeOfDay, date_obj: Date) -> da
             microsecond=time_obj.nanos // 1000,  # Convert nanoseconds to microseconds
         )
     except ValueError as e:
-        raise ValueError(f"Invalid datetime values: {e}")
+        raise ValueError(f"Invalid datetime values: {e}") from e
 
 
 def is_valid(time_obj: TimeOfDay | None) -> bool:
