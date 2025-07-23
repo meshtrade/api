@@ -8,6 +8,7 @@ This protoc plugin generates Python gRPC clients with the _meshpy.py suffix.
 import sys
 import ast
 import os
+import re
 from pathlib import Path
 from google.protobuf.compiler import plugin_pb2 as plugin
 from google.protobuf import descriptor_pb2 as descriptor
@@ -20,6 +21,55 @@ def validate_python_syntax(code: str, filename: str) -> None:
         ast.parse(code)
     except SyntaxError as e:
         raise SyntaxError(f"Generated Python code has syntax error in {filename}: {e}")
+
+
+def camel_to_snake(name: str) -> str:
+    """Convert CamelCase to snake_case."""
+    # Insert underscore before uppercase letters that follow lowercase letters
+    s1 = re.sub('([a-z0-9])([A-Z])', r'\1_\2', name)
+    return s1.lower()
+
+
+def get_proto_file_base(proto_file_name: str) -> str:
+    """Get the base name for protobuf imports (e.g., 'service.proto' -> 'service')."""
+    return Path(proto_file_name).stem
+
+
+def analyze_service_methods(service):
+    """Analyze service methods and extract metadata."""
+    methods = []
+    for method in service.method:
+        method_info = {
+            'name': method.name,
+            'snake_name': camel_to_snake(method.name),
+            'input_type': method.input_type,
+            'output_type': method.output_type,
+            'client_streaming': method.client_streaming,
+            'server_streaming': method.server_streaming
+        }
+        methods.append(method_info)
+    return methods
+
+
+def extract_imports_from_proto(proto_file, service):
+    """Extract required imports for the service."""
+    imports = set()
+    
+    # Add the main proto file imports
+    proto_base = get_proto_file_base(proto_file.name)
+    imports.add(f"{proto_base}_pb2")
+    imports.add(f"{proto_base}_pb2_grpc")
+    
+    # Add imports for message types used in service methods
+    for method in service.method:
+        # Extract message type names from fully qualified names
+        input_type = method.input_type.split('.')[-1] if method.input_type else None
+        output_type = method.output_type.split('.')[-1] if method.output_type else None
+        
+        # For now, assume all types are in the same proto file
+        # In Phase 4, we can enhance this to handle cross-file imports
+    
+    return sorted(list(imports))
 
 
 def setup_jinja_environment():
@@ -62,12 +112,20 @@ def process_service(proto_file, service, template_env):
     
     files = []
     
-    # Create context for template rendering
+    # Analyze service methods and extract metadata
+    methods = analyze_service_methods(service)
+    imports = extract_imports_from_proto(proto_file, service)
+    
+    # Create enhanced context for template rendering
     context = {
         'service_name': service_name,
         'package_name': package_name,
         'service': service,
-        'proto_file': proto_file
+        'proto_file': proto_file,
+        'methods': methods,
+        'imports': imports,
+        'proto_base': get_proto_file_base(proto_file.name),
+        'camel_to_snake': camel_to_snake
     }
     
     # Generate the three main files with _meshpy.py suffix

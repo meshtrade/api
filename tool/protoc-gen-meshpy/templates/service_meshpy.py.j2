@@ -2,26 +2,39 @@
 # source: {{ proto_file.name }}
 
 """
-{{ service_name }}Service interface definition.
+{{ service_name }} interface definition.
 
-This module provides the abstract base class for the {{ service_name }}Service.
+This module provides the abstract base class for the {{ service_name }}.
 """
 
 from abc import ABC, abstractmethod
 from datetime import timedelta
 
-# TODO: Import proper protobuf message types when we have protobuf parsing
-# from .{{ proto_file.name | replace('.proto', '_pb2') }} import *
+{%- set imported_types = [] %}
+{%- for method in methods %}
+    {%- set input_type = method.input_type.split('.')[-1] %}
+    {%- set output_type = method.output_type.split('.')[-1] %}
+    {%- if input_type not in imported_types %}{{ imported_types.append(input_type) or "" }}{%- endif %}
+    {%- if output_type not in imported_types %}{{ imported_types.append(output_type) or "" }}{%- endif %}
+{%- endfor %}
+
+from .api_user_pb2 import APIUser
+from .{{ proto_base }}_pb2 import (
+    {%- for type in imported_types | sort %}
+    {%- if type != "APIUser" %}
+    {{ type }}{{ "," if not loop.last else "" }}
+    {%- endif %}
+    {%- endfor %}
+)
 
 
-class {{ service_name }}Service(ABC):
-    """Abstract base class defining the {{ service_name }}Service interface."""
+class {{ service_name }}(ABC):
+    """Abstract base class defining the {{ service_name }} interface."""
 
-    # TODO: Generate actual method signatures when we have protobuf parsing
-    {% for method in service.method %}
+    {% for method in methods %}
     @abstractmethod
-    def {{ method.name | lower }}(self, request, timeout: timedelta | None = None):
-        """{{ method.name }} method - TODO: Add proper typing."""
+    def {{ method.snake_name }}(self, request: {{ method.input_type.split('.')[-1] }}, timeout: timedelta | None = None) -> {{ method.output_type.split('.')[-1] }}:
+        """{{ method.name }} method."""
         pass
 
     {% endfor %}

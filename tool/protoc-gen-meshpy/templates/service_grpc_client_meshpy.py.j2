@@ -2,9 +2,9 @@
 # source: {{ proto_file.name }}
 
 """
-gRPC client implementation for {{ service_name }}Service.
+gRPC client implementation for {{ service_name }}.
 
-This module provides a concrete implementation of the {{ service_name }}Service
+This module provides a concrete implementation of the {{ service_name }}
 gRPC client with authentication, timeout, and error handling capabilities.
 """
 
@@ -13,22 +13,18 @@ from typing import Optional, Iterator, Union
 import contextlib
 
 import grpc
-import opentelemetry.trace as trace
 
-# TODO: Import proper protobuf message types when we have protobuf parsing
-# from .{{ proto_file.name | replace('.proto', '_pb2') }} import *
-# from .{{ proto_file.name | replace('.proto', '_pb2_grpc') }} import {{ service_name }}ServiceStub
-
-from .service_meshpy import {{ service_name }}Service
+from .{{ proto_base }}_pb2_grpc import {{ service_name }}Stub
+from .service_meshpy import {{ service_name }}
 from .service_grpc_client_options_meshpy import ClientOption
 
 
-class {{ service_name }}GRPCClient({{ service_name }}Service):
+class {{ service_name }}GRPCClient({{ service_name }}):
     """
-    gRPC client for {{ service_name }}Service.
+    gRPC client for {{ service_name }}.
     
-    This client provides methods for interacting with the {{ service_name }}Service
-    over gRPC with support for authentication, timeouts, retries, and distributed tracing.
+    This client provides methods for interacting with the {{ service_name }}
+    over gRPC with support for authentication, timeouts, and retries.
     """
 
     def __init__(
@@ -37,7 +33,7 @@ class {{ service_name }}GRPCClient({{ service_name }}Service):
         *options: ClientOption
     ):
         """
-        Initialize the {{ service_name }}Service gRPC client.
+        Initialize the {{ service_name }} gRPC client.
         
         Args:
             target: The gRPC server address (e.g., "localhost:9090")
@@ -57,12 +53,11 @@ class {{ service_name }}GRPCClient({{ service_name }}Service):
         """
         self._target = target
         self._channel: Optional[grpc.Channel] = None
-        self._stub: Optional[object] = None  # TODO: Proper typing when we have protobuf parsing
+        self._stub: Optional[{{ service_name }}Stub] = None
         
         # Default configuration
         self._timeout: Optional[timedelta] = None
         self._headers: dict = {}
-        self._tracer: Optional[trace.Tracer] = None
         
         # Apply configuration options
         for option in options:
@@ -82,8 +77,7 @@ class {{ service_name }}GRPCClient({{ service_name }}Service):
         if self._channel is None:
             # TODO: Implement actual gRPC channel creation with proper configuration
             self._channel = grpc.insecure_channel(self._target)
-            # TODO: Create proper stub when we have protobuf parsing
-            # self._stub = {{ service_name }}ServiceStub(self._channel)
+            self._stub = {{ service_name }}Stub(self._channel)
 
     def close(self):
         """Close the gRPC channel and cleanup resources."""
@@ -110,15 +104,14 @@ class {{ service_name }}GRPCClient({{ service_name }}Service):
         call_timeout = timeout or self._timeout
         timeout_seconds = call_timeout.total_seconds() if call_timeout else None
         
-        # TODO: Implement actual gRPC call with tracing and error handling
+        # TODO: Implement actual gRPC call with error handling
         # This is a placeholder implementation
         raise NotImplementedError(f"Method {method_name} not yet implemented")
 
-    # TODO: Generate actual method implementations when we have protobuf parsing
-    {% for method in service.method %}
-    def {{ method.name | lower }}(self, request, timeout: Optional[timedelta] = None):
+    {% for method in methods %}
+    def {{ method.snake_name }}(self, request: {{ method.input_type.split('.')[-1] }}, timeout: Optional[timedelta] = None) -> {{ method.output_type.split('.')[-1] }}:
         """
-        {{ method.name }} - TODO: Add proper documentation and typing.
+        {{ method.name }} method.
         
         Args:
             request: The {{ method.name }} request message
