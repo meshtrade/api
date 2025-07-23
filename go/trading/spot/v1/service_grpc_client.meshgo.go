@@ -6,8 +6,6 @@ import (
 	context "context"
 	errors "errors"
 	fmt "fmt"
-	time "time"
-
 	common "github.com/meshtrade/api/go/common"
 	api_credentials "github.com/meshtrade/api/go/common/api_credentials"
 	trace "go.opentelemetry.io/otel/trace"
@@ -16,6 +14,7 @@ import (
 	credentials "google.golang.org/grpc/credentials"
 	insecure "google.golang.org/grpc/credentials/insecure"
 	metadata "google.golang.org/grpc/metadata"
+	time "time"
 )
 
 // SpotServiceGRPCClient is a gRPC client for the SpotService service.
