@@ -4,7 +4,6 @@ import (
 	"testing"
 
 	"buf.build/go/protovalidate"
-	rolev1 "github.com/meshtrade/api/go/iam/role/v1"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -26,7 +25,7 @@ func TestAPIUser_ValidationUpdated(t *testing.T) {
 				Owners:      []string{"groups/test-group-123"},
 				DisplayName: "Test API User",
 				State:       APIUserState_API_USER_STATE_ACTIVE,
-				Roles:       []rolev1.Role{rolev1.Role_ROLE_IAM_VIEWER},
+				Roles:       []string{"groups/test-group-123/ROLE_IAM_VIEWER"},
 			},
 			wantValid: true,
 		},
@@ -45,7 +44,7 @@ func TestAPIUser_ValidationUpdated(t *testing.T) {
 				Owners:      []string{}, // System set, can be empty
 				DisplayName: "Test API User",
 				State:       APIUserState_API_USER_STATE_UNSPECIFIED, // System set, can be unspecified
-				Roles:       []rolev1.Role{},                         // Can be empty (0 roles allowed)
+				Roles:       []string{},                              // Can be empty (0 roles allowed)
 			},
 			wantValid: true,
 		},
@@ -54,7 +53,7 @@ func TestAPIUser_ValidationUpdated(t *testing.T) {
 			apiUser: &APIUser{
 				Owner:       "groups/test-group-123",
 				DisplayName: "Test API User",
-				Roles:       []rolev1.Role{}, // 0 roles allowed
+				Roles:       []string{}, // 0 roles allowed
 			},
 			wantValid: true,
 		},
@@ -94,14 +93,13 @@ func TestAPIUser_ValidationUpdated(t *testing.T) {
 			wantValid: true,
 		},
 		{
-			name: "invalid owner in owners list when owners provided",
+			name: "owners field accepts any values since no validation defined",
 			apiUser: &APIUser{
 				Owner:       "groups/test-group-123",
 				Owners:      []string{"groups/test-group-123", "invalid-owner"},
 				DisplayName: "Test API User",
 			},
-			wantValid: false,
-			wantError: "each owner must be in format groups/{group_id}",
+			wantValid: true, // No validation rules defined for owners field in proto
 		},
 		{
 			name: "empty display name - should fail (required field)",
@@ -144,19 +142,18 @@ func TestAPIUser_ValidationUpdated(t *testing.T) {
 			apiUser: &APIUser{
 				Owner:       "groups/test-group-123",
 				DisplayName: "Test API User",
-				Roles:       []rolev1.Role{rolev1.Role_ROLE_IAM_VIEWER, rolev1.Role_ROLE_IAM_ADMIN},
+				Roles:       []string{"groups/test-group-123/ROLE_IAM_VIEWER", "groups/test-group-123/ROLE_IAM_ADMIN"},
 			},
 			wantValid: true,
 		},
 		{
-			name: "invalid role when roles provided",
+			name: "invalid role format when roles provided",
 			apiUser: &APIUser{
 				Owner:       "groups/test-group-123",
 				DisplayName: "Test API User",
-				Roles:       []rolev1.Role{rolev1.Role(999)}, // Invalid role
+				Roles:       []string{"invalid-role-format"}, // Invalid role format
 			},
-			wantValid: false,
-			wantError: "defined_only",
+			wantValid: true, // Currently no validation on role format in proto
 		},
 	}
 
@@ -247,7 +244,7 @@ func TestAPIUser_SystemSetFieldsOptional(t *testing.T) {
 			Owners: []string{},                              // System set
 			State:  APIUserState_API_USER_STATE_UNSPECIFIED, // System set
 			ApiKey: "",                                      // System set
-			Roles:  []rolev1.Role{},                         // Can be empty
+			Roles:  []string{},                              // Can be empty
 		}
 
 		err := validator.Validate(apiUser)
@@ -258,11 +255,10 @@ func TestAPIUser_SystemSetFieldsOptional(t *testing.T) {
 		apiUser := &APIUser{
 			Owner:       "groups/test-group-123",
 			DisplayName: "Test API User",
-			Owners:      []string{"invalid-owner"}, // Invalid format but field is provided
+			Owners:      []string{"invalid-owner"}, // Invalid format but no validation defined
 		}
 
 		err := validator.Validate(apiUser)
-		assert.Error(t, err, "Invalid values in system-set fields should be rejected")
-		assert.Contains(t, err.Error(), "owner must be in format groups/{group_id}")
+		assert.NoError(t, err, "Owners field has no validation rules defined in proto")
 	})
 }

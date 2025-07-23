@@ -3,13 +3,12 @@ syntax = "proto3";
 package meshtrade.iam.api_user.v1;
 
 import "buf/validate/validate.proto";
-import "meshtrade/iam/role/v1/role.proto";
 
 option go_package = "github.com/meshtrade/api/go/iam/api_user/v1;api_userv1";
 
 /*
    Represents an API user for automated authentication and authorization.
-   
+
    API users enable programmatic access to the Mesh API through API key
    authentication. Each API user belongs to a specific group and has
    defined roles that determine their permissions within that group.
@@ -23,7 +22,7 @@ message APIUser {
   string name = 1;
 
   /*
-     The resource name of the group that owns this api user in the format groups/{group_id}.
+     The resource name of the group that owns this api user in the format groups/{ulid}.
      This field establishes the ownership link.
      NOTE: owner must be set to executing group context.
      Required on creation.
@@ -48,23 +47,9 @@ message APIUser {
   /*
      List of resource names of groups that have ownership access to this api user in the format groups/{group_id}.
      This field supports multi-group ownership scenarios.
-     System set on creation based on the owner field.
+     System set on creation.
   */
-  repeated string owners = 3 [(buf.validate.field) = {
-    repeated: {
-      items: {
-        string: {
-          min_len: 1
-          pattern: "^groups/[a-zA-Z0-9]([a-zA-Z0-9_-]*[a-zA-Z0-9])?$"
-        }
-      }
-    }
-    cel: {
-      id: "owners.format"
-      message: "each owner must be in format groups/{group_id} where group_id contains only alphanumeric characters, underscores, and hyphens"
-      expression: "size(this) == 0 || this.all(owner, owner.matches('^groups/[a-zA-Z0-9]([a-zA-Z0-9_-]*[a-zA-Z0-9])?$'))"
-    }
-  }];
+  repeated string owners = 3;
 
   /*
      A non-unique, user-provided name for the api key, used for display purposes.
@@ -96,17 +81,11 @@ message APIUser {
   }];
 
   /*
-     Roles granted to the API user.
-     The API user can use these roles in the appointed owner group.
-     Can be empty (0 roles), but if roles are specified, they must be valid.
+     Roles is a list of the standard roles assigned to this api user
+     prepended by the name of the group in which they have been assigned that role.
+     e.g. groups/{ulid}/{role}, where role is one of the rolev1.Role enum
   */
-  repeated meshtrade.iam.role.v1.Role roles = 6 [(buf.validate.field) = {
-    repeated: {
-      items: {
-        enum: {defined_only: true}
-      }
-    }
-  }];
+  repeated string roles = 6;
 
   /*
      The plaintext API key for the API user.

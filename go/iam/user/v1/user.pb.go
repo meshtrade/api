@@ -25,9 +25,9 @@ type User struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Email address of the user.
 	Email string `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
-	// Roles is a list of the standard roles assigned to this user
+	// Roles is a list of the roles assigned to this user
 	// prepended by the name of the group in which they have been assigned that role.
-	// e.g. groups/{group_id}/{role}, where role is one of the rolev1.Role enum
+	// e.g. groups/{ulid}/{role}, where role is one of the rolev1.Role enum
 	Roles         []string `protobuf:"bytes,6,rep,name=roles,proto3" json:"roles,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache

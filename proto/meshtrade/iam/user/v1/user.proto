@@ -11,9 +11,9 @@ message User {
   string email = 1;
 
   /*
-     Roles is a list of the standard roles assigned to this user
+     Roles is a list of the roles assigned to this user
      prepended by the name of the group in which they have been assigned that role.
-     e.g. groups/{group_id}/{role}, where role is one of the rolev1.Role enum
+     e.g. groups/{ulid}/{role}, where role is one of the rolev1.Role enum
   */
   repeated string roles = 6;
 }
