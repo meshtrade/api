@@ -1,0 +1,5 @@
+version: v2
+plugins:
+  - local: ["./tool/protoc-gen-meshpy/.venv/bin/python", "./tool/protoc-gen-meshpy/main.py"]
+    out: .
+    strategy: all

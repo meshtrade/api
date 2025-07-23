@@ -50,22 +50,18 @@ All generated Python client files will use the `_meshpy.py` suffix:
 
 ### Core Development Cycle (Use for ALL phases)
 ```bash
-# 1. Activate virtual environment
-source api/tool/protoc-gen-meshpy/.venv/bin/activate
+# 1. Update plugin code (main.py, templates, etc.)
 
-# 2. Update plugin code (main.py, templates, etc.)
-
-# 3. Run minimal generation script
+# 2. Run minimal generation script (includes automatic syntax validation)
 ./api/tool/protoc-gen-meshpy/minimal-generate.sh
 
-# 4. Check syntax validity
-python -c "import ast; ast.parse(open('api/python/src/meshtrade/iam/api_user/v1/service_meshpy.py').read())"
-
-# 5. Compare with reference files
+# 3. Compare with reference files
 diff api/python/src/meshtrade/iam/api_user/v1/service_meshpy.py api/python/src/meshtrade/iam/api_user/v1/service.handwritten.py
 
-# 6. Identify necessary changes, repeat from step 2
+# 4. Identify necessary changes, repeat from step 1
 ```
+
+**Note**: Syntax validation happens automatically in the plugin via `ast.parse()`. If there's a syntax error, buf generate will fail with details.
 
 ### Minimal Generate Script (`tool/protoc-gen-meshpy/minimal-generate.sh`)
 ```bash
@@ -86,23 +82,25 @@ cd .. && buf generate --include-imports --type meshtrade.iam.api_user.v1.ApiUser
 
 #### 1.1 Project Setup & Buf Integration (Testable: Plugin responds to buf generate)
 - [x] Create virtual environment in `tool/protoc-gen-meshpy` 
-- [ ] Install Python dependencies in venv: `protobuf`, `jinja2`
-- [ ] Create `main.py` entry point for protoc plugin interface
-- [ ] Implement minimal plugin that reads stdin, outputs "Hello World" comment to `*_meshpy.py` files
-- [ ] Create `minimal-generate.sh` script that cleans `*_meshpy.py` files and runs buf generate
-- [ ] Test plugin integration with `buf generate` immediately
-- [ ] Verify plugin is called for service files and creates `*_meshpy.py` output
+- [x] Install Python dependencies in venv: `protobuf`, `jinja2`
+- [x] Create `main.py` entry point for protoc plugin interface
+- [x] Implement minimal plugin that reads stdin, outputs "Hello World" comment to `*_meshpy.py` files
+- [x] Create `minimal-generate.sh` script that cleans `*_meshpy.py` files and runs buf generate
+- [x] Test plugin integration with `buf generate` immediately
+- [x] Verify plugin is called for service files and creates `*_meshpy.py` output
+- [x] Fix Go code generation issue to enable full buf generate workflow
+- [x] Add `*_meshpy.py` to python/.gitignore
 
-**Validation**: Plugin runs via buf generate and creates `*_meshpy.py` files with comments
-**Critical**: ALL development in virtual environment - `source .venv/bin/activate`
+**Validation**: ✅ COMPLETED - Plugin runs via buf generate and creates `*_meshpy.py` files with comments
+**Critical**: All Python execution uses venv directly: `./tool/protoc-gen-meshpy/.venv/bin/python`
 
 #### 1.2 Development Flow Setup (Testable: Iterative development cycle)
-- [ ] Establish development cycle: code → run script → syntax check → compare → iterate
-- [ ] Create syntax validation helper using `ast.parse()`
-- [ ] Set up comparison with `.handwritten.py` files
-- [ ] Test iterative development flow
+- [x] Establish development cycle: code → run script → syntax check → compare → iterate
+- [x] Create syntax validation helper using `ast.parse()`
+- [x] Set up comparison with `.handwritten.py` files
+- [x] Test iterative development flow
 
-**Validation**: Complete development cycle works end-to-end
+**Validation**: ✅ COMPLETED - Complete development cycle works end-to-end
 
 #### 1.3 Basic File Generation (Testable: Creates Python files)
 - [ ] Generate empty `*_meshpy.py` files with correct naming using buf integration
@@ -253,7 +251,7 @@ cd .. && buf generate --include-imports --type meshtrade.iam.api_user.v1.ApiUser
 
 ### Key Dependencies
 ```bash
-# CRITICAL: Always activate virtual environment first
+# CRITICAL: Install in virtual environment (one-time setup)
 source api/tool/protoc-gen-meshpy/.venv/bin/activate
 
 # Core plugin dependencies
@@ -262,6 +260,7 @@ pip install protobuf jinja2
 # For comparison testing only
 pip install grpcio grpcio-tools opentelemetry-api
 
+# After setup, use venv python directly: ./tool/protoc-gen-meshpy/.venv/bin/python
 # Syntax validation built into Python stdlib (ast module)
 ```
 
@@ -277,9 +276,9 @@ Each milestone has specific validation criteria:
 2. **First Validation**: Run `minimal-generate.sh` and ensure plugin responds to buf generate
 3. **Establish Flow**: Complete development cycle (code → script → syntax → compare → iterate)
 4. **First Milestone**: Complete Phase 1 with working buf integration
-5. **Critical**: ALL work in virtual environment - verify with `which python`
+5. **Critical**: Use venv python directly - verify `buf.gen.yaml` uses `./tool/protoc-gen-meshpy/.venv/bin/python`
 
 This plan provides a clear roadmap with buf integration from day one and iterative development:
-- **Development Flow**: code → `minimal-generate.sh` → syntax check → compare → iterate
-- **Immediate Feedback**: Every change tested via buf generate
-- **Continuous Validation**: Syntax and comparison checking at each step
+- **Development Flow**: code → `minimal-generate.sh` (with built-in syntax validation) → compare → iterate
+- **Immediate Feedback**: Every change tested via buf generate with automatic syntax checking
+- **Continuous Validation**: Built-in syntax validation and comparison checking
