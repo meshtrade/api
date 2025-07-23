@@ -58,14 +58,8 @@ def extract_imports_from_proto(proto_file, service):
     imports.add(f"{proto_base}_pb2")
     imports.add(f"{proto_base}_pb2_grpc")
     
-    # Add imports for message types used in service methods
-    for method in service.method:
-        # Extract message type names from fully qualified names
-        input_type = method.input_type.split('.')[-1] if method.input_type else None
-        output_type = method.output_type.split('.')[-1] if method.output_type else None
-        
-        # For now, assume all types are in the same proto file
-        # In Phase 4, we can enhance this to handle cross-file imports
+    # Note: Message type imports are handled separately in process_service
+    # to avoid duplication with the imported_types logic
     
     return sorted(list(imports))
 

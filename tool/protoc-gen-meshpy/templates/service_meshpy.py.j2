@@ -20,11 +20,11 @@ from datetime import timedelta
 
 from .api_user_pb2 import APIUser
 from .{{ proto_base }}_pb2 import (
-    {%- for type in imported_types | sort %}
-    {%- if type != "APIUser" %}
-    {{ type }}{{ "," if not loop.last else "" }}
-    {%- endif %}
-    {%- endfor %}
+{% for type in imported_types | sort -%}
+{% if type != "APIUser" -%}
+    {{ type }},
+{% endif -%}
+{% endfor -%}
 )
 
 

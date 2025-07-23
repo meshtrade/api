@@ -9,7 +9,6 @@ the service interface with resource management capabilities, providing authentic
 timeouts, and proper connection handling.
 """
 
-import contextlib
 from datetime import timedelta
 
 import grpc
@@ -17,7 +16,6 @@ import grpc
 from meshtrade.common import (
     DEFAULT_GRPC_PORT,
     DEFAULT_GRPC_URL,
-    DEFAULT_TLS,
     GRPCClient,
     create_auth_metadata,
     credentials_from_environment,
@@ -27,11 +25,11 @@ from .api_user_pb2 import APIUser
 from .service_meshpy import {{ service_name }}
 from .service_grpc_client_options_meshpy import ClientOptions
 from .{{ proto_base }}_pb2 import (
-    {%- for type in imported_types | sort %}
-    {%- if type != "APIUser" %}
+{% for type in imported_types | sort -%}
+{% if type != "APIUser" -%}
     {{ type }},
-    {%- endif %}
-    {%- endfor %}
+{% endif -%}
+{% endfor -%}
 )
 from .{{ proto_base }}_pb2_grpc import {{ service_name }}Stub
 
@@ -56,7 +54,7 @@ class {{ service_name }}GRPCClient({{ service_name }}GRPCClientInterface):
         Basic usage with default configuration:
         ```python
         client = {{ service_name }}GRPCClient()
-        
+
         with client:
             response = client.get_api_user(request)
         ```
@@ -73,9 +71,9 @@ class {{ service_name }}GRPCClient({{ service_name }}GRPCClientInterface):
             group_id="your-group-id",
             timeout=timedelta(seconds=60)
         )
-        
+
         client = {{ service_name }}GRPCClient(options)
-        
+
         with client:
             response = client.get_api_user(request)
         ```
@@ -93,8 +91,8 @@ class {{ service_name }}GRPCClient({{ service_name }}GRPCClientInterface):
             ```python
             # Use defaults (credentials from environment)
             client = {{ service_name }}GRPCClient()
-            
-            # Custom configuration  
+
+            # Custom configuration
             options = ClientOptions(
                 url="api.example.com",
                 api_key="your-key",
@@ -159,11 +157,11 @@ class {{ service_name }}GRPCClient({{ service_name }}GRPCClientInterface):
             self._channel = None
             self._stub = None
 
-    def _call_with_auth(self, method, request, timeout: timedelta | None = None):
+    def _call_with_auth(self, method_name: str, request, timeout: timedelta | None = None):
         """Make an authenticated gRPC call with proper error handling.
 
         Args:
-            method: The gRPC stub method to call
+            method_name: The name of the gRPC stub method to call
             request: The request message
             timeout: Optional timeout override
 
@@ -181,6 +179,12 @@ class {{ service_name }}GRPCClient({{ service_name }}GRPCClientInterface):
                 "API key and group ID are required for authentication. "
                 "Provide them via ClientOptions or set MESH_API_CREDENTIALS environment variable."
             )
+
+        if self._stub is None:
+            raise RuntimeError("gRPC stub not initialized. Call _ensure_connected() first.")
+
+        # Get the method from the stub
+        method = getattr(self._stub, method_name)
 
         # Create authentication metadata
         metadata = create_auth_metadata(self._api_key, self._group_id)
@@ -207,6 +211,6 @@ class {{ service_name }}GRPCClient({{ service_name }}GRPCClientInterface):
             grpc.RpcError: If the gRPC call fails
             ValueError: If authentication credentials are missing
         """
-        return self._call_with_auth(self._stub.{{ method.name }}, request, timeout)
+        return self._call_with_auth("{{ method.name }}", request, timeout)
 
     {% endfor %}
