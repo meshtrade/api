@@ -7,7 +7,6 @@ import (
 	errors "errors"
 	fmt "fmt"
 	common "github.com/meshtrade/api/go/common"
-	api_credentials "github.com/meshtrade/api/go/common/api_credentials"
 	trace "go.opentelemetry.io/otel/trace"
 	noop "go.opentelemetry.io/otel/trace/noop"
 	grpc "google.golang.org/grpc"
@@ -120,8 +119,8 @@ func NewApiUserServiceGRPCClient(opts ...ClientOption) (ApiUserServiceGRPCClient
 	}
 
 	// attempt to load credentials from environment file
-	if creds, err := api_credentials.CredentialsFromEnvironment(); err == nil {
-		client.apiKey = creds.APIKey
+	if creds, err := APICredentialsFromEnvironment(); err == nil {
+		client.apiKey = creds.ApiKey
 		client.group = creds.Group
 	}
 
