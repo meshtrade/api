@@ -3,7 +3,7 @@ syntax = "proto3";
 package meshtrade.trading.limit_order.v1;
 
 import "meshtrade/trading/limit_order/v1/limit_order.proto";
-import "meshtrade/option/v1/role.proto";
+import "meshtrade/iam/role/v1/role.proto";
 import "meshtrade/option/v1/method_type.proto";
 
 option go_package = "github.com/meshtrade/api/go/trading/limit_order/v1;limitorderv1";
@@ -11,7 +11,7 @@ option go_package = "github.com/meshtrade/api/go/trading/limit_order/v1;limitord
 service LimitOrderService {
   rpc GetLimitOrder(GetLimitOrderRequest) returns (meshtrade.trading.limit_order.v1.LimitOrder) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
-    option (meshtrade.option.v1.roles) = {
+    option (meshtrade.iam.role.v1.roles) = {
       roles: [
         ROLE_TRADING_ADMIN,
         ROLE_TRADING_VIEWER

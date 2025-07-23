@@ -3,7 +3,7 @@ syntax = "proto3";
 package meshtrade.compliance.client.v1;
 
 import "meshtrade/compliance/client/v1/client.proto";
-import "meshtrade/option/v1/role.proto";
+import "meshtrade/iam/role/v1/role.proto";
 import "meshtrade/option/v1/method_type.proto";
 
 option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
@@ -18,7 +18,7 @@ service ClientService {
   // CreateClient creates a single client.
   rpc CreateClient(CreateClientRequest) returns (meshtrade.compliance.client.v1.Client) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
-    option (meshtrade.option.v1.roles) = {
+    option (meshtrade.iam.role.v1.roles) = {
       roles: [ROLE_COMPLIANCE_ADMIN]
     };
   }
@@ -30,7 +30,7 @@ service ClientService {
   // and company structures.
   rpc GetClient(GetClientRequest) returns (meshtrade.compliance.client.v1.Client) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
-    option (meshtrade.option.v1.roles) = {
+    option (meshtrade.iam.role.v1.roles) = {
       roles: [
         ROLE_COMPLIANCE_ADMIN,
         ROLE_COMPLIANCE_VIEWER
@@ -44,7 +44,7 @@ service ClientService {
   // Note: This endpoint does not currently support pagination or filtering.
   rpc ListClients(ListClientsRequest) returns (ListClientsResponse) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
-    option (meshtrade.option.v1.roles) = {
+    option (meshtrade.iam.role.v1.roles) = {
       roles: [
         ROLE_COMPLIANCE_ADMIN,
         ROLE_COMPLIANCE_VIEWER

@@ -8,7 +8,7 @@ package api_userv1
 
 import (
 	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
-	v1 "github.com/meshtrade/api/go/option/v1"
+	v1 "github.com/meshtrade/api/go/iam/role/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -166,7 +166,7 @@ type APIUser struct {
 	// Roles granted to the API user.
 	// The API user can use these roles in the appointed owner group.
 	// Can be empty (0 roles), but if roles are specified, they must be valid.
-	Roles []v1.Role `protobuf:"varint,6,rep,packed,name=roles,proto3,enum=meshtrade.option.v1.Role" json:"roles,omitempty"`
+	Roles []v1.Role `protobuf:"varint,6,rep,packed,name=roles,proto3,enum=meshtrade.iam.role.v1.Role" json:"roles,omitempty"`
 	// The plaintext API key for the API user.
 	// This field is only populated on the entity the first time it is returned after creation - it is NOT stored.
 	// Populated once by system on creation.
@@ -258,7 +258,7 @@ var File_meshtrade_iam_api_user_v1_api_user_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_api_user_v1_api_user_proto_rawDesc = "" +
 	"\n" +
-	"(meshtrade/iam/api_user/v1/api_user.proto\x12\x19meshtrade.iam.api_user.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1emeshtrade/option/v1/role.proto\"\xbf\t\n" +
+	"(meshtrade/iam/api_user/v1/api_user.proto\x12\x19meshtrade.iam.api_user.v1\x1a\x1bbuf/validate/validate.proto\x1a meshtrade/iam/role/v1/role.proto\"\xc1\t\n" +
 	"\aAPIUser\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\xfd\x02\n" +
 	"\x05owner\x18\x02 \x01(\tB\xe6\x02\xbaH\xe2\x02\xba\x01[\n" +
@@ -269,8 +269,8 @@ const file_meshtrade_iam_api_user_v1_api_user_proto_rawDesc = "" +
 	"\fdisplay_name\x18\x04 \x01(\tB\x8d\x01\xbaH\x89\x01\xba\x01\x7f\n" +
 	"\x15display_name.required\x12Adisplay name is required and must be between 1 and 255 characters\x1a#size(this) > 0 && size(this) <= 255r\x05\x10\x01\x18\xff\x01R\vdisplayName\x12\xbe\x01\n" +
 	"\x05state\x18\x05 \x01(\x0e2'.meshtrade.iam.api_user.v1.APIUserStateB\x7f\xbaH|\xba\x01t\n" +
-	"\vstate.valid\x12/state must be a valid APIUserState if specified\x1a4int(this) == 0 || (int(this) >= 1 && int(this) <= 2)\x82\x01\x02\x10\x01R\x05state\x12>\n" +
-	"\x05roles\x18\x06 \x03(\x0e2\x19.meshtrade.option.v1.RoleB\r\xbaH\n" +
+	"\vstate.valid\x12/state must be a valid APIUserState if specified\x1a4int(this) == 0 || (int(this) >= 1 && int(this) <= 2)\x82\x01\x02\x10\x01R\x05state\x12@\n" +
+	"\x05roles\x18\x06 \x03(\x0e2\x1b.meshtrade.iam.role.v1.RoleB\r\xbaH\n" +
 	"\x92\x01\a\"\x05\x82\x01\x02\x10\x01R\x05roles\x12\x17\n" +
 	"\aapi_key\x18\a \x01(\tR\x06apiKey*f\n" +
 	"\fAPIUserState\x12\x1e\n" +
@@ -302,11 +302,11 @@ var file_meshtrade_iam_api_user_v1_api_user_proto_goTypes = []any{
 	(APIUserState)(0),  // 0: meshtrade.iam.api_user.v1.APIUserState
 	(APIUserAction)(0), // 1: meshtrade.iam.api_user.v1.APIUserAction
 	(*APIUser)(nil),    // 2: meshtrade.iam.api_user.v1.APIUser
-	(v1.Role)(0),       // 3: meshtrade.option.v1.Role
+	(v1.Role)(0),       // 3: meshtrade.iam.role.v1.Role
 }
 var file_meshtrade_iam_api_user_v1_api_user_proto_depIdxs = []int32{
 	0, // 0: meshtrade.iam.api_user.v1.APIUser.state:type_name -> meshtrade.iam.api_user.v1.APIUserState
-	3, // 1: meshtrade.iam.api_user.v1.APIUser.roles:type_name -> meshtrade.option.v1.Role
+	3, // 1: meshtrade.iam.api_user.v1.APIUser.roles:type_name -> meshtrade.iam.role.v1.Role
 	2, // [2:2] is the sub-list for method output_type
 	2, // [2:2] is the sub-list for method input_type
 	2, // [2:2] is the sub-list for extension type_name

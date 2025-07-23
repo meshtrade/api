@@ -2,9 +2,9 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        (unknown)
-// source: meshtrade/option/v1/role.proto
+// source: meshtrade/iam/role/v1/role.proto
 
-package optionv1
+package rolev1
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -85,11 +85,11 @@ func (x Role) String() string {
 }
 
 func (Role) Descriptor() protoreflect.EnumDescriptor {
-	return file_meshtrade_option_v1_role_proto_enumTypes[0].Descriptor()
+	return file_meshtrade_iam_role_v1_role_proto_enumTypes[0].Descriptor()
 }
 
 func (Role) Type() protoreflect.EnumType {
-	return &file_meshtrade_option_v1_role_proto_enumTypes[0]
+	return &file_meshtrade_iam_role_v1_role_proto_enumTypes[0]
 }
 
 func (x Role) Number() protoreflect.EnumNumber {
@@ -98,19 +98,19 @@ func (x Role) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Role.Descriptor instead.
 func (Role) EnumDescriptor() ([]byte, []int) {
-	return file_meshtrade_option_v1_role_proto_rawDescGZIP(), []int{0}
+	return file_meshtrade_iam_role_v1_role_proto_rawDescGZIP(), []int{0}
 }
 
 type RoleList struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Roles         []Role                 `protobuf:"varint,1,rep,packed,name=roles,proto3,enum=meshtrade.option.v1.Role" json:"roles,omitempty"`
+	Roles         []Role                 `protobuf:"varint,1,rep,packed,name=roles,proto3,enum=meshtrade.iam.role.v1.Role" json:"roles,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *RoleList) Reset() {
 	*x = RoleList{}
-	mi := &file_meshtrade_option_v1_role_proto_msgTypes[0]
+	mi := &file_meshtrade_iam_role_v1_role_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -122,7 +122,7 @@ func (x *RoleList) String() string {
 func (*RoleList) ProtoMessage() {}
 
 func (x *RoleList) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_option_v1_role_proto_msgTypes[0]
+	mi := &file_meshtrade_iam_role_v1_role_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -135,7 +135,7 @@ func (x *RoleList) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RoleList.ProtoReflect.Descriptor instead.
 func (*RoleList) Descriptor() ([]byte, []int) {
-	return file_meshtrade_option_v1_role_proto_rawDescGZIP(), []int{0}
+	return file_meshtrade_iam_role_v1_role_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *RoleList) GetRoles() []Role {
@@ -145,44 +145,44 @@ func (x *RoleList) GetRoles() []Role {
 	return nil
 }
 
-var file_meshtrade_option_v1_role_proto_extTypes = []protoimpl.ExtensionInfo{
+var file_meshtrade_iam_role_v1_role_proto_extTypes = []protoimpl.ExtensionInfo{
 	{
 		ExtendedType:  (*descriptorpb.FileOptions)(nil),
 		ExtensionType: (*RoleList)(nil),
 		Field:         50003,
-		Name:          "meshtrade.option.v1.standard_roles",
+		Name:          "meshtrade.iam.role.v1.standard_roles",
 		Tag:           "bytes,50003,opt,name=standard_roles",
-		Filename:      "meshtrade/option/v1/role.proto",
+		Filename:      "meshtrade/iam/role/v1/role.proto",
 	},
 	{
 		ExtendedType:  (*descriptorpb.MethodOptions)(nil),
 		ExtensionType: (*RoleList)(nil),
 		Field:         50005,
-		Name:          "meshtrade.option.v1.roles",
+		Name:          "meshtrade.iam.role.v1.roles",
 		Tag:           "bytes,50005,opt,name=roles",
-		Filename:      "meshtrade/option/v1/role.proto",
+		Filename:      "meshtrade/iam/role/v1/role.proto",
 	},
 }
 
 // Extension fields to descriptorpb.FileOptions.
 var (
-	// optional meshtrade.option.v1.RoleList standard_roles = 50003;
-	E_StandardRoles = &file_meshtrade_option_v1_role_proto_extTypes[0]
+	// optional meshtrade.iam.role.v1.RoleList standard_roles = 50003;
+	E_StandardRoles = &file_meshtrade_iam_role_v1_role_proto_extTypes[0]
 )
 
 // Extension fields to descriptorpb.MethodOptions.
 var (
-	// optional meshtrade.option.v1.RoleList roles = 50005;
-	E_Roles = &file_meshtrade_option_v1_role_proto_extTypes[1]
+	// optional meshtrade.iam.role.v1.RoleList roles = 50005;
+	E_Roles = &file_meshtrade_iam_role_v1_role_proto_extTypes[1]
 )
 
-var File_meshtrade_option_v1_role_proto protoreflect.FileDescriptor
+var File_meshtrade_iam_role_v1_role_proto protoreflect.FileDescriptor
 
-const file_meshtrade_option_v1_role_proto_rawDesc = "" +
+const file_meshtrade_iam_role_v1_role_proto_rawDesc = "" +
 	"\n" +
-	"\x1emeshtrade/option/v1/role.proto\x12\x13meshtrade.option.v1\x1a google/protobuf/descriptor.proto\";\n" +
-	"\bRoleList\x12/\n" +
-	"\x05roles\x18\x01 \x03(\x0e2\x19.meshtrade.option.v1.RoleR\x05roles*\x97\x02\n" +
+	" meshtrade/iam/role/v1/role.proto\x12\x15meshtrade.iam.role.v1\x1a google/protobuf/descriptor.proto\"=\n" +
+	"\bRoleList\x121\n" +
+	"\x05roles\x18\x01 \x03(\x0e2\x1b.meshtrade.iam.role.v1.RoleR\x05roles*\x97\x02\n" +
 	"\x04Role\x12\x14\n" +
 	"\x10ROLE_UNSPECIFIED\x10\x00\x12\x15\n" +
 	"\x11ROLE_WALLET_ADMIN\x10\x01\x12\x16\n" +
@@ -195,36 +195,36 @@ const file_meshtrade_option_v1_role_proto_rawDesc = "" +
 	"\x18ROLE_ISSUANCE_HUB_VIEWER\x10\b\x12\x16\n" +
 	"\x12ROLE_TRADING_ADMIN\x10\t\x12\x17\n" +
 	"\x13ROLE_TRADING_VIEWER\x10\n" +
-	":d\n" +
-	"\x0estandard_roles\x12\x1c.google.protobuf.FileOptions\x18ӆ\x03 \x01(\v2\x1d.meshtrade.option.v1.RoleListR\rstandardRoles:U\n" +
-	"\x05roles\x12\x1e.google.protobuf.MethodOptions\x18Ն\x03 \x01(\v2\x1d.meshtrade.option.v1.RoleListR\x05rolesB0Z.github.com/meshtrade/api/go/option/v1;optionv1b\x06proto3"
+	":f\n" +
+	"\x0estandard_roles\x12\x1c.google.protobuf.FileOptions\x18ӆ\x03 \x01(\v2\x1f.meshtrade.iam.role.v1.RoleListR\rstandardRoles:W\n" +
+	"\x05roles\x12\x1e.google.protobuf.MethodOptions\x18Ն\x03 \x01(\v2\x1f.meshtrade.iam.role.v1.RoleListR\x05rolesB0Z.github.com/meshtrade/api/go/iam/role/v1;rolev1b\x06proto3"
 
 var (
-	file_meshtrade_option_v1_role_proto_rawDescOnce sync.Once
-	file_meshtrade_option_v1_role_proto_rawDescData []byte
+	file_meshtrade_iam_role_v1_role_proto_rawDescOnce sync.Once
+	file_meshtrade_iam_role_v1_role_proto_rawDescData []byte
 )
 
-func file_meshtrade_option_v1_role_proto_rawDescGZIP() []byte {
-	file_meshtrade_option_v1_role_proto_rawDescOnce.Do(func() {
-		file_meshtrade_option_v1_role_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_meshtrade_option_v1_role_proto_rawDesc), len(file_meshtrade_option_v1_role_proto_rawDesc)))
+func file_meshtrade_iam_role_v1_role_proto_rawDescGZIP() []byte {
+	file_meshtrade_iam_role_v1_role_proto_rawDescOnce.Do(func() {
+		file_meshtrade_iam_role_v1_role_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_meshtrade_iam_role_v1_role_proto_rawDesc), len(file_meshtrade_iam_role_v1_role_proto_rawDesc)))
 	})
-	return file_meshtrade_option_v1_role_proto_rawDescData
+	return file_meshtrade_iam_role_v1_role_proto_rawDescData
 }
 
-var file_meshtrade_option_v1_role_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_meshtrade_option_v1_role_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_meshtrade_option_v1_role_proto_goTypes = []any{
-	(Role)(0),                          // 0: meshtrade.option.v1.Role
-	(*RoleList)(nil),                   // 1: meshtrade.option.v1.RoleList
+var file_meshtrade_iam_role_v1_role_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_meshtrade_iam_role_v1_role_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_meshtrade_iam_role_v1_role_proto_goTypes = []any{
+	(Role)(0),                          // 0: meshtrade.iam.role.v1.Role
+	(*RoleList)(nil),                   // 1: meshtrade.iam.role.v1.RoleList
 	(*descriptorpb.FileOptions)(nil),   // 2: google.protobuf.FileOptions
 	(*descriptorpb.MethodOptions)(nil), // 3: google.protobuf.MethodOptions
 }
-var file_meshtrade_option_v1_role_proto_depIdxs = []int32{
-	0, // 0: meshtrade.option.v1.RoleList.roles:type_name -> meshtrade.option.v1.Role
-	2, // 1: meshtrade.option.v1.standard_roles:extendee -> google.protobuf.FileOptions
-	3, // 2: meshtrade.option.v1.roles:extendee -> google.protobuf.MethodOptions
-	1, // 3: meshtrade.option.v1.standard_roles:type_name -> meshtrade.option.v1.RoleList
-	1, // 4: meshtrade.option.v1.roles:type_name -> meshtrade.option.v1.RoleList
+var file_meshtrade_iam_role_v1_role_proto_depIdxs = []int32{
+	0, // 0: meshtrade.iam.role.v1.RoleList.roles:type_name -> meshtrade.iam.role.v1.Role
+	2, // 1: meshtrade.iam.role.v1.standard_roles:extendee -> google.protobuf.FileOptions
+	3, // 2: meshtrade.iam.role.v1.roles:extendee -> google.protobuf.MethodOptions
+	1, // 3: meshtrade.iam.role.v1.standard_roles:type_name -> meshtrade.iam.role.v1.RoleList
+	1, // 4: meshtrade.iam.role.v1.roles:type_name -> meshtrade.iam.role.v1.RoleList
 	5, // [5:5] is the sub-list for method output_type
 	5, // [5:5] is the sub-list for method input_type
 	3, // [3:5] is the sub-list for extension type_name
@@ -232,28 +232,28 @@ var file_meshtrade_option_v1_role_proto_depIdxs = []int32{
 	0, // [0:1] is the sub-list for field type_name
 }
 
-func init() { file_meshtrade_option_v1_role_proto_init() }
-func file_meshtrade_option_v1_role_proto_init() {
-	if File_meshtrade_option_v1_role_proto != nil {
+func init() { file_meshtrade_iam_role_v1_role_proto_init() }
+func file_meshtrade_iam_role_v1_role_proto_init() {
+	if File_meshtrade_iam_role_v1_role_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_meshtrade_option_v1_role_proto_rawDesc), len(file_meshtrade_option_v1_role_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_meshtrade_iam_role_v1_role_proto_rawDesc), len(file_meshtrade_iam_role_v1_role_proto_rawDesc)),
 			NumEnums:      1,
 			NumMessages:   1,
 			NumExtensions: 2,
 			NumServices:   0,
 		},
-		GoTypes:           file_meshtrade_option_v1_role_proto_goTypes,
-		DependencyIndexes: file_meshtrade_option_v1_role_proto_depIdxs,
-		EnumInfos:         file_meshtrade_option_v1_role_proto_enumTypes,
-		MessageInfos:      file_meshtrade_option_v1_role_proto_msgTypes,
-		ExtensionInfos:    file_meshtrade_option_v1_role_proto_extTypes,
+		GoTypes:           file_meshtrade_iam_role_v1_role_proto_goTypes,
+		DependencyIndexes: file_meshtrade_iam_role_v1_role_proto_depIdxs,
+		EnumInfos:         file_meshtrade_iam_role_v1_role_proto_enumTypes,
+		MessageInfos:      file_meshtrade_iam_role_v1_role_proto_msgTypes,
+		ExtensionInfos:    file_meshtrade_iam_role_v1_role_proto_extTypes,
 	}.Build()
-	File_meshtrade_option_v1_role_proto = out.File
-	file_meshtrade_option_v1_role_proto_goTypes = nil
-	file_meshtrade_option_v1_role_proto_depIdxs = nil
+	File_meshtrade_iam_role_v1_role_proto = out.File
+	file_meshtrade_iam_role_v1_role_proto_goTypes = nil
+	file_meshtrade_iam_role_v1_role_proto_depIdxs = nil
 }

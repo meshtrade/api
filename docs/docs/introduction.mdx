@@ -81,7 +81,7 @@ import (
     "log"
 
     api_userv1 "github.com/meshtrade/api/go/iam/api_user/v1"
-    optionv1 "github.com/meshtrade/api/go/option/v1"
+    rolev1 "github.com/meshtrade/api/go/iam/role/v1"
 )
 
 func main() {
@@ -98,8 +98,8 @@ func main() {
         &api_userv1.CreateApiUserRequest{
             ApiUser: &api_userv1.APIUser{
                 DisplayName: "My First API User",
-                Roles: []optionv1.Role{
-                    optionv1.Role_ROLE_IAM_VIEWER,
+                Roles: []rolev1.Role{
+                    rolev1.Role_ROLE_IAM_VIEWER,
                 },
             },
         },

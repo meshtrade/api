@@ -3,7 +3,7 @@ syntax = "proto3";
 package meshtrade.iam.api_user.v1;
 
 import "buf/validate/validate.proto";
-import "meshtrade/option/v1/role.proto";
+import "meshtrade/iam/role/v1/role.proto";
 
 option go_package = "github.com/meshtrade/api/go/iam/api_user/v1;api_userv1";
 
@@ -100,7 +100,7 @@ message APIUser {
      The API user can use these roles in the appointed owner group.
      Can be empty (0 roles), but if roles are specified, they must be valid.
   */
-  repeated meshtrade.option.v1.Role roles = 6 [(buf.validate.field) = {
+  repeated meshtrade.iam.role.v1.Role roles = 6 [(buf.validate.field) = {
     repeated: {
       items: {
         enum: {defined_only: true}

@@ -5,7 +5,7 @@ import (
 	"log"
 
 	api_userv1 "github.com/meshtrade/api/go/iam/api_user/v1"
-	optionv1 "github.com/meshtrade/api/go/option/v1"
+	rolev1 "github.com/meshtrade/api/go/iam/role/v1"
 )
 
 func main() {
@@ -25,8 +25,8 @@ func main() {
 	apiUserToCreate := &api_userv1.APIUser{
 		Owner:       "groups/your-group-id",
 		DisplayName: "My API User",
-		Roles: []optionv1.Role{
-			optionv1.Role_ROLE_IAM_ADMIN,
+		Roles: []rolev1.Role{
+			rolev1.Role_ROLE_IAM_ADMIN,
 		},
 	}
 

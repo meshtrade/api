@@ -1,10 +1,10 @@
 syntax = "proto3";
 
-package meshtrade.option.v1;
+package meshtrade.iam.role.v1;
 
 import "google/protobuf/descriptor.proto";
 
-option go_package = "github.com/meshtrade/api/go/option/v1;optionv1";
+option go_package = "github.com/meshtrade/api/go/iam/role/v1;rolev1";
 
 /*
    Role defines a named collection of permissions.

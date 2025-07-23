@@ -7,6 +7,7 @@
 package clientv1
 
 import (
+	_ "github.com/meshtrade/api/go/iam/role/v1"
 	_ "github.com/meshtrade/api/go/option/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -203,7 +204,7 @@ var File_meshtrade_compliance_client_v1_service_proto protoreflect.FileDescripto
 
 const file_meshtrade_compliance_client_v1_service_proto_rawDesc = "" +
 	"\n" +
-	",meshtrade/compliance/client/v1/service.proto\x12\x1emeshtrade.compliance.client.v1\x1a+meshtrade/compliance/client/v1/client.proto\x1a\x1emeshtrade/option/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\"&\n" +
+	",meshtrade/compliance/client/v1/service.proto\x12\x1emeshtrade.compliance.client.v1\x1a+meshtrade/compliance/client/v1/client.proto\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\"&\n" +
 	"\x10GetClientRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\"U\n" +
 	"\x13CreateClientRequest\x12>\n" +

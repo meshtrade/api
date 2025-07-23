@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"buf.build/go/protovalidate"
-	rolev1 "github.com/meshtrade/api/go/option/v1"
+	rolev1 "github.com/meshtrade/api/go/iam/role/v1"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
