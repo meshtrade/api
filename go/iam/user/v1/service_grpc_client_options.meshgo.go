@@ -3,9 +3,8 @@
 package userv1
 
 import (
-	"time"
-
 	trace "go.opentelemetry.io/otel/trace"
+	time "time"
 )
 
 // ClientOption is a functional option for configuring the UserService gRPC client.

@@ -3,9 +3,8 @@
 package accountv1
 
 import (
-	"time"
-
 	trace "go.opentelemetry.io/otel/trace"
+	time "time"
 )
 
 // ClientOption is a functional option for configuring the AccountService gRPC client.

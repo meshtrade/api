@@ -3,19 +3,19 @@
 package userv1
 
 import (
-	"context"
-	"errors"
+	context "context"
+	errors "errors"
 	fmt "fmt"
-	"time"
+	time "time"
 
-	"github.com/meshtrade/api/go/common"
+	common "github.com/meshtrade/api/go/common"
 	api_credentials "github.com/meshtrade/api/go/common/api_credentials"
 	trace "go.opentelemetry.io/otel/trace"
-	"go.opentelemetry.io/otel/trace/noop"
+	noop "go.opentelemetry.io/otel/trace/noop"
 	grpc "google.golang.org/grpc"
-	"google.golang.org/grpc/credentials"
-	"google.golang.org/grpc/credentials/insecure"
-	"google.golang.org/grpc/metadata"
+	credentials "google.golang.org/grpc/credentials"
+	insecure "google.golang.org/grpc/credentials/insecure"
+	metadata "google.golang.org/grpc/metadata"
 )
 
 // UserServiceGRPCClient is a gRPC client for the UserService service.

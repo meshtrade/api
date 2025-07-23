@@ -3,6 +3,7 @@ package grpc
 import (
 	"strings"
 
+	"github.com/meshtrade/api/tool/protoc-gen-meshgo/pkg/generate"
 	"github.com/meshtrade/api/tool/protoc-gen-meshgo/pkg/generate/serviceProvider"
 	"google.golang.org/protobuf/compiler/protogen"
 )
@@ -29,12 +30,7 @@ func generateOptionsFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Ser
 	optionsG.P("package ", f.GoPackageName)
 	optionsG.P()
 
-	// Add imports
-	optionsG.P("import (")
-	optionsG.P("\t\"time\"")
-	optionsG.P()
-	optionsG.P("\ttrace \"go.opentelemetry.io/otel/trace\"")
-	optionsG.P(")")
+	// Imports are managed automatically by protogen
 	optionsG.P()
 
 	clientStructName := strings.ToLower(string(svc.GoName[0])) + svc.GoName[1:] + "GRPCClient"
@@ -154,7 +150,6 @@ func generateOptionsFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Ser
 	optionsG.P("}")
 	optionsG.P()
 
-
 	// Generate WithGroup option
 	optionsG.P("// WithGroup configures the group resource name for all API requests made by this client.")
 	optionsG.P("// The group is required for public API calls and determines the authorization context")
@@ -196,7 +191,7 @@ func generateOptionsFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Ser
 	optionsG.P("//\tclient, err := New", svc.GoName, "GRPCClient(")
 	optionsG.P("//\t    WithTracer(tracer),")
 	optionsG.P("//\t)")
-	optionsG.P("func WithTracer(tracer trace.Tracer) ", optionTypeName, " {")
+	optionsG.P("func WithTracer(tracer ", generate.TracingPkg.Ident("Tracer"), ") ", optionTypeName, " {")
 	optionsG.P("\treturn func(c *", clientStructName, ") {")
 	optionsG.P("\t\tc.tracer = tracer")
 	optionsG.P("\t}")
@@ -223,7 +218,7 @@ func generateOptionsFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Ser
 	optionsG.P("//")
 	optionsG.P("// Note: Individual method calls can still override this timeout by providing")
 	optionsG.P("// a context with a shorter deadline.")
-	optionsG.P("func WithTimeout(timeout time.Duration) ", optionTypeName, " {")
+	optionsG.P("func WithTimeout(timeout ", generate.TimePackage.Ident("Duration"), ") ", optionTypeName, " {")
 	optionsG.P("\treturn func(c *", clientStructName, ") {")
 	optionsG.P("\t\tc.timeout = timeout")
 	optionsG.P("\t}")
@@ -261,6 +256,7 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 	g.P("\t\"google.golang.org/grpc/credentials/insecure\"")
 	g.P("\t\"google.golang.org/grpc/metadata\"")
 	g.P(")")
+	// Imports are managed automatically by protogen
 	g.P()
 
 	clientInterfaceName := svc.GoName + "GRPCClient"
@@ -298,7 +294,7 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 	g.P("//\t// Use client methods as defined in the service interface")
 	g.P("type ", clientInterfaceName, " interface {")
 	g.P("\t", svc.GoName)
-	g.P("\tcommon.GRPCClient")
+	g.P("\t", generate.CommonPkg.Ident("GRPCClient"))
 	g.P("}")
 	g.P()
 
@@ -315,13 +311,16 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 	g.P("\turl                     string")
 	g.P("\tport                    int")
 	g.P("\ttls                     bool")
-	g.P("\tconn                    *grpc.ClientConn")
+	g.P("\tconn                    *", generate.GRPCPkg.Ident("ClientConn"))
 	g.P("\tgrpcClient              ", svc.GoName, "Client")
-	g.P("\ttracer                  trace.Tracer")
+	g.P("\ttracer                  ", generate.TracingPkg.Ident("Tracer"))
 	g.P("\tapiKey                  string")
 	g.P("\tgroup                   string")
 	g.P("\ttimeout                 time.Duration")
 	g.P("\tunaryClientInterceptors []grpc.UnaryClientInterceptor")
+	g.P("\tgroup                   string")
+	g.P("\ttimeout                 ", generate.TimePackage.Ident("Duration"))
+	g.P("\tunaryClientInterceptors []", generate.GRPCPkg.Ident("UnaryClientInterceptor"))
 	g.P("}")
 	g.P()
 
@@ -362,11 +361,11 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 	g.P("func New", svc.GoName, "GRPCClient(opts ...ClientOption) (", clientInterfaceName, ", error) {")
 	g.P("\t// prepare client with default configuration")
 	g.P("\tclient := &", clientStructName, "{")
-	g.P("\t\turl:     common.DefaultGRPCURL,")
-	g.P("\t\tport:    common.DefaultGRPCPort,")
-	g.P("\t\ttls:     common.DefaultTLS,")
-	g.P("\t\ttracer:  noop.NewTracerProvider().Tracer(\"\"),")
-	g.P("\t\ttimeout: 30 * time.Second, // default 30 second timeout")
+	g.P("\t\turl:     ", generate.CommonPkg.Ident("DefaultGRPCURL"), ",")
+	g.P("\t\tport:    ", generate.CommonPkg.Ident("DefaultGRPCPort"), ",")
+	g.P("\t\ttls:     ", generate.CommonPkg.Ident("DefaultTLS"), ",")
+	g.P("\t\ttracer:  ", generate.TracingNoopPkg.Ident("NewTracerProvider"), "().Tracer(\"\"),")
+	g.P("\t\ttimeout: 30 * ", generate.TimePackage.Ident("Second"), ", // default 30 second timeout")
 	g.P()
 	g.P("\t\t// set once options are applied and connection opened")
 	g.P("\t\tgrpcClient:              nil,")
@@ -375,6 +374,7 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 	g.P()
 	g.P("\t// attempt to load credentials from environment file")
 	g.P("\tif creds, err := api_credentials.CredentialsFromEnvironment(); err == nil {")
+	g.P("\tif creds, err := ", generate.APICredentialsPkg.Ident("CredentialsFromEnvironment"), "(); err == nil {")
 	g.P("\t\tclient.apiKey = creds.APIKey")
 	g.P("\t\tclient.group = creds.Group")
 	g.P("\t}")
@@ -390,29 +390,29 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 	g.P("\t}")
 	g.P()
 	g.P("\t// prepare authentication interceptor")
-	g.P("\tclient.unaryClientInterceptors = []grpc.UnaryClientInterceptor{")
+	g.P("\tclient.unaryClientInterceptors = []", generate.GRPCPkg.Ident("UnaryClientInterceptor"), "{")
 	g.P("\t\tclient.authInterceptor(),")
 	g.P("\t}")
 	g.P()
 	g.P("\t// prepare dial options")
-	g.P("\tdialOpts := make([]grpc.DialOption, 0)")
+	g.P("\tdialOpts := make([]", generate.GRPCPkg.Ident("DialOption"), ", 0)")
 	g.P()
 	g.P("\t// set transport credentials")
 	g.P("\tif client.tls {")
-	g.P("\t\tdialOpts = append(dialOpts, grpc.WithTransportCredentials(credentials.NewClientTLSFromCert(nil, \"\")))")
+	g.P("\t\tdialOpts = append(dialOpts, ", generate.GRPCPkg.Ident("WithTransportCredentials"), "(", generate.GRPCCredentialsPkg.Ident("NewClientTLSFromCert"), "(nil, \"\")))")
 	g.P("\t} else {")
-	g.P("\t\tdialOpts = append(dialOpts, grpc.WithTransportCredentials(insecure.NewCredentials()))")
+	g.P("\t\tdialOpts = append(dialOpts, ", generate.GRPCPkg.Ident("WithTransportCredentials"), "(", generate.GRPCInsecurePkg.Ident("NewCredentials"), "()))")
 	g.P("\t}")
 	g.P()
-	g.P("\tdialOpts = append(dialOpts, grpc.WithChainUnaryInterceptor(client.unaryClientInterceptors...))")
+	g.P("\tdialOpts = append(dialOpts, ", generate.GRPCPkg.Ident("WithChainUnaryInterceptor"), "(client.unaryClientInterceptors...))")
 	g.P()
 	g.P("\t// construct gRPC client connection")
-	g.P("\tconn, err := grpc.NewClient(")
-	g.P("\t\tfmt.Sprintf(\"%s:%d\", client.url, client.port),")
+	g.P("\tconn, err := ", generate.GRPCPkg.Ident("NewClient"), "(")
+	g.P("\t\t", generate.FmtPackage.Ident("Sprintf"), "(\"%s:%d\", client.url, client.port),")
 	g.P("\t\tdialOpts...,")
 	g.P("\t)")
 	g.P("\tif err != nil {")
-	g.P("\t\treturn nil, fmt.Errorf(\"error constructing grpc client connection: %w\", err)")
+	g.P("\t\treturn nil, ", generate.FmtPackage.Ident("Errorf"), "(\"error constructing grpc client connection: %w\", err)")
 	g.P("\t}")
 	g.P()
 	g.P("\t// set client connection and gRPC client")
@@ -460,7 +460,7 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 		g.P("//\t\treturn fmt.Errorf(\"", strings.ToLower(method.GoName), " failed: %w\", err)")
 		g.P("//\t}")
 		g.P("func (s *", clientStructName, ") ", method.GoName, "(ctx context.Context, request *", method.Input.GoIdent, ") (*", method.Output.GoIdent, ", error) {")
-		
+
 		// Add timeout handling
 		g.P("\t// apply timeout if no deadline is already set")
 		g.P("\tif _, hasDeadline := ctx.Deadline(); !hasDeadline {")
@@ -469,7 +469,7 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 		g.P("\t\tdefer cancel()")
 		g.P("\t}")
 		g.P()
-		
+
 		// Add tracing
 		g.P("\tctx, span := s.tracer.Start(")
 		g.P("\t\tctx,")
@@ -477,7 +477,7 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 		g.P("\t)")
 		g.P("\tdefer span.End()")
 		g.P()
-		
+
 		// Make gRPC call
 		g.P("\t// call the underlying gRPC client method")
 		g.P("\t", strings.ToLower(string(method.GoName[0]))+method.GoName[1:]+"Response, err := s.grpcClient.", method.GoName, "(ctx, request)")
@@ -551,10 +551,12 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 	g.P("//   - error: If authentication method or group is missing")
 	g.P("func (c *", clientStructName, ") validateAuth() error {")
 	g.P("\tif c.apiKey == \"\" {")
-	g.P("\t\treturn errors.New(\"api key not set. set credentials via MESH_API_CREDENTIALS file, or use WithAPIKey option\")")
+	g.P("\t\treturn ", generate.ErrorsPackage.Ident("New"), "(\"api key not set. set credentials via MESH_API_CREDENTIALS file, or use WithAPIKey option\")")
 	g.P("\t}")
 	g.P("\tif c.group == \"\" {")
 	g.P("\t\treturn errors.New(\"group not set. set via MESH_API_CREDENTIALS file or WithGroup option\")")
+	g.P("\tif c.group == \"\" {")
+	g.P("\t\treturn ", generate.ErrorsPackage.Ident("New"), "(\"group not set. set via MESH_API_CREDENTIALS file or WithGroup option\")")
 	g.P("\t}")
 	g.P("\treturn nil")
 	g.P("}")
@@ -573,13 +575,17 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 	g.P("//")
 	g.P("// Returns:")
 	g.P("//   - grpc.UnaryClientInterceptor: Configured authentication and group context interceptor")
-	g.P("func (c *", clientStructName, ") authInterceptor() grpc.UnaryClientInterceptor {")
-	g.P("\treturn func(ctx context.Context, method string, req, reply any, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {")
-	g.P("\t\tctx = metadata.AppendToOutgoingContext(")
+	g.P("func (c *", clientStructName, ") authInterceptor() ", generate.GRPCPkg.Ident("UnaryClientInterceptor"), " {")
+	g.P("\treturn func(ctx ", generate.ContextPkg.Ident("Context"), ", method string, req, reply any, cc *", generate.GRPCPkg.Ident("ClientConn"), ", invoker ", generate.GRPCPkg.Ident("UnaryInvoker"), ", opts ...", generate.GRPCPkg.Ident("CallOption"), ") error {")
+	g.P("\t\tctx = ", generate.GRPCMetadataPkg.Ident("AppendToOutgoingContext"), "(")
 	g.P("\t\t\tctx,")
 	g.P("\t\t\tcommon.AuthorizationHeaderKey,")
 	g.P("\t\t\tcommon.BearerPrefix+c.apiKey,")
 	g.P("\t\t\tcommon.GroupHeaderKey,")
+	g.P("\t\t\tc.group,")
+	g.P("\t\t\t", generate.CommonPkg.Ident("AuthorizationHeaderKey"), ",")
+	g.P("\t\t\t", generate.CommonPkg.Ident("BearerPrefix"), "+c.apiKey,")
+	g.P("\t\t\t", generate.CommonPkg.Ident("GroupHeaderKey"), ",")
 	g.P("\t\t\tc.group,")
 	g.P("\t\t)")
 	g.P("\t\treturn invoker(ctx, method, req, reply, cc, opts...)")
