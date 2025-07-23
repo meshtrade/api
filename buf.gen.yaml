@@ -21,6 +21,8 @@ plugins:
     out: ./python/src
   - remote: buf.build/protocolbuffers/pyi:v31.1
     out: ./python/src
+  - remote: buf.build/grpc/python:v1.73.1
+    out: ./python/src
   - local: ["./tool/protoc-gen-meshpy/.venv/bin/python", "./tool/protoc-gen-meshpy/main.py"]
     out: ./python/src
     strategy: all

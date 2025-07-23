@@ -3,145 +3,59 @@
 
 """
 Configuration options for {{ service_name }} gRPC client.
-
-This module provides functional options for configuring the {{ service_name }}
-gRPC client with optional parameters while maintaining backward compatibility.
+This module provides a clean, extensible way to configure the client with optional
+parameters while maintaining backward compatibility and readability.
 """
 
-import time
-from typing import Dict, Any, Optional
 from datetime import timedelta
 
-import grpc
 
+class ClientOptions:
+    """Configuration options for {{ service_name }} gRPC client.
 
-class {{ camel_to_snake(service_name) }}GRPCClient:
-    """Forward declaration for type hints."""
-    pass
-
-
-# ClientOption is a functional option for configuring the {{ service_name }} gRPC client.
-# This pattern provides a clean, extensible way to configure the client with optional
-# parameters while maintaining backward compatibility and readability.
-ClientOption = callable[[{{ camel_to_snake(service_name) }}GRPCClient], None]
-
-
-def with_tls(ca_cert_path: str, client_cert_path: str = None, client_key_path: str = None) -> ClientOption:
+    This class provides a clean, extensible way to configure the client with optional
+    parameters while maintaining backward compatibility and readability.
     """
-    Configure TLS/mTLS for the gRPC client.
-    
-    Args:
-        ca_cert_path: Path to CA certificate file for server verification
-        client_cert_path: Optional path to client certificate for mTLS
-        client_key_path: Optional path to client private key for mTLS
-    
-    Returns:
-        ClientOption function that configures TLS settings
-    """
-    def option(client: {{ camel_to_snake(service_name) }}GRPCClient):
-        # TODO: Implement TLS configuration
-        pass
-    return option
 
+    def __init__(
+        self,
+        tls: bool = True,
+        url: str | None = None,
+        port: int | None = None,
+        api_key: str | None = None,
+        group_id: str | None = None,
+        timeout: timedelta = timedelta(seconds=30),
+    ):
+        """Initialize client options.
 
-def with_insecure() -> ClientOption:
-    """
-    Configure the client to use insecure connection (no TLS).
-    This should only be used in development or testing environments.
-    
-    Returns:
-        ClientOption function that disables TLS
-    """
-    def option(client: {{ camel_to_snake(service_name) }}GRPCClient):
-        # TODO: Implement insecure configuration
-        pass
-    return option
+        Args:
+            tls: Whether to use TLS encryption for the gRPC connection.
+                When True, establishes a secure connection using TLS.
+                When False, uses an insecure connection.
+                Default: True (secure connection)
 
+            url: The server hostname or IP address (e.g., "api.example.com", "localhost").
+                Default: Uses DEFAULT_GRPC_URL from common module
 
-def with_timeout(timeout: timedelta) -> ClientOption:
-    """
-    Set the default timeout for all RPC calls.
-    
-    Args:
-        timeout: Default timeout duration for RPC calls
-    
-    Returns:
-        ClientOption function that sets the default timeout
-    """
-    def option(client: {{ camel_to_snake(service_name) }}GRPCClient):
-        # TODO: Implement timeout configuration
-        pass
-    return option
+            port: The server port number (e.g., 443 for HTTPS, 8080 for development).
+                Default: Uses DEFAULT_GRPC_PORT from common module
 
+            api_key: The API key string (without "Bearer " prefix) for authentication.
+                The API key will be sent as a Bearer token in the Authorization header.
+                This is the primary authentication method for service-to-service communication.
 
-def with_keepalive(
-    time_seconds: int = 30,
-    timeout_seconds: int = 5,
-    permit_without_stream: bool = True
-) -> ClientOption:
-    """
-    Configure keepalive settings for the gRPC connection.
-    
-    Args:
-        time_seconds: Seconds between keepalive pings
-        timeout_seconds: Seconds to wait for keepalive ping response
-        permit_without_stream: Allow keepalive pings without active streams
-    
-    Returns:
-        ClientOption function that configures keepalive settings
-    """
-    def option(client: {{ camel_to_snake(service_name) }}GRPCClient):
-        # TODO: Implement keepalive configuration
-        pass
-    return option
+            group_id: The group identifier string required for all API requests.
+                The group ID determines the authorization context for operations
+                and is sent as an "x-group-id" header with every request.
 
-
-def with_headers(headers: Dict[str, str]) -> ClientOption:
-    """
-    Set default headers to include with all RPC calls.
-    
-    Args:
-        headers: Dictionary of header key-value pairs
-    
-    Returns:
-        ClientOption function that sets default headers
-    """
-    def option(client: {{ camel_to_snake(service_name) }}GRPCClient):
-        # TODO: Implement headers configuration
-        pass
-    return option
-
-
-def with_interceptors(interceptors: list) -> ClientOption:
-    """
-    Add gRPC interceptors to the client.
-    
-    Args:
-        interceptors: List of gRPC interceptors to add
-    
-    Returns:
-        ClientOption function that adds interceptors
-    """
-    def option(client: {{ camel_to_snake(service_name) }}GRPCClient):
-        # TODO: Implement interceptors configuration
-        pass
-    return option
-
-
-
-
-
-def with_compression(compression: grpc.Compression) -> ClientOption:
-    """
-    Configure compression for gRPC calls.
-    
-    Args:
-        compression: gRPC compression algorithm to use
-    
-    Returns:
-        ClientOption function that configures compression
-    """
-    def option(client: {{ camel_to_snake(service_name) }}GRPCClient):
-        # TODO: Implement compression configuration
-        pass
-    return option
+            timeout: The default timeout for all gRPC method calls.
+                This timeout applies to individual method calls and helps prevent hanging requests.
+                If a request takes longer than the specified timeout, it will be cancelled.
+                Default: 30 seconds
+        """
+        self.tls = tls
+        self.url = url
+        self.port = port
+        self.api_key = api_key
+        self.group_id = group_id
+        self.timeout = timeout

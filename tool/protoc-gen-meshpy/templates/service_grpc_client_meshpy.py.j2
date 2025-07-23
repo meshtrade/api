@@ -2,82 +2,155 @@
 # source: {{ proto_file.name }}
 
 """
-gRPC client implementation for {{ service_name }}.
+{{ service_name }} gRPC client wrapper with authentication, timeouts, and resource management.
 
-This module provides a concrete implementation of the {{ service_name }}
-gRPC client with authentication, timeout, and error handling capabilities.
+This module provides a high-level gRPC client for the {{ service_name }} service that combines
+the service interface with resource management capabilities, providing authentication,
+timeouts, and proper connection handling.
 """
 
-from datetime import timedelta
-from typing import Optional, Iterator, Union
 import contextlib
+from datetime import timedelta
 
 import grpc
 
-from .{{ proto_base }}_pb2_grpc import {{ service_name }}Stub
+from meshtrade.common import (
+    DEFAULT_GRPC_PORT,
+    DEFAULT_GRPC_URL,
+    DEFAULT_TLS,
+    GRPCClient,
+    create_auth_metadata,
+    credentials_from_environment,
+)
+
+from .api_user_pb2 import APIUser
 from .service_meshpy import {{ service_name }}
-from .service_grpc_client_options_meshpy import ClientOption
+from .service_grpc_client_options_meshpy import ClientOptions
+from .{{ proto_base }}_pb2 import (
+    {%- for type in imported_types | sort %}
+    {%- if type != "APIUser" %}
+    {{ type }},
+    {%- endif %}
+    {%- endfor %}
+)
+from .{{ proto_base }}_pb2_grpc import {{ service_name }}Stub
 
 
-class {{ service_name }}GRPCClient({{ service_name }}):
+class {{ service_name }}GRPCClientInterface({{ service_name }}, GRPCClient):
+    """Interface combining {{ service_name }} functionality with gRPC client resource management.
+
+    This interface defines the contract for gRPC clients that implement the {{ service_name }}
+    while also providing proper resource cleanup capabilities.
     """
-    gRPC client for {{ service_name }}.
-    
-    This client provides methods for interacting with the {{ service_name }}
-    over gRPC with support for authentication, timeouts, and retries.
-    """
 
-    def __init__(
-        self,
-        target: str,
-        *options: ClientOption
-    ):
-        """
-        Initialize the {{ service_name }} gRPC client.
+    pass
+
+
+class {{ service_name }}GRPCClient({{ service_name }}GRPCClientInterface):
+    """{{ service_name }} gRPC client with authentication, timeouts, and resource management.
+
+    This client provides a complete implementation of the {{ service_name }} interface
+    over gRPC with proper authentication, timeout handling, and automatic resource cleanup.
+
+    Example:
+        Basic usage with default configuration:
+        ```python
+        client = {{ service_name }}GRPCClient()
         
+        with client:
+            response = client.get_api_user(request)
+        ```
+
+        Custom configuration:
+        ```python
+        from .service_grpc_client_options_meshpy import ClientOptions
+        from datetime import timedelta
+
+        options = ClientOptions(
+            url="api.staging.example.com",
+            port=443,
+            api_key="your-api-key",
+            group_id="your-group-id",
+            timeout=timedelta(seconds=60)
+        )
+        
+        client = {{ service_name }}GRPCClient(options)
+        
+        with client:
+            response = client.get_api_user(request)
+        ```
+    """
+
+    def __init__(self, options: ClientOptions | None = None):
+        """Initialize the {{ service_name }} gRPC client.
+
         Args:
-            target: The gRPC server address (e.g., "localhost:9090")
-            *options: Variable number of ClientOption functions for configuration
-        
+            options: Optional ClientOptions for configuring the client.
+                    If None, will use default configuration and attempt to load
+                    credentials from environment variables.
+
         Example:
             ```python
-            from .service_grpc_client_options_meshpy import with_tls, with_timeout
-            from datetime import timedelta
+            # Use defaults (credentials from environment)
+            client = {{ service_name }}GRPCClient()
             
-            client = {{ service_name }}GRPCClient(
-                "api.example.com:443",
-                with_tls("/path/to/ca.crt"),
-                with_timeout(timedelta(seconds=30))
+            # Custom configuration  
+            options = ClientOptions(
+                url="api.example.com",
+                api_key="your-key",
+                group_id="your-group"
             )
+            client = {{ service_name }}GRPCClient(options)
             ```
         """
-        self._target = target
-        self._channel: Optional[grpc.Channel] = None
-        self._stub: Optional[{{ service_name }}Stub] = None
-        
-        # Default configuration
-        self._timeout: Optional[timedelta] = None
-        self._headers: dict = {}
-        
-        # Apply configuration options
-        for option in options:
-            option(self)
+        if options is None:
+            options = ClientOptions()
+
+        # Store configuration
+        self._options = options
+
+        # Initialize gRPC client components
+        self._channel: grpc.Channel | None = None
+        self._stub: {{ service_name }}Stub | None = None
+
+        # Load credentials from options or environment
+        if options.api_key:
+            self._api_key = options.api_key
+            self._group_id = options.group_id
+        else:
+            # Try to load from environment if not provided
+            creds = credentials_from_environment()
+            self._api_key = creds.api_key if creds else None
+            self._group_id = creds.group_id if creds else None
+
+        # Build target URL
+        url = options.url or DEFAULT_GRPC_URL
+        port = options.port or DEFAULT_GRPC_PORT
+        self._target = f"{url}:{port}"
 
     def __enter__(self):
-        """Context manager entry."""
+        """Enter the runtime context for the gRPC client."""
         self._ensure_connected()
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        """Context manager exit."""
+        """Exit the runtime context and cleanup resources."""
         self.close()
 
     def _ensure_connected(self):
-        """Ensure the gRPC channel and stub are initialized."""
-        if self._channel is None:
-            # TODO: Implement actual gRPC channel creation with proper configuration
+        """Ensure the gRPC channel and stub are properly initialized."""
+        if self._channel is not None:
+            return
+
+        # Create appropriate credentials based on TLS setting
+        if self._options.tls:
+            credentials = grpc.ssl_channel_credentials()
+            self._channel = grpc.secure_channel(self._target, credentials)
+        else:
             self._channel = grpc.insecure_channel(self._target)
-            self._stub = {{ service_name }}Stub(self._channel)
+
+        # Create the stub
+        self._stub = {{ service_name }}Stub(self._channel)
 
     def close(self):
         """Close the gRPC channel and cleanup resources."""
@@ -86,40 +159,54 @@ class {{ service_name }}GRPCClient({{ service_name }}):
             self._channel = None
             self._stub = None
 
-    def _call_with_context(self, method_name: str, request, timeout: Optional[timedelta] = None):
-        """
-        Make a gRPC call with proper context, tracing, and error handling.
-        
+    def _call_with_auth(self, method, request, timeout: timedelta | None = None):
+        """Make an authenticated gRPC call with proper error handling.
+
         Args:
-            method_name: Name of the gRPC method being called
-            request: The protobuf request message
-            timeout: Optional timeout for this specific call
-        
+            method: The gRPC stub method to call
+            request: The request message
+            timeout: Optional timeout override
+
         Returns:
-            The protobuf response message
+            The response message
+
+        Raises:
+            grpc.RpcError: If the gRPC call fails
+            ValueError: If authentication credentials are missing
         """
         self._ensure_connected()
-        
-        # Use provided timeout or default
-        call_timeout = timeout or self._timeout
+
+        if not self._api_key or not self._group_id:
+            raise ValueError(
+                "API key and group ID are required for authentication. "
+                "Provide them via ClientOptions or set MESH_API_CREDENTIALS environment variable."
+            )
+
+        # Create authentication metadata
+        metadata = create_auth_metadata(self._api_key, self._group_id)
+
+        # Use provided timeout or default from options
+        call_timeout = timeout or self._options.timeout
         timeout_seconds = call_timeout.total_seconds() if call_timeout else None
-        
-        # TODO: Implement actual gRPC call with error handling
-        # This is a placeholder implementation
-        raise NotImplementedError(f"Method {method_name} not yet implemented")
+
+        # Make the authenticated call
+        return method(request, metadata=metadata, timeout=timeout_seconds)
 
     {% for method in methods %}
-    def {{ method.snake_name }}(self, request: {{ method.input_type.split('.')[-1] }}, timeout: Optional[timedelta] = None) -> {{ method.output_type.split('.')[-1] }}:
-        """
-        {{ method.name }} method.
-        
+    def {{ method.snake_name }}(self, request: {{ method.input_type.split('.')[-1] }}, timeout: timedelta | None = None) -> {{ method.output_type.split('.')[-1] }}:
+        """{{ method.name }} method.
+
         Args:
             request: The {{ method.name }} request message
-            timeout: Optional timeout for this call
-        
+            timeout: Optional timeout override for this call
+
         Returns:
             The {{ method.name }} response message
+
+        Raises:
+            grpc.RpcError: If the gRPC call fails
+            ValueError: If authentication credentials are missing
         """
-        return self._call_with_context("{{ method.name }}", request, timeout)
+        return self._call_with_auth(self._stub.{{ method.name }}, request, timeout)
 
     {% endfor %}

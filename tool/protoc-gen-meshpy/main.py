@@ -7,11 +7,9 @@ This protoc plugin generates Python gRPC clients with the _meshpy.py suffix.
 
 import sys
 import ast
-import os
 import re
 from pathlib import Path
 from google.protobuf.compiler import plugin_pb2 as plugin
-from google.protobuf import descriptor_pb2 as descriptor
 from jinja2 import Environment, FileSystemLoader
 
 
@@ -116,6 +114,14 @@ def process_service(proto_file, service, template_env):
     methods = analyze_service_methods(service)
     imports = extract_imports_from_proto(proto_file, service)
     
+    # Extract unique message types for imports
+    imported_types = set()
+    for method in methods:
+        input_type = method['input_type'].split('.')[-1]
+        output_type = method['output_type'].split('.')[-1]
+        imported_types.add(input_type)
+        imported_types.add(output_type)
+    
     # Create enhanced context for template rendering
     context = {
         'service_name': service_name,
@@ -124,6 +130,7 @@ def process_service(proto_file, service, template_env):
         'proto_file': proto_file,
         'methods': methods,
         'imports': imports,
+        'imported_types': sorted(list(imported_types)),
         'proto_base': get_proto_file_base(proto_file.name),
         'camel_to_snake': camel_to_snake
     }
