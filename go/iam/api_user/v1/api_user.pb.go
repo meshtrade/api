@@ -137,6 +137,11 @@ func (APIUserAction) EnumDescriptor() ([]byte, []int) {
 	return file_meshtrade_iam_api_user_v1_api_user_proto_rawDescGZIP(), []int{1}
 }
 
+// Represents an API user for automated authentication and authorization.
+//
+// API users enable programmatic access to the Mesh API through API key
+// authentication. Each API user belongs to a specific group and has
+// defined roles that determine their permissions within that group.
 type APIUser struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The unique, immutable, and canonical name of the api user resource in the format api_users/{api_user_id}.
