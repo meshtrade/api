@@ -8,3 +8,9 @@ plugins:
     out: ./ts/src
     opt:
       - import_style=commonjs,binary
+
+### Python ###
+  - remote: buf.build/protocolbuffers/python:v31.1
+    out: ./python/src
+  - remote: buf.build/protocolbuffers/pyi:v31.1
+    out: ./python/src

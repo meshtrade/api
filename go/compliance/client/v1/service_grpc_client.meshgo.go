@@ -360,6 +360,16 @@ func (s *clientServiceGRPCClient) Close() error {
 	return nil
 }
 
+// Group returns the group ID configured for this client.
+// The group ID determines the authorization context for all API requests
+// and is sent as an "x-group-id" header with every request.
+//
+// Returns:
+//   - string: The configured group ID
+func (s *clientServiceGRPCClient) Group() string {
+	return s.groupID
+}
+
 // validateAuth ensures that authentication credentials and group ID are properly configured.
 // This method is called during client initialization to prevent runtime authentication failures.
 //

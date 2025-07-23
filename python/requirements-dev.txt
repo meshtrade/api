@@ -8,6 +8,8 @@ build==1.2.2.post1
     # via meshtrade (pyproject.toml)
 cachetools==6.0.0
     # via tox
+cel-python==0.2.0
+    # via protovalidate
 certifi==2025.4.26
     # via requests
 chardet==5.2.0
@@ -40,8 +42,12 @@ jaraco-context==6.0.1
     # via keyring
 jaraco-functools==4.1.0
     # via keyring
+jmespath==1.0.1
+    # via cel-python
 keyring==25.6.0
     # via twine
+lark==0.12.0
+    # via cel-python
 markdown-it-py==3.0.0
     # via rich
 mdurl==0.1.2
@@ -71,6 +77,9 @@ protobuf==6.31.1
     # via
     #   googleapis-common-protos
     #   meshtrade (pyproject.toml)
+    #   protovalidate
+protovalidate==0.13.0
+    # via meshtrade (pyproject.toml)
 pygments==2.19.1
     # via
     #   pytest
@@ -82,6 +91,10 @@ pyproject-hooks==1.2.0
     # via build
 pytest==8.4.0
     # via meshtrade (pyproject.toml)
+python-dateutil==2.9.0.post0
+    # via cel-python
+pyyaml==6.0.2
+    # via cel-python
 readme-renderer==44.0
     # via twine
 requests==2.32.4
@@ -97,12 +110,18 @@ rich==14.0.0
     # via twine
 ruff==0.11.13
     # via meshtrade (pyproject.toml)
+six==1.17.0
+    # via python-dateutil
 tox==4.26.0
     # via meshtrade (pyproject.toml)
 twine==6.1.0
     # via meshtrade (pyproject.toml)
 types-protobuf==6.30.2.20250516
     # via meshtrade (pyproject.toml)
+types-python-dateutil==2.9.0.20250708
+    # via cel-python
+types-pyyaml==6.0.12.20250516
+    # via cel-python
 urllib3==2.4.0
     # via
     #   requests

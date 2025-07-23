@@ -522,6 +522,18 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 	g.P("}")
 	g.P()
 
+	// Generate Group method
+	g.P("// Group returns the group ID configured for this client.")
+	g.P("// The group ID determines the authorization context for all API requests")
+	g.P("// and is sent as an \"x-group-id\" header with every request.")
+	g.P("//")
+	g.P("// Returns:")
+	g.P("//   - string: The configured group ID")
+	g.P("func (s *", clientStructName, ") Group() string {")
+	g.P("\treturn s.groupID")
+	g.P("}")
+	g.P()
+
 	// Generate validateAuth helper
 	g.P("// validateAuth ensures that authentication credentials and group ID are properly configured.")
 	g.P("// This method is called during client initialization to prevent runtime authentication failures.")

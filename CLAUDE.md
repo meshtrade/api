@@ -28,7 +28,7 @@ This is the Mesh API repository containing protobuf definitions and multi-langua
 #### Python
 - `cd python && pip install -e .[dev]` - Install Python package in development mode
 - `cd python && pytest` - Run Python tests
-- `cd python && ruff check` - Lint Python code
+- `cd python && ruff check . --fix` - Lint Python code (CRITICAL: Always run after Python changes)
 - `cd python && ruff format` - Format Python code
 - `cd python && tox` - Run full test suite with tox
 
@@ -50,8 +50,8 @@ pip install -r requirements-dev.txt
 # Run tests (required PYTHONPATH)
 PYTHONPATH="./common/python/lib:./common/python/tests" pytest ./common/python/tests -v
 
-# Run linting
-ruff check .
+# Run linting (CRITICAL: Always run after Python changes)
+ruff check . --fix
 ruff format .
 ```
 

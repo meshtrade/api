@@ -1,39 +1,41 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+trap 'handle_error $LINENO' ERR
 
-# --- Configuration ---
-# A simple flag parser. If the first argument is -v or --verbose,
-# the script will run in verbose mode.
-VERBOSE_FLAG=""
-if [[ "${1:-}" == "-v" || "${1:-}" == "--verbose" ]]; then
-  echo "Running in verbose mode..."
-  VERBOSE_FLAG="-v"
-fi
+handle_error() {
+  local exit_code=$?
+  local line_number=$1
+  echo
+  echo "❌ ERROR in $(basename "$0") on line $line_number: GENERATE ALL FAILED!!"
+  exit "$exit_code"
+}
+trap 'handle_error $LINENO' ERR
 
 echo "🧹 Cleaning Go generated files..."
 # Find and remove all generated Go files in a single command.
 find ./go \
   \( -name '*.pb.go' -o -name '*.pb.gw.go' -o -name '*.meshgo.go' -o -name '*.validate.go' \) \
-  -print0 | xargs -0 -P 4 -n 1 rm $VERBOSE_FLAG
+  -print0 | xargs -0 -P 4 -n 1 rm
 echo
 
 echo "🧹 Cleaning Python generated files..."
-find ./python/src/meshtrade -type f \( -name '*_pb2_grpc.py' -o -name '*_pb2.py' -o -name '*_pb2.pyi' \) -print0 | xargs -0 -r -P 4 rm $VERBOSE_FLAG
+find ./python/src/meshtrade -type f \( -name '*_pb2_grpc.py' -o -name '*_pb2.py' -o -name '*_pb2.pyi' \) -print0 | xargs -0 -r -P 4 rm
 echo
 
 echo "🧹 Cleaning Js + Ts generated files..."
 rm -rf ./ts/dist
 find ./ts/src \
   \( -name '*pb.d.ts' -o -name '*pb.js' -o -name '*Pb.ts' \) \
-  -print0 | xargs -0 -P 4 -n 1 rm $VERBOSE_FLAG
+  -print0 | xargs -0 -P 4 -n 1 rm
 echo  
 
 echo "🚀 Generating new files from protobuf definitions..."
-buf generate
+buf generate  --template "$SCRIPT_DIR/buf/buf.gen.yaml"
 echo
 
 echo "🚀 Generating buf/validate TypeScript files..."
-buf generate buf.build/bufbuild/protovalidate --template buf.gen.validate.yaml
+buf generate buf.build/bufbuild/protovalidate --template "$SCRIPT_DIR/buf/buf.gen.validate.yaml"
 echo
 
 echo "⚙️ Typescript Library Build..."
