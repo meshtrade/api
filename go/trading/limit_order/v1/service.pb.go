@@ -71,7 +71,7 @@ var File_meshtrade_trading_limit_order_v1_service_proto protoreflect.FileDescrip
 
 const file_meshtrade_trading_limit_order_v1_service_proto_rawDesc = "" +
 	"\n" +
-	".meshtrade/trading/limit_order/v1/service.proto\x12 meshtrade.trading.limit_order.v1\x1a2meshtrade/trading/limit_order/v1/limit_order.proto\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\".\n" +
+	".meshtrade/trading/limit_order/v1/service.proto\x12 meshtrade.trading.limit_order.v1\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\x1a2meshtrade/trading/limit_order/v1/limit_order.proto\".\n" +
 	"\x14GetLimitOrderRequest\x12\x16\n" +
 	"\x06number\x18\x01 \x01(\tR\x06number2\x99\x01\n" +
 	"\x11LimitOrderService\x12\x83\x01\n" +

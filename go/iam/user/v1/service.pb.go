@@ -91,7 +91,7 @@ var File_meshtrade_iam_user_v1_service_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_user_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"#meshtrade/iam/user/v1/service.proto\x12\x15meshtrade.iam.user.v1\x1a\x1bbuf/validate/validate.proto\x1a meshtrade/iam/user/v1/user.proto\x1a%meshtrade/option/v1/method_type.proto\x1a meshtrade/iam/role/v1/role.proto\"\x88\x04\n" +
+	"#meshtrade/iam/user/v1/service.proto\x12\x15meshtrade.iam.user.v1\x1a\x1bbuf/validate/validate.proto\x1a meshtrade/iam/role/v1/role.proto\x1a meshtrade/iam/user/v1/user.proto\x1a%meshtrade/option/v1/method_type.proto\"\x88\x04\n" +
 	"\x17AssignRoleToUserRequest\x12\xac\x01\n" +
 	"\x05email\x18\x01 \x01(\tB\x95\x01\xbaH\x91\x01\xba\x01U\n" +
 	"\x0eemail.required\x123email is required and must be a valid email address\x1a\x0esize(this) > 0r7\x10\x01\x18\xfe\x0120^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$R\x05email\x12\x9b\x01\n" +

@@ -51,3 +51,11 @@ docs-new/
 - **MDX Support** - Mix JSX with markdown for interactive content
 - **Search** - Algolia search integration (configure in docusaurus.config.js)
 - **Dark Mode** - Built-in dark/light theme switching
+
+### TODO
+
+#### Introduction
+- add to introduction quickstart how to get the credentials from the mesh web app
+- make a better first api request example. immediately making an api key is a bit much. Maybe retrieving this api key!? This example is outdated anyway.
+- next steps links are broken, actually all links at the end of this page are broken # agent to fix
+- 

@@ -71,7 +71,7 @@ var File_meshtrade_trading_spot_v1_service_proto protoreflect.FileDescriptor
 
 const file_meshtrade_trading_spot_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"'meshtrade/trading/spot/v1/service.proto\x12\x19meshtrade.trading.spot.v1\x1a$meshtrade/trading/spot/v1/spot.proto\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\"(\n" +
+	"'meshtrade/trading/spot/v1/service.proto\x12\x19meshtrade.trading.spot.v1\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\x1a$meshtrade/trading/spot/v1/spot.proto\"(\n" +
 	"\x0eGetSpotRequest\x12\x16\n" +
 	"\x06number\x18\x01 \x01(\tR\x06number2r\n" +
 	"\vSpotService\x12c\n" +

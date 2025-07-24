@@ -2,10 +2,10 @@ syntax = "proto3";
 
 package meshtrade.issuance_hub.instrument.v1;
 
-import "meshtrade/issuance_hub/instrument/v1/instrument.proto";
-import "meshtrade/type/v1/amount.proto";
 import "meshtrade/iam/role/v1/role.proto";
+import "meshtrade/issuance_hub/instrument/v1/instrument.proto";
 import "meshtrade/option/v1/method_type.proto";
+import "meshtrade/type/v1/amount.proto";
 
 option go_package = "github.com/meshtrade/api/go/issuance_hub/instrument/v1;instrumentv1";
 
@@ -45,7 +45,6 @@ message GetInstrumentRequest {
   string name = 1;
 }
 
-
 message MintInstrumentRequest {
   // The quantity of the instrument to mint (denominated in token of the instrument).
   meshtrade.type.v1.Amount amount = 1;
@@ -80,4 +79,3 @@ message BurnInstrumentResponse {
   // query a transaction monitoring service to check for completion and success.
   string transaction_id = 1;
 }
-

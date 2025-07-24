@@ -423,7 +423,7 @@ var File_meshtrade_iam_api_user_v1_service_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_api_user_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"'meshtrade/iam/api_user/v1/service.proto\x12\x19meshtrade.iam.api_user.v1\x1a\x1bbuf/validate/validate.proto\x1a(meshtrade/iam/api_user/v1/api_user.proto\x1a%meshtrade/option/v1/method_type.proto\x1a meshtrade/iam/role/v1/role.proto\"'\n" +
+	"'meshtrade/iam/api_user/v1/service.proto\x12\x19meshtrade.iam.api_user.v1\x1a\x1bbuf/validate/validate.proto\x1a(meshtrade/iam/api_user/v1/api_user.proto\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\"'\n" +
 	"\x11GetApiUserRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\"7\n" +
 	"\x1aGetApiUserByKeyHashRequest\x12\x19\n" +

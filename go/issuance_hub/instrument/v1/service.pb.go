@@ -292,7 +292,7 @@ var File_meshtrade_issuance_hub_instrument_v1_service_proto protoreflect.FileDes
 
 const file_meshtrade_issuance_hub_instrument_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"2meshtrade/issuance_hub/instrument/v1/service.proto\x12$meshtrade.issuance_hub.instrument.v1\x1a5meshtrade/issuance_hub/instrument/v1/instrument.proto\x1a\x1emeshtrade/type/v1/amount.proto\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\"*\n" +
+	"2meshtrade/issuance_hub/instrument/v1/service.proto\x12$meshtrade.issuance_hub.instrument.v1\x1a meshtrade/iam/role/v1/role.proto\x1a5meshtrade/issuance_hub/instrument/v1/instrument.proto\x1a%meshtrade/option/v1/method_type.proto\x1a\x1emeshtrade/type/v1/amount.proto\"*\n" +
 	"\x14GetInstrumentRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\"\x9c\x01\n" +
 	"\x15MintInstrumentRequest\x121\n" +

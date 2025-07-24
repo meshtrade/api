@@ -71,7 +71,7 @@ var File_meshtrade_trading_direct_order_v1_service_proto protoreflect.FileDescri
 
 const file_meshtrade_trading_direct_order_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"/meshtrade/trading/direct_order/v1/service.proto\x12!meshtrade.trading.direct_order.v1\x1a4meshtrade/trading/direct_order/v1/direct_order.proto\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\"/\n" +
+	"/meshtrade/trading/direct_order/v1/service.proto\x12!meshtrade.trading.direct_order.v1\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\x1a4meshtrade/trading/direct_order/v1/direct_order.proto\"/\n" +
 	"\x15GetDirectOrderRequest\x12\x16\n" +
 	"\x06number\x18\x01 \x01(\tR\x06number2\x9f\x01\n" +
 	"\x12DirectOrderService\x12\x88\x01\n" +

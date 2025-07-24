@@ -1,4 +1,4 @@
-"""Account v1 package."""
+"""Role v1 package."""
 
 # ===================================================================
 # AUTO-GENERATED SECTION - ONLY EDIT BELOW THE CLOSING COMMENT BLOCK
@@ -13,37 +13,12 @@
 # ===================================================================
 
 # Generated protobuf imports
-from .account_pb2 import Account
-
-# Generated service imports
-from .service_grpc_client_meshpy import (
-    AccountServiceGRPCClient,
-    AccountServiceGRPCClientInterface,
-)
-from .service_grpc_client_options_meshpy import ClientOptions
-from .service_meshpy import AccountService
-from .service_pb2 import (
-    CreateAccountRequest,
-    GetAccountRequest,
-    ListAccountsRequest,
-    ListAccountsResponse,
-    SearchAccountsRequest,
-    SearchAccountsResponse,
-)
+from .role_pb2 import Role, RoleList
 
 # Auto-generated __all__ exports
 __all__ = [
-    "Account",
-    "AccountService",
-    "AccountServiceGRPCClient",
-    "AccountServiceGRPCClientInterface",
-    "ClientOptions",
-    "CreateAccountRequest",
-    "GetAccountRequest",
-    "ListAccountsRequest",
-    "ListAccountsResponse",
-    "SearchAccountsRequest",
-    "SearchAccountsResponse",
+    "Role",
+    "RoleList",
 ]
 
 # ===================================================================
