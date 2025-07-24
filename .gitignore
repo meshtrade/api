@@ -211,3 +211,18 @@ _site
 docs/.jekyll-cache
 docs/_site
 .pytest_cache
+
+# Generated protobuf files
+**/*.pb.go
+**/*.pb.gw.go
+**/*.meshgo.go
+**/*.validate.go
+**/*_pb2.py
+**/*_pb2.pyi
+**/*_pb2_grpc.py
+**/*_meshpy.py
+**/*pb.d.ts
+**/*pb.js
+**/*Pb.ts
+**/*_grpc_web_client_meshts.js
+**/*_grpc_web_client_meshts.d.ts

@@ -14,6 +14,7 @@
 
 # Generated protobuf imports
 from .direct_order_pb2 import DirectOrder
+from .service_pb2 import GetDirectOrderRequest
 
 # Generated service imports
 from .service_grpc_client_meshpy import (
@@ -22,17 +23,6 @@ from .service_grpc_client_meshpy import (
 )
 from .service_grpc_client_options_meshpy import ClientOptions
 from .service_meshpy import DirectOrderService
-from .service_pb2 import GetDirectOrderRequest
-
-# Auto-generated __all__ exports
-__all__ = [
-    "ClientOptions",
-    "DirectOrder",
-    "DirectOrderService",
-    "DirectOrderServiceGRPCClient",
-    "DirectOrderServiceGRPCClientInterface",
-    "GetDirectOrderRequest",
-]
 
 # ===================================================================
 # END OF AUTO-GENERATED SECTION
@@ -46,36 +36,18 @@ __all__ = [
 # Example:
 #   from my_custom_module import my_function
 #
-#   __all__.extend([
-#       "my_function",
-#   ])
 # ===================================================================
 
-# MANUAL SECTION - ADD YOUR CUSTOM IMPORTS AND EXPORTS BELOW
-#
-# You can safely add your own imports, functions, classes, and exports
-# in this section. They will be preserved across code generation.
-#
-# Example:
-#   from my_custom_module import my_function
-#
-#   __all__.extend([
-#       "my_function",
-#   ])
 # ===================================================================
-
-# MANUAL SECTION - ADD YOUR CUSTOM IMPORTS AND EXPORTS BELOW
-#
-# You can safely add your own imports, functions, classes, and exports
-# in this section. They will be preserved across code generation.
-#
-# Example:
-#   from my_custom_module import my_function
-#
-#   __all__.extend([
-#       "my_function",
-#   ])
+# MODULE EXPORTS
 # ===================================================================
-
-# MANUAL EXPORTS - ADD CUSTOM IMPORTS BELOW
-# ===========================================
+# Combined auto-generated and manual exports
+__all__ = [
+    # Generated exports
+    "ClientOptions",
+    "DirectOrder",
+    "DirectOrderService",
+    "DirectOrderServiceGRPCClient",
+    "DirectOrderServiceGRPCClientInterface",
+    "GetDirectOrderRequest",
+]

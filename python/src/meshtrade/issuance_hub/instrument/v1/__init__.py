@@ -14,14 +14,6 @@
 
 # Generated protobuf imports
 from .instrument_pb2 import Instrument
-
-# Generated service imports
-from .service_grpc_client_meshpy import (
-    InstrumentServiceGRPCClient,
-    InstrumentServiceGRPCClientInterface,
-)
-from .service_grpc_client_options_meshpy import ClientOptions
-from .service_meshpy import InstrumentService
 from .service_pb2 import (
     BurnInstrumentRequest,
     BurnInstrumentResponse,
@@ -30,19 +22,13 @@ from .service_pb2 import (
     MintInstrumentResponse,
 )
 
-# Auto-generated __all__ exports
-__all__ = [
-    "BurnInstrumentRequest",
-    "BurnInstrumentResponse",
-    "ClientOptions",
-    "GetInstrumentRequest",
-    "Instrument",
-    "InstrumentService",
-    "InstrumentServiceGRPCClient",
-    "InstrumentServiceGRPCClientInterface",
-    "MintInstrumentRequest",
-    "MintInstrumentResponse",
-]
+# Generated service imports
+from .service_grpc_client_meshpy import (
+    InstrumentServiceGRPCClient,
+    InstrumentServiceGRPCClientInterface,
+)
+from .service_grpc_client_options_meshpy import ClientOptions
+from .service_meshpy import InstrumentService
 
 # ===================================================================
 # END OF AUTO-GENERATED SECTION
@@ -56,36 +42,22 @@ __all__ = [
 # Example:
 #   from my_custom_module import my_function
 #
-#   __all__.extend([
-#       "my_function",
-#   ])
 # ===================================================================
 
-# MANUAL SECTION - ADD YOUR CUSTOM IMPORTS AND EXPORTS BELOW
-#
-# You can safely add your own imports, functions, classes, and exports
-# in this section. They will be preserved across code generation.
-#
-# Example:
-#   from my_custom_module import my_function
-#
-#   __all__.extend([
-#       "my_function",
-#   ])
 # ===================================================================
-
-# MANUAL SECTION - ADD YOUR CUSTOM IMPORTS AND EXPORTS BELOW
-#
-# You can safely add your own imports, functions, classes, and exports
-# in this section. They will be preserved across code generation.
-#
-# Example:
-#   from my_custom_module import my_function
-#
-#   __all__.extend([
-#       "my_function",
-#   ])
+# MODULE EXPORTS
 # ===================================================================
-
-# MANUAL EXPORTS - ADD CUSTOM IMPORTS BELOW
-# ===========================================
+# Combined auto-generated and manual exports
+__all__ = [
+    # Generated exports
+    "BurnInstrumentRequest",
+    "BurnInstrumentResponse",
+    "ClientOptions",
+    "GetInstrumentRequest",
+    "Instrument",
+    "InstrumentService",
+    "InstrumentServiceGRPCClient",
+    "InstrumentServiceGRPCClientInterface",
+    "MintInstrumentRequest",
+    "MintInstrumentResponse",
+]

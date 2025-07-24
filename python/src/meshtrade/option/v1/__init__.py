@@ -15,11 +15,6 @@
 # Generated protobuf imports
 from .method_type_pb2 import MethodType
 
-# Auto-generated __all__ exports
-__all__ = [
-    "MethodType",
-]
-
 # ===================================================================
 # END OF AUTO-GENERATED SECTION
 # ===================================================================
@@ -32,36 +27,13 @@ __all__ = [
 # Example:
 #   from my_custom_module import my_function
 #
-#   __all__.extend([
-#       "my_function",
-#   ])
 # ===================================================================
 
-# MANUAL SECTION - ADD YOUR CUSTOM IMPORTS AND EXPORTS BELOW
-#
-# You can safely add your own imports, functions, classes, and exports
-# in this section. They will be preserved across code generation.
-#
-# Example:
-#   from my_custom_module import my_function
-#
-#   __all__.extend([
-#       "my_function",
-#   ])
 # ===================================================================
-
-# MANUAL SECTION - ADD YOUR CUSTOM IMPORTS AND EXPORTS BELOW
-#
-# You can safely add your own imports, functions, classes, and exports
-# in this section. They will be preserved across code generation.
-#
-# Example:
-#   from my_custom_module import my_function
-#
-#   __all__.extend([
-#       "my_function",
-#   ])
+# MODULE EXPORTS
 # ===================================================================
-
-# MANUAL EXPORTS - ADD CUSTOM IMPORTS BELOW
-# ===========================================
+# Combined auto-generated and manual exports
+__all__ = [
+    # Generated exports
+    "MethodType",
+]

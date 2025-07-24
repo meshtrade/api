@@ -26,13 +26,6 @@
 {% endfor %}
 {% endif %}
 
-# Auto-generated __all__ exports
-__all__ = [
-{% for export in auto_generated_exports %}
-    "{{ export }}",
-{% endfor %}
-]
-
 # ===================================================================
 # END OF AUTO-GENERATED SECTION
 # ===================================================================
@@ -45,11 +38,25 @@ __all__ = [
 # Example:
 #   from my_custom_module import my_function
 #
-#   __all__.extend([
-#       "my_function",
-#   ])
 # ===================================================================
 {% if existing_manual_section %}
 
 {{ existing_manual_section }}
 {% endif %}
+
+# ===================================================================
+# MODULE EXPORTS
+# ===================================================================
+# Combined auto-generated and manual exports
+__all__ = [
+    # Generated exports
+{% for export in auto_generated_exports %}
+    "{{ export }}",
+{% endfor %}
+{% if manual_exports %}
+    # Manual exports
+{% for export in manual_exports %}
+    "{{ export }}",
+{% endfor %}
+{% endif %}
+]

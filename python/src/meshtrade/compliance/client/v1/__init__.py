@@ -13,16 +13,26 @@
 # ===================================================================
 
 # Generated protobuf imports
-from .client_pb2 import Client
-from .company_pb2 import Company, ConnectedLegalPerson, LegalPersonConnectionType
-from .company_representative_pb2 import CompanyRepresentative
 from .company_representative_role_pb2 import CompanyRepresentativeRole
-from .fund_pb2 import Fund
 from .identification_document_type_pb2 import IdentificationDocumentType
-from .industry_classification_pb2 import IndustryClassification
-from .natural_person_connection_type_pb2 import NaturalPersonConnectionType
-from .natural_person_pb2 import NaturalPerson
 from .pep_status_pb2 import PepStatus
+from .source_of_income_and_wealth_pb2 import SourceOfIncomeAndWealth
+from .tax_residency_pb2 import TaxResidency
+from .natural_person_pb2 import NaturalPerson
+from .company_representative_pb2 import CompanyRepresentative
+from .fund_pb2 import Fund
+from .industry_classification_pb2 import IndustryClassification
+from .trust_pb2 import Trust
+from .company_pb2 import Company, ConnectedLegalPerson, LegalPersonConnectionType
+from .verification_status_pb2 import VerificationStatus
+from .client_pb2 import Client
+from .natural_person_connection_type_pb2 import NaturalPersonConnectionType
+from .service_pb2 import (
+    CreateClientRequest,
+    GetClientRequest,
+    ListClientsRequest,
+    ListClientsResponse,
+)
 
 # Generated service imports
 from .service_grpc_client_meshpy import (
@@ -31,19 +41,27 @@ from .service_grpc_client_meshpy import (
 )
 from .service_grpc_client_options_meshpy import ClientOptions
 from .service_meshpy import ClientService
-from .service_pb2 import (
-    CreateClientRequest,
-    GetClientRequest,
-    ListClientsRequest,
-    ListClientsResponse,
-)
-from .source_of_income_and_wealth_pb2 import SourceOfIncomeAndWealth
-from .tax_residency_pb2 import TaxResidency
-from .trust_pb2 import Trust
-from .verification_status_pb2 import VerificationStatus
 
-# Auto-generated __all__ exports
+# ===================================================================
+# END OF AUTO-GENERATED SECTION
+# ===================================================================
+#
+# MANUAL SECTION - ADD YOUR CUSTOM IMPORTS AND EXPORTS BELOW
+#
+# You can safely add your own imports, functions, classes, and exports
+# in this section. They will be preserved across code generation.
+#
+# Example:
+#   from my_custom_module import my_function
+#
+# ===================================================================
+
+# ===================================================================
+# MODULE EXPORTS
+# ===================================================================
+# Combined auto-generated and manual exports
 __all__ = [
+    # Generated exports
     "Client",
     "ClientOptions",
     "ClientService",
@@ -69,49 +87,3 @@ __all__ = [
     "Trust",
     "VerificationStatus",
 ]
-
-# ===================================================================
-# END OF AUTO-GENERATED SECTION
-# ===================================================================
-#
-# MANUAL SECTION - ADD YOUR CUSTOM IMPORTS AND EXPORTS BELOW
-#
-# You can safely add your own imports, functions, classes, and exports
-# in this section. They will be preserved across code generation.
-#
-# Example:
-#   from my_custom_module import my_function
-#
-#   __all__.extend([
-#       "my_function",
-#   ])
-# ===================================================================
-
-# MANUAL SECTION - ADD YOUR CUSTOM IMPORTS AND EXPORTS BELOW
-#
-# You can safely add your own imports, functions, classes, and exports
-# in this section. They will be preserved across code generation.
-#
-# Example:
-#   from my_custom_module import my_function
-#
-#   __all__.extend([
-#       "my_function",
-#   ])
-# ===================================================================
-
-# MANUAL SECTION - ADD YOUR CUSTOM IMPORTS AND EXPORTS BELOW
-#
-# You can safely add your own imports, functions, classes, and exports
-# in this section. They will be preserved across code generation.
-#
-# Example:
-#   from my_custom_module import my_function
-#
-#   __all__.extend([
-#       "my_function",
-#   ])
-# ===================================================================
-
-# MANUAL EXPORTS - ADD CUSTOM IMPORTS BELOW
-# ===========================================

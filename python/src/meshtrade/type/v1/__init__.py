@@ -14,25 +14,13 @@
 
 # Generated protobuf imports
 from .address_pb2 import Address
-from .amount_pb2 import Amount
 from .contact_details_pb2 import ContactDetails
-from .date_pb2 import Date
 from .decimal_pb2 import Decimal
 from .ledger_pb2 import Ledger
-from .time_of_day_pb2 import TimeOfDay
 from .token_pb2 import Token
-
-# Auto-generated __all__ exports
-__all__ = [
-    "Address",
-    "Amount",
-    "ContactDetails",
-    "Date",
-    "Decimal",
-    "Ledger",
-    "TimeOfDay",
-    "Token",
-]
+from .amount_pb2 import Amount
+from .date_pb2 import Date
+from .time_of_day_pb2 import TimeOfDay
 
 # ===================================================================
 # END OF AUTO-GENERATED SECTION
@@ -46,36 +34,20 @@ __all__ = [
 # Example:
 #   from my_custom_module import my_function
 #
-#   __all__.extend([
-#       "my_function",
-#   ])
 # ===================================================================
 
-# MANUAL SECTION - ADD YOUR CUSTOM IMPORTS AND EXPORTS BELOW
-#
-# You can safely add your own imports, functions, classes, and exports
-# in this section. They will be preserved across code generation.
-#
-# Example:
-#   from my_custom_module import my_function
-#
-#   __all__.extend([
-#       "my_function",
-#   ])
 # ===================================================================
-
-# MANUAL SECTION - ADD YOUR CUSTOM IMPORTS AND EXPORTS BELOW
-#
-# You can safely add your own imports, functions, classes, and exports
-# in this section. They will be preserved across code generation.
-#
-# Example:
-#   from my_custom_module import my_function
-#
-#   __all__.extend([
-#       "my_function",
-#   ])
+# MODULE EXPORTS
 # ===================================================================
-
-# MANUAL EXPORTS - ADD CUSTOM IMPORTS BELOW
-# ===========================================
+# Combined auto-generated and manual exports
+__all__ = [
+    # Generated exports
+    "Address",
+    "Amount",
+    "ContactDetails",
+    "Date",
+    "Decimal",
+    "Ledger",
+    "TimeOfDay",
+    "Token",
+]

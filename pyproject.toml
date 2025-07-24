@@ -78,3 +78,7 @@ addopts = "--verbose --tb=short"
 
 [tool.ruff.lint.isort]
 known-first-party = ["meshtrade"]
+
+[tool.ruff.lint.per-file-ignores]
+# Skip import sorting in __init__.py files to preserve auto-generated structure
+"**/__init__.py" = ["I001"]

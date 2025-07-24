@@ -15,14 +15,6 @@
 # Generated protobuf imports
 from .api_credentials_pb2 import APICredentials
 from .api_user_pb2 import APIUser, APIUserAction, APIUserState
-
-# Generated service imports
-from .service_grpc_client_meshpy import (
-    ApiUserServiceGRPCClient,
-    ApiUserServiceGRPCClientInterface,
-)
-from .service_grpc_client_options_meshpy import ClientOptions
-from .service_meshpy import ApiUserService
 from .service_pb2 import (
     ActivateApiUserRequest,
     CreateApiUserRequest,
@@ -35,8 +27,50 @@ from .service_pb2 import (
     SearchApiUsersResponse,
 )
 
-# Auto-generated __all__ exports
+# Generated service imports
+from .service_grpc_client_meshpy import (
+    ApiUserServiceGRPCClient,
+    ApiUserServiceGRPCClientInterface,
+)
+from .service_grpc_client_options_meshpy import ClientOptions
+from .service_meshpy import ApiUserService
+
+# ===================================================================
+# END OF AUTO-GENERATED SECTION
+# ===================================================================
+#
+# MANUAL SECTION - ADD YOUR CUSTOM IMPORTS AND EXPORTS BELOW
+#
+# You can safely add your own imports, functions, classes, and exports
+# in this section. They will be preserved across code generation.
+#
+# Example:
+#   from my_custom_module import my_function
+#
+# ===================================================================
+
+from meshtrade.common import (
+    DEFAULT_GRPC_PORT,
+    DEFAULT_GRPC_URL,
+    DEFAULT_TLS,
+    GRPCClient,
+    create_auth_metadata,
+)
+# Import credentials functions from local module
+from .api_credentials import (
+    MESH_API_CREDENTIALS_ENV_VAR,
+    api_credentials_from_environment,
+    load_api_credentials_from_file,
+)
+# ===================================================================
+# ===================================================================
+
+# ===================================================================
+# MODULE EXPORTS
+# ===================================================================
+# Combined auto-generated and manual exports
 __all__ = [
+    # Generated exports
     "APICredentials",
     "APIUser",
     "APIUserAction",
@@ -54,50 +88,13 @@ __all__ = [
     "ListApiUsersResponse",
     "SearchApiUsersRequest",
     "SearchApiUsersResponse",
-]
-
-# ===================================================================
-# END OF AUTO-GENERATED SECTION
-# ===================================================================
-#
-# MANUAL SECTION - ADD YOUR CUSTOM IMPORTS AND EXPORTS BELOW
-#
-# You can safely add your own imports, functions, classes, and exports
-# in this section. They will be preserved across code generation.
-#
-# Example:
-#   from my_custom_module import my_function
-#
-#   __all__.extend([
-#       "my_function",
-#   ])
-# ===================================================================
-
-from meshtrade.common import (
-    DEFAULT_GRPC_PORT,
-    DEFAULT_GRPC_URL,
-    DEFAULT_TLS,
-    GRPCClient,
-    create_auth_metadata,
-)
-
-# Import credentials functions from local module
-from .api_credentials import (
-    MESH_API_CREDENTIALS_ENV_VAR,
-    api_credentials_from_environment,
-    load_api_credentials_from_file,
-)
-
-# Extend __all__ with manual exports
-__all__.extend([
-    # Common utilities
-    "GRPCClient",
-    "create_auth_metadata",
-    "DEFAULT_GRPC_URL",
+    # Manual exports
     "DEFAULT_GRPC_PORT",
+    "DEFAULT_GRPC_URL",
     "DEFAULT_TLS",
-    # Credentials
+    "GRPCClient",
     "MESH_API_CREDENTIALS_ENV_VAR",
-    "load_api_credentials_from_file",
     "api_credentials_from_environment",
-])
+    "create_auth_metadata",
+    "load_api_credentials_from_file",
+]
