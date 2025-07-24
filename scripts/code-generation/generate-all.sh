@@ -26,9 +26,15 @@ echo
 echo "🧹 Cleaning Js + Ts generated files..."
 rm -rf ./ts/dist
 find ./ts/src \
-  \( -name '*pb.d.ts' -o -name '*pb.js' -o -name '*Pb.ts' \) \
+  \( -name '*pb.d.ts' -o -name '*pb.js' -o -name '*Pb.ts' -o -name '*_grpc_web_client_meshts.js' -o -name '*_grpc_web_client_meshts.d.ts' \) \
   -print0 | xargs -0 -P 4 -n 1 rm
 echo  
+
+echo "🛠 Building protoc-gen-meshts plugin..."
+cd tool/protoc-gen-meshts/cmd
+yarn build
+cd ../../..
+echo
 
 echo "🚀 Generating new files from protobuf definitions..."
 buf generate  --template "$SCRIPT_DIR/buf/buf.gen.yaml"

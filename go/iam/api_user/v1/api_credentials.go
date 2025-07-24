@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-const MESH_API_APICredentials_ENV_VAR = "MESH_API_APICredentials"
+const MESH_API_CREDENTIALS_ENV_VAR = "MESH_API_CREDENTIALS"
 
 // LoadAPICredentialsFromFile loads API APICredentials from a JSON file
 func LoadAPICredentialsFromFile(path string) (*APICredentials, error) {
@@ -36,11 +36,11 @@ func LoadAPICredentialsFromFile(path string) (*APICredentials, error) {
 	return &creds, nil
 }
 
-// APICredentialsFromEnvironment loads API APICredentials from the file path specified in MESH_API_APICredentials environment variable
+// APICredentialsFromEnvironment loads API APICredentials from the file path specified in MESH_API_CREDENTIALS environment variable
 func APICredentialsFromEnvironment() (*APICredentials, error) {
-	path := os.Getenv(MESH_API_APICredentials_ENV_VAR)
+	path := os.Getenv(MESH_API_CREDENTIALS_ENV_VAR)
 	if path == "" {
-		return nil, fmt.Errorf("MESH_API_APICredentials environment variable not set")
+		return nil, fmt.Errorf("MESH_API_CREDENTIALS environment variable not set")
 	}
 
 	return LoadAPICredentialsFromFile(path)

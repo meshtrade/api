@@ -8,7 +8,6 @@ package api_userv1
 
 import (
 	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
-	_ "github.com/meshtrade/api/go/iam/role/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -258,7 +257,7 @@ var File_meshtrade_iam_api_user_v1_api_user_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_api_user_v1_api_user_proto_rawDesc = "" +
 	"\n" +
-	"(meshtrade/iam/api_user/v1/api_user.proto\x12\x19meshtrade.iam.api_user.v1\x1a\x1bbuf/validate/validate.proto\x1a meshtrade/iam/role/v1/role.proto\"\xd9\x06\n" +
+	"(meshtrade/iam/api_user/v1/api_user.proto\x12\x19meshtrade.iam.api_user.v1\x1a\x1bbuf/validate/validate.proto\"\xd9\x06\n" +
 	"\aAPIUser\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\xfd\x02\n" +
 	"\x05owner\x18\x02 \x01(\tB\xe6\x02\xbaH\xe2\x02\xba\x01[\n" +

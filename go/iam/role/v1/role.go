@@ -11,6 +11,10 @@ func (r Role) FullResourceNameFromGroupID(groupID string) string {
 	return fmt.Sprintf("groups/%s/%d", groupID, r)
 }
 
+func (r Role) FullResourceNameFromGroupName(groupName string) string {
+	return fmt.Sprintf("%s/%d", groupName, r)
+}
+
 // RoleFromFullResourceName parses a full resource name and returns the Role.
 // The full resource name should be in the format "groups/{groupID}/{roleNumber}".
 // Returns Role_ROLE_UNSPECIFIED and an error if the format is invalid or the role number cannot be parsed.
@@ -50,11 +54,11 @@ func (r Role) FullResourceNameFromGroup(group string) (string, error) {
 	if !strings.HasPrefix(group, "groups/") {
 		return "", fmt.Errorf("invalid group format, expected groups/{groupID}, got: %s", group)
 	}
-	
+
 	groupID := strings.TrimPrefix(group, "groups/")
 	if groupID == "" {
 		return "", fmt.Errorf("group ID cannot be empty in group resource name: %s", group)
 	}
-	
+
 	return r.FullResourceNameFromGroupID(groupID), nil
 }

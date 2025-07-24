@@ -1,0 +1,8 @@
+# Isolated buf generate configuration for testing protoc-gen-meshts
+# Usage: buf generate --template buf.meshts.gen.yaml proto
+version: v2
+
+plugins:
+  - local: ["node", "./tool/protoc-gen-meshts/cmd/dist/index.js"]
+    out: ./ts/src
+    strategy: all
