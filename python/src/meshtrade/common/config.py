@@ -16,7 +16,7 @@ BEARER_PREFIX = "Bearer "
 ACCESS_TOKEN_PREFIX = "AccessToken="
 
 
-def create_auth_metadata(api_key: str, group: str) -> dict[str, str]:
+def create_auth_metadata(api_key: str, group: str) -> list[tuple[str, str]]:
     """Create authentication metadata for gRPC requests.
 
     Args:
@@ -24,12 +24,12 @@ def create_auth_metadata(api_key: str, group: str) -> dict[str, str]:
         group: The group resource name in format groups/{group_id}
 
     Returns:
-        Dictionary of metadata headers for authentication
+        List of metadata header tuples for authentication
     """
-    return {
-        AUTHORIZATION_HEADER_KEY: f"{BEARER_PREFIX}{api_key}",
-        GROUP_HEADER_KEY: group,  # Send full groups/uuid format in header
-    }
+    return [
+        (AUTHORIZATION_HEADER_KEY, f"{BEARER_PREFIX}{api_key}"),
+        (GROUP_HEADER_KEY, group),  # Send full groups/uuid format in header
+    ]
 
 
 def extract_group_id(group: str) -> str:
