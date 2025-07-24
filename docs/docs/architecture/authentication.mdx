@@ -126,70 +126,83 @@ client, err := api_userv1.NewApiUserServiceGRPCClient(
 
 ### Python SDK
 
-The Python SDK provides basic protobuf classes with manual gRPC setup:
+The Python SDK provides fully-featured wrapper clients with advanced capabilities:
 
-#### Manual Client Setup
-Create gRPC clients and handle authentication manually:
+#### Simple Client Creation
+Create clients with automatic credential loading:
 
 ```python
-import grpc
-from meshtrade.iam.api_user.v1 import service_pb2_grpc
+from meshtrade.iam.api_user.v1 import ApiUserServiceGRPCClient, ClientOptions
 
-# Create channel and client
-channel = grpc.insecure_channel('localhost:8080')
-client = service_pb2_grpc.ApiUserServiceStub(channel)
+# Create client (loads credentials from MESH_API_CREDENTIALS)
+options = ClientOptions()
+client = ApiUserServiceGRPCClient(options)
 
-# Create authentication metadata
-metadata = [
-    ('authorization', 'Bearer your-api-key'),
-    ('x-group-id', 'your-group-id'),
-]
-
-# Make calls with metadata
-response = client.GetApiUser(request, metadata=metadata)
+# Use context manager for automatic cleanup
+with client:
+    response = client.get_api_user(request)
 ```
 
-#### Manual Resource Management
-Handle channel lifecycle explicitly:
+#### Advanced Configuration Options
+Configure clients using options for flexibility:
 
 ```python
-channel = grpc.insecure_channel('localhost:8080')
+from datetime import timedelta
+
+options = ClientOptions(
+    url="api.staging.example.com",
+    port=443,
+    tls=True,
+    api_key="your-api-key",
+    group="groups/your-group-id",
+    timeout=timedelta(seconds=60)
+)
+client = ApiUserServiceGRPCClient(options)
+```
+
+#### Available Configuration Options
+- `url` - Server hostname (default: from credentials)
+- `port` - Server port (default: from credentials)
+- `tls` - Enable/disable TLS (default: True)
+- `api_key` - Set API key for authentication
+- `group` - Set group context
+- `timeout` - Configure request timeouts as timedelta
+
+#### Automatic Credential Loading
+The client automatically attempts to load credentials from environment:
+
+```bash
+# Set environment variable pointing to credentials file
+export MESH_API_CREDENTIALS=/path/to/credentials.json
+```
+
+#### Resource Management
+Proper cleanup with context manager or close method:
+
+```python
+# Recommended: context manager
+with client:
+    response = client.get_api_user(request)
+
+# Alternative: manual cleanup
+client = ApiUserServiceGRPCClient(options)
 try:
-    # Use client...
-    pass
+    response = client.get_api_user(request)
 finally:
-    channel.close()
-```
-
-#### Basic Protobuf Usage
-Work directly with generated protobuf classes:
-
-```python
-from meshtrade.iam.api_user.v1 import service_pb2, api_user_pb2
-
-# Create request objects
-request = service_pb2.GetApiUserRequest(
-    name="api_users/01HPQR2S3T4U5V6W7X8Y9Z0123"
-)
-
-# Use protobuf message fields directly
-api_user = api_user_pb2.APIUser(
-    owner="groups/my-org",
-    display_name="My API User"
-)
+    client.close()
 ```
 
 ## SDK Comparison
 
 | Feature | Go SDK | Python SDK |
 |---------|--------|------------|
-| Client generation | ✅ Full SDK | ❌ Manual setup |
-| Authentication | ✅ Automatic | ❌ Manual headers |
-| Resource management | ✅ `Close()` method | ❌ Manual cleanup |
-| Timeout handling | ✅ Smart defaults | ❌ Manual configuration |
-| OpenTelemetry | ✅ Built-in | ❌ Not available |
-| TLS/mTLS | ✅ Configurable | ❌ Manual setup |
-| Credential loading | ✅ Environment file | ❌ Manual |
+| Client generation | ✅ Full SDK | ✅ Full SDK |
+| Authentication | ✅ Automatic | ✅ Automatic |
+| Resource management | ✅ `Close()` method | ✅ Context manager |
+| Timeout handling | ✅ Smart defaults | ✅ Configurable |
+| OpenTelemetry | ✅ Built-in | 🚧 Coming Soon |
+| TLS/mTLS | ✅ Configurable | ✅ Configurable |
+| Credential loading | ✅ Environment file | ✅ Environment file |
 
 ## Security Best Practices
 
@@ -229,8 +242,8 @@ if err != nil {
 **Python:**
 ```python
 try:
-    response = client.GetApiUser(request, metadata=metadata)
-except grpc.RpcError as e:
+    response = client.get_api_user(request)
+except Exception as e:
     print(f"Failed to get API user: {e}")
 ```
 

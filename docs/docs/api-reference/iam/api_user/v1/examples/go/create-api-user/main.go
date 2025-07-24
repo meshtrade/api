@@ -9,32 +9,24 @@ import (
 )
 
 func main() {
-	// Create client (see ../client-setup/main.go for details)
-	client, err := api_userv1.NewApiUserServiceGRPCClient(
-		api_userv1.WithAddress("localhost", 8080),
-		api_userv1.WithTLS(false),
-		api_userv1.WithAPIKey("your-api-key"),
-		api_userv1.WithGroup("your-group-id"),
-	)
+	// Create client (loads credentials from MESH_API_CREDENTIALS)
+	client, err := api_userv1.NewApiUserServiceGRPCClient()
 	if err != nil {
 		log.Fatalf("Failed to create client: %v", err)
 	}
 	defer client.Close()
 
-	// Prepare API user configuration
-	apiUserToCreate := &api_userv1.APIUser{
-		Owner:       "groups/your-group-id",
-		DisplayName: "My API User",
-		Roles: []rolev1.Role{
-			rolev1.Role_ROLE_IAM_ADMIN,
-		},
-	}
-
-	// Create the new API user
+	// Create API user with IAM admin role
 	apiUser, err := client.CreateApiUser(
 		context.Background(),
 		&api_userv1.CreateApiUserRequest{
-			ApiUser: apiUserToCreate,
+			ApiUser: &api_userv1.APIUser{
+				Owner:       client.Group(),
+				DisplayName: "My API User",
+				Roles: []string{
+					rolev1.Role_ROLE_IAM_ADMIN.FullResourceNameFromGroupName(client.Group()),
+				},
+			},
 		},
 	)
 	if err != nil {
@@ -42,6 +34,6 @@ func main() {
 	}
 
 	log.Printf("Created API user: %s", apiUser.Name)
-	log.Printf("Display name: %s", apiUser.DisplayName)
-	log.Printf("API key: %s", apiUser.ApiKey) // Only shown on creation
+	log.Printf("API key (save this!): %s", apiUser.ApiKey)
+	log.Printf("State: %s", apiUser.State)
 }

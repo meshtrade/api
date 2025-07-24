@@ -1,10 +1,13 @@
 # GetApiUserByKeyHash
 
-Retrieves an API user using its API key hash.
+Retrieves an API user by its API key hash. This method is primarily used internally by the authentication system to validate API keys during requests.
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import CodeBlock from '@theme/CodeBlock';
 import serviceData from '../service.generated.json';
+import GoExample from '!!raw-loader!../examples/go/get-api-user-by-key-hash/main.go';
+import PythonExample from '!!raw-loader!../examples/python/get-api-user-by-key-hash.py';
 
 ## Method Details
 
@@ -23,98 +26,31 @@ import serviceData from '../service.generated.json';
 <Tabs>
 <TabItem value="go" label="Go">
 
-```go title="main.go"
-package main
-
-import (
-	"context"
-	"log"
-
-	api_userv1 "github.com/meshtrade/api/go/iam/api_user/v1"
-)
-
-func main() {
-	// Create client (loads credentials from MESH_API_CREDENTIALS)
-	client, err := api_userv1.NewApiUserServiceGRPCClient()
-	if err != nil {
-		log.Fatalf("Failed to create client: %v", err)
-	}
-	defer client.Close()
-
-	// Get API user by key hash (typically used for authentication flows)
-	apiUser, err := client.GetApiUserByKeyHash(
-		context.Background(),
-		&api_userv1.GetApiUserByKeyHashRequest{
-			KeyHash: "abcd1234hash5678", // Replace with actual key hash
-		},
-	)
-	if err != nil {
-		log.Fatalf("Failed to get API user by key hash: %v", err)
-	}
-
-	log.Printf("Found API User: %s", apiUser.Name)
-	log.Printf("Display Name: %s", apiUser.DisplayName)
-	log.Printf("State: %v", apiUser.State)
-}
-```
+<CodeBlock language="go" title="get-api-user-by-key-hash.go">
+{GoExample}
+</CodeBlock>
 
 </TabItem>
 <TabItem value="python" label="Python">
 
-```python title="get-api-user-by-key-hash.py"
-import grpc
-import json
-import os
-from meshtrade.iam.api_user.v1 import service_pb2, service_pb2_grpc
-
-def load_credentials():
-    """Load credentials from MESH_API_CREDENTIALS file."""
-    creds_path = os.getenv('MESH_API_CREDENTIALS')
-    with open(creds_path, 'r') as f:
-        return json.load(f)
-
-def main():
-    # Load credentials
-    creds = load_credentials()
-    
-    # Create gRPC channel and client
-    channel = grpc.insecure_channel('api.mesh.dev:443')
-    client = service_pb2_grpc.ApiUserServiceStub(channel)
-    
-    # Authentication metadata
-    metadata = [
-        ('authorization', f'Bearer {creds["api_key"]}'),
-        ('x-group-id', creds['group_id']),
-    ]
-    
-    try:
-        # Create request
-        request = service_pb2.GetApiUserByKeyHashRequest(
-            key_hash="abcd1234hash5678"  # Replace with actual key hash
-        )
-        
-        # Make the API call
-        response = client.GetApiUserByKeyHash(request, metadata=metadata)
-        
-        print(f"Found API User: {response.name}")
-        print(f"Display Name: {response.display_name}")
-        print(f"State: {response.state}")
-        
-    except grpc.RpcError as e:
-        print(f"Failed to get API user by key hash: {e}")
-    
-    finally:
-        channel.close()
-
-if __name__ == "__main__":
-    main()
-```
+<CodeBlock language="python" title="get-api-user-by-key-hash.py">
+{PythonExample}
+</CodeBlock>
 
 </TabItem>
 </Tabs>
 
+:::warning Internal Authentication Use
+This method is primarily used internally by the authentication system. The key hash calculation is complex and typically handled by the authoriser service. In most cases, you should use [GetApiUser](./get-api-user) instead.
+:::
+
+## Advanced Configuration
+
+For advanced client configuration options (custom endpoints, TLS settings, timeouts), see the [SDK Configuration Guide](../../../../architecture/sdk-configuration).
+
 ## Related Methods
 
 - **[GetApiUser](./get-api-user)** - Get API user by name instead of key hash
-- **[ListApiUsers](./list-api-users)** - List all API users in the group
+- **[CreateApiUser](./create-api-user)** - Create a new API user
 - **[ActivateApiUser](./activate-api-user)** - Ensure API user is active for authentication
+- **[ListApiUsers](./list-api-users)** - List all API users in the group
