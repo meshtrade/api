@@ -153,7 +153,7 @@ func generateOptionsFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Ser
 	// Generate WithGroup option
 	optionsG.P("// WithGroup configures the group resource name for all API requests made by this client.")
 	optionsG.P("// The group is required for public API calls and determines the authorization context")
-	optionsG.P("// for operations. It will be sent as an \"x-group-id\" header with every request.")
+	optionsG.P("// for operations. It will be sent as an \"x-group\" header with every request.")
 	optionsG.P("//")
 	optionsG.P("// This option is required when using manual authentication configuration.")
 	optionsG.P("// When loading from credentials file via MESH_API_CREDENTIALS, the group")
@@ -506,7 +506,7 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 	// Generate Group method
 	g.P("// Group returns the group resource name configured for this client.")
 	g.P("// The group determines the authorization context for all API requests")
-	g.P("// and is sent as an \"x-group-id\" header with every request.")
+	g.P("// and is sent as an \"x-group\" header with every request.")
 	g.P("//")
 	g.P("// Returns:")
 	g.P("//   - string: The configured group resource name in format groups/{group_id}")
@@ -546,7 +546,7 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 	g.P("//")
 	g.P("// Headers Added:")
 	g.P("//   - API Key: \"Authorization: Bearer <api-key>\" header")
-	g.P("//   - Group ID: \"x-group-id: <group>\" header")
+	g.P("//   - Group ID: \"x-group: <group>\" header")
 	g.P("//")
 	g.P("// The interceptor is automatically applied to all method calls and handles the")
 	g.P("// authentication and authorization context transparently without requiring manual header management.")

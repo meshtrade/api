@@ -11,7 +11,7 @@ DEFAULT_TLS = True
 # gRPC metadata constants
 AUTHORIZATION_HEADER_KEY = "authorization"
 COOKIE_HEADER_KEY = "cookie"
-GROUP_ID_HEADER_KEY = "x-group-id"
+GROUP_HEADER_KEY = "x-group"
 BEARER_PREFIX = "Bearer "
 ACCESS_TOKEN_PREFIX = "AccessToken="
 
@@ -28,41 +28,41 @@ def create_auth_metadata(api_key: str, group: str) -> dict[str, str]:
     """
     return {
         AUTHORIZATION_HEADER_KEY: f"{BEARER_PREFIX}{api_key}",
-        GROUP_ID_HEADER_KEY: group,  # Send full groups/uuid format in header
+        GROUP_HEADER_KEY: group,  # Send full groups/uuid format in header
     }
 
 
 def extract_group_id(group: str) -> str:
     """Extract the group ID from a group resource name in the format groups/{group_id}.
-    
+
     Args:
         group: Group resource name in format groups/{group_id}
-        
+
     Returns:
         The group ID portion
-        
+
     Raises:
         ValueError: If the group is not in the correct format
     """
     if not group.startswith("groups/"):
         raise ValueError(f"group must be in format groups/{{group_id}}, got: {group}")
-    
+
     group_id = group.removeprefix("groups/")
     if not group_id:
         raise ValueError(f"group ID cannot be empty in group resource name: {group}")
-    
+
     return group_id
 
 
 def group_id_for_header(credentials: APICredentials) -> str:
-    """Extract the group ID from credentials for use in the x-group-id header.
-    
+    """Extract the group ID from credentials for use in the x-group header.
+
     Args:
         credentials: APICredentials object
-        
+
     Returns:
         The group ID for use in headers
-        
+
     Raises:
         ValueError: If the group format is invalid
     """

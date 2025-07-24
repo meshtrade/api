@@ -55,7 +55,7 @@ where = ["src"]
 [tool.ruff]
 target-version = "py312"
 line-length = 150
-exclude = ["*_pb2.py", "*_pb2.pyi", "*_pb2_grpc.py", "*_pb2_grpc.pyi", "tests/**"]
+exclude = ["*_pb2.py", "*_pb2.pyi", "*_pb2_grpc.py", "*_pb2_grpc.pyi", "*_meshpy.py", "tests/**"]
 
 [tool.ruff.lint]
 # E/W: flake8 errors/warnings | F: Pyflakes

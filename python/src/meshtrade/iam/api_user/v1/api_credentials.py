@@ -5,12 +5,12 @@ API Credentials loading functionality for Meshtrade SDK.
 import json
 import os
 
-from meshtrade.iam.api_user.v1.api_credentials_pb2 import APICredentials
+from .api_credentials_pb2 import APICredentials
 
 MESH_API_CREDENTIALS_ENV_VAR = "MESH_API_CREDENTIALS"
 
 
-def load_credentials_from_file(path: str) -> APICredentials:
+def load_api_credentials_from_file(path: str) -> APICredentials:
     """Load API credentials from a JSON file.
 
     Args:
@@ -27,18 +27,18 @@ def load_credentials_from_file(path: str) -> APICredentials:
         with open(path) as f:
             data = json.load(f)
     except FileNotFoundError as e:
-        raise FileNotFoundError(f"Failed to read credentials file: {path}") from e
+        raise FileNotFoundError(f"Failed to read API credentials file: {path}") from e
     except json.JSONDecodeError as e:
-        raise ValueError(f"Failed to parse credentials file: {e}") from e
+        raise ValueError(f"Failed to parse API credentials file: {e}") from e
 
     api_key = data.get("api_key")
     group = data.get("group")
 
     if not api_key:
-        raise ValueError("api_key is required in credentials file")
+        raise ValueError("api_key is required in API credentials file")
 
     if not group:
-        raise ValueError("group is required in credentials file")
+        raise ValueError("group is required in API credentials file")
 
     if not group.startswith("groups/"):
         raise ValueError(f"group must be in format groups/{{group_id}}, got: {group}")
@@ -46,11 +46,11 @@ def load_credentials_from_file(path: str) -> APICredentials:
     creds = APICredentials()
     creds.api_key = api_key
     creds.group = group
-    
+
     return creds
 
 
-def credentials_from_environment() -> APICredentials | None:
+def api_credentials_from_environment() -> APICredentials | None:
     """Load API credentials from the file path specified in MESH_API_CREDENTIALS environment variable.
 
     Returns:
@@ -63,4 +63,4 @@ def credentials_from_environment() -> APICredentials | None:
     if not path:
         return None
 
-    return load_credentials_from_file(path)
+    return load_api_credentials_from_file(path)

@@ -8,8 +8,13 @@ from meshtrade.common import (
     APICredentials,
     GRPCClient,
     create_auth_metadata,
-    credentials_from_environment,
-    load_credentials_from_file,
+)
+
+# Import credentials functions from local module
+from .api_credentials import (
+    MESH_API_CREDENTIALS_ENV_VAR,
+    api_credentials_from_environment,
+    load_api_credentials_from_file,
 )
 
 # Re-export protobuf types
@@ -60,8 +65,9 @@ __all__ = [
     "with_timeout",
     # Common utilities
     "APICredentials",
-    "load_credentials_from_file",
-    "credentials_from_environment",
+    "MESH_API_CREDENTIALS_ENV_VAR",
+    "load_api_credentials_from_file",
+    "api_credentials_from_environment",
     "create_auth_metadata",
     "DEFAULT_GRPC_URL",
     "DEFAULT_GRPC_PORT",

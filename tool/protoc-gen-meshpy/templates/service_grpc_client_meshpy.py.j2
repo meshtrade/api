@@ -19,7 +19,11 @@ from meshtrade.common import (
     GRPCClient,
     create_auth_metadata,
 )
-from meshtrade.common.api_credentials import credentials_from_environment
+{% if package_name == "meshtrade.iam.api_user.v1" -%}
+from .api_credentials import api_credentials_from_environment
+{% else -%}
+from meshtrade.iam.api_user.v1.api_credentials import api_credentials_from_environment
+{% endif %}
 
 from .api_user_pb2 import APIUser
 from .service_meshpy import {{ service_name }}
@@ -117,7 +121,7 @@ class {{ service_name }}GRPCClient({{ service_name }}GRPCClientInterface):
             self._group = options.group
         else:
             # Try to load from environment if not provided
-            creds = credentials_from_environment()
+            creds = api_credentials_from_environment()
             self._api_key = creds.api_key if creds else None
             self._group = creds.group if creds else None
 

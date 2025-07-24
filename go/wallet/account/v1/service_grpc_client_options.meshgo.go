@@ -110,7 +110,7 @@ func WithAPIKey(apiKey string) ClientOption {
 
 // WithGroup configures the group resource name for all API requests made by this client.
 // The group is required for public API calls and determines the authorization context
-// for operations. It will be sent as an "x-group-id" header with every request.
+// for operations. It will be sent as an "x-group" header with every request.
 //
 // This option is required when using manual authentication configuration.
 // When loading from credentials file via MESH_API_CREDENTIALS, the group

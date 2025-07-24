@@ -8,7 +8,7 @@ from .config import (
     DEFAULT_GRPC_PORT,
     DEFAULT_GRPC_URL,
     DEFAULT_TLS,
-    GROUP_ID_HEADER_KEY,
+    GROUP_HEADER_KEY,
     APICredentials,
     create_auth_metadata,
 )
@@ -20,7 +20,7 @@ __all__ = [
     "DEFAULT_TLS",
     "AUTHORIZATION_HEADER_KEY",
     "COOKIE_HEADER_KEY",
-    "GROUP_ID_HEADER_KEY",
+    "GROUP_HEADER_KEY",
     "BEARER_PREFIX",
     "ACCESS_TOKEN_PREFIX",
     "APICredentials",

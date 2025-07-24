@@ -252,7 +252,7 @@ func (s *limitOrderServiceGRPCClient) Close() error {
 
 // Group returns the group resource name configured for this client.
 // The group determines the authorization context for all API requests
-// and is sent as an "x-group-id" header with every request.
+// and is sent as an "x-group" header with every request.
 //
 // Returns:
 //   - string: The configured group resource name in format groups/{group_id}
@@ -288,7 +288,7 @@ func (c *limitOrderServiceGRPCClient) validateAuth() error {
 //
 // Headers Added:
 //   - API Key: "Authorization: Bearer <api-key>" header
-//   - Group ID: "x-group-id: <group>" header
+//   - Group ID: "x-group: <group>" header
 //
 // The interceptor is automatically applied to all method calls and handles the
 // authentication and authorization context transparently without requiring manual header management.

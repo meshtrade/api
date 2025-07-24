@@ -1,0 +1,80 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "meshtrade"
+version = "0.0.8"
+authors = [
+    { name = "Bernard Bussy", email = "bernard@meshtrade.co" },
+]
+description = "Integration SDK for Mesh API Services"
+requires-python = ">=3.12"
+keywords = ["meshtrade", "mesh", "mesh-sdk", "grpc", "protobuf"]
+license = { text = "LicenseRef-My-Custom-License" }
+readme = "README.md"
+
+# Production dependencies - only what SDK users need at runtime
+dependencies = [
+    "grpcio >= 1.73.0, < 2.0",
+    "protobuf >= 6.31.1, < 7.0",
+    "googleapis-common-protos >= 1.70.0, < 2.0.0",
+    "protovalidate >= 0.13.0"
+]
+
+classifiers = [
+    "Development Status :: 1 - Planning",
+    "Intended Audience :: Developers", 
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "License :: Other/Proprietary License",
+]
+
+[project.urls]
+Repository = "https://github.com/meshtrade/api"
+
+[project.optional-dependencies]
+dev = [
+    # Development tools
+    "ruff ~= 0.11.13",
+    "pytest ~= 8.4.0", 
+    "build ~= 1.2.2",
+    "twine ~= 6.1.0",
+    "tox ~= 4.26.0",
+    "types-protobuf ~= 6.30.2.20250516",
+    
+    # Code generation dependencies
+    "grpcio-tools >= 1.60.0",
+    "jinja2 >= 3.0.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["python/src"]  # Only ship the SDK from python/src
+
+# Ruff configuration
+[tool.ruff]
+target-version = "py312"
+line-length = 150
+exclude = [
+    "*_pb2.py", 
+    "*_pb2.pyi", 
+    "*_pb2_grpc.py", 
+    "*_pb2_grpc.pyi",
+    "*_meshpy.py",
+    ".venv",
+    "__pycache__",
+]
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "B", "C4", "SIM", "UP", "TID"]
+
+[tool.pytest.ini_options]
+testpaths = ["python/tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "--verbose --tb=short"
+
+[tool.ruff.lint.isort]
+known-first-party = ["meshtrade"]
