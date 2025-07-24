@@ -47,6 +47,12 @@ echo "🚀 Generating buf/validate TypeScript files..."
 buf generate buf.build/bufbuild/protovalidate --template "$SCRIPT_DIR/buf/buf.gen.validate.yaml"
 echo
 
+echo "📄 Generating TypeScript index.ts files..."
+cd tool/protoc-gen-meshts/scripts
+node generate-index-files.js
+cd ../../..
+echo
+
 echo "⚙️ Typescript Library Build..."
 cd ts
 yarn build
