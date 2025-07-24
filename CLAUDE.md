@@ -65,6 +65,9 @@ ruff format .
 - **F401**: Remove unused imports OR add proper `__all__` lists to modules
 - **SIM112**: Environment variables must use UPPER_CASE naming
 
+**Critical Python Module Organization Rule**:
+- **NEVER put code other than imports in `__init__.py` files** - use dedicated modules instead. This ensures clean module structure and prevents import issues.
+
 **Best Practices for Line Length**:
 1. Use parentheses for implicit line continuation on function calls
 2. Break long docstrings across multiple lines
