@@ -1,13 +1,10 @@
 # ActivateApiUser
 
-Activates an API user, changing its state from `INACTIVE` to `ACTIVE`. Only active API users can be used for authentication.
+Activates an API user, enabling API key authentication.
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import CodeBlock from '@theme/CodeBlock';
 import serviceData from '../service.generated.json';
-import GoExample from '!!raw-loader!../examples/go/activate-api-user/main.go';
-import PythonExample from '!!raw-loader!../examples/python/activate-api-user.py';
 
 ## Method Details
 
@@ -26,23 +23,70 @@ import PythonExample from '!!raw-loader!../examples/python/activate-api-user.py'
 <Tabs>
 <TabItem value="go" label="Go">
 
-<CodeBlock language="go" title="activate-api-user.go">
-{GoExample}
-</CodeBlock>
+```go title="main.go"
+package main
+
+import (
+	"context"
+	"log"
+
+	api_userv1 "github.com/meshtrade/api/go/iam/api_user/v1"
+)
+
+func main() {
+	// Create client (loads credentials from MESH_API_CREDENTIALS)
+	client, err := api_userv1.NewApiUserServiceGRPCClient()
+	if err != nil {
+		log.Fatalf("Failed to create client: %v", err)
+	}
+	defer client.Close()
+
+	// Activate the API user by name
+	apiUser, err := client.ActivateApiUser(
+		context.Background(),
+		&api_userv1.ActivateApiUserRequest{
+			Name: "api_users/01HPQR2S3T4U5V6W7X8Y9Z0123", // Replace with actual API user name
+		},
+	)
+	if err != nil {
+		log.Fatalf("Failed to activate API user: %v", err)
+	}
+
+	log.Printf("Activated API user: %s", apiUser.Name)
+	log.Printf("State: %v", apiUser.State)
+}
+```
 
 </TabItem>
 <TabItem value="python" label="Python">
 
-<CodeBlock language="python" title="activate-api-user.py">
-{PythonExample}
-</CodeBlock>
+```python title="activate-api-user.py"
+from meshtrade.iam.api_user.v1 import (
+    ApiUserServiceGRPCClient,
+    ClientOptions,
+    ActivateApiUserRequest,
+)
+
+def main():
+    # Create client (loads credentials from MESH_API_CREDENTIALS)
+    options = ClientOptions()
+    client = ApiUserServiceGRPCClient(options)
+    
+    with client:
+        # Activate the API user by name
+        activated_user = client.activate_api_user(
+            ActivateApiUserRequest(name="api_users/01HPQR2S3T4U5V6W7X8Y9Z0123")  # Replace with actual name
+        )
+        
+        print(f"Activated API user: {activated_user.name}")
+        print(f"State: {activated_user.state}")
+
+if __name__ == "__main__":
+    main()
+```
 
 </TabItem>
 </Tabs>
-
-## Advanced Configuration
-
-For advanced client configuration options (custom endpoints, TLS settings, timeouts), see the [SDK Configuration Guide](../../../../architecture/sdk-configuration).
 
 ## Related Methods
 

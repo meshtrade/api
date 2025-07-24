@@ -1,13 +1,10 @@
 # CreateApiUser
 
-Creates a new API user with the specified configuration. The API user is created in an inactive state and must be activated using [ActivateApiUser](./activate-api-user) before it can be used for authentication.
+Creates a new API user with the specified configuration.
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import CodeBlock from '@theme/CodeBlock';
 import serviceData from '../service.generated.json';
-import GoExample from '!!raw-loader!../examples/go/create-api-user/main.go';
-import PythonExample from '!!raw-loader!../examples/python/create-api-user.py';
 
 ## Method Details
 
@@ -26,27 +23,85 @@ import PythonExample from '!!raw-loader!../examples/python/create-api-user.py';
 <Tabs>
 <TabItem value="go" label="Go">
 
-<CodeBlock language="go" title="create-api-user.go">
-{GoExample}
-</CodeBlock>
+```go title="main.go"
+package main
+
+import (
+	"context"
+	"log"
+
+	api_userv1 "github.com/meshtrade/api/go/iam/api_user/v1"
+	rolev1 "github.com/meshtrade/api/go/iam/role/v1"
+)
+
+func main() {
+	// Create client (loads credentials from MESH_API_CREDENTIALS)
+	client, err := api_userv1.NewApiUserServiceGRPCClient()
+	if err != nil {
+		log.Fatalf("Failed to create client: %v", err)
+	}
+	defer client.Close()
+
+	// Create API user with IAM admin role
+	apiUser, err := client.CreateApiUser(
+		context.Background(),
+		&api_userv1.CreateApiUserRequest{
+			ApiUser: &api_userv1.APIUser{
+				Owner:       client.Group(),
+				DisplayName: "My API User",
+				Roles: []string{
+					rolev1.Role_ROLE_IAM_ADMIN.FullResourceNameFromGroupName(client.Group()),
+				},
+			},
+		},
+	)
+	if err != nil {
+		log.Fatalf("Failed to create API user: %v", err)
+	}
+
+	log.Printf("Created API user: %s", apiUser.Name)
+	log.Printf("API key (save this!): %s", apiUser.ApiKey)
+	log.Printf("State: %s", apiUser.State)
+}
+```
 
 </TabItem>
 <TabItem value="python" label="Python">
 
-<CodeBlock language="python" title="create-api-user.py">
-{PythonExample}
-</CodeBlock>
+```python title="create-api-user.py"
+from meshtrade.iam.api_user.v1 import (
+    ApiUserServiceGRPCClient,
+    ClientOptions,
+    CreateApiUserRequest,
+    APIUser,
+)
+from meshtrade.iam.role.v1 import Role, full_resource_name_from_group_name
+
+def main():
+    # Create client (loads credentials from MESH_API_CREDENTIALS)
+    options = ClientOptions()
+    client = ApiUserServiceGRPCClient(options)
+    
+    with client:
+        # Create API user with IAM admin role
+        api_user = APIUser(
+            owner=client.group(),
+            display_name="My API User",
+            roles=[full_resource_name_from_group_name(Role.ROLE_IAM_ADMIN, client.group())],
+        )
+        
+        created_user = client.create_api_user(CreateApiUserRequest(api_user=api_user))
+        
+        print(f"Created API user: {created_user.name}")
+        print(f"API key (save this!): {created_user.api_key}")
+        print(f"State: {created_user.state}")
+
+if __name__ == "__main__":
+    main()
+```
 
 </TabItem>
 </Tabs>
-
-:::warning Save the API Key
-The `api_key` field is only returned during creation. Make sure to save it securely as it cannot be retrieved later.
-:::
-
-## Advanced Configuration
-
-For advanced client configuration options (custom endpoints, TLS settings, timeouts), see the [SDK Configuration Guide](../../../../architecture/sdk-configuration).
 
 ## Related Methods
 
