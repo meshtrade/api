@@ -39,15 +39,13 @@ jobs:
       
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-        working-directory: docs
       
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
       
       - name: Build with Docusaurus
-        run: yarn build
-        working-directory: docs
+        run: yarn build:docs
         env:
           NODE_ENV: production
       
