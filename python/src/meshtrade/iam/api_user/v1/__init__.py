@@ -19,22 +19,12 @@ from .api_credentials import (
 
 # Re-export protobuf types
 from .api_user_pb2 import APIUser, APIUserAction, APIUserState
-from .service import ApiUserService
-from .service_grpc_client import (
+from .service_grpc_client_meshpy import (
     ApiUserServiceGRPCClient,
     ApiUserServiceGRPCClientInterface,
-    create_api_user_service_grpc_client,
 )
-from .service_grpc_client_options import (
-    ClientOptions,
-    with_address,
-    with_api_key,
-    with_group,
-    with_port,
-    with_timeout,
-    with_tls,
-    with_url,
-)
+from .service_grpc_client_options_meshpy import ClientOptions
+from .service_meshpy import ApiUserService
 from .service_pb2 import (
     ActivateApiUserRequest,
     CreateApiUserRequest,
@@ -51,18 +41,10 @@ __all__ = [
     # Client classes
     "ApiUserServiceGRPCClient",
     "ApiUserServiceGRPCClientInterface",
-    "create_api_user_service_grpc_client",
     "ApiUserService",
     "GRPCClient",
     # Configuration
     "ClientOptions",
-    "with_tls",
-    "with_address",
-    "with_url",
-    "with_port",
-    "with_api_key",
-    "with_group",
-    "with_timeout",
     # Common utilities
     "APICredentials",
     "MESH_API_CREDENTIALS_ENV_VAR",

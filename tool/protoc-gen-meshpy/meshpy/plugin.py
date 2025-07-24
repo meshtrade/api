@@ -3,21 +3,23 @@ Core protoc plugin implementation for meshpy.
 """
 
 import sys
+
 from google.protobuf.compiler import plugin_pb2 as plugin
+
 
 class MeshPyPlugin:
     """Minimal protoc plugin that just proves it can be called."""
-    
+
     def run(self):
         """Main plugin entry point."""
         # Read the CodeGeneratorRequest from stdin
         data = sys.stdin.buffer.read()
         request = plugin.CodeGeneratorRequest()
         request.ParseFromString(data)
-        
+
         # Create a response
         response = plugin.CodeGeneratorResponse()
-        
+
         # For now, just add a simple comment to prove we're running
         # We'll find any Python file and add a comment to it
         for proto_file in request.proto_file:
@@ -32,6 +34,6 @@ class MeshPyPlugin:
 print("protoc-gen-meshpy is working!")
 """
                 response.file.append(file_to_generate)
-        
+
         # Write the response to stdout
         sys.stdout.buffer.write(response.SerializeToString())
