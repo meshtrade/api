@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	// Create client (see client-setup.go for details)
+	// Create client (see ../client-setup/main.go for details)
 	client, err := api_userv1.NewApiUserServiceGRPCClient(
 		api_userv1.WithAddress("localhost", 8080),
 		api_userv1.WithTLS(false),
@@ -20,19 +20,20 @@ func main() {
 	}
 	defer client.Close()
 
-	// Search API users by display name substring
-	response, err := client.SearchApiUsers(
+	// List all API users in the group
+	response, err := client.ListApiUsers(
 		context.Background(),
-		&api_userv1.SearchApiUsersRequest{
-			DisplayName: "test", // Search for API users with "test" in display name
-		},
+		&api_userv1.ListApiUsersRequest{},
 	)
 	if err != nil {
-		log.Fatalf("Failed to search API users: %v", err)
+		log.Fatalf("Failed to list API users: %v", err)
 	}
 
-	log.Printf("Found %d API users matching 'test':", len(response.ApiUsers))
+	log.Printf("Found %d API users:", len(response.ApiUsers))
 	for _, apiUser := range response.ApiUsers {
-		log.Printf("- %s (%s)", apiUser.Name, apiUser.DisplayName)
+		log.Printf("- %s (%s) - State: %v", 
+			apiUser.Name, 
+			apiUser.DisplayName, 
+			apiUser.State)
 	}
 }

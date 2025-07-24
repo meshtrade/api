@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	// Create client (see client-setup.go for details)
+	// Create client (see ../client-setup/main.go for details)
 	client, err := api_userv1.NewApiUserServiceGRPCClient(
 		api_userv1.WithAddress("localhost", 8080),
 		api_userv1.WithTLS(false),
@@ -20,20 +20,17 @@ func main() {
 	}
 	defer client.Close()
 
-	// List all API users in the group
-	response, err := client.ListApiUsers(
+	// Activate the API user by name
+	apiUser, err := client.ActivateApiUser(
 		context.Background(),
-		&api_userv1.ListApiUsersRequest{},
+		&api_userv1.ActivateApiUserRequest{
+			Name: "api_users/01HPQR2S3T4U5V6W7X8Y9Z0123", // Replace with actual API user name
+		},
 	)
 	if err != nil {
-		log.Fatalf("Failed to list API users: %v", err)
+		log.Fatalf("Failed to activate API user: %v", err)
 	}
 
-	log.Printf("Found %d API users:", len(response.ApiUsers))
-	for _, apiUser := range response.ApiUsers {
-		log.Printf("- %s (%s) - State: %v", 
-			apiUser.Name, 
-			apiUser.DisplayName, 
-			apiUser.State)
-	}
+	log.Printf("Activated API user: %s", apiUser.Name)
+	log.Printf("State: %v", apiUser.State)
 }

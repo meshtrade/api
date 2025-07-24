@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	// Create client (see client-setup.go for details)
+	// Create client (see ../client-setup/main.go for details)
 	client, err := api_userv1.NewApiUserServiceGRPCClient(
 		api_userv1.WithAddress("localhost", 8080),
 		api_userv1.WithTLS(false),

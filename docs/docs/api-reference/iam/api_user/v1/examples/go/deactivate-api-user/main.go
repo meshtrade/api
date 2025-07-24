@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	// Create client (see client-setup.go for details)
+	// Create client (see ../client-setup/main.go for details)
 	client, err := api_userv1.NewApiUserServiceGRPCClient(
 		api_userv1.WithAddress("localhost", 8080),
 		api_userv1.WithTLS(false),
@@ -20,18 +20,17 @@ func main() {
 	}
 	defer client.Close()
 
-	// Get API user by key hash (typically used for authentication flows)
-	apiUser, err := client.GetApiUserByKeyHash(
+	// Deactivate the API user by name
+	apiUser, err := client.DeactivateApiUser(
 		context.Background(),
-		&api_userv1.GetApiUserByKeyHashRequest{
-			KeyHash: "abcd1234hash5678", // Replace with actual key hash
+		&api_userv1.DeactivateApiUserRequest{
+			Name: "api_users/01HPQR2S3T4U5V6W7X8Y9Z0123", // Replace with actual API user name
 		},
 	)
 	if err != nil {
-		log.Fatalf("Failed to get API user by key hash: %v", err)
+		log.Fatalf("Failed to deactivate API user: %v", err)
 	}
 
-	log.Printf("Found API User: %s", apiUser.Name)
-	log.Printf("Display Name: %s", apiUser.DisplayName)
+	log.Printf("Deactivated API user: %s", apiUser.Name)
 	log.Printf("State: %v", apiUser.State)
 }
