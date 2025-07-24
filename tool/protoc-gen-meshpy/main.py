@@ -249,21 +249,21 @@ def extract_exports_from_imports(manual_section):
     """Extract exports from manual import statements."""
     if not manual_section:
         return []
-    
+
     manual_exports = []
     lines = manual_section.split("\n")
-    
+
     # Track when we're inside a multi-line import
     in_multiline_import = False
     current_import_items = []
-    
+
     for line in lines:
         stripped = line.strip()
-        
-        # Skip comment lines and empty lines  
+
+        # Skip comment lines and empty lines
         if stripped.startswith("#") or not stripped:
             continue
-            
+
         # Handle single-line imports like: from .module import Item
         if stripped.startswith("from ") and " import " in stripped and not stripped.endswith("("):
             # Extract items after "import"
@@ -271,50 +271,50 @@ def extract_exports_from_imports(manual_section):
             items = [item.strip() for item in import_part.split(",")]
             manual_exports.extend(items)
             continue
-            
+
         # Handle start of multi-line imports: from .module import (
         if stripped.startswith("from ") and stripped.endswith("("):
             in_multiline_import = True
             current_import_items = []
             continue
-            
+
         # Handle end of multi-line imports: )
         if in_multiline_import and stripped == ")":
             in_multiline_import = False
             manual_exports.extend(current_import_items)
             current_import_items = []
             continue
-            
+
         # Handle items within multi-line imports
         if in_multiline_import:
             # Remove trailing comma and add to list
             item = stripped.rstrip(",").strip()
             if item:
                 current_import_items.append(item)
-    
+
     return sorted(manual_exports)
 
 def extract_manual_exports(manual_section):
     """Extract manual exports from the existing manual section (legacy function for backward compatibility)."""
     if not manual_section:
         return []
-    
+
     manual_exports = []
     lines = manual_section.split("\n")
     in_extend_block = False
-    
+
     for line in lines:
         stripped = line.strip()
-        
+
         # Skip comment lines and example text
         if stripped.startswith("#") or not stripped:
             continue
-            
+
         # Look for __all__.extend([
         if "__all__.extend([" in stripped:
             in_extend_block = True
             continue
-            
+
         # If we're in an extend block, look for string literals
         if in_extend_block:
             if "])" in stripped:
@@ -327,7 +327,7 @@ def extract_manual_exports(manual_section):
                 # Filter out common example names
                 filtered_matches = [m for m in matches if m not in ["my_function", "my_custom_module"]]
                 manual_exports.extend(filtered_matches)
-    
+
     return sorted(manual_exports)
 
 
@@ -369,7 +369,7 @@ def read_existing_manual_section(package_path):
         import_end_idx = len(lines)
         for i in range(content_start_idx, len(lines)):
             line = lines[i].strip()
-            if (line.startswith("# Extend __all__") or 
+            if (line.startswith("# Extend __all__") or
                 "__all__.extend([" in line or
                 "# MODULE EXPORTS" in line or
                 "__all__ = [" in line or
@@ -385,7 +385,7 @@ def read_existing_manual_section(package_path):
 
         # Extract just the import section (no exports or auto-generated content)
         manual_lines = lines[content_start_idx:import_end_idx]
-        
+
         # Clean up trailing empty lines and any remaining auto-generated content
         filtered_lines = []
         for line in manual_lines:
@@ -397,11 +397,11 @@ def read_existing_manual_section(package_path):
                 stripped.startswith("from .service_") or
                 stripped.startswith("# Generated"))):
                 filtered_lines.append(line)
-        
+
         # Clean up trailing empty lines
         while filtered_lines and not filtered_lines[-1].strip():
             filtered_lines.pop()
-            
+
         manual_section = "\n".join(filtered_lines).strip()
         return manual_section if manual_section else None
 
@@ -424,7 +424,7 @@ def generate_package_init(package_path, package_info, template_env):
 
     # Read existing manual section (imports only)
     existing_manual_section = read_existing_manual_section(package_path)
-    
+
     # Extract manual exports by parsing the manual imports
     manual_exports = []
     if existing_manual_section:
@@ -485,6 +485,10 @@ def main():
 
         # NEW: Generate __init__.py files for each package
         for package_path, package_info in packages.items():
+            # Skip external packages (google, buf) - only generate for meshtrade packages
+            if package_path.startswith("google") or package_path.startswith("buf"):
+                continue
+
             init_file = generate_package_init(package_path, package_info, template_env)
             if init_file:
                 response.file.append(init_file)
