@@ -95,39 +95,41 @@ Create and manage an API user using the credentials file:
 package main
 
 import (
-    "context"
-    "log"
+	"context"
+	"log"
 
-    api_userv1 "github.com/meshtrade/api/go/iam/api_user/v1"
-    rolev1 "github.com/meshtrade/api/go/iam/role/v1"
+	api_userv1 "github.com/meshtrade/api/go/iam/api_user/v1"
+	rolev1 "github.com/meshtrade/api/go/iam/role/v1"
 )
 
 func main() {
-    // Create API User Service client (loads credentials from MESH_API_CREDENTIALS)
-    client, err := api_userv1.NewApiUserServiceGRPCClient()
-    if err != nil {
-        log.Fatalf("Failed to create client: %v", err)
-    }
-    defer client.Close()
+	// Create client (loads credentials from MESH_API_CREDENTIALS)
+	client, err := api_userv1.NewApiUserServiceGRPCClient()
+	if err != nil {
+		log.Fatalf("Failed to create client: %v", err)
+	}
+	defer client.Close()
 
-    // Create a new API user
-    apiUser, err := client.CreateApiUser(
-        context.Background(),
-        &api_userv1.CreateApiUserRequest{
-            ApiUser: &api_userv1.APIUser{
-                DisplayName: "My First API User",
-                Roles: []rolev1.Role{
-                    rolev1.Role_ROLE_IAM_VIEWER,
-                },
-            },
-        },
-    )
-    if err != nil {
-        log.Fatalf("Failed to create API user: %v", err)
-    }
+	// Create API user with IAM admin role
+	apiUser, err := client.CreateApiUser(
+		context.Background(),
+		&api_userv1.CreateApiUserRequest{
+			ApiUser: &api_userv1.APIUser{
+				Owner:       client.Group(),
+				DisplayName: "My API User",
+				Roles: []string{
+					rolev1.Role_ROLE_IAM_ADMIN.FullResourceNameFromGroupName(client.Group()),
+				},
+			},
+		},
+	)
+	if err != nil {
+		log.Fatalf("Failed to create API user: %v", err)
+	}
 
-    log.Printf("Created API user: %s", apiUser.Name)
-    log.Printf("API key: %s", apiUser.ApiKey) // Save this securely!
+	log.Printf("Created API user: %s", apiUser.Name)
+	log.Printf("API key (save this!): %s", apiUser.ApiKey)
+	log.Printf("State: %s", apiUser.State)
 }
 ```
 
@@ -135,50 +137,32 @@ func main() {
 <TabItem value="python" label="Python">
 
 ```python
-import grpc
-import json
-import os
-from meshtrade.iam.api_user.v1 import service_pb2, service_pb2_grpc, api_user_pb2
-from meshtrade.option.v1 import role_pb2
-
-def load_credentials():
-    """Load credentials from MESH_API_CREDENTIALS file."""
-    creds_path = os.getenv('MESH_API_CREDENTIALS')
-    with open(creds_path, 'r') as f:
-        return json.load(f)
+from meshtrade.iam.api_user.v1 import (
+    ApiUserServiceGRPCClient,
+    ClientOptions,
+    CreateApiUserRequest,
+    APIUser,
+)
+from meshtrade.iam.role.v1 import Role, full_resource_name_from_group_name
 
 def main():
-    # Load credentials
-    creds = load_credentials()
+    # Create client (loads credentials from MESH_API_CREDENTIALS)
+    options = ClientOptions()
+    client = ApiUserServiceGRPCClient(options)
     
-    # Create gRPC channel and client
-    channel = grpc.insecure_channel('api.mesh.dev:443')
-    client = service_pb2_grpc.ApiUserServiceStub(channel)
-    
-    # Authentication metadata
-    metadata = [
-        ('authorization', f'Bearer {creds["api_key"]}'),
-        ('x-group-id', creds['group_id']),
-    ]
-    
-    try:
-        # Create a new API user
-        api_user = api_user_pb2.APIUser(
-            display_name="My First API User",
-            roles=[role_pb2.Role.ROLE_IAM_VIEWER]
+    with client:
+        # Create API user with IAM admin role
+        api_user = APIUser(
+            owner=client.group(),
+            display_name="My API User",
+            roles=[full_resource_name_from_group_name(Role.ROLE_IAM_ADMIN, client.group())],
         )
         
-        request = service_pb2.CreateApiUserRequest(api_user=api_user)
-        response = client.CreateApiUser(request, metadata=metadata)
+        created_user = client.create_api_user(CreateApiUserRequest(api_user=api_user))
         
-        print(f"Created API user: {response.name}")
-        print(f"API key: {response.api_key}")  # Save this securely!
-        
-    except grpc.RpcError as e:
-        print(f"Failed to create API user: {e}")
-    
-    finally:
-        channel.close()
+        print(f"Created API user: {created_user.name}")
+        print(f"API key (save this!): {created_user.api_key}")
+        print(f"State: {created_user.state}")
 
 if __name__ == "__main__":
     main()

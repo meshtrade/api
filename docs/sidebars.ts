@@ -21,7 +21,8 @@ const sidebars: SidebarsConfig = {
         'architecture/service-structure',
         'architecture/group-ownership', 
         'architecture/role-based-access',
-        'architecture/authentication'
+        'architecture/authentication',
+        'architecture/sdk-configuration'
       ],
     },
     {
