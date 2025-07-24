@@ -23,7 +23,7 @@ import serviceData from '../service.generated.json';
 <Tabs>
 <TabItem value="go" label="Go">
 
-```go title="main.go"
+```go title="list-api-users.go"
 package main
 
 import (
@@ -64,47 +64,27 @@ func main() {
 <TabItem value="python" label="Python">
 
 ```python title="list-api-users.py"
-import grpc
-import json
-import os
-from meshtrade.iam.api_user.v1 import service_pb2, service_pb2_grpc
-
-def load_credentials():
-    """Load credentials from MESH_API_CREDENTIALS file."""
-    creds_path = os.getenv('MESH_API_CREDENTIALS')
-    with open(creds_path, 'r') as f:
-        return json.load(f)
+from meshtrade.iam.api_user.v1 import (
+    ApiUserServiceGRPCClient,
+    ClientOptions,
+    ListApiUsersRequest,
+)
 
 def main():
-    # Load credentials
-    creds = load_credentials()
+    # Create client (loads credentials from MESH_API_CREDENTIALS)
+    options = ClientOptions()
+    client = ApiUserServiceGRPCClient(options)
     
-    # Create gRPC channel and client
-    channel = grpc.insecure_channel('api.mesh.dev:443')
-    client = service_pb2_grpc.ApiUserServiceStub(channel)
-    
-    # Authentication metadata
-    metadata = [
-        ('authorization', f'Bearer {creds["api_key"]}'),
-        ('x-group-id', creds['group_id']),
-    ]
-    
-    try:
+    with client:
         # Create request (empty for list all)
-        request = service_pb2.ListApiUsersRequest()
+        request = ListApiUsersRequest()
         
         # Make the API call
-        response = client.ListApiUsers(request, metadata=metadata)
+        response = client.list_api_users(request)
         
         print(f"Found {len(response.api_users)} API users:")
         for api_user in response.api_users:
             print(f"- {api_user.name} ({api_user.display_name}) - State: {api_user.state}")
-        
-    except grpc.RpcError as e:
-        print(f"Failed to list API users: {e}")
-    
-    finally:
-        channel.close()
 
 if __name__ == "__main__":
     main()
@@ -112,6 +92,10 @@ if __name__ == "__main__":
 
 </TabItem>
 </Tabs>
+
+## Advanced Configuration
+
+For advanced client configuration options (custom endpoints, TLS settings, timeouts), see the [SDK Configuration Guide](../../../../architecture/sdk-configuration).
 
 ## Related Methods
 

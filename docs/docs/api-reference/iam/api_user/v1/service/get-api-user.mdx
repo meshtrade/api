@@ -5,6 +5,7 @@ Retrieves a single API user by its unique identifier.
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import serviceData from '../service.generated.json';
+import GetApiUserExamples from './GetApiUserExamples';
 
 ## Method Details
 
@@ -23,7 +24,7 @@ import serviceData from '../service.generated.json';
 <Tabs>
 <TabItem value="go" label="Go">
 
-```go title="main.go"
+```go title="get-api-user.go"
 package main
 
 import (
@@ -41,7 +42,7 @@ func main() {
 	}
 	defer client.Close()
 
-	// Get a specific API user by name
+	// Get API user by name
 	apiUser, err := client.GetApiUser(
 		context.Background(),
 		&api_userv1.GetApiUserRequest{
@@ -64,51 +65,30 @@ func main() {
 <TabItem value="python" label="Python">
 
 ```python title="get-api-user.py"
-import grpc
-import json
-import os
-from meshtrade.iam.api_user.v1 import service_pb2, service_pb2_grpc
-
-def load_credentials():
-    """Load credentials from MESH_API_CREDENTIALS file."""
-    creds_path = os.getenv('MESH_API_CREDENTIALS')
-    with open(creds_path, 'r') as f:
-        return json.load(f)
+from meshtrade.iam.api_user.v1 import (
+    ApiUserServiceGRPCClient,
+    ClientOptions,
+    GetApiUserRequest,
+)
 
 def main():
-    # Load credentials
-    creds = load_credentials()
+    # Create client (loads credentials from MESH_API_CREDENTIALS)
+    options = ClientOptions()
+    client = ApiUserServiceGRPCClient(options)
     
-    # Create gRPC channel and client
-    channel = grpc.insecure_channel('api.mesh.dev:443')
-    client = service_pb2_grpc.ApiUserServiceStub(channel)
-    
-    # Authentication metadata
-    metadata = [
-        ('authorization', f'Bearer {creds["api_key"]}'),
-        ('x-group-id', creds['group_id']),
-    ]
-    
-    try:
-        # Create request
-        request = service_pb2.GetApiUserRequest(
+    with client:
+        # Get API user by name
+        request = GetApiUserRequest(
             name="api_users/01HPQR2S3T4U5V6W7X8Y9Z0123"  # Replace with actual API user name
         )
         
-        # Make the API call
-        response = client.GetApiUser(request, metadata=metadata)
+        api_user = client.get_api_user(request)
         
-        print(f"API User: {response.name}")
-        print(f"Display Name: {response.display_name}")
-        print(f"Owner: {response.owner}")
-        print(f"State: {response.state}")
-        print(f"Roles: {response.roles}")
-        
-    except grpc.RpcError as e:
-        print(f"Failed to get API user: {e}")
-    
-    finally:
-        channel.close()
+        print(f"API User: {api_user.name}")
+        print(f"Display Name: {api_user.display_name}")
+        print(f"Owner: {api_user.owner}")
+        print(f"State: {api_user.state}")
+        print(f"Roles: {api_user.roles}")
 
 if __name__ == "__main__":
     main()
@@ -116,6 +96,10 @@ if __name__ == "__main__":
 
 </TabItem>
 </Tabs>
+
+## Advanced Configuration
+
+For advanced client configuration options (custom endpoints, TLS settings, timeouts), see the [SDK Configuration Guide](../../../../architecture/sdk-configuration).
 
 ## Related Methods
 
