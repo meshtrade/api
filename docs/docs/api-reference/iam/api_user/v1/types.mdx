@@ -24,19 +24,6 @@ import typesData from './types.generated.json';
 | `roles` | Role[] | {typesData.messages.APIUser.fields.roles.description} | {typesData.messages.APIUser.fields.roles.required ? '✅' : '❌'} | {typesData.messages.APIUser.fields.roles.validation} |
 | `api_key` | string | {typesData.messages.APIUser.fields.api_key.description} | {typesData.messages.APIUser.fields.api_key.required ? '✅' : '❌'} | System generated, sensitive |
 
-**Example:**
-```json
-{
-  "name": "api_users/01HPQR2S3T4U5V6W7X8Y9Z0123",
-  "owner": "groups/my-organization",
-  "owners": ["groups/my-organization"],
-  "display_name": "Trading Bot API Key",
-  "state": "API_USER_STATE_ACTIVE",
-  "roles": ["ROLE_TRADING_ADMIN"],
-  "api_key": "mesh_12345abcdef..." // Only shown on creation
-}
-```
-
 ### Request Messages
 
 #### CreateApiUserRequest
@@ -134,15 +121,3 @@ This message has no fields - it lists all API users in the authenticated group c
 | `API_USER_ACTION_DEACTIVATE` | {typesData.enums.APIUserAction.values.API_USER_ACTION_DEACTIVATE.description} |
 | `API_USER_ACTION_CREATE` | {typesData.enums.APIUserAction.values.API_USER_ACTION_CREATE.description} |
 | `API_USER_ACTION_UPDATE` | {typesData.enums.APIUserAction.values.API_USER_ACTION_UPDATE.description} |
-
-## Resource Naming
-
-API users follow the standard resource naming pattern:
-
-```
-api_users/{api_user_id}
-```
-
-Where `{api_user_id}` is a system-generated unique identifier (26-character ULID format).
-
-**Example:** `api_users/01HPQR2S3T4U5V6W7X8Y9Z0123`

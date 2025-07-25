@@ -14,6 +14,7 @@ API users enable programmatic access to the Mesh API through API key authenticat
 - Belongs to a specific group for resource isolation  
 - Has role-based permissions for authorization
 - Can be activated or deactivated for access control
+- Generates a unique API key for authentication
 
 ## Quick Start
 
@@ -51,16 +52,11 @@ Authorization: Bearer {api_key}
 x-group: groups/{group_ulid}
 ```
 
+Official SDKs described in this documentation do this automatically.
+
 ## Authorization Requirements
 
 All operations require IAM domain permissions and operate within the authenticated group context:
 
 - **Read Operations** - Require `ROLE_IAM_ADMIN` or `ROLE_IAM_VIEWER`
 - **Write Operations** - Require `ROLE_IAM_ADMIN`
-
-## Code Examples
-
-View complete working examples:
-
-- **[Go Examples](./examples/go/)** - Using the Go SDK with functional options
-- **[Python Examples](./examples/python/)** - Using the Python SDK with wrapper clients
