@@ -33,7 +33,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          editUrl: 'https://github.com/meshtrade/api/tree/main/docs-new/',
+          editUrl: undefined,
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
           remarkPlugins: [],
@@ -46,7 +46,7 @@ const config: Config = {
             type: ['rss', 'atom'],
             xslt: true,
           },
-          editUrl: 'https://github.com/meshtrade/api/tree/main/docs-new/',
+          editUrl: undefined,
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
           onUntruncatedBlogPosts: 'warn',
