@@ -15,7 +15,7 @@ The primary authentication method for programmatic access to the Mesh API.
 **Header Format:**
 ```
 Authorization: Bearer {api_key}
-x-group-id: {group_id}
+x-group: {group_id}
 ```
 
 **Key Characteristics:**
@@ -27,7 +27,7 @@ x-group-id: {group_id}
 **Example:**
 ```bash
 curl -H "Authorization: Bearer mesh_12345abcdef..." \
-     -H "x-group-id: my-organization" \
+     -H "x-group: my-organization" \
      https://api.mesh.dev/iam/api_user/v1/api_users
 ```
 
