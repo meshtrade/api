@@ -10,7 +10,7 @@
  */
 
 import type { SidebarsConfig } from '@docusaurus/plugin-content-docs';
-import {api_reference_sidebar } from "./docs/api-reference/sidebar";
+import {api_reference_sidebar } from "./docs/api-reference/sidebar_meshdoc";
 
 const sidebars: SidebarsConfig = {
   tutorialSidebar: [

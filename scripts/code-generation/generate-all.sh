@@ -27,6 +27,12 @@ rm -rf ./ts/dist
 find ./ts/src \
   \( -name '*pb.d.ts' -o -name '*pb.js' -o -name '*Pb.ts' -o -name '*_meshts.js' -o -name '*_meshts.d.ts' \) \
   -print0 | xargs -0 -P 4 -n 1 rm
+echo
+
+echo "🧹 Cleaning Documentation generated files..."
+find ./docs/docs/api-reference \
+  \( -name '*_meshdoc.mdx' -o -name '*_meshdoc.ts' \) \
+  -print0 | xargs -0 -r -P 4 rm
 echo  
 
 echo "🛠 Building protoc-gen-meshts plugin..."

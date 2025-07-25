@@ -1,0 +1,8 @@
+# This file configures the 'buf generate' command for meshdoc generation.
+# Generates documentation to the main docs location
+version: v2
+
+plugins:
+  - local: ["go", "run", "./tool/protoc-gen-meshdoc"]
+    out: ./docs/docs/api-reference
+    strategy: all
