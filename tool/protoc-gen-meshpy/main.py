@@ -125,11 +125,10 @@ def process_service(proto_file, service, template_env):
         "camel_to_snake": camel_to_snake,
     }
 
-    # Generate the three main files with _meshpy.py suffix
+    # Generate the two main files with _meshpy.py suffix
     file_configs = [
         ("service_meshpy.py.j2", "service"),
-        ("service_grpc_client_options_meshpy.py.j2", "service_grpc_client_options"),
-        ("service_grpc_client_meshpy.py.j2", "service_grpc_client"),
+        ("service_options_meshpy.py.j2", "service_options"),
     ]
 
     for template_name, file_type in file_configs:
@@ -227,12 +226,12 @@ def extract_service_exports(service_info):
     service_name = service_info.name
 
     imports = [
-        "from .service_grpc_client_meshpy import (",
+        "from .service_meshpy import (",
+        f"    {service_name},",
         f"    {service_name}GRPCClient,",
         f"    {service_name}GRPCClientInterface,",
         ")",
-        "from .service_grpc_client_options_meshpy import ClientOptions",
-        f"from .service_meshpy import {service_name}",
+        "from .service_options_meshpy import ClientOptions",
     ]
 
     exports = [
@@ -361,6 +360,7 @@ def read_existing_manual_section(package_path):
         # Skip the marker line and any following comment lines that are part of the header
         for i, line in enumerate(lines):
             stripped = line.strip()
+            # Skip empty lines, comment lines, and separator lines
             if stripped and not stripped.startswith("#") and not stripped.startswith("==="):
                 content_start_idx = i
                 break
@@ -390,12 +390,13 @@ def read_existing_manual_section(package_path):
         filtered_lines = []
         for line in manual_lines:
             stripped = line.strip()
-            # Skip auto-generated imports that might have leaked in
+            # Skip auto-generated imports and separator lines that might have leaked in
             if (stripped and not (
                 "_pb2 import" in stripped or
                 "_meshpy import" in stripped or
                 stripped.startswith("from .service_") or
-                stripped.startswith("# Generated"))):
+                stripped.startswith("# Generated") or
+                stripped == "# ===================================================================")):
                 filtered_lines.append(line)
 
         # Clean up trailing empty lines

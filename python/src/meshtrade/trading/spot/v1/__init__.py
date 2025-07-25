@@ -17,12 +17,12 @@ from .spot_pb2 import Spot
 from .service_pb2 import GetSpotRequest
 
 # Generated service imports
-from .service_grpc_client_meshpy import (
+from .service_meshpy import (
+    SpotService,
     SpotServiceGRPCClient,
     SpotServiceGRPCClientInterface,
 )
-from .service_grpc_client_options_meshpy import ClientOptions
-from .service_meshpy import SpotService
+from .service_options_meshpy import ClientOptions
 
 # ===================================================================
 # END OF AUTO-GENERATED SECTION

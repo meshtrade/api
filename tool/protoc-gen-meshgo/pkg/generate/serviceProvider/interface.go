@@ -12,7 +12,7 @@ import (
 func Interface(p *protogen.Plugin, f *protogen.File, svc *protogen.Service) error {
 	// generate a new go file for the clean service interface
 	g := p.NewGeneratedFile(
-		GenerateFilename(f.Desc.Path(), ""),
+		GenerateFilename(f.Desc.Path(), "_interface"),
 		f.GoImportPath,
 	)
 

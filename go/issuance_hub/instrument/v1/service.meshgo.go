@@ -4,19 +4,416 @@ package instrumentv1
 
 import (
 	context "context"
+	errors "errors"
+	fmt "fmt"
+	common "github.com/meshtrade/api/go/common"
+	v1 "github.com/meshtrade/api/go/iam/api_user/v1"
+	trace "go.opentelemetry.io/otel/trace"
+	noop "go.opentelemetry.io/otel/trace/noop"
+	grpc "google.golang.org/grpc"
+	credentials "google.golang.org/grpc/credentials"
+	insecure "google.golang.org/grpc/credentials/insecure"
+	metadata "google.golang.org/grpc/metadata"
+	time "time"
 )
 
-// Service defines the RPC methods for interacting with the instrument resource,
-// such as creating, updating, minting or burning it.
-type InstrumentService interface {
-	// Retrieve a specific instrument.
-	GetInstrument(ctx context.Context, request *GetInstrumentRequest) (*Instrument, error)
-
-	// Mints new units of an instrument into a given destination account.
-	MintInstrument(ctx context.Context, request *MintInstrumentRequest) (*MintInstrumentResponse, error)
-
-	// Burns a specified amount of an instrument from a source account.
-	BurnInstrument(ctx context.Context, request *BurnInstrumentRequest) (*BurnInstrumentResponse, error)
+// InstrumentServiceClientInterface is a gRPC service for the InstrumentService service.
+// It combines the service interface with resource management capabilities, providing
+// authentication, timeouts, and tracing.
+//
+// Features:
+//   - Automatic authentication via API key with group ID support
+//   - Credentials file loading from MESH_API_CREDENTIALS environment variable
+//   - Configurable request timeouts with deadline handling
+//   - OpenTelemetry distributed tracing support
+//   - TLS support with configurable transport credentials
+//   - Proper resource cleanup with Close() method
+//   - Proper connection management
+//
+// Thread Safety:
+//
+//	This service uses gRPC's thread-safe underlying connections.
+//
+// Example usage:
+//
+//	service, err := NewInstrumentService(
+//		WithAPIKey("your-api-key"),
+//		WithGroup("groups/your-group-id"),
+//		WithTimeout(30 * time.Second),
+//	)
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//	defer service.Close()
+//
+//	// Use service methods as defined in the service interface
+type InstrumentServiceClientInterface interface {
+	InstrumentService
+	common.GRPCClient
 }
 
-const InstrumentServiceServiceProviderName = "meshtrade-issuance_hub-instrument-v1-InstrumentService"
+// ensure instrumentService implements the InstrumentServiceClientInterface interface
+var _ InstrumentServiceClientInterface = &instrumentService{}
+
+// instrumentService is the internal implementation of the InstrumentServiceClientInterface interface.
+// This struct maintains the gRPC connection state, authentication credentials,
+// and configuration options for the service.
+type instrumentService struct {
+	url                     string
+	port                    int
+	tls                     bool
+	conn                    *grpc.ClientConn
+	grpcClient              InstrumentServiceClient
+	tracer                  trace.Tracer
+	apiKey                  string
+	group                   string
+	timeout                 time.Duration
+	unaryClientInterceptors []grpc.UnaryClientInterceptor
+}
+
+// NewInstrumentService creates a new gRPC service for the InstrumentService service.
+// The service is configured using functional options and automatically handles connection
+// management, authentication, timeouts, and distributed tracing.
+//
+// Default Configuration:
+//   - Server: Uses common.DefaultGRPCURL and common.DefaultGRPCPort
+//   - TLS: Enabled by default (common.DefaultTLS)
+//   - Timeout: 30 seconds for all method calls
+//   - Authentication: Attempts to load credentials from MESH_API_CREDENTIALS file
+//   - Tracing: Disabled by default (no-op tracer)
+//
+// Parameters:
+//   - opts: Functional options to configure the client (WithAPIKey, WithTimeout, etc.)
+//
+// Returns:
+//   - InstrumentServiceClientInterface: Configured service instance
+//   - error: Configuration or connection error
+//
+// Example:
+//
+//	service, err := NewInstrumentService(
+//		WithAPIKey("your-api-key-here"),
+//		WithGroup("groups/your-group-id"),
+//		WithAddress("api.example.com", 443),
+//		WithTimeout(10 * time.Second),
+//	)
+//	if err != nil {
+//		return fmt.Errorf("failed to create service: %w", err)
+//	}
+//	defer service.Close()
+//
+// Thread Safety:
+//
+//	The returned service uses gRPC's thread-safe underlying connections.
+func NewInstrumentService(opts ...ServiceOption) (InstrumentServiceClientInterface, error) {
+	// prepare service with default configuration
+	service := &instrumentService{
+		url:     common.DefaultGRPCURL,
+		port:    common.DefaultGRPCPort,
+		tls:     common.DefaultTLS,
+		tracer:  noop.NewTracerProvider().Tracer(""),
+		timeout: 30 * time.Second, // default 30 second timeout
+
+		// set once options are applied and connection opened
+		grpcClient:              nil,
+		unaryClientInterceptors: nil,
+	}
+
+	// attempt to load credentials from environment file
+	if creds, err := v1.APICredentialsFromEnvironment(); err == nil {
+		service.apiKey = creds.ApiKey
+		service.group = creds.Group
+	}
+
+	// apply options to the service (these can override credentials from file)
+	for _, opt := range opts {
+		opt(service)
+	}
+
+	// validate authentication credentials
+	if err := service.validateAuth(); err != nil {
+		return nil, err
+	}
+
+	// prepare authentication interceptor
+	service.unaryClientInterceptors = []grpc.UnaryClientInterceptor{
+		service.authInterceptor(),
+	}
+
+	// prepare dial options
+	dialOpts := make([]grpc.DialOption, 0)
+
+	// set transport credentials
+	if service.tls {
+		dialOpts = append(dialOpts, grpc.WithTransportCredentials(credentials.NewClientTLSFromCert(nil, "")))
+	} else {
+		dialOpts = append(dialOpts, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	}
+
+	dialOpts = append(dialOpts, grpc.WithChainUnaryInterceptor(service.unaryClientInterceptors...))
+
+	// construct gRPC client connection
+	conn, err := grpc.NewClient(
+		fmt.Sprintf("%s:%d", service.url, service.port),
+		dialOpts...,
+	)
+	if err != nil {
+		return nil, fmt.Errorf("error constructing grpc service connection: %w", err)
+	}
+
+	// set service connection and gRPC service
+	service.conn = conn
+	service.grpcClient = NewInstrumentServiceClient(conn)
+
+	// return constructed service
+	return service, nil
+}
+
+// GetInstrument executes the GetInstrument RPC method on the InstrumentService service.
+// This method automatically handles authentication, timeouts, and distributed tracing.
+//
+// Timeout Behavior:
+//   - If the context already has a deadline, it will be respected
+//   - If no deadline is set, the service's configured timeout will be applied
+//   - The method will be cancelled if the timeout is exceeded
+//
+// Authentication:
+//   - Automatically includes API key in request headers
+//   - Authentication is configured during service creation
+//
+// Distributed Tracing:
+//   - Creates a new span for this method call
+//   - Span is automatically finished when the method returns
+//
+// Parameters:
+//   - ctx: Context for the request (can include custom timeout, tracing, etc.)
+//   - request: The GetInstrumentRequest containing the method parameters
+//
+// Returns:
+//   - *Instrument: The successful response from the service
+//   - error: Any error that occurred during the request
+//
+// Example:
+//
+//	resp, err := service.GetInstrument(ctx, &GetInstrumentRequest{
+//		// populate request fields
+//	})
+//	if err != nil {
+//		return fmt.Errorf("getinstrument failed: %w", err)
+//	}
+func (s *instrumentService) GetInstrument(ctx context.Context, request *GetInstrumentRequest) (*Instrument, error) {
+	// apply timeout if no deadline is already set
+	if _, hasDeadline := ctx.Deadline(); !hasDeadline {
+		var cancel context.CancelFunc
+		ctx, cancel = context.WithTimeout(ctx, s.timeout)
+		defer cancel()
+	}
+
+	ctx, span := s.tracer.Start(
+		ctx,
+		InstrumentServiceServiceProviderName+"GetInstrument",
+	)
+	defer span.End()
+
+	// call the underlying gRPC service method
+	getInstrumentResponse, err := s.grpcClient.GetInstrument(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+
+	return getInstrumentResponse, nil
+}
+
+// MintInstrument executes the MintInstrument RPC method on the InstrumentService service.
+// This method automatically handles authentication, timeouts, and distributed tracing.
+//
+// Timeout Behavior:
+//   - If the context already has a deadline, it will be respected
+//   - If no deadline is set, the service's configured timeout will be applied
+//   - The method will be cancelled if the timeout is exceeded
+//
+// Authentication:
+//   - Automatically includes API key in request headers
+//   - Authentication is configured during service creation
+//
+// Distributed Tracing:
+//   - Creates a new span for this method call
+//   - Span is automatically finished when the method returns
+//
+// Parameters:
+//   - ctx: Context for the request (can include custom timeout, tracing, etc.)
+//   - request: The MintInstrumentRequest containing the method parameters
+//
+// Returns:
+//   - *MintInstrumentResponse: The successful response from the service
+//   - error: Any error that occurred during the request
+//
+// Example:
+//
+//	resp, err := service.MintInstrument(ctx, &MintInstrumentRequest{
+//		// populate request fields
+//	})
+//	if err != nil {
+//		return fmt.Errorf("mintinstrument failed: %w", err)
+//	}
+func (s *instrumentService) MintInstrument(ctx context.Context, request *MintInstrumentRequest) (*MintInstrumentResponse, error) {
+	// apply timeout if no deadline is already set
+	if _, hasDeadline := ctx.Deadline(); !hasDeadline {
+		var cancel context.CancelFunc
+		ctx, cancel = context.WithTimeout(ctx, s.timeout)
+		defer cancel()
+	}
+
+	ctx, span := s.tracer.Start(
+		ctx,
+		InstrumentServiceServiceProviderName+"MintInstrument",
+	)
+	defer span.End()
+
+	// call the underlying gRPC service method
+	mintInstrumentResponse, err := s.grpcClient.MintInstrument(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+
+	return mintInstrumentResponse, nil
+}
+
+// BurnInstrument executes the BurnInstrument RPC method on the InstrumentService service.
+// This method automatically handles authentication, timeouts, and distributed tracing.
+//
+// Timeout Behavior:
+//   - If the context already has a deadline, it will be respected
+//   - If no deadline is set, the service's configured timeout will be applied
+//   - The method will be cancelled if the timeout is exceeded
+//
+// Authentication:
+//   - Automatically includes API key in request headers
+//   - Authentication is configured during service creation
+//
+// Distributed Tracing:
+//   - Creates a new span for this method call
+//   - Span is automatically finished when the method returns
+//
+// Parameters:
+//   - ctx: Context for the request (can include custom timeout, tracing, etc.)
+//   - request: The BurnInstrumentRequest containing the method parameters
+//
+// Returns:
+//   - *BurnInstrumentResponse: The successful response from the service
+//   - error: Any error that occurred during the request
+//
+// Example:
+//
+//	resp, err := service.BurnInstrument(ctx, &BurnInstrumentRequest{
+//		// populate request fields
+//	})
+//	if err != nil {
+//		return fmt.Errorf("burninstrument failed: %w", err)
+//	}
+func (s *instrumentService) BurnInstrument(ctx context.Context, request *BurnInstrumentRequest) (*BurnInstrumentResponse, error) {
+	// apply timeout if no deadline is already set
+	if _, hasDeadline := ctx.Deadline(); !hasDeadline {
+		var cancel context.CancelFunc
+		ctx, cancel = context.WithTimeout(ctx, s.timeout)
+		defer cancel()
+	}
+
+	ctx, span := s.tracer.Start(
+		ctx,
+		InstrumentServiceServiceProviderName+"BurnInstrument",
+	)
+	defer span.End()
+
+	// call the underlying gRPC service method
+	burnInstrumentResponse, err := s.grpcClient.BurnInstrument(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+
+	return burnInstrumentResponse, nil
+}
+
+// Close gracefully shuts down the gRPC service connection and releases all associated resources.
+// This method should be called when the service is no longer needed to prevent resource leaks.
+// It's safe to call Close() multiple times - subsequent calls will be no-ops.
+//
+// Best Practices:
+//   - Always call Close() when done with the service
+//   - Use defer service.Close() immediately after successful service creation
+//   - Do not use the service after calling Close()
+//
+// Example:
+//
+//	service, err := NewInstrumentService(...)
+//	if err != nil {
+//		return err
+//	}
+//	defer service.Close() // Ensure cleanup
+//
+// Returns:
+//   - error: Any error that occurred while closing the connection
+func (s *instrumentService) Close() error {
+	if s.conn != nil {
+		return s.conn.Close()
+	}
+	return nil
+}
+
+// Group returns the group resource name configured for this service.
+// The group determines the authorization context for all API requests
+// and is sent as an "x-group" header with every request.
+//
+// Returns:
+//   - string: The configured group resource name in format groups/{group_id}
+func (s *instrumentService) Group() string {
+	return s.group
+}
+
+// validateAuth ensures that authentication credentials and group ID are properly configured.
+// This method is called during service initialization to prevent runtime authentication failures.
+//
+// Requirements:
+//   - At least one authentication method must be configured
+//   - Group must be set for all public API calls
+//
+// Supported Authentication Methods:
+//   - API Key: Set via WithAPIKey() option or MESH_API_CREDENTIALS file
+//
+// Returns:
+//   - nil: If authentication and group are properly configured
+//   - error: If authentication method or group is missing
+func (c *instrumentService) validateAuth() error {
+	if c.apiKey == "" {
+		return errors.New("api key not set. set credentials via MESH_API_CREDENTIALS file, or use WithAPIKey option")
+	}
+	if c.group == "" {
+		return errors.New("group not set. set via MESH_API_CREDENTIALS file or WithGroup option")
+	}
+	return nil
+}
+
+// authInterceptor creates and returns the gRPC unary interceptor for authentication.
+// This interceptor automatically adds authentication and group ID headers to all outgoing requests.
+//
+// Headers Added:
+//   - API Key: "Authorization: Bearer <api-key>" header
+//   - Group ID: "x-group: <group>" header
+//
+// The interceptor is automatically applied to all method calls and handles the
+// authentication and authorization context transparently without requiring manual header management.
+//
+// Returns:
+//   - grpc.UnaryClientInterceptor: Configured authentication and group context interceptor
+func (c *instrumentService) authInterceptor() grpc.UnaryClientInterceptor {
+	return func(ctx context.Context, method string, req, reply any, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
+		ctx = metadata.AppendToOutgoingContext(
+			ctx,
+			common.AuthorizationHeaderKey,
+			common.BearerPrefix+c.apiKey,
+			common.GroupHeaderKey,
+			c.group,
+		)
+		return invoker(ctx, method, req, reply, cc, opts...)
+	}
+}

@@ -29,7 +29,6 @@ from .role_pb2 import Role, RoleList
 #
 # ===================================================================
 
-# Manual imports
 from .role import full_resource_name_from_group_name
 
 # ===================================================================

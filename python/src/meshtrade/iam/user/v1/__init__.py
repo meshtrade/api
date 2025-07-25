@@ -17,12 +17,12 @@ from .user_pb2 import User
 from .service_pb2 import AssignRoleToUserRequest
 
 # Generated service imports
-from .service_grpc_client_meshpy import (
+from .service_meshpy import (
+    UserService,
     UserServiceGRPCClient,
     UserServiceGRPCClientInterface,
 )
-from .service_grpc_client_options_meshpy import ClientOptions
-from .service_meshpy import UserService
+from .service_options_meshpy import ClientOptions
 
 # ===================================================================
 # END OF AUTO-GENERATED SECTION

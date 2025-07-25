@@ -35,12 +35,12 @@ from .service_pb2 import (
 )
 
 # Generated service imports
-from .service_grpc_client_meshpy import (
+from .service_meshpy import (
+    ClientService,
     ClientServiceGRPCClient,
     ClientServiceGRPCClientInterface,
 )
-from .service_grpc_client_options_meshpy import ClientOptions
-from .service_meshpy import ClientService
+from .service_options_meshpy import ClientOptions
 
 # ===================================================================
 # END OF AUTO-GENERATED SECTION

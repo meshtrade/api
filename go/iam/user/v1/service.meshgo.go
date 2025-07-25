@@ -4,12 +4,306 @@ package userv1
 
 import (
 	context "context"
+	errors "errors"
+	fmt "fmt"
+	common "github.com/meshtrade/api/go/common"
+	v1 "github.com/meshtrade/api/go/iam/api_user/v1"
+	trace "go.opentelemetry.io/otel/trace"
+	noop "go.opentelemetry.io/otel/trace/noop"
+	grpc "google.golang.org/grpc"
+	credentials "google.golang.org/grpc/credentials"
+	insecure "google.golang.org/grpc/credentials/insecure"
+	metadata "google.golang.org/grpc/metadata"
+	time "time"
 )
 
-// Service defines the RPC methods for interacting with the user resource,
-type UserService interface {
-	// Assign Role To User
-	AssignRoleToUser(ctx context.Context, request *AssignRoleToUserRequest) (*User, error)
+// UserServiceClientInterface is a gRPC service for the UserService service.
+// It combines the service interface with resource management capabilities, providing
+// authentication, timeouts, and tracing.
+//
+// Features:
+//   - Automatic authentication via API key with group ID support
+//   - Credentials file loading from MESH_API_CREDENTIALS environment variable
+//   - Configurable request timeouts with deadline handling
+//   - OpenTelemetry distributed tracing support
+//   - TLS support with configurable transport credentials
+//   - Proper resource cleanup with Close() method
+//   - Proper connection management
+//
+// Thread Safety:
+//
+//	This service uses gRPC's thread-safe underlying connections.
+//
+// Example usage:
+//
+//	service, err := NewUserService(
+//		WithAPIKey("your-api-key"),
+//		WithGroup("groups/your-group-id"),
+//		WithTimeout(30 * time.Second),
+//	)
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//	defer service.Close()
+//
+//	// Use service methods as defined in the service interface
+type UserServiceClientInterface interface {
+	UserService
+	common.GRPCClient
 }
 
-const UserServiceServiceProviderName = "meshtrade-iam-user-v1-UserService"
+// ensure userService implements the UserServiceClientInterface interface
+var _ UserServiceClientInterface = &userService{}
+
+// userService is the internal implementation of the UserServiceClientInterface interface.
+// This struct maintains the gRPC connection state, authentication credentials,
+// and configuration options for the service.
+type userService struct {
+	url                     string
+	port                    int
+	tls                     bool
+	conn                    *grpc.ClientConn
+	grpcClient              UserServiceClient
+	tracer                  trace.Tracer
+	apiKey                  string
+	group                   string
+	timeout                 time.Duration
+	unaryClientInterceptors []grpc.UnaryClientInterceptor
+}
+
+// NewUserService creates a new gRPC service for the UserService service.
+// The service is configured using functional options and automatically handles connection
+// management, authentication, timeouts, and distributed tracing.
+//
+// Default Configuration:
+//   - Server: Uses common.DefaultGRPCURL and common.DefaultGRPCPort
+//   - TLS: Enabled by default (common.DefaultTLS)
+//   - Timeout: 30 seconds for all method calls
+//   - Authentication: Attempts to load credentials from MESH_API_CREDENTIALS file
+//   - Tracing: Disabled by default (no-op tracer)
+//
+// Parameters:
+//   - opts: Functional options to configure the client (WithAPIKey, WithTimeout, etc.)
+//
+// Returns:
+//   - UserServiceClientInterface: Configured service instance
+//   - error: Configuration or connection error
+//
+// Example:
+//
+//	service, err := NewUserService(
+//		WithAPIKey("your-api-key-here"),
+//		WithGroup("groups/your-group-id"),
+//		WithAddress("api.example.com", 443),
+//		WithTimeout(10 * time.Second),
+//	)
+//	if err != nil {
+//		return fmt.Errorf("failed to create service: %w", err)
+//	}
+//	defer service.Close()
+//
+// Thread Safety:
+//
+//	The returned service uses gRPC's thread-safe underlying connections.
+func NewUserService(opts ...ServiceOption) (UserServiceClientInterface, error) {
+	// prepare service with default configuration
+	service := &userService{
+		url:     common.DefaultGRPCURL,
+		port:    common.DefaultGRPCPort,
+		tls:     common.DefaultTLS,
+		tracer:  noop.NewTracerProvider().Tracer(""),
+		timeout: 30 * time.Second, // default 30 second timeout
+
+		// set once options are applied and connection opened
+		grpcClient:              nil,
+		unaryClientInterceptors: nil,
+	}
+
+	// attempt to load credentials from environment file
+	if creds, err := v1.APICredentialsFromEnvironment(); err == nil {
+		service.apiKey = creds.ApiKey
+		service.group = creds.Group
+	}
+
+	// apply options to the service (these can override credentials from file)
+	for _, opt := range opts {
+		opt(service)
+	}
+
+	// validate authentication credentials
+	if err := service.validateAuth(); err != nil {
+		return nil, err
+	}
+
+	// prepare authentication interceptor
+	service.unaryClientInterceptors = []grpc.UnaryClientInterceptor{
+		service.authInterceptor(),
+	}
+
+	// prepare dial options
+	dialOpts := make([]grpc.DialOption, 0)
+
+	// set transport credentials
+	if service.tls {
+		dialOpts = append(dialOpts, grpc.WithTransportCredentials(credentials.NewClientTLSFromCert(nil, "")))
+	} else {
+		dialOpts = append(dialOpts, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	}
+
+	dialOpts = append(dialOpts, grpc.WithChainUnaryInterceptor(service.unaryClientInterceptors...))
+
+	// construct gRPC client connection
+	conn, err := grpc.NewClient(
+		fmt.Sprintf("%s:%d", service.url, service.port),
+		dialOpts...,
+	)
+	if err != nil {
+		return nil, fmt.Errorf("error constructing grpc service connection: %w", err)
+	}
+
+	// set service connection and gRPC service
+	service.conn = conn
+	service.grpcClient = NewUserServiceClient(conn)
+
+	// return constructed service
+	return service, nil
+}
+
+// AssignRoleToUser executes the AssignRoleToUser RPC method on the UserService service.
+// This method automatically handles authentication, timeouts, and distributed tracing.
+//
+// Timeout Behavior:
+//   - If the context already has a deadline, it will be respected
+//   - If no deadline is set, the service's configured timeout will be applied
+//   - The method will be cancelled if the timeout is exceeded
+//
+// Authentication:
+//   - Automatically includes API key in request headers
+//   - Authentication is configured during service creation
+//
+// Distributed Tracing:
+//   - Creates a new span for this method call
+//   - Span is automatically finished when the method returns
+//
+// Parameters:
+//   - ctx: Context for the request (can include custom timeout, tracing, etc.)
+//   - request: The AssignRoleToUserRequest containing the method parameters
+//
+// Returns:
+//   - *User: The successful response from the service
+//   - error: Any error that occurred during the request
+//
+// Example:
+//
+//	resp, err := service.AssignRoleToUser(ctx, &AssignRoleToUserRequest{
+//		// populate request fields
+//	})
+//	if err != nil {
+//		return fmt.Errorf("assignroletouser failed: %w", err)
+//	}
+func (s *userService) AssignRoleToUser(ctx context.Context, request *AssignRoleToUserRequest) (*User, error) {
+	// apply timeout if no deadline is already set
+	if _, hasDeadline := ctx.Deadline(); !hasDeadline {
+		var cancel context.CancelFunc
+		ctx, cancel = context.WithTimeout(ctx, s.timeout)
+		defer cancel()
+	}
+
+	ctx, span := s.tracer.Start(
+		ctx,
+		UserServiceServiceProviderName+"AssignRoleToUser",
+	)
+	defer span.End()
+
+	// call the underlying gRPC service method
+	assignRoleToUserResponse, err := s.grpcClient.AssignRoleToUser(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+
+	return assignRoleToUserResponse, nil
+}
+
+// Close gracefully shuts down the gRPC service connection and releases all associated resources.
+// This method should be called when the service is no longer needed to prevent resource leaks.
+// It's safe to call Close() multiple times - subsequent calls will be no-ops.
+//
+// Best Practices:
+//   - Always call Close() when done with the service
+//   - Use defer service.Close() immediately after successful service creation
+//   - Do not use the service after calling Close()
+//
+// Example:
+//
+//	service, err := NewUserService(...)
+//	if err != nil {
+//		return err
+//	}
+//	defer service.Close() // Ensure cleanup
+//
+// Returns:
+//   - error: Any error that occurred while closing the connection
+func (s *userService) Close() error {
+	if s.conn != nil {
+		return s.conn.Close()
+	}
+	return nil
+}
+
+// Group returns the group resource name configured for this service.
+// The group determines the authorization context for all API requests
+// and is sent as an "x-group" header with every request.
+//
+// Returns:
+//   - string: The configured group resource name in format groups/{group_id}
+func (s *userService) Group() string {
+	return s.group
+}
+
+// validateAuth ensures that authentication credentials and group ID are properly configured.
+// This method is called during service initialization to prevent runtime authentication failures.
+//
+// Requirements:
+//   - At least one authentication method must be configured
+//   - Group must be set for all public API calls
+//
+// Supported Authentication Methods:
+//   - API Key: Set via WithAPIKey() option or MESH_API_CREDENTIALS file
+//
+// Returns:
+//   - nil: If authentication and group are properly configured
+//   - error: If authentication method or group is missing
+func (c *userService) validateAuth() error {
+	if c.apiKey == "" {
+		return errors.New("api key not set. set credentials via MESH_API_CREDENTIALS file, or use WithAPIKey option")
+	}
+	if c.group == "" {
+		return errors.New("group not set. set via MESH_API_CREDENTIALS file or WithGroup option")
+	}
+	return nil
+}
+
+// authInterceptor creates and returns the gRPC unary interceptor for authentication.
+// This interceptor automatically adds authentication and group ID headers to all outgoing requests.
+//
+// Headers Added:
+//   - API Key: "Authorization: Bearer <api-key>" header
+//   - Group ID: "x-group: <group>" header
+//
+// The interceptor is automatically applied to all method calls and handles the
+// authentication and authorization context transparently without requiring manual header management.
+//
+// Returns:
+//   - grpc.UnaryClientInterceptor: Configured authentication and group context interceptor
+func (c *userService) authInterceptor() grpc.UnaryClientInterceptor {
+	return func(ctx context.Context, method string, req, reply any, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
+		ctx = metadata.AppendToOutgoingContext(
+			ctx,
+			common.AuthorizationHeaderKey,
+			common.BearerPrefix+c.apiKey,
+			common.GroupHeaderKey,
+			c.group,
+		)
+		return invoker(ctx, method, req, reply, cc, opts...)
+	}
+}

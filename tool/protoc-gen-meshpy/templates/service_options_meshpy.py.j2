@@ -2,18 +2,18 @@
 # source: {{ proto_file.name }}
 
 """
-Configuration options for {{ service_name }} gRPC client.
-This module provides a clean, extensible way to configure the client with optional
+Configuration options for {{ service_name }} gRPC service.
+This module provides a clean, extensible way to configure the service with optional
 parameters while maintaining backward compatibility and readability.
 """
 
 from datetime import timedelta
 
 
-class ClientOptions:
-    """Configuration options for {{ service_name }} gRPC client.
+class ServiceOptions:
+    """Configuration options for {{ service_name }} gRPC service.
 
-    This class provides a clean, extensible way to configure the client with optional
+    This class provides a clean, extensible way to configure the service with optional
     parameters while maintaining backward compatibility and readability.
     """
 
@@ -26,7 +26,7 @@ class ClientOptions:
         group: str | None = None,
         timeout: timedelta = timedelta(seconds=30),
     ):
-        """Initialize client options.
+        """Initialize service options.
 
         Args:
             tls: Whether to use TLS encryption for the gRPC connection.
@@ -59,3 +59,7 @@ class ClientOptions:
         self.api_key = api_key
         self.group = group
         self.timeout = timeout
+
+
+# Create alias to match expected exports
+ClientOptions = ServiceOptions

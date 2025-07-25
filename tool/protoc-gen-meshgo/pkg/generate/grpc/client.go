@@ -14,13 +14,13 @@ func Client(p *protogen.Plugin, f *protogen.File, svc *protogen.Service) error {
 		return err
 	}
 
-	// Generate main client file
+	// Generate main service file
 	return generateClientFile(p, f, svc)
 }
 
 func generateOptionsFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Service) error {
 	optionsG := p.NewGeneratedFile(
-		serviceProvider.GenerateFilename(f.Desc.Path(), "_grpc_client_options"),
+		serviceProvider.GenerateFilename(f.Desc.Path(), "_options"),
 		f.GoImportPath,
 	)
 
@@ -33,26 +33,26 @@ func generateOptionsFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Ser
 	// Imports are managed automatically by protogen
 	optionsG.P()
 
-	clientStructName := strings.ToLower(string(svc.GoName[0])) + svc.GoName[1:] + "GRPCClient"
-	optionTypeName := "ClientOption"
+	clientStructName := strings.ToLower(string(svc.GoName[0])) + svc.GoName[1:]
+	optionTypeName := "ServiceOption"
 
-	// Generate ClientOption type
-	optionsG.P("// ", optionTypeName, " is a functional option for configuring the ", svc.GoName, " gRPC client.")
-	optionsG.P("// This pattern provides a clean, extensible way to configure the client with optional")
+	// Generate ServiceOption type
+	optionsG.P("// ", optionTypeName, " is a functional option for configuring the ", svc.GoName, " gRPC service.")
+	optionsG.P("// This pattern provides a clean, extensible way to configure the service with optional")
 	optionsG.P("// parameters while maintaining backward compatibility and readability.")
 	optionsG.P("type ", optionTypeName, " func(*", clientStructName, ")")
 	optionsG.P()
 
 	// Generate WithTLS option
 	optionsG.P("// WithTLS configures whether to use TLS encryption for the gRPC connection.")
-	optionsG.P("// When enabled (true), the client will establish a secure connection using TLS.")
-	optionsG.P("// When disabled (false), the client will use an insecure connection.")
+	optionsG.P("// When enabled (true), the service will establish a secure connection using TLS.")
+	optionsG.P("// When disabled (false), the service will use an insecure connection.")
 	optionsG.P("//")
 	optionsG.P("// Default: true (secure connection)")
 	optionsG.P("//")
 	optionsG.P("// Example:")
 	optionsG.P("//")
-	optionsG.P("//\tclient, err := New", svc.GoName, "GRPCClient(")
+	optionsG.P("//\tservice, err := New", svc.GoName, "(")
 	optionsG.P("//\t    WithTLS(true), // Enable TLS encryption")
 	optionsG.P("//\t)")
 	optionsG.P("func WithTLS(enabled bool) ", optionTypeName, " {")
@@ -74,7 +74,7 @@ func generateOptionsFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Ser
 	optionsG.P("//")
 	optionsG.P("// Example:")
 	optionsG.P("//")
-	optionsG.P("//\tclient, err := New", svc.GoName, "GRPCClient(")
+	optionsG.P("//\tservice, err := New", svc.GoName, "(")
 	optionsG.P("//\t    WithAddress(\"staging-api.example.com\", 443), // Connect to staging")
 	optionsG.P("//\t)")
 	optionsG.P("func WithAddress(url string, port int) ", optionTypeName, " {")
@@ -95,7 +95,7 @@ func generateOptionsFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Ser
 	optionsG.P("//")
 	optionsG.P("// Example:")
 	optionsG.P("//")
-	optionsG.P("//\tclient, err := New", svc.GoName, "GRPCClient(")
+	optionsG.P("//\tservice, err := New", svc.GoName, "(")
 	optionsG.P("//\t    WithURL(\"production-api.mesh.trade\"), // Use production server")
 	optionsG.P("//\t)")
 	optionsG.P("func WithURL(url string) ", optionTypeName, " {")
@@ -115,7 +115,7 @@ func generateOptionsFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Ser
 	optionsG.P("//")
 	optionsG.P("// Example:")
 	optionsG.P("//")
-	optionsG.P("//\tclient, err := New", svc.GoName, "GRPCClient(")
+	optionsG.P("//\tservice, err := New", svc.GoName, "(")
 	optionsG.P("//\t    WithPort(9090), // Connect to port 9090")
 	optionsG.P("//\t)")
 	optionsG.P("func WithPort(port int) ", optionTypeName, " {")
@@ -126,7 +126,7 @@ func generateOptionsFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Ser
 	optionsG.P()
 
 	// Generate WithAPIKey option
-	optionsG.P("// WithAPIKey configures API key authentication for the gRPC client.")
+	optionsG.P("// WithAPIKey configures API key authentication for the gRPC service.")
 	optionsG.P("// The API key will be sent as a Bearer token in the Authorization header.")
 	optionsG.P("// This is the primary authentication method for service-to-service communication.")
 	optionsG.P("//")
@@ -139,7 +139,7 @@ func generateOptionsFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Ser
 	optionsG.P("//")
 	optionsG.P("// Example:")
 	optionsG.P("//")
-	optionsG.P("//\tclient, err := New", svc.GoName, "GRPCClient(")
+	optionsG.P("//\tservice, err := New", svc.GoName, "(")
 	optionsG.P("//\t    WithAPIKey(\"your-api-key-here\"),")
 	optionsG.P("//\t    WithGroup(\"groups/your-group-id\"),")
 	optionsG.P("//\t)")
@@ -151,7 +151,7 @@ func generateOptionsFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Ser
 	optionsG.P()
 
 	// Generate WithGroup option
-	optionsG.P("// WithGroup configures the group resource name for all API requests made by this client.")
+	optionsG.P("// WithGroup configures the group resource name for all API requests made by this service.")
 	optionsG.P("// The group is required for public API calls and determines the authorization context")
 	optionsG.P("// for operations. It will be sent as an \"x-group\" header with every request.")
 	optionsG.P("//")
@@ -164,7 +164,7 @@ func generateOptionsFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Ser
 	optionsG.P("//")
 	optionsG.P("// Example:")
 	optionsG.P("//")
-	optionsG.P("//\tclient, err := New", svc.GoName, "GRPCClient(")
+	optionsG.P("//\tservice, err := New", svc.GoName, "(")
 	optionsG.P("//\t    WithAPIKey(\"your-api-key\"),")
 	optionsG.P("//\t    WithGroup(\"groups/01ABCDEF123456789\"),")
 	optionsG.P("//\t)")
@@ -176,7 +176,7 @@ func generateOptionsFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Ser
 	optionsG.P()
 
 	// Generate WithTracer option
-	optionsG.P("// WithTracer configures OpenTelemetry distributed tracing for the gRPC client.")
+	optionsG.P("// WithTracer configures OpenTelemetry distributed tracing for the gRPC service.")
 	optionsG.P("// This enables observability and monitoring of API calls across service boundaries.")
 	optionsG.P("// Each gRPC method call will create a trace span for tracking request flow.")
 	optionsG.P("//")
@@ -187,8 +187,8 @@ func generateOptionsFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Ser
 	optionsG.P("//")
 	optionsG.P("// Example:")
 	optionsG.P("//")
-	optionsG.P("//\ttracer := otel.Tracer(\"", strings.ToLower(svc.GoName), "-client\")")
-	optionsG.P("//\tclient, err := New", svc.GoName, "GRPCClient(")
+	optionsG.P("//\ttracer := otel.Tracer(\"", strings.ToLower(svc.GoName), "-service\")")
+	optionsG.P("//\tservice, err := New", svc.GoName, "(")
 	optionsG.P("//\t    WithTracer(tracer),")
 	optionsG.P("//\t)")
 	optionsG.P("func WithTracer(tracer ", generate.TracingPkg.Ident("Tracer"), ") ", optionTypeName, " {")
@@ -212,7 +212,7 @@ func generateOptionsFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Ser
 	optionsG.P("//")
 	optionsG.P("// Example:")
 	optionsG.P("//")
-	optionsG.P("//\tclient, err := New", svc.GoName, "GRPCClient(")
+	optionsG.P("//\tservice, err := New", svc.GoName, "(")
 	optionsG.P("//\t    WithTimeout(10 * time.Second), // Set 10 second timeout")
 	optionsG.P("//\t)")
 	optionsG.P("//")
@@ -228,9 +228,9 @@ func generateOptionsFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Ser
 }
 
 func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Service) error {
-	// Generate main client file
+	// Generate main service file
 	g := p.NewGeneratedFile(
-		serviceProvider.GenerateFilename(f.Desc.Path(), "_grpc_client"),
+		serviceProvider.GenerateFilename(f.Desc.Path(), ""),
 		f.GoImportPath,
 	)
 
@@ -243,11 +243,11 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 	// Imports are managed automatically by protogen
 	g.P()
 
-	clientInterfaceName := svc.GoName + "GRPCClient"
-	clientStructName := strings.ToLower(string(svc.GoName[0])) + svc.GoName[1:] + "GRPCClient"
+	clientInterfaceName := svc.GoName + "ClientInterface"
+	clientStructName := strings.ToLower(string(svc.GoName[0])) + svc.GoName[1:]
 
 	// Generate combined interface
-	g.P("// ", clientInterfaceName, " is a gRPC client for the ", svc.GoName, " service.")
+	g.P("// ", clientInterfaceName, " is a gRPC service for the ", svc.GoName, " service.")
 	g.P("// It combines the service interface with resource management capabilities, providing")
 	g.P("// authentication, timeouts, and tracing.")
 	g.P("//")
@@ -261,11 +261,11 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 	g.P("//   - Proper connection management")
 	g.P("//")
 	g.P("// Thread Safety:")
-	g.P("//   This client uses gRPC's thread-safe underlying connections.")
+	g.P("//   This service uses gRPC's thread-safe underlying connections.")
 	g.P("//")
 	g.P("// Example usage:")
 	g.P("//")
-	g.P("//\tclient, err := New", svc.GoName, "GRPCClient(")
+	g.P("//\tservice, err := New", svc.GoName, "(")
 	g.P("//\t\tWithAPIKey(\"your-api-key\"),")
 	g.P("//\t\tWithGroup(\"groups/your-group-id\"),")
 	g.P("//\t\tWithTimeout(30 * time.Second),")
@@ -273,9 +273,9 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 	g.P("//\tif err != nil {")
 	g.P("//\t\tlog.Fatal(err)")
 	g.P("//\t}")
-	g.P("//\tdefer client.Close()")
+	g.P("//\tdefer service.Close()")
 	g.P("//")
-	g.P("//\t// Use client methods as defined in the service interface")
+	g.P("//\t// Use service methods as defined in the service interface")
 	g.P("type ", clientInterfaceName, " interface {")
 	g.P("\t", svc.GoName)
 	g.P("\t", generate.CommonPkg.Ident("GRPCClient"))
@@ -290,7 +290,7 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 	// Generate client struct
 	g.P("// ", clientStructName, " is the internal implementation of the ", clientInterfaceName, " interface.")
 	g.P("// This struct maintains the gRPC connection state, authentication credentials,")
-	g.P("// and configuration options for the client.")
+	g.P("// and configuration options for the service.")
 	g.P("type ", clientStructName, " struct {")
 	g.P("\turl                     string")
 	g.P("\tport                    int")
@@ -306,8 +306,8 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 	g.P()
 
 	// Generate constructor
-	g.P("// New", svc.GoName, "GRPCClient creates a new gRPC client for the ", svc.GoName, " service.")
-	g.P("// The client is configured using functional options and automatically handles connection")
+	g.P("// New", svc.GoName, " creates a new gRPC service for the ", svc.GoName, " service.")
+	g.P("// The service is configured using functional options and automatically handles connection")
 	g.P("// management, authentication, timeouts, and distributed tracing.")
 	g.P("//")
 	g.P("// Default Configuration:")
@@ -321,27 +321,27 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 	g.P("//   - opts: Functional options to configure the client (WithAPIKey, WithTimeout, etc.)")
 	g.P("//")
 	g.P("// Returns:")
-	g.P("//   - ", clientInterfaceName, ": Configured client instance")
+	g.P("//   - ", clientInterfaceName, ": Configured service instance")
 	g.P("//   - error: Configuration or connection error")
 	g.P("//")
 	g.P("// Example:")
 	g.P("//")
-	g.P("//\tclient, err := New", svc.GoName, "GRPCClient(")
+	g.P("//\tservice, err := New", svc.GoName, "(")
 	g.P("//\t\tWithAPIKey(\"your-api-key-here\"),")
 	g.P("//\t\tWithGroup(\"groups/your-group-id\"),")
 	g.P("//\t\tWithAddress(\"api.example.com\", 443),")
 	g.P("//\t\tWithTimeout(10 * time.Second),")
 	g.P("//\t)")
 	g.P("//\tif err != nil {")
-	g.P("//\t\treturn fmt.Errorf(\"failed to create client: %w\", err)")
+	g.P("//\t\treturn fmt.Errorf(\"failed to create service: %w\", err)")
 	g.P("//\t}")
-	g.P("//\tdefer client.Close()")
+	g.P("//\tdefer service.Close()")
 	g.P("//")
 	g.P("// Thread Safety:")
-	g.P("//   The returned client uses gRPC's thread-safe underlying connections.")
-	g.P("func New", svc.GoName, "GRPCClient(opts ...ClientOption) (", clientInterfaceName, ", error) {")
-	g.P("\t// prepare client with default configuration")
-	g.P("\tclient := &", clientStructName, "{")
+	g.P("//   The returned service uses gRPC's thread-safe underlying connections.")
+	g.P("func New", svc.GoName, "(opts ...ServiceOption) (", clientInterfaceName, ", error) {")
+	g.P("\t// prepare service with default configuration")
+	g.P("\tservice := &", clientStructName, "{")
 	g.P("\t\turl:     ", generate.CommonPkg.Ident("DefaultGRPCURL"), ",")
 	g.P("\t\tport:    ", generate.CommonPkg.Ident("DefaultGRPCPort"), ",")
 	g.P("\t\ttls:     ", generate.CommonPkg.Ident("DefaultTLS"), ",")
@@ -355,52 +355,52 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 	g.P()
 	g.P("\t// attempt to load credentials from environment file")
 	g.P("\tif creds, err := ", generate.APICredentialsPkg.Ident("APICredentialsFromEnvironment"), "(); err == nil {")
-	g.P("\t\tclient.apiKey = creds.ApiKey")
-	g.P("\t\tclient.group = creds.Group")
+	g.P("\t\tservice.apiKey = creds.ApiKey")
+	g.P("\t\tservice.group = creds.Group")
 	g.P("\t}")
 	g.P()
-	g.P("\t// apply options to the client (these can override credentials from file)")
+	g.P("\t// apply options to the service (these can override credentials from file)")
 	g.P("\tfor _, opt := range opts {")
-	g.P("\t\topt(client)")
+	g.P("\t\topt(service)")
 	g.P("\t}")
 	g.P()
 	g.P("\t// validate authentication credentials")
-	g.P("\tif err := client.validateAuth(); err != nil {")
+	g.P("\tif err := service.validateAuth(); err != nil {")
 	g.P("\t\treturn nil, err")
 	g.P("\t}")
 	g.P()
 	g.P("\t// prepare authentication interceptor")
-	g.P("\tclient.unaryClientInterceptors = []", generate.GRPCPkg.Ident("UnaryClientInterceptor"), "{")
-	g.P("\t\tclient.authInterceptor(),")
+	g.P("\tservice.unaryClientInterceptors = []", generate.GRPCPkg.Ident("UnaryClientInterceptor"), "{")
+	g.P("\t\tservice.authInterceptor(),")
 	g.P("\t}")
 	g.P()
 	g.P("\t// prepare dial options")
 	g.P("\tdialOpts := make([]", generate.GRPCPkg.Ident("DialOption"), ", 0)")
 	g.P()
 	g.P("\t// set transport credentials")
-	g.P("\tif client.tls {")
+	g.P("\tif service.tls {")
 	g.P("\t\tdialOpts = append(dialOpts, ", generate.GRPCPkg.Ident("WithTransportCredentials"), "(", generate.GRPCCredentialsPkg.Ident("NewClientTLSFromCert"), "(nil, \"\")))")
 	g.P("\t} else {")
 	g.P("\t\tdialOpts = append(dialOpts, ", generate.GRPCPkg.Ident("WithTransportCredentials"), "(", generate.GRPCInsecurePkg.Ident("NewCredentials"), "()))")
 	g.P("\t}")
 	g.P()
-	g.P("\tdialOpts = append(dialOpts, ", generate.GRPCPkg.Ident("WithChainUnaryInterceptor"), "(client.unaryClientInterceptors...))")
+	g.P("\tdialOpts = append(dialOpts, ", generate.GRPCPkg.Ident("WithChainUnaryInterceptor"), "(service.unaryClientInterceptors...))")
 	g.P()
 	g.P("\t// construct gRPC client connection")
 	g.P("\tconn, err := ", generate.GRPCPkg.Ident("NewClient"), "(")
-	g.P("\t\t", generate.FmtPackage.Ident("Sprintf"), "(\"%s:%d\", client.url, client.port),")
+	g.P("\t\t", generate.FmtPackage.Ident("Sprintf"), "(\"%s:%d\", service.url, service.port),")
 	g.P("\t\tdialOpts...,")
 	g.P("\t)")
 	g.P("\tif err != nil {")
-	g.P("\t\treturn nil, ", generate.FmtPackage.Ident("Errorf"), "(\"error constructing grpc client connection: %w\", err)")
+	g.P("\t\treturn nil, ", generate.FmtPackage.Ident("Errorf"), "(\"error constructing grpc service connection: %w\", err)")
 	g.P("\t}")
 	g.P()
-	g.P("\t// set client connection and gRPC client")
-	g.P("\tclient.conn = conn")
-	g.P("\tclient.grpcClient = New", svc.GoName, "Client(conn)")
+	g.P("\t// set service connection and gRPC service")
+	g.P("\tservice.conn = conn")
+	g.P("\tservice.grpcClient = New", svc.GoName, "Client(conn)")
 	g.P()
-	g.P("\t// return constructed client")
-	g.P("\treturn client, nil")
+	g.P("\t// return constructed service")
+	g.P("\treturn service, nil")
 	g.P("}")
 	g.P()
 
@@ -412,12 +412,12 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 		g.P("//")
 		g.P("// Timeout Behavior:")
 		g.P("//   - If the context already has a deadline, it will be respected")
-		g.P("//   - If no deadline is set, the client's configured timeout will be applied")
+		g.P("//   - If no deadline is set, the service's configured timeout will be applied")
 		g.P("//   - The method will be cancelled if the timeout is exceeded")
 		g.P("//")
 		g.P("// Authentication:")
 		g.P("//   - Automatically includes API key in request headers")
-		g.P("//   - Authentication is configured during client creation")
+		g.P("//   - Authentication is configured during service creation")
 		g.P("//")
 		g.P("// Distributed Tracing:")
 		g.P("//   - Creates a new span for this method call")
@@ -433,7 +433,7 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 		g.P("//")
 		g.P("// Example:")
 		g.P("//")
-		g.P("//\tresp, err := client.", method.GoName, "(ctx, &", method.Input.GoIdent, "{")
+		g.P("//\tresp, err := service.", method.GoName, "(ctx, &", method.Input.GoIdent, "{")
 		g.P("//\t\t// populate request fields")
 		g.P("//\t})")
 		g.P("//\tif err != nil {")
@@ -459,7 +459,7 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 		g.P()
 
 		// Make gRPC call
-		g.P("\t// call the underlying gRPC client method")
+		g.P("\t// call the underlying gRPC service method")
 		g.P("\t", strings.ToLower(string(method.GoName[0]))+method.GoName[1:]+"Response, err := s.grpcClient.", method.GoName, "(ctx, request)")
 		g.P("\tif err != nil {")
 		g.P("\t\treturn nil, err")
@@ -476,22 +476,22 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 	g.P()
 
 	// Generate Close method
-	g.P("// Close gracefully shuts down the gRPC client connection and releases all associated resources.")
-	g.P("// This method should be called when the client is no longer needed to prevent resource leaks.")
+	g.P("// Close gracefully shuts down the gRPC service connection and releases all associated resources.")
+	g.P("// This method should be called when the service is no longer needed to prevent resource leaks.")
 	g.P("// It's safe to call Close() multiple times - subsequent calls will be no-ops.")
 	g.P("//")
 	g.P("// Best Practices:")
-	g.P("//   - Always call Close() when done with the client")
-	g.P("//   - Use defer client.Close() immediately after successful client creation")
-	g.P("//   - Do not use the client after calling Close()")
+	g.P("//   - Always call Close() when done with the service")
+	g.P("//   - Use defer service.Close() immediately after successful service creation")
+	g.P("//   - Do not use the service after calling Close()")
 	g.P("//")
 	g.P("// Example:")
 	g.P("//")
-	g.P("//\tclient, err := New", svc.GoName, "GRPCClient(...)")
+	g.P("//\tservice, err := New", svc.GoName, "(...)")
 	g.P("//\tif err != nil {")
 	g.P("//\t\treturn err")
 	g.P("//\t}")
-	g.P("//\tdefer client.Close() // Ensure cleanup")
+	g.P("//\tdefer service.Close() // Ensure cleanup")
 	g.P("//")
 	g.P("// Returns:")
 	g.P("//   - error: Any error that occurred while closing the connection")
@@ -504,7 +504,7 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 	g.P()
 
 	// Generate Group method
-	g.P("// Group returns the group resource name configured for this client.")
+	g.P("// Group returns the group resource name configured for this service.")
 	g.P("// The group determines the authorization context for all API requests")
 	g.P("// and is sent as an \"x-group\" header with every request.")
 	g.P("//")
@@ -517,7 +517,7 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 
 	// Generate validateAuth helper
 	g.P("// validateAuth ensures that authentication credentials and group ID are properly configured.")
-	g.P("// This method is called during client initialization to prevent runtime authentication failures.")
+	g.P("// This method is called during service initialization to prevent runtime authentication failures.")
 	g.P("//")
 	g.P("// Requirements:")
 	g.P("//   - At least one authentication method must be configured")

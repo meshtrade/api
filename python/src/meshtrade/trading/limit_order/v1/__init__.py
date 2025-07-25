@@ -17,12 +17,12 @@ from .limit_order_pb2 import LimitOrder
 from .service_pb2 import GetLimitOrderRequest
 
 # Generated service imports
-from .service_grpc_client_meshpy import (
+from .service_meshpy import (
+    LimitOrderService,
     LimitOrderServiceGRPCClient,
     LimitOrderServiceGRPCClientInterface,
 )
-from .service_grpc_client_options_meshpy import ClientOptions
-from .service_meshpy import LimitOrderService
+from .service_options_meshpy import ClientOptions
 
 # ===================================================================
 # END OF AUTO-GENERATED SECTION
