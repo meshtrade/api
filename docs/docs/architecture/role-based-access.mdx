@@ -135,7 +135,7 @@ The authorization system validates:
 Authentication uses API keys issued through the IAM system. The generated gRPC clients automatically handle authentication by:
 
 - Adding `Authorization: Bearer <api-key>` header to all requests
-- Including `x-group: <group-id>` header for multi-tenant context
+- Including `x-group: groups/{group_ulid}` header for multi-tenant context
 - Managing credentials through the `MESH_API_CREDENTIALS` environment file
 
 For implementation details, reference the authentication interceptor in the generated gRPC clients, such as `go/iam/api_user/v1/service_grpc_client.meshgo.go`.

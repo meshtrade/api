@@ -2,9 +2,9 @@
 sidebar_position: 4
 ---
 
-# Authentication & SDK Features
+# Authentication
 
-Understanding authentication methods and SDK capabilities for the Mesh API.
+Understanding authentication methods for the Mesh API.
 
 ## Authentication Methods
 
@@ -15,7 +15,7 @@ The primary authentication method for programmatic access to the Mesh API.
 **Header Format:**
 ```
 Authorization: Bearer {api_key}
-x-group: {group_id}
+x-group: groups/{group_ulid}
 ```
 
 **Key Characteristics:**
@@ -27,7 +27,7 @@ x-group: {group_id}
 **Example:**
 ```bash
 curl -H "Authorization: Bearer mesh_12345abcdef..." \
-     -H "x-group: my-organization" \
+     -H "x-group: groups/{group_ulid}" \
      https://api.mesh.dev/iam/api_user/v1/api_users
 ```
 
@@ -40,169 +40,9 @@ All API operations require a group context header that specifies which group the
 - Enforces multi-tenancy boundaries
 - Ensures users can only access resources they own
 
-## SDK Features
+## SDK Configuration
 
-### Go SDK
-
-The Go SDK provides a fully-featured client with advanced capabilities:
-
-#### Functional Options Pattern
-Configure clients using functional options for flexibility:
-
-```go
-client, err := api_userv1.NewApiUserServiceGRPCClient(
-    api_userv1.WithAPIKey("your-api-key"),
-    api_userv1.WithGroup("your-group-id"),
-    api_userv1.WithTimeout(30 * time.Second),
-    api_userv1.WithAddress("localhost", 8080),
-    api_userv1.WithTLS(false),
-)
-```
-
-#### Available Configuration Options
-- `WithAPIKey(key)` - Set API key for authentication
-- `WithGroup(groupID)` - Set group context
-- `WithTimeout(duration)` - Configure request timeouts (default: 30s)
-- `WithAddress(host, port)` - Set server address
-- `WithTLS(enabled)` - Enable/disable TLS
-- `WithTracer(tracer)` - Configure OpenTelemetry tracing
-
-#### Automatic Credential Loading
-The client automatically attempts to load credentials from environment:
-
-```bash
-# Set environment variable pointing to credentials file
-export MESH_API_CREDENTIALS=/path/to/credentials.json
-```
-
-**Credentials file format:**
-```json
-{
-  "api_key": "your-api-key",
-  "group_id": "your-group-id"
-}
-```
-
-#### Resource Management
-Proper cleanup with the `Close()` method:
-
-```go
-client, err := api_userv1.NewApiUserServiceGRPCClient(...)
-if err != nil {
-    return err
-}
-defer client.Close() // Always close when done
-```
-
-#### Timeout Handling
-Smart timeout behavior respects context deadlines:
-
-```go
-// Use context with custom timeout
-ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-defer cancel()
-
-response, err := client.GetApiUser(ctx, request)
-```
-
-#### OpenTelemetry Tracing
-Automatic distributed tracing support:
-- Creates spans for each method call
-- Integrates with existing tracing infrastructure
-- Provides observability into API call performance
-
-#### TLS/mTLS Support
-Configurable transport security:
-
-```go
-// Enable TLS
-client, err := api_userv1.NewApiUserServiceGRPCClient(
-    api_userv1.WithTLS(true),
-    // ... other options
-)
-
-// For mTLS, additional certificate configuration required
-```
-
-### Python SDK
-
-The Python SDK provides fully-featured wrapper clients with advanced capabilities:
-
-#### Simple Client Creation
-Create clients with automatic credential loading:
-
-```python
-from meshtrade.iam.api_user.v1 import ApiUserServiceGRPCClient, ClientOptions
-
-# Create client (loads credentials from MESH_API_CREDENTIALS)
-options = ClientOptions()
-client = ApiUserServiceGRPCClient(options)
-
-# Use context manager for automatic cleanup
-with client:
-    response = client.get_api_user(request)
-```
-
-#### Advanced Configuration Options
-Configure clients using options for flexibility:
-
-```python
-from datetime import timedelta
-
-options = ClientOptions(
-    url="api.staging.example.com",
-    port=443,
-    tls=True,
-    api_key="your-api-key",
-    group="groups/your-group-id",
-    timeout=timedelta(seconds=60)
-)
-client = ApiUserServiceGRPCClient(options)
-```
-
-#### Available Configuration Options
-- `url` - Server hostname (default: from credentials)
-- `port` - Server port (default: from credentials)
-- `tls` - Enable/disable TLS (default: True)
-- `api_key` - Set API key for authentication
-- `group` - Set group context
-- `timeout` - Configure request timeouts as timedelta
-
-#### Automatic Credential Loading
-The client automatically attempts to load credentials from environment:
-
-```bash
-# Set environment variable pointing to credentials file
-export MESH_API_CREDENTIALS=/path/to/credentials.json
-```
-
-#### Resource Management
-Proper cleanup with context manager or close method:
-
-```python
-# Recommended: context manager
-with client:
-    response = client.get_api_user(request)
-
-# Alternative: manual cleanup
-client = ApiUserServiceGRPCClient(options)
-try:
-    response = client.get_api_user(request)
-finally:
-    client.close()
-```
-
-## SDK Comparison
-
-| Feature | Go SDK | Python SDK |
-|---------|--------|------------|
-| Client generation | ✅ Full SDK | ✅ Full SDK |
-| Authentication | ✅ Automatic | ✅ Automatic |
-| Resource management | ✅ `Close()` method | ✅ Context manager |
-| Timeout handling | ✅ Smart defaults | ✅ Configurable |
-| OpenTelemetry | ✅ Built-in | 🚧 Coming Soon |
-| TLS/mTLS | ✅ Configurable | ✅ Configurable |
-| Credential loading | ✅ Environment file | ✅ Environment file |
+For detailed information about configuring SDK clients, including advanced features like OpenTelemetry tracing, TLS/mTLS support, timeout handling, and resource management, see the [SDK Configuration](./sdk-configuration.mdx) documentation.
 
 ## Security Best Practices
 
@@ -227,29 +67,3 @@ finally:
 - Regularly audit API user permissions
 - Deactivate unused API users promptly
 
-## Error Handling
-
-All SDK methods return errors that should be handled appropriately:
-
-**Go:**
-```go
-response, err := client.GetApiUser(ctx, request)
-if err != nil {
-    return fmt.Errorf("failed to get API user: %w", err)
-}
-```
-
-**Python:**
-```python
-try:
-    response = client.get_api_user(request)
-except Exception as e:
-    print(f"Failed to get API user: {e}")
-```
-
-The error information varies by method but typically includes:
-- Authentication failures
-- Authorization denials  
-- Resource not found
-- Validation errors
-- Network connectivity issues

@@ -4,7 +4,7 @@ This page covers advanced configuration options for Meshtrade SDK clients. All g
 
 ## Client Configuration Patterns
 
-All Meshtrade SDK clients are generated from the same template and provide consistent configuration options across Go, Python, and TypeScript implementations. You can configure:
+All Meshtrade SDK clients are generated from the same template and provide consistent configuration options across Go and Python implementations. You can configure:
 
 - **Connection settings** - URL, port, TLS/SSL options
 - **Authentication** - API key, group ID, or environment-based credentials
@@ -88,6 +88,7 @@ func main() {
 - `WithAPIKey(key)` - Direct API key
 - `WithGroup(groupID)` - Direct group ID
 - `WithTimeout(duration)` - Request timeout
+- `WithTracer(tracer)` - Configure OpenTelemetry tracing
 
 </TabItem>
 <TabItem value="python" label="Python">
@@ -148,75 +149,6 @@ if __name__ == "__main__":
 - `api_key` - Direct API key
 - `group` - Direct group ID
 - `timeout` - Request timeout in seconds
-
-</TabItem>
-<TabItem value="typescript" label="TypeScript">
-
-```typescript title="advanced-client-config.ts"
-import {
-  ApiUserServiceGRPCClient,
-  ClientOptions,
-  ListApiUsersRequest,
-} from '@meshtrade/api/iam/api_user/v1';
-
-async function main() {
-  // Option 1: Minimal client (uses MESH_API_CREDENTIALS environment variable)
-  const options1: ClientOptions = {};
-  const client1 = new ApiUserServiceGRPCClient(options1);
-
-  // Option 2: Custom address and TLS settings
-  const options2: ClientOptions = {
-    url: 'api.mesh.dev',
-    port: 443,
-    tls: true,
-  };
-  const client2 = new ApiUserServiceGRPCClient(options2);
-
-  // Option 3: Direct API key and group configuration
-  const options3: ClientOptions = {
-    url: 'localhost',
-    port: 10000,
-    tls: false,
-    apiKey: 'your-api-key-here',
-    group: 'groups/your-group-id',
-  };
-  const client3 = new ApiUserServiceGRPCClient(options3);
-
-  // Option 4: Custom timeout settings
-  const options4: ClientOptions = {
-    url: 'api.mesh.dev',
-    port: 443,
-    tls: true,
-    timeout: 30000, // 30 seconds in milliseconds
-  };
-  const client4 = new ApiUserServiceGRPCClient(options4);
-
-  try {
-    // All clients have the same interface and can be used identically
-    // Example: List API users with any configured client
-    const response = await client1.listApiUsers(new ListApiUsersRequest());
-    console.log(`Found ${response.apiUsers.length} API users`);
-  } catch (error) {
-    console.error('Failed to list users:', error);
-  } finally {
-    // Cleanup connections
-    await client1.close();
-    await client2.close();
-    await client3.close();
-    await client4.close();
-  }
-}
-
-main().catch(console.error);
-```
-
-**TypeScript Configuration Options:**
-- `url` - Host/endpoint
-- `port` - Port number
-- `tls` - Enable/disable TLS (boolean)
-- `apiKey` - Direct API key
-- `group` - Direct group ID
-- `timeout` - Request timeout in milliseconds
 
 </TabItem>
 </Tabs>
@@ -281,3 +213,136 @@ This configuration approach works identically across all Meshtrade services:
 - And any future service additions
 
 Simply replace the import path and service name while keeping the same configuration patterns.
+
+## Advanced Features
+
+### OpenTelemetry Tracing (Go SDK)
+
+The Go SDK includes automatic distributed tracing support:
+
+```go
+import (
+    "go.opentelemetry.io/otel"
+    api_userv1 "github.com/meshtrade/api/go/iam/api_user/v1"
+)
+
+// Configure with custom tracer
+tracer := otel.Tracer("my-application")
+client, err := api_userv1.NewApiUserServiceGRPCClient(
+    api_userv1.WithTracer(tracer),
+    // ... other options
+)
+```
+
+**Features:**
+- Creates spans for each method call
+- Integrates with existing tracing infrastructure  
+- Provides observability into API call performance
+
+### TLS/mTLS Support
+
+Configure transport security for production environments:
+
+<Tabs>
+<TabItem value="go" label="Go">
+
+```go
+// Enable TLS
+client, err := api_userv1.NewApiUserServiceGRPCClient(
+    api_userv1.WithTLS(true),
+    api_userv1.WithAddress("api.mesh.dev", 443),
+)
+
+// For mTLS, additional certificate configuration required
+```
+
+</TabItem>
+<TabItem value="python" label="Python">
+
+```python
+# Enable TLS
+options = ClientOptions(
+    url="api.mesh.dev",
+    port=443,
+    tls=True,
+)
+client = ApiUserServiceGRPCClient(options)
+```
+
+</TabItem>
+</Tabs>
+
+### Smart Timeout Handling
+
+Both SDKs respect context deadlines and provide intelligent timeout behavior:
+
+<Tabs>
+<TabItem value="go" label="Go">
+
+```go
+// Use context with custom timeout
+ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+defer cancel()
+
+response, err := client.GetApiUser(ctx, request)
+```
+
+</TabItem>
+<TabItem value="python" label="Python">
+
+```python
+# Configure timeout in client options
+options = ClientOptions(
+    timeout=timedelta(seconds=30)  # 30 seconds
+)
+client = ApiUserServiceGRPCClient(options)
+```
+
+</TabItem>
+</Tabs>
+
+## SDK Feature Comparison
+
+| Feature | Go SDK | Python SDK |
+|---------|--------|------------|
+| Client generation | ✅ Full SDK | ✅ Full SDK |
+| Authentication | ✅ Automatic | ✅ Automatic |
+| Resource management | ✅ `Close()` method | ✅ Context manager |
+| Timeout handling | ✅ Smart defaults | ✅ Configurable |
+| OpenTelemetry | ✅ Built-in | 🚧 Coming Soon |
+| TLS/mTLS | ✅ Configurable | ✅ Configurable |
+| Credential loading | ✅ Environment file | ✅ Environment file |
+
+## Comprehensive Error Handling
+
+All SDK methods return errors that should be handled appropriately:
+
+<Tabs>
+<TabItem value="go" label="Go">
+
+```go
+response, err := client.GetApiUser(ctx, request)
+if err != nil {
+    return fmt.Errorf("failed to get API user: %w", err)
+}
+```
+
+</TabItem>
+<TabItem value="python" label="Python">
+
+```python
+try:
+    response = client.get_api_user(request)
+except Exception as e:
+    print(f"Failed to get API user: {e}")
+```
+
+</TabItem>
+</Tabs>
+
+**Common Error Types:**
+- Authentication failures
+- Authorization denials  
+- Resource not found
+- Validation errors
+- Network connectivity issues
