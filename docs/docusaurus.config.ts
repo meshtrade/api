@@ -22,10 +22,10 @@ const config: Config = {
 
   markdown: {
     format: 'mdx',
-    mermaid: false, // Disabled due to dependency conflicts
+    mermaid: true,
   },
 
-  // themes: ['@docusaurus/theme-mermaid'], // Temporarily disabled due to dependency issues
+  themes: ['@docusaurus/theme-mermaid'],
 
   presets: [
     [
@@ -146,9 +146,9 @@ const config: Config = {
       //   searchParameters: {},
       //   searchPagePath: 'search',
       // },
-      // mermaid: {
-      //   theme: {light: 'neutral', dark: 'dark'},
-      // },
+      mermaid: {
+        theme: {light: 'neutral', dark: 'dark'},
+      },
     },
 };
 
