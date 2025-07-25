@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -44,4 +45,52 @@ func APICredentialsFromEnvironment() (*APICredentials, error) {
 	}
 
 	return LoadAPICredentialsFromFile(path)
+}
+
+// DefaultCredentialsPath returns the OS-specific default path for Mesh API credentials
+func DefaultCredentialsPath() string {
+	configDir, err := os.UserConfigDir()
+	if err != nil {
+		// Fallback to home directory if UserConfigDir fails
+		homeDir, err := os.UserHomeDir()
+		if err != nil {
+			return ""
+		}
+		configDir = filepath.Join(homeDir, ".config")
+	}
+	
+	return filepath.Join(configDir, "mesh", "credentials.json")
+}
+
+// LoadDefaultCredentials loads API credentials from the default location if the file exists
+func LoadDefaultCredentials() (*APICredentials, error) {
+	path := DefaultCredentialsPath()
+	if path == "" {
+		return nil, fmt.Errorf("unable to determine default credentials path")
+	}
+	
+	// Check if file exists before attempting to load
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		return nil, fmt.Errorf("default credentials file does not exist: %s", path)
+	}
+	
+	return LoadAPICredentialsFromFile(path)
+}
+
+// FindCredentials searches for API credentials using the standard discovery hierarchy:
+// 1. MESH_API_CREDENTIALS environment variable (if set)
+// 2. Default credential file location
+func FindCredentials() (*APICredentials, error) {
+	// Try environment variable first (existing behavior)
+	if creds, err := APICredentialsFromEnvironment(); err == nil {
+		return creds, nil
+	}
+	
+	// Try default file location
+	if creds, err := LoadDefaultCredentials(); err == nil {
+		return creds, nil
+	}
+	
+	return nil, fmt.Errorf("no API credentials found: tried environment variable (%s) and default location (%s)", 
+		MESH_API_CREDENTIALS_ENV_VAR, DefaultCredentialsPath())
 }

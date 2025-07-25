@@ -20,9 +20,9 @@ from meshtrade.common import (
     create_auth_metadata,
 )
 {% if package_name == "meshtrade.iam.api_user.v1" -%}
-from .api_credentials import api_credentials_from_environment
+from .api_credentials import find_credentials
 {% else -%}
-from meshtrade.iam.api_user.v1.api_credentials import api_credentials_from_environment
+from meshtrade.iam.api_user.v1.api_credentials import find_credentials
 {% endif %}
 
 from .api_user_pb2 import APIUser
@@ -119,8 +119,8 @@ class {{ service_name }}({{ service_name }}Interface):
             self._api_key = options.api_key
             self._group = options.group
         else:
-            # Try to load from environment if not provided
-            creds = api_credentials_from_environment()
+            # Try to load using credential discovery hierarchy (environment variable or default file)
+            creds = find_credentials()
             self._api_key = creds.api_key if creds else None
             self._group = creds.group if creds else None
 

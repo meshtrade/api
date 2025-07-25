@@ -40,6 +40,7 @@ const config: Config = {
           rehypePlugins: [],
         },
         blog: {
+          routeBasePath: 'news',
           showReadingTime: true,
           feedOptions: {
             type: ['rss', 'atom'],
@@ -72,7 +73,7 @@ const config: Config = {
             position: 'left',
             label: 'Documentation',
           },
-          { to: '/blog', label: 'Blog', position: 'left' },
+          { to: '/news', label: 'News', position: 'left' },
           {
             href: 'https://github.com/meshtrade/api',
             label: 'GitHub',
@@ -121,8 +122,8 @@ const config: Config = {
             title: 'More',
             items: [
               {
-                label: 'Blog',
-                to: '/blog',
+                label: 'News',
+                to: '/news',
               },
               {
                 label: 'GitHub',

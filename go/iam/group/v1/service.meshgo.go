@@ -119,8 +119,8 @@ func NewGroupService(opts ...ServiceOption) (GroupServiceClientInterface, error)
 		unaryClientInterceptors: nil,
 	}
 
-	// attempt to load credentials from environment file
-	if creds, err := v1.APICredentialsFromEnvironment(); err == nil {
+	// attempt to load credentials using discovery hierarchy (environment variable or default file)
+	if creds, err := v1.FindCredentials(); err == nil {
 		service.apiKey = creds.ApiKey
 		service.group = creds.Group
 	}

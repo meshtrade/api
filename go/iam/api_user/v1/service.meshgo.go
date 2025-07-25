@@ -118,8 +118,8 @@ func NewApiUserService(opts ...ServiceOption) (ApiUserServiceClientInterface, er
 		unaryClientInterceptors: nil,
 	}
 
-	// attempt to load credentials from environment file
-	if creds, err := APICredentialsFromEnvironment(); err == nil {
+	// attempt to load credentials using discovery hierarchy (environment variable or default file)
+	if creds, err := FindCredentials(); err == nil {
 		service.apiKey = creds.ApiKey
 		service.group = creds.Group
 	}

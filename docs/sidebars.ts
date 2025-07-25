@@ -10,6 +10,7 @@
  */
 
 import type { SidebarsConfig } from '@docusaurus/plugin-content-docs';
+import {api_reference_sidebar } from "./docs/api-reference/sidebar";
 
 const sidebars: SidebarsConfig = {
   tutorialSidebar: [
@@ -30,35 +31,7 @@ const sidebars: SidebarsConfig = {
       label: 'API Reference',
       items: [
         'api-reference/index',
-        {
-          type: 'category',
-          label: 'IAM Domain',
-          items: [
-            'api-reference/iam/index',
-            {
-              type: 'category',
-              label: 'API User Service',
-              items: [
-                'api-reference/iam/api_user/v1/index',
-                'api-reference/iam/api_user/v1/types',
-                {
-                  type: 'category',
-                  label: 'Service Methods',
-                  items: [
-                    'api-reference/iam/api_user/v1/service/index',
-                    'api-reference/iam/api_user/v1/service/create-api-user',
-                    'api-reference/iam/api_user/v1/service/get-api-user',
-                    'api-reference/iam/api_user/v1/service/list-api-users',
-                    'api-reference/iam/api_user/v1/service/search-api-users',
-                    'api-reference/iam/api_user/v1/service/activate-api-user',
-                    'api-reference/iam/api_user/v1/service/deactivate-api-user',
-                    'api-reference/iam/api_user/v1/service/get-api-user-by-key-hash'
-                  ]
-                }
-              ]
-            }
-          ]
-        }
+        ...api_reference_sidebar,
       ],
     },
     'roadmap',
