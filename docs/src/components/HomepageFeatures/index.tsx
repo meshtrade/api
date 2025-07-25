@@ -22,7 +22,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: 'Schema-First Design',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    imageSrc: require('@site/static/img/schema-driven-design.png').default,
     description: (
       <>
         gRPC-based API with protobuf single source of truth. Domain-organized 
