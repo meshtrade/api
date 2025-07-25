@@ -10,20 +10,29 @@ import TabItem from '@theme/TabItem';
 
 import GoExample from '!!raw-loader!./example.go';
 import PythonExample from '!!raw-loader!./example.py';
-import Proto from '!!raw-loader!../../../../../../../../proto/meshtrade/iam/api_user/v1/api_credentials.proto';
+import Proto from '!!raw-loader!../../../../../../../../proto/meshtrade/iam/api_user/v1/service.proto';
 
 
 ## Method Details
 
-**Description:** auto-generated from proto file
+**Description:** Lists all API users in the authenticated group context.
 
-**Required Roles:** auto-generated from proto file
+Returns all API users that belong to the current group,
+regardless of their active/inactive state.
 
-**Parameters:** auto-generated from proto file
+Returns:
+- ListApiUsersResponse: Collection of API users in the group
 
-**Returns:** auto-generated from proto file
+Authorization: Requires ROLE_IAM_ADMIN or ROLE_IAM_VIEWER
 
-**Method Type:** auto-generated from proto file
+**Required Roles:** ROLE_IAM_ADMIN, ROLE_IAM_VIEWER
+
+**Parameters:** 
+No parameters
+
+**Returns:** ListApiUsersResponse
+
+**Method Type:** METHOD_TYPE_READ
 
 ## Code Examples
 
@@ -45,4 +54,4 @@ For advanced client configuration options (custom endpoints, TLS settings, timeo
 
 ## Other Methods
 
-- **[IAM API User v1 Method List](/docs/api-reference/iam/api_user/v1/service)** - For Other methods
+- **[IAM Api User V1 Method List](/docs/api-reference/iam/api_user/v1/service)** - For Other methods
