@@ -15,7 +15,7 @@ trap 'handle_error $LINENO' ERR
 echo "🧹 Cleaning Go generated files..."
 find ./go \
   \( -name '*.pb.go' -o -name '*.pb.gw.go' -o -name '*.meshgo.go' -o -name '*.validate.go' \) \
-  -print0 | xargs -0 -P 4 -n 1 rm
+  -print0 | xargs -0 -r -P 4 -n 1 rm
 echo
 
 echo "🧹 Cleaning Python generated files..."
@@ -26,7 +26,7 @@ echo "🧹 Cleaning Js + Ts generated files..."
 rm -rf ./ts/dist
 find ./ts/src \
   \( -name '*pb.d.ts' -o -name '*pb.js' -o -name '*Pb.ts' -o -name '*_meshts.js' -o -name '*_meshts.d.ts' \) \
-  -print0 | xargs -0 -P 4 -n 1 rm
+  -print0 | xargs -0 -r -P 4 -n 1 rm
 echo
 
 echo "🧹 Cleaning Documentation generated files..."
