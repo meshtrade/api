@@ -1,5 +1,5 @@
 from meshtrade.trading.limit_order.v1 import (
-    LimitorderService,
+    Limit OrderService,
     ClientOptions,
 )
 

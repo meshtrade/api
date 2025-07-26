@@ -1,5 +1,5 @@
 from meshtrade.trading.direct_order.v1 import (
-    DirectorderService,
+    Direct OrderService,
     ClientOptions,
 )
 

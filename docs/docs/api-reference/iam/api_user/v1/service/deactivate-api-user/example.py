@@ -1,5 +1,5 @@
 from meshtrade.iam.api_user.v1 import (
-    ApiuserService,
+    Api UserService,
     ClientOptions,
 )
 
