@@ -37,8 +37,47 @@ jobs:
       - name: Enable Corepack
         run: corepack enable
       
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            .yarn/cache
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-deps-${{ hashFiles('yarn.lock', 'tool/protoc-gen-meshdoc/go.mod') }}
+          restore-keys: |
+            ${{ runner.os }}-deps-
+      
       - name: Install dependencies
         run: yarn install --frozen-lockfile
+      
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.24'
+          
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          
+      - name: Install buf CLI
+        run: |
+          # Install buf CLI for protobuf generation
+          curl -sSL "https://github.com/bufbuild/buf/releases/latest/download/buf-$(uname -s)-$(uname -m)" -o "/tmp/buf"
+          sudo mv "/tmp/buf" "/usr/local/bin/buf"
+          sudo chmod +x "/usr/local/bin/buf"
+          
+      - name: Setup Python environment and run code generation
+        run: |
+          # Create and activate Python virtual environment
+          python -m venv .venv
+          source .venv/bin/activate
+          pip install grpcio-tools jinja2
+          
+          # Run code generation with activated virtual environment
+          ./scripts/code-generation/generate-all.sh
       
       - name: Setup Pages
         id: pages
