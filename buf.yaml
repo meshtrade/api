@@ -5,6 +5,7 @@ modules:
 
 deps:
   - buf.build/googleapis/googleapis
+  - buf.build/bufbuild/protovalidate
 
 # Workspace-level lint and breaking change detection settings.
 lint:

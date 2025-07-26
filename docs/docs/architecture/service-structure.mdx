@@ -1,0 +1,118 @@
+---
+sidebar_position: 2
+---
+
+# Service Structure
+
+Understanding how Mesh APIs are organized and the common patterns used across all services.
+
+## Service-Oriented Design
+
+Mesh APIs follow a service-oriented design pattern where each service manages a specific type of entity and exposes a consistent set of operations. For example, the API User Service manages API users and their authentication credentials.
+
+## Standard Verbs vs Custom Verbs
+
+Mesh services use two types of operations:
+
+### Standard Verbs
+
+Standard verbs provide common CRUD operations that most services implement:
+
+```protobuf
+service ApiUserService {
+  // Create a new API user
+  rpc CreateApiUser(CreateApiUserRequest) returns (APIUser);
+  
+  // Get a single API user by ID
+  rpc GetApiUser(GetApiUserRequest) returns (APIUser);
+  
+  // List multiple API users with filtering
+  rpc ListApiUsers(ListApiUsersRequest) returns (ListApiUsersResponse);
+  
+  // Search API users by criteria
+  rpc SearchApiUsers(SearchApiUsersRequest) returns (SearchApiUsersResponse);
+}
+```
+
+### Custom Verbs
+
+Custom verbs handle domain-specific operations that don't fit standard CRUD patterns:
+
+```protobuf
+service ApiUserService {
+  // Activate an API user (enable authentication)
+  rpc ActivateApiUser(ActivateApiUserRequest) returns (APIUser);
+  
+  // Deactivate an API user (disable authentication) 
+  rpc DeactivateApiUser(DeactivateApiUserRequest) returns (APIUser);
+  
+  // Get API user by key hash (for authentication flows)
+  rpc GetApiUserByKeyHash(GetApiUserByKeyHashRequest) returns (APIUser);
+}
+```
+
+**Standard verbs** handle basic lifecycle operations while **custom verbs** implement business logic specific to the domain.
+
+## Common Patterns
+
+### Request/Response Structure
+
+All service methods follow consistent request/response patterns:
+
+```protobuf
+// Get requests include the resource name
+message GetApiUserRequest {
+  string name = 1; // "api_users/{api_user_id}"
+}
+
+// List requests support basic filtering
+message ListApiUsersRequest {
+  // No parameters - returns all API users in group context
+}
+
+// Search requests include filter criteria
+message SearchApiUsersRequest {
+  string display_name = 1; // Substring search on display name
+}
+
+// Custom verb requests include the target and any parameters
+message ActivateApiUserRequest {
+  string name = 1; // "api_users/{api_user_id}"
+}
+```
+
+### Group Context
+
+All operations operate within an authenticated group context, providing multi-tenancy and resource isolation.
+
+### Authentication & Authorization
+
+Each service method declares its authorization requirements using role-based access control:
+
+```protobuf
+rpc CreateApiUser(CreateApiUserRequest) returns (APIUser) {
+  option (meshtrade.option.v1.roles) = {
+    roles: [ROLE_IAM_ADMIN] // Only IAM admins can create API users
+  };
+}
+
+rpc GetApiUser(GetApiUserRequest) returns (APIUser) {
+  option (meshtrade.option.v1.roles) = {
+    roles: [ROLE_IAM_ADMIN, ROLE_IAM_VIEWER] // Admins and viewers can read
+  };
+}
+```
+
+## Available Services
+
+For a complete list of all services, their versions, and current availability status, see the **[Services Reference](../api-reference/)**.
+
+## Schema-Driven Development
+
+All services are defined using Protocol Buffers, ensuring:
+- **Type Safety**: Strong typing across all supported languages
+- **Consistency**: Identical APIs in Go, Python, and other SDKs  
+- **Documentation**: Service definitions serve as the authoritative documentation
+- **Evolution**: Backward-compatible versioning and changes
+
+See **[Role-Based Access Control](./role-based-access)** for details on the authorization system that governs all service operations.

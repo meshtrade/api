@@ -10,11 +10,7 @@ from .ledger import get_ledger_no_decimal_places
 from .token_pb2 import Token
 
 
-def new_amount(
-    value: Decimal,
-    token: Token,
-    precision_loss_tolerance: Decimal = Decimal("0.00000001")
-) -> Amount:
+def new_amount(value: Decimal, token: Token, precision_loss_tolerance: Decimal = Decimal("0.00000001")) -> Amount:
     """Creates a new Amount, ensuring the value conforms to system-wide limits.
 
     This function is the safe constructor for creating Amount protobuf messages.
@@ -66,9 +62,7 @@ def new_amount(
     # Confirm the value is perfectly representable within the system's limits.
     # If the original value had too much precision for a downstream service to
     # parse, it would change during the round-trip, and this would fail.
-    assert abs(value_after_roundtrip - value) \
-        <= precision_loss_tolerance, \
-            "value exceeds system's precision limits and would be corrupted"
+    assert abs(value_after_roundtrip - value) <= precision_loss_tolerance, "value exceeds system's precision limits and would be corrupted"
 
     # Truncate the validated value to the number of decimal places specified by the
     # token's ledger. ROUND_DOWN ensures the value is never inflated.

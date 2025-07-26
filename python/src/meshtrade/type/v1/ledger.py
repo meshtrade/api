@@ -1,10 +1,10 @@
-
 from .ledger_pb2 import Ledger
 
 _ledger_decimal_places: dict[Ledger, int] = {
     Ledger.LEDGER_STELLAR: 7,
     Ledger.LEDGER_SA_STOCK_BROKERS: 2,
 }
+
 
 class UnsupportedLedgerError(Exception):
     """Exception raised for unsupported Ledger values."""

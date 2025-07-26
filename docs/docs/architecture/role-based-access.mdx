@@ -1,0 +1,147 @@
+---
+sidebar_position: 3
+---
+
+# Role-Based Access Control
+
+## Overview
+
+This document describes the authoritative pattern we use for defining and enforcing Role-Based Access Control (RBAC) within the Mesh API.
+
+Our guiding principle is using the **Protobuf schema as the single source of truth** for all authorization rules.
+
+This approach ensures our authorization rules are self-documenting, automatically verifiable, and always in sync with the API contract itself.
+
+## Core Concepts
+
+Our authorization model is built on domain-level enum roles that provide clear, business-focused access control. This creates a highly consistent and predictable security model across all services.
+
+The model is built on these components:
+
+1. **Domain-Level Roles**: Enum-based roles organized by business domain (e.g., `ROLE_TRADING_ADMIN`, `ROLE_IAM_VIEWER`)
+2. **Method-Level Authorization**: Each RPC method explicitly declares which roles can access it
+3. **Admin/Viewer Pattern**: Each domain has both administrative and read-only access levels
+
+---
+
+## How It Works
+
+Our system achieves schema-driven authorization by following a clear, two-part pattern: centrally defining domain roles and decorating service methods with explicit role requirements.
+
+### 1. Domain Roles Are Centrally Defined
+
+All authorization roles are defined as an enum in a central protobuf file.
+
+**File Location:** `proto/meshtrade/option/v1/role.proto`
+```protobuf
+// proto/meshtrade/option/v1/role.proto
+syntax = "proto3";
+
+package meshtrade.option.v1;
+
+import "google/protobuf/descriptor.proto";
+
+enum Role {
+  ROLE_UNSPECIFIED = 0;
+
+  ROLE_WALLET_ADMIN = 1;
+  ROLE_WALLET_VIEWER = 2;
+  
+  ROLE_COMPLIANCE_ADMIN = 3;
+  ROLE_COMPLIANCE_VIEWER = 4;
+  
+  // ... additional domain roles
+  // See the complete list in proto/meshtrade/option/v1/role.proto
+}
+```
+
+### 2. Service Methods Are Decorated with Role Requirements
+
+Each RPC method explicitly declares which roles can access it using the `roles` option. There are no file-level or service level role declarations - authorization is controlled **entirely** at the method level.
+
+**Example:** Here is how this pattern is applied within the API User service.
+
+**File Location:** `proto/meshtrade/iam/api_user/v1/service.proto`
+```protobuf
+service ApiUserService {
+  // Read operations - can be accessed by both admin and viewer
+  rpc GetApiUser(GetApiUserRequest) returns (APIUser) {
+    option (meshtrade.option.v1.roles) = {
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_VIEWER
+      ]
+    };
+  }
+
+  // Write operations - can be accessed by admin only
+  rpc CreateApiUser(CreateApiUserRequest) returns (APIUser) {
+    option (meshtrade.option.v1.roles) = {
+      roles: [ROLE_IAM_ADMIN]
+    };
+  }
+}
+```
+
+## Authorization Patterns
+
+### Admin/Viewer Access Pattern
+
+Each domain follows a consistent two-tier access model:
+
+- **Admin Roles** (`*_ADMIN`): Full read and write access to all domain operations
+- **Viewer Roles** (`*_VIEWER`): Read-only access for monitoring and auditing
+
+**Example Access Patterns:**
+```protobuf
+// Read operations - can be accessed by both admin and viewer
+option (meshtrade.option.v1.roles) = {
+  roles: [
+    ROLE_IAM_ADMIN,
+    ROLE_IAM_VIEWER
+  ]
+};
+
+// Write operations - admin only
+option (meshtrade.option.v1.roles) = {
+  roles: [ROLE_IAM_ADMIN]
+};
+```
+
+### Domain Separation
+
+Roles are strictly separated by business domain:
+
+- **IAM Domain**: User and group management (`ROLE_IAM_*`)
+- **Trading Domain**: Order and market operations (`ROLE_TRADING_*`)
+- **Compliance Domain**: KYC and regulatory workflows (`ROLE_COMPLIANCE_*`)
+- **Wallet Domain**: Account and balance management (`ROLE_WALLET_*`)
+- ... additional domains
+
+For the complete list of domains and their roles, reference the enum definitions in `proto/meshtrade/option/v1/role.proto`.
+
+## Rules Are Enforced at Runtime
+
+These schema definitions translate into permission control in our services. API users must be assigned roles with the required permissions to call protected methods.
+
+The authorization system validates:
+1. **API Credential Authentication**: Valid API key presented as Bearer token
+2. **Group Context**: Valid group ID header establishing the execution context
+3. **Role Assignment**: API user has been granted the required domain role within the group
+4. **Method Permission**: The assigned role includes access to the specific RPC method
+
+### API Key Authentication
+
+Authentication uses API keys issued through the IAM system. The generated gRPC clients automatically handle authentication by:
+
+- Adding `Authorization: Bearer <api-key>` header to all requests
+- Including `x-group: groups/{group_ulid}` header for multi-tenant context
+- Managing credentials through the `MESH_API_CREDENTIALS` environment file
+
+For implementation details, reference the authentication interceptor in the generated gRPC clients, such as `go/iam/api_user/v1/service_grpc_client.meshgo.go`.
+
+## Related Documentation
+
+- **[API Reference](../api-reference/)** - Complete API endpoint documentation  
+- **[Service Structure](./service-structure)** - Understanding API organization
+- **[Group Ownership](./group-ownership)** - Multi-tenancy and resource isolation

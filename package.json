@@ -1,0 +1,42 @@
+{
+  "name": "meshtrade-api-workspace",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Meshtrade API workspace containing TypeScript SDK and documentation",
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
+  "workspaces": {
+    "packages": [
+      "ts",
+      "docs",
+      "tool/protoc-gen-meshts/cmd"
+    ],
+    "nohoist": [
+      "**/raw-loader",
+      "**/raw-loader/**"
+    ]
+  },
+  "scripts": {
+    "build": "yarn workspace @meshtrade/api build",
+    "build:docs": "yarn workspace mesh-api-docs build",
+    "test": "yarn workspace @meshtrade/api test",
+    "lint": "yarn workspace @meshtrade/api lint",
+    "clean": "yarn workspace @meshtrade/api clean",
+    "start:docs": "yarn workspace mesh-api-docs start",
+    "serve:docs": "yarn workspace mesh-api-docs serve",
+    "generate": "./scripts/code-generation/generate-all.sh"
+  },
+  "keywords": [
+    "api",
+    "meshtrade",
+    "sdk",
+    "workspace"
+  ],
+  "author": "Bernard Bussy <bernard@meshtrade.co>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/meshtrade/api.git"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.54.1"
+  }
+}
