@@ -12,7 +12,7 @@ source: {{.Package}}/**
 The {{.DomainTitle}} {{.ServiceDisplayName}} {{.VersionDisplay}} package contains the following types:
 
 {{range .Types}}
-- **[{{.Name}}](./{{.KebabName}})**
+- **[{{.Name}}](/docs/api-reference/{{$.Domain}}/{{$.ServiceName}}/{{$.Version}}/type/{{.KebabName}})**
 {{end}}
 
 **Note**: Only domain types are listed here. Request and response message types are documented with their respective service methods.
