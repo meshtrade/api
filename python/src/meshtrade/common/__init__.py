@@ -11,7 +11,7 @@ from .config import (
     GROUP_HEADER_KEY,
     create_auth_metadata,
 )
-from .grpc_client import GRPCClient
+from .grpc_client import GRPCClient, BaseGRPCClient
 
 __all__ = [
     "DEFAULT_GRPC_URL",
@@ -24,4 +24,5 @@ __all__ = [
     "ACCESS_TOKEN_PREFIX",
     "create_auth_metadata",
     "GRPCClient",
+    "BaseGRPCClient",
 ]

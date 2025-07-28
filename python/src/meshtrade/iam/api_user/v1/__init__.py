@@ -31,7 +31,6 @@ from .service_pb2 import (
 from .service_meshpy import (
     ApiUserService,
     ApiUserServiceGRPCClient,
-    ApiUserServiceGRPCClientInterface,
 )
 from .service_options_meshpy import ClientOptions
 
@@ -56,6 +55,7 @@ from meshtrade.common import (
     GRPCClient,
     create_auth_metadata,
 )
+
 # Import credentials functions from local module
 from .api_credentials import (
     MESH_API_CREDENTIALS_ENV_VAR,
@@ -76,7 +76,6 @@ __all__ = [
     "ActivateApiUserRequest",
     "ApiUserService",
     "ApiUserServiceGRPCClient",
-    "ApiUserServiceGRPCClientInterface",
     "ClientOptions",
     "CreateApiUserRequest",
     "DeactivateApiUserRequest",

@@ -26,7 +26,6 @@ from .service_pb2 import (
 from .service_meshpy import (
     InstrumentService,
     InstrumentServiceGRPCClient,
-    InstrumentServiceGRPCClientInterface,
 )
 from .service_options_meshpy import ClientOptions
 
@@ -57,7 +56,6 @@ __all__ = [
     "Instrument",
     "InstrumentService",
     "InstrumentServiceGRPCClient",
-    "InstrumentServiceGRPCClientInterface",
     "MintInstrumentRequest",
     "MintInstrumentResponse",
 ]

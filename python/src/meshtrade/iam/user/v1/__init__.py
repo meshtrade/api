@@ -20,7 +20,6 @@ from .service_pb2 import AssignRoleToUserRequest
 from .service_meshpy import (
     UserService,
     UserServiceGRPCClient,
-    UserServiceGRPCClientInterface,
 )
 from .service_options_meshpy import ClientOptions
 
@@ -49,5 +48,4 @@ __all__ = [
     "User",
     "UserService",
     "UserServiceGRPCClient",
-    "UserServiceGRPCClientInterface",
 ]

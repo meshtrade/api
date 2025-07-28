@@ -20,7 +20,6 @@ from .service_pb2 import GetDirectOrderRequest
 from .service_meshpy import (
     DirectOrderService,
     DirectOrderServiceGRPCClient,
-    DirectOrderServiceGRPCClientInterface,
 )
 from .service_options_meshpy import ClientOptions
 
@@ -48,6 +47,5 @@ __all__ = [
     "DirectOrder",
     "DirectOrderService",
     "DirectOrderServiceGRPCClient",
-    "DirectOrderServiceGRPCClientInterface",
     "GetDirectOrderRequest",
 ]

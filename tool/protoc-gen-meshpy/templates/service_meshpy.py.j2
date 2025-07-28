@@ -10,15 +10,9 @@ timeouts, and proper connection handling.
 """
 
 from datetime import timedelta
+from typing import Optional
 
-import grpc
-
-from meshtrade.common import (
-    DEFAULT_GRPC_PORT,
-    DEFAULT_GRPC_URL,
-    GRPCClient,
-    create_auth_metadata,
-)
+from meshtrade.common import BaseGRPCClient
 {% if package_name == "meshtrade.iam.api_user.v1" -%}
 from .api_credentials import find_credentials
 {% else -%}
@@ -39,17 +33,12 @@ from .{{ proto_base }}_pb2 import (
 from .{{ proto_base }}_pb2_grpc import {{ service_name }}Stub
 
 
-class {{ service_name }}Interface(GRPCClient):
-    """Interface combining {{ service_name }} functionality with gRPC service resource management.
-
-    This interface defines the contract for gRPC services that implement the {{ service_name }}
-    while also providing proper resource cleanup capabilities.
-    """
-
-    pass
+def _create_{{ service_name.lower() }}_stub(channel):
+    """Factory function to create {{ service_name }}Stub from gRPC channel."""
+    return {{ service_name }}Stub(channel)
 
 
-class {{ service_name }}({{ service_name }}Interface):
+class {{ service_name }}(BaseGRPCClient):
     """{{ service_name }} gRPC service with authentication, timeouts, and resource management.
 
     This service provides a complete implementation of the {{ service_name }} with proper authentication, timeout handling, and automatic resource cleanup.
@@ -67,6 +56,7 @@ class {{ service_name }}({{ service_name }}Interface):
     With default configuration API credentials are searched for using the standard discovery hierarchy:
     
     1. MESH_API_CREDENTIALS environment variable
+    
     2. Default credential file location:
     
     - Linux:   `$XDG_CONFIG_HOME/mesh/credentials.json` or fallback to `$HOME/.config/mesh/credentials.json`
@@ -97,7 +87,7 @@ class {{ service_name }}({{ service_name }}Interface):
     For more information on service configuration: https://meshtrade.github.io/api/docs/architecture/sdk-configuration
     """
 
-    def __init__(self, options: ServiceOptions | None = None):
+    def __init__(self, options: Optional[ServiceOptions] = None):
         """Construct and initialize the {{ service_name }} service.
 
         Full Service documentation: https://meshtrade.github.io/api/docs/api-reference/{{ doc_url_path }}
@@ -108,6 +98,7 @@ class {{ service_name }}({{ service_name }}Interface):
                     With default configuration API credentials are searched for using the standard discovery hierarchy:
                     
                     1. MESH_API_CREDENTIALS environment variable
+                    
                     2. Default credential file location:
                     
                     - Linux:   `$XDG_CONFIG_HOME/mesh/credentials.json` or fallback to `$HOME/.config/mesh/credentials.json`
@@ -135,115 +126,21 @@ class {{ service_name }}({{ service_name }}Interface):
         if options is None:
             options = ServiceOptions()
 
-        # Store configuration
-        self._options = options
-
-        # Initialize gRPC service components
-        self._channel: grpc.Channel | None = None
-        self._stub: {{ service_name }}Stub | None = None
-
-        # Load credentials from options or environment
-        if options.api_key:
-            self._api_key = options.api_key
-            self._group = options.group
-        else:
-            # Try to load using credential discovery hierarchy (environment variable or default file)
-            creds = find_credentials()
-            self._api_key = creds.api_key if creds else None
-            self._group = creds.group if creds else None
-
-        # Build target URL
-        url = options.url or DEFAULT_GRPC_URL
-        port = options.port or DEFAULT_GRPC_PORT
-        self._target = f"{url}:{port}"
-
-    def __enter__(self):
-        """Enter the runtime context for the gRPC service."""
-        self._ensure_connected()
-        return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        """Exit the runtime context and cleanup resources."""
-        self.close()
-
-    def _ensure_connected(self):
-        """Ensure the gRPC channel and stub are properly initialized."""
-        if self._channel is not None:
-            return
-
-        # Create appropriate credentials based on TLS setting
-        if self._options.tls:
-            credentials = grpc.ssl_channel_credentials()
-            self._channel = grpc.secure_channel(self._target, credentials)
-        else:
-            self._channel = grpc.insecure_channel(self._target)
-
-        # Create the stub
-        self._stub = {{ service_name }}Stub(self._channel)
-
-    def close(self):
-        """Close the gRPC channel and cleanup resources."""
-        if self._channel is not None:
-            self._channel.close()
-            self._channel = None
-            self._stub = None
-
-    def _call_with_auth(self, method_name: str, request, timeout: timedelta | None = None):
-        """Make an authenticated gRPC call with proper error handling.
-
-        Args:
-            method_name: The name of the gRPC stub method to call
-            request: The request message
-            timeout: Optional timeout override
-
-        Returns:
-            The response message
-
-        Raises:
-            grpc.RpcError: If the gRPC call fails
-            ValueError: If authentication credentials are missing
-        """
-        self._ensure_connected()
-
-        if not self._api_key or not self._group:
-            raise ValueError(
-                "API key and group are required for authentication. "
-                "Provide them via ServiceOptions or set MESH_API_CREDENTIALS environment variable."
-            )
-
-        if self._stub is None:
-            raise RuntimeError("gRPC stub not initialized. Call _ensure_connected() first.")
-
-        # Get the method from the stub
-        method = getattr(self._stub, method_name)
-
-        # Create authentication metadata
-        metadata = create_auth_metadata(self._api_key, self._group)
-
-        # Use provided timeout or default from options
-        call_timeout = timeout or self._options.timeout
-        timeout_seconds = call_timeout.total_seconds() if call_timeout else None
-
-        # Make the authenticated call
-        return method(request, metadata=metadata, timeout=timeout_seconds)
-
-    def group(self) -> str:
-        """Get the group resource name used by this service.
-        
-        Returns:
-            The group resource name in format groups/{group_id}
-            
-        Raises:
-            ValueError: If no group is configured
-        """
-        if not self._group:
-            raise ValueError(
-                "Group not configured. Provide via ServiceOptions or set MESH_API_CREDENTIALS environment variable."
-            )
-        return self._group
+        # Initialize the base client with all common functionality
+        super().__init__(
+            service_name="{{ service_name }}",
+            stub_factory=_create_{{ service_name.lower() }}_stub,
+            find_credentials_func=find_credentials,
+            url=options.url,
+            port=options.port,
+            api_key=options.api_key,
+            group=options.group,
+            timeout=options.timeout,
+            tls=options.tls,
+        )
 
     {% for method in methods %}
-    def {{ method.snake_name }}(self, request: {{ method.input_type.split('.')[-1] }}, timeout: timedelta | None = None) -> {{ method.output_type.split('.')[-1] }}:
+    def {{ method.snake_name }}(self, request: {{ method.input_type.split('.')[-1] }}, timeout: Optional[timedelta] = None) -> {{ method.output_type.split('.')[-1] }}:
         """{{ method.name }} method.
 
         Args:
@@ -257,10 +154,9 @@ class {{ service_name }}({{ service_name }}Interface):
             grpc.RpcError: If the gRPC call fails
             ValueError: If authentication credentials are missing
         """
-        return self._call_with_auth("{{ method.name }}", request, timeout)
+        return self._execute_method("{{ method.name }}", request, timeout)
 
     {% endfor %}
 
 # Create aliases to match expected exports
 {{ service_name }}GRPCClient = {{ service_name }}
-{{ service_name }}GRPCClientInterface = {{ service_name }}Interface

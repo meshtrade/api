@@ -20,7 +20,6 @@ from .service_pb2 import GetSpotRequest
 from .service_meshpy import (
     SpotService,
     SpotServiceGRPCClient,
-    SpotServiceGRPCClientInterface,
 )
 from .service_options_meshpy import ClientOptions
 
@@ -49,5 +48,4 @@ __all__ = [
     "Spot",
     "SpotService",
     "SpotServiceGRPCClient",
-    "SpotServiceGRPCClientInterface",
 ]

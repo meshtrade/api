@@ -20,7 +20,6 @@ from .service_pb2 import GetLimitOrderRequest
 from .service_meshpy import (
     LimitOrderService,
     LimitOrderServiceGRPCClient,
-    LimitOrderServiceGRPCClientInterface,
 )
 from .service_options_meshpy import ClientOptions
 
@@ -49,5 +48,4 @@ __all__ = [
     "LimitOrder",
     "LimitOrderService",
     "LimitOrderServiceGRPCClient",
-    "LimitOrderServiceGRPCClientInterface",
 ]
