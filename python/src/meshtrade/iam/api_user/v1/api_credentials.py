@@ -74,18 +74,18 @@ def default_credentials_path() -> str:
         - Linux/macOS: $HOME/.config/mesh/credentials.json
         - Windows: %APPDATA%/mesh/credentials.json
     """
-    if os.name == 'nt':  # Windows
-        app_data = os.environ.get('APPDATA')
+    if os.name == "nt":  # Windows
+        app_data = os.environ.get("APPDATA")
         if app_data:
-            return os.path.join(app_data, 'mesh', 'credentials.json')
+            return os.path.join(app_data, "mesh", "credentials.json")
         # Fallback if APPDATA not set
-        return os.path.expanduser('~/.config/mesh/credentials.json')
+        return os.path.expanduser("~/.config/mesh/credentials.json")
     else:  # Linux/macOS/Unix
         # Try XDG_CONFIG_HOME first, fallback to ~/.config
-        config_home = os.environ.get('XDG_CONFIG_HOME')
+        config_home = os.environ.get("XDG_CONFIG_HOME")
         if config_home:
-            return os.path.join(config_home, 'mesh', 'credentials.json')
-        return os.path.expanduser('~/.config/mesh/credentials.json')
+            return os.path.join(config_home, "mesh", "credentials.json")
+        return os.path.expanduser("~/.config/mesh/credentials.json")
 
 
 def load_default_credentials() -> APICredentials | None:

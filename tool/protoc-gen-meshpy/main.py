@@ -293,6 +293,7 @@ def extract_exports_from_imports(manual_section):
 
     return sorted(manual_exports)
 
+
 def extract_manual_exports(manual_section):
     """Extract manual exports from the existing manual section (legacy function for backward compatibility)."""
     if not manual_section:
@@ -322,6 +323,7 @@ def extract_manual_exports(manual_section):
             elif '"' in stripped and not stripped.strip().startswith("#"):
                 # Extract quoted strings, but skip commented examples
                 import re
+
                 matches = re.findall(r'"([^"]*)"', stripped)
                 # Filter out common example names
                 filtered_matches = [m for m in matches if m not in ["my_function", "my_custom_module"]]
@@ -341,7 +343,7 @@ def read_existing_manual_section(package_path):
         # Find the manual section marker (try new format first, then old format)
         manual_markers = [
             "# MANUAL SECTION - ADD YOUR CUSTOM IMPORTS AND EXPORTS BELOW",
-            "# MANUAL EXPORTS - ADD CUSTOM IMPORTS BELOW"  # Legacy support
+            "# MANUAL EXPORTS - ADD CUSTOM IMPORTS BELOW",  # Legacy support
         ]
 
         manual_start = -1
@@ -369,17 +371,20 @@ def read_existing_manual_section(package_path):
         import_end_idx = len(lines)
         for i in range(content_start_idx, len(lines)):
             line = lines[i].strip()
-            if (line.startswith("# Extend __all__") or
-                "__all__.extend([" in line or
-                "# MODULE EXPORTS" in line or
-                "__all__ = [" in line or
-                line.startswith("# Combined auto-generated") or
+            if (
+                line.startswith("# Extend __all__")
+                or "__all__.extend([" in line
+                or "# MODULE EXPORTS" in line
+                or "__all__ = [" in line
+                or line.startswith("# Combined auto-generated")
+                or
                 # Stop at auto-generated imports that leaked into manual section
-                line.startswith("from ._pb2 import") or
-                line.startswith("from .service_") or
-                "_pb2 import" in line or
-                "_meshpy import" in line or
-                line.startswith("# Generated")):
+                line.startswith("from ._pb2 import")
+                or line.startswith("from .service_")
+                or "_pb2 import" in line
+                or "_meshpy import" in line
+                or line.startswith("# Generated")
+            ):
                 import_end_idx = i
                 break
 
@@ -391,12 +396,13 @@ def read_existing_manual_section(package_path):
         for line in manual_lines:
             stripped = line.strip()
             # Skip auto-generated imports and separator lines that might have leaked in
-            if (stripped and not (
-                "_pb2 import" in stripped or
-                "_meshpy import" in stripped or
-                stripped.startswith("from .service_") or
-                stripped.startswith("# Generated") or
-                stripped == "# ===================================================================")):
+            if stripped and not (
+                "_pb2 import" in stripped
+                or "_meshpy import" in stripped
+                or stripped.startswith("from .service_")
+                or stripped.startswith("# Generated")
+                or stripped == "# ==================================================================="
+            ):
                 filtered_lines.append(line)
 
         # Clean up trailing empty lines
@@ -409,9 +415,6 @@ def read_existing_manual_section(package_path):
     except (OSError, FileNotFoundError):
         # File doesn't exist or can't be read - this is OK for new packages
         return None
-
-
-
 
 
 def generate_package_init(package_path, package_info, template_env):

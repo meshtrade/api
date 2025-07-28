@@ -81,8 +81,8 @@ pip install -e .[dev]
 pytest
 
 # Run linting (CRITICAL: Always run after Python changes)
-ruff check python/ --fix
-ruff format python/
+ruff check . --fix
+ruff format .
 ```
 
 ### Python Linting Standards
@@ -164,7 +164,7 @@ Services are organized by business domain:
 
 ### Code Generation Flow
 1. Protobuf definitions in `/proto/` define the API contracts
-2. `buf generate` processes these using `buf.gen.yaml` configuration
+2. ./scripts/code-generation/generate-all.sh is run which cleans up and runs `buf generate` which processes these using a few `buf.gen.yaml` configurations
 3. Multiple protobuf plugins generate language-specific code:
    - Go: Standard protobuf + gRPC + custom meshgo generator
    - Python: Standard protobuf generators

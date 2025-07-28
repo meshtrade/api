@@ -1,6 +1,5 @@
 """Unit tests for IAM role helper functions."""
 
-
 from meshtrade.iam.role.v1 import Role, full_resource_name_from_group_name
 
 
