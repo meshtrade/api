@@ -26,7 +26,7 @@ ts/        # TypeScript (web) SDK
 
 ## Documentation
 
-Visit **[meshtrade.github.io/api](https://meshtrade.github.io/api)** for:
+Visit documentation site at **[meshtrade.github.io/api](https://meshtrade.github.io/api)** for:
 
 - API Integration SDKs and usage examples
 - Complete API reference documentation  
