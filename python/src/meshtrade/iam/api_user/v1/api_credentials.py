@@ -4,6 +4,9 @@ API Credentials loading functionality for Meshtrade SDK.
 
 import json
 import os
+from pathlib import Path
+
+import platformdirs
 
 from .api_credentials_pb2 import APICredentials
 
@@ -67,25 +70,43 @@ def api_credentials_from_environment() -> APICredentials | None:
 
 
 def default_credentials_path() -> str:
-    """Return the OS-specific default path for Mesh API credentials.
+    """
+    Calculates the OS-specific default path for Mesh API credentials.
+
+    This function determines the standard user configuration directory based on
+    the operating system's conventions and returns the full path to the
+    'credentials.json' file within a 'mesh' subdirectory. It is a Pythonic
+    implementation of the equivalent Go function.
+
+    The target path is constructed as follows:
+    - **Linux**:   `$XDG_CONFIG_HOME/mesh/credentials.json` or fallback to `$HOME/.config/mesh/credentials.json`
+    - **macOS**:   `$HOME/Library/Application Support/mesh/credentials.json`
+    - **Windows**: `C:\\Users\\<user>\\AppData\\Roaming\\mesh\\credentials.json`
 
     Returns:
-        Default credential file path based on OS conventions:
-        - Linux/macOS: $HOME/.config/mesh/credentials.json
-        - Windows: %APPDATA%/mesh/credentials.json
+        A string representing the full, absolute path to the credentials file.
+        If the user's home or config directory cannot be determined, it returns
+        an empty string to match the original Go function's behavior.
     """
-    if os.name == "nt":  # Windows
-        app_data = os.environ.get("APPDATA")
-        if app_data:
-            return os.path.join(app_data, "mesh", "credentials.json")
-        # Fallback if APPDATA not set
-        return os.path.expanduser("~/.config/mesh/credentials.json")
-    else:  # Linux/macOS/Unix
-        # Try XDG_CONFIG_HOME first, fallback to ~/.config
-        config_home = os.environ.get("XDG_CONFIG_HOME")
-        if config_home:
-            return os.path.join(config_home, "mesh", "credentials.json")
-        return os.path.expanduser("~/.config/mesh/credentials.json")
+    try:
+        # Use platformdirs to find the appropriate user config directory for the 'mesh' app.
+        # This correctly handles all OS-specific paths and environment variables.
+        # e.g., on Linux, it returns '~/.config/mesh'
+        mesh_config_dir = platformdirs.user_config_dir(appname="mesh")
+
+        # Use the modern `pathlib` to reliably construct the final file path.
+        # The '/' operator is overloaded for joining path components.
+        credentials_path = Path(mesh_config_dir) / "credentials.json"
+
+        # Return the path as a string.
+        return str(credentials_path)
+
+    except Exception as e:
+        # If platformdirs raises an error (e.g., HOME directory not found),
+        # catch it and return an empty string, mimicking the Go function's
+        # behavior on failure.
+        print(f"Warning: Could not determine credentials path. Error: {e}")
+        return ""
 
 
 def load_default_credentials() -> APICredentials | None:
@@ -112,6 +133,9 @@ def find_credentials() -> APICredentials | None:
     Discovery order:
     1. MESH_API_CREDENTIALS environment variable (if set)
     2. Default credential file location
+    - **Linux**:   `$XDG_CONFIG_HOME/mesh/credentials.json` or fallback to `$HOME/.config/mesh/credentials.json`
+    - **macOS**:   `$HOME/Library/Application Support/mesh/credentials.json`
+    - **Windows**: `C:\\Users\\<user>\\AppData\\Roaming\\mesh\\credentials.json`
 
     Returns:
         APICredentials object if found using any method, None if no credentials found

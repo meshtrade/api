@@ -50,59 +50,85 @@ class {{ service_name }}Interface(GRPCClient):
 class {{ service_name }}({{ service_name }}Interface):
     """{{ service_name }} gRPC service with authentication, timeouts, and resource management.
 
-    This service provides a complete implementation of the {{ service_name }} interface
-    over gRPC with proper authentication, timeout handling, and automatic resource cleanup.
+    This service provides a complete implementation of the {{ service_name }} with proper authentication, timeout handling, and automatic resource cleanup.
 
-    Example:
-        Basic usage with default configuration:
-        ```python
-        service = {{ service_name }}()
+    Full Service documentation: https://meshtrade.github.io/api/docs/api-reference/iam/api_user/v1
 
-        with service:
-            response = service.get_api_user(request)
-        ```
+    Basic service usage with default SDK Configuration:
+    ```python
+    service = {{ service_name }}()
 
-        Custom configuration:
-        ```python
-        from .service_options_meshpy import ServiceOptions
-        from datetime import timedelta
+    with service:   # `with` ensures proper clean up of underlying connection after use
+        response = service.get_api_user(request)
+    ```
+        
+    With default configuration API credentials are searched for using the standard discovery hierarchy:
+    
+    1. MESH_API_CREDENTIALS environment variable
+    2. Default credential file location:
+    
+    - Linux:   `$XDG_CONFIG_HOME/mesh/credentials.json` or fallback to `$HOME/.config/mesh/credentials.json`
+    - macOS:   `$HOME/Library/Application Support/mesh/credentials.json`
+    - Windows: `C:\\Users\\<user>\\AppData\\Roaming\\mesh\\credentials.json`
+    
+    For more information on authentication: https://meshtrade.github.io/api/docs/architecture/authentication
 
-        options = ServiceOptions(
-            url="api.staging.example.com",
-            port=443,
-            api_key="your-api-key",
-            group="groups/your-group-id",
-            timeout=timedelta(seconds=60)
-        )
+    The service may also be configured with custom options:
+    ```python
+    from .service_options_meshpy import ServiceOptions
+    from datetime import timedelta
 
-        service = {{ service_name }}(options)
+    options = ServiceOptions(
+        url="api.staging.example.com",
+        port=443,
+        api_key="your-api-key",
+        group="groups/your-group-id",
+        timeout=timedelta(seconds=60)
+    )
 
-        with service:
-            response = service.get_api_user(request)
-        ```
+    service = {{ service_name }}(options)
+
+    with service: # `with` ensures proper clean up of underlying connection after use
+        response = service.get_api_user(request)
+    ```
+
+    For more information on service configuration: https://meshtrade.github.io/api/docs/architecture/sdk-configuration
     """
 
     def __init__(self, options: ServiceOptions | None = None):
-        """Initialize the {{ service_name }} gRPC service.
+        """Construct and initialize the {{ service_name }} service.
+
+        Full Service documentation: https://meshtrade.github.io/api/docs/api-reference/iam/api_user/v1
 
         Args:
             options: Optional ServiceOptions for configuring the service.
-                    If None, will use default configuration and attempt to load
-                    credentials from environment variables.
+                    If None, service is constructed with default configuration.
+                    With default configuration API credentials are searched for using the standard discovery hierarchy:
+                    
+                    1. MESH_API_CREDENTIALS environment variable
+                    2. Default credential file location:
+                    
+                    - Linux:   `$XDG_CONFIG_HOME/mesh/credentials.json` or fallback to `$HOME/.config/mesh/credentials.json`
+                    - macOS:   `$HOME/Library/Application Support/mesh/credentials.json`
+                    - Windows: `C:\\Users\\<user>\\AppData\\Roaming\\mesh\\credentials.json`      
+
+                    For more information on authentication: https://meshtrade.github.io/api/docs/architecture/authentication
+
+                    For more information on service configuration: https://meshtrade.github.io/api/docs/architecture/sdk-configuration            
 
         Example:
-            ```python
-            # Use defaults (credentials from environment)
-            service = {{ service_name }}()
+        ```python
+        # construct with default configuration
+        service = {{ service_name }}()
 
-            # Custom configuration
-            options = ServiceOptions(
-                url="api.example.com",
-                api_key="your-key",
-                group="groups/your-group"
-            )
-            service = {{ service_name }}(options)
-            ```
+        # construct with custom configuration
+        options = ServiceOptions(
+            url="api.example.com",
+            api_key="your-key",
+            group="groups/your-group"
+        )
+        service = {{ service_name }}(options)
+        ```
         """
         if options is None:
             options = ServiceOptions()

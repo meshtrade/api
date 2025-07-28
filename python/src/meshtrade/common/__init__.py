@@ -9,7 +9,6 @@ from .config import (
     DEFAULT_GRPC_URL,
     DEFAULT_TLS,
     GROUP_HEADER_KEY,
-    APICredentials,
     create_auth_metadata,
 )
 from .grpc_client import GRPCClient
@@ -23,7 +22,6 @@ __all__ = [
     "GROUP_HEADER_KEY",
     "BEARER_PREFIX",
     "ACCESS_TOKEN_PREFIX",
-    "APICredentials",
     "create_auth_metadata",
     "GRPCClient",
 ]
