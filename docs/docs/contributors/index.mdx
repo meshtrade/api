@@ -1,0 +1,122 @@
+---
+sidebar_position: 1
+title: Contribution Guide
+---
+
+# Contribution Guide
+
+This guide provides comprehensive information for developers looking to contribute to the Mesh API repository. The primary goals of this documentation are to:
+
+*   **Explain how to contribute to Protobuf files**, including our resource-oriented, AIP-inspired design patterns.
+*   Provide **detailed information on setting up development environments** for Python, Go, and TypeScript projects.
+*   Identify **critical files** within these projects to aid navigation and understanding.
+*   **Explain the components of our code generation** process, from Protobuf definitions to language-specific SDKs.
+
+By following this guide, contributors will gain a deep understanding of our API design principles, development workflows, and the tools used to maintain consistency across our multi-language SDKs.
+
+## 1. Understanding Our API Design (Protobuf)
+
+Our API design follows a schema-first approach using Protocol Buffers (Protobuf). This section will detail:
+
+-   **Resource-Oriented Design (AIP-Inspired)**: Explanation of how we apply Google's API Improvement Proposals (AIPs) for consistent, resource-oriented API design.
+    -   Key concepts: Resources, collections, methods (standard and custom).
+    -   Examples of how these concepts are translated into Protobuf definitions.
+-   **Protobuf Best Practices**: Guidelines for writing clean, maintainable, and idiomatic Protobuf.
+    -   Naming conventions.
+    -   Field numbering and compatibility.
+    -   Using common types (`meshtrade/type/v1/`).
+    -   Adding comments for documentation generation.
+-   **API Versioning**: Our strategy for managing API versions and handling breaking changes.
+-   **Authorization and Method Types**: How we use custom Protobuf options for role-based access control and method classification (`meshtrade/option/v1/role.proto`, `meshtrade/option/v1/method_type.proto`).
+
+## 2. Code Generation Explained
+
+Understanding our code generation process is crucial as most of our client libraries are generated from Protobuf. This section will cover:
+
+-   **Overview of the Code Generation Workflow**: How `generate-all.sh` orchestrates the generation process.
+-   **Buf Integration**: How `buf` is used for Protobuf linting, breaking change detection, and code generation.
+-   **Custom Protobuf Generators**: Detailed explanation of our custom generators:
+    -   `protoc-gen-meshgo`: For Go-specific enhancements (gRPC clients, interfaces, mocks).
+    -   `protoc-gen-meshpy`: For Python client utilities.
+    -   `protoc-gen-meshts`: For TypeScript enhancements and index file generation.
+    -   `protoc-gen-meshdoc`: For generating API documentation.
+-   **Generated vs. Hand-Written Code**: Clearly defining what can and cannot be manually edited.
+-   **Troubleshooting Generation Issues**: Common problems and their solutions.
+
+## 3. Setting Up Your Development Environment
+
+This section provides detailed instructions for setting up your local development environment for each language.
+
+### 3.1. General Prerequisites
+
+-   Go (version specified in `go.mod`)
+-   Node.js (version specified in `package.json` in root and `docs/package.json`)
+-   Yarn (version specified in `yarn.lock`)
+-   Python (version specified in `pyproject.toml`)
+-   Buf CLI
+-   Docker (for certain tools/tests)
+
+### 3.2. Go Project Setup
+
+-   **Installation**: How to install Go and set up your `GOPATH`.
+-   **Dependencies**: Using `go mod tidy`.
+-   **Critical Files**:
+    -   `go.mod`, `go.sum`: Module dependencies.
+    -   `go/`: Generated Go client libraries.
+    -   `tool/protoc-gen-meshgo/`: Custom Go generator source.
+-   **Running Tests**: `go test ./...`
+-   **Linting**: `golangci-lint` (if applicable, or `go vet`).
+
+### 3.3. Python Project Setup
+
+-   **Virtual Environment**: **CRITICAL** instructions for setting up and activating a virtual environment.
+-   **Dependencies**: `pip install -e .[dev]`.
+-   **Critical Files**:
+    -   `python/`: Generated Python packages and utilities.
+    -   `python/pyproject.toml`: Project configuration and dependencies.
+    -   `tool/protoc-gen-meshpy/`: Custom Python generator source.
+-   **Running Tests**: `pytest` with correct `PYTHONPATH`.
+-   **Linting and Formatting**: `ruff check python/ --fix`, `ruff format python/`.
+    -   Emphasis on 150-character line limit and other `ruff` rules.
+
+### 3.4. TypeScript Project Setup
+
+-   **Installation**: Using `yarn install` from the repository root.
+-   **Dependencies**: Managed by `package.json` in `ts/` and root.
+-   **Critical Files**:
+    -   `ts/`: Generated TypeScript modules.
+    -   `ts/package.json`, `ts/tsconfig.json`: Project configuration.
+    -   `tool/protoc-gen-meshts/`: Custom TypeScript generator source.
+-   **Building**: `yarn build` (from `ts/` or root).
+-   **Running Tests**: `yarn test` (from `ts/` or root).
+-   **Linting**: `yarn lint` (from `ts/` or root).
+-   **Hand-Written Client Updates**: Guidance on updating `*_grpc_web.ts` files after Protobuf changes.
+
+## 4. Contributing Workflow
+
+-   **General Steps**:
+    1.  Branching strategy.
+    2.  Making changes (Protobuf first).
+    3.  Regenerating code (`./scripts/code-generation/generate-all.sh`).
+    4.  Running all relevant tests (Go, Python, TypeScript).
+    5.  Running all relevant linters.
+    6.  Submitting pull requests.
+-   **Testing Standards**: Detailed information on how to run tests for each language and what to verify.
+-   **Linting Standards**: Reinforcing language-specific linting rules and how to apply them.
+-   **Documentation Contributions**: How to update and add to the Docusaurus documentation site.
+-   **Common Pitfalls to Avoid**: A summary of critical warnings from `CLAUDE.md`.
+
+## 5. Financial Domain Knowledge (Optional but Recommended)
+
+For those contributing to financial-specific services, this section provides a high-level overview of key concepts:
+
+-   Instrument Structure and Calculation
+-   Payment Calculation Engine
+-   Fee Structure Framework
+-   Compliance and Regulatory Rules
+
+## 6. Debugging and Troubleshooting
+
+-   Common error scenarios and how to approach them.
+-   Using structured logging and tracing.
+-   Language-specific debugging tips.
