@@ -312,6 +312,19 @@ func detectReturnTypeInfo(returnType string) (bool, string, string) {
 	return false, "response", "response"
 }
 
+// properKebabCase converts type names to kebab-case with special handling for API prefixes
+func properKebabCase(typeName string) string {
+	// Handle special cases like APICredentials, APIUser, etc.
+	if strings.HasPrefix(typeName, "API") && len(typeName) > 3 {
+		// Convert APICredentials -> api-credentials, APIUser -> api-user
+		rest := typeName[3:] // Remove "API" prefix
+		return "api-" + kebabCase(rest)
+	}
+	
+	// Use standard kebab case for other types
+	return kebabCase(typeName)
+}
+
 // GenerateTypeDocs generates all type documentation files for a package
 func GenerateTypeDocs(plugin *protogen.Plugin, packageInfo *PackageTypeInfo) error {
 	if len(packageInfo.Types) == 0 {
@@ -344,7 +357,7 @@ func generateTypeIndex(plugin *protogen.Plugin, packageInfo *PackageTypeInfo) er
 	for _, typeInfo := range packageInfo.Types {
 		types = append(types, TypeTemplateData{
 			Name:     typeInfo.Name,
-			KebabName: kebabCase(typeInfo.Name),
+			KebabName: properKebabCase(typeInfo.Name),
 		})
 	}
 
@@ -372,7 +385,7 @@ func generateTypeIndex(plugin *protogen.Plugin, packageInfo *PackageTypeInfo) er
 
 // generateTypeDoc creates the type/{type}_meshdoc.mdx file
 func generateTypeDoc(plugin *protogen.Plugin, packageInfo *PackageTypeInfo, typeInfo *TypeInfo) error {
-	typePath := fmt.Sprintf("%s_meshdoc", kebabCase(typeInfo.Name))
+	typePath := fmt.Sprintf("%s_meshdoc", properKebabCase(typeInfo.Name))
 	filename := filepath.Join(packageInfo.Domain, packageInfo.ServiceName, packageInfo.Version, "type", typePath+".mdx")
 	file := plugin.NewGeneratedFile(filename, "")
 
@@ -520,7 +533,7 @@ func GenerateNavigation(plugin *protogen.Plugin, serviceInfos []*ServiceInfo, pa
 					for _, typeInfo := range packageInfo.Types {
 						versionData.Types = append(versionData.Types, TypeTemplateData{
 							Name:     typeInfo.Name,
-							KebabName: kebabCase(typeInfo.Name),
+							KebabName: properKebabCase(typeInfo.Name),
 						})
 					}
 				}
