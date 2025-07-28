@@ -25,15 +25,17 @@ from .api_credentials import find_credentials
 from meshtrade.iam.api_user.v1.api_credentials import find_credentials
 {% endif %}
 
-from .api_user_pb2 import APIUser
+{% for type_name, module in external_types.items() -%}
+from .{{ module }} import {{ type_name }}
+{% endfor -%}
 from .service_options_meshpy import ServiceOptions
+{% if service_types -%}
 from .{{ proto_base }}_pb2 import (
-{% for type in imported_types | sort -%}
-{% if type != "APIUser" -%}
+{% for type in service_types | sort -%}
     {{ type }},
-{% endif -%}
 {% endfor -%}
 )
+{% endif -%}
 from .{{ proto_base }}_pb2_grpc import {{ service_name }}Stub
 
 
@@ -52,7 +54,7 @@ class {{ service_name }}({{ service_name }}Interface):
 
     This service provides a complete implementation of the {{ service_name }} with proper authentication, timeout handling, and automatic resource cleanup.
 
-    Full Service documentation: https://meshtrade.github.io/api/docs/api-reference/iam/api_user/v1
+    Full Service documentation: https://meshtrade.github.io/api/docs/api-reference/{{ doc_url_path }}
 
     Basic service usage with default SDK Configuration:
     ```python
@@ -98,7 +100,7 @@ class {{ service_name }}({{ service_name }}Interface):
     def __init__(self, options: ServiceOptions | None = None):
         """Construct and initialize the {{ service_name }} service.
 
-        Full Service documentation: https://meshtrade.github.io/api/docs/api-reference/iam/api_user/v1
+        Full Service documentation: https://meshtrade.github.io/api/docs/api-reference/{{ doc_url_path }}
 
         Args:
             options: Optional ServiceOptions for configuring the service.

@@ -93,6 +93,69 @@ def render_template(template_env, template_name: str, context: dict) -> str:
         raise RuntimeError(f"Error rendering template {template_name}: {e}") from e
 
 
+def get_import_to_module_mapping(proto_file):
+    """Create mapping from imported proto files to their pb2 module names."""
+    import_mapping = {}
+
+    for dependency in proto_file.dependency:
+        # Convert proto file path to pb2 module name
+        # e.g., "meshtrade/iam/group/v1/group.proto" -> "group_pb2"
+        if dependency.endswith('.proto'):
+            # Get the base name of the proto file
+            proto_basename = dependency.split('/')[-1][:-6]  # Remove .proto extension
+            pb2_module = f"{proto_basename}_pb2"
+            import_mapping[dependency] = pb2_module
+
+    return import_mapping
+
+
+def analyze_external_types(proto_file, methods):
+    """Analyze which types come from external proto files vs the service proto file."""
+    service_types = set()  # Types defined in this service proto file
+    external_types = {}    # Types from other proto files (type_name -> import_module)
+
+    # Collect all types defined in this service proto file
+    for message in proto_file.message_type:
+        service_types.add(message.name)
+
+    # Get mapping of imported proto files to pb2 modules
+    import_mapping = get_import_to_module_mapping(proto_file)
+
+    # Analyze method input/output types
+    all_referenced_types = set()
+    for method in methods:
+        input_type = method["input_type"].split(".")[-1]
+        output_type = method["output_type"].split(".")[-1]
+        all_referenced_types.add(input_type)
+        all_referenced_types.add(output_type)
+
+    # Categorize types
+    for type_name in all_referenced_types:
+        if type_name in service_types:
+            # Type is defined in the service proto file
+            continue
+        else:
+            # Type must come from an imported proto file
+            # Try to find which import it belongs to by matching naming patterns
+            type_found = False
+            for proto_path, pb2_module in import_mapping.items():
+                # Extract the resource name from the proto path
+                # e.g., "meshtrade/iam/group/v1/group.proto" -> "group"
+                resource_name = proto_path.split('/')[-1][:-6]  # Remove .proto
+
+                # Check if type name matches the resource pattern
+                if type_name.lower() == resource_name.lower() or type_name == "APIUser" and resource_name == "api_user":
+                    external_types[type_name] = pb2_module
+                    type_found = True
+                    break
+
+            if not type_found:
+                # If we can't find the type in imports, assume it's in service_pb2
+                service_types.add(type_name)
+
+    return service_types, external_types
+
+
 def process_service(proto_file, service, template_env):
     """Process a single service and generate files for it"""
     service_name = service.name
@@ -104,13 +167,12 @@ def process_service(proto_file, service, template_env):
     methods = analyze_service_methods(service)
     imports = extract_imports_from_proto(proto_file, service)
 
-    # Extract unique message types for imports
-    imported_types = set()
-    for method in methods:
-        input_type = method["input_type"].split(".")[-1]
-        output_type = method["output_type"].split(".")[-1]
-        imported_types.add(input_type)
-        imported_types.add(output_type)
+    # Analyze which types are external vs service-defined using dynamic import analysis
+    service_types, external_types = analyze_external_types(proto_file, methods)
+
+    # Create documentation URL path from package name
+    # Convert "meshtrade.iam.api_user.v1" -> "iam/api_user/v1"
+    doc_url_path = package_name.replace("meshtrade.", "").replace(".", "/")
 
     # Create enhanced context for template rendering
     context = {
@@ -120,9 +182,12 @@ def process_service(proto_file, service, template_env):
         "proto_file": proto_file,
         "methods": methods,
         "imports": imports,
-        "imported_types": sorted(imported_types),
+        "service_types": sorted(service_types),  # Types from service_pb2
+        "external_types": external_types,        # Types from other pb2 files
+        "imported_types": sorted(service_types),  # Keep for backward compatibility
         "proto_base": get_proto_file_base(proto_file.name),
         "camel_to_snake": camel_to_snake,
+        "doc_url_path": doc_url_path,
     }
 
     # Generate the two main files with _meshpy.py suffix
