@@ -8,6 +8,17 @@ import (
 	"google.golang.org/protobuf/compiler/protogen"
 )
 
+// generateDocURL creates a dynamic documentation URL from the proto file path
+// e.g., "meshtrade/iam/api_user/v1/service.proto" -> "iam/api_user/v1"
+func generateDocURL(protoPath string) string {
+	// Remove "meshtrade/" prefix and "/service.proto" suffix
+	path := strings.TrimPrefix(protoPath, "meshtrade/")
+	if idx := strings.LastIndex(path, "/"); idx != -1 {
+		path = path[:idx] // Remove filename
+	}
+	return path
+}
+
 func Client(p *protogen.Plugin, f *protogen.File, svc *protogen.Service) error {
 	// Generate only the main service file - no more options file needed
 	return generateClientFile(p, f, svc)
@@ -30,14 +41,39 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 	clientInterfaceName := svc.GoName + "ClientInterface"
 	clientStructName := strings.ToLower(string(svc.GoName[0])) + svc.GoName[1:]
 
-	// Generate combined interface
+	// Generate documentation URL
+	docURL := generateDocURL(f.Desc.Path())
+	
+	// Generate combined interface with comprehensive documentation
 	g.P("// ", clientInterfaceName, " is a gRPC service for the ", svc.GoName, " service.")
 	g.P("// It combines the service interface with resource management capabilities using")
 	g.P("// the common BaseGRPCClient for consistent authentication, timeouts, and tracing.")
 	g.P("//")
-	g.P("// Example usage:")
+	g.P("// Full Service documentation: https://meshtrade.github.io/api/docs/api-reference/", docURL)
+	g.P("//")
+	g.P("// Basic service usage with default SDK Configuration:")
+	g.P("//")
+	g.P("//\tservice, err := New", svc.GoName, "()")
+	g.P("//\tif err != nil {")
+	g.P("//\t\tlog.Fatal(err)")
+	g.P("//\t}")
+	g.P("//\tdefer service.Close() // ensures proper cleanup of underlying connection")
+	g.P("//")
+	g.P("// With default configuration API credentials are searched for using the standard discovery hierarchy:")
+	g.P("//")
+	g.P("// 1. MESH_API_CREDENTIALS environment variable")
+	g.P("// 2. Default credential file location:")
+	g.P("//")
+	g.P("//    - Linux:   $XDG_CONFIG_HOME/mesh/credentials.json or fallback to $HOME/.config/mesh/credentials.json")
+	g.P("//    - macOS:   $HOME/Library/Application Support/mesh/credentials.json")  
+	g.P("//    - Windows: C:\\Users\\<user>\\AppData\\Roaming\\mesh\\credentials.json")
+	g.P("//")
+	g.P("// For more information on authentication: https://meshtrade.github.io/api/docs/architecture/authentication")
+	g.P("//")
+	g.P("// The service may also be configured with custom options:")
 	g.P("//")
 	g.P("//\tservice, err := New", svc.GoName, "(")
+	g.P("//\t\t", generate.GRPCConfigPkg.Ident("WithURL"), "(\"api.staging.example.com:443\"),")
 	g.P("//\t\t", generate.GRPCConfigPkg.Ident("WithAPIKey"), "(\"your-api-key\"),")
 	g.P("//\t\t", generate.GRPCConfigPkg.Ident("WithGroup"), "(\"groups/your-group-id\"),")
 	g.P("//\t\t", generate.GRPCConfigPkg.Ident("WithTimeout"), "(30 * time.Second),")
@@ -45,7 +81,9 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 	g.P("//\tif err != nil {")
 	g.P("//\t\tlog.Fatal(err)")
 	g.P("//\t}")
-	g.P("//\tdefer service.Close()")
+	g.P("//\tdefer service.Close() // ensures proper cleanup of underlying connection")
+	g.P("//")
+	g.P("// For more information on service configuration: https://meshtrade.github.io/api/docs/architecture/sdk-configuration")
 	g.P("type ", clientInterfaceName, " interface {")
 	g.P("\t", svc.GoName)
 	g.P("\t", generate.GRPCClientPkg.Ident("GRPCClient"))
@@ -65,10 +103,45 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 	g.P("var _ ", clientInterfaceName, " = &", clientStructName, "{}")
 	g.P()
 
-	// Generate ultra-simple constructor
-	g.P("// New", svc.GoName, " creates a new gRPC service for the ", svc.GoName, " service.")
+	// Generate comprehensive constructor documentation
+	g.P("// New", svc.GoName, " creates and initializes the ", svc.GoName, " service.")
 	g.P("// The service uses the common BaseGRPCClient for all functionality including")
 	g.P("// connection management, authentication, timeouts, and distributed tracing.")
+	g.P("//")
+	g.P("// Full Service documentation: https://meshtrade.github.io/api/docs/api-reference/", docURL)
+	g.P("//")
+	g.P("// With default configuration API credentials are searched for using the standard discovery hierarchy:")
+	g.P("//")
+	g.P("// 1. MESH_API_CREDENTIALS environment variable")
+	g.P("// 2. Default credential file location:")
+	g.P("//")
+	g.P("//    - Linux:   $XDG_CONFIG_HOME/mesh/credentials.json or fallback to $HOME/.config/mesh/credentials.json")
+	g.P("//    - macOS:   $HOME/Library/Application Support/mesh/credentials.json")
+	g.P("//    - Windows: C:\\Users\\<user>\\AppData\\Roaming\\mesh\\credentials.json")
+	g.P("//")
+	g.P("// For more information on authentication: https://meshtrade.github.io/api/docs/architecture/authentication")
+	g.P("//")
+	g.P("// For more information on service configuration: https://meshtrade.github.io/api/docs/architecture/sdk-configuration")
+	g.P("//")
+	g.P("// Examples:")
+	g.P("//")
+	g.P("//\t// Create with default configuration")
+	g.P("//\tservice, err := New", svc.GoName, "()")
+	g.P("//\tif err != nil {")
+	g.P("//\t\tlog.Fatal(err)")
+	g.P("//\t}")
+	g.P("//\tdefer service.Close()")
+	g.P("//")
+	g.P("//\t// Create with custom configuration")
+	g.P("//\tservice, err := New", svc.GoName, "(")
+	g.P("//\t\t", generate.GRPCConfigPkg.Ident("WithURL"), "(\"api.example.com:443\"),")
+	g.P("//\t\t", generate.GRPCConfigPkg.Ident("WithAPIKey"), "(\"your-api-key\"),")
+	g.P("//\t\t", generate.GRPCConfigPkg.Ident("WithGroup"), "(\"groups/your-group-id\"),")
+	g.P("//\t)")
+	g.P("//\tif err != nil {")
+	g.P("//\t\tlog.Fatal(err)")
+	g.P("//\t}")
+	g.P("//\tdefer service.Close()")
 	g.P("//")
 	g.P("// Parameters:")
 	g.P("//   - opts: Functional options to configure the client")
