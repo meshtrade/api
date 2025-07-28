@@ -19,8 +19,13 @@ func main() {
 	}
 	defer service.Close()
 
-	// Call the ListAccounts method (no request parameters)
-	response, err := service.ListAccounts(ctx)
+	// Create request with service-specific parameters
+	request := &accountv1.ListAccountsRequest{
+		// FIXME: Populate service-specific request fields
+	}
+
+	// Call the ListAccounts method
+	response, err := service.ListAccounts(ctx, request)
 	if err != nil {
 		log.Fatalf("ListAccounts failed: %v", err)
 	}

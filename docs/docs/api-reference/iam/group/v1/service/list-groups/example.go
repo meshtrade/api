@@ -19,8 +19,13 @@ func main() {
 	}
 	defer service.Close()
 
-	// Call the ListGroups method (no request parameters)
-	response, err := service.ListGroups(ctx)
+	// Create request with service-specific parameters
+	request := &groupv1.ListGroupsRequest{
+		// FIXME: Populate service-specific request fields
+	}
+
+	// Call the ListGroups method
+	response, err := service.ListGroups(ctx, request)
 	if err != nil {
 		log.Fatalf("ListGroups failed: %v", err)
 	}

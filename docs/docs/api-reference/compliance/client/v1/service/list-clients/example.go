@@ -19,8 +19,13 @@ func main() {
 	}
 	defer service.Close()
 
-	// Call the ListClients method (no request parameters)
-	response, err := service.ListClients(ctx)
+	// Create request with service-specific parameters
+	request := &clientv1.ListClientsRequest{
+		// FIXME: Populate service-specific request fields
+	}
+
+	// Call the ListClients method
+	response, err := service.ListClients(ctx, request)
 	if err != nil {
 		log.Fatalf("ListClients failed: %v", err)
 	}
