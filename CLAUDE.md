@@ -54,6 +54,7 @@ kill $(cat docs_server.pid) && rm docs_server.pid docs_server.log
 
 ### Playwright Testing Screenshots
 Playwright screenshots for testing purposes should be stored in the `docs/testing_screenshots` directory.
+**CRITICAL**: Playwright should always be run in headless mode.
 
 ### Language-Specific Commands
 

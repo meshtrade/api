@@ -97,6 +97,7 @@ Each generated documentation page includes:
 
 ### Playwright Testing Screenshots
 Playwright screenshots for testing purposes should be stored in the `docs/testing_screenshots` directory.
+**CRITICAL**: Playwright should always be run in headless mode.
 
 ### Starting the Documentation Server
 
