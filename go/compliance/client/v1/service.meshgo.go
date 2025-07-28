@@ -12,9 +12,32 @@ import (
 // It combines the service interface with resource management capabilities using
 // the common BaseGRPCClient for consistent authentication, timeouts, and tracing.
 //
-// Example usage:
+// Full Service documentation: https://meshtrade.github.io/api/docs/api-reference/compliance/client/v1
+//
+// Basic service usage with default SDK Configuration:
+//
+//	service, err := NewClientService()
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//	defer service.Close() // ensures proper cleanup of underlying connection
+//
+// With default configuration API credentials are searched for using the standard discovery hierarchy:
+//
+// 1. MESH_API_CREDENTIALS environment variable
+//
+// 2. Default credential file location:
+//
+//   - Linux:   $XDG_CONFIG_HOME/mesh/credentials.json or fallback to $HOME/.config/mesh/credentials.json
+//   - macOS:   $HOME/Library/Application Support/mesh/credentials.json
+//   - Windows: C:\Users\<user>\AppData\Roaming\mesh\credentials.json
+//
+// For more information on authentication: https://meshtrade.github.io/api/docs/architecture/authentication
+//
+// The service may also be configured with custom options:
 //
 //	service, err := NewClientService(
+//		config.WithURL("api.staging.example.com:443"),
 //		config.WithAPIKey("your-api-key"),
 //		config.WithGroup("groups/your-group-id"),
 //		config.WithTimeout(30 * time.Second),
@@ -22,7 +45,9 @@ import (
 //	if err != nil {
 //		log.Fatal(err)
 //	}
-//	defer service.Close()
+//	defer service.Close() // ensures proper cleanup of underlying connection
+//
+// For more information on service configuration: https://meshtrade.github.io/api/docs/architecture/sdk-configuration
 type ClientServiceClientInterface interface {
 	ClientService
 	grpc.GRPCClient
@@ -37,9 +62,45 @@ type clientService struct {
 // ensure clientService implements the ClientServiceClientInterface interface
 var _ ClientServiceClientInterface = &clientService{}
 
-// NewClientService creates a new gRPC service for the ClientService service.
+// NewClientService creates and initializes the ClientService service.
 // The service uses the common BaseGRPCClient for all functionality including
 // connection management, authentication, timeouts, and distributed tracing.
+//
+// Full Service documentation: https://meshtrade.github.io/api/docs/api-reference/compliance/client/v1
+//
+// With default configuration API credentials are searched for using the standard discovery hierarchy:
+//
+// 1. MESH_API_CREDENTIALS environment variable
+//
+// 2. Default credential file location:
+//
+//   - Linux:   $XDG_CONFIG_HOME/mesh/credentials.json or fallback to $HOME/.config/mesh/credentials.json
+//   - macOS:   $HOME/Library/Application Support/mesh/credentials.json
+//   - Windows: C:\Users\<user>\AppData\Roaming\mesh\credentials.json
+//
+// For more information on authentication: https://meshtrade.github.io/api/docs/architecture/authentication
+//
+// For more information on service configuration: https://meshtrade.github.io/api/docs/architecture/sdk-configuration
+//
+// Examples:
+//
+//	// Create with default configuration
+//	service, err := NewClientService()
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//	defer service.Close()
+//
+//	// Create with custom configuration
+//	service, err := NewClientService(
+//		config.WithURL("api.example.com:443"),
+//		config.WithAPIKey("your-api-key"),
+//		config.WithGroup("groups/your-group-id"),
+//	)
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//	defer service.Close()
 //
 // Parameters:
 //   - opts: Functional options to configure the client
