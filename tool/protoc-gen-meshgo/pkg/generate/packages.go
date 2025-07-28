@@ -23,7 +23,9 @@ const (
 	GRPCInsecurePkg    = protogen.GoImportPath("google.golang.org/grpc/credentials/insecure")
 	GRPCMetadataPkg    = protogen.GoImportPath("google.golang.org/grpc/metadata")
 	// Meshtrade API packages
-	CommonPkg         = protogen.GoImportPath("github.com/meshtrade/api/go/common")
+	GRPCClientPkg     = protogen.GoImportPath("github.com/meshtrade/api/go/grpc")
+	GRPCConfigPkg     = protogen.GoImportPath("github.com/meshtrade/api/go/grpc/config")
+	AuthPkg           = protogen.GoImportPath("github.com/meshtrade/api/go/auth")
 	APICredentialsPkg = protogen.GoImportPath("github.com/meshtrade/api/go/iam/api_user/v1")
 	// Other packages
 	ULIDPackage        = protogen.GoImportPath("github.com/oklog/ulid/v2")
