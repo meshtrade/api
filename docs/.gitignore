@@ -22,3 +22,5 @@ yarn-error.log*
 # Generated documentation files
 *_meshdoc.mdx
 *_meshdoc.ts
+
+/testing_screenshots

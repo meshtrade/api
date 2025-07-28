@@ -95,6 +95,9 @@ Each generated documentation page includes:
 
 ## Development Workflow
 
+### Playwright Testing Screenshots
+Playwright screenshots for testing purposes should be stored in the `docs/testing_screenshots` directory.
+
 ### Starting the Documentation Server
 
 From the **repository root**:

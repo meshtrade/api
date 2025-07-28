@@ -52,6 +52,9 @@ kill $(cat docs_server.pid) && rm docs_server.pid docs_server.log
 - `./scripts/code-generation/generate-all.sh` - Main build script that cleans and regenerates all client libraries from protobuf definitions
 - `buf generate` - Generate code from protobuf definitions using buf
 
+### Playwright Testing Screenshots
+Playwright screenshots for testing purposes should be stored in the `docs/testing_screenshots` directory.
+
 ### Language-Specific Commands
 
 #### Go
