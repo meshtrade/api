@@ -173,16 +173,32 @@ func generateMethodDoc(plugin *protogen.Plugin, serviceInfo *ServiceInfo, method
 func generateExampleFiles(plugin *protogen.Plugin, method *MethodInfo, domain, serviceName, version string) error {
 	methodPath := kebabCase(method.Name)
 
+	// Parse request fields for example generation
+	requestFields := parseRequestFields(method.Parameters)
+	hasRequest := len(method.Parameters) > 0
+	needsContext := true // All gRPC methods need context
+	
+	// Detect return type information for semantic variable naming
+	returnsEntityType, goResponseVar, pythonResponseVar := detectReturnTypeInfo(method.Returns)
+
 	// Generate Go example
 	goFilename := filepath.Join(domain, serviceName, version, "service", methodPath, "example.go")
 	goFile := plugin.NewGeneratedFile(goFilename, "")
 	
 	goData := ExampleGoData{
-		Domain:          domain,
-		ServiceName:     serviceName,
-		ServiceVariable: serviceName,
-		Version:         version,
-		MethodName:      method.Name,
+		Domain:             domain,
+		ServiceName:        serviceName,
+		ServiceVariable:    serviceName,
+		ServiceConstructor: "New" + strings.ReplaceAll(titleCase(serviceName), " ", "") + "Service",
+		Version:            version,
+		MethodName:         method.Name,
+		RequestType:        method.RequestType,
+		RequestFields:      requestFields,
+		ResponseType:       method.Returns,
+		HasRequest:         hasRequest,
+		NeedsContext:       needsContext,
+		ReturnsEntityType:  returnsEntityType,
+		ResponseVariable:   goResponseVar,
 	}
 	
 	goContent, err := templateManager.Execute("example.go.tmpl", goData)
@@ -196,11 +212,17 @@ func generateExampleFiles(plugin *protogen.Plugin, method *MethodInfo, domain, s
 	pyFile := plugin.NewGeneratedFile(pyFilename, "")
 	
 	pyData := ExamplePyData{
-		Domain:       domain,
-		ServiceName:  serviceName,
-		ServiceTitle: titleCase(serviceName),
-		Version:      version,
-		MethodName:   method.Name,
+		Domain:            domain,
+		ServiceName:       serviceName,
+		ServiceTitle:      strings.ReplaceAll(titleCase(serviceName), " ", ""),
+		Version:           version,
+		MethodName:        method.Name,
+		RequestType:       method.RequestType,
+		RequestFields:     requestFields,
+		ResponseType:      method.Returns,
+		HasRequest:        hasRequest,
+		ReturnsEntityType: returnsEntityType,
+		ResponseVariable:  pythonResponseVar,
 	}
 	
 	pyContent, err := templateManager.Execute("example.py.tmpl", pyData)
@@ -210,6 +232,27 @@ func generateExampleFiles(plugin *protogen.Plugin, method *MethodInfo, domain, s
 	pyFile.Write([]byte(pyContent))
 
 	return nil
+}
+
+// parseRequestFields converts MethodInfo parameters to ExampleFieldData
+func parseRequestFields(parameters []FieldInfo) []ExampleFieldData {
+	var fields []ExampleFieldData
+	
+	for _, param := range parameters {
+		field := ExampleFieldData{
+			Name:         param.Name,
+			Type:         param.Type,
+			GoType:       convertToGoType(param.Type, ""),
+			PythonType:   convertToPythonType(param.Type),
+			ExampleValue: generateExampleValue(param.Name, param.Type),
+			IsRepeated:   false, // TODO: Extract from protobuf if needed
+			IsNested:     strings.Contains(param.Type, "."),
+			Required:     param.Required,
+		}
+		fields = append(fields, field)
+	}
+	
+	return fields
 }
 
 // kebabCase converts CamelCase to kebab-case
@@ -226,6 +269,47 @@ func kebabCase(s string) string {
 		}
 	}
 	return result.String()
+}
+
+// snakeCase converts CamelCase to snake_case
+func snakeCase(s string) string {
+	var result strings.Builder
+	for i, r := range s {
+		if i > 0 && r >= 'A' && r <= 'Z' {
+			result.WriteRune('_')
+		}
+		if r >= 'A' && r <= 'Z' {
+			result.WriteRune(r + ('a' - 'A'))
+		} else {
+			result.WriteRune(r)
+		}
+	}
+	return result.String()
+}
+
+// detectReturnTypeInfo analyzes method return type to determine if it's an entity type
+// and generates appropriate variable names
+func detectReturnTypeInfo(returnType string) (bool, string, string) {
+	// Common entity types that should use semantic variable names
+	entityTypes := []string{"APIUser", "Client", "Group", "User", "Account", "Instrument", "Order", "Spot"}
+	
+	for _, entityType := range entityTypes {
+		if strings.HasSuffix(returnType, entityType) {
+			// Generate semantic variable names - handle special cases like APIUser
+			var goVar, pythonVar string
+			if entityType == "APIUser" {
+				goVar = "apiUser"
+				pythonVar = "api_user"
+			} else {
+				goVar = strings.ToLower(entityType[:1]) + entityType[1:] // standard camelCase
+				pythonVar = snakeCase(entityType)                        // snake_case
+			}
+			return true, goVar, pythonVar
+		}
+	}
+	
+	// Default to generic response variable
+	return false, "response", "response"
 }
 
 // GenerateTypeDocs generates all type documentation files for a package

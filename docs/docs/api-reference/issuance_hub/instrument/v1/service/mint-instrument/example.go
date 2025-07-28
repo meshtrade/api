@@ -8,7 +8,28 @@ import (
 )
 
 func main() {
-	// TODO: Add example code for MintInstrument
-	// Create client and call MintInstrument method
-	log.Println("Example for MintInstrument")
+	ctx := context.Background()
+
+	// Default configuration is used and credentials come from MESH_API_CREDENTIALS
+	// environment variable or default discovery methods. Zero config required
+	// unless you want custom configuration.
+	service, err := instrumentv1.NewInstrumentService()
+	if err != nil {
+		log.Fatalf("Failed to create service: %v", err)
+	}
+	defer service.Close()
+
+	// Create request with service-specific parameters
+	request := &instrumentv1.MintInstrumentRequest{
+		// FIXME: Populate service-specific request fields
+	}
+
+	// Call the MintInstrument method
+	response, err := service.MintInstrument(ctx, request)
+	if err != nil {
+		log.Fatalf("MintInstrument failed: %v", err)
+	}
+
+	// FIXME: Add relevant response object usage
+	log.Printf("MintInstrument successful: %+v", response)
 }

@@ -1,13 +1,26 @@
 from meshtrade.wallet.account.v1 import (
     AccountService,
-    ClientOptions,
+    SearchAccountsRequest,
 )
 
 
 def main():
-    # TODO: Add example code for SearchAccounts
-    # Create client and call SearchAccounts method
-    print("Example for SearchAccounts")
+    # Default configuration is used and credentials come from MESH_API_CREDENTIALS 
+    # environment variable or default discovery methods. Zero config required 
+    # unless you want custom configuration.
+    service = AccountService()
+    
+    with service:
+        # Create request with service-specific parameters
+        request = SearchAccountsRequest(
+            # FIXME: Populate service-specific request fields
+        )
+        
+        # Call the SearchAccounts method  
+        response = service.search_accounts(request)
+        
+        # FIXME: Add relevant response object usage
+        print("SearchAccounts successful:", response)
 
 
 if __name__ == "__main__":

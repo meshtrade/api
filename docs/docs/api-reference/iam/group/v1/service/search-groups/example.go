@@ -8,7 +8,28 @@ import (
 )
 
 func main() {
-	// TODO: Add example code for SearchGroups
-	// Create client and call SearchGroups method
-	log.Println("Example for SearchGroups")
+	ctx := context.Background()
+
+	// Default configuration is used and credentials come from MESH_API_CREDENTIALS
+	// environment variable or default discovery methods. Zero config required
+	// unless you want custom configuration.
+	service, err := groupv1.NewGroupService()
+	if err != nil {
+		log.Fatalf("Failed to create service: %v", err)
+	}
+	defer service.Close()
+
+	// Create request with service-specific parameters
+	request := &groupv1.SearchGroupsRequest{
+		// FIXME: Populate service-specific request fields
+	}
+
+	// Call the SearchGroups method
+	response, err := service.SearchGroups(ctx, request)
+	if err != nil {
+		log.Fatalf("SearchGroups failed: %v", err)
+	}
+
+	// FIXME: Add relevant response object usage
+	log.Printf("SearchGroups successful: %+v", response)
 }
