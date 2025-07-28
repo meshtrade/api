@@ -45,10 +45,6 @@ echo "🚀 Generating new files from protobuf definitions..."
 buf generate  --template "$SCRIPT_DIR/buf/buf.gen.yaml"
 echo
 
-echo "🚀 Formatting Python code with ruff..."
-ruff check ./python/src --fix --quiet || true
-echo
-
 echo "🚀 Generating buf/validate TypeScript files..."
 buf generate buf.build/bufbuild/protovalidate --template "$SCRIPT_DIR/buf/buf.gen.validate.yaml"
 echo
@@ -63,6 +59,10 @@ echo "⚙️ Typescript Library Build..."
 cd ts
 yarn build
 cd ..
+echo
+
+echo "🚀 Formatting Python code with ruff..."
+ruff check . --fix --quiet || true
 echo
 
 echo "############################################################"

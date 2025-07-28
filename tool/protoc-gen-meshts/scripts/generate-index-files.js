@@ -13,24 +13,24 @@ const API_ROOT = path.resolve(__dirname, '../../..');
 const TS_SRC_DIR = path.join(API_ROOT, 'ts', 'src');
 
 function main() {
-  console.log('🔍 Scanning for TypeScript packages to generate index.ts files...');
+  // console.log('🔍 Scanning for TypeScript packages to generate index.ts files...');
   
   // Find all packages that need index.ts files
   const packages = findPackagesWithGeneratedFiles(TS_SRC_DIR);
   
-  console.log(`📦 Found ${packages.length} packages with generated files`);
+  // console.log(`📦 Found ${packages.length} packages with generated files`);
   
   for (const packagePath of packages) {
     // Skip external packages (buf, google)
     if (packagePath.startsWith('buf') || packagePath.startsWith('google')) {
-      console.log(`⏭️  Skipping external package: ${packagePath}`);
+      // console.log(`⏭️  Skipping external package: ${packagePath}`);
       continue;
     }
     
     generateIndexFile(packagePath);
   }
   
-  console.log('✅ Index.ts generation complete!');
+  // console.log('✅ Index.ts generation complete!');
 }
 
 function findPackagesWithGeneratedFiles(srcDir) {
@@ -79,7 +79,7 @@ function generateIndexFile(packagePath) {
   const fullPath = path.join(TS_SRC_DIR, packagePath);
   const indexPath = path.join(fullPath, 'index.ts');
   
-  console.log(`📝 Generating index.ts for: ${packagePath}`);
+  // console.log(`📝 Generating index.ts for: ${packagePath}`);
   
   try {
     // Collect generated files in the directory
@@ -94,7 +94,7 @@ function generateIndexFile(packagePath) {
     // Write the file
     fs.writeFileSync(indexPath, indexContent, 'utf8');
     
-    console.log(`   ✓ Generated ${generatedExports.length} exports`);
+    // console.log(`   ✓ Generated ${generatedExports.length} exports`);
   } catch (error) {
     console.error(`   ❌ Error generating index.ts for ${packagePath}:`, error.message);
   }
@@ -164,7 +164,7 @@ function readExistingManualSection(indexPath) {
       });
       
       if (exportLines.length > 0) {
-        console.log(`   📋 Preserving ${exportLines.length} existing manual exports`);
+        // console.log(`   📋 Preserving ${exportLines.length} existing manual exports`);
         return exportLines.join('\n');
       }
       

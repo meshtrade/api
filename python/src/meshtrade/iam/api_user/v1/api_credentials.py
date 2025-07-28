@@ -68,10 +68,10 @@ def api_credentials_from_environment() -> APICredentials | None:
 
 def default_credentials_path() -> str:
     """Return the OS-specific default path for Mesh API credentials.
-    
+
     Returns:
         Default credential file path based on OS conventions:
-        - Linux/macOS: $HOME/.config/mesh/credentials.json  
+        - Linux/macOS: $HOME/.config/mesh/credentials.json
         - Windows: %APPDATA%/mesh/credentials.json
     """
     if os.name == 'nt':  # Windows
@@ -108,11 +108,11 @@ def load_default_credentials() -> APICredentials | None:
 
 def find_credentials() -> APICredentials | None:
     """Search for API credentials using the standard discovery hierarchy.
-    
+
     Discovery order:
     1. MESH_API_CREDENTIALS environment variable (if set)
     2. Default credential file location
-    
+
     Returns:
         APICredentials object if found using any method, None if no credentials found
 
