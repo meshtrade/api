@@ -38,6 +38,7 @@ from .service_pb2 import (
 from .service_meshpy import (
     ClientService,
     ClientServiceGRPCClient,
+    ClientServiceGRPCClientInterface,
 )
 from .service_options_meshpy import ClientOptions
 
@@ -65,6 +66,7 @@ __all__ = [
     "ClientOptions",
     "ClientService",
     "ClientServiceGRPCClient",
+    "ClientServiceGRPCClientInterface",
     "Company",
     "CompanyRepresentative",
     "CompanyRepresentativeRole",

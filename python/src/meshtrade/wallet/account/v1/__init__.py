@@ -27,6 +27,7 @@ from .service_pb2 import (
 from .service_meshpy import (
     AccountService,
     AccountServiceGRPCClient,
+    AccountServiceGRPCClientInterface,
 )
 from .service_options_meshpy import ClientOptions
 
@@ -53,6 +54,7 @@ __all__ = [
     "Account",
     "AccountService",
     "AccountServiceGRPCClient",
+    "AccountServiceGRPCClientInterface",
     "ClientOptions",
     "CreateAccountRequest",
     "GetAccountRequest",

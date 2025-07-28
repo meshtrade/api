@@ -29,24 +29,6 @@ This is the Mesh API repository containing protobuf definitions and multi-langua
 - `yarn serve:docs` - Serve built documentation site
 - Site URL: https://meshtrade.github.io/api
 
-#### Running Documentation Site in Background
-When using tools like Playwright MCP that require the docs site to be running:
-
-```bash
-# Start docs site in background and save process ID
-nohup yarn start:docs > docs_server.log 2>&1 & echo $! > docs_server.pid
-
-# Check if site is running
-curl -s -o /dev/null -w "%{http_code}" http://localhost:3000/api/
-
-# View logs
-tail -f docs_server.log
-
-# Stop background process
-kill $(cat docs_server.pid) && rm docs_server.pid docs_server.log
-```
-
-**CRITICAL**: Always kill background processes when done to avoid port conflicts.
 
 ### Code Generation
 - `./scripts/code-generation/generate-all.sh` - Main build script that cleans and regenerates all client libraries from protobuf definitions
@@ -147,6 +129,7 @@ message = (
 - `/python/` - Generated Python packages with additional utilities
 - `/ts/` - Generated TypeScript modules
 - `/docs/` - Docusaurus-based documentation site
+  - **📖 IMPORTANT FOR AGENTS**: Always read `/docs/CLAUDE.md` for detailed documentation site guidance
   - `docs/` - Main documentation content (MDX files)
   - `blog/` - News/blog posts
   - `src/` - React components and pages
@@ -190,7 +173,17 @@ The `/proto/meshtrade/type/v1/` directory contains foundational types used acros
 3. **Testing**: Each language has its own test suite - run them after generation
 4. **Version Management**: API versions are managed through protobuf package paths (v1, v2, etc.)
 
-## Documentation Site Workflow
+## Documentation Work
+
+### 🤖 For AI Agents Working with Documentation
+
+**CRITICAL**: When working with documentation, **ALWAYS** read `/docs/CLAUDE.md` first for comprehensive documentation site guidance, including:
+- Playwright MCP setup and testing workflows
+- Background server management 
+- Documentation site architecture
+- Testing and screenshot procedures
+
+### Documentation Site Workflow
 
 ### Structure and Organization
 - **Root README.md**: Simplified overview with link to full documentation site

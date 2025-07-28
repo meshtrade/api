@@ -23,4 +23,9 @@ yarn-error.log*
 *_meshdoc.mdx
 *_meshdoc.ts
 
+# New generated documentation files (without _meshdoc suffix)
+docs/api-reference/**/service/**/index.mdx
+docs/api-reference/**/type/index.mdx
+docs/api-reference/**/type/*/index.mdx
+
 /testing_screenshots

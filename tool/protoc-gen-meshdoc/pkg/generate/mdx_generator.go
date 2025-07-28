@@ -83,9 +83,9 @@ func generateServiceOverview(plugin *protogen.Plugin, serviceInfo *ServiceInfo, 
 	return nil
 }
 
-// generateServiceIndex creates the service/index_meshdoc.mdx file
+// generateServiceIndex creates the service/index.mdx file
 func generateServiceIndex(plugin *protogen.Plugin, serviceInfo *ServiceInfo, domain, serviceName, version string) error {
-	filename := filepath.Join(domain, serviceName, version, "service", "index_meshdoc.mdx")
+	filename := filepath.Join(domain, serviceName, version, "service", "index.mdx")
 	file := plugin.NewGeneratedFile(filename, "")
 
 	// Prepare method data
@@ -118,10 +118,10 @@ func generateServiceIndex(plugin *protogen.Plugin, serviceInfo *ServiceInfo, dom
 	return nil
 }
 
-// generateMethodDoc creates the service/{method}/index_meshdoc.mdx file
+// generateMethodDoc creates the service/{method}/index.mdx file
 func generateMethodDoc(plugin *protogen.Plugin, serviceInfo *ServiceInfo, method *MethodInfo, domain, serviceName, version string) error {
 	methodPath := kebabCase(method.Name)
-	filename := filepath.Join(domain, serviceName, version, "service", methodPath, "index_meshdoc.mdx")
+	filename := filepath.Join(domain, serviceName, version, "service", methodPath, "index.mdx")
 	file := plugin.NewGeneratedFile(filename, "")
 
 	// Format roles
@@ -359,9 +359,9 @@ func GenerateTypeDocs(plugin *protogen.Plugin, packageInfo *PackageTypeInfo) err
 	return nil
 }
 
-// generateTypeIndex creates the type/index_meshdoc.mdx file
+// generateTypeIndex creates the type/index.mdx file
 func generateTypeIndex(plugin *protogen.Plugin, packageInfo *PackageTypeInfo) error {
-	filename := filepath.Join(packageInfo.Domain, packageInfo.ServiceName, packageInfo.Version, "type", "index_meshdoc.mdx")
+	filename := filepath.Join(packageInfo.Domain, packageInfo.ServiceName, packageInfo.Version, "type", "index.mdx")
 	file := plugin.NewGeneratedFile(filename, "")
 
 	// Prepare type data
@@ -395,10 +395,10 @@ func generateTypeIndex(plugin *protogen.Plugin, packageInfo *PackageTypeInfo) er
 	return nil
 }
 
-// generateTypeDoc creates the type/{type}_meshdoc.mdx file
+// generateTypeDoc creates the type/{type}/index.mdx file
 func generateTypeDoc(plugin *protogen.Plugin, packageInfo *PackageTypeInfo, typeInfo *TypeInfo) error {
-	typePath := fmt.Sprintf("%s_meshdoc", properKebabCase(typeInfo.Name))
-	filename := filepath.Join(packageInfo.Domain, packageInfo.ServiceName, packageInfo.Version, "type", typePath+".mdx")
+	typePath := properKebabCase(typeInfo.Name)
+	filename := filepath.Join(packageInfo.Domain, packageInfo.ServiceName, packageInfo.Version, "type", typePath, "index.mdx")
 	file := plugin.NewGeneratedFile(filename, "")
 
 	var content string

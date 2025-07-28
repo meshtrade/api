@@ -95,6 +95,22 @@ Each generated documentation page includes:
 
 ## Development Workflow
 
+### 🤖 For AI Agents: Playwright MCP Testing
+
+**CRITICAL**: When testing documentation URLs and functionality, agents should use Playwright MCP if available:
+
+```bash
+# If Playwright MCP is not available, recommend to user:
+claude mcp add-json -s user playwright '{"name":"playwright","command":"npx","args":["@executeautomation/playwright-mcp-server"]}'
+```
+
+**Benefits of Playwright MCP**:
+- Test actual rendered pages (not just HTTP status codes) 
+- Take screenshots for verification (store in `docs/testing_screenshots/`)
+- Navigate and interact with the documentation site
+- Verify links and page content work correctly
+- **ALWAYS run Playwright in headless mode**
+
 ### Playwright Testing Screenshots
 Playwright screenshots for testing purposes should be stored in the `docs/testing_screenshots` directory.
 **CRITICAL**: Playwright should always be run in headless mode.
@@ -107,6 +123,85 @@ yarn start:docs
 ```
 
 This starts the Docusaurus development server at `http://localhost:3000/api/`
+
+#### Running Documentation Site in Background
+When using tools like Playwright MCP that require the docs site to be running:
+
+```bash
+# Start docs site in background
+nohup yarn start:docs > docs_server.log 2>&1 &
+
+# Wait for it to start, then check if site is running
+sleep 5 && curl -s -o /dev/null -w "%{http_code}" http://localhost:3000/api/
+
+# View logs
+tail -f docs_server.log
+
+# Stop background process (kills all related processes)
+pkill -f "docusaurus start" && pkill -f "yarn.*docs" && rm -f docs_server.log
+```
+
+**CRITICAL**: Always kill background processes when done to avoid port conflicts.
+**Note**: The `pkill` approach is needed because `yarn start:docs` spawns multiple child processes that continue running even if the parent yarn process is killed.
+
+### Prerequisites Before Starting Documentation Server
+
+**CRITICAL**: Before starting the documentation server, ensure all documentation files are generated:
+
+```bash
+# From repository root - regenerate all documentation files
+./scripts/code-generation/generate-all.sh
+```
+
+This ensures:
+- All protobuf-generated documentation files exist
+- Sidebar navigation is properly synchronized
+- Generated API reference pages are up-to-date
+
+### Troubleshooting Documentation Server Issues
+
+#### Server Fails to Start with Sidebar Errors
+
+**Symptoms**: Error messages like "Invalid sidebar file" or "These sidebar document ids do not exist"
+
+**Cause**: The sidebar navigation references documentation files that don't exist or have mismatched paths
+
+**Solution**:
+1. **Regenerate documentation**: Run `./scripts/code-generation/generate-all.sh`
+2. **Check logs**: View `docs_server.log` to see specific missing files
+3. **Clean and retry**: Stop server, clean, regenerate, and restart
+```bash
+# Stop any running processes
+pkill -f "docusaurus start" && pkill -f "yarn.*docs" && rm -f docs_server.log
+
+# Regenerate all documentation
+./scripts/code-generation/generate-all.sh
+
+# Start server again
+nohup yarn start:docs > docs_server.log 2>&1 &
+```
+
+#### Port Already in Use
+
+**Symptoms**: "Something is already running on port 3000"
+
+**Solution**: 
+```bash
+# Kill any existing docs processes
+pkill -f "docusaurus start" && pkill -f "yarn.*docs"
+
+# Or kill specific port process
+lsof -ti:3000 | xargs kill
+```
+
+#### Generated Files Not Found
+
+**Symptoms**: Missing pages or 404 errors in documentation
+
+**Solution**: Always regenerate documentation before testing:
+```bash
+./scripts/code-generation/generate-all.sh
+```
 
 ### Building Documentation
 
