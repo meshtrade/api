@@ -2,6 +2,7 @@ package generate
 
 import (
 	"fmt"
+	"os"
 	"path/filepath"
 	"sort"
 	"strings"
@@ -54,26 +55,31 @@ func GenerateServiceDocs(plugin *protogen.Plugin, serviceInfo *ServiceInfo) erro
 // generateServiceOverview creates the service overview index.mdx file
 func generateServiceOverview(plugin *protogen.Plugin, serviceInfo *ServiceInfo, domain, serviceName, version string) error {
 	filename := filepath.Join(domain, serviceName, version, "index.mdx")
-	file := plugin.NewGeneratedFile(filename, "")
+	fullPath := filepath.Join("docs", "docs", "api-reference", filename)
+	
+	// Only generate if file doesn't exist (allows manual customization)
+	if !fileExists(fullPath) {
+		file := plugin.NewGeneratedFile(filename, "")
 
-	// Prepare template data with proper formatting
-	data := ServiceOverviewData{
-		Domain:             domain,
-		DomainTitle:        titleCase(domain),
-		ServiceName:        serviceName,
-		ServiceDisplayName: titleCase(serviceName),
-		Version:            version,
-		VersionDisplay:     version, // Keep version as lowercase
-		Description:        serviceInfo.Description,
+		// Prepare template data with proper formatting
+		data := ServiceOverviewData{
+			Domain:             domain,
+			DomainTitle:        titleCase(domain),
+			ServiceName:        serviceName,
+			ServiceDisplayName: titleCase(serviceName),
+			Version:            version,
+			VersionDisplay:     version, // Keep version as lowercase
+			Description:        serviceInfo.Description,
+		}
+
+		// Execute template
+		content, err := templateManager.Execute("service_overview.mdx.tmpl", data)
+		if err != nil {
+			return fmt.Errorf("failed to execute service overview template: %w", err)
+		}
+
+		file.Write([]byte(content))
 	}
-
-	// Execute template
-	content, err := templateManager.Execute("service_overview.mdx.tmpl", data)
-	if err != nil {
-		return fmt.Errorf("failed to execute service overview template: %w", err)
-	}
-
-	file.Write([]byte(content))
 	return nil
 }
 
@@ -175,61 +181,69 @@ func generateExampleFiles(plugin *protogen.Plugin, method *MethodInfo, domain, s
 
 	// Parse request fields for example generation
 	requestFields := parseRequestFields(method.Parameters)
-	hasRequest := len(method.Parameters) > 0
+	hasRequest := method.RequestType != "" // All gRPC methods have request types, even if empty
 	needsContext := true // All gRPC methods need context
 	
 	// Detect return type information for semantic variable naming
 	returnsEntityType, goResponseVar, pythonResponseVar := detectReturnTypeInfo(method.Returns)
 
-	// Generate Go example
+	// Generate Go example (only if it doesn't exist)
 	goFilename := filepath.Join(domain, serviceName, version, "service", methodPath, "example.go")
-	goFile := plugin.NewGeneratedFile(goFilename, "")
+	goFullPath := filepath.Join("docs", "docs", "api-reference", goFilename)
 	
-	goData := ExampleGoData{
-		Domain:             domain,
-		ServiceName:        serviceName,
-		ServiceVariable:    serviceName,
-		ServiceConstructor: "New" + strings.ReplaceAll(titleCase(serviceName), " ", "") + "Service",
-		Version:            version,
-		MethodName:         method.Name,
-		RequestType:        method.RequestType,
-		RequestFields:      requestFields,
-		ResponseType:       method.Returns,
-		HasRequest:         hasRequest,
-		NeedsContext:       needsContext,
-		ReturnsEntityType:  returnsEntityType,
-		ResponseVariable:   goResponseVar,
+	if !fileExists(goFullPath) {
+		goFile := plugin.NewGeneratedFile(goFilename, "")
+		
+		goData := ExampleGoData{
+			Domain:             domain,
+			ServiceName:        serviceName,
+			ServiceVariable:    serviceName,
+			ServiceConstructor: "New" + strings.ReplaceAll(titleCase(serviceName), " ", "") + "Service",
+			Version:            version,
+			MethodName:         method.Name,
+			RequestType:        method.RequestType,
+			RequestFields:      requestFields,
+			ResponseType:       method.Returns,
+			HasRequest:         hasRequest,
+			NeedsContext:       needsContext,
+			ReturnsEntityType:  returnsEntityType,
+			ResponseVariable:   goResponseVar,
+		}
+		
+		goContent, err := templateManager.Execute("example.go.tmpl", goData)
+		if err != nil {
+			return fmt.Errorf("failed to execute Go example template: %w", err)
+		}
+		goFile.Write([]byte(goContent))
 	}
-	
-	goContent, err := templateManager.Execute("example.go.tmpl", goData)
-	if err != nil {
-		return fmt.Errorf("failed to execute Go example template: %w", err)
-	}
-	goFile.Write([]byte(goContent))
 
-	// Generate Python example
+	// Generate Python example (only if it doesn't exist)
 	pyFilename := filepath.Join(domain, serviceName, version, "service", methodPath, "example.py")
-	pyFile := plugin.NewGeneratedFile(pyFilename, "")
+	pyFullPath := filepath.Join("docs", "docs", "api-reference", pyFilename)
 	
-	pyData := ExamplePyData{
-		Domain:            domain,
-		ServiceName:       serviceName,
-		ServiceTitle:      strings.ReplaceAll(titleCase(serviceName), " ", ""),
-		Version:           version,
-		MethodName:        method.Name,
-		RequestType:       method.RequestType,
-		RequestFields:     requestFields,
-		ResponseType:      method.Returns,
-		HasRequest:        hasRequest,
-		ReturnsEntityType: returnsEntityType,
-		ResponseVariable:  pythonResponseVar,
+	if !fileExists(pyFullPath) {
+		pyFile := plugin.NewGeneratedFile(pyFilename, "")
+		
+		pyData := ExamplePyData{
+			Domain:            domain,
+			ServiceName:       serviceName,
+			ServiceTitle:      strings.ReplaceAll(titleCase(serviceName), " ", ""),
+			Version:           version,
+			MethodName:        method.Name,
+			RequestType:       method.RequestType,
+			RequestFields:     requestFields,
+			ResponseType:      method.Returns,
+			HasRequest:        hasRequest,
+			ReturnsEntityType: returnsEntityType,
+			ResponseVariable:  pythonResponseVar,
+		}
+		
+		pyContent, err := templateManager.Execute("example.py.tmpl", pyData)
+		if err != nil {
+			return fmt.Errorf("failed to execute Python example template: %w", err)
+		}
+		pyFile.Write([]byte(pyContent))
 	}
-	
-	pyContent, err := templateManager.Execute("example.py.tmpl", pyData)
-	if err != nil {
-		return fmt.Errorf("failed to execute Python example template: %w", err)
-	}
-	pyFile.Write([]byte(pyContent))
 
 	return nil
 }
@@ -290,26 +304,24 @@ func snakeCase(s string) string {
 // detectReturnTypeInfo analyzes method return type to determine if it's an entity type
 // and generates appropriate variable names
 func detectReturnTypeInfo(returnType string) (bool, string, string) {
-	// Common entity types that should use semantic variable names
-	entityTypes := []string{"APIUser", "Client", "Group", "User", "Account", "Instrument", "Order", "Spot"}
-	
-	for _, entityType := range entityTypes {
-		if strings.HasSuffix(returnType, entityType) {
-			// Generate semantic variable names - handle special cases like APIUser
-			var goVar, pythonVar string
-			if entityType == "APIUser" {
-				goVar = "apiUser"
-				pythonVar = "api_user"
-			} else {
-				goVar = strings.ToLower(entityType[:1]) + entityType[1:] // standard camelCase
-				pythonVar = snakeCase(entityType)                        // snake_case
-			}
-			return true, goVar, pythonVar
-		}
+	// If return type ends with "Response", it's not an entity - use generic "response" variable
+	if strings.HasSuffix(returnType, "Response") {
+		return false, "response", "response"
 	}
 	
-	// Default to generic response variable
-	return false, "response", "response"
+	// Otherwise, treat as entity and generate semantic variable names from the return type
+	// Handle special case for APIUser
+	var goVar, pythonVar string
+	if returnType == "APIUser" {
+		goVar = "apiUser"
+		pythonVar = "api_user"
+	} else {
+		// Generate camelCase for Go and snake_case for Python from the actual return type
+		goVar = strings.ToLower(returnType[:1]) + returnType[1:] // standard camelCase
+		pythonVar = snakeCase(returnType)                        // snake_case
+	}
+	
+	return true, goVar, pythonVar
 }
 
 // properKebabCase converts type names to kebab-case with special handling for API prefixes
@@ -568,4 +580,10 @@ func GenerateNavigation(plugin *protogen.Plugin, serviceInfos []*ServiceInfo, pa
 
 	file.Write([]byte(content))
 	return nil
+}
+
+// fileExists checks if a file exists at the given path
+func fileExists(filename string) bool {
+	_, err := os.Stat(filename)
+	return !os.IsNotExist(err)
 }

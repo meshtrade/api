@@ -19,8 +19,13 @@ func main() {
 	}
 	defer service.Close()
 
-	// Call the ListApiUsers method (no request parameters)
-	response, err := service.ListApiUsers(ctx)
+	// Create request with service-specific parameters
+	request := &api_userv1.ListApiUsersRequest{
+		// FIXME: Populate service-specific request fields
+	}
+
+	// Call the ListApiUsers method
+	response, err := service.ListApiUsers(ctx, request)
 	if err != nil {
 		log.Fatalf("ListApiUsers failed: %v", err)
 	}
