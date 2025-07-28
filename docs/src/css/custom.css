@@ -150,3 +150,12 @@
     padding: 2px 6px;
   }
 }
+
+
+/* For mobile layout adjustments */
+@media screen and (max-width: 966px) {
+  /* This will now correctly target and override the global Docusaurus theme style */
+  .hero--primary .hero__title {
+    font-size: 2.5rem !important; /* Start with !important to be sure */
+  }
+}

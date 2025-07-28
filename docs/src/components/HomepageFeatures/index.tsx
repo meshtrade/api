@@ -47,25 +47,18 @@ export default function HomepageFeatures(): React.JSX.Element {
     <section className={styles.features}>
       <div className="container">
         <div className={styles.featuresGrid}>
-          {/* Image Row */}
           {FeatureList.map((feature, idx) => (
-            <div key={`image-${idx}`} className={styles.imageSection}>
-              {feature.Svg && <feature.Svg className={styles.featureSvg} role="img" />}
-              {feature.imageSrc && <img src={feature.imageSrc} className={styles.featureImg} alt={feature.title} />}
-            </div>
-          ))}
-          
-          {/* Title Row */}
-          {FeatureList.map((feature, idx) => (
-            <div key={`title-${idx}`} className={styles.titleSection}>
-              <h3>{feature.title}</h3>
-            </div>
-          ))}
-          
-          {/* Description Row */}
-          {FeatureList.map((feature, idx) => (
-            <div key={`desc-${idx}`} className={styles.descriptionSection}>
-              <p className="padding-horiz--md">{feature.description}</p>
+            <div key={idx} className={styles.featureItem}>
+              <div className={styles.imageSection}>
+                {feature.Svg && <feature.Svg className={styles.featureSvg} role="img" />}
+                {feature.imageSrc && <img src={feature.imageSrc} className={styles.featureImg} alt={feature.title} />}
+              </div>
+              <div className={styles.titleSection}>
+                <h3>{feature.title}</h3>
+              </div>
+              <div className={styles.descriptionSection}>
+                <p className="padding-horiz--md">{feature.description}</p>
+              </div>
             </div>
           ))}
         </div>
