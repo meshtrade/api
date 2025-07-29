@@ -259,6 +259,10 @@ func sanitizeForTable(text string) string {
 	// First escape curly braces to prevent MDX/JSX interpretation issues
 	text = escapeCurly(text)
 	
+	// Escape square brackets to prevent link interpretation of regex patterns
+	text = strings.ReplaceAll(text, "[", "\\[")
+	text = strings.ReplaceAll(text, "]", "\\]")
+	
 	// Replace newlines with separator to maintain readability
 	text = strings.ReplaceAll(text, "\n", " | ")
 	text = strings.ReplaceAll(text, "\r\n", " | ")
