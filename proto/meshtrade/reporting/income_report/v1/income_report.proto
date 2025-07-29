@@ -5,11 +5,10 @@ package meshtrade.reporting.income_report.v1;
 import "google/protobuf/timestamp.proto";
 import "meshtrade/type/v1/token.proto";
 import "meshtrade/type/v1/address.proto";
-import "meshtrade/type/v1/amount.proto";
 import "meshtrade/reporting/income_report/v1/summary.proto";
 import "meshtrade/reporting/income_report/v1/entry.proto";
 
-option go_package = "github.com/meshtrade/api/go/reporting/income_report/v1;incomeReportv1";
+option go_package = "github.com/meshtrade/api/go/reporting/income_report/v1;income_reportv1";
 
 message IncomeReport {
 

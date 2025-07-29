@@ -5,7 +5,7 @@ package meshtrade.reporting.income_report.v1;
 import "meshtrade/type/v1/token.proto";
 import "meshtrade/type/v1/amount.proto";
 
-option go_package = "github.com/meshtrade/api/go/reporting/income_report/v1;summaryv1";
+option go_package = "github.com/meshtrade/api/go/reporting/income_report/v1;income_reportv1";
 
 message Summary {
 

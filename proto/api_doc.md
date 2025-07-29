@@ -112,6 +112,24 @@
   
     - [File-level Extensions](#meshtrade_option_v1_service_type-proto-extensions)
   
+- [meshtrade/reporting/income_report/v1/entry.proto](#meshtrade_reporting_income_report_v1_entry-proto)
+    - [Entry](#meshtrade-reporting-income_report-v1-Entry)
+  
+- [meshtrade/reporting/income_report/v1/summary.proto](#meshtrade_reporting_income_report_v1_summary-proto)
+    - [Summary](#meshtrade-reporting-income_report-v1-Summary)
+  
+- [meshtrade/reporting/income_report/v1/income_report.proto](#meshtrade_reporting_income_report_v1_income_report-proto)
+    - [IncomeReport](#meshtrade-reporting-income_report-v1-IncomeReport)
+    - [IncomeReport.Period](#meshtrade-reporting-income_report-v1-IncomeReport-Period)
+  
+- [meshtrade/reporting/income_report/v1/service.proto](#meshtrade_reporting_income_report_v1_service-proto)
+    - [GetExcelIncomeReportRequest](#meshtrade-reporting-income_report-v1-GetExcelIncomeReportRequest)
+    - [GetExcelIncomeReportResponse](#meshtrade-reporting-income_report-v1-GetExcelIncomeReportResponse)
+    - [GetIncomeReportRequest](#meshtrade-reporting-income_report-v1-GetIncomeReportRequest)
+    - [GetIncomeReportResponse](#meshtrade-reporting-income_report-v1-GetIncomeReportResponse)
+  
+    - [IncomeReportService](#meshtrade-reporting-income_report-v1-IncomeReportService)
+  
 - [meshtrade/trading/direct_order/v1/direct_order.proto](#meshtrade_trading_direct_order_v1_direct_order-proto)
     - [DirectOrder](#meshtrade-trading-direct_order-v1-DirectOrder)
   
@@ -1409,6 +1427,225 @@ as either a read or a write operation.
 | service_type | ServiceType | .google.protobuf.MethodOptions | 50004 |  |
 
  
+
+ 
+
+
+
+<a name="meshtrade_reporting_income_report_v1_entry-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/reporting/income_report/v1/entry.proto
+
+
+
+<a name="meshtrade-reporting-income_report-v1-Entry"></a>
+
+### Entry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| asset_name | [string](#string) |  |  |
+| token | [meshtrade.type.v1.Token](#meshtrade-type-v1-Token) |  |  |
+| date | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| description | [string](#string) |  |  |
+| narrative | [string](#string) |  |  |
+| amount | [meshtrade.type.v1.Amount](#meshtrade-type-v1-Amount) |  |  |
+| reported_currency_value | [meshtrade.type.v1.Amount](#meshtrade-type-v1-Amount) |  |  |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="meshtrade_reporting_income_report_v1_summary-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/reporting/income_report/v1/summary.proto
+
+
+
+<a name="meshtrade-reporting-income_report-v1-Summary"></a>
+
+### Summary
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| currency | [meshtrade.type.v1.Token](#meshtrade-type-v1-Token) |  |  |
+| reported_currency_value | [meshtrade.type.v1.Amount](#meshtrade-type-v1-Amount) |  |  |
+| debit_credit | [meshtrade.type.v1.Amount](#meshtrade-type-v1-Amount) |  |  |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="meshtrade_reporting_income_report_v1_income_report-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/reporting/income_report/v1/income_report.proto
+
+
+
+<a name="meshtrade-reporting-income_report-v1-IncomeReport"></a>
+
+### IncomeReport
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| entries | [Entry](#meshtrade-reporting-income_report-v1-Entry) | repeated |  |
+| summary | [Summary](#meshtrade-reporting-income_report-v1-Summary) |  |  |
+| reporting_currency | [meshtrade.type.v1.Token](#meshtrade-type-v1-Token) |  |  |
+| period | [IncomeReport.Period](#meshtrade-reporting-income_report-v1-IncomeReport-Period) |  |  |
+| generation_date | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| account_number | [string](#string) |  |  |
+| disclaimers | [string](#string) | repeated |  |
+| client_address | [meshtrade.type.v1.Address](#meshtrade-type-v1-Address) |  |  |
+| client_name | [string](#string) |  |  |
+| copyright | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="meshtrade-reporting-income_report-v1-IncomeReport-Period"></a>
+
+### IncomeReport.Period
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| from | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| to | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="meshtrade_reporting_income_report_v1_service-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## meshtrade/reporting/income_report/v1/service.proto
+
+
+
+<a name="meshtrade-reporting-income_report-v1-GetExcelIncomeReportRequest"></a>
+
+### GetExcelIncomeReportRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| account_num | [string](#string) |  |  |
+| from | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| to | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| reporting_currency_token | [meshtrade.type.v1.Token](#meshtrade-type-v1-Token) |  |  |
+
+
+
+
+
+
+<a name="meshtrade-reporting-income_report-v1-GetExcelIncomeReportResponse"></a>
+
+### GetExcelIncomeReportResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| excel_base64 | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="meshtrade-reporting-income_report-v1-GetIncomeReportRequest"></a>
+
+### GetIncomeReportRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| account_num | [string](#string) |  |  |
+| from | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| to | [google.protobuf.Timestamp](#google-protobuf-Timestamp) |  |  |
+| reporting_currency_token | [meshtrade.type.v1.Token](#meshtrade-type-v1-Token) |  |  |
+
+
+
+
+
+
+<a name="meshtrade-reporting-income_report-v1-GetIncomeReportResponse"></a>
+
+### GetIncomeReportResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| income_report | [IncomeReport](#meshtrade-reporting-income_report-v1-IncomeReport) |  |  |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+
+<a name="meshtrade-reporting-income_report-v1-IncomeReportService"></a>
+
+### IncomeReportService
+
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| GetIncomeReport | [GetIncomeReportRequest](#meshtrade-reporting-income_report-v1-GetIncomeReportRequest) | [GetIncomeReportResponse](#meshtrade-reporting-income_report-v1-GetIncomeReportResponse) |  |
+| GetExcelIncomeReport | [GetExcelIncomeReportRequest](#meshtrade-reporting-income_report-v1-GetExcelIncomeReportRequest) | [GetExcelIncomeReportResponse](#meshtrade-reporting-income_report-v1-GetExcelIncomeReportResponse) |  |
 
  
 
