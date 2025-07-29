@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package reporting.income_report.v1;
+
+import "google/protobuf/timestamp.proto";
+import "meshtrade/type/v1/token.proto";
+import "meshtrade/reporting/income_report/v1/income_report.proto";
+
+service IncomeReportService {
+  rpc GetIncomeReport(GetIncomeReportRequest) returns (IncomeReport);
+  rpc GetExcelIncomeReport(GetIncomeReportRequest) returns (GetExcelIncomeReportResponse);
+}
+
+message GetIncomeReportRequest {
+  string account_num = 1;
+  google.protobuf.Timestamp from = 2;
+  google.protobuf.Timestamp to = 3;
+  meshtrade.type.v1.Token reporting_currency_token = 4;
+}
+
+message GetExcelIncomeReportResponse {
+  string excel_base64 = 1;
+}

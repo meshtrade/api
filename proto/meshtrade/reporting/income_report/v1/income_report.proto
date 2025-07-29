@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package reporting.income_report.v1;
+
+import "google/protobuf/timestamp.proto";
+import "meshtrade/type/v1/token.proto";
+import "meshtrade/type/v1/address.proto";
+import "meshtrade/type/v1/amount.proto";
+
+message IncomeReport {
+  repeated Entry entries = 1;
+  Summary summary = 2;
+  meshtrade.type.v1.Token reporting_currency = 3;
+
+  message Period {
+    google.protobuf.Timestamp from = 1;
+    google.protobuf.Timestamp to = 2;
+  }
+
+  Period period = 4;
+  google.protobuf.Timestamp generation_date = 5;
+  string account_number = 6;
+  repeated string disclaimers = 7;
+  meshtrade.type.v1.Address client_address = 8;
+  string client_name = 9;
+  string copyright = 10;
+}
+
+message Entry {
+  string asset_name = 1;
+  meshtrade.type.v1.Token token = 2;
+  google.protobuf.Timestamp date = 3;
+  string description = 4;
+  string narrative = 5;
+  meshtrade.type.v1.Amount amount = 6;
+  meshtrade.type.v1.Amount reported_currency_value = 7;
+}
+
+message Summary {
+  meshtrade.type.v1.Token currency = 1;
+  meshtrade.type.v1.Amount reported_currency_value = 3;
+}
