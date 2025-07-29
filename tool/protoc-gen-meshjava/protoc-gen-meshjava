@@ -1,0 +1,40 @@
+#!/bin/bash
+#
+# protoc-gen-meshjava: Protocol Buffer compiler plugin for generating Meshtrade Java SDK client code
+#
+# This script is a wrapper around the Java-based protoc plugin. It locates the
+# compiled JAR file and executes it with the Java runtime.
+#
+
+set -euo pipefail
+
+# Determine the directory where this script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Path to the compiled JAR file
+JAR_FILE="$SCRIPT_DIR/target/protoc-gen-meshjava-jar-with-dependencies.jar"
+
+# Check if the JAR file exists
+if [[ ! -f "$JAR_FILE" ]]; then
+    echo "Error: protoc-gen-meshjava JAR not found at: $JAR_FILE" >&2
+    echo "Please build the plugin first with: mvn clean package" >&2
+    exit 1
+fi
+
+# Check if Java is available
+if ! command -v java >/dev/null 2>&1; then
+    echo "Error: Java is not installed or not in PATH" >&2
+    echo "Please install Java 17+ and ensure it's in your PATH" >&2
+    exit 1
+fi
+
+# Check Java version (require Java 17+)
+JAVA_VERSION=$(java -version 2>&1 | head -1 | cut -d'"' -f2 | sed 's/^1\.//' | cut -d'.' -f1)
+if [[ "$JAVA_VERSION" -lt 17 ]]; then
+    echo "Error: Java 17+ is required, but found Java $JAVA_VERSION" >&2
+    exit 1
+fi
+
+# Execute the Java-based protoc plugin
+# Pass all arguments to the Java application
+exec java -jar "$JAR_FILE" "$@"
