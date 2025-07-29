@@ -8,6 +8,7 @@ import "meshtrade/iam/role/v1/role.proto";
 import "meshtrade/option/v1/method_type.proto";
 
 option go_package = "github.com/meshtrade/api/go/iam/api_user/v1;api_userv1";
+option java_package = "co.meshtrade.api.iam.api_user.v1";
 
 /*
    ApiUserService manages API user lifecycle and authentication credentials.

@@ -8,6 +8,7 @@ import "meshtrade/option/v1/method_type.proto";
 import "meshtrade/type/v1/amount.proto";
 
 option go_package = "github.com/meshtrade/api/go/issuance_hub/instrument/v1;instrumentv1";
+option java_package = "co.meshtrade.api.issuance_hub.instrument.v1";
 
 // Service defines the RPC methods for interacting with the instrument resource,
 // such as creating, updating, minting or burning it.

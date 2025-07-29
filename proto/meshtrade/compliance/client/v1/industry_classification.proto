@@ -3,6 +3,7 @@ syntax = "proto3";
 package meshtrade.compliance.client.v1;
 
 option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
+option java_package = "co.meshtrade.api.compliance.client.v1";
 
 /*
    IndustryClassification holds the detailed industry classification for a business entity

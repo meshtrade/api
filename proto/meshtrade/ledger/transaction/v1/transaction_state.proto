@@ -3,6 +3,7 @@ syntax = "proto3";
 package meshtrade.ledger.transaction.v1;
 
 option go_package = "github.com/meshtrade/api/go/ledger/transaction/v1;transactionv1";
+option java_package = "co.meshtrade.api.ledger.transaction.v1";
 
 enum TransactionState {
   /*

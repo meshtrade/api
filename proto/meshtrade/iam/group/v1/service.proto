@@ -7,6 +7,7 @@ import "meshtrade/iam/role/v1/role.proto";
 import "meshtrade/option/v1/method_type.proto";
 
 option go_package = "github.com/meshtrade/api/go/iam/group/v1;groupv1";
+option java_package = "co.meshtrade.api.iam.group.v1";
 
 service GroupService {
   /*

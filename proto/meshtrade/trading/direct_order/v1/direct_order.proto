@@ -3,6 +3,7 @@ syntax = "proto3";
 package meshtrade.trading.direct_order.v1;
 
 option go_package = "github.com/meshtrade/api/go/trading/direct_order/v1;directorderv1";
+option java_package = "co.meshtrade.api.trading.direct_order.v1";
 
 message DirectOrder {
   string number = 1;

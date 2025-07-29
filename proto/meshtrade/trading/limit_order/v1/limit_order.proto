@@ -3,6 +3,7 @@ syntax = "proto3";
 package meshtrade.trading.limit_order.v1;
 
 option go_package = "github.com/meshtrade/api/go/trading/limit_order/v1;limitorderv1";
+option java_package = "co.meshtrade.api.trading.limit_order.v1";
 
 message LimitOrder {
   string number = 1;

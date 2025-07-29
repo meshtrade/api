@@ -54,6 +54,9 @@
         <javaparser.version>3.26.4</javaparser.version>
         <javax.annotation.version>1.3.2</javax.annotation.version>
         <slf4j.version>2.0.16</slf4j.version>
+        <jackson.version>2.16.1</jackson.version>
+        <logback.version>1.4.14</logback.version>
+        <protovalidate.version>1.0.0-rc.4</protovalidate.version>
         
         <!-- Test dependency versions -->
         <junit.version>5.10.1</junit.version>
@@ -69,6 +72,7 @@
         <maven.gpg.plugin.version>3.1.0</maven.gpg.plugin.version>
         <maven.assembly.plugin.version>3.6.0</maven.assembly.plugin.version>
         <jacoco.plugin.version>0.8.11</jacoco.plugin.version>
+        <exec.plugin.version>3.1.1</exec.plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -118,6 +122,25 @@
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+
+            <!-- JSON processing -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
+            <!-- Protocol buffer validation -->
+            <dependency>
+                <groupId>build.buf</groupId>
+                <artifactId>protovalidate</artifactId>
+                <version>${protovalidate.version}</version>
             </dependency>
 
             <!-- Test dependencies -->
@@ -284,11 +307,18 @@
                         </execution>
                     </executions>
                 </plugin>
+
+                <!-- Exec plugin for running external commands -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>${exec.plugin.version}</version>
+                </plugin>
             </plugins>
         </pluginManagement>
 
         <plugins>
-            <!-- Always run compiler with Java 17 -->
+            <!-- Always run compiler with Java 21 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

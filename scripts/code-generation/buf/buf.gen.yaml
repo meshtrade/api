@@ -32,9 +32,9 @@ plugins:
     out: ./java/src/main/java
   - remote: buf.build/grpc/java:v1.60.1
     out: ./java/src/main/java
-  - local: ["java", "-jar", "./tool/protoc-gen-meshjava/target/protoc-gen-meshjava-jar-with-dependencies.jar"]
-    out: ./java/src/main/java
-    strategy: all
+  # - local: ["java", "-jar", "./tool/protoc-gen-meshjava/target/protoc-gen-meshjava-jar-with-dependencies.jar"]
+  #   out: ./java/src/main/java
+  #   strategy: all
 
 ### TS ###
   - remote: buf.build/protocolbuffers/js:v3.21.4
