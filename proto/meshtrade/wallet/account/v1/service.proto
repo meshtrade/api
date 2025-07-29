@@ -2,18 +2,13 @@ syntax = "proto3";
 
 package meshtrade.wallet.account.v1;
 
-import "meshtrade/option/v1/auth.proto";
-import "meshtrade/option/v1/service_type.proto";
+import "meshtrade/iam/role/v1/role.proto";
+import "meshtrade/option/v1/method_type.proto";
 import "meshtrade/type/v1/ledger.proto";
 import "meshtrade/wallet/account/v1/account.proto";
 
 option go_package = "github.com/meshtrade/api/go/wallet/account/v1;accountv1";
-option (meshtrade.option.v1.standard_roles) = {
-  roles: [
-    ROLE_WALLET_ADMIN,
-    ROLE_WALLET_VIEWER
-  ]
-};
+option java_package = "co.meshtrade.api.wallet.account.v1";
 
 /*
    AccountService provides access to and management of wallet accounts.
@@ -24,8 +19,8 @@ service AccountService {
      This is a write operation restricted to administrative roles.
   */
   rpc CreateAccount(CreateAccountRequest) returns (meshtrade.wallet.account.v1.Account) {
-    option (meshtrade.option.v1.service_type) = SERVICE_TYPE_WRITE;
-    option (meshtrade.option.v1.roles) = {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
+    option (meshtrade.iam.role.v1.roles) = {
       roles: [ROLE_WALLET_ADMIN]
     };
   }
@@ -33,8 +28,8 @@ service AccountService {
      Retrieves a single wallet account by its unique number.
   */
   rpc GetAccount(GetAccountRequest) returns (meshtrade.wallet.account.v1.Account) {
-    option (meshtrade.option.v1.service_type) = SERVICE_TYPE_READ;
-    option (meshtrade.option.v1.roles) = {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
+    option (meshtrade.iam.role.v1.roles) = {
       roles: [
         ROLE_WALLET_ADMIN,
         ROLE_WALLET_VIEWER
@@ -45,8 +40,8 @@ service AccountService {
      Retrieves a list of all accounts for the authenticated principal.
   */
   rpc ListAccounts(ListAccountsRequest) returns (ListAccountsResponse) {
-    option (meshtrade.option.v1.service_type) = SERVICE_TYPE_READ;
-    option (meshtrade.option.v1.roles) = {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
+    option (meshtrade.iam.role.v1.roles) = {
       roles: [
         ROLE_WALLET_ADMIN,
         ROLE_WALLET_VIEWER
@@ -57,8 +52,8 @@ service AccountService {
      Searches for accounts based on a partial label match.
   */
   rpc SearchAccounts(SearchAccountsRequest) returns (SearchAccountsResponse) {
-    option (meshtrade.option.v1.service_type) = SERVICE_TYPE_READ;
-    option (meshtrade.option.v1.roles) = {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
+    option (meshtrade.iam.role.v1.roles) = {
       roles: [
         ROLE_WALLET_ADMIN,
         ROLE_WALLET_VIEWER

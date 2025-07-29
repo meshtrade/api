@@ -9,15 +9,15 @@ from .date_pb2 import Date
 
 def new_date(year: int, month: int, day: int) -> Date:
     """Creates a new Date from year, month, and day values.
-    
+
     Args:
         year: Year value (1-9999, or 0 for partial dates)
-        month: Month value (1-12, or 0 for partial dates)  
+        month: Month value (1-12, or 0 for partial dates)
         day: Day value (1-31, or 0 for partial dates)
-        
+
     Returns:
         A Date protobuf message
-        
+
     Raises:
         ValueError: If the date values are invalid
     """
@@ -27,29 +27,25 @@ def new_date(year: int, month: int, day: int) -> Date:
 
 def new_date_from_python_date(python_date_obj: python_date) -> Date:
     """Creates a Date from a Python date object.
-    
+
     Args:
         python_date_obj: A Python datetime.date object
-        
+
     Returns:
         A Date protobuf message
     """
-    return Date(
-        year=python_date_obj.year,
-        month=python_date_obj.month,
-        day=python_date_obj.day
-    )
+    return Date(year=python_date_obj.year, month=python_date_obj.month, day=python_date_obj.day)
 
 
 def date_to_python_date(date_obj: Date) -> python_date:
     """Converts a Date protobuf message to a Python date object.
-    
+
     Args:
         date_obj: A Date protobuf message
-        
+
     Returns:
         A Python datetime.date object
-        
+
     Raises:
         ValueError: If the date is incomplete or invalid
     """
@@ -62,15 +58,15 @@ def date_to_python_date(date_obj: Date) -> python_date:
     try:
         return python_date(date_obj.year, date_obj.month, date_obj.day)
     except ValueError as e:
-        raise ValueError(f"Invalid date values: {e}")
+        raise ValueError(f"Invalid date values: {e}") from e
 
 
 def is_valid(date_obj: Date | None) -> bool:
     """Checks if a Date has valid values according to the protobuf constraints.
-    
+
     Args:
         date_obj: A Date protobuf message or None
-        
+
     Returns:
         True if the date is valid, False otherwise
     """
@@ -86,10 +82,10 @@ def is_valid(date_obj: Date | None) -> bool:
 
 def is_complete(date_obj: Date | None) -> bool:
     """Returns True if the date has non-zero year, month, and day values.
-    
+
     Args:
         date_obj: A Date protobuf message or None
-        
+
     Returns:
         True if the date is complete, False otherwise
     """
@@ -100,10 +96,10 @@ def is_complete(date_obj: Date | None) -> bool:
 
 def is_year_only(date_obj: Date | None) -> bool:
     """Returns True if only the year is specified (month and day are 0).
-    
+
     Args:
         date_obj: A Date protobuf message or None
-        
+
     Returns:
         True if only year is specified, False otherwise
     """
@@ -114,10 +110,10 @@ def is_year_only(date_obj: Date | None) -> bool:
 
 def is_year_month(date_obj: Date | None) -> bool:
     """Returns True if year and month are specified but day is 0.
-    
+
     Args:
         date_obj: A Date protobuf message or None
-        
+
     Returns:
         True if year and month are specified but day is 0, False otherwise
     """
@@ -128,10 +124,10 @@ def is_year_month(date_obj: Date | None) -> bool:
 
 def is_month_day(date_obj: Date | None) -> bool:
     """Returns True if month and day are specified but year is 0.
-    
+
     Args:
         date_obj: A Date protobuf message or None
-        
+
     Returns:
         True if month and day are specified but year is 0, False otherwise
     """
@@ -142,10 +138,10 @@ def is_month_day(date_obj: Date | None) -> bool:
 
 def date_to_string(date_obj: Date | None) -> str:
     """Returns a string representation of the date.
-    
+
     Args:
         date_obj: A Date protobuf message or None
-        
+
     Returns:
         String representation of the date
     """
@@ -166,12 +162,12 @@ def date_to_string(date_obj: Date | None) -> str:
 
 def _validate_date(year: int, month: int, day: int) -> None:
     """Validates the year, month, and day values according to Date constraints.
-    
+
     Args:
         year: Year value
         month: Month value
         day: Day value
-        
+
     Raises:
         ValueError: If the date values are invalid
     """
@@ -192,7 +188,7 @@ def _validate_date(year: int, month: int, day: int) -> None:
         try:
             python_date(year, month, day)
         except ValueError as e:
-            raise ValueError(f"Invalid date: {year}-{month:02d}-{day:02d}: {e}")
+            raise ValueError(f"Invalid date: {year}-{month:02d}-{day:02d}: {e}") from e
 
     # Validate partial date combinations
     if year == 0 and month != 0 and day == 0:

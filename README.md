@@ -1,6 +1,6 @@
 # Mesh API
 
-Mesh API is a comprehensive gRPC-based trading platform API with multi-language SDK support.
+Mesh API is a comprehensive gRPC-based [Mesh](https://www.mesh.trade) platform API with multi-language SDK support.
 
 ## Overview
 
@@ -12,29 +12,26 @@ This repository contains:
 
 ## Quick Start
 
-- Browse the complete documentation: **[docs.meshtrade.co](https://meshtrade.github.io/api)**
-- Generate code: `./scripts/generate.sh`
+- Browse the complete documentation: **[meshtrade.github.io/api](https://meshtrade.github.io/api)**
 - View API definitions: `/proto` directory
 
 ## Repository Structure
 
 ```
 proto/     # Protobuf API definitions (source of truth)
-go/        # Go client libraries  
-python/    # Python SDK packages
-ts/        # TypeScript modules
-docs/      # Jekyll documentation site
-scripts/   # Build and generation scripts
+go/        # Go SDK  
+python/    # Python SDK
+ts/        # TypeScript (web) SDK
 ```
 
 ## Documentation
 
-Visit **[docs.meshtrade.co](https://meshtrade.github.io/api)** for:
+Visit documentation site at **[meshtrade.github.io/api](https://meshtrade.github.io/api)** for:
 
 - API Integration SDKs and usage examples
 - Complete API reference documentation  
 - Development guides and best practices
-- Repository architecture details
+- Architecture details & more
 
 ## License
 

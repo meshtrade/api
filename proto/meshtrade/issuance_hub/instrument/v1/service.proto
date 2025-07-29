@@ -2,29 +2,49 @@ syntax = "proto3";
 
 package meshtrade.issuance_hub.instrument.v1;
 
+import "meshtrade/iam/role/v1/role.proto";
 import "meshtrade/issuance_hub/instrument/v1/instrument.proto";
+import "meshtrade/option/v1/method_type.proto";
 import "meshtrade/type/v1/amount.proto";
 
 option go_package = "github.com/meshtrade/api/go/issuance_hub/instrument/v1;instrumentv1";
+option java_package = "co.meshtrade.api.issuance_hub.instrument.v1";
 
 // Service defines the RPC methods for interacting with the instrument resource,
 // such as creating, updating, minting or burning it.
 service InstrumentService {
   // Retrieve a specific instrument.
-  rpc GetInstrument(GetInstrumentRequest) returns (meshtrade.issuance_hub.instrument.v1.Instrument);
+  rpc GetInstrument(GetInstrumentRequest) returns (meshtrade.issuance_hub.instrument.v1.Instrument) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [
+        ROLE_ISSUANCE_HUB_ADMIN,
+        ROLE_ISSUANCE_HUB_VIEWER
+      ]
+    };
+  }
 
   // Mints new units of an instrument into a given destination account.
-  rpc MintInstrument(MintInstrumentRequest) returns (MintInstrumentResponse);
+  rpc MintInstrument(MintInstrumentRequest) returns (MintInstrumentResponse) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [ROLE_ISSUANCE_HUB_ADMIN]
+    };
+  }
 
   // Burns a specified amount of an instrument from a source account.
-  rpc BurnInstrument(BurnInstrumentRequest) returns (BurnInstrumentResponse);
+  rpc BurnInstrument(BurnInstrumentRequest) returns (BurnInstrumentResponse) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [ROLE_ISSUANCE_HUB_ADMIN]
+    };
+  }
 }
 
 message GetInstrumentRequest {
   // The unique name of the instrument resource to fetch.
   string name = 1;
 }
-
 
 message MintInstrumentRequest {
   // The quantity of the instrument to mint (denominated in token of the instrument).
@@ -60,4 +80,3 @@ message BurnInstrumentResponse {
   // query a transaction monitoring service to check for completion and success.
   string transaction_id = 1;
 }
-

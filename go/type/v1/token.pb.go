@@ -108,7 +108,8 @@ const file_meshtrade_type_v1_token_proto_rawDesc = "" +
 	"\x05Token\x12\x12\n" +
 	"\x04code\x18\x01 \x01(\tR\x04code\x12\x16\n" +
 	"\x06issuer\x18\x02 \x01(\tR\x06issuer\x121\n" +
-	"\x06ledger\x18\x03 \x01(\x0e2\x19.meshtrade.type.v1.LedgerR\x06ledgerB,Z*github.com/meshtrade/api/go/type/v1;typev1b\x06proto3"
+	"\x06ledger\x18\x03 \x01(\x0e2\x19.meshtrade.type.v1.LedgerR\x06ledgerBF\n" +
+	"\x18co.meshtrade.api.type.v1Z*github.com/meshtrade/api/go/type/v1;typev1b\x06proto3"
 
 var (
 	file_meshtrade_type_v1_token_proto_rawDescOnce sync.Once

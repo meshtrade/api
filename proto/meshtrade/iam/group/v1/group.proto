@@ -3,6 +3,7 @@ syntax = "proto3";
 package meshtrade.iam.group.v1;
 
 option go_package = "github.com/meshtrade/api/go/iam/group/v1;groupv1";
+option java_package = "co.meshtrade.api.iam.group.v1";
 
 message Group {
   string name = 1;

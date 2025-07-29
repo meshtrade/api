@@ -6,3 +6,4 @@ __pycache__/
 *pb2.pyi
 *pb2_grpc.py
 *pb2_grpc.pyi
+*_meshpy.py

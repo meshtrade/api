@@ -95,7 +95,8 @@ const file_meshtrade_compliance_client_v1_identification_document_type_proto_raw
 	"%IDENTIFICATION_DOCUMENT_TYPE_PASSPORT\x10\x01\x12,\n" +
 	"(IDENTIFICATION_DOCUMENT_TYPE_NATIONAL_ID\x10\x02\x120\n" +
 	",IDENTIFICATION_DOCUMENT_TYPE_DRIVERS_LICENSE\x10\x03\x121\n" +
-	"-IDENTIFICATION_DOCUMENT_TYPE_RESIDENCE_PERMIT\x10\x04B;Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
+	"-IDENTIFICATION_DOCUMENT_TYPE_RESIDENCE_PERMIT\x10\x04Bb\n" +
+	"%co.meshtrade.api.compliance.client.v1Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
 
 var (
 	file_meshtrade_compliance_client_v1_identification_document_type_proto_rawDescOnce sync.Once

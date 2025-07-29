@@ -97,7 +97,8 @@ const file_meshtrade_compliance_client_v1_verification_status_proto_rawDesc = ""
 	"\x1fVERIFICATION_STATUS_NOT_STARTED\x10\x01\x12\x1f\n" +
 	"\x1bVERIFICATION_STATUS_PENDING\x10\x02\x12 \n" +
 	"\x1cVERIFICATION_STATUS_VERIFIED\x10\x03\x12\x1e\n" +
-	"\x1aVERIFICATION_STATUS_FAILED\x10\x04B;Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
+	"\x1aVERIFICATION_STATUS_FAILED\x10\x04Bb\n" +
+	"%co.meshtrade.api.compliance.client.v1Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
 
 var (
 	file_meshtrade_compliance_client_v1_verification_status_proto_rawDescOnce sync.Once

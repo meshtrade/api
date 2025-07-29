@@ -1,0 +1,19 @@
+---
+sidebar_position: 3
+---
+
+# Group Ownership Structure
+
+Understanding how groups provide ownership and isolation boundaries for your resources in the Mesh API.
+
+## What are Groups?
+
+Groups are the fundamental unit of organization and ownership in Mesh. Every resource (API users, accounts, orders, etc.) belongs to exactly one group, providing:
+
+- **Multi-tenancy** - Logical separation between different organizations
+- **Resource Isolation** - Resources in one group cannot access resources in another
+- **Permission Boundaries** - Access control is enforced at the group level
+
+All API operations require a group context and only return resources that belong to the authenticated group.
+
+*This section will be expanded with more detailed information about group management and hierarchy in future updates.*

@@ -4,27 +4,142 @@ package clientv1
 
 import (
 	context "context"
+	grpc "github.com/meshtrade/api/go/grpc"
+	config "github.com/meshtrade/api/go/grpc/config"
 )
 
-// Service manages client profiles for compliance and Know Your Customer (KYC)
-// purposes.
+// ClientServiceClientInterface is a gRPC service for the ClientService service.
+// It combines the service interface with resource management capabilities using
+// the common BaseGRPCClient for consistent authentication, timeouts, and tracing.
 //
-// The main entity managed by this service is the `Client` resource. A client can
-// be a natural person, company, or trust. This service allows you to retrieve
-// the compliance profiles for these clients.
-type ClientService interface {
-	// GetClient retrieves a single client's compliance profile by its unique resource name.
-	//
-	// This allows for fetching the complete compliance details of a specific client,
-	// including all associated information like identification documents, tax residencies,
-	// and company structures.
-	GetClient(ctx context.Context, request *GetClientRequest) (*Client, error)
-
-	// ListClients retrieves a collection of client compliance profiles.
-	//
-	// This method is useful for fetching multiple client records at once.
-	// Note: This endpoint does not currently support pagination or filtering.
-	ListClients(ctx context.Context, request *ListClientsRequest) (*ListClientsResponse, error)
+// Full Service documentation: https://meshtrade.github.io/api/docs/api-reference/compliance/client/v1
+//
+// Basic service usage with default SDK Configuration:
+//
+//	service, err := NewClientService()
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//	defer service.Close() // ensures proper cleanup of underlying connection
+//
+// With default configuration API credentials are searched for using the standard discovery hierarchy:
+//
+// 1. MESH_API_CREDENTIALS environment variable
+//
+// 2. Default credential file location:
+//
+//   - Linux:   $XDG_CONFIG_HOME/mesh/credentials.json or fallback to $HOME/.config/mesh/credentials.json
+//   - macOS:   $HOME/Library/Application Support/mesh/credentials.json
+//   - Windows: C:\Users\<user>\AppData\Roaming\mesh\credentials.json
+//
+// For more information on authentication: https://meshtrade.github.io/api/docs/architecture/authentication
+//
+// The service may also be configured with custom options:
+//
+//	service, err := NewClientService(
+//		config.WithURL("api.staging.example.com:443"),
+//		config.WithAPIKey("your-api-key"),
+//		config.WithGroup("groups/your-group-id"),
+//		config.WithTimeout(30 * time.Second),
+//	)
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//	defer service.Close() // ensures proper cleanup of underlying connection
+//
+// For more information on service configuration: https://meshtrade.github.io/api/docs/architecture/sdk-configuration
+type ClientServiceClientInterface interface {
+	ClientService
+	grpc.GRPCClient
 }
 
-const ClientServiceServiceProviderName = "meshtrade-compliance-client-v1-ClientService"
+// clientService is the internal implementation of the ClientServiceClientInterface interface.
+// It embeds BaseGRPCClient to provide all common gRPC functionality.
+type clientService struct {
+	*grpc.BaseGRPCClient[ClientServiceClient]
+}
+
+// ensure clientService implements the ClientServiceClientInterface interface
+var _ ClientServiceClientInterface = &clientService{}
+
+// NewClientService creates and initializes the ClientService service.
+// The service uses the common BaseGRPCClient for all functionality including
+// connection management, authentication, timeouts, and distributed tracing.
+//
+// Full Service documentation: https://meshtrade.github.io/api/docs/api-reference/compliance/client/v1
+//
+// With default configuration API credentials are searched for using the standard discovery hierarchy:
+//
+// 1. MESH_API_CREDENTIALS environment variable
+//
+// 2. Default credential file location:
+//
+//   - Linux:   $XDG_CONFIG_HOME/mesh/credentials.json or fallback to $HOME/.config/mesh/credentials.json
+//   - macOS:   $HOME/Library/Application Support/mesh/credentials.json
+//   - Windows: C:\Users\<user>\AppData\Roaming\mesh\credentials.json
+//
+// For more information on authentication: https://meshtrade.github.io/api/docs/architecture/authentication
+//
+// For more information on service configuration: https://meshtrade.github.io/api/docs/architecture/sdk-configuration
+//
+// Examples:
+//
+//	// Create with default configuration
+//	service, err := NewClientService()
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//	defer service.Close()
+//
+//	// Create with custom configuration
+//	service, err := NewClientService(
+//		config.WithURL("api.example.com:443"),
+//		config.WithAPIKey("your-api-key"),
+//		config.WithGroup("groups/your-group-id"),
+//	)
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//	defer service.Close()
+//
+// Parameters:
+//   - opts: Functional options to configure the client
+//
+// Returns:
+//   - ClientServiceClientInterface: Configured service instance
+//   - error: Configuration or connection error
+func NewClientService(opts ...config.ServiceOption) (ClientServiceClientInterface, error) {
+	base, err := grpc.NewBaseGRPCClient(
+		ClientServiceServiceProviderName,
+		NewClientServiceClient,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return &clientService{BaseGRPCClient: base}, nil
+}
+
+// CreateClient executes the CreateClient RPC method with automatic
+// timeout handling, distributed tracing, and authentication.
+func (s *clientService) CreateClient(ctx context.Context, request *CreateClientRequest) (*Client, error) {
+	return grpc.Execute(s.Executor(), ctx, "CreateClient", func(ctx context.Context) (*Client, error) {
+		return s.GrpcClient().CreateClient(ctx, request)
+	})
+}
+
+// GetClient executes the GetClient RPC method with automatic
+// timeout handling, distributed tracing, and authentication.
+func (s *clientService) GetClient(ctx context.Context, request *GetClientRequest) (*Client, error) {
+	return grpc.Execute(s.Executor(), ctx, "GetClient", func(ctx context.Context) (*Client, error) {
+		return s.GrpcClient().GetClient(ctx, request)
+	})
+}
+
+// ListClients executes the ListClients RPC method with automatic
+// timeout handling, distributed tracing, and authentication.
+func (s *clientService) ListClients(ctx context.Context, request *ListClientsRequest) (*ListClientsResponse, error) {
+	return grpc.Execute(s.Executor(), ctx, "ListClients", func(ctx context.Context) (*ListClientsResponse, error) {
+		return s.GrpcClient().ListClients(ctx, request)
+	})
+}

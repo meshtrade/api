@@ -4,10 +4,126 @@ package limitorderv1
 
 import (
 	context "context"
+	grpc "github.com/meshtrade/api/go/grpc"
+	config "github.com/meshtrade/api/go/grpc/config"
 )
 
-type LimitOrderService interface {
-	GetLimitOrder(ctx context.Context, request *GetLimitOrderRequest) (*LimitOrder, error)
+// LimitOrderServiceClientInterface is a gRPC service for the LimitOrderService service.
+// It combines the service interface with resource management capabilities using
+// the common BaseGRPCClient for consistent authentication, timeouts, and tracing.
+//
+// Full Service documentation: https://meshtrade.github.io/api/docs/api-reference/trading/limit_order/v1
+//
+// Basic service usage with default SDK Configuration:
+//
+//	service, err := NewLimitOrderService()
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//	defer service.Close() // ensures proper cleanup of underlying connection
+//
+// With default configuration API credentials are searched for using the standard discovery hierarchy:
+//
+// 1. MESH_API_CREDENTIALS environment variable
+//
+// 2. Default credential file location:
+//
+//   - Linux:   $XDG_CONFIG_HOME/mesh/credentials.json or fallback to $HOME/.config/mesh/credentials.json
+//   - macOS:   $HOME/Library/Application Support/mesh/credentials.json
+//   - Windows: C:\Users\<user>\AppData\Roaming\mesh\credentials.json
+//
+// For more information on authentication: https://meshtrade.github.io/api/docs/architecture/authentication
+//
+// The service may also be configured with custom options:
+//
+//	service, err := NewLimitOrderService(
+//		config.WithURL("api.staging.example.com:443"),
+//		config.WithAPIKey("your-api-key"),
+//		config.WithGroup("groups/your-group-id"),
+//		config.WithTimeout(30 * time.Second),
+//	)
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//	defer service.Close() // ensures proper cleanup of underlying connection
+//
+// For more information on service configuration: https://meshtrade.github.io/api/docs/architecture/sdk-configuration
+type LimitOrderServiceClientInterface interface {
+	LimitOrderService
+	grpc.GRPCClient
 }
 
-const LimitOrderServiceServiceProviderName = "meshtrade-trading-limit_order-v1-LimitOrderService"
+// limitOrderService is the internal implementation of the LimitOrderServiceClientInterface interface.
+// It embeds BaseGRPCClient to provide all common gRPC functionality.
+type limitOrderService struct {
+	*grpc.BaseGRPCClient[LimitOrderServiceClient]
+}
+
+// ensure limitOrderService implements the LimitOrderServiceClientInterface interface
+var _ LimitOrderServiceClientInterface = &limitOrderService{}
+
+// NewLimitOrderService creates and initializes the LimitOrderService service.
+// The service uses the common BaseGRPCClient for all functionality including
+// connection management, authentication, timeouts, and distributed tracing.
+//
+// Full Service documentation: https://meshtrade.github.io/api/docs/api-reference/trading/limit_order/v1
+//
+// With default configuration API credentials are searched for using the standard discovery hierarchy:
+//
+// 1. MESH_API_CREDENTIALS environment variable
+//
+// 2. Default credential file location:
+//
+//   - Linux:   $XDG_CONFIG_HOME/mesh/credentials.json or fallback to $HOME/.config/mesh/credentials.json
+//   - macOS:   $HOME/Library/Application Support/mesh/credentials.json
+//   - Windows: C:\Users\<user>\AppData\Roaming\mesh\credentials.json
+//
+// For more information on authentication: https://meshtrade.github.io/api/docs/architecture/authentication
+//
+// For more information on service configuration: https://meshtrade.github.io/api/docs/architecture/sdk-configuration
+//
+// Examples:
+//
+//	// Create with default configuration
+//	service, err := NewLimitOrderService()
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//	defer service.Close()
+//
+//	// Create with custom configuration
+//	service, err := NewLimitOrderService(
+//		config.WithURL("api.example.com:443"),
+//		config.WithAPIKey("your-api-key"),
+//		config.WithGroup("groups/your-group-id"),
+//	)
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//	defer service.Close()
+//
+// Parameters:
+//   - opts: Functional options to configure the client
+//
+// Returns:
+//   - LimitOrderServiceClientInterface: Configured service instance
+//   - error: Configuration or connection error
+func NewLimitOrderService(opts ...config.ServiceOption) (LimitOrderServiceClientInterface, error) {
+	base, err := grpc.NewBaseGRPCClient(
+		LimitOrderServiceServiceProviderName,
+		NewLimitOrderServiceClient,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return &limitOrderService{BaseGRPCClient: base}, nil
+}
+
+// GetLimitOrder executes the GetLimitOrder RPC method with automatic
+// timeout handling, distributed tracing, and authentication.
+func (s *limitOrderService) GetLimitOrder(ctx context.Context, request *GetLimitOrderRequest) (*LimitOrder, error) {
+	return grpc.Execute(s.Executor(), ctx, "GetLimitOrder", func(ctx context.Context) (*LimitOrder, error) {
+		return s.GrpcClient().GetLimitOrder(ctx, request)
+	})
+}

@@ -4,10 +4,142 @@ package groupv1
 
 import (
 	context "context"
+	grpc "github.com/meshtrade/api/go/grpc"
+	config "github.com/meshtrade/api/go/grpc/config"
 )
 
-type GroupService interface {
-	GetGroup(ctx context.Context, request *GetGroupRequest) (*Group, error)
+// GroupServiceClientInterface is a gRPC service for the GroupService service.
+// It combines the service interface with resource management capabilities using
+// the common BaseGRPCClient for consistent authentication, timeouts, and tracing.
+//
+// Full Service documentation: https://meshtrade.github.io/api/docs/api-reference/iam/group/v1
+//
+// Basic service usage with default SDK Configuration:
+//
+//	service, err := NewGroupService()
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//	defer service.Close() // ensures proper cleanup of underlying connection
+//
+// With default configuration API credentials are searched for using the standard discovery hierarchy:
+//
+// 1. MESH_API_CREDENTIALS environment variable
+//
+// 2. Default credential file location:
+//
+//   - Linux:   $XDG_CONFIG_HOME/mesh/credentials.json or fallback to $HOME/.config/mesh/credentials.json
+//   - macOS:   $HOME/Library/Application Support/mesh/credentials.json
+//   - Windows: C:\Users\<user>\AppData\Roaming\mesh\credentials.json
+//
+// For more information on authentication: https://meshtrade.github.io/api/docs/architecture/authentication
+//
+// The service may also be configured with custom options:
+//
+//	service, err := NewGroupService(
+//		config.WithURL("api.staging.example.com:443"),
+//		config.WithAPIKey("your-api-key"),
+//		config.WithGroup("groups/your-group-id"),
+//		config.WithTimeout(30 * time.Second),
+//	)
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//	defer service.Close() // ensures proper cleanup of underlying connection
+//
+// For more information on service configuration: https://meshtrade.github.io/api/docs/architecture/sdk-configuration
+type GroupServiceClientInterface interface {
+	GroupService
+	grpc.GRPCClient
 }
 
-const GroupServiceServiceProviderName = "meshtrade-iam-group-v1-GroupService"
+// groupService is the internal implementation of the GroupServiceClientInterface interface.
+// It embeds BaseGRPCClient to provide all common gRPC functionality.
+type groupService struct {
+	*grpc.BaseGRPCClient[GroupServiceClient]
+}
+
+// ensure groupService implements the GroupServiceClientInterface interface
+var _ GroupServiceClientInterface = &groupService{}
+
+// NewGroupService creates and initializes the GroupService service.
+// The service uses the common BaseGRPCClient for all functionality including
+// connection management, authentication, timeouts, and distributed tracing.
+//
+// Full Service documentation: https://meshtrade.github.io/api/docs/api-reference/iam/group/v1
+//
+// With default configuration API credentials are searched for using the standard discovery hierarchy:
+//
+// 1. MESH_API_CREDENTIALS environment variable
+//
+// 2. Default credential file location:
+//
+//   - Linux:   $XDG_CONFIG_HOME/mesh/credentials.json or fallback to $HOME/.config/mesh/credentials.json
+//   - macOS:   $HOME/Library/Application Support/mesh/credentials.json
+//   - Windows: C:\Users\<user>\AppData\Roaming\mesh\credentials.json
+//
+// For more information on authentication: https://meshtrade.github.io/api/docs/architecture/authentication
+//
+// For more information on service configuration: https://meshtrade.github.io/api/docs/architecture/sdk-configuration
+//
+// Examples:
+//
+//	// Create with default configuration
+//	service, err := NewGroupService()
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//	defer service.Close()
+//
+//	// Create with custom configuration
+//	service, err := NewGroupService(
+//		config.WithURL("api.example.com:443"),
+//		config.WithAPIKey("your-api-key"),
+//		config.WithGroup("groups/your-group-id"),
+//	)
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//	defer service.Close()
+//
+// Parameters:
+//   - opts: Functional options to configure the client
+//
+// Returns:
+//   - GroupServiceClientInterface: Configured service instance
+//   - error: Configuration or connection error
+func NewGroupService(opts ...config.ServiceOption) (GroupServiceClientInterface, error) {
+	base, err := grpc.NewBaseGRPCClient(
+		GroupServiceServiceProviderName,
+		NewGroupServiceClient,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return &groupService{BaseGRPCClient: base}, nil
+}
+
+// GetGroup executes the GetGroup RPC method with automatic
+// timeout handling, distributed tracing, and authentication.
+func (s *groupService) GetGroup(ctx context.Context, request *GetGroupRequest) (*Group, error) {
+	return grpc.Execute(s.Executor(), ctx, "GetGroup", func(ctx context.Context) (*Group, error) {
+		return s.GrpcClient().GetGroup(ctx, request)
+	})
+}
+
+// ListGroups executes the ListGroups RPC method with automatic
+// timeout handling, distributed tracing, and authentication.
+func (s *groupService) ListGroups(ctx context.Context, request *ListGroupsRequest) (*ListGroupsResponse, error) {
+	return grpc.Execute(s.Executor(), ctx, "ListGroups", func(ctx context.Context) (*ListGroupsResponse, error) {
+		return s.GrpcClient().ListGroups(ctx, request)
+	})
+}
+
+// SearchGroups executes the SearchGroups RPC method with automatic
+// timeout handling, distributed tracing, and authentication.
+func (s *groupService) SearchGroups(ctx context.Context, request *SearchGroupsRequest) (*SearchGroupsResponse, error) {
+	return grpc.Execute(s.Executor(), ctx, "SearchGroups", func(ctx context.Context) (*SearchGroupsResponse, error) {
+		return s.GrpcClient().SearchGroups(ctx, request)
+	})
+}

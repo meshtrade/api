@@ -71,7 +71,8 @@ const file_meshtrade_trading_spot_v1_spot_proto_rawDesc = "" +
 	"\n" +
 	"$meshtrade/trading/spot/v1/spot.proto\x12\x19meshtrade.trading.spot.v1\"\x1e\n" +
 	"\x04Spot\x12\x16\n" +
-	"\x06number\x18\x01 \x01(\tR\x06numberB4Z2github.com/meshtrade/api/go/trading/spot/v1;spotv1b\x06proto3"
+	"\x06number\x18\x01 \x01(\tR\x06numberBV\n" +
+	" co.meshtrade.api.trading.spot.v1Z2github.com/meshtrade/api/go/trading/spot/v1;spotv1b\x06proto3"
 
 var (
 	file_meshtrade_trading_spot_v1_spot_proto_rawDescOnce sync.Once

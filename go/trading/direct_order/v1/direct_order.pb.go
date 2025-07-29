@@ -71,7 +71,8 @@ const file_meshtrade_trading_direct_order_v1_direct_order_proto_rawDesc = "" +
 	"\n" +
 	"4meshtrade/trading/direct_order/v1/direct_order.proto\x12!meshtrade.trading.direct_order.v1\"%\n" +
 	"\vDirectOrder\x12\x16\n" +
-	"\x06number\x18\x01 \x01(\tR\x06numberBCZAgithub.com/meshtrade/api/go/trading/direct_order/v1;directorderv1b\x06proto3"
+	"\x06number\x18\x01 \x01(\tR\x06numberBm\n" +
+	"(co.meshtrade.api.trading.direct_order.v1ZAgithub.com/meshtrade/api/go/trading/direct_order/v1;directorderv1b\x06proto3"
 
 var (
 	file_meshtrade_trading_direct_order_v1_direct_order_proto_rawDescOnce sync.Once

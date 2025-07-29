@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- Ensure all logging goes to stderr, not stdout -->
+    <!-- stdout is reserved for protobuf binary communication -->
+    <appender name="STDERR" class="ch.qos.logback.core.ConsoleAppender">
+        <target>System.err</target>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %level %logger{36} -- %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Set root logger to ERROR level to minimize output during normal operation -->
+    <root level="ERROR">
+        <appender-ref ref="STDERR" />
+    </root>
+    
+    <!-- Set protoc plugin logger to ERROR level for clean output -->
+    <logger name="co.meshtrade.protoc" level="ERROR" additivity="false">
+        <appender-ref ref="STDERR" />
+    </logger>
+</configuration>

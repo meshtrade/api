@@ -1,0 +1,56 @@
+# This file configures the 'buf generate' command.
+# Docs: https://buf.build/docs/configuration/v2/buf-gen-yaml
+version: v2
+
+plugins:
+### Go ###
+  - remote: buf.build/protocolbuffers/go
+    out: .
+    opt:
+      - module=github.com/meshtrade/api
+  - remote: buf.build/grpc/go
+    out: .
+    opt:
+      - module=github.com/meshtrade/api
+  - local: ["go", "run", "./tool/protoc-gen-meshgo"]
+    out: ./go
+    strategy: all
+
+### Python ###
+  - remote: buf.build/protocolbuffers/python:v31.1
+    out: ./python/src
+  - remote: buf.build/protocolbuffers/pyi:v31.1
+    out: ./python/src
+  - remote: buf.build/grpc/python:v1.73.1
+    out: ./python/src
+  - local: ["./.venv/bin/python", "./tool/protoc-gen-meshpy/main.py"]
+    out: ./python/src
+    strategy: all
+
+### Java ###
+  - remote: buf.build/protocolbuffers/java:v25.1
+    out: ./java/src/main/java
+  - remote: buf.build/grpc/java:v1.60.1
+    out: ./java/src/main/java
+  - local: ["java", "-jar", "./tool/protoc-gen-meshjava/target/protoc-gen-meshjava-jar-with-dependencies.jar"]
+    out: ./java/src/main/java
+    strategy: all
+
+### TS ###
+  - remote: buf.build/protocolbuffers/js:v3.21.4
+    out: ./ts/src
+    opt:
+      - import_style=commonjs,binary
+  - remote: buf.build/grpc/web:v1.5.0
+    out: ./ts/src
+    opt:
+      - import_style=commonjs+dts
+      - mode=grpcweb
+  - local: ["node", "./tool/protoc-gen-meshts/cmd/dist/index.js"]
+    out: ./ts/src
+    strategy: all
+
+### DOCS ###
+  - local: ["go", "run", "./tool/protoc-gen-meshdoc"]
+    out: ./docs/docs/api-reference
+    strategy: all

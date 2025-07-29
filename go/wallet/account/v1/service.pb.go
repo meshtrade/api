@@ -7,6 +7,7 @@
 package accountv1
 
 import (
+	_ "github.com/meshtrade/api/go/iam/role/v1"
 	_ "github.com/meshtrade/api/go/option/v1"
 	v1 "github.com/meshtrade/api/go/type/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -313,7 +314,7 @@ var File_meshtrade_wallet_account_v1_service_proto protoreflect.FileDescriptor
 
 const file_meshtrade_wallet_account_v1_service_proto_rawDesc = "" +
 	"\n" +
-	")meshtrade/wallet/account/v1/service.proto\x12\x1bmeshtrade.wallet.account.v1\x1a\x1emeshtrade/option/v1/auth.proto\x1a&meshtrade/option/v1/service_type.proto\x1a\x1emeshtrade/type/v1/ledger.proto\x1a)meshtrade/wallet/account/v1/account.proto\"s\n" +
+	")meshtrade/wallet/account/v1/service.proto\x12\x1bmeshtrade.wallet.account.v1\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\x1a\x1emeshtrade/type/v1/ledger.proto\x1a)meshtrade/wallet/account/v1/account.proto\"s\n" +
 	"\x14CreateAccountRequest\x12\x14\n" +
 	"\x05label\x18\x01 \x01(\tR\x05label\x121\n" +
 	"\x06ledger\x18\x02 \x01(\x0e2\x19.meshtrade.type.v1.LedgerR\x06ledger\x12\x12\n" +
@@ -336,8 +337,8 @@ const file_meshtrade_wallet_account_v1_service_proto_rawDesc = "" +
 	"\fListAccounts\x120.meshtrade.wallet.account.v1.ListAccountsRequest\x1a1.meshtrade.wallet.account.v1.ListAccountsResponse\"\f\xa0\xb5\x18\x01\xaa\xb5\x18\x04\n" +
 	"\x02\x01\x02\x12\x87\x01\n" +
 	"\x0eSearchAccounts\x122.meshtrade.wallet.account.v1.SearchAccountsRequest\x1a3.meshtrade.wallet.account.v1.SearchAccountsResponse\"\f\xa0\xb5\x18\x01\xaa\xb5\x18\x04\n" +
-	"\x02\x01\x02BA\x9a\xb5\x18\x04\n" +
-	"\x02\x01\x02Z7github.com/meshtrade/api/go/wallet/account/v1;accountv1b\x06proto3"
+	"\x02\x01\x02B]\n" +
+	"\"co.meshtrade.api.wallet.account.v1Z7github.com/meshtrade/api/go/wallet/account/v1;accountv1b\x06proto3"
 
 var (
 	file_meshtrade_wallet_account_v1_service_proto_rawDescOnce sync.Once

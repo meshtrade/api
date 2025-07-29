@@ -1,0 +1,348 @@
+# SDK Configuration
+
+This page covers advanced configuration options for Meshtrade SDK clients. All generated SDK clients follow the same patterns and support the same configuration options regardless of the specific service.
+
+## Client Configuration Patterns
+
+All Meshtrade SDK clients are generated from the same template and provide consistent configuration options across Go and Python implementations. You can configure:
+
+- **Connection settings** - URL, port, TLS/SSL options
+- **Authentication** - API key, group ID, or environment-based credentials
+- **Timeouts** - Request and connection timeouts
+- **Advanced options** - Custom headers, retry policies, etc.
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs>
+<TabItem value="go" label="Go">
+
+```go title="advanced-client-config.go"
+package main
+
+import (
+	"context"
+	"log"
+	"time"
+
+	api_userv1 "github.com/meshtrade/api/go/iam/api_user/v1"
+)
+
+func main() {
+	// Option 1: Minimal client (uses MESH_API_CREDENTIALS environment variable)
+	client1, err := api_userv1.NewApiUserServiceGRPCClient()
+	if err != nil {
+		log.Fatalf("Failed to create client: %v", err)
+	}
+	defer client1.Close()
+
+	// Option 2: Custom address and TLS settings
+	client2, err := api_userv1.NewApiUserServiceGRPCClient(
+		api_userv1.WithAddress("api.mesh.dev", 443),
+		api_userv1.WithTLS(true),
+	)
+	if err != nil {
+		log.Fatalf("Failed to create client: %v", err)
+	}
+	defer client2.Close()
+
+	// Option 3: Direct API key and group configuration
+	client3, err := api_userv1.NewApiUserServiceGRPCClient(
+		api_userv1.WithAddress("localhost", 10000),
+		api_userv1.WithTLS(false),
+		api_userv1.WithAPIKey("your-api-key-here"),
+		api_userv1.WithGroup("groups/your-group-id"),
+	)
+	if err != nil {
+		log.Fatalf("Failed to create client: %v", err)
+	}
+	defer client3.Close()
+
+	// Option 4: Custom timeout settings
+	client4, err := api_userv1.NewApiUserServiceGRPCClient(
+		api_userv1.WithTimeout(30*time.Second),
+		api_userv1.WithAddress("api.mesh.dev", 443),
+		api_userv1.WithTLS(true),
+	)
+	if err != nil {
+		log.Fatalf("Failed to create client: %v", err)
+	}
+	defer client4.Close()
+
+	// All clients have the same interface and can be used identically
+	ctx := context.Background()
+	
+	// Example: List API users with any configured client
+	response, err := client1.ListApiUsers(ctx, &api_userv1.ListApiUsersRequest{})
+	if err != nil {
+		log.Fatalf("Failed to list users: %v", err)
+	}
+	
+	log.Printf("Found %d API users", len(response.ApiUsers))
+}
+```
+
+**Go Configuration Options:**
+- `WithAddress(host, port)` - Custom endpoint
+- `WithTLS(enabled)` - Enable/disable TLS
+- `WithAPIKey(key)` - Direct API key
+- `WithGroup(groupID)` - Direct group ID
+- `WithTimeout(duration)` - Request timeout
+- `WithTracer(tracer)` - Configure OpenTelemetry tracing
+
+</TabItem>
+<TabItem value="python" label="Python">
+
+```python title="advanced-client-config.py"
+from meshtrade.iam.api_user.v1 import (
+    ApiUserServiceGRPCClient,
+    ClientOptions,
+    ListApiUsersRequest,
+)
+
+def main():
+    # Option 1: Minimal client (uses MESH_API_CREDENTIALS environment variable)
+    options1 = ClientOptions()
+    client1 = ApiUserServiceGRPCClient(options1)
+
+    # Option 2: Custom address and TLS settings
+    options2 = ClientOptions(
+        url="api.mesh.dev",
+        port=443,
+        tls=True,
+    )
+    client2 = ApiUserServiceGRPCClient(options2)
+
+    # Option 3: Direct API key and group configuration
+    options3 = ClientOptions(
+        url="localhost",
+        port=10000,
+        tls=False,
+        api_key="your-api-key-here",
+        group="groups/your-group-id",
+    )
+    client3 = ApiUserServiceGRPCClient(options3)
+
+    # Option 4: Custom timeout settings
+    options4 = ClientOptions(
+        url="api.mesh.dev",
+        port=443,
+        tls=True,
+        timeout=30.0,  # 30 seconds
+    )
+    client4 = ApiUserServiceGRPCClient(options4)
+
+    # All clients have the same interface and can be used identically
+    # Example: List API users with any configured client
+    with client1:
+        response = client1.list_api_users(ListApiUsersRequest())
+        print(f"Found {len(response.api_users)} API users")
+
+if __name__ == "__main__":
+    main()
+```
+
+**Python Configuration Options:**
+- `url` - Host/endpoint
+- `port` - Port number
+- `tls` - Enable/disable TLS (boolean)
+- `api_key` - Direct API key
+- `group` - Direct group ID
+- `timeout` - Request timeout in seconds
+
+</TabItem>
+</Tabs>
+
+## Authentication Methods
+
+### Environment-Based (Recommended)
+
+The simplest approach is to use the `MESH_API_CREDENTIALS` environment variable pointing to a JSON file:
+
+```json title="credentials.json"
+{
+  "api_key": "your-api-key-here",
+  "group_id": "groups/your-group-id",
+  "endpoint": "api.mesh.dev:443"
+}
+```
+
+### Direct Configuration
+
+For programmatic control, you can set credentials directly in the client options:
+
+- **API Key**: Your authentication token
+- **Group ID**: The group context (format: `groups/your-group-id`)
+
+### TLS/SSL Configuration
+
+- **Production**: Always use `tls: true` with `api.mesh.dev:443`
+- **Development**: Use `tls: false` with `localhost:10000` for local testing
+
+## Timeout Configuration
+
+Configure timeouts based on your use case:
+
+- **Interactive applications**: 5-10 seconds
+- **Batch processing**: 30-60 seconds
+- **Long-running operations**: 2-5 minutes
+
+## Connection Management
+
+All generated clients include proper connection management:
+
+- **Go**: Use `defer client.Close()` to ensure cleanup
+- **Python**: Use `with client:` context manager for automatic cleanup
+- **TypeScript**: Call `await client.close()` when done
+
+## Error Handling
+
+All clients follow consistent error handling patterns:
+
+- **Go**: Return `error` as second value
+- **Python**: Raise exceptions for errors
+- **TypeScript**: Return Promise that may reject
+
+## Service-Specific Examples
+
+This configuration approach works identically across all Meshtrade services:
+
+- IAM services (`iam/*`)
+- Trading services (`trading/*`)
+- Core services (`core/*`)
+- And any future service additions
+
+Simply replace the import path and service name while keeping the same configuration patterns.
+
+## Advanced Features
+
+### OpenTelemetry Tracing (Go SDK)
+
+The Go SDK includes automatic distributed tracing support:
+
+```go
+import (
+    "go.opentelemetry.io/otel"
+    api_userv1 "github.com/meshtrade/api/go/iam/api_user/v1"
+)
+
+// Configure with custom tracer
+tracer := otel.Tracer("my-application")
+client, err := api_userv1.NewApiUserServiceGRPCClient(
+    api_userv1.WithTracer(tracer),
+    // ... other options
+)
+```
+
+**Features:**
+- Creates spans for each method call
+- Integrates with existing tracing infrastructure  
+- Provides observability into API call performance
+
+### TLS/mTLS Support
+
+Configure transport security for production environments:
+
+<Tabs>
+<TabItem value="go" label="Go">
+
+```go
+// Enable TLS
+client, err := api_userv1.NewApiUserServiceGRPCClient(
+    api_userv1.WithTLS(true),
+    api_userv1.WithAddress("api.mesh.dev", 443),
+)
+
+// For mTLS, additional certificate configuration required
+```
+
+</TabItem>
+<TabItem value="python" label="Python">
+
+```python
+# Enable TLS
+options = ClientOptions(
+    url="api.mesh.dev",
+    port=443,
+    tls=True,
+)
+client = ApiUserServiceGRPCClient(options)
+```
+
+</TabItem>
+</Tabs>
+
+### Smart Timeout Handling
+
+Both SDKs respect context deadlines and provide intelligent timeout behavior:
+
+<Tabs>
+<TabItem value="go" label="Go">
+
+```go
+// Use context with custom timeout
+ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+defer cancel()
+
+response, err := client.GetApiUser(ctx, request)
+```
+
+</TabItem>
+<TabItem value="python" label="Python">
+
+```python
+# Configure timeout in client options
+options = ClientOptions(
+    timeout=timedelta(seconds=30)  # 30 seconds
+)
+client = ApiUserServiceGRPCClient(options)
+```
+
+</TabItem>
+</Tabs>
+
+## SDK Feature Comparison
+
+| Feature | Go SDK | Python SDK |
+|---------|--------|------------|
+| Client generation | ✅ Full SDK | ✅ Full SDK |
+| Authentication | ✅ Automatic | ✅ Automatic |
+| Resource management | ✅ `Close()` method | ✅ Context manager |
+| Timeout handling | ✅ Smart defaults | ✅ Configurable |
+| OpenTelemetry | ✅ Built-in | 🚧 Coming Soon |
+| TLS/mTLS | ✅ Configurable | ✅ Configurable |
+| Credential loading | ✅ Environment file | ✅ Environment file |
+
+## Comprehensive Error Handling
+
+All SDK methods return errors that should be handled appropriately:
+
+<Tabs>
+<TabItem value="go" label="Go">
+
+```go
+response, err := client.GetApiUser(ctx, request)
+if err != nil {
+    return fmt.Errorf("failed to get API user: %w", err)
+}
+```
+
+</TabItem>
+<TabItem value="python" label="Python">
+
+```python
+try:
+    response = client.get_api_user(request)
+except Exception as e:
+    print(f"Failed to get API user: {e}")
+```
+
+</TabItem>
+</Tabs>
+
+**Common Error Types:**
+- Authentication failures
+- Authorization denials  
+- Resource not found
+- Validation errors
+- Network connectivity issues

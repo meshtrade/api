@@ -72,7 +72,8 @@ const file_meshtrade_issuance_hub_instrument_v1_instrument_proto_rawDesc = "" +
 	"5meshtrade/issuance_hub/instrument/v1/instrument.proto\x12$meshtrade.issuance_hub.instrument.v1\"$\n" +
 	"\n" +
 	"Instrument\x12\x16\n" +
-	"\x06number\x18\x01 \x01(\tR\x06numberBEZCgithub.com/meshtrade/api/go/issuance_hub/instrument/v1;instrumentv1b\x06proto3"
+	"\x06number\x18\x01 \x01(\tR\x06numberBr\n" +
+	"+co.meshtrade.api.issuance_hub.instrument.v1ZCgithub.com/meshtrade/api/go/issuance_hub/instrument/v1;instrumentv1b\x06proto3"
 
 var (
 	file_meshtrade_issuance_hub_instrument_v1_instrument_proto_rawDescOnce sync.Once

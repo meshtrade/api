@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package meshtrade.option.v1;
+
+import "google/protobuf/descriptor.proto";
+
+option go_package = "github.com/meshtrade/api/go/option/v1;optionv1";
+option java_package = "co.meshtrade.api.option.v1";
+
+/*
+   MethodType indicates the access nature of an RPC method, classifying it
+   as either a read or a write operation.
+*/
+enum MethodType {
+  /*
+     The default value, indicating the method type is unknown or not specified.
+     This should be treated as an error and not be used explicitly.
+  */
+  METHOD_TYPE_UNSPECIFIED = 0;
+
+  /*
+     Indicates a safe, idempotent operation that does not change system state.
+  */
+  METHOD_TYPE_READ = 1;
+
+  /*
+     Indicates an operation that may change system state.
+  */
+  METHOD_TYPE_WRITE = 2;
+}
+
+/*
+   A method-level option to explicitly define the access type of an RPC.
+*/
+extend google.protobuf.MethodOptions {
+  meshtrade.option.v1.MethodType method_type = 50004;
+}

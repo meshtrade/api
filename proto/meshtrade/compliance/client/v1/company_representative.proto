@@ -9,6 +9,7 @@ import "meshtrade/type/v1/contact_details.proto";
 import "meshtrade/type/v1/decimal.proto";
 
 option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
+option java_package = "co.meshtrade.api.compliance.client.v1";
 
 /*
    CompanyRepresentative models an individual acting in an official capacity for a legal entity.
