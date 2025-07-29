@@ -92,4 +92,6 @@ __all__ = [
     "total_seconds",
     "TimeOfDay",
     "Token",
+    "add_months",
+    "add_years",
 ]
