@@ -15,6 +15,9 @@ handle_error() {
 echo "🏗️  Building all SDKs..."
 echo
 
+# Set JAVA_HOME to ensure Java 21 is used
+export JAVA_HOME=/opt/homebrew/opt/openjdk@21
+
 # Ensure we're in the root directory
 cd "$ROOT_DIR"
 

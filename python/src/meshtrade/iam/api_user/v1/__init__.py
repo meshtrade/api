@@ -56,7 +56,6 @@ from meshtrade.common import (
     GRPCClient,
     create_auth_metadata,
 )
-
 # Import credentials functions from local module
 from .api_credentials import (
     MESH_API_CREDENTIALS_ENV_VAR,

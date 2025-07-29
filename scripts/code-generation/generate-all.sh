@@ -12,6 +12,9 @@ handle_error() {
 }
 trap 'handle_error $LINENO' ERR
 
+# Set JAVA_HOME to ensure Java 21 is used for Maven builds
+export JAVA_HOME=/opt/homebrew/opt/openjdk@21
+
 echo "🧹 Cleaning Go generated files..."
 find ./go \
   \( -name '*.pb.go' -o -name '*.pb.gw.go' -o -name '*.meshgo.go' -o -name '*.validate.go' \) \
