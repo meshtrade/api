@@ -1,13 +1,17 @@
 syntax = "proto3";
 
-package reporting.income_report.v1;
+package meshtrade.reporting.income_report.v1;
 
 import "meshtrade/type/v1/token.proto";
 import "meshtrade/type/v1/amount.proto";
+
+option go_package = "github.com/meshtrade/api/go/reporting/income_report/v1;summaryv1";
 
 message Summary {
 
   meshtrade.type.v1.Token currency = 1;
 
   meshtrade.type.v1.Amount reported_currency_value = 2;
+
+  meshtrade.type.v1.Amount debit_credit = 3;
 }

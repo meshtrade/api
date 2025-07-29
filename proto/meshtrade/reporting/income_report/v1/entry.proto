@@ -1,13 +1,15 @@
 syntax = "proto3";
 
-package reporting.income_report.v1;
+package meshtrade.reporting.income_report.v1;
 
 import "meshtrade/type/v1/token.proto";
 import "meshtrade/type/v1/amount.proto";
 import "google/protobuf/timestamp.proto";
 
+option go_package = "github.com/meshtrade/api/go/reporting/income_report/v1;entryv1";
 
 message Entry {
+
   string asset_name = 1;
 
   meshtrade.type.v1.Token token = 2;

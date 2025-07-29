@@ -1,10 +1,12 @@
 syntax = "proto3";
 
-package reporting.income_report.v1;
+package meshtrade.reporting.income_report.v1;
 
 import "google/protobuf/timestamp.proto";
 import "meshtrade/type/v1/token.proto";
 import "meshtrade/reporting/income_report/v1/income_report.proto";
+
+option go_package = "github.com/meshtrade/api/go/reporting/income_report/v1;incomeReportServicev1";
 
 service IncomeReportService {
   rpc GetIncomeReport(GetIncomeReportRequest) returns (GetIncomeReportResponse);
