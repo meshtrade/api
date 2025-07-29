@@ -12,9 +12,13 @@ service IncomeReportService {
 }
 
 message GetIncomeReportRequest {
+
   string account_num = 1;
+
   google.protobuf.Timestamp from = 2;
+
   google.protobuf.Timestamp to = 3;
+
   meshtrade.type.v1.Token reporting_currency_token = 4;
 }
 

@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package reporting.income_report.v1;
+
+import "meshtrade/type/v1/token.proto";
+import "meshtrade/type/v1/amount.proto";
+import "google/protobuf/timestamp.proto";
+
+
+message Entry {
+  string asset_name = 1;
+
+  meshtrade.type.v1.Token token = 2;
+
+  google.protobuf.Timestamp date = 3;
+
+  string description = 4;
+
+  string narrative = 5;
+
+  meshtrade.type.v1.Amount amount = 6;
+
+  meshtrade.type.v1.Amount reported_currency_value = 7;
+}
