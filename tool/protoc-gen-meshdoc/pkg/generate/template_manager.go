@@ -184,6 +184,7 @@ type FieldTemplateData struct {
 	Type        string
 	Description string
 	Required    bool
+	Validation  string
 }
 
 type EnumValueTemplateData struct {
@@ -247,6 +248,42 @@ func normalizeForTable(s string) string {
 	s = strings.TrimSpace(s)
 	
 	return s
+}
+
+// sanitizeForTable sanitizes validation text to prevent Markdown table breaking
+func sanitizeForTable(text string) string {
+	if text == "" {
+		return ""
+	}
+	
+	// First escape curly braces to prevent MDX/JSX interpretation issues
+	text = escapeCurly(text)
+	
+	// Replace newlines with separator to maintain readability
+	text = strings.ReplaceAll(text, "\n", " | ")
+	text = strings.ReplaceAll(text, "\r\n", " | ")
+	text = strings.ReplaceAll(text, "\r", " | ")
+	
+	// Escape pipe characters to prevent table breaking
+	text = strings.ReplaceAll(text, "|", "\\|")
+	
+	// Replace tabs with spaces
+	text = strings.ReplaceAll(text, "\t", " ")
+	
+	// Clean up multiple spaces
+	for strings.Contains(text, "  ") {
+		text = strings.ReplaceAll(text, "  ", " ")
+	}
+	
+	// Trim whitespace
+	text = strings.TrimSpace(text)
+	
+	// Truncate if too long to prevent excessive table width
+	if len(text) > 200 {
+		text = text[:197] + "..."
+	}
+	
+	return text
 }
 
 // generateExampleValue creates realistic example values based on field name and type

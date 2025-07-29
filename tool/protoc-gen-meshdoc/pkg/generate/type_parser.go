@@ -73,11 +73,20 @@ func parseMessageType(file *protogen.File, message *protogen.Message) *TypeInfo 
 
 	// Parse fields
 	for _, field := range message.Fields {
+		// Extract validation rules from buf.validate annotations
+		required, validation := extractValidationRules(field)
+		
+		// Fall back to presence check if no validation rules found
+		if !required {
+			required = field.Desc.HasPresence()
+		}
+		
 		fieldInfo := FieldInfo{
 			Name:        string(field.Desc.Name()),
 			Type:        getFieldTypeString(field),
 			Description: extractComment(field.Comments.Leading),
-			Required:    isFieldRequired(field),
+			Required:    required,
+			Validation:  validation,
 		}
 		typeInfo.Fields = append(typeInfo.Fields, fieldInfo)
 	}
@@ -150,9 +159,3 @@ func getBaseTypeString(field *protogen.Field) string {
 	}
 }
 
-// isFieldRequired determines if a field is required
-func isFieldRequired(field *protogen.Field) bool {
-	// TODO: Implement proper required field detection based on buf/validate annotations
-	// For now, use presence as a simple heuristic
-	return field.Desc.HasPresence()
-}

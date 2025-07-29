@@ -14,9 +14,13 @@ import Proto from '!!raw-loader!../../../../../../../../proto/{{.ProtoPath}}';
 <TabItem value="table" label="Table">
 **Description:** {{normalizeTable .Description}}
 
+:::note
+The protobuf file is the authoritative source of documentation. Please refer to the **Protobuf** tab when in doubt about field definitions, validation rules, or type specifications.
+:::
+
 | Field | Type | Description | Required | Validation |
 |-------|------|-------------|----------|-----------|
-{{range .Fields}}| `{{.Name}}` | {{.Type}} | {{if .Description}}{{normalizeTable .Description}}{{else}}No description available{{end}} | {{if .Required}}Yes{{else}}No{{end}} | TODO: validation rules |
+{{range .Fields}}| `{{.Name}}` | {{.Type}} | {{if .Description}}{{normalizeTable .Description}}{{else}}No description available{{end}} | {{if .Required}}Yes{{else}}No{{end}} | {{if .Validation}}{{.Validation}}{{else}}None{{end}} |
 {{end}}
 </TabItem>
 

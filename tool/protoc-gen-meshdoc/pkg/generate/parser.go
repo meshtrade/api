@@ -1,9 +1,12 @@
 package generate
 
 import (
+	"fmt"
 	"strings"
 
+	validate "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	"google.golang.org/protobuf/compiler/protogen"
+	"google.golang.org/protobuf/proto"
 )
 
 // ServiceInfo holds parsed information about a protobuf service
@@ -32,6 +35,7 @@ type FieldInfo struct {
 	Type        string
 	Description string
 	Required    bool
+	Validation  string
 }
 
 // ParseService extracts information from a protobuf service
@@ -79,15 +83,154 @@ func parseMethod(method *protogen.Method) (*MethodInfo, error) {
 }
 
 // parseMessageFields extracts field information from a message
+// extractValidationRules parses buf.validate.field annotations and returns human-readable validation rules
+func extractValidationRules(field *protogen.Field) (required bool, validation string) {
+	// Get field options
+	options := field.Desc.Options()
+	if options == nil {
+		return false, ""
+	}
+
+	// Try to get the validate.field extension
+	if !proto.HasExtension(options, validate.E_Field) {
+		return false, ""
+	}
+
+	fieldConstraint, ok := proto.GetExtension(options, validate.E_Field).(*validate.FieldRules)
+	if !ok || fieldConstraint == nil {
+		return false, ""
+	}
+
+	var validationParts []string
+	required = false
+
+	// Handle different constraint types based on field type
+	switch constraint := fieldConstraint.Type.(type) {
+	case *validate.FieldRules_String_:
+		stringConstraint := constraint.String_
+		if stringConstraint != nil {
+			// Check for required conditions
+			if stringConstraint.GetMinLen() > 0 {
+				required = true
+			}
+			if stringConstraint.GetLen() > 0 {
+				required = true
+			}
+
+			// Build validation description
+			if stringConstraint.GetLen() > 0 {
+				validationParts = append(validationParts, fmt.Sprintf("Exactly %d characters", stringConstraint.GetLen()))
+			} else {
+				var lengthParts []string
+				if stringConstraint.GetMinLen() > 0 {
+					lengthParts = append(lengthParts, fmt.Sprintf("min: %d", stringConstraint.GetMinLen()))
+				}
+				if stringConstraint.GetMaxLen() > 0 {
+					lengthParts = append(lengthParts, fmt.Sprintf("max: %d", stringConstraint.GetMaxLen()))
+				}
+				if len(lengthParts) > 0 {
+					validationParts = append(validationParts, fmt.Sprintf("Length %s characters", strings.Join(lengthParts, ", ")))
+				}
+			}
+
+			if stringConstraint.GetPattern() != "" {
+				validationParts = append(validationParts, fmt.Sprintf("Pattern: %s", stringConstraint.GetPattern()))
+			}
+		}
+
+	case *validate.FieldRules_Int32:
+		int32Constraint := constraint.Int32
+		if int32Constraint != nil {
+			var rangeParts []string
+			if int32Constraint.GetGte() != 0 {
+				rangeParts = append(rangeParts, fmt.Sprintf("≥ %d", int32Constraint.GetGte()))
+			} else if int32Constraint.GetGt() != 0 {
+				rangeParts = append(rangeParts, fmt.Sprintf("> %d", int32Constraint.GetGt()))
+			}
+			if int32Constraint.GetLte() != 0 {
+				rangeParts = append(rangeParts, fmt.Sprintf("≤ %d", int32Constraint.GetLte()))
+			} else if int32Constraint.GetLt() != 0 {
+				rangeParts = append(rangeParts, fmt.Sprintf("< %d", int32Constraint.GetLt()))
+			}
+			if len(rangeParts) > 0 {
+				validationParts = append(validationParts, fmt.Sprintf("Range: %s", strings.Join(rangeParts, ", ")))
+			}
+		}
+
+	case *validate.FieldRules_Int64:
+		int64Constraint := constraint.Int64
+		if int64Constraint != nil {
+			var rangeParts []string
+			if int64Constraint.GetGte() != 0 {
+				rangeParts = append(rangeParts, fmt.Sprintf("≥ %d", int64Constraint.GetGte()))
+			} else if int64Constraint.GetGt() != 0 {
+				rangeParts = append(rangeParts, fmt.Sprintf("> %d", int64Constraint.GetGt()))
+			}
+			if int64Constraint.GetLte() != 0 {
+				rangeParts = append(rangeParts, fmt.Sprintf("≤ %d", int64Constraint.GetLte()))
+			} else if int64Constraint.GetLt() != 0 {
+				rangeParts = append(rangeParts, fmt.Sprintf("< %d", int64Constraint.GetLt()))
+			}
+			if len(rangeParts) > 0 {
+				validationParts = append(validationParts, fmt.Sprintf("Range: %s", strings.Join(rangeParts, ", ")))
+			}
+		}
+
+	case *validate.FieldRules_Enum:
+		enumConstraint := constraint.Enum
+		if enumConstraint != nil {
+			// For enums, we typically want them to be specified (not default value)
+			required = true
+			validationParts = append(validationParts, "Must be a valid enum value")
+		}
+	}
+
+	// Handle CEL expressions
+	for _, celConstraint := range fieldConstraint.Cel {
+		if celConstraint.GetMessage() != "" {
+			validationParts = append(validationParts, celConstraint.GetMessage())
+		} else if celConstraint.GetExpression() != "" {
+			// Check if expression suggests required field
+			expr := strings.ToLower(celConstraint.GetExpression())
+			if strings.Contains(expr, "size(this)") && (strings.Contains(expr, "> 0") || strings.Contains(expr, ">= 1")) {
+				required = true
+			}
+			// Add abbreviated expression
+			if len(celConstraint.GetExpression()) > 50 {
+				validationParts = append(validationParts, fmt.Sprintf("CEL: %s...", celConstraint.GetExpression()[:47]))
+			} else {
+				validationParts = append(validationParts, fmt.Sprintf("CEL: %s", celConstraint.GetExpression()))
+			}
+		}
+	}
+
+	// Join all validation parts
+	validation = strings.Join(validationParts, " | ")
+	
+	// Sanitize for table safety
+	validation = sanitizeForTable(validation)
+
+	return required, validation
+}
+
 func parseMessageFields(message *protogen.Message) []FieldInfo {
 	fields := make([]FieldInfo, 0, len(message.Fields))
 
 	for _, field := range message.Fields {
+		// Extract validation rules from buf.validate annotations
+		required, validation := extractValidationRules(field)
+		
+		// Fall back to presence check if no validation rules found
+		if !required {
+			required = field.Desc.HasPresence()
+		}
+		
 		fieldInfo := FieldInfo{
 			Name:        field.GoName,
 			Type:        field.Desc.Kind().String(),
 			Description: extractComment(field.Comments.Leading),
-			Required:    field.Desc.HasPresence(), // Simplified - actual validation rules would be more complex
+			Required:    required,
+			Validation:  validation,
 		}
 		fields = append(fields, fieldInfo)
 	}

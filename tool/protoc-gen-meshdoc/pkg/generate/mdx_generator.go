@@ -422,6 +422,7 @@ func generateMessageDocContent(typeInfo *TypeInfo) string {
 			Type:        field.Type,
 			Description: field.Description,
 			Required:    field.Required,
+			Validation:  field.Validation,
 		})
 	}
 
