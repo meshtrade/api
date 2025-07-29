@@ -403,19 +403,23 @@ mvn -version   # Should show Maven 3.x.x with Java 21
 # 1. Ensure Java 21 is in your PATH
 export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"
 
-# 2. Verify Java version is exactly 21 (not 24 or other versions)
+# 2. Set JAVA_HOME to Java 21 (CRITICAL: Maven requires this)
+export JAVA_HOME="/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home"
+
+# 3. Verify Java version is exactly 21 (not 24 or other versions)
 java -version
 # Expected output: openjdk version "21.0.x" 2025-xx-xx
 
-# 3. Verify Maven can find Java 21
+# 4. Verify Maven can find Java 21 (CRITICAL: Must show Java 21, not 24)
 mvn -version
 # Expected: Java version: 21.0.x, vendor: Homebrew
 ```
 
 **Permanent Configuration**: Add to your `~/.zshrc` or `~/.bash_profile`:
 ```bash
-# Add this line to ensure Java 21 is always available
+# Add these lines to ensure Java 21 is always available
 export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"
+export JAVA_HOME="/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home"
 ```
 
 #### Critical Java Files
@@ -462,8 +466,9 @@ java/src/main/java/co/meshtrade/api/
 # 2. Install Java 21 (OpenJDK LTS)
 brew install openjdk@21
 
-# 3. Configure PATH for Java (CRITICAL)
+# 3. Configure PATH and JAVA_HOME for Java (CRITICAL)
 echo 'export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"' >> ~/.zshrc
+echo 'export JAVA_HOME="/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home"' >> ~/.zshrc
 source ~/.zshrc
 
 # 4. Install Maven
@@ -621,6 +626,29 @@ The Java implementation uses Maven multi-module architecture:
 
 **Problem**: Maven dependency conflicts
 **Solution**: Clean and rebuild: `mvn clean compile` or check parent POM dependency management
+
+#### Quick Setup Command
+
+For convenience, you can add all necessary Java environment variables to your shell configuration with this single command:
+
+```bash
+# Add Java 21 configuration to .zshrc (one command setup)
+cat >> ~/.zshrc << 'EOF'
+
+# Java 21 configuration for Meshtrade API development
+export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"
+export JAVA_HOME="/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home"
+EOF
+
+# Reload your shell configuration
+source ~/.zshrc
+
+# Verify the setup worked
+echo "Java version:" && java -version
+echo "Maven Java version:" && mvn -version | grep "Java version"
+```
+
+**For Bash users**: Replace `~/.zshrc` with `~/.bash_profile` in the command above.
 
 ## 4. Contributing Workflow
 

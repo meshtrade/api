@@ -14,8 +14,8 @@
         <appender-ref ref="STDERR" />
     </root>
     
-    <!-- Enable debug logging only when explicitly requested -->
-    <logger name="co.meshtrade.protoc" level="DEBUG" additivity="false">
+    <!-- Set protoc plugin logger to ERROR level for clean output -->
+    <logger name="co.meshtrade.protoc" level="ERROR" additivity="false">
         <appender-ref ref="STDERR" />
     </logger>
 </configuration>

@@ -163,7 +163,7 @@ public class MethodModel {
      * Converts a protobuf type name to a Java qualified class name.
      * 
      * @param protoTypeName the proto type name (e.g., ".meshtrade.iam.api_user.v1.APIUser")
-     * @return the Java qualified class name (e.g., "meshtrade.iam.api_user.v1.Service.APIUser")
+     * @return the Java qualified class name (e.g., "co.meshtrade.api.iam.api_user.v1.Service.APIUser")
      */
     private String getFullQualifiedTypeName(String protoTypeName) {
         // Remove leading dot
@@ -172,13 +172,106 @@ public class MethodModel {
         // Extract package and type name
         int lastDotIndex = withoutDot.lastIndexOf('.');
         if (lastDotIndex >= 0) {
-            String packageName = withoutDot.substring(0, lastDotIndex);
+            String protoPackageName = withoutDot.substring(0, lastDotIndex);
             String typeName = withoutDot.substring(lastDotIndex + 1);
-            // For generated protobuf classes, they are nested in the Service class
-            return packageName + ".Service." + typeName;
+            // Convert proto package to Java package
+            String javaPackageName = co.meshtrade.protoc.util.JavaNames.protoPackageToJavaPackage(protoPackageName);
+            
+            // Determine if this type is likely from a service proto file or a separate proto file
+            // Heuristic: if the type name contains "Request" or "Response", it's likely from a service file
+            // Otherwise, it's likely from a separate proto file with an outer class
+            if (typeName.endsWith("Request") || typeName.endsWith("Response")) {
+                return javaPackageName + ".Service." + typeName;
+            } else {
+                // For other types, use the outer class naming pattern
+                // Infer the proto file name from the type name or package structure
+                String outerClassName = inferOuterClassName(protoPackageName, typeName);
+                return javaPackageName + "." + outerClassName + "." + typeName;
+            }
         } else {
             return "Service." + withoutDot;
         }
+    }
+    
+    /**
+     * Infers the outer class name for a protobuf type based on package structure and naming conventions.
+     * 
+     * <p>This method implements the protobuf Java naming convention:
+     * <ul>
+     * <li>Default: {ProtoFileName}OuterClass (e.g., user.proto → UserOuterClass, direct_order.proto → DirectOrderOuterClass)</li>
+     * <li>Exception: For specific proto files where the file name closely matches the main message name,
+     *     protobuf generates just the PascalCase file name (e.g., api_user.proto with APIUser → ApiUser)</li>
+     * </ul>
+     * 
+     * @param protoPackageName the proto package name (e.g., "meshtrade.iam.user.v1")
+     * @param typeName the type name (e.g., "User")
+     * @return the outer class name (e.g., "UserOuterClass" or "ApiUser")
+     */
+    private String inferOuterClassName(String protoPackageName, String typeName) {
+        String[] packageParts = protoPackageName.split("\\.");
+        
+        // Extract the proto file name from package structure (second-to-last part, skipping version)
+        String protoFileName = null;
+        if (packageParts.length >= 2 && !packageParts[packageParts.length - 2].startsWith("v")) {
+            protoFileName = packageParts[packageParts.length - 2];
+        }
+        
+        if (protoFileName == null) {
+            // Fall back to type name if we can't infer proto file name
+            return snakeCaseToPascalCase(typeName) + "OuterClass";
+        }
+        
+        // Convert proto file name to PascalCase
+        String pascalCaseFileName = snakeCaseToPascalCase(protoFileName);
+        
+        // Special case: api_user proto generates ApiUser.java (not ApiUserOuterClass.java)
+        // This happens when the proto file name closely matches the main message name
+        if ("api_user".equals(protoFileName) && ("APIUser".equals(typeName) || "ApiCredentials".equals(typeName))) {
+            return pascalCaseFileName;
+        }
+        
+        // Default case: use OuterClass pattern
+        return pascalCaseFileName + "OuterClass";
+    }
+    
+    /**
+     * Converts snake_case to PascalCase following protobuf Java conventions.
+     * 
+     * @param snakeCase the snake_case string (e.g., "direct_order", "api_user")
+     * @return PascalCase string (e.g., "DirectOrder", "ApiUser")
+     */
+    private String snakeCaseToPascalCase(String snakeCase) {
+        if (snakeCase == null || snakeCase.isEmpty()) {
+            return snakeCase;
+        }
+        
+        StringBuilder result = new StringBuilder();
+        boolean capitalizeNext = true;
+        
+        for (char c : snakeCase.toCharArray()) {
+            if (c == '_') {
+                capitalizeNext = true;
+            } else {
+                if (capitalizeNext) {
+                    result.append(Character.toUpperCase(c));
+                    capitalizeNext = false;
+                } else {
+                    result.append(c);
+                }
+            }
+        }
+        
+        return result.toString();
+    }
+    
+    /**
+     * Capitalizes the first letter of a string.
+     */
+    private String capitalize(String str) {
+        if (str == null || str.isEmpty()) {
+            return str;
+        }
+        return Character.toUpperCase(str.charAt(0)) + str.substring(1);
     }
     
     /**

@@ -60,6 +60,9 @@ public class ClientGenerator {
                 .addSuperinterface(serviceInterface)
                 .addJavadoc(generateClientJavadoc(serviceModel));
             
+            // Add interface compliance check (matching Go generator pattern)
+            clientBuilder.addField(generateInterfaceComplianceField(serviceInterface, serviceModel.getClientClassName()));
+            
             // Add constructors
             clientBuilder.addMethod(generateDefaultConstructor(serviceModel));
             clientBuilder.addMethod(generateOptionsConstructor(serviceModel));
@@ -101,37 +104,27 @@ public class ClientGenerator {
     }
     
     /**
-     * Generates JavaDoc for the client class.
+     * Generates comprehensive JavaDoc for the client class matching Go generator quality.
      * 
      * @param serviceModel the service model
      * @return the JavaDoc code block
      */
     private CodeBlock generateClientJavadoc(ServiceModel serviceModel) {
         return CodeBlock.builder()
-            .add("$L gRPC client with authentication, timeouts, and resource management.\n", 
+            .add("$L gRPC client with authentication, timeouts, tracing, and resource management.\n", 
                 serviceModel.getServiceName())
             .add("\n")
-            .add("<p>This client provides a complete implementation of the $L service with proper\n", 
-                serviceModel.getServiceName())
-            .add("authentication, timeout handling, and automatic resource cleanup. It extends\n")
-            .add("{@link co.meshtrade.api.grpc.BaseGRPCClient} for common gRPC functionality.\n")
+            .add("<p>This client provides type-safe access to $L operations through the Meshtrade API.\n", serviceModel.getServiceName())
+            .add("It extends {@link co.meshtrade.api.grpc.BaseGRPCClient} for consistent authentication,\n")
+            .add("timeout handling, distributed tracing, and automatic resource cleanup across all\n")
+            .add("Meshtrade services.\n")
             .add("\n")
-            .add("<h2>Authentication</h2>\n")
-            .add("<p>The client uses automatic credential discovery with the following hierarchy:\n")
-            .add("<ol>\n")
-            .add("<li>MESH_API_CREDENTIALS environment variable</li>\n")
-            .add("<li>Platform-specific credential files:\n")
-            .add("    <ul>\n")
-            .add("    <li>Linux: {@code ~/.config/mesh/credentials.json}</li>\n")
-            .add("    <li>macOS: {@code ~/Library/Application Support/mesh/credentials.json}</li>\n")
-            .add("    <li>Windows: {@code %APPDATA%\\mesh\\credentials.json}</li>\n")
-            .add("    </ul>\n")
-            .add("</li>\n")
-            .add("</ol>\n")
+            .add("<p>Full Service documentation: <a href=\"$L\">$L API Reference</a>\n", 
+                serviceModel.getDocumentationUrl(), serviceModel.getServiceName())
             .add("\n")
-            .add("<h2>Example Usage</h2>\n")
+            .add("<h2>Quick Start</h2>\n")
             .add("<pre>{@code\n")
-            .add("// Using default configuration (auto-discovers credentials)\n")
+            .add("// Default configuration with credential auto-discovery\n")
             .add("try ($L client = new $L()) {\n", serviceModel.getClientClassName(), serviceModel.getClientClassName())
             .add("    $L request = $L.newBuilder()\n", 
                 serviceModel.getMethods().isEmpty() ? "SomeRequest" : serviceModel.getMethods().get(0).getInputTypeName(),
@@ -140,13 +133,35 @@ public class ClientGenerator {
             .add("    $L response = client.$L(request, Optional.empty());\n", 
                 serviceModel.getMethods().isEmpty() ? "SomeResponse" : serviceModel.getMethods().get(0).getOutputTypeName(),
                 serviceModel.getMethods().isEmpty() ? "someMethod" : serviceModel.getMethods().get(0).getJavaMethodName())
-            .add("}\n")
+            .add("    // Process response...\n")
+            .add("} // Automatic cleanup\n")
+            .add("}</pre>\n")
             .add("\n")
-            .add("// Using custom configuration\n")
+            .add("<h2>Authentication</h2>\n")
+            .add("<p>The client uses automatic credential discovery with the following hierarchy:\n")
+            .add("<ol>\n")
+            .add("<li><strong>MESH_API_CREDENTIALS environment variable</strong></li>\n")
+            .add("<li><strong>Platform-specific credential files</strong>:\n")
+            .add("    <ul>\n")
+            .add("    <li>Linux: {@code $$XDG_CONFIG_HOME/mesh/credentials.json} or {@code ~/.config/mesh/credentials.json}</li>\n")
+            .add("    <li>macOS: {@code ~/Library/Application Support/mesh/credentials.json}</li>\n")
+            .add("    <li>Windows: {@code %APPDATA%\\\\mesh\\\\credentials.json}</li>\n")
+            .add("    </ul>\n")
+            .add("</li>\n")
+            .add("</ol>\n")
+            .add("\n")
+            .add("<p>For more information: <a href=\"https://meshtrade.github.io/api/docs/architecture/authentication\">Authentication Guide</a>\n")
+            .add("\n")
+            .add("<h2>Configuration</h2>\n")
+            .add("<p>The client supports extensive configuration through {@link ServiceOptions}:\n")
+            .add("<pre>{@code\n")
             .add("ServiceOptions options = ServiceOptions.builder()\n")
-            .add("    .url(\"api.staging.mesh.dev\")\n")
-            .add("    .apiKey(\"your-api-key\")\n")
-            .add("    .group(\"groups/your-group-id\")\n")
+            .add("    .url(\"api.staging.meshtrade.co:443\")    // Custom API endpoint\n")
+            .add("    .apiKey(\"your-api-key\")                // Direct API key\n")
+            .add("    .group(\"groups/your-group-id\")         // Group context\n")
+            .add("    .timeout(Duration.ofSeconds(30))        // Default timeout\n")
+            .add("    .retryPolicy(RetryPolicy.exponential()) // Retry configuration\n")
+            .add("    .enableTracing(true)                    // Distributed tracing\n")
             .add("    .build();\n")
             .add("\n")
             .add("try ($L client = new $L(options)) {\n", 
@@ -155,14 +170,77 @@ public class ClientGenerator {
             .add("}\n")
             .add("}</pre>\n")
             .add("\n")
-            .add("@see <a href=\"$L\">Service Documentation</a>\n", serviceModel.getDocumentationUrl())
+            .add("<p>For detailed configuration options: <a href=\"https://meshtrade.github.io/api/docs/architecture/sdk-configuration\">SDK Configuration Guide</a>\n")
+            .add("\n")
+            .add("<h2>Error Handling</h2>\n")
+            .add("<p>All methods throw {@link io.grpc.StatusRuntimeException} for gRPC errors.\n")
+            .add("The client provides automatic retry logic for transient failures:\n")
+            .add("<pre>{@code\n")
+            .add("try {\n")
+            .add("    $L response = client.$L(request, Optional.empty());\n", 
+                serviceModel.getMethods().isEmpty() ? "SomeResponse" : serviceModel.getMethods().get(0).getOutputTypeName(),
+                serviceModel.getMethods().isEmpty() ? "someMethod" : serviceModel.getMethods().get(0).getJavaMethodName())
+            .add("} catch (StatusRuntimeException e) {\n")
+            .add("    switch (e.getStatus().getCode()) {\n")
+            .add("        case UNAUTHENTICATED:\n")
+            .add("            // Handle authentication errors\n")
+            .add("            break;\n")
+            .add("        case PERMISSION_DENIED:\n")
+            .add("            // Handle authorization errors\n")
+            .add("            break;\n")
+            .add("        case UNAVAILABLE:\n")
+            .add("            // Handle service unavailable (automatic retry may have failed)\n")
+            .add("            break;\n")
+            .add("        default:\n")
+            .add("            // Handle other errors\n")
+            .add("    }\n")
+            .add("}\n")
+            .add("}</pre>\n")
+            .add("\n")
+            .add("<h2>Thread Safety</h2>\n")
+            .add("<p>This client is <strong>thread-safe</strong> and can be shared across multiple threads.\n")
+            .add("However, it's recommended to use a single instance per application to benefit from\n")
+            .add("connection pooling and optimal resource utilization.\n")
+            .add("\n")
+            .add("<h2>Resource Management</h2>\n")
+            .add("<p>The client implements {@link AutoCloseable} and should be used with try-with-resources\n")
+            .add("or manually closed to ensure proper cleanup of underlying gRPC channels:\n")
+            .add("<pre>{@code\n")
+            .add("// Recommended: try-with-resources\n")
+            .add("try ($L client = new $L()) {\n", serviceModel.getClientClassName(), serviceModel.getClientClassName())
+            .add("    // Use client\n")
+            .add("}\n")
+            .add("\n")
+            .add("// Alternative: manual cleanup\n")
+            .add("$L client = new $L();\n", serviceModel.getClientClassName(), serviceModel.getClientClassName())
+            .add("try {\n")
+            .add("    // Use client\n")
+            .add("} finally {\n")
+            .add("    client.close();\n")
+            .add("}\n")
+            .add("}</pre>\n")
+            .add("\n")
             .add("@see $L\n", serviceModel.getServiceName())
             .add("@see co.meshtrade.api.grpc.BaseGRPCClient\n")
+            .add("@see co.meshtrade.api.config.ServiceOptions\n")
+            .add("@see <a href=\"$L\">Service Documentation</a>\n", serviceModel.getDocumentationUrl())
             .build();
     }
     
     /**
-     * Generates the default constructor (no arguments).
+     * Generates the interface compliance check field.
+     */
+    private FieldSpec generateInterfaceComplianceField(ClassName serviceInterface, String clientClassName) {
+        return FieldSpec.builder(serviceInterface, "_INTERFACE_COMPLIANCE_CHECK", 
+                Modifier.PRIVATE, Modifier.STATIC, Modifier.FINAL)
+            .initializer("new $L()", clientClassName)
+            .addJavadoc("Compile-time check that $L implements the $L interface.", 
+                clientClassName, serviceInterface.simpleName())
+            .build();
+    }
+    
+    /**
+     * Generates the default constructor with enhanced documentation.
      * 
      * @param serviceModel the service model
      * @return the constructor method spec
@@ -172,13 +250,31 @@ public class ClientGenerator {
             .addModifiers(Modifier.PUBLIC)
             .addStatement("this($T.builder().build())", SERVICE_OPTIONS)
             .addJavadoc(CodeBlock.builder()
-                .add("Creates a new $L with default configuration.\n", serviceModel.getClientClassName())
+                .add("Creates a new $L with default configuration and credential auto-discovery.\n", 
+                    serviceModel.getClientClassName())
                 .add("\n")
-                .add("<p>Uses automatic credential discovery and default connection settings.\n")
-                .add("API credentials are discovered using the standard hierarchy.\n")
+                .add("<p>This constructor uses the Meshtrade SDK's standard credential discovery\n")
+                .add("hierarchy to automatically locate and load API credentials. The client will\n")
+                .add("connect to the production Meshtrade API endpoint with default timeout and\n")
+                .add("retry settings.\n")
                 .add("\n")
-                .add("@throws IllegalArgumentException if credentials cannot be discovered\n")
+                .add("<p><strong>Credential Discovery Order:</strong>\n")
+                .add("<ol>\n")
+                .add("<li>MESH_API_CREDENTIALS environment variable</li>\n")
+                .add("<li>Platform-specific credential files</li>\n")
+                .add("</ol>\n")
+                .add("\n")
+                .add("<p><strong>Example:</strong>\n")
+                .add("<pre>{@code\n")
+                .add("try ($L client = new $L()) {\n", 
+                    serviceModel.getClientClassName(), serviceModel.getClientClassName())
+                .add("    // Client ready for use with discovered credentials\n")
+                .add("} // Automatic cleanup\n")
+                .add("}</pre>\n")
+                .add("\n")
+                .add("@throws IllegalArgumentException if credentials cannot be discovered or are invalid\n")
                 .add("@throws RuntimeException if the gRPC client cannot be initialized\n")
+                .add("@see <a href=\"https://meshtrade.github.io/api/docs/architecture/authentication\">Authentication Guide</a>\n")
                 .build())
             .build();
     }
@@ -193,8 +289,8 @@ public class ClientGenerator {
         return MethodSpec.constructorBuilder()
             .addModifiers(Modifier.PUBLIC)
             .addParameter(SERVICE_OPTIONS, "options")
-            .addStatement("super($S, $L::new, options)", 
-                serviceModel.getServiceName(), serviceModel.getGrpcStubClassName())
+            .addStatement("super($S, $L, options)", 
+                serviceModel.getServiceName(), serviceModel.getGrpcStubFactoryMethodRef())
             .addJavadoc(CodeBlock.builder()
                 .add("Creates a new $L with custom configuration.\n", serviceModel.getClientClassName())
                 .add("\n")

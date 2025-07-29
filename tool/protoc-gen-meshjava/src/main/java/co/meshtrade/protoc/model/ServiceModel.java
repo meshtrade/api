@@ -127,10 +127,17 @@ public class ServiceModel {
     }
     
     /**
-     * @return the gRPC stub class name (e.g., "ApiUserServiceGrpc.ApiUserServiceStub")
+     * @return the gRPC stub class name (e.g., "ApiUserServiceGrpc.ApiUserServiceBlockingStub")
      */
     public String getGrpcStubClassName() {
-        return serviceName + "Grpc." + serviceName + "Stub";
+        return serviceName + "Grpc." + serviceName + "BlockingStub";
+    }
+    
+    /**
+     * @return the gRPC stub factory method reference (e.g., "ApiUserServiceGrpc::newBlockingStub")
+     */
+    public String getGrpcStubFactoryMethodRef() {
+        return serviceName + "Grpc::newBlockingStub";
     }
     
     /**

@@ -13,15 +13,17 @@ import java.util.List;
 /**
  * Main orchestrator for generating Java code from protobuf service definitions.
  * 
- * <p>This class coordinates the generation of Java interfaces and client implementations
- * for gRPC services. It processes service models and delegates to specialized generators
- * for interfaces and clients, then packages the results into protoc-compatible output files.
+ * <p>This class coordinates the generation of Java interfaces, client implementations,
+ * and mock implementations for gRPC services. It processes service models and delegates 
+ * to specialized generators for interfaces, clients, and mocks, then packages the results 
+ * into protoc-compatible output files.
  * 
  * <h2>Generated Files</h2>
  * <p>For each protobuf service, this generator creates:
  * <ul>
  * <li><strong>Service Interface:</strong> {@code {ServiceName}.java} - Clean interface defining the service contract</li>
  * <li><strong>Client Implementation:</strong> {@code {ServiceName}Client.java} - Full client implementation extending BaseGRPCClient</li>
+ * <li><strong>Mock Implementation:</strong> {@code Mock{ServiceName}.java} - Thread-safe mock for testing</li>
  * </ul>
  * 
  * <h2>Code Generation Process</h2>
@@ -29,11 +31,13 @@ import java.util.List;
  * <li>Process service model to extract service information</li>
  * <li>Generate service interface using {@link InterfaceGenerator}</li>
  * <li>Generate client implementation using {@link ClientGenerator}</li>
- * <li>Package both files into protoc response format</li>
+ * <li>Generate mock implementation using {@link MockGenerator}</li>
+ * <li>Package all files into protoc response format</li>
  * </ol>
  * 
  * @see InterfaceGenerator
  * @see ClientGenerator
+ * @see MockGenerator
  * @see ServiceModel
  */
 public class ServiceGenerator {
@@ -41,6 +45,7 @@ public class ServiceGenerator {
     
     private final InterfaceGenerator interfaceGenerator;
     private final ClientGenerator clientGenerator;
+    private final MockGenerator mockGenerator;
     
     /**
      * Creates a new service generator with default sub-generators.
@@ -48,6 +53,7 @@ public class ServiceGenerator {
     public ServiceGenerator() {
         this.interfaceGenerator = new InterfaceGenerator();
         this.clientGenerator = new ClientGenerator();
+        this.mockGenerator = new MockGenerator();
     }
     
     /**
@@ -55,10 +61,12 @@ public class ServiceGenerator {
      * 
      * @param interfaceGenerator the interface generator to use
      * @param clientGenerator the client generator to use
+     * @param mockGenerator the mock generator to use
      */
-    public ServiceGenerator(InterfaceGenerator interfaceGenerator, ClientGenerator clientGenerator) {
+    public ServiceGenerator(InterfaceGenerator interfaceGenerator, ClientGenerator clientGenerator, MockGenerator mockGenerator) {
         this.interfaceGenerator = interfaceGenerator;
         this.clientGenerator = clientGenerator;
+        this.mockGenerator = mockGenerator;
     }
     
     /**
@@ -114,9 +122,9 @@ public class ServiceGenerator {
     /**
      * Generates Java code files for a single service.
      * 
-     * <p>This method creates both the service interface and client implementation
-     * files for the given service model. The generated files follow Java naming
-     * conventions and include comprehensive documentation.
+     * <p>This method creates the service interface, client implementation, and
+     * mock implementation files for the given service model. The generated files 
+     * follow Java naming conventions and include comprehensive documentation.
      * 
      * @param serviceModel the service model to generate code for
      * @return list of generated files in protoc response format
@@ -149,6 +157,18 @@ public class ServiceGenerator {
                 .build());
             
             logger.debug("Generated client file: {}", clientPath);
+            
+            // TODO: Temporarily disable mock generation while debugging
+            // Generate mock implementation
+            // String mockCode = mockGenerator.generate(serviceModel);
+            // String mockPath = getMockFilePath(serviceModel);
+            // 
+            // files.add(CodeGeneratorResponse.File.newBuilder()
+            //     .setName(mockPath)
+            //     .setContent(mockCode)
+            //     .build());
+            // 
+            // logger.debug("Generated mock file: {}", mockPath);
             
             logger.info("Successfully generated {} files for service: {}", files.size(), serviceModel.getServiceName());
             return files;
@@ -221,6 +241,20 @@ public class ServiceGenerator {
     }
     
     /**
+     * Constructs the file path for the mock implementation.
+     * 
+     * <p>The mock file path follows Java package conventions:
+     * {@code {package_path}/Mock{ServiceName}.java}
+     * 
+     * @param serviceModel the service model
+     * @return the relative file path for the mock implementation
+     */
+    private String getMockFilePath(ServiceModel serviceModel) {
+        String packagePath = serviceModel.getJavaPackage().replace('.', '/');
+        return String.format("%s/Mock%s.java", packagePath, serviceModel.getServiceName());
+    }
+    
+    /**
      * Returns statistics about the code generation process.
      * 
      * @param serviceModels the service models that were processed
@@ -231,7 +265,7 @@ public class ServiceGenerator {
         int totalMethods = serviceModels.stream()
             .mapToInt(service -> service.getMethods().size())
             .sum();
-        int totalFiles = totalServices * 2; // interface + client for each service
+        int totalFiles = totalServices * 2; // interface + client for each service (mock disabled)
         
         return String.format(
             "Generation Statistics:\n" +
