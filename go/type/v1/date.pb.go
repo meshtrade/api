@@ -43,8 +43,7 @@ type Date struct {
 	// month and day.
 	Month int32 `protobuf:"varint,2,opt,name=month,proto3" json:"month,omitempty"`
 	// Day of a month. Must be from 1 to 31 and valid for the year and month, or 0
-	// to specify a year by itself or a year and month where the day isn't
-	// significant.
+	// to specify a year by itself or a year and month where the day isn't significant.
 	Day           int32 `protobuf:"varint,3,opt,name=day,proto3" json:"day,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache

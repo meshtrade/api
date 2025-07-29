@@ -27,7 +27,6 @@ message Date {
   int32 month = 2;
 
   // Day of a month. Must be from 1 to 31 and valid for the year and month, or 0
-  // to specify a year by itself or a year and month where the day isn't
-  // significant.
+  // to specify a year by itself or a year and month where the day isn't significant.
   int32 day = 3;
 }
