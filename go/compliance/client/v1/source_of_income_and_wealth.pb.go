@@ -185,7 +185,8 @@ const file_meshtrade_compliance_client_v1_source_of_income_and_wealth_proto_rawD
 	")SOURCE_OF_INCOME_AND_WEALTH_SALE_OF_ASSET\x10\x13\x12.\n" +
 	"*SOURCE_OF_INCOME_AND_WEALTH_SALE_OF_SHARES\x10\x14\x12>\n" +
 	":SOURCE_OF_INCOME_AND_WEALTH_SAVINGS_INVESTMENT_OR_DIVIDEND\x10\x15\x123\n" +
-	"/SOURCE_OF_INCOME_AND_WEALTH_TRUST_DISTRIBUTIONS\x10\x16B;Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
+	"/SOURCE_OF_INCOME_AND_WEALTH_TRUST_DISTRIBUTIONS\x10\x16Bb\n" +
+	"%co.meshtrade.api.compliance.client.v1Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
 
 var (
 	file_meshtrade_compliance_client_v1_source_of_income_and_wealth_proto_rawDescOnce sync.Once

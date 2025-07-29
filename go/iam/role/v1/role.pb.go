@@ -197,7 +197,8 @@ const file_meshtrade_iam_role_v1_role_proto_rawDesc = "" +
 	"\x13ROLE_TRADING_VIEWER\x10\n" +
 	":f\n" +
 	"\x0estandard_roles\x12\x1c.google.protobuf.FileOptions\x18ӆ\x03 \x01(\v2\x1f.meshtrade.iam.role.v1.RoleListR\rstandardRoles:W\n" +
-	"\x05roles\x12\x1e.google.protobuf.MethodOptions\x18Ն\x03 \x01(\v2\x1f.meshtrade.iam.role.v1.RoleListR\x05rolesB0Z.github.com/meshtrade/api/go/iam/role/v1;rolev1b\x06proto3"
+	"\x05roles\x12\x1e.google.protobuf.MethodOptions\x18Ն\x03 \x01(\v2\x1f.meshtrade.iam.role.v1.RoleListR\x05rolesBN\n" +
+	"\x1cco.meshtrade.api.iam.role.v1Z.github.com/meshtrade/api/go/iam/role/v1;rolev1b\x06proto3"
 
 var (
 	file_meshtrade_iam_role_v1_role_proto_rawDescOnce sync.Once

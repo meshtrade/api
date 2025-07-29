@@ -84,7 +84,8 @@ const file_meshtrade_iam_user_v1_user_proto_rawDesc = "" +
 	" meshtrade/iam/user/v1/user.proto\x12\x15meshtrade.iam.user.v1\"2\n" +
 	"\x04User\x12\x14\n" +
 	"\x05email\x18\x01 \x01(\tR\x05email\x12\x14\n" +
-	"\x05roles\x18\x06 \x03(\tR\x05rolesB0Z.github.com/meshtrade/api/go/iam/user/v1;userv1b\x06proto3"
+	"\x05roles\x18\x06 \x03(\tR\x05rolesBN\n" +
+	"\x1cco.meshtrade.api.iam.user.v1Z.github.com/meshtrade/api/go/iam/user/v1;userv1b\x06proto3"
 
 var (
 	file_meshtrade_iam_user_v1_user_proto_rawDescOnce sync.Once

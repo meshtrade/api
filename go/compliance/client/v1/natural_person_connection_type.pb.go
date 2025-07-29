@@ -151,7 +151,8 @@ const file_meshtrade_compliance_client_v1_natural_person_connection_type_proto_r
 	"/NATURAL_PERSON_CONNECTION_TYPE_BUSINESS_PARTNER\x10\x1e\x122\n" +
 	".NATURAL_PERSON_CONNECTION_TYPE_CLOSE_ASSOCIATE\x10\x1f\x12,\n" +
 	"(NATURAL_PERSON_CONNECTION_TYPE_GUARANTOR\x10 \x127\n" +
-	"3NATURAL_PERSON_CONNECTION_TYPE_BENEFICIARY_OF_TRUST\x10!B;Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
+	"3NATURAL_PERSON_CONNECTION_TYPE_BENEFICIARY_OF_TRUST\x10!Bb\n" +
+	"%co.meshtrade.api.compliance.client.v1Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
 
 var (
 	file_meshtrade_compliance_client_v1_natural_person_connection_type_proto_rawDescOnce sync.Once

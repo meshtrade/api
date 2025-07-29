@@ -337,7 +337,8 @@ const file_meshtrade_wallet_account_v1_service_proto_rawDesc = "" +
 	"\fListAccounts\x120.meshtrade.wallet.account.v1.ListAccountsRequest\x1a1.meshtrade.wallet.account.v1.ListAccountsResponse\"\f\xa0\xb5\x18\x01\xaa\xb5\x18\x04\n" +
 	"\x02\x01\x02\x12\x87\x01\n" +
 	"\x0eSearchAccounts\x122.meshtrade.wallet.account.v1.SearchAccountsRequest\x1a3.meshtrade.wallet.account.v1.SearchAccountsResponse\"\f\xa0\xb5\x18\x01\xaa\xb5\x18\x04\n" +
-	"\x02\x01\x02B9Z7github.com/meshtrade/api/go/wallet/account/v1;accountv1b\x06proto3"
+	"\x02\x01\x02B]\n" +
+	"\"co.meshtrade.api.wallet.account.v1Z7github.com/meshtrade/api/go/wallet/account/v1;accountv1b\x06proto3"
 
 var (
 	file_meshtrade_wallet_account_v1_service_proto_rawDescOnce sync.Once

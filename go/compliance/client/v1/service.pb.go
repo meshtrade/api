@@ -218,7 +218,8 @@ const file_meshtrade_compliance_client_v1_service_proto_rawDesc = "" +
 	"\tGetClient\x120.meshtrade.compliance.client.v1.GetClientRequest\x1a&.meshtrade.compliance.client.v1.Client\"\f\xa0\xb5\x18\x01\xaa\xb5\x18\x04\n" +
 	"\x02\x03\x04\x12\x84\x01\n" +
 	"\vListClients\x122.meshtrade.compliance.client.v1.ListClientsRequest\x1a3.meshtrade.compliance.client.v1.ListClientsResponse\"\f\xa0\xb5\x18\x01\xaa\xb5\x18\x04\n" +
-	"\x02\x03\x04B;Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
+	"\x02\x03\x04Bb\n" +
+	"%co.meshtrade.api.compliance.client.v1Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
 
 var (
 	file_meshtrade_compliance_client_v1_service_proto_rawDescOnce sync.Once

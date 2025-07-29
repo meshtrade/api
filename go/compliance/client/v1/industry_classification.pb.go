@@ -156,7 +156,8 @@ const file_meshtrade_compliance_client_v1_industry_classification_proto_rawDesc 
 	"\rindustry_code\x18\x05 \x01(\tR\findustryCode\x12#\n" +
 	"\rindustry_name\x18\x06 \x01(\tR\findustryName\x12*\n" +
 	"\x11sub_industry_code\x18\a \x01(\tR\x0fsubIndustryCode\x12*\n" +
-	"\x11sub_industry_name\x18\b \x01(\tR\x0fsubIndustryNameB;Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
+	"\x11sub_industry_name\x18\b \x01(\tR\x0fsubIndustryNameBb\n" +
+	"%co.meshtrade.api.compliance.client.v1Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
 
 var (
 	file_meshtrade_compliance_client_v1_industry_classification_proto_rawDescOnce sync.Once

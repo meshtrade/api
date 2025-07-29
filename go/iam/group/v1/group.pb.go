@@ -71,7 +71,8 @@ const file_meshtrade_iam_group_v1_group_proto_rawDesc = "" +
 	"\n" +
 	"\"meshtrade/iam/group/v1/group.proto\x12\x16meshtrade.iam.group.v1\"\x1b\n" +
 	"\x05Group\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04nameB2Z0github.com/meshtrade/api/go/iam/group/v1;groupv1b\x06proto3"
+	"\x04name\x18\x01 \x01(\tR\x04nameBQ\n" +
+	"\x1dco.meshtrade.api.iam.group.v1Z0github.com/meshtrade/api/go/iam/group/v1;groupv1b\x06proto3"
 
 var (
 	file_meshtrade_iam_group_v1_group_proto_rawDescOnce sync.Once

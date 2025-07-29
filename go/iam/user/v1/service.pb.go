@@ -101,7 +101,8 @@ const file_meshtrade_iam_user_v1_service_proto_rawDesc = "" +
 	"\rrole.required\x12@role is required and must be a valid role type (not UNSPECIFIED)\x1a\x0eint(this) != 0\x82\x01\x04\x10\x01 \x00R\x04role2{\n" +
 	"\vUserService\x12l\n" +
 	"\x10AssignRoleToUser\x12..meshtrade.iam.user.v1.AssignRoleToUserRequest\x1a\x1b.meshtrade.iam.user.v1.User\"\v\xa0\xb5\x18\x02\xaa\xb5\x18\x03\n" +
-	"\x01\x05B0Z.github.com/meshtrade/api/go/iam/user/v1;userv1b\x06proto3"
+	"\x01\x05BN\n" +
+	"\x1cco.meshtrade.api.iam.user.v1Z.github.com/meshtrade/api/go/iam/user/v1;userv1b\x06proto3"
 
 var (
 	file_meshtrade_iam_user_v1_service_proto_rawDescOnce sync.Once

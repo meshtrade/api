@@ -258,7 +258,8 @@ const file_meshtrade_iam_group_v1_service_proto_rawDesc = "" +
 	"ListGroups\x12).meshtrade.iam.group.v1.ListGroupsRequest\x1a*.meshtrade.iam.group.v1.ListGroupsResponse\"\f\xa0\xb5\x18\x01\xaa\xb5\x18\x04\n" +
 	"\x02\x05\x06\x12w\n" +
 	"\fSearchGroups\x12+.meshtrade.iam.group.v1.SearchGroupsRequest\x1a,.meshtrade.iam.group.v1.SearchGroupsResponse\"\f\xa0\xb5\x18\x01\xaa\xb5\x18\x04\n" +
-	"\x02\x05\x06B2Z0github.com/meshtrade/api/go/iam/group/v1;groupv1b\x06proto3"
+	"\x02\x05\x06BQ\n" +
+	"\x1dco.meshtrade.api.iam.group.v1Z0github.com/meshtrade/api/go/iam/group/v1;groupv1b\x06proto3"
 
 var (
 	file_meshtrade_iam_group_v1_service_proto_rawDescOnce sync.Once

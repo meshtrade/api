@@ -98,7 +98,8 @@ const file_meshtrade_iam_api_user_v1_api_credentials_proto_rawDesc = "" +
 	"\x0eapi_key.format\x12Rapi_key must be base64 URL-safe encoded (43 characters, alphanumeric plus _ and -)\x1a#this.matches('^[A-Za-z0-9_-]{43}$')r\x182\x13^[A-Za-z0-9_-]{43}$\x98\x01+R\x06apiKey\x12\xae\x02\n" +
 	"\x05group\x18\x02 \x01(\tB\x97\x02\xbaH\x93\x02\xba\x01Y\n" +
 	"\x0egroup.required\x125group is required and must be in format groups/{ulid}\x1a\x10size(this) == 33\xba\x01\x97\x01\n" +
-	"\fgroup.format\x12`group must be in format groups/{ulid} where ulid is a 26-character ULID (uppercase alphanumeric)\x1a%this.matches('^groups/[0-9A-Z]{26}$')r\x1a2\x15^groups/[0-9A-Z]{26}$\x98\x01!R\x05groupB8Z6github.com/meshtrade/api/go/iam/api_user/v1;api_userv1b\x06proto3"
+	"\fgroup.format\x12`group must be in format groups/{ulid} where ulid is a 26-character ULID (uppercase alphanumeric)\x1a%this.matches('^groups/[0-9A-Z]{26}$')r\x1a2\x15^groups/[0-9A-Z]{26}$\x98\x01!R\x05groupBZ\n" +
+	" co.meshtrade.api.iam.api_user.v1Z6github.com/meshtrade/api/go/iam/api_user/v1;api_userv1b\x06proto3"
 
 var (
 	file_meshtrade_iam_api_user_v1_api_credentials_proto_rawDescOnce sync.Once
