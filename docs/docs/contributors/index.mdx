@@ -221,16 +221,32 @@ graph TD
 
 ## 3. Development Environment Setup
 
-## 3.1 Prerequisites
+## 3.1 Tools to Install
 
-**Required Versions** (verified in CI):
+Before you begin, ensure you have the following tools installed on your system:
+
+| Tool | Version | Install Command |
+| :--- | :--- | :--- |
+| [Go](https://golang.org/) | `1.24.3` | `brew install go` |
+| [Node.js](https://nodejs.org/) | `^18.0.0` | `brew install node` |
+| [Yarn](https://yarnpkg.com/) | `1.22.22` | `corepack enable && corepack prepare yarn@1.22.22 --activate` |
+| [Python](https://www.python.org) | `>3.12` | `brew install python` |
+| [Java](https://openjdk.org/) | `21` (LTS) | `brew install openjdk@21` |
+| [Maven](https://maven.apache.org/) | `latest` | `brew install maven` |
+| [Buf CLI](https://buf.build/) | `latest` | `brew install bufbuild/buf/buf` |
+
+## 3.2 Prerequisites
+
+**Required Versions**:
 - **Go**: 1.24.3 (`go.mod`)
 - **Node.js**: ^18.0.0 (`package.json`)  
 - **Yarn**: 1.22.22 (`package.json` packageManager)
-- **Python**: >=3.12 (`pyproject.toml`)
-- **Buf CLI**: Latest (`brew install bufbuild/buf/buf`)
+- **Python**: >=3.12 (`pyproject.toml`)  
+- **Java**: 21 LTS (`pom.xml`)
+- **Maven**: latest (`pom.xml`)
+- **Buf CLI**: Latest
 
-### 3.2 Go Development Setup
+### 3.3 Go Development Setup
 
 #### Installation & Dependencies
 ```bash
@@ -265,7 +281,7 @@ golangci-lint run -v --timeout 10m -E gosec
 go mod tidy
 ```
 
-### 3.3 Python Development Setup
+### 3.4 Python Development Setup
 
 #### Virtual Environment (CRITICAL)
 ```bash
@@ -314,7 +330,7 @@ PYTHONPATH="./python/src:./python/tests" pytest ./python/tests -v
 tox
 ```
 
-### 3.4 TypeScript Development Setup
+### 3.5 TypeScript Development Setup
 
 #### Installation & Dependencies
 ```bash
@@ -356,6 +372,256 @@ yarn start:docs  # opens http://localhost:3000/api/
 3. **Update imports**: Remove deleted response types, add new resource types
 4. **Verify all methods exposed**: Compare `*_grpc_web.ts` wrappers to `*_pb.d.ts` service interfaces
 
+### 3.6 Java Development Setup
+
+#### Installation & Dependencies
+```bash
+# Install Java 21 (macOS - REQUIRED: Use OpenJDK LTS version)
+brew install openjdk@21
+
+# Add Java to PATH (CRITICAL: Required for Maven and compilation)
+echo 'export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"' >> ~/.zshrc
+
+# Reload shell configuration (or restart terminal)
+source ~/.zshrc
+
+# Verify Java installation
+java -version  # Should show OpenJDK 21.x.x
+
+# Install Maven for Java builds
+brew install maven
+
+# Verify Maven installation  
+mvn -version   # Should show Maven 3.x.x with Java 21
+```
+
+#### Environment Configuration (CRITICAL Steps)
+
+**⚠️ CRITICAL**: You MUST configure your Java environment correctly or builds will fail:
+
+```bash
+# 1. Ensure Java 21 is in your PATH
+export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"
+
+# 2. Verify Java version is exactly 21 (not 24 or other versions)
+java -version
+# Expected output: openjdk version "21.0.x" 2025-xx-xx
+
+# 3. Verify Maven can find Java 21
+mvn -version
+# Expected: Java version: 21.0.x, vendor: Homebrew
+```
+
+**Permanent Configuration**: Add to your `~/.zshrc` or `~/.bash_profile`:
+```bash
+# Add this line to ensure Java 21 is always available
+export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"
+```
+
+#### Critical Java Files
+
+- **`pom.xml`** (root) - Multi-module Maven workspace configuration
+- **`java/pom.xml`** - Java SDK module with dependencies
+- **`java/src/main/java/co/meshtrade/api/`** - Core Java SDK implementation
+  - `auth/` - Credentials and credential discovery (Credentials.java, CredentialsDiscovery.java)
+  - `config/` - Service configuration (ServiceOptions.java with builder pattern)
+  - `grpc/` - Base gRPC client implementation (BaseGRPCClient.java)
+  - `{domain}/{resource}/v1/` - Generated service interfaces and clients
+- **`tool/protoc-gen-meshjava/`** - Custom Java code generator source
+  - `src/main/java/co/meshtrade/protoc/` - Plugin implementation
+  - `target/protoc-gen-meshjava-jar-with-dependencies.jar` - Compiled plugin JAR
+
+#### Generated Files Structure
+
+The Java SDK follows the same domain-based structure as Go/Python:
+```
+java/src/main/java/co/meshtrade/api/
+├── auth/                           # Core authentication
+│   ├── Credentials.java            # API key + group validation
+│   └── CredentialsDiscovery.java   # Auto-discovery hierarchy
+├── config/
+│   └── ServiceOptions.java        # Builder pattern configuration
+├── grpc/
+│   └── BaseGRPCClient.java        # Generic gRPC client base class
+├── iam/api_user/v1/               # Generated from protobuf
+│   ├── ApiUserService.java        # Service interface (extends AutoCloseable)
+│   └── ApiUserServiceClient.java  # Client implementation (extends BaseGRPCClient)
+├── compliance/client/v1/          # Generated from protobuf
+├── trading/direct_order/v1/       # Generated from protobuf
+└── ...                            # Other generated services
+```
+
+#### Java Environment Setup from Scratch (Complete Walkthrough)
+
+**Starting Point**: Fresh macOS system with no Java installed
+
+```bash
+# 1. Install Homebrew (if not already installed)
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# 2. Install Java 21 (OpenJDK LTS)
+brew install openjdk@21
+
+# 3. Configure PATH for Java (CRITICAL)
+echo 'export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"' >> ~/.zshrc
+source ~/.zshrc
+
+# 4. Install Maven
+brew install maven
+
+# 5. Verify installations
+java -version   # Should show: openjdk version "21.0.x"
+mvn -version    # Should show: Java version: 21.x.x, vendor: Homebrew
+
+# 6. Clone repository and navigate to it
+git clone <repository-url>
+cd <repository-directory>
+
+# 7. Build Java SDK
+cd java
+mvn clean compile
+
+# 8. Build Java protoc plugin
+cd ../tool/protoc-gen-meshjava  
+mvn clean package
+
+# 9. Test code generation (from repository root)
+cd ../..
+buf generate --template scripts/code-generation/buf/buf.gen.yaml --include-imports proto/meshtrade/iam/api_user/v1/service.proto
+
+# 10. Verify generated files exist
+ls -la java/src/main/java/co/meshtrade/api/iam/api_user/v1/
+# Should show: ApiUserService.java, ApiUserServiceClient.java
+```
+
+#### Running Java Builds & Tests
+
+```bash
+# Build Java SDK (from java/ directory)
+cd java
+mvn clean compile
+
+# Build with all checks
+mvn clean compile test
+
+# Build Java protoc plugin (from tool/protoc-gen-meshjava/ directory)  
+cd tool/protoc-gen-meshjava
+mvn clean package
+
+# Run full code generation (from repository root)
+./scripts/code-generation/generate-all.sh
+```
+
+#### Java Code Generation Workflow
+
+**CRITICAL**: Java code generation requires both the Java SDK and the protoc plugin:
+
+```bash
+# 1. Build the protoc plugin first (from repository root)
+cd tool/protoc-gen-meshjava
+mvn clean package -q
+
+# 2. Verify plugin JAR exists
+ls -la target/protoc-gen-meshjava-jar-with-dependencies.jar
+
+# 3. Run code generation (from repository root)
+cd ../..
+buf generate --template scripts/code-generation/buf/buf.gen.yaml
+
+# 4. Verify Java files were generated
+find java/src/main/java -name "*Service.java" -o -name "*Client.java"
+```
+
+#### Java-Specific Development Features
+
+**Authentication Hierarchy** (matches Go/Python):
+1. `MESH_API_CREDENTIALS` environment variable (JSON format)
+2. Platform-specific credential files:
+   - **Linux**: `~/.config/mesh/credentials.json`
+   - **macOS**: `~/Library/Application Support/mesh/credentials.json`  
+   - **Windows**: `%APPDATA%\mesh\credentials.json`
+
+**Builder Pattern Configuration**:
+```java
+// Default configuration with auto-discovery
+ServiceOptions options = ServiceOptions.builder().build();
+
+// Custom configuration
+ServiceOptions options = ServiceOptions.builder()
+    .url("api.staging.mesh.dev")  
+    .apiKey("your-43-character-api-key")
+    .group("groups/your-group-id")
+    .timeout(Duration.ofSeconds(60))
+    .tls(true)
+    .build();
+```
+
+**Generic Type Safety**:
+```java  
+// BaseGRPCClient uses generics for type safety
+public abstract class BaseGRPCClient<T extends AbstractStub<T>> 
+    implements AutoCloseable {
+    // Ensures compile-time type checking for gRPC stubs
+}
+
+// Generated clients extend with proper stub type
+public final class ApiUserServiceClient 
+    extends BaseGRPCClient<ApiUserServiceGrpc.ApiUserServiceBlockingStub>
+    implements ApiUserService {
+    // Type-safe gRPC operations
+}
+```
+
+**Resource Management**:
+```java
+// Always use try-with-resources for proper cleanup
+try (ApiUserServiceClient client = new ApiUserServiceClient()) {
+    GetApiUserRequest request = GetApiUserRequest.newBuilder()
+        .setName("api_users/01HQXH5S8NPQR0QVMJ3NV9KWX8")
+        .build();
+    APIUser user = client.getApiUser(request, Optional.empty());
+    // Client automatically closed when leaving try block
+}
+```
+
+#### Maven Multi-Module Structure
+
+The Java implementation uses Maven multi-module architecture:
+
+```xml
+<!-- Root pom.xml -->
+<modules>
+    <module>java</module>                    <!-- Main SDK -->
+    <module>tool/protoc-gen-meshjava</module> <!-- Code generator -->
+</modules>
+```
+
+**Benefits**:
+- **Shared dependency management** across SDK and generator
+- **Consistent versioning** for releases
+- **Unified build process** with `mvn clean package` from root
+- **Maven Central publishing** support built-in
+
+#### Java Troubleshooting
+
+**Problem**: `mvn command not found`
+**Solution**: Install Maven with `brew install maven`
+
+**Problem**: `java.lang.module.FindException: Module not found`  
+**Solution**: Ensure Java 21 is in PATH: `export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"`
+
+**Problem**: Generated Java files not appearing
+**Solution**: Build protoc plugin first: `cd tool/protoc-gen-meshjava && mvn clean package`
+
+**Problem**: `wire unmarshal: proto: cannot parse invalid wire-format data`
+**Solution**: This was fixed - ensure you're using the latest protoc plugin JAR
+
+**Problem**: Compilation errors in generated code
+**Solution**: Verify protobuf definitions are valid: `buf lint`
+
+**Problem**: Maven dependency conflicts
+**Solution**: Clean and rebuild: `mvn clean compile` or check parent POM dependency management
+
 ## 4. Contributing Workflow
 
 ### 4.1 General Development Process
@@ -373,6 +639,10 @@ yarn start:docs  # opens http://localhost:3000/api/
    # Python tests  
    source python/.venv/bin/activate
    PYTHONPATH="./python/src:./python/tests" pytest ./python/tests -v
+   
+   # Java tests
+   export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"
+   cd java && mvn test
    
    # TypeScript tests
    yarn test

@@ -30,6 +30,12 @@
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
         </dependency>
+        
+        <!-- Required for CodeGeneratorRequest/Response -->
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java-util</artifactId>
+        </dependency>
 
         <!-- Code generation with JavaPoet -->
         <dependency>

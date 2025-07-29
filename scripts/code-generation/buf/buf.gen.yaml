@@ -27,6 +27,15 @@ plugins:
     out: ./python/src
     strategy: all
 
+### Java ###
+  - remote: buf.build/protocolbuffers/java
+    out: ./java/src/main/java
+  - remote: buf.build/grpc/java
+    out: ./java/src/main/java
+  - local: ["java", "-jar", "./tool/protoc-gen-meshjava/target/protoc-gen-meshjava-jar-with-dependencies.jar"]
+    out: ./java/src/main/java
+    strategy: all
+
 ### TS ###
   - remote: buf.build/protocolbuffers/js:v3.21.4
     out: ./ts/src

@@ -100,9 +100,9 @@ def get_import_to_module_mapping(proto_file):
     for dependency in proto_file.dependency:
         # Convert proto file path to pb2 module name
         # e.g., "meshtrade/iam/group/v1/group.proto" -> "group_pb2"
-        if dependency.endswith('.proto'):
+        if dependency.endswith(".proto"):
             # Get the base name of the proto file
-            proto_basename = dependency.split('/')[-1][:-6]  # Remove .proto extension
+            proto_basename = dependency.split("/")[-1][:-6]  # Remove .proto extension
             pb2_module = f"{proto_basename}_pb2"
             import_mapping[dependency] = pb2_module
 
@@ -112,7 +112,7 @@ def get_import_to_module_mapping(proto_file):
 def analyze_external_types(proto_file, methods):
     """Analyze which types come from external proto files vs the service proto file."""
     service_types = set()  # Types defined in this service proto file
-    external_types = {}    # Types from other proto files (type_name -> import_module)
+    external_types = {}  # Types from other proto files (type_name -> import_module)
 
     # Collect all types defined in this service proto file
     for message in proto_file.message_type:
@@ -141,7 +141,7 @@ def analyze_external_types(proto_file, methods):
             for proto_path, pb2_module in import_mapping.items():
                 # Extract the resource name from the proto path
                 # e.g., "meshtrade/iam/group/v1/group.proto" -> "group"
-                resource_name = proto_path.split('/')[-1][:-6]  # Remove .proto
+                resource_name = proto_path.split("/")[-1][:-6]  # Remove .proto
 
                 # Check if type name matches the resource pattern
                 if type_name.lower() == resource_name.lower() or type_name == "APIUser" and resource_name == "api_user":
@@ -183,7 +183,7 @@ def process_service(proto_file, service, template_env):
         "methods": methods,
         "imports": imports,
         "service_types": sorted(service_types),  # Types from service_pb2
-        "external_types": external_types,        # Types from other pb2 files
+        "external_types": external_types,  # Types from other pb2 files
         "imported_types": sorted(service_types),  # Keep for backward compatibility
         "proto_base": get_proto_file_base(proto_file.name),
         "camel_to_snake": camel_to_snake,
