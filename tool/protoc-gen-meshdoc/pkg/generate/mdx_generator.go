@@ -245,6 +245,50 @@ func generateExampleFiles(plugin *protogen.Plugin, method *MethodInfo, domain, s
 		pyFile.Write([]byte(pyContent))
 	}
 
+	// Generate Java example (only if it doesn't exist)
+	javaFilename := filepath.Join(domain, serviceName, version, "service", methodPath, "example.java")
+	javaFullPath := filepath.Join("docs", "docs", "api-reference", javaFilename)
+	
+	if !fileExists(javaFullPath) {
+		javaFile := plugin.NewGeneratedFile(javaFilename, "")
+		
+		// Determine Java-specific return type and response variable
+		javaResponseVar := "response"
+		responseTypeImport := "Service"
+		
+		if returnsEntityType {
+			if method.Returns == "APIUser" {
+				javaResponseVar = "apiUser"
+				responseTypeImport = "ApiUser"
+			} else {
+				javaResponseVar = camelCase(method.Returns)
+				responseTypeImport = method.Returns
+			}
+		}
+		
+		javaData := ExampleJavaData{
+			Domain:               domain,
+			ServiceName:          serviceName,
+			ServiceTitle:         strings.ReplaceAll(titleCase(serviceName), " ", ""),
+			Version:              version,
+			MethodName:           method.Name,
+			MethodNameCamelCase:  camelCase(method.Name),
+			RequestType:          method.RequestType,
+			RequestFields:        requestFields,
+			ResponseType:         method.Returns,
+			ResponseTypeImport:   responseTypeImport,
+			HasRequest:           hasRequest,
+			ReturnsEntityType:    returnsEntityType,
+			ResponseVariable:     javaResponseVar,
+		}
+		
+		javaContent, err := templateManager.Execute("example.java.tmpl", javaData)
+		if err != nil {
+			return fmt.Errorf("failed to execute Java example template: %w", err)
+		}
+		javaFile.Write([]byte(javaContent))
+	}
+
 	return nil
 }
 

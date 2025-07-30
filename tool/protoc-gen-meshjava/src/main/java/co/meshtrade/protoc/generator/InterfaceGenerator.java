@@ -140,7 +140,7 @@ public class InterfaceGenerator {
         ParameterSpec timeoutParam = ParameterSpec.builder(
             ParameterizedTypeName.get(ClassName.get("java.util", "Optional"), 
                                     ClassName.get(Duration.class)), "timeout")
-            .addAnnotation(AnnotationSpec.builder(ClassName.get("javax.annotation", "Nullable")).build())
+            .addAnnotation(AnnotationSpec.builder(ClassName.get("jakarta.annotation", "Nullable")).build())
             .build();
         
         // Create return type

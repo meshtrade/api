@@ -22,6 +22,7 @@ func NewTemplateManager() (*TemplateManager, error) {
 		"kebabCase":       kebabCase,
 		"titleCase":       titleCase,
 		"snakeCase":       snakeCase,
+		"camelCase":       camelCase,
 		"sub":             sub,
 		"escapeCurly":     escapeCurly,
 		"normalizeTable":  normalizeForTable,
@@ -150,6 +151,23 @@ type ExamplePyData struct {
 	ResponseVariable  string
 }
 
+// ExampleJavaData contains data for Java example template
+type ExampleJavaData struct {
+	Domain               string
+	ServiceName          string
+	ServiceTitle         string
+	Version              string
+	MethodName           string
+	MethodNameCamelCase  string
+	RequestType          string
+	RequestFields        []ExampleFieldData
+	ResponseType         string
+	ResponseTypeImport   string
+	HasRequest           bool
+	ReturnsEntityType    bool
+	ResponseVariable     string
+}
+
 // ExampleFieldData contains data for generating example field values
 type ExampleFieldData struct {
 	Name         string
@@ -216,6 +234,14 @@ type VersionTemplateData struct {
 // titleCase converts a string to title case (first letter of each word capitalized)
 func titleCase(s string) string {
 	return strings.Title(strings.ReplaceAll(s, "_", " "))
+}
+
+// camelCase converts PascalCase to camelCase (first letter lowercase)
+func camelCase(s string) string {
+	if len(s) == 0 {
+		return s
+	}
+	return strings.ToLower(s[:1]) + s[1:]
 }
 
 // sub subtracts one number from another (for template range comparisons)
