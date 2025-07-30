@@ -10,30 +10,78 @@ import "meshtrade/reporting/income_report/v1/entry.proto";
 
 option go_package = "github.com/meshtrade/api/go/reporting/income_report/v1;income_reportv1";
 
-message IncomeReport {
+/*
+   IncomeReport represents a detailed report of income entries over a specific period.
 
+   It contains individual transaction entries, an aggregated summary,
+   metadata about the reporting period, client information, and any
+   relevant disclaimers or copyright notes.
+
+   This structure supports both display and export of income reporting data.
+*/
+message IncomeReport {
+  /*
+     List of detailed income entries included in this report.
+  */
   repeated reporting.income_report.v1.Entry entries = 1;
 
+  /*
+     Aggregated summary of the income report, including totals by currency.
+  */
   reporting.income_report.v1.Summary summary = 2;
 
+  /*
+     Token representing the currency in which the report values are denominated.
+  */
   meshtrade.type.v1.Token reporting_currency = 3;
 
+  /*
+     Reporting period for which this income report was generated.
+  */
   message Period {
+    /*
+       Start timestamp (inclusive) of the reporting period.
+    */
     google.protobuf.Timestamp from = 1;
+
+    /*
+       End timestamp (inclusive) of the reporting period.
+    */
     google.protobuf.Timestamp to = 2;
   }
 
+  /*
+     The period covered by this report.
+  */
   Period period = 4;
 
+  /*
+     Timestamp indicating when this report was generated.
+  */
   google.protobuf.Timestamp generation_date = 5;
 
+  /*
+     Account number for which this income report applies.
+  */
   string account_number = 6;
 
+  /*
+     Optional disclaimers or notices to accompany the report.
+  */
   repeated string disclaimers = 7;
 
+  /*
+     Address details of the client for whom the report is generated.
+  */
   meshtrade.type.v1.Address client_address = 8;
 
+  /*
+     Name of the client associated with this report.
+  */
   string client_name = 9;
 
+  /*
+     Copyright or attribution text related to this income report.
+  */
   string copyright = 10;
 }
