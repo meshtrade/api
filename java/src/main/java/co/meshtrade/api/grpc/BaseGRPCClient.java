@@ -115,6 +115,18 @@ public abstract class BaseGRPCClient<T extends AbstractStub<T>> implements AutoC
     }
     
     /**
+     * Returns the group context for this client.
+     * 
+     * <p>The group determines the authorization context for all API requests
+     * and is sent as an "x-group" header with every request.
+     * 
+     * @return the group identifier, or null if no group is configured
+     */
+    public String group() {
+        return options.getGroup();
+    }
+    
+    /**
      * Executes a unary gRPC call with authentication, timeout, and error handling.
      * 
      * <p>This method provides the core execution logic for all service methods.

@@ -43,7 +43,7 @@ public class InterfaceGenerator {
             }
             
             // Create the interface
-            TypeSpec.Builder interfaceBuilder = TypeSpec.interfaceBuilder(serviceModel.getServiceName())
+            TypeSpec.Builder interfaceBuilder = TypeSpec.interfaceBuilder(serviceModel.getServiceName() + "Interface")
                 .addModifiers(Modifier.PUBLIC)
                 .addSuperinterface(AutoCloseable.class)
                 .addJavadoc(generateInterfaceJavadoc(serviceModel));
@@ -108,19 +108,19 @@ public class InterfaceGenerator {
             .add("\n")
             .add("<h2>Example Usage</h2>\n")
             .add("<pre>{@code\n")
-            .add("try ($L client = new $LClient()) {\n", serviceModel.getServiceName(), serviceModel.getServiceName())
-            .add("    // Use the client\n")
+            .add("try ($LInterface service = new $L()) {\n", serviceModel.getServiceName(), serviceModel.getServiceName())
+            .add("    // Use the service\n")
             .add("    $L request = $L.newBuilder().build();\n", 
                 serviceModel.getMethods().isEmpty() ? "SomeRequest" : serviceModel.getMethods().get(0).getInputTypeName(),
                 serviceModel.getMethods().isEmpty() ? "SomeRequest" : serviceModel.getMethods().get(0).getInputTypeName())
-            .add("    $L response = client.$L(request);\n", 
+            .add("    $L response = service.$L(request, Optional.empty());\n", 
                 serviceModel.getMethods().isEmpty() ? "SomeResponse" : serviceModel.getMethods().get(0).getOutputTypeName(),
                 serviceModel.getMethods().isEmpty() ? "someMethod" : serviceModel.getMethods().get(0).getJavaMethodName())
             .add("}\n")
             .add("}</pre>\n")
             .add("\n")
             .add("@see <a href=\"$L\">Service Documentation</a>\n", serviceModel.getDocumentationUrl())
-            .add("@see $LClient\n", serviceModel.getServiceName())
+            .add("@see $L\n", serviceModel.getServiceName())
             .build();
     }
     
