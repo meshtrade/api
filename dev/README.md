@@ -11,6 +11,12 @@ This directory contains all development tools for the Meshtrade API project, inc
 # Generate TypeScript and Python SDKs only
 ./dev/tool.sh generate --targets=typescript,python
 
+# Test Python and Java SDKs
+./dev/tool.sh test --targets=python,java
+
+# Check development environment health
+./dev/tool.sh doctor
+
 # Build Java SDK
 ./dev/tool.sh build --targets=java
 
@@ -92,7 +98,19 @@ yarn install
 │   ├── java.sh         # Clean Java generated files
 │   ├── docs.sh         # Clean documentation files
 │   └── all.sh          # Clean all generated files
-├── test/                # Testing scripts (future)
+├── test/                # Test execution scripts
+│   ├── go.sh           # Go tests with coverage and linting
+│   ├── python.sh       # Python tests with pytest
+│   ├── typescript.sh   # TypeScript tests with Jest
+│   ├── java.sh         # Java tests with Maven
+│   └── all.sh          # Unified test orchestration
+├── env/                 # Environment validation scripts
+│   ├── general.sh      # General prerequisites check
+│   ├── go.sh           # Go environment validation
+│   ├── python.sh       # Python environment validation
+│   ├── typescript.sh   # TypeScript environment validation
+│   ├── java.sh         # Java environment validation
+│   └── doctor.sh       # Comprehensive health check
 └── deploy/              # Deployment scripts (future)
 ```
 
@@ -102,6 +120,25 @@ yarn install
 2. **Buf Generation**: Uses `buf generate` with language-specific configurations
 3. **Custom Generators**: Enhanced functionality via `protoc-gen-mesh*` plugins
 4. **Post-Processing**: Language-specific formatting and index generation
+
+### Testing Infrastructure
+
+The testing system provides comprehensive validation for all SDK languages:
+
+1. **Environment Checks**: Validate prerequisites before testing
+2. **Individual Tests**: Language-specific test suites with detailed output
+3. **Unified Orchestration**: Run tests across multiple languages
+4. **Coverage Analysis**: Code coverage reporting where available
+5. **Linting Integration**: Style and security checks alongside tests
+
+### Environment Validation
+
+The `doctor` command and individual environment scripts ensure:
+
+- **Tool Versions**: Verify required tool versions are installed
+- **Dependencies**: Check language-specific dependencies are available
+- **Configuration**: Validate environment variables and paths
+- **Connectivity**: Test network connectivity for external dependencies
 
 ## 📖 Command Reference
 
@@ -117,8 +154,10 @@ yarn install
 |---------|-------------|---------|
 | `generate` | Generate code from protobuf definitions | `./dev/tool.sh generate --targets=go,python` |
 | `build` | Build SDK packages | `./dev/tool.sh build --targets=typescript` |
+| `test` | Run tests for specified targets | `./dev/tool.sh test --targets=python,java` |
 | `clean` | Clean generated files | `./dev/tool.sh clean --targets=java` |
 | `all` | Run clean → generate → build | `./dev/tool.sh all` |
+| `doctor` | Check development environment health | `./dev/tool.sh doctor` |
 | `help` | Show help message | `./dev/tool.sh help` |
 
 #### Options
@@ -175,6 +214,88 @@ Each generation script includes comprehensive error checking:
 ./dev/generate/python.sh     # Shows Python environment issues
 ./dev/generate/java.sh       # Shows Java/Maven configuration issues
 ./dev/generate/typescript.sh # Shows Node/Yarn dependency issues
+```
+
+## 🧪 Testing & Validation
+
+### Running Tests
+
+The testing infrastructure supports both individual and unified testing:
+
+```bash
+# Test all languages
+./dev/tool.sh test
+
+# Test specific languages
+./dev/tool.sh test --targets=python,java
+
+# Test with verbose output
+./dev/tool.sh test --targets=typescript --verbose
+
+# Run individual test suites
+./dev/test/python.sh    # Python tests with pytest
+./dev/test/java.sh      # Java tests with Maven
+./dev/test/go.sh        # Go tests with coverage
+./dev/test/typescript.sh # TypeScript tests with Jest
+```
+
+### Environment Health Checks
+
+Validate your development environment before testing:
+
+```bash
+# Comprehensive health check
+./dev/tool.sh doctor
+
+# Check specific language environments
+./dev/env/python.sh      # Python virtual env, dependencies
+./dev/env/java.sh        # Java version, Maven configuration
+./dev/env/go.sh          # Go version, module setup
+./dev/env/typescript.sh  # Node.js, Yarn, dependencies
+./dev/env/general.sh     # General prerequisites (buf, git)
+```
+
+### Test Features by Language
+
+#### Python Tests (`./dev/test/python.sh`)
+- **pytest**: Comprehensive test discovery and execution
+- **Coverage**: Test coverage reporting with coverage.py
+- **Linting**: Ruff formatting and style checks
+- **Virtual Environment**: Validates proper venv activation
+
+#### Java Tests (`./dev/test/java.sh`)
+- **Unit Tests**: Maven surefire plugin execution
+- **Integration Tests**: Maven failsafe plugin execution
+- **Coverage**: JaCoCo coverage analysis and reporting
+- **Security**: SpotBugs static analysis
+- **Dependencies**: Dependency vulnerability scanning
+
+#### Go Tests (`./dev/test/go.sh`)
+- **Standard Tests**: `go test` with verbose output
+- **Race Detection**: Concurrent access testing
+- **Coverage**: Built-in Go coverage analysis
+- **Linting**: golangci-lint with security checks (gosec)
+- **Module Hygiene**: Validates go.mod tidiness
+
+#### TypeScript Tests (`./dev/test/typescript.sh`)
+- **Jest**: Test framework with coverage reporting  
+- **Type Checking**: TypeScript compiler validation
+- **Linting**: ESLint style and error checking
+- **Build Verification**: Ensures TypeScript compilation succeeds
+
+### CI/CD Integration
+
+The testing infrastructure is designed for CI/CD pipeline integration:
+
+```bash
+# Fail-fast mode for CI pipelines
+./dev/test/all.sh --fail-fast
+
+# Environment validation before tests
+./dev/tool.sh doctor && ./dev/tool.sh test
+
+# Generate test reports
+./dev/tool.sh test --targets=java  # Generates reports/
 ```
 
 ## 🛠️ Custom Protobuf Generators
@@ -252,20 +373,21 @@ buf --version        # Should show latest
 
 ### Planned Features
 
-1. **Testing Framework** (`/dev/test/`)
-   - Integration tests for generated code
-   - API compatibility tests
-   - Performance benchmarks
-
-2. **Deployment Tools** (`/dev/deploy/`)
+1. **Deployment Tools** (`/dev/deploy/`)
    - SDK publishing scripts
    - Version management
    - Release automation
+
+2. **Enhanced Testing**
+   - API compatibility tests
+   - Performance benchmarks
+   - Cross-language integration tests
 
 3. **Developer Utilities**
    - Proto file validation
    - Breaking change detection
    - API documentation preview
+   - Automated dependency updates
 
 ### Contributing
 

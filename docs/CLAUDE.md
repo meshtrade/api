@@ -45,6 +45,49 @@ docs/
 └── package.json                    # Dependencies
 ```
 
+## Testing Infrastructure
+
+### Comprehensive Testing with MCP
+
+The documentation site supports comprehensive testing using the new development tools:
+
+```bash
+# Test documentation generation and site build
+./dev/tool.sh test --targets=docs
+
+# Build and validate documentation site
+./dev/tool.sh build --targets=docs
+
+# Check development environment for docs
+./dev/tool.sh doctor
+```
+
+### Automated Testing with Playwright MCP
+
+The documentation site includes comprehensive Playwright testing:
+
+1. **Screenshot Testing**: Automated visual testing of documentation pages
+   - Screenshots stored in `testing_screenshots/` directory  
+   - **CRITICAL**: Always run Playwright in headless mode
+   - Use descriptive filenames with timestamps
+
+2. **Navigation Testing**: Verify all documentation links and navigation
+3. **Mobile Responsiveness**: Test documentation on mobile devices
+4. **API Integration**: Test generated documentation matches protobuf definitions
+
+### Environment Validation
+
+Before working with documentation:
+
+```bash
+# Validate documentation environment
+./dev/env/typescript.sh    # Node.js, Yarn dependencies
+./dev/env/general.sh       # buf, git tools
+
+# Check documentation site health
+curl -s http://localhost:3000/api/ || echo "Site not running"
+```
+
 ## Code Generation System
 
 ### protoc-gen-meshdoc Tool
@@ -94,6 +137,14 @@ Each generated documentation page includes:
    - SDK configuration references
 
 ## Development Workflow
+
+### Standard Development Process
+
+1. **Environment Setup**: Validate environment with `./dev/tool.sh doctor`
+2. **Documentation Generation**: Run `./dev/tool.sh generate --targets=docs`
+3. **Site Build**: Run `./dev/tool.sh build --targets=docs` 
+4. **Testing**: Run `./dev/tool.sh test --targets=docs` (when implemented)
+5. **Local Preview**: Use `yarn start:docs` for development server
 
 ### 🤖 For AI Agents: Playwright MCP Testing
 

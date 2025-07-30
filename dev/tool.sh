@@ -29,7 +29,9 @@ COMMANDS:
     generate    Generate code from protobuf definitions
     build       Build SDK packages
     clean       Clean generated files
+    test        Run tests for specified targets
     all         Run generate + build
+    doctor      Check development environment health
     help        Show this help message
 
 OPTIONS:
@@ -44,6 +46,12 @@ EXAMPLES:
 
     # Build Java SDK only
     $0 build --targets=java
+
+    # Test Python and Java SDKs
+    $0 test --targets=python,java
+
+    # Check environment health
+    $0 doctor
 
     # Clean all generated files
     $0 clean
@@ -74,6 +82,8 @@ DIRECTORY STRUCTURE:
     ├── generate/        Code generation scripts
     ├── build/           Build scripts
     ├── clean/           Cleanup scripts
+    ├── test/            Test execution scripts
+    ├── env/             Environment validation scripts
     └── README.md        Detailed documentation
 
 For more information, see: /dev/README.md
@@ -207,6 +217,54 @@ case $COMMAND in
         done
         
         echo -e "${GREEN}🎉 All builds completed successfully!${NC}"
+        ;;
+        
+    test)
+        echo -e "${GREEN}🧪 Starting test execution...${NC}"
+        echo
+        
+        # Filter targets for testing (only go, python, typescript, java)
+        TEST_TARGETS=()
+        for target in "${NORMALIZED_TARGETS[@]}"; do
+            case $target in
+                go|python|typescript|java)
+                    TEST_TARGETS+=("$target")
+                    ;;
+                docs)
+                    echo -e "${BLUE}ℹ️  Skipping docs target (no tests available)${NC}"
+                    ;;
+                *)
+                    echo -e "${YELLOW}⚠️  Unknown test target: $target${NC}"
+                    ;;
+            esac
+        done
+        
+        if [[ ${#TEST_TARGETS[@]} -eq 0 ]]; then
+            echo -e "${YELLOW}⚠️  No testable targets specified${NC}"
+            echo "Available test targets: go, python, typescript, java"
+            exit 1
+        fi
+        
+        # Build targets string for test script
+        TEST_TARGETS_STR=$(IFS=','; echo "${TEST_TARGETS[*]}")
+        
+        # Run the test orchestration script
+        if $VERBOSE; then
+            "$SCRIPT_DIR/test/all.sh" --targets="$TEST_TARGETS_STR" --verbose
+        else
+            "$SCRIPT_DIR/test/all.sh" --targets="$TEST_TARGETS_STR"
+        fi
+        ;;
+        
+    doctor)
+        echo -e "${GREEN}🏥 Running environment health check...${NC}"
+        echo
+        
+        if $VERBOSE; then
+            "$SCRIPT_DIR/env/doctor.sh" --verbose
+        else
+            "$SCRIPT_DIR/env/doctor.sh"
+        fi
         ;;
         
     clean)

@@ -30,10 +30,12 @@ This is the Mesh API repository containing protobuf definitions and multi-langua
 - Site URL: https://meshtrade.github.io/api
 
 
-### Code Generation
+### Code Generation & Testing
 - `./dev/tool.sh all` - Main development tool that cleans, generates, and builds all client libraries
 - `./dev/tool.sh generate` - Generate code from protobuf definitions
 - `./dev/tool.sh build` - Build SDK packages
+- `./dev/tool.sh test` - Run comprehensive test suites for all languages
+- `./dev/tool.sh doctor` - Check development environment health
 - `./dev/tool.sh clean` - Clean generated files
 - `buf generate` - Direct buf generation (used internally by dev scripts)
 
@@ -44,15 +46,26 @@ Playwright screenshots for testing purposes should be stored in the `docs/testin
 ### Language-Specific Commands
 
 #### Go
-- `go test ./...` - Run all Go tests
+- `./dev/test/go.sh` - Run comprehensive Go tests with coverage and linting
+- `go test ./...` - Run basic Go tests
 - `go mod tidy` - Clean up Go module dependencies
 
-#### Python
+#### Python  
+- `./dev/test/python.sh` - Run comprehensive Python tests with coverage and linting
 - `pip install -e ".[dev]"` - Install Python package in development mode
 - `pytest` - Run Python tests
 - `ruff check python/ --fix` - Lint Python code (CRITICAL: Always run after Python changes)
 - `ruff format python/` - Format Python code
 - `tox` - Run full test suite with tox
+
+#### TypeScript
+- `./dev/test/typescript.sh` - Run comprehensive TypeScript tests with Jest and linting
+- `yarn test` - Run TypeScript tests
+- `yarn build` - Build TypeScript library
+- `yarn lint` - Lint TypeScript code
+
+#### Java
+- `./dev/test/java.sh` - Run comprehensive Java tests with Maven and coverage analysis
 
 ### Python Environment Setup
 
@@ -117,10 +130,6 @@ message = (
 )
 ```
 
-#### TypeScript
-- `yarn build` - Build TypeScript library
-- `yarn test` - Run TypeScript tests
-- `yarn lint` - Lint TypeScript code
 
 ## Architecture
 
@@ -145,6 +154,8 @@ message = (
   - `generate/` - Code generation scripts for each language
   - `build/` - Build scripts for SDK packages  
   - `clean/` - Cleanup scripts for generated files
+  - `test/` - Test execution scripts for all languages
+  - `env/` - Environment validation scripts and doctor tool
 - `/tool/protoc-gen-meshgo/` - Custom protobuf generator for Go
 
 ### API Services Structure
@@ -185,10 +196,69 @@ The `/proto/meshtrade/type/v1/` directory contains foundational types used acros
 2. **Code Generation**: Run `./dev/tool.sh all` to clean, generate, and build all client libraries
    - For selective generation: `./dev/tool.sh generate --targets=go,python`
    - For individual languages: `./dev/tool.sh generate --targets=typescript`
-3. **Testing**: Each language has its own test suite - run them after generation
+3. **Testing**: Use the comprehensive testing infrastructure after generation
+   - Run all tests: `./dev/tool.sh test`
+   - Run specific language tests: `./dev/tool.sh test --targets=python,java`
+   - Environment validation: `./dev/tool.sh doctor`
 4. **Version Management**: API versions are managed through protobuf package paths (v1, v2, etc.)
 5. **Environment Requirements**: The dev tool validates all prerequisites automatically:
    - Go 1.21+, Python 3.12+ with active venv, Node.js 18+, Java 21, Maven, Yarn, buf
+
+## Testing Infrastructure
+
+### Comprehensive Test Execution
+
+The testing system provides robust validation across all SDK languages:
+
+```bash
+# Test all languages with environment validation
+./dev/tool.sh test
+
+# Test specific languages  
+./dev/tool.sh test --targets=python,java,typescript
+
+# Verbose output for debugging
+./dev/tool.sh test --targets=go --verbose
+
+# Individual language tests
+./dev/test/python.sh      # Python with pytest, coverage, ruff linting
+./dev/test/java.sh        # Java with Maven, JaCoCo coverage, SpotBugs
+./dev/test/go.sh          # Go with race detection, coverage, golangci-lint
+./dev/test/typescript.sh  # TypeScript with Jest, type checking, ESLint
+```
+
+### Environment Health Validation
+
+Before testing, validate your development environment:
+
+```bash
+# Comprehensive environment check
+./dev/tool.sh doctor
+
+# Individual environment validation
+./dev/env/python.sh       # Python venv, dependencies
+./dev/env/java.sh         # Java 21, Maven setup
+./dev/env/go.sh           # Go version, modules
+./dev/env/typescript.sh   # Node.js, Yarn, dependencies
+./dev/env/general.sh      # buf, git, general tools
+```
+
+### Test Features
+
+**Python Tests**: pytest with coverage, ruff linting, virtual environment validation
+**Java Tests**: Maven surefire/failsafe, JaCoCo coverage, SpotBugs security analysis
+**Go Tests**: Standard testing, race detection, coverage analysis, security linting
+**TypeScript Tests**: Jest framework, type checking, ESLint validation, build verification
+
+### CI/CD Integration
+
+```bash
+# Fail-fast for CI pipelines
+./dev/test/all.sh --fail-fast
+
+# Environment + testing workflow
+./dev/tool.sh doctor && ./dev/tool.sh test
+```
 
 ## Documentation Work
 

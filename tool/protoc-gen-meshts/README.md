@@ -12,7 +12,17 @@ This generator creates TypeScript client wrappers around gRPC-web generated code
 
 ## Usage
 
-This generator is called via buf generate with the following pattern:
+This generator is automatically invoked during TypeScript code generation:
+
+```bash
+# Generate TypeScript SDK (includes this plugin)
+./dev/tool.sh generate --targets=typescript
+
+# Generate all SDKs
+./dev/tool.sh all
+```
+
+Input/Output pattern:
 - Input: `proto/meshtrade/iam/api_user/v1/service.proto`
 - Output: `ts/src/meshtrade/iam/api_user/v1/client_grpc_web_meshts.ts`
 
