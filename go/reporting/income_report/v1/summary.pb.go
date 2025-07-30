@@ -22,13 +22,20 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// Summary represents the aggregated financial outcome for a given currency.
+//
+// It includes the total reported value and the net debit or credit amount
+// associated with the currency for the given report period.
 type Summary struct {
-	state                 protoimpl.MessageState `protogen:"open.v1"`
-	Currency              *v1.Token              `protobuf:"bytes,1,opt,name=currency,proto3" json:"currency,omitempty"`
-	ReportedCurrencyValue *v1.Amount             `protobuf:"bytes,2,opt,name=reported_currency_value,json=reportedCurrencyValue,proto3" json:"reported_currency_value,omitempty"`
-	DebitCredit           *v1.Amount             `protobuf:"bytes,3,opt,name=debit_credit,json=debitCredit,proto3" json:"debit_credit,omitempty"`
-	unknownFields         protoimpl.UnknownFields
-	sizeCache             protoimpl.SizeCache
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The token representing the currency for this summary.
+	Currency *v1.Token `protobuf:"bytes,1,opt,name=currency,proto3" json:"currency,omitempty"`
+	// The total value in the reporting currency, converted from original amounts.
+	ReportedCurrencyValue *v1.Amount `protobuf:"bytes,2,opt,name=reported_currency_value,json=reportedCurrencyValue,proto3" json:"reported_currency_value,omitempty"`
+	// Net amount after summing debits and credits. Positive for net credit, negative for net debit.
+	DebitCredit   *v1.Amount `protobuf:"bytes,3,opt,name=debit_credit,json=debitCredit,proto3" json:"debit_credit,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Summary) Reset() {

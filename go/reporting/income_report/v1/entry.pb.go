@@ -23,15 +23,31 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// Entry represents a single income line item in a financial income report.
+//
+// Each entry captures a dated transaction or earning event related to a specific asset
+// and token. It includes contextual metadata (description and narrative), the original
+// amount, and its equivalent value in a specified reporting currency.
 type Entry struct {
-	state                 protoimpl.MessageState `protogen:"open.v1"`
-	AssetName             string                 `protobuf:"bytes,1,opt,name=asset_name,json=assetName,proto3" json:"asset_name,omitempty"`
-	Token                 *v1.Token              `protobuf:"bytes,2,opt,name=token,proto3" json:"token,omitempty"`
-	Date                  *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=date,proto3" json:"date,omitempty"`
-	Description           string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
-	Narrative             string                 `protobuf:"bytes,5,opt,name=narrative,proto3" json:"narrative,omitempty"`
-	Amount                *v1.Amount             `protobuf:"bytes,6,opt,name=amount,proto3" json:"amount,omitempty"`
-	ReportedCurrencyValue *v1.Amount             `protobuf:"bytes,7,opt,name=reported_currency_value,json=reportedCurrencyValue,proto3" json:"reported_currency_value,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Human-readable name of the asset associated with this entry.
+	// Used for display and identification purposes.
+	AssetName string `protobuf:"bytes,1,opt,name=asset_name,json=assetName,proto3" json:"asset_name,omitempty"`
+	// Token representing the currency or asset in which the original amount is denominated.
+	Token *v1.Token `protobuf:"bytes,2,opt,name=token,proto3" json:"token,omitempty"`
+	// Timestamp representing the date the income event occurred or was recorded.
+	Date *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=date,proto3" json:"date,omitempty"`
+	// Short description or label for the entry (e.g. "Interest", "Trading Fees").
+	// Intended to summarize the nature of the transaction.
+	Description string `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
+	// Extended narrative or context for the income entry, often including
+	// source details or explanatory information.
+	Narrative string `protobuf:"bytes,5,opt,name=narrative,proto3" json:"narrative,omitempty"`
+	// Original income amount in the native token specified.
+	Amount *v1.Amount `protobuf:"bytes,6,opt,name=amount,proto3" json:"amount,omitempty"`
+	// Equivalent value of the income in the reporting currency,
+	// as defined by the report context.
+	ReportedCurrencyValue *v1.Amount `protobuf:"bytes,7,opt,name=reported_currency_value,json=reportedCurrencyValue,proto3" json:"reported_currency_value,omitempty"`
 	unknownFields         protoimpl.UnknownFields
 	sizeCache             protoimpl.SizeCache
 }

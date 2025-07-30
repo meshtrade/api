@@ -31,17 +31,18 @@ type Role int32
 const (
 	// The default value, indicating the role is unknown or not specified.
 	// This should be treated as an error and not be used explicitly.
-	Role_ROLE_UNSPECIFIED         Role = 0
-	Role_ROLE_WALLET_ADMIN        Role = 1
-	Role_ROLE_WALLET_VIEWER       Role = 2
-	Role_ROLE_COMPLIANCE_ADMIN    Role = 3
-	Role_ROLE_COMPLIANCE_VIEWER   Role = 4
-	Role_ROLE_IAM_ADMIN           Role = 5
-	Role_ROLE_IAM_VIEWER          Role = 6
-	Role_ROLE_ISSUANCE_HUB_ADMIN  Role = 7
-	Role_ROLE_ISSUANCE_HUB_VIEWER Role = 8
-	Role_ROLE_TRADING_ADMIN       Role = 9
-	Role_ROLE_TRADING_VIEWER      Role = 10
+	Role_ROLE_UNSPECIFIED             Role = 0
+	Role_ROLE_WALLET_ADMIN            Role = 1
+	Role_ROLE_WALLET_VIEWER           Role = 2
+	Role_ROLE_COMPLIANCE_ADMIN        Role = 3
+	Role_ROLE_COMPLIANCE_VIEWER       Role = 4
+	Role_ROLE_IAM_ADMIN               Role = 5
+	Role_ROLE_IAM_VIEWER              Role = 6
+	Role_ROLE_ISSUANCE_HUB_ADMIN      Role = 7
+	Role_ROLE_ISSUANCE_HUB_VIEWER     Role = 8
+	Role_ROLE_TRADING_ADMIN           Role = 9
+	Role_ROLE_TRADING_VIEWER          Role = 10
+	Role_ROLE_FINANCIAL_REPORT_VIEWER Role = 11
 )
 
 // Enum value maps for Role.
@@ -58,19 +59,21 @@ var (
 		8:  "ROLE_ISSUANCE_HUB_VIEWER",
 		9:  "ROLE_TRADING_ADMIN",
 		10: "ROLE_TRADING_VIEWER",
+		11: "ROLE_FINANCIAL_REPORT_VIEWER",
 	}
 	Role_value = map[string]int32{
-		"ROLE_UNSPECIFIED":         0,
-		"ROLE_WALLET_ADMIN":        1,
-		"ROLE_WALLET_VIEWER":       2,
-		"ROLE_COMPLIANCE_ADMIN":    3,
-		"ROLE_COMPLIANCE_VIEWER":   4,
-		"ROLE_IAM_ADMIN":           5,
-		"ROLE_IAM_VIEWER":          6,
-		"ROLE_ISSUANCE_HUB_ADMIN":  7,
-		"ROLE_ISSUANCE_HUB_VIEWER": 8,
-		"ROLE_TRADING_ADMIN":       9,
-		"ROLE_TRADING_VIEWER":      10,
+		"ROLE_UNSPECIFIED":             0,
+		"ROLE_WALLET_ADMIN":            1,
+		"ROLE_WALLET_VIEWER":           2,
+		"ROLE_COMPLIANCE_ADMIN":        3,
+		"ROLE_COMPLIANCE_VIEWER":       4,
+		"ROLE_IAM_ADMIN":               5,
+		"ROLE_IAM_VIEWER":              6,
+		"ROLE_ISSUANCE_HUB_ADMIN":      7,
+		"ROLE_ISSUANCE_HUB_VIEWER":     8,
+		"ROLE_TRADING_ADMIN":           9,
+		"ROLE_TRADING_VIEWER":          10,
+		"ROLE_FINANCIAL_REPORT_VIEWER": 11,
 	}
 )
 
@@ -182,7 +185,7 @@ const file_meshtrade_iam_role_v1_role_proto_rawDesc = "" +
 	"\n" +
 	" meshtrade/iam/role/v1/role.proto\x12\x15meshtrade.iam.role.v1\x1a google/protobuf/descriptor.proto\"=\n" +
 	"\bRoleList\x121\n" +
-	"\x05roles\x18\x01 \x03(\x0e2\x1b.meshtrade.iam.role.v1.RoleR\x05roles*\x97\x02\n" +
+	"\x05roles\x18\x01 \x03(\x0e2\x1b.meshtrade.iam.role.v1.RoleR\x05roles*\xb9\x02\n" +
 	"\x04Role\x12\x14\n" +
 	"\x10ROLE_UNSPECIFIED\x10\x00\x12\x15\n" +
 	"\x11ROLE_WALLET_ADMIN\x10\x01\x12\x16\n" +
@@ -195,7 +198,8 @@ const file_meshtrade_iam_role_v1_role_proto_rawDesc = "" +
 	"\x18ROLE_ISSUANCE_HUB_VIEWER\x10\b\x12\x16\n" +
 	"\x12ROLE_TRADING_ADMIN\x10\t\x12\x17\n" +
 	"\x13ROLE_TRADING_VIEWER\x10\n" +
-	":f\n" +
+	"\x12 \n" +
+	"\x1cROLE_FINANCIAL_REPORT_VIEWER\x10\v:f\n" +
 	"\x0estandard_roles\x12\x1c.google.protobuf.FileOptions\x18ӆ\x03 \x01(\v2\x1f.meshtrade.iam.role.v1.RoleListR\rstandardRoles:W\n" +
 	"\x05roles\x12\x1e.google.protobuf.MethodOptions\x18Ն\x03 \x01(\v2\x1f.meshtrade.iam.role.v1.RoleListR\x05rolesBN\n" +
 	"\x1cco.meshtrade.api.iam.role.v1Z.github.com/meshtrade/api/go/iam/role/v1;rolev1b\x06proto3"

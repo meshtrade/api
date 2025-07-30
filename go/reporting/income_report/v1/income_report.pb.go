@@ -23,20 +23,37 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// IncomeReport represents a detailed report of income entries over a specific period.
+//
+// It contains individual transaction entries, an aggregated summary,
+// metadata about the reporting period, client information, and any
+// relevant disclaimers or copyright notes.
+//
+// This structure supports both display and export of income reporting data.
 type IncomeReport struct {
-	state             protoimpl.MessageState `protogen:"open.v1"`
-	Entries           []*Entry               `protobuf:"bytes,1,rep,name=entries,proto3" json:"entries,omitempty"`
-	Summary           *Summary               `protobuf:"bytes,2,opt,name=summary,proto3" json:"summary,omitempty"`
-	ReportingCurrency *v1.Token              `protobuf:"bytes,3,opt,name=reporting_currency,json=reportingCurrency,proto3" json:"reporting_currency,omitempty"`
-	Period            *IncomeReport_Period   `protobuf:"bytes,4,opt,name=period,proto3" json:"period,omitempty"`
-	GenerationDate    *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=generation_date,json=generationDate,proto3" json:"generation_date,omitempty"`
-	AccountNumber     string                 `protobuf:"bytes,6,opt,name=account_number,json=accountNumber,proto3" json:"account_number,omitempty"`
-	Disclaimers       []string               `protobuf:"bytes,7,rep,name=disclaimers,proto3" json:"disclaimers,omitempty"`
-	ClientAddress     *v1.Address            `protobuf:"bytes,8,opt,name=client_address,json=clientAddress,proto3" json:"client_address,omitempty"`
-	ClientName        string                 `protobuf:"bytes,9,opt,name=client_name,json=clientName,proto3" json:"client_name,omitempty"`
-	Copyright         string                 `protobuf:"bytes,10,opt,name=copyright,proto3" json:"copyright,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// List of detailed income entries included in this report.
+	Entries []*Entry `protobuf:"bytes,1,rep,name=entries,proto3" json:"entries,omitempty"`
+	// Aggregated summary of the income report, including totals by currency.
+	Summary *Summary `protobuf:"bytes,2,opt,name=summary,proto3" json:"summary,omitempty"`
+	// Token representing the currency in which the report values are denominated.
+	ReportingCurrency *v1.Token `protobuf:"bytes,3,opt,name=reporting_currency,json=reportingCurrency,proto3" json:"reporting_currency,omitempty"`
+	// The period covered by this report.
+	Period *IncomeReport_Period `protobuf:"bytes,4,opt,name=period,proto3" json:"period,omitempty"`
+	// Timestamp indicating when this report was generated.
+	GenerationDate *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=generation_date,json=generationDate,proto3" json:"generation_date,omitempty"`
+	// Account number for which this income report applies.
+	AccountNumber string `protobuf:"bytes,6,opt,name=account_number,json=accountNumber,proto3" json:"account_number,omitempty"`
+	// Optional disclaimers or notices to accompany the report.
+	Disclaimers []string `protobuf:"bytes,7,rep,name=disclaimers,proto3" json:"disclaimers,omitempty"`
+	// Address details of the client for whom the report is generated.
+	ClientAddress *v1.Address `protobuf:"bytes,8,opt,name=client_address,json=clientAddress,proto3" json:"client_address,omitempty"`
+	// Name of the client associated with this report.
+	ClientName string `protobuf:"bytes,9,opt,name=client_name,json=clientName,proto3" json:"client_name,omitempty"`
+	// Copyright or attribution text related to this income report.
+	Copyright     string `protobuf:"bytes,10,opt,name=copyright,proto3" json:"copyright,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *IncomeReport) Reset() {
@@ -139,9 +156,12 @@ func (x *IncomeReport) GetCopyright() string {
 	return ""
 }
 
+// Reporting period for which this income report was generated.
 type IncomeReport_Period struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	From          *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=from,proto3" json:"from,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Start timestamp (inclusive) of the reporting period.
+	From *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=from,proto3" json:"from,omitempty"`
+	// End timestamp (inclusive) of the reporting period.
 	To            *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=to,proto3" json:"to,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache

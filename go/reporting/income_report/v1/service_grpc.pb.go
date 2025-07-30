@@ -26,8 +26,37 @@ const (
 // IncomeReportServiceClient is the client API for IncomeReportService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// IncomeReportService manages income report generation and export.
+//
+// This service allows clients to retrieve structured income reports
+// and download them as Excel files. Reports are generated for a
+// specified account over a given time range and denominated in
+// a selected reporting currency.
+//
+// All operations require access to financial reporting permissions.
 type IncomeReportServiceClient interface {
+	// Retrieves a structured income report for a specific account and time range.
+	//
+	// Parameters:
+	// - account_num: Unique account identifier
+	// - from: Start timestamp for the report period
+	// - to: End timestamp for the report period
+	// - reporting_currency_token: Token in which report values are denominated
+	//
+	// Returns:
+	// - GetIncomeReportResponse: Structured income report with earnings breakdown
 	GetIncomeReport(ctx context.Context, in *GetIncomeReportRequest, opts ...grpc.CallOption) (*GetIncomeReportResponse, error)
+	// Exports an income report to Excel format for download.
+	//
+	// Parameters:
+	// - account_num: Unique account identifier
+	// - from: Start timestamp for the report period
+	// - to: End timestamp for the report period
+	// - reporting_currency_token: Token in which report values are denominated
+	//
+	// Returns:
+	// - GetExcelIncomeReportResponse: Base64-encoded Excel file containing the report
 	GetExcelIncomeReport(ctx context.Context, in *GetExcelIncomeReportRequest, opts ...grpc.CallOption) (*GetExcelIncomeReportResponse, error)
 }
 
@@ -62,8 +91,37 @@ func (c *incomeReportServiceClient) GetExcelIncomeReport(ctx context.Context, in
 // IncomeReportServiceServer is the server API for IncomeReportService service.
 // All implementations must embed UnimplementedIncomeReportServiceServer
 // for forward compatibility.
+//
+// IncomeReportService manages income report generation and export.
+//
+// This service allows clients to retrieve structured income reports
+// and download them as Excel files. Reports are generated for a
+// specified account over a given time range and denominated in
+// a selected reporting currency.
+//
+// All operations require access to financial reporting permissions.
 type IncomeReportServiceServer interface {
+	// Retrieves a structured income report for a specific account and time range.
+	//
+	// Parameters:
+	// - account_num: Unique account identifier
+	// - from: Start timestamp for the report period
+	// - to: End timestamp for the report period
+	// - reporting_currency_token: Token in which report values are denominated
+	//
+	// Returns:
+	// - GetIncomeReportResponse: Structured income report with earnings breakdown
 	GetIncomeReport(context.Context, *GetIncomeReportRequest) (*GetIncomeReportResponse, error)
+	// Exports an income report to Excel format for download.
+	//
+	// Parameters:
+	// - account_num: Unique account identifier
+	// - from: Start timestamp for the report period
+	// - to: End timestamp for the report period
+	// - reporting_currency_token: Token in which report values are denominated
+	//
+	// Returns:
+	// - GetExcelIncomeReportResponse: Base64-encoded Excel file containing the report
 	GetExcelIncomeReport(context.Context, *GetExcelIncomeReportRequest) (*GetExcelIncomeReportResponse, error)
 	mustEmbedUnimplementedIncomeReportServiceServer()
 }

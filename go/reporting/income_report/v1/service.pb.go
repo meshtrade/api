@@ -7,6 +7,9 @@
 package income_reportv1
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
+	_ "github.com/meshtrade/api/go/iam/role/v1"
+	_ "github.com/meshtrade/api/go/option/v1"
 	v1 "github.com/meshtrade/api/go/type/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -24,11 +27,15 @@ const (
 )
 
 type GetIncomeReportRequest struct {
-	state                  protoimpl.MessageState `protogen:"open.v1"`
-	AccountNum             string                 `protobuf:"bytes,1,opt,name=account_num,json=accountNum,proto3" json:"account_num,omitempty"`
-	From                   *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=from,proto3" json:"from,omitempty"`
-	To                     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=to,proto3" json:"to,omitempty"`
-	ReportingCurrencyToken *v1.Token              `protobuf:"bytes,4,opt,name=reporting_currency_token,json=reportingCurrencyToken,proto3" json:"reporting_currency_token,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Unique account number for which the income report is requested.
+	AccountNum string `protobuf:"bytes,1,opt,name=account_num,json=accountNum,proto3" json:"account_num,omitempty"`
+	// Start of the reporting period (inclusive).
+	From *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=from,proto3" json:"from,omitempty"`
+	// End of the reporting period (inclusive).
+	To *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=to,proto3" json:"to,omitempty"`
+	// Token representing the currency in which the report will be calculated.
+	ReportingCurrencyToken *v1.Token `protobuf:"bytes,4,opt,name=reporting_currency_token,json=reportingCurrencyToken,proto3" json:"reporting_currency_token,omitempty"`
 	unknownFields          protoimpl.UnknownFields
 	sizeCache              protoimpl.SizeCache
 }
@@ -92,8 +99,9 @@ func (x *GetIncomeReportRequest) GetReportingCurrencyToken() *v1.Token {
 }
 
 type GetIncomeReportResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	IncomeReport  *IncomeReport          `protobuf:"bytes,1,opt,name=income_report,json=incomeReport,proto3" json:"income_report,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Structured income report with detailed earnings information.
+	IncomeReport  *IncomeReport `protobuf:"bytes,1,opt,name=income_report,json=incomeReport,proto3" json:"income_report,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -136,11 +144,15 @@ func (x *GetIncomeReportResponse) GetIncomeReport() *IncomeReport {
 }
 
 type GetExcelIncomeReportRequest struct {
-	state                  protoimpl.MessageState `protogen:"open.v1"`
-	AccountNum             string                 `protobuf:"bytes,1,opt,name=account_num,json=accountNum,proto3" json:"account_num,omitempty"`
-	From                   *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=from,proto3" json:"from,omitempty"`
-	To                     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=to,proto3" json:"to,omitempty"`
-	ReportingCurrencyToken *v1.Token              `protobuf:"bytes,4,opt,name=reporting_currency_token,json=reportingCurrencyToken,proto3" json:"reporting_currency_token,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Unique account number for which the Excel export is requested.
+	AccountNum string `protobuf:"bytes,1,opt,name=account_num,json=accountNum,proto3" json:"account_num,omitempty"`
+	// Start of the reporting period (inclusive).
+	From *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=from,proto3" json:"from,omitempty"`
+	// End of the reporting period (inclusive).
+	To *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=to,proto3" json:"to,omitempty"`
+	// Token representing the currency in which the Excel report will be calculated.
+	ReportingCurrencyToken *v1.Token `protobuf:"bytes,4,opt,name=reporting_currency_token,json=reportingCurrencyToken,proto3" json:"reporting_currency_token,omitempty"`
 	unknownFields          protoimpl.UnknownFields
 	sizeCache              protoimpl.SizeCache
 }
@@ -204,8 +216,9 @@ func (x *GetExcelIncomeReportRequest) GetReportingCurrencyToken() *v1.Token {
 }
 
 type GetExcelIncomeReportResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ExcelBase64   string                 `protobuf:"bytes,1,opt,name=excel_base64,json=excelBase64,proto3" json:"excel_base64,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Base64-encoded binary content of the Excel report file.
+	ExcelBase64   string `protobuf:"bytes,1,opt,name=excel_base64,json=excelBase64,proto3" json:"excel_base64,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -251,7 +264,7 @@ var File_meshtrade_reporting_income_report_v1_service_proto protoreflect.FileDes
 
 const file_meshtrade_reporting_income_report_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"2meshtrade/reporting/income_report/v1/service.proto\x12$meshtrade.reporting.income_report.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1dmeshtrade/type/v1/token.proto\x1a8meshtrade/reporting/income_report/v1/income_report.proto\"\xe9\x01\n" +
+	"2meshtrade/reporting/income_report/v1/service.proto\x12$meshtrade.reporting.income_report.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1dmeshtrade/type/v1/token.proto\x1a8meshtrade/reporting/income_report/v1/income_report.proto\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\"\xe9\x01\n" +
 	"\x16GetIncomeReportRequest\x12\x1f\n" +
 	"\vaccount_num\x18\x01 \x01(\tR\n" +
 	"accountNum\x12.\n" +
@@ -259,18 +272,24 @@ const file_meshtrade_reporting_income_report_v1_service_proto_rawDesc = "" +
 	"\x02to\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\x02to\x12R\n" +
 	"\x18reporting_currency_token\x18\x04 \x01(\v2\x18.meshtrade.type.v1.TokenR\x16reportingCurrencyToken\"r\n" +
 	"\x17GetIncomeReportResponse\x12W\n" +
-	"\rincome_report\x18\x01 \x01(\v22.meshtrade.reporting.income_report.v1.IncomeReportR\fincomeReport\"\xee\x01\n" +
-	"\x1bGetExcelIncomeReportRequest\x12\x1f\n" +
-	"\vaccount_num\x18\x01 \x01(\tR\n" +
-	"accountNum\x12.\n" +
-	"\x04from\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x04from\x12*\n" +
-	"\x02to\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\x02to\x12R\n" +
-	"\x18reporting_currency_token\x18\x04 \x01(\v2\x18.meshtrade.type.v1.TokenR\x16reportingCurrencyToken\"A\n" +
+	"\rincome_report\x18\x01 \x01(\v22.meshtrade.reporting.income_report.v1.IncomeReportR\fincomeReport\"\xb8\x04\n" +
+	"\x1bGetExcelIncomeReportRequest\x12\x84\x01\n" +
+	"\vaccount_num\x18\x01 \x01(\tBc\xbaH`\xba\x01L\n" +
+	"\x14account_num.required\x12\x17account_num is required\x1a\x1bthis.matches('^[0-9]{1,}$')r\x0f\x10\x012\v^[0-9]{1,}$R\n" +
+	"accountNum\x12q\n" +
+	"\x04from\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampBA\xbaH>\xba\x01;\n" +
+	"\rfrom.required\x12\x1c'from' timestamp is required\x1a\fthis != nullR\x04from\x12i\n" +
+	"\x02to\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampB=\xbaH:\xba\x017\n" +
+	"\vto.required\x12\x1a'to' timestamp is required\x1a\fthis != nullR\x02to\x12\xb3\x01\n" +
+	"\x18reporting_currency_token\x18\x04 \x01(\v2\x18.meshtrade.type.v1.TokenB_\xbaH\\\xba\x01Y\n" +
+	"!reporting_currency_token.required\x12&'reporting_currency_token' is required\x1a\fthis != nullR\x16reportingCurrencyToken\"A\n" +
 	"\x1cGetExcelIncomeReportResponse\x12!\n" +
-	"\fexcel_base64\x18\x01 \x01(\tR\vexcelBase642\xc6\x02\n" +
-	"\x13IncomeReportService\x12\x8e\x01\n" +
-	"\x0fGetIncomeReport\x12<.meshtrade.reporting.income_report.v1.GetIncomeReportRequest\x1a=.meshtrade.reporting.income_report.v1.GetIncomeReportResponse\x12\x9d\x01\n" +
-	"\x14GetExcelIncomeReport\x12A.meshtrade.reporting.income_report.v1.GetExcelIncomeReportRequest\x1aB.meshtrade.reporting.income_report.v1.GetExcelIncomeReportResponseBHZFgithub.com/meshtrade/api/go/reporting/income_report/v1;income_reportv1b\x06proto3"
+	"\fexcel_base64\x18\x01 \x01(\tR\vexcelBase642\xe0\x02\n" +
+	"\x13IncomeReportService\x12\x9b\x01\n" +
+	"\x0fGetIncomeReport\x12<.meshtrade.reporting.income_report.v1.GetIncomeReportRequest\x1a=.meshtrade.reporting.income_report.v1.GetIncomeReportResponse\"\v\xa0\xb5\x18\x01\xaa\xb5\x18\x03\n" +
+	"\x01\v\x12\xaa\x01\n" +
+	"\x14GetExcelIncomeReport\x12A.meshtrade.reporting.income_report.v1.GetExcelIncomeReportRequest\x1aB.meshtrade.reporting.income_report.v1.GetExcelIncomeReportResponse\"\v\xa0\xb5\x18\x01\xaa\xb5\x18\x03\n" +
+	"\x01\vBHZFgithub.com/meshtrade/api/go/reporting/income_report/v1;income_reportv1b\x06proto3"
 
 var (
 	file_meshtrade_reporting_income_report_v1_service_proto_rawDescOnce sync.Once
