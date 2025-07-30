@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package meshtrade.reporting.income_report.v1;
-
+import "buf/validate/validate.proto";
 import "google/protobuf/timestamp.proto";
 import "meshtrade/type/v1/token.proto";
 import "meshtrade/reporting/income_report/v1/income_report.proto";
@@ -97,22 +97,50 @@ message GetExcelIncomeReportRequest {
   /*
      Unique account number for which the Excel export is requested.
   */
-  string account_num = 1;
+  string account_num = 1 [(buf.validate.field) = {
+    string: {
+      min_len: 1
+      pattern: "^[0-9]{1,}$"
+    }
+    cel: {
+      id: "account_num.required"
+      message: "account_num is required"
+      expression: "this.matches('^[0-9]{1,}$')"
+    }
+  }];;
 
   /*
      Start of the reporting period (inclusive).
   */
-  google.protobuf.Timestamp from = 2;
+  google.protobuf.Timestamp from = 2 [
+    (buf.validate.field).cel = {
+      id: "from.required",
+      message: "'from' timestamp is required",
+      expression: "this != null"
+    }
+  ];
 
   /*
      End of the reporting period (inclusive).
   */
-  google.protobuf.Timestamp to = 3;
+  google.protobuf.Timestamp to = 3 [
+    (buf.validate.field).cel = {
+      id: "to.required",
+      message: "'to' timestamp is required",
+      expression: "this != null"
+    }
+  ];
 
   /*
      Token representing the currency in which the Excel report will be calculated.
   */
-  meshtrade.type.v1.Token reporting_currency_token = 4;
+  meshtrade.type.v1.Token reporting_currency_token = 4 [
+    (buf.validate.field).cel = {
+      id: "reporting_currency_token.required",
+      message: "'reporting_currency_token' is required",
+      expression: "this != null"
+    }
+  ];
 }
 
 message GetExcelIncomeReportResponse {
