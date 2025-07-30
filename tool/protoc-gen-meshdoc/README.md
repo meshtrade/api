@@ -80,7 +80,7 @@ The plugin is automatically invoked during the code generation process:
 
 ```bash
 # Generate all documentation
-./scripts/code-generation/generate-all.sh
+./dev/tool.sh all
 
 # Or invoke buf directly
 buf generate

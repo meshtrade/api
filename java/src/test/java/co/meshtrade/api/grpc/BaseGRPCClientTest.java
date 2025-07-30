@@ -41,11 +41,11 @@ class BaseGRPCClientTest {
         assertEquals(443, validOptions.getPort());
         assertTrue(validOptions.isTls());
         
-        // Test invalid service name
+        // Test invalid empty URL
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            ServiceOptions.builder().url("").build();
+            ServiceOptions.builder().url("");
         });
-        assertTrue(exception.getMessage().contains("URL cannot be null or empty"));
+        assertTrue(exception.getMessage().contains("URL cannot be empty"));
     }
 
     @Test

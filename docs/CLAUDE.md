@@ -150,7 +150,7 @@ pkill -f "docusaurus start" && pkill -f "yarn.*docs" && rm -f docs_server.log
 
 ```bash
 # From repository root - regenerate all documentation files
-./scripts/code-generation/generate-all.sh
+./dev/tool.sh all
 ```
 
 This ensures:
@@ -167,7 +167,7 @@ This ensures:
 **Cause**: The sidebar navigation references documentation files that don't exist or have mismatched paths
 
 **Solution**:
-1. **Regenerate documentation**: Run `./scripts/code-generation/generate-all.sh`
+1. **Regenerate documentation**: Run `./dev/tool.sh all`
 2. **Check logs**: View `docs_server.log` to see specific missing files
 3. **Clean and retry**: Stop server, clean, regenerate, and restart
 ```bash
@@ -175,7 +175,7 @@ This ensures:
 pkill -f "docusaurus start" && pkill -f "yarn.*docs" && rm -f docs_server.log
 
 # Regenerate all documentation
-./scripts/code-generation/generate-all.sh
+./dev/tool.sh all
 
 # Start server again
 nohup yarn start:docs > docs_server.log 2>&1 &
@@ -200,7 +200,7 @@ lsof -ti:3000 | xargs kill
 
 **Solution**: Always regenerate documentation before testing:
 ```bash
-./scripts/code-generation/generate-all.sh
+./dev/tool.sh all
 ```
 
 ### Building Documentation
@@ -214,7 +214,7 @@ yarn serve:docs    # Serve built documentation
 
 #### For Generated Content
 1. **Modify protobuf files** in `/proto/` directory
-2. **Run code generation**: `./scripts/code-generation/generate-all.sh`
+2. **Run code generation**: `./dev/tool.sh all`
 3. **Generated MDX files** are automatically updated
 4. **Service overview files** (index.mdx) are generated once - edit manually for service descriptions
 
@@ -337,7 +337,7 @@ source: path/to/proto/file.proto
    - Generated navigation is in separate `sidebar_meshdoc.ts`
 
 3. **Generated Content Missing**
-   - Run `./scripts/code-generation/generate-all.sh`
+   - Run `./dev/tool.sh all`
    - Check protobuf files have proper service definitions
    - Verify `protoc-gen-meshdoc` tool is working
 

@@ -31,8 +31,11 @@ This is the Mesh API repository containing protobuf definitions and multi-langua
 
 
 ### Code Generation
-- `./scripts/code-generation/generate-all.sh` - Main build script that cleans and regenerates all client libraries from protobuf definitions
-- `buf generate` - Generate code from protobuf definitions using buf
+- `./dev/tool.sh all` - Main development tool that cleans, generates, and builds all client libraries
+- `./dev/tool.sh generate` - Generate code from protobuf definitions
+- `./dev/tool.sh build` - Build SDK packages
+- `./dev/tool.sh clean` - Clean generated files
+- `buf generate` - Direct buf generation (used internally by dev scripts)
 
 ### Playwright Testing Screenshots
 Playwright screenshots for testing purposes should be stored in the `docs/testing_screenshots` directory.
@@ -45,7 +48,7 @@ Playwright screenshots for testing purposes should be stored in the `docs/testin
 - `go mod tidy` - Clean up Go module dependencies
 
 #### Python
-- `pip install -e .[dev]` - Install Python package in development mode
+- `pip install -e ".[dev]"` - Install Python package in development mode
 - `pytest` - Run Python tests
 - `ruff check python/ --fix` - Lint Python code (CRITICAL: Always run after Python changes)
 - `ruff format python/` - Format Python code
@@ -61,7 +64,7 @@ python -m venv .venv
 source .venv/bin/activate
 
 # Install dependencies in development mode
-pip install -e .[dev]
+pip install -e ".[dev]"
 
 # Run tests
 pytest
@@ -137,7 +140,11 @@ message = (
   - `docusaurus.config.ts` - Docusaurus configuration
   - `sidebars.ts` - Navigation sidebar configuration
   - `package.json` - Documentation site dependencies
-- `/scripts/` - Build and generation scripts
+- `/dev/` - Development tools (generation, build, clean, test, deploy)
+  - `tool.sh` - Main orchestration script with comprehensive help
+  - `generate/` - Code generation scripts for each language
+  - `build/` - Build scripts for SDK packages  
+  - `clean/` - Cleanup scripts for generated files
 - `/tool/protoc-gen-meshgo/` - Custom protobuf generator for Go
 
 ### API Services Structure
@@ -151,11 +158,17 @@ Services are organized by business domain:
 
 ### Code Generation Flow
 1. Protobuf definitions in `/proto/` define the API contracts
-2. ./scripts/code-generation/generate-all.sh is run which cleans up and runs `buf generate` which processes these using a few `buf.gen.yaml` configurations
+2. `./dev/tool.sh all` or `./dev/tool.sh generate` runs comprehensive code generation:
+   - Validates environment prerequisites for each language
+   - Cleans generated files using language-specific cleanup scripts
+   - Runs `buf generate` with individual language configurations
+   - Applies post-processing (formatting, index generation)
 3. Multiple protobuf plugins generate language-specific code:
    - Go: Standard protobuf + gRPC + custom meshgo generator
-   - Python: Standard protobuf generators
-   - TypeScript: protobuf-js + grpc-web generators
+   - Python: Standard protobuf generators + custom meshpy utilities
+   - TypeScript: protobuf-js + grpc-web + custom meshts enhancements
+   - Java: Standard protobuf + gRPC + custom meshjava utilities
+   - Docs: Custom meshdoc generator for MDX documentation
 4. Language-specific build processes create final packages
 
 ### Shared Types
@@ -169,9 +182,13 @@ The `/proto/meshtrade/type/v1/` directory contains foundational types used acros
 ## Development Workflow
 
 1. **Making API Changes**: Always modify protobuf files in `/proto/` first
-2. **Code Generation**: Run `./scripts/code-generation/generate-all.sh` to regenerate all client libraries
+2. **Code Generation**: Run `./dev/tool.sh all` to clean, generate, and build all client libraries
+   - For selective generation: `./dev/tool.sh generate --targets=go,python`
+   - For individual languages: `./dev/tool.sh generate --targets=typescript`
 3. **Testing**: Each language has its own test suite - run them after generation
 4. **Version Management**: API versions are managed through protobuf package paths (v1, v2, etc.)
+5. **Environment Requirements**: The dev tool validates all prerequisites automatically:
+   - Go 1.21+, Python 3.12+ with active venv, Node.js 18+, Java 21, Maven, Yarn, buf
 
 ## Documentation Work
 
@@ -251,7 +268,7 @@ The `/proto/meshtrade/type/v1/` directory contains foundational types used acros
 - **Response Message Cleanup**: Remove unused response messages when methods return resources directly
 
 ### TypeScript Hand-Written Code Maintenance
-- **Post-Generation Updates**: After running `./scripts/code-generation/generate-all.sh`, hand-written TypeScript client wrappers may need updates:
+- **Post-Generation Updates**: After running `./dev/tool.sh generate` or `./dev/tool.sh all`, hand-written TypeScript client wrappers may need updates:
   - Method name changes: `get()` → `getResource()`, `create()` → `createResource()`
   - Return type changes: Get/Create methods return resources directly, not response wrappers
   - Import statement updates: Remove imports for deleted response message types
@@ -268,7 +285,7 @@ The `/proto/meshtrade/type/v1/` directory contains foundational types used acros
   - Maintain proper JSDoc documentation with updated parameter and return types
   - Include ALL methods from the corresponding protobuf service definition
 - **Client Wrapper Validation Process**:
-  1. After protobuf changes, run `./scripts/code-generation/generate-all.sh` to regenerate code
+  1. After protobuf changes, run `./dev/tool.sh all` to regenerate code
   2. Check each `*_grpc_web.ts` file to ensure all service methods are wrapped
   3. Update imports to include all required request/response types
   4. Run `yarn build` and `yarn lint` in `/ts` to verify compilation
@@ -278,7 +295,7 @@ The `/proto/meshtrade/type/v1/` directory contains foundational types used acros
 ## Protobuf Refactoring Best Practices
 
 ### Role and Method Type Management
-- **Always run `./scripts/code-generation/generate-all.sh`** after protobuf changes to regenerate all language bindings
+- **Always run `./dev/tool.sh all`** after protobuf changes to regenerate all language bindings
 - **Use `buf lint`** to validate protobuf syntax and style before generation
 - **Role definitions** must be added to `meshtrade/option/v1/role.proto` following the `ROLE_{DOMAIN}_{ADMIN|VIEWER}` pattern
 - **Method type annotations** are mandatory for all RPC methods using `METHOD_TYPE_READ` or `METHOD_TYPE_WRITE`
@@ -288,7 +305,7 @@ The `/proto/meshtrade/type/v1/` directory contains foundational types used acros
 ### Code Generation Workflow
 1. Modify protobuf files in `/proto/` directory
 2. Run `buf lint` to validate changes
-3. Run `./scripts/code-generation/generate-all.sh` to regenerate all client libraries
+3. Run `./dev/tool.sh all` to regenerate all client libraries
 4. Check TypeScript client wrappers for missing methods or imports
 5. Run language-specific tests and linting to verify correctness
 

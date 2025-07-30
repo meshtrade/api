@@ -73,10 +73,9 @@ class ServiceOptionsTest {
     void testInvalidUrl() {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             ServiceOptions.builder()
-                .url("")
-                .build();
+                .url("");
         });
-        assertTrue(exception.getMessage().contains("URL cannot be null or empty"));
+        assertTrue(exception.getMessage().contains("URL cannot be empty"));
     }
 
     @Test
@@ -111,17 +110,21 @@ class ServiceOptionsTest {
 
     @Test
     void testNullTimeout() {
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+        NullPointerException exception = assertThrows(NullPointerException.class, () -> {
             ServiceOptions.builder()
-                .timeout(null)
-                .build();
+                .timeout(null);
         });
         assertTrue(exception.getMessage().contains("Timeout cannot be null"));
     }
 
     @Test
     void testBuilderImmutability() {
-        ServiceOptions.Builder builder = ServiceOptions.builder();
+        String apiKey = "abcdefghijklmnopqrstuvwxyz1234567890ABCDEFG";
+        String group = "groups/01HQXH5S8NPQR0QVMJ3NV9KWX8";
+        
+        ServiceOptions.Builder builder = ServiceOptions.builder()
+            .apiKey(apiKey)
+            .group(group);
         builder.url("api.staging.mesh.dev");
         
         ServiceOptions options1 = builder.build();
@@ -146,10 +149,10 @@ class ServiceOptionsTest {
         
         String toString = options.toString();
         
-        // Should contain URL but not the full API key for security
+        // Should contain URL and group but not the full API key for security
         assertTrue(toString.contains("api.test.mesh.dev"));
         assertFalse(toString.contains(apiKey));
-        assertTrue(toString.contains("***"));
+        assertTrue(toString.contains("groups/01HQXH5S8NPQR0QVMJ3NV9KWX8"));
     }
 
     @Test

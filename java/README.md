@@ -258,7 +258,7 @@ mvn clean compile
 mvn test
 
 # Generate code from protobuf definitions
-./scripts/code-generation/generate-all.sh
+./dev/tool.sh all
 
 # Build just the Java SDK
 mvn -f java/pom.xml clean package
@@ -270,7 +270,7 @@ The SDK is generated from protobuf definitions. To regenerate after protobuf cha
 
 ```bash
 # This will clean and regenerate all language SDKs including Java
-./scripts/code-generation/generate-all.sh
+./dev/tool.sh all
 
 # Build and test the Java SDK
 cd java
@@ -319,7 +319,7 @@ We welcome contributions! Please see our [Contributing Guide](https://github.com
 
 4. **Code Generation**:
    ```bash
-   ./scripts/code-generation/generate-all.sh
+   ./dev/tool.sh all
    ```
 
 ## Support

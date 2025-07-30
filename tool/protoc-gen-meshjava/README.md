@@ -205,7 +205,7 @@ mvn clean package -X
 
 The plugin integrates with the repository's build system:
 
-1. **generate-all.sh**: Builds plugin before running code generation
+1. **dev/tool.sh**: Builds plugin before running code generation
 2. **buf.gen.yaml**: Configures plugin as part of generation pipeline
 3. **Maven Build**: Ensures plugin is built before SDK compilation
 

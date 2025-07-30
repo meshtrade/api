@@ -124,7 +124,7 @@ Shared types in `/proto/meshtrade/type/v1/` ensure consistency:
 
 ### 2.1 Generation Workflow Overview
 
-The `./scripts/code-generation/generate-all.sh` script orchestrates everything:
+The `./dev/tool.sh all` script orchestrates everything:
 
 ```bash
 # 1. Clean all generated files
@@ -134,7 +134,7 @@ The `./scripts/code-generation/generate-all.sh` script orchestrates everything:
 🛠 Building protoc-gen-meshts plugin
 
 # 3. Generate from protobuf definitions
-🚀 buf generate --template scripts/code-generation/buf/buf.gen.yaml
+🚀 buf generate --template dev/generate/buf/buf.gen.yaml
 
 # 4. Post-processing
 📄 Generating TypeScript index files
@@ -290,7 +290,7 @@ python -m venv python/.venv
 source python/.venv/bin/activate  # or python/.venv/bin/activate on macOS/Linux
 
 # Install in development mode
-pip install -e '.[dev]'
+pip install -e ".[dev]"
 ```
 
 #### Critical Python Files
@@ -492,7 +492,7 @@ mvn clean package
 
 # 9. Test code generation (from repository root)
 cd ../..
-buf generate --template scripts/code-generation/buf/buf.gen.yaml --include-imports proto/meshtrade/iam/api_user/v1/service.proto
+buf generate --template dev/generate/buf/buf.gen.yaml --include-imports proto/meshtrade/iam/api_user/v1/service.proto
 
 # 10. Verify generated files exist
 ls -la java/src/main/java/co/meshtrade/api/iam/api_user/v1/
@@ -514,7 +514,7 @@ cd tool/protoc-gen-meshjava
 mvn clean package
 
 # Run full code generation (from repository root)
-./scripts/code-generation/generate-all.sh
+./dev/tool.sh all
 ```
 
 #### Java Code Generation Workflow
@@ -531,7 +531,7 @@ ls -la target/protoc-gen-meshjava-jar-with-dependencies.jar
 
 # 3. Run code generation (from repository root)
 cd ../..
-buf generate --template scripts/code-generation/buf/buf.gen.yaml
+buf generate --template dev/generate/buf/buf.gen.yaml
 
 # 4. Verify Java files were generated
 find java/src/main/java -name "*Service.java" -o -name "*Client.java"
@@ -615,6 +615,7 @@ The Java implementation uses Maven multi-module architecture:
 **Problem**: `java.lang.module.FindException: Module not found`  
 **Solution**: Ensure Java 21 is in PATH: `export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"`
 
+
 **Problem**: Generated Java files not appearing
 **Solution**: Build protoc plugin first: `cd tool/protoc-gen-meshjava && mvn clean package`
 
@@ -626,6 +627,17 @@ The Java implementation uses Maven multi-module architecture:
 
 **Problem**: Maven dependency conflicts
 **Solution**: Clean and rebuild: `mvn clean compile` or check parent POM dependency management
+
+**Problem**: JAVA_HOME warnings or Maven using wrong Java version
+**Solution**: Set JAVA_HOME permanently in your shell profile:
+```bash
+echo 'export JAVA_HOME="/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home"' >> ~/.zshrc
+echo 'export PATH="$JAVA_HOME/bin:$PATH"' >> ~/.zshrc
+source ~/.zshrc
+```
+
+**Problem**: `WARNING: sun.misc.Unsafe::staticFieldBase` warnings from Google Guice
+**Solution**: This is a **known Maven issue** (MNG-8760), not your code! Maven 3.9.11 bundles Google Guice 5.1.0 which uses deprecated Unsafe methods. These warnings are harmless and don't affect functionality. The warning will disappear when Maven updates their internal Guice version.
 
 #### Quick Setup Command
 
@@ -657,7 +669,7 @@ echo "Maven Java version:" && mvn -version | grep "Java version"
 1. **Branch from master**: `git checkout -b feature/your-feature-name`
 2. **Modify protobuf files first** in `/proto/meshtrade/`
 3. **Run buf lint**: `buf lint` (must pass before generation)
-4. **Regenerate all code**: `./scripts/code-generation/generate-all.sh`
+4. **Regenerate all code**: `./dev/tool.sh all`
 5. **Update hand-written code** if needed (especially TypeScript clients)
 6. **Run all tests**:
    ```bash

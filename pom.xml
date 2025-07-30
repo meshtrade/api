@@ -71,7 +71,7 @@
         <maven.source.plugin.version>3.3.0</maven.source.plugin.version>
         <maven.gpg.plugin.version>3.1.0</maven.gpg.plugin.version>
         <maven.assembly.plugin.version>3.6.0</maven.assembly.plugin.version>
-        <jacoco.plugin.version>0.8.11</jacoco.plugin.version>
+        <jacoco.plugin.version>0.8.13</jacoco.plugin.version>
         <exec.plugin.version>3.1.1</exec.plugin.version>
     </properties>
 
@@ -193,7 +193,7 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${maven.surefire.plugin.version}</version>
                     <configuration>
-                        <argLine>@{argLine} -Dfile.encoding=UTF-8</argLine>
+                        <argLine>@{argLine} -Dfile.encoding=UTF-8 --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/sun.nio.ch=ALL-UNNAMED</argLine>
                     </configuration>
                 </plugin>
 
@@ -203,7 +203,7 @@
                     <artifactId>maven-failsafe-plugin</artifactId>
                     <version>${maven.failsafe.plugin.version}</version>
                     <configuration>
-                        <argLine>@{argLine} -Dfile.encoding=UTF-8</argLine>
+                        <argLine>@{argLine} -Dfile.encoding=UTF-8 --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/sun.nio.ch=ALL-UNNAMED</argLine>
                     </configuration>
                     <executions>
                         <execution>
@@ -276,6 +276,15 @@
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
                     <version>${jacoco.plugin.version}</version>
+                    <configuration>
+                        <!-- Exclude JDK internal classes from instrumentation to avoid Java 21+ warnings -->
+                        <excludes>
+                            <exclude>sun/**</exclude>
+                            <exclude>jdk/**</exclude>
+                            <exclude>java/**</exclude>
+                            <exclude>com/sun/**</exclude>
+                        </excludes>
+                    </configuration>
                     <executions>
                         <execution>
                             <goals>

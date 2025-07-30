@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+ROOT_DIR="$SCRIPT_DIR/../.."
+
+cd "$ROOT_DIR"
 
 echo "🧹 Cleaning Java generated files..."
 find ./java/src/main/java/co/meshtrade/api \
