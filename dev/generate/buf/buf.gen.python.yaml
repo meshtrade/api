@@ -1,0 +1,13 @@
+# Python code generation configuration
+version: v2
+
+plugins:
+  - remote: buf.build/protocolbuffers/python:v31.1
+    out: ./python/src
+  - remote: buf.build/protocolbuffers/pyi:v31.1
+    out: ./python/src
+  - remote: buf.build/grpc/python:v1.73.1
+    out: ./python/src
+  - local: ["./.venv/bin/python", "./tool/protoc-gen-meshpy/main.py"]
+    out: ./python/src
+    strategy: all

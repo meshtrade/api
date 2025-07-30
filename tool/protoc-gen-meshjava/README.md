@@ -42,7 +42,10 @@ co.meshtrade.protoc/
 To build the plugin:
 
 ```bash
-# Build from the repository root
+# Build using the development tool (recommended)
+./dev/tool.sh generate --targets=java
+
+# Or build manually from the repository root
 mvn -f tool/protoc-gen-meshjava/pom.xml clean package
 
 # Or from this directory
@@ -135,14 +138,13 @@ The plugin uses several key libraries:
 The plugin includes comprehensive tests:
 
 ```bash
-# Run unit tests
-mvn test
+# Run comprehensive tests using development tool (recommended)
+./dev/test/java.sh
 
-# Run integration tests (requires built JAR)
-mvn verify
-
-# Run all tests with coverage
-mvn clean verify jacoco:report
+# Or run tests manually
+mvn test                                    # Unit tests only
+mvn verify                                  # Integration tests (requires built JAR)
+mvn clean verify jacoco:report             # All tests with coverage
 ```
 
 ### Test Structure
@@ -205,7 +207,7 @@ mvn clean package -X
 
 The plugin integrates with the repository's build system:
 
-1. **generate-all.sh**: Builds plugin before running code generation
+1. **dev/tool.sh**: Builds plugin before running code generation
 2. **buf.gen.yaml**: Configures plugin as part of generation pipeline
 3. **Maven Build**: Ensures plugin is built before SDK compilation
 
@@ -219,9 +221,9 @@ mvn -f tool/protoc-gen-meshjava/pom.xml clean package
 chmod +x tool/protoc-gen-meshjava/protoc-gen-meshjava
 ```
 
-**Java version errors**: Plugin requires Java 17+
+**Java version errors**: Plugin requires Java 21+
 ```bash
-java -version  # Should show 17 or higher
+java -version  # Should show 21 or higher
 ```
 
 **Generation failures**: Check plugin logs and validate protobuf input

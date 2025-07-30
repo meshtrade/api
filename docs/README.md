@@ -5,14 +5,32 @@ This directory contains the Docusaurus-based documentation site for the Mesh API
 ## Quick Start
 
 ```bash
-# Install dependencies
+# From repository root (yarn workspace)
 yarn install
 
-# Start development server
-yarn start
+# Start development server 
+yarn start:docs
 
 # Build for production
-yarn build
+yarn build:docs
+
+# Serve built site
+yarn serve:docs
+```
+
+## Testing
+
+The documentation site includes comprehensive testing capabilities:
+
+```bash
+# Test documentation generation and build
+./dev/tool.sh test --targets=docs
+
+# Environment validation for docs development
+./dev/tool.sh doctor
+
+# Generate documentation from protobuf definitions
+./dev/tool.sh generate --targets=docs
 ```
 
 ## Development

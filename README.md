@@ -22,7 +22,33 @@ proto/     # Protobuf API definitions (source of truth)
 go/        # Go SDK  
 python/    # Python SDK
 ts/        # TypeScript (web) SDK
+java/      # Java SDK
+dev/       # Development tools (generation, testing, etc.)
+docs/      # Documentation site (Docusaurus)
 ```
+
+## Development
+
+For contributors and maintainers, this repository includes comprehensive development tools:
+
+```bash
+# Generate all SDKs from protobuf definitions
+./dev/tool.sh all
+
+# Run comprehensive tests across all languages
+./dev/tool.sh test
+
+# Check development environment health
+./dev/tool.sh doctor
+
+# Generate specific language SDKs
+./dev/tool.sh generate --targets=go,python
+
+# View all available commands
+./dev/tool.sh help
+```
+
+See the [Contributor Guide](https://meshtrade.github.io/api/contributors/) for detailed development instructions.
 
 ## Documentation
 

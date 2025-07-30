@@ -79,8 +79,11 @@ This ensures generated documentation tables always render correctly in Docusauru
 The plugin is automatically invoked during the code generation process:
 
 ```bash
-# Generate all documentation
-./scripts/code-generation/generate-all.sh
+# Generate all documentation (recommended)
+./dev/tool.sh generate --targets=docs
+
+# Generate everything including docs
+./dev/tool.sh all
 
 # Or invoke buf directly
 buf generate

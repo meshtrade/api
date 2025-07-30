@@ -7,7 +7,7 @@ The official Java SDK for the Meshtrade API, providing type-safe access to all M
 
 ## Requirements
 
-- **Java 17** or later (LTS recommended)
+- **Java 21** or later (LTS recommended)
 - **Maven 3.9** or later
 
 ## Installation
@@ -251,17 +251,23 @@ To build the SDK from source:
 git clone https://github.com/meshtrade/api.git
 cd api
 
-# Build the entire workspace (requires JDK 17+)
+# Check development environment
+./dev/tool.sh doctor
+
+# Build the entire workspace (requires JDK 21+)
 mvn clean compile
 
-# Run tests
+# Run comprehensive tests (includes coverage, security analysis)
+./dev/test/java.sh
+
+# Or run basic tests manually
 mvn test
 
 # Generate code from protobuf definitions
-./scripts/code-generation/generate-all.sh
+./dev/tool.sh all
 
 # Build just the Java SDK
-mvn -f java/pom.xml clean package
+./dev/tool.sh build --targets=java
 ```
 
 ### Code Generation
@@ -270,11 +276,10 @@ The SDK is generated from protobuf definitions. To regenerate after protobuf cha
 
 ```bash
 # This will clean and regenerate all language SDKs including Java
-./scripts/code-generation/generate-all.sh
+./dev/tool.sh all
 
-# Build and test the Java SDK
-cd java
-mvn clean test
+# Run comprehensive Java tests
+./dev/test/java.sh
 ```
 
 ### Project Structure
@@ -301,7 +306,7 @@ We welcome contributions! Please see our [Contributing Guide](https://github.com
 ### Development Setup
 
 1. **Install Prerequisites**:
-   - JDK 17+ (OpenJDK recommended)
+   - JDK 21+ (OpenJDK recommended)
    - Maven 3.9+
    - Git
 
@@ -309,17 +314,25 @@ We welcome contributions! Please see our [Contributing Guide](https://github.com
    ```bash
    git clone https://github.com/meshtrade/api.git
    cd api
+   
+   # Check your development environment
+   ./dev/tool.sh doctor
+   
    mvn clean compile
    ```
 
 3. **Run Tests**:
    ```bash
+   # Comprehensive testing (recommended)
+   ./dev/test/java.sh
+   
+   # Or basic tests
    mvn test
    ```
 
 4. **Code Generation**:
    ```bash
-   ./scripts/code-generation/generate-all.sh
+   ./dev/tool.sh all
    ```
 
 ## Support

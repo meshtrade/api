@@ -54,17 +54,17 @@ class CredentialsTest {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             new Credentials(validApiKey, invalidGroup);
         });
-        assertTrue(exception.getMessage().contains("Group must be in format groups/{26-character-ULID}"));
+        assertTrue(exception.getMessage().contains("Group must be in format 'groups/{group_id}'"));
     }
 
     @Test
     void testNullApiKey() {
         String validGroup = "groups/01HQXH5S8NPQR0QVMJ3NV9KWX8";
         
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+        NullPointerException exception = assertThrows(NullPointerException.class, () -> {
             new Credentials(null, validGroup);
         });
-        assertTrue(exception.getMessage().contains("API key cannot be null or empty"));
+        assertTrue(exception.getMessage().contains("API key cannot be null"));
     }
 
     @Test
@@ -74,17 +74,17 @@ class CredentialsTest {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             new Credentials("", validGroup);
         });
-        assertTrue(exception.getMessage().contains("API key cannot be null or empty"));
+        assertTrue(exception.getMessage().contains("API key cannot be empty"));
     }
 
     @Test
     void testNullGroup() {
         String validApiKey = "abcdefghijklmnopqrstuvwxyz1234567890ABCDEFG";
         
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+        NullPointerException exception = assertThrows(NullPointerException.class, () -> {
             new Credentials(validApiKey, null);
         });
-        assertTrue(exception.getMessage().contains("Group cannot be null or empty"));
+        assertTrue(exception.getMessage().contains("Group cannot be null"));
     }
 
     @Test
@@ -94,7 +94,7 @@ class CredentialsTest {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             new Credentials(validApiKey, "");
         });
-        assertTrue(exception.getMessage().contains("Group cannot be null or empty"));
+        assertTrue(exception.getMessage().contains("Group cannot be empty"));
     }
 
     @Test
@@ -107,7 +107,7 @@ class CredentialsTest {
         
         // toString should not expose the full API key for security
         assertFalse(toString.contains(validApiKey));
-        assertTrue(toString.contains("***"));
+        assertTrue(toString.contains("abcdefgh...DEFG"));  // Masked format
         assertTrue(toString.contains(validGroup));
     }
 

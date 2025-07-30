@@ -23,7 +23,7 @@
     "clean": "yarn workspace @meshtrade/api clean",
     "start:docs": "yarn workspace mesh-api-docs start",
     "serve:docs": "yarn workspace mesh-api-docs serve",
-    "generate": "./scripts/code-generation/generate-all.sh"
+    "generate": "./dev/tool.sh all"
   },
   "keywords": [
     "api",

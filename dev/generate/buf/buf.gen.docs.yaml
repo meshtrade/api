@@ -1,0 +1,7 @@
+# Documentation generation configuration
+version: v2
+
+plugins:
+  - local: ["go", "run", "./tool/protoc-gen-meshdoc"]
+    out: ./docs/docs/api-reference
+    strategy: all

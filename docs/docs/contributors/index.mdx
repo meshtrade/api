@@ -21,7 +21,7 @@ The Meshtrade API follows a **schema-first approach** using Protocol Buffers as 
 - **Resource-oriented design** inspired by Google's API Improvement Proposals (AIPs)
 - **Strong consistency** across all generated client libraries
 - **Role-based access control** with fine-grained permissions
-- **Developer experience** focus with comprehensive tooling
+- **Developer experience** focus with comprehensive tooling and testing infrastructure
 
 ## 1. Understanding Our API Design (Protobuf + AIP)
 
@@ -124,22 +124,42 @@ Shared types in `/proto/meshtrade/type/v1/` ensure consistency:
 
 ### 2.1 Generation Workflow Overview
 
-The `./scripts/code-generation/generate-all.sh` script orchestrates everything:
+The `./dev/tool.sh all` script orchestrates everything:
 
 ```bash
 # 1. Clean all generated files
-🧹 Cleaning Go/Python/TypeScript generated files
+🧹 Cleaning Go/Python/TypeScript/Java generated files
 
 # 2. Build custom generators  
 🛠 Building protoc-gen-meshts plugin
 
 # 3. Generate from protobuf definitions
-🚀 buf generate --template scripts/code-generation/buf/buf.gen.yaml
+🚀 buf generate --template dev/generate/buf/buf.gen.yaml
 
 # 4. Post-processing
 📄 Generating TypeScript index files
 ⚙️ Building TypeScript library  
 🚀 Formatting Python code with ruff
+```
+
+### 2.1.1 Testing Workflow Overview
+
+The comprehensive testing system validates all generated code:
+
+```bash
+# Environment validation first
+🏥 ./dev/tool.sh doctor
+   ✅ Checking Go 1.21+, Python 3.12+ venv, Node.js 18+, Java 21, Maven, buf
+
+# Comprehensive test execution
+🧪 ./dev/tool.sh test
+   🐹 Go tests with coverage and linting (golangci-lint, gosec)
+   🐍 Python tests with pytest, coverage, ruff linting
+   🔷 TypeScript tests with Jest, type checking, ESLint
+   ☕ Java tests with Maven, JaCoCo coverage, SpotBugs security analysis
+
+# Individual language testing
+🎯 ./dev/tool.sh test --targets=python,java --verbose
 ```
 
 ### 2.2 Custom Protobuf Generators
@@ -290,7 +310,7 @@ python -m venv .venv
 source .venv/bin/activate  # or python/.venv/bin/activate on macOS/Linux
 
 # Install in development mode
-pip install -e '.[dev]'
+pip install -e ".[dev]"
 ```
 
 #### Critical Python Files
@@ -492,7 +512,7 @@ mvn clean package
 
 # 9. Test code generation (from repository root)
 cd ../..
-buf generate --template scripts/code-generation/buf/buf.gen.yaml --include-imports proto/meshtrade/iam/api_user/v1/service.proto
+buf generate --template dev/generate/buf/buf.gen.yaml --include-imports proto/meshtrade/iam/api_user/v1/service.proto
 
 # 10. Verify generated files exist
 ls -la java/src/main/java/co/meshtrade/api/iam/api_user/v1/
@@ -514,7 +534,7 @@ cd tool/protoc-gen-meshjava
 mvn clean package
 
 # Run full code generation (from repository root)
-./scripts/code-generation/generate-all.sh
+./dev/tool.sh all
 ```
 
 #### Java Code Generation Workflow
@@ -531,7 +551,7 @@ ls -la target/protoc-gen-meshjava-jar-with-dependencies.jar
 
 # 3. Run code generation (from repository root)
 cd ../..
-buf generate --template scripts/code-generation/buf/buf.gen.yaml
+buf generate --template dev/generate/buf/buf.gen.yaml
 
 # 4. Verify Java files were generated
 find java/src/main/java -name "*Service.java" -o -name "*Client.java"
@@ -615,6 +635,7 @@ The Java implementation uses Maven multi-module architecture:
 **Problem**: `java.lang.module.FindException: Module not found`  
 **Solution**: Ensure Java 21 is in PATH: `export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"`
 
+
 **Problem**: Generated Java files not appearing
 **Solution**: Build protoc plugin first: `cd tool/protoc-gen-meshjava && mvn clean package`
 
@@ -626,6 +647,17 @@ The Java implementation uses Maven multi-module architecture:
 
 **Problem**: Maven dependency conflicts
 **Solution**: Clean and rebuild: `mvn clean compile` or check parent POM dependency management
+
+**Problem**: JAVA_HOME warnings or Maven using wrong Java version
+**Solution**: Set JAVA_HOME permanently in your shell profile:
+```bash
+echo 'export JAVA_HOME="/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home"' >> ~/.zshrc
+echo 'export PATH="$JAVA_HOME/bin:$PATH"' >> ~/.zshrc
+source ~/.zshrc
+```
+
+**Problem**: `WARNING: sun.misc.Unsafe::staticFieldBase` warnings from Google Guice
+**Solution**: This is a **known Maven issue** (MNG-8760), not your code! Maven 3.9.11 bundles Google Guice 5.1.0 which uses deprecated Unsafe methods. These warnings are harmless and don't affect functionality. The warning will disappear when Maven updates their internal Guice version.
 
 #### Quick Setup Command
 
@@ -657,26 +689,31 @@ echo "Maven Java version:" && mvn -version | grep "Java version"
 1. **Branch from master**: `git checkout -b feature/your-feature-name`
 2. **Modify protobuf files first** in `/proto/meshtrade/`
 3. **Run buf lint**: `buf lint` (must pass before generation)
-4. **Regenerate all code**: `./scripts/code-generation/generate-all.sh`
+4. **Regenerate all code**: `./dev/tool.sh all`
 5. **Update hand-written code** if needed (especially TypeScript clients)
-6. **Run all tests**:
+6. **Run comprehensive tests**:
    ```bash
-   # Go tests
-   go test ./...
+   # Recommended: Use the unified testing infrastructure
+   ./dev/tool.sh test                    # Test all languages
+   ./dev/tool.sh test --targets=go,python --verbose  # Specific languages
    
-   # Python tests  
-   source python/.venv/bin/activate
-   PYTHONPATH="./python/src:./python/tests" pytest ./python/tests -v
+   # Alternative: Individual language tests
+   ./dev/test/go.sh          # Go with coverage, race detection, linting
+   ./dev/test/python.sh      # Python with pytest, coverage, ruff
+   ./dev/test/java.sh        # Java with Maven, JaCoCo, SpotBugs
+   ./dev/test/typescript.sh  # TypeScript with Jest, ESLint, type checking
    
-   # Java tests
-   export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"
-   cd java && mvn test
-   
-   # TypeScript tests
-   yarn test
+   # Legacy commands (still work but less comprehensive)
+   go test ./...                                        # Basic Go tests
+   source python/.venv/bin/activate && pytest ./python/tests -v  # Basic Python tests
+   cd java && mvn test                                  # Basic Java tests
+   yarn test                                            # Basic TypeScript tests
    ```
-7. **Run all linters**:
+7. **Run all linters** (included in test scripts above, or run separately):
    ```bash
+   # Linting is automatically included in ./dev/test/*.sh scripts
+   # But can also be run individually:
+   
    # Go linting
    golangci-lint run -v --timeout 10m -E gosec
    
@@ -720,7 +757,81 @@ echo "Maven Java version:" && mvn -version | grep "Java version"
 3. **Deprecation process**: Mark old versions as deprecated, provide migration path
 4. **Maintain backward compatibility**: Keep old versions working during transition period
 
-### 4.3 Testing Standards
+### 4.3 Testing Infrastructure
+
+#### Development Tool Testing Commands
+
+The repository includes a comprehensive testing infrastructure accessible through the development tool:
+
+```bash
+# Environment health check (run first)
+./dev/tool.sh doctor          # Validates all prerequisites and dependencies
+
+# Comprehensive testing
+./dev/tool.sh test            # Test all languages with full coverage
+./dev/tool.sh test --targets=python,java  # Test specific languages
+./dev/tool.sh test --verbose  # Detailed output for debugging
+
+# Individual language tests
+./dev/test/go.sh              # Go tests with coverage, race detection, linting  
+./dev/test/python.sh          # Python with pytest, coverage, ruff linting
+./dev/test/java.sh            # Java with Maven, JaCoCo coverage, SpotBugs security
+./dev/test/typescript.sh      # TypeScript with Jest, type checking, ESLint
+
+# Environment validation (troubleshooting)
+./dev/env/go.sh               # Check Go version, modules
+./dev/env/python.sh           # Check Python venv, dependencies  
+./dev/env/java.sh             # Check Java 21, Maven setup
+./dev/env/typescript.sh       # Check Node.js, Yarn, dependencies
+./dev/env/general.sh          # Check buf, git, general tools
+```
+
+#### Test Features by Language
+
+**Go Tests** (`./dev/test/go.sh`):
+- Standard `go test ./...` with verbose output
+- Race condition detection with `go test -race`
+- Code coverage analysis with coverage report generation
+- Security linting with `golangci-lint` and `gosec`
+- Module hygiene validation (`go mod tidy`)
+
+**Python Tests** (`./dev/test/python.sh`):
+- Environment validation (virtual environment activation)
+- Comprehensive `pytest` execution with coverage reporting
+- Code formatting and linting with `ruff` (150-char line limit)
+- Import validation and dependency checks
+
+**Java Tests** (`./dev/test/java.sh`):
+- Unit tests with Maven Surefire plugin
+- Integration tests with Maven Failsafe plugin
+- Code coverage analysis with JaCoCo
+- Security analysis with SpotBugs
+- Dependency vulnerability scanning
+
+**TypeScript Tests** (`./dev/test/typescript.sh`):
+- Jest test framework with coverage reporting
+- TypeScript compilation verification (`yarn build`)
+- ESLint linting with strict TypeScript rules
+- Type checking validation
+
+#### CI/CD Integration
+
+The testing infrastructure is designed for continuous integration:
+
+```bash
+# Fail-fast mode for CI pipelines
+./dev/test/all.sh --fail-fast
+
+# Environment validation before tests
+./dev/tool.sh doctor && ./dev/tool.sh test
+
+# Selective testing for performance
+./dev/tool.sh test --targets=python,java
+```
+
+### 4.4 Legacy Testing Commands
+
+For reference, these individual commands still work but are less comprehensive than the unified testing infrastructure:
 
 #### Go Testing
 - **Unit tests**: Test business logic and validation
@@ -741,7 +852,7 @@ echo "Maven Java version:" && mvn -version | grep "Java version"
 - **Linting compliance**: `yarn lint` must pass
 - **Hand-written client validation**: Ensure all protobuf methods are exposed
 
-### 4.4 Documentation Contributions
+### 4.5 Documentation Contributions
 
 #### Auto-Generated Documentation
 - **Never edit `*_meshdoc.mdx` files**: They're regenerated from protobuf
