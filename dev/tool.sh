@@ -189,6 +189,63 @@ case $COMMAND in
         echo -e "${GREEN}🏗️  Starting build process...${NC}"
         echo
         
+        # Check if generation is needed and run it automatically
+        NEED_GENERATION=false
+        
+        # Check if any protobuf files are newer than generated files
+        if [[ -d "$ROOT_DIR/proto" ]]; then
+            # Find newest proto file
+            NEWEST_PROTO=$(find "$ROOT_DIR/proto" -name "*.proto" -type f -exec stat -f "%m %N" {} \; 2>/dev/null | sort -n | tail -1 | cut -d' ' -f2- || echo "")
+            
+            if [[ -n "$NEWEST_PROTO" ]]; then
+                PROTO_TIME=$(stat -f "%m" "$NEWEST_PROTO" 2>/dev/null || echo "0")
+                
+                # Check if generated directories exist and have recent files
+                for target in "${NORMALIZED_TARGETS[@]}"; do
+                    case $target in
+                        go)
+                            if [[ ! -d "$ROOT_DIR/go" ]] || [[ -z "$(find "$ROOT_DIR/go" -name "*.pb.go" -type f -newer "$NEWEST_PROTO" 2>/dev/null)" ]]; then
+                                NEED_GENERATION=true
+                                break
+                            fi
+                            ;;
+                        python)
+                            if [[ ! -d "$ROOT_DIR/python" ]] || [[ -z "$(find "$ROOT_DIR/python" -name "*_pb2.py" -type f -newer "$NEWEST_PROTO" 2>/dev/null)" ]]; then
+                                NEED_GENERATION=true
+                                break
+                            fi
+                            ;;
+                        typescript)
+                            if [[ ! -d "$ROOT_DIR/ts" ]] || [[ -z "$(find "$ROOT_DIR/ts" -name "*_pb.js" -type f -newer "$NEWEST_PROTO" 2>/dev/null)" ]]; then
+                                NEED_GENERATION=true
+                                break
+                            fi
+                            ;;
+                        java)
+                            if [[ ! -d "$ROOT_DIR/java" ]] || [[ -z "$(find "$ROOT_DIR/java" -name "*.java" -type f -newer "$NEWEST_PROTO" 2>/dev/null)" ]]; then
+                                NEED_GENERATION=true
+                                break
+                            fi
+                            ;;
+                        docs)
+                            if [[ ! -d "$ROOT_DIR/docs/docs/api-reference" ]] || [[ -z "$(find "$ROOT_DIR/docs/docs/api-reference" -name "*.mdx" -type f -newer "$NEWEST_PROTO" 2>/dev/null)" ]]; then
+                                NEED_GENERATION=true
+                                break
+                            fi
+                            ;;
+                    esac
+                done
+            fi
+        fi
+        
+        # Auto-generate if needed
+        if $NEED_GENERATION; then
+            echo -e "${YELLOW}📋 Generated files are missing or outdated. Running generation first...${NC}"
+            echo
+            "$0" generate --targets="$TARGETS"
+            echo
+        fi
+        
         for target in "${NORMALIZED_TARGETS[@]}"; do
             case $target in
                 go)

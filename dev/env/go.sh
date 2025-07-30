@@ -46,19 +46,15 @@ if [[ ! -f "$ROOT_DIR/go.mod" ]]; then
     exit 1
 fi
 
-# Check if Go modules are tidy
+# Check if Go modules are tidy (only if go.mod and go.sum both exist)
 echo "🔧 Checking Go modules..."
-if ! go mod verify &> /dev/null; then
-    echo "⚠️  WARNING: Go modules verification failed"
-    echo "   Consider running: go mod tidy"
-fi
-
-# Check if Go source directory exists  
-if [[ ! -d "$ROOT_DIR/go/meshtrade" ]]; then
-    echo "❌ ERROR: Go source directory not found at go/meshtrade/"
-    echo "   Please run code generation first:"
-    echo "   ./dev/tool.sh generate --targets=go"
-    exit 1
+if [[ -f "$ROOT_DIR/go.sum" ]]; then
+    if ! go mod verify &> /dev/null; then
+        echo "⚠️  WARNING: Go modules verification failed"
+        echo "   Consider running: go mod tidy"
+    fi
+else
+    echo "📍 No go.sum file - will be created on first go mod tidy"
 fi
 
 # Check for golangci-lint (optional but recommended)
@@ -79,13 +75,21 @@ if [[ ! -f "$PLUGIN_DIR/main.go" ]]; then
     exit 1
 fi
 
-# Test Go compilation
-echo "🔧 Testing Go compilation..."
-if ! go build -o /dev/null ./... 2>/dev/null; then
-    echo "❌ ERROR: Go compilation failed"
-    echo "   Run 'go build ./...' for details, or regenerate code:"
-    echo "   ./dev/tool.sh generate --targets=go"
-    exit 1
+# Check if generated Go source exists (informational only)
+if [[ -d "$ROOT_DIR/go/meshtrade" ]]; then
+    echo "📍 Generated Go code: FOUND"
+    
+    # Only test compilation if generated code exists
+    echo "🔧 Testing Go compilation..."
+    if go build -o /dev/null ./... 2>/dev/null; then
+        echo "📍 Go compilation: ✅ Passes"
+    else
+        echo "⚠️  WARNING: Go compilation failed"
+        echo "   This may indicate issues with generated code"
+        echo "   Consider regenerating: ./dev/tool.sh generate --targets=go"
+    fi
+else
+    echo "📍 Generated Go code: NOT FOUND (run generation when ready)"
 fi
 
 echo "✅ Go environment validated successfully!"

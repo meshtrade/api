@@ -17,7 +17,7 @@ import {api_reference_sidebar } from "./docs/api-reference/sidebar_meshdoc";
 
 const sidebars: SidebarsConfig = {
   tutorialSidebar: [
-    'introduction',
+    'introduction/index',
     'contributors/index',
     {
       type: 'category',
