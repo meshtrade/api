@@ -178,8 +178,7 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${maven.compiler.plugin.version}</version>
                     <configuration>
-                        <source>21</source>
-                        <target>21</target>
+                        <release>21</release>
                         <encoding>UTF-8</encoding>
                         <compilerArgs>
                             <arg>-parameters</arg>
@@ -193,7 +192,10 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${maven.surefire.plugin.version}</version>
                     <configuration>
-                        <argLine>@{argLine} -Dfile.encoding=UTF-8 --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/sun.nio.ch=ALL-UNNAMED</argLine>
+                        <argLine>@{argLine} -Dfile.encoding=UTF-8 --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --illegal-access=warn</argLine>
+                        <systemPropertyVariables>
+                            <sun.misc.unsafe.debug>false</sun.misc.unsafe.debug>
+                        </systemPropertyVariables>
                     </configuration>
                 </plugin>
 
@@ -203,7 +205,10 @@
                     <artifactId>maven-failsafe-plugin</artifactId>
                     <version>${maven.failsafe.plugin.version}</version>
                     <configuration>
-                        <argLine>@{argLine} -Dfile.encoding=UTF-8 --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/sun.nio.ch=ALL-UNNAMED</argLine>
+                        <argLine>@{argLine} -Dfile.encoding=UTF-8 --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --illegal-access=warn</argLine>
+                        <systemPropertyVariables>
+                            <sun.misc.unsafe.debug>false</sun.misc.unsafe.debug>
+                        </systemPropertyVariables>
                     </configuration>
                     <executions>
                         <execution>
@@ -221,17 +226,25 @@
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>${maven.javadoc.plugin.version}</version>
                     <configuration>
-                        <source>21</source>
-                        <target>21</target>
+                        <release>21</release>
                         <encoding>UTF-8</encoding>
                         <docencoding>UTF-8</docencoding>
                         <charset>UTF-8</charset>
                         <failOnError>false</failOnError>
                         <failOnWarnings>false</failOnWarnings>
                         <quiet>true</quiet>
+                        <sourceFileExcludes>
+                            <exclude>**/*OuterClass.java</exclude>
+                            <exclude>**/*Grpc.java</exclude>
+                        </sourceFileExcludes>
+                        <additionalJOptions>
+                            <additionalJOption>-J--add-opens=jdk.javadoc/jdk.javadoc.internal.api=ALL-UNNAMED</additionalJOption>
+                            <additionalJOption>-J--add-opens=jdk.javadoc/jdk.javadoc.internal.tool=ALL-UNNAMED</additionalJOption>
+                            <additionalJOption>-Xdoclint:none</additionalJOption>
+                        </additionalJOptions>
                         <links>
-                            <link>https://javadoc.io/doc/io.grpc/grpc-api/latest/</link>
-                            <link>https://javadoc.io/doc/com.google.protobuf/protobuf-java/latest/</link>
+                            <link>https://javadoc.io/doc/io.grpc/grpc-api/1.60.1/</link>
+                            <link>https://javadoc.io/doc/com.google.protobuf/protobuf-java/3.25.1/</link>
                         </links>
                     </configuration>
                     <executions>
