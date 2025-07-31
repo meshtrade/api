@@ -4,7 +4,23 @@ package meshtrade.reporting.income_report.v1;
 
 option go_package = "github.com/meshtrade/api/go/reporting/income_report/v1;income_reportv1";
 
+/*
+   Disclaimer represents supplementary information included in an income report.
+
+   Disclaimers provide legal, financial, or interpretive context related to
+   the contents of the report. They may explain assumptions, limitations, or
+   external factors relevant to the presented data.
+*/
 message Disclaimer {
-  string title = 2;
-  string description = 3;
+  /*
+     Short heading summarizing the nature of the disclaimer.
+     Example: "Preliminary Data" or "Currency Conversion Note".
+  */
+  string title = 1;
+
+  /*
+     Detailed explanation or qualification text describing the disclaimer.
+     Can include notes about data accuracy, external dependencies, or reporting assumptions.
+  */
+  string description = 2;
 }
