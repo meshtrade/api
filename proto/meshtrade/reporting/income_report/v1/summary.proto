@@ -23,9 +23,4 @@ message Summary {
      The total value in the reporting currency, converted from original amounts.
   */
   meshtrade.type.v1.Amount reported_currency_value = 2;
-
-  /*
-     Net amount after summing debits and credits. Positive for net credit, negative for net debit.
-  */
-  meshtrade.type.v1.Amount debit_credit = 3;
 }

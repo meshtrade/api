@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package meshtrade.reporting.income_report.v1;
+
+option go_package = "github.com/meshtrade/api/go/reporting/income_report/v1;income_reportv1";
+
+message Disclaimer {
+  string title = 2;
+  string description = 3;
+}

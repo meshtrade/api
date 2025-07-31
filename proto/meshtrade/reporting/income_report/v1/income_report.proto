@@ -6,6 +6,7 @@ import "google/protobuf/timestamp.proto";
 import "meshtrade/type/v1/token.proto";
 import "meshtrade/type/v1/address.proto";
 import "meshtrade/reporting/income_report/v1/summary.proto";
+import "meshtrade/reporting/income_report/v1/disclaimer.proto";
 import "meshtrade/reporting/income_report/v1/entry.proto";
 
 option go_package = "github.com/meshtrade/api/go/reporting/income_report/v1;income_reportv1";
@@ -68,7 +69,7 @@ message IncomeReport {
   /*
      Optional disclaimers or notices to accompany the report.
   */
-  repeated string disclaimers = 7;
+  repeated reporting.income_report.v1.Disclaimer disclaimers = 7;
 
   /*
      Address details of the client for whom the report is generated.

@@ -32,10 +32,8 @@ type Summary struct {
 	Currency *v1.Token `protobuf:"bytes,1,opt,name=currency,proto3" json:"currency,omitempty"`
 	// The total value in the reporting currency, converted from original amounts.
 	ReportedCurrencyValue *v1.Amount `protobuf:"bytes,2,opt,name=reported_currency_value,json=reportedCurrencyValue,proto3" json:"reported_currency_value,omitempty"`
-	// Net amount after summing debits and credits. Positive for net credit, negative for net debit.
-	DebitCredit   *v1.Amount `protobuf:"bytes,3,opt,name=debit_credit,json=debitCredit,proto3" json:"debit_credit,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	unknownFields         protoimpl.UnknownFields
+	sizeCache             protoimpl.SizeCache
 }
 
 func (x *Summary) Reset() {
@@ -82,22 +80,14 @@ func (x *Summary) GetReportedCurrencyValue() *v1.Amount {
 	return nil
 }
 
-func (x *Summary) GetDebitCredit() *v1.Amount {
-	if x != nil {
-		return x.DebitCredit
-	}
-	return nil
-}
-
 var File_meshtrade_reporting_income_report_v1_summary_proto protoreflect.FileDescriptor
 
 const file_meshtrade_reporting_income_report_v1_summary_proto_rawDesc = "" +
 	"\n" +
-	"2meshtrade/reporting/income_report/v1/summary.proto\x12$meshtrade.reporting.income_report.v1\x1a\x1dmeshtrade/type/v1/token.proto\x1a\x1emeshtrade/type/v1/amount.proto\"\xd0\x01\n" +
+	"2meshtrade/reporting/income_report/v1/summary.proto\x12$meshtrade.reporting.income_report.v1\x1a\x1dmeshtrade/type/v1/token.proto\x1a\x1emeshtrade/type/v1/amount.proto\"\x92\x01\n" +
 	"\aSummary\x124\n" +
 	"\bcurrency\x18\x01 \x01(\v2\x18.meshtrade.type.v1.TokenR\bcurrency\x12Q\n" +
-	"\x17reported_currency_value\x18\x02 \x01(\v2\x19.meshtrade.type.v1.AmountR\x15reportedCurrencyValue\x12<\n" +
-	"\fdebit_credit\x18\x03 \x01(\v2\x19.meshtrade.type.v1.AmountR\vdebitCreditBHZFgithub.com/meshtrade/api/go/reporting/income_report/v1;income_reportv1b\x06proto3"
+	"\x17reported_currency_value\x18\x02 \x01(\v2\x19.meshtrade.type.v1.AmountR\x15reportedCurrencyValueBHZFgithub.com/meshtrade/api/go/reporting/income_report/v1;income_reportv1b\x06proto3"
 
 var (
 	file_meshtrade_reporting_income_report_v1_summary_proto_rawDescOnce sync.Once
@@ -120,12 +110,11 @@ var file_meshtrade_reporting_income_report_v1_summary_proto_goTypes = []any{
 var file_meshtrade_reporting_income_report_v1_summary_proto_depIdxs = []int32{
 	1, // 0: meshtrade.reporting.income_report.v1.Summary.currency:type_name -> meshtrade.type.v1.Token
 	2, // 1: meshtrade.reporting.income_report.v1.Summary.reported_currency_value:type_name -> meshtrade.type.v1.Amount
-	2, // 2: meshtrade.reporting.income_report.v1.Summary.debit_credit:type_name -> meshtrade.type.v1.Amount
-	3, // [3:3] is the sub-list for method output_type
-	3, // [3:3] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	2, // [2:2] is the sub-list for method output_type
+	2, // [2:2] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_reporting_income_report_v1_summary_proto_init() }
