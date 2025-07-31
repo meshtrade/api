@@ -4,6 +4,7 @@ package groupv1
 
 import (
 	context "context"
+	fmt "fmt"
 	grpc "github.com/meshtrade/api/go/grpc"
 	config "github.com/meshtrade/api/go/grpc/config"
 )
@@ -54,7 +55,7 @@ type GroupServiceClientInterface interface {
 }
 
 // groupService is the internal implementation of the GroupServiceClientInterface interface.
-// It embeds BaseGRPCClient to provide all common gRPC functionality.
+// It embeds BaseGRPCClient to provide all common gRPC functionality including validation.
 type groupService struct {
 	*grpc.BaseGRPCClient[GroupServiceClient]
 }
@@ -117,28 +118,44 @@ func NewGroupService(opts ...config.ServiceOption) (GroupServiceClientInterface,
 	if err != nil {
 		return nil, err
 	}
+
 	return &groupService{BaseGRPCClient: base}, nil
 }
 
 // GetGroup executes the GetGroup RPC method with automatic
-// timeout handling, distributed tracing, and authentication.
+// client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *groupService) GetGroup(ctx context.Context, request *GetGroupRequest) (*Group, error) {
+	// Validate request using protovalidate
+	if err := s.Validator().Validate(request); err != nil {
+		return nil, fmt.Errorf("request validation failed: %w", err)
+	}
+
 	return grpc.Execute(s.Executor(), ctx, "GetGroup", func(ctx context.Context) (*Group, error) {
 		return s.GrpcClient().GetGroup(ctx, request)
 	})
 }
 
 // ListGroups executes the ListGroups RPC method with automatic
-// timeout handling, distributed tracing, and authentication.
+// client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *groupService) ListGroups(ctx context.Context, request *ListGroupsRequest) (*ListGroupsResponse, error) {
+	// Validate request using protovalidate
+	if err := s.Validator().Validate(request); err != nil {
+		return nil, fmt.Errorf("request validation failed: %w", err)
+	}
+
 	return grpc.Execute(s.Executor(), ctx, "ListGroups", func(ctx context.Context) (*ListGroupsResponse, error) {
 		return s.GrpcClient().ListGroups(ctx, request)
 	})
 }
 
 // SearchGroups executes the SearchGroups RPC method with automatic
-// timeout handling, distributed tracing, and authentication.
+// client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *groupService) SearchGroups(ctx context.Context, request *SearchGroupsRequest) (*SearchGroupsResponse, error) {
+	// Validate request using protovalidate
+	if err := s.Validator().Validate(request); err != nil {
+		return nil, fmt.Errorf("request validation failed: %w", err)
+	}
+
 	return grpc.Execute(s.Executor(), ctx, "SearchGroups", func(ctx context.Context) (*SearchGroupsResponse, error) {
 		return s.GrpcClient().SearchGroups(ctx, request)
 	})

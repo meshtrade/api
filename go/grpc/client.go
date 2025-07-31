@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"time"
 
+	"buf.build/go/protovalidate"
 	"github.com/meshtrade/api/go/auth"
 	"github.com/meshtrade/api/go/grpc/config"
 	"go.opentelemetry.io/otel/trace"
@@ -21,7 +22,7 @@ import (
 
 // BaseGRPCClient provides a generic base implementation for all gRPC service clients.
 // It handles common functionality like connection management, authentication, tracing,
-// timeouts, and method execution patterns.
+// timeouts, method execution patterns, and request validation.
 //
 // Type parameter T represents the specific gRPC client type (e.g., ApiUserServiceClient)
 type BaseGRPCClient[T any] struct {
@@ -42,6 +43,9 @@ type BaseGRPCClient[T any] struct {
 	// Authentication
 	apiKey string
 	group  string
+
+	// Request validation
+	validator protovalidate.Validator
 
 	// Interceptors
 	unaryClientInterceptors []grpc.UnaryClientInterceptor
@@ -86,6 +90,12 @@ func NewBaseGRPCClient[T any](
 		opt(cfg)
 	}
 
+	// Initialize protovalidate validator
+	validator, err := protovalidate.New()
+	if err != nil {
+		return nil, fmt.Errorf("failed to create validator: %w", err)
+	}
+
 	// Create client from configuration
 	client := &BaseGRPCClient[T]{
 		url:                 cfg.URL,
@@ -96,6 +106,7 @@ func NewBaseGRPCClient[T any](
 		timeout:             cfg.Timeout,
 		apiKey:              cfg.ApiKey,
 		group:               cfg.Group,
+		validator:           validator,
 	}
 
 	// Validate authentication credentials
@@ -387,6 +398,12 @@ func (b *BaseGRPCClient[T]) Group() string {
 // This provides access to the typed gRPC client methods.
 func (b *BaseGRPCClient[T]) GrpcClient() T {
 	return b.grpcClient
+}
+
+// Validator returns the protovalidate validator for request validation.
+// This provides access to the validator for client-side request validation.
+func (b *BaseGRPCClient[T]) Validator() protovalidate.Validator {
+	return b.validator
 }
 
 // validateAuth ensures that authentication credentials and group ID are properly configured.

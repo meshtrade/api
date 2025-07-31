@@ -4,6 +4,7 @@ package directorderv1
 
 import (
 	context "context"
+	fmt "fmt"
 	grpc "github.com/meshtrade/api/go/grpc"
 	config "github.com/meshtrade/api/go/grpc/config"
 )
@@ -54,7 +55,7 @@ type DirectOrderServiceClientInterface interface {
 }
 
 // directOrderService is the internal implementation of the DirectOrderServiceClientInterface interface.
-// It embeds BaseGRPCClient to provide all common gRPC functionality.
+// It embeds BaseGRPCClient to provide all common gRPC functionality including validation.
 type directOrderService struct {
 	*grpc.BaseGRPCClient[DirectOrderServiceClient]
 }
@@ -117,12 +118,18 @@ func NewDirectOrderService(opts ...config.ServiceOption) (DirectOrderServiceClie
 	if err != nil {
 		return nil, err
 	}
+
 	return &directOrderService{BaseGRPCClient: base}, nil
 }
 
 // GetDirectOrder executes the GetDirectOrder RPC method with automatic
-// timeout handling, distributed tracing, and authentication.
+// client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *directOrderService) GetDirectOrder(ctx context.Context, request *GetDirectOrderRequest) (*DirectOrder, error) {
+	// Validate request using protovalidate
+	if err := s.Validator().Validate(request); err != nil {
+		return nil, fmt.Errorf("request validation failed: %w", err)
+	}
+
 	return grpc.Execute(s.Executor(), ctx, "GetDirectOrder", func(ctx context.Context) (*DirectOrder, error) {
 		return s.GrpcClient().GetDirectOrder(ctx, request)
 	})

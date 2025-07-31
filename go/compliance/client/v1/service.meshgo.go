@@ -4,6 +4,7 @@ package clientv1
 
 import (
 	context "context"
+	fmt "fmt"
 	grpc "github.com/meshtrade/api/go/grpc"
 	config "github.com/meshtrade/api/go/grpc/config"
 )
@@ -54,7 +55,7 @@ type ClientServiceClientInterface interface {
 }
 
 // clientService is the internal implementation of the ClientServiceClientInterface interface.
-// It embeds BaseGRPCClient to provide all common gRPC functionality.
+// It embeds BaseGRPCClient to provide all common gRPC functionality including validation.
 type clientService struct {
 	*grpc.BaseGRPCClient[ClientServiceClient]
 }
@@ -117,28 +118,44 @@ func NewClientService(opts ...config.ServiceOption) (ClientServiceClientInterfac
 	if err != nil {
 		return nil, err
 	}
+
 	return &clientService{BaseGRPCClient: base}, nil
 }
 
 // CreateClient executes the CreateClient RPC method with automatic
-// timeout handling, distributed tracing, and authentication.
+// client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *clientService) CreateClient(ctx context.Context, request *CreateClientRequest) (*Client, error) {
+	// Validate request using protovalidate
+	if err := s.Validator().Validate(request); err != nil {
+		return nil, fmt.Errorf("request validation failed: %w", err)
+	}
+
 	return grpc.Execute(s.Executor(), ctx, "CreateClient", func(ctx context.Context) (*Client, error) {
 		return s.GrpcClient().CreateClient(ctx, request)
 	})
 }
 
 // GetClient executes the GetClient RPC method with automatic
-// timeout handling, distributed tracing, and authentication.
+// client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *clientService) GetClient(ctx context.Context, request *GetClientRequest) (*Client, error) {
+	// Validate request using protovalidate
+	if err := s.Validator().Validate(request); err != nil {
+		return nil, fmt.Errorf("request validation failed: %w", err)
+	}
+
 	return grpc.Execute(s.Executor(), ctx, "GetClient", func(ctx context.Context) (*Client, error) {
 		return s.GrpcClient().GetClient(ctx, request)
 	})
 }
 
 // ListClients executes the ListClients RPC method with automatic
-// timeout handling, distributed tracing, and authentication.
+// client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *clientService) ListClients(ctx context.Context, request *ListClientsRequest) (*ListClientsResponse, error) {
+	// Validate request using protovalidate
+	if err := s.Validator().Validate(request); err != nil {
+		return nil, fmt.Errorf("request validation failed: %w", err)
+	}
+
 	return grpc.Execute(s.Executor(), ctx, "ListClients", func(ctx context.Context) (*ListClientsResponse, error) {
 		return s.GrpcClient().ListClients(ctx, request)
 	})
