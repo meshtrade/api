@@ -106,20 +106,22 @@ func TestApiUserService_ClientValidationIntegration(t *testing.T) {
 		// This is a documentation test showing the expected flow:
 		//
 		// 1. Client method called: service.CreateApiUser(ctx, request)
-		// 2. Validation runs: s.Validator().Validate(request) [from BaseGRPCClient]
-		// 3. If validation fails: return nil, fmt.Errorf("request validation failed: %w", err)
-		// 4. If validation passes: proceed with gRPC call
+		// 2. Generated client calls: grpc.Execute(s.Executor(), ctx, "CreateApiUser", request, grpcCall)
+		// 3. Execute function validates: executor.client.validator.Validate(request) [from BaseGRPCClient]
+		// 4. If validation fails: return zero, fmt.Errorf("request validation failed: %w", err)
+		// 5. If validation passes: proceed with gRPC call
 		//
-		// The validation logic is the same as tested in api_user_validation_test.go
-		// but now happens automatically on every client method call
+		// The validation logic is now centralized in the Execute function, consistent with Python approach
+		// This eliminates code duplication and provides consistent behavior across all clients
 
-		t.Log("Client-side validation flow:")
+		t.Log("Client-side validation flow (NEW PATTERN):")
 		t.Log("1. User calls: service.CreateApiUser(ctx, request)")
-		t.Log("2. Generated client calls: s.Validator().Validate(request) [from BaseGRPCClient]")
-		t.Log("3. If validation fails: returns error immediately (no network call)")
-		t.Log("4. If validation passes: makes gRPC call to server")
-		t.Log("5. This provides immediate feedback and reduces unnecessary network calls")
-		t.Log("6. ALL generated clients inherit validation from BaseGRPCClient - no duplication!")
+		t.Log("2. Generated client calls: grpc.Execute(s.Executor(), ctx, \"CreateApiUser\", request, grpcCall)")
+		t.Log("3. Execute function validates: executor.client.validator.Validate(request)")
+		t.Log("4. If validation fails: returns error immediately (no network call)")
+		t.Log("5. If validation passes: makes gRPC call to server")
+		t.Log("6. Validation happens in base Execute function - DRY principle, no duplication!")
+		t.Log("7. Consistent with Python approach where validation is in base _execute_method()")
 	})
 }
 
@@ -134,14 +136,17 @@ func ExampleApiUserService_validation_errors() {
 	// defer service.Close()
 	//
 	// request := &CreateApiUserRequest{
-	//     Owner: "", // Invalid - empty owner
-	//     DisplayName: "Test User",
+	//     ApiUser: &APIUser{
+	//         Owner: "", // Invalid - empty owner
+	//         DisplayName: "Test User",
+	//     },
 	// }
 	//
 	// response, err := service.CreateApiUser(context.Background(), request)
 	// if err != nil {
 	//     // This error would now contain: "request validation failed: ..."
-	//     // The validation error would include details about why the owner field is invalid
+	//     // The validation happens automatically in grpc.Execute() before any network call
+	//     // Same validation logic as server-side, providing immediate feedback
 	//     log.Printf("Validation failed: %v", err)
 	//     return
 	// }

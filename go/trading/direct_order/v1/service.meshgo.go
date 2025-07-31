@@ -4,7 +4,6 @@ package directorderv1
 
 import (
 	context "context"
-	fmt "fmt"
 	grpc "github.com/meshtrade/api/go/grpc"
 	config "github.com/meshtrade/api/go/grpc/config"
 )
@@ -125,12 +124,7 @@ func NewDirectOrderService(opts ...config.ServiceOption) (DirectOrderServiceClie
 // GetDirectOrder executes the GetDirectOrder RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *directOrderService) GetDirectOrder(ctx context.Context, request *GetDirectOrderRequest) (*DirectOrder, error) {
-	// Validate request using protovalidate
-	if err := s.Validator().Validate(request); err != nil {
-		return nil, fmt.Errorf("request validation failed: %w", err)
-	}
-
-	return grpc.Execute(s.Executor(), ctx, "GetDirectOrder", func(ctx context.Context) (*DirectOrder, error) {
+	return grpc.Execute(s.Executor(), ctx, "GetDirectOrder", request, func(ctx context.Context) (*DirectOrder, error) {
 		return s.GrpcClient().GetDirectOrder(ctx, request)
 	})
 }

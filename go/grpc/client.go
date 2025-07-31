@@ -18,6 +18,7 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
+	"google.golang.org/protobuf/proto"
 )
 
 // BaseGRPCClient provides a generic base implementation for all gRPC service clients.
@@ -154,7 +155,7 @@ type Executor[T any] struct {
 }
 
 // Execute provides a fully type-safe method execution pattern that handles all common functionality
-// including connection health checking and conservative retry for connection establishment failures.
+// including request validation, connection health checking and conservative retry for connection establishment failures.
 // (Standalone generic function that works around Go's method type parameter limitations).
 //
 // RETRY SAFETY: Only retries on connection establishment failures where the request
@@ -168,16 +169,17 @@ type Executor[T any] struct {
 //   - executor: The executor instance containing the client
 //   - ctx: Context for the request (can include custom timeout, tracing, etc.)
 //   - methodName: Name of the method being called (used for tracing)
+//   - request: The request message to validate using protovalidate
 //   - grpcCall: Function that executes the actual gRPC call with the processed context
 //
 // Returns:
 //   - R: The response from the gRPC method with full type safety
-//   - error: Any error that occurred during the request
+//   - error: Any error that occurred during validation or the request
 //
 // Example usage in a service method:
 //
 //	func (s *apiUserService) GetApiUser(ctx context.Context, request *GetApiUserRequest) (*APIUser, error) {
-//	    return Execute(s.Executor(), ctx, "GetApiUser", func(ctx context.Context) (*APIUser, error) {
+//	    return Execute(s.Executor(), ctx, "GetApiUser", request, func(ctx context.Context) (*APIUser, error) {
 //	        return s.GrpcClient().GetApiUser(ctx, request)
 //	    })
 //	}
@@ -185,8 +187,15 @@ func Execute[T any, R any](
 	executor *Executor[T],
 	ctx context.Context,
 	methodName string,
+	request proto.Message,
 	grpcCall func(context.Context) (R, error),
 ) (R, error) {
+	// Validate request using protovalidate before any processing
+	if err := executor.client.validator.Validate(request); err != nil {
+		var zero R
+		return zero, fmt.Errorf("request validation failed: %w", err)
+	}
+
 	// Apply timeout if no deadline is already set
 	if _, hasDeadline := ctx.Deadline(); !hasDeadline {
 		var cancel context.CancelFunc

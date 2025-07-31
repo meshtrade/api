@@ -4,7 +4,6 @@ package clientv1
 
 import (
 	context "context"
-	fmt "fmt"
 	grpc "github.com/meshtrade/api/go/grpc"
 	config "github.com/meshtrade/api/go/grpc/config"
 )
@@ -125,12 +124,7 @@ func NewClientService(opts ...config.ServiceOption) (ClientServiceClientInterfac
 // CreateClient executes the CreateClient RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *clientService) CreateClient(ctx context.Context, request *CreateClientRequest) (*Client, error) {
-	// Validate request using protovalidate
-	if err := s.Validator().Validate(request); err != nil {
-		return nil, fmt.Errorf("request validation failed: %w", err)
-	}
-
-	return grpc.Execute(s.Executor(), ctx, "CreateClient", func(ctx context.Context) (*Client, error) {
+	return grpc.Execute(s.Executor(), ctx, "CreateClient", request, func(ctx context.Context) (*Client, error) {
 		return s.GrpcClient().CreateClient(ctx, request)
 	})
 }
@@ -138,12 +132,7 @@ func (s *clientService) CreateClient(ctx context.Context, request *CreateClientR
 // GetClient executes the GetClient RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *clientService) GetClient(ctx context.Context, request *GetClientRequest) (*Client, error) {
-	// Validate request using protovalidate
-	if err := s.Validator().Validate(request); err != nil {
-		return nil, fmt.Errorf("request validation failed: %w", err)
-	}
-
-	return grpc.Execute(s.Executor(), ctx, "GetClient", func(ctx context.Context) (*Client, error) {
+	return grpc.Execute(s.Executor(), ctx, "GetClient", request, func(ctx context.Context) (*Client, error) {
 		return s.GrpcClient().GetClient(ctx, request)
 	})
 }
@@ -151,12 +140,7 @@ func (s *clientService) GetClient(ctx context.Context, request *GetClientRequest
 // ListClients executes the ListClients RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *clientService) ListClients(ctx context.Context, request *ListClientsRequest) (*ListClientsResponse, error) {
-	// Validate request using protovalidate
-	if err := s.Validator().Validate(request); err != nil {
-		return nil, fmt.Errorf("request validation failed: %w", err)
-	}
-
-	return grpc.Execute(s.Executor(), ctx, "ListClients", func(ctx context.Context) (*ListClientsResponse, error) {
+	return grpc.Execute(s.Executor(), ctx, "ListClients", request, func(ctx context.Context) (*ListClientsResponse, error) {
 		return s.GrpcClient().ListClients(ctx, request)
 	})
 }

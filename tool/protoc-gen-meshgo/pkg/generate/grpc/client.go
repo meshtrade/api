@@ -165,17 +165,12 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 	g.P("}")
 	g.P()
 
-	// Generate ultra-clean method implementations with full type safety
+	// Generate ultra-clean method implementations with validation handled in base Execute function
 	for i, method := range svc.Methods {
 		g.P("// ", method.GoName, " executes the ", method.GoName, " RPC method with automatic")
 		g.P("// client-side validation, timeout handling, distributed tracing, and authentication.")
 		g.P("func (s *", clientStructName, ") ", method.GoName, "(ctx ", generate.ContextPkg.Ident("Context"), ", request *", method.Input.GoIdent, ") (*", method.Output.GoIdent, ", error) {")
-		g.P("\t// Validate request using protovalidate")
-		g.P("\tif err := s.Validator().Validate(request); err != nil {")
-		g.P("\t\treturn nil, ", generate.FmtPackage.Ident("Errorf"), "(\"request validation failed: %w\", err)")
-		g.P("\t}")
-		g.P("\t")
-		g.P("\treturn ", generate.GRPCClientPkg.Ident("Execute"), "(s.Executor(), ctx, \"", method.GoName, "\", func(ctx ", generate.ContextPkg.Ident("Context"), ") (*", method.Output.GoIdent, ", error) {")
+		g.P("\treturn ", generate.GRPCClientPkg.Ident("Execute"), "(s.Executor(), ctx, \"", method.GoName, "\", request, func(ctx ", generate.ContextPkg.Ident("Context"), ") (*", method.Output.GoIdent, ", error) {")
 		g.P("\t\treturn s.GrpcClient().", method.GoName, "(ctx, request)")
 		g.P("\t})")
 		g.P("}")

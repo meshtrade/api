@@ -4,7 +4,6 @@ package spotv1
 
 import (
 	context "context"
-	fmt "fmt"
 	grpc "github.com/meshtrade/api/go/grpc"
 	config "github.com/meshtrade/api/go/grpc/config"
 )
@@ -125,12 +124,7 @@ func NewSpotService(opts ...config.ServiceOption) (SpotServiceClientInterface, e
 // GetSpot executes the GetSpot RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *spotService) GetSpot(ctx context.Context, request *GetSpotRequest) (*Spot, error) {
-	// Validate request using protovalidate
-	if err := s.Validator().Validate(request); err != nil {
-		return nil, fmt.Errorf("request validation failed: %w", err)
-	}
-
-	return grpc.Execute(s.Executor(), ctx, "GetSpot", func(ctx context.Context) (*Spot, error) {
+	return grpc.Execute(s.Executor(), ctx, "GetSpot", request, func(ctx context.Context) (*Spot, error) {
 		return s.GrpcClient().GetSpot(ctx, request)
 	})
 }

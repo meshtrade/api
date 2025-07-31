@@ -4,7 +4,6 @@ package api_userv1
 
 import (
 	context "context"
-	fmt "fmt"
 	grpc "github.com/meshtrade/api/go/grpc"
 	config "github.com/meshtrade/api/go/grpc/config"
 )
@@ -125,12 +124,7 @@ func NewApiUserService(opts ...config.ServiceOption) (ApiUserServiceClientInterf
 // GetApiUser executes the GetApiUser RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *apiUserService) GetApiUser(ctx context.Context, request *GetApiUserRequest) (*APIUser, error) {
-	// Validate request using protovalidate
-	if err := s.Validator().Validate(request); err != nil {
-		return nil, fmt.Errorf("request validation failed: %w", err)
-	}
-
-	return grpc.Execute(s.Executor(), ctx, "GetApiUser", func(ctx context.Context) (*APIUser, error) {
+	return grpc.Execute(s.Executor(), ctx, "GetApiUser", request, func(ctx context.Context) (*APIUser, error) {
 		return s.GrpcClient().GetApiUser(ctx, request)
 	})
 }
@@ -138,12 +132,7 @@ func (s *apiUserService) GetApiUser(ctx context.Context, request *GetApiUserRequ
 // CreateApiUser executes the CreateApiUser RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *apiUserService) CreateApiUser(ctx context.Context, request *CreateApiUserRequest) (*APIUser, error) {
-	// Validate request using protovalidate
-	if err := s.Validator().Validate(request); err != nil {
-		return nil, fmt.Errorf("request validation failed: %w", err)
-	}
-
-	return grpc.Execute(s.Executor(), ctx, "CreateApiUser", func(ctx context.Context) (*APIUser, error) {
+	return grpc.Execute(s.Executor(), ctx, "CreateApiUser", request, func(ctx context.Context) (*APIUser, error) {
 		return s.GrpcClient().CreateApiUser(ctx, request)
 	})
 }
@@ -151,12 +140,7 @@ func (s *apiUserService) CreateApiUser(ctx context.Context, request *CreateApiUs
 // ListApiUsers executes the ListApiUsers RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *apiUserService) ListApiUsers(ctx context.Context, request *ListApiUsersRequest) (*ListApiUsersResponse, error) {
-	// Validate request using protovalidate
-	if err := s.Validator().Validate(request); err != nil {
-		return nil, fmt.Errorf("request validation failed: %w", err)
-	}
-
-	return grpc.Execute(s.Executor(), ctx, "ListApiUsers", func(ctx context.Context) (*ListApiUsersResponse, error) {
+	return grpc.Execute(s.Executor(), ctx, "ListApiUsers", request, func(ctx context.Context) (*ListApiUsersResponse, error) {
 		return s.GrpcClient().ListApiUsers(ctx, request)
 	})
 }
@@ -164,12 +148,7 @@ func (s *apiUserService) ListApiUsers(ctx context.Context, request *ListApiUsers
 // SearchApiUsers executes the SearchApiUsers RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *apiUserService) SearchApiUsers(ctx context.Context, request *SearchApiUsersRequest) (*SearchApiUsersResponse, error) {
-	// Validate request using protovalidate
-	if err := s.Validator().Validate(request); err != nil {
-		return nil, fmt.Errorf("request validation failed: %w", err)
-	}
-
-	return grpc.Execute(s.Executor(), ctx, "SearchApiUsers", func(ctx context.Context) (*SearchApiUsersResponse, error) {
+	return grpc.Execute(s.Executor(), ctx, "SearchApiUsers", request, func(ctx context.Context) (*SearchApiUsersResponse, error) {
 		return s.GrpcClient().SearchApiUsers(ctx, request)
 	})
 }
@@ -177,12 +156,7 @@ func (s *apiUserService) SearchApiUsers(ctx context.Context, request *SearchApiU
 // ActivateApiUser executes the ActivateApiUser RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *apiUserService) ActivateApiUser(ctx context.Context, request *ActivateApiUserRequest) (*APIUser, error) {
-	// Validate request using protovalidate
-	if err := s.Validator().Validate(request); err != nil {
-		return nil, fmt.Errorf("request validation failed: %w", err)
-	}
-
-	return grpc.Execute(s.Executor(), ctx, "ActivateApiUser", func(ctx context.Context) (*APIUser, error) {
+	return grpc.Execute(s.Executor(), ctx, "ActivateApiUser", request, func(ctx context.Context) (*APIUser, error) {
 		return s.GrpcClient().ActivateApiUser(ctx, request)
 	})
 }
@@ -190,12 +164,7 @@ func (s *apiUserService) ActivateApiUser(ctx context.Context, request *ActivateA
 // DeactivateApiUser executes the DeactivateApiUser RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *apiUserService) DeactivateApiUser(ctx context.Context, request *DeactivateApiUserRequest) (*APIUser, error) {
-	// Validate request using protovalidate
-	if err := s.Validator().Validate(request); err != nil {
-		return nil, fmt.Errorf("request validation failed: %w", err)
-	}
-
-	return grpc.Execute(s.Executor(), ctx, "DeactivateApiUser", func(ctx context.Context) (*APIUser, error) {
+	return grpc.Execute(s.Executor(), ctx, "DeactivateApiUser", request, func(ctx context.Context) (*APIUser, error) {
 		return s.GrpcClient().DeactivateApiUser(ctx, request)
 	})
 }
@@ -203,12 +172,7 @@ func (s *apiUserService) DeactivateApiUser(ctx context.Context, request *Deactiv
 // GetApiUserByKeyHash executes the GetApiUserByKeyHash RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *apiUserService) GetApiUserByKeyHash(ctx context.Context, request *GetApiUserByKeyHashRequest) (*APIUser, error) {
-	// Validate request using protovalidate
-	if err := s.Validator().Validate(request); err != nil {
-		return nil, fmt.Errorf("request validation failed: %w", err)
-	}
-
-	return grpc.Execute(s.Executor(), ctx, "GetApiUserByKeyHash", func(ctx context.Context) (*APIUser, error) {
+	return grpc.Execute(s.Executor(), ctx, "GetApiUserByKeyHash", request, func(ctx context.Context) (*APIUser, error) {
 		return s.GrpcClient().GetApiUserByKeyHash(ctx, request)
 	})
 }

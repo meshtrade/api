@@ -4,7 +4,6 @@ package instrumentv1
 
 import (
 	context "context"
-	fmt "fmt"
 	grpc "github.com/meshtrade/api/go/grpc"
 	config "github.com/meshtrade/api/go/grpc/config"
 )
@@ -125,12 +124,7 @@ func NewInstrumentService(opts ...config.ServiceOption) (InstrumentServiceClient
 // GetInstrument executes the GetInstrument RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *instrumentService) GetInstrument(ctx context.Context, request *GetInstrumentRequest) (*Instrument, error) {
-	// Validate request using protovalidate
-	if err := s.Validator().Validate(request); err != nil {
-		return nil, fmt.Errorf("request validation failed: %w", err)
-	}
-
-	return grpc.Execute(s.Executor(), ctx, "GetInstrument", func(ctx context.Context) (*Instrument, error) {
+	return grpc.Execute(s.Executor(), ctx, "GetInstrument", request, func(ctx context.Context) (*Instrument, error) {
 		return s.GrpcClient().GetInstrument(ctx, request)
 	})
 }
@@ -138,12 +132,7 @@ func (s *instrumentService) GetInstrument(ctx context.Context, request *GetInstr
 // MintInstrument executes the MintInstrument RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *instrumentService) MintInstrument(ctx context.Context, request *MintInstrumentRequest) (*MintInstrumentResponse, error) {
-	// Validate request using protovalidate
-	if err := s.Validator().Validate(request); err != nil {
-		return nil, fmt.Errorf("request validation failed: %w", err)
-	}
-
-	return grpc.Execute(s.Executor(), ctx, "MintInstrument", func(ctx context.Context) (*MintInstrumentResponse, error) {
+	return grpc.Execute(s.Executor(), ctx, "MintInstrument", request, func(ctx context.Context) (*MintInstrumentResponse, error) {
 		return s.GrpcClient().MintInstrument(ctx, request)
 	})
 }
@@ -151,12 +140,7 @@ func (s *instrumentService) MintInstrument(ctx context.Context, request *MintIns
 // BurnInstrument executes the BurnInstrument RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *instrumentService) BurnInstrument(ctx context.Context, request *BurnInstrumentRequest) (*BurnInstrumentResponse, error) {
-	// Validate request using protovalidate
-	if err := s.Validator().Validate(request); err != nil {
-		return nil, fmt.Errorf("request validation failed: %w", err)
-	}
-
-	return grpc.Execute(s.Executor(), ctx, "BurnInstrument", func(ctx context.Context) (*BurnInstrumentResponse, error) {
+	return grpc.Execute(s.Executor(), ctx, "BurnInstrument", request, func(ctx context.Context) (*BurnInstrumentResponse, error) {
 		return s.GrpcClient().BurnInstrument(ctx, request)
 	})
 }

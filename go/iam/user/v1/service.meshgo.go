@@ -4,7 +4,6 @@ package userv1
 
 import (
 	context "context"
-	fmt "fmt"
 	grpc "github.com/meshtrade/api/go/grpc"
 	config "github.com/meshtrade/api/go/grpc/config"
 )
@@ -125,12 +124,7 @@ func NewUserService(opts ...config.ServiceOption) (UserServiceClientInterface, e
 // AssignRoleToUser executes the AssignRoleToUser RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *userService) AssignRoleToUser(ctx context.Context, request *AssignRoleToUserRequest) (*User, error) {
-	// Validate request using protovalidate
-	if err := s.Validator().Validate(request); err != nil {
-		return nil, fmt.Errorf("request validation failed: %w", err)
-	}
-
-	return grpc.Execute(s.Executor(), ctx, "AssignRoleToUser", func(ctx context.Context) (*User, error) {
+	return grpc.Execute(s.Executor(), ctx, "AssignRoleToUser", request, func(ctx context.Context) (*User, error) {
 		return s.GrpcClient().AssignRoleToUser(ctx, request)
 	})
 }

@@ -4,7 +4,6 @@ package limitorderv1
 
 import (
 	context "context"
-	fmt "fmt"
 	grpc "github.com/meshtrade/api/go/grpc"
 	config "github.com/meshtrade/api/go/grpc/config"
 )
@@ -125,12 +124,7 @@ func NewLimitOrderService(opts ...config.ServiceOption) (LimitOrderServiceClient
 // GetLimitOrder executes the GetLimitOrder RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *limitOrderService) GetLimitOrder(ctx context.Context, request *GetLimitOrderRequest) (*LimitOrder, error) {
-	// Validate request using protovalidate
-	if err := s.Validator().Validate(request); err != nil {
-		return nil, fmt.Errorf("request validation failed: %w", err)
-	}
-
-	return grpc.Execute(s.Executor(), ctx, "GetLimitOrder", func(ctx context.Context) (*LimitOrder, error) {
+	return grpc.Execute(s.Executor(), ctx, "GetLimitOrder", request, func(ctx context.Context) (*LimitOrder, error) {
 		return s.GrpcClient().GetLimitOrder(ctx, request)
 	})
 }

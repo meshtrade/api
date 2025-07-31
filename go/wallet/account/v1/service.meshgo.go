@@ -4,7 +4,6 @@ package accountv1
 
 import (
 	context "context"
-	fmt "fmt"
 	grpc "github.com/meshtrade/api/go/grpc"
 	config "github.com/meshtrade/api/go/grpc/config"
 )
@@ -125,12 +124,7 @@ func NewAccountService(opts ...config.ServiceOption) (AccountServiceClientInterf
 // CreateAccount executes the CreateAccount RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *accountService) CreateAccount(ctx context.Context, request *CreateAccountRequest) (*Account, error) {
-	// Validate request using protovalidate
-	if err := s.Validator().Validate(request); err != nil {
-		return nil, fmt.Errorf("request validation failed: %w", err)
-	}
-
-	return grpc.Execute(s.Executor(), ctx, "CreateAccount", func(ctx context.Context) (*Account, error) {
+	return grpc.Execute(s.Executor(), ctx, "CreateAccount", request, func(ctx context.Context) (*Account, error) {
 		return s.GrpcClient().CreateAccount(ctx, request)
 	})
 }
@@ -138,12 +132,7 @@ func (s *accountService) CreateAccount(ctx context.Context, request *CreateAccou
 // GetAccount executes the GetAccount RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *accountService) GetAccount(ctx context.Context, request *GetAccountRequest) (*Account, error) {
-	// Validate request using protovalidate
-	if err := s.Validator().Validate(request); err != nil {
-		return nil, fmt.Errorf("request validation failed: %w", err)
-	}
-
-	return grpc.Execute(s.Executor(), ctx, "GetAccount", func(ctx context.Context) (*Account, error) {
+	return grpc.Execute(s.Executor(), ctx, "GetAccount", request, func(ctx context.Context) (*Account, error) {
 		return s.GrpcClient().GetAccount(ctx, request)
 	})
 }
@@ -151,12 +140,7 @@ func (s *accountService) GetAccount(ctx context.Context, request *GetAccountRequ
 // ListAccounts executes the ListAccounts RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *accountService) ListAccounts(ctx context.Context, request *ListAccountsRequest) (*ListAccountsResponse, error) {
-	// Validate request using protovalidate
-	if err := s.Validator().Validate(request); err != nil {
-		return nil, fmt.Errorf("request validation failed: %w", err)
-	}
-
-	return grpc.Execute(s.Executor(), ctx, "ListAccounts", func(ctx context.Context) (*ListAccountsResponse, error) {
+	return grpc.Execute(s.Executor(), ctx, "ListAccounts", request, func(ctx context.Context) (*ListAccountsResponse, error) {
 		return s.GrpcClient().ListAccounts(ctx, request)
 	})
 }
@@ -164,12 +148,7 @@ func (s *accountService) ListAccounts(ctx context.Context, request *ListAccounts
 // SearchAccounts executes the SearchAccounts RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *accountService) SearchAccounts(ctx context.Context, request *SearchAccountsRequest) (*SearchAccountsResponse, error) {
-	// Validate request using protovalidate
-	if err := s.Validator().Validate(request); err != nil {
-		return nil, fmt.Errorf("request validation failed: %w", err)
-	}
-
-	return grpc.Execute(s.Executor(), ctx, "SearchAccounts", func(ctx context.Context) (*SearchAccountsResponse, error) {
+	return grpc.Execute(s.Executor(), ctx, "SearchAccounts", request, func(ctx context.Context) (*SearchAccountsResponse, error) {
 		return s.GrpcClient().SearchAccounts(ctx, request)
 	})
 }
