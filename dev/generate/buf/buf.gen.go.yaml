@@ -2,11 +2,11 @@
 version: v2
 
 plugins:
-  - remote: buf.build/protocolbuffers/go
+  - remote: buf.build/protocolbuffers/go:v1.36.6
     out: .
     opt:
       - module=github.com/meshtrade/api
-  - remote: buf.build/grpc/go
+  - remote: buf.build/grpc/go:v1.5.1
     out: .
     opt:
       - module=github.com/meshtrade/api

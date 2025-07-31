@@ -48,8 +48,8 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- Dependency versions - Updated to latest stable versions -->
-        <grpc.version>1.68.0</grpc.version>
-        <protobuf.version>3.25.5</protobuf.version>
+        <grpc.version>1.74.0</grpc.version>
+        <protobuf.version>4.31.1</protobuf.version>
         <javapoet.version>1.13.0</javapoet.version>
         <javaparser.version>3.27.0</javaparser.version>
         <jakarta.annotation.version>3.0.0</jakarta.annotation.version>
