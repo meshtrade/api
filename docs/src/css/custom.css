@@ -170,9 +170,11 @@ html[data-theme='dark'] * {
 
 /* ------  Nav and Footer  ------ */
 
-.navbar {
-  background-color: color-mix(in srgb, var(--ifm-color-nav) 90%, transparent);
-  backdrop-filter: blur(6px);
+@media (min-width: 997px) {
+  .navbar {
+    background-color: color-mix(in srgb, var(--ifm-color-nav) 90%, transparent);
+    backdrop-filter: blur(6px);
+  }
 }
 
 footer.footer {
