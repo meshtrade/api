@@ -34,24 +34,20 @@ type IncomeReport struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// List of detailed income entries included in this report.
 	Entries []*Entry `protobuf:"bytes,1,rep,name=entries,proto3" json:"entries,omitempty"`
-	// Aggregated summary of the income report, including totals by currency.
-	Summary *Summary `protobuf:"bytes,2,opt,name=summary,proto3" json:"summary,omitempty"`
 	// Token representing the currency in which the report values are denominated.
-	ReportingCurrency *v1.Token `protobuf:"bytes,3,opt,name=reporting_currency,json=reportingCurrency,proto3" json:"reporting_currency,omitempty"`
+	ReportingCurrency *v1.Token `protobuf:"bytes,2,opt,name=reporting_currency,json=reportingCurrency,proto3" json:"reporting_currency,omitempty"`
 	// The period covered by this report.
-	Period *IncomeReport_Period `protobuf:"bytes,4,opt,name=period,proto3" json:"period,omitempty"`
+	Period *IncomeReport_Period `protobuf:"bytes,3,opt,name=period,proto3" json:"period,omitempty"`
 	// Timestamp indicating when this report was generated.
-	GenerationDate *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=generation_date,json=generationDate,proto3" json:"generation_date,omitempty"`
+	GenerationDate *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=generation_date,json=generationDate,proto3" json:"generation_date,omitempty"`
 	// Account number for which this income report applies.
-	AccountNumber string `protobuf:"bytes,6,opt,name=account_number,json=accountNumber,proto3" json:"account_number,omitempty"`
+	AccountNumber string `protobuf:"bytes,5,opt,name=account_number,json=accountNumber,proto3" json:"account_number,omitempty"`
 	// Optional disclaimers or notices to accompany the report.
-	Disclaimers []*Disclaimer `protobuf:"bytes,7,rep,name=disclaimers,proto3" json:"disclaimers,omitempty"`
+	Disclaimers []*Disclaimer `protobuf:"bytes,6,rep,name=disclaimers,proto3" json:"disclaimers,omitempty"`
 	// Address details of the client for whom the report is generated.
-	ClientAddress *v1.Address `protobuf:"bytes,8,opt,name=client_address,json=clientAddress,proto3" json:"client_address,omitempty"`
+	ClientAddress *v1.Address `protobuf:"bytes,7,opt,name=client_address,json=clientAddress,proto3" json:"client_address,omitempty"`
 	// Name of the client associated with this report.
-	ClientName string `protobuf:"bytes,9,opt,name=client_name,json=clientName,proto3" json:"client_name,omitempty"`
-	// Copyright or attribution text related to this income report.
-	Copyright     string `protobuf:"bytes,10,opt,name=copyright,proto3" json:"copyright,omitempty"`
+	ClientName    string `protobuf:"bytes,8,opt,name=client_name,json=clientName,proto3" json:"client_name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -89,13 +85,6 @@ func (*IncomeReport) Descriptor() ([]byte, []int) {
 func (x *IncomeReport) GetEntries() []*Entry {
 	if x != nil {
 		return x.Entries
-	}
-	return nil
-}
-
-func (x *IncomeReport) GetSummary() *Summary {
-	if x != nil {
-		return x.Summary
 	}
 	return nil
 }
@@ -145,13 +134,6 @@ func (x *IncomeReport) GetClientAddress() *v1.Address {
 func (x *IncomeReport) GetClientName() string {
 	if x != nil {
 		return x.ClientName
-	}
-	return ""
-}
-
-func (x *IncomeReport) GetCopyright() string {
-	if x != nil {
-		return x.Copyright
 	}
 	return ""
 }
@@ -215,20 +197,17 @@ var File_meshtrade_reporting_income_report_v1_income_report_proto protoreflect.F
 
 const file_meshtrade_reporting_income_report_v1_income_report_proto_rawDesc = "" +
 	"\n" +
-	"8meshtrade/reporting/income_report/v1/income_report.proto\x12$meshtrade.reporting.income_report.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1dmeshtrade/type/v1/token.proto\x1a\x1fmeshtrade/type/v1/address.proto\x1a2meshtrade/reporting/income_report/v1/summary.proto\x1a5meshtrade/reporting/income_report/v1/disclaimer.proto\x1a0meshtrade/reporting/income_report/v1/entry.proto\"\xe2\x05\n" +
+	"8meshtrade/reporting/income_report/v1/income_report.proto\x12$meshtrade.reporting.income_report.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1dmeshtrade/type/v1/token.proto\x1a\x1fmeshtrade/type/v1/address.proto\x1a5meshtrade/reporting/income_report/v1/disclaimer.proto\x1a0meshtrade/reporting/income_report/v1/entry.proto\"\xfb\x04\n" +
 	"\fIncomeReport\x12E\n" +
 	"\aentries\x18\x01 \x03(\v2+.meshtrade.reporting.income_report.v1.EntryR\aentries\x12G\n" +
-	"\asummary\x18\x02 \x01(\v2-.meshtrade.reporting.income_report.v1.SummaryR\asummary\x12G\n" +
-	"\x12reporting_currency\x18\x03 \x01(\v2\x18.meshtrade.type.v1.TokenR\x11reportingCurrency\x12Q\n" +
-	"\x06period\x18\x04 \x01(\v29.meshtrade.reporting.income_report.v1.IncomeReport.PeriodR\x06period\x12C\n" +
-	"\x0fgeneration_date\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\x0egenerationDate\x12%\n" +
-	"\x0eaccount_number\x18\x06 \x01(\tR\raccountNumber\x12R\n" +
-	"\vdisclaimers\x18\a \x03(\v20.meshtrade.reporting.income_report.v1.DisclaimerR\vdisclaimers\x12A\n" +
-	"\x0eclient_address\x18\b \x01(\v2\x1a.meshtrade.type.v1.AddressR\rclientAddress\x12\x1f\n" +
-	"\vclient_name\x18\t \x01(\tR\n" +
-	"clientName\x12\x1c\n" +
-	"\tcopyright\x18\n" +
-	" \x01(\tR\tcopyright\x1ad\n" +
+	"\x12reporting_currency\x18\x02 \x01(\v2\x18.meshtrade.type.v1.TokenR\x11reportingCurrency\x12Q\n" +
+	"\x06period\x18\x03 \x01(\v29.meshtrade.reporting.income_report.v1.IncomeReport.PeriodR\x06period\x12C\n" +
+	"\x0fgeneration_date\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\x0egenerationDate\x12%\n" +
+	"\x0eaccount_number\x18\x05 \x01(\tR\raccountNumber\x12R\n" +
+	"\vdisclaimers\x18\x06 \x03(\v20.meshtrade.reporting.income_report.v1.DisclaimerR\vdisclaimers\x12A\n" +
+	"\x0eclient_address\x18\a \x01(\v2\x1a.meshtrade.type.v1.AddressR\rclientAddress\x12\x1f\n" +
+	"\vclient_name\x18\b \x01(\tR\n" +
+	"clientName\x1ad\n" +
 	"\x06Period\x12.\n" +
 	"\x04from\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\x04from\x12*\n" +
 	"\x02to\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x02toBHZFgithub.com/meshtrade/api/go/reporting/income_report/v1;income_reportv1b\x06proto3"
@@ -250,27 +229,25 @@ var file_meshtrade_reporting_income_report_v1_income_report_proto_goTypes = []an
 	(*IncomeReport)(nil),          // 0: meshtrade.reporting.income_report.v1.IncomeReport
 	(*IncomeReport_Period)(nil),   // 1: meshtrade.reporting.income_report.v1.IncomeReport.Period
 	(*Entry)(nil),                 // 2: meshtrade.reporting.income_report.v1.Entry
-	(*Summary)(nil),               // 3: meshtrade.reporting.income_report.v1.Summary
-	(*v1.Token)(nil),              // 4: meshtrade.type.v1.Token
-	(*timestamppb.Timestamp)(nil), // 5: google.protobuf.Timestamp
-	(*Disclaimer)(nil),            // 6: meshtrade.reporting.income_report.v1.Disclaimer
-	(*v1.Address)(nil),            // 7: meshtrade.type.v1.Address
+	(*v1.Token)(nil),              // 3: meshtrade.type.v1.Token
+	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
+	(*Disclaimer)(nil),            // 5: meshtrade.reporting.income_report.v1.Disclaimer
+	(*v1.Address)(nil),            // 6: meshtrade.type.v1.Address
 }
 var file_meshtrade_reporting_income_report_v1_income_report_proto_depIdxs = []int32{
 	2, // 0: meshtrade.reporting.income_report.v1.IncomeReport.entries:type_name -> meshtrade.reporting.income_report.v1.Entry
-	3, // 1: meshtrade.reporting.income_report.v1.IncomeReport.summary:type_name -> meshtrade.reporting.income_report.v1.Summary
-	4, // 2: meshtrade.reporting.income_report.v1.IncomeReport.reporting_currency:type_name -> meshtrade.type.v1.Token
-	1, // 3: meshtrade.reporting.income_report.v1.IncomeReport.period:type_name -> meshtrade.reporting.income_report.v1.IncomeReport.Period
-	5, // 4: meshtrade.reporting.income_report.v1.IncomeReport.generation_date:type_name -> google.protobuf.Timestamp
-	6, // 5: meshtrade.reporting.income_report.v1.IncomeReport.disclaimers:type_name -> meshtrade.reporting.income_report.v1.Disclaimer
-	7, // 6: meshtrade.reporting.income_report.v1.IncomeReport.client_address:type_name -> meshtrade.type.v1.Address
-	5, // 7: meshtrade.reporting.income_report.v1.IncomeReport.Period.from:type_name -> google.protobuf.Timestamp
-	5, // 8: meshtrade.reporting.income_report.v1.IncomeReport.Period.to:type_name -> google.protobuf.Timestamp
-	9, // [9:9] is the sub-list for method output_type
-	9, // [9:9] is the sub-list for method input_type
-	9, // [9:9] is the sub-list for extension type_name
-	9, // [9:9] is the sub-list for extension extendee
-	0, // [0:9] is the sub-list for field type_name
+	3, // 1: meshtrade.reporting.income_report.v1.IncomeReport.reporting_currency:type_name -> meshtrade.type.v1.Token
+	1, // 2: meshtrade.reporting.income_report.v1.IncomeReport.period:type_name -> meshtrade.reporting.income_report.v1.IncomeReport.Period
+	4, // 3: meshtrade.reporting.income_report.v1.IncomeReport.generation_date:type_name -> google.protobuf.Timestamp
+	5, // 4: meshtrade.reporting.income_report.v1.IncomeReport.disclaimers:type_name -> meshtrade.reporting.income_report.v1.Disclaimer
+	6, // 5: meshtrade.reporting.income_report.v1.IncomeReport.client_address:type_name -> meshtrade.type.v1.Address
+	4, // 6: meshtrade.reporting.income_report.v1.IncomeReport.Period.from:type_name -> google.protobuf.Timestamp
+	4, // 7: meshtrade.reporting.income_report.v1.IncomeReport.Period.to:type_name -> google.protobuf.Timestamp
+	8, // [8:8] is the sub-list for method output_type
+	8, // [8:8] is the sub-list for method input_type
+	8, // [8:8] is the sub-list for extension type_name
+	8, // [8:8] is the sub-list for extension extendee
+	0, // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_reporting_income_report_v1_income_report_proto_init() }
@@ -278,7 +255,6 @@ func file_meshtrade_reporting_income_report_v1_income_report_proto_init() {
 	if File_meshtrade_reporting_income_report_v1_income_report_proto != nil {
 		return
 	}
-	file_meshtrade_reporting_income_report_v1_summary_proto_init()
 	file_meshtrade_reporting_income_report_v1_disclaimer_proto_init()
 	file_meshtrade_reporting_income_report_v1_entry_proto_init()
 	type x struct{}
