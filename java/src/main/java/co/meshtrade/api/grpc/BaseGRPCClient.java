@@ -3,6 +3,7 @@ package co.meshtrade.api.grpc;
 import build.buf.protovalidate.ValidationResult;
 import build.buf.protovalidate.Validator;
 import build.buf.protovalidate.ValidatorFactory;
+import build.buf.protovalidate.exceptions.ValidationException;
 import co.meshtrade.api.auth.Credentials;
 import co.meshtrade.api.config.ServiceOptions;
 import com.google.protobuf.Message;
@@ -168,9 +169,13 @@ public abstract class BaseGRPCClient<T extends AbstractStub<T>> implements AutoC
         
         // Validate request using protovalidate before any processing
         if (request instanceof Message) {
-            ValidationResult result = validator.validate((Message) request);
-            if (!result.isSuccess()) {
-                throw new IllegalArgumentException("Request validation failed: " + result.toString());
+            try {
+                ValidationResult result = validator.validate((Message) request);
+                if (!result.isSuccess()) {
+                    throw new IllegalArgumentException("Request validation failed: " + result.toString());
+                }
+            } catch (ValidationException e) {
+                throw new IllegalArgumentException("Request validation failed: " + e.getMessage(), e);
             }
         }
         

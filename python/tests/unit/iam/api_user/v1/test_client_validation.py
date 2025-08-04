@@ -28,10 +28,10 @@ class TestApiUserServiceClientValidation:
 
         # Validate using protovalidate directly (same as BaseGRPCClient does)
         validator = Validator()
-        
+
         # This should not raise any exception
         validator.validate(request)
-        
+
         # Verify the request structure
         assert request.api_user is not None
         assert request.api_user.owner == "groups/test-group-123"
@@ -49,11 +49,11 @@ class TestApiUserServiceClientValidation:
 
         # Validate using protovalidate
         validator = Validator()
-        
+
         # This should raise a validation exception
         with pytest.raises(Exception) as exc_info:
             validator.validate(request)
-        
+
         # Verify the error indicates validation failure
         # Note: Python protovalidate returns generic "invalid CreateApiUserRequest" messages
         error_message = str(exc_info.value)
@@ -72,11 +72,11 @@ class TestApiUserServiceClientValidation:
 
         # Validate using protovalidate
         validator = Validator()
-        
+
         # This should raise a validation exception
         with pytest.raises(Exception) as exc_info:
             validator.validate(request)
-            
+
         # Verify the error indicates validation failure
         # Note: Python protovalidate returns generic "invalid CreateApiUserRequest" messages
         error_message = str(exc_info.value)
@@ -96,11 +96,11 @@ class TestApiUserServiceClientValidation:
 
         # Validate using protovalidate
         validator = Validator()
-        
+
         # This should raise a validation exception
         with pytest.raises(Exception) as exc_info:
             validator.validate(request)
-            
+
         # Verify the error indicates validation failure and the display name is indeed too long
         error_message = str(exc_info.value)
         assert len(long_display_name) > 255
@@ -124,27 +124,27 @@ class TestClientValidationIntegration:
         #
         # This provides immediate feedback and reduces unnecessary network calls
         # ALL generated Python clients inherit validation from BaseGRPCClient - no duplication!
-        
+
         # Verify that BaseGRPCClient has a validator
         from meshtrade.common.grpc_client import BaseGRPCClient
         from meshtrade.iam.api_user.v1.api_credentials import find_credentials
-        
+
         # Create a minimal BaseGRPCClient instance to verify validator exists
         def dummy_stub_factory(channel):
             return None
-            
+
         client = BaseGRPCClient(
             service_name="TestService",
             stub_factory=dummy_stub_factory,
             find_credentials_func=find_credentials,
             api_key="test-key",
-            group="groups/test-group"
+            group="groups/test-group",
         )
-        
+
         # Verify the validator method exists and returns a Validator
         validator = client.validator()
         assert isinstance(validator, Validator)
-        
+
         # Verify validation integration in _execute_method
         # (We can't easily test the full flow without setting up gRPC server,
         #  but we verified that validation is called first in _execute_method)
@@ -153,19 +153,19 @@ class TestClientValidationIntegration:
 def example_python_client_validation_errors():
     """
     Example of how validation errors would look when using Python clients.
-    
+
     This function demonstrates the expected behavior but doesn't run as a test.
-    
+
     Example usage that would trigger validation:
-    
+
     ```python
     from meshtrade.iam.api_user.v1.service_meshpy import ApiUserService
     from meshtrade.iam.api_user.v1.service_pb2 import CreateApiUserRequest
     from meshtrade.iam.api_user.v1.api_user_pb2 import APIUser
-    
+
     # Create service instance
     service = ApiUserService()
-    
+
     # Create invalid request
     request = CreateApiUserRequest(
         api_user=APIUser(
@@ -173,7 +173,7 @@ def example_python_client_validation_errors():
             display_name="Test User",
         )
     )
-    
+
     try:
         with service:
             response = service.create_api_user(request)
