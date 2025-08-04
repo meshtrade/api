@@ -13,14 +13,20 @@ def main():
     with service:
         # Create request with service-specific parameters
         request = GetApiUserRequest(
-            # FIXME: Populate service-specific request fields
+            name="api_users/01234567890123456789012345"  # API user resource name
         )
 
         # Call the GetApiUser method
         api_user = service.get_api_user(request)
 
-        # FIXME: Add relevant response object usage
-        print("GetApiUser successful:", api_user)
+        # Access API user details
+        print(f"Retrieved API user: {api_user.name}")
+        print(f"Display name: {api_user.display_name}")
+        print(f"State: {api_user.state}")
+        print(f"Owner: {api_user.owner}")
+        print(f"Roles: {api_user.roles}")
+        
+        # Note: API key is not returned in get operations for security reasons
 
 
 if __name__ == "__main__":

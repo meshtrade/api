@@ -10,16 +10,24 @@ public class ListApiUsersExample {
         // environment variable or default discovery methods. Zero config required
         // unless you want custom configuration.
         try (ApiUserService service = new ApiUserService()) {
-            // Create request with service-specific parameters
+            // Create request (no parameters needed for basic list)
             ListApiUsersRequest request = ListApiUsersRequest.newBuilder()
-                // FIXME: Populate service-specific request fields
                 .build();
 
             // Call the ListApiUsers method
             ListApiUsersResponse response = service.listApiUsers(request, Optional.empty());
 
-            // FIXME: Add relevant response object usage
-            System.out.println("ListApiUsers successful: " + response);
+            // Process the list of API users
+            System.out.println("Found " + response.getApiUsersCount() + " API users");
+            
+            for (int i = 0; i < response.getApiUsersCount(); i++) {
+                var apiUser = response.getApiUsers(i);
+                System.out.println("API User " + (i + 1) + ":");
+                System.out.println("  Name: " + apiUser.getName());
+                System.out.println("  Display Name: " + apiUser.getDisplayName());
+                System.out.println("  State: " + apiUser.getState());
+                System.out.println("  Owner: " + apiUser.getOwner());
+            }
         } catch (Exception e) {
             System.err.println("ListApiUsers failed: " + e.getMessage());
             e.printStackTrace();

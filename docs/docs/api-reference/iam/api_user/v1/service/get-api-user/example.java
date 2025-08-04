@@ -12,14 +12,20 @@ public class GetApiUserExample {
         try (ApiUserService service = new ApiUserService()) {
             // Create request with service-specific parameters
             GetApiUserRequest request = GetApiUserRequest.newBuilder()
-                // FIXME: Populate service-specific request fields
+                .setName("api_users/01234567890123456789012345") // API user resource name
                 .build();
 
             // Call the GetApiUser method
             APIUser apiUser = service.getApiUser(request, Optional.empty());
 
-            // FIXME: Add relevant response object usage
-            System.out.println("GetApiUser successful: " + apiUser);
+            // Access API user details
+            System.out.println("Retrieved API user: " + apiUser.getName());
+            System.out.println("Display name: " + apiUser.getDisplayName());
+            System.out.println("State: " + apiUser.getState());
+            System.out.println("Owner: " + apiUser.getOwner());
+            System.out.println("Roles: " + apiUser.getRolesList());
+            
+            // Note: API key is not returned in get operations for security reasons
         } catch (Exception e) {
             System.err.println("GetApiUser failed: " + e.getMessage());
             e.printStackTrace();

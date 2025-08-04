@@ -19,10 +19,8 @@ func main() {
 	}
 	defer service.Close()
 
-	// Create request with service-specific parameters
-	request := &api_userv1.ListApiUsersRequest{
-		// FIXME: Populate service-specific request fields
-	}
+	// Create request (no parameters needed for basic list)
+	request := &api_userv1.ListApiUsersRequest{}
 
 	// Call the ListApiUsers method
 	response, err := service.ListApiUsers(ctx, request)
@@ -30,6 +28,15 @@ func main() {
 		log.Fatalf("ListApiUsers failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("ListApiUsers successful: %+v", response)
+	// Process the list of API users
+	log.Printf("Found %d API users", len(response.GetApiUsers()))
+	
+	for i, apiUser := range response.GetApiUsers() {
+		log.Printf("API User %d:", i+1)
+		log.Printf("  Name: %s", apiUser.GetName())
+		log.Printf("  Display Name: %s", apiUser.GetDisplayName())
+		log.Printf("  State: %s", apiUser.GetState().String())
+		log.Printf("  Owner: %s", apiUser.GetOwner())
+	}
+	
 }

@@ -12,14 +12,16 @@ public class ActivateApiUserExample {
         try (ApiUserService service = new ApiUserService()) {
             // Create request with service-specific parameters
             ActivateApiUserRequest request = ActivateApiUserRequest.newBuilder()
-                // FIXME: Populate service-specific request fields
+                .setName("api_users/01234567890123456789012345") // API user resource name
                 .build();
 
             // Call the ActivateApiUser method
             APIUser apiUser = service.activateApiUser(request, Optional.empty());
 
-            // FIXME: Add relevant response object usage
-            System.out.println("ActivateApiUser successful: " + apiUser);
+            // Verify activation was successful
+            System.out.println("Successfully activated API user: " + apiUser.getName());
+            System.out.println("API user state: " + apiUser.getState());
+            System.out.println("Display name: " + apiUser.getDisplayName());
         } catch (Exception e) {
             System.err.println("ActivateApiUser failed: " + e.getMessage());
             e.printStackTrace();

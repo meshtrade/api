@@ -21,7 +21,7 @@ func main() {
 
 	// Create request with service-specific parameters
 	request := &api_userv1.GetApiUserByKeyHashRequest{
-		// FIXME: Populate service-specific request fields
+		KeyHash: "hash_of_api_key_123456", // Hash of the API key (calculated by auth system)
 	}
 
 	// Call the GetApiUserByKeyHash method
@@ -30,6 +30,12 @@ func main() {
 		log.Fatalf("GetApiUserByKeyHash failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("GetApiUserByKeyHash successful: %+v", apiUser)
+	// Access API user details retrieved by key hash
+	log.Printf("Found API user: %s", apiUser.GetName())
+	log.Printf("Display name: %s", apiUser.GetDisplayName())
+	log.Printf("State: %s", apiUser.GetState().String())
+	log.Printf("Owner: %s", apiUser.GetOwner())
+	
+	// Note: This method is typically used by authentication systems
+	// to validate API keys and retrieve associated user information
 }

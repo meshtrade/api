@@ -12,14 +12,20 @@ public class GetApiUserByKeyHashExample {
         try (ApiUserService service = new ApiUserService()) {
             // Create request with service-specific parameters
             GetApiUserByKeyHashRequest request = GetApiUserByKeyHashRequest.newBuilder()
-                // FIXME: Populate service-specific request fields
+                .setKeyHash("hash_of_api_key_123456") // Hash of the API key (calculated by auth system)
                 .build();
 
             // Call the GetApiUserByKeyHash method
             APIUser apiUser = service.getApiUserByKeyHash(request, Optional.empty());
 
-            // FIXME: Add relevant response object usage
-            System.out.println("GetApiUserByKeyHash successful: " + apiUser);
+            // Access API user details retrieved by key hash
+            System.out.println("Found API user: " + apiUser.getName());
+            System.out.println("Display name: " + apiUser.getDisplayName());
+            System.out.println("State: " + apiUser.getState());
+            System.out.println("Owner: " + apiUser.getOwner());
+            
+            // Note: This method is typically used by authentication systems
+            // to validate API keys and retrieve associated user information
         } catch (Exception e) {
             System.err.println("GetApiUserByKeyHash failed: " + e.getMessage());
             e.printStackTrace();

@@ -12,14 +12,16 @@ public class DeactivateApiUserExample {
         try (ApiUserService service = new ApiUserService()) {
             // Create request with service-specific parameters
             DeactivateApiUserRequest request = DeactivateApiUserRequest.newBuilder()
-                // FIXME: Populate service-specific request fields
+                .setName("api_users/01234567890123456789012345") // API user resource name
                 .build();
 
             // Call the DeactivateApiUser method
             APIUser apiUser = service.deactivateApiUser(request, Optional.empty());
 
-            // FIXME: Add relevant response object usage
-            System.out.println("DeactivateApiUser successful: " + apiUser);
+            // Verify deactivation was successful
+            System.out.println("Successfully deactivated API user: " + apiUser.getName());
+            System.out.println("API user state: " + apiUser.getState()); // Should be INACTIVE
+            System.out.println("Display name: " + apiUser.getDisplayName());
         } catch (Exception e) {
             System.err.println("DeactivateApiUser failed: " + e.getMessage());
             e.printStackTrace();

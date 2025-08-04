@@ -13,14 +13,24 @@ def main():
     with service:
         # Create request with service-specific parameters
         request = SearchApiUsersRequest(
-            # FIXME: Populate service-specific request fields
+            display_name="Integration"  # Search for API users with "Integration" in display name
         )
 
         # Call the SearchApiUsers method
         response = service.search_api_users(request)
 
-        # FIXME: Add relevant response object usage
-        print("SearchApiUsers successful:", response)
+        # Process search results
+        print(f"Found {len(response.api_users)} API users matching search criteria")
+        
+        for i, api_user in enumerate(response.api_users, 1):
+            print(f"Match {i}:")
+            print(f"  Name: {api_user.name}")
+            print(f"  Display Name: {api_user.display_name}")
+            print(f"  State: {api_user.state}")
+            print(f"  Owner: {api_user.owner}")
+        
+        if not response.api_users:
+            print("No API users found matching the search criteria")
 
 
 if __name__ == "__main__":

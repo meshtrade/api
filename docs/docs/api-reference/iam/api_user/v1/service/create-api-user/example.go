@@ -5,6 +5,7 @@ import (
 	"log"
 
 	api_userv1 "github.com/meshtrade/api/go/iam/api_user/v1"
+	rolev1 "github.com/meshtrade/api/go/iam/role/v1"
 )
 
 func main() {
@@ -21,7 +22,13 @@ func main() {
 
 	// Create request with service-specific parameters
 	request := &api_userv1.CreateApiUserRequest{
-		// FIXME: Populate service-specific request fields
+		ApiUser: &api_userv1.APIUser{
+			Owner:       service.Group(), // Current group from service context
+			DisplayName: "My Integration API Key",
+			Roles: []string{
+				rolev1.Role_ROLE_IAM_ADMIN.FullResourceNameFromGroupName(service.Group()),
+			},
+		},
 	}
 
 	// Call the CreateApiUser method
@@ -30,6 +37,12 @@ func main() {
 		log.Fatalf("CreateApiUser failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("CreateApiUser successful: %+v", apiUser)
+	// Access the created API user details
+	log.Printf("Successfully created API user: %s", apiUser.GetName())
+	log.Printf("API key: %s", apiUser.GetApiKey()) // Only available in creation response
+	log.Printf("Display name: %s", apiUser.GetDisplayName())
+	log.Printf("State: %s", apiUser.GetState().String()) // Initially INACTIVE
+	log.Printf("Owner: %s", apiUser.GetOwner())
+
+	// Note: Store the API key securely - it's only returned once during creation
 }

@@ -13,14 +13,16 @@ def main():
     with service:
         # Create request with service-specific parameters
         request = DeactivateApiUserRequest(
-            # FIXME: Populate service-specific request fields
+            name="api_users/01234567890123456789012345"  # API user resource name
         )
 
         # Call the DeactivateApiUser method
         api_user = service.deactivate_api_user(request)
 
-        # FIXME: Add relevant response object usage
-        print("DeactivateApiUser successful:", api_user)
+        # Verify deactivation was successful
+        print(f"Successfully deactivated API user: {api_user.name}")
+        print(f"API user state: {api_user.state}")  # Should be INACTIVE
+        print(f"Display name: {api_user.display_name}")
 
 
 if __name__ == "__main__":
