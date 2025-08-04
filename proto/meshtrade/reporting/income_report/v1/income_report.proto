@@ -5,7 +5,6 @@ package meshtrade.reporting.income_report.v1;
 import "google/protobuf/timestamp.proto";
 import "meshtrade/type/v1/token.proto";
 import "meshtrade/type/v1/address.proto";
-import "meshtrade/reporting/income_report/v1/summary.proto";
 import "meshtrade/reporting/income_report/v1/disclaimer.proto";
 import "meshtrade/reporting/income_report/v1/entry.proto";
 
@@ -25,16 +24,10 @@ message IncomeReport {
      List of detailed income entries included in this report.
   */
   repeated reporting.income_report.v1.Entry entries = 1;
-
-  /*
-     Aggregated summary of the income report, including totals by currency.
-  */
-  reporting.income_report.v1.Summary summary = 2;
-
   /*
      Token representing the currency in which the report values are denominated.
   */
-  meshtrade.type.v1.Token reporting_currency = 3;
+  meshtrade.type.v1.Token reporting_currency = 2;
 
   /*
      Reporting period for which this income report was generated.
@@ -54,35 +47,30 @@ message IncomeReport {
   /*
      The period covered by this report.
   */
-  Period period = 4;
+  Period period = 3;
 
   /*
      Timestamp indicating when this report was generated.
   */
-  google.protobuf.Timestamp generation_date = 5;
+  google.protobuf.Timestamp generation_date = 4;
 
   /*
      Account number for which this income report applies.
   */
-  string account_number = 6;
+  string account_number = 5;
 
   /*
      Optional disclaimers or notices to accompany the report.
   */
-  repeated reporting.income_report.v1.Disclaimer disclaimers = 7;
+  repeated reporting.income_report.v1.Disclaimer disclaimers = 6;
 
   /*
      Address details of the client for whom the report is generated.
   */
-  meshtrade.type.v1.Address client_address = 8;
+  meshtrade.type.v1.Address client_address = 7;
 
   /*
      Name of the client associated with this report.
   */
-  string client_name = 9;
-
-  /*
-     Copyright or attribution text related to this income report.
-  */
-  string copyright = 10;
+  string client_name = 8;
 }
