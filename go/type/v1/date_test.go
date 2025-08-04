@@ -27,28 +27,12 @@ func TestNewDate(t *testing.T) {
 			wantDate: &Date{Year: 2023, Month: 12, Day: 25},
 		},
 		{
-			name:     "valid year only",
-			year:     2023,
-			month:    0,
-			day:      0,
-			wantErr:  false,
-			wantDate: &Date{Year: 2023, Month: 0, Day: 0},
-		},
-		{
-			name:     "valid year-month",
-			year:     2023,
-			month:    12,
-			day:      0,
-			wantErr:  false,
-			wantDate: &Date{Year: 2023, Month: 12, Day: 0},
-		},
-		{
-			name:      "invalid partial date - month without year",
+			name:      "invalid year zero",
 			year:      0,
-			month:     1,
-			day:       0,
+			month:     12,
+			day:       25,
 			wantErr:   true,
-			errSubstr: "month cannot be specified without year",
+			errSubstr: "year must be between 1 and 9999",
 		},
 		{
 			name:      "invalid year too high",
@@ -56,15 +40,15 @@ func TestNewDate(t *testing.T) {
 			month:     1,
 			day:       1,
 			wantErr:   true,
-			errSubstr: "year must be 0 or between 1 and 9999",
+			errSubstr: "year must be between 1 and 9999",
 		},
 		{
-			name:      "invalid partial date - day without month",
-			year:      0,
+			name:      "invalid month zero",
+			year:      2023,
 			month:     0,
 			day:       1,
 			wantErr:   true,
-			errSubstr: "day cannot be specified without month",
+			errSubstr: "month must be between 1 and 12",
 		},
 		{
 			name:      "invalid month too high",
@@ -72,15 +56,15 @@ func TestNewDate(t *testing.T) {
 			month:     13,
 			day:       1,
 			wantErr:   true,
-			errSubstr: "month must be 0 or between 1 and 12",
+			errSubstr: "month must be between 1 and 12",
 		},
 		{
-			name:     "valid partial date - year-month with day 0",
-			year:     2023,
-			month:    1,
-			day:      0,
-			wantErr:  false,
-			wantDate: &Date{Year: 2023, Month: 1, Day: 0},
+			name:      "invalid day zero",
+			year:      2023,
+			month:     1,
+			day:       0,
+			wantErr:   true,
+			errSubstr: "day must be between 1 and 31",
 		},
 		{
 			name:      "invalid day too high",
@@ -88,7 +72,7 @@ func TestNewDate(t *testing.T) {
 			month:     1,
 			day:       32,
 			wantErr:   true,
-			errSubstr: "day must be 0 or between 1 and 31",
+			errSubstr: "day must be between 1 and 31",
 		},
 		{
 			name:      "invalid date February 30",
@@ -113,14 +97,6 @@ func TestNewDate(t *testing.T) {
 			day:      29,
 			wantErr:  false,
 			wantDate: &Date{Year: 2024, Month: 2, Day: 29},
-		},
-		{
-			name:     "valid month-day",
-			year:     0,
-			month:    12,
-			day:      25,
-			wantErr:  false,
-			wantDate: &Date{Year: 0, Month: 12, Day: 25},
 		},
 	}
 
@@ -154,22 +130,10 @@ func TestDate_ToTime(t *testing.T) {
 			wantTime:  time.Date(2023, 12, 25, 0, 0, 0, 0, time.UTC),
 		},
 		{
-			name:        "nil date",
-			date:        nil,
-			wantPanic:   true,
-			panicSubstr: "date is nil",
-		},
-		{
-			name:        "incomplete date - year only",
-			date:        &Date{Year: 2023, Month: 0, Day: 0},
-			wantPanic:   true,
-			panicSubstr: "date is incomplete",
-		},
-		{
-			name:        "incomplete date - year month",
-			date:        &Date{Year: 2023, Month: 12, Day: 0},
-			wantPanic:   true,
-			panicSubstr: "date is incomplete",
+			name:      "nil date",
+			date:      nil,
+			wantPanic: false,
+			wantTime:  time.Time{},
 		},
 		{
 			name:        "invalid date",
@@ -201,10 +165,11 @@ func TestDate_IsValid(t *testing.T) {
 	}{
 		{"nil date", nil, false},
 		{"valid complete date", &Date{Year: 2023, Month: 12, Day: 25}, true},
-		{"valid year only", &Date{Year: 2023, Month: 0, Day: 0}, true},
-		{"valid year-month", &Date{Year: 2023, Month: 12, Day: 0}, true},
+		{"invalid year zero", &Date{Year: 0, Month: 12, Day: 25}, false},
 		{"invalid year too high", &Date{Year: 10000, Month: 1, Day: 1}, false},
+		{"invalid month zero", &Date{Year: 2023, Month: 0, Day: 25}, false},
 		{"invalid month too high", &Date{Year: 2023, Month: 13, Day: 1}, false},
+		{"invalid day zero", &Date{Year: 2023, Month: 1, Day: 0}, false},
 		{"invalid day too high", &Date{Year: 2023, Month: 1, Day: 32}, false},
 		{"invalid date February 30", &Date{Year: 2023, Month: 2, Day: 30}, false},
 		{"valid leap year", &Date{Year: 2024, Month: 2, Day: 29}, true},
@@ -227,8 +192,9 @@ func TestDate_IsComplete(t *testing.T) {
 	}{
 		{"nil date", nil, false},
 		{"complete date", &Date{Year: 2023, Month: 12, Day: 25}, true},
-		{"year only", &Date{Year: 2023, Month: 0, Day: 0}, false},
-		{"year-month", &Date{Year: 2023, Month: 12, Day: 0}, false},
+		{"incomplete - year zero", &Date{Year: 0, Month: 12, Day: 25}, false},
+		{"incomplete - month zero", &Date{Year: 2023, Month: 0, Day: 25}, false},
+		{"incomplete - day zero", &Date{Year: 2023, Month: 12, Day: 0}, false},
 		{"zero date", &Date{Year: 0, Month: 0, Day: 0}, false},
 	}
 
@@ -240,69 +206,6 @@ func TestDate_IsComplete(t *testing.T) {
 	}
 }
 
-func TestDate_IsYearOnly(t *testing.T) {
-	tests := []struct {
-		name string
-		date *Date
-		want bool
-	}{
-		{"nil date", nil, false},
-		{"complete date", &Date{Year: 2023, Month: 12, Day: 25}, false},
-		{"year only", &Date{Year: 2023, Month: 0, Day: 0}, true},
-		{"year-month", &Date{Year: 2023, Month: 12, Day: 0}, false},
-		{"zero date", &Date{Year: 0, Month: 0, Day: 0}, false},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got := tt.date.IsYearOnly()
-			assert.Equal(t, tt.want, got)
-		})
-	}
-}
-
-func TestDate_IsYearMonth(t *testing.T) {
-	tests := []struct {
-		name string
-		date *Date
-		want bool
-	}{
-		{"nil date", nil, false},
-		{"complete date", &Date{Year: 2023, Month: 12, Day: 25}, false},
-		{"year only", &Date{Year: 2023, Month: 0, Day: 0}, false},
-		{"year-month", &Date{Year: 2023, Month: 12, Day: 0}, true},
-		{"zero date", &Date{Year: 0, Month: 0, Day: 0}, false},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got := tt.date.IsYearMonth()
-			assert.Equal(t, tt.want, got)
-		})
-	}
-}
-
-func TestDate_IsMonthDay(t *testing.T) {
-	tests := []struct {
-		name string
-		date *Date
-		want bool
-	}{
-		{"nil date", nil, false},
-		{"complete date", &Date{Year: 2023, Month: 12, Day: 25}, false},
-		{"year only", &Date{Year: 2023, Month: 0, Day: 0}, false},
-		{"year-month", &Date{Year: 2023, Month: 12, Day: 0}, false},
-		{"month-day", &Date{Year: 0, Month: 12, Day: 25}, true},
-		{"zero date", &Date{Year: 0, Month: 0, Day: 0}, false},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got := tt.date.IsMonthDay()
-			assert.Equal(t, tt.want, got)
-		})
-	}
-}
 
 func TestNewDateFromTime(t *testing.T) {
 	tests := []struct {

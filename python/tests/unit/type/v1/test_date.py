@@ -12,9 +12,6 @@ from meshtrade.type.v1.date import (
     new_date_from_datetime,
     is_valid,
     is_complete,
-    is_year_only,
-    is_year_month,
-    is_month_day,
     date_to_python_date,
     date_to_string,
     is_before,
@@ -33,16 +30,15 @@ class TestNewDate:
 
     @pytest.mark.parametrize("year,month,day,expected_error", [
         (2023, 12, 25, None),  # Valid complete date
-        (2023, 0, 0, None),    # Valid year only
-        (2023, 12, 0, None),   # Valid year-month
-        (10000, 1, 1, "Year must be 0 or between 1 and 9999"),  # Invalid year too high
-        (2023, 13, 1, "Month must be 0 or between 1 and 12"),   # Invalid month too high
-        (2023, 1, 32, "Day must be 0 or between 1 and 31"),     # Invalid day too high
+        (0, 12, 25, "Year must be between 1 and 9999"),         # Invalid year zero
+        (10000, 1, 1, "Year must be between 1 and 9999"),       # Invalid year too high
+        (2023, 0, 25, "Month must be between 1 and 12"),        # Invalid month zero
+        (2023, 13, 1, "Month must be between 1 and 12"),        # Invalid month too high
+        (2023, 1, 0, "Day must be between 1 and 31"),           # Invalid day zero
+        (2023, 1, 32, "Day must be between 1 and 31"),          # Invalid day too high
         (2023, 2, 30, "Invalid date"),                          # Invalid date February 30
         (2023, 2, 29, "Invalid date"),                          # Invalid leap year
         (2024, 2, 29, None),                                    # Valid leap year
-        (0, 1, 0, "Month cannot be specified without year"),    # Month without year
-        (2023, 0, 1, "Day cannot be specified without month"),  # Day without month
     ])
     def test_new_date_validation(self, year, month, day, expected_error):
         """Test date creation with various valid and invalid inputs."""
@@ -64,11 +60,6 @@ class TestNewDate:
         assert date.month == 12
         assert date.day == 25
 
-        # Test year only
-        date = new_date(2023, 0, 0)
-        assert date.year == 2023
-        assert date.month == 0
-        assert date.day == 0
 
 
 class TestNewDateFromPythonDate:
@@ -109,10 +100,11 @@ class TestIsValid:
     @pytest.mark.parametrize("date_obj,expected", [
         (None, False),
         (new_date(2023, 12, 25), True),    # Valid complete date
-        (new_date(2023, 0, 0), True),      # Valid year only
-        (new_date(2023, 12, 0), True),     # Valid year-month
+        (Date(year=0, month=12, day=25), False),    # Invalid year zero
         (Date(year=10000, month=1, day=1), False),  # Invalid year too high
+        (Date(year=2023, month=0, day=25), False),  # Invalid month zero
         (Date(year=2023, month=13, day=1), False),  # Invalid month too high
+        (Date(year=2023, month=1, day=0), False),   # Invalid day zero
         (Date(year=2023, month=1, day=32), False),  # Invalid day too high
         (Date(year=2023, month=2, day=30), False),  # Invalid date February 30
     ])
@@ -127,59 +119,16 @@ class TestIsComplete:
     @pytest.mark.parametrize("date_obj,expected", [
         (None, False),
         (new_date(2023, 12, 25), True),    # Complete date
-        (new_date(2023, 0, 0), False),     # Year only
-        (new_date(2023, 12, 0), False),    # Year-month
-        (Date(year=0, month=0, day=0), False),  # Zero date
+        (Date(year=0, month=12, day=25), False),    # Incomplete - year zero
+        (Date(year=2023, month=0, day=25), False),  # Incomplete - month zero
+        (Date(year=2023, month=12, day=0), False),  # Incomplete - day zero
+        (Date(year=0, month=0, day=0), False),      # Zero date
     ])
     def test_is_complete(self, date_obj, expected):
         """Test complete date check."""
         assert is_complete(date_obj) == expected
 
 
-class TestIsYearOnly:
-    """Test cases for is_year_only function."""
-
-    @pytest.mark.parametrize("date_obj,expected", [
-        (None, False),
-        (new_date(2023, 12, 25), False),   # Complete date
-        (new_date(2023, 0, 0), True),      # Year only
-        (new_date(2023, 12, 0), False),    # Year-month
-        (Date(year=0, month=0, day=0), False),  # Zero date
-    ])
-    def test_is_year_only(self, date_obj, expected):
-        """Test year-only date check."""
-        assert is_year_only(date_obj) == expected
-
-
-class TestIsYearMonth:
-    """Test cases for is_year_month function."""
-
-    @pytest.mark.parametrize("date_obj,expected", [
-        (None, False),
-        (new_date(2023, 12, 25), False),   # Complete date
-        (new_date(2023, 0, 0), False),     # Year only
-        (new_date(2023, 12, 0), True),     # Year-month
-        (Date(year=0, month=0, day=0), False),  # Zero date
-    ])
-    def test_is_year_month(self, date_obj, expected):
-        """Test year-month date check."""
-        assert is_year_month(date_obj) == expected
-
-
-class TestIsMonthDay:
-    """Test cases for is_month_day function."""
-
-    @pytest.mark.parametrize("date_obj,expected", [
-        (None, False),
-        (new_date(2023, 12, 25), False),   # Complete date
-        (new_date(2023, 0, 0), False),     # Year only
-        (new_date(2023, 12, 0), False),    # Year-month
-        (Date(year=0, month=12, day=25), True),  # Month-day
-        (Date(year=0, month=0, day=0), False),   # Zero date
-    ])
-    def test_is_month_day(self, date_obj, expected):
-        """Test month-day date check."""
-        assert is_month_day(date_obj) == expected
 
 
 class TestDateToPythonDate:
@@ -193,9 +142,9 @@ class TestDateToPythonDate:
 
     def test_invalid_conversions(self):
         """Test error cases for conversion."""
-        # Incomplete date
-        with pytest.raises(ValueError, match="Incomplete date"):
-            date_to_python_date(new_date(2023, 0, 0))
+        # Invalid date
+        with pytest.raises(ValueError, match="Invalid date"):
+            date_to_python_date(Date(year=2023, month=2, day=30))
 
         # None date
         with pytest.raises(ValueError, match="Date object is None"):
@@ -208,9 +157,8 @@ class TestDateToString:
     @pytest.mark.parametrize("date_obj,expected", [
         (None, "<undefined>"),
         (new_date(2023, 12, 25), "2023-12-25"),
-        (new_date(2023, 0, 0), "2023"),
-        (new_date(2023, 12, 0), "2023-12"),
-        (Date(year=0, month=12, day=25), "--12-25"),
+        (Date(year=0, month=12, day=25), "Date(year=0, month=12, day=25) [INVALID]"),
+        (Date(year=2023, month=2, day=30), "Date(year=2023, month=2, day=30) [INVALID]"),
     ])
     def test_date_to_string(self, date_obj, expected):
         """Test string representation of dates."""
@@ -283,9 +231,9 @@ class TestAddDays:
 
     def test_invalid_add_days(self):
         """Test error cases for add_days."""
-        incomplete_date = new_date(2023, 0, 0)
-        with pytest.raises(ValueError, match="Date must be complete"):
-            add_days(incomplete_date, 1)
+        invalid_date = Date(year=2023, month=2, day=30)
+        with pytest.raises(ValueError, match="Date must be valid"):
+            add_days(invalid_date, 1)
 
         with pytest.raises(ValueError, match="Date object is None"):
             add_days(None, 1)
@@ -338,9 +286,9 @@ class TestAddMonths:
 
     def test_invalid_add_months(self):
         """Test error cases for add_months."""
-        incomplete_date = new_date(2023, 0, 0)
-        with pytest.raises(ValueError, match="Date must be complete"):
-            add_months(incomplete_date, 1)
+        invalid_date = Date(year=2023, month=2, day=30)
+        with pytest.raises(ValueError, match="Date must be valid"):
+            add_months(invalid_date, 1)
 
         with pytest.raises(ValueError, match="Date object is None"):
             add_months(None, 1)
@@ -376,9 +324,9 @@ class TestAddYears:
 
     def test_invalid_add_years(self):
         """Test error cases for add_years."""
-        incomplete_date = new_date(2023, 0, 0)
-        with pytest.raises(ValueError, match="Date must be complete"):
-            add_years(incomplete_date, 1)
+        invalid_date = Date(year=2023, month=2, day=30)
+        with pytest.raises(ValueError, match="Date must be valid"):
+            add_years(invalid_date, 1)
 
         with pytest.raises(ValueError, match="Date object is None"):
             add_years(None, 1)

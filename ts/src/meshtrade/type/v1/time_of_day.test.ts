@@ -13,37 +13,43 @@ import { TimeOfDay } from "./time_of_day_pb";
 import { newDate } from "./date";
 
 describe("newTimeOfDay", () => {
-  const testCases: Array<
-    [string, number, number, number, number, boolean, string?]
+  // Valid test cases as individual tests
+  test("valid midnight", () => {
+    const result = newTimeOfDay(0, 0, 0, 0);
+    expect(result.getHours()).toBe(0);
+    expect(result.getMinutes()).toBe(0);
+    expect(result.getSeconds()).toBe(0);
+    expect(result.getNanos()).toBe(0);
+  });
+
+  test("valid noon", () => {
+    const result = newTimeOfDay(12, 0, 0, 0);
+    expect(result.getHours()).toBe(12);
+    expect(result.getMinutes()).toBe(0);
+    expect(result.getSeconds()).toBe(0);
+    expect(result.getNanos()).toBe(0);
+  });
+
+  test("valid end of day", () => {
+    const result = newTimeOfDay(23, 59, 59, 999999999);
+    expect(result.getHours()).toBe(23);
+    expect(result.getMinutes()).toBe(59);
+    expect(result.getSeconds()).toBe(59);
+    expect(result.getNanos()).toBe(999999999);
+  });
+
+  // Invalid test cases as test.each
+  const invalidTestCases: Array<
+    [string, number, number, number, number, string?]
   > = [
-    ["valid midnight", 0, 0, 0, 0, false],
-    ["valid noon", 12, 0, 0, 0, false],
-    ["valid end of day", 23, 59, 59, 999999999, false],
-    [
-      "invalid hours too low",
-      -1,
-      0,
-      0,
-      0,
-      true,
-      "Hours must be between 0 and 23",
-    ],
-    [
-      "invalid hours too high",
-      24,
-      0,
-      0,
-      0,
-      true,
-      "Hours must be between 0 and 23",
-    ],
+    ["invalid hours too low", -1, 0, 0, 0, "Hours must be between 0 and 23"],
+    ["invalid hours too high", 24, 0, 0, 0, "Hours must be between 0 and 23"],
     [
       "invalid minutes too low",
       12,
       -1,
       0,
       0,
-      true,
       "Minutes must be between 0 and 59",
     ],
     [
@@ -52,7 +58,6 @@ describe("newTimeOfDay", () => {
       60,
       0,
       0,
-      true,
       "Minutes must be between 0 and 59",
     ],
     [
@@ -61,7 +66,6 @@ describe("newTimeOfDay", () => {
       30,
       -1,
       0,
-      true,
       "Seconds must be between 0 and 59",
     ],
     [
@@ -70,7 +74,6 @@ describe("newTimeOfDay", () => {
       30,
       60,
       0,
-      true,
       "Seconds must be between 0 and 59",
     ],
     [
@@ -79,7 +82,6 @@ describe("newTimeOfDay", () => {
       30,
       45,
       -1,
-      true,
       "Nanos must be between 0 and 999,999,999",
     ],
     [
@@ -88,323 +90,371 @@ describe("newTimeOfDay", () => {
       30,
       45,
       1000000000,
-      true,
       "Nanos must be between 0 and 999,999,999",
     ],
   ];
 
-  test.each(testCases)(
+  test.each(invalidTestCases)(
     "%s",
-    (name, hours, minutes, seconds, nanos, shouldThrow, errorMessage) => {
-      if (shouldThrow) {
-        expect(() => newTimeOfDay(hours, minutes, seconds, nanos)).toThrow();
-        if (errorMessage) {
-          expect(() => newTimeOfDay(hours, minutes, seconds, nanos)).toThrow(
-            errorMessage
-          );
-        }
-      } else {
-        const result = newTimeOfDay(hours, minutes, seconds, nanos);
-        expect(result.getHours()).toBe(hours);
-        expect(result.getMinutes()).toBe(minutes);
-        expect(result.getSeconds()).toBe(seconds);
-        expect(result.getNanos()).toBe(nanos);
+    (_, hours, minutes, seconds, nanos, errorMessage) => {
+      expect(() => newTimeOfDay(hours, minutes, seconds, nanos)).toThrow();
+      if (errorMessage) {
+        expect(() => newTimeOfDay(hours, minutes, seconds, nanos)).toThrow(
+          errorMessage
+        );
       }
     }
   );
 });
 
 describe("newTimeOfDayFromJsDate", () => {
-  const testCases: Array<[string, Date, number, number, number, number]> = [
-    ["midnight", new Date(2023, 11, 25, 0, 0, 0, 0), 0, 0, 0, 0],
-    ["noon", new Date(2023, 11, 25, 12, 0, 0, 0), 12, 0, 0, 0],
-    [
-      "complex time",
-      new Date(2023, 11, 25, 15, 30, 45, 123),
-      15,
-      30,
-      45,
-      123000000,
-    ],
-    [
-      "end of day",
-      new Date(2023, 11, 25, 23, 59, 59, 999),
-      23,
-      59,
-      59,
-      999000000,
-    ],
-  ];
+  test("midnight", () => {
+    const result = newTimeOfDayFromJsDate(new Date(2023, 11, 25, 0, 0, 0, 0));
+    expect(result.getHours()).toBe(0);
+    expect(result.getMinutes()).toBe(0);
+    expect(result.getSeconds()).toBe(0);
+    expect(result.getNanos()).toBe(0);
+  });
 
-  test.each(testCases)(
-    "%s",
-    (
-      name,
-      jsDate,
-      expectedHours,
-      expectedMinutes,
-      expectedSeconds,
-      expectedNanos
-    ) => {
-      const result = newTimeOfDayFromJsDate(jsDate);
-      expect(result.getHours()).toBe(expectedHours);
-      expect(result.getMinutes()).toBe(expectedMinutes);
-      expect(result.getSeconds()).toBe(expectedSeconds);
-      expect(result.getNanos()).toBe(expectedNanos);
-    }
-  );
+  test("noon", () => {
+    const result = newTimeOfDayFromJsDate(new Date(2023, 11, 25, 12, 0, 0, 0));
+    expect(result.getHours()).toBe(12);
+    expect(result.getMinutes()).toBe(0);
+    expect(result.getSeconds()).toBe(0);
+    expect(result.getNanos()).toBe(0);
+  });
+
+  test("complex time", () => {
+    const result = newTimeOfDayFromJsDate(
+      new Date(2023, 11, 25, 15, 30, 45, 123)
+    );
+    expect(result.getHours()).toBe(15);
+    expect(result.getMinutes()).toBe(30);
+    expect(result.getSeconds()).toBe(45);
+    expect(result.getNanos()).toBe(123000000);
+  });
+
+  test("end of day", () => {
+    const result = newTimeOfDayFromJsDate(
+      new Date(2023, 11, 25, 23, 59, 59, 999)
+    );
+    expect(result.getHours()).toBe(23);
+    expect(result.getMinutes()).toBe(59);
+    expect(result.getSeconds()).toBe(59);
+    expect(result.getNanos()).toBe(999000000);
+  });
 });
 
 describe("newTimeOfDayFromMillis", () => {
-  const testCases: Array<
-    [string, number, boolean, string?, number?, number?, number?, number?]
-  > = [
-    ["midnight", 0, false, undefined, 0, 0, 0, 0],
-    ["one hour", 3600000, false, undefined, 1, 0, 0, 0],
-    [
-      "complex time",
-      2 * 3600000 + 30 * 60000 + 45 * 1000 + 123,
-      false,
-      undefined,
-      2,
-      30,
-      45,
-      123000000,
-    ],
-    [
-      "almost 24 hours",
-      24 * 3600000 - 1,
-      false,
-      undefined,
-      23,
-      59,
-      59,
-      999000000,
-    ],
-    ["negative milliseconds", -1000, true, "Milliseconds cannot be negative"],
+  // Valid test cases as individual tests
+  test("midnight", () => {
+    const result = newTimeOfDayFromMillis(0);
+    expect(result.getHours()).toBe(0);
+    expect(result.getMinutes()).toBe(0);
+    expect(result.getSeconds()).toBe(0);
+    expect(result.getNanos()).toBe(0);
+  });
+
+  test("one hour", () => {
+    const result = newTimeOfDayFromMillis(3600000);
+    expect(result.getHours()).toBe(1);
+    expect(result.getMinutes()).toBe(0);
+    expect(result.getSeconds()).toBe(0);
+    expect(result.getNanos()).toBe(0);
+  });
+
+  test("complex time", () => {
+    const result = newTimeOfDayFromMillis(
+      2 * 3600000 + 30 * 60000 + 45 * 1000 + 123
+    );
+    expect(result.getHours()).toBe(2);
+    expect(result.getMinutes()).toBe(30);
+    expect(result.getSeconds()).toBe(45);
+    expect(result.getNanos()).toBe(123000000);
+  });
+
+  test("almost 24 hours", () => {
+    const result = newTimeOfDayFromMillis(24 * 3600000 - 1);
+    expect(result.getHours()).toBe(23);
+    expect(result.getMinutes()).toBe(59);
+    expect(result.getSeconds()).toBe(59);
+    expect(result.getNanos()).toBe(999000000);
+  });
+
+  // Invalid test cases as test.each
+  const invalidTestCases: Array<[string, number, string]> = [
+    ["negative milliseconds", -1000, "Milliseconds cannot be negative"],
     [
       "exactly 24 hours",
       24 * 3600000,
-      true,
       "Milliseconds cannot be 24 hours or more",
     ],
     [
       "more than 24 hours",
       25 * 3600000,
-      true,
       "Milliseconds cannot be 24 hours or more",
     ],
   ];
 
-  test.each(testCases)(
-    "%s",
-    (
-      name,
-      millis,
-      shouldThrow,
-      errorMessage,
-      expectedHours,
-      expectedMinutes,
-      expectedSeconds,
-      expectedNanos
-    ) => {
-      if (shouldThrow) {
-        expect(() => newTimeOfDayFromMillis(millis)).toThrow();
-        if (errorMessage) {
-          expect(() => newTimeOfDayFromMillis(millis)).toThrow(errorMessage);
-        }
-      } else {
-        const result = newTimeOfDayFromMillis(millis);
-        expect(result.getHours()).toBe(expectedHours);
-        expect(result.getMinutes()).toBe(expectedMinutes);
-        expect(result.getSeconds()).toBe(expectedSeconds);
-        expect(result.getNanos()).toBe(expectedNanos);
-      }
-    }
-  );
+  test.each(invalidTestCases)("%s", (_, millis, errorMessage) => {
+    expect(() => newTimeOfDayFromMillis(millis)).toThrow();
+    expect(() => newTimeOfDayFromMillis(millis)).toThrow(errorMessage);
+  });
 });
 
 describe("timeOfDayToMillis", () => {
   test("undefined time", () => {
     // Cast to any to test undefined case
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const result = timeOfDayToMillis(undefined as any);
     expect(result).toBe(0);
   });
 
-  const testCases: Array<[string, TimeOfDay, number]> = [
-    ["midnight", newTimeOfDay(0, 0, 0, 0), 0],
-    ["noon", newTimeOfDay(12, 0, 0, 0), 12 * 3600000],
-    ["one minute", newTimeOfDay(0, 1, 0, 0), 60000],
-    ["one second", newTimeOfDay(0, 0, 1, 0), 1000],
-    [
-      "complex time",
-      newTimeOfDay(2, 30, 45, 123000000),
-      2 * 3600000 + 30 * 60000 + 45 * 1000 + 123,
-    ],
-    [
-      "end of day",
-      newTimeOfDay(23, 59, 59, 999000000),
-      23 * 3600000 + 59 * 60000 + 59 * 1000 + 999,
-    ],
-  ];
+  test("midnight", () => {
+    const result = timeOfDayToMillis(newTimeOfDay(0, 0, 0, 0));
+    expect(result).toBe(0);
+  });
 
-  test.each(testCases)("%s", (name, timeOfDay, expected) => {
-    const result = timeOfDayToMillis(timeOfDay);
-    expect(result).toBe(expected);
+  test("noon", () => {
+    const result = timeOfDayToMillis(newTimeOfDay(12, 0, 0, 0));
+    expect(result).toBe(12 * 3600000);
+  });
+
+  test("one minute", () => {
+    const result = timeOfDayToMillis(newTimeOfDay(0, 1, 0, 0));
+    expect(result).toBe(60000);
+  });
+
+  test("one second", () => {
+    const result = timeOfDayToMillis(newTimeOfDay(0, 0, 1, 0));
+    expect(result).toBe(1000);
+  });
+
+  test("complex time", () => {
+    const result = timeOfDayToMillis(newTimeOfDay(2, 30, 45, 123000000));
+    expect(result).toBe(2 * 3600000 + 30 * 60000 + 45 * 1000 + 123);
+  });
+
+  test("end of day", () => {
+    const result = timeOfDayToMillis(newTimeOfDay(23, 59, 59, 999000000));
+    expect(result).toBe(23 * 3600000 + 59 * 60000 + 59 * 1000 + 999);
   });
 });
 
 describe("timeOfDayToJsDateWithDate", () => {
   const date = newDate(2023, 12, 25);
 
-  const testCases: Array<
-    [string, TimeOfDay | undefined, typeof date | undefined, boolean, string?]
+  // Valid test cases as individual tests
+  test("valid datetime", () => {
+    const timeOfDay = newTimeOfDay(15, 30, 45, 123000000);
+    const result = timeOfDayToJsDateWithDate(timeOfDay, date);
+    expect(result).toBeInstanceOf(Date);
+    expect(result.getFullYear()).toBe(date.getYear());
+    expect(result.getMonth()).toBe(date.getMonth() - 1); // JS months are 0-indexed
+    expect(result.getDate()).toBe(date.getDay());
+    expect(result.getHours()).toBe(timeOfDay.getHours());
+    expect(result.getMinutes()).toBe(timeOfDay.getMinutes());
+    expect(result.getSeconds()).toBe(timeOfDay.getSeconds());
+  });
+
+  test("midnight on date", () => {
+    const timeOfDay = newTimeOfDay(0, 0, 0, 0);
+    const result = timeOfDayToJsDateWithDate(timeOfDay, date);
+    expect(result).toBeInstanceOf(Date);
+    expect(result.getFullYear()).toBe(date.getYear());
+    expect(result.getMonth()).toBe(date.getMonth() - 1); // JS months are 0-indexed
+    expect(result.getDate()).toBe(date.getDay());
+    expect(result.getHours()).toBe(timeOfDay.getHours());
+    expect(result.getMinutes()).toBe(timeOfDay.getMinutes());
+    expect(result.getSeconds()).toBe(timeOfDay.getSeconds());
+  });
+
+  // Invalid test cases as test.each
+  const invalidTestCases: Array<
+    [string, TimeOfDay | undefined, typeof date | undefined, string]
   > = [
-    ["valid datetime", newTimeOfDay(15, 30, 45, 123000000), date, false],
-    ["midnight on date", newTimeOfDay(0, 0, 0, 0), date, false],
     [
       "undefined time",
       undefined,
       date,
-      true,
       "TimeOfDay object is null or undefined",
     ],
     [
       "undefined date",
       newTimeOfDay(12, 0, 0, 0),
       undefined,
-      true,
       "Date object is null or undefined",
     ],
     [
       "incomplete date",
       newTimeOfDay(12, 0, 0, 0),
       newDate(2023, 0, 0),
-      true,
       "Date must be complete",
     ],
   ];
 
-  test.each(testCases)(
-    "%s",
-    (name, timeOfDay, protoDate, shouldThrow, errorMessage) => {
-      if (shouldThrow) {
-        expect(() =>
-          timeOfDayToJsDateWithDate(timeOfDay!, protoDate!)
-        ).toThrow();
-        if (errorMessage) {
-          expect(() =>
-            timeOfDayToJsDateWithDate(timeOfDay!, protoDate!)
-          ).toThrow(errorMessage);
-        }
-      } else {
-        const result = timeOfDayToJsDateWithDate(timeOfDay!, protoDate!);
-        expect(result).toBeInstanceOf(Date);
-        expect(result.getFullYear()).toBe(protoDate!.getYear());
-        expect(result.getMonth()).toBe(protoDate!.getMonth() - 1); // JS months are 0-indexed
-        expect(result.getDate()).toBe(protoDate!.getDay());
-        expect(result.getHours()).toBe(timeOfDay!.getHours());
-        expect(result.getMinutes()).toBe(timeOfDay!.getMinutes());
-        expect(result.getSeconds()).toBe(timeOfDay!.getSeconds());
-      }
-    }
-  );
+  test.each(invalidTestCases)("%s", (_, timeOfDay, protoDate, errorMessage) => {
+    expect(() => timeOfDayToJsDateWithDate(timeOfDay!, protoDate!)).toThrow();
+    expect(() => timeOfDayToJsDateWithDate(timeOfDay!, protoDate!)).toThrow(
+      errorMessage
+    );
+  });
 });
 
 describe("isValid", () => {
-  const testCases: Array<[string, TimeOfDay | undefined, boolean]> = [
-    ["undefined time", undefined, false],
-    ["valid midnight", newTimeOfDay(0, 0, 0, 0), true],
-    ["valid noon", newTimeOfDay(12, 0, 0, 0), true],
-    ["valid end of day", newTimeOfDay(23, 59, 59, 999999999), true],
-    [
-      "invalid hours",
-      new TimeOfDay().setHours(24).setMinutes(0).setSeconds(0).setNanos(0),
-      false,
-    ],
-    [
-      "invalid minutes",
-      new TimeOfDay().setHours(12).setMinutes(60).setSeconds(0).setNanos(0),
-      false,
-    ],
-    [
-      "invalid seconds",
-      new TimeOfDay().setHours(12).setMinutes(30).setSeconds(60).setNanos(0),
-      false,
-    ],
-    [
-      "invalid nanos",
-      new TimeOfDay()
-        .setHours(12)
-        .setMinutes(30)
-        .setSeconds(45)
-        .setNanos(1000000000),
-      false,
-    ],
-  ];
+  test("undefined time", () => {
+    expect(isValid(undefined)).toBe(false);
+  });
 
-  test.each(testCases)("%s", (name, timeOfDay, expected) => {
-    expect(isValid(timeOfDay)).toBe(expected);
+  test("valid midnight", () => {
+    expect(isValid(newTimeOfDay(0, 0, 0, 0))).toBe(true);
+  });
+
+  test("valid noon", () => {
+    expect(isValid(newTimeOfDay(12, 0, 0, 0))).toBe(true);
+  });
+
+  test("valid end of day", () => {
+    expect(isValid(newTimeOfDay(23, 59, 59, 999999999))).toBe(true);
+  });
+
+  test("invalid hours", () => {
+    const timeOfDay = new TimeOfDay()
+      .setHours(24)
+      .setMinutes(0)
+      .setSeconds(0)
+      .setNanos(0);
+    expect(isValid(timeOfDay)).toBe(false);
+  });
+
+  test("invalid minutes", () => {
+    const timeOfDay = new TimeOfDay()
+      .setHours(12)
+      .setMinutes(60)
+      .setSeconds(0)
+      .setNanos(0);
+    expect(isValid(timeOfDay)).toBe(false);
+  });
+
+  test("invalid seconds", () => {
+    const timeOfDay = new TimeOfDay()
+      .setHours(12)
+      .setMinutes(30)
+      .setSeconds(60)
+      .setNanos(0);
+    expect(isValid(timeOfDay)).toBe(false);
+  });
+
+  test("invalid nanos", () => {
+    const timeOfDay = new TimeOfDay()
+      .setHours(12)
+      .setMinutes(30)
+      .setSeconds(45)
+      .setNanos(1000000000);
+    expect(isValid(timeOfDay)).toBe(false);
   });
 });
 
 describe("isMidnight", () => {
-  const testCases: Array<[string, TimeOfDay | undefined, boolean]> = [
-    ["undefined time", undefined, false],
-    ["midnight", newTimeOfDay(0, 0, 0, 0), true],
-    ["not midnight - 1 hour", newTimeOfDay(1, 0, 0, 0), false],
-    ["not midnight - 1 minute", newTimeOfDay(0, 1, 0, 0), false],
-    ["not midnight - 1 second", newTimeOfDay(0, 0, 1, 0), false],
-    ["not midnight - 1 nano", newTimeOfDay(0, 0, 0, 1), false],
-  ];
+  test("undefined time", () => {
+    expect(isMidnight(undefined)).toBe(false);
+  });
 
-  test.each(testCases)("%s", (name, timeOfDay, expected) => {
-    expect(isMidnight(timeOfDay)).toBe(expected);
+  test("midnight", () => {
+    expect(isMidnight(newTimeOfDay(0, 0, 0, 0))).toBe(true);
+  });
+
+  test("not midnight - 1 hour", () => {
+    expect(isMidnight(newTimeOfDay(1, 0, 0, 0))).toBe(false);
+  });
+
+  test("not midnight - 1 minute", () => {
+    expect(isMidnight(newTimeOfDay(0, 1, 0, 0))).toBe(false);
+  });
+
+  test("not midnight - 1 second", () => {
+    expect(isMidnight(newTimeOfDay(0, 0, 1, 0))).toBe(false);
+  });
+
+  test("not midnight - 1 nano", () => {
+    expect(isMidnight(newTimeOfDay(0, 0, 0, 1))).toBe(false);
   });
 });
 
 describe("timeOfDayToString", () => {
-  const testCases: Array<[string, TimeOfDay | undefined, string]> = [
-    ["undefined time", undefined, "<undefined>"],
-    ["midnight", newTimeOfDay(0, 0, 0, 0), "00:00:00"],
-    ["noon", newTimeOfDay(12, 0, 0, 0), "12:00:00"],
-    ["complex time without nanos", newTimeOfDay(15, 30, 45, 0), "15:30:45"],
-    [
-      "complex time with nanos",
-      newTimeOfDay(15, 30, 45, 123456789),
-      "15:30:45.123456789",
-    ],
-    ["single digits", newTimeOfDay(1, 2, 3, 4), "01:02:03.000000004"],
-    ["end of day", newTimeOfDay(23, 59, 59, 999999999), "23:59:59.999999999"],
-  ];
+  test("undefined time", () => {
+    expect(timeOfDayToString(undefined)).toBe("<undefined>");
+  });
 
-  test.each(testCases)("%s", (name, timeOfDay, expected) => {
-    expect(timeOfDayToString(timeOfDay)).toBe(expected);
+  test("midnight", () => {
+    expect(timeOfDayToString(newTimeOfDay(0, 0, 0, 0))).toBe("00:00:00");
+  });
+
+  test("noon", () => {
+    expect(timeOfDayToString(newTimeOfDay(12, 0, 0, 0))).toBe("12:00:00");
+  });
+
+  test("complex time without nanos", () => {
+    expect(timeOfDayToString(newTimeOfDay(15, 30, 45, 0))).toBe("15:30:45");
+  });
+
+  test("complex time with nanos", () => {
+    expect(timeOfDayToString(newTimeOfDay(15, 30, 45, 123456789))).toBe(
+      "15:30:45.123456789"
+    );
+  });
+
+  test("single digits", () => {
+    expect(timeOfDayToString(newTimeOfDay(1, 2, 3, 4))).toBe(
+      "01:02:03.000000004"
+    );
+  });
+
+  test("end of day", () => {
+    expect(timeOfDayToString(newTimeOfDay(23, 59, 59, 999999999))).toBe(
+      "23:59:59.999999999"
+    );
   });
 });
 
 describe("totalSeconds", () => {
-  const testCases: Array<[string, TimeOfDay | undefined, number]> = [
-    ["undefined time", undefined, 0],
-    ["midnight", newTimeOfDay(0, 0, 0, 0), 0],
-    ["one hour", newTimeOfDay(1, 0, 0, 0), 3600],
-    ["one minute", newTimeOfDay(0, 1, 0, 0), 60],
-    ["one second", newTimeOfDay(0, 0, 1, 0), 1],
-    ["half second", newTimeOfDay(0, 0, 0, 500000000), 0.5],
-    [
-      "complex time",
-      newTimeOfDay(2, 30, 45, 123456789),
-      2 * 3600 + 30 * 60 + 45 + 0.123456789,
-    ],
-    [
-      "end of day",
-      newTimeOfDay(23, 59, 59, 999999999),
-      23 * 3600 + 59 * 60 + 59 + 0.999999999,
-    ],
-  ];
+  test("undefined time", () => {
+    const result = totalSeconds(undefined);
+    expect(result).toBeCloseTo(0, 9);
+  });
 
-  test.each(testCases)("%s", (name, timeOfDay, expected) => {
-    const result = totalSeconds(timeOfDay);
-    expect(result).toBeCloseTo(expected, 9); // Allow small floating point differences
+  test("midnight", () => {
+    const result = totalSeconds(newTimeOfDay(0, 0, 0, 0));
+    expect(result).toBeCloseTo(0, 9);
+  });
+
+  test("one hour", () => {
+    const result = totalSeconds(newTimeOfDay(1, 0, 0, 0));
+    expect(result).toBeCloseTo(3600, 9);
+  });
+
+  test("one minute", () => {
+    const result = totalSeconds(newTimeOfDay(0, 1, 0, 0));
+    expect(result).toBeCloseTo(60, 9);
+  });
+
+  test("one second", () => {
+    const result = totalSeconds(newTimeOfDay(0, 0, 1, 0));
+    expect(result).toBeCloseTo(1, 9);
+  });
+
+  test("half second", () => {
+    const result = totalSeconds(newTimeOfDay(0, 0, 0, 500000000));
+    expect(result).toBeCloseTo(0.5, 9);
+  });
+
+  test("complex time", () => {
+    const result = totalSeconds(newTimeOfDay(2, 30, 45, 123456789));
+    expect(result).toBeCloseTo(2 * 3600 + 30 * 60 + 45 + 0.123456789, 9);
+  });
+
+  test("end of day", () => {
+    const result = totalSeconds(newTimeOfDay(23, 59, 59, 999999999));
+    expect(result).toBeCloseTo(23 * 3600 + 59 * 60 + 59 + 0.999999999, 9);
   });
 });

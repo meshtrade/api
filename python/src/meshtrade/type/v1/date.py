@@ -12,9 +12,9 @@ def new_date(year: int, month: int, day: int) -> Date:
     """Creates a new Date from year, month, and day values.
 
     Args:
-        year: Year value (1-9999, or 0 for partial dates)
-        month: Month value (1-12, or 0 for partial dates)
-        day: Day value (1-31, or 0 for partial dates)
+        year: Year value (1-9999)
+        month: Month value (1-12)
+        day: Day value (1-31)
 
     Returns:
         A Date protobuf message
@@ -61,13 +61,13 @@ def date_to_python_date(date_obj: Date) -> python_date:
         A Python datetime.date object
 
     Raises:
-        ValueError: If the date is incomplete or invalid
+        ValueError: If the date is invalid
     """
     if not date_obj:
         raise ValueError("Date object is None")
 
-    if not is_complete(date_obj):
-        raise ValueError(f"Incomplete date: year={date_obj.year}, month={date_obj.month}, day={date_obj.day}")
+    if not is_valid(date_obj):
+        raise ValueError(f"Invalid date: year={date_obj.year}, month={date_obj.month}, day={date_obj.day}")
 
     try:
         return python_date(date_obj.year, date_obj.month, date_obj.day)
@@ -96,6 +96,7 @@ def is_valid(date_obj: Date | None) -> bool:
 
 def is_complete(date_obj: Date | None) -> bool:
     """Returns True if the date has non-zero year, month, and day values.
+    Since only full dates are valid, this is equivalent to is_valid().
 
     Args:
         date_obj: A Date protobuf message or None
@@ -106,48 +107,6 @@ def is_complete(date_obj: Date | None) -> bool:
     if not date_obj:
         return False
     return date_obj.year != 0 and date_obj.month != 0 and date_obj.day != 0
-
-
-def is_year_only(date_obj: Date | None) -> bool:
-    """Returns True if only the year is specified (month and day are 0).
-
-    Args:
-        date_obj: A Date protobuf message or None
-
-    Returns:
-        True if only year is specified, False otherwise
-    """
-    if not date_obj:
-        return False
-    return date_obj.year != 0 and date_obj.month == 0 and date_obj.day == 0
-
-
-def is_year_month(date_obj: Date | None) -> bool:
-    """Returns True if year and month are specified but day is 0.
-
-    Args:
-        date_obj: A Date protobuf message or None
-
-    Returns:
-        True if year and month are specified but day is 0, False otherwise
-    """
-    if not date_obj:
-        return False
-    return date_obj.year != 0 and date_obj.month != 0 and date_obj.day == 0
-
-
-def is_month_day(date_obj: Date | None) -> bool:
-    """Returns True if month and day are specified but year is 0.
-
-    Args:
-        date_obj: A Date protobuf message or None
-
-    Returns:
-        True if month and day are specified but year is 0, False otherwise
-    """
-    if not date_obj:
-        return False
-    return date_obj.year == 0 and date_obj.month != 0 and date_obj.day != 0
 
 
 def date_to_string(date_obj: Date | None) -> str:
@@ -162,16 +121,10 @@ def date_to_string(date_obj: Date | None) -> str:
     if not date_obj:
         return "<undefined>"
 
-    if is_complete(date_obj):
+    if is_valid(date_obj):
         return f"{date_obj.year:04d}-{date_obj.month:02d}-{date_obj.day:02d}"
-    elif is_year_only(date_obj):
-        return f"{date_obj.year:04d}"
-    elif is_year_month(date_obj):
-        return f"{date_obj.year:04d}-{date_obj.month:02d}"
-    elif is_month_day(date_obj):
-        return f"--{date_obj.month:02d}-{date_obj.day:02d}"
     else:
-        return f"Date(year={date_obj.year}, month={date_obj.month}, day={date_obj.day})"
+        return f"Date(year={date_obj.year}, month={date_obj.month}, day={date_obj.day}) [INVALID]"
 
 
 def is_before(date1: Date | None, date2: Date | None) -> bool:
@@ -190,8 +143,8 @@ def is_before(date1: Date | None, date2: Date | None) -> bool:
     if not date1 or not date2:
         raise ValueError("Both dates must be provided")
 
-    if not is_complete(date1) or not is_complete(date2):
-        raise ValueError("Both dates must be complete for comparison")
+    if not is_valid(date1) or not is_valid(date2):
+        raise ValueError("Both dates must be valid for comparison")
 
     # Compare year first
     if date1.year != date2.year:
@@ -221,8 +174,8 @@ def is_after(date1: Date | None, date2: Date | None) -> bool:
     if not date1 or not date2:
         raise ValueError("Both dates must be provided")
 
-    if not is_complete(date1) or not is_complete(date2):
-        raise ValueError("Both dates must be complete for comparison")
+    if not is_valid(date1) or not is_valid(date2):
+        raise ValueError("Both dates must be valid for comparison")
 
     # Compare year first
     if date1.year != date2.year:
@@ -303,8 +256,8 @@ def add_days(date_obj: Date, days: int) -> Date:
     if not date_obj:
         raise ValueError("Date object is None")
 
-    if not is_complete(date_obj):
-        raise ValueError("Date must be complete to add days")
+    if not is_valid(date_obj):
+        raise ValueError("Date must be valid to add days")
 
     # Convert to Python date, add days, then convert back
     py_date = date_to_python_date(date_obj)
@@ -331,8 +284,8 @@ def add_months(date_obj: Date, months: int) -> Date:
     if not date_obj:
         raise ValueError("Date object is None")
 
-    if not is_complete(date_obj):
-        raise ValueError("Date must be complete to add months")
+    if not is_valid(date_obj):
+        raise ValueError("Date must be valid to add months")
 
     # Calculate new year and month
     total_months = date_obj.year * 12 + date_obj.month - 1 + months
@@ -372,8 +325,8 @@ def add_years(date_obj: Date, years: int) -> Date:
     if not date_obj:
         raise ValueError("Date object is None")
 
-    if not is_complete(date_obj):
-        raise ValueError("Date must be complete to add years")
+    if not is_valid(date_obj):
+        raise ValueError("Date must be valid to add years")
 
     new_year = date_obj.year + years
     new_month = date_obj.month
@@ -391,6 +344,7 @@ def add_years(date_obj: Date, years: int) -> Date:
 
 def _validate_date(year: int, month: int, day: int) -> None:
     """Validates the year, month, and day values according to Date constraints.
+    Only full dates are valid - all fields must be non-zero.
 
     Args:
         year: Year value
@@ -400,27 +354,20 @@ def _validate_date(year: int, month: int, day: int) -> None:
     Raises:
         ValueError: If the date values are invalid
     """
-    # Year validation
-    if year != 0 and (year < 1 or year > 9999):
-        raise ValueError(f"Year must be 0 or between 1 and 9999, got {year}")
+    # Year validation - must be non-zero
+    if year < 1 or year > 9999:
+        raise ValueError(f"Year must be between 1 and 9999, got {year}")
 
-    # Month validation
-    if month != 0 and (month < 1 or month > 12):
-        raise ValueError(f"Month must be 0 or between 1 and 12, got {month}")
+    # Month validation - must be non-zero
+    if month < 1 or month > 12:
+        raise ValueError(f"Month must be between 1 and 12, got {month}")
 
-    # Day validation
-    if day != 0 and (day < 1 or day > 31):
-        raise ValueError(f"Day must be 0 or between 1 and 31, got {day}")
+    # Day validation - must be non-zero
+    if day < 1 or day > 31:
+        raise ValueError(f"Day must be between 1 and 31, got {day}")
 
-    # Additional validation for complete dates
-    if year != 0 and month != 0 and day != 0:
-        try:
-            python_date(year, month, day)
-        except ValueError as e:
-            raise ValueError(f"Invalid date: {year}-{month:02d}-{day:02d}: {e}")
-
-    # Validate partial date combinations
-    if year == 0 and month != 0 and day == 0:
-        raise ValueError("Month cannot be specified without year")
-    if month == 0 and day != 0:
-        raise ValueError("Day cannot be specified without month")
+    # Check if the day is valid for the given month and year
+    try:
+        python_date(year, month, day)
+    except ValueError as e:
+        raise ValueError(f"Invalid date: {year}-{month:02d}-{day:02d}: {e}")
