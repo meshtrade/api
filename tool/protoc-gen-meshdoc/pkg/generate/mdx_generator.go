@@ -579,9 +579,30 @@ func GenerateNavigation(plugin *protogen.Plugin, serviceInfos []*ServiceInfo, pa
 
 			for _, version := range versionNames {
 				serviceInfo := versions[version]
+				
+				// Load status configuration from the same source as the table
+				tableConfig, _ := LoadServicesTableConfig()
+				var statusDetails StatusDetails
+				if tableConfig.Services[domain] != nil && 
+				   tableConfig.Services[domain][serviceName] != nil && 
+				   tableConfig.Services[domain][serviceName][version] != "" {
+					// Use status from table config
+					tableStatus := tableConfig.Services[domain][serviceName][version]
+					if details, exists := PredefinedStatuses[tableStatus]; exists {
+						statusDetails = details
+					} else {
+						// Fallback to development if invalid status
+						statusDetails = PredefinedStatuses["development"]
+					}
+				} else {
+					// Fallback to development status
+					statusDetails = PredefinedStatuses["development"]
+				}
+				
 				versionData := VersionTemplateData{
-					Name:    version,
-					Display: version, // Keep version as lowercase
+					Name:       version,
+					Display:    version, // Keep version as lowercase
+					StatusIcon: statusDetails.Icon,
 				}
 
 				// Add types

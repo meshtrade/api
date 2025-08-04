@@ -228,6 +228,7 @@ docs/_site
 **/*Pb.ts
 **/*_grpc_web_client_meshts.js
 **/*_grpc_web_client_meshts.d.ts
+**/*_meshdoc.mdx
 
 # Generated Java protobuf and gRPC files (specific patterns only)
 java/src/main/java/co/meshtrade/api/**/*OuterClass.java

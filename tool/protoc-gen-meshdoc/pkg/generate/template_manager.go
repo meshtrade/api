@@ -223,10 +223,11 @@ type ServiceTemplateData struct {
 }
 
 type VersionTemplateData struct {
-	Name    string
-	Display string
-	Types   []TypeTemplateData
-	Methods []MethodTemplateData
+	Name       string
+	Display    string
+	StatusIcon string
+	Types      []TypeTemplateData
+	Methods    []MethodTemplateData
 }
 
 // Helper functions for templates

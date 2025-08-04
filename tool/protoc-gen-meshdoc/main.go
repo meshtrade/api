@@ -83,5 +83,10 @@ func Generate(p *protogen.Plugin) error {
 		return fmt.Errorf("error generating navigation: %w", err)
 	}
 
+	// Generate services table
+	if err := generate.GenerateServicesTable(p, allServiceInfos); err != nil {
+		return fmt.Errorf("error generating services table: %w", err)
+	}
+
 	return nil
 }
