@@ -47,7 +47,9 @@ type IncomeReport struct {
 	// Address details of the client for whom the report is generated.
 	ClientAddress *v1.Address `protobuf:"bytes,7,opt,name=client_address,json=clientAddress,proto3" json:"client_address,omitempty"`
 	// Name of the client associated with this report.
-	ClientName    string `protobuf:"bytes,8,opt,name=client_name,json=clientName,proto3" json:"client_name,omitempty"`
+	ClientName string `protobuf:"bytes,8,opt,name=client_name,json=clientName,proto3" json:"client_name,omitempty"`
+	// Copyright or attribution text related to this income report.
+	Copyright     string `protobuf:"bytes,9,opt,name=copyright,proto3" json:"copyright,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -138,6 +140,13 @@ func (x *IncomeReport) GetClientName() string {
 	return ""
 }
 
+func (x *IncomeReport) GetCopyright() string {
+	if x != nil {
+		return x.Copyright
+	}
+	return ""
+}
+
 // Reporting period for which this income report was generated.
 type IncomeReport_Period struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -197,7 +206,7 @@ var File_meshtrade_reporting_income_report_v1_income_report_proto protoreflect.F
 
 const file_meshtrade_reporting_income_report_v1_income_report_proto_rawDesc = "" +
 	"\n" +
-	"8meshtrade/reporting/income_report/v1/income_report.proto\x12$meshtrade.reporting.income_report.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1dmeshtrade/type/v1/token.proto\x1a\x1fmeshtrade/type/v1/address.proto\x1a5meshtrade/reporting/income_report/v1/disclaimer.proto\x1a0meshtrade/reporting/income_report/v1/entry.proto\"\xfb\x04\n" +
+	"8meshtrade/reporting/income_report/v1/income_report.proto\x12$meshtrade.reporting.income_report.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1dmeshtrade/type/v1/token.proto\x1a\x1fmeshtrade/type/v1/address.proto\x1a5meshtrade/reporting/income_report/v1/disclaimer.proto\x1a0meshtrade/reporting/income_report/v1/entry.proto\"\x99\x05\n" +
 	"\fIncomeReport\x12E\n" +
 	"\aentries\x18\x01 \x03(\v2+.meshtrade.reporting.income_report.v1.EntryR\aentries\x12G\n" +
 	"\x12reporting_currency\x18\x02 \x01(\v2\x18.meshtrade.type.v1.TokenR\x11reportingCurrency\x12Q\n" +
@@ -207,7 +216,8 @@ const file_meshtrade_reporting_income_report_v1_income_report_proto_rawDesc = ""
 	"\vdisclaimers\x18\x06 \x03(\v20.meshtrade.reporting.income_report.v1.DisclaimerR\vdisclaimers\x12A\n" +
 	"\x0eclient_address\x18\a \x01(\v2\x1a.meshtrade.type.v1.AddressR\rclientAddress\x12\x1f\n" +
 	"\vclient_name\x18\b \x01(\tR\n" +
-	"clientName\x1ad\n" +
+	"clientName\x12\x1c\n" +
+	"\tcopyright\x18\t \x01(\tR\tcopyright\x1ad\n" +
 	"\x06Period\x12.\n" +
 	"\x04from\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\x04from\x12*\n" +
 	"\x02to\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x02toBHZFgithub.com/meshtrade/api/go/reporting/income_report/v1;income_reportv1b\x06proto3"

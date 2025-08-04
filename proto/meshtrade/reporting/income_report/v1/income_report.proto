@@ -73,4 +73,9 @@ message IncomeReport {
      Name of the client associated with this report.
   */
   string client_name = 8;
+
+  /*
+     Copyright or attribution text related to this income report.
+  */
+  string copyright = 9;
 }
