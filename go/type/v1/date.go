@@ -28,7 +28,17 @@ func NewDateFromTime(t time.Time) *Date {
 }
 
 // ToTime converts the Date to a time.Time.
+// Panics if the date is invalid or incomplete.
 func (d *Date) ToTime() time.Time {
+	if d == nil {
+		panic("date is nil")
+	}
+	if !d.IsComplete() {
+		panic("date is incomplete")
+	}
+	if !d.IsValid() {
+		panic("date is invalid")
+	}
 	return time.Date(int(d.Year), time.Month(d.Month), int(d.Day), 0, 0, 0, 0, time.UTC)
 }
 

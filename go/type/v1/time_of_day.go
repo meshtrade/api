@@ -121,7 +121,7 @@ func validateTimeOfDay(hours, minutes, seconds, nanos int32) error {
 
 	// Seconds validation
 	if seconds < 0 || seconds > 59 {
-		return fmt.Errorf("seconds must be between 0 and 60, got %d", seconds)
+		return fmt.Errorf("seconds must be between 0 and 59, got %d", seconds)
 	}
 
 	// Nanos validation

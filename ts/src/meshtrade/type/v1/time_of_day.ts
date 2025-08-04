@@ -114,20 +114,6 @@ export function timeOfDayToJsDateWithDate(
     throw new Error("Date must be complete");
   }
 
-  if (protoTime.getHours() === 24) {
-    // Handle end of day by adding a day and setting time to midnight
-    const baseDate = new Date(
-      protoDate.getYear(),
-      protoDate.getMonth() - 1,
-      protoDate.getDay(),
-      0,
-      0,
-      0,
-      0
-    );
-    return new Date(baseDate.getTime() + 24 * 60 * 60 * 1000);
-  }
-
   try {
     return new Date(
       protoDate.getYear(),
@@ -179,24 +165,6 @@ export function isMidnight(protoTime?: TimeOfDay): boolean {
   }
   return (
     protoTime.getHours() === 0 &&
-    protoTime.getMinutes() === 0 &&
-    protoTime.getSeconds() === 0 &&
-    protoTime.getNanos() === 0
-  );
-}
-
-/**
- * Returns true if the time represents 24:00:00 (end of day).
- *
- * @param protoTime - A TimeOfDay protobuf message or undefined
- * @returns True if the time is end of day, false otherwise
- */
-export function isEndOfDay(protoTime?: TimeOfDay): boolean {
-  if (!protoTime) {
-    return false;
-  }
-  return (
-    protoTime.getHours() === 24 &&
     protoTime.getMinutes() === 0 &&
     protoTime.getSeconds() === 0 &&
     protoTime.getNanos() === 0
@@ -256,7 +224,7 @@ function validateTimeOfDay(
   nanos: number
 ): void {
   // Hours validation
-  if (hours < 0 || hours > 24) {
+  if (hours < 0 || hours > 23) {
     throw new Error(`Hours must be between 0 and 23, got ${hours}`);
   }
 
