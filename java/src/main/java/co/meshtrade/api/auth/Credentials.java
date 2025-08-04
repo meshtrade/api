@@ -48,13 +48,13 @@ public record Credentials(String apiKey, String group) {
             throw new IllegalArgumentException("Group cannot be empty");
         }
         
-        // Validate API key format (43 characters, base64 URL-safe)
-        if (apiKey.length() != 43) {
-            throw new IllegalArgumentException("API key must be exactly 43 characters long");
+        // Validate API key format (43-44 characters, base64 URL-safe with optional padding)
+        if (apiKey.length() < 43 || apiKey.length() > 44) {
+            throw new IllegalArgumentException("API key must be 43-44 characters long (base64 URL-safe with optional padding)");
         }
         
-        if (!apiKey.matches("^[A-Za-z0-9_-]{43}$")) {
-            throw new IllegalArgumentException("API key must be base64 URL-safe encoded (A-Z, a-z, 0-9, _, -)");
+        if (!apiKey.matches("^[A-Za-z0-9_-]{43,44}$") && !apiKey.matches("^[A-Za-z0-9_-]{43}={0,1}$")) {
+            throw new IllegalArgumentException("API key must be base64 URL-safe encoded (A-Z, a-z, 0-9, _, -) with optional = padding");
         }
         
         // Validate group format (groups/{group_id})

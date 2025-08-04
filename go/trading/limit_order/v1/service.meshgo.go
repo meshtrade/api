@@ -54,7 +54,7 @@ type LimitOrderServiceClientInterface interface {
 }
 
 // limitOrderService is the internal implementation of the LimitOrderServiceClientInterface interface.
-// It embeds BaseGRPCClient to provide all common gRPC functionality.
+// It embeds BaseGRPCClient to provide all common gRPC functionality including validation.
 type limitOrderService struct {
 	*grpc.BaseGRPCClient[LimitOrderServiceClient]
 }
@@ -117,13 +117,14 @@ func NewLimitOrderService(opts ...config.ServiceOption) (LimitOrderServiceClient
 	if err != nil {
 		return nil, err
 	}
+
 	return &limitOrderService{BaseGRPCClient: base}, nil
 }
 
 // GetLimitOrder executes the GetLimitOrder RPC method with automatic
-// timeout handling, distributed tracing, and authentication.
+// client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *limitOrderService) GetLimitOrder(ctx context.Context, request *GetLimitOrderRequest) (*LimitOrder, error) {
-	return grpc.Execute(s.Executor(), ctx, "GetLimitOrder", func(ctx context.Context) (*LimitOrder, error) {
+	return grpc.Execute(s.Executor(), ctx, "GetLimitOrder", request, func(ctx context.Context) (*LimitOrder, error) {
 		return s.GrpcClient().GetLimitOrder(ctx, request)
 	})
 }

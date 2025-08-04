@@ -93,7 +93,7 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 
 	// Generate minimal client struct that embeds BaseGRPCClient
 	g.P("// ", clientStructName, " is the internal implementation of the ", clientInterfaceName, " interface.")
-	g.P("// It embeds BaseGRPCClient to provide all common gRPC functionality.")
+	g.P("// It embeds BaseGRPCClient to provide all common gRPC functionality including validation.")
 	g.P("type ", clientStructName, " struct {")
 	g.P("\t*", generate.GRPCClientPkg.Ident("BaseGRPCClient"), "[", svc.GoName, "Client]")
 	g.P("}")
@@ -160,16 +160,17 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 	g.P("\tif err != nil {")
 	g.P("\t\treturn nil, err")
 	g.P("\t}")
+	g.P("\t")
 	g.P("\treturn &", clientStructName, "{BaseGRPCClient: base}, nil")
 	g.P("}")
 	g.P()
 
-	// Generate ultra-clean method implementations with full type safety
+	// Generate ultra-clean method implementations with validation handled in base Execute function
 	for i, method := range svc.Methods {
 		g.P("// ", method.GoName, " executes the ", method.GoName, " RPC method with automatic")
-		g.P("// timeout handling, distributed tracing, and authentication.")
+		g.P("// client-side validation, timeout handling, distributed tracing, and authentication.")
 		g.P("func (s *", clientStructName, ") ", method.GoName, "(ctx ", generate.ContextPkg.Ident("Context"), ", request *", method.Input.GoIdent, ") (*", method.Output.GoIdent, ", error) {")
-		g.P("\treturn ", generate.GRPCClientPkg.Ident("Execute"), "(s.Executor(), ctx, \"", method.GoName, "\", func(ctx ", generate.ContextPkg.Ident("Context"), ") (*", method.Output.GoIdent, ", error) {")
+		g.P("\treturn ", generate.GRPCClientPkg.Ident("Execute"), "(s.Executor(), ctx, \"", method.GoName, "\", request, func(ctx ", generate.ContextPkg.Ident("Context"), ") (*", method.Output.GoIdent, ", error) {")
 		g.P("\t\treturn s.GrpcClient().", method.GoName, "(ctx, request)")
 		g.P("\t})")
 		g.P("}")

@@ -21,7 +21,7 @@ func main() {
 
 	// Create request with service-specific parameters
 	request := &api_userv1.SearchApiUsersRequest{
-		// FIXME: Populate service-specific request fields
+		DisplayName: "Integration", // Search for API users with "Integration" in display name
 	}
 
 	// Call the SearchApiUsers method
@@ -30,6 +30,18 @@ func main() {
 		log.Fatalf("SearchApiUsers failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("SearchApiUsers successful: %+v", response)
+	// Process search results
+	log.Printf("Found %d API users matching search criteria", len(response.GetApiUsers()))
+	
+	for i, apiUser := range response.GetApiUsers() {
+		log.Printf("Match %d:", i+1)
+		log.Printf("  Name: %s", apiUser.GetName())
+		log.Printf("  Display Name: %s", apiUser.GetDisplayName())
+		log.Printf("  State: %s", apiUser.GetState().String())
+		log.Printf("  Owner: %s", apiUser.GetOwner())
+	}
+	
+	if len(response.GetApiUsers()) == 0 {
+		log.Printf("No API users found matching the search criteria")
+	}
 }

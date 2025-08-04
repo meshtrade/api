@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"time"
 
+	"buf.build/go/protovalidate"
 	"github.com/meshtrade/api/go/auth"
 	"github.com/meshtrade/api/go/grpc/config"
 	"go.opentelemetry.io/otel/trace"
@@ -17,11 +18,12 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
+	"google.golang.org/protobuf/proto"
 )
 
 // BaseGRPCClient provides a generic base implementation for all gRPC service clients.
 // It handles common functionality like connection management, authentication, tracing,
-// timeouts, and method execution patterns.
+// timeouts, method execution patterns, and request validation.
 //
 // Type parameter T represents the specific gRPC client type (e.g., ApiUserServiceClient)
 type BaseGRPCClient[T any] struct {
@@ -42,6 +44,9 @@ type BaseGRPCClient[T any] struct {
 	// Authentication
 	apiKey string
 	group  string
+
+	// Request validation
+	validator protovalidate.Validator
 
 	// Interceptors
 	unaryClientInterceptors []grpc.UnaryClientInterceptor
@@ -86,6 +91,12 @@ func NewBaseGRPCClient[T any](
 		opt(cfg)
 	}
 
+	// Initialize protovalidate validator
+	validator, err := protovalidate.New()
+	if err != nil {
+		return nil, fmt.Errorf("failed to create validator: %w", err)
+	}
+
 	// Create client from configuration
 	client := &BaseGRPCClient[T]{
 		url:                 cfg.URL,
@@ -96,6 +107,7 @@ func NewBaseGRPCClient[T any](
 		timeout:             cfg.Timeout,
 		apiKey:              cfg.ApiKey,
 		group:               cfg.Group,
+		validator:           validator,
 	}
 
 	// Validate authentication credentials
@@ -143,7 +155,7 @@ type Executor[T any] struct {
 }
 
 // Execute provides a fully type-safe method execution pattern that handles all common functionality
-// including connection health checking and conservative retry for connection establishment failures.
+// including request validation, connection health checking and conservative retry for connection establishment failures.
 // (Standalone generic function that works around Go's method type parameter limitations).
 //
 // RETRY SAFETY: Only retries on connection establishment failures where the request
@@ -157,16 +169,17 @@ type Executor[T any] struct {
 //   - executor: The executor instance containing the client
 //   - ctx: Context for the request (can include custom timeout, tracing, etc.)
 //   - methodName: Name of the method being called (used for tracing)
+//   - request: The request message to validate using protovalidate
 //   - grpcCall: Function that executes the actual gRPC call with the processed context
 //
 // Returns:
 //   - R: The response from the gRPC method with full type safety
-//   - error: Any error that occurred during the request
+//   - error: Any error that occurred during validation or the request
 //
 // Example usage in a service method:
 //
 //	func (s *apiUserService) GetApiUser(ctx context.Context, request *GetApiUserRequest) (*APIUser, error) {
-//	    return Execute(s.Executor(), ctx, "GetApiUser", func(ctx context.Context) (*APIUser, error) {
+//	    return Execute(s.Executor(), ctx, "GetApiUser", request, func(ctx context.Context) (*APIUser, error) {
 //	        return s.GrpcClient().GetApiUser(ctx, request)
 //	    })
 //	}
@@ -174,8 +187,15 @@ func Execute[T any, R any](
 	executor *Executor[T],
 	ctx context.Context,
 	methodName string,
+	request proto.Message,
 	grpcCall func(context.Context) (R, error),
 ) (R, error) {
+	// Validate request using protovalidate before any processing
+	if err := executor.client.validator.Validate(request); err != nil {
+		var zero R
+		return zero, fmt.Errorf("request validation failed: %w", err)
+	}
+
 	// Apply timeout if no deadline is already set
 	if _, hasDeadline := ctx.Deadline(); !hasDeadline {
 		var cancel context.CancelFunc
@@ -387,6 +407,12 @@ func (b *BaseGRPCClient[T]) Group() string {
 // This provides access to the typed gRPC client methods.
 func (b *BaseGRPCClient[T]) GrpcClient() T {
 	return b.grpcClient
+}
+
+// Validator returns the protovalidate validator for request validation.
+// This provides access to the validator for client-side request validation.
+func (b *BaseGRPCClient[T]) Validator() protovalidate.Validator {
+	return b.validator
 }
 
 // validateAuth ensures that authentication credentials and group ID are properly configured.

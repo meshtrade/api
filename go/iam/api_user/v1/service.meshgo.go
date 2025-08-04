@@ -54,7 +54,7 @@ type ApiUserServiceClientInterface interface {
 }
 
 // apiUserService is the internal implementation of the ApiUserServiceClientInterface interface.
-// It embeds BaseGRPCClient to provide all common gRPC functionality.
+// It embeds BaseGRPCClient to provide all common gRPC functionality including validation.
 type apiUserService struct {
 	*grpc.BaseGRPCClient[ApiUserServiceClient]
 }
@@ -117,61 +117,62 @@ func NewApiUserService(opts ...config.ServiceOption) (ApiUserServiceClientInterf
 	if err != nil {
 		return nil, err
 	}
+
 	return &apiUserService{BaseGRPCClient: base}, nil
 }
 
 // GetApiUser executes the GetApiUser RPC method with automatic
-// timeout handling, distributed tracing, and authentication.
+// client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *apiUserService) GetApiUser(ctx context.Context, request *GetApiUserRequest) (*APIUser, error) {
-	return grpc.Execute(s.Executor(), ctx, "GetApiUser", func(ctx context.Context) (*APIUser, error) {
+	return grpc.Execute(s.Executor(), ctx, "GetApiUser", request, func(ctx context.Context) (*APIUser, error) {
 		return s.GrpcClient().GetApiUser(ctx, request)
 	})
 }
 
 // CreateApiUser executes the CreateApiUser RPC method with automatic
-// timeout handling, distributed tracing, and authentication.
+// client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *apiUserService) CreateApiUser(ctx context.Context, request *CreateApiUserRequest) (*APIUser, error) {
-	return grpc.Execute(s.Executor(), ctx, "CreateApiUser", func(ctx context.Context) (*APIUser, error) {
+	return grpc.Execute(s.Executor(), ctx, "CreateApiUser", request, func(ctx context.Context) (*APIUser, error) {
 		return s.GrpcClient().CreateApiUser(ctx, request)
 	})
 }
 
 // ListApiUsers executes the ListApiUsers RPC method with automatic
-// timeout handling, distributed tracing, and authentication.
+// client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *apiUserService) ListApiUsers(ctx context.Context, request *ListApiUsersRequest) (*ListApiUsersResponse, error) {
-	return grpc.Execute(s.Executor(), ctx, "ListApiUsers", func(ctx context.Context) (*ListApiUsersResponse, error) {
+	return grpc.Execute(s.Executor(), ctx, "ListApiUsers", request, func(ctx context.Context) (*ListApiUsersResponse, error) {
 		return s.GrpcClient().ListApiUsers(ctx, request)
 	})
 }
 
 // SearchApiUsers executes the SearchApiUsers RPC method with automatic
-// timeout handling, distributed tracing, and authentication.
+// client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *apiUserService) SearchApiUsers(ctx context.Context, request *SearchApiUsersRequest) (*SearchApiUsersResponse, error) {
-	return grpc.Execute(s.Executor(), ctx, "SearchApiUsers", func(ctx context.Context) (*SearchApiUsersResponse, error) {
+	return grpc.Execute(s.Executor(), ctx, "SearchApiUsers", request, func(ctx context.Context) (*SearchApiUsersResponse, error) {
 		return s.GrpcClient().SearchApiUsers(ctx, request)
 	})
 }
 
 // ActivateApiUser executes the ActivateApiUser RPC method with automatic
-// timeout handling, distributed tracing, and authentication.
+// client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *apiUserService) ActivateApiUser(ctx context.Context, request *ActivateApiUserRequest) (*APIUser, error) {
-	return grpc.Execute(s.Executor(), ctx, "ActivateApiUser", func(ctx context.Context) (*APIUser, error) {
+	return grpc.Execute(s.Executor(), ctx, "ActivateApiUser", request, func(ctx context.Context) (*APIUser, error) {
 		return s.GrpcClient().ActivateApiUser(ctx, request)
 	})
 }
 
 // DeactivateApiUser executes the DeactivateApiUser RPC method with automatic
-// timeout handling, distributed tracing, and authentication.
+// client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *apiUserService) DeactivateApiUser(ctx context.Context, request *DeactivateApiUserRequest) (*APIUser, error) {
-	return grpc.Execute(s.Executor(), ctx, "DeactivateApiUser", func(ctx context.Context) (*APIUser, error) {
+	return grpc.Execute(s.Executor(), ctx, "DeactivateApiUser", request, func(ctx context.Context) (*APIUser, error) {
 		return s.GrpcClient().DeactivateApiUser(ctx, request)
 	})
 }
 
 // GetApiUserByKeyHash executes the GetApiUserByKeyHash RPC method with automatic
-// timeout handling, distributed tracing, and authentication.
+// client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *apiUserService) GetApiUserByKeyHash(ctx context.Context, request *GetApiUserByKeyHashRequest) (*APIUser, error) {
-	return grpc.Execute(s.Executor(), ctx, "GetApiUserByKeyHash", func(ctx context.Context) (*APIUser, error) {
+	return grpc.Execute(s.Executor(), ctx, "GetApiUserByKeyHash", request, func(ctx context.Context) (*APIUser, error) {
 		return s.GrpcClient().GetApiUserByKeyHash(ctx, request)
 	})
 }

@@ -32,7 +32,7 @@ class CredentialsTest {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             new Credentials(shortApiKey, validGroup);
         });
-        assertTrue(exception.getMessage().contains("API key must be exactly 43 characters"));
+        assertTrue(exception.getMessage().contains("API key must be 43-44 characters long"));
     }
 
     @Test
@@ -43,7 +43,7 @@ class CredentialsTest {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             new Credentials(longApiKey, validGroup);
         });
-        assertTrue(exception.getMessage().contains("API key must be exactly 43 characters"));
+        assertTrue(exception.getMessage().contains("API key must be 43-44 characters long"));
     }
 
     @Test

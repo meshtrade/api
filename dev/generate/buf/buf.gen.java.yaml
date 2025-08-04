@@ -2,9 +2,9 @@
 version: v2
 
 plugins:
-  - remote: buf.build/protocolbuffers/java:v25.1
+  - remote: buf.build/protocolbuffers/java:v31.1
     out: ./java/src/main/java
-  - remote: buf.build/grpc/java:v1.60.1
+  - remote: buf.build/grpc/java:v1.74.0
     out: ./java/src/main/java
   - local: ["java", "-jar", "./tool/protoc-gen-meshjava/target/protoc-gen-meshjava-jar-with-dependencies.jar"]
     out: ./java/src/main/java

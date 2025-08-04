@@ -21,7 +21,7 @@ func main() {
 
 	// Create request with service-specific parameters
 	request := &api_userv1.ActivateApiUserRequest{
-		// FIXME: Populate service-specific request fields
+		Name: "api_users/01234567890123456789012345", // API user resource name
 	}
 
 	// Call the ActivateApiUser method
@@ -30,6 +30,8 @@ func main() {
 		log.Fatalf("ActivateApiUser failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("ActivateApiUser successful: %+v", apiUser)
+	// Verify activation was successful
+	log.Printf("Successfully activated API user: %s", apiUser.GetName())
+	log.Printf("API user state: %s", apiUser.GetState().String())
+	log.Printf("Display name: %s", apiUser.GetDisplayName())
 }

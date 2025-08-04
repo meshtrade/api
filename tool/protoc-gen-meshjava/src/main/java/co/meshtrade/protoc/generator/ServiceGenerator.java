@@ -21,8 +21,8 @@ import java.util.List;
  * <h2>Generated Files</h2>
  * <p>For each protobuf service, this generator creates:
  * <ul>
- * <li><strong>Service Interface:</strong> {@code {ServiceName}.java} - Clean interface defining the service contract</li>
- * <li><strong>Client Implementation:</strong> {@code {ServiceName}Client.java} - Full client implementation extending BaseGRPCClient</li>
+ * <li><strong>Service Interface:</strong> {@code {ServiceName}Interface.java} - Clean interface defining the service contract</li>
+ * <li><strong>Client Implementation:</strong> {@code {ServiceName}.java} - Full client implementation extending BaseGRPCClient</li>
  * <li><strong>Mock Implementation:</strong> {@code Mock{ServiceName}.java} - Thread-safe mock for testing</li>
  * </ul>
  * 
@@ -216,21 +216,21 @@ public class ServiceGenerator {
      * Constructs the file path for the service interface.
      * 
      * <p>The interface file path follows Java package conventions:
-     * {@code {package_path}/{ServiceName}.java}
+     * {@code {package_path}/{ServiceName}Interface.java}
      * 
      * @param serviceModel the service model
      * @return the relative file path for the interface
      */
     private String getInterfaceFilePath(ServiceModel serviceModel) {
         String packagePath = serviceModel.getJavaPackage().replace('.', '/');
-        return String.format("%s/%s.java", packagePath, serviceModel.getServiceName());
+        return String.format("%s/%sInterface.java", packagePath, serviceModel.getServiceName());
     }
     
     /**
      * Constructs the file path for the client implementation.
      * 
      * <p>The client file path follows Java package conventions:
-     * {@code {package_path}/{ServiceName}Client.java}
+     * {@code {package_path}/{ServiceName}.java}
      * 
      * @param serviceModel the service model
      * @return the relative file path for the client implementation

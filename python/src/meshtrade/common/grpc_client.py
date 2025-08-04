@@ -8,6 +8,7 @@ from datetime import timedelta
 from typing import Any, TypeVar
 
 import grpc
+from protovalidate import Validator
 
 from .config import (
     DEFAULT_GRPC_PORT,
@@ -81,6 +82,9 @@ class BaseGRPCClient(GRPCClient):
         self._channel: grpc.Channel | None = None
         self._stub: Any | None = None
 
+        # Request validation
+        self._validator = Validator()
+
         # Authentication - try provided credentials first, then discovery
         if api_key and group:
             self._api_key = api_key
@@ -142,6 +146,14 @@ class BaseGRPCClient(GRPCClient):
             raise ValueError("Group not configured. Provide via constructor or set MESH_API_CREDENTIALS environment variable.")
         return self._group
 
+    def validator(self) -> Validator:
+        """Get the protovalidate validator for request validation.
+
+        Returns:
+            The protovalidate Validator instance for client-side request validation
+        """
+        return self._validator
+
     def _execute_method(self, method_name: str, request: Any, timeout: timedelta | None = None) -> Any:
         """Execute a gRPC method with authentication and error handling.
 
@@ -158,8 +170,14 @@ class BaseGRPCClient(GRPCClient):
 
         Raises:
             grpc.RpcError: If the gRPC call fails
-            ValueError: If authentication credentials are missing
+            ValueError: If authentication credentials are missing or request validation fails
         """
+        # Validate request using protovalidate
+        try:
+            self._validator.validate(request)
+        except Exception as e:
+            raise ValueError(f"Request validation failed: {e}") from e
+
         self._ensure_connected()
 
         if not self._api_key or not self._group:

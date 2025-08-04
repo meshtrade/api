@@ -54,7 +54,7 @@ type ClientServiceClientInterface interface {
 }
 
 // clientService is the internal implementation of the ClientServiceClientInterface interface.
-// It embeds BaseGRPCClient to provide all common gRPC functionality.
+// It embeds BaseGRPCClient to provide all common gRPC functionality including validation.
 type clientService struct {
 	*grpc.BaseGRPCClient[ClientServiceClient]
 }
@@ -117,29 +117,30 @@ func NewClientService(opts ...config.ServiceOption) (ClientServiceClientInterfac
 	if err != nil {
 		return nil, err
 	}
+
 	return &clientService{BaseGRPCClient: base}, nil
 }
 
 // CreateClient executes the CreateClient RPC method with automatic
-// timeout handling, distributed tracing, and authentication.
+// client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *clientService) CreateClient(ctx context.Context, request *CreateClientRequest) (*Client, error) {
-	return grpc.Execute(s.Executor(), ctx, "CreateClient", func(ctx context.Context) (*Client, error) {
+	return grpc.Execute(s.Executor(), ctx, "CreateClient", request, func(ctx context.Context) (*Client, error) {
 		return s.GrpcClient().CreateClient(ctx, request)
 	})
 }
 
 // GetClient executes the GetClient RPC method with automatic
-// timeout handling, distributed tracing, and authentication.
+// client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *clientService) GetClient(ctx context.Context, request *GetClientRequest) (*Client, error) {
-	return grpc.Execute(s.Executor(), ctx, "GetClient", func(ctx context.Context) (*Client, error) {
+	return grpc.Execute(s.Executor(), ctx, "GetClient", request, func(ctx context.Context) (*Client, error) {
 		return s.GrpcClient().GetClient(ctx, request)
 	})
 }
 
 // ListClients executes the ListClients RPC method with automatic
-// timeout handling, distributed tracing, and authentication.
+// client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *clientService) ListClients(ctx context.Context, request *ListClientsRequest) (*ListClientsResponse, error) {
-	return grpc.Execute(s.Executor(), ctx, "ListClients", func(ctx context.Context) (*ListClientsResponse, error) {
+	return grpc.Execute(s.Executor(), ctx, "ListClients", request, func(ctx context.Context) (*ListClientsResponse, error) {
 		return s.GrpcClient().ListClients(ctx, request)
 	})
 }

@@ -54,7 +54,7 @@ type UserServiceClientInterface interface {
 }
 
 // userService is the internal implementation of the UserServiceClientInterface interface.
-// It embeds BaseGRPCClient to provide all common gRPC functionality.
+// It embeds BaseGRPCClient to provide all common gRPC functionality including validation.
 type userService struct {
 	*grpc.BaseGRPCClient[UserServiceClient]
 }
@@ -117,13 +117,14 @@ func NewUserService(opts ...config.ServiceOption) (UserServiceClientInterface, e
 	if err != nil {
 		return nil, err
 	}
+
 	return &userService{BaseGRPCClient: base}, nil
 }
 
 // AssignRoleToUser executes the AssignRoleToUser RPC method with automatic
-// timeout handling, distributed tracing, and authentication.
+// client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *userService) AssignRoleToUser(ctx context.Context, request *AssignRoleToUserRequest) (*User, error) {
-	return grpc.Execute(s.Executor(), ctx, "AssignRoleToUser", func(ctx context.Context) (*User, error) {
+	return grpc.Execute(s.Executor(), ctx, "AssignRoleToUser", request, func(ctx context.Context) (*User, error) {
 		return s.GrpcClient().AssignRoleToUser(ctx, request)
 	})
 }

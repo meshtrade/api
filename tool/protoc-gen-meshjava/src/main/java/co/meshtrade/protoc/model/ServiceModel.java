@@ -141,10 +141,10 @@ public class ServiceModel {
     }
     
     /**
-     * @return the client class name (e.g., "ApiUserServiceClient")
+     * @return the client class name (e.g., "ApiUserService")
      */
     public String getClientClassName() {
-        return serviceName + "Client";
+        return serviceName;
     }
     
     /**

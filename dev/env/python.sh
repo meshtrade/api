@@ -39,31 +39,43 @@ if [[ "$PYTHON_MAJOR" -lt 3 ]] || [[ "$PYTHON_MAJOR" -eq 3 && "$PYTHON_MINOR" -l
 fi
 
 # Check if virtual environment is active
-if [[ -z "${VIRTUAL_ENV:-}" ]]; then
-    echo "❌ ERROR: Python virtual environment is not active!"
-    echo "   Please activate the virtual environment first:"
-    echo "   source .venv/bin/activate"
-    echo
-    echo "   If you don't have a virtual environment, create one:"
-    echo "   python -m venv .venv"
-    echo "   source .venv/bin/activate"
-    echo "   pip install -e \".[dev]\""
-    exit 1
-fi
-
-# Check if we're in the correct virtual environment (should be .venv in project root)
-EXPECTED_VENV="$(realpath "$ROOT_DIR/.venv")"
-ACTUAL_VENV="$(realpath "$VIRTUAL_ENV")"
-if [[ "$ACTUAL_VENV" != "$EXPECTED_VENV" ]]; then
-    echo "⚠️  WARNING: Active virtual environment is not the project's .venv"
-    echo "   Active:   $VIRTUAL_ENV"
-    echo "   Expected: $EXPECTED_VENV"
-    echo
-    read -p "Continue anyway? (y/N) " -n 1 -r
-    echo
-    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-        exit 1
+PYTHON_PATH=$(which python)
+if [[ -n "${VIRTUAL_ENV:-}" ]]; then
+    # Standard virtual environment is active
+    EXPECTED_VENV="$(realpath "$ROOT_DIR/.venv")"
+    ACTUAL_VENV="$(realpath "$VIRTUAL_ENV")"
+    if [[ "$ACTUAL_VENV" != "$EXPECTED_VENV" ]]; then
+        echo "⚠️  WARNING: Active virtual environment is not the project's .venv"
+        echo "   Active:   $VIRTUAL_ENV"
+        echo "   Expected: $EXPECTED_VENV"
+        echo "   This is okay if you're using a different virtual environment setup"
+    else
+        echo "📍 Using project virtual environment: $(basename "$VIRTUAL_ENV")"
     fi
+elif [[ "$PYTHON_PATH" == */.venv/* ]] || [[ "$PYTHON_PATH" == */venv/* ]]; then
+    # Detected virtual environment from path
+    echo "📍 Detected virtual environment from Python path: $PYTHON_PATH"
+elif [[ "$PYTHON_PATH" == */.pyenv/* ]]; then
+    # pyenv managed Python - check if it's in project-specific mode or has a virtual environment
+    echo "📍 Using pyenv-managed Python: $PYTHON_PATH"
+    if command -v pyenv &> /dev/null; then
+        PYENV_VERSION=$(pyenv version-name 2>/dev/null || echo "unknown")
+        echo "📍 Active pyenv version: $PYENV_VERSION"
+        # pyenv virtual environments are acceptable
+    fi
+elif [[ "$PYTHON_PATH" == */anaconda*/* ]] || [[ "$PYTHON_PATH" == */miniconda*/* ]] || [[ "$PYTHON_PATH" == */conda/* ]]; then
+    # Conda environment
+    echo "📍 Using conda-managed Python: $PYTHON_PATH"
+    if [[ -n "${CONDA_DEFAULT_ENV:-}" ]]; then
+        echo "📍 Active conda environment: $CONDA_DEFAULT_ENV"
+    fi
+else
+    # No virtual environment detected
+    echo "⚠️  WARNING: No virtual environment detected!"
+    echo "   Python path: $PYTHON_PATH"
+    echo "   Consider using a virtual environment for better dependency isolation:"
+    echo "   python -m venv .venv && source .venv/bin/activate"
+    echo "   Or use pyenv: pyenv virtualenv 3.12.5 mesh-api && pyenv local mesh-api"
 fi
 
 echo "📦 Checking Python dependencies..."
@@ -97,15 +109,18 @@ if [[ ${#MISSING_DEPS[@]} -gt 0 ]]; then
     exit 1
 fi
 
-# Check if Python source directory exists
-if [[ ! -d "$ROOT_DIR/python/src/meshtrade" ]]; then
-    echo "❌ ERROR: Python source directory not found at python/src/meshtrade/"
-    echo "   Please run code generation first:"
-    echo "   ./dev/tool.sh generate --targets=python"
-    exit 1
+# Check if Python source directory exists (informational only)
+if [[ -d "$ROOT_DIR/python/src/meshtrade" ]]; then
+    echo "📍 Generated Python code: FOUND"
+else
+    echo "📍 Generated Python code: NOT FOUND (run generation when ready)"
 fi
 
 echo "✅ Python environment validated successfully!"
 echo "   Python: $PYTHON_VERSION"
-echo "   Virtual environment: $(basename "$VIRTUAL_ENV")"
+if [[ -n "${VIRTUAL_ENV:-}" ]]; then
+    echo "   Virtual environment: $(basename "$VIRTUAL_ENV")"
+else
+    echo "   Virtual environment: DETECTED via path"
+fi
 echo "   Dependencies: All required packages installed"
