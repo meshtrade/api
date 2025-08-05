@@ -16,7 +16,7 @@ readme = "README.md"
 
 # Production dependencies - only what SDK users need at runtime
 dependencies = [
-    "grpcio >= 1.73.0, < 2.0",
+    "grpcio >= 1.74.0, < 2.0",
     "protobuf >= 6.31.1, < 7.0",
     "googleapis-common-protos >= 1.70.0, < 2.0.0",
     "protovalidate >= 0.13.0",
@@ -46,7 +46,7 @@ dev = [
     "types-protobuf ~= 6.30.2.20250516",
     
     # Code generation dependencies
-    "grpcio-tools >= 1.60.0",
+    "grpcio-tools >= 1.74.0",
     "jinja2 >= 3.0.0",
 ]
 

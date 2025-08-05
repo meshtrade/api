@@ -21,7 +21,7 @@ func main() {
 
 	// Create request with service-specific parameters
 	request := &api_userv1.DeactivateApiUserRequest{
-		// FIXME: Populate service-specific request fields
+		Name: "api_users/01234567890123456789012345", // API user resource name
 	}
 
 	// Call the DeactivateApiUser method
@@ -30,6 +30,8 @@ func main() {
 		log.Fatalf("DeactivateApiUser failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("DeactivateApiUser successful: %+v", apiUser)
+	// Verify deactivation was successful
+	log.Printf("Successfully deactivated API user: %s", apiUser.GetName())
+	log.Printf("API user state: %s", apiUser.GetState().String()) // Should be INACTIVE
+	log.Printf("Display name: %s", apiUser.GetDisplayName())
 }

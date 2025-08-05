@@ -38,4 +38,6 @@ const (
 	ProtoPackage       = protogen.GoImportPath("google.golang.org/protobuf/proto")
 	ProtoImplPackage   = protogen.GoImportPath("google.golang.org/protobuf/runtime/protoimpl")
 	BSONTypePackage    = protogen.GoImportPath("go.mongodb.org/mongo-driver/bson/bsontype")
+	// Validation packages
+	ProtoValidatePkg   = protogen.GoImportPath("buf.build/go/protovalidate")
 )

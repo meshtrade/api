@@ -1,0 +1,33 @@
+import co.meshtrade.api.{{.Domain}}.{{.ServiceName}}.{{.Version}}.{{.ServiceTitle}}Service;{{if .HasRequest}}
+import co.meshtrade.api.{{.Domain}}.{{.ServiceName}}.{{.Version}}.Service.{{.RequestType}};{{end}}{{if .ReturnsEntityType}}
+import co.meshtrade.api.{{.Domain}}.{{.ServiceName}}.{{.Version}}.{{.ResponseTypeImport}}.{{.ResponseType}};{{end}}{{if not .ReturnsEntityType}}
+import co.meshtrade.api.{{.Domain}}.{{.ServiceName}}.{{.Version}}.Service.{{.ResponseType}};{{end}}
+
+import java.util.Optional;
+
+public class {{.MethodName}}Example {
+    public static void main(String[] args) {
+        // Default configuration is used and credentials come from MESH_API_CREDENTIALS
+        // environment variable or default discovery methods. Zero config required
+        // unless you want custom configuration.
+        try ({{.ServiceTitle}}Service service = new {{.ServiceTitle}}Service()) {
+            {{if .HasRequest}}// Create request with service-specific parameters
+            {{.RequestType}} request = {{.RequestType}}.newBuilder()
+                // FIXME: Populate service-specific request fields
+                .build();
+
+            // Call the {{.MethodName}} method
+            {{if .ReturnsEntityType}}{{.ResponseType}} {{.ResponseVariable}} = service.{{.MethodNameCamelCase}}(request, Optional.empty());{{else}}{{.ResponseType}} response = service.{{.MethodNameCamelCase}}(request, Optional.empty());{{end}}
+
+            // FIXME: Add relevant response object usage
+            {{if .ReturnsEntityType}}System.out.println("{{.MethodName}} successful: " + {{.ResponseVariable}});{{else}}System.out.println("{{.MethodName}} successful: " + response);{{end}}{{else}}// Call the {{.MethodName}} method (no request parameters)
+            {{if .ReturnsEntityType}}{{.ResponseType}} {{.ResponseVariable}} = service.{{.MethodNameCamelCase}}(Optional.empty());{{else}}{{.ResponseType}} response = service.{{.MethodNameCamelCase}}(Optional.empty());{{end}}
+
+            // FIXME: Add relevant response object usage
+            {{if .ReturnsEntityType}}System.out.println("{{.MethodName}} successful: " + {{.ResponseVariable}});{{else}}System.out.println("{{.MethodName}} successful: " + response);{{end}}{{end}}
+        } catch (Exception e) {
+            System.err.println("{{.MethodName}} failed: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+}

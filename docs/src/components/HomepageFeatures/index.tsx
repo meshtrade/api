@@ -15,7 +15,7 @@ const FeatureList: FeatureItem[] = [
     imageSrc: require('@site/static/img/multilingual_support.png').default,
     description: (
       <>
-        Full-featured SDKs for Go and Python generated from protobuf definitions. 
+        Full-featured SDKs for Go, Python and Java generated from protobuf definitions. 
         Both SDKs feature automatic authentication and client configuration.
       </>
     ),

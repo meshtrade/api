@@ -21,7 +21,7 @@ func main() {
 
 	// Create request with service-specific parameters
 	request := &api_userv1.GetApiUserRequest{
-		// FIXME: Populate service-specific request fields
+		Name: "api_users/01234567890123456789012345", // API user resource name
 	}
 
 	// Call the GetApiUser method
@@ -30,6 +30,12 @@ func main() {
 		log.Fatalf("GetApiUser failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("GetApiUser successful: %+v", apiUser)
+	// Access API user details
+	log.Printf("Retrieved API user: %s", apiUser.GetName())
+	log.Printf("Display name: %s", apiUser.GetDisplayName())
+	log.Printf("State: %s", apiUser.GetState().String())
+	log.Printf("Owner: %s", apiUser.GetOwner())
+	log.Printf("Roles: %v", apiUser.GetRoles())
+	
+	// Note: API key is not returned in get operations for security reasons
 }

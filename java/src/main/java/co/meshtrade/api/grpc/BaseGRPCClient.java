@@ -1,7 +1,12 @@
 package co.meshtrade.api.grpc;
 
+import build.buf.protovalidate.ValidationResult;
+import build.buf.protovalidate.Validator;
+import build.buf.protovalidate.ValidatorFactory;
+import build.buf.protovalidate.exceptions.ValidationException;
 import co.meshtrade.api.auth.Credentials;
 import co.meshtrade.api.config.ServiceOptions;
+import com.google.protobuf.Message;
 import io.grpc.CallCredentials;
 import io.grpc.Channel;
 import io.grpc.ManagedChannel;
@@ -79,6 +84,7 @@ public abstract class BaseGRPCClient<T extends AbstractStub<T>> implements AutoC
     private final ServiceOptions options;
     private final ManagedChannel channel;
     private final T stub;
+    private final Validator validator;
     private volatile boolean closed = false;
     
     /**
@@ -100,13 +106,16 @@ public abstract class BaseGRPCClient<T extends AbstractStub<T>> implements AutoC
         logger.debug("Initializing {} client with URL: {}:{}", serviceName, options.getUrl(), options.getPort());
         
         try {
+            // Initialize protovalidate validator
+            this.validator = ValidatorFactory.newBuilder().build();
+            
             // Create managed channel
             this.channel = createManagedChannel(options);
             
             // Create authenticated stub
             this.stub = createAuthenticatedStub(stubFactory, channel, options);
             
-            logger.debug("Successfully initialized {} client", serviceName);
+            logger.debug("Successfully initialized {} client with validation", serviceName);
             
         } catch (Exception e) {
             logger.error("Failed to initialize {} client: {}", serviceName, e.getMessage(), e);
@@ -115,11 +124,23 @@ public abstract class BaseGRPCClient<T extends AbstractStub<T>> implements AutoC
     }
     
     /**
-     * Executes a unary gRPC call with authentication, timeout, and error handling.
+     * Returns the group context for this client.
+     * 
+     * <p>The group determines the authorization context for all API requests
+     * and is sent as an "x-group" header with every request.
+     * 
+     * @return the group identifier, or null if no group is configured
+     */
+    public String group() {
+        return options.getGroup();
+    }
+    
+    /**
+     * Executes a unary gRPC call with client-side validation, authentication, timeout, and error handling.
      * 
      * <p>This method provides the core execution logic for all service methods.
-     * It handles authentication, applies timeouts, manages retries, and provides
-     * structured error handling.
+     * It validates requests using protovalidate, handles authentication, applies timeouts, 
+     * manages retries, and provides structured error handling.
      * 
      * @param <REQ> the request message type
      * @param <RESP> the response message type
@@ -130,7 +151,7 @@ public abstract class BaseGRPCClient<T extends AbstractStub<T>> implements AutoC
      * @return the response message
      * @throws StatusRuntimeException if the gRPC call fails
      * @throws IllegalStateException if the client is closed
-     * @throws IllegalArgumentException if the request is invalid
+     * @throws IllegalArgumentException if the request is invalid or fails validation
      */
     protected <REQ, RESP> RESP execute(
             String methodName, 
@@ -144,6 +165,18 @@ public abstract class BaseGRPCClient<T extends AbstractStub<T>> implements AutoC
         
         if (request == null) {
             throw new IllegalArgumentException("Request cannot be null");
+        }
+        
+        // Validate request using protovalidate before any processing
+        if (request instanceof Message) {
+            try {
+                ValidationResult result = validator.validate((Message) request);
+                if (!result.isSuccess()) {
+                    throw new IllegalArgumentException("Request validation failed: " + result.toString());
+                }
+            } catch (ValidationException e) {
+                throw new IllegalArgumentException("Request validation failed: " + e.getMessage(), e);
+            }
         }
         
         Duration effectiveTimeout = timeout != null ? timeout : options.getTimeout();
@@ -243,6 +276,19 @@ public abstract class BaseGRPCClient<T extends AbstractStub<T>> implements AutoC
      */
     public ServiceOptions getOptions() {
         return options;
+    }
+    
+    /**
+     * Returns the protovalidate validator for request validation.
+     * 
+     * <p>This provides access to the validator for client-side request validation.
+     * All requests are automatically validated before gRPC calls, but this method
+     * allows for manual validation if needed.
+     * 
+     * @return the protovalidate Validator instance
+     */
+    public Validator getValidator() {
+        return validator;
     }
     
     /**

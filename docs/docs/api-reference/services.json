@@ -1,0 +1,37 @@
+{
+  "description": "Service development status configuration. Available statuses: development, alpha, beta, released, deprecated",
+  "services": {
+    "iam": {
+      "api_user": {
+        "v1": "beta"
+      },
+      "group": {
+        "v1": "development"
+      },
+      "role": {
+        "v1": "development"
+      },
+      "user": {
+        "v1": "development"
+      }
+    },
+    "trading": {
+      "limit_order": {
+        "v1": "development"
+      },
+      "market_order": {
+        "v1": "development"
+      }
+    },
+    "compliance": {
+      "client": {
+        "v1": "development"
+      }
+    },
+    "wallet": {
+      "account": {
+        "v1": "development"
+      }
+    }
+  }
+}

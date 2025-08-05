@@ -13,14 +13,20 @@ def main():
     with service:
         # Create request with service-specific parameters
         request = GetApiUserByKeyHashRequest(
-            # FIXME: Populate service-specific request fields
+            key_hash="hash_of_api_key_123456"  # Hash of the API key (calculated by auth system)
         )
 
         # Call the GetApiUserByKeyHash method
         api_user = service.get_api_user_by_key_hash(request)
 
-        # FIXME: Add relevant response object usage
-        print("GetApiUserByKeyHash successful:", api_user)
+        # Access API user details retrieved by key hash
+        print(f"Found API user: {api_user.name}")
+        print(f"Display name: {api_user.display_name}")
+        print(f"State: {api_user.state}")
+        print(f"Owner: {api_user.owner}")
+        
+        # Note: This method is typically used by authentication systems
+        # to validate API keys and retrieve associated user information
 
 
 if __name__ == "__main__":

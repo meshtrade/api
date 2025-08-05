@@ -54,7 +54,7 @@ type AccountServiceClientInterface interface {
 }
 
 // accountService is the internal implementation of the AccountServiceClientInterface interface.
-// It embeds BaseGRPCClient to provide all common gRPC functionality.
+// It embeds BaseGRPCClient to provide all common gRPC functionality including validation.
 type accountService struct {
 	*grpc.BaseGRPCClient[AccountServiceClient]
 }
@@ -117,37 +117,38 @@ func NewAccountService(opts ...config.ServiceOption) (AccountServiceClientInterf
 	if err != nil {
 		return nil, err
 	}
+
 	return &accountService{BaseGRPCClient: base}, nil
 }
 
 // CreateAccount executes the CreateAccount RPC method with automatic
-// timeout handling, distributed tracing, and authentication.
+// client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *accountService) CreateAccount(ctx context.Context, request *CreateAccountRequest) (*Account, error) {
-	return grpc.Execute(s.Executor(), ctx, "CreateAccount", func(ctx context.Context) (*Account, error) {
+	return grpc.Execute(s.Executor(), ctx, "CreateAccount", request, func(ctx context.Context) (*Account, error) {
 		return s.GrpcClient().CreateAccount(ctx, request)
 	})
 }
 
 // GetAccount executes the GetAccount RPC method with automatic
-// timeout handling, distributed tracing, and authentication.
+// client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *accountService) GetAccount(ctx context.Context, request *GetAccountRequest) (*Account, error) {
-	return grpc.Execute(s.Executor(), ctx, "GetAccount", func(ctx context.Context) (*Account, error) {
+	return grpc.Execute(s.Executor(), ctx, "GetAccount", request, func(ctx context.Context) (*Account, error) {
 		return s.GrpcClient().GetAccount(ctx, request)
 	})
 }
 
 // ListAccounts executes the ListAccounts RPC method with automatic
-// timeout handling, distributed tracing, and authentication.
+// client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *accountService) ListAccounts(ctx context.Context, request *ListAccountsRequest) (*ListAccountsResponse, error) {
-	return grpc.Execute(s.Executor(), ctx, "ListAccounts", func(ctx context.Context) (*ListAccountsResponse, error) {
+	return grpc.Execute(s.Executor(), ctx, "ListAccounts", request, func(ctx context.Context) (*ListAccountsResponse, error) {
 		return s.GrpcClient().ListAccounts(ctx, request)
 	})
 }
 
 // SearchAccounts executes the SearchAccounts RPC method with automatic
-// timeout handling, distributed tracing, and authentication.
+// client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *accountService) SearchAccounts(ctx context.Context, request *SearchAccountsRequest) (*SearchAccountsResponse, error) {
-	return grpc.Execute(s.Executor(), ctx, "SearchAccounts", func(ctx context.Context) (*SearchAccountsResponse, error) {
+	return grpc.Execute(s.Executor(), ctx, "SearchAccounts", request, func(ctx context.Context) (*SearchAccountsResponse, error) {
 		return s.GrpcClient().SearchAccounts(ctx, request)
 	})
 }
