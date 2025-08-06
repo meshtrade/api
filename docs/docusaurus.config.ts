@@ -3,7 +3,7 @@ import type { Config } from '@docusaurus/types';
 
 const config: Config = {
   title: 'Mesh API Documentation',
-  tagline: 'Comprehensive API documentation for Mesh trading platform',
+  tagline: 'Comprehensive API documentation for the Mesh trading platform',
   favicon: 'img/favicon.svg',
 
   url: 'https://meshtrade.github.io',
