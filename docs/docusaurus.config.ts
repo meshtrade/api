@@ -64,7 +64,7 @@ const config: Config = {
         title: 'Mesh API',
         logo: {
           alt: 'Mesh Logo',
-          src: 'img/favicon.svg',
+          src: 'img/mesh-logo.svg',
         },
         items: [
           {
