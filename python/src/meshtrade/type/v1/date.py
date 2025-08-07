@@ -72,7 +72,7 @@ def date_to_python_date(date_obj: Date) -> python_date:
     try:
         return python_date(date_obj.year, date_obj.month, date_obj.day)
     except ValueError as e:
-        raise ValueError(f"Invalid date values: {e}")
+        raise ValueError(f"Invalid date values: {e}") from e
 
 
 def is_valid(date_obj: Date | None) -> bool:
@@ -370,4 +370,4 @@ def _validate_date(year: int, month: int, day: int) -> None:
     try:
         python_date(year, month, day)
     except ValueError as e:
-        raise ValueError(f"Invalid date: {year}-{month:02d}-{day:02d}: {e}")
+        raise ValueError(f"Invalid date: {year}-{month:02d}-{day:02d}: {e}") from e
