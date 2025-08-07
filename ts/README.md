@@ -1,60 +1,45 @@
-# TypeScript Mesh API Integration SDKs
+# TypeScript SDK
 
-This repository contains the TypeScript SDKs for interacting with the various Mesh API services. The services are organized by `module/product/version`.
+This directory contains the TypeScript SDK for interacting with the Mesh API.
 
-## Installation
+## Overview
 
-To use the SDK, you can install it from npm:
+The TypeScript SDK provides a modern and type-safe client library, generated from our schema-first protobuf definitions, designed for seamless integration with the Mesh trading platform in web and Node.js environments.
+
+## Development Setup
+
+This package is part of a Yarn workspace. Install dependencies from the repository root:
 
 ```bash
-npm install @meshtrade/api
+# From repository root
+yarn install
 ```
 
-## Usage
+## Testing
 
-To use a specific API client, you import it from its corresponding package path. For example, to use the `iam/group/v1` client:
+Run comprehensive TypeScript tests including Jest, type checking, and linting:
 
-```typescript
-import { GroupV1GrpcWebClient } from "@meshtrade/api/iam/group/v1";
-import { GetRequest } from "@meshtrade/api/iam/group/v1";
+```bash
+# From repository root - recommended
+./dev/test/typescript.sh
 
-// Construct the client, optionally providing the API server URL
-const groupClient = new GroupV1GrpcWebClient({
-  apiServerURL: "http://localhost:10000",
-});
-
-// Create a request
-const request = new GetRequest();
-// Set request parameters if needed
-
-// Call the service method
-async function getGroup() {
-  try {
-    const response = await groupClient.get(request);
-    console.log("Got group:", response.getGroup()?.toObject());
-  } catch (error) {
-    console.error("Error getting group:", error);
-  }
-}
-
-getGroup();
+# Or run tests manually
+yarn test
+yarn build
+yarn lint
 ```
 
-## API Products
+## Code Generation
 
-The following table lists the available API products and their current status.
+This directory contains generated code. To regenerate from protobuf definitions:
 
-| Module | Product | Version | Status |
-| :--- | :--- | :--- | :--- |
-| compliance | client | v1 | 🚧 Under Construction |
-| iam | group | v1 | 🚧 Under Construction |
-| iam | role | v1 | 🚧 Under Construction |
-| issuance_hub | instrument | v1 | 🚧 Under Construction |
-| ledger | transaction | v1 | 🚧 Under Construction |
-| trading | direct_order | v1 | 🚧 Under Construction |
-| trading | limit_order | v1 | 🚧 Under Construction |
-| trading | spot | v1 | 🚧 Under Construction |
-| wallet | account | v1 | 🚧 Under Construction |
+```bash
+# From repository root
+./dev/tool.sh generate --targets=typescript
+```
 
-**Status Key:**
-*   🚧 **Under Construction**: The API is currently under development and may change.
+## Documentation
+
+For complete documentation, including installation, usage examples, and API reference, please visit the main documentation site:
+
+**[meshtrade.github.io/api](https://meshtrade.github.io/api)**

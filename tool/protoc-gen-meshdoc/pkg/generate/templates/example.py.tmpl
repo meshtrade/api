@@ -1,0 +1,32 @@
+from meshtrade.{{.Domain}}.{{.ServiceName}}.{{.Version}} import (
+    {{.ServiceTitle}}Service,{{if .HasRequest}}
+    {{.RequestType}},{{end}}
+)
+
+
+def main():
+    # Default configuration is used and credentials come from MESH_API_CREDENTIALS 
+    # environment variable or default discovery methods. Zero config required 
+    # unless you want custom configuration.
+    service = {{.ServiceTitle}}Service()
+    
+    with service:{{if .HasRequest}}
+        # Create request with service-specific parameters
+        request = {{.RequestType}}(
+            # FIXME: Populate service-specific request fields
+        )
+        
+        # Call the {{.MethodName}} method  
+        {{if .ReturnsEntityType}}{{.ResponseVariable}} = service.{{.MethodName | snakeCase}}(request){{else}}response = service.{{.MethodName | snakeCase}}(request){{end}}
+        
+        # FIXME: Add relevant response object usage
+        {{if .ReturnsEntityType}}print("{{.MethodName}} successful:", {{.ResponseVariable}}){{else}}print("{{.MethodName}} successful:", response){{end}}{{else}}
+        # Call the {{.MethodName}} method (no request parameters)
+        {{if .ReturnsEntityType}}{{.ResponseVariable}} = service.{{.MethodName | snakeCase}}(){{else}}response = service.{{.MethodName | snakeCase}}(){{end}}
+        
+        # FIXME: Add relevant response object usage
+        {{if .ReturnsEntityType}}print("{{.MethodName}} successful:", {{.ResponseVariable}}){{else}}print("{{.MethodName}} successful:", response){{end}}{{end}}
+
+
+if __name__ == "__main__":
+    main()

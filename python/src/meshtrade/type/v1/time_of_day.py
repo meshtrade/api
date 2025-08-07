@@ -151,9 +151,9 @@ def time_of_day_to_datetime_with_date(time_obj: TimeOfDay, date_obj: Date) -> da
         raise ValueError("Date object is None")
 
     # Import here to avoid circular imports
-    from .date import is_complete
+    from .date import date_is_complete
 
-    if not is_complete(date_obj):
+    if not date_is_complete(date_obj):
         raise ValueError("Date must be complete")
 
     try:
@@ -170,7 +170,7 @@ def time_of_day_to_datetime_with_date(time_obj: TimeOfDay, date_obj: Date) -> da
         raise ValueError(f"Invalid datetime values: {e}") from e
 
 
-def is_valid(time_obj: TimeOfDay | None) -> bool:
+def time_of_day_is_valid(time_obj: TimeOfDay | None) -> bool:
     """Checks if a TimeOfDay has valid values according to the protobuf constraints.
 
     Args:
@@ -189,7 +189,7 @@ def is_valid(time_obj: TimeOfDay | None) -> bool:
         return False
 
 
-def is_midnight(time_obj: TimeOfDay | None) -> bool:
+def time_of_day_is_midnight(time_obj: TimeOfDay | None) -> bool:
     """Returns True if the time represents midnight (00:00:00.000000000).
 
     Args:
@@ -221,7 +221,7 @@ def time_of_day_to_string(time_obj: TimeOfDay | None) -> str:
         return f"{time_obj.hours:02d}:{time_obj.minutes:02d}:{time_obj.seconds:02d}.{time_obj.nanos:09d}"
 
 
-def total_seconds(time_obj: TimeOfDay | None) -> float:
+def time_of_day_total_seconds(time_obj: TimeOfDay | None) -> float:
     """Returns the total number of seconds since midnight as a float.
 
     Args:

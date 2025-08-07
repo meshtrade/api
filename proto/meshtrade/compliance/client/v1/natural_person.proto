@@ -11,6 +11,7 @@ import "meshtrade/type/v1/address.proto";
 import "meshtrade/type/v1/contact_details.proto";
 
 option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
+option java_package = "co.meshtrade.api.compliance.client.v1";
 
 /*
    NaturalPerson is the identity of an individual person.

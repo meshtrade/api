@@ -11,6 +11,7 @@ import {
 } from "./time_of_day";
 import { TimeOfDay } from "./time_of_day_pb";
 import { newDate } from "./date";
+import { Date as ProtoDate } from "./date_pb";
 
 describe("newTimeOfDay", () => {
   // Valid test cases as individual tests
@@ -288,7 +289,13 @@ describe("timeOfDayToJsDateWithDate", () => {
     [
       "incomplete date",
       newTimeOfDay(12, 0, 0, 0),
-      newDate(2023, 0, 0),
+      (() => {
+        const incompleteDate = new ProtoDate();
+        incompleteDate.setYear(2023);
+        incompleteDate.setMonth(1);
+        // Day is not set, so it remains 0, making the date incomplete
+        return incompleteDate;
+      })(),
       "Date must be complete",
     ],
   ];

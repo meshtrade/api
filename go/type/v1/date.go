@@ -2,6 +2,7 @@ package typev1
 
 import (
 	"fmt"
+	"math"
 	"time"
 )
 
@@ -20,10 +21,24 @@ func NewDate(year, month, day int32) (*Date, error) {
 
 // NewDateFromTime creates a Date from a Go time.Time.
 func NewDateFromTime(t time.Time) *Date {
+	year := t.Year()
+	month := int(t.Month())
+	day := t.Day()
+
+	if year < math.MinInt32 || year > math.MaxInt32 {
+		panic(fmt.Sprintf("year overflow: %d cannot be converted to int32", year))
+	}
+	if month < math.MinInt32 || month > math.MaxInt32 {
+		panic(fmt.Sprintf("month overflow: %d cannot be converted to int32", month))
+	}
+	if day < math.MinInt32 || day > math.MaxInt32 {
+		panic(fmt.Sprintf("day overflow: %d cannot be converted to int32", day))
+	}
+
 	return &Date{
-		Year:  int32(t.Year()),
-		Month: int32(t.Month()),
-		Day:   int32(t.Day()),
+		Year:  int32(year),  // #nosec G115 -- overflow checked above
+		Month: int32(month), // #nosec G115 -- overflow checked above
+		Day:   int32(day),   // #nosec G115 -- overflow checked above
 	}
 }
 

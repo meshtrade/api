@@ -17,7 +17,17 @@ const (
 	Base64Package     = protogen.GoImportPath("encoding/base64")
 	// External packages
 	TracingPkg         = protogen.GoImportPath("go.opentelemetry.io/otel/trace")
+	TracingNoopPkg     = protogen.GoImportPath("go.opentelemetry.io/otel/trace/noop")
 	GRPCPkg            = protogen.GoImportPath("google.golang.org/grpc")
+	GRPCCredentialsPkg = protogen.GoImportPath("google.golang.org/grpc/credentials")
+	GRPCInsecurePkg    = protogen.GoImportPath("google.golang.org/grpc/credentials/insecure")
+	GRPCMetadataPkg    = protogen.GoImportPath("google.golang.org/grpc/metadata")
+	// Meshtrade API packages
+	GRPCClientPkg     = protogen.GoImportPath("github.com/meshtrade/api/go/grpc")
+	GRPCConfigPkg     = protogen.GoImportPath("github.com/meshtrade/api/go/grpc/config")
+	AuthPkg           = protogen.GoImportPath("github.com/meshtrade/api/go/auth")
+	APICredentialsPkg = protogen.GoImportPath("github.com/meshtrade/api/go/iam/api_user/v1")
+	// Other packages
 	ULIDPackage        = protogen.GoImportPath("github.com/oklog/ulid/v2")
 	ZeroLogPackage     = protogen.GoImportPath("github.com/rs/zerolog/log")
 	MongoDriverPackage = protogen.GoImportPath("go.mongodb.org/mongo-driver/mongo")
@@ -28,4 +38,6 @@ const (
 	ProtoPackage       = protogen.GoImportPath("google.golang.org/protobuf/proto")
 	ProtoImplPackage   = protogen.GoImportPath("google.golang.org/protobuf/runtime/protoimpl")
 	BSONTypePackage    = protogen.GoImportPath("go.mongodb.org/mongo-driver/bson/bsontype")
+	// Validation packages
+	ProtoValidatePkg   = protogen.GoImportPath("buf.build/go/protovalidate")
 )

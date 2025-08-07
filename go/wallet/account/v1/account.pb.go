@@ -71,7 +71,8 @@ const file_meshtrade_wallet_account_v1_account_proto_rawDesc = "" +
 	"\n" +
 	")meshtrade/wallet/account/v1/account.proto\x12\x1bmeshtrade.wallet.account.v1\"\x1d\n" +
 	"\aAccount\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04nameB9Z7github.com/meshtrade/api/go/wallet/account/v1;accountv1b\x06proto3"
+	"\x04name\x18\x01 \x01(\tR\x04nameB]\n" +
+	"\"co.meshtrade.api.wallet.account.v1Z7github.com/meshtrade/api/go/wallet/account/v1;accountv1b\x06proto3"
 
 var (
 	file_meshtrade_wallet_account_v1_account_proto_rawDescOnce sync.Once

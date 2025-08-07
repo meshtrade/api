@@ -13,10 +13,14 @@ var _ GroupService = &MockGroupService{}
 
 // MockGroupService is a mock implementation of the GroupService interface.
 type MockGroupService struct {
-	mutex                   sync.Mutex
-	T                       *testing.T
-	GetGroupFunc            func(t *testing.T, m *MockGroupService, ctx context.Context, request *GetGroupRequest) (*Group, error)
-	GetGroupFuncInvocations int
+	mutex                       sync.Mutex
+	T                           *testing.T
+	GetGroupFunc                func(t *testing.T, m *MockGroupService, ctx context.Context, request *GetGroupRequest) (*Group, error)
+	GetGroupFuncInvocations     int
+	ListGroupsFunc              func(t *testing.T, m *MockGroupService, ctx context.Context, request *ListGroupsRequest) (*ListGroupsResponse, error)
+	ListGroupsFuncInvocations   int
+	SearchGroupsFunc            func(t *testing.T, m *MockGroupService, ctx context.Context, request *SearchGroupsRequest) (*SearchGroupsResponse, error)
+	SearchGroupsFuncInvocations int
 }
 
 func (m *MockGroupService) GetGroup(ctx context.Context, request *GetGroupRequest) (*Group, error) {
@@ -27,4 +31,24 @@ func (m *MockGroupService) GetGroup(ctx context.Context, request *GetGroupReques
 		return nil, nil
 	}
 	return m.GetGroupFunc(m.T, m, ctx, request)
+}
+
+func (m *MockGroupService) ListGroups(ctx context.Context, request *ListGroupsRequest) (*ListGroupsResponse, error) {
+	m.mutex.Lock()
+	m.ListGroupsFuncInvocations++
+	m.mutex.Unlock()
+	if m.ListGroupsFunc == nil {
+		return nil, nil
+	}
+	return m.ListGroupsFunc(m.T, m, ctx, request)
+}
+
+func (m *MockGroupService) SearchGroups(ctx context.Context, request *SearchGroupsRequest) (*SearchGroupsResponse, error) {
+	m.mutex.Lock()
+	m.SearchGroupsFuncInvocations++
+	m.mutex.Unlock()
+	if m.SearchGroupsFunc == nil {
+		return nil, nil
+	}
+	return m.SearchGroupsFunc(m.T, m, ctx, request)
 }

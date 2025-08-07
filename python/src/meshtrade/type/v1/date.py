@@ -66,7 +66,7 @@ def date_to_python_date(date_obj: Date) -> python_date:
     if not date_obj:
         raise ValueError("Date object is None")
 
-    if not is_valid(date_obj):
+    if not date_is_valid(date_obj):
         raise ValueError(f"Invalid date: year={date_obj.year}, month={date_obj.month}, day={date_obj.day}")
 
     try:
@@ -75,7 +75,7 @@ def date_to_python_date(date_obj: Date) -> python_date:
         raise ValueError(f"Invalid date values: {e}") from e
 
 
-def is_valid(date_obj: Date | None) -> bool:
+def date_is_valid(date_obj: Date | None) -> bool:
     """Checks if a Date has valid values according to the protobuf constraints.
 
     Args:
@@ -94,7 +94,7 @@ def is_valid(date_obj: Date | None) -> bool:
         return False
 
 
-def is_complete(date_obj: Date | None) -> bool:
+def date_is_complete(date_obj: Date | None) -> bool:
     """Returns True if the date has non-zero year, month, and day values.
     Since only full dates are valid, this is equivalent to is_valid().
 
@@ -121,13 +121,13 @@ def date_to_string(date_obj: Date | None) -> str:
     if not date_obj:
         return "<undefined>"
 
-    if is_valid(date_obj):
+    if date_is_valid(date_obj):
         return f"{date_obj.year:04d}-{date_obj.month:02d}-{date_obj.day:02d}"
     else:
         return f"Date(year={date_obj.year}, month={date_obj.month}, day={date_obj.day}) [INVALID]"
 
 
-def is_before(date1: Date | None, date2: Date | None) -> bool:
+def date_is_before(date1: Date | None, date2: Date | None) -> bool:
     """Returns True if date1 is before date2.
 
     Args:
@@ -143,7 +143,7 @@ def is_before(date1: Date | None, date2: Date | None) -> bool:
     if not date1 or not date2:
         raise ValueError("Both dates must be provided")
 
-    if not is_valid(date1) or not is_valid(date2):
+    if not date_is_valid(date1) or not date_is_valid(date2):
         raise ValueError("Both dates must be valid for comparison")
 
     # Compare year first
@@ -158,7 +158,7 @@ def is_before(date1: Date | None, date2: Date | None) -> bool:
     return date1.day < date2.day
 
 
-def is_after(date1: Date | None, date2: Date | None) -> bool:
+def date_is_after(date1: Date | None, date2: Date | None) -> bool:
     """Returns True if date1 is after date2.
 
     Args:
@@ -174,7 +174,7 @@ def is_after(date1: Date | None, date2: Date | None) -> bool:
     if not date1 or not date2:
         raise ValueError("Both dates must be provided")
 
-    if not is_valid(date1) or not is_valid(date2):
+    if not date_is_valid(date1) or not date_is_valid(date2):
         raise ValueError("Both dates must be valid for comparison")
 
     # Compare year first
@@ -189,7 +189,7 @@ def is_after(date1: Date | None, date2: Date | None) -> bool:
     return date1.day > date2.day
 
 
-def is_equal(date1: Date | None, date2: Date | None) -> bool:
+def date_is_equal(date1: Date | None, date2: Date | None) -> bool:
     """Returns True if date1 is equal to date2.
 
     Args:
@@ -208,7 +208,7 @@ def is_equal(date1: Date | None, date2: Date | None) -> bool:
     return date1.year == date2.year and date1.month == date2.month and date1.day == date2.day
 
 
-def is_before_or_equal(date1: Date | None, date2: Date | None) -> bool:
+def date_is_before_or_equal(date1: Date | None, date2: Date | None) -> bool:
     """Returns True if date1 is before or equal to date2.
 
     Args:
@@ -221,10 +221,10 @@ def is_before_or_equal(date1: Date | None, date2: Date | None) -> bool:
     Raises:
         ValueError: If either date is None or incomplete
     """
-    return is_before(date1, date2) or is_equal(date1, date2)
+    return date_is_before(date1, date2) or date_is_equal(date1, date2)
 
 
-def is_after_or_equal(date1: Date | None, date2: Date | None) -> bool:
+def date_is_after_or_equal(date1: Date | None, date2: Date | None) -> bool:
     """Returns True if date1 is after or equal to date2.
 
     Args:
@@ -237,10 +237,10 @@ def is_after_or_equal(date1: Date | None, date2: Date | None) -> bool:
     Raises:
         ValueError: If either date is None or incomplete
     """
-    return is_after(date1, date2) or is_equal(date1, date2)
+    return date_is_after(date1, date2) or date_is_equal(date1, date2)
 
 
-def add_days(date_obj: Date, days: int) -> Date:
+def date_add_days(date_obj: Date, days: int) -> Date:
     """Adds a specified number of days to a date.
 
     Args:
@@ -256,7 +256,7 @@ def add_days(date_obj: Date, days: int) -> Date:
     if not date_obj:
         raise ValueError("Date object is None")
 
-    if not is_valid(date_obj):
+    if not date_is_valid(date_obj):
         raise ValueError("Date must be valid to add days")
 
     # Convert to Python date, add days, then convert back
@@ -268,7 +268,7 @@ def add_days(date_obj: Date, days: int) -> Date:
     return new_date_from_python_date(new_py_date)
 
 
-def add_months(date_obj: Date, months: int) -> Date:
+def date_add_months(date_obj: Date, months: int) -> Date:
     """Adds a specified number of months to a date.
 
     Args:
@@ -284,7 +284,7 @@ def add_months(date_obj: Date, months: int) -> Date:
     if not date_obj:
         raise ValueError("Date object is None")
 
-    if not is_valid(date_obj):
+    if not date_is_valid(date_obj):
         raise ValueError("Date must be valid to add months")
 
     # Calculate new year and month
@@ -309,7 +309,7 @@ def add_months(date_obj: Date, months: int) -> Date:
     return new_date(new_year, new_month, new_day)
 
 
-def add_years(date_obj: Date, years: int) -> Date:
+def date_add_years(date_obj: Date, years: int) -> Date:
     """Adds a specified number of years to a date.
 
     Args:
@@ -325,7 +325,7 @@ def add_years(date_obj: Date, years: int) -> Date:
     if not date_obj:
         raise ValueError("Date object is None")
 
-    if not is_valid(date_obj):
+    if not date_is_valid(date_obj):
         raise ValueError("Date must be valid to add years")
 
     new_year = date_obj.year + years

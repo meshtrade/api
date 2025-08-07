@@ -6,6 +6,7 @@ import "meshtrade/type/v1/decimal.proto";
 import "meshtrade/type/v1/token.proto";
 
 option go_package = "github.com/meshtrade/api/go/type/v1;typev1";
+option java_package = "co.meshtrade.api.type.v1";
 
 /*
    A canonical structure for representing a precise quantity of a specific

@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package meshtrade.trading.market_order.v1;
+
+import "meshtrade/iam/role/v1/role.proto";
+import "meshtrade/option/v1/method_type.proto";
+import "meshtrade/trading/market_order/v1/market_order.proto";
+
+option go_package = "github.com/meshtrade/api/go/trading/market_order/v1;market_orderv1";
+option java_package = "co.meshtrade.api.trading.market_order.v1";
+
+service MarketOrderService {
+  rpc GetMarketOrder(GetMarketOrderRequest) returns (meshtrade.trading.market_order.v1.MarketOrder) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [
+        ROLE_TRADING_ADMIN,
+        ROLE_TRADING_VIEWER
+      ]
+    };
+  }
+}
+
+message GetMarketOrderRequest {
+  string number = 1;
+}

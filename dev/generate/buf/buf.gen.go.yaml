@@ -1,0 +1,15 @@
+# Go code generation configuration
+version: v2
+
+plugins:
+  - remote: buf.build/protocolbuffers/go:v1.36.6
+    out: .
+    opt:
+      - module=github.com/meshtrade/api
+  - remote: buf.build/grpc/go:v1.5.1
+    out: .
+    opt:
+      - module=github.com/meshtrade/api
+  - local: ["go", "run", "./tool/protoc-gen-meshgo"]
+    out: ./go
+    strategy: all

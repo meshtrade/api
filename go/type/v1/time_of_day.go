@@ -2,6 +2,7 @@ package typev1
 
 import (
 	"fmt"
+	"math"
 	"time"
 )
 
@@ -22,11 +23,29 @@ func NewTimeOfDay(hours, minutes, seconds, nanos int32) (*TimeOfDay, error) {
 // NewTimeOfDayFromTime creates a TimeOfDay from a Go time.Time.
 // Only extracts the time components, ignoring the date.
 func NewTimeOfDayFromTime(t time.Time) *TimeOfDay {
+	hours := t.Hour()
+	minutes := t.Minute()
+	seconds := t.Second()
+	nanos := t.Nanosecond()
+
+	if hours < math.MinInt32 || hours > math.MaxInt32 {
+		panic(fmt.Sprintf("hours overflow: %d cannot be converted to int32", hours))
+	}
+	if minutes < math.MinInt32 || minutes > math.MaxInt32 {
+		panic(fmt.Sprintf("minutes overflow: %d cannot be converted to int32", minutes))
+	}
+	if seconds < math.MinInt32 || seconds > math.MaxInt32 {
+		panic(fmt.Sprintf("seconds overflow: %d cannot be converted to int32", seconds))
+	}
+	if nanos < math.MinInt32 || nanos > math.MaxInt32 {
+		panic(fmt.Sprintf("nanoseconds overflow: %d cannot be converted to int32", nanos))
+	}
+
 	return &TimeOfDay{
-		Hours:   int32(t.Hour()),
-		Minutes: int32(t.Minute()),
-		Seconds: int32(t.Second()),
-		Nanos:   int32(t.Nanosecond()),
+		Hours:   int32(hours),   // #nosec G115 -- overflow checked above
+		Minutes: int32(minutes), // #nosec G115 -- overflow checked above
+		Seconds: int32(seconds), // #nosec G115 -- overflow checked above
+		Nanos:   int32(nanos),   // #nosec G115 -- overflow checked above
 	}
 }
 
@@ -49,7 +68,11 @@ func NewTimeOfDayFromDuration(d time.Duration) (*TimeOfDay, error) {
 	seconds := int32(d.Seconds())
 	d -= time.Duration(seconds) * time.Second
 
-	nanos := int32(d.Nanoseconds())
+	nanosVal := d.Nanoseconds()
+	if nanosVal < math.MinInt32 || nanosVal > math.MaxInt32 {
+		return nil, fmt.Errorf("nanoseconds overflow: %d cannot be converted to int32", nanosVal)
+	}
+	nanos := int32(nanosVal) // #nosec G115 -- overflow checked above
 
 	return &TimeOfDay{
 		Hours:   hours,

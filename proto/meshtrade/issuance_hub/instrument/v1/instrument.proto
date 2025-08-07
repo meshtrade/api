@@ -1,9 +1,0 @@
-syntax = "proto3";
-
-package meshtrade.issuance_hub.instrument.v1;
-
-option go_package = "github.com/meshtrade/api/go/issuance_hub/instrument/v1;instrumentv1";
-
-message Instrument {
-  string number = 1;
-}

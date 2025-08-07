@@ -23,10 +23,7 @@ const (
 
 // Represents a whole calendar date, such as a birthday. The time of
 // day and timezone are either specified elsewhere or are insignificant. The
-// date is relative to the Gregorian Calendar. This can represent only the
-// following:
-//
-// * A full date, with non-zero year, month, and day values (e.g., 2023-12-25)
+// date is relative to the Gregorian Calendar.
 //
 // Validation Rules:
 // * Year: 1-9999 (must be non-zero)
@@ -110,7 +107,8 @@ const file_meshtrade_type_v1_date_proto_rawDesc = "" +
 	"\x04Date\x12\x12\n" +
 	"\x04year\x18\x01 \x01(\x05R\x04year\x12\x14\n" +
 	"\x05month\x18\x02 \x01(\x05R\x05month\x12\x10\n" +
-	"\x03day\x18\x03 \x01(\x05R\x03dayB,Z*github.com/meshtrade/api/go/type/v1;typev1b\x06proto3"
+	"\x03day\x18\x03 \x01(\x05R\x03dayBF\n" +
+	"\x18co.meshtrade.api.type.v1Z*github.com/meshtrade/api/go/type/v1;typev1b\x06proto3"
 
 var (
 	file_meshtrade_type_v1_date_proto_rawDescOnce sync.Once

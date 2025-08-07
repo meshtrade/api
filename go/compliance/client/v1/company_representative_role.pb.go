@@ -120,7 +120,8 @@ const file_meshtrade_compliance_client_v1_company_representative_role_proto_rawD
 	"$COMPANY_REPRESENTATIVE_ROLE_DIRECTOR\x10\x05\x12'\n" +
 	"#COMPANY_REPRESENTATIVE_ROLE_MANAGER\x10\x06\x124\n" +
 	"0COMPANY_REPRESENTATIVE_ROLE_AUTHORIZED_SIGNATORY\x10\a\x12/\n" +
-	"+COMPANY_REPRESENTATIVE_ROLE_PRIMARY_CONTACT\x10\bB;Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
+	"+COMPANY_REPRESENTATIVE_ROLE_PRIMARY_CONTACT\x10\bBb\n" +
+	"%co.meshtrade.api.compliance.client.v1Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
 
 var (
 	file_meshtrade_compliance_client_v1_company_representative_role_proto_rawDescOnce sync.Once

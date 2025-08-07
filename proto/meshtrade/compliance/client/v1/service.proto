@@ -3,8 +3,11 @@ syntax = "proto3";
 package meshtrade.compliance.client.v1;
 
 import "meshtrade/compliance/client/v1/client.proto";
+import "meshtrade/iam/role/v1/role.proto";
+import "meshtrade/option/v1/method_type.proto";
 
 option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
+option java_package = "co.meshtrade.api.compliance.client.v1";
 
 // Service manages client profiles for compliance and Know Your Customer (KYC)
 // purposes.
@@ -13,21 +16,45 @@ option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
 // be a natural person, company, or trust. This service allows you to retrieve
 // the compliance profiles for these clients.
 service ClientService {
+  // CreateClient creates a single client.
+  rpc CreateClient(CreateClientRequest) returns (meshtrade.compliance.client.v1.Client) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [ROLE_COMPLIANCE_ADMIN]
+    };
+  }
+
   // GetClient retrieves a single client's compliance profile by its unique resource name.
   //
   // This allows for fetching the complete compliance details of a specific client,
   // including all associated information like identification documents, tax residencies,
   // and company structures.
-  rpc GetClient(GetClientRequest) returns (meshtrade.compliance.client.v1.Client);
+  rpc GetClient(GetClientRequest) returns (meshtrade.compliance.client.v1.Client) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [
+        ROLE_COMPLIANCE_ADMIN,
+        ROLE_COMPLIANCE_VIEWER
+      ]
+    };
+  }
 
   // ListClients retrieves a collection of client compliance profiles.
   //
   // This method is useful for fetching multiple client records at once.
   // Note: This endpoint does not currently support pagination or filtering.
-  rpc ListClients(ListClientsRequest) returns (ListClientsResponse);
+  rpc ListClients(ListClientsRequest) returns (ListClientsResponse) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [
+        ROLE_COMPLIANCE_ADMIN,
+        ROLE_COMPLIANCE_VIEWER
+      ]
+    };
+  }
 }
 
-// GetClientRequest is the message used to request a single client resource.
+// CreateClientRequest is the message used to create a single client resource.
 message GetClientRequest {
   // The unique resource name of the client to be retrieved.
   // The name serves as the primary identifier for the client resource.
@@ -35,6 +62,11 @@ message GetClientRequest {
   string name = 1;
 }
 
+// GetClientRequest is the message used to request a single client resource.
+message CreateClientRequest {
+  // Client is the client resource to create.
+  meshtrade.compliance.client.v1.Client client = 1;
+}
 
 // ListClientsRequest is the message used to request a list of client resources.
 message ListClientsRequest {}

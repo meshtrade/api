@@ -490,7 +490,8 @@ const file_meshtrade_compliance_client_v1_company_proto_rawDesc = "" +
 	"/LEGAL_PERSON_CONNECTION_TYPE_CORPORATE_DIRECTOR\x10\x03\x12&\n" +
 	"\"LEGAL_PERSON_CONNECTION_TYPE_TRUST\x10\x04\x120\n" +
 	",LEGAL_PERSON_CONNECTION_TYPE_GENERAL_PARTNER\x10\x05\x12*\n" +
-	"&LEGAL_PERSON_CONNECTION_TYPE_GUARANTOR\x10\x06B;Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
+	"&LEGAL_PERSON_CONNECTION_TYPE_GUARANTOR\x10\x06Bb\n" +
+	"%co.meshtrade.api.compliance.client.v1Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
 
 var (
 	file_meshtrade_compliance_client_v1_company_proto_rawDescOnce sync.Once

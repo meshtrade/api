@@ -4,22 +4,151 @@ package accountv1
 
 import (
 	context "context"
+	grpc "github.com/meshtrade/api/go/grpc"
+	config "github.com/meshtrade/api/go/grpc/config"
 )
 
-// AccountService provides access to and management of wallet accounts.
-type AccountService interface {
-	// Creates a new wallet account.
-	// This is a write operation restricted to administrative roles.
-	CreateAccount(ctx context.Context, request *CreateAccountRequest) (*Account, error)
-
-	// Retrieves a single wallet account by its unique number.
-	GetAccount(ctx context.Context, request *GetAccountRequest) (*Account, error)
-
-	// Retrieves a list of all accounts for the authenticated principal.
-	ListAccounts(ctx context.Context, request *ListAccountsRequest) (*ListAccountsResponse, error)
-
-	// Searches for accounts based on a partial label match.
-	SearchAccounts(ctx context.Context, request *SearchAccountsRequest) (*SearchAccountsResponse, error)
+// AccountServiceClientInterface is a gRPC service for the AccountService service.
+// It combines the service interface with resource management capabilities using
+// the common BaseGRPCClient for consistent authentication, timeouts, and tracing.
+//
+// Full Service documentation: https://meshtrade.github.io/api/docs/api-reference/wallet/account/v1
+//
+// Basic service usage with default SDK Configuration:
+//
+//	service, err := NewAccountService()
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//	defer service.Close() // ensures proper cleanup of underlying connection
+//
+// With default configuration API credentials are searched for using the standard discovery hierarchy:
+//
+// 1. MESH_API_CREDENTIALS environment variable
+//
+// 2. Default credential file location:
+//
+//   - Linux:   $XDG_CONFIG_HOME/mesh/credentials.json or fallback to $HOME/.config/mesh/credentials.json
+//   - macOS:   $HOME/Library/Application Support/mesh/credentials.json
+//   - Windows: C:\Users\<user>\AppData\Roaming\mesh\credentials.json
+//
+// For more information on authentication: https://meshtrade.github.io/api/docs/architecture/authentication
+//
+// The service may also be configured with custom options:
+//
+//	service, err := NewAccountService(
+//		config.WithURL("api.staging.example.com:443"),
+//		config.WithAPIKey("your-api-key"),
+//		config.WithGroup("groups/your-group-id"),
+//		config.WithTimeout(30 * time.Second),
+//	)
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//	defer service.Close() // ensures proper cleanup of underlying connection
+//
+// For more information on service configuration: https://meshtrade.github.io/api/docs/architecture/sdk-configuration
+type AccountServiceClientInterface interface {
+	AccountService
+	grpc.GRPCClient
 }
 
-const AccountServiceServiceProviderName = "meshtrade-wallet-account-v1-AccountService"
+// accountService is the internal implementation of the AccountServiceClientInterface interface.
+// It embeds BaseGRPCClient to provide all common gRPC functionality including validation.
+type accountService struct {
+	*grpc.BaseGRPCClient[AccountServiceClient]
+}
+
+// ensure accountService implements the AccountServiceClientInterface interface
+var _ AccountServiceClientInterface = &accountService{}
+
+// NewAccountService creates and initializes the AccountService service.
+// The service uses the common BaseGRPCClient for all functionality including
+// connection management, authentication, timeouts, and distributed tracing.
+//
+// Full Service documentation: https://meshtrade.github.io/api/docs/api-reference/wallet/account/v1
+//
+// With default configuration API credentials are searched for using the standard discovery hierarchy:
+//
+// 1. MESH_API_CREDENTIALS environment variable
+//
+// 2. Default credential file location:
+//
+//   - Linux:   $XDG_CONFIG_HOME/mesh/credentials.json or fallback to $HOME/.config/mesh/credentials.json
+//   - macOS:   $HOME/Library/Application Support/mesh/credentials.json
+//   - Windows: C:\Users\<user>\AppData\Roaming\mesh\credentials.json
+//
+// For more information on authentication: https://meshtrade.github.io/api/docs/architecture/authentication
+//
+// For more information on service configuration: https://meshtrade.github.io/api/docs/architecture/sdk-configuration
+//
+// Examples:
+//
+//	// Create with default configuration
+//	service, err := NewAccountService()
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//	defer service.Close()
+//
+//	// Create with custom configuration
+//	service, err := NewAccountService(
+//		config.WithURL("api.example.com:443"),
+//		config.WithAPIKey("your-api-key"),
+//		config.WithGroup("groups/your-group-id"),
+//	)
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//	defer service.Close()
+//
+// Parameters:
+//   - opts: Functional options to configure the client
+//
+// Returns:
+//   - AccountServiceClientInterface: Configured service instance
+//   - error: Configuration or connection error
+func NewAccountService(opts ...config.ServiceOption) (AccountServiceClientInterface, error) {
+	base, err := grpc.NewBaseGRPCClient(
+		AccountServiceServiceProviderName,
+		NewAccountServiceClient,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	return &accountService{BaseGRPCClient: base}, nil
+}
+
+// CreateAccount executes the CreateAccount RPC method with automatic
+// client-side validation, timeout handling, distributed tracing, and authentication.
+func (s *accountService) CreateAccount(ctx context.Context, request *CreateAccountRequest) (*Account, error) {
+	return grpc.Execute(s.Executor(), ctx, "CreateAccount", request, func(ctx context.Context) (*Account, error) {
+		return s.GrpcClient().CreateAccount(ctx, request)
+	})
+}
+
+// GetAccount executes the GetAccount RPC method with automatic
+// client-side validation, timeout handling, distributed tracing, and authentication.
+func (s *accountService) GetAccount(ctx context.Context, request *GetAccountRequest) (*Account, error) {
+	return grpc.Execute(s.Executor(), ctx, "GetAccount", request, func(ctx context.Context) (*Account, error) {
+		return s.GrpcClient().GetAccount(ctx, request)
+	})
+}
+
+// ListAccounts executes the ListAccounts RPC method with automatic
+// client-side validation, timeout handling, distributed tracing, and authentication.
+func (s *accountService) ListAccounts(ctx context.Context, request *ListAccountsRequest) (*ListAccountsResponse, error) {
+	return grpc.Execute(s.Executor(), ctx, "ListAccounts", request, func(ctx context.Context) (*ListAccountsResponse, error) {
+		return s.GrpcClient().ListAccounts(ctx, request)
+	})
+}
+
+// SearchAccounts executes the SearchAccounts RPC method with automatic
+// client-side validation, timeout handling, distributed tracing, and authentication.
+func (s *accountService) SearchAccounts(ctx context.Context, request *SearchAccountsRequest) (*SearchAccountsResponse, error) {
+	return grpc.Execute(s.Executor(), ctx, "SearchAccounts", request, func(ctx context.Context) (*SearchAccountsResponse, error) {
+		return s.GrpcClient().SearchAccounts(ctx, request)
+	})
+}
