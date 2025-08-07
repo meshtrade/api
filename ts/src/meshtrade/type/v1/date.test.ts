@@ -16,7 +16,6 @@ describe("newDate", () => {
     expect(result.getDay()).toBe(25);
   });
 
-
   test("valid leap year February 29", () => {
     const result = newDate(2024, 2, 29);
     expect(result.getYear()).toBe(2024);
@@ -25,9 +24,7 @@ describe("newDate", () => {
   });
 
   test("invalid year zero", () => {
-    expect(() => newDate(0, 12, 25)).toThrow(
-      "Year must be between 1 and 9999"
-    );
+    expect(() => newDate(0, 12, 25)).toThrow("Year must be between 1 and 9999");
   });
 
   test("invalid year too high", () => {
@@ -49,15 +46,11 @@ describe("newDate", () => {
   });
 
   test("invalid day zero", () => {
-    expect(() => newDate(2023, 1, 0)).toThrow(
-      "Day must be between 1 and 31"
-    );
+    expect(() => newDate(2023, 1, 0)).toThrow("Day must be between 1 and 31");
   });
 
   test("invalid day too high", () => {
-    expect(() => newDate(2023, 1, 32)).toThrow(
-      "Day must be between 1 and 31"
-    );
+    expect(() => newDate(2023, 1, 32)).toThrow("Day must be between 1 and 31");
   });
 
   test("invalid date February 30", () => {
@@ -67,7 +60,6 @@ describe("newDate", () => {
   test("invalid leap year February 29", () => {
     expect(() => newDate(2023, 2, 29)).toThrow("Invalid date");
   });
-
 });
 
 describe("newDateFromJsDate", () => {
@@ -156,7 +148,6 @@ describe("isComplete", () => {
     expect(isComplete(date)).toBe(expected);
   });
 });
-
 
 describe("dateToJsDate", () => {
   test("valid complete date", () => {

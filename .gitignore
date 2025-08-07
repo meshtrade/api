@@ -114,6 +114,8 @@ docs/vendor/
 # Test results and coverage reports #
 #####################################
 coverage/
+coverage.html
+coverage.out
 *.cover
 *.profraw
 junitreports/

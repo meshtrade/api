@@ -28,7 +28,8 @@ echo "📦 Installing Python dependencies..."
 pip install -e .[dev] --quiet
 
 echo "🧪 Running Python tests..."
-pytest --quiet
+export PYTHONPATH="./python/src:./python/tests"
+pytest python/tests --quiet
 
 echo "🚀 Python linting and formatting..."
 ruff check . --fix --quiet
