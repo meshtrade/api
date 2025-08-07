@@ -1,35 +1,42 @@
+# Address types
 from .address_pb2 import Address
+
+# Amount types and utilities
 from .amount import new_amount
 from .amount_pb2 import Amount
+
+# Contact details types
 from .contact_details_pb2 import ContactDetails
 from .date import (
+    add_days,
+    add_months,
+    add_years,
     date_to_python_date,
     date_to_string,
+    is_after,
+    is_after_or_equal,
+    is_before,
+    is_before_or_equal,
+    is_complete,
+    is_equal,
     new_date,
     new_date_from_python_date,
 )
 from .date import (
-    is_complete as date_is_complete,
-)
-from .date import (
-    is_month_day as date_is_month_day,
-)
-from .date import (
     is_valid as date_is_valid,
 )
-from .date import (
-    is_year_month as date_is_year_month,
-)
-from .date import (
-    is_year_only as date_is_year_only,
-)
+
+# Date types and utilities
 from .date_pb2 import Date
+
+# Decimal types and utilities
 from .decimal_built_in_conversions import built_in_to_decimal, decimal_to_built_in
 from .decimal_pb2 import Decimal
+
+# Ledger types and utilities
 from .ledger import get_ledger_no_decimal_places
 from .ledger_pb2 import Ledger
 from .time_of_day import (
-    is_end_of_day,
     is_midnight,
     new_time_of_day,
     new_time_of_day_from_datetime,
@@ -44,7 +51,11 @@ from .time_of_day import (
 from .time_of_day import (
     is_valid as time_of_day_is_valid,
 )
+
+# TimeOfDay types and utilities
 from .time_of_day_pb2 import TimeOfDay
+
+# Token types
 from .token_pb2 import Token
 
 __all__ = [
@@ -56,10 +67,7 @@ __all__ = [
     "new_date_from_python_date",
     "date_to_python_date",
     "date_is_valid",
-    "date_is_complete",
-    "date_is_year_only",
-    "date_is_year_month",
-    "date_is_month_day",
+    "is_complete",
     "date_to_string",
     "Date",
     "built_in_to_decimal",
@@ -76,9 +84,16 @@ __all__ = [
     "time_of_day_to_datetime_with_date",
     "time_of_day_is_valid",
     "is_midnight",
-    "is_end_of_day",
     "time_of_day_to_string",
     "total_seconds",
     "TimeOfDay",
     "Token",
+    "add_days",
+    "add_months",
+    "add_years",
+    "is_after",
+    "is_after_or_equal",
+    "is_before",
+    "is_before_or_equal",
+    "is_equal",
 ]

@@ -1640,26 +1640,31 @@ as either a read or a write operation.
 <a name="meshtrade-type-v1-Date"></a>
 
 ### Date
-Represents a whole or partial calendar date, such as a birthday. The time of
-day and time zone are either specified elsewhere or are insignificant. The
-date is relative to the Gregorian Calendar. This can represent one of the
+Represents a whole calendar date, such as a birthday. The time of
+day and timezone are either specified elsewhere or are insignificant. The
+date is relative to the Gregorian Calendar. This can represent only the
 following:
 
-* A full date, with non-zero year, month, and day values
-* A month and day value, with a zero year, such as an anniversary
-* A year on its own, with zero month and day values
-* A year and month value, with a zero day, such as a credit card expiration
-date
+* A full date, with non-zero year, month, and day values (e.g., 2023-12-25)
 
-Related types are [google.type.TimeOfDay][google.type.TimeOfDay] and
+Validation Rules:
+* Year: 1-9999 (must be non-zero)
+* Month: 1-12 (must be non-zero)
+* Day: 1-31 (must be non-zero and valid for the given month/year)
+* Complete dates must be valid calendar dates (respects leap years, month lengths)
+
+Examples:
+* Full date: year=2023, month=12, day=25 → &#34;2023-12-25&#34;
+
+Related types are [meshtrade.type.v1.TimeOfDay][meshtrade.type.v1.TimeOfDay] and
 `google.protobuf.Timestamp`.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| year | [int32](#int32) |  | Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. |
-| month | [int32](#int32) |  | Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. |
-| day | [int32](#int32) |  | Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn&#39;t significant. |
+| year | [int32](#int32) |  | Year of the date. Must be from 1 to 9999. |
+| month | [int32](#int32) |  | Month of a year. Must be from 1 to 12. |
+| day | [int32](#int32) |  | Day of a month. Must be from 1 to 31 and valid for the year and month. |
 
 
 
@@ -1685,18 +1690,37 @@ Related types are [google.type.TimeOfDay][google.type.TimeOfDay] and
 <a name="meshtrade-type-v1-TimeOfDay"></a>
 
 ### TimeOfDay
-Represents a time of day. The date and time zone are either not significant
-or are specified elsewhere. An API may choose to allow leap seconds. Related
-types are [google.type.Date][google.type.Date] and
+Represents a time of day in 24-hour format. The date and time zone are either 
+not significant or are specified elsewhere. This type does not support leap 
+seconds and uses standard 24-hour time representation (00:00:00 to 23:59:59).
+
+Validation Rules:
+* Hours: 0-23 (24-hour format, no support for 24:00:00 end-of-day representation)
+* Minutes: 0-59 
+* Seconds: 0-59 (no leap seconds support)
+* Nanos: 0-999,999,999 (nanosecond precision for sub-second timing)
+
+Examples:
+* Midnight: hours=0, minutes=0, seconds=0, nanos=0 → &#34;00:00:00&#34;
+* Noon: hours=12, minutes=0, seconds=0, nanos=0 → &#34;12:00:00&#34;
+* End of day: hours=23, minutes=59, seconds=59, nanos=999999999 → &#34;23:59:59.999999999&#34;
+* High precision: hours=15, minutes=30, seconds=45, nanos=123456789 → &#34;15:30:45.123456789&#34;
+
+Usage Notes:
+* Can be combined with meshtrade.type.v1.Date to represent complete datetime
+* Suitable for scheduling, timestamps, duration calculations
+* Sub-second precision supports high-frequency trading and precise timing requirements
+
+Related types are [meshtrade.type.v1.Date][meshtrade.type.v1.Date] and
 `google.protobuf.Timestamp`.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| hours | [int32](#int32) |  | Hours of day in 24 hour format. Should be from 0 to 23. An API may choose to allow the value &#34;24:00:00&#34; for scenarios like business closing time. |
+| hours | [int32](#int32) |  | Hours of day in 24 hour format. Must be from 0 to 23. Does not support 24:00:00 end-of-day representation; use 23:59:59.999999999 instead. |
 | minutes | [int32](#int32) |  | Minutes of hour of day. Must be from 0 to 59. |
-| seconds | [int32](#int32) |  | Seconds of minutes of the time. Must normally be from 0 to 59. An API may allow the value 60 if it allows leap-seconds. |
-| nanos | [int32](#int32) |  | Fractions of seconds in nanoseconds. Must be from 0 to 999,999,999. |
+| seconds | [int32](#int32) |  | Seconds of minutes of the time. Must be from 0 to 59. Leap seconds are not supported. |
+| nanos | [int32](#int32) |  | Fractions of seconds in nanoseconds. Must be from 0 to 999,999,999. Provides nanosecond precision for sub-second timing requirements. |
 
 
 

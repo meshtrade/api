@@ -21,30 +21,31 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Represents a whole or partial calendar date, such as a birthday. The time of
-// day and time zone are either specified elsewhere or are insignificant. The
-// date is relative to the Gregorian Calendar. This can represent one of the
+// Represents a whole calendar date, such as a birthday. The time of
+// day and timezone are either specified elsewhere or are insignificant. The
+// date is relative to the Gregorian Calendar. This can represent only the
 // following:
 //
-// * A full date, with non-zero year, month, and day values
-// * A month and day value, with a zero year, such as an anniversary
-// * A year on its own, with zero month and day values
-// * A year and month value, with a zero day, such as a credit card expiration
-// date
+// * A full date, with non-zero year, month, and day values (e.g., 2023-12-25)
 //
-// Related types are [google.type.TimeOfDay][google.type.TimeOfDay] and
+// Validation Rules:
+// * Year: 1-9999 (must be non-zero)
+// * Month: 1-12 (must be non-zero)
+// * Day: 1-31 (must be non-zero and valid for the given month/year)
+// * Complete dates must be valid calendar dates (respects leap years, month lengths)
+//
+// Examples:
+// * Full date: year=2023, month=12, day=25 → "2023-12-25"
+//
+// Related types are [meshtrade.type.v1.TimeOfDay][meshtrade.type.v1.TimeOfDay] and
 // `google.protobuf.Timestamp`.
 type Date struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Year of the date. Must be from 1 to 9999, or 0 to specify a date without
-	// a year.
+	// Year of the date. Must be from 1 to 9999.
 	Year int32 `protobuf:"varint,1,opt,name=year,proto3" json:"year,omitempty"`
-	// Month of a year. Must be from 1 to 12, or 0 to specify a year without a
-	// month and day.
+	// Month of a year. Must be from 1 to 12.
 	Month int32 `protobuf:"varint,2,opt,name=month,proto3" json:"month,omitempty"`
-	// Day of a month. Must be from 1 to 31 and valid for the year and month, or 0
-	// to specify a year by itself or a year and month where the day isn't
-	// significant.
+	// Day of a month. Must be from 1 to 31 and valid for the year and month.
 	Day           int32 `protobuf:"varint,3,opt,name=day,proto3" json:"day,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
