@@ -21,14 +21,14 @@ def main():
 
         # Process search results
         print(f"Found {len(response.api_users)} API users matching search criteria")
-        
+
         for i, api_user in enumerate(response.api_users, 1):
             print(f"Match {i}:")
             print(f"  Name: {api_user.name}")
             print(f"  Display Name: {api_user.display_name}")
             print(f"  State: {api_user.state}")
             print(f"  Owner: {api_user.owner}")
-        
+
         if not response.api_users:
             print("No API users found matching the search criteria")
 

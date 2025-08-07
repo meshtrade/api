@@ -27,16 +27,16 @@ func NewDateFromTime(t time.Time) *Date {
 	}
 }
 
-// ToTime converts the Date to a time.Time.
-// Returns an error if the date is invalid or incomplete.
-func (d *Date) ToTime() (time.Time, error) {
+// ToTime converts the Date to a time.Time at UTC midnight.
+// Returns zero time if the date is nil, or panics if the date is invalid.
+func (d *Date) ToTime() time.Time {
 	if d == nil {
-		return time.Time{}, fmt.Errorf("date is nil")
+		return time.Time{}
 	}
-	if d.Year == 0 || d.Month == 0 || d.Day == 0 {
-		return time.Time{}, fmt.Errorf("incomplete date: year=%d, month=%d, day=%d", d.Year, d.Month, d.Day)
+	if !d.IsValid() {
+		panic("date is invalid")
 	}
-	return time.Date(int(d.Year), time.Month(d.Month), int(d.Day), 0, 0, 0, 0, time.UTC), nil
+	return time.Date(int(d.Year), time.Month(d.Month), int(d.Day), 0, 0, 0, 0, time.UTC)
 }
 
 // IsValid checks if the Date has valid values according to the protobuf constraints.
@@ -48,6 +48,7 @@ func (d *Date) IsValid() bool {
 }
 
 // IsComplete returns true if the date has non-zero year, month, and day values.
+// Since only full dates are valid, this is equivalent to IsValid().
 func (d *Date) IsComplete() bool {
 	if d == nil {
 		return false
@@ -55,63 +56,28 @@ func (d *Date) IsComplete() bool {
 	return d.Year != 0 && d.Month != 0 && d.Day != 0
 }
 
-// IsYearOnly returns true if only the year is specified (month and day are 0).
-func (d *Date) IsYearOnly() bool {
-	if d == nil {
-		return false
-	}
-	return d.Year != 0 && d.Month == 0 && d.Day == 0
-}
-
-// IsYearMonth returns true if year and month are specified but day is 0.
-func (d *Date) IsYearMonth() bool {
-	if d == nil {
-		return false
-	}
-	return d.Year != 0 && d.Month != 0 && d.Day == 0
-}
-
-// IsMonthDay returns true if month and day are specified but year is 0.
-func (d *Date) IsMonthDay() bool {
-	if d == nil {
-		return false
-	}
-	return d.Year == 0 && d.Month != 0 && d.Day != 0
-}
-
-
 // validateDate validates the year, month, and day values according to Date constraints.
+// Only full dates are valid - all fields must be non-zero.
 func validateDate(year, month, day int32) error {
-	// Year validation
-	if year != 0 && (year < 1 || year > 9999) {
-		return fmt.Errorf("year must be 0 or between 1 and 9999, got %d", year)
+	// Year validation - must be non-zero
+	if year < 1 || year > 9999 {
+		return fmt.Errorf("year must be between 1 and 9999, got %d", year)
 	}
 
-	// Month validation
-	if month != 0 && (month < 1 || month > 12) {
-		return fmt.Errorf("month must be 0 or between 1 and 12, got %d", month)
+	// Month validation - must be non-zero
+	if month < 1 || month > 12 {
+		return fmt.Errorf("month must be between 1 and 12, got %d", month)
 	}
 
-	// Day validation
-	if day != 0 && (day < 1 || day > 31) {
-		return fmt.Errorf("day must be 0 or between 1 and 31, got %d", day)
+	// Day validation - must be non-zero
+	if day < 1 || day > 31 {
+		return fmt.Errorf("day must be between 1 and 31, got %d", day)
 	}
 
-	// Additional validation for complete dates
-	if year != 0 && month != 0 && day != 0 {
-		// Check if the day is valid for the given month and year
-		t := time.Date(int(year), time.Month(month), int(day), 0, 0, 0, 0, time.UTC)
-		if t.Day() != int(day) || t.Month() != time.Month(month) || t.Year() != int(year) {
-			return fmt.Errorf("invalid date: %d-%02d-%02d", year, month, day)
-		}
-	}
-
-	// Validate partial date combinations
-	if year == 0 && month != 0 && day == 0 {
-		return fmt.Errorf("month cannot be specified without year")
-	}
-	if year == 0 && month == 0 && day != 0 {
-		return fmt.Errorf("day cannot be specified without month")
+	// Check if the day is valid for the given month and year
+	t := time.Date(int(year), time.Month(month), int(day), 0, 0, 0, 0, time.UTC)
+	if t.Day() != int(day) || t.Month() != time.Month(month) || t.Year() != int(year) {
+		return fmt.Errorf("invalid date: %d-%02d-%02d", year, month, day)
 	}
 
 	return nil

@@ -6,16 +6,16 @@ import { isComplete as isDateComplete } from "./date";
  * Creates a new TimeOfDay protobuf message from hours, minutes, seconds, and nanos values.
  * Validates the input values according to the TimeOfDay message constraints.
  *
- * @param hours - Hours value (0-24)
- * @param minutes - Minutes value (0-59)
- * @param seconds - Seconds value (0-60, default 0)
+ * @param hours - Hours value (0-23, default 0)
+ * @param minutes - Minutes value (0-59, default 0)
+ * @param seconds - Seconds value (0-59, default 0)
  * @param nanos - Nanoseconds value (0-999999999, default 0)
  * @returns A TimeOfDay protobuf message
  * @throws Error if the time values are invalid
  */
 export function newTimeOfDay(
-  hours: number,
-  minutes: number,
+  hours: number = 0,
+  minutes: number = 0,
   seconds: number = 0,
   nanos: number = 0
 ): TimeOfDay {
@@ -114,20 +114,6 @@ export function timeOfDayToJsDateWithDate(
     throw new Error("Date must be complete");
   }
 
-  if (protoTime.getHours() === 24) {
-    // Handle end of day by adding a day and setting time to midnight
-    const baseDate = new Date(
-      protoDate.getYear(),
-      protoDate.getMonth() - 1,
-      protoDate.getDay(),
-      0,
-      0,
-      0,
-      0
-    );
-    return new Date(baseDate.getTime() + 24 * 60 * 60 * 1000);
-  }
-
   try {
     return new Date(
       protoDate.getYear(),
@@ -186,24 +172,6 @@ export function isMidnight(protoTime?: TimeOfDay): boolean {
 }
 
 /**
- * Returns true if the time represents 24:00:00 (end of day).
- *
- * @param protoTime - A TimeOfDay protobuf message or undefined
- * @returns True if the time is end of day, false otherwise
- */
-export function isEndOfDay(protoTime?: TimeOfDay): boolean {
-  if (!protoTime) {
-    return false;
-  }
-  return (
-    protoTime.getHours() === 24 &&
-    protoTime.getMinutes() === 0 &&
-    protoTime.getSeconds() === 0 &&
-    protoTime.getNanos() === 0
-  );
-}
-
-/**
  * Returns a string representation of the time in HH:MM:SS.nnnnnnnnn format.
  *
  * @param protoTime - A TimeOfDay protobuf message or undefined
@@ -255,12 +223,9 @@ function validateTimeOfDay(
   seconds: number,
   nanos: number
 ): void {
-  // Hours validation (0-23, or 24 for end of day scenarios)
-  if (hours < 0 || hours > 24) {
-    throw new Error(`Hours must be between 0 and 24, got ${hours}`);
-  }
-  if (hours === 24 && (minutes !== 0 || seconds !== 0 || nanos !== 0)) {
-    throw new Error("When hours is 24, minutes, seconds, and nanos must be 0");
+  // Hours validation
+  if (hours < 0 || hours > 23) {
+    throw new Error(`Hours must be between 0 and 23, got ${hours}`);
   }
 
   // Minutes validation
@@ -268,9 +233,9 @@ function validateTimeOfDay(
     throw new Error(`Minutes must be between 0 and 59, got ${minutes}`);
   }
 
-  // Seconds validation (0-59, or 60 for leap seconds if allowed)
-  if (seconds < 0 || seconds > 60) {
-    throw new Error(`Seconds must be between 0 and 60, got ${seconds}`);
+  // Seconds validation
+  if (seconds < 0 || seconds > 59) {
+    throw new Error(`Seconds must be between 0 and 59, got ${seconds}`);
   }
 
   // Nanos validation
