@@ -11,12 +11,12 @@
 // ===================================================================
 
 // Generated exports
+export * from "./disclaimer_pb";
 export * from "./entry_pb";
 export * from "./income_report_pb";
 export * from "./service_grpc_web_client_meshts";
 export * from "./service_grpc_web_pb";
 export * from "./service_pb";
-export * from "./summary_pb";
 
 // ===================================================================
 // END OF AUTO-GENERATED SECTION

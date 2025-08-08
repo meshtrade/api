@@ -54,7 +54,7 @@ type IncomeReportServiceClientInterface interface {
 }
 
 // incomeReportService is the internal implementation of the IncomeReportServiceClientInterface interface.
-// It embeds BaseGRPCClient to provide all common gRPC functionality.
+// It embeds BaseGRPCClient to provide all common gRPC functionality including validation.
 type incomeReportService struct {
 	*grpc.BaseGRPCClient[IncomeReportServiceClient]
 }
@@ -117,21 +117,22 @@ func NewIncomeReportService(opts ...config.ServiceOption) (IncomeReportServiceCl
 	if err != nil {
 		return nil, err
 	}
+
 	return &incomeReportService{BaseGRPCClient: base}, nil
 }
 
 // GetIncomeReport executes the GetIncomeReport RPC method with automatic
-// timeout handling, distributed tracing, and authentication.
+// client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *incomeReportService) GetIncomeReport(ctx context.Context, request *GetIncomeReportRequest) (*GetIncomeReportResponse, error) {
-	return grpc.Execute(s.Executor(), ctx, "GetIncomeReport", func(ctx context.Context) (*GetIncomeReportResponse, error) {
+	return grpc.Execute(s.Executor(), ctx, "GetIncomeReport", request, func(ctx context.Context) (*GetIncomeReportResponse, error) {
 		return s.GrpcClient().GetIncomeReport(ctx, request)
 	})
 }
 
 // GetExcelIncomeReport executes the GetExcelIncomeReport RPC method with automatic
-// timeout handling, distributed tracing, and authentication.
+// client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *incomeReportService) GetExcelIncomeReport(ctx context.Context, request *GetExcelIncomeReportRequest) (*GetExcelIncomeReportResponse, error) {
-	return grpc.Execute(s.Executor(), ctx, "GetExcelIncomeReport", func(ctx context.Context) (*GetExcelIncomeReportResponse, error) {
+	return grpc.Execute(s.Executor(), ctx, "GetExcelIncomeReport", request, func(ctx context.Context) (*GetExcelIncomeReportResponse, error) {
 		return s.GrpcClient().GetExcelIncomeReport(ctx, request)
 	})
 }
