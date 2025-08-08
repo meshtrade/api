@@ -9,13 +9,13 @@ from .date_pb2 import Date
 from .time_of_day_pb2 import TimeOfDay
 
 
-def new_time_of_day(hours: int, minutes: int, seconds: int = 0, nanos: int = 0) -> TimeOfDay:
+def new_time_of_day(hours: int = 0, minutes: int = 0, seconds: int = 0, nanos: int = 0) -> TimeOfDay:
     """Creates a new TimeOfDay from hours, minutes, seconds, and nanos values.
 
     Args:
-        hours: Hours value (0-24)
-        minutes: Minutes value (0-59)
-        seconds: Seconds value (0-60, default 0)
+        hours: Hours value (0-23, default 0)
+        minutes: Minutes value (0-59, default 0)
+        seconds: Seconds value (0-59, default 0)
         nanos: Nanoseconds value (0-999999999, default 0)
 
     Returns:
@@ -101,9 +101,6 @@ def time_of_day_to_python_time(time_obj: TimeOfDay) -> python_time:
     if not time_obj:
         raise ValueError("TimeOfDay object is None")
 
-    if time_obj.hours == 24:
-        raise ValueError("Cannot convert 24:00:00 to Python time object")
-
     try:
         return python_time(
             hour=time_obj.hours,
@@ -154,15 +151,10 @@ def time_of_day_to_datetime_with_date(time_obj: TimeOfDay, date_obj: Date) -> da
         raise ValueError("Date object is None")
 
     # Import here to avoid circular imports
-    from .date import is_complete
+    from .date import date_is_complete
 
-    if not is_complete(date_obj):
+    if not date_is_complete(date_obj):
         raise ValueError("Date must be complete")
-
-    if time_obj.hours == 24:
-        # Handle end of day by adding a day and setting time to midnight
-        base_datetime = datetime(year=date_obj.year, month=date_obj.month, day=date_obj.day, hour=0, minute=0, second=0, microsecond=0)
-        return base_datetime + timedelta(days=1)
 
     try:
         return datetime(
@@ -178,7 +170,7 @@ def time_of_day_to_datetime_with_date(time_obj: TimeOfDay, date_obj: Date) -> da
         raise ValueError(f"Invalid datetime values: {e}") from e
 
 
-def is_valid(time_obj: TimeOfDay | None) -> bool:
+def time_of_day_is_valid(time_obj: TimeOfDay | None) -> bool:
     """Checks if a TimeOfDay has valid values according to the protobuf constraints.
 
     Args:
@@ -197,7 +189,7 @@ def is_valid(time_obj: TimeOfDay | None) -> bool:
         return False
 
 
-def is_midnight(time_obj: TimeOfDay | None) -> bool:
+def time_of_day_is_midnight(time_obj: TimeOfDay | None) -> bool:
     """Returns True if the time represents midnight (00:00:00.000000000).
 
     Args:
@@ -211,20 +203,6 @@ def is_midnight(time_obj: TimeOfDay | None) -> bool:
     return time_obj.hours == 0 and time_obj.minutes == 0 and time_obj.seconds == 0 and time_obj.nanos == 0
 
 
-def is_end_of_day(time_obj: TimeOfDay | None) -> bool:
-    """Returns True if the time represents 24:00:00 (end of day).
-
-    Args:
-        time_obj: A TimeOfDay protobuf message or None
-
-    Returns:
-        True if the time is end of day, False otherwise
-    """
-    if not time_obj:
-        return False
-    return time_obj.hours == 24 and time_obj.minutes == 0 and time_obj.seconds == 0 and time_obj.nanos == 0
-
-
 def time_of_day_to_string(time_obj: TimeOfDay | None) -> str:
     """Returns a string representation of the time in HH:MM:SS.nnnnnnnnn format.
 
@@ -235,7 +213,7 @@ def time_of_day_to_string(time_obj: TimeOfDay | None) -> str:
         String representation of the time
     """
     if not time_obj:
-        return "<None>"
+        return "<undefined>"
 
     if time_obj.nanos == 0:
         return f"{time_obj.hours:02d}:{time_obj.minutes:02d}:{time_obj.seconds:02d}"
@@ -243,7 +221,7 @@ def time_of_day_to_string(time_obj: TimeOfDay | None) -> str:
         return f"{time_obj.hours:02d}:{time_obj.minutes:02d}:{time_obj.seconds:02d}.{time_obj.nanos:09d}"
 
 
-def total_seconds(time_obj: TimeOfDay | None) -> float:
+def time_of_day_total_seconds(time_obj: TimeOfDay | None) -> float:
     """Returns the total number of seconds since midnight as a float.
 
     Args:
@@ -270,19 +248,17 @@ def _validate_time_of_day(hours: int, minutes: int, seconds: int, nanos: int) ->
     Raises:
         ValueError: If the time values are invalid
     """
-    # Hours validation (0-23, or 24 for end of day scenarios)
-    if hours < 0 or hours > 24:
-        raise ValueError(f"Hours must be between 0 and 24, got {hours}")
-    if hours == 24 and (minutes != 0 or seconds != 0 or nanos != 0):
-        raise ValueError("When hours is 24, minutes, seconds, and nanos must be 0")
+    # Hours validation
+    if hours < 0 or hours > 23:
+        raise ValueError(f"Hours must be between 0 and 23, got {hours}")
 
     # Minutes validation
     if minutes < 0 or minutes > 59:
         raise ValueError(f"Minutes must be between 0 and 59, got {minutes}")
 
-    # Seconds validation (0-59, or 60 for leap seconds if allowed)
-    if seconds < 0 or seconds > 60:
-        raise ValueError(f"Seconds must be between 0 and 60, got {seconds}")
+    # Seconds validation
+    if seconds < 0 or seconds > 59:
+        raise ValueError(f"Seconds must be between 0 and 59, got {seconds}")
 
     # Nanos validation
     if nanos < 0 or nanos > 999999999:

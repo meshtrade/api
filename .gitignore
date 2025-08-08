@@ -114,6 +114,8 @@ docs/vendor/
 # Test results and coverage reports #
 #####################################
 coverage/
+coverage.html
+coverage.out
 *.cover
 *.profraw
 junitreports/
@@ -215,10 +217,7 @@ docs/_site
 .pytest_cache
 
 # Generated protobuf files
-**/*.pb.go
-**/*.pb.gw.go
-**/*.meshgo.go
-**/*.validate.go
+# NOTE: for GO we COMMIT generated files!
 **/*_pb2.py
 **/*_pb2.pyi
 **/*_pb2_grpc.py
