@@ -33,7 +33,7 @@ Then click the **Create API User** button on the table header.
 ![Administration API Keys Create](./administration-api-keys-create.png)
 
 2. Enter a display name for the API User and select one or more roles (for the coming example to work select *at least* the **IAM Viewer** Role).
-These roles will be to the API User **in the group** that will own it - the top level group of the client that you are logged in as.
+These roles will be assigned to the API User **in the group** that will own it - the top level group of the client that you are logged in as.
 Select **Create API user** to complete the creation.
 
 <div style={{display: 'flex', gap: '8px', flexDirection: 'row', marginTop: '15px', justifyContent: 'center'}}>
@@ -55,10 +55,10 @@ They are required to authenticate SDKs to use the Mesh API.
 ![Download API User Credentials](./download-api-users-credentials.png)
 
 :::danger
-Keep your API credentials file **secure**! Never commit this credentials file version control!
+Keep your API credentials file **secure**! Never commit this credentials file to version control!
 :::
 
-3. The new API User is inactive on creation. Select its row in the table and click on the
+3. The new API User is inactive on creation. Select its row in the table and click on the Activate button in the
 table header to activate it so that it is ready for use.
 
 ![Create API User Dialog](./activate-api-user.png)
