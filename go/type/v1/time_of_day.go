@@ -2,6 +2,7 @@ package typev1
 
 import (
 	"fmt"
+	"math"
 	"time"
 )
 
@@ -22,11 +23,29 @@ func NewTimeOfDay(hours, minutes, seconds, nanos int32) (*TimeOfDay, error) {
 // NewTimeOfDayFromTime creates a TimeOfDay from a Go time.Time.
 // Only extracts the time components, ignoring the date.
 func NewTimeOfDayFromTime(t time.Time) *TimeOfDay {
+	hours := t.Hour()
+	minutes := t.Minute()
+	seconds := t.Second()
+	nanos := t.Nanosecond()
+
+	if hours < math.MinInt32 || hours > math.MaxInt32 {
+		panic(fmt.Sprintf("hours overflow: %d cannot be converted to int32", hours))
+	}
+	if minutes < math.MinInt32 || minutes > math.MaxInt32 {
+		panic(fmt.Sprintf("minutes overflow: %d cannot be converted to int32", minutes))
+	}
+	if seconds < math.MinInt32 || seconds > math.MaxInt32 {
+		panic(fmt.Sprintf("seconds overflow: %d cannot be converted to int32", seconds))
+	}
+	if nanos < math.MinInt32 || nanos > math.MaxInt32 {
+		panic(fmt.Sprintf("nanoseconds overflow: %d cannot be converted to int32", nanos))
+	}
+
 	return &TimeOfDay{
-		Hours:   int32(t.Hour()),
-		Minutes: int32(t.Minute()),
-		Seconds: int32(t.Second()),
-		Nanos:   int32(t.Nanosecond()),
+		Hours:   int32(hours),   // #nosec G115 -- overflow checked above
+		Minutes: int32(minutes), // #nosec G115 -- overflow checked above
+		Seconds: int32(seconds), // #nosec G115 -- overflow checked above
+		Nanos:   int32(nanos),   // #nosec G115 -- overflow checked above
 	}
 }
 
@@ -49,7 +68,11 @@ func NewTimeOfDayFromDuration(d time.Duration) (*TimeOfDay, error) {
 	seconds := int32(d.Seconds())
 	d -= time.Duration(seconds) * time.Second
 
-	nanos := int32(d.Nanoseconds())
+	nanosVal := d.Nanoseconds()
+	if nanosVal < math.MinInt32 || nanosVal > math.MaxInt32 {
+		return nil, fmt.Errorf("nanoseconds overflow: %d cannot be converted to int32", nanosVal)
+	}
+	nanos := int32(nanosVal) // #nosec G115 -- overflow checked above
 
 	return &TimeOfDay{
 		Hours:   hours,
@@ -99,23 +122,6 @@ func (t *TimeOfDay) IsValid() bool {
 	return validateTimeOfDay(t.Hours, t.Minutes, t.Seconds, t.Nanos) == nil
 }
 
-// IsMidnight returns true if the time represents midnight (00:00:00.000000000).
-func (t *TimeOfDay) IsMidnight() bool {
-	if t == nil {
-		return false
-	}
-	return t.Hours == 0 && t.Minutes == 0 && t.Seconds == 0 && t.Nanos == 0
-}
-
-// IsEndOfDay returns true if the time represents 24:00:00 (which may be allowed in some APIs).
-func (t *TimeOfDay) IsEndOfDay() bool {
-	if t == nil {
-		return false
-	}
-	return t.Hours == 24 && t.Minutes == 0 && t.Seconds == 0 && t.Nanos == 0
-}
-
-
 // TotalSeconds returns the total number of seconds since midnight as a float64.
 func (t *TimeOfDay) TotalSeconds() float64 {
 	if t == nil {
@@ -126,12 +132,9 @@ func (t *TimeOfDay) TotalSeconds() float64 {
 
 // validateTimeOfDay validates the hours, minutes, seconds, and nanos values according to TimeOfDay constraints.
 func validateTimeOfDay(hours, minutes, seconds, nanos int32) error {
-	// Hours validation (0-23, or 24 for end of day scenarios)
-	if hours < 0 || hours > 24 {
-		return fmt.Errorf("hours must be between 0 and 24, got %d", hours)
-	}
-	if hours == 24 && (minutes != 0 || seconds != 0 || nanos != 0) {
-		return fmt.Errorf("when hours is 24, minutes, seconds, and nanos must be 0")
+	// Hours validation
+	if hours < 0 || hours > 23 {
+		return fmt.Errorf("hours must be between 0 and 23, got %d", hours)
 	}
 
 	// Minutes validation
@@ -139,9 +142,9 @@ func validateTimeOfDay(hours, minutes, seconds, nanos int32) error {
 		return fmt.Errorf("minutes must be between 0 and 59, got %d", minutes)
 	}
 
-	// Seconds validation (0-59, or 60 for leap seconds if allowed)
-	if seconds < 0 || seconds > 60 {
-		return fmt.Errorf("seconds must be between 0 and 60, got %d", seconds)
+	// Seconds validation
+	if seconds < 0 || seconds > 59 {
+		return fmt.Errorf("seconds must be between 0 and 59, got %d", seconds)
 	}
 
 	// Nanos validation

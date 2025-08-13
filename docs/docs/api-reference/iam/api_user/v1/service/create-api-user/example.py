@@ -19,7 +19,7 @@ def main():
             display_name="My Integration API Key",
             roles=[full_resource_name_from_group_name(Role.ROLE_IAM_ADMIN, service.group)],
         )
-        
+
         request = CreateApiUserRequest(api_user=api_user_to_create)
 
         # Call the CreateApiUser method
@@ -31,7 +31,7 @@ def main():
         print(f"Display name: {api_user.display_name}")
         print(f"State: {api_user.state}")  # Initially INACTIVE
         print(f"Owner: {api_user.owner}")
-        
+
         # Note: Store the API key securely - it's only returned once during creation
 
 

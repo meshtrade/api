@@ -25,7 +25,7 @@ def main():
         print(f"State: {api_user.state}")
         print(f"Owner: {api_user.owner}")
         print(f"Roles: {api_user.roles}")
-        
+
         # Note: API key is not returned in get operations for security reasons
 
 

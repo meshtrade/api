@@ -24,7 +24,7 @@ def main():
         print(f"Display name: {api_user.display_name}")
         print(f"State: {api_user.state}")
         print(f"Owner: {api_user.owner}")
-        
+
         # Note: This method is typically used by authentication systems
         # to validate API keys and retrieve associated user information
 

@@ -5,22 +5,42 @@ package meshtrade.type.v1;
 option go_package = "github.com/meshtrade/api/go/type/v1;typev1";
 option java_package = "co.meshtrade.api.type.v1";
 
-// Represents a time of day. The date and time zone are either not significant
-// or are specified elsewhere. An API may choose to allow leap seconds. Related
-// types are [google.type.Date][google.type.Date] and
+// Represents a time of day in 24-hour format. The date and time zone are either
+// not significant or are specified elsewhere. This type does not support leap
+// seconds and uses standard 24-hour time representation (00:00:00 to 23:59:59).
+//
+// Validation Rules:
+// * Hours: 0-23 (24-hour format, no support for 24:00:00 end-of-day representation)
+// * Minutes: 0-59
+// * Seconds: 0-59 (no leap seconds support)
+// * Nanos: 0-999,999,999 (nanosecond precision for sub-second timing)
+//
+// Examples:
+// * Midnight: hours=0, minutes=0, seconds=0, nanos=0 → "00:00:00"
+// * Noon: hours=12, minutes=0, seconds=0, nanos=0 → "12:00:00"
+// * End of day: hours=23, minutes=59, seconds=59, nanos=999999999 → "23:59:59.999999999"
+// * High precision: hours=15, minutes=30, seconds=45, nanos=123456789 → "15:30:45.123456789"
+//
+// Usage Notes:
+// * Can be combined with meshtrade.type.v1.Date to represent complete datetime
+// * Suitable for scheduling, timestamps, duration calculations
+// * Sub-second precision supports high-frequency trading and precise timing requirements
+//
+// Related types are [meshtrade.type.v1.Date][meshtrade.type.v1.Date] and
 // `google.protobuf.Timestamp`.
 message TimeOfDay {
-  // Hours of day in 24 hour format. Should be from 0 to 23. An API may choose
-  // to allow the value "24:00:00" for scenarios like business closing time.
+  // Hours of day in 24 hour format. Must be from 0 to 23. Does not support
+  // 24:00:00 end-of-day representation; use 23:59:59.999999999 instead.
   int32 hours = 1;
 
   // Minutes of hour of day. Must be from 0 to 59.
   int32 minutes = 2;
 
-  // Seconds of minutes of the time. Must normally be from 0 to 59. An API may
-  // allow the value 60 if it allows leap-seconds.
+  // Seconds of minutes of the time. Must be from 0 to 59. Leap seconds are
+  // not supported.
   int32 seconds = 3;
 
   // Fractions of seconds in nanoseconds. Must be from 0 to 999,999,999.
+  // Provides nanosecond precision for sub-second timing requirements.
   int32 nanos = 4;
 }
