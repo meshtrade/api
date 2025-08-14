@@ -13,6 +13,7 @@ on:
 permissions:
   contents: write  # Need write permission to commit version changes back  
   id-token: write  # Required for PyPI trusted publishing with OIDC
+  pull-requests: write  # Required for creating PR after successful deployment
 
 jobs:
   pypi-deploy:
