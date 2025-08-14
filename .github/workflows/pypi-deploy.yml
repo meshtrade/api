@@ -141,6 +141,8 @@ jobs:
 
       - name: Create PR with version update
         if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           VERSION="${{ steps.version.outputs.version }}"
           BRANCH_NAME="chore/pypi-version-update-$VERSION"
