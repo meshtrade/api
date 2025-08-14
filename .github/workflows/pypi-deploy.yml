@@ -1,6 +1,7 @@
-name: Deploy Python SDK to PyPI
+name: Deploy Python SDK to PyPI via Trusted Publisher
 
-# Triggers on tags like py/v1.0.0, py/v2.1.3, etc.
+# Triggers on tags like py/v1.0.0, py/v2.1.3, etc.  
+# Uses PyPI Trusted Publishing (OIDC) - no tokens required!
 on:
   push:
     tags:
@@ -10,7 +11,8 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write  # Need write permission to commit version changes back
+  contents: write  # Need write permission to commit version changes back  
+  id-token: write  # Required for PyPI trusted publishing with OIDC
 
 jobs:
   pypi-deploy:
@@ -117,14 +119,13 @@ jobs:
           echo "  ✅ Distribution packages created:"
           ls -la ./python/dist/
 
-      - name: Publish to PyPI
-        run: |
-          echo "🚀 Publishing to PyPI..."
-          source .venv/bin/activate
-          twine upload ./python/dist/* --non-interactive --verbose
-        env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+      - name: Publish to PyPI via Trusted Publisher (OIDC)
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: python/dist/
+          verbose: true
+          print-hash: true
+        # No username/password needed - uses OIDC trusted publishing automatically
 
       - name: Success notification
         run: |
@@ -132,7 +133,7 @@ jobs:
           echo ""
           echo "############################################################"
           echo "#                                                          #"
-          echo "#  🎉 Python SDK v$VERSION published to PyPI! 🐍         #"
+          echo "#  🎉 Python SDK v$VERSION published via Trusted Publisher! 🐍 #"
           echo "#                                                          #"
           echo "#  Package: meshtrade==$VERSION                           #"
           echo "#  Registry: https://pypi.org/project/meshtrade/          #"
