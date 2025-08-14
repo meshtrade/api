@@ -17,6 +17,7 @@ export * from "./contact_details_pb";
 export * from "./date_pb";
 export * from "./decimal_pb";
 export * from "./ledger_pb";
+export * from "./sorting_pb";
 export * from "./time_of_day_pb";
 export * from "./token_pb";
 
