@@ -89,15 +89,10 @@ jobs:
         run: |
           VERSION="${{ steps.version.outputs.version }}"
           echo "Setting TypeScript package version to: $VERSION"
-          # Use yarn version to update package.json (safer and cross-platform)
+          # Use yarn version - the native and safe way to update package.json
           yarn version --new-version "$VERSION" --no-git-tag-version
           echo "Updated package.json version:"
           grep '"version":' package.json
-
-      # TEMPORARILY SKIP commit-back to test npm publishing
-      # - name: Commit version changes
-      #   run: |
-      #     # Will re-enable after confirming npm publishing works
 
       - name: Build TypeScript SDK
         working-directory: ./ts
@@ -130,3 +125,59 @@ jobs:
           echo "#  Registry: https://www.npmjs.com/package/@meshtrade/api #"
           echo "#                                                          #"
           echo "############################################################"
+
+      - name: Create PR with version update
+        if: success()
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          BRANCH_NAME="chore/npm-version-update-$VERSION"
+          
+          echo "📝 Creating PR to commit version $VERSION back to repository..."
+          
+          # Configure git
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Create and checkout new branch
+          git checkout -b "$BRANCH_NAME"
+          
+          # Add only the version change
+          git add ts/package.json
+          
+          # Commit the version change
+          git commit -m "chore: update TypeScript SDK version to $VERSION
+
+After successful deployment to npm registry.
+Tag: ts/v$VERSION
+
+🤖 Generated with [Claude Code](https://claude.ai/code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>"
+          
+          # Push the branch
+          git push origin "$BRANCH_NAME"
+          
+          # Create PR using GitHub CLI
+          gh pr create \
+            --title "chore: update TypeScript SDK version to $VERSION" \
+            --body "$(cat <<EOF
+## Summary
+Updates TypeScript SDK version to $VERSION after successful npm deployment.
+
+## Details
+- Package successfully published to npm registry
+- Version updated in \`ts/package.json\`
+- Triggered by tag: \`ts/v$VERSION\`
+
+## Checklist
+- [x] Version updated to match published package
+- [x] Package successfully deployed to npm
+- [ ] Merged to main branch
+
+🤖 Generated with [Claude Code](https://claude.ai/code)
+EOF
+          )" \
+            --base master \
+            --head "$BRANCH_NAME"
+          
+          echo "✅ PR created successfully!"

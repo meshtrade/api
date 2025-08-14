@@ -91,19 +91,17 @@ jobs:
         run: |
           VERSION="${{ steps.version.outputs.version }}"
           echo "Setting Python package version to: $VERSION"
-          # Update pyproject.toml with the extracted version
-          if [[ "$OSTYPE" == "darwin"* ]]; then
-            sed -i '' "s/^version = \".*\"/version = \"$VERSION\"/" pyproject.toml
-          else
-            sed -i "s/^version = \".*\"/version = \"$VERSION\"/" pyproject.toml
-          fi
+          # Use Python to update version - more robust than sed
+          python -c "
+import re
+with open('pyproject.toml', 'r') as f:
+    content = f.read()
+content = re.sub(r'^version = \".*\"', f'version = \"$VERSION\"', content, flags=re.MULTILINE)
+with open('pyproject.toml', 'w') as f:
+    f.write(content)
+          "
           echo "Updated pyproject.toml version:"
           grep '^version = ' pyproject.toml
-
-      # TEMPORARILY SKIP commit-back to test PyPI publishing
-      # - name: Commit version changes
-      #   run: |
-      #     # Will re-enable after confirming PyPI publishing works
 
       - name: Build Python distribution packages
         run: |
@@ -140,3 +138,59 @@ jobs:
           echo "#  Registry: https://pypi.org/project/meshtrade/          #"
           echo "#                                                          #"
           echo "############################################################"
+
+      - name: Create PR with version update
+        if: success()
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          BRANCH_NAME="chore/pypi-version-update-$VERSION"
+          
+          echo "📝 Creating PR to commit version $VERSION back to repository..."
+          
+          # Configure git
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Create and checkout new branch
+          git checkout -b "$BRANCH_NAME"
+          
+          # Add only the version change
+          git add pyproject.toml
+          
+          # Commit the version change
+          git commit -m "chore: update Python SDK version to $VERSION
+
+After successful deployment to PyPI registry.
+Tag: py/v$VERSION
+
+🤖 Generated with [Claude Code](https://claude.ai/code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>"
+          
+          # Push the branch
+          git push origin "$BRANCH_NAME"
+          
+          # Create PR using GitHub CLI
+          gh pr create \
+            --title "chore: update Python SDK version to $VERSION" \
+            --body "$(cat <<EOF
+## Summary
+Updates Python SDK version to $VERSION after successful PyPI deployment.
+
+## Details
+- Package successfully published to PyPI registry
+- Version updated in \`pyproject.toml\`
+- Triggered by tag: \`py/v$VERSION\`
+
+## Checklist
+- [x] Version updated to match published package
+- [x] Package successfully deployed to PyPI
+- [ ] Merged to main branch
+
+🤖 Generated with [Claude Code](https://claude.ai/code)
+EOF
+          )" \
+            --base master \
+            --head "$BRANCH_NAME"
+          
+          echo "✅ PR created successfully!"
