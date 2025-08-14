@@ -36,19 +36,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-python-deps-
 
-      - name: Extract version from tag
-        id: version
-        run: |
-          # Extract version from py/v*.*.* tag (e.g., py/v1.2.3 -> 1.2.3)
-          if [[ "${{ github.event_name }}" == "push" ]]; then
-            VERSION=$(echo "${{ github.ref_name }}" | sed 's/^py\/v//')
-            echo "version=$VERSION" >> $GITHUB_OUTPUT
-            echo "Extracted version: $VERSION"
-          else
-            echo "Manual workflow dispatch - version must be set manually"
-            exit 1
-          fi
-
       - name: Setup Python virtual environment
         run: |
           echo "🐍 Setting up Python virtual environment..."
@@ -63,6 +50,44 @@ jobs:
           source .venv/bin/activate
           pip install -e .[dev] --quiet
 
+      - name: Install buf CLI (required for protobuf generation)
+        run: |
+          curl -sSL "https://github.com/bufbuild/buf/releases/latest/download/buf-$(uname -s)-$(uname -m)" -o "/tmp/buf"
+          sudo mv "/tmp/buf" "/usr/local/bin/buf"
+          sudo chmod +x "/usr/local/bin/buf"
+
+      - name: Generate Python code from protobuf
+        run: |
+          source .venv/bin/activate
+          ./dev/tool.sh generate --targets=python
+
+      - name: Run Python tests (early validation)
+        run: |
+          echo "🧪 Running Python tests..."
+          source .venv/bin/activate
+          export PYTHONPATH="./python/src:./python/tests"
+          pytest python/tests --quiet
+
+      - name: Run Python linting (early validation)
+        run: |
+          echo "🚀 Running Python linting and formatting..."
+          source .venv/bin/activate
+          ruff check . --fix --quiet
+          ruff format . --quiet
+
+      - name: Extract version from tag
+        id: version
+        run: |
+          # Extract version from py/v*.*.* tag (e.g., py/v1.2.3 -> 1.2.3)
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            VERSION=$(echo "${{ github.ref_name }}" | sed 's/^py\/v//')
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
+            echo "Extracted version: $VERSION"
+          else
+            echo "Manual workflow dispatch - version must be set manually"
+            exit 1
+          fi
+
       - name: Update pyproject.toml version
         run: |
           VERSION="${{ steps.version.outputs.version }}"
@@ -76,33 +101,10 @@ jobs:
           echo "Updated pyproject.toml version:"
           grep '^version = ' pyproject.toml
 
-      - name: Commit version changes
-        run: |
-          VERSION="${{ steps.version.outputs.version }}"
-          # Configure git for automated commits
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          
-          # Add and commit the version change
-          git add pyproject.toml
-          git commit -m "chore: bump Python SDK version to v$VERSION [skip ci]"
-          git push origin HEAD:master
-          
-          echo "✅ Committed version change back to repository"
-
-      - name: Run Python tests
-        run: |
-          echo "🧪 Running Python tests..."
-          source .venv/bin/activate
-          export PYTHONPATH="./python/src:./python/tests"
-          pytest python/tests --quiet
-
-      - name: Run Python linting and formatting
-        run: |
-          echo "🚀 Running Python linting and formatting..."
-          source .venv/bin/activate
-          ruff check . --fix --quiet
-          ruff format . --quiet
+      # TEMPORARILY SKIP commit-back to test PyPI publishing
+      # - name: Commit version changes
+      #   run: |
+      #     # Will re-enable after confirming PyPI publishing works
 
       - name: Build Python distribution packages
         run: |
