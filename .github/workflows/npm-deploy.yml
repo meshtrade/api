@@ -85,19 +85,10 @@ jobs:
           echo "Updated package.json version:"
           grep '"version":' package.json
 
-      - name: Commit version changes
-        run: |
-          VERSION="${{ steps.version.outputs.version }}"
-          # Configure git for automated commits
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          
-          # Add and commit the version change
-          git add ts/package.json
-          git commit -m "chore: bump TypeScript SDK version to v$VERSION [skip ci]"
-          git push origin HEAD:master
-          
-          echo "✅ Committed version change back to repository"
+      # TEMPORARILY SKIP commit-back to test npm publishing
+      # - name: Commit version changes
+      #   run: |
+      #     # Will re-enable after confirming npm publishing works
 
       - name: Build TypeScript SDK
         run: |
