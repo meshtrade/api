@@ -31,7 +31,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          registry-url: 'https://registry.npmjs.org'
+          # No registry-url specified - let OIDC trusted publishing handle authentication
 
       - name: Enable Corepack
         run: corepack enable
@@ -109,10 +109,15 @@ jobs:
 
       - name: Publish to npm via Trusted Publisher (OIDC)
         working-directory: ./ts
+        env:
+          NODE_AUTH_TOKEN: ""  # Clear any auth token to force OIDC
         run: |
           echo "🚀 Publishing to npm via Trusted Publisher..."
-          # With trusted publishing configured, no token needed - uses OIDC automatically
-          yarn publish --access public --non-interactive
+          # Clear npm config to ensure clean OIDC authentication
+          npm config delete //registry.npmjs.org/:_authToken 2>/dev/null || true
+          echo "Using npm for trusted publishing (OIDC)..."
+          # Use npm directly for better OIDC support with first-time package publishing
+          npm publish --access public
 
       - name: Success notification
         run: |
