@@ -9,6 +9,11 @@ on:
 
   # Allows manual workflow dispatch
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to publish (e.g., 1.2.3)'
+        required: true
+        type: string
 
 permissions:
   contents: write  # Need write permission to commit version changes back
@@ -44,51 +49,46 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: Install buf CLI (required for protobuf generation)
-        run: |
-          curl -sSL "https://github.com/bufbuild/buf/releases/latest/download/buf-$(uname -s)-$(uname -m)" -o "/tmp/buf"
-          sudo mv "/tmp/buf" "/usr/local/bin/buf"
-          sudo chmod +x "/usr/local/bin/buf"
+      - name: Setup buf CLI (required for protobuf generation)
+        uses: bufbuild/buf-setup-action@v1
 
       - name: Generate TypeScript code from protobuf
         run: ./dev/tool.sh generate --targets=typescript
 
       - name: Run TypeScript tests (early validation)
+        working-directory: ./ts
         run: |
           echo "🧪 Running TypeScript tests..."
-          cd ts
           yarn test
 
       - name: Run TypeScript linting (early validation)
+        working-directory: ./ts
         run: |
           echo "🚀 Linting TypeScript code..."
-          cd ts
           yarn lint
 
-      - name: Extract version from tag
+      - name: Extract version from tag or input
         id: version
         run: |
-          # Extract version from ts/v*.*.* tag (e.g., ts/v1.2.3 -> 1.2.3)
           if [[ "${{ github.event_name }}" == "push" ]]; then
+            # Extract version from ts/v*.*.* tag (e.g., ts/v1.2.3 -> 1.2.3)
             VERSION=$(echo "${{ github.ref_name }}" | sed 's/^ts\/v//')
             echo "version=$VERSION" >> $GITHUB_OUTPUT
-            echo "Extracted version: $VERSION"
+            echo "Extracted version from tag: $VERSION"
           else
-            echo "Manual workflow dispatch - version must be set manually"
-            exit 1
+            # Use version from manual workflow dispatch input
+            VERSION="${{ inputs.version }}"
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
+            echo "Using manual version input: $VERSION"
           fi
 
       - name: Update package.json version
+        working-directory: ./ts
         run: |
           VERSION="${{ steps.version.outputs.version }}"
           echo "Setting TypeScript package version to: $VERSION"
-          cd ts
-          # Update package.json with the extracted version
-          if [[ "$OSTYPE" == "darwin"* ]]; then
-            sed -i '' "s/\"version\": \".*\"/\"version\": \"$VERSION\"/" package.json
-          else
-            sed -i "s/\"version\": \".*\"/\"version\": \"$VERSION\"/" package.json
-          fi
+          # Use yarn version to update package.json (safer and cross-platform)
+          yarn version --new-version "$VERSION" --no-git-tag-version
           echo "Updated package.json version:"
           grep '"version":' package.json
 
@@ -98,21 +98,21 @@ jobs:
       #     # Will re-enable after confirming npm publishing works
 
       - name: Build TypeScript SDK
+        working-directory: ./ts
         run: |
           echo "🚀 Building TypeScript SDK..."
-          cd ts
           yarn build
 
       - name: Verify build artifacts
+        working-directory: ./ts
         run: |
           echo "✅ Verifying build artifacts..."
-          cd ts
           ls -la dist/ | head -10
 
       - name: Publish to npm via Trusted Publisher (OIDC)
+        working-directory: ./ts
         run: |
           echo "🚀 Publishing to npm via Trusted Publisher..."
-          cd ts
           # With trusted publishing configured, no token needed - uses OIDC automatically
           yarn publish --access public --non-interactive
 
