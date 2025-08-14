@@ -52,6 +52,8 @@ jobs:
 
       - name: Setup buf CLI (required for protobuf generation)
         uses: bufbuild/buf-setup-action@v1
+        with:
+          github_token: ${{ github.token }}
 
       - name: Generate Python code from protobuf
         run: |
