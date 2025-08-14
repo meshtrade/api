@@ -1,0 +1,140 @@
+name: Deploy Python SDK to PyPI
+
+# Triggers on tags like py/v1.0.0, py/v2.1.3, etc.
+on:
+  push:
+    tags:
+      - 'py/v*.*.*'
+
+  # Allows manual workflow dispatch
+  workflow_dispatch:
+
+permissions:
+  contents: write  # Need write permission to commit version changes back
+
+jobs:
+  pypi-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Cache Python dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pip
+            .venv
+          key: ${{ runner.os }}-python-deps-${{ hashFiles('pyproject.toml', 'requirements-dev.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-python-deps-
+
+      - name: Extract version from tag
+        id: version
+        run: |
+          # Extract version from py/v*.*.* tag (e.g., py/v1.2.3 -> 1.2.3)
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            VERSION=$(echo "${{ github.ref_name }}" | sed 's/^py\/v//')
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
+            echo "Extracted version: $VERSION"
+          else
+            echo "Manual workflow dispatch - version must be set manually"
+            exit 1
+          fi
+
+      - name: Setup Python virtual environment
+        run: |
+          echo "🐍 Setting up Python virtual environment..."
+          python -m venv .venv
+          source .venv/bin/activate
+          echo "VIRTUAL_ENV=$VIRTUAL_ENV" >> $GITHUB_ENV
+          echo "$VIRTUAL_ENV/bin" >> $GITHUB_PATH
+
+      - name: Install Python dependencies
+        run: |
+          echo "📦 Installing Python dependencies..."
+          source .venv/bin/activate
+          pip install -e .[dev] --quiet
+
+      - name: Update pyproject.toml version
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          echo "Setting Python package version to: $VERSION"
+          # Update pyproject.toml with the extracted version
+          if [[ "$OSTYPE" == "darwin"* ]]; then
+            sed -i '' "s/^version = \".*\"/version = \"$VERSION\"/" pyproject.toml
+          else
+            sed -i "s/^version = \".*\"/version = \"$VERSION\"/" pyproject.toml
+          fi
+          echo "Updated pyproject.toml version:"
+          grep '^version = ' pyproject.toml
+
+      - name: Commit version changes
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          # Configure git for automated commits
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Add and commit the version change
+          git add pyproject.toml
+          git commit -m "chore: bump Python SDK version to v$VERSION [skip ci]"
+          git push origin HEAD:master
+          
+          echo "✅ Committed version change back to repository"
+
+      - name: Run Python tests
+        run: |
+          echo "🧪 Running Python tests..."
+          source .venv/bin/activate
+          export PYTHONPATH="./python/src:./python/tests"
+          pytest python/tests --quiet
+
+      - name: Run Python linting and formatting
+        run: |
+          echo "🚀 Running Python linting and formatting..."
+          source .venv/bin/activate
+          ruff check . --fix --quiet
+          ruff format . --quiet
+
+      - name: Build Python distribution packages
+        run: |
+          echo "📦 Building Python distribution packages..."
+          source .venv/bin/activate
+          # Clean ALL previous builds
+          echo "  🧹 Cleaning previous builds..."
+          rm -rf ./dist ./build ./python/dist ./python/build ./python/src/*.egg-info ./src/*.egg-info *.egg-info
+          
+          # Build source distribution and wheel
+          echo "  🔨 Creating distribution packages..."
+          python -m build --outdir ./python/dist
+          
+          echo "  ✅ Distribution packages created:"
+          ls -la ./python/dist/
+
+      - name: Publish to PyPI
+        run: |
+          echo "🚀 Publishing to PyPI..."
+          source .venv/bin/activate
+          twine upload ./python/dist/* --non-interactive --verbose
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+
+      - name: Success notification
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          echo ""
+          echo "############################################################"
+          echo "#                                                          #"
+          echo "#  🎉 Python SDK v$VERSION published to PyPI! 🐍         #"
+          echo "#                                                          #"
+          echo "#  Package: meshtrade==$VERSION                           #"
+          echo "#  Registry: https://pypi.org/project/meshtrade/          #"
+          echo "#                                                          #"
+          echo "############################################################"
