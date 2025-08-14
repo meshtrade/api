@@ -50,11 +50,8 @@ jobs:
           source .venv/bin/activate
           pip install -e .[dev] --quiet
 
-      - name: Install buf CLI (required for protobuf generation)
-        run: |
-          curl -sSL "https://github.com/bufbuild/buf/releases/latest/download/buf-$(uname -s)-$(uname -m)" -o "/tmp/buf"
-          sudo mv "/tmp/buf" "/usr/local/bin/buf"
-          sudo chmod +x "/usr/local/bin/buf"
+      - name: Setup buf CLI (required for protobuf generation)
+        uses: bufbuild/buf-setup-action@v1
 
       - name: Generate Python code from protobuf
         run: |
