@@ -145,38 +145,38 @@ jobs:
           git add ts/package.json
           
           # Commit the version change
-          git commit -m "chore: update TypeScript SDK version to $VERSION
-
-After successful deployment to npm registry.
-Tag: ts/v$VERSION
-
-🤖 Generated with [Claude Code](https://claude.ai/code)
-
-Co-Authored-By: Claude <noreply@anthropic.com>"
+          COMMIT_MSG="chore: update TypeScript SDK version to $VERSION
+          
+          After successful deployment to npm registry.
+          Tag: ts/v$VERSION
+          
+          🤖 Generated with [Claude Code](https://claude.ai/code)
+          
+          Co-Authored-By: Claude <noreply@anthropic.com>"
+          git commit -m "$COMMIT_MSG"
           
           # Push the branch
           git push origin "$BRANCH_NAME"
           
           # Create PR using GitHub CLI
+          PR_BODY="## Summary
+          Updates TypeScript SDK version to $VERSION after successful npm deployment.
+          
+          ## Details
+          - Package successfully published to npm registry
+          - Version updated in \`ts/package.json\`
+          - Triggered by tag: \`ts/v$VERSION\`
+          
+          ## Checklist
+          - [x] Version updated to match published package
+          - [x] Package successfully deployed to npm
+          - [ ] Merged to main branch
+          
+          🤖 Generated with [Claude Code](https://claude.ai/code)"
+          
           gh pr create \
             --title "chore: update TypeScript SDK version to $VERSION" \
-            --body "$(cat <<EOF
-## Summary
-Updates TypeScript SDK version to $VERSION after successful npm deployment.
-
-## Details
-- Package successfully published to npm registry
-- Version updated in \`ts/package.json\`
-- Triggered by tag: \`ts/v$VERSION\`
-
-## Checklist
-- [x] Version updated to match published package
-- [x] Package successfully deployed to npm
-- [ ] Merged to main branch
-
-🤖 Generated with [Claude Code](https://claude.ai/code)
-EOF
-          )" \
+            --body "$PR_BODY" \
             --base master \
             --head "$BRANCH_NAME"
           

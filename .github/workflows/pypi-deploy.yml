@@ -92,14 +92,14 @@ jobs:
           VERSION="${{ steps.version.outputs.version }}"
           echo "Setting Python package version to: $VERSION"
           # Use Python to update version - more robust than sed
-          python -c "
-import re
-with open('pyproject.toml', 'r') as f:
-    content = f.read()
-content = re.sub(r'^version = \".*\"', f'version = \"$VERSION\"', content, flags=re.MULTILINE)
-with open('pyproject.toml', 'w') as f:
-    f.write(content)
-          "
+          python <<EOF
+          import re
+          with open('pyproject.toml', 'r') as f:
+              content = f.read()
+          content = re.sub(r'^version = ".*"', f'version = "$VERSION"', content, flags=re.MULTILINE)
+          with open('pyproject.toml', 'w') as f:
+              f.write(content)
+          EOF
           echo "Updated pyproject.toml version:"
           grep '^version = ' pyproject.toml
 
@@ -158,38 +158,38 @@ with open('pyproject.toml', 'w') as f:
           git add pyproject.toml
           
           # Commit the version change
-          git commit -m "chore: update Python SDK version to $VERSION
-
-After successful deployment to PyPI registry.
-Tag: py/v$VERSION
-
-🤖 Generated with [Claude Code](https://claude.ai/code)
-
-Co-Authored-By: Claude <noreply@anthropic.com>"
+          COMMIT_MSG="chore: update Python SDK version to $VERSION
+          
+          After successful deployment to PyPI registry.
+          Tag: py/v$VERSION
+          
+          🤖 Generated with [Claude Code](https://claude.ai/code)
+          
+          Co-Authored-By: Claude <noreply@anthropic.com>"
+          git commit -m "$COMMIT_MSG"
           
           # Push the branch
           git push origin "$BRANCH_NAME"
           
           # Create PR using GitHub CLI
+          PR_BODY="## Summary
+          Updates Python SDK version to $VERSION after successful PyPI deployment.
+          
+          ## Details
+          - Package successfully published to PyPI registry
+          - Version updated in \`pyproject.toml\`
+          - Triggered by tag: \`py/v$VERSION\`
+          
+          ## Checklist
+          - [x] Version updated to match published package
+          - [x] Package successfully deployed to PyPI
+          - [ ] Merged to main branch
+          
+          🤖 Generated with [Claude Code](https://claude.ai/code)"
+          
           gh pr create \
             --title "chore: update Python SDK version to $VERSION" \
-            --body "$(cat <<EOF
-## Summary
-Updates Python SDK version to $VERSION after successful PyPI deployment.
-
-## Details
-- Package successfully published to PyPI registry
-- Version updated in \`pyproject.toml\`
-- Triggered by tag: \`py/v$VERSION\`
-
-## Checklist
-- [x] Version updated to match published package
-- [x] Package successfully deployed to PyPI
-- [ ] Merged to main branch
-
-🤖 Generated with [Claude Code](https://claude.ai/code)
-EOF
-          )" \
+            --body "$PR_BODY" \
             --base master \
             --head "$BRANCH_NAME"
           
