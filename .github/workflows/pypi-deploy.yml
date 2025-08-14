@@ -61,6 +61,12 @@ jobs:
           source .venv/bin/activate
           ./dev/tool.sh generate --targets=python
 
+      - name: Generate buf/validate Python files
+        run: |
+          echo "🔍 Generating buf/validate Python files..."
+          source .venv/bin/activate
+          buf generate buf.build/bufbuild/protovalidate --template "${{ github.workspace }}/dev/generate/buf/buf.gen.validate.yaml"
+
       - name: Run Python tests (early validation)
         run: |
           echo "🧪 Running Python tests..."
