@@ -44,11 +44,6 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: Setup Go (required for code generation)
-        uses: actions/setup-go@v5
-        with:
-          go-version: '1.24'
-
       - name: Install buf CLI (required for protobuf generation)
         run: |
           curl -sSL "https://github.com/bufbuild/buf/releases/latest/download/buf-$(uname -s)-$(uname -m)" -o "/tmp/buf"
@@ -57,6 +52,18 @@ jobs:
 
       - name: Generate TypeScript code from protobuf
         run: ./dev/tool.sh generate --targets=typescript
+
+      - name: Run TypeScript tests (early validation)
+        run: |
+          echo "🧪 Running TypeScript tests..."
+          cd ts
+          yarn test
+
+      - name: Run TypeScript linting (early validation)
+        run: |
+          echo "🚀 Linting TypeScript code..."
+          cd ts
+          yarn lint
 
       - name: Extract version from tag
         id: version
@@ -95,18 +102,6 @@ jobs:
           echo "🚀 Building TypeScript SDK..."
           cd ts
           yarn build
-
-      - name: Run TypeScript tests
-        run: |
-          echo "🧪 Running TypeScript tests..."
-          cd ts
-          yarn test
-
-      - name: Run TypeScript linting
-        run: |
-          echo "🚀 Linting TypeScript code..."
-          cd ts
-          yarn lint
 
       - name: Verify build artifacts
         run: |
