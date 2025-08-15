@@ -125,17 +125,6 @@ message GetExcelIncomeReportRequest {
       expression: "this != null"
     }
   ];
-
-  /*
-     Token representing the currency in which the Excel report will be calculated.
-  */
-  meshtrade.type.v1.Token reporting_currency_token = 4 [
-    (buf.validate.field).cel = {
-      id: "reporting_currency_token.required",
-      message: "'reporting_currency_token' is required",
-      expression: "this != null"
-    }
-  ];
 }
 
 message GetExcelIncomeReportResponse {
