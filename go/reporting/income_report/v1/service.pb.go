@@ -33,11 +33,9 @@ type GetIncomeReportRequest struct {
 	// Start of the reporting period (inclusive).
 	From *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=from,proto3" json:"from,omitempty"`
 	// End of the reporting period (inclusive).
-	To *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=to,proto3" json:"to,omitempty"`
-	// Token representing the currency in which the report will be calculated.
-	ReportingCurrencyToken *v1.Token `protobuf:"bytes,4,opt,name=reporting_currency_token,json=reportingCurrencyToken,proto3" json:"reporting_currency_token,omitempty"`
-	unknownFields          protoimpl.UnknownFields
-	sizeCache              protoimpl.SizeCache
+	To            *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=to,proto3" json:"to,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GetIncomeReportRequest) Reset() {
@@ -87,13 +85,6 @@ func (x *GetIncomeReportRequest) GetFrom() *timestamppb.Timestamp {
 func (x *GetIncomeReportRequest) GetTo() *timestamppb.Timestamp {
 	if x != nil {
 		return x.To
-	}
-	return nil
-}
-
-func (x *GetIncomeReportRequest) GetReportingCurrencyToken() *v1.Token {
-	if x != nil {
-		return x.ReportingCurrencyToken
 	}
 	return nil
 }
@@ -264,13 +255,12 @@ var File_meshtrade_reporting_income_report_v1_service_proto protoreflect.FileDes
 
 const file_meshtrade_reporting_income_report_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"2meshtrade/reporting/income_report/v1/service.proto\x12$meshtrade.reporting.income_report.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1dmeshtrade/type/v1/token.proto\x1a8meshtrade/reporting/income_report/v1/income_report.proto\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\"\xe9\x01\n" +
+	"2meshtrade/reporting/income_report/v1/service.proto\x12$meshtrade.reporting.income_report.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1dmeshtrade/type/v1/token.proto\x1a8meshtrade/reporting/income_report/v1/income_report.proto\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\"\x95\x01\n" +
 	"\x16GetIncomeReportRequest\x12\x1f\n" +
 	"\vaccount_num\x18\x01 \x01(\tR\n" +
 	"accountNum\x12.\n" +
 	"\x04from\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x04from\x12*\n" +
-	"\x02to\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\x02to\x12R\n" +
-	"\x18reporting_currency_token\x18\x04 \x01(\v2\x18.meshtrade.type.v1.TokenR\x16reportingCurrencyToken\"r\n" +
+	"\x02to\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\x02to\"r\n" +
 	"\x17GetIncomeReportResponse\x12W\n" +
 	"\rincome_report\x18\x01 \x01(\v22.meshtrade.reporting.income_report.v1.IncomeReportR\fincomeReport\"\xb8\x04\n" +
 	"\x1bGetExcelIncomeReportRequest\x12\x84\x01\n" +
@@ -310,26 +300,25 @@ var file_meshtrade_reporting_income_report_v1_service_proto_goTypes = []any{
 	(*GetExcelIncomeReportRequest)(nil),  // 2: meshtrade.reporting.income_report.v1.GetExcelIncomeReportRequest
 	(*GetExcelIncomeReportResponse)(nil), // 3: meshtrade.reporting.income_report.v1.GetExcelIncomeReportResponse
 	(*timestamppb.Timestamp)(nil),        // 4: google.protobuf.Timestamp
-	(*v1.Token)(nil),                     // 5: meshtrade.type.v1.Token
-	(*IncomeReport)(nil),                 // 6: meshtrade.reporting.income_report.v1.IncomeReport
+	(*IncomeReport)(nil),                 // 5: meshtrade.reporting.income_report.v1.IncomeReport
+	(*v1.Token)(nil),                     // 6: meshtrade.type.v1.Token
 }
 var file_meshtrade_reporting_income_report_v1_service_proto_depIdxs = []int32{
 	4, // 0: meshtrade.reporting.income_report.v1.GetIncomeReportRequest.from:type_name -> google.protobuf.Timestamp
 	4, // 1: meshtrade.reporting.income_report.v1.GetIncomeReportRequest.to:type_name -> google.protobuf.Timestamp
-	5, // 2: meshtrade.reporting.income_report.v1.GetIncomeReportRequest.reporting_currency_token:type_name -> meshtrade.type.v1.Token
-	6, // 3: meshtrade.reporting.income_report.v1.GetIncomeReportResponse.income_report:type_name -> meshtrade.reporting.income_report.v1.IncomeReport
-	4, // 4: meshtrade.reporting.income_report.v1.GetExcelIncomeReportRequest.from:type_name -> google.protobuf.Timestamp
-	4, // 5: meshtrade.reporting.income_report.v1.GetExcelIncomeReportRequest.to:type_name -> google.protobuf.Timestamp
-	5, // 6: meshtrade.reporting.income_report.v1.GetExcelIncomeReportRequest.reporting_currency_token:type_name -> meshtrade.type.v1.Token
-	0, // 7: meshtrade.reporting.income_report.v1.IncomeReportService.GetIncomeReport:input_type -> meshtrade.reporting.income_report.v1.GetIncomeReportRequest
-	2, // 8: meshtrade.reporting.income_report.v1.IncomeReportService.GetExcelIncomeReport:input_type -> meshtrade.reporting.income_report.v1.GetExcelIncomeReportRequest
-	1, // 9: meshtrade.reporting.income_report.v1.IncomeReportService.GetIncomeReport:output_type -> meshtrade.reporting.income_report.v1.GetIncomeReportResponse
-	3, // 10: meshtrade.reporting.income_report.v1.IncomeReportService.GetExcelIncomeReport:output_type -> meshtrade.reporting.income_report.v1.GetExcelIncomeReportResponse
-	9, // [9:11] is the sub-list for method output_type
-	7, // [7:9] is the sub-list for method input_type
-	7, // [7:7] is the sub-list for extension type_name
-	7, // [7:7] is the sub-list for extension extendee
-	0, // [0:7] is the sub-list for field type_name
+	5, // 2: meshtrade.reporting.income_report.v1.GetIncomeReportResponse.income_report:type_name -> meshtrade.reporting.income_report.v1.IncomeReport
+	4, // 3: meshtrade.reporting.income_report.v1.GetExcelIncomeReportRequest.from:type_name -> google.protobuf.Timestamp
+	4, // 4: meshtrade.reporting.income_report.v1.GetExcelIncomeReportRequest.to:type_name -> google.protobuf.Timestamp
+	6, // 5: meshtrade.reporting.income_report.v1.GetExcelIncomeReportRequest.reporting_currency_token:type_name -> meshtrade.type.v1.Token
+	0, // 6: meshtrade.reporting.income_report.v1.IncomeReportService.GetIncomeReport:input_type -> meshtrade.reporting.income_report.v1.GetIncomeReportRequest
+	2, // 7: meshtrade.reporting.income_report.v1.IncomeReportService.GetExcelIncomeReport:input_type -> meshtrade.reporting.income_report.v1.GetExcelIncomeReportRequest
+	1, // 8: meshtrade.reporting.income_report.v1.IncomeReportService.GetIncomeReport:output_type -> meshtrade.reporting.income_report.v1.GetIncomeReportResponse
+	3, // 9: meshtrade.reporting.income_report.v1.IncomeReportService.GetExcelIncomeReport:output_type -> meshtrade.reporting.income_report.v1.GetExcelIncomeReportResponse
+	8, // [8:10] is the sub-list for method output_type
+	6, // [6:8] is the sub-list for method input_type
+	6, // [6:6] is the sub-list for extension type_name
+	6, // [6:6] is the sub-list for extension extendee
+	0, // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_reporting_income_report_v1_service_proto_init() }

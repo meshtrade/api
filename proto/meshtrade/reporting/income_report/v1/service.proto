@@ -79,11 +79,6 @@ message GetIncomeReportRequest {
      End of the reporting period (inclusive).
   */
   google.protobuf.Timestamp to = 3;
-
-  /*
-     Token representing the currency in which the report will be calculated.
-  */
-  meshtrade.type.v1.Token reporting_currency_token = 4;
 }
 
 message GetIncomeReportResponse {
