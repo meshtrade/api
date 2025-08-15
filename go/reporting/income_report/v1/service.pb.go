@@ -10,7 +10,6 @@ import (
 	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	_ "github.com/meshtrade/api/go/iam/role/v1"
 	_ "github.com/meshtrade/api/go/option/v1"
-	_ "github.com/meshtrade/api/go/type/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -246,7 +245,7 @@ var File_meshtrade_reporting_income_report_v1_service_proto protoreflect.FileDes
 
 const file_meshtrade_reporting_income_report_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"2meshtrade/reporting/income_report/v1/service.proto\x12$meshtrade.reporting.income_report.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1dmeshtrade/type/v1/token.proto\x1a8meshtrade/reporting/income_report/v1/income_report.proto\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\"\x95\x01\n" +
+	"2meshtrade/reporting/income_report/v1/service.proto\x12$meshtrade.reporting.income_report.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a8meshtrade/reporting/income_report/v1/income_report.proto\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\"\x95\x01\n" +
 	"\x16GetIncomeReportRequest\x12\x1f\n" +
 	"\vaccount_num\x18\x01 \x01(\tR\n" +
 	"accountNum\x12.\n" +
