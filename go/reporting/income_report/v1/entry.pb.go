@@ -23,6 +23,61 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type Narrative int32
+
+const (
+	// Default unspecified narrative type.
+	// Used when the narrative category is unknown or not applicable.
+	Narrative_NARRATIVE_UNSPECIFIED Narrative = 0
+	// Indicates income derived from yield-generating activities,
+	// such as staking, lending, or liquidity provision.
+	Narrative_NARRATIVE_YIELD Narrative = 1
+	// Indicates income received from bond coupons or
+	// similar fixed-income instruments.
+	Narrative_NARRATIVE_COUPONS Narrative = 2
+)
+
+// Enum value maps for Narrative.
+var (
+	Narrative_name = map[int32]string{
+		0: "NARRATIVE_UNSPECIFIED",
+		1: "NARRATIVE_YIELD",
+		2: "NARRATIVE_COUPONS",
+	}
+	Narrative_value = map[string]int32{
+		"NARRATIVE_UNSPECIFIED": 0,
+		"NARRATIVE_YIELD":       1,
+		"NARRATIVE_COUPONS":     2,
+	}
+)
+
+func (x Narrative) Enum() *Narrative {
+	p := new(Narrative)
+	*p = x
+	return p
+}
+
+func (x Narrative) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Narrative) Descriptor() protoreflect.EnumDescriptor {
+	return file_meshtrade_reporting_income_report_v1_entry_proto_enumTypes[0].Descriptor()
+}
+
+func (Narrative) Type() protoreflect.EnumType {
+	return &file_meshtrade_reporting_income_report_v1_entry_proto_enumTypes[0]
+}
+
+func (x Narrative) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Narrative.Descriptor instead.
+func (Narrative) EnumDescriptor() ([]byte, []int) {
+	return file_meshtrade_reporting_income_report_v1_entry_proto_rawDescGZIP(), []int{0}
+}
+
 // Entry represents a single income line item in a financial income report.
 //
 // Each entry captures a dated transaction or earning event related to a specific asset
@@ -42,7 +97,7 @@ type Entry struct {
 	Description string `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
 	// Extended narrative or context for the income entry, often including
 	// source details or explanatory information.
-	Narrative string `protobuf:"bytes,5,opt,name=narrative,proto3" json:"narrative,omitempty"`
+	Narrative Narrative `protobuf:"varint,5,opt,name=narrative,proto3,enum=meshtrade.reporting.income_report.v1.Narrative" json:"narrative,omitempty"`
 	// Original income amount in the native token specified.
 	Amount *v1.Amount `protobuf:"bytes,6,opt,name=amount,proto3" json:"amount,omitempty"`
 	// Equivalent value of the income in the reporting currency,
@@ -110,11 +165,11 @@ func (x *Entry) GetDescription() string {
 	return ""
 }
 
-func (x *Entry) GetNarrative() string {
+func (x *Entry) GetNarrative() Narrative {
 	if x != nil {
 		return x.Narrative
 	}
-	return ""
+	return Narrative_NARRATIVE_UNSPECIFIED
 }
 
 func (x *Entry) GetAmount() *v1.Amount {
@@ -135,16 +190,20 @@ var File_meshtrade_reporting_income_report_v1_entry_proto protoreflect.FileDescr
 
 const file_meshtrade_reporting_income_report_v1_entry_proto_rawDesc = "" +
 	"\n" +
-	"0meshtrade/reporting/income_report/v1/entry.proto\x12$meshtrade.reporting.income_report.v1\x1a\x1dmeshtrade/type/v1/token.proto\x1a\x1emeshtrade/type/v1/amount.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xcc\x02\n" +
+	"0meshtrade/reporting/income_report/v1/entry.proto\x12$meshtrade.reporting.income_report.v1\x1a\x1dmeshtrade/type/v1/token.proto\x1a\x1emeshtrade/type/v1/amount.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xfd\x02\n" +
 	"\x05Entry\x12\x1d\n" +
 	"\n" +
 	"asset_name\x18\x01 \x01(\tR\tassetName\x12.\n" +
 	"\x05token\x18\x02 \x01(\v2\x18.meshtrade.type.v1.TokenR\x05token\x12.\n" +
 	"\x04date\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\x04date\x12 \n" +
-	"\vdescription\x18\x04 \x01(\tR\vdescription\x12\x1c\n" +
-	"\tnarrative\x18\x05 \x01(\tR\tnarrative\x121\n" +
+	"\vdescription\x18\x04 \x01(\tR\vdescription\x12M\n" +
+	"\tnarrative\x18\x05 \x01(\x0e2/.meshtrade.reporting.income_report.v1.NarrativeR\tnarrative\x121\n" +
 	"\x06amount\x18\x06 \x01(\v2\x19.meshtrade.type.v1.AmountR\x06amount\x12Q\n" +
-	"\x17reported_currency_value\x18\a \x01(\v2\x19.meshtrade.type.v1.AmountR\x15reportedCurrencyValueBHZFgithub.com/meshtrade/api/go/reporting/income_report/v1;income_reportv1b\x06proto3"
+	"\x17reported_currency_value\x18\a \x01(\v2\x19.meshtrade.type.v1.AmountR\x15reportedCurrencyValue*R\n" +
+	"\tNarrative\x12\x19\n" +
+	"\x15NARRATIVE_UNSPECIFIED\x10\x00\x12\x13\n" +
+	"\x0fNARRATIVE_YIELD\x10\x01\x12\x15\n" +
+	"\x11NARRATIVE_COUPONS\x10\x02BHZFgithub.com/meshtrade/api/go/reporting/income_report/v1;income_reportv1b\x06proto3"
 
 var (
 	file_meshtrade_reporting_income_report_v1_entry_proto_rawDescOnce sync.Once
@@ -158,23 +217,26 @@ func file_meshtrade_reporting_income_report_v1_entry_proto_rawDescGZIP() []byte 
 	return file_meshtrade_reporting_income_report_v1_entry_proto_rawDescData
 }
 
+var file_meshtrade_reporting_income_report_v1_entry_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_meshtrade_reporting_income_report_v1_entry_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_meshtrade_reporting_income_report_v1_entry_proto_goTypes = []any{
-	(*Entry)(nil),                 // 0: meshtrade.reporting.income_report.v1.Entry
-	(*v1.Token)(nil),              // 1: meshtrade.type.v1.Token
-	(*timestamppb.Timestamp)(nil), // 2: google.protobuf.Timestamp
-	(*v1.Amount)(nil),             // 3: meshtrade.type.v1.Amount
+	(Narrative)(0),                // 0: meshtrade.reporting.income_report.v1.Narrative
+	(*Entry)(nil),                 // 1: meshtrade.reporting.income_report.v1.Entry
+	(*v1.Token)(nil),              // 2: meshtrade.type.v1.Token
+	(*timestamppb.Timestamp)(nil), // 3: google.protobuf.Timestamp
+	(*v1.Amount)(nil),             // 4: meshtrade.type.v1.Amount
 }
 var file_meshtrade_reporting_income_report_v1_entry_proto_depIdxs = []int32{
-	1, // 0: meshtrade.reporting.income_report.v1.Entry.token:type_name -> meshtrade.type.v1.Token
-	2, // 1: meshtrade.reporting.income_report.v1.Entry.date:type_name -> google.protobuf.Timestamp
-	3, // 2: meshtrade.reporting.income_report.v1.Entry.amount:type_name -> meshtrade.type.v1.Amount
-	3, // 3: meshtrade.reporting.income_report.v1.Entry.reported_currency_value:type_name -> meshtrade.type.v1.Amount
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	2, // 0: meshtrade.reporting.income_report.v1.Entry.token:type_name -> meshtrade.type.v1.Token
+	3, // 1: meshtrade.reporting.income_report.v1.Entry.date:type_name -> google.protobuf.Timestamp
+	0, // 2: meshtrade.reporting.income_report.v1.Entry.narrative:type_name -> meshtrade.reporting.income_report.v1.Narrative
+	4, // 3: meshtrade.reporting.income_report.v1.Entry.amount:type_name -> meshtrade.type.v1.Amount
+	4, // 4: meshtrade.reporting.income_report.v1.Entry.reported_currency_value:type_name -> meshtrade.type.v1.Amount
+	5, // [5:5] is the sub-list for method output_type
+	5, // [5:5] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_reporting_income_report_v1_entry_proto_init() }
@@ -187,13 +249,14 @@ func file_meshtrade_reporting_income_report_v1_entry_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_meshtrade_reporting_income_report_v1_entry_proto_rawDesc), len(file_meshtrade_reporting_income_report_v1_entry_proto_rawDesc)),
-			NumEnums:      0,
+			NumEnums:      1,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           file_meshtrade_reporting_income_report_v1_entry_proto_goTypes,
 		DependencyIndexes: file_meshtrade_reporting_income_report_v1_entry_proto_depIdxs,
+		EnumInfos:         file_meshtrade_reporting_income_report_v1_entry_proto_enumTypes,
 		MessageInfos:      file_meshtrade_reporting_income_report_v1_entry_proto_msgTypes,
 	}.Build()
 	File_meshtrade_reporting_income_report_v1_entry_proto = out.File
