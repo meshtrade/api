@@ -42,7 +42,7 @@ message Entry {
      Extended narrative or context for the income entry, often including
      source details or explanatory information.
   */
-  string narrative = 5;
+  meshtrade.reporting.income_report.v1.Narrative narrative = 5;
 
   /*
      Original income amount in the native token specified.
@@ -54,4 +54,24 @@ message Entry {
      as defined by the report context.
   */
   meshtrade.type.v1.Amount reported_currency_value = 7;
+}
+
+enum Narrative {
+  /*
+     Default unspecified narrative type.
+     Used when the narrative category is unknown or not applicable.
+  */
+  NARRATIVE_UNSPECIFIED = 0;
+
+  /*
+     Indicates income derived from yield-generating activities,
+     such as staking, lending, or liquidity provision.
+  */
+  NARRATIVE_YIELD = 1;
+
+  /*
+     Indicates income received from bond coupons or 
+     similar fixed-income instruments.
+  */
+  NARRATIVE_COUPONS = 2;
 }
