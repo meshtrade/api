@@ -70,8 +70,8 @@ enum Narrative {
   NARRATIVE_YIELD = 1;
 
   /*
-     Indicates income received from bond coupons or 
+     Indicates income received from bond coupon or
      similar fixed-income instruments.
   */
-  NARRATIVE_COUPONS = 2;
+  NARRATIVE_COUPON = 2;
 }

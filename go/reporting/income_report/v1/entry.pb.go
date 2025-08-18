@@ -32,9 +32,9 @@ const (
 	// Indicates income derived from yield-generating activities,
 	// such as staking, lending, or liquidity provision.
 	Narrative_NARRATIVE_YIELD Narrative = 1
-	// Indicates income received from bond coupons or
+	// Indicates income received from bond coupon or
 	// similar fixed-income instruments.
-	Narrative_NARRATIVE_COUPONS Narrative = 2
+	Narrative_NARRATIVE_COUPON Narrative = 2
 )
 
 // Enum value maps for Narrative.
@@ -42,12 +42,12 @@ var (
 	Narrative_name = map[int32]string{
 		0: "NARRATIVE_UNSPECIFIED",
 		1: "NARRATIVE_YIELD",
-		2: "NARRATIVE_COUPONS",
+		2: "NARRATIVE_COUPON",
 	}
 	Narrative_value = map[string]int32{
 		"NARRATIVE_UNSPECIFIED": 0,
 		"NARRATIVE_YIELD":       1,
-		"NARRATIVE_COUPONS":     2,
+		"NARRATIVE_COUPON":      2,
 	}
 )
 
@@ -199,11 +199,11 @@ const file_meshtrade_reporting_income_report_v1_entry_proto_rawDesc = "" +
 	"\vdescription\x18\x04 \x01(\tR\vdescription\x12M\n" +
 	"\tnarrative\x18\x05 \x01(\x0e2/.meshtrade.reporting.income_report.v1.NarrativeR\tnarrative\x121\n" +
 	"\x06amount\x18\x06 \x01(\v2\x19.meshtrade.type.v1.AmountR\x06amount\x12Q\n" +
-	"\x17reported_currency_value\x18\a \x01(\v2\x19.meshtrade.type.v1.AmountR\x15reportedCurrencyValue*R\n" +
+	"\x17reported_currency_value\x18\a \x01(\v2\x19.meshtrade.type.v1.AmountR\x15reportedCurrencyValue*Q\n" +
 	"\tNarrative\x12\x19\n" +
 	"\x15NARRATIVE_UNSPECIFIED\x10\x00\x12\x13\n" +
-	"\x0fNARRATIVE_YIELD\x10\x01\x12\x15\n" +
-	"\x11NARRATIVE_COUPONS\x10\x02BHZFgithub.com/meshtrade/api/go/reporting/income_report/v1;income_reportv1b\x06proto3"
+	"\x0fNARRATIVE_YIELD\x10\x01\x12\x14\n" +
+	"\x10NARRATIVE_COUPON\x10\x02BHZFgithub.com/meshtrade/api/go/reporting/income_report/v1;income_reportv1b\x06proto3"
 
 var (
 	file_meshtrade_reporting_income_report_v1_entry_proto_rawDescOnce sync.Once
