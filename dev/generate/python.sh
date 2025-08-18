@@ -99,6 +99,9 @@ echo "🧹 Cleaning Python generated files..."
 echo "🐍 Generating Python code from protobuf definitions..."
 buf generate --template "$SCRIPT_DIR/buf/buf.gen.python.yaml"
 
+echo "🔍 Generating buf/validate Python files..."
+buf generate buf.build/bufbuild/protovalidate --template "$SCRIPT_DIR/buf/buf.gen.validate.python.yaml"
+
 echo "🎨 Formatting Python code with ruff..."
 ruff check . --fix --quiet || true
 ruff format . --quiet || true

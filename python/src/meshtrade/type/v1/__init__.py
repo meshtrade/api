@@ -20,6 +20,7 @@ from .ledger_pb2 import Ledger
 from .token_pb2 import Token
 from .amount_pb2 import Amount
 from .date_pb2 import Date
+from .sorting_pb2 import SortingOrder
 from .time_of_day_pb2 import TimeOfDay
 
 # ===================================================================
@@ -88,6 +89,7 @@ __all__ = [
     "Date",
     "Decimal",
     "Ledger",
+    "SortingOrder",
     "TimeOfDay",
     "Token",
     # Manual exports

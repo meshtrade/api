@@ -73,7 +73,7 @@ docs-new/
 ### TODO
 
 #### Introduction
-- add to introduction quickstart how to get the credentials from the mesh web app
-- make a better first api request example. immediately making an api key is a bit much. Maybe retrieving this api key!? This example is outdated anyway.
-- next steps links are broken, actually all links at the end of this page are broken # agent to fix
+- Add to introduction quickstart how to get the credentials from the mesh web app
+- Make a better first API request example. Immediately making an API key is a bit much. Maybe retrieving this API key!? This example is outdated anyway.
+- Next steps links are broken, actually all links at the end of this page are broken # agent to fix
 - 

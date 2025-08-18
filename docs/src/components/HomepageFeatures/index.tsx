@@ -32,7 +32,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: 'Financial Trading Platform',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    imageSrc: require('@site/static/img/cube.png').default,
     description: (
       <>
         IAM, trading, compliance, and wallet services for regulated financial operations.

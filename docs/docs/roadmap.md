@@ -27,7 +27,6 @@ HTTP/JSON endpoints for web-friendly integration with auto-generated OpenAPI spe
 - **IP Whitelisting** - Network-level access controls
 
 ### Additional Language Support
-- **Java SDK** - Native Java/Kotlin integration
 - **Rust SDK** - High-performance Rust client library
 
 ---

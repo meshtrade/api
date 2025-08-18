@@ -9,7 +9,7 @@
   gap: 2rem;
   align-items: start;
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 40px auto;
 }
 
 .featureItem {
@@ -30,7 +30,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 200px;
+  height: 230px;
   margin-bottom: 0;
 }
 
@@ -67,4 +67,5 @@
   height: auto;
   width: auto;
   object-fit: contain;
+  margin-bottom: 20px;
 }

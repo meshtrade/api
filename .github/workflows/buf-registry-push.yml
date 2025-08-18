@@ -1,0 +1,35 @@
+name: Push Protobuf to Buf Registry
+
+# Triggers on tags like proto/v1.0.0, proto/v2.1.3, etc.
+on:
+  push:
+    tags:
+      - 'proto/v*.*.*'
+  
+  # Allows manual workflow dispatch
+  workflow_dispatch:
+
+permissions:
+  contents: read
+jobs:
+  buf-push-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: bufbuild/buf-action@v1
+        with:
+          token: ${{ secrets.BUF_TOKEN }}
+      # Extract version from tag (e.g., proto/v1.0.0 -> v1.0.0)
+      - name: Push to Buf Registry
+        run: |
+          # For push events, use github.ref_name which contains the tag
+          # For workflow_dispatch, allow pushing without a label
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            # Extract version from proto/v*.*.* tag
+            VERSION=$(echo "${{ github.ref_name }}" | sed 's/^proto\///')
+            echo "Pushing to Buf registry with label: $VERSION"
+            buf push --label "$VERSION"
+          else
+            echo "Manual workflow dispatch - pushing without label"
+            buf push
+          fi

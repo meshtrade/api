@@ -1,0 +1,199 @@
+name: Deploy Python SDK to PyPI via Trusted Publisher
+
+# Triggers on tags like py/v1.0.0, py/v2.1.3, etc.  
+# Uses PyPI Trusted Publishing (OIDC) - no tokens required!
+on:
+  push:
+    tags:
+      - 'py/v*.*.*'
+
+  # Allows manual workflow dispatch
+  workflow_dispatch:
+
+permissions:
+  contents: write  # Need write permission to commit version changes back  
+  id-token: write  # Required for PyPI trusted publishing with OIDC
+  pull-requests: write  # Required for creating PR after successful deployment
+
+jobs:
+  pypi-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Cache Python dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pip
+            .venv
+          key: ${{ runner.os }}-python-deps-${{ hashFiles('pyproject.toml', 'requirements-dev.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-python-deps-
+
+      - name: Setup Python virtual environment
+        run: |
+          echo "🐍 Setting up Python virtual environment..."
+          python -m venv .venv
+          source .venv/bin/activate
+          echo "VIRTUAL_ENV=$VIRTUAL_ENV" >> $GITHUB_ENV
+          echo "$VIRTUAL_ENV/bin" >> $GITHUB_PATH
+
+      - name: Install Python dependencies
+        run: |
+          echo "📦 Installing Python dependencies..."
+          source .venv/bin/activate
+          pip install -e .[dev] --quiet
+
+      - name: Setup buf CLI (required for protobuf generation)
+        uses: bufbuild/buf-setup-action@v1
+        with:
+          github_token: ${{ github.token }}
+
+      - name: Generate Python code from protobuf
+        run: |
+          source .venv/bin/activate
+          ./dev/tool.sh generate --targets=python
+
+      - name: Run Python tests (early validation)
+        run: |
+          echo "🧪 Running Python tests..."
+          source .venv/bin/activate
+          export PYTHONPATH="./python/src:./python/tests"
+          pytest python/tests --quiet
+
+      - name: Run Python linting (early validation)
+        run: |
+          echo "🚀 Running Python linting and formatting..."
+          source .venv/bin/activate
+          ruff check . --fix --quiet
+          ruff format . --quiet
+
+      - name: Extract version from tag
+        id: version
+        run: |
+          # Extract version from py/v*.*.* tag (e.g., py/v1.2.3 -> 1.2.3)
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            VERSION=$(echo "${{ github.ref_name }}" | sed 's/^py\/v//')
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
+            echo "Extracted version: $VERSION"
+          else
+            echo "Manual workflow dispatch - version must be set manually"
+            exit 1
+          fi
+
+      - name: Update pyproject.toml version
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          echo "Setting Python package version to: $VERSION"
+          # Use Python to update version - more robust than sed
+          python <<EOF
+          import re
+          with open('pyproject.toml', 'r') as f:
+              content = f.read()
+          content = re.sub(r'^version = ".*"', f'version = "$VERSION"', content, flags=re.MULTILINE)
+          with open('pyproject.toml', 'w') as f:
+              f.write(content)
+          EOF
+          echo "Updated pyproject.toml version:"
+          grep '^version = ' pyproject.toml
+
+      - name: Build Python distribution packages
+        run: |
+          echo "📦 Building Python distribution packages..."
+          source .venv/bin/activate
+          # Clean ALL previous builds
+          echo "  🧹 Cleaning previous builds..."
+          rm -rf ./dist ./build ./python/dist ./python/build ./python/src/*.egg-info ./src/*.egg-info *.egg-info
+          
+          # Build source distribution and wheel
+          echo "  🔨 Creating distribution packages..."
+          python -m build --outdir ./python/dist
+          
+          echo "  ✅ Distribution packages created:"
+          ls -la ./python/dist/
+
+      - name: Publish to PyPI via Trusted Publisher (OIDC)
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: python/dist/
+          verbose: true
+          print-hash: true
+        # No username/password needed - uses OIDC trusted publishing automatically
+
+      - name: Success notification
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          echo ""
+          echo "############################################################"
+          echo "#                                                          #"
+          echo "#  🎉 Python SDK v$VERSION published via Trusted Publisher! 🐍 #"
+          echo "#                                                          #"
+          echo "#  Package: meshtrade==$VERSION                           #"
+          echo "#  Registry: https://pypi.org/project/meshtrade/          #"
+          echo "#                                                          #"
+          echo "############################################################"
+
+      - name: Create PR with version update
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          BRANCH_NAME="chore/pypi-version-update-$VERSION"
+          
+          echo "📝 Creating PR to commit version $VERSION back to repository..."
+          
+          # Configure git
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Create and checkout new branch
+          git checkout -b "$BRANCH_NAME"
+          
+          # Add only the version change
+          git add pyproject.toml
+          
+          # Commit the version change
+          COMMIT_MSG="chore: update Python SDK version to $VERSION
+          
+          After successful deployment to PyPI registry.
+          Tag: py/v$VERSION
+          
+          🤖 Generated with [Claude Code](https://claude.ai/code)
+          
+          Co-Authored-By: Claude <noreply@anthropic.com>"
+          git commit -m "$COMMIT_MSG"
+          
+          # Push the branch
+          git push origin "$BRANCH_NAME"
+          
+          # Create PR using GitHub CLI
+          PR_BODY="## Summary
+          Updates Python SDK version to $VERSION after successful PyPI deployment.
+          
+          ## Details
+          - Package successfully published to PyPI registry
+          - Version updated in \`pyproject.toml\`
+          - Triggered by tag: \`py/v$VERSION\`
+          
+          ## Checklist
+          - [x] Version updated to match published package
+          - [x] Package successfully deployed to PyPI
+          - [ ] Merged to main branch
+          
+          🤖 Generated with [Claude Code](https://claude.ai/code)"
+          
+          gh pr create \
+            --title "chore: update Python SDK version to $VERSION" \
+            --body "$PR_BODY" \
+            --base master \
+            --head "$BRANCH_NAME"
+          
+          echo "✅ PR created successfully!"
