@@ -1,15 +1,8 @@
-# Generate only buf/validate TypeScript files
+# Generate only buf/validate Python files  
 # This is a separate template to avoid conflicts with the main generation
 version: v2
 
 plugins:
-### TS only - buf/validate ###
-  - remote: buf.build/protocolbuffers/js:v3.21.4
-    out: ./ts/src
-    opt:
-      - import_style=commonjs,binary
-
-### Python ###
   - remote: buf.build/protocolbuffers/python:v31.1
     out: ./python/src
   - remote: buf.build/protocolbuffers/pyi:v31.1

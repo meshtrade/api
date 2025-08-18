@@ -5,28 +5,42 @@
  */
 
 /* You can override the default Infima variables here. */
+
 :root {
-  --ifm-color-primary: #2E2B50;
-  --ifm-color-primary-dark: #242240;
-  --ifm-color-primary-darker: #1A192F;
-  --ifm-color-primary-darkest: #10101F;
-  --ifm-color-primary-light: #e95e86;
-  --ifm-color-primary-lighter: #359962;
-  --ifm-color-primary-lightest: #3cad6e;
+  --ifm-font-color-primary: #0c0c0c;
+
+  --ifm-color-primary: #43398d;          
+  --ifm-color-primary-dark: #3a317d;      
+  --ifm-color-primary-darker: #30286a;    
+  --ifm-color-primary-darkest: #241f52;  
+  --ifm-color-primary-light: #5a4fb3;    
+  --ifm-color-primary-lighter: #776dd1;   
+  --ifm-color-primary-lightest: #9286e3; 
+  
   --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --docusaurus-highlighted-code-line-bg: rgba(67, 57, 141, 0.1); 
+  
+  --ifm-color-nav: #fff;
+  --ifm-background-color: #fff;
+  --ifm-navbar-background-color: #fff;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: #21af90;
-  --ifm-color-primary-darker: #1fa588;
-  --ifm-color-primary-darkest: #1a8870;
-  --ifm-color-primary-light: #29d5b0;
-  --ifm-color-primary-lighter: #32d8b4;
-  --ifm-color-primary-lightest: #4fddbf;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  --ifm-font-color-primary: #ffffff;
+
+  --ifm-color-primary: #d2cbff;
+  --ifm-color-primary-dark: #8878f2;
+  --ifm-color-primary-darker: #7465e0;
+  --ifm-color-primary-darkest: #5e50c1;
+  --ifm-color-primary-light: #ae9eff;
+  --ifm-color-primary-lighter: #c2b3ff;
+  --ifm-color-primary-lightest: #d7caff;
+  --docusaurus-highlighted-code-line-bg: rgba(255, 0, 0, 0.05); 
+
+  --ifm-color-nav: #231F40;
+  --ifm-background-color: #121027 !important;
+  --ifm-navbar-background-color: #231F40 !important;
 }
 
 /* Custom styles for API documentation */
@@ -46,7 +60,7 @@
 }
 
 .api-method--post {
-  background-color: #49cc90;
+  background-color: #38B0B0;
   color: white;
 }
 
@@ -96,52 +110,51 @@
   font-weight: 600;
 }
 
-/* Custom scrollbar styling - Mac-like appearance */
+/* WebKit Scrollbar — Mac OS-like Solid Colors */
 ::-webkit-scrollbar {
-  width: 12px;
-  height: 12px;
+  width: 13px;
+  height: 13px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: #FBFBFB;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 6px;
+  background-color: #C2C2C2;
+  border-radius: 10px;
   border: 2px solid transparent;
   background-clip: content-box;
-  min-height: 20px;
+  transition: background-color 0.2s ease-in-out;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.35);
-  background-clip: content-box;
+  background-color: #A0A0A0;
+}
+
+[data-theme='dark'] ::-webkit-scrollbar-track {
+  background: #2D2D2D; 
+}
+
+[data-theme='dark'] ::-webkit-scrollbar-thumb {
+  background-color: #6B6B6B;
+}
+
+[data-theme='dark'] ::-webkit-scrollbar-thumb:hover {
+  background-color: #888888;
 }
 
 ::-webkit-scrollbar-corner {
   background: transparent;
 }
 
-[data-theme='dark'] ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  background-clip: content-box;
+/* html[data-theme='light'] * {
+  scrollbar-color: #C2C2C2 #FBFBFB;
 }
 
-[data-theme='dark'] ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.35);
-  background-clip: content-box;
-}
-
-/* Firefox scrollbar */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
-}
-
-[data-theme='dark'] * {
-  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
-}
+html[data-theme='dark'] * {
+  scrollbar-color: #6B6B6B #2D2D2D;
+} */
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
@@ -151,11 +164,39 @@
   }
 }
 
-
 /* For mobile layout adjustments */
 @media screen and (max-width: 966px) {
   /* This will now correctly target and override the global Docusaurus theme style */
   .hero--primary .hero__title {
     font-size: 2.5rem !important; /* Start with !important to be sure */
   }
+}
+
+/* ------  Nav and Footer  ------ */
+
+@media (min-width: 997px) {
+  .navbar {
+    background-color: color-mix(in srgb, var(--ifm-color-nav) 90%, transparent);
+    backdrop-filter: blur(6px);
+  }
+}
+
+footer.footer {
+  background-color: var(--ifm-background-color);
+  color: var(--ifm-font-color-primary);
+  border-top: var(--ifm-toc-border-color) 1px solid;
+}
+
+footer.footer a {
+  color: var(--ifm-font-color-primary);
+  text-decoration: none;
+}
+
+footer.footer a:hover {
+  color: var(--ifm-font-color-primary);
+  text-decoration: underline;
+}
+
+.footer__title{
+  color: var(--ifm-font-color-primary);
 }

@@ -3,7 +3,7 @@ import type { Config } from '@docusaurus/types';
 
 const config: Config = {
   title: 'Mesh API Documentation',
-  tagline: 'Comprehensive API documentation for Mesh trading platform',
+  tagline: 'Comprehensive API documentation for the Mesh Platform',
   favicon: 'img/favicon.svg',
 
   url: 'https://meshtrade.github.io',
@@ -64,7 +64,7 @@ const config: Config = {
         title: 'Mesh API',
         logo: {
           alt: 'Mesh Logo',
-          src: 'img/favicon.svg',
+          src: 'img/mesh-logo.svg',
         },
         items: [
           {
@@ -109,7 +109,7 @@ const config: Config = {
                 to: '/docs/architecture/group-ownership',
               },
               {
-                label: 'Role-based Access',
+                label: 'Role-Based Access',
                 to: '/docs/architecture/role-based-access',
               },
               {

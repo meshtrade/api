@@ -31,9 +31,9 @@ func (t *Token) NewAmountOf(value decimal.Decimal) *Amount {
 }
 
 func (t *Token) IsEqualTo(t2 *Token) bool {
-	return t.Code == t2.Code &&
-		t.Issuer == t2.Issuer &&
-		t.Ledger == t2.Ledger
+	return t.GetCode() == t2.GetCode() &&
+		t.GetIssuer() == t2.GetIssuer() &&
+		t.GetLedger() == t2.GetLedger()
 }
 
 func (t *Token) IsUndefined() bool {
