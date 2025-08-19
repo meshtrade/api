@@ -8,7 +8,6 @@ import "meshtrade/iam/role/v1/role.proto";
 import "meshtrade/option/v1/method_type.proto";
 
 option go_package = "github.com/meshtrade/api/go/reporting/income_report/v1;income_reportv1";
-
 /*
    IncomeReportService manages income report generation and export.
 
@@ -80,6 +79,7 @@ message GetIncomeReportRequest {
   google.protobuf.Timestamp to = 3;
 }
 
+// TODO return the resource here, check the docs at service-structure.mdx
 message GetIncomeReportResponse {
   /*
      Structured income report with detailed earnings information.
