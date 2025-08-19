@@ -88,6 +88,7 @@ func (x *GetIncomeReportRequest) GetTo() *timestamppb.Timestamp {
 	return nil
 }
 
+// TODO return the resource here, check the docs at service-structure.mdx
 type GetIncomeReportResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Structured income report with detailed earnings information.

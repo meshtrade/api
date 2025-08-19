@@ -31,17 +31,19 @@ type Role int32
 const (
 	// The default value, indicating the role is unknown or not specified.
 	// This should be treated as an error and not be used explicitly.
-	Role_ROLE_UNSPECIFIED             Role = 0
-	Role_ROLE_WALLET_ADMIN            Role = 1
-	Role_ROLE_WALLET_VIEWER           Role = 2
-	Role_ROLE_COMPLIANCE_ADMIN        Role = 3
-	Role_ROLE_COMPLIANCE_VIEWER       Role = 4
-	Role_ROLE_IAM_ADMIN               Role = 5
-	Role_ROLE_IAM_VIEWER              Role = 6
-	Role_ROLE_ISSUANCE_HUB_ADMIN      Role = 7
-	Role_ROLE_ISSUANCE_HUB_VIEWER     Role = 8
-	Role_ROLE_TRADING_ADMIN           Role = 9
-	Role_ROLE_TRADING_VIEWER          Role = 10
+	Role_ROLE_UNSPECIFIED         Role = 0
+	Role_ROLE_WALLET_ADMIN        Role = 1
+	Role_ROLE_WALLET_VIEWER       Role = 2
+	Role_ROLE_COMPLIANCE_ADMIN    Role = 3
+	Role_ROLE_COMPLIANCE_VIEWER   Role = 4
+	Role_ROLE_IAM_ADMIN           Role = 5
+	Role_ROLE_IAM_VIEWER          Role = 6
+	Role_ROLE_ISSUANCE_HUB_ADMIN  Role = 7
+	Role_ROLE_ISSUANCE_HUB_VIEWER Role = 8
+	Role_ROLE_TRADING_ADMIN       Role = 9
+	Role_ROLE_TRADING_VIEWER      Role = 10
+	// TODO ROLE_REPORTING_VIEWER
+	// TODO START FROM 4000
 	Role_ROLE_FINANCIAL_REPORT_VIEWER Role = 11
 )
 
