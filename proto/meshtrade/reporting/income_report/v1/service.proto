@@ -31,7 +31,7 @@ service IncomeReportService {
      Returns:
      - GetIncomeReportResponse: Structured income report with earnings breakdown
   */
-  rpc GetIncomeReport(GetIncomeReportRequest) returns (GetIncomeReportResponse) {
+  rpc GetIncomeReport(GetIncomeReportRequest) returns (reporting.income_report.v1.IncomeReport) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
     option (meshtrade.iam.role.v1.roles) = {
       roles: [
@@ -77,14 +77,6 @@ message GetIncomeReportRequest {
      End of the reporting period (inclusive).
   */
   google.protobuf.Timestamp to = 3;
-}
-
-// TODO return the resource here, check the docs at service-structure.mdx
-message GetIncomeReportResponse {
-  /*
-     Structured income report with detailed earnings information.
-  */
-  reporting.income_report.v1.IncomeReport income_report = 1;
 }
 
 message GetExcelIncomeReportRequest {
