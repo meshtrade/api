@@ -35,7 +35,7 @@ service IncomeReportService {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
     option (meshtrade.iam.role.v1.roles) = {
       roles: [
-        ROLE_FINANCIAL_REPORT_VIEWER
+        ROLE_REPORT_VIEWER
       ]
     };
   }
@@ -56,7 +56,7 @@ service IncomeReportService {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
     option (meshtrade.iam.role.v1.roles) = {
       roles: [
-        ROLE_FINANCIAL_REPORT_VIEWER
+        ROLE_REPORT_VIEWER
       ]
     };
   }
