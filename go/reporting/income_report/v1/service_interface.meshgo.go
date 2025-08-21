@@ -25,7 +25,7 @@ type IncomeReportService interface {
 	//
 	// Returns:
 	// - GetIncomeReportResponse: Structured income report with earnings breakdown
-	GetIncomeReport(ctx context.Context, request *GetIncomeReportRequest) (*GetIncomeReportResponse, error)
+	GetIncomeReport(ctx context.Context, request *GetIncomeReportRequest) (*IncomeReport, error)
 
 	// Exports an income report to Excel format for download.
 	//

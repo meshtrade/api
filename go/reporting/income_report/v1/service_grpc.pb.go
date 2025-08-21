@@ -46,7 +46,7 @@ type IncomeReportServiceClient interface {
 	//
 	// Returns:
 	// - GetIncomeReportResponse: Structured income report with earnings breakdown
-	GetIncomeReport(ctx context.Context, in *GetIncomeReportRequest, opts ...grpc.CallOption) (*GetIncomeReportResponse, error)
+	GetIncomeReport(ctx context.Context, in *GetIncomeReportRequest, opts ...grpc.CallOption) (*IncomeReport, error)
 	// Exports an income report to Excel format for download.
 	//
 	// Parameters:
@@ -68,9 +68,9 @@ func NewIncomeReportServiceClient(cc grpc.ClientConnInterface) IncomeReportServi
 	return &incomeReportServiceClient{cc}
 }
 
-func (c *incomeReportServiceClient) GetIncomeReport(ctx context.Context, in *GetIncomeReportRequest, opts ...grpc.CallOption) (*GetIncomeReportResponse, error) {
+func (c *incomeReportServiceClient) GetIncomeReport(ctx context.Context, in *GetIncomeReportRequest, opts ...grpc.CallOption) (*IncomeReport, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetIncomeReportResponse)
+	out := new(IncomeReport)
 	err := c.cc.Invoke(ctx, IncomeReportService_GetIncomeReport_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -111,7 +111,7 @@ type IncomeReportServiceServer interface {
 	//
 	// Returns:
 	// - GetIncomeReportResponse: Structured income report with earnings breakdown
-	GetIncomeReport(context.Context, *GetIncomeReportRequest) (*GetIncomeReportResponse, error)
+	GetIncomeReport(context.Context, *GetIncomeReportRequest) (*IncomeReport, error)
 	// Exports an income report to Excel format for download.
 	//
 	// Parameters:
@@ -133,7 +133,7 @@ type IncomeReportServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedIncomeReportServiceServer struct{}
 
-func (UnimplementedIncomeReportServiceServer) GetIncomeReport(context.Context, *GetIncomeReportRequest) (*GetIncomeReportResponse, error) {
+func (UnimplementedIncomeReportServiceServer) GetIncomeReport(context.Context, *GetIncomeReportRequest) (*IncomeReport, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetIncomeReport not implemented")
 }
 func (UnimplementedIncomeReportServiceServer) GetExcelIncomeReport(context.Context, *GetExcelIncomeReportRequest) (*GetExcelIncomeReportResponse, error) {

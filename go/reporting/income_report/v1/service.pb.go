@@ -88,52 +88,6 @@ func (x *GetIncomeReportRequest) GetTo() *timestamppb.Timestamp {
 	return nil
 }
 
-// TODO return the resource here, check the docs at service-structure.mdx
-type GetIncomeReportResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Structured income report with detailed earnings information.
-	IncomeReport  *IncomeReport `protobuf:"bytes,1,opt,name=income_report,json=incomeReport,proto3" json:"income_report,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetIncomeReportResponse) Reset() {
-	*x = GetIncomeReportResponse{}
-	mi := &file_meshtrade_reporting_income_report_v1_service_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetIncomeReportResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetIncomeReportResponse) ProtoMessage() {}
-
-func (x *GetIncomeReportResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_reporting_income_report_v1_service_proto_msgTypes[1]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetIncomeReportResponse.ProtoReflect.Descriptor instead.
-func (*GetIncomeReportResponse) Descriptor() ([]byte, []int) {
-	return file_meshtrade_reporting_income_report_v1_service_proto_rawDescGZIP(), []int{1}
-}
-
-func (x *GetIncomeReportResponse) GetIncomeReport() *IncomeReport {
-	if x != nil {
-		return x.IncomeReport
-	}
-	return nil
-}
-
 type GetExcelIncomeReportRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Unique account number for which the Excel export is requested.
@@ -148,7 +102,7 @@ type GetExcelIncomeReportRequest struct {
 
 func (x *GetExcelIncomeReportRequest) Reset() {
 	*x = GetExcelIncomeReportRequest{}
-	mi := &file_meshtrade_reporting_income_report_v1_service_proto_msgTypes[2]
+	mi := &file_meshtrade_reporting_income_report_v1_service_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -160,7 +114,7 @@ func (x *GetExcelIncomeReportRequest) String() string {
 func (*GetExcelIncomeReportRequest) ProtoMessage() {}
 
 func (x *GetExcelIncomeReportRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_reporting_income_report_v1_service_proto_msgTypes[2]
+	mi := &file_meshtrade_reporting_income_report_v1_service_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -173,7 +127,7 @@ func (x *GetExcelIncomeReportRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetExcelIncomeReportRequest.ProtoReflect.Descriptor instead.
 func (*GetExcelIncomeReportRequest) Descriptor() ([]byte, []int) {
-	return file_meshtrade_reporting_income_report_v1_service_proto_rawDescGZIP(), []int{2}
+	return file_meshtrade_reporting_income_report_v1_service_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *GetExcelIncomeReportRequest) GetAccountNum() string {
@@ -207,7 +161,7 @@ type GetExcelIncomeReportResponse struct {
 
 func (x *GetExcelIncomeReportResponse) Reset() {
 	*x = GetExcelIncomeReportResponse{}
-	mi := &file_meshtrade_reporting_income_report_v1_service_proto_msgTypes[3]
+	mi := &file_meshtrade_reporting_income_report_v1_service_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -219,7 +173,7 @@ func (x *GetExcelIncomeReportResponse) String() string {
 func (*GetExcelIncomeReportResponse) ProtoMessage() {}
 
 func (x *GetExcelIncomeReportResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_reporting_income_report_v1_service_proto_msgTypes[3]
+	mi := &file_meshtrade_reporting_income_report_v1_service_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -232,7 +186,7 @@ func (x *GetExcelIncomeReportResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetExcelIncomeReportResponse.ProtoReflect.Descriptor instead.
 func (*GetExcelIncomeReportResponse) Descriptor() ([]byte, []int) {
-	return file_meshtrade_reporting_income_report_v1_service_proto_rawDescGZIP(), []int{3}
+	return file_meshtrade_reporting_income_report_v1_service_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *GetExcelIncomeReportResponse) GetExcelBase64() string {
@@ -251,9 +205,7 @@ const file_meshtrade_reporting_income_report_v1_service_proto_rawDesc = "" +
 	"\vaccount_num\x18\x01 \x01(\tR\n" +
 	"accountNum\x12.\n" +
 	"\x04from\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x04from\x12*\n" +
-	"\x02to\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\x02to\"r\n" +
-	"\x17GetIncomeReportResponse\x12W\n" +
-	"\rincome_report\x18\x01 \x01(\v22.meshtrade.reporting.income_report.v1.IncomeReportR\fincomeReport\"\x82\x03\n" +
+	"\x02to\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\x02to\"\x82\x03\n" +
 	"\x1bGetExcelIncomeReportRequest\x12\x84\x01\n" +
 	"\vaccount_num\x18\x01 \x01(\tBc\xbaH`\xba\x01L\n" +
 	"\x14account_num.required\x12\x17account_num is required\x1a\x1bthis.matches('^[0-9]{1,}$')r\x0f\x10\x012\v^[0-9]{1,}$R\n" +
@@ -263,12 +215,12 @@ const file_meshtrade_reporting_income_report_v1_service_proto_rawDesc = "" +
 	"\x02to\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampB=\xbaH:\xba\x017\n" +
 	"\vto.required\x12\x1a'to' timestamp is required\x1a\fthis != nullR\x02to\"A\n" +
 	"\x1cGetExcelIncomeReportResponse\x12!\n" +
-	"\fexcel_base64\x18\x01 \x01(\tR\vexcelBase642\xe0\x02\n" +
-	"\x13IncomeReportService\x12\x9b\x01\n" +
-	"\x0fGetIncomeReport\x12<.meshtrade.reporting.income_report.v1.GetIncomeReportRequest\x1a=.meshtrade.reporting.income_report.v1.GetIncomeReportResponse\"\v\xa0\xb5\x18\x01\xaa\xb5\x18\x03\n" +
-	"\x01\v\x12\xaa\x01\n" +
-	"\x14GetExcelIncomeReport\x12A.meshtrade.reporting.income_report.v1.GetExcelIncomeReportRequest\x1aB.meshtrade.reporting.income_report.v1.GetExcelIncomeReportResponse\"\v\xa0\xb5\x18\x01\xaa\xb5\x18\x03\n" +
-	"\x01\vBHZFgithub.com/meshtrade/api/go/reporting/income_report/v1;income_reportv1b\x06proto3"
+	"\fexcel_base64\x18\x01 \x01(\tR\vexcelBase642\xd7\x02\n" +
+	"\x13IncomeReportService\x12\x91\x01\n" +
+	"\x0fGetIncomeReport\x12<.meshtrade.reporting.income_report.v1.GetIncomeReportRequest\x1a2.meshtrade.reporting.income_report.v1.IncomeReport\"\f\xa0\xb5\x18\x01\xaa\xb5\x18\x04\n" +
+	"\x02\xa0\x1f\x12\xab\x01\n" +
+	"\x14GetExcelIncomeReport\x12A.meshtrade.reporting.income_report.v1.GetExcelIncomeReportRequest\x1aB.meshtrade.reporting.income_report.v1.GetExcelIncomeReportResponse\"\f\xa0\xb5\x18\x01\xaa\xb5\x18\x04\n" +
+	"\x02\xa0\x1fBHZFgithub.com/meshtrade/api/go/reporting/income_report/v1;income_reportv1b\x06proto3"
 
 var (
 	file_meshtrade_reporting_income_report_v1_service_proto_rawDescOnce sync.Once
@@ -282,30 +234,28 @@ func file_meshtrade_reporting_income_report_v1_service_proto_rawDescGZIP() []byt
 	return file_meshtrade_reporting_income_report_v1_service_proto_rawDescData
 }
 
-var file_meshtrade_reporting_income_report_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_meshtrade_reporting_income_report_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_meshtrade_reporting_income_report_v1_service_proto_goTypes = []any{
 	(*GetIncomeReportRequest)(nil),       // 0: meshtrade.reporting.income_report.v1.GetIncomeReportRequest
-	(*GetIncomeReportResponse)(nil),      // 1: meshtrade.reporting.income_report.v1.GetIncomeReportResponse
-	(*GetExcelIncomeReportRequest)(nil),  // 2: meshtrade.reporting.income_report.v1.GetExcelIncomeReportRequest
-	(*GetExcelIncomeReportResponse)(nil), // 3: meshtrade.reporting.income_report.v1.GetExcelIncomeReportResponse
-	(*timestamppb.Timestamp)(nil),        // 4: google.protobuf.Timestamp
-	(*IncomeReport)(nil),                 // 5: meshtrade.reporting.income_report.v1.IncomeReport
+	(*GetExcelIncomeReportRequest)(nil),  // 1: meshtrade.reporting.income_report.v1.GetExcelIncomeReportRequest
+	(*GetExcelIncomeReportResponse)(nil), // 2: meshtrade.reporting.income_report.v1.GetExcelIncomeReportResponse
+	(*timestamppb.Timestamp)(nil),        // 3: google.protobuf.Timestamp
+	(*IncomeReport)(nil),                 // 4: meshtrade.reporting.income_report.v1.IncomeReport
 }
 var file_meshtrade_reporting_income_report_v1_service_proto_depIdxs = []int32{
-	4, // 0: meshtrade.reporting.income_report.v1.GetIncomeReportRequest.from:type_name -> google.protobuf.Timestamp
-	4, // 1: meshtrade.reporting.income_report.v1.GetIncomeReportRequest.to:type_name -> google.protobuf.Timestamp
-	5, // 2: meshtrade.reporting.income_report.v1.GetIncomeReportResponse.income_report:type_name -> meshtrade.reporting.income_report.v1.IncomeReport
-	4, // 3: meshtrade.reporting.income_report.v1.GetExcelIncomeReportRequest.from:type_name -> google.protobuf.Timestamp
-	4, // 4: meshtrade.reporting.income_report.v1.GetExcelIncomeReportRequest.to:type_name -> google.protobuf.Timestamp
-	0, // 5: meshtrade.reporting.income_report.v1.IncomeReportService.GetIncomeReport:input_type -> meshtrade.reporting.income_report.v1.GetIncomeReportRequest
-	2, // 6: meshtrade.reporting.income_report.v1.IncomeReportService.GetExcelIncomeReport:input_type -> meshtrade.reporting.income_report.v1.GetExcelIncomeReportRequest
-	1, // 7: meshtrade.reporting.income_report.v1.IncomeReportService.GetIncomeReport:output_type -> meshtrade.reporting.income_report.v1.GetIncomeReportResponse
-	3, // 8: meshtrade.reporting.income_report.v1.IncomeReportService.GetExcelIncomeReport:output_type -> meshtrade.reporting.income_report.v1.GetExcelIncomeReportResponse
-	7, // [7:9] is the sub-list for method output_type
-	5, // [5:7] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	3, // 0: meshtrade.reporting.income_report.v1.GetIncomeReportRequest.from:type_name -> google.protobuf.Timestamp
+	3, // 1: meshtrade.reporting.income_report.v1.GetIncomeReportRequest.to:type_name -> google.protobuf.Timestamp
+	3, // 2: meshtrade.reporting.income_report.v1.GetExcelIncomeReportRequest.from:type_name -> google.protobuf.Timestamp
+	3, // 3: meshtrade.reporting.income_report.v1.GetExcelIncomeReportRequest.to:type_name -> google.protobuf.Timestamp
+	0, // 4: meshtrade.reporting.income_report.v1.IncomeReportService.GetIncomeReport:input_type -> meshtrade.reporting.income_report.v1.GetIncomeReportRequest
+	1, // 5: meshtrade.reporting.income_report.v1.IncomeReportService.GetExcelIncomeReport:input_type -> meshtrade.reporting.income_report.v1.GetExcelIncomeReportRequest
+	4, // 6: meshtrade.reporting.income_report.v1.IncomeReportService.GetIncomeReport:output_type -> meshtrade.reporting.income_report.v1.IncomeReport
+	2, // 7: meshtrade.reporting.income_report.v1.IncomeReportService.GetExcelIncomeReport:output_type -> meshtrade.reporting.income_report.v1.GetExcelIncomeReportResponse
+	6, // [6:8] is the sub-list for method output_type
+	4, // [4:6] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_reporting_income_report_v1_service_proto_init() }
@@ -320,7 +270,7 @@ func file_meshtrade_reporting_income_report_v1_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_meshtrade_reporting_income_report_v1_service_proto_rawDesc), len(file_meshtrade_reporting_income_report_v1_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

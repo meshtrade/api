@@ -15,13 +15,13 @@ var _ IncomeReportService = &MockIncomeReportService{}
 type MockIncomeReportService struct {
 	mutex                               sync.Mutex
 	T                                   *testing.T
-	GetIncomeReportFunc                 func(t *testing.T, m *MockIncomeReportService, ctx context.Context, request *GetIncomeReportRequest) (*GetIncomeReportResponse, error)
+	GetIncomeReportFunc                 func(t *testing.T, m *MockIncomeReportService, ctx context.Context, request *GetIncomeReportRequest) (*IncomeReport, error)
 	GetIncomeReportFuncInvocations      int
 	GetExcelIncomeReportFunc            func(t *testing.T, m *MockIncomeReportService, ctx context.Context, request *GetExcelIncomeReportRequest) (*GetExcelIncomeReportResponse, error)
 	GetExcelIncomeReportFuncInvocations int
 }
 
-func (m *MockIncomeReportService) GetIncomeReport(ctx context.Context, request *GetIncomeReportRequest) (*GetIncomeReportResponse, error) {
+func (m *MockIncomeReportService) GetIncomeReport(ctx context.Context, request *GetIncomeReportRequest) (*IncomeReport, error) {
 	m.mutex.Lock()
 	m.GetIncomeReportFuncInvocations++
 	m.mutex.Unlock()

@@ -123,8 +123,8 @@ func NewIncomeReportService(opts ...config.ServiceOption) (IncomeReportServiceCl
 
 // GetIncomeReport executes the GetIncomeReport RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
-func (s *incomeReportService) GetIncomeReport(ctx context.Context, request *GetIncomeReportRequest) (*GetIncomeReportResponse, error) {
-	return grpc.Execute(s.Executor(), ctx, "GetIncomeReport", request, func(ctx context.Context) (*GetIncomeReportResponse, error) {
+func (s *incomeReportService) GetIncomeReport(ctx context.Context, request *GetIncomeReportRequest) (*IncomeReport, error) {
+	return grpc.Execute(s.Executor(), ctx, "GetIncomeReport", request, func(ctx context.Context) (*IncomeReport, error) {
 		return s.GrpcClient().GetIncomeReport(ctx, request)
 	})
 }
