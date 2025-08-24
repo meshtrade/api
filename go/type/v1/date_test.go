@@ -206,7 +206,6 @@ func TestDate_IsComplete(t *testing.T) {
 	}
 }
 
-
 func TestNewDateFromTime(t *testing.T) {
 	tests := []struct {
 		name     string
