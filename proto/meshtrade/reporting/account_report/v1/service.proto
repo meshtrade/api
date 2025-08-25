@@ -30,9 +30,9 @@ service AccountReportService {
      - reporting_currency_token: Token in which report values are denominated
 
      Returns:
-     - GetIncomeReportResponse: Structured income report with earnings breakdown
+     - GetAccountReportRequest: Structured income report with earnings breakdown
   */
-  rpc GetAccountReport(GetTradingIncomeReportRequest) returns (reporting.account_report.v1.AccountReport) {
+  rpc GetAccountReport(GetAccountReportRequest) returns (reporting.account_report.v1.AccountReport) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
     option (meshtrade.iam.role.v1.roles) = {
       roles: [
@@ -51,9 +51,9 @@ service AccountReportService {
      - reporting_currency_token: Token in which report values are denominated
 
      Returns:
-     - GetExcelIncomeReportResponse: Base64-encoded Excel file containing the report
+     - GetExcelAccountReportRequest: Base64-encoded Excel file containing the report
   */
-  rpc GetExcelAccountReport(GetExcelTradingIncomeReportRequest) returns (GetExcelTradingIncomeReportResponse) {
+  rpc GetExcelAccountReport(GetExcelAccountReportRequest) returns (GetExcelAccountReportResponse) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
     option (meshtrade.iam.role.v1.roles) = {
       roles: [
@@ -63,7 +63,7 @@ service AccountReportService {
   }
 }
 
-message GetTradingIncomeReportRequest {
+message GetAccountReportRequest {
   /*
      Unique account number for which the income report is requested.
   */
@@ -80,7 +80,7 @@ message GetTradingIncomeReportRequest {
   google.protobuf.Timestamp to = 3;
 }
 
-message GetExcelTradingIncomeReportRequest {
+message GetExcelAccountReportRequest {
   /*
      Unique account number for which the Excel export is requested.
   */
@@ -119,7 +119,7 @@ message GetExcelTradingIncomeReportRequest {
   ];
 }
 
-message GetExcelTradingIncomeReportResponse {
+message GetExcelAccountReportResponse {
   /*
      Base64-encoded binary content of the Excel report file.
   */
