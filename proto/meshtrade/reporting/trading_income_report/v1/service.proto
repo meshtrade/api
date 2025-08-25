@@ -3,13 +3,12 @@ syntax = "proto3";
 package meshtrade.reporting.income_report.v1;
 import "buf/validate/validate.proto";
 import "google/protobuf/timestamp.proto";
-import "meshtrade/reporting/income_report/v1/income_report.proto";
 import "meshtrade/iam/role/v1/role.proto";
 import "meshtrade/option/v1/method_type.proto";
 
 option go_package = "github.com/meshtrade/api/go/reporting/income_report/v1;income_reportv1";
 /*
-   IncomeReportService manages income report generation and export.
+   TradingIncomeReportService manages income report generation and export.
 
    This service allows clients to retrieve structured income reports
    and download them as Excel files. Reports are generated for a
@@ -18,7 +17,7 @@ option go_package = "github.com/meshtrade/api/go/reporting/income_report/v1;inco
 
    All operations require access to financial reporting permissions.
 */
-service IncomeReportService {
+service TradingIncomeReportService {
   /*
      Retrieves a structured income report for a specific account and time range.
 
@@ -31,7 +30,7 @@ service IncomeReportService {
      Returns:
      - GetIncomeReportResponse: Structured income report with earnings breakdown
   */
-  rpc GetIncomeReport(GetIncomeReportRequest) returns (reporting.income_report.v1.IncomeReport) {
+  rpc GetTradingIncomeReport(GetTradingIncomeReportRequest) returns (reporting.income_report.v1.TradingIncomeReport) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
     option (meshtrade.iam.role.v1.roles) = {
       roles: [
@@ -52,7 +51,7 @@ service IncomeReportService {
      Returns:
      - GetExcelIncomeReportResponse: Base64-encoded Excel file containing the report
   */
-  rpc GetExcelIncomeReport(GetExcelIncomeReportRequest) returns (GetExcelIncomeReportResponse) {
+  rpc GetExcelTradingIncomeReport(GetExcelTradingIncomeReportRequest) returns (GetExcelTradingIncomeReportResponse) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
     option (meshtrade.iam.role.v1.roles) = {
       roles: [
@@ -62,7 +61,7 @@ service IncomeReportService {
   }
 }
 
-message GetIncomeReportRequest {
+message GetTradingIncomeReportRequest {
   /*
      Unique account number for which the income report is requested.
   */
@@ -79,7 +78,7 @@ message GetIncomeReportRequest {
   google.protobuf.Timestamp to = 3;
 }
 
-message GetExcelIncomeReportRequest {
+message GetExcelTradingIncomeReportRequest {
   /*
      Unique account number for which the Excel export is requested.
   */
@@ -118,7 +117,7 @@ message GetExcelIncomeReportRequest {
   ];
 }
 
-message GetExcelIncomeReportResponse {
+message GetExcelTradingIncomeReportResponse {
   /*
      Base64-encoded binary content of the Excel report file.
   */

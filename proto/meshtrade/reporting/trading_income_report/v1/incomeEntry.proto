@@ -15,7 +15,7 @@ option go_package = "github.com/meshtrade/api/go/reporting/income_report/v1;inco
    and token. It includes contextual metadata (description and narrative), the original
    amount, and its equivalent value in a specified reporting currency.
 */
-message Entry {
+message IncomeEntry {
   /*
      Human-readable name of the asset associated with this entry.
      Used for display and identification purposes.
