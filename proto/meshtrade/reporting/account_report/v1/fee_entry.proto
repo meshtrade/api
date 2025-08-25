@@ -1,0 +1,5 @@
+
+package meshtrade.reporting.account_report.v1;
+
+
+message FeeEntry {}

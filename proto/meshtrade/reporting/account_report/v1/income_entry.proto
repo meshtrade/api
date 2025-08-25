@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package meshtrade.reporting.income_report.v1;
+package meshtrade.reporting.account_report.v1;
 
 import "meshtrade/type/v1/token.proto";
 import "meshtrade/type/v1/amount.proto";
