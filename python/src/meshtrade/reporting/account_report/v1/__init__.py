@@ -1,4 +1,4 @@
-"""Income Report v1 package."""
+"""Account Report v1 package."""
 
 # ===================================================================
 # AUTO-GENERATED SECTION - ONLY EDIT BELOW THE CLOSING COMMENT BLOCK
@@ -13,21 +13,18 @@
 # ===================================================================
 
 # Generated protobuf imports
-from .entry_pb2 import Entry
-from .summary_pb2 import Summary
-from .income_report_pb2 import IncomeReport
-from .service_pb2 import (
-    GetExcelIncomeReportRequest,
-    GetExcelIncomeReportResponse,
-    GetIncomeReportRequest,
-    GetIncomeReportResponse,
-)
+from .fee_entry_pb2 import FeeEntry
+from .income_entry_pb2 import IncomeEntry, Narrative
+from .trading_statement_entry_pb2 import TradingStatementEntry
+from .disclaimer_pb2 import Disclaimer
+from .account_report_pb2 import AccountReport
+from .service_pb2 import GetAccountReportRequest, GetExcelAccountReportRequest, GetExcelAccountReportResponse
 
 # Generated service imports
 from .service_meshpy import (
-    IncomeReportService,
-    IncomeReportServiceGRPCClient,
-    IncomeReportServiceGRPCClientInterface,
+    AccountReportService,
+    AccountReportServiceGRPCClient,
+    AccountReportServiceGRPCClientInterface,
 )
 from .service_options_meshpy import ClientOptions
 
@@ -51,15 +48,17 @@ from .service_options_meshpy import ClientOptions
 # Combined auto-generated and manual exports
 __all__ = [
     # Generated exports
+    "AccountReport",
+    "AccountReportService",
+    "AccountReportServiceGRPCClient",
+    "AccountReportServiceGRPCClientInterface",
     "ClientOptions",
-    "Entry",
-    "GetExcelIncomeReportRequest",
-    "GetExcelIncomeReportResponse",
-    "GetIncomeReportRequest",
-    "GetIncomeReportResponse",
-    "IncomeReport",
-    "IncomeReportService",
-    "IncomeReportServiceGRPCClient",
-    "IncomeReportServiceGRPCClientInterface",
-    "Summary",
+    "Disclaimer",
+    "FeeEntry",
+    "GetAccountReportRequest",
+    "GetExcelAccountReportRequest",
+    "GetExcelAccountReportResponse",
+    "IncomeEntry",
+    "Narrative",
+    "TradingStatementEntry",
 ]
