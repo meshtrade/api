@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package meshtrade.reporting.account_report.v1;
 
-option go_package = "github.com/meshtrade/api/go/reporting/income_report/v1;income_reportv1";
+option go_package = "github.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1";
 
 /*
    Disclaimer represents supplementary information included in an income report.

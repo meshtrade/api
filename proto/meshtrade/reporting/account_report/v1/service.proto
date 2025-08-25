@@ -8,7 +8,8 @@ import "meshtrade/iam/role/v1/role.proto";
 import "meshtrade/option/v1/method_type.proto";
 import  "meshtrade/reporting/account_report/v1/account_report.proto";
 
-option go_package = "github.com/meshtrade/api/go/reporting/income_report/v1;income_reportv1";
+option go_package = "github.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1";
+
 /*
    AccountReportService manages account report generation and export.
 

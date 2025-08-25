@@ -4,7 +4,7 @@ import "google/protobuf/timestamp.proto";
 
 package meshtrade.reporting.account_report.v1;
 
-option go_package = "github.com/meshtrade/api/go/reporting/income_report/v1;income_reportv1";
+option go_package = "github.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1";
 
 /*
   FeeEntry defines the structure for a single fee entry, corresponding to one

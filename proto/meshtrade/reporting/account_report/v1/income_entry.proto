@@ -6,7 +6,7 @@ import "meshtrade/type/v1/token.proto";
 import "meshtrade/type/v1/amount.proto";
 import "google/protobuf/timestamp.proto";
 
-option go_package = "github.com/meshtrade/api/go/reporting/income_report/v1;income_reportv1";
+option go_package = "github.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1";
 
 /*
    Entry represents a single income line item in a financial income report.
