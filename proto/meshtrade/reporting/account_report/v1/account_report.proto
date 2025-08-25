@@ -10,16 +10,16 @@ import "meshtrade/reporting/account_report/v1/income_entry.proto";
 import "meshtrade/reporting/account_report/v1/trading_statement_entry.proto";
 import "meshtrade/reporting/account_report/v1/disclaimer.proto";
 
-option go_package = "github.com/meshtrade/api/go/reporting/income_report/v1;income_reportv1";
+option go_package = "github.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1";
 
 /*
-   Trading represents a detailed report of income entries over a specific period.
+   AccountReport represents a detailed report of account activity over a specific period.
 
-   It contains individual transaction entries, an aggregated summary,
-   metadata about the reporting period, client information, and any
+   It contains individual transaction entries for income and fees, a trading statement,
+   an aggregated summary, metadata about the reporting period, client information, and any
    relevant disclaimers or copyright notes.
 
-   This structure supports both display and export of income reporting data.
+   This structure supports both display and export of account reporting data.
 */
 message AccountReport {
   /*
@@ -27,8 +27,14 @@ message AccountReport {
   */
   repeated reporting.account_report.v1.IncomeEntry income_entries = 1;
 
+  /*
+     List of detailed fee entries included in this report.
+  */
   repeated reporting.account_report.v1.FeeEntry fee_entries = 2;
 
+  /*
+     List of detailed trading statement entries included in this report.
+  */
   repeated reporting.account_report.v1.TradingStatementEntry trading_statement_entries = 3;
   /*
      Token representing the currency in which the report values are denominated.

@@ -10,7 +10,7 @@ import  "meshtrade/reporting/account_report/v1/account_report.proto";
 
 option go_package = "github.com/meshtrade/api/go/reporting/income_report/v1;income_reportv1";
 /*
-   TradingIncomeReportService manages income report generation and export.
+   AccountReportService manages account report generation and export.
 
    This service allows clients to retrieve structured income reports
    and download them as Excel files. Reports are generated for a
