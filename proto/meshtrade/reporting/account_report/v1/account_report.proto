@@ -7,7 +7,7 @@ import "meshtrade/type/v1/token.proto";
 import "meshtrade/type/v1/address.proto";
 import "meshtrade/reporting/account_report/v1/fee_entry.proto";
 import "meshtrade/reporting/account_report/v1/income_entry.proto";
-import "meshtrade/reporting/account_report/v1/trading_entry.proto";
+import "meshtrade/reporting/account_report/v1/trading_statement_entry.proto";
 import "meshtrade/reporting/account_report/v1/disclaimer.proto";
 
 option go_package = "github.com/meshtrade/api/go/reporting/income_report/v1;income_reportv1";
@@ -29,7 +29,7 @@ message AccountReport {
 
   repeated reporting.account_report.v1.FeeEntry fee_entries = 2;
 
-  repeated reporting.account_report.v1.TradingEntry trading_entries = 3;
+  repeated reporting.account_report.v1.TradingStatementEntry trading_statement_entries = 3;
   /*
      Token representing the currency in which the report values are denominated.
   */

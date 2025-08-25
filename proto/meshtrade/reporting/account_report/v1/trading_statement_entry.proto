@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package meshtrade.reporting.account_report.v1;
+
+option go_package = "github.com/meshtrade/api/go/reporting/income_report/v1;income_reportv1";
+
+// Defines the structure for a single trading statement entry.
+message TradingStatementEntry {
+  // The date and time of the transaction.
+  google.protobuf.Timestamp transaction_date = 1;
+
+  // The unique identifier for the transaction.
+  string transaction_id = 2;
+
+  // The code for the token (e.g., "mZAR", "yXLM").
+  string token_code = 3;
+
+  // A description of the transaction type.
+  string description = 4;
+
+  // The amount of the transaction. Can be positive or negative.
+  double amount = 5;
+
+  // The price per unit at the time of the transaction.
+  double price = 6;
+
+  // The total cost of the transaction (Amount * Price).
+  double cost = 7;
+
+  // The remaining balance after the transaction.
+  double balance = 8;
+}

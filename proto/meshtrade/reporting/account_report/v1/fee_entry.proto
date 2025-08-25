@@ -1,5 +1,32 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
 
 package meshtrade.reporting.account_report.v1;
 
+option go_package = "github.com/meshtrade/api/go/reporting/income_report/v1;income_reportv1";
 
-message FeeEntry {}
+// Defines the structure for a single fee entry, corresponding to one row in the Excel sheet.
+message FeeEntry {
+  // The date and time of the transaction.
+  // Using google.protobuf.Timestamp is the standard way to handle timestamps.
+  google.protobuf.Timestamp transaction_date = 1;
+
+  // The unique identifier for the transaction.
+  string transaction_id = 2;
+
+  // A description of the transaction type.
+  string description = 3;
+
+  // The transaction amount.
+  // Using 'double' for simplicity. For financial calculations, it's often better
+  // to use an integer type (e.g., int64) representing the smallest currency unit
+  // (like cents) to avoid floating-point inaccuracies.
+  double amount = 4;
+
+  // The value of the transaction in the reported currency.
+  double reported_currency_value = 5;
+
+  // The currency of the token (e.g., "mZAR").
+  string token_currency = 6;
+}

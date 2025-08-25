@@ -42,7 +42,7 @@ message IncomeEntry {
      Extended narrative or context for the income entry, often including
      source details or explanatory information.
   */
-  meshtrade.reporting.income_report.v1.Narrative narrative = 5;
+  meshtrade.reporting.account_report.v1.Narrative narrative = 5;
 
   /*
      Original income amount in the native token specified.
