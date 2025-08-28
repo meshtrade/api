@@ -7,6 +7,7 @@
 package account_reportv1
 
 import (
+	v1 "github.com/meshtrade/api/go/type/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -34,13 +35,13 @@ type TradingStatementEntry struct {
 	// A description of the transaction type.
 	Description string `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
 	// The amount of the transaction. Can be positive or negative.
-	Amount float64 `protobuf:"fixed64,5,opt,name=amount,proto3" json:"amount,omitempty"`
+	Amount *v1.Amount `protobuf:"bytes,5,opt,name=amount,proto3" json:"amount,omitempty"`
 	// The price per unit at the time of the transaction.
-	Price float64 `protobuf:"fixed64,6,opt,name=price,proto3" json:"price,omitempty"`
+	Price *v1.Amount `protobuf:"bytes,6,opt,name=price,proto3" json:"price,omitempty"`
 	// The total cost of the transaction (Amount * Price).
-	Cost float64 `protobuf:"fixed64,7,opt,name=cost,proto3" json:"cost,omitempty"`
+	Cost *v1.Amount `protobuf:"bytes,7,opt,name=cost,proto3" json:"cost,omitempty"`
 	// The remaining balance after the transaction.
-	Balance       float64 `protobuf:"fixed64,8,opt,name=balance,proto3" json:"balance,omitempty"`
+	Balance       *v1.Amount `protobuf:"bytes,8,opt,name=balance,proto3" json:"balance,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -103,49 +104,49 @@ func (x *TradingStatementEntry) GetDescription() string {
 	return ""
 }
 
-func (x *TradingStatementEntry) GetAmount() float64 {
+func (x *TradingStatementEntry) GetAmount() *v1.Amount {
 	if x != nil {
 		return x.Amount
 	}
-	return 0
+	return nil
 }
 
-func (x *TradingStatementEntry) GetPrice() float64 {
+func (x *TradingStatementEntry) GetPrice() *v1.Amount {
 	if x != nil {
 		return x.Price
 	}
-	return 0
+	return nil
 }
 
-func (x *TradingStatementEntry) GetCost() float64 {
+func (x *TradingStatementEntry) GetCost() *v1.Amount {
 	if x != nil {
 		return x.Cost
 	}
-	return 0
+	return nil
 }
 
-func (x *TradingStatementEntry) GetBalance() float64 {
+func (x *TradingStatementEntry) GetBalance() *v1.Amount {
 	if x != nil {
 		return x.Balance
 	}
-	return 0
+	return nil
 }
 
 var File_meshtrade_reporting_account_report_v1_trading_statement_entry_proto protoreflect.FileDescriptor
 
 const file_meshtrade_reporting_account_report_v1_trading_statement_entry_proto_rawDesc = "" +
 	"\n" +
-	"Cmeshtrade/reporting/account_report/v1/trading_statement_entry.proto\x12%meshtrade.reporting.account_report.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa2\x02\n" +
+	"Cmeshtrade/reporting/account_report/v1/trading_statement_entry.proto\x12%meshtrade.reporting.account_report.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1emeshtrade/type/v1/amount.proto\"\x8e\x03\n" +
 	"\x15TradingStatementEntry\x12E\n" +
 	"\x10transaction_date\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\x0ftransactionDate\x12%\n" +
 	"\x0etransaction_id\x18\x02 \x01(\tR\rtransactionId\x12\x1d\n" +
 	"\n" +
 	"token_code\x18\x03 \x01(\tR\ttokenCode\x12 \n" +
-	"\vdescription\x18\x04 \x01(\tR\vdescription\x12\x16\n" +
-	"\x06amount\x18\x05 \x01(\x01R\x06amount\x12\x14\n" +
-	"\x05price\x18\x06 \x01(\x01R\x05price\x12\x12\n" +
-	"\x04cost\x18\a \x01(\x01R\x04cost\x12\x18\n" +
-	"\abalance\x18\b \x01(\x01R\abalanceBJZHgithub.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1b\x06proto3"
+	"\vdescription\x18\x04 \x01(\tR\vdescription\x121\n" +
+	"\x06amount\x18\x05 \x01(\v2\x19.meshtrade.type.v1.AmountR\x06amount\x12/\n" +
+	"\x05price\x18\x06 \x01(\v2\x19.meshtrade.type.v1.AmountR\x05price\x12-\n" +
+	"\x04cost\x18\a \x01(\v2\x19.meshtrade.type.v1.AmountR\x04cost\x123\n" +
+	"\abalance\x18\b \x01(\v2\x19.meshtrade.type.v1.AmountR\abalanceBJZHgithub.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1b\x06proto3"
 
 var (
 	file_meshtrade_reporting_account_report_v1_trading_statement_entry_proto_rawDescOnce sync.Once
@@ -163,14 +164,19 @@ var file_meshtrade_reporting_account_report_v1_trading_statement_entry_proto_msg
 var file_meshtrade_reporting_account_report_v1_trading_statement_entry_proto_goTypes = []any{
 	(*TradingStatementEntry)(nil), // 0: meshtrade.reporting.account_report.v1.TradingStatementEntry
 	(*timestamppb.Timestamp)(nil), // 1: google.protobuf.Timestamp
+	(*v1.Amount)(nil),             // 2: meshtrade.type.v1.Amount
 }
 var file_meshtrade_reporting_account_report_v1_trading_statement_entry_proto_depIdxs = []int32{
 	1, // 0: meshtrade.reporting.account_report.v1.TradingStatementEntry.transaction_date:type_name -> google.protobuf.Timestamp
-	1, // [1:1] is the sub-list for method output_type
-	1, // [1:1] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	2, // 1: meshtrade.reporting.account_report.v1.TradingStatementEntry.amount:type_name -> meshtrade.type.v1.Amount
+	2, // 2: meshtrade.reporting.account_report.v1.TradingStatementEntry.price:type_name -> meshtrade.type.v1.Amount
+	2, // 3: meshtrade.reporting.account_report.v1.TradingStatementEntry.cost:type_name -> meshtrade.type.v1.Amount
+	2, // 4: meshtrade.reporting.account_report.v1.TradingStatementEntry.balance:type_name -> meshtrade.type.v1.Amount
+	5, // [5:5] is the sub-list for method output_type
+	5, // [5:5] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_reporting_account_report_v1_trading_statement_entry_proto_init() }

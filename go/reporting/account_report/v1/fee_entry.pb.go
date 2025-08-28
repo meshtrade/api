@@ -7,6 +7,7 @@
 package account_reportv1
 
 import (
+	v1 "github.com/meshtrade/api/go/type/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -37,9 +38,9 @@ type FeeEntry struct {
 	// Using 'double' for simplicity. For financial calculations, it's often better
 	// to use an integer type (e.g., int64) representing the smallest currency unit
 	// (like cents) to avoid floating-point inaccuracies.
-	Amount float64 `protobuf:"fixed64,4,opt,name=amount,proto3" json:"amount,omitempty"`
+	Amount *v1.Amount `protobuf:"bytes,4,opt,name=amount,proto3" json:"amount,omitempty"`
 	// The value of the transaction in the reported currency.
-	ReportedCurrencyValue float64 `protobuf:"fixed64,5,opt,name=reported_currency_value,json=reportedCurrencyValue,proto3" json:"reported_currency_value,omitempty"`
+	ReportedCurrencyValue *v1.Amount `protobuf:"bytes,5,opt,name=reported_currency_value,json=reportedCurrencyValue,proto3" json:"reported_currency_value,omitempty"`
 	// The currency of the token (e.g., "mZAR").
 	TokenCurrency string `protobuf:"bytes,6,opt,name=token_currency,json=tokenCurrency,proto3" json:"token_currency,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -97,18 +98,18 @@ func (x *FeeEntry) GetDescription() string {
 	return ""
 }
 
-func (x *FeeEntry) GetAmount() float64 {
+func (x *FeeEntry) GetAmount() *v1.Amount {
 	if x != nil {
 		return x.Amount
 	}
-	return 0
+	return nil
 }
 
-func (x *FeeEntry) GetReportedCurrencyValue() float64 {
+func (x *FeeEntry) GetReportedCurrencyValue() *v1.Amount {
 	if x != nil {
 		return x.ReportedCurrencyValue
 	}
-	return 0
+	return nil
 }
 
 func (x *FeeEntry) GetTokenCurrency() string {
@@ -122,13 +123,13 @@ var File_meshtrade_reporting_account_report_v1_fee_entry_proto protoreflect.File
 
 const file_meshtrade_reporting_account_report_v1_fee_entry_proto_rawDesc = "" +
 	"\n" +
-	"5meshtrade/reporting/account_report/v1/fee_entry.proto\x12%meshtrade.reporting.account_report.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"\x91\x02\n" +
+	"5meshtrade/reporting/account_report/v1/fee_entry.proto\x12%meshtrade.reporting.account_report.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1emeshtrade/type/v1/amount.proto\"\xc7\x02\n" +
 	"\bFeeEntry\x12E\n" +
 	"\x10transaction_date\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\x0ftransactionDate\x12%\n" +
 	"\x0etransaction_id\x18\x02 \x01(\tR\rtransactionId\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x16\n" +
-	"\x06amount\x18\x04 \x01(\x01R\x06amount\x126\n" +
-	"\x17reported_currency_value\x18\x05 \x01(\x01R\x15reportedCurrencyValue\x12%\n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x121\n" +
+	"\x06amount\x18\x04 \x01(\v2\x19.meshtrade.type.v1.AmountR\x06amount\x12Q\n" +
+	"\x17reported_currency_value\x18\x05 \x01(\v2\x19.meshtrade.type.v1.AmountR\x15reportedCurrencyValue\x12%\n" +
 	"\x0etoken_currency\x18\x06 \x01(\tR\rtokenCurrencyBJZHgithub.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1b\x06proto3"
 
 var (
@@ -147,14 +148,17 @@ var file_meshtrade_reporting_account_report_v1_fee_entry_proto_msgTypes = make([
 var file_meshtrade_reporting_account_report_v1_fee_entry_proto_goTypes = []any{
 	(*FeeEntry)(nil),              // 0: meshtrade.reporting.account_report.v1.FeeEntry
 	(*timestamppb.Timestamp)(nil), // 1: google.protobuf.Timestamp
+	(*v1.Amount)(nil),             // 2: meshtrade.type.v1.Amount
 }
 var file_meshtrade_reporting_account_report_v1_fee_entry_proto_depIdxs = []int32{
 	1, // 0: meshtrade.reporting.account_report.v1.FeeEntry.transaction_date:type_name -> google.protobuf.Timestamp
-	1, // [1:1] is the sub-list for method output_type
-	1, // [1:1] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	2, // 1: meshtrade.reporting.account_report.v1.FeeEntry.amount:type_name -> meshtrade.type.v1.Amount
+	2, // 2: meshtrade.reporting.account_report.v1.FeeEntry.reported_currency_value:type_name -> meshtrade.type.v1.Amount
+	3, // [3:3] is the sub-list for method output_type
+	3, // [3:3] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_reporting_account_report_v1_fee_entry_proto_init() }
