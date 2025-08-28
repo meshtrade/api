@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 import "google/protobuf/timestamp.proto";
+import "meshtrade/type/v1/amount.proto";
 
 package meshtrade.reporting.account_report.v1;
 
@@ -21,14 +22,14 @@ message TradingStatementEntry {
   string description = 4;
 
   /* The amount of the transaction. Can be positive or negative. */
-  double amount = 5;
+  meshtrade.type.v1.Amount amount = 5;
 
   /* The price per unit at the time of the transaction. */
-  double price = 6;
+  meshtrade.type.v1.Amount price = 6;
 
   /* The total cost of the transaction (Amount * Price). */
-  double cost = 7;
+  meshtrade.type.v1.Amount cost = 7;
 
   /* The remaining balance after the transaction. */
-  double balance = 8;
+  meshtrade.type.v1.Amount balance = 8;
 }

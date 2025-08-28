@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 import "google/protobuf/timestamp.proto";
+import "meshtrade/type/v1/amount.proto";
 
 package meshtrade.reporting.account_report.v1;
 
@@ -33,12 +34,12 @@ message FeeEntry {
     to use an integer type (e.g., int64) representing the smallest currency unit
     (like cents) to avoid floating-point inaccuracies.
   */
-  double amount = 4;
+  meshtrade.type.v1.Amount amount = 4;
 
   /*
     The value of the transaction in the reported currency.
   */
-  double reported_currency_value = 5;
+  meshtrade.type.v1.Amount reported_currency_value = 5;
 
   /*
     The currency of the token (e.g., "mZAR").
