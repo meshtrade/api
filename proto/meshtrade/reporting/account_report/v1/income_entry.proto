@@ -67,11 +67,11 @@ enum IncomeNarrative {
      Indicates income derived from yield-generating activities,
      such as staking, lending, or liquidity provision.
   */
-  INCOME_NARRATIVE_UNSPECIFIED_YIELD = 1;
+  INCOME_NARRATIVE_YIELD = 1;
 
   /*
      Indicates income received from bond coupon or
      similar fixed-income instruments.
   */
-  INCOME_NARRATIVE_UNSPECIFIED_COUPON = 2;
+  INCOME_NARRATIVE_COUPON = 2;
 }
