@@ -1,5 +1,6 @@
 import base64
 from datetime import datetime, timedelta
+
 from google.protobuf.timestamp_pb2 import Timestamp
 
 from meshtrade.reporting.income_report.v1 import (
@@ -22,7 +23,7 @@ def main():
         # Convert to protobuf timestamps
         from_timestamp = Timestamp()
         from_timestamp.FromDatetime(from_date)
-        
+
         to_timestamp = Timestamp()
         to_timestamp.FromDatetime(to_date)
 

@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+
 from google.protobuf.timestamp_pb2 import Timestamp
 
 from meshtrade.reporting.income_report.v1 import (
@@ -21,7 +22,7 @@ def main():
         # Convert to protobuf timestamps
         from_timestamp = Timestamp()
         from_timestamp.FromDatetime(from_date)
-        
+
         to_timestamp = Timestamp()
         to_timestamp.FromDatetime(to_date)
 
@@ -40,14 +41,18 @@ def main():
         # Process the response object by printing a summary and some entry details.
         print(f"Successfully retrieved income report for client: {response.client_name}")
         print(f"Account Number: {response.account_number}")
-        print(f"Reporting Period: {response.period.from_.ToDatetime().strftime('%Y-%m-%d')} to {response.period.to.ToDatetime().strftime('%Y-%m-%d')}")
+        print(
+            f"Reporting Period: {response.period.from_.ToDatetime().strftime('%Y-%m-%d')} to {response.period.to.ToDatetime().strftime('%Y-%m-%d')}"
+        )
         print(f"Found {len(response.entries)} income entries.")
 
         # Print details for the first few entries as an example.
         for i, entry in enumerate(response.entries[:3]):  # Limit to the first 3 entries for a concise example
-            print(f"  - Entry {i+1}: Date={entry.date.ToDatetime().strftime('%Y-%m-%d')}, "
-                  f"Asset={entry.asset_name}, Description={entry.description}, "
-                  f"Amount={entry.amount.value.value} {entry.amount.token.code}")
+            print(
+                f"  - Entry {i + 1}: Date={entry.date.ToDatetime().strftime('%Y-%m-%d')}, "
+                f"Asset={entry.asset_name}, Description={entry.description}, "
+                f"Amount={entry.amount.value.value} {entry.amount.token.code}"
+            )
 
 
 if __name__ == "__main__":
