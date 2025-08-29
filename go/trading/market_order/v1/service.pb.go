@@ -73,11 +73,11 @@ const file_meshtrade_trading_market_order_v1_service_proto_rawDesc = "" +
 	"\n" +
 	"/meshtrade/trading/market_order/v1/service.proto\x12!meshtrade.trading.market_order.v1\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\x1a4meshtrade/trading/market_order/v1/market_order.proto\"/\n" +
 	"\x15GetMarketOrderRequest\x12\x16\n" +
-	"\x06number\x18\x01 \x01(\tR\x06number2\x9f\x01\n" +
-	"\x12MarketOrderService\x12\x88\x01\n" +
-	"\x0eGetMarketOrder\x128.meshtrade.trading.market_order.v1.GetMarketOrderRequest\x1a..meshtrade.trading.market_order.v1.MarketOrder\"\f\xa0\xb5\x18\x01\xaa\xb5\x18\x04\n" +
-	"\x02\t\n" +
-	"Bn\n" +
+	"\x06number\x18\x01 \x01(\tR\x06number2\xa5\x01\n" +
+	"\x12MarketOrderService\x12\x8e\x01\n" +
+	"\x0eGetMarketOrder\x128.meshtrade.trading.market_order.v1.GetMarketOrderRequest\x1a..meshtrade.trading.market_order.v1.MarketOrder\"\x12\xa0\xb5\x18\x01\xaa\xb5\x18\n" +
+	"\n" +
+	"\b\xc0\x96\xb1\x02\xc1\x96\xb1\x02Bn\n" +
 	"(co.meshtrade.api.trading.market_order.v1ZBgithub.com/meshtrade/api/go/trading/market_order/v1;market_orderv1b\x06proto3"
 
 var (

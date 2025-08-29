@@ -14,6 +14,11 @@ lint:
   except:
     - RPC_REQUEST_RESPONSE_UNIQUE
     - RPC_RESPONSE_STANDARD_NAME
+    - ENUM_VALUE_NO_DELETE
 breaking:
   use:
     - FILE
+  except:
+  ignore_only:
+    ENUM_VALUE_NO_DELETE:
+      - proto/meshtrade/iam/role/v1/role.proto

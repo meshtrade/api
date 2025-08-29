@@ -204,34 +204,34 @@ func TestNewTimeOfDayFromDuration(t *testing.T) {
 
 func TestTimeOfDay_ToDuration(t *testing.T) {
 	tests := []struct {
-		name     string
+		name      string
 		timeOfDay *TimeOfDay
-		want     time.Duration
+		want      time.Duration
 	}{
 		{
-			name:     "nil time",
+			name:      "nil time",
 			timeOfDay: nil,
-			want:     0,
+			want:      0,
 		},
 		{
-			name:     "midnight",
+			name:      "midnight",
 			timeOfDay: &TimeOfDay{Hours: 0, Minutes: 0, Seconds: 0, Nanos: 0},
-			want:     0,
+			want:      0,
 		},
 		{
-			name:     "noon",
+			name:      "noon",
 			timeOfDay: &TimeOfDay{Hours: 12, Minutes: 0, Seconds: 0, Nanos: 0},
-			want:     12 * time.Hour,
+			want:      12 * time.Hour,
 		},
 		{
-			name:     "complex time",
+			name:      "complex time",
 			timeOfDay: &TimeOfDay{Hours: 2, Minutes: 30, Seconds: 45, Nanos: 123456789},
-			want:     2*time.Hour + 30*time.Minute + 45*time.Second + 123456789*time.Nanosecond,
+			want:      2*time.Hour + 30*time.Minute + 45*time.Second + 123456789*time.Nanosecond,
 		},
 		{
-			name:     "end of day",
+			name:      "end of day",
 			timeOfDay: &TimeOfDay{Hours: 23, Minutes: 59, Seconds: 59, Nanos: 999999999},
-			want:     23*time.Hour + 59*time.Minute + 59*time.Second + 999999999*time.Nanosecond,
+			want:      23*time.Hour + 59*time.Minute + 59*time.Second + 999999999*time.Nanosecond,
 		},
 	}
 
@@ -305,9 +305,9 @@ func TestTimeOfDay_ToTimeWithDate(t *testing.T) {
 
 func TestTimeOfDay_IsValid(t *testing.T) {
 	tests := []struct {
-		name string
+		name      string
 		timeOfDay *TimeOfDay
-		want bool
+		want      bool
 	}{
 		{"nil time", nil, false},
 		{"valid midnight", &TimeOfDay{Hours: 0, Minutes: 0, Seconds: 0, Nanos: 0}, true},

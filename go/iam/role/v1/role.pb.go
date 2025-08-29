@@ -32,45 +32,51 @@ const (
 	// The default value, indicating the role is unknown or not specified.
 	// This should be treated as an error and not be used explicitly.
 	Role_ROLE_UNSPECIFIED         Role = 0
-	Role_ROLE_WALLET_ADMIN        Role = 1
-	Role_ROLE_WALLET_VIEWER       Role = 2
-	Role_ROLE_COMPLIANCE_ADMIN    Role = 3
-	Role_ROLE_COMPLIANCE_VIEWER   Role = 4
-	Role_ROLE_IAM_ADMIN           Role = 5
-	Role_ROLE_IAM_VIEWER          Role = 6
-	Role_ROLE_ISSUANCE_HUB_ADMIN  Role = 7
-	Role_ROLE_ISSUANCE_HUB_VIEWER Role = 8
-	Role_ROLE_TRADING_ADMIN       Role = 9
-	Role_ROLE_TRADING_VIEWER      Role = 10
+	Role_ROLE_WALLET_ADMIN        Role = 1000000
+	Role_ROLE_WALLET_VIEWER       Role = 1000001
+	Role_ROLE_COMPLIANCE_ADMIN    Role = 2000000
+	Role_ROLE_COMPLIANCE_VIEWER   Role = 2000001
+	Role_ROLE_IAM_ADMIN           Role = 3000000
+	Role_ROLE_IAM_VIEWER          Role = 3000001
+	Role_ROLE_ISSUANCE_HUB_ADMIN  Role = 4000000
+	Role_ROLE_ISSUANCE_HUB_VIEWER Role = 4000001
+	Role_ROLE_TRADING_ADMIN       Role = 5000000
+	Role_ROLE_TRADING_VIEWER      Role = 5000001
+	Role_ROLE_REPORT_ADMIN        Role = 6000000
+	Role_ROLE_REPORT_VIEWER       Role = 6000001
 )
 
 // Enum value maps for Role.
 var (
 	Role_name = map[int32]string{
-		0:  "ROLE_UNSPECIFIED",
-		1:  "ROLE_WALLET_ADMIN",
-		2:  "ROLE_WALLET_VIEWER",
-		3:  "ROLE_COMPLIANCE_ADMIN",
-		4:  "ROLE_COMPLIANCE_VIEWER",
-		5:  "ROLE_IAM_ADMIN",
-		6:  "ROLE_IAM_VIEWER",
-		7:  "ROLE_ISSUANCE_HUB_ADMIN",
-		8:  "ROLE_ISSUANCE_HUB_VIEWER",
-		9:  "ROLE_TRADING_ADMIN",
-		10: "ROLE_TRADING_VIEWER",
+		0:       "ROLE_UNSPECIFIED",
+		1000000: "ROLE_WALLET_ADMIN",
+		1000001: "ROLE_WALLET_VIEWER",
+		2000000: "ROLE_COMPLIANCE_ADMIN",
+		2000001: "ROLE_COMPLIANCE_VIEWER",
+		3000000: "ROLE_IAM_ADMIN",
+		3000001: "ROLE_IAM_VIEWER",
+		4000000: "ROLE_ISSUANCE_HUB_ADMIN",
+		4000001: "ROLE_ISSUANCE_HUB_VIEWER",
+		5000000: "ROLE_TRADING_ADMIN",
+		5000001: "ROLE_TRADING_VIEWER",
+		6000000: "ROLE_REPORT_ADMIN",
+		6000001: "ROLE_REPORT_VIEWER",
 	}
 	Role_value = map[string]int32{
 		"ROLE_UNSPECIFIED":         0,
-		"ROLE_WALLET_ADMIN":        1,
-		"ROLE_WALLET_VIEWER":       2,
-		"ROLE_COMPLIANCE_ADMIN":    3,
-		"ROLE_COMPLIANCE_VIEWER":   4,
-		"ROLE_IAM_ADMIN":           5,
-		"ROLE_IAM_VIEWER":          6,
-		"ROLE_ISSUANCE_HUB_ADMIN":  7,
-		"ROLE_ISSUANCE_HUB_VIEWER": 8,
-		"ROLE_TRADING_ADMIN":       9,
-		"ROLE_TRADING_VIEWER":      10,
+		"ROLE_WALLET_ADMIN":        1000000,
+		"ROLE_WALLET_VIEWER":       1000001,
+		"ROLE_COMPLIANCE_ADMIN":    2000000,
+		"ROLE_COMPLIANCE_VIEWER":   2000001,
+		"ROLE_IAM_ADMIN":           3000000,
+		"ROLE_IAM_VIEWER":          3000001,
+		"ROLE_ISSUANCE_HUB_ADMIN":  4000000,
+		"ROLE_ISSUANCE_HUB_VIEWER": 4000001,
+		"ROLE_TRADING_ADMIN":       5000000,
+		"ROLE_TRADING_VIEWER":      5000001,
+		"ROLE_REPORT_ADMIN":        6000000,
+		"ROLE_REPORT_VIEWER":       6000001,
 	}
 )
 
@@ -182,20 +188,21 @@ const file_meshtrade_iam_role_v1_role_proto_rawDesc = "" +
 	"\n" +
 	" meshtrade/iam/role/v1/role.proto\x12\x15meshtrade.iam.role.v1\x1a google/protobuf/descriptor.proto\"=\n" +
 	"\bRoleList\x121\n" +
-	"\x05roles\x18\x01 \x03(\x0e2\x1b.meshtrade.iam.role.v1.RoleR\x05roles*\x97\x02\n" +
+	"\x05roles\x18\x01 \x03(\x0e2\x1b.meshtrade.iam.role.v1.RoleR\x05roles*\xe6\x02\n" +
 	"\x04Role\x12\x14\n" +
-	"\x10ROLE_UNSPECIFIED\x10\x00\x12\x15\n" +
-	"\x11ROLE_WALLET_ADMIN\x10\x01\x12\x16\n" +
-	"\x12ROLE_WALLET_VIEWER\x10\x02\x12\x19\n" +
-	"\x15ROLE_COMPLIANCE_ADMIN\x10\x03\x12\x1a\n" +
-	"\x16ROLE_COMPLIANCE_VIEWER\x10\x04\x12\x12\n" +
-	"\x0eROLE_IAM_ADMIN\x10\x05\x12\x13\n" +
-	"\x0fROLE_IAM_VIEWER\x10\x06\x12\x1b\n" +
-	"\x17ROLE_ISSUANCE_HUB_ADMIN\x10\a\x12\x1c\n" +
-	"\x18ROLE_ISSUANCE_HUB_VIEWER\x10\b\x12\x16\n" +
-	"\x12ROLE_TRADING_ADMIN\x10\t\x12\x17\n" +
-	"\x13ROLE_TRADING_VIEWER\x10\n" +
-	":f\n" +
+	"\x10ROLE_UNSPECIFIED\x10\x00\x12\x17\n" +
+	"\x11ROLE_WALLET_ADMIN\x10\xc0\x84=\x12\x18\n" +
+	"\x12ROLE_WALLET_VIEWER\x10\xc1\x84=\x12\x1b\n" +
+	"\x15ROLE_COMPLIANCE_ADMIN\x10\x80\x89z\x12\x1c\n" +
+	"\x16ROLE_COMPLIANCE_VIEWER\x10\x81\x89z\x12\x15\n" +
+	"\x0eROLE_IAM_ADMIN\x10\xc0\x8d\xb7\x01\x12\x16\n" +
+	"\x0fROLE_IAM_VIEWER\x10\xc1\x8d\xb7\x01\x12\x1e\n" +
+	"\x17ROLE_ISSUANCE_HUB_ADMIN\x10\x80\x92\xf4\x01\x12\x1f\n" +
+	"\x18ROLE_ISSUANCE_HUB_VIEWER\x10\x81\x92\xf4\x01\x12\x19\n" +
+	"\x12ROLE_TRADING_ADMIN\x10\xc0\x96\xb1\x02\x12\x1a\n" +
+	"\x13ROLE_TRADING_VIEWER\x10\xc1\x96\xb1\x02\x12\x18\n" +
+	"\x11ROLE_REPORT_ADMIN\x10\x80\x9b\xee\x02\x12\x19\n" +
+	"\x12ROLE_REPORT_VIEWER\x10\x81\x9b\xee\x02:f\n" +
 	"\x0estandard_roles\x12\x1c.google.protobuf.FileOptions\x18ӆ\x03 \x01(\v2\x1f.meshtrade.iam.role.v1.RoleListR\rstandardRoles:W\n" +
 	"\x05roles\x12\x1e.google.protobuf.MethodOptions\x18Ն\x03 \x01(\v2\x1f.meshtrade.iam.role.v1.RoleListR\x05rolesBN\n" +
 	"\x1cco.meshtrade.api.iam.role.v1Z.github.com/meshtrade/api/go/iam/role/v1;rolev1b\x06proto3"

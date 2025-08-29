@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package meshtrade.reporting.income_report.v1;
+
+import "meshtrade/type/v1/token.proto";
+import "meshtrade/type/v1/amount.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/meshtrade/api/go/reporting/income_report/v1;income_reportv1";
+option java_package = "co.meshtrade.api.reporting.income_report.v1";
+
+/*
+   Entry represents a single income line item in a financial income report.
+
+   Each entry captures a dated transaction or earning event related to a specific asset
+   and token. It includes contextual metadata (description and narrative), the original
+   amount, and its equivalent value in a specified reporting currency.
+*/
+message Entry {
+  /*
+     Human-readable name of the asset associated with this entry.
+     Used for display and identification purposes.
+  */
+  string asset_name = 1;
+
+  /*
+     Token representing the currency or asset in which the original amount is denominated.
+  */
+  meshtrade.type.v1.Token token = 2;
+
+  /*
+     Timestamp representing the date the income event occurred or was recorded.
+  */
+  google.protobuf.Timestamp date = 3;
+
+  /*
+     Short description or label for the entry (e.g. "Interest", "Trading Fees").
+     Intended to summarize the nature of the transaction.
+  */
+  string description = 4;
+
+  /*
+     Extended narrative or context for the income entry, often including
+     source details or explanatory information.
+  */
+  meshtrade.reporting.income_report.v1.Narrative narrative = 5;
+
+  /*
+     Original income amount in the native token specified.
+  */
+  meshtrade.type.v1.Amount amount = 6;
+
+  /*
+     Equivalent value of the income in the reporting currency,
+     as defined by the report context.
+  */
+  meshtrade.type.v1.Amount reported_currency_value = 7;
+}
+
+enum Narrative {
+  /*
+     Default unspecified narrative type.
+     Used when the narrative category is unknown or not applicable.
+  */
+  NARRATIVE_UNSPECIFIED = 0;
+
+  /*
+     Indicates income derived from yield-generating activities,
+     such as staking, lending, or liquidity provision.
+  */
+  NARRATIVE_YIELD = 1;
+
+  /*
+     Indicates income received from bond coupon or
+     similar fixed-income instruments.
+  */
+  NARRATIVE_COUPON = 2;
+}

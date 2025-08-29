@@ -1,0 +1,127 @@
+syntax = "proto3";
+
+package meshtrade.reporting.income_report.v1;
+import "buf/validate/validate.proto";
+import "google/protobuf/timestamp.proto";
+import "meshtrade/reporting/income_report/v1/income_report.proto";
+import "meshtrade/iam/role/v1/role.proto";
+import "meshtrade/option/v1/method_type.proto";
+
+option go_package = "github.com/meshtrade/api/go/reporting/income_report/v1;income_reportv1";
+option java_package = "co.meshtrade.api.reporting.income_report.v1";
+/*
+   IncomeReportService manages income report generation and export.
+
+   This service allows clients to retrieve structured income reports
+   and download them as Excel files. Reports are generated for a
+   specified account over a given time range and denominated in
+   a selected reporting currency.
+
+   All operations require access to financial reporting permissions.
+*/
+service IncomeReportService {
+  /*
+     Retrieves a structured income report for a specific account and time range.
+
+     Parameters:
+     - account_num: Unique account identifier
+     - from: Start timestamp for the report period
+     - to: End timestamp for the report period
+     - reporting_currency_token: Token in which report values are denominated
+
+     Returns:
+     - GetIncomeReportResponse: Structured income report with earnings breakdown
+  */
+  rpc GetIncomeReport(GetIncomeReportRequest) returns (reporting.income_report.v1.IncomeReport) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [
+        ROLE_REPORT_VIEWER
+      ]
+    };
+  }
+
+  /*
+     Exports an income report to Excel format for download.
+
+     Parameters:
+     - account_num: Unique account identifier
+     - from: Start timestamp for the report period
+     - to: End timestamp for the report period
+     - reporting_currency_token: Token in which report values are denominated
+
+     Returns:
+     - GetExcelIncomeReportResponse: Base64-encoded Excel file containing the report
+  */
+  rpc GetExcelIncomeReport(GetExcelIncomeReportRequest) returns (GetExcelIncomeReportResponse) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [
+        ROLE_REPORT_VIEWER
+      ]
+    };
+  }
+}
+
+message GetIncomeReportRequest {
+  /*
+     Unique account number for which the income report is requested.
+  */
+  string account_num = 1;
+
+  /*
+     Start of the reporting period (inclusive).
+  */
+  google.protobuf.Timestamp from = 2;
+
+  /*
+     End of the reporting period (inclusive).
+  */
+  google.protobuf.Timestamp to = 3;
+}
+
+message GetExcelIncomeReportRequest {
+  /*
+     Unique account number for which the Excel export is requested.
+  */
+  string account_num = 1 [(buf.validate.field) = {
+    string: {
+      min_len: 1
+      pattern: "^[0-9]{1,}$"
+    }
+    cel: {
+      id: "account_num.required"
+      message: "account_num is required"
+      expression: "this.matches('^[0-9]{1,}$')"
+    }
+  }];;
+
+  /*
+     Start of the reporting period (inclusive).
+  */
+  google.protobuf.Timestamp from = 2 [
+    (buf.validate.field).cel = {
+      id: "from.required",
+      message: "'from' timestamp is required",
+      expression: "this != null"
+    }
+  ];
+
+  /*
+     End of the reporting period (inclusive).
+  */
+  google.protobuf.Timestamp to = 3 [
+    (buf.validate.field).cel = {
+      id: "to.required",
+      message: "'to' timestamp is required",
+      expression: "this != null"
+    }
+  ];
+}
+
+message GetExcelIncomeReportResponse {
+  /*
+     Base64-encoded binary content of the Excel report file.
+  */
+  string excel_base64 = 1;
+}

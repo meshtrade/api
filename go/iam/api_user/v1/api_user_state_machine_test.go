@@ -181,7 +181,7 @@ func TestAPIUserState_CanPerformActionAtState(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got := tt.state.CanPerformActionAtState(tt.action)
-			assert.Equal(t, tt.want, got, "State %v should %s perform action %v", 
+			assert.Equal(t, tt.want, got, "State %v should %s perform action %v",
 				tt.state, map[bool]string{true: "be able to", false: "NOT be able to"}[tt.want], tt.action)
 		})
 	}
@@ -195,7 +195,7 @@ func TestAPIUserState_StateMachineComprehensive(t *testing.T) {
 		APIUserState_API_USER_STATE_ACTIVE,
 		APIUserState_API_USER_STATE_INACTIVE,
 	}
-	
+
 	actions := []APIUserAction{
 		APIUserAction_API_USER_ACTION_UNSPECIFIED,
 		APIUserAction_API_USER_ACTION_ACTIVATE,
@@ -220,13 +220,13 @@ func TestAPIUserState_StateMachineComprehensive(t *testing.T) {
 		for _, action := range actions {
 			t.Run(state.String()+"_"+action.String(), func(t *testing.T) {
 				got := state.CanPerformActionAtState(action)
-				
+
 				var expected bool
 				if stateTransitions, exists := validTransitions[state]; exists {
 					expected = stateTransitions[action]
 				}
-				
-				assert.Equal(t, expected, got, 
+
+				assert.Equal(t, expected, got,
 					"State %v + Action %v should return %v", state, action, expected)
 			})
 		}
