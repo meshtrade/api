@@ -31,23 +31,23 @@ const (
 	IncomeNarrative_INCOME_NARRATIVE_UNSPECIFIED IncomeNarrative = 0
 	// Indicates income derived from yield-generating activities,
 	// such as staking, lending, or liquidity provision.
-	IncomeNarrative_INCOME_NARRATIVE_UNSPECIFIED_YIELD IncomeNarrative = 1
+	IncomeNarrative_INCOME_NARRATIVE_YIELD IncomeNarrative = 1
 	// Indicates income received from bond coupon or
 	// similar fixed-income instruments.
-	IncomeNarrative_INCOME_NARRATIVE_UNSPECIFIED_COUPON IncomeNarrative = 2
+	IncomeNarrative_INCOME_NARRATIVE_COUPON IncomeNarrative = 2
 )
 
 // Enum value maps for IncomeNarrative.
 var (
 	IncomeNarrative_name = map[int32]string{
 		0: "INCOME_NARRATIVE_UNSPECIFIED",
-		1: "INCOME_NARRATIVE_UNSPECIFIED_YIELD",
-		2: "INCOME_NARRATIVE_UNSPECIFIED_COUPON",
+		1: "INCOME_NARRATIVE_YIELD",
+		2: "INCOME_NARRATIVE_COUPON",
 	}
 	IncomeNarrative_value = map[string]int32{
-		"INCOME_NARRATIVE_UNSPECIFIED":        0,
-		"INCOME_NARRATIVE_UNSPECIFIED_YIELD":  1,
-		"INCOME_NARRATIVE_UNSPECIFIED_COUPON": 2,
+		"INCOME_NARRATIVE_UNSPECIFIED": 0,
+		"INCOME_NARRATIVE_YIELD":       1,
+		"INCOME_NARRATIVE_COUPON":      2,
 	}
 )
 
@@ -199,11 +199,11 @@ const file_meshtrade_reporting_account_report_v1_income_entry_proto_rawDesc = ""
 	"\vdescription\x18\x04 \x01(\tR\vdescription\x12T\n" +
 	"\tnarrative\x18\x05 \x01(\x0e26.meshtrade.reporting.account_report.v1.IncomeNarrativeR\tnarrative\x121\n" +
 	"\x06amount\x18\x06 \x01(\v2\x19.meshtrade.type.v1.AmountR\x06amount\x12Q\n" +
-	"\x17reported_currency_value\x18\a \x01(\v2\x19.meshtrade.type.v1.AmountR\x15reportedCurrencyValue*\x84\x01\n" +
+	"\x17reported_currency_value\x18\a \x01(\v2\x19.meshtrade.type.v1.AmountR\x15reportedCurrencyValue*l\n" +
 	"\x0fIncomeNarrative\x12 \n" +
-	"\x1cINCOME_NARRATIVE_UNSPECIFIED\x10\x00\x12&\n" +
-	"\"INCOME_NARRATIVE_UNSPECIFIED_YIELD\x10\x01\x12'\n" +
-	"#INCOME_NARRATIVE_UNSPECIFIED_COUPON\x10\x02BJZHgithub.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1b\x06proto3"
+	"\x1cINCOME_NARRATIVE_UNSPECIFIED\x10\x00\x12\x1a\n" +
+	"\x16INCOME_NARRATIVE_YIELD\x10\x01\x12\x1b\n" +
+	"\x17INCOME_NARRATIVE_COUPON\x10\x02BJZHgithub.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1b\x06proto3"
 
 var (
 	file_meshtrade_reporting_account_report_v1_income_entry_proto_rawDescOnce sync.Once
