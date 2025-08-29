@@ -50,7 +50,8 @@ function findPackagesWithGeneratedFiles(srcDir) {
         const fileName = entry.name;
         if (fileName.endsWith('_pb.js') || 
             fileName.endsWith('_grpc_web_pb.js') || 
-            fileName.endsWith('_grpc_web_client_meshts.js')) {
+            fileName.endsWith('_grpc_web_client_meshts.js') ||
+            fileName.endsWith('_grpc_web_client_meshts.ts')) {
           hasGeneratedFiles = true;
           break;
         }
@@ -115,12 +116,14 @@ function collectGeneratedExports(dirPath) {
       continue;
     }
     
-    // Add exports for generated files (both .js and .d.ts files indicate generated content)
+    // Add exports for generated files (both .js, .ts, and .d.ts files indicate generated content)
     let baseName = file;
     if (file.endsWith('.d.ts')) {
       baseName = file.replace('.d.ts', '');
     } else if (file.endsWith('.js')) {
       baseName = file.replace('.js', '');
+    } else if (file.endsWith('.ts')) {
+      baseName = file.replace('.ts', '');
     } else {
       continue;
     }

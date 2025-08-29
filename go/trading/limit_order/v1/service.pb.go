@@ -73,11 +73,11 @@ const file_meshtrade_trading_limit_order_v1_service_proto_rawDesc = "" +
 	"\n" +
 	".meshtrade/trading/limit_order/v1/service.proto\x12 meshtrade.trading.limit_order.v1\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\x1a2meshtrade/trading/limit_order/v1/limit_order.proto\".\n" +
 	"\x14GetLimitOrderRequest\x12\x16\n" +
-	"\x06number\x18\x01 \x01(\tR\x06number2\x99\x01\n" +
-	"\x11LimitOrderService\x12\x83\x01\n" +
-	"\rGetLimitOrder\x126.meshtrade.trading.limit_order.v1.GetLimitOrderRequest\x1a,.meshtrade.trading.limit_order.v1.LimitOrder\"\f\xa0\xb5\x18\x01\xaa\xb5\x18\x04\n" +
-	"\x02\t\n" +
-	"Bj\n" +
+	"\x06number\x18\x01 \x01(\tR\x06number2\x9f\x01\n" +
+	"\x11LimitOrderService\x12\x89\x01\n" +
+	"\rGetLimitOrder\x126.meshtrade.trading.limit_order.v1.GetLimitOrderRequest\x1a,.meshtrade.trading.limit_order.v1.LimitOrder\"\x12\xa0\xb5\x18\x01\xaa\xb5\x18\n" +
+	"\n" +
+	"\b\xc0\x96\xb1\x02\xc1\x96\xb1\x02Bj\n" +
 	"'co.meshtrade.api.trading.limit_order.v1Z?github.com/meshtrade/api/go/trading/limit_order/v1;limitorderv1b\x06proto3"
 
 var (

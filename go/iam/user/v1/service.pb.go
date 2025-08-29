@@ -98,10 +98,10 @@ const file_meshtrade_iam_user_v1_service_proto_rawDesc = "" +
 	"\x05group\x18\x02 \x01(\tB\x84\x01\xbaH\x80\x01\xba\x01v\n" +
 	"\x0egroup.required\x12?group name is required and must be between 1 and 255 characters\x1a#size(this) > 0 && size(this) <= 255r\x05\x10\x01\x18\xff\x01R\x05group\x12\x9f\x01\n" +
 	"\x04role\x18\x03 \x01(\x0e2\x1b.meshtrade.iam.role.v1.RoleBn\xbaHk\xba\x01a\n" +
-	"\rrole.required\x12@role is required and must be a valid role type (not UNSPECIFIED)\x1a\x0eint(this) != 0\x82\x01\x04\x10\x01 \x00R\x04role2{\n" +
-	"\vUserService\x12l\n" +
-	"\x10AssignRoleToUser\x12..meshtrade.iam.user.v1.AssignRoleToUserRequest\x1a\x1b.meshtrade.iam.user.v1.User\"\v\xa0\xb5\x18\x02\xaa\xb5\x18\x03\n" +
-	"\x01\x05BN\n" +
+	"\rrole.required\x12@role is required and must be a valid role type (not UNSPECIFIED)\x1a\x0eint(this) != 0\x82\x01\x04\x10\x01 \x00R\x04role2~\n" +
+	"\vUserService\x12o\n" +
+	"\x10AssignRoleToUser\x12..meshtrade.iam.user.v1.AssignRoleToUserRequest\x1a\x1b.meshtrade.iam.user.v1.User\"\x0e\xa0\xb5\x18\x02\xaa\xb5\x18\x06\n" +
+	"\x04\xc0\x8d\xb7\x01BN\n" +
 	"\x1cco.meshtrade.api.iam.user.v1Z.github.com/meshtrade/api/go/iam/user/v1;userv1b\x06proto3"
 
 var (

@@ -327,17 +327,17 @@ const file_meshtrade_wallet_account_v1_service_proto_rawDesc = "" +
 	"\x15SearchAccountsRequest\x12\x14\n" +
 	"\x05label\x18\x01 \x01(\tR\x05label\"Z\n" +
 	"\x16SearchAccountsResponse\x12@\n" +
-	"\baccounts\x18\x01 \x03(\v2$.meshtrade.wallet.account.v1.AccountR\baccounts2\x87\x04\n" +
-	"\x0eAccountService\x12u\n" +
-	"\rCreateAccount\x121.meshtrade.wallet.account.v1.CreateAccountRequest\x1a$.meshtrade.wallet.account.v1.Account\"\v\xa0\xb5\x18\x02\xaa\xb5\x18\x03\n" +
-	"\x01\x01\x12p\n" +
+	"\baccounts\x18\x01 \x03(\v2$.meshtrade.wallet.account.v1.AccountR\baccounts2\x95\x04\n" +
+	"\x0eAccountService\x12w\n" +
+	"\rCreateAccount\x121.meshtrade.wallet.account.v1.CreateAccountRequest\x1a$.meshtrade.wallet.account.v1.Account\"\r\xa0\xb5\x18\x02\xaa\xb5\x18\x05\n" +
+	"\x03\xc0\x84=\x12t\n" +
 	"\n" +
-	"GetAccount\x12..meshtrade.wallet.account.v1.GetAccountRequest\x1a$.meshtrade.wallet.account.v1.Account\"\f\xa0\xb5\x18\x01\xaa\xb5\x18\x04\n" +
-	"\x02\x01\x02\x12\x81\x01\n" +
-	"\fListAccounts\x120.meshtrade.wallet.account.v1.ListAccountsRequest\x1a1.meshtrade.wallet.account.v1.ListAccountsResponse\"\f\xa0\xb5\x18\x01\xaa\xb5\x18\x04\n" +
-	"\x02\x01\x02\x12\x87\x01\n" +
-	"\x0eSearchAccounts\x122.meshtrade.wallet.account.v1.SearchAccountsRequest\x1a3.meshtrade.wallet.account.v1.SearchAccountsResponse\"\f\xa0\xb5\x18\x01\xaa\xb5\x18\x04\n" +
-	"\x02\x01\x02B]\n" +
+	"GetAccount\x12..meshtrade.wallet.account.v1.GetAccountRequest\x1a$.meshtrade.wallet.account.v1.Account\"\x10\xa0\xb5\x18\x01\xaa\xb5\x18\b\n" +
+	"\x06\xc0\x84=\xc1\x84=\x12\x85\x01\n" +
+	"\fListAccounts\x120.meshtrade.wallet.account.v1.ListAccountsRequest\x1a1.meshtrade.wallet.account.v1.ListAccountsResponse\"\x10\xa0\xb5\x18\x01\xaa\xb5\x18\b\n" +
+	"\x06\xc0\x84=\xc1\x84=\x12\x8b\x01\n" +
+	"\x0eSearchAccounts\x122.meshtrade.wallet.account.v1.SearchAccountsRequest\x1a3.meshtrade.wallet.account.v1.SearchAccountsResponse\"\x10\xa0\xb5\x18\x01\xaa\xb5\x18\b\n" +
+	"\x06\xc0\x84=\xc1\x84=B]\n" +
 	"\"co.meshtrade.api.wallet.account.v1Z7github.com/meshtrade/api/go/wallet/account/v1;accountv1b\x06proto3"
 
 var (
