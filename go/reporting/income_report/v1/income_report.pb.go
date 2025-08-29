@@ -220,7 +220,8 @@ const file_meshtrade_reporting_income_report_v1_income_report_proto_rawDesc = ""
 	"\tcopyright\x18\t \x01(\tR\tcopyright\x1ad\n" +
 	"\x06Period\x12.\n" +
 	"\x04from\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\x04from\x12*\n" +
-	"\x02to\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x02toBHZFgithub.com/meshtrade/api/go/reporting/income_report/v1;income_reportv1b\x06proto3"
+	"\x02to\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x02toBu\n" +
+	"+co.meshtrade.api.reporting.income_report.v1ZFgithub.com/meshtrade/api/go/reporting/income_report/v1;income_reportv1b\x06proto3"
 
 var (
 	file_meshtrade_reporting_income_report_v1_income_report_proto_rawDescOnce sync.Once

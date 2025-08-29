@@ -9,6 +9,7 @@ import "meshtrade/reporting/income_report/v1/disclaimer.proto";
 import "meshtrade/reporting/income_report/v1/entry.proto";
 
 option go_package = "github.com/meshtrade/api/go/reporting/income_report/v1;income_reportv1";
+option java_package = "co.meshtrade.api.reporting.income_report.v1";
 
 /*
    IncomeReport represents a detailed report of income entries over a specific period.

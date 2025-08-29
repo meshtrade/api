@@ -215,12 +215,13 @@ const file_meshtrade_reporting_income_report_v1_service_proto_rawDesc = "" +
 	"\x02to\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampB=\xbaH:\xba\x017\n" +
 	"\vto.required\x12\x1a'to' timestamp is required\x1a\fthis != nullR\x02to\"A\n" +
 	"\x1cGetExcelIncomeReportResponse\x12!\n" +
-	"\fexcel_base64\x18\x01 \x01(\tR\vexcelBase642\xd7\x02\n" +
-	"\x13IncomeReportService\x12\x91\x01\n" +
-	"\x0fGetIncomeReport\x12<.meshtrade.reporting.income_report.v1.GetIncomeReportRequest\x1a2.meshtrade.reporting.income_report.v1.IncomeReport\"\f\xa0\xb5\x18\x01\xaa\xb5\x18\x04\n" +
-	"\x02\xa0\x1f\x12\xab\x01\n" +
-	"\x14GetExcelIncomeReport\x12A.meshtrade.reporting.income_report.v1.GetExcelIncomeReportRequest\x1aB.meshtrade.reporting.income_report.v1.GetExcelIncomeReportResponse\"\f\xa0\xb5\x18\x01\xaa\xb5\x18\x04\n" +
-	"\x02\xa0\x1fBHZFgithub.com/meshtrade/api/go/reporting/income_report/v1;income_reportv1b\x06proto3"
+	"\fexcel_base64\x18\x01 \x01(\tR\vexcelBase642\xdb\x02\n" +
+	"\x13IncomeReportService\x12\x93\x01\n" +
+	"\x0fGetIncomeReport\x12<.meshtrade.reporting.income_report.v1.GetIncomeReportRequest\x1a2.meshtrade.reporting.income_report.v1.IncomeReport\"\x0e\xa0\xb5\x18\x01\xaa\xb5\x18\x06\n" +
+	"\x04\x81\x9b\xee\x02\x12\xad\x01\n" +
+	"\x14GetExcelIncomeReport\x12A.meshtrade.reporting.income_report.v1.GetExcelIncomeReportRequest\x1aB.meshtrade.reporting.income_report.v1.GetExcelIncomeReportResponse\"\x0e\xa0\xb5\x18\x01\xaa\xb5\x18\x06\n" +
+	"\x04\x81\x9b\xee\x02Bu\n" +
+	"+co.meshtrade.api.reporting.income_report.v1ZFgithub.com/meshtrade/api/go/reporting/income_report/v1;income_reportv1b\x06proto3"
 
 var (
 	file_meshtrade_reporting_income_report_v1_service_proto_rawDescOnce sync.Once

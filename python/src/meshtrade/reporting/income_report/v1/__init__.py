@@ -13,15 +13,10 @@
 # ===================================================================
 
 # Generated protobuf imports
-from .entry_pb2 import Entry
-from .summary_pb2 import Summary
+from .disclaimer_pb2 import Disclaimer
+from .entry_pb2 import Entry, Narrative
 from .income_report_pb2 import IncomeReport
-from .service_pb2 import (
-    GetExcelIncomeReportRequest,
-    GetExcelIncomeReportResponse,
-    GetIncomeReportRequest,
-    GetIncomeReportResponse,
-)
+from .service_pb2 import GetExcelIncomeReportRequest, GetExcelIncomeReportResponse, GetIncomeReportRequest
 
 # Generated service imports
 from .service_meshpy import (
@@ -52,14 +47,14 @@ from .service_options_meshpy import ClientOptions
 __all__ = [
     # Generated exports
     "ClientOptions",
+    "Disclaimer",
     "Entry",
     "GetExcelIncomeReportRequest",
     "GetExcelIncomeReportResponse",
     "GetIncomeReportRequest",
-    "GetIncomeReportResponse",
     "IncomeReport",
     "IncomeReportService",
     "IncomeReportServiceGRPCClient",
     "IncomeReportServiceGRPCClientInterface",
-    "Summary",
+    "Narrative",
 ]

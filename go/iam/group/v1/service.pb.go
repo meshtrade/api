@@ -250,15 +250,18 @@ const file_meshtrade_iam_group_v1_service_proto_rawDesc = "" +
 	"\x13SearchGroupsRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\"M\n" +
 	"\x14SearchGroupsResponse\x125\n" +
-	"\x06groups\x18\x01 \x03(\v2\x1d.meshtrade.iam.group.v1.GroupR\x06groups2\xdc\x02\n" +
-	"\fGroupService\x12`\n" +
-	"\bGetGroup\x12'.meshtrade.iam.group.v1.GetGroupRequest\x1a\x1d.meshtrade.iam.group.v1.Group\"\f\xa0\xb5\x18\x01\xaa\xb5\x18\x04\n" +
-	"\x02\x05\x06\x12q\n" +
+	"\x06groups\x18\x01 \x03(\v2\x1d.meshtrade.iam.group.v1.GroupR\x06groups2\xee\x02\n" +
+	"\fGroupService\x12f\n" +
+	"\bGetGroup\x12'.meshtrade.iam.group.v1.GetGroupRequest\x1a\x1d.meshtrade.iam.group.v1.Group\"\x12\xa0\xb5\x18\x01\xaa\xb5\x18\n" +
 	"\n" +
-	"ListGroups\x12).meshtrade.iam.group.v1.ListGroupsRequest\x1a*.meshtrade.iam.group.v1.ListGroupsResponse\"\f\xa0\xb5\x18\x01\xaa\xb5\x18\x04\n" +
-	"\x02\x05\x06\x12w\n" +
-	"\fSearchGroups\x12+.meshtrade.iam.group.v1.SearchGroupsRequest\x1a,.meshtrade.iam.group.v1.SearchGroupsResponse\"\f\xa0\xb5\x18\x01\xaa\xb5\x18\x04\n" +
-	"\x02\x05\x06BQ\n" +
+	"\b\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01\x12w\n" +
+	"\n" +
+	"ListGroups\x12).meshtrade.iam.group.v1.ListGroupsRequest\x1a*.meshtrade.iam.group.v1.ListGroupsResponse\"\x12\xa0\xb5\x18\x01\xaa\xb5\x18\n" +
+	"\n" +
+	"\b\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01\x12}\n" +
+	"\fSearchGroups\x12+.meshtrade.iam.group.v1.SearchGroupsRequest\x1a,.meshtrade.iam.group.v1.SearchGroupsResponse\"\x12\xa0\xb5\x18\x01\xaa\xb5\x18\n" +
+	"\n" +
+	"\b\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01BQ\n" +
 	"\x1dco.meshtrade.api.iam.group.v1Z0github.com/meshtrade/api/go/iam/group/v1;groupv1b\x06proto3"
 
 var (

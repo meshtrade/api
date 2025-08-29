@@ -8,6 +8,7 @@ import "meshtrade/iam/role/v1/role.proto";
 import "meshtrade/option/v1/method_type.proto";
 
 option go_package = "github.com/meshtrade/api/go/reporting/income_report/v1;income_reportv1";
+option java_package = "co.meshtrade.api.reporting.income_report.v1";
 /*
    IncomeReportService manages income report generation and export.
 
