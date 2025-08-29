@@ -215,12 +215,12 @@ const file_meshtrade_reporting_account_report_v1_service_proto_rawDesc = "" +
 	"\x02to\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampB=\xbaH:\xba\x017\n" +
 	"\vto.required\x12\x1a'to' timestamp is required\x1a\fthis != nullR\x02to\"B\n" +
 	"\x1dGetExcelAccountReportResponse\x12!\n" +
-	"\fexcel_base64\x18\x01 \x01(\tR\vexcelBase642\xe2\x02\n" +
-	"\x14AccountReportService\x12\x96\x01\n" +
-	"\x10GetAccountReport\x12>.meshtrade.reporting.account_report.v1.GetAccountReportRequest\x1a4.meshtrade.reporting.account_report.v1.AccountReport\"\f\xa0\xb5\x18\x01\xaa\xb5\x18\x04\n" +
-	"\x02\xa0\x1f\x12\xb0\x01\n" +
-	"\x15GetExcelAccountReport\x12C.meshtrade.reporting.account_report.v1.GetExcelAccountReportRequest\x1aD.meshtrade.reporting.account_report.v1.GetExcelAccountReportResponse\"\f\xa0\xb5\x18\x01\xaa\xb5\x18\x04\n" +
-	"\x02\xa0\x1fBJZHgithub.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1b\x06proto3"
+	"\fexcel_base64\x18\x01 \x01(\tR\vexcelBase642\xe6\x02\n" +
+	"\x14AccountReportService\x12\x98\x01\n" +
+	"\x10GetAccountReport\x12>.meshtrade.reporting.account_report.v1.GetAccountReportRequest\x1a4.meshtrade.reporting.account_report.v1.AccountReport\"\x0e\xa0\xb5\x18\x01\xaa\xb5\x18\x06\n" +
+	"\x04\x81\x9b\xee\x02\x12\xb2\x01\n" +
+	"\x15GetExcelAccountReport\x12C.meshtrade.reporting.account_report.v1.GetExcelAccountReportRequest\x1aD.meshtrade.reporting.account_report.v1.GetExcelAccountReportResponse\"\x0e\xa0\xb5\x18\x01\xaa\xb5\x18\x06\n" +
+	"\x04\x81\x9b\xee\x02BJZHgithub.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1b\x06proto3"
 
 var (
 	file_meshtrade_reporting_account_report_v1_service_proto_rawDescOnce sync.Once
