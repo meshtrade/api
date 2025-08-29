@@ -2,34 +2,74 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
+	"time"
 
-	account_reportv1 "github.com/meshtrade/api/go/reporting/account_report/v1"
+	accountreportv1 "github.com/meshtrade/api/go/reporting/account_report/v1"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 func main() {
+	// Create a new context, which is used to manage cancellation and deadlines
+	// for API calls.
 	ctx := context.Background()
 
-	// Default configuration is used and credentials come from MESH_API_CREDENTIALS
-	// environment variable or default discovery methods. Zero config required
-	// unless you want custom configuration.
-	service, err := account_reportv1.NewAccountReportService()
+	// Create a new AccountReportService client.
+	// By default, the client will use the credentials from the MESH_API_CREDENTIALS
+	// environment variable or other default discovery methods.
+	// No specific configuration is required unless you need to customize client behavior.
+	service, err := accountreportv1.NewAccountReportService()
 	if err != nil {
 		log.Fatalf("Failed to create service: %v", err)
 	}
-	defer service.Close()
+	// It's a good practice to close the service client when you're done with it
+	// to release any underlying resources.
+	defer func() {
+		if err := service.Close(); err != nil {
+			log.Printf("failed to close the client: %v", err)
+		}
+	}()
 
-	// Create request with service-specific parameters
-	request := &account_reportv1.GetAccountReportRequest{
-		// FIXME: Populate service-specific request fields
+	// Define the start and end dates for the report.
+	// In this example, we're requesting a report for the last 30 days.
+	endDate := time.Now()
+	startDate := endDate.AddDate(0, 0, -30)
+
+	// Create a new GetAccountReportRequest.
+	// This request object is used to specify the parameters for the report.
+	request := &accountreportv1.GetAccountReportRequest{
+		// Specify the account for which to generate the report.
+		// FIXME: Replace with a valid account ID from your organization.
+		// Example: "12345"
+		AccountNum: "your-account-id",
+
+		// Specify the start and end dates for the report period.
+		// The dates are specified using the google.protobuf.Timestamp format.
+		From: timestamppb.New(startDate),
+		To:   timestamppb.New(endDate),
 	}
 
-	// Call the GetAccountReport method
+	// Call the GetAccountReport method to generate the report.
+	// This method sends the request to the Mesh API and returns the generated report.
 	accountReport, err := service.GetAccountReport(ctx, request)
 	if err != nil {
 		log.Fatalf("GetAccountReport failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("GetAccountReport successful: %+v", accountReport)
+	// The response will contain the generated report data.
+	// In this example, we're simply printing some of the report's metadata.
+	// In a real-world application, you would likely process the entries of the report.
+	fmt.Printf("Successfully generated report for account: %s\n", accountReport.GetAccountNumber())
+	fmt.Printf("Report generated at: %s\n", accountReport.GetGenerationDate().AsTime().String())
+	fmt.Printf("Number of income entries: %d\n", len(accountReport.GetIncomeEntries()))
+	fmt.Printf("Number of fee entries: %d\n", len(accountReport.GetFeeEntries()))
+	fmt.Printf("Number of trading statement entries: %d\n", len(accountReport.GetTradingStatementEntries()))
+
+	// You can now iterate through the entries and process them.
+	// For example, to print the details of the first income entry:
+	if len(accountReport.GetIncomeEntries()) > 0 {
+		firstIncome := accountReport.GetIncomeEntries()[0]
+		fmt.Printf("First income entry: %+v\n", firstIncome)
+	}
 }
