@@ -1,0 +1,229 @@
+name: Version Bump and Package Release (Test Mode)
+
+on:
+  push:
+    branches: [feat/automate-cicd] 
+  # push:
+  #   branches: [master]
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      proto_changed: ${{ steps.changes.outputs.proto_any_changed }}
+      typescript_changed: ${{ steps.changes.outputs.typescript_any_changed }}
+      python_changed: ${{ steps.changes.outputs.python_any_changed }}
+      go_changed: ${{ steps.changes.outputs.go_any_changed }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get changed files
+        id: changes
+        uses: tj-actions/changed-files@v46
+        with:
+          files_yaml: |
+            proto:
+              - 'proto/**/*.proto'
+              - '**.proto'
+            typescript:
+              - 'ts/**'
+              - '**.ts'
+              - '**.js'
+              - '**.tsx'
+              - '**.jsx'
+              - 'ts/package.json'
+            python:
+              - 'python/**'
+              - '**.py'
+              - 'pyproject.toml'
+              - 'requirements*.txt'
+            go:
+              - 'go/**'
+              - '**.go'
+              - 'go.mod'
+              - 'go.sum'
+              - 'go.work'
+              - 'go.work.sum'
+
+  # Version bumping jobs
+  bump-typescript:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.proto_changed == 'true' || needs.detect-changes.outputs.typescript_changed == 'true'
+    runs-on: ubuntu-latest
+    outputs:
+      new_version: ${{ steps.version.outputs.new_version }}
+      version_changed: ${{ steps.version.outputs.version_changed }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'yarn'
+      
+      - name: Bump TypeScript version
+        id: version
+        run: |
+          cd ts
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          echo "Current version: $CURRENT_VERSION"
+          
+          # Split version into parts and increment patch
+          IFS='.' read -ra VERSION_PARTS <<< "$CURRENT_VERSION"
+          MAJOR=${VERSION_PARTS[0]}
+          MINOR=${VERSION_PARTS[1]}
+          PATCH=${VERSION_PARTS[2]}
+          NEW_PATCH=$((PATCH + 1))
+          NEW_VERSION="$MAJOR.$MINOR.$NEW_PATCH"
+          
+          echo "New version: $NEW_VERSION"
+          
+          # Update package.json
+          npm version $NEW_VERSION --no-git-tag-version
+          
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "version_changed=true" >> $GITHUB_OUTPUT
+      
+      - name: Show version bump (dry-run)
+        run: |
+          echo "[DRY-RUN] Would commit version bump to ts/package.json"
+          echo "[DRY-RUN] Would commit: chore: bump TypeScript SDK version to ${{ steps.version.outputs.new_version }}"
+          echo "[DRY-RUN] Would create tag: typescript/v${{ steps.version.outputs.new_version }}"
+          echo "[DRY-RUN] Would push to master branch"
+          
+          # Show what changed
+          echo "Changes that would be committed:"
+          git diff ts/package.json
+          
+          # Uncomment below for production:
+          # git config --local user.email "action@github.com"
+          # git config --local user.name "GitHub Action"
+          # git add ts/package.json
+          # git commit -m "chore: bump TypeScript SDK version to ${{ steps.version.outputs.new_version }}"
+          # git tag "typescript/v${{ steps.version.outputs.new_version }}"
+          # git push origin HEAD:master
+          # git push origin "typescript/v${{ steps.version.outputs.new_version }}"
+
+  bump-python:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.proto_changed == 'true' || needs.detect-changes.outputs.python_changed == 'true'
+    runs-on: ubuntu-latest
+    outputs:
+      new_version: ${{ steps.version.outputs.new_version }}
+      version_changed: ${{ steps.version.outputs.version_changed }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      
+      - name: Bump Python version
+        id: version
+        run: |
+          CURRENT_VERSION=$(grep '^version = ' pyproject.toml | cut -d'"' -f2)
+          echo "Current version: $CURRENT_VERSION"
+          
+          # Split version into parts and increment patch
+          IFS='.' read -ra VERSION_PARTS <<< "$CURRENT_VERSION"
+          MAJOR=${VERSION_PARTS[0]}
+          MINOR=${VERSION_PARTS[1]}
+          PATCH=${VERSION_PARTS[2]}
+          NEW_PATCH=$((PATCH + 1))
+          NEW_VERSION="$MAJOR.$MINOR.$NEW_PATCH"
+          
+          echo "New version: $NEW_VERSION"
+          
+          # Update pyproject.toml
+          sed -i "s/^version = \"$CURRENT_VERSION\"/version = \"$NEW_VERSION\"/" pyproject.toml
+          
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "version_changed=true" >> $GITHUB_OUTPUT
+      
+      - name: Show version bump (dry-run)
+        run: |
+          echo "[DRY-RUN] Would commit version bump to pyproject.toml"
+          echo "[DRY-RUN] Would commit: chore: bump Python SDK version to ${{ steps.version.outputs.new_version }}"
+          echo "[DRY-RUN] Would create tag: python/v${{ steps.version.outputs.new_version }}"
+          echo "[DRY-RUN] Would push to master branch"
+          
+          # Show what changed
+          echo "Changes that would be committed:"
+          git diff pyproject.toml
+          
+          # Uncomment below for production:
+          # git config --local user.email "action@github.com"
+          # git config --local user.name "GitHub Action"
+          # git add pyproject.toml
+          # git commit -m "chore: bump Python SDK version to ${{ steps.version.outputs.new_version }}"
+          # git tag "python/v${{ steps.version.outputs.new_version }}"
+          # git push origin HEAD:master
+          # git push origin "python/v${{ steps.version.outputs.new_version }}"
+
+  bump-go:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.proto_changed == 'true' || needs.detect-changes.outputs.go_changed == 'true'
+    runs-on: ubuntu-latest
+    outputs:
+      new_version: ${{ steps.version.outputs.new_version }}
+      version_changed: ${{ steps.version.outputs.version_changed }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+      
+      - name: Bump Go version
+        id: version
+        run: |
+          # Get latest Go tag or default to v1.0.0
+          LATEST_TAG=$(git tag -l "go/v*" | sort -V | tail -1)
+          if [ -z "$LATEST_TAG" ]; then
+            LATEST_TAG="go/v1.0.0"
+          fi
+          
+          CURRENT_VERSION=${LATEST_TAG#go/v}
+          echo "Current version: $CURRENT_VERSION"
+          
+          # Split version into parts and increment patch
+          IFS='.' read -ra VERSION_PARTS <<< "$CURRENT_VERSION"
+          MAJOR=${VERSION_PARTS[0]}
+          MINOR=${VERSION_PARTS[1]}
+          PATCH=${VERSION_PARTS[2]}
+          NEW_PATCH=$((PATCH + 1))
+          NEW_VERSION="$MAJOR.$MINOR.$NEW_PATCH"
+          
+          echo "New version: $NEW_VERSION"
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "version_changed=true" >> $GITHUB_OUTPUT
+      
+      - name: Show tag creation (dry-run)
+        run: |
+          echo "[DRY-RUN] Would create tag: go/v${{ steps.version.outputs.new_version }}"
+          echo "[DRY-RUN] Would push tag to origin"
+          
+          # Uncomment below for production:
+          # git config --local user.email "action@github.com"
+          # git config --local user.name "GitHub Action"
+          # git tag "go/v${{ steps.version.outputs.new_version }}"
+          # git push origin "go/v${{ steps.version.outputs.new_version }}"
