@@ -6,8 +6,6 @@ import (
 	"github.com/shopspring/decimal"
 )
 
-// TODO: REMOVE THIS TODO
-
 func (x *Amount) IsEqual(x2 *Amount) bool {
 	return x.GetValue().Equal(x2.GetValue()) &&
 		x.GetToken().IsEqualTo(x2.GetToken())
