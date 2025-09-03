@@ -9,7 +9,7 @@ import java.util.Objects;
  * with Meshtrade services. Both fields are required and are used to generate
  * the appropriate authentication headers for gRPC requests.
  * 
- * <p>The API key is used for Bearer token authentication, while the group ID
+ * <p>The API key is used for x-api-key header authentication, while the group ID
  * specifies the organizational context for API operations and resource scoping.
  * 
  * <h2>Example</h2>
@@ -20,7 +20,7 @@ import java.util.Objects;
  * String group = creds.group();       // "groups/your-group-id"
  * }</pre>
  * 
- * @param apiKey the API key for Bearer token authentication (43 characters, base64 URL-safe)
+ * @param apiKey the API key for x-api-key header authentication (43 characters, base64 URL-safe)
  * @param group the group resource name in format "groups/{group_id}"
  * 
  * @see CredentialsDiscovery
@@ -31,7 +31,7 @@ public record Credentials(String apiKey, String group) {
     /**
      * Creates a new Credentials instance with validation.
      * 
-     * @param apiKey the API key for Bearer token authentication
+     * @param apiKey the API key for x-api-key header authentication
      * @param group the group resource name
      * @throws NullPointerException if either parameter is null
      * @throws IllegalArgumentException if either parameter is empty or invalid
@@ -74,10 +74,10 @@ public record Credentials(String apiKey, String group) {
     }
     
     /**
-     * Returns the API key for Bearer token authentication.
+     * Returns the API key for x-api-key header authentication.
      * 
-     * <p>This key should be included in the Authorization header as:
-     * {@code Authorization: Bearer {apiKey}}
+     * <p>This key should be included in the x-api-key header as:
+     * {@code x-api-key: {apiKey}}
      * 
      * @return the API key (43 characters, base64 URL-safe encoded)
      */

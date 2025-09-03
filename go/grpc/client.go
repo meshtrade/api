@@ -433,8 +433,8 @@ func (b *BaseGRPCClient[T]) authInterceptor() grpc.UnaryClientInterceptor {
 	return func(ctx context.Context, method string, req, reply any, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
 		ctx = metadata.AppendToOutgoingContext(
 			ctx,
-			auth.AuthorizationHeaderKey,
-			auth.BearerPrefix+b.apiKey,
+			auth.APIKeyHeader,
+			b.apiKey,
 			auth.GroupHeaderKey,
 			b.group,
 		)
