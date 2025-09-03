@@ -1,28 +1,66 @@
+import co.meshtrade.api.reporting.account_report.v1.AccountReport.AccountReport;
 import co.meshtrade.api.reporting.account_report.v1.AccountReportService;
 import co.meshtrade.api.reporting.account_report.v1.Service.GetAccountReportRequest;
-import co.meshtrade.api.reporting.account_report.v1.AccountReport.AccountReport;
-
+import com.google.protobuf.Timestamp;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 public class GetAccountReportExample {
-    public static void main(String[] args) {
-        // Default configuration is used and credentials come from MESH_API_CREDENTIALS
-        // environment variable or default discovery methods. Zero config required
-        // unless you want custom configuration.
-        try (AccountReportService service = new AccountReportService()) {
-            // Create request with service-specific parameters
-            GetAccountReportRequest request = GetAccountReportRequest.newBuilder()
-                // FIXME: Populate service-specific request fields
-                .build();
+  public static void main(String[] args) {
+    // Create a new AccountReportService client.
+    // By default, the client will use the credentials from the MESH_API_CREDENTIALS
+    // environment variable or other default discovery methods.
+    // No specific configuration is required unless you need to customize client behavior.
+    try (AccountReportService service = new AccountReportService()) {
+      // Define the start and end dates for the report.
+      // In this example, we're requesting a report for the last 30 days.
+      Instant endDate = Instant.now();
+      Instant startDate = endDate.minus(30, ChronoUnit.DAYS);
 
-            // Call the GetAccountReport method
-            AccountReport accountReport = service.getAccountReport(request, Optional.empty());
+      // Create Timestamps for the request.
+      Timestamp fromTimestamp = Timestamp.newBuilder().setSeconds(startDate.getEpochSecond()).build();
+      Timestamp toTimestamp = Timestamp.newBuilder().setSeconds(endDate.getEpochSecond()).build();
 
-            // FIXME: Add relevant response object usage
-            System.out.println("GetAccountReport successful: " + accountReport);
-        } catch (Exception e) {
-            System.err.println("GetAccountReport failed: " + e.getMessage());
-            e.printStackTrace();
-        }
+      // Create a new GetAccountReportRequest.
+      // This request object is used to specify the parameters for the report.
+      GetAccountReportRequest request =
+          GetAccountReportRequest.newBuilder()
+              // Specify the account for which to generate the report.
+              // Example: "12345"
+              .setAccountNum("100005")
+              // Specify the start and end dates for the report period.
+              // The dates are specified using the com.google.protobuf.Timestamp format.
+              .setFrom(fromTimestamp)
+              .setTo(toTimestamp)
+              .build();
+
+      // Call the GetAccountReport method to generate the report.
+      // This method sends the request to the Mesh API and returns the generated report.
+      AccountReport accountReport = service.getAccountReport(request, Optional.empty());
+
+      // The response will contain the generated report data.
+      // In this example, we're simply printing some of the report's metadata.
+      // In a real-world application, you would likely process the entries of the report.
+      System.out.println(
+          "Successfully generated report for account: " + accountReport.getAccountNumber());
+      System.out.println(
+          "Report generated at: "
+              + Instant.ofEpochSecond(accountReport.getGenerationDate().getSeconds()));
+      System.out.println("Number of income entries: " + accountReport.getIncomeEntriesCount());
+      System.out.println("Number of fee entries: " + accountReport.getFeeEntriesCount());
+      System.out.println(
+          "Number of trading statement entries: " + accountReport.getTradingStatementEntriesCount());
+
+      // You can now iterate through the entries and process them.
+      // For example, to print the details of the first income entry:
+      if (accountReport.getIncomeEntriesCount() > 0) {
+        System.out.println("First income entry: " + accountReport.getIncomeEntries(0));
+      }
+
+    } catch (Exception e) {
+      System.err.println("GetAccountReport failed: " + e.getMessage());
+      e.printStackTrace();
     }
+  }
 }
