@@ -23,24 +23,27 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Defines the structure for a single trading statement entry.
+// TradingStatementEntry represents a single, immutable transaction record in a user's account statement.
+// It provides a detailed breakdown of each transaction, including the asset involved, transaction type,
+// amount, price, and resulting balance.
 type TradingStatementEntry struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// The date and time of the transaction.
+	// The exact date and time when the transaction was processed.
 	TransactionDate *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=transaction_date,json=transactionDate,proto3" json:"transaction_date,omitempty"`
-	// The unique identifier for the transaction.
+	// A unique identifier for the transaction, ensuring each entry is distinct and traceable.
 	TransactionId string `protobuf:"bytes,2,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"`
-	// The code for the token (e.g., "mZAR", "yXLM").
+	// The specific token involved in the transaction (e.g., "mZAR", "yXLM").
 	TokenCode string `protobuf:"bytes,3,opt,name=token_code,json=tokenCode,proto3" json:"token_code,omitempty"`
-	// A description of the transaction type.
+	// A human-readable description of the transaction type, such as "Deposit," "Withdrawal," or "Trade."
 	Description string `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
-	// The amount of the transaction. Can be positive or negative.
+	// The quantity of the token transacted. A positive value indicates an increase in the asset,
+	// while a negative value indicates a decrease.
 	Amount *v1.Amount `protobuf:"bytes,5,opt,name=amount,proto3" json:"amount,omitempty"`
-	// The price per unit at the time of the transaction.
+	// The price per unit of the token at the time of the transaction. This is used to calculate the total cost.
 	Price *v1.Amount `protobuf:"bytes,6,opt,name=price,proto3" json:"price,omitempty"`
-	// The total cost of the transaction (Amount * Price).
+	// The total value of the transaction, calculated as amount * price.
 	Cost *v1.Amount `protobuf:"bytes,7,opt,name=cost,proto3" json:"cost,omitempty"`
-	// The remaining balance after the transaction.
+	// The remaining balance of the token in the account after the transaction was completed.
 	Balance       *v1.Amount `protobuf:"bytes,8,opt,name=balance,proto3" json:"balance,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache

@@ -19,7 +19,6 @@ func main() {
 	// Create a new AccountReportService client.
 	// In a real-world application, you would typically configure this with proper authentication and connection details.
 	// For this example, we assume the service is available at "localhost:8080" and we are using an insecure connection.
-	// TODO: Replace with actual service initialization.
 	service, err := accountreportv1.NewAccountReportService()
 	if err != nil {
 		log.Fatalf("Failed to create AccountReportService client: %v", err)
@@ -33,7 +32,7 @@ func main() {
 	// Create a request to get an Excel account report.
 	// The request includes the account number and the desired date range for the report.
 	req := &accountreportv1.GetExcelAccountReportRequest{
-		AccountNum: "10005",
+		AccountNum: "100005",
 		From:       timestamppb.New(time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC)),
 		To:         timestamppb.New(time.Date(2023, 12, 31, 0, 0, 0, 0, time.UTC)),
 	}

@@ -40,9 +40,8 @@ func main() {
 	// This request object is used to specify the parameters for the report.
 	request := &accountreportv1.GetAccountReportRequest{
 		// Specify the account for which to generate the report.
-		// FIXME: Replace with a valid account ID from your organization.
 		// Example: "12345"
-		AccountNum: "your-account-id",
+		AccountNum: "100005",
 
 		// Specify the start and end dates for the report period.
 		// The dates are specified using the google.protobuf.Timestamp format.
