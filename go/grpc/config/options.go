@@ -102,14 +102,14 @@ func WithPort(port int) ServiceOption {
 }
 
 // WithAPIKey configures API key authentication for the gRPC service.
-// The API key will be sent as a Bearer token in the Authorization header.
+// The API key will be sent in the x-api-key header.
 // This is the primary authentication method for service-to-service communication.
 //
 // IMPORTANT: When using API key authentication, you must also specify a group
 // using WithGroup() or load from credentials file via MESH_API_CREDENTIALS.
 //
 // Parameter:
-//   - apiKey: The API key string (without "Bearer " prefix)
+//   - apiKey: The API key string
 //
 // Example:
 //

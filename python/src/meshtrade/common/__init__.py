@@ -2,8 +2,7 @@
 
 from .config import (
     ACCESS_TOKEN_PREFIX,
-    AUTHORIZATION_HEADER_KEY,
-    BEARER_PREFIX,
+    API_KEY_HEADER,
     COOKIE_HEADER_KEY,
     DEFAULT_GRPC_PORT,
     DEFAULT_GRPC_URL,
@@ -17,10 +16,9 @@ __all__ = [
     "DEFAULT_GRPC_URL",
     "DEFAULT_GRPC_PORT",
     "DEFAULT_TLS",
-    "AUTHORIZATION_HEADER_KEY",
+    "API_KEY_HEADER",
     "COOKIE_HEADER_KEY",
     "GROUP_HEADER_KEY",
-    "BEARER_PREFIX",
     "ACCESS_TOKEN_PREFIX",
     "create_auth_metadata",
     "GRPCClient",

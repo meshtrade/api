@@ -30,7 +30,7 @@ const (
 // is the unique identifier of the owning group.
 type APICredentials struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// The API key used for Bearer token authentication.
+	// The API key used for x-api-key header authentication.
 	// This should be kept secure and never exposed in logs or version control.
 	// Required field.
 	ApiKey string `protobuf:"bytes,1,opt,name=api_key,json=apiKey,proto3" json:"api_key,omitempty"`
