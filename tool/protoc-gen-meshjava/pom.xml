@@ -5,14 +5,9 @@
          http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>co.meshtrade</groupId>
-        <artifactId>meshtrade-api-parent</artifactId>
-        <version>0.0.8</version>
-        <relativePath>../../pom.xml</relativePath>
-    </parent>
-
+    <groupId>co.meshtrade.api</groupId>
     <artifactId>protoc-gen-meshjava</artifactId>
+    <version>0.0.8</version>
     <packaging>jar</packaging>
 
     <name>protoc-gen-meshjava</name>
@@ -22,6 +17,28 @@
         <!-- This is a build tool, not for distribution -->
         <maven.deploy.skip>true</maven.deploy.skip>
         <maven.install.skip>true</maven.install.skip>
+        
+        <!-- Maven compiler settings -->
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        
+        <!-- Dependency versions -->
+        <protobuf.version>4.31.1</protobuf.version>
+        <javapoet.version>1.13.0</javapoet.version>
+        <javaparser.version>3.27.0</javaparser.version>
+        <slf4j.version>2.0.17</slf4j.version>
+        <logback.version>1.5.18</logback.version>
+        <junit.version>5.13.4</junit.version>
+        <mockito.version>5.18.0</mockito.version>
+        <assertj.version>3.27.3</assertj.version>
+        
+        <!-- Plugin versions -->
+        <maven.assembly.plugin.version>3.6.0</maven.assembly.plugin.version>
+        <maven.compiler.plugin.version>3.14.0</maven.compiler.plugin.version>
+        <maven.failsafe.plugin.version>3.2.3</maven.failsafe.plugin.version>
+        <exec.plugin.version>3.1.1</exec.plugin.version>
     </properties>
 
     <dependencies>
@@ -29,60 +46,84 @@
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
+            <version>${protobuf.version}</version>
         </dependency>
         
         <!-- Required for CodeGeneratorRequest/Response -->
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java-util</artifactId>
+            <version>${protobuf.version}</version>
         </dependency>
 
         <!-- Code generation with JavaPoet -->
         <dependency>
             <groupId>com.squareup</groupId>
             <artifactId>javapoet</artifactId>
+            <version>${javapoet.version}</version>
         </dependency>
 
         <!-- AST parsing and validation with JavaParser -->
         <dependency>
             <groupId>com.github.javaparser</groupId>
             <artifactId>javaparser-core</artifactId>
+            <version>${javaparser.version}</version>
         </dependency>
 
         <!-- Logging -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
         </dependency>
 
         <!-- Test dependencies -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
+            <version>${assertj.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
+            <!-- Compiler plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin.version}</version>
+                <configuration>
+                    <release>21</release>
+                    <encoding>UTF-8</encoding>
+                    <compilerArgs>
+                        <arg>-parameters</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+            
             <!-- Create executable JAR with all dependencies -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
+                <version>${maven.assembly.plugin.version}</version>
                 <configuration>
                     <archive>
                         <manifest>
@@ -110,6 +151,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
+                <version>${exec.plugin.version}</version>
                 <executions>
                     <execution>
                         <id>make-script-executable</id>
@@ -132,6 +174,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${maven.failsafe.plugin.version}</version>
                 <configuration>
                     <systemPropertyVariables>
                         <protoc.gen.meshjava.jar>${project.build.directory}/protoc-gen-meshjava-jar-with-dependencies.jar</protoc.gen.meshjava.jar>
