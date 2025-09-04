@@ -1,0 +1,182 @@
+name: Deploy Java SDK to Maven Central
+
+# Triggers on tags like java/v1.0.0, java/v2.1.3, etc.
+# Uses Maven Central Portal API with token-based authentication
+on:
+  push:
+    tags:
+      - 'java/v*.*.*'
+
+  # Allows manual workflow dispatch
+  workflow_dispatch:
+
+permissions:
+  contents: write  # Need write permission to commit version changes back
+  pull-requests: write  # Required for creating PR after successful deployment
+
+jobs:
+  maven-central-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Setup buf CLI (required for protobuf generation)
+        uses: bufbuild/buf-setup-action@v1
+        with:
+          github_token: ${{ github.token }}
+
+      - name: Generate Java code from protobuf
+        run: |
+          echo "☕ Generating Java code from protobuf definitions..."
+          ./dev/tool.sh generate --targets=java
+
+      - name: Run Java tests (early validation)
+        run: |
+          echo "🧪 Running Java tests..."
+          cd java
+          mvn test
+
+      - name: Extract version from tag
+        id: version
+        run: |
+          # Extract version from java/v*.*.* tag (e.g., java/v1.2.3 -> 1.2.3)
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            VERSION=$(echo "${{ github.ref_name }}" | sed 's/^java\/v//')
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
+            echo "Extracted version: $VERSION"
+          else
+            echo "Manual workflow dispatch - version must be set manually"
+            exit 1
+          fi
+
+      - name: Update POM version
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          echo "Setting Java SDK version to: $VERSION"
+          
+          # Update java/pom.xml version using Maven versions plugin
+          cd java
+          mvn versions:set -DnewVersion="$VERSION" -DgenerateBackupPoms=false
+          
+          echo "Updated java/pom.xml version:"
+          grep '<version>' pom.xml | head -1
+
+      - name: Setup GPG for signing
+        run: |
+          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import --quiet
+          gpg --list-secret-keys --keyid-format LONG
+
+      - name: Create Maven settings with credentials
+        run: |
+          mkdir -p ~/.m2
+          cat > ~/.m2/settings.xml <<EOF
+          <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                                        http://maven.apache.org/xsd/settings-1.0.0.xsd">
+            <servers>
+              <server>
+                <id>central</id>
+                <username>${{ secrets.SONATYPE_USERNAME }}</username>
+                <password>${{ secrets.SONATYPE_PASSWORD }}</password>
+              </server>
+            </servers>
+          </settings>
+          EOF
+
+      - name: Deploy to Maven Central
+        run: |
+          echo "📦 Deploying to Maven Central..."
+          cd java
+          mvn clean deploy -Prelease \
+            -Dgpg.passphrase="${{ secrets.GPG_PASSPHRASE }}" \
+            -Dcentral.autoPublish=true \
+            --batch-mode --no-transfer-progress
+        env:
+          GPG_TTY: $(tty)
+
+      - name: Success notification
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          echo ""
+          echo "############################################################"
+          echo "#                                                          #"
+          echo "#  🎉 Java SDK v$VERSION published to Maven Central! ☕   #"
+          echo "#                                                          #"
+          echo "#  Artifact: co.meshtrade.api:api:$VERSION                #"
+          echo "#  Registry: https://central.sonatype.com/                #"
+          echo "#                                                          #"
+          echo "############################################################"
+
+      - name: Create PR with version update
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          BRANCH_NAME="chore/maven-version-update-$VERSION"
+          
+          echo "📝 Creating PR to commit version $VERSION back to repository..."
+          
+          # Configure git
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Create and checkout new branch
+          git checkout -b "$BRANCH_NAME"
+          
+          # Add only the version change
+          git add java/pom.xml
+          
+          # Commit the version change
+          COMMIT_MSG="chore: update Java SDK version to $VERSION
+          
+          After successful deployment to Maven Central registry.
+          Tag: java/v$VERSION
+          
+          🤖 Generated with [Claude Code](https://claude.ai/code)
+          
+          Co-Authored-By: Claude <noreply@anthropic.com>"
+          git commit -m "$COMMIT_MSG"
+          
+          # Push the branch
+          git push origin "$BRANCH_NAME"
+          
+          # Create PR using GitHub CLI
+          PR_BODY="## Summary
+          Updates Java SDK version to $VERSION after successful Maven Central deployment.
+          
+          ## Details
+          - Package successfully published to Maven Central registry
+          - Version updated in \`java/pom.xml\`
+          - Triggered by tag: \`java/v$VERSION\`
+          
+          ## Checklist
+          - [x] Version updated to match published package
+          - [x] Package successfully deployed to Maven Central
+          - [ ] Merged to main branch
+          
+          🤖 Generated with [Claude Code](https://claude.ai/code)"
+          
+          gh pr create \
+            --title "chore: update Java SDK version to $VERSION" \
+            --body "$PR_BODY" \
+            --base master \
+            --head "$BRANCH_NAME"
+          
+          echo "✅ PR created successfully!"
