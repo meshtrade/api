@@ -105,7 +105,6 @@ jobs:
           cd java
           mvn clean deploy -Prelease \
             -Dgpg.passphrase="${{ secrets.GPG_PASSPHRASE }}" \
-            -Dcentral.autoPublish=true \
             --batch-mode --no-transfer-progress
         env:
           GPG_TTY: $(tty)
