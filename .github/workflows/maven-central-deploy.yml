@@ -105,7 +105,6 @@ jobs:
           cd java
           mvn clean deploy -Prelease \
             -Dgpg.passphrase="${{ secrets.GPG_PASSPHRASE }}" \
-            -Dcentral.autoPublish=true \
             --batch-mode --no-transfer-progress
         env:
           GPG_TTY: $(tty)
@@ -116,7 +115,7 @@ jobs:
           echo ""
           echo "############################################################"
           echo "#                                                          #"
-          echo "#  🎉 Java SDK v$VERSION published to Maven Central! ☕   #"
+          echo "#  🎉 Java SDK v$VERSION auto-published to Maven Central! ☕ #"
           echo "#                                                          #"
           echo "#  Artifact: co.meshtrade.api:api:$VERSION                #"
           echo "#  Registry: https://central.sonatype.com/                #"
