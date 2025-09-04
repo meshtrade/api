@@ -1,5 +1,7 @@
 package co.meshtrade.api.iam.role.v1;
 
+import co.meshtrade.api.iam.role.v1.RoleOuterClass;
+
 /**
  * Utility methods for working with IAM roles.
  * 

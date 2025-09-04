@@ -1,221 +1,232 @@
 # Maven Central Deployment Guide
 
-This is a step-by-step guide for deploying the Meshtrade API Java SDK to Maven Central using the modern Central Publishing Portal (2024 approach).
+This guide explains how to publish the Meshtrade API Java SDK to Maven Central using the Central Publishing Portal API and the `central-publishing-maven-plugin`.
 
-## Prerequisites Setup
+## Prerequisites
 
-### Step 1: Create Central Portal Account
-1. Go to [Central Portal](https://central.sonatype.com/)
-2. Click "Sign Up" and create an account
-3. Verify your email address
-4. Your namespace `co.meshtrade.api` is already verified ✅
+### 1. Sonatype Account & User Token
+1. Create an account at https://central.sonatype.com/ if you don't have one
+2. Generate a user token (preferred for CI/CD):
+   - Log into https://central.sonatype.com/
+   - Go to your [Account page](https://central.sonatype.com/account)
+   - Click "Generate User Token"
+   - Save the generated **username** and **password** securely
+   - **Important**: The token generates a username/password pair, not a single token string
 
-### Step 2: Generate User Token
-1. Login to [Central Portal](https://central.sonatype.com/)
-2. Click on your username (top right) → "View Account"
-3. Click "Generate User Token"
-4. **IMPORTANT**: Save both the username and password shown - you won't see them again!
+### 2. GPG Key Setup
+You need a GPG key to sign your artifacts:
 
-### Step 3: Configure Maven Settings
-1. Open or create `~/.m2/settings.xml`
-2. Add your Central Portal credentials:
+```bash
+# Generate a new GPG key (if you don't have one)
+gpg --gen-key
+
+# List your keys to get the key ID
+gpg --list-secret-keys --keyid-format LONG
+
+# Export your public key
+gpg --armor --export your-email@example.com > public-key.asc
+
+# Upload your public key to a key server
+gpg --keyserver keyserver.ubuntu.com --send-keys YOUR_KEY_ID
+# Alternative servers: keys.openpgp.org, pgp.mit.edu
+```
+
+### 3. Configure Maven Settings
+
+Update the `maven-settings.xml` file with your user token credentials:
 
 ```xml
-<settings>
-  <servers>
-    <server>
-      <id>central</id>
-      <username>YOUR_TOKEN_USERNAME</username>
-      <password>YOUR_TOKEN_PASSWORD</password>
-    </server>
-  </servers>
-</settings>
+<server>
+  <id>central</id>
+  <username>YOUR_GENERATED_TOKEN_USERNAME</username>
+  <password>YOUR_GENERATED_TOKEN_PASSWORD</password>
+</server>
 ```
 
-### Step 4: Setup GPG Signing
-1. Check if you have a GPG key:
-   ```bash
-   gpg --list-secret-keys --keyid-format=long
-   ```
+And optionally add your GPG passphrase:
+```xml
+<gpg.passphrase>YOUR_GPG_PASSPHRASE</gpg.passphrase>
+```
 
-2. If no key exists, generate one:
-   ```bash
-   gpg --gen-key
-   # Choose: RSA and RSA, 4096 bits, no expiration
-   # Enter your name and email
-   ```
+## Deployment Steps
 
-3. Get your key ID:
-   ```bash
-   gpg --list-secret-keys --keyid-format=long
-   # Look for line like: sec   rsa4096/ABCD1234EFGH5678
-   # Your key ID is: ABCD1234EFGH5678
-   ```
-
-4. Export your public key:
-   ```bash
-   gpg --armor --export YOUR_KEY_ID > public.gpg
-   ```
-
-5. Upload public key to Central Portal:
-   - Go to [Central Portal](https://central.sonatype.com/)
-   - Click username → "View Account" → "Public Keys"
-   - Click "Add"
-   - Paste contents of `public.gpg` file
-   - Click "Save"
-
-## Deployment Process
-
-### Step 1: Pre-Deployment Checklist
-1. Ensure all changes are committed:
-   ```bash
-   git status
-   ```
-
-2. Verify version in `pom.xml`:
-   ```bash
-   grep "<version>" pom.xml | head -1
-   # Should show: <version>0.0.8</version>
-   ```
-
-3. Run tests to ensure everything works:
-   ```bash
-   mvn clean test
-   ```
-
-### Step 2: Deploy to Central Portal
-
-#### Option A: Using the Deployment Script (Recommended)
+### 1. Generate Java Code
+Ensure all protobuf code is generated:
 ```bash
-./java/deploy-to-maven-central.sh 0.0.8
+./dev/tool.sh generate --targets=java
 ```
 
-#### Option B: Manual Deployment
+### 2. Run Tests
+Verify all tests pass:
 ```bash
-# Build and deploy with release profile
-mvn clean deploy -P release
+./dev/test/java.sh
 ```
 
-You'll see output like:
+### 3. Deploy to Maven Central Portal
+
+Deploy using the release profile with your custom settings:
+```bash
+cd /Users/bernardbussy/Projects/github.com/mesh-extend-api/projects/api
+mvn clean deploy -Prelease --settings maven-settings.xml
 ```
-[INFO] central-publishing-maven-plugin:0.8.0:publish: Published - https://central.sonatype.com/publishing/deployments/[DEPLOYMENT_ID]
+
+Or if you prefer to provide the GPG passphrase at runtime:
+```bash
+mvn clean deploy -Prelease --settings maven-settings.xml -Dgpg.passphrase="YOUR_PASSPHRASE"
 ```
 
-### Step 3: Publish Your Deployment
-1. Go to [Central Portal Deployments](https://central.sonatype.com/publishing/deployments)
-2. Find your deployment (status should be "VALIDATED")
-3. Click on the deployment to review:
-   - Check all components are present
-   - Verify version is correct
-   - Ensure all artifacts are signed
-4. Click the "Publish" button
-5. Confirm publication
+### 4. Publish via Central Portal
 
-### Step 4: Verify Publication
-After clicking "Publish", your artifacts will be immediately available:
+The `central-publishing-maven-plugin` is configured with `autoPublish=false`, which means your artifacts will be uploaded but not automatically published. You have two options:
 
-1. **Central Portal**: https://central.sonatype.com/artifact/co.meshtrade/api
-2. **Maven Central**: https://repo1.maven.apache.org/maven2/co/meshtrade/api/
+**Option A: Manual Publishing (default)**
+1. Log into https://central.sonatype.com/
+2. Navigate to "Publishing" → "Deployments"
+3. Find your deployment (it will be in "VALIDATED" state)
+4. Review the deployment details
+5. Click "Publish" to release to Maven Central
 
-Note: It may take 10-30 minutes for the artifacts to be fully synchronized across all Maven Central mirrors.
+**Option B: Automatic Publishing (for CI/CD)**
+Update the plugin configuration in `pom.xml` for automated publishing:
+```xml
+<plugin>
+  <groupId>org.sonatype.central</groupId>
+  <artifactId>central-publishing-maven-plugin</artifactId>
+  <version>0.8.0</version>
+  <extensions>true</extensions>
+  <configuration>
+    <publishingServerId>central</publishingServerId>
+    <autoPublish>true</autoPublish>
+    <waitUntil>published</waitUntil>
+  </configuration>
+</plugin>
+```
+
+With `autoPublish=true`, the artifacts will automatically be published after successful validation.
+
+## Verify Publication
+
+After publishing, your artifacts will be available at:
+- **Maven Central**: https://repo1.maven.org/maven2/co/meshtrade/api/
+- **Search**: https://search.maven.org/artifact/co.meshtrade/api
+
+Note: It may take 10-30 minutes for artifacts to appear in search results.
+
+## Using the Published SDK
+
+Once published, users can add the dependency to their projects:
+
+### Maven
+```xml
+<dependency>
+    <groupId>co.meshtrade</groupId>
+    <artifactId>api</artifactId>
+    <version>0.0.8</version>
+</dependency>
+```
+
+### Gradle
+```gradle
+implementation 'co.meshtrade:api:0.0.8'
+```
+
+## Version Management
+
+To release a new version:
+1. Update version in parent pom.xml: `<version>0.0.9</version>`
+2. Update version in java/pom.xml parent reference
+3. Update version in tool/protoc-gen-meshjava/pom.xml parent reference
+4. Commit changes: `git commit -m "Bump version to 0.0.9"`
+5. Tag the release: `git tag v0.0.9`
+6. Push: `git push && git push --tags`
+7. Follow deployment steps above
 
 ## Troubleshooting
 
 ### GPG Signing Issues
+- Ensure GPG agent is running: `gpg-agent --daemon`
+- Test signing: `echo "test" | gpg --clearsign`
+- For macOS: `brew install gnupg pinentry-mac`
+- Set GPG TTY: `export GPG_TTY=$(tty)`
 
-**Problem**: "gpg: signing failed: Inappropriate ioctl for device"
-```bash
-export GPG_TTY=$(tty)
-echo "export GPG_TTY=\$(tty)" >> ~/.bashrc
+### Authentication Failures
+- Verify token is correctly set in maven-settings.xml
+- Token format should be: username is a generated token name, password is the token value
+- Test authentication at https://central.sonatype.com/
+
+### Validation Errors
+- Ensure all required metadata is present (already configured in pom.xml)
+- Javadoc and sources JARs must be included (handled by release profile)
+- All artifacts must be signed (handled by GPG plugin in release profile)
+
+## CI/CD Integration
+
+### Environment Variables and Secrets
+
+For GitHub Actions or other CI systems, set these secrets:
+- `MAVEN_CENTRAL_USERNAME`: Your generated token username
+- `MAVEN_CENTRAL_PASSWORD`: Your generated token password  
+- `GPG_PRIVATE_KEY`: Base64 encoded GPG private key
+- `GPG_PASSPHRASE`: Your GPG passphrase
+
+### GitHub Actions Example
+
+```yaml
+name: Deploy to Maven Central
+
+on:
+  push:
+    tags: ['v*']
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+    
+    - name: Import GPG key
+      env:
+        GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+        GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      run: |
+        echo "$GPG_PRIVATE_KEY" | base64 -d | gpg --batch --import
+        gpg --list-secret-keys --keyid-format LONG
+    
+    - name: Generate Java code
+      run: ./dev/tool.sh generate --targets=java
+    
+    - name: Create Maven settings
+      run: |
+        mkdir -p ~/.m2
+        cat > ~/.m2/settings.xml << EOF
+        <settings>
+          <servers>
+            <server>
+              <id>central</id>
+              <username>${{ secrets.MAVEN_CENTRAL_USERNAME }}</username>
+              <password>${{ secrets.MAVEN_CENTRAL_PASSWORD }}</password>
+            </server>
+          </servers>
+        </settings>
+        EOF
+    
+    - name: Deploy to Maven Central
+      env:
+        GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      run: |
+        mvn clean deploy -Prelease \
+          -Dgpg.passphrase="$GPG_PASSPHRASE" \
+          -Dautomatic.publishing=true
 ```
 
-**Problem**: "gpg: signing failed: No secret key"
-```bash
-# List your keys
-gpg --list-secret-keys
-# Make sure Maven uses the right key
-mvn clean deploy -P release -Dgpg.keyname=YOUR_KEY_ID
-```
 
-### Authentication Issues
-
-**Problem**: "401 Unauthorized"
-- Double-check your `~/.m2/settings.xml`
-- Ensure server id is `central` (not `ossrh`)
-- Regenerate token if needed
-
-### Deployment Validation Failures
-
-**Problem**: "Missing required metadata"
-- Ensure all these are in your pom.xml:
-  - `<name>`
-  - `<description>`
-  - `<url>`
-  - `<licenses>`
-  - `<developers>`
-  - `<scm>`
-
-**Problem**: "Missing signature files"
-- Ensure GPG plugin is in release profile
-- Check GPG is properly configured
-
-## Post-Deployment Steps
-
-1. **Update Version for Next Release**:
-   ```bash
-   # Update to next SNAPSHOT version
-   mvn versions:set -DnewVersion=0.0.9-SNAPSHOT
-   ```
-
-2. **Create GitHub Release**:
-   ```bash
-   git tag v0.0.8
-   git push origin v0.0.8
-   ```
-
-3. **Update Documentation**:
-   - Update README with new version
-   - Update any installation instructions
-
-## Quick Reference
-
-### Commands Summary
-```bash
-# Full deployment process
-mvn clean deploy -P release
-
-# Just build artifacts without deploying
-mvn clean verify -P release
-
-# Check what will be deployed
-mvn clean package -P release
-ls -la java/target/
-```
-
-### Required Files for Deployment
-After running `mvn package -P release`, you should have:
-- `api-0.0.8.jar` - Main artifact
-- `api-0.0.8-sources.jar` - Source code
-- `api-0.0.8-javadoc.jar` - Documentation
-- `*.asc` files - GPG signatures for each
-
-### Central Portal Links
-- Account Management: https://central.sonatype.com/account
-- Deployments: https://central.sonatype.com/publishing/deployments
-- Published Artifacts: https://central.sonatype.com/artifact/co.meshtrade/api
-
-## Security Best Practices
-
-1. **Never commit credentials**:
-   - Keep `~/.m2/settings.xml` out of version control
-   - Use environment variables in CI/CD
-
-2. **Protect GPG keys**:
-   - Backup private key securely
-   - Use strong passphrase
-   - Consider key expiration for additional security
-
-3. **Token Management**:
-   - Rotate Central Portal tokens periodically
-   - Use different tokens for different machines/CI systems
-   - Revoke unused tokens immediately
+## Additional Resources
+- [Central Publishing Documentation](https://central.sonatype.org/publish/publish-portal-maven/)
+- [Central Portal API](https://central.sonatype.org/publish/publish-portal-api/)
+- [Requirements](https://central.sonatype.org/publish/requirements/)

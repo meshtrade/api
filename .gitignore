@@ -183,6 +183,7 @@ venv.bak/
 credentials.json
 secrets.yml
 config.json
+maven-settings.xml
 
 # Terraform #
 #############
