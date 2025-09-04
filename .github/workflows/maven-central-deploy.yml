@@ -115,7 +115,7 @@ jobs:
           echo ""
           echo "############################################################"
           echo "#                                                          #"
-          echo "#  🎉 Java SDK v$VERSION published to Maven Central! ☕   #"
+          echo "#  🎉 Java SDK v$VERSION auto-published to Maven Central! ☕ #"
           echo "#                                                          #"
           echo "#  Artifact: co.meshtrade.api:api:$VERSION                #"
           echo "#  Registry: https://central.sonatype.com/                #"
