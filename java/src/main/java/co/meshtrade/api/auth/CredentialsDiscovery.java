@@ -18,7 +18,7 @@ import java.util.Optional;
  * as the Go and Python SDKs. It searches for credentials in the following order:
  * 
  * <ol>
- * <li><strong>Environment Variable:</strong> {@code MESH_API_CREDENTIALS} containing JSON</li>
+ * <li><strong>Environment Variable:</strong> {@code MESH_API_CREDENTIALS} containing the path to a JSON credentials file</li>
  * <li><strong>Platform-specific files:</strong>
  *     <ul>
  *     <li>Linux: {@code $XDG_CONFIG_HOME/mesh/credentials.json} or {@code ~/.config/mesh/credentials.json}</li>
@@ -70,7 +70,7 @@ public final class CredentialsDiscovery {
      * 
      * <p>This method searches for credentials in the following order:
      * <ol>
-     * <li>Environment variable: {@code MESH_API_CREDENTIALS}</li>
+     * <li>Environment variable: {@code MESH_API_CREDENTIALS} (path to credentials file)</li>
      * <li>Platform-specific credential files</li>
      * </ol>
      * 
@@ -100,6 +100,9 @@ public final class CredentialsDiscovery {
     /**
      * Attempts to find credentials from the MESH_API_CREDENTIALS environment variable.
      * 
+     * <p>The environment variable should contain a file path to the credentials JSON file,
+     * consistent with the Go and Python SDK behavior.
+     * 
      * @return credentials if found and valid, empty Optional otherwise
      */
     static Optional<Credentials> findCredentialsFromEnvironment() {
@@ -109,13 +112,29 @@ public final class CredentialsDiscovery {
             return Optional.empty();
         }
         
-        try {
-            logger.debug("Parsing credentials from environment variable");
-            return parseCredentialsJson(envValue.trim());
-        } catch (Exception e) {
-            logger.warn("Failed to parse credentials from environment variable: {}", e.getMessage());
+        String credentialsPath = envValue.trim();
+        logger.debug("Loading credentials from environment variable path: {}", credentialsPath);
+        
+        Path path = Paths.get(credentialsPath);
+        if (!Files.exists(path) || !Files.isReadable(path)) {
+            logger.warn("Credentials file not found or not readable: {}", credentialsPath);
             return Optional.empty();
         }
+        
+        try {
+            String content = Files.readString(path);
+            Optional<Credentials> credentials = parseCredentialsJson(content);
+            if (credentials.isPresent()) {
+                logger.debug("Successfully loaded credentials from environment variable path: {}", credentialsPath);
+                return credentials;
+            }
+        } catch (IOException e) {
+            logger.warn("Failed to read credentials file from environment variable {}: {}", credentialsPath, e.getMessage());
+        } catch (Exception e) {
+            logger.warn("Failed to parse credentials from environment variable file {}: {}", credentialsPath, e.getMessage());
+        }
+        
+        return Optional.empty();
     }
     
     /**
