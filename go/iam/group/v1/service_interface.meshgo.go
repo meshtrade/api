@@ -6,15 +6,97 @@ import (
 	context "context"
 )
 
+// GroupService manages group lifecycle and hierarchy.
+//
+// Groups are the fundamental organizational units in Mesh that:
+// - Own resources and define permission boundaries
+// - Form hierarchical structures for permission inheritance
+// - Contain users and API users for access control
+// - Enable multi-tenancy and resource isolation
+//
+// All operations require IAM domain permissions and operate within
+// the authenticated group context's hierarchy.
 type GroupService interface {
-	// Get Specific Group.
-	GetGroup(ctx context.Context, request *GetGroupRequest) (*Group, error)
+	// Creates a new group within the hierarchy.
+	//
+	// The group will be created as a child of the authenticated group context.
+	// The system generates a unique identifier (ULID) for the new group.
+	//
+	// Parameters:
+	// - group: Group configuration (name field ignored, assigned by system)
+	// - owner: Must match the authenticated group context
+	// - display_name: Human-readable name for the group
+	// - description: Optional description of the group's purpose
+	//
+	// Returns:
+	// - Group: Newly created group with generated name and all fields populated
+	//
+	// Authorization: Requires ROLE_IAM_ADMIN
+	CreateGroup(ctx context.Context, request *CreateGroupRequest) (*Group, error)
 
-	// Get all groups
+	// Updates an existing group's metadata.
+	//
+	// Only the display_name and description fields can be modified.
+	// The group's name and owner fields are immutable.
+	//
+	// Parameters:
+	// - group: Complete group resource with updated fields
+	// - name: Must match existing group identifier
+	// - owner: Must match existing owner (cannot be changed)
+	// - display_name: New display name for the group
+	// - description: New description for the group
+	//
+	// Returns:
+	// - Group: Updated group resource with all fields
+	//
+	// Authorization: Requires ROLE_IAM_ADMIN
+	UpdateGroup(ctx context.Context, request *UpdateGroupRequest) (*Group, error)
+
+	// Lists all groups in the authenticated group's hierarchy.
+	//
+	// Returns the authenticated group and all descendant groups
+	// in the ownership tree. Results can be sorted by various fields.
+	//
+	// Parameters:
+	// - sorting: Optional sorting configuration
+	// - field: Field to sort by (e.g., "name", "display_name")
+	// - order: Sort order (ASC or DESC)
+	//
+	// Returns:
+	// - ListGroupsResponse: Collection of groups in the hierarchy
+	//
+	// Authorization: Requires ROLE_IAM_ADMIN or ROLE_IAM_VIEWER
 	ListGroups(ctx context.Context, request *ListGroupsRequest) (*ListGroupsResponse, error)
 
-	// Get all groups with search filtering options.
+	// Searches groups using substring matching on metadata fields.
+	//
+	// Performs case-insensitive substring search on display_name and/or
+	// description fields within the authenticated group's hierarchy.
+	// Both search criteria are combined with OR logic.
+	//
+	// Parameters:
+	// - display_name: Optional substring to search in display names
+	// - description: Optional substring to search in descriptions
+	// - sorting: Optional sorting configuration
+	// - field: Field to sort by ("name" or "display_name")
+	// - order: Sort order (ASC or DESC)
+	//
+	// Returns:
+	// - SearchGroupsResponse: Collection of matching groups
+	//
+	// Authorization: Requires ROLE_IAM_ADMIN or ROLE_IAM_VIEWER
 	SearchGroups(ctx context.Context, request *SearchGroupsRequest) (*SearchGroupsResponse, error)
+
+	// Retrieves a single group by its unique identifier.
+	//
+	// Parameters:
+	// - name: The resource name in format groups/{group_id}
+	//
+	// Returns:
+	// - Group: Complete group resource including all metadata
+	//
+	// Authorization: Requires ROLE_IAM_ADMIN or ROLE_IAM_VIEWER
+	GetGroup(ctx context.Context, request *GetGroupRequest) (*Group, error)
 }
 
 const GroupServiceServiceProviderName = "meshtrade-iam-group-v1-GroupService"

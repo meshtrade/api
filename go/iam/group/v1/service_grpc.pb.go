@@ -19,21 +19,104 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	GroupService_GetGroup_FullMethodName     = "/meshtrade.iam.group.v1.GroupService/GetGroup"
+	GroupService_CreateGroup_FullMethodName  = "/meshtrade.iam.group.v1.GroupService/CreateGroup"
+	GroupService_UpdateGroup_FullMethodName  = "/meshtrade.iam.group.v1.GroupService/UpdateGroup"
 	GroupService_ListGroups_FullMethodName   = "/meshtrade.iam.group.v1.GroupService/ListGroups"
 	GroupService_SearchGroups_FullMethodName = "/meshtrade.iam.group.v1.GroupService/SearchGroups"
+	GroupService_GetGroup_FullMethodName     = "/meshtrade.iam.group.v1.GroupService/GetGroup"
 )
 
 // GroupServiceClient is the client API for GroupService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// GroupService manages group lifecycle and hierarchy.
+//
+// Groups are the fundamental organizational units in Mesh that:
+// - Own resources and define permission boundaries
+// - Form hierarchical structures for permission inheritance
+// - Contain users and API users for access control
+// - Enable multi-tenancy and resource isolation
+//
+// All operations require IAM domain permissions and operate within
+// the authenticated group context's hierarchy.
 type GroupServiceClient interface {
-	// Get Specific Group.
-	GetGroup(ctx context.Context, in *GetGroupRequest, opts ...grpc.CallOption) (*Group, error)
-	// Get all groups
+	// Creates a new group within the hierarchy.
+	//
+	// The group will be created as a child of the authenticated group context.
+	// The system generates a unique identifier (ULID) for the new group.
+	//
+	// Parameters:
+	// - group: Group configuration (name field ignored, assigned by system)
+	// - owner: Must match the authenticated group context
+	// - display_name: Human-readable name for the group
+	// - description: Optional description of the group's purpose
+	//
+	// Returns:
+	// - Group: Newly created group with generated name and all fields populated
+	//
+	// Authorization: Requires ROLE_IAM_ADMIN
+	CreateGroup(ctx context.Context, in *CreateGroupRequest, opts ...grpc.CallOption) (*Group, error)
+	// Updates an existing group's metadata.
+	//
+	// Only the display_name and description fields can be modified.
+	// The group's name and owner fields are immutable.
+	//
+	// Parameters:
+	// - group: Complete group resource with updated fields
+	// - name: Must match existing group identifier
+	// - owner: Must match existing owner (cannot be changed)
+	// - display_name: New display name for the group
+	// - description: New description for the group
+	//
+	// Returns:
+	// - Group: Updated group resource with all fields
+	//
+	// Authorization: Requires ROLE_IAM_ADMIN
+	UpdateGroup(ctx context.Context, in *UpdateGroupRequest, opts ...grpc.CallOption) (*Group, error)
+	// Lists all groups in the authenticated group's hierarchy.
+	//
+	// Returns the authenticated group and all descendant groups
+	// in the ownership tree. Results can be sorted by various fields.
+	//
+	// Parameters:
+	// - sorting: Optional sorting configuration
+	// - field: Field to sort by (e.g., "name", "display_name")
+	// - order: Sort order (ASC or DESC)
+	//
+	// Returns:
+	// - ListGroupsResponse: Collection of groups in the hierarchy
+	//
+	// Authorization: Requires ROLE_IAM_ADMIN or ROLE_IAM_VIEWER
 	ListGroups(ctx context.Context, in *ListGroupsRequest, opts ...grpc.CallOption) (*ListGroupsResponse, error)
-	// Get all groups with search filtering options.
+	// Searches groups using substring matching on metadata fields.
+	//
+	// Performs case-insensitive substring search on display_name and/or
+	// description fields within the authenticated group's hierarchy.
+	// Both search criteria are combined with OR logic.
+	//
+	// Parameters:
+	// - display_name: Optional substring to search in display names
+	// - description: Optional substring to search in descriptions
+	// - sorting: Optional sorting configuration
+	// - field: Field to sort by ("name" or "display_name")
+	// - order: Sort order (ASC or DESC)
+	//
+	// Returns:
+	// - SearchGroupsResponse: Collection of matching groups
+	//
+	// Authorization: Requires ROLE_IAM_ADMIN or ROLE_IAM_VIEWER
 	SearchGroups(ctx context.Context, in *SearchGroupsRequest, opts ...grpc.CallOption) (*SearchGroupsResponse, error)
+	// Retrieves a single group by its unique identifier.
+	//
+	// Parameters:
+	// - name: The resource name in format groups/{group_id}
+	//
+	// Returns:
+	// - Group: Complete group resource including all metadata
+	//
+	// Authorization: Requires ROLE_IAM_ADMIN or ROLE_IAM_VIEWER
+	GetGroup(ctx context.Context, in *GetGroupRequest, opts ...grpc.CallOption) (*Group, error)
 }
 
 type groupServiceClient struct {
@@ -44,10 +127,20 @@ func NewGroupServiceClient(cc grpc.ClientConnInterface) GroupServiceClient {
 	return &groupServiceClient{cc}
 }
 
-func (c *groupServiceClient) GetGroup(ctx context.Context, in *GetGroupRequest, opts ...grpc.CallOption) (*Group, error) {
+func (c *groupServiceClient) CreateGroup(ctx context.Context, in *CreateGroupRequest, opts ...grpc.CallOption) (*Group, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(Group)
-	err := c.cc.Invoke(ctx, GroupService_GetGroup_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, GroupService_CreateGroup_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *groupServiceClient) UpdateGroup(ctx context.Context, in *UpdateGroupRequest, opts ...grpc.CallOption) (*Group, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Group)
+	err := c.cc.Invoke(ctx, GroupService_UpdateGroup_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -74,16 +167,107 @@ func (c *groupServiceClient) SearchGroups(ctx context.Context, in *SearchGroupsR
 	return out, nil
 }
 
+func (c *groupServiceClient) GetGroup(ctx context.Context, in *GetGroupRequest, opts ...grpc.CallOption) (*Group, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Group)
+	err := c.cc.Invoke(ctx, GroupService_GetGroup_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // GroupServiceServer is the server API for GroupService service.
 // All implementations must embed UnimplementedGroupServiceServer
 // for forward compatibility.
+//
+// GroupService manages group lifecycle and hierarchy.
+//
+// Groups are the fundamental organizational units in Mesh that:
+// - Own resources and define permission boundaries
+// - Form hierarchical structures for permission inheritance
+// - Contain users and API users for access control
+// - Enable multi-tenancy and resource isolation
+//
+// All operations require IAM domain permissions and operate within
+// the authenticated group context's hierarchy.
 type GroupServiceServer interface {
-	// Get Specific Group.
-	GetGroup(context.Context, *GetGroupRequest) (*Group, error)
-	// Get all groups
+	// Creates a new group within the hierarchy.
+	//
+	// The group will be created as a child of the authenticated group context.
+	// The system generates a unique identifier (ULID) for the new group.
+	//
+	// Parameters:
+	// - group: Group configuration (name field ignored, assigned by system)
+	// - owner: Must match the authenticated group context
+	// - display_name: Human-readable name for the group
+	// - description: Optional description of the group's purpose
+	//
+	// Returns:
+	// - Group: Newly created group with generated name and all fields populated
+	//
+	// Authorization: Requires ROLE_IAM_ADMIN
+	CreateGroup(context.Context, *CreateGroupRequest) (*Group, error)
+	// Updates an existing group's metadata.
+	//
+	// Only the display_name and description fields can be modified.
+	// The group's name and owner fields are immutable.
+	//
+	// Parameters:
+	// - group: Complete group resource with updated fields
+	// - name: Must match existing group identifier
+	// - owner: Must match existing owner (cannot be changed)
+	// - display_name: New display name for the group
+	// - description: New description for the group
+	//
+	// Returns:
+	// - Group: Updated group resource with all fields
+	//
+	// Authorization: Requires ROLE_IAM_ADMIN
+	UpdateGroup(context.Context, *UpdateGroupRequest) (*Group, error)
+	// Lists all groups in the authenticated group's hierarchy.
+	//
+	// Returns the authenticated group and all descendant groups
+	// in the ownership tree. Results can be sorted by various fields.
+	//
+	// Parameters:
+	// - sorting: Optional sorting configuration
+	// - field: Field to sort by (e.g., "name", "display_name")
+	// - order: Sort order (ASC or DESC)
+	//
+	// Returns:
+	// - ListGroupsResponse: Collection of groups in the hierarchy
+	//
+	// Authorization: Requires ROLE_IAM_ADMIN or ROLE_IAM_VIEWER
 	ListGroups(context.Context, *ListGroupsRequest) (*ListGroupsResponse, error)
-	// Get all groups with search filtering options.
+	// Searches groups using substring matching on metadata fields.
+	//
+	// Performs case-insensitive substring search on display_name and/or
+	// description fields within the authenticated group's hierarchy.
+	// Both search criteria are combined with OR logic.
+	//
+	// Parameters:
+	// - display_name: Optional substring to search in display names
+	// - description: Optional substring to search in descriptions
+	// - sorting: Optional sorting configuration
+	// - field: Field to sort by ("name" or "display_name")
+	// - order: Sort order (ASC or DESC)
+	//
+	// Returns:
+	// - SearchGroupsResponse: Collection of matching groups
+	//
+	// Authorization: Requires ROLE_IAM_ADMIN or ROLE_IAM_VIEWER
 	SearchGroups(context.Context, *SearchGroupsRequest) (*SearchGroupsResponse, error)
+	// Retrieves a single group by its unique identifier.
+	//
+	// Parameters:
+	// - name: The resource name in format groups/{group_id}
+	//
+	// Returns:
+	// - Group: Complete group resource including all metadata
+	//
+	// Authorization: Requires ROLE_IAM_ADMIN or ROLE_IAM_VIEWER
+	GetGroup(context.Context, *GetGroupRequest) (*Group, error)
 	mustEmbedUnimplementedGroupServiceServer()
 }
 
@@ -94,14 +278,20 @@ type GroupServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedGroupServiceServer struct{}
 
-func (UnimplementedGroupServiceServer) GetGroup(context.Context, *GetGroupRequest) (*Group, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetGroup not implemented")
+func (UnimplementedGroupServiceServer) CreateGroup(context.Context, *CreateGroupRequest) (*Group, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateGroup not implemented")
+}
+func (UnimplementedGroupServiceServer) UpdateGroup(context.Context, *UpdateGroupRequest) (*Group, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateGroup not implemented")
 }
 func (UnimplementedGroupServiceServer) ListGroups(context.Context, *ListGroupsRequest) (*ListGroupsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListGroups not implemented")
 }
 func (UnimplementedGroupServiceServer) SearchGroups(context.Context, *SearchGroupsRequest) (*SearchGroupsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SearchGroups not implemented")
+}
+func (UnimplementedGroupServiceServer) GetGroup(context.Context, *GetGroupRequest) (*Group, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetGroup not implemented")
 }
 func (UnimplementedGroupServiceServer) mustEmbedUnimplementedGroupServiceServer() {}
 func (UnimplementedGroupServiceServer) testEmbeddedByValue()                      {}
@@ -124,20 +314,38 @@ func RegisterGroupServiceServer(s grpc.ServiceRegistrar, srv GroupServiceServer)
 	s.RegisterService(&GroupService_ServiceDesc, srv)
 }
 
-func _GroupService_GetGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetGroupRequest)
+func _GroupService_CreateGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateGroupRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GroupServiceServer).GetGroup(ctx, in)
+		return srv.(GroupServiceServer).CreateGroup(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: GroupService_GetGroup_FullMethodName,
+		FullMethod: GroupService_CreateGroup_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GroupServiceServer).GetGroup(ctx, req.(*GetGroupRequest))
+		return srv.(GroupServiceServer).CreateGroup(ctx, req.(*CreateGroupRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GroupService_UpdateGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateGroupRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GroupServiceServer).UpdateGroup(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GroupService_UpdateGroup_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GroupServiceServer).UpdateGroup(ctx, req.(*UpdateGroupRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -178,6 +386,24 @@ func _GroupService_SearchGroups_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _GroupService_GetGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetGroupRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GroupServiceServer).GetGroup(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GroupService_GetGroup_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GroupServiceServer).GetGroup(ctx, req.(*GetGroupRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // GroupService_ServiceDesc is the grpc.ServiceDesc for GroupService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -186,8 +412,12 @@ var GroupService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*GroupServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetGroup",
-			Handler:    _GroupService_GetGroup_Handler,
+			MethodName: "CreateGroup",
+			Handler:    _GroupService_CreateGroup_Handler,
+		},
+		{
+			MethodName: "UpdateGroup",
+			Handler:    _GroupService_UpdateGroup_Handler,
 		},
 		{
 			MethodName: "ListGroups",
@@ -196,6 +426,10 @@ var GroupService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SearchGroups",
 			Handler:    _GroupService_SearchGroups_Handler,
+		},
+		{
+			MethodName: "GetGroup",
+			Handler:    _GroupService_GetGroup_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

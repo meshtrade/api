@@ -2,29 +2,86 @@ syntax = "proto3";
 
 package meshtrade.iam.group.v1;
 
+import "buf/validate/validate.proto";
 import "meshtrade/iam/group/v1/group.proto";
 import "meshtrade/iam/role/v1/role.proto";
 import "meshtrade/option/v1/method_type.proto";
+import "meshtrade/type/v1/sorting.proto";
 
 option go_package = "github.com/meshtrade/api/go/iam/group/v1;groupv1";
 option java_package = "co.meshtrade.api.iam.group.v1";
 
+/*
+   GroupService manages group lifecycle and hierarchy.
+
+   Groups are the fundamental organizational units in Mesh that:
+   - Own resources and define permission boundaries
+   - Form hierarchical structures for permission inheritance
+   - Contain users and API users for access control
+   - Enable multi-tenancy and resource isolation
+
+   All operations require IAM domain permissions and operate within
+   the authenticated group context's hierarchy.
+*/
 service GroupService {
   /*
-     Get Specific Group.
+     Creates a new group within the hierarchy.
+
+     The group will be created as a child of the authenticated group context.
+     The system generates a unique identifier (ULID) for the new group.
+
+     Parameters:
+     - group: Group configuration (name field ignored, assigned by system)
+       - owner: Must match the authenticated group context
+       - display_name: Human-readable name for the group
+       - description: Optional description of the group's purpose
+
+     Returns:
+     - Group: Newly created group with generated name and all fields populated
   */
-  rpc GetGroup(GetGroupRequest) returns (meshtrade.iam.group.v1.Group) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
+  rpc CreateGroup(CreateGroupRequest) returns (Group) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
     option (meshtrade.iam.role.v1.roles) = {
-      roles: [
-        ROLE_IAM_ADMIN,
-        ROLE_IAM_VIEWER
-      ]
+      roles: [ROLE_IAM_ADMIN]
     };
   }
 
   /*
-     Get all groups
+     Updates an existing group's metadata.
+
+     Only the display_name and description fields can be modified.
+     The group's name and owner fields are immutable.
+
+     Parameters:
+     - group: Complete group resource with updated fields
+       - name: Must match existing group identifier
+       - owner: Must match existing owner (cannot be changed)
+       - display_name: New display name for the group
+       - description: New description for the group
+
+     Returns:
+     - Group: Updated group resource with all fields
+  */
+  rpc UpdateGroup(UpdateGroupRequest) returns (Group) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [ROLE_IAM_ADMIN]
+    };
+  }
+
+  /*
+     Lists all groups in the authenticated group's hierarchy.
+
+     Returns the authenticated group and all descendant groups
+     in the ownership tree. Results can be sorted by various fields.
+
+     Parameters:
+     - sorting: Optional sorting configuration
+       - field: Field to sort by (e.g., "name", "display_name")
+       - order: Sort order (ASC or DESC)
+
+     Returns:
+     - ListGroupsResponse: Collection of groups in the hierarchy
   */
   rpc ListGroups(ListGroupsRequest) returns (ListGroupsResponse) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
@@ -37,7 +94,21 @@ service GroupService {
   }
 
   /*
-     Get all groups with search filtering options.
+     Searches groups using substring matching on metadata fields.
+
+     Performs case-insensitive substring search on display_name and/or
+     description fields within the authenticated group's hierarchy.
+     Both search criteria are combined with OR logic.
+
+     Parameters:
+     - display_name: Optional substring to search in display names
+     - description: Optional substring to search in descriptions
+     - sorting: Optional sorting configuration
+       - field: Field to sort by ("name" or "display_name")
+       - order: Sort order (ASC or DESC)
+
+     Returns:
+     - SearchGroupsResponse: Collection of matching groups
   */
   rpc SearchGroups(SearchGroupsRequest) returns (SearchGroupsResponse) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
@@ -48,28 +119,192 @@ service GroupService {
       ]
     };
   }
-}
 
-message GetGroupRequest {
   /*
-     Name of the group to get.
+     Retrieves a single group by its unique identifier.
+
+     Parameters:
+     - name: The resource name in format groups/{group_id}
+
+     Returns:
+     - Group: Complete group resource including all metadata
   */
-  string name = 1;
+  rpc GetGroup(GetGroupRequest) returns (Group) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_VIEWER
+      ]
+    };
+  }
 }
 
-message ListGroupsRequest {}
+/*
+   Request to create a new group.
+*/
+message CreateGroupRequest {
+  /*
+     The group configuration for creation.
+     The name field will be ignored and assigned by the system.
+  */
+  Group group = 1 [(buf.validate.field) = {required: true}];
+}
 
+/*
+   Request to update an existing group.
+*/
+message UpdateGroupRequest {
+  /*
+     Complete group resource with updated fields.
+     Only display_name and description can be modified.
+  */
+  Group group = 1 [(buf.validate.field) = {required: true}];
+}
+
+/*
+   Request to list all groups in the hierarchy.
+*/
+message ListGroupsRequest {
+  /*
+     Sorting configuration for organizing results.
+  */
+  message Sorting {
+    /*
+       Field to sort by (e.g., "name", "display_name").
+    */
+    string field = 1 [(buf.validate.field) = {
+      string: {
+        in: [
+          "",
+          "name",
+          "display_name"
+        ]
+      }
+      cel: {
+        id: "field.valid"
+        message: "field must be one of: name, display_name, or empty"
+        expression: "this in ['', 'name', 'display_name']"
+      }
+    }];
+
+    /*
+       Sort order for results.
+    */
+    meshtrade.type.v1.SortingOrder order = 2;
+  }
+
+  /*
+     Optional sorting configuration.
+  */
+  Sorting sorting = 1;
+}
+
+/*
+   Response containing a list of groups.
+*/
 message ListGroupsResponse {
-  repeated meshtrade.iam.group.v1.Group groups = 1;
+  /*
+     Collection of groups in the hierarchy.
+  */
+  repeated Group groups = 1;
 }
 
+/*
+   Request to search groups with filtering criteria.
+*/
 message SearchGroupsRequest {
   /*
-     Name is a substring search for groups.
+     Sorting configuration for organizing results.
   */
-  string name = 1;
+  message Sorting {
+    /*
+       Field to sort by ("name" or "display_name").
+    */
+    string field = 1 [(buf.validate.field) = {
+      string: {
+        in: [
+          "",
+          "name",
+          "display_name"
+        ]
+      }
+      cel: {
+        id: "field.valid"
+        message: "field must be one of: name, display_name, or empty"
+        expression: "this in ['', 'name', 'display_name']"
+      }
+    }];
+
+    /*
+       Sort order for results.
+    */
+    meshtrade.type.v1.SortingOrder order = 2;
+  }
+
+  /*
+     Optional substring to search for in group display names.
+     Case-insensitive partial matching.
+  */
+  string display_name = 1 [(buf.validate.field) = {
+    string: {max_len: 255}
+    cel: {
+      id: "display_name.max_length"
+      message: "display_name search term must not exceed 255 characters"
+      expression: "size(this) <= 255"
+    }
+  }];
+
+  /*
+     Optional substring to search for in group descriptions.
+     Case-insensitive partial matching.
+  */
+  string description = 2 [(buf.validate.field) = {
+    string: {max_len: 255}
+    cel: {
+      id: "description.max_length"
+      message: "description search term must not exceed 255 characters"
+      expression: "size(this) <= 255"
+    }
+  }];
+
+  /*
+     Optional sorting configuration.
+  */
+  Sorting sorting = 3;
 }
 
+/*
+   Response containing search results.
+*/
 message SearchGroupsResponse {
-  repeated meshtrade.iam.group.v1.Group groups = 1;
+  /*
+     Collection of groups matching the search criteria.
+  */
+  repeated Group groups = 1;
+}
+
+/*
+   Request to retrieve a specific group.
+*/
+message GetGroupRequest {
+  /*
+     The resource name of the group to retrieve in format groups/{group_id}.
+  */
+  string name = 1 [(buf.validate.field) = {
+    string: {
+      min_len: 1
+      pattern: "^groups/[0-9A-Z]{26}$"
+    }
+    cel: {
+      id: "name.required"
+      message: "name is required and must be in format groups/{ulid}"
+      expression: "size(this) > 0"
+    }
+    cel: {
+      id: "name.format"
+      message: "name must be in format groups/{ulid} where ulid is exactly 26 uppercase alphanumeric characters"
+      expression: "this.matches('^groups/[0-9A-Z]{26}$')"
+    }
+  }];
 }

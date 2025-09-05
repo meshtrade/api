@@ -121,11 +121,19 @@ func NewGroupService(opts ...config.ServiceOption) (GroupServiceClientInterface,
 	return &groupService{BaseGRPCClient: base}, nil
 }
 
-// GetGroup executes the GetGroup RPC method with automatic
+// CreateGroup executes the CreateGroup RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
-func (s *groupService) GetGroup(ctx context.Context, request *GetGroupRequest) (*Group, error) {
-	return grpc.Execute(s.Executor(), ctx, "GetGroup", request, func(ctx context.Context) (*Group, error) {
-		return s.GrpcClient().GetGroup(ctx, request)
+func (s *groupService) CreateGroup(ctx context.Context, request *CreateGroupRequest) (*Group, error) {
+	return grpc.Execute(s.Executor(), ctx, "CreateGroup", request, func(ctx context.Context) (*Group, error) {
+		return s.GrpcClient().CreateGroup(ctx, request)
+	})
+}
+
+// UpdateGroup executes the UpdateGroup RPC method with automatic
+// client-side validation, timeout handling, distributed tracing, and authentication.
+func (s *groupService) UpdateGroup(ctx context.Context, request *UpdateGroupRequest) (*Group, error) {
+	return grpc.Execute(s.Executor(), ctx, "UpdateGroup", request, func(ctx context.Context) (*Group, error) {
+		return s.GrpcClient().UpdateGroup(ctx, request)
 	})
 }
 
@@ -142,5 +150,13 @@ func (s *groupService) ListGroups(ctx context.Context, request *ListGroupsReques
 func (s *groupService) SearchGroups(ctx context.Context, request *SearchGroupsRequest) (*SearchGroupsResponse, error) {
 	return grpc.Execute(s.Executor(), ctx, "SearchGroups", request, func(ctx context.Context) (*SearchGroupsResponse, error) {
 		return s.GrpcClient().SearchGroups(ctx, request)
+	})
+}
+
+// GetGroup executes the GetGroup RPC method with automatic
+// client-side validation, timeout handling, distributed tracing, and authentication.
+func (s *groupService) GetGroup(ctx context.Context, request *GetGroupRequest) (*Group, error) {
+	return grpc.Execute(s.Executor(), ctx, "GetGroup", request, func(ctx context.Context) (*Group, error) {
+		return s.GrpcClient().GetGroup(ctx, request)
 	})
 }

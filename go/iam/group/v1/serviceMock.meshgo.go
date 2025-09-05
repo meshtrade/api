@@ -15,22 +15,36 @@ var _ GroupService = &MockGroupService{}
 type MockGroupService struct {
 	mutex                       sync.Mutex
 	T                           *testing.T
-	GetGroupFunc                func(t *testing.T, m *MockGroupService, ctx context.Context, request *GetGroupRequest) (*Group, error)
-	GetGroupFuncInvocations     int
+	CreateGroupFunc             func(t *testing.T, m *MockGroupService, ctx context.Context, request *CreateGroupRequest) (*Group, error)
+	CreateGroupFuncInvocations  int
+	UpdateGroupFunc             func(t *testing.T, m *MockGroupService, ctx context.Context, request *UpdateGroupRequest) (*Group, error)
+	UpdateGroupFuncInvocations  int
 	ListGroupsFunc              func(t *testing.T, m *MockGroupService, ctx context.Context, request *ListGroupsRequest) (*ListGroupsResponse, error)
 	ListGroupsFuncInvocations   int
 	SearchGroupsFunc            func(t *testing.T, m *MockGroupService, ctx context.Context, request *SearchGroupsRequest) (*SearchGroupsResponse, error)
 	SearchGroupsFuncInvocations int
+	GetGroupFunc                func(t *testing.T, m *MockGroupService, ctx context.Context, request *GetGroupRequest) (*Group, error)
+	GetGroupFuncInvocations     int
 }
 
-func (m *MockGroupService) GetGroup(ctx context.Context, request *GetGroupRequest) (*Group, error) {
+func (m *MockGroupService) CreateGroup(ctx context.Context, request *CreateGroupRequest) (*Group, error) {
 	m.mutex.Lock()
-	m.GetGroupFuncInvocations++
+	m.CreateGroupFuncInvocations++
 	m.mutex.Unlock()
-	if m.GetGroupFunc == nil {
+	if m.CreateGroupFunc == nil {
 		return nil, nil
 	}
-	return m.GetGroupFunc(m.T, m, ctx, request)
+	return m.CreateGroupFunc(m.T, m, ctx, request)
+}
+
+func (m *MockGroupService) UpdateGroup(ctx context.Context, request *UpdateGroupRequest) (*Group, error) {
+	m.mutex.Lock()
+	m.UpdateGroupFuncInvocations++
+	m.mutex.Unlock()
+	if m.UpdateGroupFunc == nil {
+		return nil, nil
+	}
+	return m.UpdateGroupFunc(m.T, m, ctx, request)
 }
 
 func (m *MockGroupService) ListGroups(ctx context.Context, request *ListGroupsRequest) (*ListGroupsResponse, error) {
@@ -51,4 +65,14 @@ func (m *MockGroupService) SearchGroups(ctx context.Context, request *SearchGrou
 		return nil, nil
 	}
 	return m.SearchGroupsFunc(m.T, m, ctx, request)
+}
+
+func (m *MockGroupService) GetGroup(ctx context.Context, request *GetGroupRequest) (*Group, error) {
+	m.mutex.Lock()
+	m.GetGroupFuncInvocations++
+	m.mutex.Unlock()
+	if m.GetGroupFunc == nil {
+		return nil, nil
+	}
+	return m.GetGroupFunc(m.T, m, ctx, request)
 }

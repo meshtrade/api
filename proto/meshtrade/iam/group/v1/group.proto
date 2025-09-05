@@ -2,9 +2,95 @@ syntax = "proto3";
 
 package meshtrade.iam.group.v1;
 
+import "buf/validate/validate.proto";
+
 option go_package = "github.com/meshtrade/api/go/iam/group/v1;groupv1";
 option java_package = "co.meshtrade.api.iam.group.v1";
 
+/*
+   Represents a group in the IAM system.
+
+   Groups are fundamental organizational units that own resources and define
+   permission boundaries. Each group has a hierarchical ownership structure
+   and can OWN users, API users, and other resources.
+*/
 message Group {
+  /*
+     The unique, immutable, and canonical name of the group resource in the format groups/{group_id}.
+     The {group_id} is a system-generated unique identifier (ULID) that will never change.
+     System set on creation.
+  */
   string name = 1;
+
+  /*
+     The resource name of the parent group that owns this group in the format groups/{ulid}.
+     This field establishes the ownership hierarchy.
+     Required on creation.
+  */
+  string owner = 2 [(buf.validate.field) = {
+    string: {
+      min_len: 1
+      pattern: "^groups/[0-9A-Z]{26}$"
+    }
+    cel: {
+      id: "owner.required"
+      message: "owner is required and must be in format groups/{ulid}"
+      expression: "size(this) > 0"
+    }
+    cel: {
+      id: "owner.format"
+      message: "owner must be in format groups/{ulid} where ulid is exactly 26 uppercase alphanumeric characters"
+      expression: "this.matches('^groups/[0-9A-Z]{26}$')"
+    }
+  }];
+
+  /*
+     The resource names of the parent groups that are in this groups hierarchy in the format [groups/{ulid}, groups/someOtherGroup].
+     This field establishes the ownership hierarchy showing the full tree path from root to this group.
+     Populated by the system using hierarchical tree building.
+  */
+  repeated string owners = 3 [(buf.validate.field) = {
+    repeated: {
+      items: {
+        string: {
+          min_len: 1
+          pattern: "^groups/[0-9A-Z]{26}$"
+        }
+        cel: {
+          id: "owners.format"
+          message: "each owner must be in format groups/{ulid} where ulid is exactly 26 uppercase alphanumeric characters"
+          expression: "this.matches('^groups/[0-9A-Z]{26}$')"
+        }
+      }
+    }
+  }];
+
+  /*
+     A non-unique, user-provided name for the group, used for display purposes.
+     Required on creation and can be updated.
+  */
+  string display_name = 4 [(buf.validate.field) = {
+    string: {
+      min_len: 1
+      max_len: 255
+    }
+    cel: {
+      id: "display_name.required"
+      message: "display name is required and must be between 1 and 255 characters"
+      expression: "size(this) > 0 && size(this) <= 255"
+    }
+  }];
+
+  /*
+     Optional description providing additional context about the group's purpose.
+     Can be updated.
+  */
+  string description = 5 [(buf.validate.field) = {
+    string: {max_len: 1000}
+    cel: {
+      id: "description.max_length"
+      message: "description must not exceed 1000 characters"
+      expression: "size(this) <= 1000"
+    }
+  }];
 }

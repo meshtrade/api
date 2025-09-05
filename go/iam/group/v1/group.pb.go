@@ -7,6 +7,7 @@
 package groupv1
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -21,9 +22,27 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// Represents a group in the IAM system.
+//
+// Groups are fundamental organizational units that own resources and define
+// permission boundaries. Each group has a hierarchical ownership structure
+// and can contain users, API users, and other resources.
 type Group struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The unique, immutable, and canonical name of the group resource in the format groups/{group_id}.
+	// The {group_id} is a system-generated unique identifier (ULID) that will never change.
+	// System set on creation.
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	// The resource name of the parent group that owns this group in the format groups/{ulid}.
+	// This field establishes the ownership hierarchy.
+	// Required on creation.
+	Owner string `protobuf:"bytes,2,opt,name=owner,proto3" json:"owner,omitempty"`
+	// A non-unique, user-provided name for the group, used for display purposes.
+	// Required on creation and can be updated.
+	DisplayName string `protobuf:"bytes,3,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
+	// Optional description providing additional context about the group's purpose.
+	// Can be updated.
+	Description   string `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -65,13 +84,41 @@ func (x *Group) GetName() string {
 	return ""
 }
 
+func (x *Group) GetOwner() string {
+	if x != nil {
+		return x.Owner
+	}
+	return ""
+}
+
+func (x *Group) GetDisplayName() string {
+	if x != nil {
+		return x.DisplayName
+	}
+	return ""
+}
+
+func (x *Group) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
 var File_meshtrade_iam_group_v1_group_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_group_v1_group_proto_rawDesc = "" +
 	"\n" +
-	"\"meshtrade/iam/group/v1/group.proto\x12\x16meshtrade.iam.group.v1\"\x1b\n" +
+	"\"meshtrade/iam/group/v1/group.proto\x12\x16meshtrade.iam.group.v1\x1a\x1bbuf/validate/validate.proto\"\x86\x05\n" +
 	"\x05Group\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04nameBQ\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\xab\x02\n" +
+	"\x05owner\x18\x02 \x01(\tB\x94\x02\xbaH\x90\x02\xba\x01W\n" +
+	"\x0eowner.required\x125owner is required and must be in format groups/{ulid}\x1a\x0esize(this) > 0\xba\x01\x97\x01\n" +
+	"\fowner.format\x12`owner must be in format groups/{ulid} where ulid is exactly 26 uppercase alphanumeric characters\x1a%this.matches('^groups/[0-9A-Z]{26}$')r\x19\x10\x012\x15^groups/[0-9A-Z]{26}$R\x05owner\x12\xb1\x01\n" +
+	"\fdisplay_name\x18\x03 \x01(\tB\x8d\x01\xbaH\x89\x01\xba\x01\x7f\n" +
+	"\x15display_name.required\x12Adisplay name is required and must be between 1 and 255 characters\x1a#size(this) > 0 && size(this) <= 255r\x05\x10\x01\x18\xff\x01R\vdisplayName\x12\x86\x01\n" +
+	"\vdescription\x18\x04 \x01(\tBd\xbaHa\xba\x01Y\n" +
+	"\x16description.max_length\x12+description must not exceed 1000 characters\x1a\x12size(this) <= 1000r\x03\x18\xe8\aR\vdescriptionBQ\n" +
 	"\x1dco.meshtrade.api.iam.group.v1Z0github.com/meshtrade/api/go/iam/group/v1;groupv1b\x06proto3"
 
 var (
