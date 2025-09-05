@@ -7,7 +7,7 @@
 
     <groupId>co.meshtrade.api</groupId>
     <artifactId>api</artifactId>
-    <version>0.0.9</version>
+    <version>0.0.11</version>
     <packaging>jar</packaging>
 
     <name>Meshtrade API Java SDK</name>
