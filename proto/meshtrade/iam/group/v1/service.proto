@@ -42,7 +42,10 @@ service GroupService {
   rpc CreateGroup(CreateGroupRequest) returns (Group) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
     option (meshtrade.iam.role.v1.roles) = {
-      roles: [ROLE_IAM_ADMIN]
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_GROUP_ADMIN
+      ]
     };
   }
 
@@ -65,7 +68,10 @@ service GroupService {
   rpc UpdateGroup(UpdateGroupRequest) returns (Group) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
     option (meshtrade.iam.role.v1.roles) = {
-      roles: [ROLE_IAM_ADMIN]
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_GROUP_ADMIN
+      ]
     };
   }
 
@@ -88,7 +94,9 @@ service GroupService {
     option (meshtrade.iam.role.v1.roles) = {
       roles: [
         ROLE_IAM_ADMIN,
-        ROLE_IAM_VIEWER
+        ROLE_IAM_VIEWER,
+        ROLE_IAM_GROUP_ADMIN,
+        ROLE_IAM_GROUP_VIEWER
       ]
     };
   }
@@ -115,7 +123,9 @@ service GroupService {
     option (meshtrade.iam.role.v1.roles) = {
       roles: [
         ROLE_IAM_ADMIN,
-        ROLE_IAM_VIEWER
+        ROLE_IAM_VIEWER,
+        ROLE_IAM_GROUP_ADMIN,
+        ROLE_IAM_GROUP_VIEWER
       ]
     };
   }
@@ -134,7 +144,9 @@ service GroupService {
     option (meshtrade.iam.role.v1.roles) = {
       roles: [
         ROLE_IAM_ADMIN,
-        ROLE_IAM_VIEWER
+        ROLE_IAM_VIEWER,
+        ROLE_IAM_GROUP_ADMIN,
+        ROLE_IAM_GROUP_VIEWER
       ]
     };
   }
