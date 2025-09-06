@@ -507,11 +507,11 @@ const file_meshtrade_iam_group_v1_service_proto_rawDesc = "" +
 	"\vfield.valid\x122field must be one of: name, display_name, or empty\x1a$this in ['', 'name', 'display_name']r\x16R\x00R\x04nameR\fdisplay_nameR\x05field\x125\n" +
 	"\x05order\x18\x02 \x01(\x0e2\x1f.meshtrade.type.v1.SortingOrderR\x05order\"M\n" +
 	"\x14SearchGroupsResponse\x125\n" +
-	"\x06groups\x18\x01 \x03(\v2\x1d.meshtrade.iam.group.v1.GroupR\x06groups\"\xb9\x02\n" +
-	"\x0fGetGroupRequest\x12\xa5\x02\n" +
-	"\x04name\x18\x01 \x01(\tB\x90\x02\xbaH\x8c\x02\xba\x01U\n" +
-	"\rname.required\x124name is required and must be in format groups/{ulid}\x1a\x0esize(this) > 0\xba\x01\x95\x01\n" +
-	"\vname.format\x12_name must be in format groups/{ulid} where ulid is exactly 26 uppercase alphanumeric characters\x1a%this.matches('^groups/[0-9A-Z]{26}$')r\x19\x10\x012\x15^groups/[0-9A-Z]{26}$R\x04name2\xe3\x04\n" +
+	"\x06groups\x18\x01 \x03(\v2\x1d.meshtrade.iam.group.v1.GroupR\x06groups\"\xbf\x02\n" +
+	"\x0fGetGroupRequest\x12\xab\x02\n" +
+	"\x04name\x18\x01 \x01(\tB\x96\x02\xbaH\x92\x02\xba\x01W\n" +
+	"\rname.required\x126name is required and must be in format groups/{ULIDv2}\x1a\x0esize(this) > 0\xba\x01\x99\x01\n" +
+	"\vname.format\x12cname must be in format groups/{ULIDv2} where ulidv2 is exactly 26 uppercase alphanumeric characters\x1a%this.matches('^groups/[0-9A-Z]{26}$')r\x19\x10\x012\x15^groups/[0-9A-Z]{26}$R\x04name2\xe3\x04\n" +
 	"\fGroupService\x12l\n" +
 	"\vCreateGroup\x12*.meshtrade.iam.group.v1.CreateGroupRequest\x1a\x1d.meshtrade.iam.group.v1.Group\"\x12\xa0\xb5\x18\x02\xaa\xb5\x18\n" +
 	"\n" +

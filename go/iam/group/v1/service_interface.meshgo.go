@@ -20,7 +20,7 @@ type GroupService interface {
 	// Creates a new group within the hierarchy.
 	//
 	// The group will be created as a child of the authenticated group context.
-	// The system generates a unique identifier (ULID) for the new group.
+	// The system generates a unique identifier (ULIDV2) for the new group.
 	//
 	// Parameters:
 	// - group: Group configuration (name field ignored, assigned by system)
@@ -30,6 +30,10 @@ type GroupService interface {
 	//
 	// Returns:
 	// - Group: Newly created group with generated name and all fields populated
+	//
+	// Executing Group Note:
+	// Owner of the group being created MUST be the same as executing group context.
+	// This is because write methods can ONLY be applied in the same group context.
 	CreateGroup(ctx context.Context, request *CreateGroupRequest) (*Group, error)
 
 	// Updates an existing group's metadata.
@@ -39,13 +43,17 @@ type GroupService interface {
 	//
 	// Parameters:
 	// - group: Complete group resource with updated fields
-	// - name: Must match existing group identifier
-	// - owner: Must match existing owner (cannot be changed)
+	// - name:  cannot be changed, must match existing
+	// - owner: cannot be changed, must match existing
 	// - display_name: New display name for the group
 	// - description: New description for the group
 	//
 	// Returns:
 	// - Group: Updated group resource with all fields
+	//
+	// Executing Group Note:
+	// Owner of the group being updated MUST be the same as executing group context.
+	// This is because write methods can ONLY be applied in the same group context.
 	UpdateGroup(ctx context.Context, request *UpdateGroupRequest) (*Group, error)
 
 	// Lists all groups in the authenticated group's hierarchy.
@@ -79,10 +87,10 @@ type GroupService interface {
 	// - SearchGroupsResponse: Collection of matching groups
 	SearchGroups(ctx context.Context, request *SearchGroupsRequest) (*SearchGroupsResponse, error)
 
-	// Retrieves a single group by its unique identifier.
+	// Retrieves a single group by its unique name field.
 	//
 	// Parameters:
-	// - name: The resource name in format groups/{group_id}
+	// - name: The resource name in format groups/{ULIDv2}
 	//
 	// Returns:
 	// - Group: Complete group resource including all metadata
