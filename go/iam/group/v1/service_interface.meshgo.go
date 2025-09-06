@@ -30,8 +30,6 @@ type GroupService interface {
 	//
 	// Returns:
 	// - Group: Newly created group with generated name and all fields populated
-	//
-	// Authorization: Requires ROLE_IAM_ADMIN
 	CreateGroup(ctx context.Context, request *CreateGroupRequest) (*Group, error)
 
 	// Updates an existing group's metadata.
@@ -48,8 +46,6 @@ type GroupService interface {
 	//
 	// Returns:
 	// - Group: Updated group resource with all fields
-	//
-	// Authorization: Requires ROLE_IAM_ADMIN
 	UpdateGroup(ctx context.Context, request *UpdateGroupRequest) (*Group, error)
 
 	// Lists all groups in the authenticated group's hierarchy.
@@ -64,8 +60,6 @@ type GroupService interface {
 	//
 	// Returns:
 	// - ListGroupsResponse: Collection of groups in the hierarchy
-	//
-	// Authorization: Requires ROLE_IAM_ADMIN or ROLE_IAM_VIEWER
 	ListGroups(ctx context.Context, request *ListGroupsRequest) (*ListGroupsResponse, error)
 
 	// Searches groups using substring matching on metadata fields.
@@ -83,8 +77,6 @@ type GroupService interface {
 	//
 	// Returns:
 	// - SearchGroupsResponse: Collection of matching groups
-	//
-	// Authorization: Requires ROLE_IAM_ADMIN or ROLE_IAM_VIEWER
 	SearchGroups(ctx context.Context, request *SearchGroupsRequest) (*SearchGroupsResponse, error)
 
 	// Retrieves a single group by its unique identifier.
@@ -94,8 +86,6 @@ type GroupService interface {
 	//
 	// Returns:
 	// - Group: Complete group resource including all metadata
-	//
-	// Authorization: Requires ROLE_IAM_ADMIN or ROLE_IAM_VIEWER
 	GetGroup(ctx context.Context, request *GetGroupRequest) (*Group, error)
 }
 

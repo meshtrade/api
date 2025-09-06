@@ -16,11 +16,11 @@
 from .address_pb2 import Address
 from .contact_details_pb2 import ContactDetails
 from .decimal_pb2 import Decimal
+from .sorting_pb2 import SortingOrder
 from .ledger_pb2 import Ledger
 from .token_pb2 import Token
 from .amount_pb2 import Amount
 from .date_pb2 import Date
-from .sorting_pb2 import SortingOrder
 from .time_of_day_pb2 import TimeOfDay
 
 # ===================================================================

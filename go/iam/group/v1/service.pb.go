@@ -511,22 +511,21 @@ const file_meshtrade_iam_group_v1_service_proto_rawDesc = "" +
 	"\x0fGetGroupRequest\x12\xa5\x02\n" +
 	"\x04name\x18\x01 \x01(\tB\x90\x02\xbaH\x8c\x02\xba\x01U\n" +
 	"\rname.required\x124name is required and must be in format groups/{ulid}\x1a\x0esize(this) > 0\xba\x01\x95\x01\n" +
-	"\vname.format\x12_name must be in format groups/{ulid} where ulid is exactly 26 uppercase alphanumeric characters\x1a%this.matches('^groups/[0-9A-Z]{26}$')r\x19\x10\x012\x15^groups/[0-9A-Z]{26}$R\x04name2\xc2\x04\n" +
-	"\fGroupService\x12h\n" +
-	"\vCreateGroup\x12*.meshtrade.iam.group.v1.CreateGroupRequest\x1a\x1d.meshtrade.iam.group.v1.Group\"\x0e\xa0\xb5\x18\x02\xaa\xb5\x18\x06\n" +
-	"\x04\xc0\x8d\xb7\x01\x12h\n" +
-	"\vUpdateGroup\x12*.meshtrade.iam.group.v1.UpdateGroupRequest\x1a\x1d.meshtrade.iam.group.v1.Group\"\x0e\xa0\xb5\x18\x02\xaa\xb5\x18\x06\n" +
-	"\x04\xc0\x8d\xb7\x01\x12w\n" +
+	"\vname.format\x12_name must be in format groups/{ulid} where ulid is exactly 26 uppercase alphanumeric characters\x1a%this.matches('^groups/[0-9A-Z]{26}$')r\x19\x10\x012\x15^groups/[0-9A-Z]{26}$R\x04name2\xe3\x04\n" +
+	"\fGroupService\x12l\n" +
+	"\vCreateGroup\x12*.meshtrade.iam.group.v1.CreateGroupRequest\x1a\x1d.meshtrade.iam.group.v1.Group\"\x12\xa0\xb5\x18\x02\xaa\xb5\x18\n" +
 	"\n" +
-	"ListGroups\x12).meshtrade.iam.group.v1.ListGroupsRequest\x1a*.meshtrade.iam.group.v1.ListGroupsResponse\"\x12\xa0\xb5\x18\x01\xaa\xb5\x18\n" +
+	"\b\xc0\x8d\xb7\x01\u008d\xb7\x01\x12l\n" +
+	"\vUpdateGroup\x12*.meshtrade.iam.group.v1.UpdateGroupRequest\x1a\x1d.meshtrade.iam.group.v1.Group\"\x12\xa0\xb5\x18\x02\xaa\xb5\x18\n" +
 	"\n" +
-	"\b\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01\x12}\n" +
-	"\fSearchGroups\x12+.meshtrade.iam.group.v1.SearchGroupsRequest\x1a,.meshtrade.iam.group.v1.SearchGroupsResponse\"\x12\xa0\xb5\x18\x01\xaa\xb5\x18\n" +
+	"\b\xc0\x8d\xb7\x01\u008d\xb7\x01\x12\x7f\n" +
 	"\n" +
-	"\b\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01\x12f\n" +
-	"\bGetGroup\x12'.meshtrade.iam.group.v1.GetGroupRequest\x1a\x1d.meshtrade.iam.group.v1.Group\"\x12\xa0\xb5\x18\x01\xaa\xb5\x18\n" +
-	"\n" +
-	"\b\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01BQ\n" +
+	"ListGroups\x12).meshtrade.iam.group.v1.ListGroupsRequest\x1a*.meshtrade.iam.group.v1.ListGroupsResponse\"\x1a\xa0\xb5\x18\x01\xaa\xb5\x18\x12\n" +
+	"\x10\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01\u008d\xb7\x01Í\xb7\x01\x12\x85\x01\n" +
+	"\fSearchGroups\x12+.meshtrade.iam.group.v1.SearchGroupsRequest\x1a,.meshtrade.iam.group.v1.SearchGroupsResponse\"\x1a\xa0\xb5\x18\x01\xaa\xb5\x18\x12\n" +
+	"\x10\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01\u008d\xb7\x01Í\xb7\x01\x12n\n" +
+	"\bGetGroup\x12'.meshtrade.iam.group.v1.GetGroupRequest\x1a\x1d.meshtrade.iam.group.v1.Group\"\x1a\xa0\xb5\x18\x01\xaa\xb5\x18\x12\n" +
+	"\x10\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01\u008d\xb7\x01Í\xb7\x01BQ\n" +
 	"\x1dco.meshtrade.api.iam.group.v1Z0github.com/meshtrade/api/go/iam/group/v1;groupv1b\x06proto3"
 
 var (

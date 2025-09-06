@@ -54,8 +54,6 @@ type GroupServiceClient interface {
 	//
 	// Returns:
 	// - Group: Newly created group with generated name and all fields populated
-	//
-	// Authorization: Requires ROLE_IAM_ADMIN
 	CreateGroup(ctx context.Context, in *CreateGroupRequest, opts ...grpc.CallOption) (*Group, error)
 	// Updates an existing group's metadata.
 	//
@@ -71,8 +69,6 @@ type GroupServiceClient interface {
 	//
 	// Returns:
 	// - Group: Updated group resource with all fields
-	//
-	// Authorization: Requires ROLE_IAM_ADMIN
 	UpdateGroup(ctx context.Context, in *UpdateGroupRequest, opts ...grpc.CallOption) (*Group, error)
 	// Lists all groups in the authenticated group's hierarchy.
 	//
@@ -86,8 +82,6 @@ type GroupServiceClient interface {
 	//
 	// Returns:
 	// - ListGroupsResponse: Collection of groups in the hierarchy
-	//
-	// Authorization: Requires ROLE_IAM_ADMIN or ROLE_IAM_VIEWER
 	ListGroups(ctx context.Context, in *ListGroupsRequest, opts ...grpc.CallOption) (*ListGroupsResponse, error)
 	// Searches groups using substring matching on metadata fields.
 	//
@@ -104,8 +98,6 @@ type GroupServiceClient interface {
 	//
 	// Returns:
 	// - SearchGroupsResponse: Collection of matching groups
-	//
-	// Authorization: Requires ROLE_IAM_ADMIN or ROLE_IAM_VIEWER
 	SearchGroups(ctx context.Context, in *SearchGroupsRequest, opts ...grpc.CallOption) (*SearchGroupsResponse, error)
 	// Retrieves a single group by its unique identifier.
 	//
@@ -114,8 +106,6 @@ type GroupServiceClient interface {
 	//
 	// Returns:
 	// - Group: Complete group resource including all metadata
-	//
-	// Authorization: Requires ROLE_IAM_ADMIN or ROLE_IAM_VIEWER
 	GetGroup(ctx context.Context, in *GetGroupRequest, opts ...grpc.CallOption) (*Group, error)
 }
 
@@ -205,8 +195,6 @@ type GroupServiceServer interface {
 	//
 	// Returns:
 	// - Group: Newly created group with generated name and all fields populated
-	//
-	// Authorization: Requires ROLE_IAM_ADMIN
 	CreateGroup(context.Context, *CreateGroupRequest) (*Group, error)
 	// Updates an existing group's metadata.
 	//
@@ -222,8 +210,6 @@ type GroupServiceServer interface {
 	//
 	// Returns:
 	// - Group: Updated group resource with all fields
-	//
-	// Authorization: Requires ROLE_IAM_ADMIN
 	UpdateGroup(context.Context, *UpdateGroupRequest) (*Group, error)
 	// Lists all groups in the authenticated group's hierarchy.
 	//
@@ -237,8 +223,6 @@ type GroupServiceServer interface {
 	//
 	// Returns:
 	// - ListGroupsResponse: Collection of groups in the hierarchy
-	//
-	// Authorization: Requires ROLE_IAM_ADMIN or ROLE_IAM_VIEWER
 	ListGroups(context.Context, *ListGroupsRequest) (*ListGroupsResponse, error)
 	// Searches groups using substring matching on metadata fields.
 	//
@@ -255,8 +239,6 @@ type GroupServiceServer interface {
 	//
 	// Returns:
 	// - SearchGroupsResponse: Collection of matching groups
-	//
-	// Authorization: Requires ROLE_IAM_ADMIN or ROLE_IAM_VIEWER
 	SearchGroups(context.Context, *SearchGroupsRequest) (*SearchGroupsResponse, error)
 	// Retrieves a single group by its unique identifier.
 	//
@@ -265,8 +247,6 @@ type GroupServiceServer interface {
 	//
 	// Returns:
 	// - Group: Complete group resource including all metadata
-	//
-	// Authorization: Requires ROLE_IAM_ADMIN or ROLE_IAM_VIEWER
 	GetGroup(context.Context, *GetGroupRequest) (*Group, error)
 	mustEmbedUnimplementedGroupServiceServer()
 }

@@ -38,6 +38,8 @@ const (
 	Role_ROLE_COMPLIANCE_VIEWER   Role = 2000001
 	Role_ROLE_IAM_ADMIN           Role = 3000000
 	Role_ROLE_IAM_VIEWER          Role = 3000001
+	Role_ROLE_IAM_GROUP_ADMIN     Role = 3000002
+	Role_ROLE_IAM_GROUP_VIEWER    Role = 3000003
 	Role_ROLE_ISSUANCE_HUB_ADMIN  Role = 4000000
 	Role_ROLE_ISSUANCE_HUB_VIEWER Role = 4000001
 	Role_ROLE_TRADING_ADMIN       Role = 5000000
@@ -56,6 +58,8 @@ var (
 		2000001: "ROLE_COMPLIANCE_VIEWER",
 		3000000: "ROLE_IAM_ADMIN",
 		3000001: "ROLE_IAM_VIEWER",
+		3000002: "ROLE_IAM_GROUP_ADMIN",
+		3000003: "ROLE_IAM_GROUP_VIEWER",
 		4000000: "ROLE_ISSUANCE_HUB_ADMIN",
 		4000001: "ROLE_ISSUANCE_HUB_VIEWER",
 		5000000: "ROLE_TRADING_ADMIN",
@@ -71,6 +75,8 @@ var (
 		"ROLE_COMPLIANCE_VIEWER":   2000001,
 		"ROLE_IAM_ADMIN":           3000000,
 		"ROLE_IAM_VIEWER":          3000001,
+		"ROLE_IAM_GROUP_ADMIN":     3000002,
+		"ROLE_IAM_GROUP_VIEWER":    3000003,
 		"ROLE_ISSUANCE_HUB_ADMIN":  4000000,
 		"ROLE_ISSUANCE_HUB_VIEWER": 4000001,
 		"ROLE_TRADING_ADMIN":       5000000,
@@ -188,7 +194,7 @@ const file_meshtrade_iam_role_v1_role_proto_rawDesc = "" +
 	"\n" +
 	" meshtrade/iam/role/v1/role.proto\x12\x15meshtrade.iam.role.v1\x1a google/protobuf/descriptor.proto\"=\n" +
 	"\bRoleList\x121\n" +
-	"\x05roles\x18\x01 \x03(\x0e2\x1b.meshtrade.iam.role.v1.RoleR\x05roles*\xe6\x02\n" +
+	"\x05roles\x18\x01 \x03(\x0e2\x1b.meshtrade.iam.role.v1.RoleR\x05roles*\xa1\x03\n" +
 	"\x04Role\x12\x14\n" +
 	"\x10ROLE_UNSPECIFIED\x10\x00\x12\x17\n" +
 	"\x11ROLE_WALLET_ADMIN\x10\xc0\x84=\x12\x18\n" +
@@ -196,7 +202,9 @@ const file_meshtrade_iam_role_v1_role_proto_rawDesc = "" +
 	"\x15ROLE_COMPLIANCE_ADMIN\x10\x80\x89z\x12\x1c\n" +
 	"\x16ROLE_COMPLIANCE_VIEWER\x10\x81\x89z\x12\x15\n" +
 	"\x0eROLE_IAM_ADMIN\x10\xc0\x8d\xb7\x01\x12\x16\n" +
-	"\x0fROLE_IAM_VIEWER\x10\xc1\x8d\xb7\x01\x12\x1e\n" +
+	"\x0fROLE_IAM_VIEWER\x10\xc1\x8d\xb7\x01\x12\x1b\n" +
+	"\x14ROLE_IAM_GROUP_ADMIN\x10\u008d\xb7\x01\x12\x1c\n" +
+	"\x15ROLE_IAM_GROUP_VIEWER\x10Í\xb7\x01\x12\x1e\n" +
 	"\x17ROLE_ISSUANCE_HUB_ADMIN\x10\x80\x92\xf4\x01\x12\x1f\n" +
 	"\x18ROLE_ISSUANCE_HUB_VIEWER\x10\x81\x92\xf4\x01\x12\x19\n" +
 	"\x12ROLE_TRADING_ADMIN\x10\xc0\x96\xb1\x02\x12\x1a\n" +

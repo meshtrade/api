@@ -15,11 +15,13 @@
 # Generated protobuf imports
 from .group_pb2 import Group
 from .service_pb2 import (
+    CreateGroupRequest,
     GetGroupRequest,
     ListGroupsRequest,
     ListGroupsResponse,
     SearchGroupsRequest,
     SearchGroupsResponse,
+    UpdateGroupRequest,
 )
 
 # Generated service imports
@@ -51,6 +53,7 @@ from .service_options_meshpy import ClientOptions
 __all__ = [
     # Generated exports
     "ClientOptions",
+    "CreateGroupRequest",
     "GetGroupRequest",
     "Group",
     "GroupService",
@@ -60,4 +63,5 @@ __all__ = [
     "ListGroupsResponse",
     "SearchGroupsRequest",
     "SearchGroupsResponse",
+    "UpdateGroupRequest",
 ]
