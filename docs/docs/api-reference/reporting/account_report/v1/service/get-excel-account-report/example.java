@@ -30,7 +30,7 @@ public class GetExcelAccountReportExample {
       // The request includes the account number and the desired date range for the report.
       GetExcelAccountReportRequest request =
           GetExcelAccountReportRequest.newBuilder()
-              .setAccountNum("100005")
+              .setAccountNumber("100005")
               .setFrom(fromTimestamp)
               .setTo(toTimestamp)
               .build();

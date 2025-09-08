@@ -21,7 +21,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Disclaimer represents supplementary information included in an income report.
+// Disclaimer represents supplementary information included in an account report.
 //
 // Disclaimers provide legal, financial, or interpretive context related to
 // the contents of the report. They may explain assumptions, limitations, or

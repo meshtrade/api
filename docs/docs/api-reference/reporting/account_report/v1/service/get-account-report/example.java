@@ -28,7 +28,7 @@ public class GetAccountReportExample {
           GetAccountReportRequest.newBuilder()
               // Specify the account for which to generate the report.
               // Example: "12345"
-              .setAccountNum("100005")
+              .setAccountNumber("100005")
               // Specify the start and end dates for the report period.
               // The dates are specified using the com.google.protobuf.Timestamp format.
               .setFrom(fromTimestamp)

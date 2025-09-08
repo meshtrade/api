@@ -10,11 +10,11 @@ option go_package = "github.com/meshtrade/api/go/reporting/account_report/v1;acc
 option java_package = "co.meshtrade.api.reporting.account_report.v1";
 
 /*
-   Entry represents a single income line item in a financial income report.
+   IncomeEntry represents a single income line item in an account report.
 
    Each entry captures a dated transaction or earning event related to a specific asset
    and token. It includes contextual metadata (description and narrative), the original
-   amount, and its equivalent value in a specified reporting currency.
+   amount, and its equivalent value in the report's specified reporting currency.
 */
 message IncomeEntry {
   /*

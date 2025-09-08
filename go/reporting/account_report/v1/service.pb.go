@@ -27,7 +27,7 @@ const (
 
 type GetAccountReportRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Mesh account number for which the income report is requested.
+	// Mesh account number for which the account report is requested.
 	AccountNumber string `protobuf:"bytes,1,opt,name=account_number,json=accountNumber,proto3" json:"account_number,omitempty"`
 	// Start of the reporting period (inclusive).
 	From *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=from,proto3" json:"from,omitempty"`
@@ -90,7 +90,7 @@ func (x *GetAccountReportRequest) GetTo() *timestamppb.Timestamp {
 
 type GetExcelAccountReportRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Mesh account number for which the income report is requested.
+	// Mesh account number for which the account report is requested.
 	AccountNumber string `protobuf:"bytes,1,opt,name=account_number,json=accountNumber,proto3" json:"account_number,omitempty"`
 	// Start of the reporting period (inclusive).
 	From *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=from,proto3" json:"from,omitempty"`

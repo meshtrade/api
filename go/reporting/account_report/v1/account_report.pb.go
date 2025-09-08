@@ -44,7 +44,7 @@ type AccountReport struct {
 	Period *AccountReport_Period `protobuf:"bytes,5,opt,name=period,proto3" json:"period,omitempty"`
 	// Timestamp indicating when this report was generated.
 	GenerationDate *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=generation_date,json=generationDate,proto3" json:"generation_date,omitempty"`
-	// Account number for which this income report applies.
+	// Account number for which this account report applies.
 	AccountNumber string `protobuf:"bytes,7,opt,name=account_number,json=accountNumber,proto3" json:"account_number,omitempty"`
 	// Optional disclaimers or notices to accompany the report.
 	Disclaimers []*Disclaimer `protobuf:"bytes,8,rep,name=disclaimers,proto3" json:"disclaimers,omitempty"`
@@ -52,7 +52,7 @@ type AccountReport struct {
 	ClientAddress *v1.Address `protobuf:"bytes,9,opt,name=client_address,json=clientAddress,proto3" json:"client_address,omitempty"`
 	// Name of the client associated with this report.
 	ClientName string `protobuf:"bytes,10,opt,name=client_name,json=clientName,proto3" json:"client_name,omitempty"`
-	// Copyright or attribution text related to this income report.
+	// Copyright or attribution text related to this account report.
 	Copyright     string `protobuf:"bytes,11,opt,name=copyright,proto3" json:"copyright,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -165,7 +165,7 @@ func (x *AccountReport) GetCopyright() string {
 	return ""
 }
 
-// Reporting period for which this income report was generated.
+// Reporting period for which this account report was generated.
 type AccountReport_Period struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Start timestamp (inclusive) of the reporting period.

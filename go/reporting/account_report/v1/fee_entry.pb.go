@@ -23,25 +23,23 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// FeeEntry defines the structure for a single fee entry, corresponding to one
-// row in the Excel sheet.
+// FeeEntry represents a single fee transaction in an account report.
+//
+// Each entry captures details about fees charged including the transaction date,
+// identifier, description, and amounts in both the original and reporting currencies.
 type FeeEntry struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// The date and time of the transaction.
-	// Using google.protobuf.Timestamp is the standard way to handle timestamps.
+	// The date and time when the fee was charged.
 	TransactionDate *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=transaction_date,json=transactionDate,proto3" json:"transaction_date,omitempty"`
-	// The unique identifier for the transaction.
+	// The unique identifier for the fee transaction.
 	TransactionId string `protobuf:"bytes,2,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"`
-	// A description of the transaction type.
+	// A description of the fee type (e.g., "Trading Fee", "Network Fee", "Service Charge").
 	Description string `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	// The transaction amount.
-	// Using 'double' for simplicity. For financial calculations, it's often better
-	// to use an integer type (e.g., int64) representing the smallest currency unit
-	// (like cents) to avoid floating-point inaccuracies.
+	// The transaction amount in the original currency.
 	Amount *v1.Amount `protobuf:"bytes,4,opt,name=amount,proto3" json:"amount,omitempty"`
-	// The value of the transaction in the reported currency.
+	// The equivalent value of the fee in the report's reporting currency.
 	ReportedCurrencyValue *v1.Amount `protobuf:"bytes,5,opt,name=reported_currency_value,json=reportedCurrencyValue,proto3" json:"reported_currency_value,omitempty"`
-	// The currency of the token (e.g., "mZAR").
+	// The currency code of the original fee token (e.g., "mZAR", "yXLM").
 	TokenCurrency string `protobuf:"bytes,6,opt,name=token_currency,json=tokenCurrency,proto3" json:"token_currency,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache

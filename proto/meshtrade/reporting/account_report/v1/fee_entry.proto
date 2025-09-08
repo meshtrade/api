@@ -9,41 +9,39 @@ option go_package = "github.com/meshtrade/api/go/reporting/account_report/v1;acc
 option java_package = "co.meshtrade.api.reporting.account_report.v1";
 
 /*
-  FeeEntry defines the structure for a single fee entry, corresponding to one
-  row in the Excel sheet.
+  FeeEntry represents a single fee transaction in an account report.
+  
+  Each entry captures details about fees charged including the transaction date,
+  identifier, description, and amounts in both the original and reporting currencies.
 */
 message FeeEntry {
   /*
-    The date and time of the transaction.
-    Using google.protobuf.Timestamp is the standard way to handle timestamps.
+    The date and time when the fee was charged.
   */
   google.protobuf.Timestamp transaction_date = 1;
 
   /*
-    The unique identifier for the transaction.
+    The unique identifier for the fee transaction.
   */
   string transaction_id = 2;
 
   /*
-    A description of the transaction type.
+    A description of the fee type (e.g., "Trading Fee", "Network Fee", "Service Charge").
   */
   string description = 3;
 
   /*
-    The transaction amount.
-    Using 'double' for simplicity. For financial calculations, it's often better
-    to use an integer type (e.g., int64) representing the smallest currency unit
-    (like cents) to avoid floating-point inaccuracies.
+    The transaction amount in the original currency.
   */
   meshtrade.type.v1.Amount amount = 4;
 
   /*
-    The value of the transaction in the reported currency.
+    The equivalent value of the fee in the report's reporting currency.
   */
   meshtrade.type.v1.Amount reported_currency_value = 5;
 
   /*
-    The currency of the token (e.g., "mZAR").
+    The currency code of the original fee token (e.g., "mZAR", "yXLM").
   */
   string token_currency = 6;
 }

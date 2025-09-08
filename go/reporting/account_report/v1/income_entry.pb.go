@@ -78,11 +78,11 @@ func (IncomeNarrative) EnumDescriptor() ([]byte, []int) {
 	return file_meshtrade_reporting_account_report_v1_income_entry_proto_rawDescGZIP(), []int{0}
 }
 
-// Entry represents a single income line item in a financial income report.
+// IncomeEntry represents a single income line item in an account report.
 //
 // Each entry captures a dated transaction or earning event related to a specific asset
 // and token. It includes contextual metadata (description and narrative), the original
-// amount, and its equivalent value in a specified reporting currency.
+// amount, and its equivalent value in the report's specified reporting currency.
 type IncomeEntry struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Human-readable name of the asset associated with this entry.

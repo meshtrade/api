@@ -6,38 +6,36 @@ import (
 	context "context"
 )
 
-// AccountReportService manages account report generation and export.
+// AccountReportService manages comprehensive account activity report generation and export.
 //
-// This service allows clients to retrieve structured reports
-// and download them as Excel files. Reports are generated for a
-// specified account over a given time range and denominated in
-// a selected reporting currency.
+// This service allows clients to retrieve structured account reports containing
+// income entries, fee transactions, and trading statements, as well as download
+// them as Excel files. Reports are generated for a specified account over a
+// given time range with all values denominated in the account's reporting currency.
 //
 // All operations require Reporting domain permissions and operate within
 // the authenticated group context.
 type AccountReportService interface {
-	// Retrieves a structured report for a specific account and time range.
+	// Retrieves a structured account report for a specific account and time range.
 	//
 	// Parameters:
-	// - account_num: Unique account identifier
-	// - from: Start timestamp for the report period
-	// - to: End timestamp for the report period
-	// - reporting_currency_token: Token in which report values are denominated
+	// - account_number: Unique account identifier
+	// - from: Start timestamp for the report period (inclusive)
+	// - to: End timestamp for the report period (inclusive)
 	//
 	// Returns:
-	// - GetAccountReportRequest: Structured income report with earnings breakdown
+	// - AccountReport: Comprehensive report containing income entries, fees, and trading statements
 	GetAccountReport(ctx context.Context, request *GetAccountReportRequest) (*AccountReport, error)
 
-	// Exports an income report to Excel format for download.
+	// Exports an account report to Excel format for download.
 	//
 	// Parameters:
-	// - account_num: Unique account identifier
-	// - from: Start timestamp for the report period
-	// - to: End timestamp for the report period
-	// - reporting_currency_token: Token in which report values are denominated
+	// - account_number: Unique account identifier (must be numeric)
+	// - from: Start timestamp for the report period (inclusive)
+	// - to: End timestamp for the report period (inclusive)
 	//
 	// Returns:
-	// - GetExcelAccountReportRequest: Base64-encoded Excel file containing the report
+	// - GetExcelAccountReportResponse: Base64-encoded Excel file containing the complete report
 	GetExcelAccountReport(ctx context.Context, request *GetExcelAccountReportRequest) (*GetExcelAccountReportResponse, error)
 }
 

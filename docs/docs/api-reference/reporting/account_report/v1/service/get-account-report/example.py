@@ -34,7 +34,7 @@ def main():
         request = GetAccountReportRequest(
             # Specify the account for which to generate the report.
             # Example: "12345"
-            account_num="100005",
+            account_number="100005",
             # Specify the start and end dates for the report period.
             # The dates are specified using the google.protobuf.Timestamp format.
             From=from_timestamp,

@@ -41,7 +41,7 @@ func main() {
 	request := &accountreportv1.GetAccountReportRequest{
 		// Specify the account for which to generate the report.
 		// Example: "12345"
-		AccountNum: "100005",
+		AccountNumber: "100005",
 
 		// Specify the start and end dates for the report period.
 		// The dates are specified using the google.protobuf.Timestamp format.

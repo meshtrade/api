@@ -12,28 +12,27 @@ option go_package = "github.com/meshtrade/api/go/reporting/account_report/v1;acc
 option java_package = "co.meshtrade.api.reporting.account_report.v1";
 
 /*
-   AccountReportService manages account report generation and export.
+   AccountReportService manages comprehensive account activity report generation and export.
 
-   This service allows clients to retrieve structured reports
-   and download them as Excel files. Reports are generated for a
-   specified account over a given time range and denominated in
-   a selected reporting currency.
+   This service allows clients to retrieve structured account reports containing
+   income entries, fee transactions, and trading statements, as well as download
+   them as Excel files. Reports are generated for a specified account over a
+   given time range with all values denominated in the account's reporting currency.
 
    All operations require Reporting domain permissions and operate within
    the authenticated group context.
 */
 service AccountReportService {
   /*
-     Retrieves a structured report for a specific account and time range.
+     Retrieves a structured account report for a specific account and time range.
 
      Parameters:
-     - account_num: Unique account identifier
-     - from: Start timestamp for the report period
-     - to: End timestamp for the report period
-     - reporting_currency_token: Token in which report values are denominated
+     - account_number: Unique account identifier
+     - from: Start timestamp for the report period (inclusive)
+     - to: End timestamp for the report period (inclusive)
 
      Returns:
-     - GetAccountReportRequest: Structured income report with earnings breakdown
+     - AccountReport: Comprehensive report containing income entries, fees, and trading statements
   */
   rpc GetAccountReport(GetAccountReportRequest) returns (reporting.account_report.v1.AccountReport) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
@@ -46,16 +45,15 @@ service AccountReportService {
   }
 
   /*
-     Exports an income report to Excel format for download.
+     Exports an account report to Excel format for download.
 
      Parameters:
-     - account_num: Unique account identifier
-     - from: Start timestamp for the report period
-     - to: End timestamp for the report period
-     - reporting_currency_token: Token in which report values are denominated
+     - account_number: Unique account identifier (must be numeric)
+     - from: Start timestamp for the report period (inclusive)
+     - to: End timestamp for the report period (inclusive)
 
      Returns:
-     - GetExcelAccountReportRequest: Base64-encoded Excel file containing the report
+     - GetExcelAccountReportResponse: Base64-encoded Excel file containing the complete report
   */
   rpc GetExcelAccountReport(GetExcelAccountReportRequest) returns (GetExcelAccountReportResponse) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
@@ -70,7 +68,7 @@ service AccountReportService {
 
 message GetAccountReportRequest {
   /*
-     Mesh account number for which the income report is requested.
+     Mesh account number for which the account report is requested.
   */
   string account_number = 1;
 
@@ -87,7 +85,7 @@ message GetAccountReportRequest {
 
 message GetExcelAccountReportRequest {
   /*
-     Mesh account number for which the income report is requested.
+     Mesh account number for which the account report is requested.
   */
   string account_number = 1 [(buf.validate.field) = {
     string: {

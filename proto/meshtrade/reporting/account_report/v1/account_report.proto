@@ -43,7 +43,7 @@ message AccountReport {
   meshtrade.type.v1.Token reporting_currency = 4;
 
   /*
-     Reporting period for which this income report was generated.
+     Reporting period for which this account report was generated.
   */
   message Period {
     /*
@@ -68,7 +68,7 @@ message AccountReport {
   google.protobuf.Timestamp generation_date = 6;
 
   /*
-     Account number for which this income report applies.
+     Account number for which this account report applies.
   */
   string account_number = 7;
 
@@ -88,7 +88,7 @@ message AccountReport {
   string client_name = 10;
 
   /*
-     Copyright or attribution text related to this income report.
+     Copyright or attribution text related to this account report.
   */
   string copyright = 11;
 }

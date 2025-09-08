@@ -27,37 +27,35 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
-// AccountReportService manages account report generation and export.
+// AccountReportService manages comprehensive account activity report generation and export.
 //
-// This service allows clients to retrieve structured reports
-// and download them as Excel files. Reports are generated for a
-// specified account over a given time range and denominated in
-// a selected reporting currency.
+// This service allows clients to retrieve structured account reports containing
+// income entries, fee transactions, and trading statements, as well as download
+// them as Excel files. Reports are generated for a specified account over a
+// given time range with all values denominated in the account's reporting currency.
 //
 // All operations require Reporting domain permissions and operate within
 // the authenticated group context.
 type AccountReportServiceClient interface {
-	// Retrieves a structured report for a specific account and time range.
+	// Retrieves a structured account report for a specific account and time range.
 	//
 	// Parameters:
-	// - account_num: Unique account identifier
-	// - from: Start timestamp for the report period
-	// - to: End timestamp for the report period
-	// - reporting_currency_token: Token in which report values are denominated
+	// - account_number: Unique account identifier
+	// - from: Start timestamp for the report period (inclusive)
+	// - to: End timestamp for the report period (inclusive)
 	//
 	// Returns:
-	// - GetAccountReportRequest: Structured income report with earnings breakdown
+	// - AccountReport: Comprehensive report containing income entries, fees, and trading statements
 	GetAccountReport(ctx context.Context, in *GetAccountReportRequest, opts ...grpc.CallOption) (*AccountReport, error)
-	// Exports an income report to Excel format for download.
+	// Exports an account report to Excel format for download.
 	//
 	// Parameters:
-	// - account_num: Unique account identifier
-	// - from: Start timestamp for the report period
-	// - to: End timestamp for the report period
-	// - reporting_currency_token: Token in which report values are denominated
+	// - account_number: Unique account identifier (must be numeric)
+	// - from: Start timestamp for the report period (inclusive)
+	// - to: End timestamp for the report period (inclusive)
 	//
 	// Returns:
-	// - GetExcelAccountReportRequest: Base64-encoded Excel file containing the report
+	// - GetExcelAccountReportResponse: Base64-encoded Excel file containing the complete report
 	GetExcelAccountReport(ctx context.Context, in *GetExcelAccountReportRequest, opts ...grpc.CallOption) (*GetExcelAccountReportResponse, error)
 }
 
@@ -93,37 +91,35 @@ func (c *accountReportServiceClient) GetExcelAccountReport(ctx context.Context, 
 // All implementations must embed UnimplementedAccountReportServiceServer
 // for forward compatibility.
 //
-// AccountReportService manages account report generation and export.
+// AccountReportService manages comprehensive account activity report generation and export.
 //
-// This service allows clients to retrieve structured reports
-// and download them as Excel files. Reports are generated for a
-// specified account over a given time range and denominated in
-// a selected reporting currency.
+// This service allows clients to retrieve structured account reports containing
+// income entries, fee transactions, and trading statements, as well as download
+// them as Excel files. Reports are generated for a specified account over a
+// given time range with all values denominated in the account's reporting currency.
 //
 // All operations require Reporting domain permissions and operate within
 // the authenticated group context.
 type AccountReportServiceServer interface {
-	// Retrieves a structured report for a specific account and time range.
+	// Retrieves a structured account report for a specific account and time range.
 	//
 	// Parameters:
-	// - account_num: Unique account identifier
-	// - from: Start timestamp for the report period
-	// - to: End timestamp for the report period
-	// - reporting_currency_token: Token in which report values are denominated
+	// - account_number: Unique account identifier
+	// - from: Start timestamp for the report period (inclusive)
+	// - to: End timestamp for the report period (inclusive)
 	//
 	// Returns:
-	// - GetAccountReportRequest: Structured income report with earnings breakdown
+	// - AccountReport: Comprehensive report containing income entries, fees, and trading statements
 	GetAccountReport(context.Context, *GetAccountReportRequest) (*AccountReport, error)
-	// Exports an income report to Excel format for download.
+	// Exports an account report to Excel format for download.
 	//
 	// Parameters:
-	// - account_num: Unique account identifier
-	// - from: Start timestamp for the report period
-	// - to: End timestamp for the report period
-	// - reporting_currency_token: Token in which report values are denominated
+	// - account_number: Unique account identifier (must be numeric)
+	// - from: Start timestamp for the report period (inclusive)
+	// - to: End timestamp for the report period (inclusive)
 	//
 	// Returns:
-	// - GetExcelAccountReportRequest: Base64-encoded Excel file containing the report
+	// - GetExcelAccountReportResponse: Base64-encoded Excel file containing the complete report
 	GetExcelAccountReport(context.Context, *GetExcelAccountReportRequest) (*GetExcelAccountReportResponse, error)
 	mustEmbedUnimplementedAccountReportServiceServer()
 }
