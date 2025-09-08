@@ -26,3 +26,5 @@ export * from "./role_pb";
 //   export * from "./my_custom_module";
 //   export { MyCustomClass } from "./another_module";
 // ===================================================================
+
+export * from "./role";
