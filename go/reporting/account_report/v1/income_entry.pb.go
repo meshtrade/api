@@ -203,7 +203,8 @@ const file_meshtrade_reporting_account_report_v1_income_entry_proto_rawDesc = ""
 	"\x0fIncomeNarrative\x12 \n" +
 	"\x1cINCOME_NARRATIVE_UNSPECIFIED\x10\x00\x12\x1a\n" +
 	"\x16INCOME_NARRATIVE_YIELD\x10\x01\x12\x1b\n" +
-	"\x17INCOME_NARRATIVE_COUPON\x10\x02BJZHgithub.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1b\x06proto3"
+	"\x17INCOME_NARRATIVE_COUPON\x10\x02Bx\n" +
+	",co.meshtrade.api.reporting.account_report.v1ZHgithub.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1b\x06proto3"
 
 var (
 	file_meshtrade_reporting_account_report_v1_income_entry_proto_rawDescOnce sync.Once

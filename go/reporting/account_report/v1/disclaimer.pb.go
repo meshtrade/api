@@ -90,7 +90,8 @@ const file_meshtrade_reporting_account_report_v1_disclaimer_proto_rawDesc = "" +
 	"\n" +
 	"Disclaimer\x12\x14\n" +
 	"\x05title\x18\x01 \x01(\tR\x05title\x12 \n" +
-	"\vdescription\x18\x02 \x01(\tR\vdescriptionBJZHgithub.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1b\x06proto3"
+	"\vdescription\x18\x02 \x01(\tR\vdescriptionBx\n" +
+	",co.meshtrade.api.reporting.account_report.v1ZHgithub.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1b\x06proto3"
 
 var (
 	file_meshtrade_reporting_account_report_v1_disclaimer_proto_rawDescOnce sync.Once

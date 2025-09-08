@@ -130,7 +130,8 @@ const file_meshtrade_reporting_account_report_v1_fee_entry_proto_rawDesc = "" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x121\n" +
 	"\x06amount\x18\x04 \x01(\v2\x19.meshtrade.type.v1.AmountR\x06amount\x12Q\n" +
 	"\x17reported_currency_value\x18\x05 \x01(\v2\x19.meshtrade.type.v1.AmountR\x15reportedCurrencyValue\x12%\n" +
-	"\x0etoken_currency\x18\x06 \x01(\tR\rtokenCurrencyBJZHgithub.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1b\x06proto3"
+	"\x0etoken_currency\x18\x06 \x01(\tR\rtokenCurrencyBx\n" +
+	",co.meshtrade.api.reporting.account_report.v1ZHgithub.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1b\x06proto3"
 
 var (
 	file_meshtrade_reporting_account_report_v1_fee_entry_proto_rawDescOnce sync.Once

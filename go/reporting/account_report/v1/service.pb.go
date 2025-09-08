@@ -220,7 +220,8 @@ const file_meshtrade_reporting_account_report_v1_service_proto_rawDesc = "" +
 	"\x10GetAccountReport\x12>.meshtrade.reporting.account_report.v1.GetAccountReportRequest\x1a4.meshtrade.reporting.account_report.v1.AccountReport\"\x0e\xa0\xb5\x18\x01\xaa\xb5\x18\x06\n" +
 	"\x04\x81\x9b\xee\x02\x12\xb2\x01\n" +
 	"\x15GetExcelAccountReport\x12C.meshtrade.reporting.account_report.v1.GetExcelAccountReportRequest\x1aD.meshtrade.reporting.account_report.v1.GetExcelAccountReportResponse\"\x0e\xa0\xb5\x18\x01\xaa\xb5\x18\x06\n" +
-	"\x04\x81\x9b\xee\x02BJZHgithub.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1b\x06proto3"
+	"\x04\x81\x9b\xee\x02Bx\n" +
+	",co.meshtrade.api.reporting.account_report.v1ZHgithub.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1b\x06proto3"
 
 var (
 	file_meshtrade_reporting_account_report_v1_service_proto_rawDescOnce sync.Once

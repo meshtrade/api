@@ -242,7 +242,8 @@ const file_meshtrade_reporting_account_report_v1_account_report_proto_rawDesc = 
 	"\tcopyright\x18\v \x01(\tR\tcopyright\x1ad\n" +
 	"\x06Period\x12.\n" +
 	"\x04from\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\x04from\x12*\n" +
-	"\x02to\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x02toBJZHgithub.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1b\x06proto3"
+	"\x02to\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x02toBx\n" +
+	",co.meshtrade.api.reporting.account_report.v1ZHgithub.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1b\x06proto3"
 
 var (
 	file_meshtrade_reporting_account_report_v1_account_report_proto_rawDescOnce sync.Once

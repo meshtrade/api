@@ -6,6 +6,7 @@ import "meshtrade/type/v1/amount.proto";
 package meshtrade.reporting.account_report.v1;
 
 option go_package = "github.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1";
+option java_package = "co.meshtrade.api.reporting.account_report.v1";
 
 /*
   FeeEntry defines the structure for a single fee entry, corresponding to one
