@@ -14,22 +14,13 @@ The primary authentication method for programmatic access to the Mesh API.
 
 **Header Format:**
 ```
-Authorization: Bearer {api_key}
+x-api-key: {api_key}
 x-group: groups/{group_ulid}
 ```
 
 **Key Characteristics:**
-- API keys are generated when creating API users
-- Each API key belongs to a specific group context
-- API keys can be activated or deactivated for access control
-- Bearer token format for standard HTTP authorization
-
-**Example:**
-```bash
-curl -H "Authorization: Bearer mesh_12345abcdef..." \
-     -H "x-group: groups/{group_ulid}" \
-     https://api.mesh.dev/iam/api_user/v1/api_users
-```
+API keys are generated when creating API users.
+- See **[Introduction](/docs/architecture/group-ownership)** or **[IAM API User Service Reference](/docs/api-reference/iam/api_user/v1)** for more.
 
 ### Group Context
 

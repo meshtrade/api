@@ -33,7 +33,7 @@ public final class ApiCredentials {
     /**
      * <pre>
      *
-     * The API key used for Bearer token authentication.
+     * The API key used for x-api-key header authentication.
      * This should be kept secure and never exposed in logs or version control.
      * Required field.
      * </pre>
@@ -45,7 +45,7 @@ public final class ApiCredentials {
     /**
      * <pre>
      *
-     * The API key used for Bearer token authentication.
+     * The API key used for x-api-key header authentication.
      * This should be kept secure and never exposed in logs or version control.
      * Required field.
      * </pre>
@@ -139,7 +139,7 @@ public final class ApiCredentials {
     /**
      * <pre>
      *
-     * The API key used for Bearer token authentication.
+     * The API key used for x-api-key header authentication.
      * This should be kept secure and never exposed in logs or version control.
      * Required field.
      * </pre>
@@ -163,7 +163,7 @@ public final class ApiCredentials {
     /**
      * <pre>
      *
-     * The API key used for Bearer token authentication.
+     * The API key used for x-api-key header authentication.
      * This should be kept secure and never exposed in logs or version control.
      * Required field.
      * </pre>
@@ -573,7 +573,7 @@ public final class ApiCredentials {
       /**
        * <pre>
        *
-       * The API key used for Bearer token authentication.
+       * The API key used for x-api-key header authentication.
        * This should be kept secure and never exposed in logs or version control.
        * Required field.
        * </pre>
@@ -596,7 +596,7 @@ public final class ApiCredentials {
       /**
        * <pre>
        *
-       * The API key used for Bearer token authentication.
+       * The API key used for x-api-key header authentication.
        * This should be kept secure and never exposed in logs or version control.
        * Required field.
        * </pre>
@@ -620,7 +620,7 @@ public final class ApiCredentials {
       /**
        * <pre>
        *
-       * The API key used for Bearer token authentication.
+       * The API key used for x-api-key header authentication.
        * This should be kept secure and never exposed in logs or version control.
        * Required field.
        * </pre>
@@ -640,7 +640,7 @@ public final class ApiCredentials {
       /**
        * <pre>
        *
-       * The API key used for Bearer token authentication.
+       * The API key used for x-api-key header authentication.
        * This should be kept secure and never exposed in logs or version control.
        * Required field.
        * </pre>
@@ -657,7 +657,7 @@ public final class ApiCredentials {
       /**
        * <pre>
        *
-       * The API key used for Bearer token authentication.
+       * The API key used for x-api-key header authentication.
        * This should be kept secure and never exposed in logs or version control.
        * Required field.
        * </pre>

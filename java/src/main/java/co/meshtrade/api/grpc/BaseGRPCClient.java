@@ -42,8 +42,8 @@ import java.util.function.Function;
  * 
  * <h2>Authentication</h2>
  * <p>Authentication is handled automatically using the API key and group from
- * {@link ServiceOptions}. The API key is sent in the Authorization header as a
- * Bearer token, while the group is sent in the x-group header.
+ * {@link ServiceOptions}. The API key is sent in the x-api-key header,
+ * while the group is sent in the x-group header.
  * 
  * <h2>Resource Management</h2>
  * <p>This class implements {@link AutoCloseable} to ensure proper cleanup of
@@ -76,7 +76,7 @@ public abstract class BaseGRPCClient<T extends AbstractStub<T>> implements AutoC
     private static final Logger logger = LoggerFactory.getLogger(BaseGRPCClient.class);
     
     private static final Metadata.Key<String> API_KEY_HEADER = 
-        Metadata.Key.of("authorization", Metadata.ASCII_STRING_MARSHALLER);
+        Metadata.Key.of("x-api-key", Metadata.ASCII_STRING_MARSHALLER);
     private static final Metadata.Key<String> GROUP_HEADER = 
         Metadata.Key.of("x-group", Metadata.ASCII_STRING_MARSHALLER);
     
@@ -335,7 +335,7 @@ public abstract class BaseGRPCClient<T extends AbstractStub<T>> implements AutoC
             public void applyRequestMetadata(RequestInfo requestInfo, Executor appExecutor, MetadataApplier applier) {
                 try {
                     Metadata headers = new Metadata();
-                    headers.put(API_KEY_HEADER, "Bearer " + options.getApiKey());
+                    headers.put(API_KEY_HEADER, options.getApiKey());
                     headers.put(GROUP_HEADER, options.getGroup());
                     applier.apply(headers);
                 } catch (Exception e) {
