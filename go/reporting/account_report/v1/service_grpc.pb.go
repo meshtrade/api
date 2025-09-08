@@ -37,27 +37,11 @@ const (
 // All operations require Reporting domain permissions and operate within
 // the authenticated group context.
 type AccountReportServiceClient interface {
-	// Retrieves a structured account report for a specific account and time range.
-	//
-	// Parameters:
-	// - account_number: Unique account identifier
-	// - from: Start timestamp for the report period (inclusive)
-	// - to: End timestamp for the report period (inclusive)
-	// - reporting_asset_token: Token in which all report values will be denominated
-	//
-	// Returns:
-	// - AccountReport: Comprehensive report containing income entries, fees, and trading statements
+	// Retrieves a structured account report for the given account account, within the given time range
+	// denominated in the given reporting asset token.
 	GetAccountReport(ctx context.Context, in *GetAccountReportRequest, opts ...grpc.CallOption) (*AccountReport, error)
-	// Exports an account report to Excel format for download.
-	//
-	// Parameters:
-	// - account_number: Unique account identifier (must be numeric)
-	// - from: Start timestamp for the report period (inclusive)
-	// - to: End timestamp for the report period (inclusive)
-	// - reporting_asset_token: Token in which all report values will be denominated
-	//
-	// Returns:
-	// - GetExcelAccountReportResponse: Base64-encoded Excel file containing the complete report
+	// Retrieves a structured account report for the given account account, within the given time range
+	// denominated in the given reporting asset token, exported to an excel file that can be downloaded.
 	GetExcelAccountReport(ctx context.Context, in *GetExcelAccountReportRequest, opts ...grpc.CallOption) (*GetExcelAccountReportResponse, error)
 }
 
@@ -103,27 +87,11 @@ func (c *accountReportServiceClient) GetExcelAccountReport(ctx context.Context, 
 // All operations require Reporting domain permissions and operate within
 // the authenticated group context.
 type AccountReportServiceServer interface {
-	// Retrieves a structured account report for a specific account and time range.
-	//
-	// Parameters:
-	// - account_number: Unique account identifier
-	// - from: Start timestamp for the report period (inclusive)
-	// - to: End timestamp for the report period (inclusive)
-	// - reporting_asset_token: Token in which all report values will be denominated
-	//
-	// Returns:
-	// - AccountReport: Comprehensive report containing income entries, fees, and trading statements
+	// Retrieves a structured account report for the given account account, within the given time range
+	// denominated in the given reporting asset token.
 	GetAccountReport(context.Context, *GetAccountReportRequest) (*AccountReport, error)
-	// Exports an account report to Excel format for download.
-	//
-	// Parameters:
-	// - account_number: Unique account identifier (must be numeric)
-	// - from: Start timestamp for the report period (inclusive)
-	// - to: End timestamp for the report period (inclusive)
-	// - reporting_asset_token: Token in which all report values will be denominated
-	//
-	// Returns:
-	// - GetExcelAccountReportResponse: Base64-encoded Excel file containing the complete report
+	// Retrieves a structured account report for the given account account, within the given time range
+	// denominated in the given reporting asset token, exported to an excel file that can be downloaded.
 	GetExcelAccountReport(context.Context, *GetExcelAccountReportRequest) (*GetExcelAccountReportResponse, error)
 	mustEmbedUnimplementedAccountReportServiceServer()
 }
