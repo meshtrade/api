@@ -1,6 +1,8 @@
 import co.meshtrade.api.reporting.account_report.v1.AccountReportService;
 import co.meshtrade.api.reporting.account_report.v1.Service.GetExcelAccountReportRequest;
 import co.meshtrade.api.reporting.account_report.v1.Service.GetExcelAccountReportResponse;
+import co.meshtrade.api.type.v1.Token.Token;
+import co.meshtrade.api.type.v1.Ledger.Ledger;
 import com.google.protobuf.Timestamp;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -33,6 +35,16 @@ public class GetExcelAccountReportExample {
               .setAccountNumber("100005")
               .setFrom(fromTimestamp)
               .setTo(toTimestamp)
+              // Specify the reporting currency token - all report values will be denominated in this currency.
+              // This example uses mZAR (South African Rand) issued on the Stellar network.
+              // Learn more: https://mzar.mesh.trade
+              // Stellar Explorer: https://stellar.expert/explorer/public/asset/mZAR-GCBNWTCCMC32UHZ5OCC2PNMFDGXRVPA7MFFBFFTCVW77SX5PMRB7Q4BY
+              .setReportingAssetToken(
+                  Token.newBuilder()
+                      .setCode("mZAR")
+                      .setIssuer("GCBNWTCCMC32UHZ5OCC2PNMFDGXRVPA7MFFBFFTCVW77SX5PMRB7Q4BY")
+                      .setLedger(Ledger.LEDGER_STELLAR)
+                      .build())
               .build();
 
       // Call the GetExcelAccountReport method to retrieve the report.

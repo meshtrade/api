@@ -7,6 +7,7 @@ import (
 	"time"
 
 	accountreportv1 "github.com/meshtrade/api/go/reporting/account_report/v1"
+	typev1 "github.com/meshtrade/api/go/type/v1"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -47,6 +48,16 @@ func main() {
 		// The dates are specified using the google.protobuf.Timestamp format.
 		From: timestamppb.New(startDate),
 		To:   timestamppb.New(endDate),
+
+		// Specify the reporting currency token - all report values will be denominated in this currency.
+		// This example uses mZAR (South African Rand) issued on the Stellar network.
+		// Learn more: https://mzar.mesh.trade
+		// Stellar Explorer: https://stellar.expert/explorer/public/asset/mZAR-GCBNWTCCMC32UHZ5OCC2PNMFDGXRVPA7MFFBFFTCVW77SX5PMRB7Q4BY
+		ReportingAssetToken: &typev1.Token{
+			Code:   "mZAR",
+			Issuer: "GCBNWTCCMC32UHZ5OCC2PNMFDGXRVPA7MFFBFFTCVW77SX5PMRB7Q4BY",
+			Ledger: typev1.Ledger_LEDGER_STELLAR,
+		},
 	}
 
 	// Call the GetAccountReport method to generate the report.

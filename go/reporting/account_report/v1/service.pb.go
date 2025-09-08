@@ -107,9 +107,13 @@ type GetExcelAccountReportRequest struct {
 	// Start of the reporting period (inclusive).
 	From *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=from,proto3" json:"from,omitempty"`
 	// End of the reporting period (inclusive).
-	To            *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=to,proto3" json:"to,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	To *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=to,proto3" json:"to,omitempty"`
+	// Reporting Asset Token is the asset token in which assets/transactions will be valuated.
+	// This will typically refer to some fiat currency stablecoin, but could also refer to another currency
+	// such as a crypto currency XLM, BTC etc.
+	ReportingAssetToken *v1.Token `protobuf:"bytes,4,opt,name=reporting_asset_token,json=reportingAssetToken,proto3" json:"reporting_asset_token,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
 }
 
 func (x *GetExcelAccountReportRequest) Reset() {
@@ -159,6 +163,13 @@ func (x *GetExcelAccountReportRequest) GetFrom() *timestamppb.Timestamp {
 func (x *GetExcelAccountReportRequest) GetTo() *timestamppb.Timestamp {
 	if x != nil {
 		return x.To
+	}
+	return nil
+}
+
+func (x *GetExcelAccountReportRequest) GetReportingAssetToken() *v1.Token {
+	if x != nil {
+		return x.ReportingAssetToken
 	}
 	return nil
 }
@@ -217,14 +228,15 @@ const file_meshtrade_reporting_account_report_v1_service_proto_rawDesc = "" +
 	"\x0eaccount_number\x18\x01 \x01(\tR\raccountNumber\x12.\n" +
 	"\x04from\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x04from\x12*\n" +
 	"\x02to\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\x02to\x12L\n" +
-	"\x15reporting_asset_token\x18\x04 \x01(\v2\x18.meshtrade.type.v1.TokenR\x13reportingAssetToken\"\x8f\x03\n" +
+	"\x15reporting_asset_token\x18\x04 \x01(\v2\x18.meshtrade.type.v1.TokenR\x13reportingAssetToken\"\xdd\x03\n" +
 	"\x1cGetExcelAccountReportRequest\x12\x90\x01\n" +
 	"\x0eaccount_number\x18\x01 \x01(\tBi\xbaHf\xba\x01R\n" +
 	"\x17account_number.required\x12\x1aaccount_number is required\x1a\x1bthis.matches('^[0-9]{1,}$')r\x0f\x10\x012\v^[0-9]{1,}$R\raccountNumber\x12q\n" +
 	"\x04from\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampBA\xbaH>\xba\x01;\n" +
 	"\rfrom.required\x12\x1c'from' timestamp is required\x1a\fthis != nullR\x04from\x12i\n" +
 	"\x02to\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampB=\xbaH:\xba\x017\n" +
-	"\vto.required\x12\x1a'to' timestamp is required\x1a\fthis != nullR\x02to\"B\n" +
+	"\vto.required\x12\x1a'to' timestamp is required\x1a\fthis != nullR\x02to\x12L\n" +
+	"\x15reporting_asset_token\x18\x04 \x01(\v2\x18.meshtrade.type.v1.TokenR\x13reportingAssetToken\"B\n" +
 	"\x1dGetExcelAccountReportResponse\x12!\n" +
 	"\fexcel_base64\x18\x01 \x01(\tR\vexcelBase642\xee\x02\n" +
 	"\x14AccountReportService\x12\x9c\x01\n" +
@@ -263,15 +275,16 @@ var file_meshtrade_reporting_account_report_v1_service_proto_depIdxs = []int32{
 	4, // 2: meshtrade.reporting.account_report.v1.GetAccountReportRequest.reporting_asset_token:type_name -> meshtrade.type.v1.Token
 	3, // 3: meshtrade.reporting.account_report.v1.GetExcelAccountReportRequest.from:type_name -> google.protobuf.Timestamp
 	3, // 4: meshtrade.reporting.account_report.v1.GetExcelAccountReportRequest.to:type_name -> google.protobuf.Timestamp
-	0, // 5: meshtrade.reporting.account_report.v1.AccountReportService.GetAccountReport:input_type -> meshtrade.reporting.account_report.v1.GetAccountReportRequest
-	1, // 6: meshtrade.reporting.account_report.v1.AccountReportService.GetExcelAccountReport:input_type -> meshtrade.reporting.account_report.v1.GetExcelAccountReportRequest
-	5, // 7: meshtrade.reporting.account_report.v1.AccountReportService.GetAccountReport:output_type -> meshtrade.reporting.account_report.v1.AccountReport
-	2, // 8: meshtrade.reporting.account_report.v1.AccountReportService.GetExcelAccountReport:output_type -> meshtrade.reporting.account_report.v1.GetExcelAccountReportResponse
-	7, // [7:9] is the sub-list for method output_type
-	5, // [5:7] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	4, // 5: meshtrade.reporting.account_report.v1.GetExcelAccountReportRequest.reporting_asset_token:type_name -> meshtrade.type.v1.Token
+	0, // 6: meshtrade.reporting.account_report.v1.AccountReportService.GetAccountReport:input_type -> meshtrade.reporting.account_report.v1.GetAccountReportRequest
+	1, // 7: meshtrade.reporting.account_report.v1.AccountReportService.GetExcelAccountReport:input_type -> meshtrade.reporting.account_report.v1.GetExcelAccountReportRequest
+	5, // 8: meshtrade.reporting.account_report.v1.AccountReportService.GetAccountReport:output_type -> meshtrade.reporting.account_report.v1.AccountReport
+	2, // 9: meshtrade.reporting.account_report.v1.AccountReportService.GetExcelAccountReport:output_type -> meshtrade.reporting.account_report.v1.GetExcelAccountReportResponse
+	8, // [8:10] is the sub-list for method output_type
+	6, // [6:8] is the sub-list for method input_type
+	6, // [6:6] is the sub-list for extension type_name
+	6, // [6:6] is the sub-list for extension extendee
+	0, // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_reporting_account_report_v1_service_proto_init() }

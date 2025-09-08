@@ -22,10 +22,12 @@ The `AccountReportService` provides two primary methods for comprehensive accoun
 - **`GetAccountReport`**: Returns structured account data as an `AccountReport` message containing income transactions, fee entries, and trading statements
 - **`GetExcelAccountReport`**: Returns the same report data as a base64-encoded Excel file for download and distribution
 
-Both methods generate reports for a specified account over a given time range, with all values denominated in the account's reporting currency. Access requires financial reporting permissions (`ROLE_REPORT_ADMIN` or `ROLE_REPORT_VIEWER`).
+Both methods generate reports for a specified account over a given time range, with all values denominated in a specified reporting currency token (such as mZAR, other stablecoins or even Cryptocurrencies).
+
+Access requires financial reporting permissions (`ROLE_REPORTING_ADMIN` or `ROLE_REPORTING_VIEWER`).
 
 :::note
-👉 See **[Role Based Access](/docs/architecture/role-based-access)** for more information about how roles grant permission to resource services.
+👉 See **[Role Based Access](/docs/architecture/role-based-access)** for more information about how roles grant permission to access resource services.
 :::
 
 ## Report Components
@@ -65,6 +67,7 @@ Use the `GetAccountReport` method to retrieve a comprehensive account report for
 - Transaction fees and charges in the `fee_entries` field
 - Complete trading history with balances in the `trading_statement_entries` field
 - Client details and period metadata in dedicated fields
+- All monetary values denominated in the specified reporting currency token
 
 ### Export to Excel
 Use the `GetExcelAccountReport` method to download the account report as a formatted Excel file. This method returns a `GetExcelAccountReportResponse` containing:
@@ -75,12 +78,13 @@ Use the `GetExcelAccountReport` method to download the account report as a forma
 
 ## Data Validation
 
-The `GetExcelAccountReport` method enforces strict validation on request parameters:
-- **Account Number**: Must be numeric digits only (validated with regex `^[0-9]{1,}$`)
+Both methods require the following parameters:
+- **Account Number**: Must be numeric digits only (validated with regex `^[0-9]{1,}$` in Excel method)
 - **Date Range**: Both `from` and `to` timestamps are required
 - **Period Bounds**: Dates are inclusive on both ends
+- **Reporting Currency Token**: Token specifying the currency for all report values (e.g., mZAR for South African Rand)
 
-The `GetAccountReport` method uses the same parameters but without explicit validation rules in the protobuf definition.
+The `GetExcelAccountReport` method enforces strict validation rules in the protobuf definition, while `GetAccountReport` uses the same parameters with server-side validation.
 
 ## Authentication & Authorization
 

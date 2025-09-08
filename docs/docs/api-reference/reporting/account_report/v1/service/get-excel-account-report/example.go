@@ -11,6 +11,7 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 
 	accountreportv1 "github.com/meshtrade/api/go/reporting/account_report/v1"
+	typev1 "github.com/meshtrade/api/go/type/v1"
 )
 
 // main is the entry point of the program.
@@ -35,6 +36,16 @@ func main() {
 		AccountNumber: "100005",
 		From:          timestamppb.New(time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC)),
 		To:            timestamppb.New(time.Date(2023, 12, 31, 0, 0, 0, 0, time.UTC)),
+
+		// Specify the reporting currency token - all report values will be denominated in this currency.
+		// This example uses mZAR (South African Rand) issued on the Stellar network.
+		// Learn more: https://mzar.mesh.trade
+		// Stellar Explorer: https://stellar.expert/explorer/public/asset/mZAR-GCBNWTCCMC32UHZ5OCC2PNMFDGXRVPA7MFFBFFTCVW77SX5PMRB7Q4BY
+		ReportingAssetToken: &typev1.Token{
+			Code:   "mZAR",
+			Issuer: "GCBNWTCCMC32UHZ5OCC2PNMFDGXRVPA7MFFBFFTCVW77SX5PMRB7Q4BY",
+			Ledger: typev1.Ledger_LEDGER_STELLAR,
+		},
 	}
 
 	// Call the GetExcelAccountReport method to retrieve the report.

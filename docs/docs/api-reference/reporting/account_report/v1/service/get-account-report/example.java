@@ -1,6 +1,8 @@
 import co.meshtrade.api.reporting.account_report.v1.AccountReportOuterClass.AccountReport;
 import co.meshtrade.api.reporting.account_report.v1.AccountReportService;
 import co.meshtrade.api.reporting.account_report.v1.Service.GetAccountReportRequest;
+import co.meshtrade.api.type.v1.Token.Token;
+import co.meshtrade.api.type.v1.Ledger.Ledger;
 import com.google.protobuf.Timestamp;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -33,6 +35,16 @@ public class GetAccountReportExample {
               // The dates are specified using the com.google.protobuf.Timestamp format.
               .setFrom(fromTimestamp)
               .setTo(toTimestamp)
+              // Specify the reporting currency token - all report values will be denominated in this currency.
+              // This example uses mZAR (South African Rand) issued on the Stellar network.
+              // Learn more: https://mzar.mesh.trade
+              // Stellar Explorer: https://stellar.expert/explorer/public/asset/mZAR-GCBNWTCCMC32UHZ5OCC2PNMFDGXRVPA7MFFBFFTCVW77SX5PMRB7Q4BY
+              .setReportingAssetToken(
+                  Token.newBuilder()
+                      .setCode("mZAR")
+                      .setIssuer("GCBNWTCCMC32UHZ5OCC2PNMFDGXRVPA7MFFBFFTCVW77SX5PMRB7Q4BY")
+                      .setLedger(Ledger.LEDGER_STELLAR)
+                      .build())
               .build();
 
       // Call the GetAccountReport method to generate the report.

@@ -7,6 +7,8 @@ from meshtrade.reporting.account_report.v1 import (
     AccountReportService,
     GetExcelAccountReportRequest,
 )
+from meshtrade.type.v1.ledger_pb2 import LEDGER_STELLAR
+from meshtrade.type.v1.token_pb2 import Token
 
 
 def main():
@@ -35,6 +37,15 @@ def main():
             account_number="100005",
             from_=from_timestamp,  # Note: 'from_' because 'from' is a Python keyword
             to=to_timestamp,
+            # Specify the reporting currency token - all report values will be denominated in this currency.
+            # This example uses mZAR (South African Rand) issued on the Stellar network.
+            # Learn more: https://mzar.mesh.trade
+            # Stellar Explorer: https://stellar.expert/explorer/public/asset/mZAR-GCBNWTCCMC32UHZ5OCC2PNMFDGXRVPA7MFFBFFTCVW77SX5PMRB7Q4BY
+            reporting_asset_token=Token(
+                code="mZAR",
+                issuer="GCBNWTCCMC32UHZ5OCC2PNMFDGXRVPA7MFFBFFTCVW77SX5PMRB7Q4BY",
+                ledger=LEDGER_STELLAR,
+            ),
         )
 
         # Call the GetExcelAccountReport method to retrieve the report.
