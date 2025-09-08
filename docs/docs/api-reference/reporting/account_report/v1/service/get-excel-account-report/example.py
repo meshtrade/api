@@ -33,7 +33,7 @@ def main():
         # The request includes the account number and the desired date range for the report.
         request = GetExcelAccountReportRequest(
             account_number="100005",
-            From=from_timestamp,
+            from_=from_timestamp,  # Note: 'from_' because 'from' is a Python keyword
             to=to_timestamp,
         )
 

@@ -1,4 +1,4 @@
-import co.meshtrade.api.reporting.account_report.v1.AccountReport.AccountReport;
+import co.meshtrade.api.reporting.account_report.v1.AccountReportOuterClass.AccountReport;
 import co.meshtrade.api.reporting.account_report.v1.AccountReportService;
 import co.meshtrade.api.reporting.account_report.v1.Service.GetAccountReportRequest;
 import com.google.protobuf.Timestamp;

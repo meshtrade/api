@@ -25,14 +25,6 @@ option java_package = "co.meshtrade.api.reporting.account_report.v1";
 service AccountReportService {
   /*
      Retrieves a structured account report for a specific account and time range.
-
-     Parameters:
-     - account_number: Unique account identifier
-     - from: Start timestamp for the report period (inclusive)
-     - to: End timestamp for the report period (inclusive)
-
-     Returns:
-     - AccountReport: Comprehensive report containing income entries, fees, and trading statements
   */
   rpc GetAccountReport(GetAccountReportRequest) returns (reporting.account_report.v1.AccountReport) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
@@ -46,14 +38,6 @@ service AccountReportService {
 
   /*
      Exports an account report to Excel format for download.
-
-     Parameters:
-     - account_number: Unique account identifier (must be numeric)
-     - from: Start timestamp for the report period (inclusive)
-     - to: End timestamp for the report period (inclusive)
-
-     Returns:
-     - GetExcelAccountReportResponse: Base64-encoded Excel file containing the complete report
   */
   rpc GetExcelAccountReport(GetExcelAccountReportRequest) returns (GetExcelAccountReportResponse) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;

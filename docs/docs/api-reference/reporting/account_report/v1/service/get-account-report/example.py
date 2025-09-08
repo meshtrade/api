@@ -37,7 +37,7 @@ def main():
             account_number="100005",
             # Specify the start and end dates for the report period.
             # The dates are specified using the google.protobuf.Timestamp format.
-            From=from_timestamp,
+            from_=from_timestamp,  # Note: 'from_' because 'from' is a Python keyword
             to=to_timestamp,
         )
 
