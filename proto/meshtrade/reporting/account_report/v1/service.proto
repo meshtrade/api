@@ -7,6 +7,7 @@ import "google/protobuf/timestamp.proto";
 import "meshtrade/iam/role/v1/role.proto";
 import "meshtrade/option/v1/method_type.proto";
 import "meshtrade/reporting/account_report/v1/account_report.proto";
+import "meshtrade/type/v1/token.proto";
 
 option go_package = "github.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1";
 option java_package = "co.meshtrade.api.reporting.account_report.v1";
@@ -65,6 +66,13 @@ message GetAccountReportRequest {
      End of the reporting period (inclusive).
   */
   google.protobuf.Timestamp to = 3;
+
+  /*
+     Reporting Asset Token is the asset token in which asssets/transactions will be valuated.
+     This will typically refer to some fiat currency stablecoin, but could also refer to another currency
+     such as a crypto currency XLM, BTC etc.
+  */
+  meshtrade.type.v1.Token reporting_asset_token = 4;
 }
 
 message GetExcelAccountReportRequest {
