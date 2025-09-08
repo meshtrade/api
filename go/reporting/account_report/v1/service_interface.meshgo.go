@@ -17,25 +17,9 @@ import (
 // the authenticated group context.
 type AccountReportService interface {
 	// Retrieves a structured account report for a specific account and time range.
-	//
-	// Parameters:
-	// - account_number: Unique account identifier
-	// - from: Start timestamp for the report period (inclusive)
-	// - to: End timestamp for the report period (inclusive)
-	//
-	// Returns:
-	// - AccountReport: Comprehensive report containing income entries, fees, and trading statements
 	GetAccountReport(ctx context.Context, request *GetAccountReportRequest) (*AccountReport, error)
 
 	// Exports an account report to Excel format for download.
-	//
-	// Parameters:
-	// - account_number: Unique account identifier (must be numeric)
-	// - from: Start timestamp for the report period (inclusive)
-	// - to: End timestamp for the report period (inclusive)
-	//
-	// Returns:
-	// - GetExcelAccountReportResponse: Base64-encoded Excel file containing the complete report
 	GetExcelAccountReport(ctx context.Context, request *GetExcelAccountReportRequest) (*GetExcelAccountReportResponse, error)
 }
 

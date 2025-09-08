@@ -38,24 +38,8 @@ const (
 // the authenticated group context.
 type AccountReportServiceClient interface {
 	// Retrieves a structured account report for a specific account and time range.
-	//
-	// Parameters:
-	// - account_number: Unique account identifier
-	// - from: Start timestamp for the report period (inclusive)
-	// - to: End timestamp for the report period (inclusive)
-	//
-	// Returns:
-	// - AccountReport: Comprehensive report containing income entries, fees, and trading statements
 	GetAccountReport(ctx context.Context, in *GetAccountReportRequest, opts ...grpc.CallOption) (*AccountReport, error)
 	// Exports an account report to Excel format for download.
-	//
-	// Parameters:
-	// - account_number: Unique account identifier (must be numeric)
-	// - from: Start timestamp for the report period (inclusive)
-	// - to: End timestamp for the report period (inclusive)
-	//
-	// Returns:
-	// - GetExcelAccountReportResponse: Base64-encoded Excel file containing the complete report
 	GetExcelAccountReport(ctx context.Context, in *GetExcelAccountReportRequest, opts ...grpc.CallOption) (*GetExcelAccountReportResponse, error)
 }
 
@@ -102,24 +86,8 @@ func (c *accountReportServiceClient) GetExcelAccountReport(ctx context.Context, 
 // the authenticated group context.
 type AccountReportServiceServer interface {
 	// Retrieves a structured account report for a specific account and time range.
-	//
-	// Parameters:
-	// - account_number: Unique account identifier
-	// - from: Start timestamp for the report period (inclusive)
-	// - to: End timestamp for the report period (inclusive)
-	//
-	// Returns:
-	// - AccountReport: Comprehensive report containing income entries, fees, and trading statements
 	GetAccountReport(context.Context, *GetAccountReportRequest) (*AccountReport, error)
 	// Exports an account report to Excel format for download.
-	//
-	// Parameters:
-	// - account_number: Unique account identifier (must be numeric)
-	// - from: Start timestamp for the report period (inclusive)
-	// - to: End timestamp for the report period (inclusive)
-	//
-	// Returns:
-	// - GetExcelAccountReportResponse: Base64-encoded Excel file containing the complete report
 	GetExcelAccountReport(context.Context, *GetExcelAccountReportRequest) (*GetExcelAccountReportResponse, error)
 	mustEmbedUnimplementedAccountReportServiceServer()
 }
