@@ -8,14 +8,15 @@ import (
 
 // AccountReportService manages account report generation and export.
 //
-// This service allows clients to retrieve structured income reports
+// This service allows clients to retrieve structured reports
 // and download them as Excel files. Reports are generated for a
 // specified account over a given time range and denominated in
 // a selected reporting currency.
 //
-// All operations require access to financial reporting permissions.
+// All operations require Reporting domain permissions and operate within
+// the authenticated group context.
 type AccountReportService interface {
-	// Retrieves a structured income report for a specific account and time range.
+	// Retrieves a structured report for a specific account and time range.
 	//
 	// Parameters:
 	// - account_num: Unique account identifier

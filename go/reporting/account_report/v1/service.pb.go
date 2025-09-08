@@ -27,8 +27,8 @@ const (
 
 type GetAccountReportRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Unique account number for which the income report is requested.
-	AccountNum string `protobuf:"bytes,1,opt,name=account_num,json=accountNum,proto3" json:"account_num,omitempty"`
+	// Mesh account number for which the income report is requested.
+	AccountNumber string `protobuf:"bytes,1,opt,name=account_number,json=accountNumber,proto3" json:"account_number,omitempty"`
 	// Start of the reporting period (inclusive).
 	From *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=from,proto3" json:"from,omitempty"`
 	// End of the reporting period (inclusive).
@@ -67,9 +67,9 @@ func (*GetAccountReportRequest) Descriptor() ([]byte, []int) {
 	return file_meshtrade_reporting_account_report_v1_service_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *GetAccountReportRequest) GetAccountNum() string {
+func (x *GetAccountReportRequest) GetAccountNumber() string {
 	if x != nil {
-		return x.AccountNum
+		return x.AccountNumber
 	}
 	return ""
 }
@@ -90,8 +90,8 @@ func (x *GetAccountReportRequest) GetTo() *timestamppb.Timestamp {
 
 type GetExcelAccountReportRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Unique account number for which the Excel export is requested.
-	AccountNum string `protobuf:"bytes,1,opt,name=account_num,json=accountNum,proto3" json:"account_num,omitempty"`
+	// Mesh account number for which the income report is requested.
+	AccountNumber string `protobuf:"bytes,1,opt,name=account_number,json=accountNumber,proto3" json:"account_number,omitempty"`
 	// Start of the reporting period (inclusive).
 	From *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=from,proto3" json:"from,omitempty"`
 	// End of the reporting period (inclusive).
@@ -130,9 +130,9 @@ func (*GetExcelAccountReportRequest) Descriptor() ([]byte, []int) {
 	return file_meshtrade_reporting_account_report_v1_service_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *GetExcelAccountReportRequest) GetAccountNum() string {
+func (x *GetExcelAccountReportRequest) GetAccountNumber() string {
 	if x != nil {
-		return x.AccountNum
+		return x.AccountNumber
 	}
 	return ""
 }
@@ -200,27 +200,27 @@ var File_meshtrade_reporting_account_report_v1_service_proto protoreflect.FileDe
 
 const file_meshtrade_reporting_account_report_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"3meshtrade/reporting/account_report/v1/service.proto\x12%meshtrade.reporting.account_report.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\x1a:meshtrade/reporting/account_report/v1/account_report.proto\"\x96\x01\n" +
-	"\x17GetAccountReportRequest\x12\x1f\n" +
-	"\vaccount_num\x18\x01 \x01(\tR\n" +
-	"accountNum\x12.\n" +
+	"3meshtrade/reporting/account_report/v1/service.proto\x12%meshtrade.reporting.account_report.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\x1a:meshtrade/reporting/account_report/v1/account_report.proto\"\x9c\x01\n" +
+	"\x17GetAccountReportRequest\x12%\n" +
+	"\x0eaccount_number\x18\x01 \x01(\tR\raccountNumber\x12.\n" +
 	"\x04from\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x04from\x12*\n" +
-	"\x02to\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\x02to\"\x83\x03\n" +
-	"\x1cGetExcelAccountReportRequest\x12\x84\x01\n" +
-	"\vaccount_num\x18\x01 \x01(\tBc\xbaH`\xba\x01L\n" +
-	"\x14account_num.required\x12\x17account_num is required\x1a\x1bthis.matches('^[0-9]{1,}$')r\x0f\x10\x012\v^[0-9]{1,}$R\n" +
-	"accountNum\x12q\n" +
+	"\x02to\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\x02to\"\x8f\x03\n" +
+	"\x1cGetExcelAccountReportRequest\x12\x90\x01\n" +
+	"\x0eaccount_number\x18\x01 \x01(\tBi\xbaHf\xba\x01R\n" +
+	"\x17account_number.required\x12\x1aaccount_number is required\x1a\x1bthis.matches('^[0-9]{1,}$')r\x0f\x10\x012\v^[0-9]{1,}$R\raccountNumber\x12q\n" +
 	"\x04from\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampBA\xbaH>\xba\x01;\n" +
 	"\rfrom.required\x12\x1c'from' timestamp is required\x1a\fthis != nullR\x04from\x12i\n" +
 	"\x02to\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampB=\xbaH:\xba\x017\n" +
 	"\vto.required\x12\x1a'to' timestamp is required\x1a\fthis != nullR\x02to\"B\n" +
 	"\x1dGetExcelAccountReportResponse\x12!\n" +
-	"\fexcel_base64\x18\x01 \x01(\tR\vexcelBase642\xe6\x02\n" +
-	"\x14AccountReportService\x12\x98\x01\n" +
-	"\x10GetAccountReport\x12>.meshtrade.reporting.account_report.v1.GetAccountReportRequest\x1a4.meshtrade.reporting.account_report.v1.AccountReport\"\x0e\xa0\xb5\x18\x01\xaa\xb5\x18\x06\n" +
-	"\x04\x81\x9b\xee\x02\x12\xb2\x01\n" +
-	"\x15GetExcelAccountReport\x12C.meshtrade.reporting.account_report.v1.GetExcelAccountReportRequest\x1aD.meshtrade.reporting.account_report.v1.GetExcelAccountReportResponse\"\x0e\xa0\xb5\x18\x01\xaa\xb5\x18\x06\n" +
-	"\x04\x81\x9b\xee\x02Bx\n" +
+	"\fexcel_base64\x18\x01 \x01(\tR\vexcelBase642\xee\x02\n" +
+	"\x14AccountReportService\x12\x9c\x01\n" +
+	"\x10GetAccountReport\x12>.meshtrade.reporting.account_report.v1.GetAccountReportRequest\x1a4.meshtrade.reporting.account_report.v1.AccountReport\"\x12\xa0\xb5\x18\x01\xaa\xb5\x18\n" +
+	"\n" +
+	"\b\x80\x9b\xee\x02\x81\x9b\xee\x02\x12\xb6\x01\n" +
+	"\x15GetExcelAccountReport\x12C.meshtrade.reporting.account_report.v1.GetExcelAccountReportRequest\x1aD.meshtrade.reporting.account_report.v1.GetExcelAccountReportResponse\"\x12\xa0\xb5\x18\x01\xaa\xb5\x18\n" +
+	"\n" +
+	"\b\x80\x9b\xee\x02\x81\x9b\xee\x02Bx\n" +
 	",co.meshtrade.api.reporting.account_report.v1ZHgithub.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1b\x06proto3"
 
 var (
