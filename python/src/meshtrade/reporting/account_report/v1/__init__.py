@@ -14,7 +14,7 @@
 
 # Generated protobuf imports
 from .fee_entry_pb2 import FeeEntry
-from .income_entry_pb2 import IncomeEntry, Narrative
+from .income_entry_pb2 import IncomeEntry, IncomeNarrative
 from .trading_statement_entry_pb2 import TradingStatementEntry
 from .disclaimer_pb2 import Disclaimer
 from .account_report_pb2 import AccountReport
@@ -59,6 +59,6 @@ __all__ = [
     "GetExcelAccountReportRequest",
     "GetExcelAccountReportResponse",
     "IncomeEntry",
-    "Narrative",
+    "IncomeNarrative",
     "TradingStatementEntry",
 ]

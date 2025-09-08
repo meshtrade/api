@@ -1,4 +1,5 @@
 import datetime
+
 from google.protobuf.timestamp_pb2 import Timestamp
 
 from meshtrade.reporting.account_report.v1 import (
@@ -19,7 +20,7 @@ def main():
     with service:
         # Define the start and end dates for the report.
         # In this example, we're requesting a report for the last 30 days.
-        end_date = datetime.datetime.now(datetime.timezone.utc)
+        end_date = datetime.datetime.now(datetime.UTC)
         start_date = end_date - datetime.timedelta(days=30)
 
         # Create Timestamps for the request
@@ -34,7 +35,6 @@ def main():
             # Specify the account for which to generate the report.
             # Example: "12345"
             account_num="100005",
-
             # Specify the start and end dates for the report period.
             # The dates are specified using the google.protobuf.Timestamp format.
             From=from_timestamp,

@@ -1,5 +1,6 @@
 import base64
 import datetime
+
 from google.protobuf.timestamp_pb2 import Timestamp
 
 from meshtrade.reporting.account_report.v1 import (
@@ -19,8 +20,8 @@ def main():
     # to release any underlying resources.
     with service:
         # Define the start and end dates for the report.
-        start_date = datetime.datetime(2023, 1, 1, tzinfo=datetime.timezone.utc)
-        end_date = datetime.datetime(2023, 12, 31, tzinfo=datetime.timezone.utc)
+        start_date = datetime.datetime(2023, 1, 1, tzinfo=datetime.UTC)
+        end_date = datetime.datetime(2023, 12, 31, tzinfo=datetime.UTC)
 
         # Create Timestamps for the request.
         from_timestamp = Timestamp()
