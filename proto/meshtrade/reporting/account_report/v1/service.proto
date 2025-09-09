@@ -25,7 +25,7 @@ option java_package = "co.meshtrade.api.reporting.account_report.v1";
 */
 service AccountReportService {
   /*
-     Retrieves a structured account report for the given account account, within the given time range
+     Retrieves a structured account report for the given account, within the given time range
      denominated in the given reporting asset token.
   */
   rpc GetAccountReport(GetAccountReportRequest) returns (reporting.account_report.v1.AccountReport) {
@@ -39,8 +39,8 @@ service AccountReportService {
   }
 
   /*
-     Retrieves a structured account report for the given account account, within the given time range
-     denominated in the given reporting asset token, exported to an excel file that can be downloaded.
+     Retrieves a structured account report for the given account, within the given time range
+     denominated in the given reporting asset token, exported to an Excel file that can be downloaded.
   */
   rpc GetExcelAccountReport(GetExcelAccountReportRequest) returns (GetExcelAccountReportResponse) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
@@ -70,7 +70,7 @@ message GetAccountReportRequest {
   google.protobuf.Timestamp to = 3;
 
   /*
-     Reporting Asset Token is the asset token in which asssets/transactions will be valuated.
+     Reporting Asset Token is the asset token in which assets/transactions will be valuated.
      This will typically refer to some fiat currency stablecoin, but could also refer to another currency
      such as a crypto currency XLM, BTC etc.
   */
