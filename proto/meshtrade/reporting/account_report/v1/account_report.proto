@@ -1,0 +1,94 @@
+syntax = "proto3";
+
+package meshtrade.reporting.account_report.v1;
+
+import "google/protobuf/timestamp.proto";
+import "meshtrade/type/v1/token.proto";
+import "meshtrade/type/v1/address.proto";
+import "meshtrade/reporting/account_report/v1/fee_entry.proto";
+import "meshtrade/reporting/account_report/v1/income_entry.proto";
+import "meshtrade/reporting/account_report/v1/trading_statement_entry.proto";
+import "meshtrade/reporting/account_report/v1/disclaimer.proto";
+
+option go_package = "github.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1";
+option java_package = "co.meshtrade.api.reporting.account_report.v1";
+
+/*
+   AccountReport represents a detailed report of account activity over a specific period.
+
+   It contains individual transaction entries for income and fees, a trading statement,
+   an aggregated summary, metadata about the reporting period, client information, and any
+   relevant disclaimers or copyright notes.
+
+   This structure supports both display and export of account reporting data.
+*/
+message AccountReport {
+  /*
+     List of detailed income entries included in this report.
+  */
+  repeated reporting.account_report.v1.IncomeEntry income_entries = 1;
+
+  /*
+     List of detailed fee entries included in this report.
+  */
+  repeated reporting.account_report.v1.FeeEntry fee_entries = 2;
+
+  /*
+     List of detailed trading statement entries included in this report.
+  */
+  repeated reporting.account_report.v1.TradingStatementEntry trading_statement_entries = 3;
+  /*
+     Token representing the currency in which the report values are denominated.
+  */
+  meshtrade.type.v1.Token reporting_currency = 4;
+
+  /*
+     Reporting period for which this account report was generated.
+  */
+  message Period {
+    /*
+       Start timestamp (inclusive) of the reporting period.
+    */
+    google.protobuf.Timestamp from = 1;
+
+    /*
+       End timestamp (inclusive) of the reporting period.
+    */
+    google.protobuf.Timestamp to = 2;
+  }
+
+  /*
+     The period covered by this report.
+  */
+  Period period = 5;
+
+  /*
+     Timestamp indicating when this report was generated.
+  */
+  google.protobuf.Timestamp generation_date = 6;
+
+  /*
+     Account number for which this account report applies.
+  */
+  string account_number = 7;
+
+  /*
+     Optional disclaimers or notices to accompany the report.
+  */
+  repeated reporting.account_report.v1.Disclaimer disclaimers = 8;
+
+  /*
+     Address details of the client for whom the report is generated.
+  */
+  meshtrade.type.v1.Address client_address = 9;
+
+  /*
+     Name of the client associated with this report.
+  */
+  string client_name = 10;
+
+  /*
+     Copyright or attribution text related to this account report.
+  */
+  string copyright = 11;
+}

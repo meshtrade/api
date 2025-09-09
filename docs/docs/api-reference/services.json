@@ -15,6 +15,11 @@
         "v1": "development"
       }
     },
+    "reporting": {
+      "account_report": {
+        "v1": "beta"
+      }
+    },
     "trading": {
       "limit_order": {
         "v1": "development"

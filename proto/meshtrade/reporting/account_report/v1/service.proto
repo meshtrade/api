@@ -1,0 +1,127 @@
+syntax = "proto3";
+
+package meshtrade.reporting.account_report.v1;
+
+import "buf/validate/validate.proto";
+import "google/protobuf/timestamp.proto";
+import "meshtrade/iam/role/v1/role.proto";
+import "meshtrade/option/v1/method_type.proto";
+import "meshtrade/reporting/account_report/v1/account_report.proto";
+import "meshtrade/type/v1/token.proto";
+
+option go_package = "github.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1";
+option java_package = "co.meshtrade.api.reporting.account_report.v1";
+
+/*
+   AccountReportService manages comprehensive account activity report generation and export.
+
+   This service allows clients to retrieve structured account reports containing
+   income entries, fee transactions, and trading statements, as well as download
+   them as Excel files. Reports are generated for a specified account over a
+   given time range with all values denominated in the account's reporting currency.
+
+   All operations require Reporting domain permissions and operate within
+   the authenticated group context.
+*/
+service AccountReportService {
+  /*
+     Retrieves a structured account report for the given account, within the given time range
+     denominated in the given reporting asset token.
+  */
+  rpc GetAccountReport(GetAccountReportRequest) returns (reporting.account_report.v1.AccountReport) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [
+        ROLE_REPORTING_ADMIN,
+        ROLE_REPORTING_VIEWER
+      ]
+    };
+  }
+
+  /*
+     Retrieves a structured account report for the given account, within the given time range
+     denominated in the given reporting asset token, exported to an Excel file that can be downloaded.
+  */
+  rpc GetExcelAccountReport(GetExcelAccountReportRequest) returns (GetExcelAccountReportResponse) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [
+        ROLE_REPORTING_ADMIN,
+        ROLE_REPORTING_VIEWER
+      ]
+    };
+  }
+}
+
+message GetAccountReportRequest {
+  /*
+     Mesh account number for which the account report is requested.
+  */
+  string account_number = 1;
+
+  /*
+     Start of the reporting period (inclusive).
+  */
+  google.protobuf.Timestamp from = 2;
+
+  /*
+     End of the reporting period (inclusive).
+  */
+  google.protobuf.Timestamp to = 3;
+
+  /*
+     Reporting Asset Token is the asset token in which assets/transactions will be valuated.
+     This will typically refer to some fiat currency stablecoin, but could also refer to another currency
+     such as a crypto currency XLM, BTC etc.
+  */
+  meshtrade.type.v1.Token reporting_asset_token = 4;
+}
+
+message GetExcelAccountReportRequest {
+  /*
+     Mesh account number for which the account report is requested.
+  */
+  string account_number = 1 [(buf.validate.field) = {
+    string: {
+      min_len: 1
+      pattern: "^[0-9]{1,}$"
+    }
+    cel: {
+      id: "account_number.required"
+      message: "account_number is required"
+      expression: "this.matches('^[0-9]{1,}$')"
+    }
+  }];
+
+  /*
+     Start of the reporting period (inclusive).
+  */
+  google.protobuf.Timestamp from = 2 [(buf.validate.field).cel = {
+    id: "from.required"
+    message: "'from' timestamp is required"
+    expression: "this != null"
+  }];
+
+  /*
+     End of the reporting period (inclusive).
+  */
+  google.protobuf.Timestamp to = 3 [(buf.validate.field).cel = {
+    id: "to.required"
+    message: "'to' timestamp is required"
+    expression: "this != null"
+  }];
+
+  /*
+     Reporting Asset Token is the asset token in which assets/transactions will be valuated.
+     This will typically refer to some fiat currency stablecoin, but could also refer to another currency
+     such as a crypto currency XLM, BTC etc.
+  */
+  meshtrade.type.v1.Token reporting_asset_token = 4;
+}
+
+message GetExcelAccountReportResponse {
+  /*
+     Base64-encoded binary content of the Excel report file.
+  */
+  string excel_base64 = 1;
+}

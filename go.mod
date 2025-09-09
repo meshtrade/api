@@ -2,7 +2,10 @@ module github.com/meshtrade/api
 
 go 1.24.3
 
-require github.com/meshtrade/api/go v0.0.0
+require (
+	github.com/meshtrade/api/go v0.0.0
+	google.golang.org/protobuf v1.36.7
+)
 
 require (
 	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.6-20250717185734-6c6e0d3c608e.1 // indirect
@@ -22,7 +25,6 @@ require (
 	google.golang.org/genproto/googleapis/api v0.0.0-20250728155136-f173205681a0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20250728155136-f173205681a0 // indirect
 	google.golang.org/grpc v1.74.2 // indirect
-	google.golang.org/protobuf v1.36.7 // indirect
 )
 
 replace github.com/meshtrade/api/go => ./go

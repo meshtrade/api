@@ -11,7 +11,14 @@
 // ===================================================================
 
 // Generated exports
-export * from "./role_pb";
+export * from "./account_report_pb";
+export * from "./disclaimer_pb";
+export * from "./fee_entry_pb";
+export * from "./income_entry_pb";
+export * from "./service_grpc_web_client_meshts";
+export * from "./service_grpc_web_pb";
+export * from "./service_pb";
+export * from "./trading_statement_entry_pb";
 
 // ===================================================================
 // END OF AUTO-GENERATED SECTION
@@ -26,5 +33,3 @@ export * from "./role_pb";
 //   export * from "./my_custom_module";
 //   export { MyCustomClass } from "./another_module";
 // ===================================================================
-
-export * from "./role";
