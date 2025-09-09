@@ -16,12 +16,12 @@ import (
 // All operations require Reporting domain permissions and operate within
 // the authenticated group context.
 type AccountReportService interface {
-	// Retrieves a structured account report for the given account account, within the given time range
+	// Retrieves a structured account report for the given account, within the given time range
 	// denominated in the given reporting asset token.
 	GetAccountReport(ctx context.Context, request *GetAccountReportRequest) (*AccountReport, error)
 
-	// Retrieves a structured account report for the given account account, within the given time range
-	// denominated in the given reporting asset token, exported to an excel file that can be downloaded.
+	// Retrieves a structured account report for the given account, within the given time range
+	// denominated in the given reporting asset token, exported to an Excel file that can be downloaded.
 	GetExcelAccountReport(ctx context.Context, request *GetExcelAccountReportRequest) (*GetExcelAccountReportResponse, error)
 }
 

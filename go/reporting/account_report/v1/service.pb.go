@@ -34,7 +34,7 @@ type GetAccountReportRequest struct {
 	From *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=from,proto3" json:"from,omitempty"`
 	// End of the reporting period (inclusive).
 	To *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=to,proto3" json:"to,omitempty"`
-	// Reporting Asset Token is the asset token in which asssets/transactions will be valuated.
+	// Reporting Asset Token is the asset token in which assets/transactions will be valuated.
 	// This will typically refer to some fiat currency stablecoin, but could also refer to another currency
 	// such as a crypto currency XLM, BTC etc.
 	ReportingAssetToken *v1.Token `protobuf:"bytes,4,opt,name=reporting_asset_token,json=reportingAssetToken,proto3" json:"reporting_asset_token,omitempty"`

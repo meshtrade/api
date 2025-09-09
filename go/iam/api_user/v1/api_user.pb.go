@@ -30,7 +30,7 @@ const (
 	APIUserState_API_USER_STATE_UNSPECIFIED APIUserState = 0
 	// API user is active and associated api keys can be used.
 	APIUserState_API_USER_STATE_ACTIVE APIUserState = 1
-	// API user is active and associated api keys cannot be used.
+	// API user is inactive and associated api keys cannot be used.
 	APIUserState_API_USER_STATE_INACTIVE APIUserState = 2
 )
 

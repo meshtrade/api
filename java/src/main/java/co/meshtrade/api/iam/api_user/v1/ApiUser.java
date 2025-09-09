@@ -53,7 +53,7 @@ public final class ApiUser {
     /**
      * <pre>
      *
-     * API user is active and associated api keys cannot be used.
+     * API user is inactive and associated api keys cannot be used.
      * </pre>
      *
      * <code>API_USER_STATE_INACTIVE = 2;</code>
@@ -93,7 +93,7 @@ public final class ApiUser {
     /**
      * <pre>
      *
-     * API user is active and associated api keys cannot be used.
+     * API user is inactive and associated api keys cannot be used.
      * </pre>
      *
      * <code>API_USER_STATE_INACTIVE = 2;</code>

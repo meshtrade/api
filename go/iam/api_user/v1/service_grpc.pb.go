@@ -45,90 +45,37 @@ const (
 // the authenticated group context.
 type ApiUserServiceClient interface {
 	// Retrieves a single API user by its unique identifier.
-	//
-	// Parameters:
-	// - name: The resource name in format api_users/{api_user_id}
-	//
-	// Returns:
-	// - APIUser: Complete API user resource including metadata and roles
-	//
-	// Authorization: Requires ROLE_IAM_ADMIN or ROLE_IAM_VIEWER
 	GetApiUser(ctx context.Context, in *GetApiUserRequest, opts ...grpc.CallOption) (*APIUser, error)
 	// Creates a new API user with the specified configuration.
 	//
 	// The API user will be created in the authenticated group context
 	// and assigned the provided roles. The system generates a unique
 	// identifier and API key for authentication.
-	//
-	// Parameters:
-	// - api_user: APIUser configuration (name field ignored, assigned by system)
-	//
-	// Returns:
-	// - APIUser: Newly created API user with generated name and API key
-	//
-	// Authorization: Requires ROLE_IAM_ADMIN
 	CreateApiUser(ctx context.Context, in *CreateApiUserRequest, opts ...grpc.CallOption) (*APIUser, error)
 	// Lists all API users in the authenticated group context.
 	//
 	// Returns all API users that belong to the current group,
 	// regardless of their active/inactive state.
-	//
-	// Returns:
-	// - ListApiUsersResponse: Collection of API users in the group
-	//
-	// Authorization: Requires ROLE_IAM_ADMIN or ROLE_IAM_VIEWER
 	ListApiUsers(ctx context.Context, in *ListApiUsersRequest, opts ...grpc.CallOption) (*ListApiUsersResponse, error)
 	// Searches API users using display name filtering.
 	//
 	// Performs substring matching on API user display names
 	// within the authenticated group context.
-	//
-	// Parameters:
-	// - display_name: Substring to search for in display names
-	//
-	// Returns:
-	// - SearchApiUsersResponse: Collection of matching API users
-	//
-	// Authorization: Requires ROLE_IAM_ADMIN or ROLE_IAM_VIEWER
 	SearchApiUsers(ctx context.Context, in *SearchApiUsersRequest, opts ...grpc.CallOption) (*SearchApiUsersResponse, error)
 	// Activates an API user, enabling API key authentication.
 	//
 	// Changes the API user state to active, allowing the associated
 	// API key to be used for authentication and authorization.
-	//
-	// Parameters:
-	// - name: The resource name in format api_users/{api_user_id}
-	//
-	// Returns:
-	// - APIUser: Updated API user with active state
-	//
-	// Authorization: Requires ROLE_IAM_ADMIN
 	ActivateApiUser(ctx context.Context, in *ActivateApiUserRequest, opts ...grpc.CallOption) (*APIUser, error)
 	// Deactivates an API user, disabling API key authentication.
 	//
 	// Changes the API user state to inactive, preventing the associated
 	// API key from being used for authentication.
-	//
-	// Parameters:
-	// - name: The resource name in format api_users/{api_user_id}
-	//
-	// Returns:
-	// - APIUser: Updated API user with inactive state
-	//
-	// Authorization: Requires ROLE_IAM_ADMIN
 	DeactivateApiUser(ctx context.Context, in *DeactivateApiUserRequest, opts ...grpc.CallOption) (*APIUser, error)
 	// Retrieves an API user using its API key hash.
 	//
 	// This method is used for authentication flows to lookup
 	// an API user based on the hash of their API key.
-	//
-	// Parameters:
-	// - key_hash: Hash of the API key to lookup
-	//
-	// Returns:
-	// - APIUser: Complete API user resource associated with the key
-	//
-	// Authorization: Requires ROLE_IAM_ADMIN or ROLE_IAM_VIEWER
 	GetApiUserByKeyHash(ctx context.Context, in *GetApiUserByKeyHashRequest, opts ...grpc.CallOption) (*APIUser, error)
 }
 
@@ -227,90 +174,37 @@ func (c *apiUserServiceClient) GetApiUserByKeyHash(ctx context.Context, in *GetA
 // the authenticated group context.
 type ApiUserServiceServer interface {
 	// Retrieves a single API user by its unique identifier.
-	//
-	// Parameters:
-	// - name: The resource name in format api_users/{api_user_id}
-	//
-	// Returns:
-	// - APIUser: Complete API user resource including metadata and roles
-	//
-	// Authorization: Requires ROLE_IAM_ADMIN or ROLE_IAM_VIEWER
 	GetApiUser(context.Context, *GetApiUserRequest) (*APIUser, error)
 	// Creates a new API user with the specified configuration.
 	//
 	// The API user will be created in the authenticated group context
 	// and assigned the provided roles. The system generates a unique
 	// identifier and API key for authentication.
-	//
-	// Parameters:
-	// - api_user: APIUser configuration (name field ignored, assigned by system)
-	//
-	// Returns:
-	// - APIUser: Newly created API user with generated name and API key
-	//
-	// Authorization: Requires ROLE_IAM_ADMIN
 	CreateApiUser(context.Context, *CreateApiUserRequest) (*APIUser, error)
 	// Lists all API users in the authenticated group context.
 	//
 	// Returns all API users that belong to the current group,
 	// regardless of their active/inactive state.
-	//
-	// Returns:
-	// - ListApiUsersResponse: Collection of API users in the group
-	//
-	// Authorization: Requires ROLE_IAM_ADMIN or ROLE_IAM_VIEWER
 	ListApiUsers(context.Context, *ListApiUsersRequest) (*ListApiUsersResponse, error)
 	// Searches API users using display name filtering.
 	//
 	// Performs substring matching on API user display names
 	// within the authenticated group context.
-	//
-	// Parameters:
-	// - display_name: Substring to search for in display names
-	//
-	// Returns:
-	// - SearchApiUsersResponse: Collection of matching API users
-	//
-	// Authorization: Requires ROLE_IAM_ADMIN or ROLE_IAM_VIEWER
 	SearchApiUsers(context.Context, *SearchApiUsersRequest) (*SearchApiUsersResponse, error)
 	// Activates an API user, enabling API key authentication.
 	//
 	// Changes the API user state to active, allowing the associated
 	// API key to be used for authentication and authorization.
-	//
-	// Parameters:
-	// - name: The resource name in format api_users/{api_user_id}
-	//
-	// Returns:
-	// - APIUser: Updated API user with active state
-	//
-	// Authorization: Requires ROLE_IAM_ADMIN
 	ActivateApiUser(context.Context, *ActivateApiUserRequest) (*APIUser, error)
 	// Deactivates an API user, disabling API key authentication.
 	//
 	// Changes the API user state to inactive, preventing the associated
 	// API key from being used for authentication.
-	//
-	// Parameters:
-	// - name: The resource name in format api_users/{api_user_id}
-	//
-	// Returns:
-	// - APIUser: Updated API user with inactive state
-	//
-	// Authorization: Requires ROLE_IAM_ADMIN
 	DeactivateApiUser(context.Context, *DeactivateApiUserRequest) (*APIUser, error)
 	// Retrieves an API user using its API key hash.
 	//
 	// This method is used for authentication flows to lookup
 	// an API user based on the hash of their API key.
-	//
-	// Parameters:
-	// - key_hash: Hash of the API key to lookup
-	//
-	// Returns:
-	// - APIUser: Complete API user resource associated with the key
-	//
-	// Authorization: Requires ROLE_IAM_ADMIN or ROLE_IAM_VIEWER
 	GetApiUserByKeyHash(context.Context, *GetApiUserByKeyHashRequest) (*APIUser, error)
 	mustEmbedUnimplementedApiUserServiceServer()
 }

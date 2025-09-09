@@ -37,11 +37,11 @@ const (
 // All operations require Reporting domain permissions and operate within
 // the authenticated group context.
 type AccountReportServiceClient interface {
-	// Retrieves a structured account report for the given account account, within the given time range
+	// Retrieves a structured account report for the given account, within the given time range
 	// denominated in the given reporting asset token.
 	GetAccountReport(ctx context.Context, in *GetAccountReportRequest, opts ...grpc.CallOption) (*AccountReport, error)
-	// Retrieves a structured account report for the given account account, within the given time range
-	// denominated in the given reporting asset token, exported to an excel file that can be downloaded.
+	// Retrieves a structured account report for the given account, within the given time range
+	// denominated in the given reporting asset token, exported to an Excel file that can be downloaded.
 	GetExcelAccountReport(ctx context.Context, in *GetExcelAccountReportRequest, opts ...grpc.CallOption) (*GetExcelAccountReportResponse, error)
 }
 
@@ -87,11 +87,11 @@ func (c *accountReportServiceClient) GetExcelAccountReport(ctx context.Context, 
 // All operations require Reporting domain permissions and operate within
 // the authenticated group context.
 type AccountReportServiceServer interface {
-	// Retrieves a structured account report for the given account account, within the given time range
+	// Retrieves a structured account report for the given account, within the given time range
 	// denominated in the given reporting asset token.
 	GetAccountReport(context.Context, *GetAccountReportRequest) (*AccountReport, error)
-	// Retrieves a structured account report for the given account account, within the given time range
-	// denominated in the given reporting asset token, exported to an excel file that can be downloaded.
+	// Retrieves a structured account report for the given account, within the given time range
+	// denominated in the given reporting asset token, exported to an Excel file that can be downloaded.
 	GetExcelAccountReport(context.Context, *GetExcelAccountReportRequest) (*GetExcelAccountReportResponse, error)
 	mustEmbedUnimplementedAccountReportServiceServer()
 }
