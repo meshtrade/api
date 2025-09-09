@@ -26,10 +26,10 @@ def main():
         start_date = end_date - datetime.timedelta(days=30)
 
         # Create Timestamps for the request
-        from_timestamp = Timestamp()
-        from_timestamp.FromDatetime(start_date)
-        to_timestamp = Timestamp()
-        to_timestamp.FromDatetime(end_date)
+        period_start_timestamp = Timestamp()
+        period_start_timestamp.FromDatetime(start_date)
+        period_end_timestamp = Timestamp()
+        period_end_timestamp.FromDatetime(end_date)
 
         # Create a new GetAccountReportRequest.
         # This request object is used to specify the parameters for the report.
@@ -39,8 +39,8 @@ def main():
             account_number="100005",
             # Specify the start and end dates for the report period.
             # The dates are specified using the google.protobuf.Timestamp format.
-            from_=from_timestamp,  # Note: 'from_' because 'from' is a Python keyword
-            to=to_timestamp,
+            period_start=period_start_timestamp,
+            period_end=period_end_timestamp,
             # Specify the reporting currency token - all report values will be denominated in this currency.
             # This example uses mZAR (South African Rand) issued on the Stellar network.
             # Learn more: https://mzar.mesh.trade

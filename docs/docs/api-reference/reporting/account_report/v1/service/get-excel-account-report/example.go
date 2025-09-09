@@ -34,8 +34,8 @@ func main() {
 	// The request includes the account number and the desired date range for the report.
 	req := &accountreportv1.GetExcelAccountReportRequest{
 		AccountNumber: "100005",
-		From:          timestamppb.New(time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC)),
-		To:            timestamppb.New(time.Date(2023, 12, 31, 0, 0, 0, 0, time.UTC)),
+		PeriodStart:   timestamppb.New(time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC)),
+		PeriodEnd:     timestamppb.New(time.Date(2023, 12, 31, 0, 0, 0, 0, time.UTC)),
 
 		// Specify the reporting currency token - all report values will be denominated in this currency.
 		// This example uses mZAR (South African Rand) issued on the Stellar network.

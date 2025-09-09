@@ -49,12 +49,12 @@ message AccountReport {
     /*
        Start timestamp (inclusive) of the reporting period.
     */
-    google.protobuf.Timestamp from = 1;
+    google.protobuf.Timestamp period_start = 1;
 
     /*
        End timestamp (inclusive) of the reporting period.
     */
-    google.protobuf.Timestamp to = 2;
+    google.protobuf.Timestamp period_end = 2;
   }
 
   /*
