@@ -25,16 +25,16 @@ public class GetExcelAccountReportExample {
       Instant endDate = Instant.parse("2023-12-31T00:00:00Z");
 
       // Create Timestamps for the request.
-      Timestamp fromTimestamp = Timestamp.newBuilder().setSeconds(startDate.getEpochSecond()).build();
-      Timestamp toTimestamp = Timestamp.newBuilder().setSeconds(endDate.getEpochSecond()).build();
+      Timestamp periodStartTimestamp = Timestamp.newBuilder().setSeconds(startDate.getEpochSecond()).build();
+      Timestamp periodEndTimestamp = Timestamp.newBuilder().setSeconds(endDate.getEpochSecond()).build();
 
       // Create a request to get an Excel account report.
       // The request includes the account number and the desired date range for the report.
       GetExcelAccountReportRequest request =
           GetExcelAccountReportRequest.newBuilder()
               .setAccountNumber("100005")
-              .setFrom(fromTimestamp)
-              .setTo(toTimestamp)
+              .setPeriodStart(periodStartTimestamp)
+              .setPeriodEnd(periodEndTimestamp)
               // Specify the reporting currency token - all report values will be denominated in this currency.
               // This example uses mZAR (South African Rand) issued on the Stellar network.
               // Learn more: https://mzar.mesh.trade

@@ -169,9 +169,9 @@ func (x *AccountReport) GetCopyright() string {
 type AccountReport_Period struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Start timestamp (inclusive) of the reporting period.
-	From *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=from,proto3" json:"from,omitempty"`
+	PeriodStart *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=period_start,json=periodStart,proto3" json:"period_start,omitempty"`
 	// End timestamp (inclusive) of the reporting period.
-	To            *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=to,proto3" json:"to,omitempty"`
+	PeriodEnd     *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=period_end,json=periodEnd,proto3" json:"period_end,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -206,16 +206,16 @@ func (*AccountReport_Period) Descriptor() ([]byte, []int) {
 	return file_meshtrade_reporting_account_report_v1_account_report_proto_rawDescGZIP(), []int{0, 0}
 }
 
-func (x *AccountReport_Period) GetFrom() *timestamppb.Timestamp {
+func (x *AccountReport_Period) GetPeriodStart() *timestamppb.Timestamp {
 	if x != nil {
-		return x.From
+		return x.PeriodStart
 	}
 	return nil
 }
 
-func (x *AccountReport_Period) GetTo() *timestamppb.Timestamp {
+func (x *AccountReport_Period) GetPeriodEnd() *timestamppb.Timestamp {
 	if x != nil {
-		return x.To
+		return x.PeriodEnd
 	}
 	return nil
 }
@@ -224,7 +224,7 @@ var File_meshtrade_reporting_account_report_v1_account_report_proto protoreflect
 
 const file_meshtrade_reporting_account_report_v1_account_report_proto_rawDesc = "" +
 	"\n" +
-	":meshtrade/reporting/account_report/v1/account_report.proto\x12%meshtrade.reporting.account_report.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1dmeshtrade/type/v1/token.proto\x1a\x1fmeshtrade/type/v1/address.proto\x1a5meshtrade/reporting/account_report/v1/fee_entry.proto\x1a8meshtrade/reporting/account_report/v1/income_entry.proto\x1aCmeshtrade/reporting/account_report/v1/trading_statement_entry.proto\x1a6meshtrade/reporting/account_report/v1/disclaimer.proto\"\xfd\x06\n" +
+	":meshtrade/reporting/account_report/v1/account_report.proto\x12%meshtrade.reporting.account_report.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1dmeshtrade/type/v1/token.proto\x1a\x1fmeshtrade/type/v1/address.proto\x1a5meshtrade/reporting/account_report/v1/fee_entry.proto\x1a8meshtrade/reporting/account_report/v1/income_entry.proto\x1aCmeshtrade/reporting/account_report/v1/trading_statement_entry.proto\x1a6meshtrade/reporting/account_report/v1/disclaimer.proto\"\x9c\a\n" +
 	"\rAccountReport\x12Y\n" +
 	"\x0eincome_entries\x18\x01 \x03(\v22.meshtrade.reporting.account_report.v1.IncomeEntryR\rincomeEntries\x12P\n" +
 	"\vfee_entries\x18\x02 \x03(\v2/.meshtrade.reporting.account_report.v1.FeeEntryR\n" +
@@ -239,10 +239,11 @@ const file_meshtrade_reporting_account_report_v1_account_report_proto_rawDesc = 
 	"\vclient_name\x18\n" +
 	" \x01(\tR\n" +
 	"clientName\x12\x1c\n" +
-	"\tcopyright\x18\v \x01(\tR\tcopyright\x1ad\n" +
-	"\x06Period\x12.\n" +
-	"\x04from\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\x04from\x12*\n" +
-	"\x02to\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x02toBx\n" +
+	"\tcopyright\x18\v \x01(\tR\tcopyright\x1a\x82\x01\n" +
+	"\x06Period\x12=\n" +
+	"\fperiod_start\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\vperiodStart\x129\n" +
+	"\n" +
+	"period_end\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\tperiodEndBx\n" +
 	",co.meshtrade.api.reporting.account_report.v1ZHgithub.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1b\x06proto3"
 
 var (
@@ -278,8 +279,8 @@ var file_meshtrade_reporting_account_report_v1_account_report_proto_depIdxs = []
 	6,  // 5: meshtrade.reporting.account_report.v1.AccountReport.generation_date:type_name -> google.protobuf.Timestamp
 	7,  // 6: meshtrade.reporting.account_report.v1.AccountReport.disclaimers:type_name -> meshtrade.reporting.account_report.v1.Disclaimer
 	8,  // 7: meshtrade.reporting.account_report.v1.AccountReport.client_address:type_name -> meshtrade.type.v1.Address
-	6,  // 8: meshtrade.reporting.account_report.v1.AccountReport.Period.from:type_name -> google.protobuf.Timestamp
-	6,  // 9: meshtrade.reporting.account_report.v1.AccountReport.Period.to:type_name -> google.protobuf.Timestamp
+	6,  // 8: meshtrade.reporting.account_report.v1.AccountReport.Period.period_start:type_name -> google.protobuf.Timestamp
+	6,  // 9: meshtrade.reporting.account_report.v1.AccountReport.Period.period_end:type_name -> google.protobuf.Timestamp
 	10, // [10:10] is the sub-list for method output_type
 	10, // [10:10] is the sub-list for method input_type
 	10, // [10:10] is the sub-list for extension type_name

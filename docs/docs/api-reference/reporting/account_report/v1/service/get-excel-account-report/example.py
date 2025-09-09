@@ -26,17 +26,17 @@ def main():
         end_date = datetime.datetime(2023, 12, 31, tzinfo=datetime.UTC)
 
         # Create Timestamps for the request.
-        from_timestamp = Timestamp()
-        from_timestamp.FromDatetime(start_date)
-        to_timestamp = Timestamp()
-        to_timestamp.FromDatetime(end_date)
+        period_start_timestamp = Timestamp()
+        period_start_timestamp.FromDatetime(start_date)
+        period_end_timestamp = Timestamp()
+        period_end_timestamp.FromDatetime(end_date)
 
         # Create a request to get an Excel account report.
         # The request includes the account number and the desired date range for the report.
         request = GetExcelAccountReportRequest(
             account_number="100005",
-            from_=from_timestamp,  # Note: 'from_' because 'from' is a Python keyword
-            to=to_timestamp,
+            period_start=period_start_timestamp,
+            period_end=period_end_timestamp,
             # Specify the reporting currency token - all report values will be denominated in this currency.
             # This example uses mZAR (South African Rand) issued on the Stellar network.
             # Learn more: https://mzar.mesh.trade

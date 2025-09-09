@@ -46,8 +46,8 @@ func main() {
 
 		// Specify the start and end dates for the report period.
 		// The dates are specified using the google.protobuf.Timestamp format.
-		From: timestamppb.New(startDate),
-		To:   timestamppb.New(endDate),
+		PeriodStart: timestamppb.New(startDate),
+		PeriodEnd:   timestamppb.New(endDate),
 
 		// Specify the reporting currency token - all report values will be denominated in this currency.
 		// This example uses mZAR (South African Rand) issued on the Stellar network.

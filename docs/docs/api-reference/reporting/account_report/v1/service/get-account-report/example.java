@@ -21,8 +21,8 @@ public class GetAccountReportExample {
       Instant startDate = endDate.minus(30, ChronoUnit.DAYS);
 
       // Create Timestamps for the request.
-      Timestamp fromTimestamp = Timestamp.newBuilder().setSeconds(startDate.getEpochSecond()).build();
-      Timestamp toTimestamp = Timestamp.newBuilder().setSeconds(endDate.getEpochSecond()).build();
+      Timestamp periodStartTimestamp = Timestamp.newBuilder().setSeconds(startDate.getEpochSecond()).build();
+      Timestamp periodEndTimestamp = Timestamp.newBuilder().setSeconds(endDate.getEpochSecond()).build();
 
       // Create a new GetAccountReportRequest.
       // This request object is used to specify the parameters for the report.
@@ -33,8 +33,8 @@ public class GetAccountReportExample {
               .setAccountNumber("100005")
               // Specify the start and end dates for the report period.
               // The dates are specified using the com.google.protobuf.Timestamp format.
-              .setFrom(fromTimestamp)
-              .setTo(toTimestamp)
+              .setPeriodStart(periodStartTimestamp)
+              .setPeriodEnd(periodEndTimestamp)
               // Specify the reporting currency token - all report values will be denominated in this currency.
               // This example uses mZAR (South African Rand) issued on the Stellar network.
               // Learn more: https://mzar.mesh.trade

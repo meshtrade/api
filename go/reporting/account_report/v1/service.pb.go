@@ -31,9 +31,9 @@ type GetAccountReportRequest struct {
 	// Mesh account number for which the account report is requested.
 	AccountNumber string `protobuf:"bytes,1,opt,name=account_number,json=accountNumber,proto3" json:"account_number,omitempty"`
 	// Start of the reporting period (inclusive).
-	From *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=from,proto3" json:"from,omitempty"`
+	PeriodStart *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=period_start,json=periodStart,proto3" json:"period_start,omitempty"`
 	// End of the reporting period (inclusive).
-	To *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=to,proto3" json:"to,omitempty"`
+	PeriodEnd *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=period_end,json=periodEnd,proto3" json:"period_end,omitempty"`
 	// Reporting Asset Token is the asset token in which assets/transactions will be valuated.
 	// This will typically refer to some fiat currency stablecoin, but could also refer to another currency
 	// such as a crypto currency XLM, BTC etc.
@@ -79,16 +79,16 @@ func (x *GetAccountReportRequest) GetAccountNumber() string {
 	return ""
 }
 
-func (x *GetAccountReportRequest) GetFrom() *timestamppb.Timestamp {
+func (x *GetAccountReportRequest) GetPeriodStart() *timestamppb.Timestamp {
 	if x != nil {
-		return x.From
+		return x.PeriodStart
 	}
 	return nil
 }
 
-func (x *GetAccountReportRequest) GetTo() *timestamppb.Timestamp {
+func (x *GetAccountReportRequest) GetPeriodEnd() *timestamppb.Timestamp {
 	if x != nil {
-		return x.To
+		return x.PeriodEnd
 	}
 	return nil
 }
@@ -105,9 +105,9 @@ type GetExcelAccountReportRequest struct {
 	// Mesh account number for which the account report is requested.
 	AccountNumber string `protobuf:"bytes,1,opt,name=account_number,json=accountNumber,proto3" json:"account_number,omitempty"`
 	// Start of the reporting period (inclusive).
-	From *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=from,proto3" json:"from,omitempty"`
+	PeriodStart *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=period_start,json=periodStart,proto3" json:"period_start,omitempty"`
 	// End of the reporting period (inclusive).
-	To *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=to,proto3" json:"to,omitempty"`
+	PeriodEnd *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=period_end,json=periodEnd,proto3" json:"period_end,omitempty"`
 	// Reporting Asset Token is the asset token in which assets/transactions will be valuated.
 	// This will typically refer to some fiat currency stablecoin, but could also refer to another currency
 	// such as a crypto currency XLM, BTC etc.
@@ -153,16 +153,16 @@ func (x *GetExcelAccountReportRequest) GetAccountNumber() string {
 	return ""
 }
 
-func (x *GetExcelAccountReportRequest) GetFrom() *timestamppb.Timestamp {
+func (x *GetExcelAccountReportRequest) GetPeriodStart() *timestamppb.Timestamp {
 	if x != nil {
-		return x.From
+		return x.PeriodStart
 	}
 	return nil
 }
 
-func (x *GetExcelAccountReportRequest) GetTo() *timestamppb.Timestamp {
+func (x *GetExcelAccountReportRequest) GetPeriodEnd() *timestamppb.Timestamp {
 	if x != nil {
-		return x.To
+		return x.PeriodEnd
 	}
 	return nil
 }
@@ -223,19 +223,21 @@ var File_meshtrade_reporting_account_report_v1_service_proto protoreflect.FileDe
 
 const file_meshtrade_reporting_account_report_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"3meshtrade/reporting/account_report/v1/service.proto\x12%meshtrade.reporting.account_report.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\x1a:meshtrade/reporting/account_report/v1/account_report.proto\x1a\x1dmeshtrade/type/v1/token.proto\"\xea\x01\n" +
+	"3meshtrade/reporting/account_report/v1/service.proto\x12%meshtrade.reporting.account_report.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\x1a:meshtrade/reporting/account_report/v1/account_report.proto\x1a\x1dmeshtrade/type/v1/token.proto\"\x88\x02\n" +
 	"\x17GetAccountReportRequest\x12%\n" +
-	"\x0eaccount_number\x18\x01 \x01(\tR\raccountNumber\x12.\n" +
-	"\x04from\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x04from\x12*\n" +
-	"\x02to\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\x02to\x12L\n" +
-	"\x15reporting_asset_token\x18\x04 \x01(\v2\x18.meshtrade.type.v1.TokenR\x13reportingAssetToken\"\xdd\x03\n" +
+	"\x0eaccount_number\x18\x01 \x01(\tR\raccountNumber\x12=\n" +
+	"\fperiod_start\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\vperiodStart\x129\n" +
+	"\n" +
+	"period_end\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tperiodEnd\x12L\n" +
+	"\x15reporting_asset_token\x18\x04 \x01(\v2\x18.meshtrade.type.v1.TokenR\x13reportingAssetToken\"\x9d\x04\n" +
 	"\x1cGetExcelAccountReportRequest\x12\x90\x01\n" +
 	"\x0eaccount_number\x18\x01 \x01(\tBi\xbaHf\xba\x01R\n" +
-	"\x17account_number.required\x12\x1aaccount_number is required\x1a\x1bthis.matches('^[0-9]{1,}$')r\x0f\x10\x012\v^[0-9]{1,}$R\raccountNumber\x12q\n" +
-	"\x04from\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampBA\xbaH>\xba\x01;\n" +
-	"\rfrom.required\x12\x1c'from' timestamp is required\x1a\fthis != nullR\x04from\x12i\n" +
-	"\x02to\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampB=\xbaH:\xba\x017\n" +
-	"\vto.required\x12\x1a'to' timestamp is required\x1a\fthis != nullR\x02to\x12L\n" +
+	"\x17account_number.required\x12\x1aaccount_number is required\x1a\x1bthis.matches('^[0-9]{1,}$')r\x0f\x10\x012\v^[0-9]{1,}$R\raccountNumber\x12\x90\x01\n" +
+	"\fperiod_start\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampBQ\xbaHN\xba\x01K\n" +
+	"\x15period_start.required\x12$'period_start' timestamp is required\x1a\fthis != nullR\vperiodStart\x12\x88\x01\n" +
+	"\n" +
+	"period_end\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampBM\xbaHJ\xba\x01G\n" +
+	"\x13period_end.required\x12\"'period_end' timestamp is required\x1a\fthis != nullR\tperiodEnd\x12L\n" +
 	"\x15reporting_asset_token\x18\x04 \x01(\v2\x18.meshtrade.type.v1.TokenR\x13reportingAssetToken\"B\n" +
 	"\x1dGetExcelAccountReportResponse\x12!\n" +
 	"\fexcel_base64\x18\x01 \x01(\tR\vexcelBase642\xee\x02\n" +
@@ -270,11 +272,11 @@ var file_meshtrade_reporting_account_report_v1_service_proto_goTypes = []any{
 	(*AccountReport)(nil),                 // 5: meshtrade.reporting.account_report.v1.AccountReport
 }
 var file_meshtrade_reporting_account_report_v1_service_proto_depIdxs = []int32{
-	3, // 0: meshtrade.reporting.account_report.v1.GetAccountReportRequest.from:type_name -> google.protobuf.Timestamp
-	3, // 1: meshtrade.reporting.account_report.v1.GetAccountReportRequest.to:type_name -> google.protobuf.Timestamp
+	3, // 0: meshtrade.reporting.account_report.v1.GetAccountReportRequest.period_start:type_name -> google.protobuf.Timestamp
+	3, // 1: meshtrade.reporting.account_report.v1.GetAccountReportRequest.period_end:type_name -> google.protobuf.Timestamp
 	4, // 2: meshtrade.reporting.account_report.v1.GetAccountReportRequest.reporting_asset_token:type_name -> meshtrade.type.v1.Token
-	3, // 3: meshtrade.reporting.account_report.v1.GetExcelAccountReportRequest.from:type_name -> google.protobuf.Timestamp
-	3, // 4: meshtrade.reporting.account_report.v1.GetExcelAccountReportRequest.to:type_name -> google.protobuf.Timestamp
+	3, // 3: meshtrade.reporting.account_report.v1.GetExcelAccountReportRequest.period_start:type_name -> google.protobuf.Timestamp
+	3, // 4: meshtrade.reporting.account_report.v1.GetExcelAccountReportRequest.period_end:type_name -> google.protobuf.Timestamp
 	4, // 5: meshtrade.reporting.account_report.v1.GetExcelAccountReportRequest.reporting_asset_token:type_name -> meshtrade.type.v1.Token
 	0, // 6: meshtrade.reporting.account_report.v1.AccountReportService.GetAccountReport:input_type -> meshtrade.reporting.account_report.v1.GetAccountReportRequest
 	1, // 7: meshtrade.reporting.account_report.v1.AccountReportService.GetExcelAccountReport:input_type -> meshtrade.reporting.account_report.v1.GetExcelAccountReportRequest

@@ -62,12 +62,12 @@ message GetAccountReportRequest {
   /*
      Start of the reporting period (inclusive).
   */
-  google.protobuf.Timestamp from = 2;
+  google.protobuf.Timestamp period_start = 2;
 
   /*
      End of the reporting period (inclusive).
   */
-  google.protobuf.Timestamp to = 3;
+  google.protobuf.Timestamp period_end = 3;
 
   /*
      Reporting Asset Token is the asset token in which assets/transactions will be valuated.
@@ -96,18 +96,18 @@ message GetExcelAccountReportRequest {
   /*
      Start of the reporting period (inclusive).
   */
-  google.protobuf.Timestamp from = 2 [(buf.validate.field).cel = {
-    id: "from.required"
-    message: "'from' timestamp is required"
+  google.protobuf.Timestamp period_start = 2 [(buf.validate.field).cel = {
+    id: "period_start.required"
+    message: "'period_start' timestamp is required"
     expression: "this != null"
   }];
 
   /*
      End of the reporting period (inclusive).
   */
-  google.protobuf.Timestamp to = 3 [(buf.validate.field).cel = {
-    id: "to.required"
-    message: "'to' timestamp is required"
+  google.protobuf.Timestamp period_end = 3 [(buf.validate.field).cel = {
+    id: "period_end.required"
+    message: "'period_end' timestamp is required"
     expression: "this != null"
   }];
 
