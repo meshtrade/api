@@ -17,7 +17,7 @@ public class CreateGroupExample {
             // Create request with group configuration
             CreateGroupRequest request = CreateGroupRequest.newBuilder()
                 .setGroup(Group.newBuilder()
-                    .setOwner(service.getGroup())  // Current executing group becomes the parent
+                    .setOwner(service.group())  // Current executing group becomes the parent
                     .setDisplayName("Trading Team Alpha")
                     .setDescription("Primary trading team for equity markets and derivatives")
                     .build())

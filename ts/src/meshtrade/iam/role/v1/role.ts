@@ -14,6 +14,8 @@ const roleToStringMapping: { [key in Role]: string } = {
   [Role.ROLE_COMPLIANCE_VIEWER]: "Compliance Viewer",
   [Role.ROLE_IAM_ADMIN]: "IAM Admin",
   [Role.ROLE_IAM_VIEWER]: "IAM Viewer",
+  [Role.ROLE_IAM_GROUP_ADMIN]: "IAM Group Admin",
+  [Role.ROLE_IAM_GROUP_VIEWER]: "IAM Group Viewer",
   [Role.ROLE_ISSUANCE_HUB_ADMIN]: "Issuance Hub Admin",
   [Role.ROLE_ISSUANCE_HUB_VIEWER]: "Issuance Hub Viewer",
   [Role.ROLE_TRADING_ADMIN]: "Trading Admin",
