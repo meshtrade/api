@@ -109,6 +109,11 @@ def get_import_to_module_mapping(proto_file):
     return import_mapping
 
 
+def normalize_name_for_matching(name):
+    """Normalize a name for matching by removing underscores and converting to lowercase."""
+    return name.replace("_", "").lower()
+
+
 def analyze_external_types(proto_file, methods):
     """Analyze which types come from external proto files vs the service proto file."""
     service_types = set()  # Types defined in this service proto file
@@ -143,8 +148,15 @@ def analyze_external_types(proto_file, methods):
                 # e.g., "meshtrade/iam/group/v1/group.proto" -> "group"
                 resource_name = proto_path.split("/")[-1][:-6]  # Remove .proto
 
-                # Check if type name matches the resource pattern
-                if type_name.lower() == resource_name.lower() or type_name == "APIUser" and resource_name == "api_user":
+                # Improved matching logic that handles underscore/CamelCase conversion
+                # Examples:
+                # - AccountReport matches account_report
+                # - APIUser matches api_user
+                # - Group matches group
+                normalized_type = normalize_name_for_matching(type_name)
+                normalized_resource = normalize_name_for_matching(resource_name)
+
+                if normalized_type == normalized_resource or type_name == "APIUser" and resource_name == "api_user":
                     external_types[type_name] = pb2_module
                     type_found = True
                     break
