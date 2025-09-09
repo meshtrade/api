@@ -15,14 +15,13 @@ def main():
         # Get current executing group to use as owner for the new child group
         # Note: Owner format is "groups/{ULIDv2}" (e.g. "groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU")
         # but you can only create groups owned by your authenticated context
-        current_group = service.get_current_group()
 
         # Create request with group configuration
         request = CreateGroupRequest(
             group=Group(
-                owner=current_group.name,  # Current executing group becomes the parent
+                owner=service.group(),  # Current executing group becomes the parent
                 display_name="Trading Team Alpha",
-                description="Primary trading team for equity markets and derivatives"
+                description="Primary trading team for equity markets and derivatives",
             )
         )
 

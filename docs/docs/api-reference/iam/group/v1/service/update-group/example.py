@@ -22,10 +22,10 @@ def main():
         # Create request with complete group data (immutable fields must match existing)
         request = UpdateGroupRequest(
             group=Group(
-                name=existing_group.name,        # Must match existing
-                owner=existing_group.owner,      # Must match existing
+                name=existing_group.name,  # Must match existing
+                owner=existing_group.owner,  # Must match existing
                 display_name="Trading Team Alpha - Updated",  # Can be modified
-                description="Primary trading team specializing in equity markets, derivatives, and fixed income instruments"  # Can be modified
+                description="Primary trading team specializing in equity markets, derivatives, and fixed income instruments",  # Can be modified
             )
         )
 

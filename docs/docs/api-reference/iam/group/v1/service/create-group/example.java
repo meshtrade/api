@@ -13,12 +13,11 @@ public class CreateGroupExample {
             // Get current executing group to use as owner for the new child group
             // Note: Owner format is "groups/{ULIDv2}" (e.g. "groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU")
             // but you can only create groups owned by your authenticated context
-            Group currentGroup = service.getCurrentGroup(Optional.empty());
 
             // Create request with group configuration
             CreateGroupRequest request = CreateGroupRequest.newBuilder()
                 .setGroup(Group.newBuilder()
-                    .setOwner(currentGroup.getName())  // Current executing group becomes the parent
+                    .setOwner(service.getGroup())  // Current executing group becomes the parent
                     .setDisplayName("Trading Team Alpha")
                     .setDescription("Primary trading team for equity markets and derivatives")
                     .build())

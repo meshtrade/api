@@ -14,12 +14,9 @@ def main():
     with service:
         # Create request with search criteria
         request = SearchGroupsRequest(
-            display_name="trading",      # Search for groups with "trading" in display name
-            description="derivatives",   # OR groups with "derivatives" in description
-            sorting=SearchGroupsRequest.Sorting(
-                field="display_name",
-                order=SortingOrder.SORTING_ORDER_ASC
-            )
+            display_name="trading",  # Search for groups with "trading" in display name
+            description="derivatives",  # OR groups with "derivatives" in description
+            sorting=SearchGroupsRequest.Sorting(field="display_name", order=SortingOrder.SORTING_ORDER_ASC),
         )
 
         # Call the SearchGroups method

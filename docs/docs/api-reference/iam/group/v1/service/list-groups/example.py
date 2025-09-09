@@ -16,7 +16,7 @@ def main():
         request = ListGroupsRequest(
             sorting=ListGroupsRequest.Sorting(
                 field="display_name",  # Sort by human-readable name
-                order=SortingOrder.SORTING_ORDER_ASC
+                order=SortingOrder.SORTING_ORDER_ASC,
             )
         )
 
