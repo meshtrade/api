@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "meshtrade/type/v1/amount.proto";
+
+package meshtrade.reporting.account_report.v1;
+
+option go_package = "github.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1";
+option java_package = "co.meshtrade.api.reporting.account_report.v1";
+
+/*
+  TradingStatementEntry represents a single, immutable transaction record in a user's account statement.
+  It provides a detailed breakdown of each transaction, including the asset involved, transaction type,
+  amount, price, and resulting balance.
+*/
+message TradingStatementEntry {
+  /*
+    The exact date and time when the transaction was processed.
+  */
+  google.protobuf.Timestamp transaction_date = 1;
+
+  /*
+    A unique identifier for the transaction, ensuring each entry is distinct and traceable.
+  */
+  string transaction_id = 2;
+
+  /*
+    The specific token involved in the transaction (e.g., "mZAR", "yXLM").
+  */
+  string token_code = 3;
+
+  /*
+    A human-readable description of the transaction type, such as "Deposit," "Withdrawal," or "Trade."
+  */
+  string description = 4;
+
+  /*
+    The quantity of the token transacted. A positive value indicates an increase in the asset,
+    while a negative value indicates a decrease.
+  */
+  meshtrade.type.v1.Amount amount = 5;
+
+  /*
+    The price per unit of the token at the time of the transaction. This is used to calculate the total cost.
+  */
+  meshtrade.type.v1.Amount price = 6;
+
+  /*
+    The total value of the transaction, calculated as amount * price.
+  */
+  meshtrade.type.v1.Amount cost = 7;
+
+  /*
+    The remaining balance of the token in the account after the transaction was completed.
+  */
+  meshtrade.type.v1.Amount balance = 8;
+}

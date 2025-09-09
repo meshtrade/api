@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "meshtrade/type/v1/amount.proto";
+
+package meshtrade.reporting.account_report.v1;
+
+option go_package = "github.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1";
+option java_package = "co.meshtrade.api.reporting.account_report.v1";
+
+/*
+  FeeEntry represents a single fee transaction in an account report.
+  
+  Each entry captures details about fees charged including the transaction date,
+  identifier, description, and amounts in both the original and reporting currencies.
+*/
+message FeeEntry {
+  /*
+    The date and time when the fee was charged.
+  */
+  google.protobuf.Timestamp transaction_date = 1;
+
+  /*
+    The unique identifier for the fee transaction.
+  */
+  string transaction_id = 2;
+
+  /*
+    A description of the fee type (e.g., "Trading Fee", "Network Fee", "Service Charge").
+  */
+  string description = 3;
+
+  /*
+    The transaction amount in the original currency.
+  */
+  meshtrade.type.v1.Amount amount = 4;
+
+  /*
+    The equivalent value of the fee in the report's reporting currency.
+  */
+  meshtrade.type.v1.Amount reported_currency_value = 5;
+
+  /*
+    The currency code of the original fee token (e.g., "mZAR", "yXLM").
+  */
+  string token_currency = 6;
+}

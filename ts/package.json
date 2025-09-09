@@ -40,6 +40,11 @@
       "require": "./dist/meshtrade/issuance_hub/instrument/v1/index.js",
       "import": "./dist/meshtrade/issuance_hub/instrument/v1/index.js"
     },
+    "./reporting/account_report/v1": {
+      "types": "./dist/meshtrade/reporting/account_report/v1/index.d.ts",
+      "require": "./dist/meshtrade/reporting/account_report/v1/index.js",
+      "import": "./dist/meshtrade/reporting/account_report/v1/index.js"
+    },
     "./ledger/transaction/v1": {
       "types": "./dist/meshtrade/ledger/transaction/v1/index.d.ts",
       "require": "./dist/meshtrade/ledger/transaction/v1/index.js",

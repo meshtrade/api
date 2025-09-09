@@ -109,7 +109,7 @@ enum APIUserState {
   API_USER_STATE_ACTIVE = 1;
 
   /*
-     API user is active and associated api keys cannot be used.
+     API user is inactive and associated api keys cannot be used.
   */
   API_USER_STATE_INACTIVE = 2;
 }

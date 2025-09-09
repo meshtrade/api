@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package meshtrade.reporting.account_report.v1;
+
+option go_package = "github.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1";
+option java_package = "co.meshtrade.api.reporting.account_report.v1";
+
+/*
+   Disclaimer represents supplementary information included in an account report.
+
+   Disclaimers provide legal, financial, or interpretive context related to
+   the contents of the report. They may explain assumptions, limitations, or
+   external factors relevant to the presented data.
+*/
+message Disclaimer {
+  /*
+     Short heading summarizing the nature of the disclaimer.
+     Example: "Preliminary Data" or "Currency Conversion Note".
+  */
+  string title = 1;
+
+  /*
+     Detailed explanation or qualification text describing the disclaimer.
+     Can include notes about data accuracy, external dependencies, or reporting assumptions.
+  */
+  string description = 2;
+}
