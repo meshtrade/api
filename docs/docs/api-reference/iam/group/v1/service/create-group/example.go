@@ -19,9 +19,21 @@ func main() {
 	}
 	defer service.Close()
 
-	// Create request with service-specific parameters
+	// Get current executing group to use as owner for the new child group
+	// Note: Owner format is "groups/{ULIDv2}" (e.g. "groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU")  
+	// but you can only create groups owned by your authenticated context
+	currentGroup, err := service.GetCurrentGroup(ctx)
+	if err != nil {
+		log.Fatalf("Failed to get current group: %v", err)
+	}
+
+	// Create request with group configuration
 	request := &groupv1.CreateGroupRequest{
-		// FIXME: Populate service-specific request fields
+		Group: &groupv1.Group{
+			Owner:       currentGroup.Name,  // Current executing group becomes the parent
+			DisplayName: "Trading Team Alpha",
+			Description: "Primary trading team for equity markets and derivatives",
+		},
 	}
 
 	// Call the CreateGroup method
@@ -30,6 +42,13 @@ func main() {
 		log.Fatalf("CreateGroup failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("CreateGroup successful: %+v", group)
+	// Use the newly created group
+	log.Printf("Group created successfully:")
+	log.Printf("  Name: %s", group.Name)
+	log.Printf("  Display Name: %s", group.DisplayName) 
+	log.Printf("  Owner: %s", group.Owner)
+	log.Printf("  Description: %s", group.Description)
+	
+	// The group can now be used to own resources and manage users
+	log.Printf("Group is ready to own API users, accounts, and trading resources")
 }

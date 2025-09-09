@@ -5,6 +5,7 @@ import (
 	"log"
 
 	groupv1 "github.com/meshtrade/api/go/iam/group/v1"
+	typev1 "github.com/meshtrade/api/go/type/v1"
 )
 
 func main() {
@@ -19,9 +20,12 @@ func main() {
 	}
 	defer service.Close()
 
-	// Create request with service-specific parameters
+	// Create request with optional sorting
 	request := &groupv1.ListGroupsRequest{
-		// FIXME: Populate service-specific request fields
+		Sorting: &groupv1.ListGroupsRequest_Sorting{
+			Field: "display_name", // Sort by human-readable name
+			Order: typev1.SortingOrder_SORTING_ORDER_ASC,
+		},
 	}
 
 	// Call the ListGroups method
@@ -30,6 +34,20 @@ func main() {
 		log.Fatalf("ListGroups failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("ListGroups successful: %+v", response)
+	// Process the complete organizational hierarchy
+	log.Printf("Found %d groups in the accessible hierarchy:", len(response.Groups))
+	for i, group := range response.Groups {
+		log.Printf("Group %d:", i+1)
+		log.Printf("  Name: %s", group.Name)
+		log.Printf("  Display Name: %s", group.DisplayName)
+		log.Printf("  Owner: %s", group.Owner)
+		log.Printf("  Hierarchy Depth: %d levels", len(group.Owners))
+		if group.Description != "" {
+			log.Printf("  Description: %s", group.Description)
+		}
+		log.Println()
+	}
+	
+	// Use groups for resource ownership and access control
+	log.Printf("All groups are available for owning resources and managing access")
 }

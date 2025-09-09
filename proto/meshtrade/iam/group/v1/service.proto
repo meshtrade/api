@@ -12,36 +12,22 @@ option go_package = "github.com/meshtrade/api/go/iam/group/v1;groupv1";
 option java_package = "co.meshtrade.api.iam.group.v1";
 
 /*
-   GroupService manages group lifecycle and hierarchy.
+   GroupService manages organizational group hierarchy and lifecycle operations.
 
-   Groups are the fundamental organizational units in Mesh that:
-   - Own resources and define permission boundaries
-   - Form hierarchical structures for permission inheritance
-   - Contain users and API users for access control
-   - Enable multi-tenancy and resource isolation
+   Groups are the fundamental multi-tenancy units in Mesh that own resources,
+   define permission boundaries, and enable hierarchical access control.
+   Each group can own sub-groups, users, API users, and platform resources,
+   forming tree structures for inherited permissions and resource isolation.
 
-   All operations require IAM domain permissions and operate within
-   the authenticated group context's hierarchy.
+   All operations are scoped to the authenticated group's hierarchy and
+   require appropriate IAM domain permissions.
 */
 service GroupService {
   /*
-     Creates a new group within the hierarchy.
+     Creates a new child group within the authenticated group's hierarchy.
 
-     The group will be created as a child of the authenticated group context.
-     The system generates a unique identifier (ULIDV2) for the new group.
-
-     Parameters:
-     - group: Group configuration (name field ignored, assigned by system)
-       - owner: Must match the authenticated group context
-       - display_name: Human-readable name for the group
-       - description: Optional description of the group's purpose
-
-     Returns:
-     - Group: Newly created group with generated name and all fields populated
-
-     Executing Group Note:
-     Owner of the group being created MUST be the same as executing group context.
-     This is because write methods can ONLY be applied in the same group context.
+     The new group inherits access from its parent and becomes part of the
+     organizational structure. Group ownership must match the executing context.
   */
   rpc CreateGroup(CreateGroupRequest) returns (Group) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
@@ -54,24 +40,10 @@ service GroupService {
   }
 
   /*
-     Updates an existing group's metadata.
+     Updates an existing group's display name and description metadata.
 
-     Only the display_name and description fields can be modified.
-     The group's name and owner fields are immutable.
-
-     Parameters:
-     - group: Complete group resource with updated fields
-       - name:  cannot be changed, must match existing
-       - owner: cannot be changed, must match existing
-       - display_name: New display name for the group
-       - description: New description for the group
-
-     Returns:
-     - Group: Updated group resource with all fields
-
-     Executing Group Note:
-     Owner of the group being updated MUST be the same as executing group context.
-     This is because write methods can ONLY be applied in the same group context.
+     Only mutable fields can be modified while preserving the group's
+     identity and ownership within the hierarchy.
   */
   rpc UpdateGroup(UpdateGroupRequest) returns (Group) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
@@ -84,18 +56,10 @@ service GroupService {
   }
 
   /*
-     Lists all groups in the authenticated group's hierarchy.
+     Retrieves all groups within the authenticated group's hierarchical scope.
 
-     Returns the authenticated group and all descendant groups
-     in the ownership tree. Results can be sorted by various fields.
-
-     Parameters:
-     - sorting: Optional sorting configuration
-       - field: Field to sort by (e.g., "name", "display_name")
-       - order: Sort order (ASC or DESC)
-
-     Returns:
-     - ListGroupsResponse: Collection of groups in the hierarchy
+     Returns the complete organizational structure accessible to the executing
+     context, including the root group and all descendant groups.
   */
   rpc ListGroups(ListGroupsRequest) returns (ListGroupsResponse) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
@@ -110,21 +74,10 @@ service GroupService {
   }
 
   /*
-     Searches groups using substring matching on metadata fields.
+     Searches groups using flexible text criteria within the hierarchy.
 
-     Performs case-insensitive substring search on display_name and/or
-     description fields within the authenticated group's hierarchy.
-     Both search criteria are combined with OR logic.
-
-     Parameters:
-     - display_name: Optional substring to search in display names
-     - description: Optional substring to search in descriptions
-     - sorting: Optional sorting configuration
-       - field: Field to sort by ("name" or "display_name")
-       - order: Sort order (ASC or DESC)
-
-     Returns:
-     - SearchGroupsResponse: Collection of matching groups
+     Performs case-insensitive substring matching on display names and
+     descriptions using OR logic across search terms.
   */
   rpc SearchGroups(SearchGroupsRequest) returns (SearchGroupsResponse) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
@@ -139,13 +92,10 @@ service GroupService {
   }
 
   /*
-     Retrieves a single group by its unique name field.
+     Retrieves a specific group by its resource identifier within the hierarchy.
 
-     Parameters:
-     - name: The resource name in format groups/{ULIDv2}
-
-     Returns:
-     - Group: Complete group resource including all metadata
+     Provides access to a single group's complete metadata and organizational
+     context if accessible within the executing group's scope.
   */
   rpc GetGroup(GetGroupRequest) returns (Group) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;

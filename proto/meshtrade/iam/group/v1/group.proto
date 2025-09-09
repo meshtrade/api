@@ -8,24 +8,23 @@ option go_package = "github.com/meshtrade/api/go/iam/group/v1;groupv1";
 option java_package = "co.meshtrade.api.iam.group.v1";
 
 /*
-   Represents a Group in the IAM system.
+   Organizational group resource representing a multi-tenancy boundary.
 
-   Groups are fundamental organizational units that own resources and define
-   permission boundaries. Each group has a hierarchical ownership structure
-   and can OWN users, API users, trades, and other resources.
+   Groups form hierarchical ownership structures within Mesh, enabling resource
+   isolation, permission inheritance, and organizational modeling. Each group
+   can own sub-groups, users, API users, accounts, and trading resources,
+   providing a complete tenant separation model.
 */
 message Group {
   /*
-     The unique, immutable, and canonical name of the group resource in the format groups/{group_id}.
-     The {group_id} is a system-generated unique identifier (ULIDv2) that will never change.
-     System set on creation.
+     Unique resource identifier in format groups/{ULIDv2}.
+     Immutable and system-generated on creation.
   */
   string name = 1;
 
   /*
-     The resource name of the parent group that owns this group in the format groups/{ULIDv2}.
-     This field establishes the ownership hierarchy.
-     Required on creation.
+     Parent group resource name establishing direct ownership.
+     Defines the immediate hierarchical relationship.
   */
   string owner = 2 [(buf.validate.field) = {
     string: {
@@ -45,9 +44,8 @@ message Group {
   }];
 
   /*
-     The resource names of the parent groups that are in this groups hierarchy in the format [groups/{ULIDv2}, groups/{someOtherGroupULIDv2}].
-     This field establishes the ownership hierarchy showing the full tree path from root to this group.
-     Populated by the system using hierarchical tree building.
+     Complete ownership path from root to this group for efficient access control.
+     System-maintained array enabling hierarchical permission inheritance.
   */
   repeated string owners = 3 [(buf.validate.field) = {
     repeated: {
@@ -66,8 +64,8 @@ message Group {
   }];
 
   /*
-     A non-unique, user-provided name for the group, used for display purposes.
-     Required on creation and can be updated.
+     Human-readable name for organizational identification and display.
+     User-configurable and non-unique across the system.
   */
   string display_name = 4 [(buf.validate.field) = {
     string: {
@@ -82,8 +80,7 @@ message Group {
   }];
 
   /*
-     Optional description providing additional context about the group's purpose.
-     Can be updated.
+     Optional contextual information describing the group's organizational purpose.
   */
   string description = 5 [(buf.validate.field) = {
     string: {max_len: 1000}

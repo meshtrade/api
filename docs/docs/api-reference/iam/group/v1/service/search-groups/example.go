@@ -5,6 +5,7 @@ import (
 	"log"
 
 	groupv1 "github.com/meshtrade/api/go/iam/group/v1"
+	typev1 "github.com/meshtrade/api/go/type/v1"
 )
 
 func main() {
@@ -19,9 +20,14 @@ func main() {
 	}
 	defer service.Close()
 
-	// Create request with service-specific parameters
+	// Create request with search criteria
 	request := &groupv1.SearchGroupsRequest{
-		// FIXME: Populate service-specific request fields
+		DisplayName: "trading",      // Search for groups with "trading" in display name
+		Description: "derivatives",  // OR groups with "derivatives" in description
+		Sorting: &groupv1.SearchGroupsRequest_Sorting{
+			Field: "display_name",
+			Order: typev1.SortingOrder_SORTING_ORDER_ASC,
+		},
 	}
 
 	// Call the SearchGroups method
@@ -30,6 +36,21 @@ func main() {
 		log.Fatalf("SearchGroups failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("SearchGroups successful: %+v", response)
+	// Process search results with OR logic
+	log.Printf("Found %d groups matching search criteria:", len(response.Groups))
+	log.Println("(Groups matching 'trading' in name OR 'derivatives' in description)")
+	
+	for i, group := range response.Groups {
+		log.Printf("Result %d:", i+1)
+		log.Printf("  Name: %s", group.Name)
+		log.Printf("  Display Name: %s", group.DisplayName)
+		log.Printf("  Description: %s", group.Description)
+		log.Printf("  Owner: %s", group.Owner)
+		log.Println()
+	}
+	
+	// Use filtered results for targeted operations
+	if len(response.Groups) > 0 {
+		log.Printf("Search found relevant groups for specialized operations")
+	}
 }

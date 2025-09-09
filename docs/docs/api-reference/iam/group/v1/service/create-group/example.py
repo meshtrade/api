@@ -1,5 +1,6 @@
 from meshtrade.iam.group.v1 import (
     CreateGroupRequest,
+    Group,
     GroupService,
 )
 
@@ -11,16 +12,32 @@ def main():
     service = GroupService()
 
     with service:
-        # Create request with service-specific parameters
+        # Get current executing group to use as owner for the new child group
+        # Note: Owner format is "groups/{ULIDv2}" (e.g. "groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU")
+        # but you can only create groups owned by your authenticated context
+        current_group = service.get_current_group()
+
+        # Create request with group configuration
         request = CreateGroupRequest(
-            # FIXME: Populate service-specific request fields
+            group=Group(
+                owner=current_group.name,  # Current executing group becomes the parent
+                display_name="Trading Team Alpha",
+                description="Primary trading team for equity markets and derivatives"
+            )
         )
 
         # Call the CreateGroup method
         group = service.create_group(request)
 
-        # FIXME: Add relevant response object usage
-        print("CreateGroup successful:", group)
+        # Use the newly created group
+        print("Group created successfully:")
+        print(f"  Name: {group.name}")
+        print(f"  Display Name: {group.display_name}")
+        print(f"  Owner: {group.owner}")
+        print(f"  Description: {group.description}")
+
+        # The group can now be used to own resources and manage users
+        print("Group is ready to own API users, accounts, and trading resources")
 
 
 if __name__ == "__main__":

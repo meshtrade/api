@@ -22,30 +22,27 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Represents a Group in the IAM system.
+// Organizational group resource representing a multi-tenancy boundary.
 //
-// Groups are fundamental organizational units that own resources and define
-// permission boundaries. Each group has a hierarchical ownership structure
-// and can OWN users, API users, trades, and other resources.
+// Groups form hierarchical ownership structures within Mesh, enabling resource
+// isolation, permission inheritance, and organizational modeling. Each group
+// can own sub-groups, users, API users, accounts, and trading resources,
+// providing a complete tenant separation model.
 type Group struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// The unique, immutable, and canonical name of the group resource in the format groups/{group_id}.
-	// The {group_id} is a system-generated unique identifier (ULIDv2) that will never change.
-	// System set on creation.
+	// Unique resource identifier in format groups/{ULIDv2}.
+	// Immutable and system-generated on creation.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	// The resource name of the parent group that owns this group in the format groups/{ULIDv2}.
-	// This field establishes the ownership hierarchy.
-	// Required on creation.
+	// Parent group resource name establishing direct ownership.
+	// Defines the immediate hierarchical relationship.
 	Owner string `protobuf:"bytes,2,opt,name=owner,proto3" json:"owner,omitempty"`
-	// The resource names of the parent groups that are in this groups hierarchy in the format [groups/{ULIDv2}, groups/{someOtherGroupULIDv2}].
-	// This field establishes the ownership hierarchy showing the full tree path from root to this group.
-	// Populated by the system using hierarchical tree building.
+	// Complete ownership path from root to this group for efficient access control.
+	// System-maintained array enabling hierarchical permission inheritance.
 	Owners []string `protobuf:"bytes,3,rep,name=owners,proto3" json:"owners,omitempty"`
-	// A non-unique, user-provided name for the group, used for display purposes.
-	// Required on creation and can be updated.
+	// Human-readable name for organizational identification and display.
+	// User-configurable and non-unique across the system.
 	DisplayName string `protobuf:"bytes,4,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
-	// Optional description providing additional context about the group's purpose.
-	// Can be updated.
+	// Optional contextual information describing the group's organizational purpose.
 	Description   string `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache

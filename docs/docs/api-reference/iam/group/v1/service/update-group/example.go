@@ -19,9 +19,23 @@ func main() {
 	}
 	defer service.Close()
 
-	// Create request with service-specific parameters
+	// Get the existing group to update (example assumes you know the group name)
+	// Note: Group names are in format "groups/{ULIDv2}" (e.g. "groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU")
+	// In practice, you would get this from a previous CreateGroup call or ListGroups result
+	existingGroupName := "groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU" // Example group name
+	existingGroup, err := service.GetGroup(ctx, &groupv1.GetGroupRequest{Name: existingGroupName})
+	if err != nil {
+		log.Fatalf("Failed to get existing group: %v", err)
+	}
+
+	// Create request with complete group data (immutable fields must match existing)
 	request := &groupv1.UpdateGroupRequest{
-		// FIXME: Populate service-specific request fields
+		Group: &groupv1.Group{
+			Name:        existingGroup.Name,        // Must match existing
+			Owner:       existingGroup.Owner,       // Must match existing  
+			DisplayName: "Trading Team Alpha - Updated",      // Can be modified
+			Description: "Primary trading team specializing in equity markets, derivatives, and fixed income instruments", // Can be modified
+		},
 	}
 
 	// Call the UpdateGroup method
@@ -30,6 +44,14 @@ func main() {
 		log.Fatalf("UpdateGroup failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("UpdateGroup successful: %+v", group)
+	// Verify the updated group information
+	log.Printf("Group updated successfully:")
+	log.Printf("  Name: %s (immutable)", group.Name)
+	log.Printf("  Display Name: %s (updated)", group.DisplayName)
+	log.Printf("  Description: %s (updated)", group.Description)
+	log.Printf("  Owner: %s (immutable)", group.Owner)
+	log.Printf("  Full Ownership Path: %v", group.Owners)
+	
+	// Updated group retains all existing relationships and permissions
+	log.Printf("Group identity preserved, metadata updated successfully")
 }
