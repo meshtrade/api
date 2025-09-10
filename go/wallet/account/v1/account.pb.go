@@ -8,8 +8,11 @@ package account_v1
 
 import (
 	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
+	v11 "github.com/meshtrade/api/go/studio/instrument/v1"
+	v1 "github.com/meshtrade/api/go/type/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -22,29 +25,102 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type AccountState int32
+
+const (
+	// Unknown or not specified.
+	// This is a default value to prevent accidental assignment and should not be used.
+	AccountState_ACCOUNT_STATE_UNSPECIFIED AccountState = 0
+	AccountState_ACCOUNT_STATE_CLOSED      AccountState = 1
+	AccountState_ACCOUNT_STATE_OPEN        AccountState = 2
+)
+
+// Enum value maps for AccountState.
+var (
+	AccountState_name = map[int32]string{
+		0: "ACCOUNT_STATE_UNSPECIFIED",
+		1: "ACCOUNT_STATE_CLOSED",
+		2: "ACCOUNT_STATE_OPEN",
+	}
+	AccountState_value = map[string]int32{
+		"ACCOUNT_STATE_UNSPECIFIED": 0,
+		"ACCOUNT_STATE_CLOSED":      1,
+		"ACCOUNT_STATE_OPEN":        2,
+	}
+)
+
+func (x AccountState) Enum() *AccountState {
+	p := new(AccountState)
+	*p = x
+	return p
+}
+
+func (x AccountState) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (AccountState) Descriptor() protoreflect.EnumDescriptor {
+	return file_meshtrade_wallet_account_v1_account_proto_enumTypes[0].Descriptor()
+}
+
+func (AccountState) Type() protoreflect.EnumType {
+	return &file_meshtrade_wallet_account_v1_account_proto_enumTypes[0]
+}
+
+func (x AccountState) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use AccountState.Descriptor instead.
+func (AccountState) EnumDescriptor() ([]byte, []int) {
+	return file_meshtrade_wallet_account_v1_account_proto_rawDescGZIP(), []int{0}
+}
+
+// An Account represents a unique entity on a specific ledger that can hold balances
+// of various financial instruments.
 type Account struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Unique resource identifier in format groups/{ULIDv2}.
-	// Immutable and system-generated on creation.
+	// The unique resource name for the account.
+	// Format: accounts/{ULIDv2}.
+	// This field is system-generated and immutable upon creation.
+	// Any value provided on creation is ignored.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	// Parent group resource name establishing direct ownership.
-	// Defines the immediate hierarchical relationship.
-	// Required on creation.
+	// The resource name of the parent group that owns this account.
+	// This field is required on creation and establishes the direct ownership link.
+	// Format: groups/{ULIDv2}.
 	Owner string `protobuf:"bytes,2,opt,name=owner,proto3" json:"owner,omitempty"`
-	// Complete ownership path from root to this group for efficient access control.
-	// System-maintained array enabling hierarchical permission inheritance.
-	// Immutable and system-generated on creation.
+	// The complete ownership path from the root to this account's owner.
+	// This is a system-maintained array for efficient, hierarchical access control checks.
+	// This field is system-generated and immutable.
+	// Any value provided on creation is ignored.
 	Owners []string `protobuf:"bytes,3,rep,name=owners,proto3" json:"owners,omitempty"`
-	// The Unique Mesh Account Number.
-	// Immutable and system-generated on creation.
+	// The Unique Mesh Account Number (UMAN). A 7-digit number starting with 1.
+	// This field is system-generated and immutable.
+	// Any value provided on creation is ignored.
 	Number string `protobuf:"bytes,5,opt,name=number,proto3" json:"number,omitempty"`
-	// The account's ID on the ledger network, typically a public key like Ed25519
-	// (used by Stellar and Solana) or secp256k1 (used by Bitcoin).
-	// Immutable and system-generated on creation.
+	// The account's public address on the specified ledger network.
+	// This is typically a public key, e.g., Ed25519 (Stellar, Solana) or
+	// secp256k1 (Bitcoin, Ethereum).
+	// This field is system-generated and immutable.
+	// Any value provided on creation is ignored.
 	LedgerId string `protobuf:"bytes,6,opt,name=ledger_id,json=ledgerId,proto3" json:"ledger_id,omitempty"`
-	// Human-readable name for organizational identification and display.
-	// User-configurable and non-unique across the system.
-	DisplayName   string `protobuf:"bytes,7,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
+	// The ledger on which the account exists (e.g., Stellar, Solana, Bitcoin, or Ethereum).
+	// This field is required on creation to specify the target ledger for the account.
+	Ledger v1.Ledger `protobuf:"varint,7,opt,name=ledger,proto3,enum=meshtrade.type.v1.Ledger" json:"ledger,omitempty"`
+	// A human-readable name for the account, used for display and organizational purposes.
+	// This name is user-configurable and does not need to be unique.
+	DisplayName string `protobuf:"bytes,8,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
+	// Time at which live ledger data fields were populated.
+	// Important as live ledger data changes.
+	// Only populated if account retrieved with option to populate
+	// live ledger data set to true. See Get, List and other read methods on AccountService for that field.
+	LiveDataRetrievedAt *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=live_data_retrieved_at,json=liveDataRetrievedAt,proto3" json:"live_data_retrieved_at,omitempty"`
+	// State of the account on the ledger.
+	State AccountState `protobuf:"varint,10,opt,name=state,proto3,enum=meshtrade.wallet.account.v1.AccountState" json:"state,omitempty"`
+	// A list of balances, where each balance represents a specific instrument
+	// and the quantity of it held in this account.
+	// NOTE: Live ledger data
+	Balances      []*Balance `protobuf:"bytes,11,rep,name=balances,proto3" json:"balances,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -114,6 +190,13 @@ func (x *Account) GetLedgerId() string {
 	return ""
 }
 
+func (x *Account) GetLedger() v1.Ledger {
+	if x != nil {
+		return x.Ledger
+	}
+	return v1.Ledger(0)
+}
+
 func (x *Account) GetDisplayName() string {
 	if x != nil {
 		return x.DisplayName
@@ -121,23 +204,182 @@ func (x *Account) GetDisplayName() string {
 	return ""
 }
 
+func (x *Account) GetLiveDataRetrievedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.LiveDataRetrievedAt
+	}
+	return nil
+}
+
+func (x *Account) GetState() AccountState {
+	if x != nil {
+		return x.State
+	}
+	return AccountState_ACCOUNT_STATE_UNSPECIFIED
+}
+
+func (x *Account) GetBalances() []*Balance {
+	if x != nil {
+		return x.Balances
+	}
+	return nil
+}
+
+// InstrumentMetaData contains descriptive, non-quantifiable information about
+// the financial instrument associated with a balance.
+type InstrumentMetaData struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The official or common name of the instrument (e.g., "Apple Inc.", "Bitcoin").
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	// The classification of the instrument (e.g., SHARE, BOND, CRYPTO_CURRENCY).
+	Type v11.InstrumentType `protobuf:"varint,2,opt,name=type,proto3,enum=meshtrade.studio.instrument.v1.InstrumentType" json:"type,omitempty"`
+	// The standard of measurement for the instrument (e.g., SHARE, OUNCE, BARREL, NOTE).
+	Unit          v11.Unit `protobuf:"varint,3,opt,name=unit,proto3,enum=meshtrade.studio.instrument.v1.Unit" json:"unit,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *InstrumentMetaData) Reset() {
+	*x = InstrumentMetaData{}
+	mi := &file_meshtrade_wallet_account_v1_account_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *InstrumentMetaData) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*InstrumentMetaData) ProtoMessage() {}
+
+func (x *InstrumentMetaData) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_wallet_account_v1_account_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use InstrumentMetaData.ProtoReflect.Descriptor instead.
+func (*InstrumentMetaData) Descriptor() ([]byte, []int) {
+	return file_meshtrade_wallet_account_v1_account_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *InstrumentMetaData) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *InstrumentMetaData) GetType() v11.InstrumentType {
+	if x != nil {
+		return x.Type
+	}
+	return v11.InstrumentType(0)
+}
+
+func (x *InstrumentMetaData) GetUnit() v11.Unit {
+	if x != nil {
+		return x.Unit
+	}
+	return v11.Unit(0)
+}
+
+// Balance represents the quantity of a specific financial instrument held
+// within an account.
+type Balance struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The quantifiable measure of the instrument held, represented as a
+	// high-precision amount with decimal value and token of denomination.
+	// NOTE: amount may include funds locked in open orders and other obligations.
+	Amount *v1.Amount `protobuf:"bytes,1,opt,name=amount,proto3" json:"amount,omitempty"`
+	// Descriptive metadata about the instrument to which this balance pertains.
+	InstrumentMetadata *InstrumentMetaData `protobuf:"bytes,2,opt,name=instrument_metadata,json=instrumentMetadata,proto3" json:"instrument_metadata,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
+}
+
+func (x *Balance) Reset() {
+	*x = Balance{}
+	mi := &file_meshtrade_wallet_account_v1_account_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Balance) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Balance) ProtoMessage() {}
+
+func (x *Balance) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_wallet_account_v1_account_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Balance.ProtoReflect.Descriptor instead.
+func (*Balance) Descriptor() ([]byte, []int) {
+	return file_meshtrade_wallet_account_v1_account_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *Balance) GetAmount() *v1.Amount {
+	if x != nil {
+		return x.Amount
+	}
+	return nil
+}
+
+func (x *Balance) GetInstrumentMetadata() *InstrumentMetaData {
+	if x != nil {
+		return x.InstrumentMetadata
+	}
+	return nil
+}
+
 var File_meshtrade_wallet_account_v1_account_proto protoreflect.FileDescriptor
 
 const file_meshtrade_wallet_account_v1_account_proto_rawDesc = "" +
 	"\n" +
-	")meshtrade/wallet/account/v1/account.proto\x12\x1bmeshtrade.wallet.account.v1\x1a\x1bbuf/validate/validate.proto\"\x8d\a\n" +
-	"\aAccount\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12\xb1\x02\n" +
-	"\x05owner\x18\x02 \x01(\tB\x9a\x02\xbaH\x96\x02\xba\x01Y\n" +
-	"\x0eowner.required\x127owner is required and must be in format groups/{ULIDv2}\x1a\x0esize(this) > 0\xba\x01\x9b\x01\n" +
-	"\fowner.format\x12downer must be in format groups/{ULIDv2} where ULIDv2 is exactly 26 uppercase alphanumeric characters\x1a%this.matches('^groups/[0-9A-Z]{26}$')r\x19\x10\x012\x15^groups/[0-9A-Z]{26}$R\x05owner\x12\xe4\x01\n" +
-	"\x06owners\x18\x03 \x03(\tB\xcb\x01\xbaH\xc7\x01\x92\x01\xc3\x01\"\xc0\x01\xba\x01\xa1\x01\n" +
-	"\rowners.format\x12ieach owner must be in format groups/{ULIDv2} where ULIDv2 is exactly 26 uppercase alphanumeric characters\x1a%this.matches('^groups/[0-9A-Z]{26}$')r\x19\x10\x002\x15^groups/[0-9A-Z]{26}$R\x06owners\x12\x81\x01\n" +
-	"\x06number\x18\x05 \x01(\tBi\xbaHf\xba\x01R\n" +
-	"\x17account_number.required\x12\x1aaccount_number is required\x1a\x1bthis.matches('^[0-9]{1,}$')r\x0f\x10\x002\v^[0-9]{1,}$R\x06number\x12\x1b\n" +
-	"\tledger_id\x18\x06 \x01(\tR\bledgerId\x12\xb1\x01\n" +
-	"\fdisplay_name\x18\a \x01(\tB\x8d\x01\xbaH\x89\x01\xba\x01\x7f\n" +
-	"\x15display_name.required\x12Adisplay name is required and must be between 1 and 255 characters\x1a#size(this) > 0 && size(this) <= 255r\x05\x10\x01\x18\xff\x01R\vdisplayNameB^\n" +
+	")meshtrade/wallet/account/v1/account.proto\x12\x1bmeshtrade.wallet.account.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1emeshtrade/type/v1/ledger.proto\x1a\x1emeshtrade/type/v1/amount.proto\x1a)meshtrade/studio/instrument/v1/type.proto\x1a)meshtrade/studio/instrument/v1/unit.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xbe\x06\n" +
+	"\aAccount\x12\xa6\x01\n" +
+	"\x04name\x18\x01 \x01(\tB\x91\x01\xbaH\x8d\x01\xba\x01\x89\x01\n" +
+	"\x14name.format.optional\x125name must be empty or in the format accounts/{ULIDv2}\x1a:size(this) == 0 || this.matches('^accounts/[0-9A-Z]{26}$')R\x04name\x125\n" +
+	"\x05owner\x18\x02 \x01(\tB\x1f\xbaH\x1cr\x1a2\x15^groups/[0-9A-Z]{26}$\x98\x01!R\x05owner\x12<\n" +
+	"\x06owners\x18\x03 \x03(\tB$\xbaH!\x92\x01\x1e\"\x1cr\x1a2\x15^groups/[0-9A-Z]{26}$\x98\x01!R\x06owners\x12\xab\x01\n" +
+	"\x06number\x18\x05 \x01(\tB\x92\x01\xbaH\x8e\x01\xba\x01\x8a\x01\n" +
+	"\x16number.format.optional\x12@number must be empty or a 7-digit account number starting with 1\x1a.size(this) == 0 || this.matches('^1[0-9]{6}$')R\x06number\x12%\n" +
+	"\tledger_id\x18\x06 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R\bledgerId\x12=\n" +
+	"\x06ledger\x18\a \x01(\x0e2\x19.meshtrade.type.v1.LedgerB\n" +
+	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\x06ledger\x12-\n" +
+	"\fdisplay_name\x18\b \x01(\tB\n" +
+	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\vdisplayName\x12O\n" +
+	"\x16live_data_retrieved_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\x13liveDataRetrievedAt\x12?\n" +
+	"\x05state\x18\n" +
+	" \x01(\x0e2).meshtrade.wallet.account.v1.AccountStateR\x05state\x12@\n" +
+	"\bbalances\x18\v \x03(\v2$.meshtrade.wallet.account.v1.BalanceR\bbalances\"\xa6\x01\n" +
+	"\x12InstrumentMetaData\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12B\n" +
+	"\x04type\x18\x02 \x01(\x0e2..meshtrade.studio.instrument.v1.InstrumentTypeR\x04type\x128\n" +
+	"\x04unit\x18\x03 \x01(\x0e2$.meshtrade.studio.instrument.v1.UnitR\x04unit\"\x9e\x01\n" +
+	"\aBalance\x121\n" +
+	"\x06amount\x18\x01 \x01(\v2\x19.meshtrade.type.v1.AmountR\x06amount\x12`\n" +
+	"\x13instrument_metadata\x18\x02 \x01(\v2/.meshtrade.wallet.account.v1.InstrumentMetaDataR\x12instrumentMetadata*_\n" +
+	"\fAccountState\x12\x1d\n" +
+	"\x19ACCOUNT_STATE_UNSPECIFIED\x10\x00\x12\x18\n" +
+	"\x14ACCOUNT_STATE_CLOSED\x10\x01\x12\x16\n" +
+	"\x12ACCOUNT_STATE_OPEN\x10\x02B^\n" +
 	"\"co.meshtrade.api.wallet.account.v1Z8github.com/meshtrade/api/go/wallet/account/v1;account_v1b\x06proto3"
 
 var (
@@ -152,16 +394,33 @@ func file_meshtrade_wallet_account_v1_account_proto_rawDescGZIP() []byte {
 	return file_meshtrade_wallet_account_v1_account_proto_rawDescData
 }
 
-var file_meshtrade_wallet_account_v1_account_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_meshtrade_wallet_account_v1_account_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_meshtrade_wallet_account_v1_account_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_meshtrade_wallet_account_v1_account_proto_goTypes = []any{
-	(*Account)(nil), // 0: meshtrade.wallet.account.v1.Account
+	(AccountState)(0),             // 0: meshtrade.wallet.account.v1.AccountState
+	(*Account)(nil),               // 1: meshtrade.wallet.account.v1.Account
+	(*InstrumentMetaData)(nil),    // 2: meshtrade.wallet.account.v1.InstrumentMetaData
+	(*Balance)(nil),               // 3: meshtrade.wallet.account.v1.Balance
+	(v1.Ledger)(0),                // 4: meshtrade.type.v1.Ledger
+	(*timestamppb.Timestamp)(nil), // 5: google.protobuf.Timestamp
+	(v11.InstrumentType)(0),       // 6: meshtrade.studio.instrument.v1.InstrumentType
+	(v11.Unit)(0),                 // 7: meshtrade.studio.instrument.v1.Unit
+	(*v1.Amount)(nil),             // 8: meshtrade.type.v1.Amount
 }
 var file_meshtrade_wallet_account_v1_account_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	4, // 0: meshtrade.wallet.account.v1.Account.ledger:type_name -> meshtrade.type.v1.Ledger
+	5, // 1: meshtrade.wallet.account.v1.Account.live_data_retrieved_at:type_name -> google.protobuf.Timestamp
+	0, // 2: meshtrade.wallet.account.v1.Account.state:type_name -> meshtrade.wallet.account.v1.AccountState
+	3, // 3: meshtrade.wallet.account.v1.Account.balances:type_name -> meshtrade.wallet.account.v1.Balance
+	6, // 4: meshtrade.wallet.account.v1.InstrumentMetaData.type:type_name -> meshtrade.studio.instrument.v1.InstrumentType
+	7, // 5: meshtrade.wallet.account.v1.InstrumentMetaData.unit:type_name -> meshtrade.studio.instrument.v1.Unit
+	8, // 6: meshtrade.wallet.account.v1.Balance.amount:type_name -> meshtrade.type.v1.Amount
+	2, // 7: meshtrade.wallet.account.v1.Balance.instrument_metadata:type_name -> meshtrade.wallet.account.v1.InstrumentMetaData
+	8, // [8:8] is the sub-list for method output_type
+	8, // [8:8] is the sub-list for method input_type
+	8, // [8:8] is the sub-list for extension type_name
+	8, // [8:8] is the sub-list for extension extendee
+	0, // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_wallet_account_v1_account_proto_init() }
@@ -174,13 +433,14 @@ func file_meshtrade_wallet_account_v1_account_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_meshtrade_wallet_account_v1_account_proto_rawDesc), len(file_meshtrade_wallet_account_v1_account_proto_rawDesc)),
-			NumEnums:      0,
-			NumMessages:   1,
+			NumEnums:      1,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           file_meshtrade_wallet_account_v1_account_proto_goTypes,
 		DependencyIndexes: file_meshtrade_wallet_account_v1_account_proto_depIdxs,
+		EnumInfos:         file_meshtrade_wallet_account_v1_account_proto_enumTypes,
 		MessageInfos:      file_meshtrade_wallet_account_v1_account_proto_msgTypes,
 	}.Build()
 	File_meshtrade_wallet_account_v1_account_proto = out.File

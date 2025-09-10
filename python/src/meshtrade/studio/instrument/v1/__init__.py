@@ -1,4 +1,4 @@
-"""Account v1 package."""
+"""Instrument v1 package."""
 
 # ===================================================================
 # AUTO-GENERATED SECTION - ONLY EDIT BELOW THE CLOSING COMMENT BLOCK
@@ -13,34 +13,9 @@
 # ===================================================================
 
 # Generated protobuf imports
-from .account_pb2 import (
-    Account,
-    AccountState,
-    Balance,
-    InstrumentMetaData,
-)
-from .service_pb2 import (
-    CloseAccountRequest,
-    CloseAccountResponse,
-    CreateAccountRequest,
-    GetAccountByNumberRequest,
-    GetAccountRequest,
-    ListAccountsRequest,
-    ListAccountsResponse,
-    OpenAccountRequest,
-    OpenAccountResponse,
-    SearchAccountsRequest,
-    SearchAccountsResponse,
-    UpdateAccountRequest,
-)
-
-# Generated service imports
-from .service_meshpy import (
-    AccountService,
-    AccountServiceGRPCClient,
-    AccountServiceGRPCClientInterface,
-)
-from .service_options_meshpy import ClientOptions
+from .instrument_pb2 import Instrument
+from .type_pb2 import InstrumentType
+from .unit_pb2 import Unit
 
 # ===================================================================
 # END OF AUTO-GENERATED SECTION
@@ -62,24 +37,7 @@ from .service_options_meshpy import ClientOptions
 # Combined auto-generated and manual exports
 __all__ = [
     # Generated exports
-    "Account",
-    "AccountService",
-    "AccountServiceGRPCClient",
-    "AccountServiceGRPCClientInterface",
-    "AccountState",
-    "Balance",
-    "ClientOptions",
-    "CloseAccountRequest",
-    "CloseAccountResponse",
-    "CreateAccountRequest",
-    "GetAccountByNumberRequest",
-    "GetAccountRequest",
-    "InstrumentMetaData",
-    "ListAccountsRequest",
-    "ListAccountsResponse",
-    "OpenAccountRequest",
-    "OpenAccountResponse",
-    "SearchAccountsRequest",
-    "SearchAccountsResponse",
-    "UpdateAccountRequest",
+    "Instrument",
+    "InstrumentType",
+    "Unit",
 ]

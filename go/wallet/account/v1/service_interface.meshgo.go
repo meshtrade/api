@@ -6,19 +6,23 @@ import (
 	context "context"
 )
 
-// AccountService provides access to and management of wallet accounts.
 type AccountService interface {
-	// Creates a new wallet account.
-	// This is a write operation restricted to administrative roles.
+	// create account, not yet open, call open account to open
 	CreateAccount(ctx context.Context, request *CreateAccountRequest) (*Account, error)
 
-	// Retrieves a single wallet account by its unique number.
+	// update account only display name can be changed
+	UpdateAccount(ctx context.Context, request *UpdateAccountRequest) (*Account, error)
+
+	OpenAccount(ctx context.Context, request *OpenAccountRequest) (*OpenAccountResponse, error)
+
+	CloseAccount(ctx context.Context, request *CloseAccountRequest) (*CloseAccountResponse, error)
+
 	GetAccount(ctx context.Context, request *GetAccountRequest) (*Account, error)
 
-	// Retrieves a list of all accounts for the authenticated principal.
+	GetAccountByNumber(ctx context.Context, request *GetAccountByNumberRequest) (*Account, error)
+
 	ListAccounts(ctx context.Context, request *ListAccountsRequest) (*ListAccountsResponse, error)
 
-	// Searches for accounts based on a partial label match.
 	SearchAccounts(ctx context.Context, request *SearchAccountsRequest) (*SearchAccountsResponse, error)
 }
 

@@ -30,14 +30,19 @@ const (
 // providing a complete tenant separation model.
 type Group struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Unique resource identifier in format groups/{ULIDv2}.
-	// Immutable and system-generated on creation.
+	// The unique resource name for the group.
+	// Format: accounts/{ULIDv2}.
+	// This field is system-generated and immutable upon creation.
+	// Any value provided on creation is ignored.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	// Parent group resource name establishing direct ownership.
-	// Defines the immediate hierarchical relationship.
+	// The resource name of the parent group that owns this group.
+	// This field is required on creation and establishes the direct ownership link.
+	// Format: groups/{ULIDv2}.
 	Owner string `protobuf:"bytes,2,opt,name=owner,proto3" json:"owner,omitempty"`
-	// Complete ownership path from root to this group for efficient access control.
-	// System-maintained array enabling hierarchical permission inheritance.
+	// The complete ownership path from the root to this group.
+	// This is a system-maintained array for efficient, hierarchical access control checks.
+	// This field is system-generated and immutable.
+	// Any value provided on creation is ignored.
 	Owners []string `protobuf:"bytes,3,rep,name=owners,proto3" json:"owners,omitempty"`
 	// Human-readable name for organizational identification and display.
 	// User-configurable and non-unique across the system.
@@ -117,18 +122,15 @@ var File_meshtrade_iam_group_v1_group_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_group_v1_group_proto_rawDesc = "" +
 	"\n" +
-	"\"meshtrade/iam/group/v1/group.proto\x12\x16meshtrade.iam.group.v1\x1a\x1bbuf/validate/validate.proto\"\xf3\x06\n" +
-	"\x05Group\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12\xb1\x02\n" +
-	"\x05owner\x18\x02 \x01(\tB\x9a\x02\xbaH\x96\x02\xba\x01Y\n" +
-	"\x0eowner.required\x127owner is required and must be in format groups/{ULIDv2}\x1a\x0esize(this) > 0\xba\x01\x9b\x01\n" +
-	"\fowner.format\x12downer must be in format groups/{ULIDv2} where ULIDv2 is exactly 26 uppercase alphanumeric characters\x1a%this.matches('^groups/[0-9A-Z]{26}$')r\x19\x10\x012\x15^groups/[0-9A-Z]{26}$R\x05owner\x12\xe4\x01\n" +
-	"\x06owners\x18\x03 \x03(\tB\xcb\x01\xbaH\xc7\x01\x92\x01\xc3\x01\"\xc0\x01\xba\x01\xa1\x01\n" +
-	"\rowners.format\x12ieach owner must be in format groups/{ULIDv2} where ULIDv2 is exactly 26 uppercase alphanumeric characters\x1a%this.matches('^groups/[0-9A-Z]{26}$')r\x19\x10\x012\x15^groups/[0-9A-Z]{26}$R\x06owners\x12\xb1\x01\n" +
-	"\fdisplay_name\x18\x04 \x01(\tB\x8d\x01\xbaH\x89\x01\xba\x01\x7f\n" +
-	"\x15display_name.required\x12Adisplay name is required and must be between 1 and 255 characters\x1a#size(this) > 0 && size(this) <= 255r\x05\x10\x01\x18\xff\x01R\vdisplayName\x12\x86\x01\n" +
-	"\vdescription\x18\x05 \x01(\tBd\xbaHa\xba\x01Y\n" +
-	"\x16description.max_length\x12+description must not exceed 1000 characters\x1a\x12size(this) <= 1000r\x03\x18\xe8\aR\vdescriptionBR\n" +
+	"\"meshtrade/iam/group/v1/group.proto\x12\x16meshtrade.iam.group.v1\x1a\x1bbuf/validate/validate.proto\"\x80\x03\n" +
+	"\x05Group\x12\xa6\x01\n" +
+	"\x04name\x18\x01 \x01(\tB\x91\x01\xbaH\x8d\x01\xba\x01\x89\x01\n" +
+	"\x14name.format.optional\x125name must be empty or in the format accounts/{ULIDv2}\x1a:size(this) == 0 || this.matches('^accounts/[0-9A-Z]{26}$')R\x04name\x125\n" +
+	"\x05owner\x18\x02 \x01(\tB\x1f\xbaH\x1cr\x1a2\x15^groups/[0-9A-Z]{26}$\x98\x01!R\x05owner\x12<\n" +
+	"\x06owners\x18\x03 \x03(\tB$\xbaH!\x92\x01\x1e\"\x1cr\x1a2\x15^groups/[0-9A-Z]{26}$\x98\x01!R\x06owners\x12-\n" +
+	"\fdisplay_name\x18\x04 \x01(\tB\n" +
+	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\vdisplayName\x12*\n" +
+	"\vdescription\x18\x05 \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aR\vdescriptionBR\n" +
 	"\x1dco.meshtrade.api.iam.group.v1Z1github.com/meshtrade/api/go/iam/group/v1;group_v1b\x06proto3"
 
 var (

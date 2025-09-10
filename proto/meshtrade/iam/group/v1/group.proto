@@ -17,47 +17,43 @@ option java_package = "co.meshtrade.api.iam.group.v1";
 */
 message Group {
   /*
-     Unique resource identifier in format groups/{ULIDv2}.
-     Immutable and system-generated on creation.
+     The unique resource name for the group.
+     Format: accounts/{ULIDv2}.
+     This field is system-generated and immutable upon creation.
+     Any value provided on creation is ignored.
   */
-  string name = 1;
-
-  /*
-     Parent group resource name establishing direct ownership.
-     Defines the immediate hierarchical relationship.
-  */
-  string owner = 2 [(buf.validate.field) = {
-    string: {
-      min_len: 1
-      pattern: "^groups/[0-9A-Z]{26}$"
-    }
+  string name = 1 [(buf.validate.field) = {
     cel: {
-      id: "owner.required"
-      message: "owner is required and must be in format groups/{ULIDv2}"
-      expression: "size(this) > 0"
-    }
-    cel: {
-      id: "owner.format"
-      message: "owner must be in format groups/{ULIDv2} where ULIDv2 is exactly 26 uppercase alphanumeric characters"
-      expression: "this.matches('^groups/[0-9A-Z]{26}$')"
+      id: "name.format.optional",
+      message: "name must be empty or in the format accounts/{ULIDv2}",
+      expression: "size(this) == 0 || this.matches('^accounts/[0-9A-Z]{26}$')"
     }
   }];
 
   /*
-     Complete ownership path from root to this group for efficient access control.
-     System-maintained array enabling hierarchical permission inheritance.
+     The resource name of the parent group that owns this group.
+     This field is required on creation and establishes the direct ownership link.
+     Format: groups/{ULIDv2}.
+  */
+  string owner = 2 [(buf.validate.field) = {
+    string: {
+      len: 33,
+      pattern: "^groups/[0-9A-Z]{26}$"
+    }
+  }];
+
+  /*
+     The complete ownership path from the root to this group.
+     This is a system-maintained array for efficient, hierarchical access control checks.
+     This field is system-generated and immutable.
+     Any value provided on creation is ignored.
   */
   repeated string owners = 3 [(buf.validate.field) = {
     repeated: {
       items: {
         string: {
-          min_len: 1
+          len: 33,
           pattern: "^groups/[0-9A-Z]{26}$"
-        }
-        cel: {
-          id: "owners.format"
-          message: "each owner must be in format groups/{ULIDv2} where ULIDv2 is exactly 26 uppercase alphanumeric characters"
-          expression: "this.matches('^groups/[0-9A-Z]{26}$')"
         }
       }
     }
@@ -69,13 +65,8 @@ message Group {
   */
   string display_name = 4 [(buf.validate.field) = {
     string: {
-      min_len: 1
+      min_len: 1,
       max_len: 255
-    }
-    cel: {
-      id: "display_name.required"
-      message: "display name is required and must be between 1 and 255 characters"
-      expression: "size(this) > 0 && size(this) <= 255"
     }
   }];
 
@@ -83,11 +74,8 @@ message Group {
      Optional contextual information describing the group's organizational purpose.
   */
   string description = 5 [(buf.validate.field) = {
-    string: {max_len: 1000}
-    cel: {
-      id: "description.max_length"
-      message: "description must not exceed 1000 characters"
-      expression: "size(this) <= 1000"
+    string: {
+      max_len: 1000
     }
   }];
 }

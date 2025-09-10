@@ -442,27 +442,26 @@ const file_meshtrade_iam_api_user_v1_service_proto_rawDesc = "" +
 	"\rname.required\x125name is required and must be in format api_users/{id}\x1a2this.matches('^api_users/[0-9A-HJKMNP-TV-Z]{26}$')r&\x10\x012\"^api_users/[0-9A-HJKMNP-TV-Z]{26}$R\x04name\"\xdb\x01\n" +
 	"\x18DeactivateApiUserRequest\x12\xbe\x01\n" +
 	"\x04name\x18\x01 \x01(\tB\xa9\x01\xbaH\xa5\x01\xba\x01z\n" +
-	"\rname.required\x125name is required and must be in format api_users/{id}\x1a2this.matches('^api_users/[0-9A-HJKMNP-TV-Z]{26}$')r&\x10\x012\"^api_users/[0-9A-HJKMNP-TV-Z]{26}$R\x04name2\x8b\a\n" +
-	"\x0eApiUserService\x12r\n" +
+	"\rname.required\x125name is required and must be in format api_users/{id}\x1a2this.matches('^api_users/[0-9A-HJKMNP-TV-Z]{26}$')r&\x10\x012\"^api_users/[0-9A-HJKMNP-TV-Z]{26}$R\x04name2\xb8\a\n" +
+	"\x0eApiUserService\x12z\n" +
 	"\n" +
-	"GetApiUser\x12,.meshtrade.iam.api_user.v1.GetApiUserRequest\x1a\".meshtrade.iam.api_user.v1.APIUser\"\x12\xa0\xb5\x18\x01\xaa\xb5\x18\n" +
+	"GetApiUser\x12,.meshtrade.iam.api_user.v1.GetApiUserRequest\x1a\".meshtrade.iam.api_user.v1.APIUser\"\x1a\xa0\xb5\x18\x01\xaa\xb5\x18\x12\n" +
+	"\x10\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01\u008d\xb7\x01Í\xb7\x01\x12x\n" +
+	"\rCreateApiUser\x12/.meshtrade.iam.api_user.v1.CreateApiUserRequest\x1a\".meshtrade.iam.api_user.v1.APIUser\"\x12\xa0\xb5\x18\x02\xaa\xb5\x18\n" +
 	"\n" +
-	"\b\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01\x12t\n" +
-	"\rCreateApiUser\x12/.meshtrade.iam.api_user.v1.CreateApiUserRequest\x1a\".meshtrade.iam.api_user.v1.APIUser\"\x0e\xa0\xb5\x18\x02\xaa\xb5\x18\x06\n" +
-	"\x04\xc0\x8d\xb7\x01\x12\x83\x01\n" +
-	"\fListApiUsers\x12..meshtrade.iam.api_user.v1.ListApiUsersRequest\x1a/.meshtrade.iam.api_user.v1.ListApiUsersResponse\"\x12\xa0\xb5\x18\x01\xaa\xb5\x18\n" +
+	"\b\xc0\x8d\xb7\x01\u008d\xb7\x01\x12\x8b\x01\n" +
+	"\fListApiUsers\x12..meshtrade.iam.api_user.v1.ListApiUsersRequest\x1a/.meshtrade.iam.api_user.v1.ListApiUsersResponse\"\x1a\xa0\xb5\x18\x01\xaa\xb5\x18\x12\n" +
+	"\x10\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01\u008d\xb7\x01Í\xb7\x01\x12\x91\x01\n" +
+	"\x0eSearchApiUsers\x120.meshtrade.iam.api_user.v1.SearchApiUsersRequest\x1a1.meshtrade.iam.api_user.v1.SearchApiUsersResponse\"\x1a\xa0\xb5\x18\x01\xaa\xb5\x18\x12\n" +
+	"\x10\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01\u008d\xb7\x01Í\xb7\x01\x12|\n" +
+	"\x0fActivateApiUser\x121.meshtrade.iam.api_user.v1.ActivateApiUserRequest\x1a\".meshtrade.iam.api_user.v1.APIUser\"\x12\xa0\xb5\x18\x02\xaa\xb5\x18\n" +
 	"\n" +
-	"\b\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01\x12\x89\x01\n" +
-	"\x0eSearchApiUsers\x120.meshtrade.iam.api_user.v1.SearchApiUsersRequest\x1a1.meshtrade.iam.api_user.v1.SearchApiUsersResponse\"\x12\xa0\xb5\x18\x01\xaa\xb5\x18\n" +
+	"\b\xc0\x8d\xb7\x01\u008d\xb7\x01\x12\x80\x01\n" +
+	"\x11DeactivateApiUser\x123.meshtrade.iam.api_user.v1.DeactivateApiUserRequest\x1a\".meshtrade.iam.api_user.v1.APIUser\"\x12\xa0\xb5\x18\x02\xaa\xb5\x18\n" +
 	"\n" +
-	"\b\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01\x12x\n" +
-	"\x0fActivateApiUser\x121.meshtrade.iam.api_user.v1.ActivateApiUserRequest\x1a\".meshtrade.iam.api_user.v1.APIUser\"\x0e\xa0\xb5\x18\x02\xaa\xb5\x18\x06\n" +
-	"\x04\xc0\x8d\xb7\x01\x12|\n" +
-	"\x11DeactivateApiUser\x123.meshtrade.iam.api_user.v1.DeactivateApiUserRequest\x1a\".meshtrade.iam.api_user.v1.APIUser\"\x0e\xa0\xb5\x18\x02\xaa\xb5\x18\x06\n" +
-	"\x04\xc0\x8d\xb7\x01\x12\x84\x01\n" +
-	"\x13GetApiUserByKeyHash\x125.meshtrade.iam.api_user.v1.GetApiUserByKeyHashRequest\x1a\".meshtrade.iam.api_user.v1.APIUser\"\x12\xa0\xb5\x18\x01\xaa\xb5\x18\n" +
-	"\n" +
-	"\b\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01B[\n" +
+	"\b\xc0\x8d\xb7\x01\u008d\xb7\x01\x12\x8c\x01\n" +
+	"\x13GetApiUserByKeyHash\x125.meshtrade.iam.api_user.v1.GetApiUserByKeyHashRequest\x1a\".meshtrade.iam.api_user.v1.APIUser\"\x1a\xa0\xb5\x18\x01\xaa\xb5\x18\x12\n" +
+	"\x10\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01\u008d\xb7\x01Í\xb7\x01B[\n" +
 	" co.meshtrade.api.iam.api_user.v1Z7github.com/meshtrade/api/go/iam/api_user/v1;api_user_v1b\x06proto3"
 
 var (

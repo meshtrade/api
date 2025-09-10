@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package meshtrade.wallet.account.v1;
 
-import "google/protobuf/timestamp.proto";
 import "buf/validate/validate.proto";
 import "meshtrade/iam/role/v1/role.proto";
 import "meshtrade/option/v1/method_type.proto";
@@ -14,6 +13,17 @@ option java_package = "co.meshtrade.api.wallet.account.v1";
 service AccountService {
   // create account, not yet open, call open account to open
   rpc CreateAccount(CreateAccountRequest) returns (meshtrade.wallet.account.v1.Account) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [
+        ROLE_WALLET_ADMIN,
+        ROLE_WALLET_ACCOUNT_ADMIN
+      ]
+    };
+  }
+
+  // update account only display name can be changed
+  rpc UpdateAccount(UpdateAccountRequest) returns (meshtrade.wallet.account.v1.Account) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
     option (meshtrade.iam.role.v1.roles) = {
       roles: [
@@ -55,6 +65,18 @@ service AccountService {
     };
   }
 
+  rpc GetAccountByNumber(GetAccountByNumberRequest) returns (meshtrade.wallet.account.v1.Account) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [
+        ROLE_WALLET_ADMIN,
+        ROLE_WALLET_VIEWER,
+        ROLE_WALLET_ACCOUNT_ADMIN,
+        ROLE_WALLET_ACCOUNT_VIEWER
+      ]
+    };
+  }
+
   rpc ListAccounts(ListAccountsRequest) returns (ListAccountsResponse) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
     option (meshtrade.iam.role.v1.roles) = {
@@ -82,7 +104,11 @@ service AccountService {
 }
 
 message CreateAccountRequest {
-  meshtrade.wallet.account.v1.Account account = 1;
+  meshtrade.wallet.account.v1.Account account = 1  [(buf.validate.field) = {required: true}];
+}
+
+message UpdateAccountRequest {
+  meshtrade.wallet.account.v1.Account account = 1  [(buf.validate.field) = {required: true}];
 }
 
 message OpenAccountRequest {
@@ -126,7 +152,30 @@ message CloseAccountResponse {
 }
 
 message GetAccountRequest {
-  string name = 1;
+  string name = 1 [(buf.validate.field) = {
+    string: {
+      len: 33,
+      pattern: "^accounts/[0-9A-Z]{26}$"
+    }
+  }];
+  
+  // Populate live ledger data with retrieval
+  bool populate_ledger_data = 2;
+}
+
+message GetAccountByNumberRequest {
+  /*
+     The Unique Mesh Account Number
+     Must be a 7-digit number starting with '1'.
+  */
+  string account_number = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^1[0-9]{6}$"
+    }
+  }];
+
+  // Populate live ledger data with retrieval
+  bool populate_ledger_data = 2;
 }
 
 /*
@@ -154,6 +203,9 @@ message ListAccountsRequest {
       }
     }];  
   }
+
+  // Populate live ledger data with retrieval
+  bool populate_ledger_data = 2;
 }
 
 message ListAccountsResponse {
@@ -188,6 +240,9 @@ message SearchAccountsRequest {
      A substring to search for within account display names.
   */
   string display_name = 2;
+
+  // Populate live ledger data with retrieval
+  bool populate_ledger_data = 3;
 }
 
 message SearchAccountsResponse {
