@@ -81,11 +81,11 @@ func (AccountState) EnumDescriptor() ([]byte, []int) {
 	return file_meshtrade_wallet_account_v1_account_proto_rawDescGZIP(), []int{0}
 }
 
-// Trading account resource for holding and managing financial instruments on blockchain ledgers.
+// Account resource for holding and managing financial instruments on blockchain ledgers.
 //
 // Accounts provide the foundational wallet infrastructure for the Mesh platform, enabling
 // secure storage and management of digital assets across multiple blockchain networks.
-// Each account is tied to a specific ledger (Stellar, Solana, Bitcoin, or Ethereum) and
+// Each account is tied to a specific ledger (Stellar, Solana, Bitcoin, Ethereum etc.) and
 // can hold multiple instrument balances within that network's ecosystem.
 type Account struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -103,18 +103,18 @@ type Account struct {
 	// This field is system-generated and immutable.
 	// Any value provided on creation is ignored.
 	Owners []string `protobuf:"bytes,3,rep,name=owners,proto3" json:"owners,omitempty"`
-	// The Unique Mesh Account Number (UMAN) for simplified account identification.
+	// The Unique Mesh Account Number for simplified account identification.
 	// Format: 7-digit number starting with 1 (e.g., 1234567).
 	// This field is system-generated and immutable.
 	// Any value provided on creation is ignored.
 	Number string `protobuf:"bytes,5,opt,name=number,proto3" json:"number,omitempty"`
 	// The account's blockchain address on the specified ledger network.
-	// Format varies by ledger: Ed25519 public key for Stellar/Solana,
+	// Format varies by ledger e.g. Ed25519 public key for Stellar/Solana,
 	// secp256k1 address for Bitcoin/Ethereum.
 	// This field is system-generated and immutable.
 	// Any value provided on creation is ignored.
 	LedgerId string `protobuf:"bytes,6,opt,name=ledger_id,json=ledgerId,proto3" json:"ledger_id,omitempty"`
-	// The ledger on which the account exists (e.g., Stellar, Solana, Bitcoin, or Ethereum).
+	// The ledger on which the account exists (e.g., Stellar, Solana, Bitcoin, Ethereum, etc.).
 	// This field is required on creation to specify the target ledger for the account.
 	Ledger v1.Ledger `protobuf:"varint,7,opt,name=ledger,proto3,enum=meshtrade.type.v1.Ledger" json:"ledger,omitempty"`
 	// Human-readable name for organizational identification and display.
@@ -248,7 +248,7 @@ type InstrumentMetaData struct {
 	// Determines the instrument's fundamental nature and trading characteristics.
 	Type v11.InstrumentType `protobuf:"varint,2,opt,name=type,proto3,enum=meshtrade.studio.instrument.v1.InstrumentType" json:"type,omitempty"`
 	// Standard unit of measurement for quantifying the instrument.
-	// Examples: SHARE for equities, OUNCE for precious metals, NOTE for currencies.
+	// Examples: SHARE for equities, OUNCE for precious metals, NOTE for bonds.
 	Unit          v11.Unit `protobuf:"varint,3,opt,name=unit,proto3,enum=meshtrade.studio.instrument.v1.Unit" json:"unit,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache

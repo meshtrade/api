@@ -14,7 +14,7 @@ def main():
         # Look up account using its 7-digit Account Number
         request = GetAccountByNumberRequest(
             account_number="1234567",  # 7-digit account number
-            populate_ledger_data=True  # Fetch live blockchain data
+            populate_ledger_data=True,  # Fetch live blockchain data
         )
 
         # Call the GetAccountByNumber method

@@ -15,8 +15,8 @@ def main():
         request = ListAccountsRequest(
             populate_ledger_data=False,  # Set to True to fetch live blockchain data
             sorting=ListAccountsRequest.Sorting(
-                field="number"           # Sort by account number
-            )
+                field="number"  # Sort by account number
+            ),
         )
 
         # Call the ListAccounts method

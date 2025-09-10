@@ -73,7 +73,7 @@ type AccountServiceClient interface {
 	// Provides access to account metadata and optionally fetches live
 	// balance data from the blockchain when populate_ledger_data is true.
 	GetAccount(ctx context.Context, in *GetAccountRequest, opts ...grpc.CallOption) (*Account, error)
-	// Retrieves an account using its Unique Mesh Account Number (UMAN).
+	// Retrieves an account using its Account Number.
 	//
 	// Provides a convenient lookup method using the 7-digit account number.
 	// Optionally fetches live balance data when populate_ledger_data is true.
@@ -222,7 +222,7 @@ type AccountServiceServer interface {
 	// Provides access to account metadata and optionally fetches live
 	// balance data from the blockchain when populate_ledger_data is true.
 	GetAccount(context.Context, *GetAccountRequest) (*Account, error)
-	// Retrieves an account using its Unique Mesh Account Number (UMAN).
+	// Retrieves an account using its Account Number.
 	//
 	// Provides a convenient lookup method using the 7-digit account number.
 	// Optionally fetches live balance data when populate_ledger_data is true.

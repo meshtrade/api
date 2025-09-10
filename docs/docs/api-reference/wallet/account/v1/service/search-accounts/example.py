@@ -13,11 +13,11 @@ def main():
     with service:
         # Search for accounts by display name substring
         request = SearchAccountsRequest(
-            display_name="Trading",         # Search for accounts with "Trading" in name
-            populate_ledger_data=False,     # Set to True to fetch live blockchain data
+            display_name="Trading",  # Search for accounts with "Trading" in name
+            populate_ledger_data=False,  # Set to True to fetch live blockchain data
             sorting=SearchAccountsRequest.Sorting(
-                field="number"              # Sort by account number
-            )
+                field="number"  # Sort by account number
+            ),
         )
 
         # Call the SearchAccounts method

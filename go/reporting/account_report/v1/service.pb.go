@@ -29,7 +29,7 @@ const (
 // Defines the parameters for requesting a structured account report.
 type GetAccountReportRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// The Unique Mesh Account Number (UMAN) for which the report is requested.
+	// The Account Number for which the report is requested.
 	// Must be a 7-digit number starting with '1'.
 	AccountNumber string `protobuf:"bytes,1,opt,name=account_number,json=accountNumber,proto3" json:"account_number,omitempty"`
 	// The start of the reporting period (inclusive). This field is required.

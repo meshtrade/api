@@ -385,7 +385,7 @@ func (x *GetAccountRequest) GetPopulateLedgerData() bool {
 // Request to retrieve an account by its account number.
 type GetAccountByNumberRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// The Unique Mesh Account Number (UMAN).
+	// The Account Number.
 	// Must be a 7-digit number starting with '1'.
 	AccountNumber string `protobuf:"bytes,1,opt,name=account_number,json=accountNumber,proto3" json:"account_number,omitempty"`
 	// When true, fetches current balances and state from the blockchain.

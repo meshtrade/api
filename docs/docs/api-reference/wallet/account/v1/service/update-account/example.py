@@ -13,18 +13,13 @@ def main():
 
     with service:
         # Get the existing account first
-        existing_account = service.get_account(GetAccountRequest(
-            name="accounts/01HQ3K5M8XYZ2NFVJT9BKR7P4C",
-            populate_ledger_data=False
-        ))
+        existing_account = service.get_account(GetAccountRequest(name="accounts/01HQ3K5M8XYZ2NFVJT9BKR7P4C", populate_ledger_data=False))
 
         # Update only the display name
         existing_account.display_name = "Updated Trading Account Name"
 
         # Create request with updated account
-        request = UpdateAccountRequest(
-            account=existing_account
-        )
+        request = UpdateAccountRequest(account=existing_account)
 
         # Call the UpdateAccount method
         account = service.update_account(request)

@@ -14,7 +14,7 @@ def main():
         # Create request with service-specific parameters
         request = GetAccountRequest(
             name="accounts/01HQ3K5M8XYZ2NFVJT9BKR7P4C",  # Account resource name
-            populate_ledger_data=True  # Fetch live blockchain data
+            populate_ledger_data=True,  # Fetch live blockchain data
         )
 
         # Call the GetAccount method

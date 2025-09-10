@@ -51,7 +51,7 @@ type AccountService interface {
 	// balance data from the blockchain when populate_ledger_data is true.
 	GetAccount(ctx context.Context, request *GetAccountRequest) (*Account, error)
 
-	// Retrieves an account using its Unique Mesh Account Number (UMAN).
+	// Retrieves an account using its Account Number.
 	//
 	// Provides a convenient lookup method using the 7-digit account number.
 	// Optionally fetches live balance data when populate_ledger_data is true.
