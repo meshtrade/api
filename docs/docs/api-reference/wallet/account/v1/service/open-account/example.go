@@ -19,9 +19,9 @@ func main() {
 	}
 	defer service.Close()
 
-	// Create request with service-specific parameters
+	// Open a previously created account on the blockchain
 	request := &accountv1.OpenAccountRequest{
-		// FIXME: Populate service-specific request fields
+		Name: "accounts/01HQ3K5M8XYZ2NFVJT9BKR7P4C", // Account to open
 	}
 
 	// Call the OpenAccount method
@@ -30,6 +30,12 @@ func main() {
 		log.Fatalf("OpenAccount failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("OpenAccount successful: %+v", response)
+	// Account is now open on the blockchain
+	log.Printf("Account opened successfully on blockchain:")
+	log.Printf("  Account Name: %s", response.Account.Name)
+	log.Printf("  Account Number: %s", response.Account.Number)
+	log.Printf("  Ledger ID: %s", response.Account.LedgerId)
+	log.Printf("  State: %s", response.Account.State)
+	log.Printf("  Transaction: %s", response.LedgerTransaction)
+	log.Printf("\nUse the transaction reference to monitor the blockchain operation.")
 }

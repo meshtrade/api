@@ -23,8 +23,8 @@ func main() {
 	// Create request with service-specific parameters
 	request := &accountv1.CreateAccountRequest{
 		Account: &accountv1.Account{
-			Owner:       "groups/01HQ3K5M8XYZ2NFVJT9BKR7P4C", // Your group ID
-			Ledger:      typev1.Ledger_LEDGER_STELLAR,        // Choose ledger network
+			Owner:       service.Group(),              // Current group from service context
+			Ledger:      typev1.Ledger_LEDGER_STELLAR, // Choose ledger network
 			DisplayName: "Primary Trading Account",
 		},
 	}

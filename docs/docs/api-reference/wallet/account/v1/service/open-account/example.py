@@ -11,16 +11,22 @@ def main():
     service = AccountService()
 
     with service:
-        # Create request with service-specific parameters
+        # Open a previously created account on the blockchain
         request = OpenAccountRequest(
-            # FIXME: Populate service-specific request fields
+            name="accounts/01HQ3K5M8XYZ2NFVJT9BKR7P4C"  # Account to open
         )
 
         # Call the OpenAccount method
         response = service.open_account(request)
 
-        # FIXME: Add relevant response object usage
-        print("OpenAccount successful:", response)
+        # Account is now open on the blockchain
+        print("Account opened successfully on blockchain:")
+        print(f"  Account Name: {response.account.name}")
+        print(f"  Account Number: {response.account.number}")
+        print(f"  Ledger ID: {response.account.ledger_id}")
+        print(f"  State: {response.account.state}")
+        print(f"  Transaction: {response.ledger_transaction}")
+        print("\nUse the transaction reference to monitor the blockchain operation.")
 
 
 if __name__ == "__main__":

@@ -1,5 +1,6 @@
 from meshtrade.wallet.account.v1 import (
     AccountService,
+    GetAccountRequest,
     UpdateAccountRequest,
 )
 
@@ -11,16 +12,29 @@ def main():
     service = AccountService()
 
     with service:
-        # Create request with service-specific parameters
+        # Get the existing account first
+        existing_account = service.get_account(GetAccountRequest(
+            name="accounts/01HQ3K5M8XYZ2NFVJT9BKR7P4C",
+            populate_ledger_data=False
+        ))
+
+        # Update only the display name
+        existing_account.display_name = "Updated Trading Account Name"
+
+        # Create request with updated account
         request = UpdateAccountRequest(
-            # FIXME: Populate service-specific request fields
+            account=existing_account
         )
 
         # Call the UpdateAccount method
         account = service.update_account(request)
 
-        # FIXME: Add relevant response object usage
-        print("UpdateAccount successful:", account)
+        # Display the updated account
+        print("Account updated successfully:")
+        print(f"  Name: {account.name}")
+        print(f"  Display Name: {account.display_name}")
+        print(f"  Number: {account.number}")
+        print(f"  Ledger: {account.ledger}")
 
 
 if __name__ == "__main__":

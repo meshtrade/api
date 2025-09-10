@@ -14,7 +14,7 @@ public class CreateAccountExample {
             // Create request with service-specific parameters
             CreateAccountRequest request = CreateAccountRequest.newBuilder()
                 .setAccount(Account.newBuilder()
-                    .setOwner("groups/01HQ3K5M8XYZ2NFVJT9BKR7P4C")  // Your group ID
+                    .setOwner(service.group())  // Current group from service context
                     .setLedger(Ledger.LEDGER_STELLAR)  // Choose ledger network
                     .setDisplayName("Primary Trading Account")
                     .build())

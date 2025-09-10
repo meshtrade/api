@@ -68,7 +68,7 @@ message GetAccountReportRequest {
   };
 
   /*
-     The Unique Mesh Account Number (UMAN) for which the report is requested.
+     The Account Number for which the report is requested.
      Must be a 7-digit number starting with '1'.
   */
   string account_number = 1 [(buf.validate.field) = {

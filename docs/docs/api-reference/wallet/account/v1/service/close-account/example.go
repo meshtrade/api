@@ -19,9 +19,9 @@ func main() {
 	}
 	defer service.Close()
 
-	// Create request with service-specific parameters
+	// Close an existing account on the blockchain
 	request := &accountv1.CloseAccountRequest{
-		// FIXME: Populate service-specific request fields
+		Name: "accounts/01HQ3K5M8XYZ2NFVJT9BKR7P4C", // Account to close
 	}
 
 	// Call the CloseAccount method
@@ -30,6 +30,11 @@ func main() {
 		log.Fatalf("CloseAccount failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("CloseAccount successful: %+v", response)
+	// Account is now closed on the blockchain
+	log.Printf("Account closed successfully on blockchain:")
+	log.Printf("  Account Name: %s", response.Account.Name)
+	log.Printf("  Account Number: %s", response.Account.Number)
+	log.Printf("  State: %s", response.Account.State)
+	log.Printf("  Transaction: %s", response.LedgerTransaction)
+	log.Printf("\nAccount remains queryable for historical purposes.")
 }

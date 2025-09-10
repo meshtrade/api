@@ -19,9 +19,13 @@ func main() {
 	}
 	defer service.Close()
 
-	// Create request with service-specific parameters
+	// Search for accounts by display name substring
 	request := &accountv1.SearchAccountsRequest{
-		// FIXME: Populate service-specific request fields
+		DisplayName:        "Trading", // Search for accounts with "Trading" in name
+		PopulateLedgerData: false,     // Set to true to fetch live blockchain data
+		Sorting: &accountv1.SearchAccountsRequest_Sorting{
+			Field: "number", // Sort by account number
+		},
 	}
 
 	// Call the SearchAccounts method
@@ -30,6 +34,13 @@ func main() {
 		log.Fatalf("SearchAccounts failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("SearchAccounts successful: %+v", response)
+	// Display search results
+	log.Printf("Found %d accounts matching '%s':", len(response.Accounts), request.DisplayName)
+	for _, account := range response.Accounts {
+		log.Printf("  Account %s:", account.Number)
+		log.Printf("    Name: %s", account.Name)
+		log.Printf("    Display Name: %s", account.DisplayName)
+		log.Printf("    Ledger: %s", account.Ledger)
+		log.Printf("    State: %s", account.State)
+	}
 }

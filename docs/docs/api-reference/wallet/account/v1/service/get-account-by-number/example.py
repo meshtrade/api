@@ -11,16 +11,27 @@ def main():
     service = AccountService()
 
     with service:
-        # Create request with service-specific parameters
+        # Look up account using its 7-digit Account Number
         request = GetAccountByNumberRequest(
-            # FIXME: Populate service-specific request fields
+            account_number="1234567",  # 7-digit account number
+            populate_ledger_data=True  # Fetch live blockchain data
         )
 
         # Call the GetAccountByNumber method
         account = service.get_account_by_number(request)
 
-        # FIXME: Add relevant response object usage
-        print("GetAccountByNumber successful:", account)
+        # Display account information retrieved by number
+        print(f"Account found by number {request.account_number}:")
+        print(f"  Name: {account.name}")
+        print(f"  Display Name: {account.display_name}")
+        print(f"  Ledger: {account.ledger}")
+        print(f"  State: {account.state}")
+
+        # Display balances if live data was populated
+        if request.populate_ledger_data and account.balances:
+            print("  Balances:")
+            for balance in account.balances:
+                print(f"    {balance.instrument_metadata.name}: {balance.amount.value}")
 
 
 if __name__ == "__main__":

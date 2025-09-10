@@ -10,16 +10,26 @@ public class ListAccountsExample {
         // environment variable or default discovery methods. Zero config required
         // unless you want custom configuration.
         try (AccountService service = new AccountService()) {
-            // Create request with service-specific parameters
+            // Create request with optional parameters
             ListAccountsRequest request = ListAccountsRequest.newBuilder()
-                // FIXME: Populate service-specific request fields
+                .setPopulateLedgerData(false)  // Set to true to fetch live blockchain data
+                .setSorting(ListAccountsRequest.Sorting.newBuilder()
+                    .setField("number")        // Sort by account number
+                    .build())
                 .build();
 
             // Call the ListAccounts method
             ListAccountsResponse response = service.listAccounts(request, Optional.empty());
 
-            // FIXME: Add relevant response object usage
-            System.out.println("ListAccounts successful: " + response);
+            // Display all accounts in the hierarchy
+            System.out.println("Found " + response.getAccountsCount() + " accounts:");
+            response.getAccountsList().forEach(account -> {
+                System.out.println("  Account " + account.getNumber() + ":");
+                System.out.println("    Name: " + account.getName());
+                System.out.println("    Display Name: " + account.getDisplayName());
+                System.out.println("    Ledger: " + account.getLedger());
+                System.out.println("    State: " + account.getState());
+            });
         } catch (Exception e) {
             System.err.println("ListAccounts failed: " + e.getMessage());
             e.printStackTrace();

@@ -11,16 +11,21 @@ def main():
     service = AccountService()
 
     with service:
-        # Create request with service-specific parameters
+        # Close an existing account on the blockchain
         request = CloseAccountRequest(
-            # FIXME: Populate service-specific request fields
+            name="accounts/01HQ3K5M8XYZ2NFVJT9BKR7P4C"  # Account to close
         )
 
         # Call the CloseAccount method
         response = service.close_account(request)
 
-        # FIXME: Add relevant response object usage
-        print("CloseAccount successful:", response)
+        # Account is now closed on the blockchain
+        print("Account closed successfully on blockchain:")
+        print(f"  Account Name: {response.account.name}")
+        print(f"  Account Number: {response.account.number}")
+        print(f"  State: {response.account.state}")
+        print(f"  Transaction: {response.ledger_transaction}")
+        print("\nAccount remains queryable for historical purposes.")
 
 
 if __name__ == "__main__":

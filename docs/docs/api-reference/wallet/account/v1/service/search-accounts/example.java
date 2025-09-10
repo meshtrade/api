@@ -10,16 +10,28 @@ public class SearchAccountsExample {
         // environment variable or default discovery methods. Zero config required
         // unless you want custom configuration.
         try (AccountService service = new AccountService()) {
-            // Create request with service-specific parameters
+            // Search for accounts by display name substring
             SearchAccountsRequest request = SearchAccountsRequest.newBuilder()
-                // FIXME: Populate service-specific request fields
+                .setDisplayName("Trading")       // Search for accounts with "Trading" in name
+                .setPopulateLedgerData(false)    // Set to true to fetch live blockchain data
+                .setSorting(SearchAccountsRequest.Sorting.newBuilder()
+                    .setField("number")          // Sort by account number
+                    .build())
                 .build();
 
             // Call the SearchAccounts method
             SearchAccountsResponse response = service.searchAccounts(request, Optional.empty());
 
-            // FIXME: Add relevant response object usage
-            System.out.println("SearchAccounts successful: " + response);
+            // Display search results
+            System.out.println("Found " + response.getAccountsCount() + 
+                             " accounts matching '" + request.getDisplayName() + "':");
+            response.getAccountsList().forEach(account -> {
+                System.out.println("  Account " + account.getNumber() + ":");
+                System.out.println("    Name: " + account.getName());
+                System.out.println("    Display Name: " + account.getDisplayName());
+                System.out.println("    Ledger: " + account.getLedger());
+                System.out.println("    State: " + account.getState());
+            });
         } catch (Exception e) {
             System.err.println("SearchAccounts failed: " + e.getMessage());
             e.printStackTrace();

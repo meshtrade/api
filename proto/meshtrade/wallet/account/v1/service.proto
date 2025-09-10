@@ -111,7 +111,7 @@ service AccountService {
   }
 
   /*
-     Retrieves an account using its Unique Mesh Account Number (UMAN).
+     Retrieves an account using its Account Number.
 
      Provides a convenient lookup method using the 7-digit account number.
      Optionally fetches live balance data when populate_ledger_data is true.
@@ -279,7 +279,7 @@ message GetAccountRequest {
 */
 message GetAccountByNumberRequest {
   /*
-     The Unique Mesh Account Number (UMAN).
+     The Account Number.
      Must be a 7-digit number starting with '1'.
   */
   string account_number = 1 [(buf.validate.field) = {

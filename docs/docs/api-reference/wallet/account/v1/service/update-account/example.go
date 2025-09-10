@@ -19,9 +19,21 @@ func main() {
 	}
 	defer service.Close()
 
-	// Create request with service-specific parameters
+	// Get the existing account first
+	existingAccount, err := service.GetAccount(ctx, &accountv1.GetAccountRequest{
+		Name:               "accounts/01HQ3K5M8XYZ2NFVJT9BKR7P4C",
+		PopulateLedgerData: false,
+	})
+	if err != nil {
+		log.Fatalf("GetAccount failed: %v", err)
+	}
+
+	// Create request to update only the display name
+	updatedAccount := *existingAccount
+	updatedAccount.DisplayName = "Updated Trading Account Name"
+
 	request := &accountv1.UpdateAccountRequest{
-		// FIXME: Populate service-specific request fields
+		Account: &updatedAccount,
 	}
 
 	// Call the UpdateAccount method
@@ -30,6 +42,10 @@ func main() {
 		log.Fatalf("UpdateAccount failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("UpdateAccount successful: %+v", account)
+	// Display the updated account
+	log.Printf("Account updated successfully:")
+	log.Printf("  Name: %s", account.Name)
+	log.Printf("  Display Name: %s", account.DisplayName)
+	log.Printf("  Number: %s", account.Number)
+	log.Printf("  Ledger: %s", account.Ledger)
 }

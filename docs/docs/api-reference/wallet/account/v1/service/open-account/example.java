@@ -10,16 +10,22 @@ public class OpenAccountExample {
         // environment variable or default discovery methods. Zero config required
         // unless you want custom configuration.
         try (AccountService service = new AccountService()) {
-            // Create request with service-specific parameters
+            // Open a previously created account on the blockchain
             OpenAccountRequest request = OpenAccountRequest.newBuilder()
-                // FIXME: Populate service-specific request fields
+                .setName("accounts/01HQ3K5M8XYZ2NFVJT9BKR7P4C")  // Account to open
                 .build();
 
             // Call the OpenAccount method
             OpenAccountResponse response = service.openAccount(request, Optional.empty());
 
-            // FIXME: Add relevant response object usage
-            System.out.println("OpenAccount successful: " + response);
+            // Account is now open on the blockchain
+            System.out.println("Account opened successfully on blockchain:");
+            System.out.println("  Account Name: " + response.getAccount().getName());
+            System.out.println("  Account Number: " + response.getAccount().getNumber());
+            System.out.println("  Ledger ID: " + response.getAccount().getLedgerId());
+            System.out.println("  State: " + response.getAccount().getState());
+            System.out.println("  Transaction: " + response.getLedgerTransaction());
+            System.out.println("\nUse the transaction reference to monitor the blockchain operation.");
         } catch (Exception e) {
             System.err.println("OpenAccount failed: " + e.getMessage());
             e.printStackTrace();

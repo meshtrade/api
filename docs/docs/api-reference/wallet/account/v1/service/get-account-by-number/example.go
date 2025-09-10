@@ -19,9 +19,10 @@ func main() {
 	}
 	defer service.Close()
 
-	// Create request with service-specific parameters
+	// Look up account using its 7-digit Account Number
 	request := &accountv1.GetAccountByNumberRequest{
-		// FIXME: Populate service-specific request fields
+		AccountNumber:      "1234567", // 7-digit account number
+		PopulateLedgerData: true,       // Fetch live blockchain data
 	}
 
 	// Call the GetAccountByNumber method
@@ -30,6 +31,20 @@ func main() {
 		log.Fatalf("GetAccountByNumber failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("GetAccountByNumber successful: %+v", account)
+	// Display account information retrieved by number
+	log.Printf("Account found by number %s:", request.AccountNumber)
+	log.Printf("  Name: %s", account.Name)
+	log.Printf("  Display Name: %s", account.DisplayName)
+	log.Printf("  Ledger: %s", account.Ledger)
+	log.Printf("  State: %s", account.State)
+
+	// Display balances if live data was populated
+	if request.PopulateLedgerData && len(account.Balances) > 0 {
+		log.Printf("  Balances:")
+		for _, balance := range account.Balances {
+			log.Printf("    %s: %s",
+				balance.InstrumentMetadata.Name,
+				balance.Amount.Value)
+		}
+	}
 }

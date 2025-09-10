@@ -16,7 +16,7 @@ def main():
         # Create request with service-specific parameters
         request = CreateAccountRequest(
             account=Account(
-                owner="groups/01HQ3K5M8XYZ2NFVJT9BKR7P4C",  # Your group ID
+                owner=service.group(),  # Current group from service context
                 ledger=Ledger.LEDGER_STELLAR,  # Choose ledger network
                 display_name="Primary Trading Account",
             )
