@@ -4,7 +4,7 @@ package meshtrade.iam.group.v1;
 
 import "buf/validate/validate.proto";
 
-option go_package = "github.com/meshtrade/api/go/iam/group/v1;groupv1";
+option go_package = "github.com/meshtrade/api/go/iam/group/v1;group_v1";
 option java_package = "co.meshtrade.api.iam.group.v1";
 
 /*

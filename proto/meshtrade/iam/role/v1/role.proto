@@ -4,7 +4,7 @@ package meshtrade.iam.role.v1;
 
 import "google/protobuf/descriptor.proto";
 
-option go_package = "github.com/meshtrade/api/go/iam/role/v1;rolev1";
+option go_package = "github.com/meshtrade/api/go/iam/role/v1;role_v1";
 option java_package = "co.meshtrade.api.iam.role.v1";
 
 /*

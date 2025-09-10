@@ -4,7 +4,7 @@
 // 	protoc        (unknown)
 // source: meshtrade/reporting/account_report/v1/disclaimer.proto
 
-package account_reportv1
+package account_report_v1
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -90,8 +90,8 @@ const file_meshtrade_reporting_account_report_v1_disclaimer_proto_rawDesc = "" +
 	"\n" +
 	"Disclaimer\x12\x14\n" +
 	"\x05title\x18\x01 \x01(\tR\x05title\x12 \n" +
-	"\vdescription\x18\x02 \x01(\tR\vdescriptionBx\n" +
-	",co.meshtrade.api.reporting.account_report.v1ZHgithub.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1b\x06proto3"
+	"\vdescription\x18\x02 \x01(\tR\vdescriptionBy\n" +
+	",co.meshtrade.api.reporting.account_report.v1ZIgithub.com/meshtrade/api/go/reporting/account_report/v1;account_report_v1b\x06proto3"
 
 var (
 	file_meshtrade_reporting_account_report_v1_disclaimer_proto_rawDescOnce sync.Once

@@ -1,10 +1,10 @@
-package userv1
+package user_v1
 
 import (
 	"testing"
 
 	"buf.build/go/protovalidate"
-	rolev1 "github.com/meshtrade/api/go/iam/role/v1"
+	role_v1 "github.com/meshtrade/api/go/iam/role/v1"
 	"github.com/stretchr/testify/require"
 )
 
@@ -20,7 +20,7 @@ func TestValidationDemo(t *testing.T) {
 	invalidRequest := &AssignRoleToUserRequest{
 		Email: "",                              // Empty email
 		Group: "",                              // Empty group  
-		Role:  rolev1.Role_ROLE_UNSPECIFIED, // Unspecified role
+		Role:  role_v1.Role_ROLE_UNSPECIFIED, // Unspecified role
 	}
 	
 	err = validator.Validate(invalidRequest)
@@ -31,7 +31,7 @@ func TestValidationDemo(t *testing.T) {
 	invalidEmailRequest := &AssignRoleToUserRequest{
 		Email: "not-an-email",
 		Group: "admin-group",
-		Role:  rolev1.Role_ROLE_COMPLIANCE_ADMIN,
+		Role:  role_v1.Role_ROLE_COMPLIANCE_ADMIN,
 	}
 	
 	err = validator.Validate(invalidEmailRequest)
@@ -42,7 +42,7 @@ func TestValidationDemo(t *testing.T) {
 	validRequest := &AssignRoleToUserRequest{
 		Email: "user@example.com",
 		Group: "admin-group",
-		Role:  rolev1.Role_ROLE_COMPLIANCE_ADMIN,
+		Role:  role_v1.Role_ROLE_COMPLIANCE_ADMIN,
 	}
 	
 	err = validator.Validate(validRequest)

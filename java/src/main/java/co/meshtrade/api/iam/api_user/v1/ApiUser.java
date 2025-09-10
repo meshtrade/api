@@ -2471,10 +2471,10 @@ public final class ApiUser {
       "\022\037\n\033API_USER_ACTION_UNSPECIFIED\020\000\022\034\n\030API" +
       "_USER_ACTION_ACTIVATE\020\001\022\036\n\032API_USER_ACTI" +
       "ON_DEACTIVATE\020\002\022\032\n\026API_USER_ACTION_CREAT" +
-      "E\020\003\022\032\n\026API_USER_ACTION_UPDATE\020\004BZ\n co.me" +
-      "shtrade.api.iam.api_user.v1Z6github.com/" +
+      "E\020\003\022\032\n\026API_USER_ACTION_UPDATE\020\004B[\n co.me" +
+      "shtrade.api.iam.api_user.v1Z7github.com/" +
       "meshtrade/api/go/iam/api_user/v1;api_use" +
-      "rv1b\006proto3"
+      "r_v1b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

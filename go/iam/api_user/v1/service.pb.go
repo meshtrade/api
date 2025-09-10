@@ -4,7 +4,7 @@
 // 	protoc        (unknown)
 // source: meshtrade/iam/api_user/v1/service.proto
 
-package api_userv1
+package api_user_v1
 
 import (
 	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
@@ -462,8 +462,8 @@ const file_meshtrade_iam_api_user_v1_service_proto_rawDesc = "" +
 	"\x04\xc0\x8d\xb7\x01\x12\x84\x01\n" +
 	"\x13GetApiUserByKeyHash\x125.meshtrade.iam.api_user.v1.GetApiUserByKeyHashRequest\x1a\".meshtrade.iam.api_user.v1.APIUser\"\x12\xa0\xb5\x18\x01\xaa\xb5\x18\n" +
 	"\n" +
-	"\b\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01BZ\n" +
-	" co.meshtrade.api.iam.api_user.v1Z6github.com/meshtrade/api/go/iam/api_user/v1;api_userv1b\x06proto3"
+	"\b\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01B[\n" +
+	" co.meshtrade.api.iam.api_user.v1Z7github.com/meshtrade/api/go/iam/api_user/v1;api_user_v1b\x06proto3"
 
 var (
 	file_meshtrade_iam_api_user_v1_service_proto_rawDescOnce sync.Once

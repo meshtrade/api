@@ -193,9 +193,9 @@ public final class Sorting {
       "\n\037meshtrade/type/v1/sorting.proto\022\021mesht" +
       "rade.type.v1*\\\n\014SortingOrder\022\035\n\031SORTING_" +
       "ORDER_UNSPECIFIED\020\000\022\025\n\021SORTING_ORDER_ASC" +
-      "\020\001\022\026\n\022SORTING_ORDER_DESC\020\002BF\n\030co.meshtra" +
-      "de.api.type.v1Z*github.com/meshtrade/api" +
-      "/go/type/v1;typev1b\006proto3"
+      "\020\001\022\026\n\022SORTING_ORDER_DESC\020\002BG\n\030co.meshtra" +
+      "de.api.type.v1Z+github.com/meshtrade/api" +
+      "/go/type/v1;type_v1b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

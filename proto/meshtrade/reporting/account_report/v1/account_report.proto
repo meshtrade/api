@@ -10,7 +10,7 @@ import "meshtrade/reporting/account_report/v1/income_entry.proto";
 import "meshtrade/reporting/account_report/v1/trading_statement_entry.proto";
 import "meshtrade/reporting/account_report/v1/disclaimer.proto";
 
-option go_package = "github.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1";
+option go_package = "github.com/meshtrade/api/go/reporting/account_report/v1;account_report_v1";
 option java_package = "co.meshtrade.api.reporting.account_report.v1";
 
 /*

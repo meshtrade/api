@@ -1,10 +1,10 @@
-package userv1
+package user_v1
 
 import (
 	"testing"
 
 	"buf.build/go/protovalidate"
-	rolev1 "github.com/meshtrade/api/go/iam/role/v1"
+	role_v1 "github.com/meshtrade/api/go/iam/role/v1"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -24,7 +24,7 @@ func TestAssignRoleToUserRequest_Validation(t *testing.T) {
 			request: &AssignRoleToUserRequest{
 				Email: "user@example.com",
 				Group: "test-group",
-				Role:  rolev1.Role_ROLE_COMPLIANCE_ADMIN,
+				Role:  role_v1.Role_ROLE_COMPLIANCE_ADMIN,
 			},
 			wantErr: false,
 		},
@@ -33,7 +33,7 @@ func TestAssignRoleToUserRequest_Validation(t *testing.T) {
 			request: &AssignRoleToUserRequest{
 				Email: "",
 				Group: "test-group",
-				Role:  rolev1.Role_ROLE_COMPLIANCE_ADMIN,
+				Role:  role_v1.Role_ROLE_COMPLIANCE_ADMIN,
 			},
 			wantErr: true,
 			errMsg:  "email is required and must be a valid email address",
@@ -43,7 +43,7 @@ func TestAssignRoleToUserRequest_Validation(t *testing.T) {
 			request: &AssignRoleToUserRequest{
 				Email: "invalid-email",
 				Group: "test-group",
-				Role:  rolev1.Role_ROLE_COMPLIANCE_ADMIN,
+				Role:  role_v1.Role_ROLE_COMPLIANCE_ADMIN,
 			},
 			wantErr: true,
 			errMsg:  "value does not match regex pattern",
@@ -60,7 +60,7 @@ func TestAssignRoleToUserRequest_Validation(t *testing.T) {
 				return &AssignRoleToUserRequest{
 					Email: longEmail,
 					Group: "test-group", 
-					Role:  rolev1.Role_ROLE_COMPLIANCE_ADMIN,
+					Role:  role_v1.Role_ROLE_COMPLIANCE_ADMIN,
 				}
 			}(),
 			wantErr: true,
@@ -71,7 +71,7 @@ func TestAssignRoleToUserRequest_Validation(t *testing.T) {
 			request: &AssignRoleToUserRequest{
 				Email: "user@example.com",
 				Group: "",
-				Role:  rolev1.Role_ROLE_COMPLIANCE_ADMIN,
+				Role:  role_v1.Role_ROLE_COMPLIANCE_ADMIN,
 			},
 			wantErr: true,
 			errMsg:  "group name is required and must be between 1 and 255 characters",
@@ -87,7 +87,7 @@ func TestAssignRoleToUserRequest_Validation(t *testing.T) {
 				return &AssignRoleToUserRequest{
 					Email: "user@example.com",
 					Group: longGroup, // 256 chars, exceeds 255 limit
-					Role:  rolev1.Role_ROLE_COMPLIANCE_ADMIN,
+					Role:  role_v1.Role_ROLE_COMPLIANCE_ADMIN,
 				}
 			}(),
 			wantErr: true,
@@ -98,7 +98,7 @@ func TestAssignRoleToUserRequest_Validation(t *testing.T) {
 			request: &AssignRoleToUserRequest{
 				Email: "user@example.com",
 				Group: "test-group",
-				Role:  rolev1.Role_ROLE_UNSPECIFIED, // This is the default 0 value
+				Role:  role_v1.Role_ROLE_UNSPECIFIED, // This is the default 0 value
 			},
 			wantErr: true,
 			errMsg:  "role is required and must be a valid role type (not UNSPECIFIED)",
@@ -108,7 +108,7 @@ func TestAssignRoleToUserRequest_Validation(t *testing.T) {
 			request: &AssignRoleToUserRequest{
 				Email: "",
 				Group: "",
-				Role:  rolev1.Role_ROLE_UNSPECIFIED,
+				Role:  role_v1.Role_ROLE_UNSPECIFIED,
 			},
 			wantErr: true,
 		},
@@ -146,7 +146,7 @@ func TestAssignRoleToUserRequest_Validation_EdgeCases(t *testing.T) {
 		request := &AssignRoleToUserRequest{
 			Email: email,
 			Group: "test-group",
-			Role:  rolev1.Role_ROLE_COMPLIANCE_ADMIN,
+			Role:  role_v1.Role_ROLE_COMPLIANCE_ADMIN,
 		}
 		
 		err := validator.Validate(request)
@@ -165,7 +165,7 @@ func TestAssignRoleToUserRequest_Validation_EdgeCases(t *testing.T) {
 		request := &AssignRoleToUserRequest{
 			Email: "user@example.com",
 			Group: group,
-			Role:  rolev1.Role_ROLE_COMPLIANCE_ADMIN,
+			Role:  role_v1.Role_ROLE_COMPLIANCE_ADMIN,
 		}
 		
 		err := validator.Validate(request)
@@ -185,7 +185,7 @@ func TestAssignRoleToUserRequest_Validation_EdgeCases(t *testing.T) {
 			request := &AssignRoleToUserRequest{
 				Email: email,
 				Group: "test-group", 
-				Role:  rolev1.Role_ROLE_COMPLIANCE_ADMIN,
+				Role:  role_v1.Role_ROLE_COMPLIANCE_ADMIN,
 			}
 			
 			err := validator.Validate(request)

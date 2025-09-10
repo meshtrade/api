@@ -4,7 +4,7 @@
 // 	protoc        (unknown)
 // source: meshtrade/compliance/client/v1/service.proto
 
-package clientv1
+package client_v1
 
 import (
 	_ "github.com/meshtrade/api/go/iam/role/v1"
@@ -218,8 +218,8 @@ const file_meshtrade_compliance_client_v1_service_proto_rawDesc = "" +
 	"\tGetClient\x120.meshtrade.compliance.client.v1.GetClientRequest\x1a&.meshtrade.compliance.client.v1.Client\"\x10\xa0\xb5\x18\x01\xaa\xb5\x18\b\n" +
 	"\x06\x80\x89z\x81\x89z\x12\x88\x01\n" +
 	"\vListClients\x122.meshtrade.compliance.client.v1.ListClientsRequest\x1a3.meshtrade.compliance.client.v1.ListClientsResponse\"\x10\xa0\xb5\x18\x01\xaa\xb5\x18\b\n" +
-	"\x06\x80\x89z\x81\x89zBb\n" +
-	"%co.meshtrade.api.compliance.client.v1Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
+	"\x06\x80\x89z\x81\x89zBc\n" +
+	"%co.meshtrade.api.compliance.client.v1Z:github.com/meshtrade/api/go/compliance/client/v1;client_v1b\x06proto3"
 
 var (
 	file_meshtrade_compliance_client_v1_service_proto_rawDescOnce sync.Once

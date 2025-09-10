@@ -7,7 +7,7 @@ import "meshtrade/iam/role/v1/role.proto";
 import "meshtrade/iam/user/v1/user.proto";
 import "meshtrade/option/v1/method_type.proto";
 
-option go_package = "github.com/meshtrade/api/go/iam/user/v1;userv1";
+option go_package = "github.com/meshtrade/api/go/iam/user/v1;user_v1";
 option java_package = "co.meshtrade.api.iam.user.v1";
 
 // Service defines the RPC methods for interacting with the user resource,

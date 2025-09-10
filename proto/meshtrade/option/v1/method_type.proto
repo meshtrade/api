@@ -4,7 +4,7 @@ package meshtrade.option.v1;
 
 import "google/protobuf/descriptor.proto";
 
-option go_package = "github.com/meshtrade/api/go/option/v1;optionv1";
+option go_package = "github.com/meshtrade/api/go/option/v1;option_v1";
 option java_package = "co.meshtrade.api.option.v1";
 
 /*

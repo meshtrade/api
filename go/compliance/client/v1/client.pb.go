@@ -4,7 +4,7 @@
 // 	protoc        (unknown)
 // source: meshtrade/compliance/client/v1/client.proto
 
-package clientv1
+package client_v1
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -242,8 +242,8 @@ const file_meshtrade_compliance_client_v1_client_proto_rawDesc = "" +
 	"\x11verification_date\x18\n" +
 	" \x01(\v2\x1a.google.protobuf.TimestampR\x10verificationDate\x12P\n" +
 	"\x16next_verification_date\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\x14nextVerificationDateB\x0e\n" +
-	"\flegal_personBb\n" +
-	"%co.meshtrade.api.compliance.client.v1Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
+	"\flegal_personBc\n" +
+	"%co.meshtrade.api.compliance.client.v1Z:github.com/meshtrade/api/go/compliance/client/v1;client_v1b\x06proto3"
 
 var (
 	file_meshtrade_compliance_client_v1_client_proto_rawDescOnce sync.Once

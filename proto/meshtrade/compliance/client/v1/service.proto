@@ -6,7 +6,7 @@ import "meshtrade/compliance/client/v1/client.proto";
 import "meshtrade/iam/role/v1/role.proto";
 import "meshtrade/option/v1/method_type.proto";
 
-option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
+option go_package = "github.com/meshtrade/api/go/compliance/client/v1;client_v1";
 option java_package = "co.meshtrade.api.compliance.client.v1";
 
 // Service manages client profiles for compliance and Know Your Customer (KYC)

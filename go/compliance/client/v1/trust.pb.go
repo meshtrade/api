@@ -4,7 +4,7 @@
 // 	protoc        (unknown)
 // source: meshtrade/compliance/client/v1/trust.proto
 
-package clientv1
+package client_v1
 
 import (
 	date "google.golang.org/genproto/googleapis/type/date"
@@ -124,8 +124,8 @@ const file_meshtrade_compliance_client_v1_trust_proto_rawDesc = "" +
 	"\x13registration_number\x18\x02 \x01(\tR\x12registrationNumber\x12%\n" +
 	"\x0etax_identifier\x18\x03 \x01(\tR\rtaxIdentifier\x12.\n" +
 	"\x13country_of_domicile\x18\x04 \x01(\tR\x11countryOfDomicile\x12=\n" +
-	"\x11date_of_inception\x18\x05 \x01(\v2\x11.google.type.DateR\x0fdateOfInceptionBb\n" +
-	"%co.meshtrade.api.compliance.client.v1Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
+	"\x11date_of_inception\x18\x05 \x01(\v2\x11.google.type.DateR\x0fdateOfInceptionBc\n" +
+	"%co.meshtrade.api.compliance.client.v1Z:github.com/meshtrade/api/go/compliance/client/v1;client_v1b\x06proto3"
 
 var (
 	file_meshtrade_compliance_client_v1_trust_proto_rawDescOnce sync.Once

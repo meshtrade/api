@@ -4,7 +4,7 @@
 // - protoc             (unknown)
 // source: meshtrade/wallet/account/v1/service.proto
 
-package accountv1
+package account_v1
 
 import (
 	context "context"

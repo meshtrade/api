@@ -4,7 +4,7 @@
 // 	protoc        (unknown)
 // source: meshtrade/type/v1/ledger.proto
 
-package typev1
+package type_v1
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -118,8 +118,8 @@ const file_meshtrade_type_v1_ledger_proto_rawDesc = "" +
 	"\n" +
 	"LEDGER_XRP\x10\v\x12\x1b\n" +
 	"\x17LEDGER_SA_STOCK_BROKERS\x10\x0f\x12\x0f\n" +
-	"\vLEDGER_NULL\x10\x10BF\n" +
-	"\x18co.meshtrade.api.type.v1Z*github.com/meshtrade/api/go/type/v1;typev1b\x06proto3"
+	"\vLEDGER_NULL\x10\x10BG\n" +
+	"\x18co.meshtrade.api.type.v1Z+github.com/meshtrade/api/go/type/v1;type_v1b\x06proto3"
 
 var (
 	file_meshtrade_type_v1_ledger_proto_rawDescOnce sync.Once

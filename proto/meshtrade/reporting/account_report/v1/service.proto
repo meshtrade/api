@@ -9,7 +9,7 @@ import "meshtrade/option/v1/method_type.proto";
 import "meshtrade/reporting/account_report/v1/account_report.proto";
 import "meshtrade/type/v1/token.proto";
 
-option go_package = "github.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1";
+option go_package = "github.com/meshtrade/api/go/reporting/account_report/v1;account_report_v1";
 option java_package = "co.meshtrade.api.reporting.account_report.v1";
 
 /*
@@ -57,7 +57,17 @@ message GetAccountReportRequest {
   /*
      Mesh account number for which the account report is requested.
   */
-  string account_number = 1;
+  string account_number = 1 [(buf.validate.field) = {
+    string: {
+      min_len: 7
+      pattern: "^[0-9]{1,}$"
+    }
+    cel: {
+      id: "account_number.required"
+      message: "account_number is required"
+      expression: "this.matches('^[0-9]{1,}$')"
+    }
+  }];
 
   /*
      Start of the reporting period (inclusive).
@@ -83,7 +93,7 @@ message GetExcelAccountReportRequest {
   */
   string account_number = 1 [(buf.validate.field) = {
     string: {
-      min_len: 1
+      min_len: 7
       pattern: "^[0-9]{1,}$"
     }
     cel: {

@@ -4,7 +4,7 @@
 // - protoc             (unknown)
 // source: meshtrade/compliance/client/v1/service.proto
 
-package clientv1
+package client_v1
 
 import (
 	context "context"

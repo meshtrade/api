@@ -1,4 +1,4 @@
-package api_userv1
+package api_user_v1
 
 import (
 	"strings"

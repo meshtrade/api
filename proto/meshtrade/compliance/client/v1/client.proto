@@ -9,7 +9,7 @@ import "meshtrade/compliance/client/v1/natural_person.proto";
 import "meshtrade/compliance/client/v1/trust.proto";
 import "meshtrade/compliance/client/v1/verification_status.proto";
 
-option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
+option go_package = "github.com/meshtrade/api/go/compliance/client/v1;client_v1";
 option java_package = "co.meshtrade.api.compliance.client.v1";
 
 /*

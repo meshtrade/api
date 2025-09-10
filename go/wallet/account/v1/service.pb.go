@@ -4,7 +4,7 @@
 // 	protoc        (unknown)
 // source: meshtrade/wallet/account/v1/service.proto
 
-package accountv1
+package account_v1
 
 import (
 	_ "github.com/meshtrade/api/go/iam/role/v1"
@@ -337,8 +337,8 @@ const file_meshtrade_wallet_account_v1_service_proto_rawDesc = "" +
 	"\fListAccounts\x120.meshtrade.wallet.account.v1.ListAccountsRequest\x1a1.meshtrade.wallet.account.v1.ListAccountsResponse\"\x10\xa0\xb5\x18\x01\xaa\xb5\x18\b\n" +
 	"\x06\xc0\x84=\xc1\x84=\x12\x8b\x01\n" +
 	"\x0eSearchAccounts\x122.meshtrade.wallet.account.v1.SearchAccountsRequest\x1a3.meshtrade.wallet.account.v1.SearchAccountsResponse\"\x10\xa0\xb5\x18\x01\xaa\xb5\x18\b\n" +
-	"\x06\xc0\x84=\xc1\x84=B]\n" +
-	"\"co.meshtrade.api.wallet.account.v1Z7github.com/meshtrade/api/go/wallet/account/v1;accountv1b\x06proto3"
+	"\x06\xc0\x84=\xc1\x84=B^\n" +
+	"\"co.meshtrade.api.wallet.account.v1Z8github.com/meshtrade/api/go/wallet/account/v1;account_v1b\x06proto3"
 
 var (
 	file_meshtrade_wallet_account_v1_service_proto_rawDescOnce sync.Once

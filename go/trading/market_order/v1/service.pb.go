@@ -4,7 +4,7 @@
 // 	protoc        (unknown)
 // source: meshtrade/trading/market_order/v1/service.proto
 
-package market_orderv1
+package market_order_v1
 
 import (
 	_ "github.com/meshtrade/api/go/iam/role/v1"
@@ -77,8 +77,8 @@ const file_meshtrade_trading_market_order_v1_service_proto_rawDesc = "" +
 	"\x12MarketOrderService\x12\x8e\x01\n" +
 	"\x0eGetMarketOrder\x128.meshtrade.trading.market_order.v1.GetMarketOrderRequest\x1a..meshtrade.trading.market_order.v1.MarketOrder\"\x12\xa0\xb5\x18\x01\xaa\xb5\x18\n" +
 	"\n" +
-	"\b\xc0\x96\xb1\x02\xc1\x96\xb1\x02Bn\n" +
-	"(co.meshtrade.api.trading.market_order.v1ZBgithub.com/meshtrade/api/go/trading/market_order/v1;market_orderv1b\x06proto3"
+	"\b\xc0\x96\xb1\x02\xc1\x96\xb1\x02Bo\n" +
+	"(co.meshtrade.api.trading.market_order.v1ZCgithub.com/meshtrade/api/go/trading/market_order/v1;market_order_v1b\x06proto3"
 
 var (
 	file_meshtrade_trading_market_order_v1_service_proto_rawDescOnce sync.Once

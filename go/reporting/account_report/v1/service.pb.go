@@ -4,7 +4,7 @@
 // 	protoc        (unknown)
 // source: meshtrade/reporting/account_report/v1/service.proto
 
-package account_reportv1
+package account_report_v1
 
 import (
 	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
@@ -223,16 +223,17 @@ var File_meshtrade_reporting_account_report_v1_service_proto protoreflect.FileDe
 
 const file_meshtrade_reporting_account_report_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"3meshtrade/reporting/account_report/v1/service.proto\x12%meshtrade.reporting.account_report.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\x1a:meshtrade/reporting/account_report/v1/account_report.proto\x1a\x1dmeshtrade/type/v1/token.proto\"\x88\x02\n" +
-	"\x17GetAccountReportRequest\x12%\n" +
-	"\x0eaccount_number\x18\x01 \x01(\tR\raccountNumber\x12=\n" +
+	"3meshtrade/reporting/account_report/v1/service.proto\x12%meshtrade.reporting.account_report.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\x1a:meshtrade/reporting/account_report/v1/account_report.proto\x1a\x1dmeshtrade/type/v1/token.proto\"\xf4\x02\n" +
+	"\x17GetAccountReportRequest\x12\x90\x01\n" +
+	"\x0eaccount_number\x18\x01 \x01(\tBi\xbaHf\xba\x01R\n" +
+	"\x17account_number.required\x12\x1aaccount_number is required\x1a\x1bthis.matches('^[0-9]{1,}$')r\x0f\x10\a2\v^[0-9]{1,}$R\raccountNumber\x12=\n" +
 	"\fperiod_start\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\vperiodStart\x129\n" +
 	"\n" +
 	"period_end\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tperiodEnd\x12L\n" +
 	"\x15reporting_asset_token\x18\x04 \x01(\v2\x18.meshtrade.type.v1.TokenR\x13reportingAssetToken\"\x9d\x04\n" +
 	"\x1cGetExcelAccountReportRequest\x12\x90\x01\n" +
 	"\x0eaccount_number\x18\x01 \x01(\tBi\xbaHf\xba\x01R\n" +
-	"\x17account_number.required\x12\x1aaccount_number is required\x1a\x1bthis.matches('^[0-9]{1,}$')r\x0f\x10\x012\v^[0-9]{1,}$R\raccountNumber\x12\x90\x01\n" +
+	"\x17account_number.required\x12\x1aaccount_number is required\x1a\x1bthis.matches('^[0-9]{1,}$')r\x0f\x10\a2\v^[0-9]{1,}$R\raccountNumber\x12\x90\x01\n" +
 	"\fperiod_start\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampBQ\xbaHN\xba\x01K\n" +
 	"\x15period_start.required\x12$'period_start' timestamp is required\x1a\fthis != nullR\vperiodStart\x12\x88\x01\n" +
 	"\n" +
@@ -247,8 +248,8 @@ const file_meshtrade_reporting_account_report_v1_service_proto_rawDesc = "" +
 	"\b\x80\x9b\xee\x02\x81\x9b\xee\x02\x12\xb6\x01\n" +
 	"\x15GetExcelAccountReport\x12C.meshtrade.reporting.account_report.v1.GetExcelAccountReportRequest\x1aD.meshtrade.reporting.account_report.v1.GetExcelAccountReportResponse\"\x12\xa0\xb5\x18\x01\xaa\xb5\x18\n" +
 	"\n" +
-	"\b\x80\x9b\xee\x02\x81\x9b\xee\x02Bx\n" +
-	",co.meshtrade.api.reporting.account_report.v1ZHgithub.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1b\x06proto3"
+	"\b\x80\x9b\xee\x02\x81\x9b\xee\x02By\n" +
+	",co.meshtrade.api.reporting.account_report.v1ZIgithub.com/meshtrade/api/go/reporting/account_report/v1;account_report_v1b\x06proto3"
 
 var (
 	file_meshtrade_reporting_account_report_v1_service_proto_rawDescOnce sync.Once

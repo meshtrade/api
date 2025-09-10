@@ -1,4 +1,4 @@
-package rolev1
+package role_v1
 
 import (
 	"testing"
@@ -15,25 +15,25 @@ func TestFullResourceNameFromGroupID(t *testing.T) {
 			name:     "wallet admin role",
 			role:     Role_ROLE_WALLET_ADMIN,
 			groupID:  "test-group-123",
-			expected: "groups/test-group-123/1",
+			expected: "groups/test-group-123/1000000",
 		},
 		{
 			name:     "compliance viewer role",
 			role:     Role_ROLE_COMPLIANCE_VIEWER,
 			groupID:  "compliance-team",
-			expected: "groups/compliance-team/4",
+			expected: "groups/compliance-team/2000001",
 		},
 		{
 			name:     "iam admin role",
 			role:     Role_ROLE_IAM_ADMIN,
 			groupID:  "admin-group",
-			expected: "groups/admin-group/5",
+			expected: "groups/admin-group/3000000",
 		},
 		{
 			name:     "trading viewer role",
 			role:     Role_ROLE_TRADING_VIEWER,
 			groupID:  "trading-viewers",
-			expected: "groups/trading-viewers/10",
+			expected: "groups/trading-viewers/5000001",
 		},
 	}
 
@@ -56,25 +56,25 @@ func TestRoleFromFullResourceName(t *testing.T) {
 	}{
 		{
 			name:             "valid wallet admin role",
-			fullResourceName: "groups/test-group/1",
+			fullResourceName: "groups/test-group/1000000",
 			expectedRole:     Role_ROLE_WALLET_ADMIN,
 			expectedError:    false,
 		},
 		{
 			name:             "valid compliance viewer role",
-			fullResourceName: "groups/compliance-team/4",
+			fullResourceName: "groups/compliance-team/2000001",
 			expectedRole:     Role_ROLE_COMPLIANCE_VIEWER,
 			expectedError:    false,
 		},
 		{
 			name:             "valid iam admin role",
-			fullResourceName: "groups/admin-group/5",
+			fullResourceName: "groups/admin-group/3000000",
 			expectedRole:     Role_ROLE_IAM_ADMIN,
 			expectedError:    false,
 		},
 		{
 			name:             "valid trading viewer role",
-			fullResourceName: "groups/trading-viewers/10",
+			fullResourceName: "groups/trading-viewers/5000001",
 			expectedRole:     Role_ROLE_TRADING_VIEWER,
 			expectedError:    false,
 		},
@@ -151,7 +151,7 @@ func TestRoleFromFullResourceName(t *testing.T) {
 
 func TestMustRoleFromFullResourceName(t *testing.T) {
 	t.Run("valid resource name", func(t *testing.T) {
-		fullResourceName := "groups/test-group/1"
+		fullResourceName := "groups/test-group/1000000"
 		role := MustRoleFromFullResourceName(fullResourceName)
 		if role != Role_ROLE_WALLET_ADMIN {
 			t.Errorf("MustRoleFromFullResourceName() = %v, expected %v", role, Role_ROLE_WALLET_ADMIN)

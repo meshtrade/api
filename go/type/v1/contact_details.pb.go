@@ -4,7 +4,7 @@
 // 	protoc        (unknown)
 // source: meshtrade/type/v1/contact_details.proto
 
-package typev1
+package type_v1
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -170,8 +170,8 @@ const file_meshtrade_type_v1_contact_details_proto_rawDesc = "" +
 	"\tinstagram\x18\t \x01(\tR\tinstagram\x12\x1b\n" +
 	"\tx_twitter\x18\n" +
 	" \x01(\tR\bxTwitter\x12\x18\n" +
-	"\ayoutube\x18\v \x01(\tR\ayoutubeBF\n" +
-	"\x18co.meshtrade.api.type.v1Z*github.com/meshtrade/api/go/type/v1;typev1b\x06proto3"
+	"\ayoutube\x18\v \x01(\tR\ayoutubeBG\n" +
+	"\x18co.meshtrade.api.type.v1Z+github.com/meshtrade/api/go/type/v1;type_v1b\x06proto3"
 
 var (
 	file_meshtrade_type_v1_contact_details_proto_rawDescOnce sync.Once

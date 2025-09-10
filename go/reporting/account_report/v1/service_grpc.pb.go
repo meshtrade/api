@@ -4,7 +4,7 @@
 // - protoc             (unknown)
 // source: meshtrade/reporting/account_report/v1/service.proto
 
-package account_reportv1
+package account_report_v1
 
 import (
 	context "context"

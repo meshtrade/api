@@ -4,7 +4,7 @@
 // 	protoc        (unknown)
 // source: meshtrade/reporting/account_report/v1/income_entry.proto
 
-package account_reportv1
+package account_report_v1
 
 import (
 	v1 "github.com/meshtrade/api/go/type/v1"
@@ -203,8 +203,8 @@ const file_meshtrade_reporting_account_report_v1_income_entry_proto_rawDesc = ""
 	"\x0fIncomeNarrative\x12 \n" +
 	"\x1cINCOME_NARRATIVE_UNSPECIFIED\x10\x00\x12\x1a\n" +
 	"\x16INCOME_NARRATIVE_YIELD\x10\x01\x12\x1b\n" +
-	"\x17INCOME_NARRATIVE_COUPON\x10\x02Bx\n" +
-	",co.meshtrade.api.reporting.account_report.v1ZHgithub.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1b\x06proto3"
+	"\x17INCOME_NARRATIVE_COUPON\x10\x02By\n" +
+	",co.meshtrade.api.reporting.account_report.v1ZIgithub.com/meshtrade/api/go/reporting/account_report/v1;account_report_v1b\x06proto3"
 
 var (
 	file_meshtrade_reporting_account_report_v1_income_entry_proto_rawDescOnce sync.Once

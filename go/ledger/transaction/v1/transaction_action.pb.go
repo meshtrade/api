@@ -4,7 +4,7 @@
 // 	protoc        (unknown)
 // source: meshtrade/ledger/transaction/v1/transaction_action.proto
 
-package transactionv1
+package transaction_v1
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -96,8 +96,8 @@ const file_meshtrade_ledger_transaction_v1_transaction_action_proto_rawDesc = ""
 	"\x19TRANSACTION_ACTION_COMMIT\x10\x03\x12\x1b\n" +
 	"\x17TRANSACTION_ACTION_SIGN\x10\x04\x12#\n" +
 	"\x1fTRANSACTION_ACTION_MARK_PENDING\x10\x05\x12\x1d\n" +
-	"\x19TRANSACTION_ACTION_SUBMIT\x10\x06Bi\n" +
-	"&co.meshtrade.api.ledger.transaction.v1Z?github.com/meshtrade/api/go/ledger/transaction/v1;transactionv1b\x06proto3"
+	"\x19TRANSACTION_ACTION_SUBMIT\x10\x06Bj\n" +
+	"&co.meshtrade.api.ledger.transaction.v1Z@github.com/meshtrade/api/go/ledger/transaction/v1;transaction_v1b\x06proto3"
 
 var (
 	file_meshtrade_ledger_transaction_v1_transaction_action_proto_rawDescOnce sync.Once

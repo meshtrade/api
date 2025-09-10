@@ -4,7 +4,7 @@
 // 	protoc        (unknown)
 // source: meshtrade/type/v1/time_of_day.proto
 
-package typev1
+package type_v1
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -128,8 +128,8 @@ const file_meshtrade_type_v1_time_of_day_proto_rawDesc = "" +
 	"\x05hours\x18\x01 \x01(\x05R\x05hours\x12\x18\n" +
 	"\aminutes\x18\x02 \x01(\x05R\aminutes\x12\x18\n" +
 	"\aseconds\x18\x03 \x01(\x05R\aseconds\x12\x14\n" +
-	"\x05nanos\x18\x04 \x01(\x05R\x05nanosBF\n" +
-	"\x18co.meshtrade.api.type.v1Z*github.com/meshtrade/api/go/type/v1;typev1b\x06proto3"
+	"\x05nanos\x18\x04 \x01(\x05R\x05nanosBG\n" +
+	"\x18co.meshtrade.api.type.v1Z+github.com/meshtrade/api/go/type/v1;type_v1b\x06proto3"
 
 var (
 	file_meshtrade_type_v1_time_of_day_proto_rawDescOnce sync.Once

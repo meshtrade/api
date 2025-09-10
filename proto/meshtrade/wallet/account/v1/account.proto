@@ -2,9 +2,90 @@ syntax = "proto3";
 
 package meshtrade.wallet.account.v1;
 
-option go_package = "github.com/meshtrade/api/go/wallet/account/v1;accountv1";
+import "buf/validate/validate.proto";
+
+option go_package = "github.com/meshtrade/api/go/wallet/account/v1;account_v1";
 option java_package = "co.meshtrade.api.wallet.account.v1";
 
 message Account {
-  string name = 1;
+  /*
+     Unique resource identifier in format groups/{ULIDv2}.
+     Immutable and system-generated on creation.
+  */
+  string name = 1 [(buf.validate.field) = {
+    cel: {
+      id: "name.format.optional",
+      message: "name must be empty or in the format groups/{ULIDv2}",
+      expression: "size(this) == 0 || this.matches('^groups/[0-9A-Z]{26}$')"
+    }
+  }];
+
+  /*
+     Parent group resource name establishing direct ownership.
+     Defines the immediate hierarchical relationship.
+     Required on creation.
+  */
+  string owner = 2 [(buf.validate.field) = {
+    string: {
+      len: 33,
+      pattern: "^groups/[0-9A-Z]{26}$"
+    }
+  }];
+
+  /*
+     Complete ownership path from root to this group for efficient access control.
+     System-maintained array enabling hierarchical permission inheritance.
+     Immutable and system-generated on creation.
+  */
+  repeated string owners = 3 [(buf.validate.field) = {
+    repeated: {
+      min_items: 0,
+      max_items: 100,
+      items: {
+        string: {
+          len: 33,
+          pattern: "^groups/[0-9A-Z]{26}$"
+        }
+      }
+    }
+  }];
+
+  /*
+    The Unique Mesh Account Number.
+    Immutable and system-generated on creation.
+  */
+  string number = 5 [(buf.validate.field) = {
+    string: {
+      len: 7
+      pattern: "^[0-9]{1,}$"
+    }
+    cel: {
+      id: "number.format.optional",
+      message: "number must be empty or in the format 1xxxxxx",
+      expression: "size(this) == 0 || this.matches('^[0-9]{1,}$')"
+    }
+  }];  
+
+  /*
+    The account's ID on the ledger network, typically a public key like Ed25519
+    (used by Stellar and Solana) or secp256k1 (used by Bitcoin).
+    Immutable and system-generated on creation.
+  */
+  string ledger_id = 6;  
+
+  /*
+     Human-readable name for organizational identification and display.
+     User-configurable and non-unique across the system.
+  */
+  string display_name = 7 [(buf.validate.field) = {
+    string: {
+      min_len: 1
+      max_len: 255
+    }
+    cel: {
+      id: "display_name.required"
+      message: "display name is required and must be between 1 and 255 characters"
+      expression: "size(this) > 0 && size(this) <= 255"
+    }
+  }];
 }

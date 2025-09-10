@@ -4,7 +4,7 @@
 // 	protoc        (unknown)
 // source: meshtrade/compliance/client/v1/natural_person.proto
 
-package clientv1
+package client_v1
 
 import (
 	v1 "github.com/meshtrade/api/go/type/v1"
@@ -223,8 +223,8 @@ const file_meshtrade_compliance_client_v1_natural_person_proto_rawDesc = "" +
 	" \x01(\v2!.meshtrade.type.v1.ContactDetailsR\x0econtactDetails\x12c\n" +
 	"\x11sources_of_income\x18\v \x03(\x0e27.meshtrade.compliance.client.v1.SourceOfIncomeAndWealthR\x0fsourcesOfIncome\x12c\n" +
 	"\x11sources_of_wealth\x18\f \x03(\x0e27.meshtrade.compliance.client.v1.SourceOfIncomeAndWealthR\x0fsourcesOfWealth\x12U\n" +
-	"\x0ftax_residencies\x18\r \x03(\v2,.meshtrade.compliance.client.v1.TaxResidencyR\x0etaxResidenciesBb\n" +
-	"%co.meshtrade.api.compliance.client.v1Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
+	"\x0ftax_residencies\x18\r \x03(\v2,.meshtrade.compliance.client.v1.TaxResidencyR\x0etaxResidenciesBc\n" +
+	"%co.meshtrade.api.compliance.client.v1Z:github.com/meshtrade/api/go/compliance/client/v1;client_v1b\x06proto3"
 
 var (
 	file_meshtrade_compliance_client_v1_natural_person_proto_rawDescOnce sync.Once

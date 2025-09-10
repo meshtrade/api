@@ -4,7 +4,7 @@
 // - protoc             (unknown)
 // source: meshtrade/trading/market_order/v1/service.proto
 
-package market_orderv1
+package market_order_v1
 
 import (
 	context "context"

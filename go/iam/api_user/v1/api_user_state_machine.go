@@ -1,4 +1,4 @@
-package api_userv1
+package api_user_v1
 
 // IsValid checks if the APIUserState is a valid enum value.
 func (s APIUserState) IsValid() bool {

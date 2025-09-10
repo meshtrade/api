@@ -4,7 +4,7 @@
 // 	protoc        (unknown)
 // source: meshtrade/compliance/client/v1/company_representative.proto
 
-package clientv1
+package client_v1
 
 import (
 	v1 "github.com/meshtrade/api/go/type/v1"
@@ -140,8 +140,8 @@ const file_meshtrade_compliance_client_v1_company_representative_proto_rawDesc =
 	"\bposition\x18\x03 \x01(\tR\bposition\x12M\n" +
 	"\x14ownership_percentage\x18\x04 \x01(\v2\x1a.meshtrade.type.v1.DecimalR\x13ownershipPercentage\x12c\n" +
 	"\x1cprofessional_contact_details\x18\x05 \x01(\v2!.meshtrade.type.v1.ContactDetailsR\x1aprofessionalContactDetails\x12A\n" +
-	"\x13date_of_appointment\x18\x06 \x01(\v2\x11.google.type.DateR\x11dateOfAppointmentBb\n" +
-	"%co.meshtrade.api.compliance.client.v1Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
+	"\x13date_of_appointment\x18\x06 \x01(\v2\x11.google.type.DateR\x11dateOfAppointmentBc\n" +
+	"%co.meshtrade.api.compliance.client.v1Z:github.com/meshtrade/api/go/compliance/client/v1;client_v1b\x06proto3"
 
 var (
 	file_meshtrade_compliance_client_v1_company_representative_proto_rawDescOnce sync.Once

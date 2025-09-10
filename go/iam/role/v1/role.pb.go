@@ -4,7 +4,7 @@
 // 	protoc        (unknown)
 // source: meshtrade/iam/role/v1/role.proto
 
-package rolev1
+package role_v1
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -212,8 +212,8 @@ const file_meshtrade_iam_role_v1_role_proto_rawDesc = "" +
 	"\x14ROLE_REPORTING_ADMIN\x10\x80\x9b\xee\x02\x12\x1c\n" +
 	"\x15ROLE_REPORTING_VIEWER\x10\x81\x9b\xee\x02:f\n" +
 	"\x0estandard_roles\x12\x1c.google.protobuf.FileOptions\x18ӆ\x03 \x01(\v2\x1f.meshtrade.iam.role.v1.RoleListR\rstandardRoles:W\n" +
-	"\x05roles\x12\x1e.google.protobuf.MethodOptions\x18Ն\x03 \x01(\v2\x1f.meshtrade.iam.role.v1.RoleListR\x05rolesBN\n" +
-	"\x1cco.meshtrade.api.iam.role.v1Z.github.com/meshtrade/api/go/iam/role/v1;rolev1b\x06proto3"
+	"\x05roles\x12\x1e.google.protobuf.MethodOptions\x18Ն\x03 \x01(\v2\x1f.meshtrade.iam.role.v1.RoleListR\x05rolesBO\n" +
+	"\x1cco.meshtrade.api.iam.role.v1Z/github.com/meshtrade/api/go/iam/role/v1;role_v1b\x06proto3"
 
 var (
 	file_meshtrade_iam_role_v1_role_proto_rawDescOnce sync.Once

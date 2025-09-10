@@ -4,7 +4,7 @@
 // - protoc             (unknown)
 // source: meshtrade/iam/api_user/v1/service.proto
 
-package api_userv1
+package api_user_v1
 
 import (
 	context "context"

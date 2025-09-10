@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package meshtrade.iam.user.v1;
 
-option go_package = "github.com/meshtrade/api/go/iam/user/v1;userv1";
+option go_package = "github.com/meshtrade/api/go/iam/user/v1;user_v1";
 option java_package = "co.meshtrade.api.iam.user.v1";
 
 message User {

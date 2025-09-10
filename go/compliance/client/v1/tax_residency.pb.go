@@ -4,7 +4,7 @@
 // 	protoc        (unknown)
 // source: meshtrade/compliance/client/v1/tax_residency.proto
 
-package clientv1
+package client_v1
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -90,8 +90,8 @@ const file_meshtrade_compliance_client_v1_tax_residency_proto_rawDesc = "" +
 	"2meshtrade/compliance/client/v1/tax_residency.proto\x12\x1emeshtrade.compliance.client.v1\"C\n" +
 	"\fTaxResidency\x12!\n" +
 	"\fcountry_code\x18\x01 \x01(\tR\vcountryCode\x12\x10\n" +
-	"\x03tin\x18\x02 \x01(\tR\x03tinBb\n" +
-	"%co.meshtrade.api.compliance.client.v1Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
+	"\x03tin\x18\x02 \x01(\tR\x03tinBc\n" +
+	"%co.meshtrade.api.compliance.client.v1Z:github.com/meshtrade/api/go/compliance/client/v1;client_v1b\x06proto3"
 
 var (
 	file_meshtrade_compliance_client_v1_tax_residency_proto_rawDescOnce sync.Once

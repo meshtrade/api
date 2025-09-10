@@ -10,8 +10,8 @@ import (
 
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	accountreportv1 "github.com/meshtrade/api/go/reporting/account_report/v1"
-	typev1 "github.com/meshtrade/api/go/type/v1"
+	account_report_v1 "github.com/meshtrade/api/go/reporting/account_report/v1"
+	type_v1 "github.com/meshtrade/api/go/type/v1"
 )
 
 // main is the entry point of the program.
@@ -20,7 +20,7 @@ func main() {
 	// Create a new AccountReportService client.
 	// In a real-world application, you would typically configure this with proper authentication and connection details.
 	// For this example, we assume the service is available at "localhost:8080" and we are using an insecure connection.
-	service, err := accountreportv1.NewAccountReportService()
+	service, err := account_report_v1.NewAccountReportService()
 	if err != nil {
 		log.Fatalf("Failed to create AccountReportService client: %v", err)
 	}
@@ -32,7 +32,7 @@ func main() {
 
 	// Create a request to get an Excel account report.
 	// The request includes the account number and the desired date range for the report.
-	req := &accountreportv1.GetExcelAccountReportRequest{
+	req := &account_report_v1.GetExcelAccountReportRequest{
 		AccountNumber: "100005",
 		PeriodStart:   timestamppb.New(time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC)),
 		PeriodEnd:     timestamppb.New(time.Date(2023, 12, 31, 0, 0, 0, 0, time.UTC)),
@@ -41,10 +41,10 @@ func main() {
 		// This example uses mZAR (South African Rand) issued on the Stellar network.
 		// Learn more: https://mzar.mesh.trade
 		// Stellar Explorer: https://stellar.expert/explorer/public/asset/mZAR-GCBNWTCCMC32UHZ5OCC2PNMFDGXRVPA7MFFBFFTCVW77SX5PMRB7Q4BY
-		ReportingAssetToken: &typev1.Token{
+		ReportingAssetToken: &type_v1.Token{
 			Code:   "mZAR",
 			Issuer: "GCBNWTCCMC32UHZ5OCC2PNMFDGXRVPA7MFFBFFTCVW77SX5PMRB7Q4BY",
-			Ledger: typev1.Ledger_LEDGER_STELLAR,
+			Ledger: type_v1.Ledger_LEDGER_STELLAR,
 		},
 	}
 

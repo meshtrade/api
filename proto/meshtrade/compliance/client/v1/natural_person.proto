@@ -10,7 +10,7 @@ import "meshtrade/compliance/client/v1/tax_residency.proto";
 import "meshtrade/type/v1/address.proto";
 import "meshtrade/type/v1/contact_details.proto";
 
-option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
+option go_package = "github.com/meshtrade/api/go/compliance/client/v1;client_v1";
 option java_package = "co.meshtrade.api.compliance.client.v1";
 
 /*

@@ -4,9 +4,10 @@
 // 	protoc        (unknown)
 // source: meshtrade/wallet/account/v1/account.proto
 
-package accountv1
+package account_v1
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -22,8 +23,28 @@ const (
 )
 
 type Account struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Unique resource identifier in format groups/{ULIDv2}.
+	// Immutable and system-generated on creation.
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	// Parent group resource name establishing direct ownership.
+	// Defines the immediate hierarchical relationship.
+	// Required on creation.
+	Owner string `protobuf:"bytes,2,opt,name=owner,proto3" json:"owner,omitempty"`
+	// Complete ownership path from root to this group for efficient access control.
+	// System-maintained array enabling hierarchical permission inheritance.
+	// Immutable and system-generated on creation.
+	Owners []string `protobuf:"bytes,3,rep,name=owners,proto3" json:"owners,omitempty"`
+	// The Unique Mesh Account Number.
+	// Immutable and system-generated on creation.
+	Number string `protobuf:"bytes,5,opt,name=number,proto3" json:"number,omitempty"`
+	// The account's ID on the ledger network, typically a public key like Ed25519
+	// (used by Stellar and Solana) or secp256k1 (used by Bitcoin).
+	// Immutable and system-generated on creation.
+	LedgerId string `protobuf:"bytes,6,opt,name=ledger_id,json=ledgerId,proto3" json:"ledger_id,omitempty"`
+	// Human-readable name for organizational identification and display.
+	// User-configurable and non-unique across the system.
+	DisplayName   string `protobuf:"bytes,7,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -65,14 +86,59 @@ func (x *Account) GetName() string {
 	return ""
 }
 
+func (x *Account) GetOwner() string {
+	if x != nil {
+		return x.Owner
+	}
+	return ""
+}
+
+func (x *Account) GetOwners() []string {
+	if x != nil {
+		return x.Owners
+	}
+	return nil
+}
+
+func (x *Account) GetNumber() string {
+	if x != nil {
+		return x.Number
+	}
+	return ""
+}
+
+func (x *Account) GetLedgerId() string {
+	if x != nil {
+		return x.LedgerId
+	}
+	return ""
+}
+
+func (x *Account) GetDisplayName() string {
+	if x != nil {
+		return x.DisplayName
+	}
+	return ""
+}
+
 var File_meshtrade_wallet_account_v1_account_proto protoreflect.FileDescriptor
 
 const file_meshtrade_wallet_account_v1_account_proto_rawDesc = "" +
 	"\n" +
-	")meshtrade/wallet/account/v1/account.proto\x12\x1bmeshtrade.wallet.account.v1\"\x1d\n" +
+	")meshtrade/wallet/account/v1/account.proto\x12\x1bmeshtrade.wallet.account.v1\x1a\x1bbuf/validate/validate.proto\"\x8d\a\n" +
 	"\aAccount\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04nameB]\n" +
-	"\"co.meshtrade.api.wallet.account.v1Z7github.com/meshtrade/api/go/wallet/account/v1;accountv1b\x06proto3"
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\xb1\x02\n" +
+	"\x05owner\x18\x02 \x01(\tB\x9a\x02\xbaH\x96\x02\xba\x01Y\n" +
+	"\x0eowner.required\x127owner is required and must be in format groups/{ULIDv2}\x1a\x0esize(this) > 0\xba\x01\x9b\x01\n" +
+	"\fowner.format\x12downer must be in format groups/{ULIDv2} where ULIDv2 is exactly 26 uppercase alphanumeric characters\x1a%this.matches('^groups/[0-9A-Z]{26}$')r\x19\x10\x012\x15^groups/[0-9A-Z]{26}$R\x05owner\x12\xe4\x01\n" +
+	"\x06owners\x18\x03 \x03(\tB\xcb\x01\xbaH\xc7\x01\x92\x01\xc3\x01\"\xc0\x01\xba\x01\xa1\x01\n" +
+	"\rowners.format\x12ieach owner must be in format groups/{ULIDv2} where ULIDv2 is exactly 26 uppercase alphanumeric characters\x1a%this.matches('^groups/[0-9A-Z]{26}$')r\x19\x10\x002\x15^groups/[0-9A-Z]{26}$R\x06owners\x12\x81\x01\n" +
+	"\x06number\x18\x05 \x01(\tBi\xbaHf\xba\x01R\n" +
+	"\x17account_number.required\x12\x1aaccount_number is required\x1a\x1bthis.matches('^[0-9]{1,}$')r\x0f\x10\x002\v^[0-9]{1,}$R\x06number\x12\x1b\n" +
+	"\tledger_id\x18\x06 \x01(\tR\bledgerId\x12\xb1\x01\n" +
+	"\fdisplay_name\x18\a \x01(\tB\x8d\x01\xbaH\x89\x01\xba\x01\x7f\n" +
+	"\x15display_name.required\x12Adisplay name is required and must be between 1 and 255 characters\x1a#size(this) > 0 && size(this) <= 255r\x05\x10\x01\x18\xff\x01R\vdisplayNameB^\n" +
+	"\"co.meshtrade.api.wallet.account.v1Z8github.com/meshtrade/api/go/wallet/account/v1;account_v1b\x06proto3"
 
 var (
 	file_meshtrade_wallet_account_v1_account_proto_rawDescOnce sync.Once

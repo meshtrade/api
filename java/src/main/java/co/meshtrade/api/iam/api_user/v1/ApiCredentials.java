@@ -871,10 +871,10 @@ public final class ApiCredentials {
       "ormat\022`group must be in format groups/{u" +
       "lid} where ulid is a 26-character ULID (" +
       "uppercase alphanumeric)\032%this.matches(\'^" +
-      "groups/[0-9A-Z]{26}$\')R\005groupBZ\n co.mesh" +
-      "trade.api.iam.api_user.v1Z6github.com/me" +
-      "shtrade/api/go/iam/api_user/v1;api_userv" +
-      "1b\006proto3"
+      "groups/[0-9A-Z]{26}$\')R\005groupB[\n co.mesh" +
+      "trade.api.iam.api_user.v1Z7github.com/me" +
+      "shtrade/api/go/iam/api_user/v1;api_user_" +
+      "v1b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

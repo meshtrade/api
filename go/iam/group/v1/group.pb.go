@@ -4,7 +4,7 @@
 // 	protoc        (unknown)
 // source: meshtrade/iam/group/v1/group.proto
 
-package groupv1
+package group_v1
 
 import (
 	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
@@ -128,8 +128,8 @@ const file_meshtrade_iam_group_v1_group_proto_rawDesc = "" +
 	"\fdisplay_name\x18\x04 \x01(\tB\x8d\x01\xbaH\x89\x01\xba\x01\x7f\n" +
 	"\x15display_name.required\x12Adisplay name is required and must be between 1 and 255 characters\x1a#size(this) > 0 && size(this) <= 255r\x05\x10\x01\x18\xff\x01R\vdisplayName\x12\x86\x01\n" +
 	"\vdescription\x18\x05 \x01(\tBd\xbaHa\xba\x01Y\n" +
-	"\x16description.max_length\x12+description must not exceed 1000 characters\x1a\x12size(this) <= 1000r\x03\x18\xe8\aR\vdescriptionBQ\n" +
-	"\x1dco.meshtrade.api.iam.group.v1Z0github.com/meshtrade/api/go/iam/group/v1;groupv1b\x06proto3"
+	"\x16description.max_length\x12+description must not exceed 1000 characters\x1a\x12size(this) <= 1000r\x03\x18\xe8\aR\vdescriptionBR\n" +
+	"\x1dco.meshtrade.api.iam.group.v1Z1github.com/meshtrade/api/go/iam/group/v1;group_v1b\x06proto3"
 
 var (
 	file_meshtrade_iam_group_v1_group_proto_rawDescOnce sync.Once
