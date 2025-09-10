@@ -2,16 +2,17 @@ syntax = "proto3";
 
 package meshtrade.wallet.account.v1;
 
+import "google/protobuf/timestamp.proto";
+import "buf/validate/validate.proto";
 import "meshtrade/iam/role/v1/role.proto";
 import "meshtrade/option/v1/method_type.proto";
-import "meshtrade/type/v1/ledger.proto";
 import "meshtrade/wallet/account/v1/account.proto";
 
 option go_package = "github.com/meshtrade/api/go/wallet/account/v1;account_v1";
 option java_package = "co.meshtrade.api.wallet.account.v1";
 
 service AccountService {
-  // create not yet open
+  // create account, not yet open, call open account to open
   rpc CreateAccount(CreateAccountRequest) returns (meshtrade.wallet.account.v1.Account) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
     option (meshtrade.iam.role.v1.roles) = {
@@ -22,7 +23,17 @@ service AccountService {
     };
   }
 
-  rpc OpenAccount(CreateAccountRequest) returns (OpenAccountResponse) {
+  rpc OpenAccount(OpenAccountRequest) returns (OpenAccountResponse) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [
+        ROLE_WALLET_ADMIN,
+        ROLE_WALLET_ACCOUNT_ADMIN
+      ]
+    };
+  }
+
+  rpc CloseAccount(CloseAccountRequest) returns (CloseAccountResponse) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
     option (meshtrade.iam.role.v1.roles) = {
       roles: [
@@ -55,9 +66,8 @@ service AccountService {
       ]
     };
   }
-  /*
-     Searches for accounts based on a partial label match.
-  */
+
+
   rpc SearchAccounts(SearchAccountsRequest) returns (SearchAccountsResponse) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
     option (meshtrade.iam.role.v1.roles) = {
@@ -76,10 +86,38 @@ message CreateAccountRequest {
 }
 
 message OpenAccountRequest {
-  meshtrade.wallet.account.v1.Account account = 1;
+  /*
+    acocunt to open
+  */
+  string name = 1 [(buf.validate.field) = {
+    string: {
+      len: 33,
+      pattern: "^accounts/[0-9A-Z]{26}$"
+    }
+  }];
 }
 
 message OpenAccountResponse {
+  // opened account
+  meshtrade.wallet.account.v1.Account account = 1;
+
+  // transaction resource name : transactions/{ULIDv2} to monitor opening
+  string ledger_transaction = 3;
+}
+
+message CloseAccountRequest {
+  /*
+    acocunt to close
+  */
+  string name = 1 [(buf.validate.field) = {
+    string: {
+      len: 33,
+      pattern: "^accounts/[0-9A-Z]{26}$"
+    }
+  }];
+}
+
+message CloseAccountResponse {
   // opened account
   meshtrade.wallet.account.v1.Account account = 1;
 

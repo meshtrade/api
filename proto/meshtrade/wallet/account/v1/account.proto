@@ -7,7 +7,6 @@ import "meshtrade/type/v1/ledger.proto";
 import "meshtrade/type/v1/amount.proto";
 import "meshtrade/studio/instrument/v1/type.proto";
 import "meshtrade/studio/instrument/v1/unit.proto";
-import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/meshtrade/api/go/wallet/account/v1;account_v1";
 option java_package = "co.meshtrade.api.wallet.account.v1";
@@ -106,17 +105,28 @@ message Account {
       min_len: 1,
       max_len: 255
     }
-  }]; 
+  }];
+
+  /*
+  Time at which live ledger data fields were populated.
+  Important as live ledger data changes.
+  Only populated if account retrieved with option to populate
+  live ledger data set to true. See Get, List and other read methods on AccountService for that field.
+  */
+  google.protobuf.Timestamp live_data_retrieved_at = 9;
+
+  /*
+  State of the account on the ledger.
+  */
+  AccountState state = 10;
 
   /*
     A list of balances, where each balance represents a specific instrument
     and the quantity of it held in this account.
-    NOTE: this is a snapshot of live ledger data
+    NOTE: Live ledger data
   */
-  repeated Balance balances = 9;
+  repeated Balance balances = 11;
 }
-
-
 
 /*
   InstrumentMetaData contains descriptive, non-quantifiable information about
@@ -147,6 +157,7 @@ message Balance {
     /*
       The quantifiable measure of the instrument held, represented as a
       high-precision amount with decimal value and token of denomination.
+      NOTE: amount may include funds locked in open orders and other obligations.
     */
     meshtrade.type.v1.Amount amount = 1;
 
@@ -154,4 +165,16 @@ message Balance {
       Descriptive metadata about the instrument to which this balance pertains.
     */
     InstrumentMetaData instrument_metadata = 2;
+}
+
+enum AccountState {
+  /*
+     Unknown or not specified.
+     This is a default value to prevent accidental assignment and should not be used.
+  */
+  ACCOUNT_STATE_UNSPECIFIED = 0;
+  
+  ACCOUNT_STATE_CLOSED = 1;
+
+  ACCOUNT_STATE_OPEN = 2;
 }
