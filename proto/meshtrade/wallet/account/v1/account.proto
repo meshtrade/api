@@ -13,8 +13,12 @@ option go_package = "github.com/meshtrade/api/go/wallet/account/v1;account_v1";
 option java_package = "co.meshtrade.api.wallet.account.v1";
 
 /*
-  An Account represents a unique entity on a specific ledger that can hold balances
-  of various financial instruments.
+   Account resource for holding and managing financial instruments on blockchain ledgers.
+
+   Accounts provide the foundational wallet infrastructure for the Mesh platform, enabling
+   secure storage and management of digital assets across multiple blockchain networks.
+   Each account is tied to a specific ledger (Stellar, Solana, Bitcoin, Ethereum etc.) and
+   can hold multiple instrument balances within that network's ecosystem.
 */
 message Account {
   /*
@@ -61,9 +65,10 @@ message Account {
   }];
 
   /*
-    The Unique Mesh Account Number (UMAN). A 7-digit number starting with 1.
-    This field is system-generated and immutable.
-    Any value provided on creation is ignored.
+     The Unique Mesh Account Number for simplified account identification.
+     Format: 7-digit number starting with 1 (e.g., 1234567).
+     This field is system-generated and immutable.
+     Any value provided on creation is ignored.
   */
   string number = 5 [(buf.validate.field) = {
     cel: {
@@ -74,11 +79,11 @@ message Account {
   }];
 
   /*
-    The account's public address on the specified ledger network.
-    This is typically a public key, e.g., Ed25519 (Stellar, Solana) or
-    secp256k1 (Bitcoin, Ethereum).
-    This field is system-generated and immutable.
-    Any value provided on creation is ignored.
+     The account's blockchain address on the specified ledger network.
+     Format varies by ledger e.g. Ed25519 public key for Stellar/Solana,
+     secp256k1 address for Bitcoin/Ethereum.
+     This field is system-generated and immutable.
+     Any value provided on creation is ignored.
   */
   string ledger_id = 6 [(buf.validate.field) = {
     string: {
@@ -87,7 +92,7 @@ message Account {
   }];
 
   /*
-     The ledger on which the account exists (e.g., Stellar, Solana, Bitcoin, or Ethereum).
+     The ledger on which the account exists (e.g., Stellar, Solana, Bitcoin, Ethereum, etc.).
      This field is required on creation to specify the target ledger for the account.
   */
   meshtrade.type.v1.Ledger ledger = 7 [(buf.validate.field) = {
@@ -98,8 +103,8 @@ message Account {
   }];
 
   /*
-     A human-readable name for the account, used for display and organizational purposes.
-     This name is user-configurable and does not need to be unique.
+     Human-readable name for organizational identification and display.
+     User-configurable and non-unique across the system.
   */
   string display_name = 8 [(buf.validate.field) = {
     string: {
@@ -109,73 +114,92 @@ message Account {
   }];
 
   /*
-  Time at which live ledger data fields were populated.
-  Important as live ledger data changes.
-  Only populated if account retrieved with option to populate
-  live ledger data set to true. See Get, List and other read methods on AccountService for that field.
+     Timestamp of the last live ledger data synchronization.
+     Only populated when accounts are retrieved with populate_ledger_data=true.
+     This timestamp indicates when balances and state were last fetched from the blockchain.
   */
   google.protobuf.Timestamp live_data_retrieved_at = 9;
 
   /*
-  State of the account on the ledger.
+     Current operational state of the account on the blockchain ledger.
+     Reflects whether the account is active and able to transact.
   */
   AccountState state = 10;
 
   /*
-    A list of balances, where each balance represents a specific instrument
-    and the quantity of it held in this account.
-    NOTE: Live ledger data
+     Current instrument balances held in this account.
+     Each balance represents a specific financial instrument and its quantity.
+     NOTE: This is live ledger data - only populated when retrieved with populate_ledger_data=true.
   */
   repeated Balance balances = 11;
 }
 
 /*
-  InstrumentMetaData contains descriptive, non-quantifiable information about
-  the financial instrument associated with a balance.
+   Metadata describing financial instruments held in account balances.
+
+   Provides descriptive, non-quantifiable information about instruments to enable
+   proper identification and categorization of holdings within an account.
 */
 message InstrumentMetaData {
     /*
-    The official or common name of the instrument (e.g., "Apple Inc.", "Bitcoin").
+       The official or commonly recognized name of the instrument.
+       Examples: "Apple Inc.", "Bitcoin", "US Dollar".
     */
     string name = 1;
 
     /*
-    The classification of the instrument (e.g., SHARE, BOND, CRYPTO_CURRENCY).
+       Classification category of the financial instrument.
+       Determines the instrument's fundamental nature and trading characteristics.
     */
     meshtrade.studio.instrument.v1.InstrumentType type = 2;
 
     /*
-    The standard of measurement for the instrument (e.g., SHARE, OUNCE, BARREL, NOTE).
+       Standard unit of measurement for quantifying the instrument.
+       Examples: SHARE for equities, OUNCE for precious metals, NOTE for bonds.
     */
     meshtrade.studio.instrument.v1.Unit unit = 3;
 }
 
 /*
-  Balance represents the quantity of a specific financial instrument held
-  within an account.
+   Balance entry representing holdings of a specific financial instrument.
+
+   Combines quantity information with instrument metadata to provide a complete
+   view of each position held within an account.
 */
 message Balance {
     /*
-      The quantifiable measure of the instrument held, represented as a
-      high-precision amount with decimal value and token of denomination.
-      NOTE: amount may include funds locked in open orders and other obligations.
+       Quantity of the instrument held, expressed as a high-precision decimal amount.
+       Includes both available and locked funds (e.g., in open orders or other obligations).
+       The amount's token field indicates the instrument's blockchain representation.
     */
     meshtrade.type.v1.Amount amount = 1;
 
     /*
-      Descriptive metadata about the instrument to which this balance pertains.
+       Descriptive metadata identifying and classifying the instrument.
+       Provides context for interpreting the balance quantity.
     */
     InstrumentMetaData instrument_metadata = 2;
 }
 
+/*
+   Operational state of an account on the blockchain ledger.
+*/
 enum AccountState {
   /*
-     Unknown or not specified.
-     This is a default value to prevent accidental assignment and should not be used.
+     Unknown or unspecified state.
+     Default value to prevent accidental assignment - should not be used in practice.
   */
   ACCOUNT_STATE_UNSPECIFIED = 0;
   
+  /*
+     Account is closed and cannot perform transactions.
+     Closed accounts may still be queried for historical purposes.
+  */
   ACCOUNT_STATE_CLOSED = 1;
 
+  /*
+     Account is open and active for trading operations.
+     Open accounts can receive deposits and execute transactions.
+  */
   ACCOUNT_STATE_OPEN = 2;
 }

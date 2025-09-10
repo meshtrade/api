@@ -32,16 +32,61 @@ const (
 // AccountServiceClient is the client API for AccountService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// AccountService manages blockchain wallet accounts and their lifecycle operations (BETA).
+//
+// This service provides comprehensive account management capabilities across multiple
+// blockchain networks (Stellar, Solana, Bitcoin, Ethereum). Accounts serve as the
+// primary containers for holding and managing digital assets on the Mesh platform.
+//
+// Key capabilities include account creation, opening on-chain, balance queries,
+// and account lifecycle management. All operations are scoped to the authenticated
+// group's hierarchy and require appropriate wallet domain permissions.
+//
+// Note: This service is currently in BETA. Interface and functionality may change.
 type AccountServiceClient interface {
-	// create account, not yet open, call open account to open
+	// Creates a new account record in the system (off-chain).
+	//
+	// The account is created in a pending state and must be explicitly opened
+	// on the blockchain using OpenAccount before it can receive funds or execute
+	// transactions. Account ownership must match the executing context.
 	CreateAccount(ctx context.Context, in *CreateAccountRequest, opts ...grpc.CallOption) (*Account, error)
-	// update account only display name can be changed
+	// Updates an existing account's mutable metadata.
+	//
+	// Only the display_name field can be modified. All other fields including
+	// ownership, ledger, and account number are immutable after creation.
 	UpdateAccount(ctx context.Context, in *UpdateAccountRequest, opts ...grpc.CallOption) (*Account, error)
+	// Opens an account on the blockchain ledger.
+	//
+	// Initializes the account on-chain, making it ready to receive deposits
+	// and execute transactions. Returns the opened account and a transaction
+	// reference for monitoring the blockchain operation.
 	OpenAccount(ctx context.Context, in *OpenAccountRequest, opts ...grpc.CallOption) (*OpenAccountResponse, error)
+	// Closes an account on the blockchain ledger.
+	//
+	// Deactivates the account on-chain, preventing further transactions.
+	// The account record remains queryable for historical purposes.
+	// Returns the closed account and a transaction reference.
 	CloseAccount(ctx context.Context, in *CloseAccountRequest, opts ...grpc.CallOption) (*CloseAccountResponse, error)
+	// Retrieves a specific account by its resource identifier.
+	//
+	// Provides access to account metadata and optionally fetches live
+	// balance data from the blockchain when populate_ledger_data is true.
 	GetAccount(ctx context.Context, in *GetAccountRequest, opts ...grpc.CallOption) (*Account, error)
+	// Retrieves an account using its Unique Mesh Account Number (UMAN).
+	//
+	// Provides a convenient lookup method using the 7-digit account number.
+	// Optionally fetches live balance data when populate_ledger_data is true.
 	GetAccountByNumber(ctx context.Context, in *GetAccountByNumberRequest, opts ...grpc.CallOption) (*Account, error)
+	// Lists all accounts within the authenticated group's hierarchical scope.
+	//
+	// Returns the complete set of accounts accessible to the executing context,
+	// including accounts owned by the group and all descendant groups.
 	ListAccounts(ctx context.Context, in *ListAccountsRequest, opts ...grpc.CallOption) (*ListAccountsResponse, error)
+	// Searches accounts using flexible text criteria within the hierarchy.
+	//
+	// Performs case-insensitive substring matching on display names,
+	// returning accounts that match the search criteria.
 	SearchAccounts(ctx context.Context, in *SearchAccountsRequest, opts ...grpc.CallOption) (*SearchAccountsResponse, error)
 }
 
@@ -136,16 +181,61 @@ func (c *accountServiceClient) SearchAccounts(ctx context.Context, in *SearchAcc
 // AccountServiceServer is the server API for AccountService service.
 // All implementations must embed UnimplementedAccountServiceServer
 // for forward compatibility.
+//
+// AccountService manages blockchain wallet accounts and their lifecycle operations (BETA).
+//
+// This service provides comprehensive account management capabilities across multiple
+// blockchain networks (Stellar, Solana, Bitcoin, Ethereum). Accounts serve as the
+// primary containers for holding and managing digital assets on the Mesh platform.
+//
+// Key capabilities include account creation, opening on-chain, balance queries,
+// and account lifecycle management. All operations are scoped to the authenticated
+// group's hierarchy and require appropriate wallet domain permissions.
+//
+// Note: This service is currently in BETA. Interface and functionality may change.
 type AccountServiceServer interface {
-	// create account, not yet open, call open account to open
+	// Creates a new account record in the system (off-chain).
+	//
+	// The account is created in a pending state and must be explicitly opened
+	// on the blockchain using OpenAccount before it can receive funds or execute
+	// transactions. Account ownership must match the executing context.
 	CreateAccount(context.Context, *CreateAccountRequest) (*Account, error)
-	// update account only display name can be changed
+	// Updates an existing account's mutable metadata.
+	//
+	// Only the display_name field can be modified. All other fields including
+	// ownership, ledger, and account number are immutable after creation.
 	UpdateAccount(context.Context, *UpdateAccountRequest) (*Account, error)
+	// Opens an account on the blockchain ledger.
+	//
+	// Initializes the account on-chain, making it ready to receive deposits
+	// and execute transactions. Returns the opened account and a transaction
+	// reference for monitoring the blockchain operation.
 	OpenAccount(context.Context, *OpenAccountRequest) (*OpenAccountResponse, error)
+	// Closes an account on the blockchain ledger.
+	//
+	// Deactivates the account on-chain, preventing further transactions.
+	// The account record remains queryable for historical purposes.
+	// Returns the closed account and a transaction reference.
 	CloseAccount(context.Context, *CloseAccountRequest) (*CloseAccountResponse, error)
+	// Retrieves a specific account by its resource identifier.
+	//
+	// Provides access to account metadata and optionally fetches live
+	// balance data from the blockchain when populate_ledger_data is true.
 	GetAccount(context.Context, *GetAccountRequest) (*Account, error)
+	// Retrieves an account using its Unique Mesh Account Number (UMAN).
+	//
+	// Provides a convenient lookup method using the 7-digit account number.
+	// Optionally fetches live balance data when populate_ledger_data is true.
 	GetAccountByNumber(context.Context, *GetAccountByNumberRequest) (*Account, error)
+	// Lists all accounts within the authenticated group's hierarchical scope.
+	//
+	// Returns the complete set of accounts accessible to the executing context,
+	// including accounts owned by the group and all descendant groups.
 	ListAccounts(context.Context, *ListAccountsRequest) (*ListAccountsResponse, error)
+	// Searches accounts using flexible text criteria within the hierarchy.
+	//
+	// Performs case-insensitive substring matching on display names,
+	// returning accounts that match the search criteria.
 	SearchAccounts(context.Context, *SearchAccountsRequest) (*SearchAccountsResponse, error)
 	mustEmbedUnimplementedAccountServiceServer()
 }

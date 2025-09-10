@@ -25,14 +25,19 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// Operational state of an account on the blockchain ledger.
 type AccountState int32
 
 const (
-	// Unknown or not specified.
-	// This is a default value to prevent accidental assignment and should not be used.
+	// Unknown or unspecified state.
+	// Default value to prevent accidental assignment - should not be used in practice.
 	AccountState_ACCOUNT_STATE_UNSPECIFIED AccountState = 0
-	AccountState_ACCOUNT_STATE_CLOSED      AccountState = 1
-	AccountState_ACCOUNT_STATE_OPEN        AccountState = 2
+	// Account is closed and cannot perform transactions.
+	// Closed accounts may still be queried for historical purposes.
+	AccountState_ACCOUNT_STATE_CLOSED AccountState = 1
+	// Account is open and active for trading operations.
+	// Open accounts can receive deposits and execute transactions.
+	AccountState_ACCOUNT_STATE_OPEN AccountState = 2
 )
 
 // Enum value maps for AccountState.
@@ -76,8 +81,12 @@ func (AccountState) EnumDescriptor() ([]byte, []int) {
 	return file_meshtrade_wallet_account_v1_account_proto_rawDescGZIP(), []int{0}
 }
 
-// An Account represents a unique entity on a specific ledger that can hold balances
-// of various financial instruments.
+// Trading account resource for holding and managing financial instruments on blockchain ledgers.
+//
+// Accounts provide the foundational wallet infrastructure for the Mesh platform, enabling
+// secure storage and management of digital assets across multiple blockchain networks.
+// Each account is tied to a specific ledger (Stellar, Solana, Bitcoin, or Ethereum) and
+// can hold multiple instrument balances within that network's ecosystem.
 type Account struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The unique resource name for the account.
@@ -94,32 +103,33 @@ type Account struct {
 	// This field is system-generated and immutable.
 	// Any value provided on creation is ignored.
 	Owners []string `protobuf:"bytes,3,rep,name=owners,proto3" json:"owners,omitempty"`
-	// The Unique Mesh Account Number (UMAN). A 7-digit number starting with 1.
+	// The Unique Mesh Account Number (UMAN) for simplified account identification.
+	// Format: 7-digit number starting with 1 (e.g., 1234567).
 	// This field is system-generated and immutable.
 	// Any value provided on creation is ignored.
 	Number string `protobuf:"bytes,5,opt,name=number,proto3" json:"number,omitempty"`
-	// The account's public address on the specified ledger network.
-	// This is typically a public key, e.g., Ed25519 (Stellar, Solana) or
-	// secp256k1 (Bitcoin, Ethereum).
+	// The account's blockchain address on the specified ledger network.
+	// Format varies by ledger: Ed25519 public key for Stellar/Solana,
+	// secp256k1 address for Bitcoin/Ethereum.
 	// This field is system-generated and immutable.
 	// Any value provided on creation is ignored.
 	LedgerId string `protobuf:"bytes,6,opt,name=ledger_id,json=ledgerId,proto3" json:"ledger_id,omitempty"`
 	// The ledger on which the account exists (e.g., Stellar, Solana, Bitcoin, or Ethereum).
 	// This field is required on creation to specify the target ledger for the account.
 	Ledger v1.Ledger `protobuf:"varint,7,opt,name=ledger,proto3,enum=meshtrade.type.v1.Ledger" json:"ledger,omitempty"`
-	// A human-readable name for the account, used for display and organizational purposes.
-	// This name is user-configurable and does not need to be unique.
+	// Human-readable name for organizational identification and display.
+	// User-configurable and non-unique across the system.
 	DisplayName string `protobuf:"bytes,8,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
-	// Time at which live ledger data fields were populated.
-	// Important as live ledger data changes.
-	// Only populated if account retrieved with option to populate
-	// live ledger data set to true. See Get, List and other read methods on AccountService for that field.
+	// Timestamp of the last live ledger data synchronization.
+	// Only populated when accounts are retrieved with populate_ledger_data=true.
+	// This timestamp indicates when balances and state were last fetched from the blockchain.
 	LiveDataRetrievedAt *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=live_data_retrieved_at,json=liveDataRetrievedAt,proto3" json:"live_data_retrieved_at,omitempty"`
-	// State of the account on the ledger.
+	// Current operational state of the account on the blockchain ledger.
+	// Reflects whether the account is active and able to transact.
 	State AccountState `protobuf:"varint,10,opt,name=state,proto3,enum=meshtrade.wallet.account.v1.AccountState" json:"state,omitempty"`
-	// A list of balances, where each balance represents a specific instrument
-	// and the quantity of it held in this account.
-	// NOTE: Live ledger data
+	// Current instrument balances held in this account.
+	// Each balance represents a specific financial instrument and its quantity.
+	// NOTE: This is live ledger data - only populated when retrieved with populate_ledger_data=true.
 	Balances      []*Balance `protobuf:"bytes,11,rep,name=balances,proto3" json:"balances,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -225,15 +235,20 @@ func (x *Account) GetBalances() []*Balance {
 	return nil
 }
 
-// InstrumentMetaData contains descriptive, non-quantifiable information about
-// the financial instrument associated with a balance.
+// Metadata describing financial instruments held in account balances.
+//
+// Provides descriptive, non-quantifiable information about instruments to enable
+// proper identification and categorization of holdings within an account.
 type InstrumentMetaData struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// The official or common name of the instrument (e.g., "Apple Inc.", "Bitcoin").
+	// The official or commonly recognized name of the instrument.
+	// Examples: "Apple Inc.", "Bitcoin", "US Dollar".
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	// The classification of the instrument (e.g., SHARE, BOND, CRYPTO_CURRENCY).
+	// Classification category of the financial instrument.
+	// Determines the instrument's fundamental nature and trading characteristics.
 	Type v11.InstrumentType `protobuf:"varint,2,opt,name=type,proto3,enum=meshtrade.studio.instrument.v1.InstrumentType" json:"type,omitempty"`
-	// The standard of measurement for the instrument (e.g., SHARE, OUNCE, BARREL, NOTE).
+	// Standard unit of measurement for quantifying the instrument.
+	// Examples: SHARE for equities, OUNCE for precious metals, NOTE for currencies.
 	Unit          v11.Unit `protobuf:"varint,3,opt,name=unit,proto3,enum=meshtrade.studio.instrument.v1.Unit" json:"unit,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -290,15 +305,18 @@ func (x *InstrumentMetaData) GetUnit() v11.Unit {
 	return v11.Unit(0)
 }
 
-// Balance represents the quantity of a specific financial instrument held
-// within an account.
+// Balance entry representing holdings of a specific financial instrument.
+//
+// Combines quantity information with instrument metadata to provide a complete
+// view of each position held within an account.
 type Balance struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// The quantifiable measure of the instrument held, represented as a
-	// high-precision amount with decimal value and token of denomination.
-	// NOTE: amount may include funds locked in open orders and other obligations.
+	// Quantity of the instrument held, expressed as a high-precision decimal amount.
+	// Includes both available and locked funds (e.g., in open orders or other obligations).
+	// The amount's token field indicates the instrument's blockchain representation.
 	Amount *v1.Amount `protobuf:"bytes,1,opt,name=amount,proto3" json:"amount,omitempty"`
-	// Descriptive metadata about the instrument to which this balance pertains.
+	// Descriptive metadata identifying and classifying the instrument.
+	// Provides context for interpreting the balance quantity.
 	InstrumentMetadata *InstrumentMetaData `protobuf:"bytes,2,opt,name=instrument_metadata,json=instrumentMetadata,proto3" json:"instrument_metadata,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
