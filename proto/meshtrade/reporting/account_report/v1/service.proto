@@ -13,22 +13,24 @@ option go_package = "github.com/meshtrade/api/go/reporting/account_report/v1;acc
 option java_package = "co.meshtrade.api.reporting.account_report.v1";
 
 /*
-   AccountReportService manages comprehensive account activity report generation and export.
+   The AccountReportService provides endpoints for generating and exporting
+   comprehensive account activity reports.
 
-   This service allows clients to retrieve structured account reports containing
-   income entries, fee transactions, and trading statements, as well as download
-   them as Excel files. Reports are generated for a specified account over a
-   given time range with all values denominated in the account's reporting currency.
+   Clients can use this service to retrieve structured reports containing income,
+   fees, and trading statements for a specified account and time period. All
+   financial values within the reports are denominated in a user-specified
+   reporting currency.
 
-   All operations require Reporting domain permissions and operate within
-   the authenticated group context.
+   Access to all service methods requires appropriate Reporting domain permissions.
 */
 service AccountReportService {
   /*
-     Retrieves a structured account report for the given account, within the given time range
-     denominated in the given reporting asset token.
+     Retrieves a structured account report.
+
+     Generates a detailed report for the given account and time range, with all
+     values denominated in the specified reporting asset token.
   */
-  rpc GetAccountReport(GetAccountReportRequest) returns (reporting.account_report.v1.AccountReport) {
+  rpc GetAccountReport(GetAccountReportRequest) returns (meshtrade.reporting.account_report.v1.AccountReport) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
     option (meshtrade.iam.role.v1.roles) = {
       roles: [
@@ -39,8 +41,10 @@ service AccountReportService {
   }
 
   /*
-     Retrieves a structured account report for the given account, within the given time range
-     denominated in the given reporting asset token, exported to an Excel file that can be downloaded.
+     Exports an account report as a downloadable Excel file.
+
+     Generates the same report as GetAccountReport but returns it as a
+     base64-encoded string representing an Excel (.xlsx) file.
   */
   rpc GetExcelAccountReport(GetExcelAccountReportRequest) returns (GetExcelAccountReportResponse) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
@@ -53,85 +57,90 @@ service AccountReportService {
   }
 }
 
+/*
+  Defines the parameters for requesting a structured account report.
+*/
 message GetAccountReportRequest {
+  option (buf.validate.message).cel = {
+    id: "period.chronological.get",
+    message: "period_end must be on or after period_start",
+    expression: "this.period_end > this.period_start"
+  };
+
   /*
-     Mesh account number for which the account report is requested.
+     The Unique Mesh Account Number (UMAN) for which the report is requested.
+     Must be a 7-digit number starting with '1'.
   */
   string account_number = 1 [(buf.validate.field) = {
     string: {
-      min_len: 7
-      pattern: "^[0-9]{1,}$"
-    }
-    cel: {
-      id: "account_number.required"
-      message: "account_number is required"
-      expression: "this.matches('^[0-9]{1,}$')"
+      pattern: "^1[0-9]{6}$"
     }
   }];
 
   /*
-     Start of the reporting period (inclusive).
+     The start of the reporting period (inclusive). This field is required.
   */
-  google.protobuf.Timestamp period_start = 2;
+  google.protobuf.Timestamp period_start = 2 [(buf.validate.field).required = true];
 
   /*
-     End of the reporting period (inclusive).
+     The end of the reporting period (inclusive). This field is required.
   */
-  google.protobuf.Timestamp period_end = 3;
+  google.protobuf.Timestamp period_end = 3 [(buf.validate.field).required = true];
 
   /*
-     Reporting Asset Token is the asset token in which assets/transactions will be valuated.
-     This will typically refer to some fiat currency stablecoin, but could also refer to another currency
-     such as a crypto currency XLM, BTC etc.
+     The asset token used to valuate all financial data in the report.
+     This is typically a fiat stablecoin (e.g., USDC) but can be any supported asset.
+     This field is required.
   */
-  meshtrade.type.v1.Token reporting_asset_token = 4;
+  meshtrade.type.v1.Token reporting_asset_token = 4 [(buf.validate.field).required = true];
 }
 
+/*
+  Defines the parameters for requesting an Excel export of an account report.
+*/
 message GetExcelAccountReportRequest {
+  option (buf.validate.message).cel = {
+    id: "period.chronological.excel",
+    message: "period_end must be on or after period_start",
+    expression: "this.period_end >= this.period_start"
+  };
+
   /*
-     Mesh account number for which the account report is requested.
+     The Unique Mesh Account Number for which the report is requested.
+     Must be a 7-digit number starting with '1'.
   */
   string account_number = 1 [(buf.validate.field) = {
     string: {
-      min_len: 7
-      pattern: "^[0-9]{1,}$"
-    }
-    cel: {
-      id: "account_number.required"
-      message: "account_number is required"
-      expression: "this.matches('^[0-9]{1,}$')"
+      pattern: "^1[0-9]{6}$"
     }
   }];
 
   /*
-     Start of the reporting period (inclusive).
+     The start of the reporting period (inclusive). This field is required.
   */
-  google.protobuf.Timestamp period_start = 2 [(buf.validate.field).cel = {
-    id: "period_start.required"
-    message: "'period_start' timestamp is required"
-    expression: "this != null"
-  }];
+  google.protobuf.Timestamp period_start = 2 [(buf.validate.field).required = true];
 
   /*
-     End of the reporting period (inclusive).
+     The end of the reporting period (inclusive). This field is required.
   */
-  google.protobuf.Timestamp period_end = 3 [(buf.validate.field).cel = {
-    id: "period_end.required"
-    message: "'period_end' timestamp is required"
-    expression: "this != null"
-  }];
+  google.protobuf.Timestamp period_end = 3 [(buf.validate.field).required = true];
 
   /*
-     Reporting Asset Token is the asset token in which assets/transactions will be valuated.
-     This will typically refer to some fiat currency stablecoin, but could also refer to another currency
-     such as a crypto currency XLM, BTC etc.
+     The asset token used to valuate all financial data in the report.
+     This is typically a fiat stablecoin (e.g., mZAR or USDC) but can be any supported asset.
+     This field is required.
   */
-  meshtrade.type.v1.Token reporting_asset_token = 4;
+  meshtrade.type.v1.Token reporting_asset_token = 4 [(buf.validate.field).required = true];
 }
 
+/*
+  Contains the response for an Excel account report export.
+*/
 message GetExcelAccountReportResponse {
   /*
-     Base64-encoded binary content of the Excel report file.
+     The binary content of the generated Excel (.xlsx) report, encoded as a
+     base64 string.
   */
   string excel_base64 = 1;
 }
+
