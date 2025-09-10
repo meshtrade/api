@@ -3,27 +3,37 @@ syntax = "proto3";
 package meshtrade.wallet.account.v1;
 
 import "buf/validate/validate.proto";
+import "meshtrade/type/v1/ledger.proto";
+import "meshtrade/type/v1/amount.proto";
+import "meshtrade/studio/instrument/v1/type.proto";
+import "meshtrade/studio/instrument/v1/unit.proto";
 
 option go_package = "github.com/meshtrade/api/go/wallet/account/v1;account_v1";
 option java_package = "co.meshtrade.api.wallet.account.v1";
 
+/*
+  An Account represents a unique entity on a specific ledger that can hold balances
+  of various financial instruments.
+*/
 message Account {
   /*
-     Unique resource identifier in format groups/{ULIDv2}.
-     Immutable and system-generated on creation.
+     The unique resource name for the account.
+     Format: accounts/{ULIDv2}.
+     This field is system-generated and immutable upon creation.
+     Any value provided on creation is ignored.
   */
   string name = 1 [(buf.validate.field) = {
     cel: {
       id: "name.format.optional",
-      message: "name must be empty or in the format groups/{ULIDv2}",
-      expression: "size(this) == 0 || this.matches('^groups/[0-9A-Z]{26}$')"
+      message: "name must be empty or in the format accounts/{ULIDv2}",
+      expression: "size(this) == 0 || this.matches('^accounts/[0-9A-Z]{26}$')"
     }
   }];
 
   /*
-     Parent group resource name establishing direct ownership.
-     Defines the immediate hierarchical relationship.
-     Required on creation.
+     The resource name of the parent group that owns this account.
+     This field is required on creation and establishes the direct ownership link.
+     Format: groups/{ULIDv2}.
   */
   string owner = 2 [(buf.validate.field) = {
     string: {
@@ -33,14 +43,13 @@ message Account {
   }];
 
   /*
-     Complete ownership path from root to this group for efficient access control.
-     System-maintained array enabling hierarchical permission inheritance.
-     Immutable and system-generated on creation.
+     The complete ownership path from the root to this account's owner.
+     This is a system-maintained array for efficient, hierarchical access control checks.
+     This field is system-generated and immutable.
+     Any value provided on creation is ignored.
   */
   repeated string owners = 3 [(buf.validate.field) = {
     repeated: {
-      min_items: 0,
-      max_items: 100,
       items: {
         string: {
           len: 33,
@@ -51,41 +60,94 @@ message Account {
   }];
 
   /*
-    The Unique Mesh Account Number.
-    Immutable and system-generated on creation.
+    The Unique Mesh Account Number (UMAN). A 7-digit number starting with 1.
+    This field is system-generated and immutable.
+    Any value provided on creation is ignored.
   */
   string number = 5 [(buf.validate.field) = {
-    string: {
-      len: 7
-      pattern: "^[0-9]{1,}$"
-    }
     cel: {
       id: "number.format.optional",
-      message: "number must be empty or in the format 1xxxxxx",
-      expression: "size(this) == 0 || this.matches('^[0-9]{1,}$')"
-    }
-  }];  
-
-  /*
-    The account's ID on the ledger network, typically a public key like Ed25519
-    (used by Stellar and Solana) or secp256k1 (used by Bitcoin).
-    Immutable and system-generated on creation.
-  */
-  string ledger_id = 6;  
-
-  /*
-     Human-readable name for organizational identification and display.
-     User-configurable and non-unique across the system.
-  */
-  string display_name = 7 [(buf.validate.field) = {
-    string: {
-      min_len: 1
-      max_len: 255
-    }
-    cel: {
-      id: "display_name.required"
-      message: "display name is required and must be between 1 and 255 characters"
-      expression: "size(this) > 0 && size(this) <= 255"
+      message: "number must be empty or a 7-digit account number starting with 1",
+      expression: "size(this) == 0 || this.matches('^1[0-9]{6}$')"
     }
   }];
+
+  /*
+    The account's public address on the specified ledger network.
+    This is typically a public key, e.g., Ed25519 (Stellar, Solana) or
+    secp256k1 (Bitcoin, Ethereum).
+    This field is system-generated and immutable.
+    Any value provided on creation is ignored.
+  */
+  string ledger_id = 6 [(buf.validate.field) = {
+    string: {
+      max_len: 255
+    }
+  }];
+
+  /*
+     The ledger on which the account exists (e.g., Stellar, Solana, Bitcoin, or Ethereum).
+     This field is required on creation to specify the target ledger for the account.
+  */
+  meshtrade.type.v1.Ledger ledger = 7 [(buf.validate.field) = {
+    enum: {
+      defined_only: true,
+      not_in: [0]
+    }
+  }];
+
+  /*
+     A human-readable name for the account, used for display and organizational purposes.
+     This name is user-configurable and does not need to be unique.
+  */
+  string display_name = 8 [(buf.validate.field) = {
+    string: {
+      min_len: 1,
+      max_len: 255
+    }
+  }];
+
+  /*
+    A list of balances, where each balance represents a specific instrument
+    and the quantity of it held in this account.
+  */
+  repeated Balance balances = 9;
+}
+
+/*
+  InstrumentMetaData contains descriptive, non-quantifiable information about
+  the financial instrument associated with a balance.
+*/
+message InstrumentMetaData {
+    /*
+    The official or common name of the instrument (e.g., "Apple Inc.", "Bitcoin").
+    */
+    string name = 1;
+
+    /*
+    The classification of the instrument (e.g., SHARE, BOND, CRYPTO_CURRENCY).
+    */
+    meshtrade.studio.instrument.v1.InstrumentType type = 2;
+
+    /*
+    The standard of measurement for the instrument (e.g., SHARE, OUNCE, BARREL, NOTE).
+    */
+    meshtrade.studio.instrument.v1.Unit unit = 3;
+}
+
+/*
+  Balance represents the quantity of a specific financial instrument held
+  within an account.
+*/
+message Balance {
+    /*
+      The quantifiable measure of the instrument held, represented as a
+      high-precision amount with decimal value and token of denomination.
+    */
+    meshtrade.type.v1.Amount amount = 1;
+
+    /*
+      Descriptive metadata about the instrument to which this balance pertains.
+    */
+    InstrumentMetaData instrument_metadata = 2;
 }
