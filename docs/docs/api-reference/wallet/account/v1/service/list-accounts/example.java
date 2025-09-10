@@ -1,6 +1,7 @@
 import co.meshtrade.api.wallet.account.v1.AccountService;
 import co.meshtrade.api.wallet.account.v1.Service.ListAccountsRequest;
 import co.meshtrade.api.wallet.account.v1.Service.ListAccountsResponse;
+import co.meshtrade.api.type.v1.Sorting.SortingOrder;
 
 import java.util.Optional;
 
@@ -14,7 +15,8 @@ public class ListAccountsExample {
             ListAccountsRequest request = ListAccountsRequest.newBuilder()
                 .setPopulateLedgerData(false)  // Set to true to fetch live blockchain data
                 .setSorting(ListAccountsRequest.Sorting.newBuilder()
-                    .setField("number")        // Sort by account number
+                    .setField("number")                              // Sort by account number
+                    .setOrder(SortingOrder.SORTING_ORDER_ASC)         // Ascending order
                     .build())
                 .build();
 

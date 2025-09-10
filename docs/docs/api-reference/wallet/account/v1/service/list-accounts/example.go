@@ -5,6 +5,7 @@ import (
 	"log"
 
 	accountv1 "github.com/meshtrade/api/go/wallet/account/v1"
+	typev1 "github.com/meshtrade/api/go/type/v1"
 )
 
 func main() {
@@ -22,8 +23,9 @@ func main() {
 	// Create request with service-specific parameters
 	request := &accountv1.ListAccountsRequest{
 		PopulateLedgerData: false, // Set to true to fetch live blockchain data
-		Sorting: &accountv1.ListAccountsRequest_Sorting{
-			Field: "number", // Sort by account number
+			Sorting: &accountv1.ListAccountsRequest_Sorting{
+			Field: "number",                                // Sort by account number
+			Order: typev1.SortingOrder_SORTING_ORDER_ASC, // Ascending order
 		},
 	}
 

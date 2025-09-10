@@ -1,6 +1,7 @@
 import co.meshtrade.api.wallet.account.v1.AccountService;
 import co.meshtrade.api.wallet.account.v1.Service.SearchAccountsRequest;
 import co.meshtrade.api.wallet.account.v1.Service.SearchAccountsResponse;
+import co.meshtrade.api.type.v1.Sorting.SortingOrder;
 
 import java.util.Optional;
 
@@ -15,7 +16,8 @@ public class SearchAccountsExample {
                 .setDisplayName("Trading")       // Search for accounts with "Trading" in name
                 .setPopulateLedgerData(false)    // Set to true to fetch live blockchain data
                 .setSorting(SearchAccountsRequest.Sorting.newBuilder()
-                    .setField("number")          // Sort by account number
+                    .setField("number")                               // Sort by account number
+                    .setOrder(SortingOrder.SORTING_ORDER_DESC)         // Descending order
                     .build())
                 .build();
 
