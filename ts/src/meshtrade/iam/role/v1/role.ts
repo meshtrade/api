@@ -8,18 +8,28 @@ export const allRoles: Role[] = Object.values(Role).filter(
 // Define explicit mappings between Role enums and custom string representations
 const roleToStringMapping: { [key in Role]: string } = {
   [Role.ROLE_UNSPECIFIED]: "Unspecified",
+
   [Role.ROLE_WALLET_ADMIN]: "Wallet Admin",
   [Role.ROLE_WALLET_VIEWER]: "Wallet Viewer",
+  [Role.ROLE_WALLET_ACCOUNT_ADMIN]: "Wallet Account Admin",
+  [Role.ROLE_WALLET_ACCOUNT_VIEWER]: "Wallet Account Viewer",
+
   [Role.ROLE_COMPLIANCE_ADMIN]: "Compliance Admin",
   [Role.ROLE_COMPLIANCE_VIEWER]: "Compliance Viewer",
+
   [Role.ROLE_IAM_ADMIN]: "IAM Admin",
   [Role.ROLE_IAM_VIEWER]: "IAM Viewer",
+  [Role.ROLE_IAM_API_USER_ADMIN]: "IAM API User Admin",
+  [Role.ROLE_IAM_API_USER_VIEWER]: "IAM API User Viewer",
   [Role.ROLE_IAM_GROUP_ADMIN]: "IAM Group Admin",
   [Role.ROLE_IAM_GROUP_VIEWER]: "IAM Group Viewer",
+
   [Role.ROLE_ISSUANCE_HUB_ADMIN]: "Issuance Hub Admin",
   [Role.ROLE_ISSUANCE_HUB_VIEWER]: "Issuance Hub Viewer",
+
   [Role.ROLE_TRADING_ADMIN]: "Trading Admin",
   [Role.ROLE_TRADING_VIEWER]: "Trading Viewer",
+
   [Role.ROLE_REPORTING_ADMIN]: "Reporting Admin",
   [Role.ROLE_REPORTING_VIEWER]: "Reporting Viewer",
 };
