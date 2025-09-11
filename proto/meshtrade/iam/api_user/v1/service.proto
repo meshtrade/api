@@ -62,7 +62,7 @@ service ApiUserService {
      The role assignment enables the api user to perform operations according
      to the permissions associated with that role within the group hierarchy.
   */
-  rpc AssignRoleToUser(AssignRoleToAPIUserRequest) returns (meshtrade.iam.api_user.v1.APIUser) {
+  rpc AssignRoleToAPIUser(AssignRoleToAPIUserRequest) returns (meshtrade.iam.api_user.v1.APIUser) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
     option (meshtrade.iam.role.v1.roles) = {
       roles: [

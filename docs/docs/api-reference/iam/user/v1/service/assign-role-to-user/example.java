@@ -1,3 +1,5 @@
+import co.meshtrade.api.iam.role.v1.RoleUtils;
+import co.meshtrade.api.iam.role.v1.RoleOuterClass.Role;
 import co.meshtrade.api.iam.user.v1.UserService;
 import co.meshtrade.api.iam.user.v1.Service.AssignRoleToUserRequest;
 import co.meshtrade.api.iam.user.v1.User.User;
@@ -13,7 +15,7 @@ public class AssignRoleToUserExample {
             // Assign role to existing user
             AssignRoleToUserRequest request = AssignRoleToUserRequest.newBuilder()
                 .setName("users/01HN2ZXQJ8K9M0L1N3P2Q4R5T6")  // User to assign role to
-                .setRole("groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU/1000000")  // ROLE_IAM_ADMIN
+                .setRole(RoleUtils.fullResourceNameFromGroupName(Role.ROLE_IAM_ADMIN, service.getGroup()))
                 .build();
 
             // Call the AssignRoleToUser method

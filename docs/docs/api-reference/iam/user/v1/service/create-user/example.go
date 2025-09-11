@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 
+	rolev1 "github.com/meshtrade/api/go/iam/role/v1"
 	userv1 "github.com/meshtrade/api/go/iam/user/v1"
 )
 
@@ -25,8 +26,8 @@ func main() {
 			Owner: service.Group(), // Current authenticated group becomes the owner
 			Email: "sarah.thompson@company.com", // Unique email address
 			Roles: []string{
-				"groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU/1000001", // ROLE_IAM_VIEWER
-				"groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU/2000002", // ROLE_TRADING_VIEWER
+				rolev1.Role_ROLE_WALLET_VIEWER.FullResourceNameFromGroupName(service.Group()),
+				rolev1.Role_ROLE_TRADING_VIEWER.FullResourceNameFromGroupName(service.Group()),
 			},
 		},
 	}

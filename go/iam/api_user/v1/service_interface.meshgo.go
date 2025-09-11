@@ -32,7 +32,7 @@ type ApiUserService interface {
 	//
 	// The role assignment enables the api user to perform operations according
 	// to the permissions associated with that role within the group hierarchy.
-	AssignRoleToUser(ctx context.Context, request *AssignRoleToAPIUserRequest) (*APIUser, error)
+	AssignRoleToAPIUser(ctx context.Context, request *AssignRoleToAPIUserRequest) (*APIUser, error)
 
 	// Lists all API users in the authenticated group context.
 	//

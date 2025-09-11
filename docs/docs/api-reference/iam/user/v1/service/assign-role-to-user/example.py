@@ -1,3 +1,5 @@
+from meshtrade.iam.role.v1.role import full_resource_name_from_group_name
+from meshtrade.iam.role.v1.role_pb2 import Role
 from meshtrade.iam.user.v1 import (
     AssignRoleToUserRequest,
     UserService,
@@ -14,7 +16,7 @@ def main():
         # Assign role to existing user
         request = AssignRoleToUserRequest(
             name="users/01HN2ZXQJ8K9M0L1N3P2Q4R5T6",  # User to assign role to
-            role="groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU/1000000",  # ROLE_IAM_ADMIN
+            role=full_resource_name_from_group_name(Role.ROLE_IAM_ADMIN, service.group()),
         )
 
         # Call the AssignRoleToUser method
