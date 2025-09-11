@@ -31,14 +31,48 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
-// Service defines the RPC methods for interacting with the user resource,
+// UserService manages user lifecycle and identity operations within groups.
+//
+// Users are individual identity entities that belong to specific groups and have
+// assigned roles that determine their permissions within that group context.
+// Each user has a unique email address and can be assigned multiple roles
+// across the group hierarchy for fine-grained access control.
+//
+// All operations require appropriate IAM domain permissions and operate within
+// the authenticated group context.
 type UserServiceClient interface {
-	// Assign Role To User
+	// Assigns a role to an existing user within the authenticated group context.
+	//
+	// The role assignment enables the user to perform operations according
+	// to the permissions associated with that role within the group hierarchy.
 	AssignRoleToUser(ctx context.Context, in *AssignRoleToUserRequest, opts ...grpc.CallOption) (*User, error)
+	// Retrieves a single user by its unique identifier.
+	//
+	// Returns user details including name, email, ownership information,
+	// and assigned roles within the authenticated group's access scope.
 	GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*User, error)
+	// Returns all users accessible within the authenticated group's hierarchy.
+	//
+	// Results include users directly owned and those accessible through the
+	// group's hierarchical permissions, optionally sorted by email address.
 	ListUsers(ctx context.Context, in *ListUsersRequest, opts ...grpc.CallOption) (*ListUsersResponse, error)
+	// Searches for users by email address using substring matching.
+	//
+	// Returns users whose email addresses contain the provided search term,
+	// filtered by the authenticated group's access permissions and optionally
+	// sorted by email address.
 	SearchUsers(ctx context.Context, in *SearchUsersRequest, opts ...grpc.CallOption) (*SearchUsersResponse, error)
+	// Creates a new user within the authenticated group context.
+	//
+	// The user will be created with the provided email and group ownership,
+	// with system-generated unique identifier and ownership hierarchy.
+	// Additional roles can be assigned after creation.
 	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*User, error)
+	// Updates an existing user with modified field values.
+	//
+	// Only mutable fields can be updated while preserving system-generated
+	// identifiers and ownership relationships. Role modifications should
+	// use dedicated role management operations.
 	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*User, error)
 }
 
@@ -114,14 +148,48 @@ func (c *userServiceClient) UpdateUser(ctx context.Context, in *UpdateUserReques
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility.
 //
-// Service defines the RPC methods for interacting with the user resource,
+// UserService manages user lifecycle and identity operations within groups.
+//
+// Users are individual identity entities that belong to specific groups and have
+// assigned roles that determine their permissions within that group context.
+// Each user has a unique email address and can be assigned multiple roles
+// across the group hierarchy for fine-grained access control.
+//
+// All operations require appropriate IAM domain permissions and operate within
+// the authenticated group context.
 type UserServiceServer interface {
-	// Assign Role To User
+	// Assigns a role to an existing user within the authenticated group context.
+	//
+	// The role assignment enables the user to perform operations according
+	// to the permissions associated with that role within the group hierarchy.
 	AssignRoleToUser(context.Context, *AssignRoleToUserRequest) (*User, error)
+	// Retrieves a single user by its unique identifier.
+	//
+	// Returns user details including name, email, ownership information,
+	// and assigned roles within the authenticated group's access scope.
 	GetUser(context.Context, *GetUserRequest) (*User, error)
+	// Returns all users accessible within the authenticated group's hierarchy.
+	//
+	// Results include users directly owned and those accessible through the
+	// group's hierarchical permissions, optionally sorted by email address.
 	ListUsers(context.Context, *ListUsersRequest) (*ListUsersResponse, error)
+	// Searches for users by email address using substring matching.
+	//
+	// Returns users whose email addresses contain the provided search term,
+	// filtered by the authenticated group's access permissions and optionally
+	// sorted by email address.
 	SearchUsers(context.Context, *SearchUsersRequest) (*SearchUsersResponse, error)
+	// Creates a new user within the authenticated group context.
+	//
+	// The user will be created with the provided email and group ownership,
+	// with system-generated unique identifier and ownership hierarchy.
+	// Additional roles can be assigned after creation.
 	CreateUser(context.Context, *CreateUserRequest) (*User, error)
+	// Updates an existing user with modified field values.
+	//
+	// Only mutable fields can be updated while preserving system-generated
+	// identifiers and ownership relationships. Role modifications should
+	// use dedicated role management operations.
 	UpdateUser(context.Context, *UpdateUserRequest) (*User, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
