@@ -501,15 +501,15 @@ const file_meshtrade_iam_api_user_v1_service_proto_rawDesc = "" +
 	"\x16ActivateApiUserRequest\x12S\n" +
 	"\x04name\x18\x01 \x01(\tB?\xbaH<\xc8\x01\x01r722^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01$R\x04name\"o\n" +
 	"\x18DeactivateApiUserRequest\x12S\n" +
-	"\x04name\x18\x01 \x01(\tB?\xbaH<\xc8\x01\x01r722^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01$R\x04name2\xbc\b\n" +
+	"\x04name\x18\x01 \x01(\tB?\xbaH<\xc8\x01\x01r722^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01$R\x04name2\xbf\b\n" +
 	"\x0eApiUserService\x12z\n" +
 	"\n" +
 	"GetApiUser\x12,.meshtrade.iam.api_user.v1.GetApiUserRequest\x1a\".meshtrade.iam.api_user.v1.APIUser\"\x1a\xa0\xb5\x18\x01\xaa\xb5\x18\x12\n" +
 	"\x10\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01\u008d\xb7\x01Í\xb7\x01\x12x\n" +
 	"\rCreateApiUser\x12/.meshtrade.iam.api_user.v1.CreateApiUserRequest\x1a\".meshtrade.iam.api_user.v1.APIUser\"\x12\xa0\xb5\x18\x02\xaa\xb5\x18\n" +
 	"\n" +
-	"\b\xc0\x8d\xb7\x01\u008d\xb7\x01\x12\x81\x01\n" +
-	"\x10AssignRoleToUser\x125.meshtrade.iam.api_user.v1.AssignRoleToAPIUserRequest\x1a\".meshtrade.iam.api_user.v1.APIUser\"\x12\xa0\xb5\x18\x02\xaa\xb5\x18\n" +
+	"\b\xc0\x8d\xb7\x01\u008d\xb7\x01\x12\x84\x01\n" +
+	"\x13AssignRoleToAPIUser\x125.meshtrade.iam.api_user.v1.AssignRoleToAPIUserRequest\x1a\".meshtrade.iam.api_user.v1.APIUser\"\x12\xa0\xb5\x18\x02\xaa\xb5\x18\n" +
 	"\n" +
 	"\b\xc0\x8d\xb7\x01\u008d\xb7\x01\x12\x8b\x01\n" +
 	"\fListApiUsers\x12..meshtrade.iam.api_user.v1.ListApiUsersRequest\x1a/.meshtrade.iam.api_user.v1.ListApiUsersResponse\"\x1a\xa0\xb5\x18\x01\xaa\xb5\x18\x12\n" +
@@ -558,7 +558,7 @@ var file_meshtrade_iam_api_user_v1_service_proto_depIdxs = []int32{
 	10, // 2: meshtrade.iam.api_user.v1.SearchApiUsersResponse.api_users:type_name -> meshtrade.iam.api_user.v1.APIUser
 	0,  // 3: meshtrade.iam.api_user.v1.ApiUserService.GetApiUser:input_type -> meshtrade.iam.api_user.v1.GetApiUserRequest
 	2,  // 4: meshtrade.iam.api_user.v1.ApiUserService.CreateApiUser:input_type -> meshtrade.iam.api_user.v1.CreateApiUserRequest
-	3,  // 5: meshtrade.iam.api_user.v1.ApiUserService.AssignRoleToUser:input_type -> meshtrade.iam.api_user.v1.AssignRoleToAPIUserRequest
+	3,  // 5: meshtrade.iam.api_user.v1.ApiUserService.AssignRoleToAPIUser:input_type -> meshtrade.iam.api_user.v1.AssignRoleToAPIUserRequest
 	4,  // 6: meshtrade.iam.api_user.v1.ApiUserService.ListApiUsers:input_type -> meshtrade.iam.api_user.v1.ListApiUsersRequest
 	6,  // 7: meshtrade.iam.api_user.v1.ApiUserService.SearchApiUsers:input_type -> meshtrade.iam.api_user.v1.SearchApiUsersRequest
 	8,  // 8: meshtrade.iam.api_user.v1.ApiUserService.ActivateApiUser:input_type -> meshtrade.iam.api_user.v1.ActivateApiUserRequest
@@ -566,7 +566,7 @@ var file_meshtrade_iam_api_user_v1_service_proto_depIdxs = []int32{
 	1,  // 10: meshtrade.iam.api_user.v1.ApiUserService.GetApiUserByKeyHash:input_type -> meshtrade.iam.api_user.v1.GetApiUserByKeyHashRequest
 	10, // 11: meshtrade.iam.api_user.v1.ApiUserService.GetApiUser:output_type -> meshtrade.iam.api_user.v1.APIUser
 	10, // 12: meshtrade.iam.api_user.v1.ApiUserService.CreateApiUser:output_type -> meshtrade.iam.api_user.v1.APIUser
-	10, // 13: meshtrade.iam.api_user.v1.ApiUserService.AssignRoleToUser:output_type -> meshtrade.iam.api_user.v1.APIUser
+	10, // 13: meshtrade.iam.api_user.v1.ApiUserService.AssignRoleToAPIUser:output_type -> meshtrade.iam.api_user.v1.APIUser
 	5,  // 14: meshtrade.iam.api_user.v1.ApiUserService.ListApiUsers:output_type -> meshtrade.iam.api_user.v1.ListApiUsersResponse
 	7,  // 15: meshtrade.iam.api_user.v1.ApiUserService.SearchApiUsers:output_type -> meshtrade.iam.api_user.v1.SearchApiUsersResponse
 	10, // 16: meshtrade.iam.api_user.v1.ApiUserService.ActivateApiUser:output_type -> meshtrade.iam.api_user.v1.APIUser

@@ -1,3 +1,5 @@
+import co.meshtrade.api.iam.role.v1.RoleUtils;
+import co.meshtrade.api.iam.role.v1.RoleOuterClass.Role;
 import co.meshtrade.api.iam.user.v1.UserService;
 import co.meshtrade.api.iam.user.v1.Service.CreateUserRequest;
 import co.meshtrade.api.iam.user.v1.User.User;
@@ -15,8 +17,8 @@ public class CreateUserExample {
                 .setUser(User.newBuilder()
                     .setOwner(service.getGroup())  // Current authenticated group becomes the owner
                     .setEmail("sarah.thompson@company.com")  // Unique email address
-                    .addRoles("groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU/1000001")  // ROLE_IAM_VIEWER
-                    .addRoles("groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU/2000002")  // ROLE_TRADING_VIEWER
+                    .addRoles(RoleUtils.fullResourceNameFromGroupName(Role.ROLE_WALLET_VIEWER, service.getGroup()))
+                    .addRoles(RoleUtils.fullResourceNameFromGroupName(Role.ROLE_TRADING_VIEWER, service.getGroup()))
                     .build())
                 .build();
 

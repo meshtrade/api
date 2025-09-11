@@ -33,7 +33,7 @@ All API operations require a group context header that specifies which group the
 
 ## SDK Configuration
 
-For detailed information about configuring SDK clients, including advanced features like OpenTelemetry tracing, TLS/mTLS support, timeout handling, and resource management, see the [SDK Configuration](./sdk-configuration.mdx) documentation.
+For detailed information about configuring SDK clients, including advanced features like OpenTelemetry tracing, TLS support, timeout handling, and resource management, see the [SDK Configuration](./sdk-configuration.mdx) documentation.
 
 ## Security Best Practices
 
@@ -48,13 +48,7 @@ For detailed information about configuring SDK clients, including advanced featu
 - Don't hardcode group IDs in applications
 - Use environment-specific group configurations
 
-### Network Security
-- Use TLS in production environments
-- Consider mTLS for high-security requirements
-- Implement proper certificate validation
-
 ### Access Control
 - Follow principle of least privilege when assigning roles
 - Regularly audit API user permissions
 - Deactivate unused API users promptly
-

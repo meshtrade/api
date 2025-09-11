@@ -44,7 +44,7 @@ class ApiUserServiceIntegrationTest {
     void setUp() {
         // Create test service with mock configuration to avoid real credentials
         ServiceOptions options = ServiceOptions.builder()
-            .apiKey("test-key")
+            .apiKey("dGVzdC1rZXktZm9yLWphdmEtc2RrLXRlc3RpbmctcHU")
             .group("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
             .build();
         
@@ -105,7 +105,7 @@ class ApiUserServiceIntegrationTest {
 
         // Create service with working configuration but no actual network
         ServiceOptions options = ServiceOptions.builder()
-            .apiKey("test-key")
+            .apiKey("dGVzdC1rZXktZm9yLWphdmEtc2RrLXRlc3RpbmctcHU")
             .group("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
             .url("localhost") // Use localhost to avoid actual network calls in test
             .port(9999)       // Use invalid port to ensure no real connection
@@ -191,7 +191,7 @@ class ApiUserServiceIntegrationTest {
             
             long startTime = System.nanoTime();
             
-            assertThatThrownBy(() -> testService.assignRoleToUser(request, Optional.empty()))
+            assertThatThrownBy(() -> testService.assignRoleToAPIUser(request, Optional.empty()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Request validation failed");
             
@@ -377,7 +377,7 @@ class ApiUserServiceIntegrationTest {
         // by demonstrating they fail with network errors rather than validation errors
         
         ServiceOptions options = ServiceOptions.builder()
-            .apiKey("test-key")
+            .apiKey("dGVzdC1rZXktZm9yLWphdmEtc2RrLXRlc3RpbmctcHU")
             .group("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
             .url("localhost")
             .port(9999) // Invalid port to ensure network failure
@@ -416,7 +416,7 @@ class ApiUserServiceIntegrationTest {
                 .setRole("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1000001")
                 .build();
             
-            assertThatThrownBy(() -> testService.assignRoleToUser(assignRequest, Optional.empty()))
+            assertThatThrownBy(() -> testService.assignRoleToAPIUser(assignRequest, Optional.empty()))
                 .isInstanceOf(Exception.class)
                 .hasMessageNotContaining("Request validation failed");
             
@@ -449,7 +449,7 @@ class ApiUserServiceIntegrationTest {
         
         // Verify that ApiUserService extends BaseGRPCClient
         ServiceOptions options = ServiceOptions.builder()
-            .apiKey("test-key")
+            .apiKey("dGVzdC1rZXktZm9yLWphdmEtc2RrLXRlc3RpbmctcHU")
             .group("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
             .build();
         
@@ -521,7 +521,7 @@ class ApiUserServiceCredentialFilesTest {
 
         // Test that service can be created with explicit credentials (simulating file load)
         ServiceOptions options = ServiceOptions.builder()
-            .apiKey("test-api-key-from-file")
+            .apiKey("dGVzdC1hcGkta2V5LWZyb20tZmlsZS1mb3ItdGVzdGl")
             .group("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
             .url("localhost")
             .port(9999)
@@ -552,16 +552,16 @@ class ApiUserServiceCredentialFilesTest {
             "{\"group\": \"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV\"}",
             
             // Missing group
-            "{\"api_key\": \"test-key\"}",
+            "{\"api_key\": \"dGVzdC1rZXktZm9yLWphdmEtc2RrLXRlc3RpbmctcHU\"}",
             
             // Empty api_key
             "{\"api_key\": \"\", \"group\": \"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV\"}",
             
             // Empty group
-            "{\"api_key\": \"test-key\", \"group\": \"\"}",
+            "{\"api_key\": \"dGVzdC1rZXktZm9yLWphdmEtc2RrLXRlc3RpbmctcHU\", \"group\": \"\"}",
             
             // Invalid group format
-            "{\"api_key\": \"test-key\", \"group\": \"invalid-group-format\"}"
+            "{\"api_key\": \"dGVzdC1rZXktZm9yLWphdmEtc2RrLXRlc3RpbmctcHU\", \"group\": \"invalid-group-format\"}"
         };
 
         // Test that invalid credential formats would cause service creation issues
@@ -572,7 +572,7 @@ class ApiUserServiceCredentialFilesTest {
             try {
                 // Even if service creation succeeds with invalid creds, usage should fail
                 ServiceOptions options = ServiceOptions.builder()
-                    .apiKey("invalid-from-file")  // Simulate invalid credential loading
+                    .apiKey("aW52YWxpZC1mcm9tLWZpbGUtdGVzdC1rZXktaW52YWxp")  // Invalid but proper length
                     .group("invalid-format")      // Invalid group format
                     .url("localhost")
                     .port(9999)
@@ -601,7 +601,7 @@ class ApiUserServiceCredentialFilesTest {
         // Test that extra fields in JSON are ignored gracefully
         String credentialsWithExtra = """
             {
-                "api_key": "test-api-key",
+                "api_key": "dGVzdC1hcGkta2V5LWZvci1qYXZhLXNkay10ZXN0aW5n",
                 "group": "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
                 "extra_field": "should_be_ignored",
                 "another_extra": 123
@@ -612,7 +612,7 @@ class ApiUserServiceCredentialFilesTest {
         
         // Test that service works with credentials that would come from file with extra fields
         ServiceOptions options = ServiceOptions.builder()
-            .apiKey("test-api-key")  // From the JSON above
+            .apiKey("dGVzdC1hcGkta2V5LWZvci1qYXZhLXNkay10ZXN0aW5n")  // From the JSON above
             .group("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")  // From the JSON above
             .url("localhost")
             .port(9999)
@@ -635,8 +635,8 @@ class ApiUserServiceCredentialFilesTest {
     void serviceCreationWithExplicitCredentialsOverride() throws IOException, InterruptedException {
         // Even if credentials would be found via discovery, explicit options should take precedence
         ServiceOptions options = ServiceOptions.builder()
-            .apiKey("explicit-api-key") // Should override any discovered credentials
-            .group("groups/01EXPLICITGROUPTEST123") // Should override any discovered credentials
+            .apiKey("ZXhwbGljaXQtYXBpLWtleS1mb3ItdGVzdGluZy1wdXI") // Should override any discovered credentials
+            .group("groups/01XRZ3NDEKTSV4RRFFQ69G5FAV") // Should override any discovered credentials
             .url("localhost")
             .port(9999)
             .timeout(Duration.ofMillis(100))
@@ -737,19 +737,19 @@ class ApiUserServiceCredentialFilesTest {
         
         // Test that services work with various credential formats
         String[] validCredentials = {
-            "{\"api_key\":\"key\",\"group\":\"groups/test\"}",  // Minimal
+            "{\"api_key\":\"a2V5LWZvci1qYXZhLXNkay10ZXN0aW5nLXB1cnBvc3M\",\"group\":\"groups/01BRZ3NDEKTSV4RRFFQ69G5FAV\"}",  // Minimal
             """
             {
-                "api_key"  :  "key"  ,
-                "group"    :  "groups/test"  
+                "api_key"  :  "a2V5LWZvci1qYXZhLXNkay10ZXN0aW5nLXB1cnBvc3M"  ,
+                "group"    :  "groups/01BRZ3NDEKTSV4RRFFQ69G5FAV"  
             }"""  // With whitespace
         };
         
         for (String credJson : validCredentials) {
             // Test that this format would work in a service
             ServiceOptions options = ServiceOptions.builder()
-                .apiKey("key")           // From JSON above
-                .group("groups/test")    // From JSON above
+                .apiKey("a2V5LWZvci1qYXZhLXNkay10ZXN0aW5nLXB1cnBvc3M")           // From JSON above
+                .group("groups/01BRZ3NDEKTSV4RRFFQ69G5FAV")    // From JSON above
                 .url("localhost")
                 .port(9999)
                 .timeout(Duration.ofMillis(100))
@@ -772,8 +772,8 @@ class ApiUserServiceCredentialFilesTest {
         
         for (String source : credentialSources) {
             ServiceOptions options = ServiceOptions.builder()
-                .apiKey("test-key-" + source)
-                .group("groups/01CREDTEST" + source.toUpperCase().substring(0, 3) + "123")
+                .apiKey("dGVzdC1rZXktZm9yLWphdmEtc2RrLXRlc3RpbmctcHU")
+                .group("groups/01CRZ3NDEKTSV4RRFFQ69G5FAV")
                 .url("localhost") 
                 .port(9999)
                 .timeout(Duration.ofMillis(100))

@@ -19,8 +19,8 @@ type MockApiUserService struct {
 	GetApiUserFuncInvocations          int
 	CreateApiUserFunc                  func(t *testing.T, m *MockApiUserService, ctx context.Context, request *CreateApiUserRequest) (*APIUser, error)
 	CreateApiUserFuncInvocations       int
-	AssignRoleToUserFunc               func(t *testing.T, m *MockApiUserService, ctx context.Context, request *AssignRoleToAPIUserRequest) (*APIUser, error)
-	AssignRoleToUserFuncInvocations    int
+	AssignRoleToAPIUserFunc            func(t *testing.T, m *MockApiUserService, ctx context.Context, request *AssignRoleToAPIUserRequest) (*APIUser, error)
+	AssignRoleToAPIUserFuncInvocations int
 	ListApiUsersFunc                   func(t *testing.T, m *MockApiUserService, ctx context.Context, request *ListApiUsersRequest) (*ListApiUsersResponse, error)
 	ListApiUsersFuncInvocations        int
 	SearchApiUsersFunc                 func(t *testing.T, m *MockApiUserService, ctx context.Context, request *SearchApiUsersRequest) (*SearchApiUsersResponse, error)
@@ -53,14 +53,14 @@ func (m *MockApiUserService) CreateApiUser(ctx context.Context, request *CreateA
 	return m.CreateApiUserFunc(m.T, m, ctx, request)
 }
 
-func (m *MockApiUserService) AssignRoleToUser(ctx context.Context, request *AssignRoleToAPIUserRequest) (*APIUser, error) {
+func (m *MockApiUserService) AssignRoleToAPIUser(ctx context.Context, request *AssignRoleToAPIUserRequest) (*APIUser, error) {
 	m.mutex.Lock()
-	m.AssignRoleToUserFuncInvocations++
+	m.AssignRoleToAPIUserFuncInvocations++
 	m.mutex.Unlock()
-	if m.AssignRoleToUserFunc == nil {
+	if m.AssignRoleToAPIUserFunc == nil {
 		return nil, nil
 	}
-	return m.AssignRoleToUserFunc(m.T, m, ctx, request)
+	return m.AssignRoleToAPIUserFunc(m.T, m, ctx, request)
 }
 
 func (m *MockApiUserService) ListApiUsers(ctx context.Context, request *ListApiUsersRequest) (*ListApiUsersResponse, error) {
