@@ -18,7 +18,6 @@ import {api_reference_sidebar } from "./docs/api-reference/sidebar_meshdoc";
 const sidebars: SidebarsConfig = {
   tutorialSidebar: [
     'introduction/index',
-    'contributors/index',
     {
       type: 'category',
       label: 'Architecture',
@@ -39,6 +38,7 @@ const sidebars: SidebarsConfig = {
       ],
     },
     'roadmap',
+    'contributors/index',
   ],
 };
 
