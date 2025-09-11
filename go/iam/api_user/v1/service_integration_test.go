@@ -3,6 +3,9 @@ package api_user_v1
 import (
 	"context"
 	"fmt"
+	"os"
+	"path/filepath"
+	"runtime"
 	"strings"
 	"testing"
 	"time"
@@ -692,5 +695,251 @@ func TestApiUserServiceConfiguration_PatternDocumentation(t *testing.T) {
 		}
 		
 		assert.True(t, true, "Cross-SDK consistency documented")
+	})
+}
+
+// TestApiUserServiceConfiguration_CredentialFiles tests MESH_API_CREDENTIALS environment variable functionality
+func TestApiUserServiceConfiguration_CredentialFiles(t *testing.T) {
+	// Save original environment state
+	originalCredentials := os.Getenv("MESH_API_CREDENTIALS")
+	defer func() {
+		if originalCredentials != "" {
+			os.Setenv("MESH_API_CREDENTIALS", originalCredentials)
+		} else {
+			os.Unsetenv("MESH_API_CREDENTIALS")
+		}
+	}()
+
+	// Create a temporary directory for test credential files
+	tempDir := t.TempDir()
+
+	t.Run("ValidCredentialFile", func(t *testing.T) {
+		// Create a valid credentials file
+		validCredentials := `{
+	"api_key": "test-api-key-from-file",
+	"group": "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV"
+}`
+		credentialsPath := filepath.Join(tempDir, "valid_credentials.json")
+		err := os.WriteFile(credentialsPath, []byte(validCredentials), 0644)
+		require.NoError(t, err)
+
+		// Set environment variable to point to the file
+		os.Setenv("MESH_API_CREDENTIALS", credentialsPath)
+
+		// Create service without explicit credentials - should load from file
+		service, err := NewApiUserService(
+			config.WithURL("localhost"),
+			config.WithPort(9999),
+			config.WithTimeout(100*time.Millisecond),
+		)
+		require.NoError(t, err, "Should load credentials from file via MESH_API_CREDENTIALS")
+		defer service.Close()
+
+		// Test that validation works with file-loaded credentials
+		validRequest := &GetApiUserRequest{
+			Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+		}
+		
+		ctx, cancel := context.WithTimeout(context.Background(), 200*time.Millisecond)
+		defer cancel()
+		
+		_, err = service.GetApiUser(ctx, validRequest)
+		assert.Error(t, err) // Network error expected
+		assert.NotContains(t, err.Error(), "request validation failed")
+	})
+
+	t.Run("InvalidCredentialFileFormat", func(t *testing.T) {
+		testCases := []struct {
+			name        string
+			content     string
+			description string
+		}{
+			{
+				name:        "InvalidJSON",
+				content:     `{"api_key": "test", invalid json}`,
+				description: "Invalid JSON should cause error",
+			},
+			{
+				name:        "MissingAPIKey",
+				content:     `{"group": "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV"}`,
+				description: "Missing api_key should cause error",
+			},
+			{
+				name:        "MissingGroup",
+				content:     `{"api_key": "test-key"}`,
+				description: "Missing group should cause error",
+			},
+			{
+				name:        "EmptyAPIKey",
+				content:     `{"api_key": "", "group": "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV"}`,
+				description: "Empty api_key should cause error",
+			},
+			{
+				name:        "EmptyGroup",
+				content:     `{"api_key": "test-key", "group": ""}`,
+				description: "Empty group should cause error",
+			},
+			{
+				name:        "InvalidGroupFormat",
+				content:     `{"api_key": "test-key", "group": "invalid-group-format"}`,
+				description: "Invalid group format should cause error",
+			},
+		}
+
+		for _, tc := range testCases {
+			t.Run(tc.name, func(t *testing.T) {
+				credentialsPath := filepath.Join(tempDir, fmt.Sprintf("%s_credentials.json", tc.name))
+				err := os.WriteFile(credentialsPath, []byte(tc.content), 0644)
+				require.NoError(t, err)
+
+				os.Setenv("MESH_API_CREDENTIALS", credentialsPath)
+
+				// Should fail to create service due to invalid credentials
+				_, err = NewApiUserService(
+					config.WithURL("localhost"),
+					config.WithTimeout(100*time.Millisecond),
+				)
+				assert.Error(t, err, tc.description)
+			})
+		}
+	})
+
+	t.Run("NonexistentCredentialFile", func(t *testing.T) {
+		// Point to a file that doesn't exist
+		nonexistentPath := filepath.Join(tempDir, "does_not_exist.json")
+		os.Setenv("MESH_API_CREDENTIALS", nonexistentPath)
+
+		// Should fail to create service
+		_, err := NewApiUserService(
+			config.WithURL("localhost"),
+			config.WithTimeout(100*time.Millisecond),
+		)
+		assert.Error(t, err, "Nonexistent credential file should cause error")
+		assert.Contains(t, err.Error(), "failed to read credentials file")
+	})
+
+	t.Run("CredentialFileOverriddenByOptions", func(t *testing.T) {
+		// Create a credentials file
+		fileCredentials := `{
+	"api_key": "file-api-key",
+	"group": "groups/01FILECREDENTIALSTEST123"
+}`
+		credentialsPath := filepath.Join(tempDir, "override_test_credentials.json")
+		err := os.WriteFile(credentialsPath, []byte(fileCredentials), 0644)
+		require.NoError(t, err)
+
+		os.Setenv("MESH_API_CREDENTIALS", credentialsPath)
+
+		// Create service with explicit options that should override file
+		service, err := NewApiUserService(
+			config.WithAPIKey("explicit-api-key"), // Should override file
+			config.WithGroup("groups/01EXPLICITGROUPTEST123"), // Should override file
+			config.WithURL("localhost"),
+			config.WithPort(9999),
+			config.WithTimeout(100*time.Millisecond),
+		)
+		require.NoError(t, err, "Explicit options should override file credentials")
+		defer service.Close()
+
+		// Test that validation works with overridden credentials
+		validRequest := &GetApiUserRequest{
+			Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+		}
+		
+		ctx, cancel := context.WithTimeout(context.Background(), 200*time.Millisecond)
+		defer cancel()
+		
+		_, err = service.GetApiUser(ctx, validRequest)
+		assert.Error(t, err) // Network error expected
+		assert.NotContains(t, err.Error(), "request validation failed")
+	})
+
+	t.Run("NoCredentialsProvided", func(t *testing.T) {
+		// Clear environment variable
+		os.Unsetenv("MESH_API_CREDENTIALS")
+
+		// Create service without any credentials - should fall back to default discovery
+		// This will likely fail since we don't have default credentials in test environment
+		_, err := NewApiUserService(
+			config.WithURL("localhost"),
+			config.WithTimeout(100*time.Millisecond),
+		)
+		
+		// Should work but likely without proper credentials
+		// The exact behavior depends on whether default credentials exist
+		// We don't assert specific error here as it may vary by test environment
+		t.Logf("Service creation without credentials result: %v", err)
+	})
+
+	t.Run("CredentialFileWithExtraFields", func(t *testing.T) {
+		// Test that extra fields in JSON are ignored (should be OK)
+		credentialsWithExtra := `{
+	"api_key": "test-api-key",
+	"group": "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+	"extra_field": "should_be_ignored",
+	"another_extra": 123
+}`
+		credentialsPath := filepath.Join(tempDir, "extra_fields_credentials.json")
+		err := os.WriteFile(credentialsPath, []byte(credentialsWithExtra), 0644)
+		require.NoError(t, err)
+
+		os.Setenv("MESH_API_CREDENTIALS", credentialsPath)
+
+		service, err := NewApiUserService(
+			config.WithURL("localhost"),
+			config.WithPort(9999),
+			config.WithTimeout(100*time.Millisecond),
+		)
+		require.NoError(t, err, "Extra fields should be ignored gracefully")
+		defer service.Close()
+
+		// Test that validation works
+		validRequest := &GetApiUserRequest{
+			Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+		}
+		
+		ctx, cancel := context.WithTimeout(context.Background(), 200*time.Millisecond)
+		defer cancel()
+		
+		_, err = service.GetApiUser(ctx, validRequest)
+		assert.Error(t, err) // Network error expected
+		assert.NotContains(t, err.Error(), "request validation failed")
+	})
+
+	t.Run("CredentialFilePermissions", func(t *testing.T) {
+		// Create a credentials file
+		validCredentials := `{
+	"api_key": "permission-test-key",
+	"group": "groups/01PERMISSIONTEST12345"
+}`
+		credentialsPath := filepath.Join(tempDir, "permission_test_credentials.json")
+		err := os.WriteFile(credentialsPath, []byte(validCredentials), 0644)
+		require.NoError(t, err)
+
+		// Test that the file can be read with normal permissions
+		os.Setenv("MESH_API_CREDENTIALS", credentialsPath)
+
+		service, err := NewApiUserService(
+			config.WithURL("localhost"),
+			config.WithPort(9999),
+			config.WithTimeout(100*time.Millisecond),
+		)
+		require.NoError(t, err, "Should read file with normal permissions")
+		defer service.Close()
+
+		// Change permissions to be unreadable (if not on Windows)
+		if runtime.GOOS != "windows" {
+			err = os.Chmod(credentialsPath, 0000)
+			require.NoError(t, err)
+			defer os.Chmod(credentialsPath, 0644) // Restore for cleanup
+
+			// Should fail to create service due to permission error
+			_, err = NewApiUserService(
+				config.WithURL("localhost"),
+				config.WithTimeout(100*time.Millisecond),
+			)
+			assert.Error(t, err, "Should fail to read file with no permissions")
+			assert.Contains(t, err.Error(), "permission denied")
+		}
 	})
 }

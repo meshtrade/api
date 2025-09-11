@@ -2,6 +2,7 @@ package co.meshtrade.api.iam.api_user.v1;
 
 import build.buf.protovalidate.Validator;
 import build.buf.protovalidate.ValidatorFactory;
+import co.meshtrade.api.auth.CredentialsDiscovery;
 import co.meshtrade.api.config.ServiceOptions;
 import co.meshtrade.api.iam.api_user.v1.ApiUser.APIUser;
 import co.meshtrade.api.iam.api_user.v1.ApiUser.APIUserState;
@@ -10,9 +11,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.io.TempDir;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.Duration;
 import java.util.Optional;
 
@@ -472,5 +477,340 @@ class ApiUserServiceIntegrationTest {
         assertThat(true)
             .as("All three SDKs provide consistent client-side validation architecture")
             .isTrue();
+    }
+}
+
+/**
+ * Tests for MESH_API_CREDENTIALS environment variable functionality.
+ */
+@DisplayName("ApiUserService Credential Files Tests")
+class ApiUserServiceCredentialFilesTest {
+
+    @TempDir
+    Path tempDir;
+
+    private String originalCredentialsEnv;
+
+    @BeforeEach
+    void setUp() {
+        // Save original environment state
+        originalCredentialsEnv = System.getenv("MESH_API_CREDENTIALS");
+    }
+
+    void tearDown() {
+        // Note: Java doesn't allow changing environment variables at runtime easily
+        // In a real test environment, you'd use @SetEnvironmentVariable from JUnit Pioneer
+        // For this example, we document the limitation
+    }
+
+    @Test
+    @DisplayName("Valid credential file loading")
+    void validCredentialFile() throws IOException {
+        // Create a valid credentials file
+        String validCredentials = """
+            {
+                "api_key": "test-api-key-from-file",
+                "group": "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV"
+            }""";
+        
+        Path credentialsPath = tempDir.resolve("valid_credentials.json");
+        Files.writeString(credentialsPath, validCredentials);
+
+        // Test parsing directly (environment variable testing would require test framework extension)
+        Optional<co.meshtrade.api.auth.Credentials> credentials = 
+            CredentialsDiscovery.parseCredentialsJson(validCredentials);
+        
+        assertThat(credentials).isPresent();
+        assertThat(credentials.get().apiKey()).isEqualTo("test-api-key-from-file");
+        assertThat(credentials.get().group()).isEqualTo("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV");
+
+        // Test that service can be created with explicit credentials (simulating file load)
+        ServiceOptions options = ServiceOptions.builder()
+            .apiKey("test-api-key-from-file")
+            .group("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
+            .url("localhost")
+            .port(9999)
+            .timeout(Duration.ofMillis(100))
+            .build();
+        
+        try (ApiUserService service = new ApiUserService(options)) {
+            // Test that validation works with loaded credentials
+            GetApiUserRequest validRequest = GetApiUserRequest.newBuilder()
+                .setName("api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV")
+                .build();
+
+            // Should get network error, not validation error
+            assertThatThrownBy(() -> service.getApiUser(validRequest, Optional.empty()))
+                .isInstanceOf(Exception.class)
+                .hasMessageNotContaining("Request validation failed");
+        }
+    }
+
+    @Test
+    @DisplayName("Invalid credential file formats")
+    void invalidCredentialFileFormats() {
+        String[] invalidCredentials = {
+            // Invalid JSON
+            "{\"api_key\": \"test\", invalid json}",
+            
+            // Missing api_key
+            "{\"group\": \"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV\"}",
+            
+            // Missing group
+            "{\"api_key\": \"test-key\"}",
+            
+            // Empty api_key
+            "{\"api_key\": \"\", \"group\": \"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV\"}",
+            
+            // Empty group
+            "{\"api_key\": \"test-key\", \"group\": \"\"}",
+            
+            // Invalid group format
+            "{\"api_key\": \"test-key\", \"group\": \"invalid-group-format\"}"
+        };
+
+        for (String invalidCredential : invalidCredentials) {
+            // Test that parsing fails for invalid credentials
+            try {
+                Optional<co.meshtrade.api.auth.Credentials> result = 
+                    CredentialsDiscovery.parseCredentialsJson(invalidCredential);
+                
+                assertThat(result).isEmpty();
+            } catch (Exception e) {
+                // JSON parsing exceptions are also acceptable
+                assertThat(e).isInstanceOfAny(IOException.class, IllegalArgumentException.class);
+            }
+        }
+    }
+
+    @Test
+    @DisplayName("Credential file with extra fields")
+    void credentialFileWithExtraFields() throws IOException {
+        // Test that extra fields in JSON are ignored gracefully
+        String credentialsWithExtra = """
+            {
+                "api_key": "test-api-key",
+                "group": "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+                "extra_field": "should_be_ignored",
+                "another_extra": 123
+            }""";
+        
+        Optional<co.meshtrade.api.auth.Credentials> credentials = 
+            CredentialsDiscovery.parseCredentialsJson(credentialsWithExtra);
+        
+        assertThat(credentials).isPresent();
+        assertThat(credentials.get().apiKey()).isEqualTo("test-api-key");
+        assertThat(credentials.get().group()).isEqualTo("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV");
+        
+        // Test that service works with these credentials
+        ServiceOptions options = ServiceOptions.builder()
+            .apiKey(credentials.get().apiKey())
+            .group(credentials.get().group())
+            .url("localhost")
+            .port(9999)
+            .timeout(Duration.ofMillis(100))
+            .build();
+        
+        try (ApiUserService service = new ApiUserService(options)) {
+            GetApiUserRequest validRequest = GetApiUserRequest.newBuilder()
+                .setName("api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV")
+                .build();
+
+            assertThatThrownBy(() -> service.getApiUser(validRequest, Optional.empty()))
+                .isInstanceOf(Exception.class)
+                .hasMessageNotContaining("Request validation failed");
+        }
+    }
+
+    @Test
+    @DisplayName("Service creation with explicit credentials override")
+    void serviceCreationWithExplicitCredentialsOverride() throws IOException {
+        // Even if credentials would be found via discovery, explicit options should take precedence
+        ServiceOptions options = ServiceOptions.builder()
+            .apiKey("explicit-api-key") // Should override any discovered credentials
+            .group("groups/01EXPLICITGROUPTEST123") // Should override any discovered credentials
+            .url("localhost")
+            .port(9999)
+            .timeout(Duration.ofMillis(100))
+            .build();
+        
+        try (ApiUserService service = new ApiUserService(options)) {
+            // Test that validation works with explicit credentials
+            GetApiUserRequest validRequest = GetApiUserRequest.newBuilder()
+                .setName("api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV")
+                .build();
+
+            assertThatThrownBy(() -> service.getApiUser(validRequest, Optional.empty()))
+                .isInstanceOf(Exception.class)
+                .hasMessageNotContaining("Request validation failed");
+        }
+    }
+
+    @Test
+    @DisplayName("Service creation without credentials")
+    void serviceCreationWithoutCredentials() {
+        // Create service without any credentials - should fall back to discovery
+        ServiceOptions options = ServiceOptions.builder()
+            .url("localhost")
+            .timeout(Duration.ofMillis(100))
+            .build();
+        
+        // The exact behavior depends on whether credentials can be discovered
+        // We don't assert specific error here as it may vary by test environment
+        try {
+            ApiUserService service = new ApiUserService(options);
+            
+            // If successful, validation should still work
+            GetApiUserRequest validRequest = GetApiUserRequest.newBuilder()
+                .setName("api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV")
+                .build();
+            
+            assertThatThrownBy(() -> service.getApiUser(validRequest, Optional.empty()))
+                .isInstanceOf(Exception.class);
+                
+            service.close();
+        } catch (Exception e) {
+            // Service creation may fail if no credentials found - this is acceptable
+            System.out.println("Service creation without credentials result: " + e.getMessage());
+        }
+    }
+
+    @Test
+    @DisplayName("Credential discovery hierarchy documentation")
+    void credentialDiscoveryHierarchyDocumentation() {
+        // Test documents the credential discovery hierarchy
+        String searchInfo = CredentialsDiscovery.getCredentialSearchInfo();
+        
+        assertThat(searchInfo).isNotNull();
+        assertThat(searchInfo).contains("MESH_API_CREDENTIALS");
+        assertThat(searchInfo).contains("Platform-specific files");
+        
+        // Verify the hierarchy is documented correctly
+        assertThat(searchInfo).contains("1. Environment Variable: MESH_API_CREDENTIALS");
+        assertThat(searchInfo).contains("2. Platform-specific files:");
+        
+        System.out.println("Credential Discovery Hierarchy:");
+        System.out.println(searchInfo);
+    }
+
+    @Test
+    @DisplayName("Platform-specific credential paths")
+    void platformSpecificCredentialPaths() {
+        // Test that platform-specific paths are returned correctly
+        Path[] paths = CredentialsDiscovery.getPlatformCredentialPaths();
+        
+        assertThat(paths).isNotEmpty();
+        
+        // All paths should end with credentials.json
+        for (Path path : paths) {
+            assertThat(path.getFileName().toString()).isEqualTo("credentials.json");
+        }
+        
+        // Paths should be platform-appropriate
+        String osName = System.getProperty("os.name").toLowerCase();
+        
+        if (osName.contains("mac")) {
+            assertThat(paths[0].toString()).contains("Library/Application Support/mesh");
+        } else if (osName.contains("win")) {
+            assertThat(paths[0].toString()).contains("mesh");
+        } else {
+            // Linux/Unix
+            assertThat(paths[0].toString()).contains("mesh");
+        }
+        
+        System.out.println("Platform-specific credential paths for " + osName + ":");
+        for (int i = 0; i < paths.length; i++) {
+            System.out.println("  " + (i + 1) + ". " + paths[i]);
+        }
+    }
+
+    @Test
+    @DisplayName("JSON parsing edge cases")
+    void jsonParsingEdgeCases() throws IOException {
+        // Empty/null content
+        assertThat(CredentialsDiscovery.parseCredentialsJson(null)).isEmpty();
+        assertThat(CredentialsDiscovery.parseCredentialsJson("")).isEmpty();
+        assertThat(CredentialsDiscovery.parseCredentialsJson("   ")).isEmpty();
+        
+        // Valid minimal JSON
+        String minimalValid = "{\"api_key\":\"key\",\"group\":\"groups/test\"}";
+        Optional<co.meshtrade.api.auth.Credentials> result = 
+            CredentialsDiscovery.parseCredentialsJson(minimalValid);
+        assertThat(result).isPresent();
+        
+        // JSON with whitespace
+        String withWhitespace = """
+            {
+                "api_key"  :  "key"  ,
+                "group"    :  "groups/test"  
+            }""";
+        result = CredentialsDiscovery.parseCredentialsJson(withWhitespace);
+        assertThat(result).isPresent();
+    }
+
+    @Test
+    @DisplayName("Validation works consistently with credential-loaded services")
+    void validationWorksConsistentlyWithCredentialLoadedServices() {
+        // Test that validation behavior is consistent regardless of how credentials are provided
+        
+        // Create services with different credential sources
+        String[] credentialSources = {"explicit", "simulated-file", "simulated-env"};
+        
+        for (String source : credentialSources) {
+            ServiceOptions options = ServiceOptions.builder()
+                .apiKey("test-key-" + source)
+                .group("groups/01CREDTEST" + source.toUpperCase().substring(0, 3) + "123")
+                .url("localhost") 
+                .port(9999)
+                .timeout(Duration.ofMillis(100))
+                .build();
+            
+            try (ApiUserService service = new ApiUserService(options)) {
+                // Test validation failure (should be fast)
+                GetApiUserRequest invalidRequest = GetApiUserRequest.newBuilder()
+                    .setName("invalid-format")
+                    .build();
+                
+                long startTime = System.nanoTime();
+                
+                assertThatThrownBy(() -> service.getApiUser(invalidRequest, Optional.empty()))
+                    .hasMessageContaining("Request validation failed");
+                
+                long validationDuration = System.nanoTime() - startTime;
+                assertThat(validationDuration).isLessThan(100_000_000L); // Less than 100ms
+                
+                // Test validation success (would reach network layer)
+                GetApiUserRequest validRequest = GetApiUserRequest.newBuilder()
+                    .setName("api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV")
+                    .build();
+                
+                startTime = System.nanoTime();
+                
+                assertThatThrownBy(() -> service.getApiUser(validRequest, Optional.empty()))
+                    .isInstanceOf(Exception.class)
+                    .hasMessageNotContaining("Request validation failed");
+                
+                long networkDuration = System.nanoTime() - startTime;
+                assertThat(networkDuration).isGreaterThan(validationDuration);
+            }
+        }
+    }
+
+    @Test
+    @DisplayName("Environment variable name constant verification")
+    void environmentVariableNameConstantVerification() {
+        // Verify the environment variable name is correct and consistent
+        // Note: We can't easily test the actual environment variable functionality 
+        // without additional test libraries, but we can verify the constant
+        
+        // This would be the expected environment variable name
+        String expectedEnvVarName = "MESH_API_CREDENTIALS";
+        
+        // Verify the discovery class uses the correct name
+        String searchInfo = CredentialsDiscovery.getCredentialSearchInfo();
+        assertThat(searchInfo).contains(expectedEnvVarName);
+        
+        System.out.println("Environment variable name: " + expectedEnvVarName);
+        System.out.println("Current value: " + System.getenv(expectedEnvVarName));
     }
 }
