@@ -260,13 +260,11 @@ rpc GetLimitOrder(GetLimitOrderRequest) returns (LimitOrder) {
 }
 ```
 
-## Real-World Authorization Scenarios
-
-### Multi-Tenant Trading Platform
+## Real-World Authorization Scenario
 
 ```mermaid
 graph TD
-    subgraph "Trading Platform Authorization"
+    subgraph "Platform Authorization"
         MeshRoot["🏢 Mesh Platform (Root)<br/>groups/MESH_ROOT"]
         
         BrokerA["🏦 Broker A<br/>groups/BROKER_A"]
@@ -343,6 +341,51 @@ graph TD
 - **Authentication**: API key with read-only permissions matching regular user
 - **Integration**: Automated market research system feeding external analytics platforms
 - **Result**: Enables automated data collection with same permission boundaries
+
+## Role Assignment and Management
+
+### API User Role Configuration
+
+API Users receive role assignments within specific groups, creating the foundation for the authorization system:
+
+```mermaid
+graph LR
+    subgraph "Role Assignment Model"
+        APIUser["🔑 API User<br/>api_users/USER_123"]
+        
+        GroupA["🏢 Group A<br/>groups/GROUP_A"]
+        GroupB["🏢 Group B<br/>groups/GROUP_B"]
+        GroupC["🏢 Group C<br/>groups/GROUP_C"]
+        
+        APIUser -.->|"Roles: [TRADING_ADMIN,<br/>WALLET_VIEWER]"| GroupA
+        APIUser -.->|"Roles: [IAM_VIEWER]"| GroupB
+        APIUser -.->|"Roles: [REPORTING_VIEWER]"| GroupC
+        
+        style APIUser fill:#e3f2fd
+        style GroupA fill:#c8e6c9
+        style GroupB fill:#fff3e0
+        style GroupC fill:#fce4ec
+    end
+```
+
+**Key Principles:**
+- **Per-Group Assignment**: Same user can have different roles in different groups
+- **Context Switching**: User specifies execution group via `x-group` header
+- **Principle of Least Privilege**: Assign minimal roles necessary for function
+- **Scope Isolation**: Roles in one group don't grant access to other groups
+
+### Best Practices for Role Assignment
+
+**Organizational Alignment:**
+- **Map to Job Functions**: Assign roles that match actual responsibilities
+- **Consider Hierarchy**: Senior roles often need broader access across domains
+- **Separate Concerns**: Don't grant admin roles when viewer access suffices
+
+**Security Considerations:**
+- **Regular Auditing**: Review and validate role assignments periodically  
+- **Temporary Elevation**: Use time-limited roles for special operations
+- **Cross-Training**: Multiple people should have critical admin roles
+- **Automation Accounts**: Service accounts should have minimal required roles
 
 ## Related Documentation
 
