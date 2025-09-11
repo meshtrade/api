@@ -4,6 +4,7 @@ import build.buf.protovalidate.ValidationResult;
 import build.buf.protovalidate.Validator;
 import build.buf.protovalidate.ValidatorFactory;
 import co.meshtrade.api.iam.api_user.v1.ApiUser.APIUser;
+import co.meshtrade.api.iam.api_user.v1.ApiUser.APIUserState;
 import co.meshtrade.api.iam.api_user.v1.Service.CreateApiUserRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,6 +30,7 @@ class ApiUserServiceValidationTest {
             .setApiUser(APIUser.newBuilder()
                 .setOwner("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
                 .setDisplayName("Test API User")
+                .setState(APIUserState.API_USER_STATE_ACTIVE)
                 .build())
             .build();
 
@@ -143,6 +145,7 @@ class ApiUserServiceValidationTest {
             .setApiUser(APIUser.newBuilder()
                 .setOwner("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
                 .setDisplayName("Test API User")
+                .setState(APIUserState.API_USER_STATE_ACTIVE)
                 .build())
             .build();
         

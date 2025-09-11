@@ -855,7 +855,7 @@ public final class ApiCredentials {
     java.lang.String[] descriptorData = {
       "\n/meshtrade/iam/api_user/v1/api_credenti" +
       "als.proto\022\031meshtrade.iam.api_user.v1\032\033bu" +
-      "f/validate/validate.proto\"\201\005\n\016APICredent" +
+      "f/validate/validate.proto\"\265\005\n\016APICredent" +
       "ials\022\275\002\n\007api_key\030\001 \001(\tB\243\002\272H\237\002r\0302\023^[A-Za-" +
       "z0-9_-]{43}$\230\001+\272\001u\n\020api_key.required\022Oap" +
       "i_key is required and must be exactly 43" +
@@ -864,17 +864,18 @@ public final class ApiCredentials {
       "_key must be base64 URL-safe encoded (43" +
       " characters, alphanumeric plus _ and -)\032" +
       "#this.matches(\'^[A-Za-z0-9_-]{43}$\')R\006ap" +
-      "iKey\022\256\002\n\005group\030\002 \001(\tB\227\002\272H\223\002r\0322\025^groups/[" +
-      "0-9A-Z]{26}$\230\001!\272\001Y\n\016group.required\0225grou" +
-      "p is required and must be in format grou" +
-      "ps/{ulid}\032\020size(this) == 33\272\001\227\001\n\014group.f" +
-      "ormat\022`group must be in format groups/{u" +
-      "lid} where ulid is a 26-character ULID (" +
-      "uppercase alphanumeric)\032%this.matches(\'^" +
-      "groups/[0-9A-Z]{26}$\')R\005groupB[\n co.mesh" +
-      "trade.api.iam.api_user.v1Z7github.com/me" +
-      "shtrade/api/go/iam/api_user/v1;api_user_" +
-      "v1b\006proto3"
+      "iKey\022\342\002\n\005group\030\002 \001(\tB\313\002\272H\307\002r42/^groups/[" +
+      "0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\230\001" +
+      "!\272\001Y\n\016group.required\0225group is required " +
+      "and must be in format groups/{ulid}\032\020siz" +
+      "e(this) == 33\272\001\261\001\n\014group.format\022`group m" +
+      "ust be in format groups/{ulid} where uli" +
+      "d is a 26-character ULID (uppercase alph" +
+      "anumeric)\032?this.matches(\'^groups/[012345" +
+      "6789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\')R\005grou" +
+      "pB[\n co.meshtrade.api.iam.api_user.v1Z7g" +
+      "ithub.com/meshtrade/api/go/iam/api_user/" +
+      "v1;api_user_v1b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

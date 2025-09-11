@@ -4,6 +4,7 @@ go 1.24.3
 
 require (
 	github.com/meshtrade/api/go v0.0.0
+	github.com/oklog/ulid/v2 v2.1.1
 	google.golang.org/protobuf v1.36.7
 )
 

@@ -21,7 +21,7 @@ message Instrument {
     cel: {
       id: "name.format.optional",
       message: "name must be empty or in the format groups/{ULIDv2}",
-      expression: "size(this) == 0 || this.matches('^groups/[0-9A-Z]{26}$')"
+      expression: "size(this) == 0 || this.matches('^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
     }
   }];
 
@@ -33,7 +33,7 @@ message Instrument {
   string owner = 2 [(buf.validate.field) = {
     string: {
       len: 33,
-      pattern: "^groups/[0-9A-Z]{26}$"
+      pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
 
@@ -50,7 +50,7 @@ message Instrument {
       items: {
         string: {
           len: 33,
-          pattern: "^groups/[0-9A-Z]{26}$"
+          pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
         }
       }
     }
