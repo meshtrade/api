@@ -198,8 +198,8 @@ message OpenAccountRequest {
   */
   string name = 1 [(buf.validate.field) = {
     string: {
-      len: 33,
-      pattern: "^accounts/[0-9A-Z]{26}$"
+      len: 35,
+      pattern: "^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
 }
@@ -230,8 +230,8 @@ message CloseAccountRequest {
   */
   string name = 1 [(buf.validate.field) = {
     string: {
-      len: 33,
-      pattern: "^accounts/[0-9A-Z]{26}$"
+      len: 35,
+      pattern: "^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
 }
@@ -262,8 +262,8 @@ message GetAccountRequest {
   */
   string name = 1 [(buf.validate.field) = {
     string: {
-      len: 33,
-      pattern: "^accounts/[0-9A-Z]{26}$"
+      len: 35,
+      pattern: "^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
   

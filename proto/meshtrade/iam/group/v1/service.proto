@@ -264,7 +264,7 @@ message GetGroupRequest {
   string name = 1 [(buf.validate.field) = {
     string: {
       min_len: 1
-      pattern: "^groups/[0-9A-Z]{26}$"
+      pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
     cel: {
       id: "name.required"
@@ -274,7 +274,7 @@ message GetGroupRequest {
     cel: {
       id: "name.format"
       message: "name must be in format groups/{ULIDv2} where ulidv2 is exactly 26 uppercase alphanumeric characters"
-      expression: "this.matches('^groups/[0-9A-Z]{26}$')"
+      expression: "this.matches('^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
     }
   }];
 }

@@ -143,18 +143,19 @@ func (APIUserAction) EnumDescriptor() ([]byte, []int) {
 // defined roles that determine their permissions within that group.
 type APIUser struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// The unique, immutable, and canonical name of the api user resource in the format api_users/{api_user_id}.
-	// The {api_user_id} is a system-generated unique identifier (e.g., UUID) that will never change.
-	// System set on creation.
+	// The unique resource name for the api user.
+	// Format: api_users/{ULIDv2}.
+	// This field is system-generated and immutable upon creation.
+	// Any value provided on creation is ignored.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	// The resource name of the group that owns this api user in the format groups/{ulid}.
-	// This field establishes the ownership link.
-	// NOTE: owner must be set to executing group context.
-	// Required on creation.
+	// The resource name of the parent group that owns this api user.
+	// This field is required on creation and establishes the direct ownership link.
+	// Format: groups/{ULIDv2}.
 	Owner string `protobuf:"bytes,2,opt,name=owner,proto3" json:"owner,omitempty"`
-	// List of resource names of groups that have ownership access to this api user in the format groups/{group_id}.
-	// This field supports multi-group ownership scenarios.
-	// System set on creation.
+	// The complete ownership path from the root to this api user's owner.
+	// This is a system-maintained array for efficient, hierarchical access control checks.
+	// This field is system-generated and immutable.
+	// Any value provided on creation is ignored.
 	Owners []string `protobuf:"bytes,3,rep,name=owners,proto3" json:"owners,omitempty"`
 	// A non-unique, user-provided name for the api key, used for display purposes.
 	// Required on creation.
@@ -162,9 +163,9 @@ type APIUser struct {
 	// The current state of the API user (active or inactive).
 	// System set on creation.
 	State APIUserState `protobuf:"varint,5,opt,name=state,proto3,enum=meshtrade.iam.api_user.v1.APIUserState" json:"state,omitempty"`
-	// Roles is a list of the standard roles assigned to this api user
+	// Roles is a list of the standard roles assigned to this api user,
 	// prepended by the name of the group in which they have been assigned that role.
-	// e.g. groups/{ulid}/{role}, where role is one of the rolev1.Role enum
+	// e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
 	Roles []string `protobuf:"bytes,6,rep,name=roles,proto3" json:"roles,omitempty"`
 	// The plaintext API key for the API user.
 	// This field is only populated on the entity the first time it is returned after creation - it is NOT stored.
@@ -257,18 +258,17 @@ var File_meshtrade_iam_api_user_v1_api_user_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_api_user_v1_api_user_proto_rawDesc = "" +
 	"\n" +
-	"(meshtrade/iam/api_user/v1/api_user.proto\x12\x19meshtrade.iam.api_user.v1\x1a\x1bbuf/validate/validate.proto\"\xd9\x06\n" +
-	"\aAPIUser\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12\xfd\x02\n" +
-	"\x05owner\x18\x02 \x01(\tB\xe6\x02\xbaH\xe2\x02\xba\x01[\n" +
-	"\x0eowner.required\x129owner is required and must be in format groups/{group_id}\x1a\x0esize(this) > 0\xba\x01\xca\x01\n" +
-	"\fowner.format\x12xowner must be in format groups/{group_id} where group_id contains only alphanumeric characters, underscores, and hyphens\x1a@this.matches('^groups/[a-zA-Z0-9]([a-zA-Z0-9_-]*[a-zA-Z0-9])?$')r4\x10\x0120^groups/[a-zA-Z0-9]([a-zA-Z0-9_-]*[a-zA-Z0-9])?$R\x05owner\x12\x16\n" +
-	"\x06owners\x18\x03 \x03(\tR\x06owners\x12\xb1\x01\n" +
-	"\fdisplay_name\x18\x04 \x01(\tB\x8d\x01\xbaH\x89\x01\xba\x01\x7f\n" +
-	"\x15display_name.required\x12Adisplay name is required and must be between 1 and 255 characters\x1a#size(this) > 0 && size(this) <= 255r\x05\x10\x01\x18\xff\x01R\vdisplayName\x12\xbe\x01\n" +
-	"\x05state\x18\x05 \x01(\x0e2'.meshtrade.iam.api_user.v1.APIUserStateB\x7f\xbaH|\xba\x01t\n" +
-	"\vstate.valid\x12/state must be a valid APIUserState if specified\x1a4int(this) == 0 || (int(this) >= 1 && int(this) <= 2)\x82\x01\x02\x10\x01R\x05state\x12\x14\n" +
-	"\x05roles\x18\x06 \x03(\tR\x05roles\x12\x17\n" +
+	"(meshtrade/iam/api_user/v1/api_user.proto\x12\x19meshtrade.iam.api_user.v1\x1a\x1bbuf/validate/validate.proto\"\xef\x06\n" +
+	"\aAPIUser\x12\xc2\x01\n" +
+	"\x04name\x18\x01 \x01(\tB\xad\x01\xbaH\xa9\x01\xba\x01\xa5\x01\n" +
+	"\x14name.format.optional\x126name must be empty or in the format api_users/{ULIDv2}\x1aUsize(this) == 0 || this.matches('^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12R\n" +
+	"\x05owner\x18\x02 \x01(\tB<\xbaH9\xc8\x01\x01r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05owner\x12V\n" +
+	"\x06owners\x18\x03 \x03(\tB>\xbaH;\x92\x018\"6r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x06owners\x12\xb4\x01\n" +
+	"\fdisplay_name\x18\x04 \x01(\tB\x90\x01\xbaH\x8c\x01\xba\x01\x7f\n" +
+	"\x15display_name.required\x12Adisplay name is required and must be between 1 and 255 characters\x1a#size(this) > 0 && size(this) <= 255\xc8\x01\x01r\x05\x10\x01\x18\xff\x01R\vdisplayName\x12\xc2\x01\n" +
+	"\x05state\x18\x05 \x01(\x0e2'.meshtrade.iam.api_user.v1.APIUserStateB\x82\x01\xbaH\x7f\xba\x01t\n" +
+	"\vstate.valid\x12/state must be a valid APIUserState if specified\x1a4int(this) == 0 || (int(this) >= 1 && int(this) <= 2)\xc8\x01\x01\x82\x01\x02\x10\x01R\x05state\x12^\n" +
+	"\x05roles\x18\x06 \x03(\tBH\xbaHE\x92\x01B\"@r>29^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/1[0-9]{6}$\x98\x01)R\x05roles\x12\x17\n" +
 	"\aapi_key\x18\a \x01(\tR\x06apiKey*f\n" +
 	"\fAPIUserState\x12\x1e\n" +
 	"\x1aAPI_USER_STATE_UNSPECIFIED\x10\x00\x12\x19\n" +

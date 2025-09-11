@@ -26,7 +26,8 @@ const (
 
 type GetApiUserRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Name of the API user to get.
+	// Name of the API user to retrieve.
+	// Format: api_users/{ULIDv2}
 	Name          string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -332,6 +333,7 @@ func (x *SearchApiUsersResponse) GetApiUsers() []*APIUser {
 type ActivateApiUserRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Name of the API user to activate.
+	// Format: api_users/{ULIDv2}
 	Name          string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -377,6 +379,7 @@ func (x *ActivateApiUserRequest) GetName() string {
 type DeactivateApiUserRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Name of the API user to deactivate.
+	// Format: api_users/{ULIDv2}
 	Name          string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -423,26 +426,24 @@ var File_meshtrade_iam_api_user_v1_service_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_api_user_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"'meshtrade/iam/api_user/v1/service.proto\x12\x19meshtrade.iam.api_user.v1\x1a\x1bbuf/validate/validate.proto\x1a(meshtrade/iam/api_user/v1/api_user.proto\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\"'\n" +
-	"\x11GetApiUserRequest\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\"7\n" +
-	"\x1aGetApiUserByKeyHashRequest\x12\x19\n" +
-	"\bkey_hash\x18\x01 \x01(\tR\akeyHash\"U\n" +
-	"\x14CreateApiUserRequest\x12=\n" +
-	"\bapi_user\x18\x01 \x01(\v2\".meshtrade.iam.api_user.v1.APIUserR\aapiUser\"\x15\n" +
+	"'meshtrade/iam/api_user/v1/service.proto\x12\x19meshtrade.iam.api_user.v1\x1a\x1bbuf/validate/validate.proto\x1a(meshtrade/iam/api_user/v1/api_user.proto\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\"h\n" +
+	"\x11GetApiUserRequest\x12S\n" +
+	"\x04name\x18\x01 \x01(\tB?\xbaH<\xc8\x01\x01r722^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01$R\x04name\"D\n" +
+	"\x1aGetApiUserByKeyHashRequest\x12&\n" +
+	"\bkey_hash\x18\x01 \x01(\tB\v\xbaH\b\xc8\x01\x01r\x03\x98\x01,R\akeyHash\"]\n" +
+	"\x14CreateApiUserRequest\x12E\n" +
+	"\bapi_user\x18\x01 \x01(\v2\".meshtrade.iam.api_user.v1.APIUserB\x06\xbaH\x03\xc8\x01\x01R\aapiUser\"\x15\n" +
 	"\x13ListApiUsersRequest\"W\n" +
 	"\x14ListApiUsersResponse\x12?\n" +
 	"\tapi_users\x18\x01 \x03(\v2\".meshtrade.iam.api_user.v1.APIUserR\bapiUsers\":\n" +
 	"\x15SearchApiUsersRequest\x12!\n" +
 	"\fdisplay_name\x18\x01 \x01(\tR\vdisplayName\"Y\n" +
 	"\x16SearchApiUsersResponse\x12?\n" +
-	"\tapi_users\x18\x01 \x03(\v2\".meshtrade.iam.api_user.v1.APIUserR\bapiUsers\"\xd9\x01\n" +
-	"\x16ActivateApiUserRequest\x12\xbe\x01\n" +
-	"\x04name\x18\x01 \x01(\tB\xa9\x01\xbaH\xa5\x01\xba\x01z\n" +
-	"\rname.required\x125name is required and must be in format api_users/{id}\x1a2this.matches('^api_users/[0-9A-HJKMNP-TV-Z]{26}$')r&\x10\x012\"^api_users/[0-9A-HJKMNP-TV-Z]{26}$R\x04name\"\xdb\x01\n" +
-	"\x18DeactivateApiUserRequest\x12\xbe\x01\n" +
-	"\x04name\x18\x01 \x01(\tB\xa9\x01\xbaH\xa5\x01\xba\x01z\n" +
-	"\rname.required\x125name is required and must be in format api_users/{id}\x1a2this.matches('^api_users/[0-9A-HJKMNP-TV-Z]{26}$')r&\x10\x012\"^api_users/[0-9A-HJKMNP-TV-Z]{26}$R\x04name2\xb8\a\n" +
+	"\tapi_users\x18\x01 \x03(\v2\".meshtrade.iam.api_user.v1.APIUserR\bapiUsers\"m\n" +
+	"\x16ActivateApiUserRequest\x12S\n" +
+	"\x04name\x18\x01 \x01(\tB?\xbaH<\xc8\x01\x01r722^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01$R\x04name\"o\n" +
+	"\x18DeactivateApiUserRequest\x12S\n" +
+	"\x04name\x18\x01 \x01(\tB?\xbaH<\xc8\x01\x01r722^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01$R\x04name2\xb8\a\n" +
 	"\x0eApiUserService\x12z\n" +
 	"\n" +
 	"GetApiUser\x12,.meshtrade.iam.api_user.v1.GetApiUserRequest\x1a\".meshtrade.iam.api_user.v1.APIUser\"\x1a\xa0\xb5\x18\x01\xaa\xb5\x18\x12\n" +

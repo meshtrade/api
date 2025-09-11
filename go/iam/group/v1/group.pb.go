@@ -31,7 +31,7 @@ const (
 type Group struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The unique resource name for the group.
-	// Format: accounts/{ULIDv2}.
+	// Format: groups/{ULIDv2}.
 	// This field is system-generated and immutable upon creation.
 	// Any value provided on creation is ignored.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
@@ -122,14 +122,14 @@ var File_meshtrade_iam_group_v1_group_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_group_v1_group_proto_rawDesc = "" +
 	"\n" +
-	"\"meshtrade/iam/group/v1/group.proto\x12\x16meshtrade.iam.group.v1\x1a\x1bbuf/validate/validate.proto\"\x80\x03\n" +
-	"\x05Group\x12\xa6\x01\n" +
-	"\x04name\x18\x01 \x01(\tB\x91\x01\xbaH\x8d\x01\xba\x01\x89\x01\n" +
-	"\x14name.format.optional\x125name must be empty or in the format accounts/{ULIDv2}\x1a:size(this) == 0 || this.matches('^accounts/[0-9A-Z]{26}$')R\x04name\x125\n" +
-	"\x05owner\x18\x02 \x01(\tB\x1f\xbaH\x1cr\x1a2\x15^groups/[0-9A-Z]{26}$\x98\x01!R\x05owner\x12<\n" +
-	"\x06owners\x18\x03 \x03(\tB$\xbaH!\x92\x01\x1e\"\x1cr\x1a2\x15^groups/[0-9A-Z]{26}$\x98\x01!R\x06owners\x12-\n" +
-	"\fdisplay_name\x18\x04 \x01(\tB\n" +
-	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\vdisplayName\x12*\n" +
+	"\"meshtrade/iam/group/v1/group.proto\x12\x16meshtrade.iam.group.v1\x1a\x1bbuf/validate/validate.proto\"\xd0\x03\n" +
+	"\x05Group\x12\xbc\x01\n" +
+	"\x04name\x18\x01 \x01(\tB\xa7\x01\xbaH\xa3\x01\xba\x01\x9f\x01\n" +
+	"\x14name.format.optional\x123name must be empty or in the format groups/{ULIDv2}\x1aRsize(this) == 0 || this.matches('^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12R\n" +
+	"\x05owner\x18\x02 \x01(\tB<\xbaH9\xc8\x01\x01r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05owner\x12V\n" +
+	"\x06owners\x18\x03 \x03(\tB>\xbaH;\x92\x018\"6r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x06owners\x120\n" +
+	"\fdisplay_name\x18\x04 \x01(\tB\r\xbaH\n" +
+	"\xc8\x01\x01r\x05\x10\x01\x18\xff\x01R\vdisplayName\x12*\n" +
 	"\vdescription\x18\x05 \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aR\vdescriptionBR\n" +
 	"\x1dco.meshtrade.api.iam.group.v1Z1github.com/meshtrade/api/go/iam/group/v1;group_v1b\x06proto3"
 

@@ -8,8 +8,9 @@ package user_v1
 
 import (
 	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
-	v1 "github.com/meshtrade/api/go/iam/role/v1"
+	_ "github.com/meshtrade/api/go/iam/role/v1"
 	_ "github.com/meshtrade/api/go/option/v1"
+	v1 "github.com/meshtrade/api/go/type/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -26,12 +27,11 @@ const (
 
 type AssignRoleToUserRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// The email address of the user to assign a role to
-	Email string `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
-	// The name of the group in which the user is to be assigned the given role
-	Group string `protobuf:"bytes,2,opt,name=group,proto3" json:"group,omitempty"`
-	// Role is the role to assign to the user
-	Role          v1.Role `protobuf:"varint,3,opt,name=role,proto3,enum=meshtrade.iam.role.v1.Role" json:"role,omitempty"`
+	// Name of the user to assign a role to.
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	// Role to assign to the user in the format groups/{ULIDv2}/{role_id}.
+	// The role_id corresponds to a value from the meshtrade.iam.role.v1.Role enum.
+	Role          string `protobuf:"bytes,4,opt,name=role,proto3" json:"role,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -66,41 +66,501 @@ func (*AssignRoleToUserRequest) Descriptor() ([]byte, []int) {
 	return file_meshtrade_iam_user_v1_service_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *AssignRoleToUserRequest) GetEmail() string {
+func (x *AssignRoleToUserRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *AssignRoleToUserRequest) GetRole() string {
+	if x != nil {
+		return x.Role
+	}
+	return ""
+}
+
+type GetUserRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Name of the user to retrieve.
+	// Format: users/{ULIDv2}
+	Name          string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserRequest) Reset() {
+	*x = GetUserRequest{}
+	mi := &file_meshtrade_iam_user_v1_service_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserRequest) ProtoMessage() {}
+
+func (x *GetUserRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_iam_user_v1_service_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserRequest.ProtoReflect.Descriptor instead.
+func (*GetUserRequest) Descriptor() ([]byte, []int) {
+	return file_meshtrade_iam_user_v1_service_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *GetUserRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+type ListUsersRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Optional sorting configuration.
+	Sorting       *ListUsersRequest_Sorting `protobuf:"bytes,1,opt,name=sorting,proto3" json:"sorting,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListUsersRequest) Reset() {
+	*x = ListUsersRequest{}
+	mi := &file_meshtrade_iam_user_v1_service_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListUsersRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListUsersRequest) ProtoMessage() {}
+
+func (x *ListUsersRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_iam_user_v1_service_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListUsersRequest.ProtoReflect.Descriptor instead.
+func (*ListUsersRequest) Descriptor() ([]byte, []int) {
+	return file_meshtrade_iam_user_v1_service_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *ListUsersRequest) GetSorting() *ListUsersRequest_Sorting {
+	if x != nil {
+		return x.Sorting
+	}
+	return nil
+}
+
+type ListUsersResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Users         []*User                `protobuf:"bytes,1,rep,name=users,proto3" json:"users,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListUsersResponse) Reset() {
+	*x = ListUsersResponse{}
+	mi := &file_meshtrade_iam_user_v1_service_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListUsersResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListUsersResponse) ProtoMessage() {}
+
+func (x *ListUsersResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_iam_user_v1_service_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListUsersResponse.ProtoReflect.Descriptor instead.
+func (*ListUsersResponse) Descriptor() ([]byte, []int) {
+	return file_meshtrade_iam_user_v1_service_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *ListUsersResponse) GetUsers() []*User {
+	if x != nil {
+		return x.Users
+	}
+	return nil
+}
+
+type SearchUsersRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Email is a substring search for users.
+	Email string `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
+	// Optional sorting configuration.
+	Sorting       *SearchUsersRequest_Sorting `protobuf:"bytes,2,opt,name=sorting,proto3" json:"sorting,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SearchUsersRequest) Reset() {
+	*x = SearchUsersRequest{}
+	mi := &file_meshtrade_iam_user_v1_service_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SearchUsersRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SearchUsersRequest) ProtoMessage() {}
+
+func (x *SearchUsersRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_iam_user_v1_service_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SearchUsersRequest.ProtoReflect.Descriptor instead.
+func (*SearchUsersRequest) Descriptor() ([]byte, []int) {
+	return file_meshtrade_iam_user_v1_service_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *SearchUsersRequest) GetEmail() string {
 	if x != nil {
 		return x.Email
 	}
 	return ""
 }
 
-func (x *AssignRoleToUserRequest) GetGroup() string {
+func (x *SearchUsersRequest) GetSorting() *SearchUsersRequest_Sorting {
 	if x != nil {
-		return x.Group
+		return x.Sorting
+	}
+	return nil
+}
+
+type SearchUsersResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Users         []*User                `protobuf:"bytes,1,rep,name=users,proto3" json:"users,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SearchUsersResponse) Reset() {
+	*x = SearchUsersResponse{}
+	mi := &file_meshtrade_iam_user_v1_service_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SearchUsersResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SearchUsersResponse) ProtoMessage() {}
+
+func (x *SearchUsersResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_iam_user_v1_service_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SearchUsersResponse.ProtoReflect.Descriptor instead.
+func (*SearchUsersResponse) Descriptor() ([]byte, []int) {
+	return file_meshtrade_iam_user_v1_service_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *SearchUsersResponse) GetUsers() []*User {
+	if x != nil {
+		return x.Users
+	}
+	return nil
+}
+
+type CreateUserRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The user resource to create.
+	// The name field will be ignored and assigned by the server.
+	User          *User `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateUserRequest) Reset() {
+	*x = CreateUserRequest{}
+	mi := &file_meshtrade_iam_user_v1_service_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateUserRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateUserRequest) ProtoMessage() {}
+
+func (x *CreateUserRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_iam_user_v1_service_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateUserRequest.ProtoReflect.Descriptor instead.
+func (*CreateUserRequest) Descriptor() ([]byte, []int) {
+	return file_meshtrade_iam_user_v1_service_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *CreateUserRequest) GetUser() *User {
+	if x != nil {
+		return x.User
+	}
+	return nil
+}
+
+type UpdateUserRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Complete user resource with updated fields.
+	// Only mutable fields can be modified.
+	User          *User `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateUserRequest) Reset() {
+	*x = UpdateUserRequest{}
+	mi := &file_meshtrade_iam_user_v1_service_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateUserRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateUserRequest) ProtoMessage() {}
+
+func (x *UpdateUserRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_iam_user_v1_service_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateUserRequest.ProtoReflect.Descriptor instead.
+func (*UpdateUserRequest) Descriptor() ([]byte, []int) {
+	return file_meshtrade_iam_user_v1_service_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *UpdateUserRequest) GetUser() *User {
+	if x != nil {
+		return x.User
+	}
+	return nil
+}
+
+type ListUsersRequest_Sorting struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Field to sort by (e.g., "email").
+	Field string `protobuf:"bytes,1,opt,name=field,proto3" json:"field,omitempty"`
+	// Sort order for results.
+	Order         v1.SortingOrder `protobuf:"varint,2,opt,name=order,proto3,enum=meshtrade.type.v1.SortingOrder" json:"order,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListUsersRequest_Sorting) Reset() {
+	*x = ListUsersRequest_Sorting{}
+	mi := &file_meshtrade_iam_user_v1_service_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListUsersRequest_Sorting) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListUsersRequest_Sorting) ProtoMessage() {}
+
+func (x *ListUsersRequest_Sorting) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_iam_user_v1_service_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListUsersRequest_Sorting.ProtoReflect.Descriptor instead.
+func (*ListUsersRequest_Sorting) Descriptor() ([]byte, []int) {
+	return file_meshtrade_iam_user_v1_service_proto_rawDescGZIP(), []int{2, 0}
+}
+
+func (x *ListUsersRequest_Sorting) GetField() string {
+	if x != nil {
+		return x.Field
 	}
 	return ""
 }
 
-func (x *AssignRoleToUserRequest) GetRole() v1.Role {
+func (x *ListUsersRequest_Sorting) GetOrder() v1.SortingOrder {
 	if x != nil {
-		return x.Role
+		return x.Order
 	}
-	return v1.Role(0)
+	return v1.SortingOrder(0)
+}
+
+type SearchUsersRequest_Sorting struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Field to sort by (e.g., "email").
+	Field string `protobuf:"bytes,1,opt,name=field,proto3" json:"field,omitempty"`
+	// Sort order for results.
+	Order         v1.SortingOrder `protobuf:"varint,2,opt,name=order,proto3,enum=meshtrade.type.v1.SortingOrder" json:"order,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SearchUsersRequest_Sorting) Reset() {
+	*x = SearchUsersRequest_Sorting{}
+	mi := &file_meshtrade_iam_user_v1_service_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SearchUsersRequest_Sorting) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SearchUsersRequest_Sorting) ProtoMessage() {}
+
+func (x *SearchUsersRequest_Sorting) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_iam_user_v1_service_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SearchUsersRequest_Sorting.ProtoReflect.Descriptor instead.
+func (*SearchUsersRequest_Sorting) Descriptor() ([]byte, []int) {
+	return file_meshtrade_iam_user_v1_service_proto_rawDescGZIP(), []int{4, 0}
+}
+
+func (x *SearchUsersRequest_Sorting) GetField() string {
+	if x != nil {
+		return x.Field
+	}
+	return ""
+}
+
+func (x *SearchUsersRequest_Sorting) GetOrder() v1.SortingOrder {
+	if x != nil {
+		return x.Order
+	}
+	return v1.SortingOrder(0)
 }
 
 var File_meshtrade_iam_user_v1_service_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_user_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"#meshtrade/iam/user/v1/service.proto\x12\x15meshtrade.iam.user.v1\x1a\x1bbuf/validate/validate.proto\x1a meshtrade/iam/role/v1/role.proto\x1a meshtrade/iam/user/v1/user.proto\x1a%meshtrade/option/v1/method_type.proto\"\x88\x04\n" +
-	"\x17AssignRoleToUserRequest\x12\xac\x01\n" +
-	"\x05email\x18\x01 \x01(\tB\x95\x01\xbaH\x91\x01\xba\x01U\n" +
-	"\x0eemail.required\x123email is required and must be a valid email address\x1a\x0esize(this) > 0r7\x10\x01\x18\xfe\x0120^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$R\x05email\x12\x9b\x01\n" +
-	"\x05group\x18\x02 \x01(\tB\x84\x01\xbaH\x80\x01\xba\x01v\n" +
-	"\x0egroup.required\x12?group name is required and must be between 1 and 255 characters\x1a#size(this) > 0 && size(this) <= 255r\x05\x10\x01\x18\xff\x01R\x05group\x12\x9f\x01\n" +
-	"\x04role\x18\x03 \x01(\x0e2\x1b.meshtrade.iam.role.v1.RoleBn\xbaHk\xba\x01a\n" +
-	"\rrole.required\x12@role is required and must be a valid role type (not UNSPECIFIED)\x1a\x0eint(this) != 0\x82\x01\x04\x10\x01 \x00R\x04role2~\n" +
+	"#meshtrade/iam/user/v1/service.proto\x12\x15meshtrade.iam.user.v1\x1a\x1bbuf/validate/validate.proto\x1a meshtrade/iam/role/v1/role.proto\x1a meshtrade/iam/user/v1/user.proto\x1a%meshtrade/option/v1/method_type.proto\x1a\x1fmeshtrade/type/v1/sorting.proto\"\xc3\x01\n" +
+	"\x17AssignRoleToUserRequest\x12L\n" +
+	"\x04name\x18\x01 \x01(\tB8\xbaH5r32.^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01 R\x04name\x12Z\n" +
+	"\x04role\x18\x04 \x01(\tBF\xbaHC\xc8\x01\x01r>29^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/1[0-9]{6}$\x98\x01)R\x04role\"a\n" +
+	"\x0eGetUserRequest\x12O\n" +
+	"\x04name\x18\x01 \x01(\tB;\xbaH8\xc8\x01\x01r32.^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01 R\x04name\"\x94\x02\n" +
+	"\x10ListUsersRequest\x12I\n" +
+	"\asorting\x18\x01 \x01(\v2/.meshtrade.iam.user.v1.ListUsersRequest.SortingR\asorting\x1a\xb4\x01\n" +
+	"\aSorting\x12r\n" +
+	"\x05field\x18\x01 \x01(\tB\\\xbaHY\xba\x01K\n" +
+	"\vfield.valid\x12%field must be one of: email, or empty\x1a\x15this in ['', 'email']r\tR\x00R\x05emailR\x05field\x125\n" +
+	"\x05order\x18\x02 \x01(\x0e2\x1f.meshtrade.type.v1.SortingOrderR\x05order\"F\n" +
+	"\x11ListUsersResponse\x121\n" +
+	"\x05users\x18\x01 \x03(\v2\x1b.meshtrade.iam.user.v1.UserR\x05users\"\xae\x02\n" +
+	"\x12SearchUsersRequest\x12\x14\n" +
+	"\x05email\x18\x01 \x01(\tR\x05email\x12K\n" +
+	"\asorting\x18\x02 \x01(\v21.meshtrade.iam.user.v1.SearchUsersRequest.SortingR\asorting\x1a\xb4\x01\n" +
+	"\aSorting\x12r\n" +
+	"\x05field\x18\x01 \x01(\tB\\\xbaHY\xba\x01K\n" +
+	"\vfield.valid\x12%field must be one of: email, or empty\x1a\x15this in ['', 'email']r\tR\x00R\x05emailR\x05field\x125\n" +
+	"\x05order\x18\x02 \x01(\x0e2\x1f.meshtrade.type.v1.SortingOrderR\x05order\"H\n" +
+	"\x13SearchUsersResponse\x121\n" +
+	"\x05users\x18\x01 \x03(\v2\x1b.meshtrade.iam.user.v1.UserR\x05users\"L\n" +
+	"\x11CreateUserRequest\x127\n" +
+	"\x04user\x18\x01 \x01(\v2\x1b.meshtrade.iam.user.v1.UserB\x06\xbaH\x03\xc8\x01\x01R\x04user\"L\n" +
+	"\x11UpdateUserRequest\x127\n" +
+	"\x04user\x18\x01 \x01(\v2\x1b.meshtrade.iam.user.v1.UserB\x06\xbaH\x03\xc8\x01\x01R\x04user2\x99\x05\n" +
 	"\vUserService\x12o\n" +
 	"\x10AssignRoleToUser\x12..meshtrade.iam.user.v1.AssignRoleToUserRequest\x1a\x1b.meshtrade.iam.user.v1.User\"\x0e\xa0\xb5\x18\x02\xaa\xb5\x18\x06\n" +
+	"\x04\xc0\x8d\xb7\x01\x12a\n" +
+	"\aGetUser\x12%.meshtrade.iam.user.v1.GetUserRequest\x1a\x1b.meshtrade.iam.user.v1.User\"\x12\xa0\xb5\x18\x01\xaa\xb5\x18\n" +
+	"\n" +
+	"\b\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01\x12r\n" +
+	"\tListUsers\x12'.meshtrade.iam.user.v1.ListUsersRequest\x1a(.meshtrade.iam.user.v1.ListUsersResponse\"\x12\xa0\xb5\x18\x01\xaa\xb5\x18\n" +
+	"\n" +
+	"\b\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01\x12x\n" +
+	"\vSearchUsers\x12).meshtrade.iam.user.v1.SearchUsersRequest\x1a*.meshtrade.iam.user.v1.SearchUsersResponse\"\x12\xa0\xb5\x18\x01\xaa\xb5\x18\n" +
+	"\n" +
+	"\b\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01\x12c\n" +
+	"\n" +
+	"CreateUser\x12(.meshtrade.iam.user.v1.CreateUserRequest\x1a\x1b.meshtrade.iam.user.v1.User\"\x0e\xa0\xb5\x18\x02\xaa\xb5\x18\x06\n" +
+	"\x04\xc0\x8d\xb7\x01\x12c\n" +
+	"\n" +
+	"UpdateUser\x12(.meshtrade.iam.user.v1.UpdateUserRequest\x1a\x1b.meshtrade.iam.user.v1.User\"\x0e\xa0\xb5\x18\x02\xaa\xb5\x18\x06\n" +
 	"\x04\xc0\x8d\xb7\x01BO\n" +
 	"\x1cco.meshtrade.api.iam.user.v1Z/github.com/meshtrade/api/go/iam/user/v1;user_v1b\x06proto3"
 
@@ -116,21 +576,47 @@ func file_meshtrade_iam_user_v1_service_proto_rawDescGZIP() []byte {
 	return file_meshtrade_iam_user_v1_service_proto_rawDescData
 }
 
-var file_meshtrade_iam_user_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_meshtrade_iam_user_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_meshtrade_iam_user_v1_service_proto_goTypes = []any{
-	(*AssignRoleToUserRequest)(nil), // 0: meshtrade.iam.user.v1.AssignRoleToUserRequest
-	(v1.Role)(0),                    // 1: meshtrade.iam.role.v1.Role
-	(*User)(nil),                    // 2: meshtrade.iam.user.v1.User
+	(*AssignRoleToUserRequest)(nil),    // 0: meshtrade.iam.user.v1.AssignRoleToUserRequest
+	(*GetUserRequest)(nil),             // 1: meshtrade.iam.user.v1.GetUserRequest
+	(*ListUsersRequest)(nil),           // 2: meshtrade.iam.user.v1.ListUsersRequest
+	(*ListUsersResponse)(nil),          // 3: meshtrade.iam.user.v1.ListUsersResponse
+	(*SearchUsersRequest)(nil),         // 4: meshtrade.iam.user.v1.SearchUsersRequest
+	(*SearchUsersResponse)(nil),        // 5: meshtrade.iam.user.v1.SearchUsersResponse
+	(*CreateUserRequest)(nil),          // 6: meshtrade.iam.user.v1.CreateUserRequest
+	(*UpdateUserRequest)(nil),          // 7: meshtrade.iam.user.v1.UpdateUserRequest
+	(*ListUsersRequest_Sorting)(nil),   // 8: meshtrade.iam.user.v1.ListUsersRequest.Sorting
+	(*SearchUsersRequest_Sorting)(nil), // 9: meshtrade.iam.user.v1.SearchUsersRequest.Sorting
+	(*User)(nil),                       // 10: meshtrade.iam.user.v1.User
+	(v1.SortingOrder)(0),               // 11: meshtrade.type.v1.SortingOrder
 }
 var file_meshtrade_iam_user_v1_service_proto_depIdxs = []int32{
-	1, // 0: meshtrade.iam.user.v1.AssignRoleToUserRequest.role:type_name -> meshtrade.iam.role.v1.Role
-	0, // 1: meshtrade.iam.user.v1.UserService.AssignRoleToUser:input_type -> meshtrade.iam.user.v1.AssignRoleToUserRequest
-	2, // 2: meshtrade.iam.user.v1.UserService.AssignRoleToUser:output_type -> meshtrade.iam.user.v1.User
-	2, // [2:3] is the sub-list for method output_type
-	1, // [1:2] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	8,  // 0: meshtrade.iam.user.v1.ListUsersRequest.sorting:type_name -> meshtrade.iam.user.v1.ListUsersRequest.Sorting
+	10, // 1: meshtrade.iam.user.v1.ListUsersResponse.users:type_name -> meshtrade.iam.user.v1.User
+	9,  // 2: meshtrade.iam.user.v1.SearchUsersRequest.sorting:type_name -> meshtrade.iam.user.v1.SearchUsersRequest.Sorting
+	10, // 3: meshtrade.iam.user.v1.SearchUsersResponse.users:type_name -> meshtrade.iam.user.v1.User
+	10, // 4: meshtrade.iam.user.v1.CreateUserRequest.user:type_name -> meshtrade.iam.user.v1.User
+	10, // 5: meshtrade.iam.user.v1.UpdateUserRequest.user:type_name -> meshtrade.iam.user.v1.User
+	11, // 6: meshtrade.iam.user.v1.ListUsersRequest.Sorting.order:type_name -> meshtrade.type.v1.SortingOrder
+	11, // 7: meshtrade.iam.user.v1.SearchUsersRequest.Sorting.order:type_name -> meshtrade.type.v1.SortingOrder
+	0,  // 8: meshtrade.iam.user.v1.UserService.AssignRoleToUser:input_type -> meshtrade.iam.user.v1.AssignRoleToUserRequest
+	1,  // 9: meshtrade.iam.user.v1.UserService.GetUser:input_type -> meshtrade.iam.user.v1.GetUserRequest
+	2,  // 10: meshtrade.iam.user.v1.UserService.ListUsers:input_type -> meshtrade.iam.user.v1.ListUsersRequest
+	4,  // 11: meshtrade.iam.user.v1.UserService.SearchUsers:input_type -> meshtrade.iam.user.v1.SearchUsersRequest
+	6,  // 12: meshtrade.iam.user.v1.UserService.CreateUser:input_type -> meshtrade.iam.user.v1.CreateUserRequest
+	7,  // 13: meshtrade.iam.user.v1.UserService.UpdateUser:input_type -> meshtrade.iam.user.v1.UpdateUserRequest
+	10, // 14: meshtrade.iam.user.v1.UserService.AssignRoleToUser:output_type -> meshtrade.iam.user.v1.User
+	10, // 15: meshtrade.iam.user.v1.UserService.GetUser:output_type -> meshtrade.iam.user.v1.User
+	3,  // 16: meshtrade.iam.user.v1.UserService.ListUsers:output_type -> meshtrade.iam.user.v1.ListUsersResponse
+	5,  // 17: meshtrade.iam.user.v1.UserService.SearchUsers:output_type -> meshtrade.iam.user.v1.SearchUsersResponse
+	10, // 18: meshtrade.iam.user.v1.UserService.CreateUser:output_type -> meshtrade.iam.user.v1.User
+	10, // 19: meshtrade.iam.user.v1.UserService.UpdateUser:output_type -> meshtrade.iam.user.v1.User
+	14, // [14:20] is the sub-list for method output_type
+	8,  // [8:14] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_iam_user_v1_service_proto_init() }
@@ -145,7 +631,7 @@ func file_meshtrade_iam_user_v1_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_meshtrade_iam_user_v1_service_proto_rawDesc), len(file_meshtrade_iam_user_v1_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   1,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

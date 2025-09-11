@@ -145,16 +145,28 @@ service ApiUserService {
 
 message GetApiUserRequest {
   /*
-     Name of the API user to get.
+     Name of the API user to retrieve.
+     Format: api_users/{ULIDv2}
   */
-  string name = 1;
+  string name = 1 [(buf.validate.field) = {
+    required: true,
+    string: {
+      len: 36,
+      pattern: "^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+    }
+  }];
 }
 
 message GetApiUserByKeyHashRequest {
   /*
      Key hash of the API user to get.
   */
-  string key_hash = 1;
+  string key_hash = 1 [(buf.validate.field) = {
+    required: true,
+    string: {
+      len: 44,
+    }
+  }];
 }
 
 message CreateApiUserRequest {
@@ -162,7 +174,7 @@ message CreateApiUserRequest {
      The API user resource to create.
      The name field will be ignored and assigned by the server.
   */
-  meshtrade.iam.api_user.v1.APIUser api_user = 1;
+  meshtrade.iam.api_user.v1.APIUser api_user = 1 [(buf.validate.field) = {required: true}];
 }
 
 message ListApiUsersRequest {}
@@ -185,16 +197,13 @@ message SearchApiUsersResponse {
 message ActivateApiUserRequest {
   /*
      Name of the API user to activate.
+     Format: api_users/{ULIDv2}
   */
   string name = 1 [(buf.validate.field) = {
+    required: true,
     string: {
-      min_len: 1
-      pattern: "^api_users/[0-9A-HJKMNP-TV-Z]{26}$"
-    }
-    cel: {
-      id: "name.required"
-      message: "name is required and must be in format api_users/{id}"
-      expression: "this.matches('^api_users/[0-9A-HJKMNP-TV-Z]{26}$')"
+      len: 36,
+      pattern: "^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
 }
@@ -202,16 +211,13 @@ message ActivateApiUserRequest {
 message DeactivateApiUserRequest {
   /*
      Name of the API user to deactivate.
+     Format: api_users/{ULIDv2}
   */
   string name = 1 [(buf.validate.field) = {
+    required: true,
     string: {
-      min_len: 1
-      pattern: "^api_users/[0-9A-HJKMNP-TV-Z]{26}$"
-    }
-    cel: {
-      id: "name.required"
-      message: "name is required and must be in format api_users/{id}"
-      expression: "this.matches('^api_users/[0-9A-HJKMNP-TV-Z]{26}$')"
+      len: 36,
+      pattern: "^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
 }

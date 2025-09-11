@@ -2,19 +2,86 @@ syntax = "proto3";
 
 package meshtrade.iam.user.v1;
 
+import "buf/validate/validate.proto";
+
 option go_package = "github.com/meshtrade/api/go/iam/user/v1;user_v1";
 option java_package = "co.meshtrade.api.iam.user.v1";
 
+/*
+  A user in the IAM service.
+
+  Each User belongs to a specific group and has
+  defined roles that determine their permissions within that group.
+*/
 message User {
   /*
-     Email address of the user.
+     The unique resource name for the user.
+     Format: users/{ULIDv2}.
+     This field is system-generated and immutable upon creation.
+     Any value provided on creation is ignored.
   */
-  string email = 1;
+  string name = 1 [(buf.validate.field) = {
+    cel: {
+      id: "name.format.optional",
+      message: "name must be empty or in the format users/{ULIDv2}",
+      expression: "size(this) == 0 || this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
+    }
+  }];
 
   /*
-     Roles is a list of the roles assigned to this user
-     prepended by the name of the group in which they have been assigned that role.
-     e.g. groups/{ulid}/{role}, where role is one of the rolev1.Role enum
+     The resource name of the parent group that owns this user.
+     This field is required on creation and establishes the direct ownership link.
+     Format: groups/{ULIDv2}.
   */
-  repeated string roles = 6;
+  string owner = 2 [(buf.validate.field) = {
+    required: true,   
+    string: {
+      len: 33,
+      pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+    }
+  }];
+
+  /*
+     The complete ownership path from the root to this user's owner.
+     This is a system-maintained array for efficient, hierarchical access control checks.
+     This field is system-generated and immutable.
+     Any value provided on creation is ignored.
+  */
+  repeated string owners = 3 [(buf.validate.field) = {
+    repeated: {
+      items: {
+        string: {
+          len: 33,
+          pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+        }
+      }
+    }
+  }];
+
+  /*
+     The unique email address of this user.
+     This field is required on creation and must be a valid email format.
+  */
+  string email = 4 [(buf.validate.field) = {
+    required: true,
+    string: {
+      email: true
+    }
+  }];
+
+  /*
+     Roles is a list of standard roles assigned to this user,
+     prepended by the name of the group in which they have been assigned that role.
+     e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
+  */
+  repeated string roles = 6 [(buf.validate.field) = {
+    repeated: {
+      items: {
+        string: {
+          len: 41,
+          pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/1[0-9]{6}$"
+        }
+      }
+    }
+  }];
 }

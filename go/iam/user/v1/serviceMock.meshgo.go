@@ -17,6 +17,16 @@ type MockUserService struct {
 	T                               *testing.T
 	AssignRoleToUserFunc            func(t *testing.T, m *MockUserService, ctx context.Context, request *AssignRoleToUserRequest) (*User, error)
 	AssignRoleToUserFuncInvocations int
+	GetUserFunc                     func(t *testing.T, m *MockUserService, ctx context.Context, request *GetUserRequest) (*User, error)
+	GetUserFuncInvocations          int
+	ListUsersFunc                   func(t *testing.T, m *MockUserService, ctx context.Context, request *ListUsersRequest) (*ListUsersResponse, error)
+	ListUsersFuncInvocations        int
+	SearchUsersFunc                 func(t *testing.T, m *MockUserService, ctx context.Context, request *SearchUsersRequest) (*SearchUsersResponse, error)
+	SearchUsersFuncInvocations      int
+	CreateUserFunc                  func(t *testing.T, m *MockUserService, ctx context.Context, request *CreateUserRequest) (*User, error)
+	CreateUserFuncInvocations       int
+	UpdateUserFunc                  func(t *testing.T, m *MockUserService, ctx context.Context, request *UpdateUserRequest) (*User, error)
+	UpdateUserFuncInvocations       int
 }
 
 func (m *MockUserService) AssignRoleToUser(ctx context.Context, request *AssignRoleToUserRequest) (*User, error) {
@@ -27,4 +37,54 @@ func (m *MockUserService) AssignRoleToUser(ctx context.Context, request *AssignR
 		return nil, nil
 	}
 	return m.AssignRoleToUserFunc(m.T, m, ctx, request)
+}
+
+func (m *MockUserService) GetUser(ctx context.Context, request *GetUserRequest) (*User, error) {
+	m.mutex.Lock()
+	m.GetUserFuncInvocations++
+	m.mutex.Unlock()
+	if m.GetUserFunc == nil {
+		return nil, nil
+	}
+	return m.GetUserFunc(m.T, m, ctx, request)
+}
+
+func (m *MockUserService) ListUsers(ctx context.Context, request *ListUsersRequest) (*ListUsersResponse, error) {
+	m.mutex.Lock()
+	m.ListUsersFuncInvocations++
+	m.mutex.Unlock()
+	if m.ListUsersFunc == nil {
+		return nil, nil
+	}
+	return m.ListUsersFunc(m.T, m, ctx, request)
+}
+
+func (m *MockUserService) SearchUsers(ctx context.Context, request *SearchUsersRequest) (*SearchUsersResponse, error) {
+	m.mutex.Lock()
+	m.SearchUsersFuncInvocations++
+	m.mutex.Unlock()
+	if m.SearchUsersFunc == nil {
+		return nil, nil
+	}
+	return m.SearchUsersFunc(m.T, m, ctx, request)
+}
+
+func (m *MockUserService) CreateUser(ctx context.Context, request *CreateUserRequest) (*User, error) {
+	m.mutex.Lock()
+	m.CreateUserFuncInvocations++
+	m.mutex.Unlock()
+	if m.CreateUserFunc == nil {
+		return nil, nil
+	}
+	return m.CreateUserFunc(m.T, m, ctx, request)
+}
+
+func (m *MockUserService) UpdateUser(ctx context.Context, request *UpdateUserRequest) (*User, error) {
+	m.mutex.Lock()
+	m.UpdateUserFuncInvocations++
+	m.mutex.Unlock()
+	if m.UpdateUserFunc == nil {
+		return nil, nil
+	}
+	return m.UpdateUserFunc(m.T, m, ctx, request)
 }

@@ -20,16 +20,60 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	UserService_AssignRoleToUser_FullMethodName = "/meshtrade.iam.user.v1.UserService/AssignRoleToUser"
+	UserService_GetUser_FullMethodName          = "/meshtrade.iam.user.v1.UserService/GetUser"
+	UserService_ListUsers_FullMethodName        = "/meshtrade.iam.user.v1.UserService/ListUsers"
+	UserService_SearchUsers_FullMethodName      = "/meshtrade.iam.user.v1.UserService/SearchUsers"
+	UserService_CreateUser_FullMethodName       = "/meshtrade.iam.user.v1.UserService/CreateUser"
+	UserService_UpdateUser_FullMethodName       = "/meshtrade.iam.user.v1.UserService/UpdateUser"
 )
 
 // UserServiceClient is the client API for UserService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
-// Service defines the RPC methods for interacting with the user resource,
+// UserService manages user lifecycle and identity operations within groups.
+//
+// Users are individual identity entities that belong to specific groups and have
+// assigned roles that determine their permissions within that group context.
+// Each user has a unique email address and can be assigned multiple roles
+// across the group hierarchy for fine-grained access control.
+//
+// All operations require appropriate IAM domain permissions and operate within
+// the authenticated group context.
 type UserServiceClient interface {
-	// Assign Role To User
+	// Assigns a role to an existing user within the authenticated group context.
+	//
+	// The role assignment enables the user to perform operations according
+	// to the permissions associated with that role within the group hierarchy.
 	AssignRoleToUser(ctx context.Context, in *AssignRoleToUserRequest, opts ...grpc.CallOption) (*User, error)
+	// Retrieves a single user by its unique identifier.
+	//
+	// Returns user details including name, email, ownership information,
+	// and assigned roles within the authenticated group's access scope.
+	GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*User, error)
+	// Returns all users accessible within the authenticated group's hierarchy.
+	//
+	// Results include users directly owned and those accessible through the
+	// group's hierarchical permissions, optionally sorted by email address.
+	ListUsers(ctx context.Context, in *ListUsersRequest, opts ...grpc.CallOption) (*ListUsersResponse, error)
+	// Searches for users by email address using substring matching.
+	//
+	// Returns users whose email addresses contain the provided search term,
+	// filtered by the authenticated group's access permissions and optionally
+	// sorted by email address.
+	SearchUsers(ctx context.Context, in *SearchUsersRequest, opts ...grpc.CallOption) (*SearchUsersResponse, error)
+	// Creates a new user within the authenticated group context.
+	//
+	// The user will be created with the provided email and group ownership,
+	// with system-generated unique identifier and ownership hierarchy.
+	// Additional roles can be assigned after creation.
+	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*User, error)
+	// Updates an existing user with modified field values.
+	//
+	// Only mutable fields can be updated while preserving system-generated
+	// identifiers and ownership relationships. Role modifications should
+	// use dedicated role management operations.
+	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*User, error)
 }
 
 type userServiceClient struct {
@@ -50,14 +94,103 @@ func (c *userServiceClient) AssignRoleToUser(ctx context.Context, in *AssignRole
 	return out, nil
 }
 
+func (c *userServiceClient) GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*User, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(User)
+	err := c.cc.Invoke(ctx, UserService_GetUser_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) ListUsers(ctx context.Context, in *ListUsersRequest, opts ...grpc.CallOption) (*ListUsersResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListUsersResponse)
+	err := c.cc.Invoke(ctx, UserService_ListUsers_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) SearchUsers(ctx context.Context, in *SearchUsersRequest, opts ...grpc.CallOption) (*SearchUsersResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SearchUsersResponse)
+	err := c.cc.Invoke(ctx, UserService_SearchUsers_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*User, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(User)
+	err := c.cc.Invoke(ctx, UserService_CreateUser_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*User, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(User)
+	err := c.cc.Invoke(ctx, UserService_UpdateUser_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility.
 //
-// Service defines the RPC methods for interacting with the user resource,
+// UserService manages user lifecycle and identity operations within groups.
+//
+// Users are individual identity entities that belong to specific groups and have
+// assigned roles that determine their permissions within that group context.
+// Each user has a unique email address and can be assigned multiple roles
+// across the group hierarchy for fine-grained access control.
+//
+// All operations require appropriate IAM domain permissions and operate within
+// the authenticated group context.
 type UserServiceServer interface {
-	// Assign Role To User
+	// Assigns a role to an existing user within the authenticated group context.
+	//
+	// The role assignment enables the user to perform operations according
+	// to the permissions associated with that role within the group hierarchy.
 	AssignRoleToUser(context.Context, *AssignRoleToUserRequest) (*User, error)
+	// Retrieves a single user by its unique identifier.
+	//
+	// Returns user details including name, email, ownership information,
+	// and assigned roles within the authenticated group's access scope.
+	GetUser(context.Context, *GetUserRequest) (*User, error)
+	// Returns all users accessible within the authenticated group's hierarchy.
+	//
+	// Results include users directly owned and those accessible through the
+	// group's hierarchical permissions, optionally sorted by email address.
+	ListUsers(context.Context, *ListUsersRequest) (*ListUsersResponse, error)
+	// Searches for users by email address using substring matching.
+	//
+	// Returns users whose email addresses contain the provided search term,
+	// filtered by the authenticated group's access permissions and optionally
+	// sorted by email address.
+	SearchUsers(context.Context, *SearchUsersRequest) (*SearchUsersResponse, error)
+	// Creates a new user within the authenticated group context.
+	//
+	// The user will be created with the provided email and group ownership,
+	// with system-generated unique identifier and ownership hierarchy.
+	// Additional roles can be assigned after creation.
+	CreateUser(context.Context, *CreateUserRequest) (*User, error)
+	// Updates an existing user with modified field values.
+	//
+	// Only mutable fields can be updated while preserving system-generated
+	// identifiers and ownership relationships. Role modifications should
+	// use dedicated role management operations.
+	UpdateUser(context.Context, *UpdateUserRequest) (*User, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -70,6 +203,21 @@ type UnimplementedUserServiceServer struct{}
 
 func (UnimplementedUserServiceServer) AssignRoleToUser(context.Context, *AssignRoleToUserRequest) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AssignRoleToUser not implemented")
+}
+func (UnimplementedUserServiceServer) GetUser(context.Context, *GetUserRequest) (*User, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUser not implemented")
+}
+func (UnimplementedUserServiceServer) ListUsers(context.Context, *ListUsersRequest) (*ListUsersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListUsers not implemented")
+}
+func (UnimplementedUserServiceServer) SearchUsers(context.Context, *SearchUsersRequest) (*SearchUsersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SearchUsers not implemented")
+}
+func (UnimplementedUserServiceServer) CreateUser(context.Context, *CreateUserRequest) (*User, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
+}
+func (UnimplementedUserServiceServer) UpdateUser(context.Context, *UpdateUserRequest) (*User, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateUser not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 func (UnimplementedUserServiceServer) testEmbeddedByValue()                     {}
@@ -110,6 +258,96 @@ func _UserService_AssignRoleToUser_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_GetUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).GetUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_GetUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).GetUser(ctx, req.(*GetUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_ListUsers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListUsersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).ListUsers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_ListUsers_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).ListUsers(ctx, req.(*ListUsersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_SearchUsers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SearchUsersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).SearchUsers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_SearchUsers_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).SearchUsers(ctx, req.(*SearchUsersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_CreateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).CreateUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_CreateUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).CreateUser(ctx, req.(*CreateUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_UpdateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).UpdateUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_UpdateUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).UpdateUser(ctx, req.(*UpdateUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -120,6 +358,26 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AssignRoleToUser",
 			Handler:    _UserService_AssignRoleToUser_Handler,
+		},
+		{
+			MethodName: "GetUser",
+			Handler:    _UserService_GetUser_Handler,
+		},
+		{
+			MethodName: "ListUsers",
+			Handler:    _UserService_ListUsers_Handler,
+		},
+		{
+			MethodName: "SearchUsers",
+			Handler:    _UserService_SearchUsers_Handler,
+		},
+		{
+			MethodName: "CreateUser",
+			Handler:    _UserService_CreateUser_Handler,
+		},
+		{
+			MethodName: "UpdateUser",
+			Handler:    _UserService_UpdateUser_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
