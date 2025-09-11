@@ -994,3 +994,212 @@ func TestSearchUsersResponse_Validation(t *testing.T) {
 		})
 	}
 }
+func TestCreateUserRequest_Validation(t *testing.T) {
+	validator, err := protovalidate.New()
+	require.NoError(t, err)
+
+	tests := []struct {
+		name      string
+		request   *CreateUserRequest
+		wantValid bool
+		wantError string
+	}{
+		{
+			name: "valid request with complete user",
+			request: &CreateUserRequest{
+				User: &User{
+					Owner: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+					Email: "test@example.com",
+				},
+			},
+			wantValid: true,
+		},
+		{
+			name: "valid request with user containing name (should be ignored by server)",
+			request: &CreateUserRequest{
+				User: &User{
+					Name:  "users/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Will be ignored
+					Owner: "groups/01BX5ZZKBKACTAV9WEVGEMMVRZ",
+					Email: "user@example.com",
+				},
+			},
+			wantValid: true,
+		},
+		{
+			name: "valid request with user containing roles and owners",
+			request: &CreateUserRequest{
+				User: &User{
+					Owner:  "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+					Owners: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV", "groups/01BX5ZZKBKACTAV9WEVGEMMVRZ"},
+					Email:  "admin@example.com",
+					Roles:  []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567", "groups/01BX5ZZKBKACTAV9WEVGEMMVRZ/1987654"},
+				},
+			},
+			wantValid: true,
+		},
+		// user field tests (required)
+		{
+			name: "empty user - should fail (required)",
+			request: &CreateUserRequest{
+				User: nil,
+			},
+			wantValid: false,
+			wantError: "required",
+		},
+		{
+			name: "user with invalid owner - should fail",
+			request: &CreateUserRequest{
+				User: &User{
+					Owner: "invalid-owner", // Invalid format
+					Email: "test@example.com",
+				},
+			},
+			wantValid: false,
+			wantError: "pattern", // This will fail User validation rules
+		},
+		{
+			name: "user with invalid email - should fail",
+			request: &CreateUserRequest{
+				User: &User{
+					Owner: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+					Email: "invalid-email", // Invalid email format
+				},
+			},
+			wantValid: false,
+			wantError: "email", // This will fail User validation rules
+		},
+		{
+			name: "user with empty required fields - should fail",
+			request: &CreateUserRequest{
+				User: &User{
+					// Missing required owner and email
+				},
+			},
+			wantValid: false,
+			wantError: "required", // This will fail User validation rules
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			err := validator.Validate(tt.request)
+
+			if tt.wantValid {
+				assert.NoError(t, err, "Expected validation to pass for case: %s", tt.name)
+			} else {
+				assert.Error(t, err, "Expected validation to fail for case: %s", tt.name)
+				if tt.wantError != "" && err != nil {
+					assert.Contains(t, strings.ToLower(err.Error()), tt.wantError, "Error message should contain expected text for case: %s. Got error: %s", tt.name, err.Error())
+				}
+			}
+		})
+	}
+}
+
+func TestUpdateUserRequest_Validation(t *testing.T) {
+	validator, err := protovalidate.New()
+	require.NoError(t, err)
+
+	tests := []struct {
+		name      string
+		request   *UpdateUserRequest
+		wantValid bool
+		wantError string
+	}{
+		{
+			name: "valid request with complete user",
+			request: &UpdateUserRequest{
+				User: &User{
+					Name:  "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+					Owner: "groups/01BX5ZZKBKACTAV9WEVGEMMVRZ",
+					Email: "updated@example.com",
+				},
+			},
+			wantValid: true,
+		},
+		{
+			name: "valid request with user containing roles and owners",
+			request: &UpdateUserRequest{
+				User: &User{
+					Name:   "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+					Owner:  "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+					Owners: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV", "groups/01BX5ZZKBKACTAV9WEVGEMMVRZ"},
+					Email:  "updated-admin@example.com",
+					Roles:  []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567", "groups/01BX5ZZKBKACTAV9WEVGEMMVRZ/1987654"},
+				},
+			},
+			wantValid: true,
+		},
+		// user field tests (required)
+		{
+			name: "empty user - should fail (required)",
+			request: &UpdateUserRequest{
+				User: nil,
+			},
+			wantValid: false,
+			wantError: "required",
+		},
+		{
+			name: "user with invalid name - should fail",
+			request: &UpdateUserRequest{
+				User: &User{
+					Name:  "invalid-name", // Invalid format
+					Owner: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+					Email: "test@example.com",
+				},
+			},
+			wantValid: false,
+			wantError: "format", // This will fail User validation rules
+		},
+		{
+			name: "user with invalid owner - should fail",
+			request: &UpdateUserRequest{
+				User: &User{
+					Name:  "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+					Owner: "invalid-owner", // Invalid format
+					Email: "test@example.com",
+				},
+			},
+			wantValid: false,
+			wantError: "pattern", // This will fail User validation rules
+		},
+		{
+			name: "user with invalid email - should fail",
+			request: &UpdateUserRequest{
+				User: &User{
+					Name:  "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+					Owner: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+					Email: "invalid-email", // Invalid email format
+				},
+			},
+			wantValid: false,
+			wantError: "email", // This will fail User validation rules
+		},
+		{
+			name: "user with empty required fields - should fail",
+			request: &UpdateUserRequest{
+				User: &User{
+					Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+					// Missing required owner and email
+				},
+			},
+			wantValid: false,
+			wantError: "required", // This will fail User validation rules
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			err := validator.Validate(tt.request)
+
+			if tt.wantValid {
+				assert.NoError(t, err, "Expected validation to pass for case: %s", tt.name)
+			} else {
+				assert.Error(t, err, "Expected validation to fail for case: %s", tt.name)
+				if tt.wantError != "" && err != nil {
+					assert.Contains(t, strings.ToLower(err.Error()), tt.wantError, "Error message should contain expected text for case: %s. Got error: %s", tt.name, err.Error())
+				}
+			}
+		})
+	}
+}
