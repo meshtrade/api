@@ -10,16 +10,20 @@ public class AssignRoleToUserExample {
         // environment variable or default discovery methods. Zero config required
         // unless you want custom configuration.
         try (ApiUserService service = new ApiUserService()) {
-            // Create request with service-specific parameters
+            // Assign role to existing API user
             AssignRoleToAPIUserRequest request = AssignRoleToAPIUserRequest.newBuilder()
-                // FIXME: Populate service-specific request fields
+                .setName("api_users/01HN2ZXQJ8K9M0L1N3P2Q4R5T6")  // API user to assign role to
+                .setRole("groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU/1000001")  // ROLE_IAM_VIEWER
                 .build();
 
             // Call the AssignRoleToUser method
             APIUser apiUser = service.assignRoleToUser(request, Optional.empty());
 
-            // FIXME: Add relevant response object usage
-            System.out.println("AssignRoleToUser successful: " + apiUser);
+            // Role has been successfully assigned
+            System.out.println("Role assigned successfully:");
+            System.out.println("  API User: " + apiUser.getName());
+            System.out.println("  Display Name: " + apiUser.getDisplayName());
+            System.out.println("  Total Roles: " + apiUser.getRolesCount());
         } catch (Exception e) {
             System.err.println("AssignRoleToUser failed: " + e.getMessage());
             e.printStackTrace();

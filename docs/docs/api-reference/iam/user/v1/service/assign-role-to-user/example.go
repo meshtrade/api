@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 
+	rolev1 "github.com/meshtrade/api/go/iam/role/v1"
 	userv1 "github.com/meshtrade/api/go/iam/user/v1"
 )
 
@@ -19,10 +20,13 @@ func main() {
 	}
 	defer service.Close()
 
+	rolev1.MustRoleFromFullResourceName()
+
 	// Assign role to existing user
 	request := &userv1.AssignRoleToUserRequest{
-		Name: "users/01HN2ZXQJ8K9M0L1N3P2Q4R5T6",    // User to assign role to
-		Role: "groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU/1000000", // ROLE_IAM_ADMIN
+		Name: "users/01HN2ZXQJ8K9M0L1N3P2Q4R5T6", // User to assign role to
+		// Role: "groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU/1000000", // ROLE_IAM_ADMIN // @claude! THIS updated to:
+		Role: rolev1.Role_ROLE_IAM_ADMIN.FullResourceNameFromGroupName(service.Group()), // <--- THIS
 	}
 
 	// Call the AssignRoleToUser method
