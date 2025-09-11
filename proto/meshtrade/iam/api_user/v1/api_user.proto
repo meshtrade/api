@@ -16,41 +16,47 @@ option java_package = "co.meshtrade.api.iam.api_user.v1";
 */
 message APIUser {
   /*
-     The unique, immutable, and canonical name of the api user resource in the format api_users/{api_user_id}.
-     The {api_user_id} is a system-generated unique identifier (e.g., UUID) that will never change.
-     System set on creation.
+     The unique resource name for the api user.
+     Format: api_users/{ULIDv2}.
+     This field is system-generated and immutable upon creation.
+     Any value provided on creation is ignored.
   */
-  string name = 1;
-
-  /*
-     The resource name of the group that owns this api user in the format groups/{ulid}.
-     This field establishes the ownership link.
-     NOTE: owner must be set to executing group context.
-     Required on creation.
-  */
-  string owner = 2 [(buf.validate.field) = {
-    string: {
-      min_len: 1
-      pattern: "^groups/[a-zA-Z0-9]([a-zA-Z0-9_-]*[a-zA-Z0-9])?$"
-    }
+  string name = 1 [(buf.validate.field) = {
     cel: {
-      id: "owner.required"
-      message: "owner is required and must be in format groups/{group_id}"
-      expression: "size(this) > 0"
-    }
-    cel: {
-      id: "owner.format"
-      message: "owner must be in format groups/{group_id} where group_id contains only alphanumeric characters, underscores, and hyphens"
-      expression: "this.matches('^groups/[a-zA-Z0-9]([a-zA-Z0-9_-]*[a-zA-Z0-9])?$')"
+      id: "name.format.optional",
+      message: "name must be empty or in the format users/{ULIDv2}",
+      expression: "size(this) == 0 || this.matches('^api_users/[0-9A-Z]{26}$')"
     }
   }];
 
   /*
-     List of resource names of groups that have ownership access to this api user in the format groups/{group_id}.
-     This field supports multi-group ownership scenarios.
-     System set on creation.
+     The resource name of the parent group that owns this api user.
+     This field is required on creation and establishes the direct ownership link.
+     Format: groups/{ULIDv2}.
   */
-  repeated string owners = 3;
+  string owner = 2 [(buf.validate.field) = {
+    string: {
+      len: 33,
+      pattern: "^groups/[0-9A-Z]{26}$"
+    }
+  }];
+
+  /*
+     The complete ownership path from the root to this api user's owner.
+     This is a system-maintained array for efficient, hierarchical access control checks.
+     This field is system-generated and immutable.
+     Any value provided on creation is ignored.
+  */
+  repeated string owners = 3 [(buf.validate.field) = {
+    repeated: {
+      items: {
+        string: {
+          len: 33,
+          pattern: "^groups/[0-9A-Z]{26}$"
+        }
+      }
+    }
+  }];
 
   /*
      A non-unique, user-provided name for the api key, used for display purposes.
@@ -82,11 +88,20 @@ message APIUser {
   }];
 
   /*
-     Roles is a list of the standard roles assigned to this api user
+     Roles is a list of the standard roles assigned to this api user,
      prepended by the name of the group in which they have been assigned that role.
-     e.g. groups/{ulid}/{role}, where role is one of the rolev1.Role enum
+     e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
   */
-  repeated string roles = 6;
+  repeated string roles = 6 [(buf.validate.field) = {
+    repeated: {
+      items: {
+        string: {
+          len: 41,
+          pattern: "^groups/[0-9A-Z]{26}/1[0-9]{6}$"
+        }
+      }
+    }
+  }];
 
   /*
      The plaintext API key for the API user.

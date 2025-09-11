@@ -8,7 +8,10 @@ option go_package = "github.com/meshtrade/api/go/iam/user/v1;user_v1";
 option java_package = "co.meshtrade.api.iam.user.v1";
 
 /*
-  A representation of a user in the IAM service.
+  A user in the IAM service.
+
+  Each User belongs to a specific group and has
+  defined roles that determine their permissions within that group.
 */
 message User {
   /*
@@ -66,9 +69,9 @@ message User {
   }];
 
   /*
-     Roles is a list of the roles assigned to this user,
+     Roles is a list of standard roles assigned to this user,
      prepended by the name of the group in which they have been assigned that role.
-     e.g. groups/{ULIDv2}/{role}, where role is an ID from the rolev1.Role enum.
+     e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
   */
   repeated string roles = 6 [(buf.validate.field) = {
     repeated: {

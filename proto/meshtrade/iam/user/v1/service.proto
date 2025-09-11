@@ -22,43 +22,25 @@ service UserService {
 }
 
 message AssignRoleToUserRequest {
-  // The email address of the user to assign a role to
-  string email = 1 [(buf.validate.field) = {
+  /*
+     Name of the user to activate.
+  */
+  string name = 1 [(buf.validate.field) = {
     string: {
-      min_len: 1
-      max_len: 254
-      pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
-    }
-    cel: {
-      id: "email.required"
-      message: "email is required and must be a valid email address"
-      expression: "size(this) > 0"
+      len: 33,
+      pattern: "^api_users/[0-9A-Z]{26}$"
     }
   }];
 
-  // The name of the group in which the user is to be assigned the given role
-  string group = 2 [(buf.validate.field) = {
+  /*
+  Role to assign to the user in the format:
+  
+  */
+  string role = 4 [(buf.validate.field) = {
+    required: true,
     string: {
-      min_len: 1
-      max_len: 255
+      len: 41,
+      pattern: "^groups/[0-9A-Z]{26}/1[0-9]{6}$"
     }
-    cel: {
-      id: "group.required"
-      message: "group name is required and must be between 1 and 255 characters"
-      expression: "size(this) > 0 && size(this) <= 255"
-    }
-  }];
-
-  // Role is the role to assign to the user
-  meshtrade.iam.role.v1.Role role = 3 [(buf.validate.field) = {
-    enum: {
-      defined_only: true
-      not_in: [0]
-    }
-    cel: {
-      id: "role.required"
-      message: "role is required and must be a valid role type (not UNSPECIFIED)"
-      expression: "int(this) != 0"
-    }
-  }];
+  }];  
 }
