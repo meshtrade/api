@@ -78,7 +78,7 @@ Our authorization follows domain-based role patterns:
 - `ROLE_COMPLIANCE_ADMIN` / `ROLE_COMPLIANCE_VIEWER` - KYC/AML operations  
 - `ROLE_TRADING_ADMIN` / `ROLE_TRADING_VIEWER` - Trading operations
 - `ROLE_WALLET_ADMIN` / `ROLE_WALLET_VIEWER` - Account management
-- `ROLE_ISSUANCE_HUB_ADMIN` / `ROLE_ISSUANCE_HUB_VIEWER` - Instrument management
+- `ROLE_STUDIO_ADMIN` / `ROLE_STUDIO_VIEWER` - Instrument management
 
 ### 1.3 Validation and Type Safety
 

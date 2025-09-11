@@ -1,7 +1,3 @@
----
-sidebar_position: 5
----
-
 # SDK Configuration
 
 This page covers advanced configuration options for Meshtrade SDK clients. All generated SDK clients follow the same patterns and support the same configuration options regardless of the specific service.
@@ -179,8 +175,7 @@ For programmatic control, you can set credentials directly in the client options
 
 ### TLS/SSL Configuration
 
-- **Production**: Always use `tls: true` with `api.mesh.dev:443`
-- **Development**: Use `tls: false` with `localhost:10000` for local testing
+- Always use `tls: true`
 
 ## Timeout Configuration
 
@@ -303,49 +298,3 @@ client = ApiUserServiceGRPCClient(options)
 
 </TabItem>
 </Tabs>
-
-## SDK Feature Comparison
-
-| Feature | Go SDK | Python SDK |
-|---------|--------|------------|
-| Client generation | ✅ Full SDK | ✅ Full SDK |
-| Authentication | ✅ Automatic | ✅ Automatic |
-| Resource management | ✅ `Close()` method | ✅ Context manager |
-| Timeout handling | ✅ Smart defaults | ✅ Configurable |
-| OpenTelemetry | ✅ Built-in | 🚧 Coming Soon |
-| TLS/mTLS | ✅ Configurable | ✅ Configurable |
-| Credential loading | ✅ Environment file | ✅ Environment file |
-
-## Comprehensive Error Handling
-
-All SDK methods return errors that should be handled appropriately:
-
-<Tabs>
-<TabItem value="go" label="Go">
-
-```go
-response, err := client.GetApiUser(ctx, request)
-if err != nil {
-    return fmt.Errorf("failed to get API user: %w", err)
-}
-```
-
-</TabItem>
-<TabItem value="python" label="Python">
-
-```python
-try:
-    response = client.get_api_user(request)
-except Exception as e:
-    print(f"Failed to get API user: {e}")
-```
-
-</TabItem>
-</Tabs>
-
-**Common Error Types:**
-- Authentication failures
-- Authorization denials  
-- Resource not found
-- Validation errors
-- Network connectivity issues

@@ -32,8 +32,8 @@ class TestRoleHelpers:
             (Role.ROLE_COMPLIANCE_VIEWER, f"{group_name}/2000001"),
             (Role.ROLE_IAM_ADMIN, f"{group_name}/3000000"),
             (Role.ROLE_IAM_VIEWER, f"{group_name}/3000001"),
-            (Role.ROLE_ISSUANCE_HUB_ADMIN, f"{group_name}/4000000"),
-            (Role.ROLE_ISSUANCE_HUB_VIEWER, f"{group_name}/4000001"),
+            (Role.ROLE_STUDIO_ADMIN, f"{group_name}/4000000"),
+            (Role.ROLE_STUDIO_VIEWER, f"{group_name}/4000001"),
             (Role.ROLE_TRADING_ADMIN, f"{group_name}/5000000"),
             (Role.ROLE_TRADING_VIEWER, f"{group_name}/5000001"),
         ]
