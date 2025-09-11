@@ -1,7 +1,3 @@
----
-sidebar_position: 1
----
-
 # Role-Based Access Control
 
 Understanding how business domain roles control method-level access within the Mesh API's hierarchical group ownership system.
@@ -101,8 +97,8 @@ graph TD
         end
         
         subgraph "Issuance Hub Domain"
-            IssuanceAdmin["👤 ROLE_ISSUANCE_HUB_ADMIN<br/>Asset issuance"]
-            IssuanceViewer["👁️ ROLE_ISSUANCE_HUB_VIEWER<br/>Issuance read access"]
+            IssuanceAdmin["👤 ROLE_STUDIO_ADMIN<br/>Asset issuance"]
+            IssuanceViewer["👁️ ROLE_STUDIO_VIEWER<br/>Issuance read access"]
         end
         
         subgraph "Reporting Domain"
@@ -142,7 +138,7 @@ All roles follow a consistent pattern: `ROLE_{DOMAIN}_{SCOPE}_{ACCESS_LEVEL}`
 - **Specialized**: *(Future expansion planned)*
 
 **Issuance Hub Domain:**
-- **General**: `ROLE_ISSUANCE_HUB_ADMIN` 👤, `ROLE_ISSUANCE_HUB_VIEWER` 👁️  
+- **General**: `ROLE_STUDIO_ADMIN` 👤, `ROLE_STUDIO_VIEWER` 👁️  
 - **Specialized**: *(Future expansion planned)*
 
 **Reporting Domain:**
