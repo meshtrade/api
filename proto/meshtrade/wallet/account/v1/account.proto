@@ -41,6 +41,7 @@ message Account {
      Format: groups/{ULIDv2}.
   */
   string owner = 2 [(buf.validate.field) = {
+    required: true,
     string: {
       len: 33,
       pattern: "^groups/[0-9A-Z]{26}$"
@@ -96,6 +97,7 @@ message Account {
      This field is required on creation to specify the target ledger for the account.
   */
   meshtrade.type.v1.Ledger ledger = 7 [(buf.validate.field) = {
+    required: true,
     enum: {
       defined_only: true,
       not_in: [0]
@@ -107,6 +109,7 @@ message Account {
      User-configurable and non-unique across the system.
   */
   string display_name = 8 [(buf.validate.field) = {
+    required: true,
     string: {
       min_len: 1,
       max_len: 255

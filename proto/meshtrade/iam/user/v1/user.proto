@@ -34,6 +34,7 @@ message User {
      Format: groups/{ULIDv2}.
   */
   string owner = 2 [(buf.validate.field) = {
+    required: true,   
     string: {
       len: 33,
       pattern: "^groups/[0-9A-Z]{26}$"

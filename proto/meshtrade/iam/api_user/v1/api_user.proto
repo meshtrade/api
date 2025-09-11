@@ -35,6 +35,7 @@ message APIUser {
      Format: groups/{ULIDv2}.
   */
   string owner = 2 [(buf.validate.field) = {
+    required: true,
     string: {
       len: 33,
       pattern: "^groups/[0-9A-Z]{26}$"
@@ -63,6 +64,7 @@ message APIUser {
      Required on creation.
   */
   string display_name = 4 [(buf.validate.field) = {
+    required: true,
     string: {
       min_len: 1
       max_len: 255
@@ -79,6 +81,7 @@ message APIUser {
      System set on creation.
   */
   meshtrade.iam.api_user.v1.APIUserState state = 5 [(buf.validate.field) = {
+    required: true,
     enum: {defined_only: true}
     cel: {
       id: "state.valid"
