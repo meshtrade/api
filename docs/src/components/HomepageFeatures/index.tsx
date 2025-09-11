@@ -15,18 +15,17 @@ const FeatureList: FeatureItem[] = [
     imageSrc: require('@site/static/img/multilingual_support.png').default,
     description: (
       <>
-        Full-featured SDKs for Go, Python and Java generated from protobuf definitions. 
-        Both SDKs feature automatic authentication and client configuration.
+        Native SDKs for Go, Python, and Java. Handle authentication, retries, and type safety automatically.
       </>
     ),
   },
   {
-    title: 'Schema-First Design',
+    title: 'Ready for Production',
     imageSrc: require('@site/static/img/schema-driven-design.png').default,
     description: (
       <>
-        gRPC-based API with protobuf single source of truth. Domain-organized 
-        services with comprehensive role-based access control.
+        Role-based access control, audit logging, and compliance tools included.
+        Build regulated financial services with confidence.
       </>
     ),
   },
@@ -35,8 +34,7 @@ const FeatureList: FeatureItem[] = [
     imageSrc: require('@site/static/img/cube.png').default,
     description: (
       <>
-        IAM, trading, compliance, and wallet services for regulated financial operations.
-        Starting with API User Service - more domains coming soon.
+        Everything you need: trading, order management, wallets, compliance, and identity management in one integrated API.
       </>
     ),
   },
