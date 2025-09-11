@@ -51,19 +51,42 @@ class TestApiUserServiceIntegration:
             mock_execute.return_value = mock_api_user
             yield service
 
-    def test_get_api_user_validation_failure_fast(self, service):
+    @pytest.fixture
+    def validation_service(self):
+        """Create a service for validation testing without mocking _execute_method."""
+        # Create service that allows validation to run but mocks gRPC stub
+        service = ApiUserService()
+        # Mock only the gRPC channel/stub to avoid network calls, but let validation run
+        with patch.object(service, "_ensure_connected"), patch.object(service, "_stub") as mock_stub:
+            # Mock all the gRPC method calls but let _execute_method run normally
+            mock_stub.GetApiUser.return_value = APIUser(
+                name="api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+                owner="groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+                display_name="Test API User",
+                state=APIUserState.API_USER_STATE_ACTIVE,
+            )
+            mock_stub.CreateApiUser = mock_stub.GetApiUser
+            mock_stub.AssignRoleToAPIUser = mock_stub.GetApiUser
+            mock_stub.ListApiUsers = lambda req, **kwargs: mock_stub.GetApiUser(req, **kwargs)
+            mock_stub.SearchApiUsers = lambda req, **kwargs: mock_stub.GetApiUser(req, **kwargs)
+            mock_stub.ActivateApiUser = mock_stub.GetApiUser
+            mock_stub.DeactivateApiUser = mock_stub.GetApiUser
+            mock_stub.GetApiUserByKeyHash = mock_stub.GetApiUser
+            yield service
+
+    def test_get_api_user_validation_failure_fast(self, validation_service):
         """Test GetApiUser with invalid request fails validation quickly."""
         # Create invalid request - wrong name format
         request = GetApiUserRequest(name="invalid-name-format")
 
         start_time = time.time()
 
-        # Mock the validator to raise an exception for invalid input
-        with patch.object(service, "_validator") as mock_validator:
-            mock_validator.validate.side_effect = ValueError("Request validation failed: invalid name format")
+        # Mock the validator's validate method to raise an exception
+        with patch.object(validation_service._validator, "validate") as mock_validate:
+            mock_validate.side_effect = Exception("invalid name format")
 
             with pytest.raises(ValueError, match="Request validation failed"):
-                service.get_api_user(request)
+                validation_service.get_api_user(request)
 
         duration = time.time() - start_time
 
@@ -96,7 +119,7 @@ class TestApiUserServiceIntegration:
         assert duration > 0.04
         assert result is not None
 
-    def test_create_api_user_validation_failure_fast(self, service):
+    def test_create_api_user_validation_failure_fast(self, validation_service):
         """Test CreateApiUser with invalid request fails validation quickly."""
         # Create invalid request - empty owner
         request = CreateApiUserRequest(
@@ -108,12 +131,12 @@ class TestApiUserServiceIntegration:
 
         start_time = time.time()
 
-        # Mock the validator to raise an exception for invalid input
-        with patch.object(service, "_validator") as mock_validator:
-            mock_validator.validate.side_effect = ValueError("Request validation failed: owner required")
+        # Mock the validator's validate method to raise an exception
+        with patch.object(validation_service._validator, "validate") as mock_validate:
+            mock_validate.side_effect = Exception("owner required")
 
             with pytest.raises(ValueError, match="Request validation failed"):
-                service.create_api_user(request)
+                validation_service.create_api_user(request)
 
         duration = time.time() - start_time
         assert duration < 0.1
@@ -147,7 +170,7 @@ class TestApiUserServiceIntegration:
         assert duration > 0.04
         assert result is not None
 
-    def test_assign_role_to_api_user_validation_failure_fast(self, service):
+    def test_assign_role_to_api_user_validation_failure_fast(self, validation_service):
         """Test AssignRoleToAPIUser with invalid request fails validation quickly."""
         # Create invalid request - wrong name format
         request = AssignRoleToAPIUserRequest(
@@ -157,11 +180,11 @@ class TestApiUserServiceIntegration:
 
         start_time = time.time()
 
-        with patch.object(service, "_validator") as mock_validator:
-            mock_validator.validate.side_effect = ValueError("Request validation failed: invalid name format")
+        with patch.object(validation_service._validator, "validate") as mock_validate:
+            mock_validate.side_effect = Exception("invalid name format")
 
             with pytest.raises(ValueError, match="Request validation failed"):
-                service.assign_role_to_apiuser(request)
+                validation_service.assign_role_to_apiuser(request)
 
         duration = time.time() - start_time
         assert duration < 0.1
@@ -192,18 +215,18 @@ class TestApiUserServiceIntegration:
         assert duration > 0.04
         assert result is not None
 
-    def test_list_api_users_validation_failure_fast(self, service):
+    def test_list_api_users_validation_failure_fast(self, validation_service):
         """Test ListApiUsers with invalid request fails validation quickly."""
         # ListApiUsersRequest has no validation rules, so we mock validation failure
         request = ListApiUsersRequest()
 
         start_time = time.time()
 
-        with patch.object(service, "_validator") as mock_validator:
-            mock_validator.validate.side_effect = ValueError("Request validation failed: mocked failure")
+        with patch.object(validation_service._validator, "validate") as mock_validate:
+            mock_validate.side_effect = Exception("mocked failure")
 
             with pytest.raises(ValueError, match="Request validation failed"):
-                service.list_api_users(request)
+                validation_service.list_api_users(request)
 
         duration = time.time() - start_time
         assert duration < 0.1
@@ -228,18 +251,18 @@ class TestApiUserServiceIntegration:
         assert duration > 0.04
         assert result is not None
 
-    def test_search_api_users_validation_failure_fast(self, service):
+    def test_search_api_users_validation_failure_fast(self, validation_service):
         """Test SearchApiUsers with invalid request fails validation quickly."""
         # SearchApiUsersRequest has no validation rules, so we mock validation failure
         request = SearchApiUsersRequest(display_name="test")
 
         start_time = time.time()
 
-        with patch.object(service, "_validator") as mock_validator:
-            mock_validator.validate.side_effect = ValueError("Request validation failed: mocked failure")
+        with patch.object(validation_service._validator, "validate") as mock_validate:
+            mock_validate.side_effect = Exception("mocked failure")
 
             with pytest.raises(ValueError, match="Request validation failed"):
-                service.search_api_users(request)
+                validation_service.search_api_users(request)
 
         duration = time.time() - start_time
         assert duration < 0.1
@@ -264,18 +287,18 @@ class TestApiUserServiceIntegration:
         assert duration > 0.04
         assert result is not None
 
-    def test_activate_api_user_validation_failure_fast(self, service):
+    def test_activate_api_user_validation_failure_fast(self, validation_service):
         """Test ActivateApiUser with invalid request fails validation quickly."""
         # Create invalid request - wrong name format
         request = ActivateApiUserRequest(name="invalid-format")
 
         start_time = time.time()
 
-        with patch.object(service, "_validator") as mock_validator:
-            mock_validator.validate.side_effect = ValueError("Request validation failed: invalid name format")
+        with patch.object(validation_service._validator, "validate") as mock_validate:
+            mock_validate.side_effect = Exception("invalid name format")
 
             with pytest.raises(ValueError, match="Request validation failed"):
-                service.activate_api_user(request)
+                validation_service.activate_api_user(request)
 
         duration = time.time() - start_time
         assert duration < 0.1
@@ -303,18 +326,18 @@ class TestApiUserServiceIntegration:
         assert duration > 0.04
         assert result is not None
 
-    def test_deactivate_api_user_validation_failure_fast(self, service):
+    def test_deactivate_api_user_validation_failure_fast(self, validation_service):
         """Test DeactivateApiUser with invalid request fails validation quickly."""
         # Create invalid request - wrong name format
         request = DeactivateApiUserRequest(name="invalid-format")
 
         start_time = time.time()
 
-        with patch.object(service, "_validator") as mock_validator:
-            mock_validator.validate.side_effect = ValueError("Request validation failed: invalid name format")
+        with patch.object(validation_service._validator, "validate") as mock_validate:
+            mock_validate.side_effect = Exception("invalid name format")
 
             with pytest.raises(ValueError, match="Request validation failed"):
-                service.deactivate_api_user(request)
+                validation_service.deactivate_api_user(request)
 
         duration = time.time() - start_time
         assert duration < 0.1
@@ -342,18 +365,18 @@ class TestApiUserServiceIntegration:
         assert duration > 0.04
         assert result is not None
 
-    def test_get_api_user_by_key_hash_validation_failure_fast(self, service):
+    def test_get_api_user_by_key_hash_validation_failure_fast(self, validation_service):
         """Test GetApiUserByKeyHash with invalid request fails validation quickly."""
         # Create invalid request - wrong key_hash length
         request = GetApiUserByKeyHashRequest(key_hash="too-short")
 
         start_time = time.time()
 
-        with patch.object(service, "_validator") as mock_validator:
-            mock_validator.validate.side_effect = ValueError("Request validation failed: key_hash length invalid")
+        with patch.object(validation_service._validator, "validate") as mock_validate:
+            mock_validate.side_effect = Exception("key_hash length invalid")
 
             with pytest.raises(ValueError, match="Request validation failed"):
-                service.get_api_user_by_key_hash(request)
+                validation_service.get_api_user_by_key_hash(request)
 
         duration = time.time() - start_time
         assert duration < 0.1
@@ -720,7 +743,7 @@ class TestApiUserServiceCredentialFiles:
             os.environ[MESH_API_CREDENTIALS_ENV_VAR] = str(credentials_path)
 
             options = ServiceOptions(url="localhost", timeout=timedelta(milliseconds=100))
-            service = ApiUserService(options)  # Should work
+            ApiUserService(options)  # Should work
 
             # Test with wrong environment variable name (should not work)
             os.environ.pop(MESH_API_CREDENTIALS_ENV_VAR, None)
@@ -728,7 +751,7 @@ class TestApiUserServiceCredentialFiles:
 
             # Should fall back to default discovery (may or may not succeed)
             try:
-                service2 = ApiUserService(options)
+                ApiUserService(options)
                 print("Service created with wrong env var (using default discovery)")
             except Exception as e:
                 print(f"Service creation failed with wrong env var (expected): {e}")
