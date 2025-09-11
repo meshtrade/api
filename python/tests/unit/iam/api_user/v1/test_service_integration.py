@@ -20,6 +20,7 @@ from meshtrade.iam.api_user.v1.service_meshpy import ApiUserService
 from meshtrade.iam.api_user.v1.service_options_meshpy import ServiceOptions
 from meshtrade.iam.api_user.v1.service_pb2 import (
     ActivateApiUserRequest,
+    AssignRoleToAPIUserRequest,
     CreateApiUserRequest,
     DeactivateApiUserRequest,
     GetApiUserByKeyHashRequest,
@@ -146,51 +147,50 @@ class TestApiUserServiceIntegration:
         assert duration > 0.04
         assert result is not None
 
-    # AssignRoleToAPIUserRequest tests commented out until Python code is regenerated
-    # def test_assign_role_to_user_validation_failure_fast(self, service):
-    #     """Test AssignRoleToAPIUser with invalid request fails validation quickly."""
-    #     # Create invalid request - wrong name format
-    #     request = AssignRoleToAPIUserRequest(
-    #         name="invalid-format",  # Invalid: wrong format
-    #         role="groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1000001",
-    #     )
+    def test_assign_role_to_api_user_validation_failure_fast(self, service):
+        """Test AssignRoleToAPIUser with invalid request fails validation quickly."""
+        # Create invalid request - wrong name format
+        request = AssignRoleToAPIUserRequest(
+            name="invalid-format",  # Invalid: wrong format
+            role="groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1000001",
+        )
 
-    #     start_time = time.time()
+        start_time = time.time()
 
-    #     with patch.object(service, '_validator') as mock_validator:
-    #         mock_validator.validate.side_effect = ValueError("Request validation failed: invalid name format")
+        with patch.object(service, "_validator") as mock_validator:
+            mock_validator.validate.side_effect = ValueError("Request validation failed: invalid name format")
 
-    #         with pytest.raises(ValueError, match="Request validation failed"):
-    #             service.assign_role_to_user(request)
+            with pytest.raises(ValueError, match="Request validation failed"):
+                service.assign_role_to_apiuser(request)
 
-    #     duration = time.time() - start_time
-    #     assert duration < 0.1
+        duration = time.time() - start_time
+        assert duration < 0.1
 
-    # def test_assign_role_to_user_validation_success_slower(self, service):
-    #     """Test AssignRoleToAPIUser with valid request passes validation and makes network call."""
-    #     # Create valid request
-    #     request = AssignRoleToAPIUserRequest(
-    #         name="api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-    #         role="groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1000001",
-    #     )
+    def test_assign_role_to_api_user_validation_success_slower(self, service):
+        """Test AssignRoleToAPIUser with valid request passes validation and makes network call."""
+        # Create valid request
+        request = AssignRoleToAPIUserRequest(
+            name="api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+            role="groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1000001",
+        )
 
-    #     start_time = time.time()
+        start_time = time.time()
 
-    #     def slow_mock_execute(*args, **kwargs):
-    #         time.sleep(0.05)
-    #         return APIUser(
-    #             name="api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-    #             owner="groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-    #             display_name="Test API User",
-    #             state=APIUserState.API_USER_STATE_ACTIVE,
-    #         )
+        def slow_mock_execute(*args, **kwargs):
+            time.sleep(0.05)
+            return APIUser(
+                name="api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+                owner="groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+                display_name="Test API User",
+                state=APIUserState.API_USER_STATE_ACTIVE,
+            )
 
-    #     with patch.object(service, '_execute_method', side_effect=slow_mock_execute):
-    #         result = service.assign_role_to_user(request)
+        with patch.object(service, "_execute_method", side_effect=slow_mock_execute):
+            result = service.assign_role_to_apiuser(request)
 
-    #     duration = time.time() - start_time
-    #     assert duration > 0.04
-    #     assert result is not None
+        duration = time.time() - start_time
+        assert duration > 0.04
+        assert result is not None
 
     def test_list_api_users_validation_failure_fast(self, service):
         """Test ListApiUsers with invalid request fails validation quickly."""

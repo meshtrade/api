@@ -20,9 +20,10 @@ func main() {
 	}
 	defer service.Close()
 
-	// Create request with service-specific parameters
+	// Assign role to existing API user
 	request := &api_userv1.AssignRoleToAPIUserRequest{
-		// FIXME: Populate service-specific request fields
+		Name: "api_users/01HN2ZXQJ8K9M0L1N3P2Q4R5T6", // API user to assign role to
+		Role: rolev1.Role_ROLE_IAM_VIEWER.FullResourceNameFromGroupName(service.Group()),
 	}
 
 	// Call the AssignRoleToAPIUser method
@@ -31,6 +32,9 @@ func main() {
 		log.Fatalf("AssignRoleToAPIUser failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("AssignRoleToAPIUser successful: %+v", apiUser)
+	// Role has been successfully assigned
+	log.Printf("Role assigned successfully:")
+	log.Printf("  API User: %s", apiUser.Name)
+	log.Printf("  Display Name: %s", apiUser.DisplayName)
+	log.Printf("  Total Roles: %d", len(apiUser.Roles))
 }
