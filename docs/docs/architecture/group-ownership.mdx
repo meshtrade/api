@@ -16,6 +16,37 @@ Groups are the fundamental organizational and ownership units in Mesh. Every res
 - **Multi-tenancy Boundaries**: Groups provide complete isolation between organizations
 - **Permission Inheritance**: Access rights flow down the hierarchy
 
+## Universal User System: API Users & Regular Users
+
+**Important**: While this documentation focuses on "API users" due to its technical API context, the **exact same ownership and permission system applies to regular users** who access Mesh through web interfaces, mobile apps, and other user-facing applications.
+
+### Unified Authorization Model
+
+**Both user types follow identical patterns:**
+- **Regular Users**: Authenticate via username/password, OAuth providers (Google, Microsoft, etc.), or SSO systems
+- **API Users**: Authenticate via API keys for programmatic access
+- **Same Permissions**: Both receive identical role assignments within groups
+- **Same Ownership**: Both are subject to the same hierarchical ownership rules
+- **Same Access Control**: Both follow the same READ/WRITE method restrictions
+
+### Digital Infrastructure Structuring
+
+This system enables organizations to structure their **complete digital infrastructure** around groups:
+
+**Enterprise Use Cases:**
+- **Employee Access**: Regular users logging into web dashboards with group-based permissions
+- **System Integration**: API users enabling automated workflows and integrations  
+- **Unified Management**: Single ownership hierarchy governing both human and system access
+- **Consistent Security**: Same authorization model across all access methods
+
+**Example: Trading Firm Structure**
+- **Executives**: Regular users with broad read access across all groups via web interface
+- **Traders**: Regular users with trading permissions in specific desk groups via mobile/web apps
+- **Risk Systems**: API users with read-only access for automated monitoring and reporting
+- **Order Management**: API users with trading permissions for algorithmic execution
+
+Throughout the examples below, we reference "API users" for technical precision, but understand that **regular users would appear in identical organizational positions** with the same role assignments and access patterns.
+
 ## Group Hierarchy Model
 
 Groups form tree structures with sophisticated ownership tracking:
@@ -53,7 +84,7 @@ This denormalized structure provides:
 
 ## Everything is Owned
 
-Every resource in Mesh has an owner group. This includes everything from clients, users and API users through to accounts, financial instruments and different trade types.
+Every resource in Mesh has an owner group. This includes everything from clients, regular users, and API users through to accounts, financial instruments and different trade types.
 
 ```mermaid
 graph TD
@@ -66,14 +97,17 @@ graph TD
         TeamAlpha["👥 Team Alpha<br/>groups/01TEAM...JKL"]
         TeamBeta["👥 Team Beta<br/>groups/01TEAM...MNO"]
         
-        ApiUser1["🔑 API User 1<br/>api_users/01API...PQR"]
-        ApiUser2["🔑 API User 2<br/>api_users/01API...STU"]
+        RegUser1["👤 Regular User 1<br/>users/01USER...ABC<br/>Auth: Username/Password"]
+        ApiUser1["🔑 API User 1<br/>api_users/01API...PQR<br/>Auth: API Key"]
+        
+        RegUser2["👤 Regular User 2<br/>users/01USER...DEF<br/>Auth: Google OAuth"]
+        ApiUser2["🔑 API User 2<br/>api_users/01API...STU<br/>Auth: API Key"]
         
         Account1["💰 Trading Account<br/>accounts/01ACC...VWX"]
         Account2["💰 Settlement Account<br/>accounts/01ACC...YZA"]
         
-        Order1["📊 Limit Order<br/>orders/01ORD...BCD"]
-        Order2["📊 Market Order<br/>orders/01ORD...EFG"]
+        Order1["📊 Limit Order<br/>orders/01ORD...BCD<br/>Created by: Regular User"]
+        Order2["📊 Market Order<br/>orders/01ORD...EFG<br/>Created by: API User"]
         
         Instrument1["🏦 Bond Instrument<br/>instruments/01INS...HIJ"]
         
@@ -83,7 +117,9 @@ graph TD
         CompanyA --> TeamAlpha
         CompanyA --> TeamBeta
         
+        TeamAlpha --> RegUser1
         TeamAlpha --> ApiUser1
+        TeamBeta --> RegUser2
         TeamBeta --> ApiUser2
         
         TeamAlpha --> Account1
@@ -257,58 +293,268 @@ For a `CreateGroup` operation:
 
 ## Practical Examples
 
-### Multi-Tenant Trading Platform
+### Multi-Tenant Brokerage Platform
+
+This example demonstrates how groups represent **legal entities** at every level of the hierarchy. Each group corresponds to a real-world legal entity (individual, corporation, trust, etc.) that undergoes KYC/compliance verification by its parent group.
+
+**Legal Entity Hierarchy:**
+- **Mesh Platform**: The root legal entity providing the platform infrastructure
+- **Broker Companies**: Legal entities (corporations) that are KYC'd by Mesh and provide brokerage services
+- **Client Entities**: Legal entities (individuals, companies, trusts) that are KYC'd by their respective brokers
 
 ```mermaid
 graph TD
-    subgraph "Real-World Example"
-        Mesh["🏢 Mesh Platform<br/>groups/MESH_ROOT"]
+    subgraph "Brokerage Platform with Legal Entity Structure"
+        Mesh["🏢 Mesh Platform (Legal Entity)<br/>groups/MESH_ROOT<br/>📋 Compliance Entity: Platform Provider"]
+        MeshClient["🏛️ Mesh Client Entity<br/>clients/MESH_CLIENT<br/>📋 Legal Status: Corporation"]
         
-        BrokerA["🏦 Broker A<br/>groups/BROKER_A"]
-        BrokerB["🏦 Broker B<br/>groups/BROKER_B"]
+        BrokerA["🏦 Broker A Corporation<br/>groups/BROKER_A<br/>📋 KYC'd by: Mesh Platform"]
+        BrokerAClient["🏢 Broker A Client Entity<br/>clients/BROKER_A_CLIENT<br/>📋 Legal Status: Financial Services Corp"]
         
-        ClientA1["👤 Client A1<br/>groups/CLIENT_A1"]
-        ClientA2["👤 Client A2<br/>groups/CLIENT_A2"]
-        ClientB1["👤 Client B1<br/>groups/CLIENT_B1"]
+        BrokerB["🏦 Broker B LLC<br/>groups/BROKER_B<br/>📋 KYC'd by: Mesh Platform"]
+        BrokerBClient["🏢 Broker B Client Entity<br/>clients/BROKER_B_CLIENT<br/>📋 Legal Status: Limited Liability Company"]
         
-        AccA1["💰 Account A1-Main<br/>accounts/ACC_A1_MAIN<br/>owner: CLIENT_A1<br/>owners: [MESH_ROOT, BROKER_A, CLIENT_A1]"]
+        ClientA1["👤 Individual Client A1<br/>groups/CLIENT_A1<br/>📋 KYC'd by: Broker A"]
+        ClientA1Entity["👤 Client A1 Entity<br/>clients/CLIENT_A1_ENTITY<br/>📋 Legal Status: Natural Person"]
+        A1RegUser["👤 John Smith (Regular User)<br/>users/JOHN_SMITH<br/>📋 Auth: Username/Password<br/>📋 Role: Individual Trader"]
+        A1ApiUser["🔑 John's Trading Bot (API User)<br/>api_users/JOHN_BOT<br/>📋 Auth: API Key<br/>📋 Role: Automated Trading"]
         
-        AccA2["💰 Account A2-Trading<br/>accounts/ACC_A2_TRADE<br/>owner: CLIENT_A2<br/>owners: [MESH_ROOT, BROKER_A, CLIENT_A2]"]
+        ClientA2["🏢 Corporate Client A2<br/>groups/CLIENT_A2<br/>📋 KYC'd by: Broker A"]
+        ClientA2Entity["🏢 Client A2 Entity<br/>clients/CLIENT_A2_ENTITY<br/>📋 Legal Status: Investment Company"]
+        A2RegUser["👤 Sarah Johnson (Regular User)<br/>users/SARAH_JOHNSON<br/>📋 Auth: Google OAuth<br/>📋 Role: Portfolio Manager"]
+        A2ApiUser["🔑 Corp Risk System (API User)<br/>api_users/CORP_RISK<br/>📋 Auth: API Key<br/>📋 Role: Risk Monitoring"]
         
-        AccB1["💰 Account B1-Settlement<br/>accounts/ACC_B1_SETTLE<br/>owner: CLIENT_B1<br/>owners: [MESH_ROOT, BROKER_B, CLIENT_B1]"]
+        ClientB1["🏛️ Trust Client B1<br/>groups/CLIENT_B1<br/>📋 KYC'd by: Broker B"]
+        ClientB1Entity["🏛️ Client B1 Entity<br/>clients/CLIENT_B1_ENTITY<br/>📋 Legal Status: Family Trust"]
+        B1RegUser["👤 Trust Manager (Regular User)<br/>users/TRUST_MGR<br/>📋 Auth: SSO/SAML<br/>📋 Role: Trust Administrator"]
         
-        OrderA1["📊 Buy Order<br/>orders/ORDER_BUY_123<br/>owner: CLIENT_A1<br/>owners: [MESH_ROOT, BROKER_A, CLIENT_A1]"]
+        AccA1["💰 Individual Trading Account<br/>accounts/ACC_A1_MAIN<br/>owner: CLIENT_A1<br/>owners: [MESH_ROOT, BROKER_A, CLIENT_A1]"]
         
+        AccA2["💰 Corporate Trading Account<br/>accounts/ACC_A2_TRADE<br/>owner: CLIENT_A2<br/>owners: [MESH_ROOT, BROKER_A, CLIENT_A2]"]
+        
+        AccB1["💰 Trust Settlement Account<br/>accounts/ACC_B1_SETTLE<br/>owner: CLIENT_B1<br/>owners: [MESH_ROOT, BROKER_B, CLIENT_B1]"]
+        
+        OrderA1["📊 Individual Buy Order<br/>orders/ORDER_BUY_123<br/>owner: CLIENT_A1<br/>owners: [MESH_ROOT, BROKER_A, CLIENT_A1]<br/>💡 Created via: Web Trading Interface"]
+        
+        OrderA2["📊 Automated Sell Order<br/>orders/ORDER_SELL_456<br/>owner: CLIENT_A2<br/>owners: [MESH_ROOT, BROKER_A, CLIENT_A2]<br/>💡 Created via: API Integration"]
+        
+        Mesh --> MeshClient
         Mesh --> BrokerA
         Mesh --> BrokerB
+        BrokerA --> BrokerAClient
+        BrokerB --> BrokerBClient
         BrokerA --> ClientA1
         BrokerA --> ClientA2
         BrokerB --> ClientB1
+        ClientA1 --> ClientA1Entity
+        ClientA2 --> ClientA2Entity
+        ClientB1 --> ClientB1Entity
+        ClientA1 --> A1RegUser
+        ClientA1 --> A1ApiUser
+        ClientA2 --> A2RegUser
+        ClientA2 --> A2ApiUser
+        ClientB1 --> B1RegUser
         ClientA1 --> AccA1
         ClientA2 --> AccA2
         ClientB1 --> AccB1
         ClientA1 --> OrderA1
+        ClientA2 --> OrderA2
     end
 ```
 
+**Key Legal Entity Relationships:**
+
+**Compliance Chain:**
+- **Mesh Platform** ← KYC'd by regulators/auditors ← **Broker A & B** ← KYC'd by Mesh ← **Client Entities** ← KYC'd by their brokers
+
+**Entity Types Supported:**
+- **Natural Persons**: Individual traders and investors (`CLIENT_A1`)
+- **Corporations**: Investment companies and fund managers (`CLIENT_A2`)
+- **Trusts & Foundations**: Estate planning and wealth management entities (`CLIENT_B1`)
+- **Financial Institutions**: Broker-dealers and registered investment advisors (`BROKER_A`, `BROKER_B`)
+
 **Access Scenarios:**
 
-**Broker A executing ListAccounts (READ method):**
+**Broker A Admin executing ListAccounts (READ method):**
 - ✅ Can see Account A1-Main (descendant: CLIENT_A1)
 - ✅ Can see Account A2-Trading (descendant: CLIENT_A2)  
 - ❌ Cannot see Account B1-Settlement (different broker)
 
-**Client A1 executing CreateOrder (WRITE method):**
-- ✅ Can create orders owned by CLIENT_A1
-- ❌ Cannot create orders owned by CLIENT_A2 (not direct ownership)
+**John Smith (Regular User) executing CreateOrder via Web Interface (WRITE method):**
+- ✅ Can create orders owned by CLIENT_A1 (his legal entity group)
+- ❌ Cannot create orders owned by CLIENT_A2 (different client)
 - ❌ Cannot create orders owned by BROKER_A (not direct ownership)
+- **Access Method**: Logs in via username/password, same authorization rules apply
 
-**Broker A Admin executing UpdateAccount (WRITE method):**
-- ❌ Cannot update Account A1-Main (owned by CLIENT_A1, not BROKER_A)
-- ✅ Can update groups directly owned by BROKER_A
-- ❌ Cannot update Account B1-Settlement (different broker)
+**John's Trading Bot (API User) executing CreateOrder via API (WRITE method):**
+- ✅ Can create orders owned by CLIENT_A1 (same ownership as regular user)
+- ❌ Cannot create orders owned by CLIENT_A2 (different client)
+- ❌ Cannot create orders owned by BROKER_A (not direct ownership)
+- **Access Method**: Authenticates via API key, identical permissions to regular user
 
-## Security Implications
+**Sarah Johnson (Regular User) executing GetAccount via Mobile App (READ method):**
+- ✅ Can view CLIENT_A2 corporate accounts (her group's resources)
+- ✅ Can view parent group accounts (hierarchical READ access)
+- ❌ Cannot view CLIENT_A1 individual accounts (different client branch)
+- **Cross-Platform**: Same permissions whether using web dashboard, mobile app, or desktop client
+
+**Corporate Risk System (API User) executing ListOrders via API (READ method):**
+- ✅ Can read all CLIENT_A2 orders for risk analysis
+- ✅ Can read parent group data for consolidated reporting
+- ❌ Cannot read CLIENT_A1 orders (different ownership branch)
+- **Automation**: Enables automated risk monitoring with same permission model
+
+### Investment Bank with Fund Structures
+
+This example shows how complex financial institutions organize multiple fund structures, departments, and trading desks within a single institutional hierarchy. Each level represents distinct legal entities with their own compliance requirements and operational structures.
+
+```mermaid
+graph TD
+    subgraph "Investment Bank Organizational Structure"
+        Bank["🏛️ Goldman Sachs International<br/>groups/GOLDMAN_INTL<br/>📋 Legal Entity: Investment Bank"]
+        BankClient["🏢 Goldman Client Entity<br/>clients/GOLDMAN_CLIENT<br/>📋 Legal Status: Financial Institution"]
+        
+        subgraph "Fund Structures"
+            AlphaFund["💼 Alpha Hedge Fund LP<br/>groups/ALPHA_FUND<br/>📋 Legal Entity: Limited Partnership<br/>📋 KYC'd by: Goldman Sachs"]
+            AlphaFundClient["📊 Alpha Fund Client<br/>clients/ALPHA_FUND_CLIENT<br/>📋 Legal Status: Investment Vehicle"]
+            
+            BetaFund["💼 Beta Real Estate Fund<br/>groups/BETA_FUND<br/>📋 Legal Entity: REIT Corporation<br/>📋 KYC'd by: Goldman Sachs"]
+            BetaFundClient["🏢 Beta Fund Client<br/>clients/BETA_FUND_CLIENT<br/>📋 Legal Status: REIT Corporation"]
+        end
+        
+        subgraph "Alpha Fund Departments"
+            AlphaResearch["🔬 Alpha Research Division<br/>groups/ALPHA_RESEARCH<br/>📋 Internal Department"]
+            AlphaRisk["⚖️ Alpha Risk Management<br/>groups/ALPHA_RISK<br/>📋 Internal Department"]
+        end
+        
+        subgraph "Trading Desks"
+            BondDesk["📈 Fixed Income Desk<br/>groups/BOND_DESK<br/>📋 Trading Department<br/>📋 Specialization: Government & Corporate Bonds"]
+            ForexDesk["💱 Foreign Exchange Desk<br/>groups/FOREX_DESK<br/>📋 Trading Department<br/>📋 Specialization: Currency Trading"]
+            MetalsDesk["🥇 Precious Metals Desk<br/>groups/METALS_DESK<br/>📋 Trading Department<br/>📋 Specialization: Gold, Silver, Commodities"]
+        end
+        
+        subgraph "Users & System Access"
+            BondTrader["👤 Bond Trader (Regular User)<br/>users/BOND_TRADER_001<br/>📋 Auth: SSO/Active Directory<br/>📋 Access: Trading Terminal"]
+            BondTradingBot["🔑 Bond Algo System (API User)<br/>api_users/BOND_ALGO<br/>📋 Auth: API Key<br/>📋 Access: Automated Trading"]
+            
+            ForexAnalyst["👤 FX Analyst (Regular User)<br/>users/FX_ANALYST_001<br/>📋 Auth: Username/Password<br/>📋 Access: Risk Dashboard"]
+            ForexPricingAPI["🔑 FX Pricing Feed (API User)<br/>api_users/FX_PRICING<br/>📋 Auth: API Key<br/>📋 Access: Market Data"]
+            
+            MetalsManager["👤 Metals Desk Head (Regular User)<br/>users/METALS_HEAD<br/>📋 Auth: Smart Card + PIN<br/>📋 Access: Management Console"]
+        end
+        
+        subgraph "Accounts & Trading Activity"
+            AlphaFundAcc["💰 Alpha Fund Master Account<br/>accounts/ALPHA_MASTER_ACC<br/>owner: ALPHA_FUND<br/>Balance: $500M"]
+            
+            BetaFundAcc["💰 Beta Fund Property Account<br/>accounts/BETA_PROPERTY_ACC<br/>owner: BETA_FUND<br/>Balance: $200M"]
+            
+            AlphaResearchAcc["💰 Research Analysis Account<br/>accounts/ALPHA_RESEARCH_ACC<br/>owner: ALPHA_RESEARCH<br/>Balance: $5M"]
+            
+            BondDeskAcc["💰 Bond Trading Account<br/>accounts/BOND_TRADING_ACC<br/>owner: BOND_DESK<br/>Balance: $50M"]
+            
+            ForexDeskAcc["💰 FX Trading Account<br/>accounts/FOREX_TRADING_ACC<br/>owner: FOREX_DESK<br/>Balance: $75M"]
+            
+            MetalsDeskAcc["💰 Metals Trading Account<br/>accounts/METALS_TRADING_ACC<br/>owner: METALS_DESK<br/>Balance: $25M"]
+            
+            GoldTrade["📊 Gold Futures Order<br/>orders/GOLD_FUTURES_001<br/>owner: METALS_DESK<br/>Amount: $2M Long Position<br/>💡 Created by: Regular User via Terminal"]
+            
+            BondTrade["📊 Treasury Bond Order<br/>orders/TREASURY_BOND_001<br/>owner: BOND_DESK<br/>Amount: $10M 10-Year Notes<br/>💡 Created by: API Integration"]
+            
+            FXTrade["📊 EUR/USD Trade<br/>orders/EUR_USD_001<br/>owner: FOREX_DESK<br/>Amount: €5M Currency Swap<br/>💡 Created by: Regular User via Dashboard"]
+        end
+        
+        Bank --> BankClient
+        Bank --> AlphaFund
+        Bank --> BetaFund
+        Bank --> BondDesk
+        Bank --> ForexDesk
+        Bank --> MetalsDesk
+        
+        BondDesk --> BondTrader
+        BondDesk --> BondTradingBot
+        ForexDesk --> ForexAnalyst
+        ForexDesk --> ForexPricingAPI
+        MetalsDesk --> MetalsManager
+        
+        AlphaFund --> AlphaFundClient
+        BetaFund --> BetaFundClient
+        AlphaFund --> AlphaResearch
+        AlphaFund --> AlphaRisk
+        
+        AlphaFund --> AlphaFundAcc
+        BetaFund --> BetaFundAcc
+        AlphaResearch --> AlphaResearchAcc
+        BondDesk --> BondDeskAcc
+        ForexDesk --> ForexDeskAcc
+        MetalsDesk --> MetalsDeskAcc
+        
+        MetalsDesk --> GoldTrade
+        BondDesk --> BondTrade
+        ForexDesk --> FXTrade
+    end
+```
+
+**Multi-Level Organizational Structure:**
+
+**Investment Bank Level (`GOLDMAN_INTL`):**
+- **Primary Legal Entity**: Licensed investment bank with regulatory oversight
+- **Direct Children**: Fund structures and trading desks
+- **Access Rights**: Can read all descendant fund and desk activities (hierarchical READ access)
+- **Compliance Role**: Consolidated reporting and regulatory compliance for all subsidiaries
+
+**Fund Level (`ALPHA_FUND`, `BETA_FUND`):**
+- **Legal Structure**: Separate legal entities (LP, REIT) with independent governance
+- **Fund Departments**: Internal divisions for research, risk management, operations
+- **Fund Accounts**: Master accounts holding pooled investor capital
+- **Access Rights**: Full control over fund-specific resources, limited access to bank-level resources
+
+**Department Level (`ALPHA_RESEARCH`, `BOND_DESK`, etc.):**
+- **Operational Units**: Functional departments within larger entities
+- **Specialized Accounts**: Department-specific trading and operational accounts  
+- **Trading Activity**: Orders and positions managed at department level
+- **Access Rights**: Direct ownership of department resources only
+
+**Access Control Scenarios:**
+
+**Goldman Sachs Bank Admin executing ListAccounts (READ method):**
+- ✅ Can see all fund accounts (`ALPHA_MASTER_ACC`, `BETA_PROPERTY_ACC`)
+- ✅ Can see all desk accounts (`BOND_TRADING_ACC`, `FOREX_TRADING_ACC`, `METALS_TRADING_ACC`)
+- ✅ Can see all department accounts (`ALPHA_RESEARCH_ACC`)
+- **Use Case**: Consolidated risk monitoring and regulatory reporting across all entities
+
+**Bond Trader (Regular User) executing CreateOrder via Trading Terminal (WRITE method):**
+- ✅ Can create orders owned by `BOND_DESK` (his department group)
+- ❌ Cannot create orders owned by `FOREX_DESK` (different desk)
+- ❌ Cannot create orders owned by `ALPHA_FUND` (different entity level)
+- **Authentication**: SSO/Active Directory with role-based terminal access
+- **Interface**: Desktop trading terminal with real-time market data
+
+**Bond Algo System (API User) executing CreateOrder via API (WRITE method):**
+- ✅ Can create orders owned by `BOND_DESK` (same permissions as regular trader)
+- ❌ Cannot create orders owned by `FOREX_DESK` (same restrictions apply)
+- ❌ Cannot create orders owned by `ALPHA_FUND` (entity separation maintained)
+- **Authentication**: API key with identical authorization scope as regular users
+- **Integration**: Automated algorithmic trading with same business rules
+
+**FX Analyst (Regular User) executing GetAccount via Risk Dashboard (READ method):**
+- ✅ Can view `FOREX_TRADING_ACC` (his desk's account)
+- ✅ Can view parent bank accounts (hierarchical READ access)
+- ❌ Cannot view `BOND_TRADING_ACC` (different desk, sibling level)
+- **Access Method**: Web-based risk dashboard with real-time position monitoring
+- **Cross-Platform**: Same permissions via mobile app or web interface
+
+**Metals Desk Head (Regular User) executing UpdateAccount via Management Console (WRITE method):**
+- ✅ Can update `METALS_TRADING_ACC` (directly owned by his desk)
+- ❌ Cannot update `ALPHA_MASTER_ACC` (fund-owned account, different entity)
+- ❌ Cannot update `BOND_TRADING_ACC` (different desk, sibling relationship)
+- **Authentication**: Smart card + PIN for high-privilege operations
+- **Use Case**: Desk-level account management with enhanced security requirements
+
+**Compliance and Risk Benefits:**
+- **Regulatory Segregation**: Each fund maintains separate compliance and reporting
+- **Risk Isolation**: Department failures don't impact other organizational units
+- **Operational Efficiency**: Specialized access patterns for different business functions
+- **Consolidated Oversight**: Bank-level visibility for enterprise risk management
 
 ### Isolation Guarantees
 
