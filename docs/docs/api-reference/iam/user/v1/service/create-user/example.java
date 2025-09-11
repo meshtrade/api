@@ -13,7 +13,7 @@ public class CreateUserExample {
             // Create request with user configuration
             CreateUserRequest request = CreateUserRequest.newBuilder()
                 .setUser(User.newBuilder()
-                    .setOwner("groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU")  // Group that will own this user
+                    .setOwner(service.getGroup())  // Current authenticated group becomes the owner
                     .setEmail("sarah.thompson@company.com")  // Unique email address
                     .addRoles("groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU/1000001")  // ROLE_IAM_VIEWER
                     .addRoles("groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU/2000002")  // ROLE_TRADING_VIEWER
