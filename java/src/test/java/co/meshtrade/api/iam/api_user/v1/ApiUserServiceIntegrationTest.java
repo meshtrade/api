@@ -59,7 +59,7 @@ class ApiUserServiceIntegrationTest {
 
     @Test
     @DisplayName("GetApiUser with invalid request fails validation quickly")
-    void getApiUser_validationFailure_failsFast() {
+    void getApiUser_validationFailure_failsFast() throws Exception {
         // Create invalid request - wrong name format
         GetApiUserRequest request = GetApiUserRequest.newBuilder()
             .setName("invalid-name-format")
@@ -139,7 +139,7 @@ class ApiUserServiceIntegrationTest {
 
     @Test
     @DisplayName("CreateApiUser with invalid request fails validation quickly")
-    void createApiUser_validationFailure_failsFast() {
+    void createApiUser_validationFailure_failsFast() throws Exception {
         // Create invalid request - empty owner
         CreateApiUserRequest request = CreateApiUserRequest.newBuilder()
             .setApiUser(APIUser.newBuilder()
@@ -175,7 +175,7 @@ class ApiUserServiceIntegrationTest {
 
     @Test
     @DisplayName("AssignRoleToUser with invalid request fails validation quickly")
-    void assignRoleToUser_validationFailure_failsFast() {
+    void assignRoleToUser_validationFailure_failsFast() throws Exception {
         // Create invalid request - wrong name format
         AssignRoleToAPIUserRequest request = AssignRoleToAPIUserRequest.newBuilder()
             .setName("invalid-format") // Invalid: wrong format
@@ -209,7 +209,7 @@ class ApiUserServiceIntegrationTest {
 
     @Test
     @DisplayName("ListApiUsers with mocked validation failure fails quickly")
-    void listApiUsers_validationFailure_failsFast() {
+    void listApiUsers_validationFailure_failsFast() throws Exception {
         // ListApiUsersRequest has no validation rules, so we mock validation failure
         ListApiUsersRequest request = ListApiUsersRequest.newBuilder().build();
 
@@ -240,7 +240,7 @@ class ApiUserServiceIntegrationTest {
 
     @Test
     @DisplayName("SearchApiUsers with mocked validation failure fails quickly")
-    void searchApiUsers_validationFailure_failsFast() {
+    void searchApiUsers_validationFailure_failsFast() throws Exception {
         // SearchApiUsersRequest has no validation rules, so we mock validation failure
         SearchApiUsersRequest request = SearchApiUsersRequest.newBuilder()
             .setDisplayName("test")
@@ -273,7 +273,7 @@ class ApiUserServiceIntegrationTest {
 
     @Test
     @DisplayName("ActivateApiUser with invalid request fails validation quickly")
-    void activateApiUser_validationFailure_failsFast() {
+    void activateApiUser_validationFailure_failsFast() throws Exception {
         // Create invalid request - wrong name format
         ActivateApiUserRequest request = ActivateApiUserRequest.newBuilder()
             .setName("invalid-format")
@@ -306,7 +306,7 @@ class ApiUserServiceIntegrationTest {
 
     @Test
     @DisplayName("DeactivateApiUser with invalid request fails validation quickly")
-    void deactivateApiUser_validationFailure_failsFast() {
+    void deactivateApiUser_validationFailure_failsFast() throws Exception {
         // Create invalid request - wrong name format
         DeactivateApiUserRequest request = DeactivateApiUserRequest.newBuilder()
             .setName("invalid-format")
@@ -339,7 +339,7 @@ class ApiUserServiceIntegrationTest {
 
     @Test
     @DisplayName("GetApiUserByKeyHash with invalid request fails validation quickly")
-    void getApiUserByKeyHash_validationFailure_failsFast() {
+    void getApiUserByKeyHash_validationFailure_failsFast() throws Exception {
         // Create invalid request - wrong key_hash length
         GetApiUserByKeyHashRequest request = GetApiUserByKeyHashRequest.newBuilder()
             .setKeyHash("too-short")
@@ -505,7 +505,7 @@ class ApiUserServiceCredentialFilesTest {
 
     @Test
     @DisplayName("Valid credential file loading")
-    void validCredentialFile() throws IOException {
+    void validCredentialFile() throws IOException, InterruptedException {
         // Create a valid credentials file
         String validCredentials = """
             {
@@ -597,7 +597,7 @@ class ApiUserServiceCredentialFilesTest {
 
     @Test
     @DisplayName("Credential file with extra fields")
-    void credentialFileWithExtraFields() throws IOException {
+    void credentialFileWithExtraFields() throws IOException, InterruptedException {
         // Test that extra fields in JSON are ignored gracefully
         String credentialsWithExtra = """
             {
@@ -632,7 +632,7 @@ class ApiUserServiceCredentialFilesTest {
 
     @Test
     @DisplayName("Service creation with explicit credentials override")
-    void serviceCreationWithExplicitCredentialsOverride() throws IOException {
+    void serviceCreationWithExplicitCredentialsOverride() throws IOException, InterruptedException {
         // Even if credentials would be found via discovery, explicit options should take precedence
         ServiceOptions options = ServiceOptions.builder()
             .apiKey("explicit-api-key") // Should override any discovered credentials
@@ -731,7 +731,7 @@ class ApiUserServiceCredentialFilesTest {
 
     @Test
     @DisplayName("JSON parsing edge cases")
-    void jsonParsingEdgeCases() throws IOException {
+    void jsonParsingEdgeCases() throws IOException, InterruptedException {
         // Test JSON parsing indirectly through service behavior
         // (can't test private parseCredentialsJson directly)
         
@@ -764,7 +764,7 @@ class ApiUserServiceCredentialFilesTest {
 
     @Test
     @DisplayName("Validation works consistently with credential-loaded services")
-    void validationWorksConsistentlyWithCredentialLoadedServices() {
+    void validationWorksConsistentlyWithCredentialLoadedServices() throws InterruptedException {
         // Test that validation behavior is consistent regardless of how credentials are provided
         
         // Create services with different credential sources
