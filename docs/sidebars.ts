@@ -22,10 +22,10 @@ const sidebars: SidebarsConfig = {
       type: 'category',
       label: 'Architecture',
       items: [
-        'architecture/service-structure',
-        'architecture/group-ownership', 
-        'architecture/role-based-access',
         'architecture/authentication',
+        'architecture/role-based-access',
+        'architecture/group-ownership', 
+        'architecture/service-structure',
         'architecture/sdk-configuration'
       ],
     },
