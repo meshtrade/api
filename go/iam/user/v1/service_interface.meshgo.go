@@ -10,6 +10,16 @@ import (
 type UserService interface {
 	// Assign Role To User
 	AssignRoleToUser(ctx context.Context, request *AssignRoleToUserRequest) (*User, error)
+
+	GetUser(ctx context.Context, request *GetUserRequest) (*User, error)
+
+	ListUsers(ctx context.Context, request *ListUsersRequest) (*ListUsersResponse, error)
+
+	SearchUsers(ctx context.Context, request *SearchUsersRequest) (*SearchUsersResponse, error)
+
+	CreateUser(ctx context.Context, request *CreateUserRequest) (*User, error)
+
+	UpdateUser(ctx context.Context, request *UpdateUserRequest) (*User, error)
 }
 
 const UserServiceServiceProviderName = "meshtrade-iam-user-v1-UserService"

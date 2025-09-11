@@ -128,3 +128,43 @@ func (s *userService) AssignRoleToUser(ctx context.Context, request *AssignRoleT
 		return s.GrpcClient().AssignRoleToUser(ctx, request)
 	})
 }
+
+// GetUser executes the GetUser RPC method with automatic
+// client-side validation, timeout handling, distributed tracing, and authentication.
+func (s *userService) GetUser(ctx context.Context, request *GetUserRequest) (*User, error) {
+	return grpc.Execute(s.Executor(), ctx, "GetUser", request, func(ctx context.Context) (*User, error) {
+		return s.GrpcClient().GetUser(ctx, request)
+	})
+}
+
+// ListUsers executes the ListUsers RPC method with automatic
+// client-side validation, timeout handling, distributed tracing, and authentication.
+func (s *userService) ListUsers(ctx context.Context, request *ListUsersRequest) (*ListUsersResponse, error) {
+	return grpc.Execute(s.Executor(), ctx, "ListUsers", request, func(ctx context.Context) (*ListUsersResponse, error) {
+		return s.GrpcClient().ListUsers(ctx, request)
+	})
+}
+
+// SearchUsers executes the SearchUsers RPC method with automatic
+// client-side validation, timeout handling, distributed tracing, and authentication.
+func (s *userService) SearchUsers(ctx context.Context, request *SearchUsersRequest) (*SearchUsersResponse, error) {
+	return grpc.Execute(s.Executor(), ctx, "SearchUsers", request, func(ctx context.Context) (*SearchUsersResponse, error) {
+		return s.GrpcClient().SearchUsers(ctx, request)
+	})
+}
+
+// CreateUser executes the CreateUser RPC method with automatic
+// client-side validation, timeout handling, distributed tracing, and authentication.
+func (s *userService) CreateUser(ctx context.Context, request *CreateUserRequest) (*User, error) {
+	return grpc.Execute(s.Executor(), ctx, "CreateUser", request, func(ctx context.Context) (*User, error) {
+		return s.GrpcClient().CreateUser(ctx, request)
+	})
+}
+
+// UpdateUser executes the UpdateUser RPC method with automatic
+// client-side validation, timeout handling, distributed tracing, and authentication.
+func (s *userService) UpdateUser(ctx context.Context, request *UpdateUserRequest) (*User, error) {
+	return grpc.Execute(s.Executor(), ctx, "UpdateUser", request, func(ctx context.Context) (*User, error) {
+		return s.GrpcClient().UpdateUser(ctx, request)
+	})
+}
