@@ -191,7 +191,7 @@ class ApiUserServiceIntegrationTest {
             
             long startTime = System.nanoTime();
             
-            assertThatThrownBy(() -> testService.assignRoleToUser(request, Optional.empty()))
+            assertThatThrownBy(() -> testService.assignRoleToAPIUser(request, Optional.empty()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Request validation failed");
             
@@ -416,7 +416,7 @@ class ApiUserServiceIntegrationTest {
                 .setRole("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1000001")
                 .build();
             
-            assertThatThrownBy(() -> testService.assignRoleToUser(assignRequest, Optional.empty()))
+            assertThatThrownBy(() -> testService.assignRoleToAPIUser(assignRequest, Optional.empty()))
                 .isInstanceOf(Exception.class)
                 .hasMessageNotContaining("Request validation failed");
             
