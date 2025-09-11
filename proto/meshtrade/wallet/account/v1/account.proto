@@ -31,7 +31,7 @@ message Account {
     cel: {
       id: "name.format.optional",
       message: "name must be empty or in the format accounts/{ULIDv2}",
-      expression: "size(this) == 0 || this.matches('^accounts/[0-9A-Z]{26}$')"
+      expression: "size(this) == 0 || this.matches('^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
     }
   }];
 
@@ -44,7 +44,7 @@ message Account {
     required: true,
     string: {
       len: 33,
-      pattern: "^groups/[0-9A-Z]{26}$"
+      pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
 
@@ -59,7 +59,7 @@ message Account {
       items: {
         string: {
           len: 33,
-          pattern: "^groups/[0-9A-Z]{26}$"
+          pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
         }
       }
     }

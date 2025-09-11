@@ -8,7 +8,7 @@ package user_v1
 
 import (
 	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
-	v1 "github.com/meshtrade/api/go/iam/role/v1"
+	_ "github.com/meshtrade/api/go/iam/role/v1"
 	_ "github.com/meshtrade/api/go/option/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -26,12 +26,11 @@ const (
 
 type AssignRoleToUserRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// The email address of the user to assign a role to
-	Email string `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
-	// The name of the group in which the user is to be assigned the given role
-	Group string `protobuf:"bytes,2,opt,name=group,proto3" json:"group,omitempty"`
-	// Role is the role to assign to the user
-	Role          v1.Role `protobuf:"varint,3,opt,name=role,proto3,enum=meshtrade.iam.role.v1.Role" json:"role,omitempty"`
+	// Name of the user to assign a role to.
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	// Role to assign to the user in the format groups/{ULIDv2}/{role_id}.
+	// The role_id corresponds to a value from the meshtrade.iam.role.v1.Role enum.
+	Role          string `protobuf:"bytes,4,opt,name=role,proto3" json:"role,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -66,39 +65,28 @@ func (*AssignRoleToUserRequest) Descriptor() ([]byte, []int) {
 	return file_meshtrade_iam_user_v1_service_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *AssignRoleToUserRequest) GetEmail() string {
+func (x *AssignRoleToUserRequest) GetName() string {
 	if x != nil {
-		return x.Email
+		return x.Name
 	}
 	return ""
 }
 
-func (x *AssignRoleToUserRequest) GetGroup() string {
-	if x != nil {
-		return x.Group
-	}
-	return ""
-}
-
-func (x *AssignRoleToUserRequest) GetRole() v1.Role {
+func (x *AssignRoleToUserRequest) GetRole() string {
 	if x != nil {
 		return x.Role
 	}
-	return v1.Role(0)
+	return ""
 }
 
 var File_meshtrade_iam_user_v1_service_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_user_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"#meshtrade/iam/user/v1/service.proto\x12\x15meshtrade.iam.user.v1\x1a\x1bbuf/validate/validate.proto\x1a meshtrade/iam/role/v1/role.proto\x1a meshtrade/iam/user/v1/user.proto\x1a%meshtrade/option/v1/method_type.proto\"\x88\x04\n" +
-	"\x17AssignRoleToUserRequest\x12\xac\x01\n" +
-	"\x05email\x18\x01 \x01(\tB\x95\x01\xbaH\x91\x01\xba\x01U\n" +
-	"\x0eemail.required\x123email is required and must be a valid email address\x1a\x0esize(this) > 0r7\x10\x01\x18\xfe\x0120^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$R\x05email\x12\x9b\x01\n" +
-	"\x05group\x18\x02 \x01(\tB\x84\x01\xbaH\x80\x01\xba\x01v\n" +
-	"\x0egroup.required\x12?group name is required and must be between 1 and 255 characters\x1a#size(this) > 0 && size(this) <= 255r\x05\x10\x01\x18\xff\x01R\x05group\x12\x9f\x01\n" +
-	"\x04role\x18\x03 \x01(\x0e2\x1b.meshtrade.iam.role.v1.RoleBn\xbaHk\xba\x01a\n" +
-	"\rrole.required\x12@role is required and must be a valid role type (not UNSPECIFIED)\x1a\x0eint(this) != 0\x82\x01\x04\x10\x01 \x00R\x04role2~\n" +
+	"#meshtrade/iam/user/v1/service.proto\x12\x15meshtrade.iam.user.v1\x1a\x1bbuf/validate/validate.proto\x1a meshtrade/iam/role/v1/role.proto\x1a meshtrade/iam/user/v1/user.proto\x1a%meshtrade/option/v1/method_type.proto\"\xc3\x01\n" +
+	"\x17AssignRoleToUserRequest\x12L\n" +
+	"\x04name\x18\x01 \x01(\tB8\xbaH5r32.^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01 R\x04name\x12Z\n" +
+	"\x04role\x18\x04 \x01(\tBF\xbaHC\xc8\x01\x01r>29^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/1[0-9]{6}$\x98\x01)R\x04role2~\n" +
 	"\vUserService\x12o\n" +
 	"\x10AssignRoleToUser\x12..meshtrade.iam.user.v1.AssignRoleToUserRequest\x1a\x1b.meshtrade.iam.user.v1.User\"\x0e\xa0\xb5\x18\x02\xaa\xb5\x18\x06\n" +
 	"\x04\xc0\x8d\xb7\x01BO\n" +
@@ -119,18 +107,16 @@ func file_meshtrade_iam_user_v1_service_proto_rawDescGZIP() []byte {
 var file_meshtrade_iam_user_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_meshtrade_iam_user_v1_service_proto_goTypes = []any{
 	(*AssignRoleToUserRequest)(nil), // 0: meshtrade.iam.user.v1.AssignRoleToUserRequest
-	(v1.Role)(0),                    // 1: meshtrade.iam.role.v1.Role
-	(*User)(nil),                    // 2: meshtrade.iam.user.v1.User
+	(*User)(nil),                    // 1: meshtrade.iam.user.v1.User
 }
 var file_meshtrade_iam_user_v1_service_proto_depIdxs = []int32{
-	1, // 0: meshtrade.iam.user.v1.AssignRoleToUserRequest.role:type_name -> meshtrade.iam.role.v1.Role
-	0, // 1: meshtrade.iam.user.v1.UserService.AssignRoleToUser:input_type -> meshtrade.iam.user.v1.AssignRoleToUserRequest
-	2, // 2: meshtrade.iam.user.v1.UserService.AssignRoleToUser:output_type -> meshtrade.iam.user.v1.User
-	2, // [2:3] is the sub-list for method output_type
-	1, // [1:2] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	0, // 0: meshtrade.iam.user.v1.UserService.AssignRoleToUser:input_type -> meshtrade.iam.user.v1.AssignRoleToUserRequest
+	1, // 1: meshtrade.iam.user.v1.UserService.AssignRoleToUser:output_type -> meshtrade.iam.user.v1.User
+	1, // [1:2] is the sub-list for method output_type
+	0, // [0:1] is the sub-list for method input_type
+	0, // [0:0] is the sub-list for extension type_name
+	0, // [0:0] is the sub-list for extension extendee
+	0, // [0:0] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_iam_user_v1_service_proto_init() }

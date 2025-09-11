@@ -23,24 +23,24 @@ service UserService {
 
 message AssignRoleToUserRequest {
   /*
-     Name of the user to activate.
+     Name of the user to assign a role to.
   */
   string name = 1 [(buf.validate.field) = {
     string: {
-      len: 33,
-      pattern: "^api_users/[0-9A-Z]{26}$"
+      len: 32,
+      pattern: "^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
 
   /*
-  Role to assign to the user in the format:
-  
+     Role to assign to the user in the format groups/{ULIDv2}/{role_id}.
+     The role_id corresponds to a value from the meshtrade.iam.role.v1.Role enum.
   */
   string role = 4 [(buf.validate.field) = {
     required: true,
     string: {
       len: 41,
-      pattern: "^groups/[0-9A-Z]{26}/1[0-9]{6}$"
+      pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/1[0-9]{6}$"
     }
   }];  
 }

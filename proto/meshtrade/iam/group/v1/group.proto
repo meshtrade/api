@@ -18,15 +18,15 @@ option java_package = "co.meshtrade.api.iam.group.v1";
 message Group {
   /*
      The unique resource name for the group.
-     Format: accounts/{ULIDv2}.
+     Format: groups/{ULIDv2}.
      This field is system-generated and immutable upon creation.
      Any value provided on creation is ignored.
   */
   string name = 1 [(buf.validate.field) = {
     cel: {
       id: "name.format.optional",
-      message: "name must be empty or in the format accounts/{ULIDv2}",
-      expression: "size(this) == 0 || this.matches('^accounts/[0-9A-Z]{26}$')"
+      message: "name must be empty or in the format groups/{ULIDv2}",
+      expression: "size(this) == 0 || this.matches('^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
     }
   }];
 
@@ -36,9 +36,10 @@ message Group {
      Format: groups/{ULIDv2}.
   */
   string owner = 2 [(buf.validate.field) = {
+    required: true,
     string: {
       len: 33,
-      pattern: "^groups/[0-9A-Z]{26}$"
+      pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
 
@@ -53,7 +54,7 @@ message Group {
       items: {
         string: {
           len: 33,
-          pattern: "^groups/[0-9A-Z]{26}$"
+          pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
         }
       }
     }
@@ -64,6 +65,7 @@ message Group {
      User-configurable and non-unique across the system.
   */
   string display_name = 4 [(buf.validate.field) = {
+    required: true,
     string: {
       min_len: 1,
       max_len: 255

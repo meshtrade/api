@@ -370,19 +370,19 @@ var File_meshtrade_wallet_account_v1_account_proto protoreflect.FileDescriptor
 
 const file_meshtrade_wallet_account_v1_account_proto_rawDesc = "" +
 	"\n" +
-	")meshtrade/wallet/account/v1/account.proto\x12\x1bmeshtrade.wallet.account.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1emeshtrade/type/v1/ledger.proto\x1a\x1emeshtrade/type/v1/amount.proto\x1a)meshtrade/studio/instrument/v1/type.proto\x1a)meshtrade/studio/instrument/v1/unit.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xbe\x06\n" +
-	"\aAccount\x12\xa6\x01\n" +
-	"\x04name\x18\x01 \x01(\tB\x91\x01\xbaH\x8d\x01\xba\x01\x89\x01\n" +
-	"\x14name.format.optional\x125name must be empty or in the format accounts/{ULIDv2}\x1a:size(this) == 0 || this.matches('^accounts/[0-9A-Z]{26}$')R\x04name\x125\n" +
-	"\x05owner\x18\x02 \x01(\tB\x1f\xbaH\x1cr\x1a2\x15^groups/[0-9A-Z]{26}$\x98\x01!R\x05owner\x12<\n" +
-	"\x06owners\x18\x03 \x03(\tB$\xbaH!\x92\x01\x1e\"\x1cr\x1a2\x15^groups/[0-9A-Z]{26}$\x98\x01!R\x06owners\x12\xab\x01\n" +
+	")meshtrade/wallet/account/v1/account.proto\x12\x1bmeshtrade.wallet.account.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1emeshtrade/type/v1/ledger.proto\x1a\x1emeshtrade/type/v1/amount.proto\x1a)meshtrade/studio/instrument/v1/type.proto\x1a)meshtrade/studio/instrument/v1/unit.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x95\a\n" +
+	"\aAccount\x12\xc0\x01\n" +
+	"\x04name\x18\x01 \x01(\tB\xab\x01\xbaH\xa7\x01\xba\x01\xa3\x01\n" +
+	"\x14name.format.optional\x125name must be empty or in the format accounts/{ULIDv2}\x1aTsize(this) == 0 || this.matches('^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12R\n" +
+	"\x05owner\x18\x02 \x01(\tB<\xbaH9\xc8\x01\x01r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05owner\x12V\n" +
+	"\x06owners\x18\x03 \x03(\tB>\xbaH;\x92\x018\"6r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x06owners\x12\xab\x01\n" +
 	"\x06number\x18\x05 \x01(\tB\x92\x01\xbaH\x8e\x01\xba\x01\x8a\x01\n" +
 	"\x16number.format.optional\x12@number must be empty or a 7-digit account number starting with 1\x1a.size(this) == 0 || this.matches('^1[0-9]{6}$')R\x06number\x12%\n" +
-	"\tledger_id\x18\x06 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R\bledgerId\x12=\n" +
-	"\x06ledger\x18\a \x01(\x0e2\x19.meshtrade.type.v1.LedgerB\n" +
-	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\x06ledger\x12-\n" +
-	"\fdisplay_name\x18\b \x01(\tB\n" +
-	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\vdisplayName\x12O\n" +
+	"\tledger_id\x18\x06 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R\bledgerId\x12@\n" +
+	"\x06ledger\x18\a \x01(\x0e2\x19.meshtrade.type.v1.LedgerB\r\xbaH\n" +
+	"\xc8\x01\x01\x82\x01\x04\x10\x01 \x00R\x06ledger\x120\n" +
+	"\fdisplay_name\x18\b \x01(\tB\r\xbaH\n" +
+	"\xc8\x01\x01r\x05\x10\x01\x18\xff\x01R\vdisplayName\x12O\n" +
 	"\x16live_data_retrieved_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\x13liveDataRetrievedAt\x12?\n" +
 	"\x05state\x18\n" +
 	" \x01(\x0e2).meshtrade.wallet.account.v1.AccountStateR\x05state\x12@\n" +

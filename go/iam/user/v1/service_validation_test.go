@@ -4,7 +4,6 @@ import (
 	"testing"
 
 	"buf.build/go/protovalidate"
-	role_v1 "github.com/meshtrade/api/go/iam/role/v1"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -22,93 +21,61 @@ func TestAssignRoleToUserRequest_Validation(t *testing.T) {
 		{
 			name: "valid request",
 			request: &AssignRoleToUserRequest{
-				Email: "user@example.com",
-				Group: "test-group",
-				Role:  role_v1.Role_ROLE_COMPLIANCE_ADMIN,
+				Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1000000",
 			},
 			wantErr: false,
 		},
 		{
-			name: "empty email",
+			name: "empty name",
 			request: &AssignRoleToUserRequest{
-				Email: "",
-				Group: "test-group",
-				Role:  role_v1.Role_ROLE_COMPLIANCE_ADMIN,
+				Name: "",
+				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1000000",
 			},
 			wantErr: true,
-			errMsg:  "email is required and must be a valid email address",
+			errMsg:  "value length must be 32 characters",
 		},
 		{
-			name: "invalid email format",
+			name: "invalid name format",
 			request: &AssignRoleToUserRequest{
-				Email: "invalid-email",
-				Group: "test-group",
-				Role:  role_v1.Role_ROLE_COMPLIANCE_ADMIN,
+				Name: "invalid-name",
+				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1000000",
 			},
 			wantErr: true,
 			errMsg:  "value does not match regex pattern",
 		},
 		{
-			name: "email too long",
-			request: func() *AssignRoleToUserRequest {
-				// Create an email that's too long (over 254 chars)
-				longLocalPart := ""
-				for i := 0; i < 245; i++ {
-					longLocalPart += "a"
-				}
-				longEmail := longLocalPart + "@example.com" // 245 + 12 = 257 chars, exceeds 254 limit
-				return &AssignRoleToUserRequest{
-					Email: longEmail,
-					Group: "test-group", 
-					Role:  role_v1.Role_ROLE_COMPLIANCE_ADMIN,
-				}
-			}(),
-			wantErr: true,
-			errMsg:  "value length must be at most 254 characters",
-		},
-		{
-			name: "empty group",
+			name: "empty role",
 			request: &AssignRoleToUserRequest{
-				Email: "user@example.com",
-				Group: "",
-				Role:  role_v1.Role_ROLE_COMPLIANCE_ADMIN,
+				Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Role: "",
 			},
 			wantErr: true,
-			errMsg:  "group name is required and must be between 1 and 255 characters",
+			errMsg:  "value is required",
 		},
 		{
-			name: "group too long",
-			request: func() *AssignRoleToUserRequest {
-				// Create a group name that's too long (over 255 chars)
-				longGroup := ""
-				for i := 0; i < 256; i++ {
-					longGroup += "a"
-				}
-				return &AssignRoleToUserRequest{
-					Email: "user@example.com",
-					Group: longGroup, // 256 chars, exceeds 255 limit
-					Role:  role_v1.Role_ROLE_COMPLIANCE_ADMIN,
-				}
-			}(),
-			wantErr: true,
-			errMsg:  "group name is required and must be between 1 and 255 characters",
-		},
-		{
-			name: "unspecified role",
+			name: "invalid role format",
 			request: &AssignRoleToUserRequest{
-				Email: "user@example.com",
-				Group: "test-group",
-				Role:  role_v1.Role_ROLE_UNSPECIFIED, // This is the default 0 value
+				Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Role: "invalid-role",
 			},
 			wantErr: true,
-			errMsg:  "role is required and must be a valid role type (not UNSPECIFIED)",
+			errMsg:  "value does not match regex pattern",
 		},
 		{
-			name: "all fields empty/invalid",
+			name: "role wrong length",
 			request: &AssignRoleToUserRequest{
-				Email: "",
-				Group: "",
-				Role:  role_v1.Role_ROLE_UNSPECIFIED,
+				Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Role: "groups/short/1000000", // Too short group ID
+			},
+			wantErr: true,
+			errMsg:  "value length must be 41 characters",
+		},
+		{
+			name: "all fields invalid",
+			request: &AssignRoleToUserRequest{
+				Name: "",
+				Role: "",
 			},
 			wantErr: true,
 		},
@@ -135,61 +102,39 @@ func TestAssignRoleToUserRequest_Validation_EdgeCases(t *testing.T) {
 	validator, err := protovalidate.New()
 	require.NoError(t, err)
 
-	t.Run("email at maximum length", func(t *testing.T) {
-		// Create an email that's exactly 254 characters
-		localPart := ""
-		for i := 0; i < 241; i++ {
-			localPart += "a"
-		}
-		email := localPart + "@example.com" // Total: 241 + 1 + 11 = 253 chars (under limit)
-		
-		request := &AssignRoleToUserRequest{
-			Email: email,
-			Group: "test-group",
-			Role:  role_v1.Role_ROLE_COMPLIANCE_ADMIN,
-		}
-		
-		err := validator.Validate(request)
-		// This might fail due to email format validation, which is expected
-		// The test demonstrates the length constraint
-		t.Logf("Validation result for max length email: %v", err)
-	})
-
-	t.Run("group at maximum length", func(t *testing.T) {
-		// Create a group name that's exactly 255 characters
-		group := ""
-		for i := 0; i < 255; i++ {
-			group += "a"
-		}
-		
-		request := &AssignRoleToUserRequest{
-			Email: "user@example.com",
-			Group: group,
-			Role:  role_v1.Role_ROLE_COMPLIANCE_ADMIN,
-		}
-		
-		err := validator.Validate(request)
-		assert.NoError(t, err, "255 character group name should be valid")
-	})
-
-	t.Run("valid complex email formats", func(t *testing.T) {
-		validEmails := []string{
-			"test@example.com",
-			"user.name@example.com",
-			"user+tag@example.co.uk",
-			"user123@sub.example.org",
-			"a@b.co",
+	t.Run("valid role formats", func(t *testing.T) {
+		validRoles := []string{
+			"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1000000",
+			"groups/01BX5ZZKBKACTAV9WEVGEMMVRZ/1000001", 
+			"groups/01CX5ZZKBKACTAV9WEVGEMMVRZ/1000002",
 		}
 
-		for _, email := range validEmails {
+		for _, role := range validRoles {
 			request := &AssignRoleToUserRequest{
-				Email: email,
-				Group: "test-group", 
-				Role:  role_v1.Role_ROLE_COMPLIANCE_ADMIN,
+				Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Role: role,
 			}
 			
 			err := validator.Validate(request)
-			assert.NoError(t, err, "Email %s should be valid", email)
+			assert.NoError(t, err, "Role %s should be valid", role)
+		}
+	})
+
+	t.Run("valid user name formats", func(t *testing.T) {
+		validNames := []string{
+			"users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+			"users/01BX5ZZKBKACTAV9WEVGEMMVRZ",
+			"users/01CX5ZZKBKACTAV9WEVGEMMVRZ",
+		}
+
+		for _, name := range validNames {
+			request := &AssignRoleToUserRequest{
+				Name: name,
+				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1000000",
+			}
+			
+			err := validator.Validate(request)
+			assert.NoError(t, err, "Name %s should be valid", name)
 		}
 	})
 }

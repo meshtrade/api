@@ -145,14 +145,14 @@ service ApiUserService {
 
 message GetApiUserRequest {
   /*
-    Name of the API user to activate.
-    Format: users/{ULIDv2}
+     Name of the API user to retrieve.
+     Format: api_users/{ULIDv2}
   */
   string name = 1 [(buf.validate.field) = {
     required: true,
     string: {
-      len: 33,
-      pattern: "^api_users/[0-9A-Z]{26}$"
+      len: 36,
+      pattern: "^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
 }
@@ -196,28 +196,28 @@ message SearchApiUsersResponse {
 
 message ActivateApiUserRequest {
   /*
-    Name of the API user to activate.
-    Format: users/{ULIDv2}
+     Name of the API user to activate.
+     Format: api_users/{ULIDv2}
   */
   string name = 1 [(buf.validate.field) = {
     required: true,
     string: {
-      len: 33,
-      pattern: "^api_users/[0-9A-Z]{26}$"
+      len: 36,
+      pattern: "^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
 }
 
 message DeactivateApiUserRequest {
   /*
-    Name of the API user to deactivate.
-    Format: users/{ULIDv2}
+     Name of the API user to deactivate.
+     Format: api_users/{ULIDv2}
   */
   string name = 1 [(buf.validate.field) = {
     required: true,
     string: {
-      len: 33,
-      pattern: "^api_users/[0-9A-Z]{26}$"
+      len: 36,
+      pattern: "^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
 }

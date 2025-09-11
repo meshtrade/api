@@ -773,19 +773,19 @@ const file_meshtrade_wallet_account_v1_service_proto_rawDesc = "" +
 	"\x14CreateAccountRequest\x12F\n" +
 	"\aaccount\x18\x01 \x01(\v2$.meshtrade.wallet.account.v1.AccountB\x06\xbaH\x03\xc8\x01\x01R\aaccount\"^\n" +
 	"\x14UpdateAccountRequest\x12F\n" +
-	"\aaccount\x18\x01 \x01(\v2$.meshtrade.wallet.account.v1.AccountB\x06\xbaH\x03\xc8\x01\x01R\aaccount\"K\n" +
-	"\x12OpenAccountRequest\x125\n" +
-	"\x04name\x18\x01 \x01(\tB!\xbaH\x1er\x1c2\x17^accounts/[0-9A-Z]{26}$\x98\x01!R\x04name\"\x84\x01\n" +
+	"\aaccount\x18\x01 \x01(\v2$.meshtrade.wallet.account.v1.AccountB\x06\xbaH\x03\xc8\x01\x01R\aaccount\"e\n" +
+	"\x12OpenAccountRequest\x12O\n" +
+	"\x04name\x18\x01 \x01(\tB;\xbaH8r621^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01#R\x04name\"\x84\x01\n" +
 	"\x13OpenAccountResponse\x12>\n" +
 	"\aaccount\x18\x01 \x01(\v2$.meshtrade.wallet.account.v1.AccountR\aaccount\x12-\n" +
-	"\x12ledger_transaction\x18\x03 \x01(\tR\x11ledgerTransaction\"L\n" +
-	"\x13CloseAccountRequest\x125\n" +
-	"\x04name\x18\x01 \x01(\tB!\xbaH\x1er\x1c2\x17^accounts/[0-9A-Z]{26}$\x98\x01!R\x04name\"\x85\x01\n" +
+	"\x12ledger_transaction\x18\x03 \x01(\tR\x11ledgerTransaction\"f\n" +
+	"\x13CloseAccountRequest\x12O\n" +
+	"\x04name\x18\x01 \x01(\tB;\xbaH8r621^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01#R\x04name\"\x85\x01\n" +
 	"\x14CloseAccountResponse\x12>\n" +
 	"\aaccount\x18\x01 \x01(\v2$.meshtrade.wallet.account.v1.AccountR\aaccount\x12-\n" +
-	"\x12ledger_transaction\x18\x03 \x01(\tR\x11ledgerTransaction\"|\n" +
-	"\x11GetAccountRequest\x125\n" +
-	"\x04name\x18\x01 \x01(\tB!\xbaH\x1er\x1c2\x17^accounts/[0-9A-Z]{26}$\x98\x01!R\x04name\x120\n" +
+	"\x12ledger_transaction\x18\x03 \x01(\tR\x11ledgerTransaction\"\x96\x01\n" +
+	"\x11GetAccountRequest\x12O\n" +
+	"\x04name\x18\x01 \x01(\tB;\xbaH8r621^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01#R\x04name\x120\n" +
 	"\x14populate_ledger_data\x18\x02 \x01(\bR\x12populateLedgerData\"\x88\x01\n" +
 	"\x19GetAccountByNumberRequest\x129\n" +
 	"\x0eaccount_number\x18\x01 \x01(\tB\x12\xbaH\x0fr\r2\v^1[0-9]{6}$R\raccountNumber\x120\n" +
