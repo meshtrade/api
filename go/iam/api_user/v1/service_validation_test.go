@@ -540,3 +540,164 @@ func TestNameFieldValidation_Comprehensive(t *testing.T) {
 		})
 	}
 }
+func TestAssignRoleToAPIUserRequest_Validation(t *testing.T) {
+	validator, err := protovalidate.New()
+	require.NoError(t, err)
+
+	tests := []struct {
+		name      string
+		request   *AssignRoleToAPIUserRequest
+		wantValid bool
+		wantError string
+	}{
+		{
+			name: "valid request with correct formats",
+			request: &AssignRoleToAPIUserRequest{
+				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV", // 36 chars - correct format after proto fix
+				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567",
+			},
+			wantValid: true,
+		},
+		{
+			name: "valid request with different ULIDv2 values",
+			request: &AssignRoleToAPIUserRequest{
+				Name: "api_users/01BX5ZZKBKACTAV9WEVGEMMVRZ", // 36 chars - correct format after proto fix
+				Role: "groups/01BX5ZZKBKACTAV9WEVGEMMVRZ/1000001",
+			},
+			wantValid: true,
+		},
+		// name field tests
+		{
+			name: "empty name - should fail due to length validation",
+			request: &AssignRoleToAPIUserRequest{
+				Name: "",
+				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567",
+			},
+			wantValid: false, // Empty string fails length validation (expects exactly 36 chars)
+			wantError: "len",
+		},
+		{
+			name: "invalid name format - users prefix (wrong resource type)",
+			request: &AssignRoleToAPIUserRequest{
+				Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Should be api_users/ not users/
+				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567",
+			},
+			wantValid: false,
+			wantError: "pattern",
+		},
+		{
+			name: "invalid name format - wrong length (too short)",
+			request: &AssignRoleToAPIUserRequest{
+				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FA", // 35 chars instead of 36
+				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567",
+			},
+			wantValid: false,
+			wantError: "len",
+		},
+		{
+			name: "invalid name format - wrong length (too long)",
+			request: &AssignRoleToAPIUserRequest{
+				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAVX", // 37 chars instead of 36
+				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567",
+			},
+			wantValid: false,
+			wantError: "len",
+		},
+		{
+			name: "invalid name format - lowercase chars",
+			request: &AssignRoleToAPIUserRequest{
+				Name: "api_users/01arz3ndektsv4rrffq69g5fav", // Lowercase not allowed in ULIDv2
+				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567",
+			},
+			wantValid: false,
+			wantError: "pattern",
+		},
+		// role field tests
+		{
+			name: "empty role - should fail (required)",
+			request: &AssignRoleToAPIUserRequest{
+				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Corrected to api_users/
+				Role: "",
+			},
+			wantValid: false,
+			wantError: "required",
+		},
+		{
+			name: "invalid role format - wrong prefix",
+			request: &AssignRoleToAPIUserRequest{
+				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Corrected to api_users/
+				Role: "group/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567", // Missing 's'
+			},
+			wantValid: false,
+			wantError: "pattern",
+		},
+		{
+			name: "invalid role format - wrong length (too short)",
+			request: &AssignRoleToAPIUserRequest{
+				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Corrected to api_users/
+				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/123456", // Missing one digit in role_id
+			},
+			wantValid: false,
+			wantError: "len",
+		},
+		{
+			name: "invalid role format - wrong length (too long)",
+			request: &AssignRoleToAPIUserRequest{
+				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Corrected to api_users/
+				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/12345678", // One extra digit in role_id
+			},
+			wantValid: false,
+			wantError: "len",
+		},
+		{
+			name: "invalid role format - role_id doesn't start with 1",
+			request: &AssignRoleToAPIUserRequest{
+				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Corrected to api_users/
+				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/2234567", // Must start with 1
+			},
+			wantValid: false,
+			wantError: "pattern",
+		},
+		{
+			name: "invalid role format - role_id contains letters",
+			request: &AssignRoleToAPIUserRequest{
+				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Corrected to api_users/
+				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/123456A", // Must be digits only
+			},
+			wantValid: false,
+			wantError: "pattern",
+		},
+		{
+			name: "invalid role format - ULIDv2 group part too short",
+			request: &AssignRoleToAPIUserRequest{
+				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Corrected to api_users/
+				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FA/1234567", // Missing one char in group ULID
+			},
+			wantValid: false,
+			wantError: "len",
+		},
+		{
+			name: "invalid role format - lowercase chars in group ULID",
+			request: &AssignRoleToAPIUserRequest{
+				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Corrected to api_users/
+				Role: "groups/01arz3ndektsv4rrffq69g5fav/1234567", // Lowercase not allowed
+			},
+			wantValid: false,
+			wantError: "pattern",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			err := validator.Validate(tt.request)
+			if tt.wantValid {
+				assert.NoError(t, err, "expected validation to pass but got error")
+			} else {
+				assert.Error(t, err, "expected validation to fail but got no error")
+				if tt.wantError != "" {
+					assert.Contains(t, err.Error(), tt.wantError, "error message should contain expected substring")
+				}
+			}
+		})
+	}
+}

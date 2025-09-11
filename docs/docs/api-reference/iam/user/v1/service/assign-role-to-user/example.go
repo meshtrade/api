@@ -19,9 +19,10 @@ func main() {
 	}
 	defer service.Close()
 
-	// Create request with service-specific parameters
+	// Assign role to existing user
 	request := &userv1.AssignRoleToUserRequest{
-		// FIXME: Populate service-specific request fields
+		Name: "users/01HN2ZXQJ8K9M0L1N3P2Q4R5T6",    // User to assign role to
+		Role: "groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU/1000000", // ROLE_IAM_ADMIN
 	}
 
 	// Call the AssignRoleToUser method
@@ -30,6 +31,9 @@ func main() {
 		log.Fatalf("AssignRoleToUser failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("AssignRoleToUser successful: %+v", user)
+	// Role has been successfully assigned
+	log.Printf("Role assigned successfully:")
+	log.Printf("  User: %s", user.Name)
+	log.Printf("  Email: %s", user.Email)
+	log.Printf("  Total Roles: %d", len(user.Roles))
 }

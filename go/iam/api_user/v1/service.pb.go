@@ -161,6 +161,61 @@ func (x *CreateApiUserRequest) GetApiUser() *APIUser {
 	return nil
 }
 
+type AssignRoleToAPIUserRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Name of the api user to assign a role to.
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	// Role to assign to the api user in the format groups/{ULIDv2}/{role_id}.
+	// The role_id corresponds to a value from the meshtrade.iam.role.v1.Role enum.
+	Role          string `protobuf:"bytes,4,opt,name=role,proto3" json:"role,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AssignRoleToAPIUserRequest) Reset() {
+	*x = AssignRoleToAPIUserRequest{}
+	mi := &file_meshtrade_iam_api_user_v1_service_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AssignRoleToAPIUserRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AssignRoleToAPIUserRequest) ProtoMessage() {}
+
+func (x *AssignRoleToAPIUserRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_iam_api_user_v1_service_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AssignRoleToAPIUserRequest.ProtoReflect.Descriptor instead.
+func (*AssignRoleToAPIUserRequest) Descriptor() ([]byte, []int) {
+	return file_meshtrade_iam_api_user_v1_service_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *AssignRoleToAPIUserRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *AssignRoleToAPIUserRequest) GetRole() string {
+	if x != nil {
+		return x.Role
+	}
+	return ""
+}
+
 type ListApiUsersRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -169,7 +224,7 @@ type ListApiUsersRequest struct {
 
 func (x *ListApiUsersRequest) Reset() {
 	*x = ListApiUsersRequest{}
-	mi := &file_meshtrade_iam_api_user_v1_service_proto_msgTypes[3]
+	mi := &file_meshtrade_iam_api_user_v1_service_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -181,7 +236,7 @@ func (x *ListApiUsersRequest) String() string {
 func (*ListApiUsersRequest) ProtoMessage() {}
 
 func (x *ListApiUsersRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_iam_api_user_v1_service_proto_msgTypes[3]
+	mi := &file_meshtrade_iam_api_user_v1_service_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -194,7 +249,7 @@ func (x *ListApiUsersRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListApiUsersRequest.ProtoReflect.Descriptor instead.
 func (*ListApiUsersRequest) Descriptor() ([]byte, []int) {
-	return file_meshtrade_iam_api_user_v1_service_proto_rawDescGZIP(), []int{3}
+	return file_meshtrade_iam_api_user_v1_service_proto_rawDescGZIP(), []int{4}
 }
 
 type ListApiUsersResponse struct {
@@ -206,7 +261,7 @@ type ListApiUsersResponse struct {
 
 func (x *ListApiUsersResponse) Reset() {
 	*x = ListApiUsersResponse{}
-	mi := &file_meshtrade_iam_api_user_v1_service_proto_msgTypes[4]
+	mi := &file_meshtrade_iam_api_user_v1_service_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -218,7 +273,7 @@ func (x *ListApiUsersResponse) String() string {
 func (*ListApiUsersResponse) ProtoMessage() {}
 
 func (x *ListApiUsersResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_iam_api_user_v1_service_proto_msgTypes[4]
+	mi := &file_meshtrade_iam_api_user_v1_service_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -231,7 +286,7 @@ func (x *ListApiUsersResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListApiUsersResponse.ProtoReflect.Descriptor instead.
 func (*ListApiUsersResponse) Descriptor() ([]byte, []int) {
-	return file_meshtrade_iam_api_user_v1_service_proto_rawDescGZIP(), []int{4}
+	return file_meshtrade_iam_api_user_v1_service_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *ListApiUsersResponse) GetApiUsers() []*APIUser {
@@ -251,7 +306,7 @@ type SearchApiUsersRequest struct {
 
 func (x *SearchApiUsersRequest) Reset() {
 	*x = SearchApiUsersRequest{}
-	mi := &file_meshtrade_iam_api_user_v1_service_proto_msgTypes[5]
+	mi := &file_meshtrade_iam_api_user_v1_service_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -263,7 +318,7 @@ func (x *SearchApiUsersRequest) String() string {
 func (*SearchApiUsersRequest) ProtoMessage() {}
 
 func (x *SearchApiUsersRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_iam_api_user_v1_service_proto_msgTypes[5]
+	mi := &file_meshtrade_iam_api_user_v1_service_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -276,7 +331,7 @@ func (x *SearchApiUsersRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SearchApiUsersRequest.ProtoReflect.Descriptor instead.
 func (*SearchApiUsersRequest) Descriptor() ([]byte, []int) {
-	return file_meshtrade_iam_api_user_v1_service_proto_rawDescGZIP(), []int{5}
+	return file_meshtrade_iam_api_user_v1_service_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *SearchApiUsersRequest) GetDisplayName() string {
@@ -295,7 +350,7 @@ type SearchApiUsersResponse struct {
 
 func (x *SearchApiUsersResponse) Reset() {
 	*x = SearchApiUsersResponse{}
-	mi := &file_meshtrade_iam_api_user_v1_service_proto_msgTypes[6]
+	mi := &file_meshtrade_iam_api_user_v1_service_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -307,7 +362,7 @@ func (x *SearchApiUsersResponse) String() string {
 func (*SearchApiUsersResponse) ProtoMessage() {}
 
 func (x *SearchApiUsersResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_iam_api_user_v1_service_proto_msgTypes[6]
+	mi := &file_meshtrade_iam_api_user_v1_service_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -320,7 +375,7 @@ func (x *SearchApiUsersResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SearchApiUsersResponse.ProtoReflect.Descriptor instead.
 func (*SearchApiUsersResponse) Descriptor() ([]byte, []int) {
-	return file_meshtrade_iam_api_user_v1_service_proto_rawDescGZIP(), []int{6}
+	return file_meshtrade_iam_api_user_v1_service_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *SearchApiUsersResponse) GetApiUsers() []*APIUser {
@@ -341,7 +396,7 @@ type ActivateApiUserRequest struct {
 
 func (x *ActivateApiUserRequest) Reset() {
 	*x = ActivateApiUserRequest{}
-	mi := &file_meshtrade_iam_api_user_v1_service_proto_msgTypes[7]
+	mi := &file_meshtrade_iam_api_user_v1_service_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -353,7 +408,7 @@ func (x *ActivateApiUserRequest) String() string {
 func (*ActivateApiUserRequest) ProtoMessage() {}
 
 func (x *ActivateApiUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_iam_api_user_v1_service_proto_msgTypes[7]
+	mi := &file_meshtrade_iam_api_user_v1_service_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -366,7 +421,7 @@ func (x *ActivateApiUserRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ActivateApiUserRequest.ProtoReflect.Descriptor instead.
 func (*ActivateApiUserRequest) Descriptor() ([]byte, []int) {
-	return file_meshtrade_iam_api_user_v1_service_proto_rawDescGZIP(), []int{7}
+	return file_meshtrade_iam_api_user_v1_service_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *ActivateApiUserRequest) GetName() string {
@@ -387,7 +442,7 @@ type DeactivateApiUserRequest struct {
 
 func (x *DeactivateApiUserRequest) Reset() {
 	*x = DeactivateApiUserRequest{}
-	mi := &file_meshtrade_iam_api_user_v1_service_proto_msgTypes[8]
+	mi := &file_meshtrade_iam_api_user_v1_service_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -399,7 +454,7 @@ func (x *DeactivateApiUserRequest) String() string {
 func (*DeactivateApiUserRequest) ProtoMessage() {}
 
 func (x *DeactivateApiUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_iam_api_user_v1_service_proto_msgTypes[8]
+	mi := &file_meshtrade_iam_api_user_v1_service_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -412,7 +467,7 @@ func (x *DeactivateApiUserRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeactivateApiUserRequest.ProtoReflect.Descriptor instead.
 func (*DeactivateApiUserRequest) Descriptor() ([]byte, []int) {
-	return file_meshtrade_iam_api_user_v1_service_proto_rawDescGZIP(), []int{8}
+	return file_meshtrade_iam_api_user_v1_service_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *DeactivateApiUserRequest) GetName() string {
@@ -432,7 +487,10 @@ const file_meshtrade_iam_api_user_v1_service_proto_rawDesc = "" +
 	"\x1aGetApiUserByKeyHashRequest\x12&\n" +
 	"\bkey_hash\x18\x01 \x01(\tB\v\xbaH\b\xc8\x01\x01r\x03\x98\x01,R\akeyHash\"]\n" +
 	"\x14CreateApiUserRequest\x12E\n" +
-	"\bapi_user\x18\x01 \x01(\v2\".meshtrade.iam.api_user.v1.APIUserB\x06\xbaH\x03\xc8\x01\x01R\aapiUser\"\x15\n" +
+	"\bapi_user\x18\x01 \x01(\v2\".meshtrade.iam.api_user.v1.APIUserB\x06\xbaH\x03\xc8\x01\x01R\aapiUser\"\xca\x01\n" +
+	"\x1aAssignRoleToAPIUserRequest\x12P\n" +
+	"\x04name\x18\x01 \x01(\tB<\xbaH9r722^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01$R\x04name\x12Z\n" +
+	"\x04role\x18\x04 \x01(\tBF\xbaHC\xc8\x01\x01r>29^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/1[0-9]{6}$\x98\x01)R\x04role\"\x15\n" +
 	"\x13ListApiUsersRequest\"W\n" +
 	"\x14ListApiUsersResponse\x12?\n" +
 	"\tapi_users\x18\x01 \x03(\v2\".meshtrade.iam.api_user.v1.APIUserR\bapiUsers\":\n" +
@@ -443,12 +501,15 @@ const file_meshtrade_iam_api_user_v1_service_proto_rawDesc = "" +
 	"\x16ActivateApiUserRequest\x12S\n" +
 	"\x04name\x18\x01 \x01(\tB?\xbaH<\xc8\x01\x01r722^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01$R\x04name\"o\n" +
 	"\x18DeactivateApiUserRequest\x12S\n" +
-	"\x04name\x18\x01 \x01(\tB?\xbaH<\xc8\x01\x01r722^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01$R\x04name2\xb8\a\n" +
+	"\x04name\x18\x01 \x01(\tB?\xbaH<\xc8\x01\x01r722^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01$R\x04name2\xbc\b\n" +
 	"\x0eApiUserService\x12z\n" +
 	"\n" +
 	"GetApiUser\x12,.meshtrade.iam.api_user.v1.GetApiUserRequest\x1a\".meshtrade.iam.api_user.v1.APIUser\"\x1a\xa0\xb5\x18\x01\xaa\xb5\x18\x12\n" +
 	"\x10\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01\u008d\xb7\x01Í\xb7\x01\x12x\n" +
 	"\rCreateApiUser\x12/.meshtrade.iam.api_user.v1.CreateApiUserRequest\x1a\".meshtrade.iam.api_user.v1.APIUser\"\x12\xa0\xb5\x18\x02\xaa\xb5\x18\n" +
+	"\n" +
+	"\b\xc0\x8d\xb7\x01\u008d\xb7\x01\x12\x81\x01\n" +
+	"\x10AssignRoleToUser\x125.meshtrade.iam.api_user.v1.AssignRoleToAPIUserRequest\x1a\".meshtrade.iam.api_user.v1.APIUser\"\x12\xa0\xb5\x18\x02\xaa\xb5\x18\n" +
 	"\n" +
 	"\b\xc0\x8d\xb7\x01\u008d\xb7\x01\x12\x8b\x01\n" +
 	"\fListApiUsers\x12..meshtrade.iam.api_user.v1.ListApiUsersRequest\x1a/.meshtrade.iam.api_user.v1.ListApiUsersResponse\"\x1a\xa0\xb5\x18\x01\xaa\xb5\x18\x12\n" +
@@ -477,39 +538,42 @@ func file_meshtrade_iam_api_user_v1_service_proto_rawDescGZIP() []byte {
 	return file_meshtrade_iam_api_user_v1_service_proto_rawDescData
 }
 
-var file_meshtrade_iam_api_user_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_meshtrade_iam_api_user_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_meshtrade_iam_api_user_v1_service_proto_goTypes = []any{
 	(*GetApiUserRequest)(nil),          // 0: meshtrade.iam.api_user.v1.GetApiUserRequest
 	(*GetApiUserByKeyHashRequest)(nil), // 1: meshtrade.iam.api_user.v1.GetApiUserByKeyHashRequest
 	(*CreateApiUserRequest)(nil),       // 2: meshtrade.iam.api_user.v1.CreateApiUserRequest
-	(*ListApiUsersRequest)(nil),        // 3: meshtrade.iam.api_user.v1.ListApiUsersRequest
-	(*ListApiUsersResponse)(nil),       // 4: meshtrade.iam.api_user.v1.ListApiUsersResponse
-	(*SearchApiUsersRequest)(nil),      // 5: meshtrade.iam.api_user.v1.SearchApiUsersRequest
-	(*SearchApiUsersResponse)(nil),     // 6: meshtrade.iam.api_user.v1.SearchApiUsersResponse
-	(*ActivateApiUserRequest)(nil),     // 7: meshtrade.iam.api_user.v1.ActivateApiUserRequest
-	(*DeactivateApiUserRequest)(nil),   // 8: meshtrade.iam.api_user.v1.DeactivateApiUserRequest
-	(*APIUser)(nil),                    // 9: meshtrade.iam.api_user.v1.APIUser
+	(*AssignRoleToAPIUserRequest)(nil), // 3: meshtrade.iam.api_user.v1.AssignRoleToAPIUserRequest
+	(*ListApiUsersRequest)(nil),        // 4: meshtrade.iam.api_user.v1.ListApiUsersRequest
+	(*ListApiUsersResponse)(nil),       // 5: meshtrade.iam.api_user.v1.ListApiUsersResponse
+	(*SearchApiUsersRequest)(nil),      // 6: meshtrade.iam.api_user.v1.SearchApiUsersRequest
+	(*SearchApiUsersResponse)(nil),     // 7: meshtrade.iam.api_user.v1.SearchApiUsersResponse
+	(*ActivateApiUserRequest)(nil),     // 8: meshtrade.iam.api_user.v1.ActivateApiUserRequest
+	(*DeactivateApiUserRequest)(nil),   // 9: meshtrade.iam.api_user.v1.DeactivateApiUserRequest
+	(*APIUser)(nil),                    // 10: meshtrade.iam.api_user.v1.APIUser
 }
 var file_meshtrade_iam_api_user_v1_service_proto_depIdxs = []int32{
-	9,  // 0: meshtrade.iam.api_user.v1.CreateApiUserRequest.api_user:type_name -> meshtrade.iam.api_user.v1.APIUser
-	9,  // 1: meshtrade.iam.api_user.v1.ListApiUsersResponse.api_users:type_name -> meshtrade.iam.api_user.v1.APIUser
-	9,  // 2: meshtrade.iam.api_user.v1.SearchApiUsersResponse.api_users:type_name -> meshtrade.iam.api_user.v1.APIUser
+	10, // 0: meshtrade.iam.api_user.v1.CreateApiUserRequest.api_user:type_name -> meshtrade.iam.api_user.v1.APIUser
+	10, // 1: meshtrade.iam.api_user.v1.ListApiUsersResponse.api_users:type_name -> meshtrade.iam.api_user.v1.APIUser
+	10, // 2: meshtrade.iam.api_user.v1.SearchApiUsersResponse.api_users:type_name -> meshtrade.iam.api_user.v1.APIUser
 	0,  // 3: meshtrade.iam.api_user.v1.ApiUserService.GetApiUser:input_type -> meshtrade.iam.api_user.v1.GetApiUserRequest
 	2,  // 4: meshtrade.iam.api_user.v1.ApiUserService.CreateApiUser:input_type -> meshtrade.iam.api_user.v1.CreateApiUserRequest
-	3,  // 5: meshtrade.iam.api_user.v1.ApiUserService.ListApiUsers:input_type -> meshtrade.iam.api_user.v1.ListApiUsersRequest
-	5,  // 6: meshtrade.iam.api_user.v1.ApiUserService.SearchApiUsers:input_type -> meshtrade.iam.api_user.v1.SearchApiUsersRequest
-	7,  // 7: meshtrade.iam.api_user.v1.ApiUserService.ActivateApiUser:input_type -> meshtrade.iam.api_user.v1.ActivateApiUserRequest
-	8,  // 8: meshtrade.iam.api_user.v1.ApiUserService.DeactivateApiUser:input_type -> meshtrade.iam.api_user.v1.DeactivateApiUserRequest
-	1,  // 9: meshtrade.iam.api_user.v1.ApiUserService.GetApiUserByKeyHash:input_type -> meshtrade.iam.api_user.v1.GetApiUserByKeyHashRequest
-	9,  // 10: meshtrade.iam.api_user.v1.ApiUserService.GetApiUser:output_type -> meshtrade.iam.api_user.v1.APIUser
-	9,  // 11: meshtrade.iam.api_user.v1.ApiUserService.CreateApiUser:output_type -> meshtrade.iam.api_user.v1.APIUser
-	4,  // 12: meshtrade.iam.api_user.v1.ApiUserService.ListApiUsers:output_type -> meshtrade.iam.api_user.v1.ListApiUsersResponse
-	6,  // 13: meshtrade.iam.api_user.v1.ApiUserService.SearchApiUsers:output_type -> meshtrade.iam.api_user.v1.SearchApiUsersResponse
-	9,  // 14: meshtrade.iam.api_user.v1.ApiUserService.ActivateApiUser:output_type -> meshtrade.iam.api_user.v1.APIUser
-	9,  // 15: meshtrade.iam.api_user.v1.ApiUserService.DeactivateApiUser:output_type -> meshtrade.iam.api_user.v1.APIUser
-	9,  // 16: meshtrade.iam.api_user.v1.ApiUserService.GetApiUserByKeyHash:output_type -> meshtrade.iam.api_user.v1.APIUser
-	10, // [10:17] is the sub-list for method output_type
-	3,  // [3:10] is the sub-list for method input_type
+	3,  // 5: meshtrade.iam.api_user.v1.ApiUserService.AssignRoleToUser:input_type -> meshtrade.iam.api_user.v1.AssignRoleToAPIUserRequest
+	4,  // 6: meshtrade.iam.api_user.v1.ApiUserService.ListApiUsers:input_type -> meshtrade.iam.api_user.v1.ListApiUsersRequest
+	6,  // 7: meshtrade.iam.api_user.v1.ApiUserService.SearchApiUsers:input_type -> meshtrade.iam.api_user.v1.SearchApiUsersRequest
+	8,  // 8: meshtrade.iam.api_user.v1.ApiUserService.ActivateApiUser:input_type -> meshtrade.iam.api_user.v1.ActivateApiUserRequest
+	9,  // 9: meshtrade.iam.api_user.v1.ApiUserService.DeactivateApiUser:input_type -> meshtrade.iam.api_user.v1.DeactivateApiUserRequest
+	1,  // 10: meshtrade.iam.api_user.v1.ApiUserService.GetApiUserByKeyHash:input_type -> meshtrade.iam.api_user.v1.GetApiUserByKeyHashRequest
+	10, // 11: meshtrade.iam.api_user.v1.ApiUserService.GetApiUser:output_type -> meshtrade.iam.api_user.v1.APIUser
+	10, // 12: meshtrade.iam.api_user.v1.ApiUserService.CreateApiUser:output_type -> meshtrade.iam.api_user.v1.APIUser
+	10, // 13: meshtrade.iam.api_user.v1.ApiUserService.AssignRoleToUser:output_type -> meshtrade.iam.api_user.v1.APIUser
+	5,  // 14: meshtrade.iam.api_user.v1.ApiUserService.ListApiUsers:output_type -> meshtrade.iam.api_user.v1.ListApiUsersResponse
+	7,  // 15: meshtrade.iam.api_user.v1.ApiUserService.SearchApiUsers:output_type -> meshtrade.iam.api_user.v1.SearchApiUsersResponse
+	10, // 16: meshtrade.iam.api_user.v1.ApiUserService.ActivateApiUser:output_type -> meshtrade.iam.api_user.v1.APIUser
+	10, // 17: meshtrade.iam.api_user.v1.ApiUserService.DeactivateApiUser:output_type -> meshtrade.iam.api_user.v1.APIUser
+	10, // 18: meshtrade.iam.api_user.v1.ApiUserService.GetApiUserByKeyHash:output_type -> meshtrade.iam.api_user.v1.APIUser
+	11, // [11:19] is the sub-list for method output_type
+	3,  // [3:11] is the sub-list for method input_type
 	3,  // [3:3] is the sub-list for extension type_name
 	3,  // [3:3] is the sub-list for extension extendee
 	0,  // [0:3] is the sub-list for field type_name
@@ -527,7 +591,7 @@ func file_meshtrade_iam_api_user_v1_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_meshtrade_iam_api_user_v1_service_proto_rawDesc), len(file_meshtrade_iam_api_user_v1_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   9,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

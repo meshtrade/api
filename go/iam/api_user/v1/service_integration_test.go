@@ -33,15 +33,15 @@ func TestApiUserServiceConfiguration_ComprehensiveSDKOptions(t *testing.T) {
 
 		// Verify default values are applied
 		assert.NotNil(t, service)
-		
+
 		// Test that validation still works with default config
 		invalidRequest := &GetApiUserRequest{
 			Name: "invalid-format",
 		}
-		
+
 		ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
 		defer cancel()
-		
+
 		_, err = service.GetApiUser(ctx, invalidRequest)
 		assert.Error(t, err)
 		assert.Contains(t, err.Error(), "request validation failed", "Should fail validation with default config")
@@ -94,19 +94,19 @@ func TestApiUserServiceConfiguration_ComprehensiveSDKOptions(t *testing.T) {
 					config.WithGroup("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV"),
 					config.WithTimeout(100*time.Millisecond), // Short timeout for fast test
 				)
-				
+
 				if tc.expectError {
 					assert.Error(t, err, tc.description)
 					return
 				}
-				
+
 				require.NoError(t, err, tc.description)
 				defer service.Close()
 
 				// Test that validation still works regardless of URL configuration
 				ctx, cancel := context.WithTimeout(context.Background(), 200*time.Millisecond)
 				defer cancel()
-				
+
 				_, err = service.GetApiUser(ctx, validRequest)
 				// Should get network error, not validation error
 				assert.Error(t, err)
@@ -129,7 +129,7 @@ func TestApiUserServiceConfiguration_ComprehensiveSDKOptions(t *testing.T) {
 				description: "Port 443 should be valid",
 			},
 			{
-				name:        "StandardHTTP", 
+				name:        "StandardHTTP",
 				port:        80,
 				expectError: false,
 				description: "Port 80 should be valid",
@@ -163,19 +163,19 @@ func TestApiUserServiceConfiguration_ComprehensiveSDKOptions(t *testing.T) {
 					config.WithGroup("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV"),
 					config.WithTimeout(100*time.Millisecond),
 				)
-				
+
 				if tc.expectError {
 					assert.Error(t, err, tc.description)
 					return
 				}
-				
+
 				require.NoError(t, err, tc.description)
 				defer service.Close()
 
 				// Validation should work regardless of port
 				ctx, cancel := context.WithTimeout(context.Background(), 200*time.Millisecond)
 				defer cancel()
-				
+
 				_, err = service.GetApiUser(ctx, validRequest)
 				assert.Error(t, err) // Network error expected
 				assert.NotContains(t, err.Error(), "request validation failed")
@@ -211,14 +211,14 @@ func TestApiUserServiceConfiguration_ComprehensiveSDKOptions(t *testing.T) {
 					config.WithGroup("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV"),
 					config.WithTimeout(100*time.Millisecond),
 				)
-				
+
 				require.NoError(t, err, tc.description)
 				defer service.Close()
 
 				// Validation should work regardless of TLS setting
 				ctx, cancel := context.WithTimeout(context.Background(), 200*time.Millisecond)
 				defer cancel()
-				
+
 				_, err = service.GetApiUser(ctx, validRequest)
 				assert.Error(t, err) // Network error expected
 				assert.NotContains(t, err.Error(), "request validation failed")
@@ -269,7 +269,7 @@ func TestApiUserServiceConfiguration_ComprehensiveSDKOptions(t *testing.T) {
 					config.WithTLS(false),
 					config.WithTimeout(100*time.Millisecond),
 				)
-				
+
 				// For empty credentials, service creation may fail
 				if tc.apiKey == "" && tc.group == "" {
 					// Empty credentials case - may fail service creation
@@ -285,7 +285,7 @@ func TestApiUserServiceConfiguration_ComprehensiveSDKOptions(t *testing.T) {
 				// Validation should work regardless of auth configuration
 				ctx, cancel := context.WithTimeout(context.Background(), 200*time.Millisecond)
 				defer cancel()
-				
+
 				_, err = service.GetApiUser(ctx, validRequest)
 				assert.Error(t, err) // Network error expected
 				assert.NotContains(t, err.Error(), "request validation failed")
@@ -330,20 +330,20 @@ func TestApiUserServiceConfiguration_ComprehensiveSDKOptions(t *testing.T) {
 					config.WithAPIKey("test-key"),
 					config.WithGroup("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV"),
 				)
-				
+
 				require.NoError(t, err, tc.description)
 				defer service.Close()
 
 				// Test that timeout is actually applied
 				ctx := context.Background()
 				start := time.Now()
-				
+
 				_, err = service.GetApiUser(ctx, validRequest)
 				duration := time.Since(start)
-				
+
 				assert.Error(t, err) // Network error expected
 				assert.NotContains(t, err.Error(), "request validation failed")
-				
+
 				// For very short timeouts, should timeout quickly
 				if tc.timeout <= 100*time.Millisecond {
 					assert.Less(t, duration, tc.timeout+200*time.Millisecond, "Should timeout within expected range")
@@ -370,13 +370,13 @@ func TestApiUserServiceConfiguration_ComprehensiveSDKOptions(t *testing.T) {
 		for _, tc := range testCases {
 			t.Run(tc.name, func(t *testing.T) {
 				var opts []config.ServiceOption
-				
+
 				if tracer := tc.tracer(); tracer != nil {
 					if tr, ok := tracer.(trace.Tracer); ok {
 						opts = append(opts, config.WithTracer(tr))
 					}
 				}
-				
+
 				opts = append(opts,
 					config.WithURL("localhost"),
 					config.WithPort(9999),
@@ -384,7 +384,7 @@ func TestApiUserServiceConfiguration_ComprehensiveSDKOptions(t *testing.T) {
 					config.WithGroup("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV"),
 					config.WithTimeout(100*time.Millisecond),
 				)
-				
+
 				service, err := NewApiUserService(opts...)
 				require.NoError(t, err, tc.description)
 				defer service.Close()
@@ -392,7 +392,7 @@ func TestApiUserServiceConfiguration_ComprehensiveSDKOptions(t *testing.T) {
 				// Validation should work regardless of tracing configuration
 				ctx, cancel := context.WithTimeout(context.Background(), 200*time.Millisecond)
 				defer cancel()
-				
+
 				_, err = service.GetApiUser(ctx, validRequest)
 				assert.Error(t, err) // Network error expected
 				assert.NotContains(t, err.Error(), "request validation failed")
@@ -462,7 +462,7 @@ func TestApiUserServiceConfiguration_ComprehensiveSDKOptions(t *testing.T) {
 				// Test that validation works with combined configuration
 				ctx, cancel := context.WithTimeout(context.Background(), 200*time.Millisecond)
 				defer cancel()
-				
+
 				_, err = service.GetApiUser(ctx, validRequest)
 				assert.Error(t, err) // Network error expected
 				assert.NotContains(t, err.Error(), "request validation failed")
@@ -472,7 +472,7 @@ func TestApiUserServiceConfiguration_ComprehensiveSDKOptions(t *testing.T) {
 
 	t.Run("ValidationWithDifferentConfigurations", func(t *testing.T) {
 		// Test that client-side validation works consistently across all configurations
-		
+
 		configurations := []struct {
 			name    string
 			options []config.ServiceOption
@@ -520,14 +520,14 @@ func TestApiUserServiceConfiguration_ComprehensiveSDKOptions(t *testing.T) {
 				invalidRequest := &GetApiUserRequest{
 					Name: "invalid-format",
 				}
-				
+
 				ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
 				defer cancel()
-				
+
 				start := time.Now()
 				_, err = service.GetApiUser(ctx, invalidRequest)
 				validationDuration := time.Since(start)
-				
+
 				assert.Error(t, err)
 				assert.Contains(t, err.Error(), "request validation failed")
 				assert.Less(t, validationDuration, 100*time.Millisecond, "Validation should be fast")
@@ -536,7 +536,7 @@ func TestApiUserServiceConfiguration_ComprehensiveSDKOptions(t *testing.T) {
 				start = time.Now()
 				_, err = service.GetApiUser(ctx, validRequest)
 				networkDuration := time.Since(start)
-				
+
 				assert.Error(t, err) // Network error expected
 				assert.NotContains(t, err.Error(), "request validation failed")
 				assert.Greater(t, networkDuration, validationDuration, "Network call should take longer than validation")
@@ -550,7 +550,7 @@ func TestApiUserServiceConfiguration_ErrorHandling(t *testing.T) {
 	t.Run("InvalidOptionCombinations", func(t *testing.T) {
 		// Most invalid combinations are handled gracefully in Go
 		// This tests documents expected behavior
-		
+
 		// Test with various option combinations that might cause issues
 		testCases := []struct {
 			name        string
@@ -596,23 +596,23 @@ func TestApiUserServiceConfiguration_ErrorHandling(t *testing.T) {
 		for _, tc := range testCases {
 			t.Run(tc.name, func(t *testing.T) {
 				service, err := NewApiUserService(tc.options...)
-				
+
 				if tc.expectError {
 					assert.Error(t, err, tc.description)
 					return
 				}
-				
+
 				require.NoError(t, err, tc.description)
 				defer service.Close()
-				
+
 				// Verify service can be used (validation should still work)
 				validRequest := &GetApiUserRequest{
 					Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				}
-				
+
 				ctx, cancel := context.WithTimeout(context.Background(), 100*time.Millisecond)
 				defer cancel()
-				
+
 				_, err = service.GetApiUser(ctx, validRequest)
 				// Should get network error (expected), not configuration error
 				assert.Error(t, err)
@@ -628,7 +628,7 @@ func TestApiUserServiceConfiguration_ErrorHandling(t *testing.T) {
 func TestApiUserServiceConfiguration_PatternDocumentation(t *testing.T) {
 	t.Run("ConfigurationPatternOverview", func(t *testing.T) {
 		// This test documents the configuration pattern that should be consistent across SDKs
-		
+
 		t.Log("=== SDK Configuration Pattern (Go/Python/Java) ===")
 		t.Log("")
 		t.Log("1. URL/Address Configuration:")
@@ -667,38 +667,38 @@ func TestApiUserServiceConfiguration_PatternDocumentation(t *testing.T) {
 			config.WithGroup("groups/01PATTERN1TEST1EXAMPLE123"),
 			config.WithTimeout(100*time.Millisecond),
 		)
-		
+
 		require.NoError(t, err, "Configuration pattern should work")
 		defer service.Close()
 
 		// Verify validation still works
 		ctx, cancel := context.WithTimeout(context.Background(), 200*time.Millisecond)
 		defer cancel()
-		
+
 		validRequest := &GetApiUserRequest{
 			Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 		}
-		
+
 		_, err = service.GetApiUser(ctx, validRequest)
 		assert.Error(t, err) // Network error expected
 		assert.NotContains(t, err.Error(), "request validation failed")
-		
+
 		assert.True(t, true, "Configuration pattern documentation complete")
 	})
 
 	t.Run("CrossSDKConsistency", func(t *testing.T) {
 		// Document how this pattern maps across SDKs
-		
+
 		examples := []string{
 			"Go:     service, err := NewApiUserService(config.WithURL(\"api.com\"), config.WithTimeout(30*time.Second))",
 			"Python: service = ApiUserService(ServiceOptions(url=\"api.com\", timeout=timedelta(seconds=30)))",
 			"Java:   service = new ApiUserService(ServiceOptions.builder().url(\"api.com\").timeout(Duration.ofSeconds(30)).build())",
 		}
-		
+
 		for _, example := range examples {
 			t.Log(example)
 		}
-		
+
 		assert.True(t, true, "Cross-SDK consistency documented")
 	})
 }
@@ -744,10 +744,10 @@ func TestApiUserServiceConfiguration_CredentialFiles(t *testing.T) {
 		validRequest := &GetApiUserRequest{
 			Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 		}
-		
+
 		ctx, cancel := context.WithTimeout(context.Background(), 200*time.Millisecond)
 		defer cancel()
-		
+
 		_, err = service.GetApiUser(ctx, validRequest)
 		assert.Error(t, err) // Network error expected
 		assert.NotContains(t, err.Error(), "request validation failed")
@@ -806,7 +806,7 @@ func TestApiUserServiceConfiguration_CredentialFiles(t *testing.T) {
 					config.WithURL("localhost"),
 					config.WithTimeout(100*time.Millisecond),
 				)
-				
+
 				// Service creation may or may not fail depending on when validation occurs
 				if err != nil {
 					// If service creation fails, that's good - credentials were invalid
@@ -814,14 +814,14 @@ func TestApiUserServiceConfiguration_CredentialFiles(t *testing.T) {
 				} else {
 					// If service creation succeeds, try a call to verify credentials don't work
 					defer service.Close()
-					
+
 					validRequest := &GetApiUserRequest{
 						Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 					}
-					
+
 					ctx, cancel := context.WithTimeout(context.Background(), 200*time.Millisecond)
 					defer cancel()
-					
+
 					// Should fail due to invalid credentials or validation
 					_, err = service.GetApiUser(ctx, validRequest)
 					assert.Error(t, err, tc.description)
@@ -840,21 +840,21 @@ func TestApiUserServiceConfiguration_CredentialFiles(t *testing.T) {
 			config.WithURL("localhost"),
 			config.WithTimeout(100*time.Millisecond),
 		)
-		
+
 		if err != nil {
 			// Service creation failed - good, credentials were invalid
 			assert.Contains(t, err.Error(), "credentials", "Should fail due to missing credentials file")
 		} else {
 			// Service created, test that calls fail
 			defer service.Close()
-			
+
 			validRequest := &GetApiUserRequest{
 				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 			}
-			
+
 			ctx, cancel := context.WithTimeout(context.Background(), 200*time.Millisecond)
 			defer cancel()
-			
+
 			_, err = service.GetApiUser(ctx, validRequest)
 			assert.Error(t, err, "Should fail due to missing credentials")
 		}
@@ -874,7 +874,7 @@ func TestApiUserServiceConfiguration_CredentialFiles(t *testing.T) {
 
 		// Create service with explicit options that should override file
 		service, err := NewApiUserService(
-			config.WithAPIKey("explicit-api-key"), // Should override file
+			config.WithAPIKey("explicit-api-key"),             // Should override file
 			config.WithGroup("groups/01EXPLICITGROUPTEST123"), // Should override file
 			config.WithURL("localhost"),
 			config.WithPort(9999),
@@ -887,10 +887,10 @@ func TestApiUserServiceConfiguration_CredentialFiles(t *testing.T) {
 		validRequest := &GetApiUserRequest{
 			Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 		}
-		
+
 		ctx, cancel := context.WithTimeout(context.Background(), 200*time.Millisecond)
 		defer cancel()
-		
+
 		_, err = service.GetApiUser(ctx, validRequest)
 		assert.Error(t, err) // Network error expected
 		assert.NotContains(t, err.Error(), "request validation failed")
@@ -906,7 +906,7 @@ func TestApiUserServiceConfiguration_CredentialFiles(t *testing.T) {
 			config.WithURL("localhost"),
 			config.WithTimeout(100*time.Millisecond),
 		)
-		
+
 		// Should work but likely without proper credentials
 		// The exact behavior depends on whether default credentials exist
 		// We don't assert specific error here as it may vary by test environment
@@ -939,10 +939,10 @@ func TestApiUserServiceConfiguration_CredentialFiles(t *testing.T) {
 		validRequest := &GetApiUserRequest{
 			Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 		}
-		
+
 		ctx, cancel := context.WithTimeout(context.Background(), 200*time.Millisecond)
 		defer cancel()
-		
+
 		_, err = service.GetApiUser(ctx, validRequest)
 		assert.Error(t, err) // Network error expected
 		assert.NotContains(t, err.Error(), "request validation failed")
@@ -983,21 +983,21 @@ func TestApiUserServiceConfiguration_CredentialFiles(t *testing.T) {
 				config.WithURL("localhost"),
 				config.WithTimeout(100*time.Millisecond),
 			)
-			
+
 			if err != nil {
 				// Service creation failed due to permission error
 				assert.Contains(t, err.Error(), "permission", "Should fail due to permission error")
 			} else {
 				// Service created, test that calls fail
 				defer service.Close()
-				
+
 				validRequest := &GetApiUserRequest{
 					Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				}
-				
+
 				ctx, cancel := context.WithTimeout(context.Background(), 200*time.Millisecond)
 				defer cancel()
-				
+
 				_, err = service.GetApiUser(ctx, validRequest)
 				assert.Error(t, err, "Should fail due to permission/credential issues")
 			}

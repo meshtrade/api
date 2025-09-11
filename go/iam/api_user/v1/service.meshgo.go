@@ -137,6 +137,14 @@ func (s *apiUserService) CreateApiUser(ctx context.Context, request *CreateApiUs
 	})
 }
 
+// AssignRoleToUser executes the AssignRoleToUser RPC method with automatic
+// client-side validation, timeout handling, distributed tracing, and authentication.
+func (s *apiUserService) AssignRoleToUser(ctx context.Context, request *AssignRoleToAPIUserRequest) (*APIUser, error) {
+	return grpc.Execute(s.Executor(), ctx, "AssignRoleToUser", request, func(ctx context.Context) (*APIUser, error) {
+		return s.GrpcClient().AssignRoleToUser(ctx, request)
+	})
+}
+
 // ListApiUsers executes the ListApiUsers RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *apiUserService) ListApiUsers(ctx context.Context, request *ListApiUsersRequest) (*ListApiUsersResponse, error) {
