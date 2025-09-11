@@ -258,7 +258,7 @@ var File_meshtrade_iam_api_user_v1_api_user_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_api_user_v1_api_user_proto_rawDesc = "" +
 	"\n" +
-	"(meshtrade/iam/api_user/v1/api_user.proto\x12\x19meshtrade.iam.api_user.v1\x1a\x1bbuf/validate/validate.proto\"\xd5\x06\n" +
+	"(meshtrade/iam/api_user/v1/api_user.proto\x12\x19meshtrade.iam.api_user.v1\x1a\x1bbuf/validate/validate.proto\"\xef\x06\n" +
 	"\aAPIUser\x12\xc2\x01\n" +
 	"\x04name\x18\x01 \x01(\tB\xad\x01\xbaH\xa9\x01\xba\x01\xa5\x01\n" +
 	"\x14name.format.optional\x126name must be empty or in the format api_users/{ULIDv2}\x1aUsize(this) == 0 || this.matches('^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12R\n" +
@@ -267,8 +267,8 @@ const file_meshtrade_iam_api_user_v1_api_user_proto_rawDesc = "" +
 	"\fdisplay_name\x18\x04 \x01(\tB\x90\x01\xbaH\x8c\x01\xba\x01\x7f\n" +
 	"\x15display_name.required\x12Adisplay name is required and must be between 1 and 255 characters\x1a#size(this) > 0 && size(this) <= 255\xc8\x01\x01r\x05\x10\x01\x18\xff\x01R\vdisplayName\x12\xc2\x01\n" +
 	"\x05state\x18\x05 \x01(\x0e2'.meshtrade.iam.api_user.v1.APIUserStateB\x82\x01\xbaH\x7f\xba\x01t\n" +
-	"\vstate.valid\x12/state must be a valid APIUserState if specified\x1a4int(this) == 0 || (int(this) >= 1 && int(this) <= 2)\xc8\x01\x01\x82\x01\x02\x10\x01R\x05state\x12D\n" +
-	"\x05roles\x18\x06 \x03(\tB.\xbaH+\x92\x01(\"&r$2\x1f^groups/[0-9A-Z]{26}/1[0-9]{6}$\x98\x01)R\x05roles\x12\x17\n" +
+	"\vstate.valid\x12/state must be a valid APIUserState if specified\x1a4int(this) == 0 || (int(this) >= 1 && int(this) <= 2)\xc8\x01\x01\x82\x01\x02\x10\x01R\x05state\x12^\n" +
+	"\x05roles\x18\x06 \x03(\tBH\xbaHE\x92\x01B\"@r>29^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/1[0-9]{6}$\x98\x01)R\x05roles\x12\x17\n" +
 	"\aapi_key\x18\a \x01(\tR\x06apiKey*f\n" +
 	"\fAPIUserState\x12\x1e\n" +
 	"\x1aAPI_USER_STATE_UNSPECIFIED\x10\x00\x12\x19\n" +

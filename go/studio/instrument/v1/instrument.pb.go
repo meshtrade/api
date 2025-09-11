@@ -117,13 +117,13 @@ var File_meshtrade_studio_instrument_v1_instrument_proto protoreflect.FileDescri
 
 const file_meshtrade_studio_instrument_v1_instrument_proto_rawDesc = "" +
 	"\n" +
-	"/meshtrade/studio/instrument/v1/instrument.proto\x12\x1emeshtrade.studio.instrument.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1dmeshtrade/type/v1/token.proto\"\x89\x03\n" +
+	"/meshtrade/studio/instrument/v1/instrument.proto\x12\x1emeshtrade.studio.instrument.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1dmeshtrade/type/v1/token.proto\"\xd7\x03\n" +
 	"\n" +
-	"Instrument\x12\xa2\x01\n" +
-	"\x04name\x18\x01 \x01(\tB\x8d\x01\xbaH\x89\x01\xba\x01\x85\x01\n" +
-	"\x14name.format.optional\x123name must be empty or in the format groups/{ULIDv2}\x1a8size(this) == 0 || this.matches('^groups/[0-9A-Z]{26}$')R\x04name\x125\n" +
-	"\x05owner\x18\x02 \x01(\tB\x1f\xbaH\x1cr\x1a2\x15^groups/[0-9A-Z]{26}$\x98\x01!R\x05owner\x12@\n" +
-	"\x06owners\x18\x03 \x03(\tB(\xbaH%\x92\x01\"\b\x00\x10d\"\x1cr\x1a2\x15^groups/[0-9A-Z]{26}$\x98\x01!R\x06owners\x12-\n" +
+	"Instrument\x12\xbc\x01\n" +
+	"\x04name\x18\x01 \x01(\tB\xa7\x01\xbaH\xa3\x01\xba\x01\x9f\x01\n" +
+	"\x14name.format.optional\x123name must be empty or in the format groups/{ULIDv2}\x1aRsize(this) == 0 || this.matches('^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12O\n" +
+	"\x05owner\x18\x02 \x01(\tB9\xbaH6r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05owner\x12Z\n" +
+	"\x06owners\x18\x03 \x03(\tBB\xbaH?\x92\x01<\b\x00\x10d\"6r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x06owners\x12-\n" +
 	"\fdisplay_name\x18\x04 \x01(\tB\n" +
 	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\vdisplayName\x12.\n" +
 	"\x05token\x18\x05 \x01(\v2\x18.meshtrade.type.v1.TokenR\x05tokenBg\n" +
