@@ -5,6 +5,7 @@ import (
 	"log"
 
 	userv1 "github.com/meshtrade/api/go/iam/user/v1"
+	typev1 "github.com/meshtrade/api/go/type/v1"
 )
 
 func main() {
@@ -19,17 +20,33 @@ func main() {
 	}
 	defer service.Close()
 
-	// Create request with service-specific parameters
+	// Search for users by email substring
 	request := &userv1.SearchUsersRequest{
-		// FIXME: Populate service-specific request fields
+		Email: "thompson", // Substring to search for in email addresses
+		Sorting: &userv1.SearchUsersRequest_Sorting{
+			Field: "email", // Sort results by email address
+			Order: typev1.SortingOrder_SORTING_ORDER_ASC,
+		},
 	}
 
-	// Call the SearchUsers method
+	// Call the SearchUsers method  
 	response, err := service.SearchUsers(ctx, request)
 	if err != nil {
 		log.Fatalf("SearchUsers failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("SearchUsers successful: %+v", response)
+	// Process search results
+	if len(response.Users) == 0 {
+		log.Printf("No users found matching email pattern: %s", request.Email)
+	} else {
+		log.Printf("Found %d users matching '%s':", len(response.Users), request.Email)
+		for i, user := range response.Users {
+			log.Printf("User %d:", i+1)
+			log.Printf("  Name: %s", user.Name)
+			log.Printf("  Email: %s", user.Email)
+			log.Printf("  Owner: %s", user.Owner)
+			log.Printf("  Roles: %d assigned", len(user.Roles))
+			log.Println()
+		}
+	}
 }
