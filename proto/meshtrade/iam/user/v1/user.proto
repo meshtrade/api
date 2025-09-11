@@ -7,7 +7,9 @@ import "buf/validate/validate.proto";
 option go_package = "github.com/meshtrade/api/go/iam/user/v1;user_v1";
 option java_package = "co.meshtrade.api.iam.user.v1";
 
-/*Nice user doc here*/
+/*
+  A representation of a user in the IAM service.
+*/
 message User {
   /*
      The unique resource name for the user.
@@ -54,14 +56,19 @@ message User {
 
   /*
      The unique email address of this user.
-     This field is required on creation.
+     This field is required on creation and must be a valid email format.
   */
-  string email = 4; // ADD EMAIL FORMAT VALIDation here from buf validate
+  string email = 4 [(buf.validate.field) = {
+    required: true,
+    string: {
+      email: true
+    }
+  }];
 
   /*
-     Roles is a list of the roles assigned to this user
+     Roles is a list of the roles assigned to this user,
      prepended by the name of the group in which they have been assigned that role.
-     e.g. groups/{ulid}/{role}, where role is one of the rolev1.Role enum
+     e.g. groups/{ULIDv2}/{role}, where role is an ID from the rolev1.Role enum.
   */
   repeated string roles = 6 [(buf.validate.field) = {
     repeated: {
