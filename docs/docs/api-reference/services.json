@@ -8,9 +8,6 @@
       "group": {
         "v1": "beta"
       },
-      "role": {
-        "v1": "development"
-      },
       "user": {
         "v1": "development"
       }
@@ -35,6 +32,11 @@
     },
     "wallet": {
       "account": {
+        "v1": "development"
+      }
+    },
+    "studio": {
+      "instrument": {
         "v1": "development"
       }
     }
