@@ -10,16 +10,26 @@ public class CreateUserExample {
         // environment variable or default discovery methods. Zero config required
         // unless you want custom configuration.
         try (UserService service = new UserService()) {
-            // Create request with service-specific parameters
+            // Create request with user configuration
             CreateUserRequest request = CreateUserRequest.newBuilder()
-                // FIXME: Populate service-specific request fields
+                .setUser(User.newBuilder()
+                    .setOwner("groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU")  // Group that will own this user
+                    .setEmail("sarah.thompson@company.com")  // Unique email address
+                    .addRoles("groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU/1000001")  // ROLE_IAM_VIEWER
+                    .addRoles("groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU/2000002")  // ROLE_TRADING_VIEWER
+                    .build())
                 .build();
 
             // Call the CreateUser method
             User user = service.createUser(request, Optional.empty());
 
-            // FIXME: Add relevant response object usage
-            System.out.println("CreateUser successful: " + user);
+            // Use the newly created user
+            System.out.println("User created successfully:");
+            System.out.println("  Name: " + user.getName());
+            System.out.println("  Email: " + user.getEmail());
+            System.out.println("  Owner: " + user.getOwner());
+            System.out.println("  Roles: " + user.getRolesList());
+            System.out.println("User is ready for authentication with " + user.getRolesCount() + " assigned roles");
         } catch (Exception e) {
             System.err.println("CreateUser failed: " + e.getMessage());
             e.printStackTrace();

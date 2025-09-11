@@ -19,9 +19,16 @@ func main() {
 	}
 	defer service.Close()
 
-	// Create request with service-specific parameters
+	// Create request with user configuration
 	request := &userv1.CreateUserRequest{
-		// FIXME: Populate service-specific request fields
+		User: &userv1.User{
+			Owner: service.Group(), // Current authenticated group becomes the owner
+			Email: "sarah.thompson@company.com", // Unique email address
+			Roles: []string{
+				"groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU/1000001", // ROLE_IAM_VIEWER
+				"groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU/2000002", // ROLE_TRADING_VIEWER
+			},
+		},
 	}
 
 	// Call the CreateUser method
@@ -30,6 +37,13 @@ func main() {
 		log.Fatalf("CreateUser failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("CreateUser successful: %+v", user)
+	// Use the newly created user
+	log.Printf("User created successfully:")
+	log.Printf("  Name: %s", user.Name)
+	log.Printf("  Email: %s", user.Email)
+	log.Printf("  Owner: %s", user.Owner)
+	log.Printf("  Roles: %v", user.Roles)
+
+	// The user is ready for authentication and resource access
+	log.Printf("User is ready for authentication with %d assigned roles", len(user.Roles))
 }

@@ -10,16 +10,20 @@ public class AssignRoleToUserExample {
         // environment variable or default discovery methods. Zero config required
         // unless you want custom configuration.
         try (UserService service = new UserService()) {
-            // Create request with service-specific parameters
+            // Assign role to existing user
             AssignRoleToUserRequest request = AssignRoleToUserRequest.newBuilder()
-                // FIXME: Populate service-specific request fields
+                .setName("users/01HN2ZXQJ8K9M0L1N3P2Q4R5T6")  // User to assign role to
+                .setRole("groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU/1000000")  // ROLE_IAM_ADMIN
                 .build();
 
             // Call the AssignRoleToUser method
             User user = service.assignRoleToUser(request, Optional.empty());
 
-            // FIXME: Add relevant response object usage
-            System.out.println("AssignRoleToUser successful: " + user);
+            // Role has been successfully assigned
+            System.out.println("Role assigned successfully:");
+            System.out.println("  User: " + user.getName());
+            System.out.println("  Email: " + user.getEmail());
+            System.out.println("  Total Roles: " + user.getRolesCount());
         } catch (Exception e) {
             System.err.println("AssignRoleToUser failed: " + e.getMessage());
             e.printStackTrace();
