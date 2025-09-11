@@ -5,6 +5,7 @@ import (
 	"log"
 
 	userv1 "github.com/meshtrade/api/go/iam/user/v1"
+	typev1 "github.com/meshtrade/api/go/type/v1"
 )
 
 func main() {
@@ -19,9 +20,12 @@ func main() {
 	}
 	defer service.Close()
 
-	// Create request with service-specific parameters
+	// Create request with optional sorting
 	request := &userv1.ListUsersRequest{
-		// FIXME: Populate service-specific request fields
+		Sorting: &userv1.ListUsersRequest_Sorting{
+			Field: "email", // Sort by email address
+			Order: typev1.SortingOrder_SORTING_ORDER_ASC,
+		},
 	}
 
 	// Call the ListUsers method
@@ -30,6 +34,15 @@ func main() {
 		log.Fatalf("ListUsers failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("ListUsers successful: %+v", response)
+	// Process the user directory
+	log.Printf("Found %d users in the accessible hierarchy:", len(response.Users))
+	for i, user := range response.Users {
+		log.Printf("User %d:", i+1)
+		log.Printf("  Name: %s", user.Name)
+		log.Printf("  Email: %s", user.Email)
+		log.Printf("  Owner: %s", user.Owner)
+		log.Printf("  Roles: %d assigned", len(user.Roles))
+		log.Println()
+	}
+	
 }

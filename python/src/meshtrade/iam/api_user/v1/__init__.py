@@ -17,6 +17,7 @@ from .api_credentials_pb2 import APICredentials
 from .api_user_pb2 import APIUser, APIUserAction, APIUserState
 from .service_pb2 import (
     ActivateApiUserRequest,
+    AssignRoleToAPIUserRequest,
     CreateApiUserRequest,
     DeactivateApiUserRequest,
     GetApiUserByKeyHashRequest,
@@ -78,6 +79,7 @@ __all__ = [
     "ApiUserService",
     "ApiUserServiceGRPCClient",
     "ApiUserServiceGRPCClientInterface",
+    "AssignRoleToAPIUserRequest",
     "ClientOptions",
     "CreateApiUserRequest",
     "DeactivateApiUserRequest",

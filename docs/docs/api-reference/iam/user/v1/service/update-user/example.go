@@ -19,9 +19,18 @@ func main() {
 	}
 	defer service.Close()
 
-	// Create request with service-specific parameters
+	// Update user with modified information
 	request := &userv1.UpdateUserRequest{
-		// FIXME: Populate service-specific request fields
+		User: &userv1.User{
+			Name:  "users/01HN2ZXQJ8K9M0L1N3P2Q4R5T6",  // Existing user identifier
+			Owner: "groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU", // Owner must match current ownership
+			Email: "sarah.t.johnson@company.com",        // Updated email address
+			Roles: []string{
+				"groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU/1000000", // ROLE_IAM_ADMIN
+				"groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU/2000001", // ROLE_TRADING_ADMIN
+				"groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU/4000001", // ROLE_COMPLIANCE_VIEWER
+			},
+		},
 	}
 
 	// Call the UpdateUser method
@@ -30,6 +39,13 @@ func main() {
 		log.Fatalf("UpdateUser failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("UpdateUser successful: %+v", user)
+	// Use the updated user
+	log.Printf("User updated successfully:")
+	log.Printf("  Name: %s", user.Name)
+	log.Printf("  Email: %s", user.Email)
+	log.Printf("  Owner: %s", user.Owner)
+	log.Printf("  Roles: %v", user.Roles)
+	
+	// The user now has updated permissions
+	log.Printf("User permissions updated with %d active roles", len(user.Roles))
 }

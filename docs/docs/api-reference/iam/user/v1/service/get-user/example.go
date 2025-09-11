@@ -19,9 +19,9 @@ func main() {
 	}
 	defer service.Close()
 
-	// Create request with service-specific parameters
+	// Create request with user resource name
 	request := &userv1.GetUserRequest{
-		// FIXME: Populate service-specific request fields
+		Name: "users/01HN2ZXQJ8K9M0L1N3P2Q4R5T6", // User ULIDv2 identifier
 	}
 
 	// Call the GetUser method
@@ -30,6 +30,16 @@ func main() {
 		log.Fatalf("GetUser failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("GetUser successful: %+v", user)
+	// Access user details and hierarchy information
+	log.Printf("User retrieved successfully:")
+	log.Printf("  Name: %s", user.Name)
+	log.Printf("  Email: %s", user.Email)
+	log.Printf("  Owner: %s", user.Owner)
+	log.Printf("  Full Ownership Path: %v", user.Owners)
+	log.Printf("  Assigned Roles: %v", user.Roles)
+	
+	// Use user information for access validation
+	if len(user.Roles) > 0 {
+		log.Printf("User has %d active role assignments", len(user.Roles))
+	}
 }

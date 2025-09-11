@@ -10,16 +10,28 @@ public class UpdateUserExample {
         // environment variable or default discovery methods. Zero config required
         // unless you want custom configuration.
         try (UserService service = new UserService()) {
-            // Create request with service-specific parameters
+            // Update user with modified information
             UpdateUserRequest request = UpdateUserRequest.newBuilder()
-                // FIXME: Populate service-specific request fields
+                .setUser(User.newBuilder()
+                    .setName("users/01HN2ZXQJ8K9M0L1N3P2Q4R5T6")  // Existing user identifier
+                    .setOwner("groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU")  // Owner must match current ownership
+                    .setEmail("sarah.t.johnson@company.com")  // Updated email address
+                    .addRoles("groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU/1000000")  // ROLE_IAM_ADMIN
+                    .addRoles("groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU/2000001")  // ROLE_TRADING_ADMIN
+                    .addRoles("groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU/4000001")  // ROLE_COMPLIANCE_VIEWER
+                    .build())
                 .build();
 
             // Call the UpdateUser method
             User user = service.updateUser(request, Optional.empty());
 
-            // FIXME: Add relevant response object usage
-            System.out.println("UpdateUser successful: " + user);
+            // Use the updated user
+            System.out.println("User updated successfully:");
+            System.out.println("  Name: " + user.getName());
+            System.out.println("  Email: " + user.getEmail());
+            System.out.println("  Owner: " + user.getOwner());
+            System.out.println("  Roles: " + user.getRolesList());
+            System.out.println("User permissions updated with " + user.getRolesCount() + " active roles");
         } catch (Exception e) {
             System.err.println("UpdateUser failed: " + e.getMessage());
             e.printStackTrace();

@@ -11,16 +11,24 @@ def main():
     service = UserService()
 
     with service:
-        # Create request with service-specific parameters
+        # Create request to get a specific user by name (resource identifier)
         request = GetUserRequest(
-            # FIXME: Populate service-specific request fields
+            name="users/01HN2ZXQJ8K9M0L1N3P2Q4R5T6"  # User resource name
         )
 
         # Call the GetUser method
         user = service.get_user(request)
 
-        # FIXME: Add relevant response object usage
-        print("GetUser successful:", user)
+        # Use the retrieved user information
+        print("Retrieved user successfully:")
+        print(f"  Name: {user.name}")  # System-generated identifier
+        print(f"  Email: {user.email}")  # Email address for identification
+        print(f"  Owner: {user.owner}")  # Direct group owner
+        print(f"  Owners: {user.owners}")  # Full ownership hierarchy
+        print(f"  Roles: {user.roles}")  # Assigned roles across groups
+
+        # User information can be used for profile display or access validation
+        print(f"User {user.email} profile loaded for management interface")
 
 
 if __name__ == "__main__":
