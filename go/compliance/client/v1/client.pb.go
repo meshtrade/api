@@ -68,7 +68,17 @@ type Client struct {
 	// is due. This field drives re-verification workflows.
 	// Optional for Verification.
 	NextVerificationDate *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=next_verification_date,json=nextVerificationDate,proto3" json:"next_verification_date,omitempty"`
-	// A list of the roles
+	// A list of the role types that meshtrade.iam.user.v1.User and  meshtrade.iam.api_user.v1.User instances may be assigned
+	// in groups within this client structure.
+	//
+	// NOTE: a viewer role at a domain e.g. IAM_VIEWER allows viewer roles in ALL sub domain roles e.g. IAM_GROUP_VIEWER
+	// NOTE: an admin role at a domain e.g. IAM_ADMIN allows viewer at that domain i.e. IAM_VIEWER, AND
+	// admin and viewer roles in ALL sub domain roles e.g., IAM_GROUP_ADMIN and IAM_GROUP_VIEWER
+	//
+	// For more on client and group structures see:
+	// See https://meshtrade.github.io/api/docs/architecture/group-ownership
+	// See https://meshtrade.github.io/api/docs/architecture/role-based-access
+	// See https://meshtrade.github.io/api/docs/architecture/client-structuring
 	Roles         []v1.Role `protobuf:"varint,12,rep,packed,name=roles,proto3,enum=meshtrade.iam.role.v1.Role" json:"roles,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
