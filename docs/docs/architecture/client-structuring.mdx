@@ -1,0 +1,27 @@
+# Client Structuring
+
+Understanding how complex client structures can be built out in Mesh.
+
+Critical Pre reading: the group ownership page!! The clients page relates!
+
+## What are Clients?
+
+Clients are a fundamental building block which together with groups allows the structuring of any corporate structure from an individual client with 1 group and account, through to complex legal structures.
+You can see this a bit in the groups document examples!
+
+**Key Characteristics:**
+- **Legal Entity Structuring**: Every legal entity in the system has an client, and the client MUST be owned by a group
+- **Hierarchical Structure**: The group that owns the client can can own sub-groups, and those sub groups MAY creating tree structures. A new "sub client" if you will starts at that level
+- **Multi-tenancy Boundaries**: Groups provide complete isolation between organizations, clients provide legal entity boundaries
+
+## Universal User System: API Users & Regular Users
+
+**Important**: While this documentation focuses on "API users" due to its technical API context, the **exact same client system applies to regular users** who access Mesh through web interfaces, mobile apps, and other user-facing applications.
+
+This makes it possible to have the following examples:
+- Single retail client of mesh:
+- group (mesh) --> owns group (which owns client of natural person type), that group also has a single user. the group owns accounts, done.
+- group (mesh) --> owns group (which owns client of company type), that group has 2 groups which are legal entities as they each own a client as well, each client of type fund. The fund groups also own accounts etc.
+
+## Clients in API / Normal User world
+Relevant because the kinds of roles that are assignable to an api user or normal user is defined by which api roles have been assigned at client level. This is how api plans are structured. The client determines what apis roles the api-users/users owned by that group can get.

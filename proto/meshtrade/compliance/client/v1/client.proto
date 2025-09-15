@@ -4,6 +4,7 @@ package meshtrade.compliance.client.v1;
 
 import "google/protobuf/timestamp.proto";
 import "meshtrade/compliance/client/v1/company.proto";
+import "meshtrade/iam/role/v1/role.proto";
 import "meshtrade/compliance/client/v1/fund.proto";
 import "meshtrade/compliance/client/v1/natural_person.proto";
 import "meshtrade/compliance/client/v1/trust.proto";
@@ -93,4 +94,9 @@ message Client {
      Optional for Verification.
   */
   google.protobuf.Timestamp next_verification_date = 11;
+
+  /*
+     A list of the roles 
+  */
+  repeated meshtrade.iam.role.v1.Role roles = 12;  
 }

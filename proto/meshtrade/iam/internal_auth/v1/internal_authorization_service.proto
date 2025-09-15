@@ -1,0 +1,157 @@
+syntax = "proto3";
+
+package meshtrade.iam.internal_auth.v1;
+
+option go_package = "github.com/meshtrade/api/go/iam/internal_auth/v1";
+
+// InternalAuthorizationService provides authorization services for internal communication
+// between microservices within the mesh. This service receives authorization requests
+// from the api-gateway-sidecar and delegates to the main authoriser app's business logic.
+//
+// This protocol is designed specifically for internal service-to-service communication
+// and should not be exposed to external clients.
+service InternalAuthorizationService {
+    // CheckAuthorization performs authorization checks for internal service requests.
+    // This method receives authorization requests from the sidecar and returns
+    // authorization decisions from the main authoriser application's business logic.
+    rpc CheckAuthorization(CheckAuthorizationRequest)
+        returns (CheckAuthorizationResponse);
+
+    // HealthCheck provides health checking for the internal authorization service.
+    // This allows the sidecar to verify connectivity and readiness of the main
+    // authoriser application.
+    rpc HealthCheck(HealthCheckRequest)
+        returns (HealthCheckResponse);
+}
+
+// CheckAuthorizationRequest contains the authorization request from the sidecar
+message CheckAuthorizationRequest {
+    // HTTP request attributes from Envoy
+    HttpRequestAttributes attributes = 1;
+}
+
+// CheckAuthorizationResponse contains the authorization decision
+message CheckAuthorizationResponse {
+    // Authorization status
+    AuthorizationStatus status = 1;
+
+    // HTTP response for the authorization decision
+    oneof http_response {
+        // Successful authorization response
+        OkHttpResponse ok_response = 2;
+
+        // Denied authorization response
+        DeniedHttpResponse denied_response = 3;
+    }
+}
+
+// HTTP request attributes passed from Envoy through the sidecar
+message HttpRequestAttributes {
+    // HTTP request details
+    HttpRequest request = 1;
+
+    // Client source details
+    SourceAttributes source = 2;
+
+    // Destination details
+    DestinationAttributes destination = 3;
+}
+
+// HTTP request details
+message HttpRequest {
+    // HTTP method (GET, POST, etc.)
+    string method = 1;
+
+    // Request path
+    string path = 2;
+
+    // HTTP headers
+    map<string, string> headers = 3;
+
+    // Request body (if applicable)
+    string body = 4;
+}
+
+// Client source attributes
+message SourceAttributes {
+    // Client IP address
+    string address = 1;
+
+    // Client port
+    int32 port = 2;
+}
+
+// Destination attributes
+message DestinationAttributes {
+    // Service address
+    string address = 1;
+
+    // Service port
+    int32 port = 2;
+}
+
+// Successful authorization response
+message OkHttpResponse {
+    // Additional headers to add to the request
+    map<string, string> headers = 1;
+}
+
+// Denied authorization response
+message DeniedHttpResponse {
+    // HTTP status code
+    int32 status_code = 1;
+
+    // Response headers
+    map<string, string> headers = 2;
+
+    // Response body
+    string body = 3;
+}
+
+// Authorization status enumeration
+enum AuthorizationStatus {
+    // Unspecified status
+    AUTHORIZATION_STATUS_UNSPECIFIED = 0;
+
+    // Authorization successful
+    AUTHORIZATION_STATUS_OK = 1;
+
+    // Authorization denied
+    AUTHORIZATION_STATUS_DENIED = 2;
+
+    // Internal error during authorization
+    AUTHORIZATION_STATUS_ERROR = 3;
+}
+
+// HealthCheckRequest is the request message for health checking
+message HealthCheckRequest {
+    // Optional service name to check specific components
+    string service_name = 1;
+}
+
+// HealthCheckResponse is the response message for health checking
+message HealthCheckResponse {
+    // Health status of the service
+    HealthStatus status = 1;
+
+    // Optional message providing additional health details
+    string message = 2;
+
+    // Timestamp of the health check
+    int64 timestamp = 3;
+}
+
+// HealthStatus enumeration for service health
+enum HealthStatus {
+    // Default/unknown status
+    HEALTH_STATUS_UNSPECIFIED = 0;
+
+    // Service is healthy and ready to serve requests
+    HEALTH_STATUS_SERVING = 1;
+
+    // Service is not ready to serve requests
+    HEALTH_STATUS_NOT_SERVING = 2;
+
+    // Service existence is unknown (used for service discovery)
+    HEALTH_STATUS_UNKNOWN = 3;
+}
