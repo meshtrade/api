@@ -487,10 +487,10 @@ const file_meshtrade_iam_api_user_v1_service_proto_rawDesc = "" +
 	"\x1aGetApiUserByKeyHashRequest\x12&\n" +
 	"\bkey_hash\x18\x01 \x01(\tB\v\xbaH\b\xc8\x01\x01r\x03\x98\x01,R\akeyHash\"]\n" +
 	"\x14CreateApiUserRequest\x12E\n" +
-	"\bapi_user\x18\x01 \x01(\v2\".meshtrade.iam.api_user.v1.APIUserB\x06\xbaH\x03\xc8\x01\x01R\aapiUser\"\xca\x01\n" +
+	"\bapi_user\x18\x01 \x01(\v2\".meshtrade.iam.api_user.v1.APIUserB\x06\xbaH\x03\xc8\x01\x01R\aapiUser\"\xd1\x01\n" +
 	"\x1aAssignRoleToAPIUserRequest\x12P\n" +
-	"\x04name\x18\x01 \x01(\tB<\xbaH9r722^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01$R\x04name\x12Z\n" +
-	"\x04role\x18\x04 \x01(\tBF\xbaHC\xc8\x01\x01r>29^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/1[0-9]{6}$\x98\x01)R\x04role\"\x15\n" +
+	"\x04name\x18\x01 \x01(\tB<\xbaH9r722^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01$R\x04name\x12a\n" +
+	"\x04role\x18\x04 \x01(\tBM\xbaHJ\xc8\x01\x01rE2@^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/[123456][0-9]{6}$\x98\x01)R\x04role\"\x15\n" +
 	"\x13ListApiUsersRequest\"W\n" +
 	"\x14ListApiUsersResponse\x12?\n" +
 	"\tapi_users\x18\x01 \x03(\v2\".meshtrade.iam.api_user.v1.APIUserR\bapiUsers\":\n" +

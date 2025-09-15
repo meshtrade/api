@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package meshtrade.compliance.client.v1;
 
+import "buf/validate/validate.proto";
 import "google/protobuf/timestamp.proto";
 import "meshtrade/compliance/client/v1/company.proto";
 import "meshtrade/iam/role/v1/role.proto";
@@ -96,7 +97,24 @@ message Client {
   google.protobuf.Timestamp next_verification_date = 11;
 
   /*
-     A list of the roles 
+     A list of the role types that meshtrade.iam.user.v1.User and  meshtrade.iam.api_user.v1.User instances may be assigned
+     in groups within this client structure.
+
+	   NOTE: a viewer role at a domain e.g. IAM_VIEWER allows viewer roles in ALL sub domain roles e.g. IAM_GROUP_VIEWER
+	   NOTE: an admin role at a domain e.g. IAM_ADMIN allows viewer at that domain i.e. IAM_VIEWER, AND
+	         admin and viewer roles in ALL sub domain roles e.g., IAM_GROUP_ADMIN and IAM_GROUP_VIEWER
+
+     For more on client and group structures see:
+     See https://meshtrade.github.io/api/docs/architecture/group-ownership
+     See https://meshtrade.github.io/api/docs/architecture/role-based-access
+     See https://meshtrade.github.io/api/docs/architecture/client-structuring
   */
-  repeated meshtrade.iam.role.v1.Role roles = 12;  
+   repeated meshtrade.iam.role.v1.Role roles = 12 [(buf.validate.field) = {
+   required: true
+   repeated: {
+      items: {
+         enum: {defined_only: true}
+      }
+    }
+   }];
 }

@@ -38,6 +38,8 @@ const (
 	Role_ROLE_WALLET_ACCOUNT_VIEWER    Role = 1000003
 	Role_ROLE_COMPLIANCE_ADMIN         Role = 2000000
 	Role_ROLE_COMPLIANCE_VIEWER        Role = 2000001
+	Role_ROLE_COMPLIANCE_CLIENT_ADMIN  Role = 2000002
+	Role_ROLE_COMPLIANCE_CLIENT_VIEWER Role = 2000003
 	Role_ROLE_IAM_ADMIN                Role = 3000000
 	Role_ROLE_IAM_VIEWER               Role = 3000001
 	Role_ROLE_IAM_API_USER_ADMIN       Role = 3000002
@@ -66,6 +68,8 @@ var (
 		1000003: "ROLE_WALLET_ACCOUNT_VIEWER",
 		2000000: "ROLE_COMPLIANCE_ADMIN",
 		2000001: "ROLE_COMPLIANCE_VIEWER",
+		2000002: "ROLE_COMPLIANCE_CLIENT_ADMIN",
+		2000003: "ROLE_COMPLIANCE_CLIENT_VIEWER",
 		3000000: "ROLE_IAM_ADMIN",
 		3000001: "ROLE_IAM_VIEWER",
 		3000002: "ROLE_IAM_API_USER_ADMIN",
@@ -91,6 +95,8 @@ var (
 		"ROLE_WALLET_ACCOUNT_VIEWER":    1000003,
 		"ROLE_COMPLIANCE_ADMIN":         2000000,
 		"ROLE_COMPLIANCE_VIEWER":        2000001,
+		"ROLE_COMPLIANCE_CLIENT_ADMIN":  2000002,
+		"ROLE_COMPLIANCE_CLIENT_VIEWER": 2000003,
 		"ROLE_IAM_ADMIN":                3000000,
 		"ROLE_IAM_VIEWER":               3000001,
 		"ROLE_IAM_API_USER_ADMIN":       3000002,
@@ -218,7 +224,7 @@ const file_meshtrade_iam_role_v1_role_proto_rawDesc = "" +
 	"\n" +
 	" meshtrade/iam/role/v1/role.proto\x12\x15meshtrade.iam.role.v1\x1a google/protobuf/descriptor.proto\"=\n" +
 	"\bRoleList\x121\n" +
-	"\x05roles\x18\x01 \x03(\x0e2\x1b.meshtrade.iam.role.v1.RoleR\x05roles*\xa3\x05\n" +
+	"\x05roles\x18\x01 \x03(\x0e2\x1b.meshtrade.iam.role.v1.RoleR\x05roles*\xec\x05\n" +
 	"\x04Role\x12\x14\n" +
 	"\x10ROLE_UNSPECIFIED\x10\x00\x12\x17\n" +
 	"\x11ROLE_WALLET_ADMIN\x10\xc0\x84=\x12\x18\n" +
@@ -226,7 +232,9 @@ const file_meshtrade_iam_role_v1_role_proto_rawDesc = "" +
 	"\x19ROLE_WALLET_ACCOUNT_ADMIN\x10\u0084=\x12 \n" +
 	"\x1aROLE_WALLET_ACCOUNT_VIEWER\x10Ä=\x12\x1b\n" +
 	"\x15ROLE_COMPLIANCE_ADMIN\x10\x80\x89z\x12\x1c\n" +
-	"\x16ROLE_COMPLIANCE_VIEWER\x10\x81\x89z\x12\x15\n" +
+	"\x16ROLE_COMPLIANCE_VIEWER\x10\x81\x89z\x12\"\n" +
+	"\x1cROLE_COMPLIANCE_CLIENT_ADMIN\x10\x82\x89z\x12#\n" +
+	"\x1dROLE_COMPLIANCE_CLIENT_VIEWER\x10\x83\x89z\x12\x15\n" +
 	"\x0eROLE_IAM_ADMIN\x10\xc0\x8d\xb7\x01\x12\x16\n" +
 	"\x0fROLE_IAM_VIEWER\x10\xc1\x8d\xb7\x01\x12\x1e\n" +
 	"\x17ROLE_IAM_API_USER_ADMIN\x10\u008d\xb7\x01\x12\x1f\n" +
