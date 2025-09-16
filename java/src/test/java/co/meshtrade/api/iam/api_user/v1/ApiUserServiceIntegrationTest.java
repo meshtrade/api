@@ -517,15 +517,15 @@ class ApiUserServiceCredentialFilesTest {
     @Test
     @DisplayName("Service creation without credentials")
     void serviceCreationWithoutCredentials() {
-        // Create service without any credentials - should fall back to discovery
-        ServiceOptions options = ServiceOptions.builder()
-            .url("localhost")
-            .timeout(Duration.ofMillis(100))
-            .build();
-
         // In test environments (like CI), credential discovery will fail with IllegalStateException
         // In local environments with credentials, it should succeed
         try {
+            // Create service without any credentials - should fall back to discovery
+            ServiceOptions options = ServiceOptions.builder()
+                .url("localhost")
+                .timeout(Duration.ofMillis(100))
+                .build();
+
             ApiUserService service = new ApiUserService(options);
 
             // If we get here, credentials were found - test that service works
