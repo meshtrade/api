@@ -113,6 +113,10 @@ const config: Config = {
                 to: '/docs/architecture/role-based-access',
               },
               {
+                label: 'Client Structuring',
+                to: '/docs/architecture/client-structuring',
+              },
+              {
                 label: 'Authentication',
                 to: '/docs/architecture/authentication',
               },
