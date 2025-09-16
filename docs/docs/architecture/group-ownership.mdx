@@ -1,10 +1,12 @@
 # Group Ownership Structure
 
-Understanding how groups provide hierarchical ownership and multi-tenancy boundaries for all resources in the Mesh API.
-
 ## What are Groups?
 
-Groups are the fundamental organizational and ownership units in Mesh. Every resource in the system (API users, accounts, orders, instruments, etc.) belongs to exactly one group. Groups themselves can own other groups, forming hierarchical tree structures that model real-world organizational relationships.
+Groups are the fundamental organizational and ownership units in Mesh.
+They provide hierarchical ownership and multi-tenancy boundaries for all resources.
+Every resource in the system (API users, accounts, orders, instruments, etc.) belongs to exactly one group.
+Groups themselves can own other groups, forming hierarchical tree structures that
+model real-world organizational relationships.
 
 **Key Characteristics:**
 - **Resource Ownership**: Every entity in the system has an owner group
@@ -57,14 +59,22 @@ Each group (and every other resource) maintains ownership relationships:
 ```mermaid
 graph TD
     subgraph "Group Ownership Fields"
-        Root["Root Group<br/>name: groups/01ABC123...XYZ<br/>owner: groups/01ABC123...XYZ (self)"]
-        
-        CompanyA["Company A Group<br/>name: groups/01DEF456...ABC<br/>owner: groups/01ABC123...XYZ"]
-        
-        TeamX["Team X Group<br/>name: groups/01GHI789...DEF<br/>owner: groups/01DEF456...ABC"]
-        
-        Account["User Account<br/>name: accounts/01JKL012...GHI<br/>owner: groups/01GHI789...DEF"]
-        
+        Root["Root Group
+        name: groups/01ABC123...XYZ
+        owner: groups/01ABC123...XYZ (self)"]
+
+        CompanyA["Company A Group
+        name: groups/01DEF456...ABC
+        owner: groups/01ABC123...XYZ"]
+
+        TeamX["Team X Group
+        name: groups/01GHI789...DEF
+        owner: groups/01DEF456...ABC"]
+
+        Account["User Account
+        name: accounts/01JKL012...GHI
+        owner: groups/01GHI789...DEF"]
+
         Root --> CompanyA
         CompanyA --> TeamX
         TeamX --> Account
@@ -85,27 +95,47 @@ Every resource in Mesh has an owner group. This includes everything from clients
 ```mermaid
 graph TD
     subgraph "Universal Ownership Model"
-        Root["🏢 Root Organization<br/>groups/01ROOT...ABC"]
+        Root["🏢 Root Organization
+groups/01ROOT...ABC"]
         
-        CompanyA["🏢 Company A<br/>groups/01COMP...DEF"]
-        CompanyB["🏢 Company B<br/>groups/01COMP...GHI"]
+        CompanyA["🏢 Company A
+groups/01COMP...DEF"]
+        CompanyB["🏢 Company B
+groups/01COMP...GHI"]
         
-        TeamAlpha["👥 Team Alpha<br/>groups/01TEAM...JKL"]
-        TeamBeta["👥 Team Beta<br/>groups/01TEAM...MNO"]
+        TeamAlpha["👥 Team Alpha
+groups/01TEAM...JKL"]
+        TeamBeta["👥 Team Beta
+groups/01TEAM...MNO"]
         
-        RegUser1["👤 Regular User 1<br/>users/01USER...ABC<br/>Auth: Username/Password"]
-        ApiUser1["🔑 API User 1<br/>api_users/01API...PQR<br/>Auth: API Key"]
+        RegUser1["👤 Regular User 1
+users/01USER...ABC
+Auth: Username/Password"]
+        ApiUser1["🔑 API User 1
+api_users/01API...PQR
+Auth: API Key"]
         
-        RegUser2["👤 Regular User 2<br/>users/01USER...DEF<br/>Auth: Google OAuth"]
-        ApiUser2["🔑 API User 2<br/>api_users/01API...STU<br/>Auth: API Key"]
+        RegUser2["👤 Regular User 2
+users/01USER...DEF
+Auth: Google OAuth"]
+        ApiUser2["🔑 API User 2
+api_users/01API...STU
+Auth: API Key"]
         
-        Account1["💰 Trading Account<br/>accounts/01ACC...VWX"]
-        Account2["💰 Settlement Account<br/>accounts/01ACC...YZA"]
+        Account1["💰 Trading Account
+accounts/01ACC...VWX"]
+        Account2["💰 Settlement Account
+accounts/01ACC...YZA"]
         
-        Order1["📊 Limit Order<br/>orders/01ORD...BCD<br/>Created by: Regular User"]
-        Order2["📊 Market Order<br/>orders/01ORD...EFG<br/>Created by: API User"]
+        Order1["📊 Limit Order
+orders/01ORD...BCD
+Created by: Regular User"]
+        Order2["📊 Market Order
+orders/01ORD...EFG
+Created by: API User"]
         
-        Instrument1["🏦 Bond Instrument<br/>instruments/01INS...HIJ"]
+        Instrument1["🏦 Bond Instrument
+instruments/01INS...HIJ"]
         
         Root --> CompanyA
         Root --> CompanyB
@@ -141,15 +171,28 @@ The Mesh API enforces different access patterns based on method type:
 ```mermaid
 graph TD
     subgraph "Read: Hierarchical Scope"
-        Root["🏢 Root Group<br/>groups/ROOT"]
-        CompanyA["🏢 Company A<br/>groups/COMP_A<br/>🔍 Executing Group"]
-        TeamX["👥 Team X<br/>groups/TEAM_X"]
-        TeamY["👥 Team Y<br/>groups/TEAM_Y"]
-        
-        Res1["📊 Resource 1<br/>owner: COMP_A<br/>✅ Accessible"]
-        Res2["📊 Resource 2<br/>owner: TEAM_X<br/>✅ Accessible"]
-        Res3["📊 Resource 3<br/>owner: TEAM_Y<br/>✅ Accessible"]
-        Res4["📊 Resource 4<br/>owner: OTHER_COMP<br/>❌ Not Accessible"]
+        Root["🏢 Root Group
+groups/ROOT"]
+        CompanyA["🏢 Company A
+groups/COMP_A
+🔍 Executing Group"]
+        TeamX["👥 Team X
+groups/TEAM_X"]
+        TeamY["👥 Team Y
+groups/TEAM_Y"]
+
+        Res1["📊 Resource 1
+owner: COMP_A
+✅ Accessible"]
+        Res2["📊 Resource 2
+owner: TEAM_X
+✅ Accessible"]
+        Res3["📊 Resource 3
+owner: TEAM_Y
+✅ Accessible"]
+        Res4["📊 Resource 4
+owner: OTHER_COMP
+❌ Not Accessible"]
         
         Root --> CompanyA
         CompanyA --> TeamX
@@ -182,15 +225,28 @@ graph TD
 ```mermaid
 graph TD
     subgraph "Write: Direct Ownership"
-        Root["🏢 Root Group<br/>groups/ROOT"]
-        CompanyA["🏢 Company A<br/>groups/COMP_A<br/>🔍 Executing Group"]
-        TeamX["👥 Team X<br/>groups/TEAM_X"]
-        TeamY["👥 Team Y<br/>groups/TEAM_Y"]
-        
-        Res1["📊 Resource 1<br/>owner: groups/COMP_A<br/>✅ Writable"]
-        Res2["📊 Resource 2<br/>owner: groups/TEAM_X<br/>❌ Not Writable"]
-        Res3["📊 Resource 3<br/>owner: groups/TEAM_Y<br/>❌ Not Writable"]
-        Res4["📊 Resource 4<br/>owner: groups/OTHER_COMP<br/>❌ Not Writable"]
+        Root["🏢 Root Group
+groups/ROOT"]
+        CompanyA["🏢 Company A
+groups/COMP_A
+🔍 Executing Group"]
+        TeamX["👥 Team X
+groups/TEAM_X"]
+        TeamY["👥 Team Y
+groups/TEAM_Y"]
+
+        Res1["📊 Resource 1
+owner: groups/COMP_A
+✅ Writable"]
+        Res2["📊 Resource 2
+owner: groups/TEAM_X
+❌ Not Writable"]
+        Res3["📊 Resource 3
+owner: groups/TEAM_Y
+❌ Not Writable"]
+        Res4["📊 Resource 4
+owner: groups/OTHER_COMP
+❌ Not Writable"]
         
         Root --> CompanyA
         CompanyA --> TeamX
@@ -254,11 +310,17 @@ sequenceDiagram
 ```mermaid
 graph TD
     subgraph "Role-Based Access Matrix"
-        AdminRole["👤 IAM Admin Role<br/>ROLE_IAM_ADMIN"]
-        ViewerRole["👤 IAM Viewer Role<br/>ROLE_IAM_VIEWER"]
-        
-        ReadMethods["📖 Read Methods<br/>GetGroup, ListGroups, SearchGroups<br/>METHOD_TYPE_READ"]
-        WriteMethods["✏️ Write Methods<br/>CreateGroup, UpdateGroup<br/>METHOD_TYPE_WRITE"]
+        AdminRole["👤 IAM Admin Role
+ROLE_IAM_ADMIN"]
+        ViewerRole["👤 IAM Viewer Role
+ROLE_IAM_VIEWER"]
+
+        ReadMethods["📖 Read Methods
+GetGroup, ListGroups, SearchGroups
+METHOD_TYPE_READ"]
+        WriteMethods["✏️ Write Methods
+CreateGroup, UpdateGroup
+METHOD_TYPE_WRITE"]
         
         AdminRole --> ReadMethods
         AdminRole --> WriteMethods
@@ -301,38 +363,89 @@ This example demonstrates how groups represent **legal entities** at every level
 ```mermaid
 graph TD
     subgraph "Brokerage Platform with Legal Entity Structure"
-        Mesh["🏢 Mesh Platform (Legal Entity)<br/>groups/MESH_ROOT<br/>📋 Compliance Entity: Platform Provider"]
-        MeshClient["🏛️ Mesh Client Entity<br/>clients/MESH_CLIENT<br/>📋 Legal Status: Corporation"]
+        Mesh["🏢 Mesh Platform (Legal Entity)
+groups/MESH_ROOT
+📋 Compliance Entity: Platform Provider"]
+        MeshClient["🏛️ Mesh Client Entity
+clients/MESH_CLIENT
+📋 Legal Status: Corporation"]
+
+        BrokerA["🏦 Broker A Corporation
+groups/BROKER_A
+📋 KYC'd by: Mesh Platform"]
+        BrokerAClient["🏢 Broker A Client Entity
+clients/BROKER_A_CLIENT
+📋 Legal Status: Financial Services Corp"]
+
+        BrokerB["🏦 Broker B LLC
+groups/BROKER_B
+📋 KYC'd by: Mesh Platform"]
+        BrokerBClient["🏢 Broker B Client Entity
+clients/BROKER_B_CLIENT
+📋 Legal Status: Limited Liability Company"]
         
-        BrokerA["🏦 Broker A Corporation<br/>groups/BROKER_A<br/>📋 KYC'd by: Mesh Platform"]
-        BrokerAClient["🏢 Broker A Client Entity<br/>clients/BROKER_A_CLIENT<br/>📋 Legal Status: Financial Services Corp"]
+        ClientA1["👤 Individual Client A1
+groups/CLIENT_A1
+📋 KYC'd by: Broker A"]
+        ClientA1Entity["👤 Client A1 Entity
+clients/CLIENT_A1_ENTITY
+📋 Legal Status: Natural Person"]
+        A1RegUser["👤 John Smith (Regular User)
+users/JOHN_SMITH
+📋 Auth: Username/Password
+📋 Role: Individual Trader"]
+        A1ApiUser["🔑 John's Trading Bot (API User)
+api_users/JOHN_BOT
+📋 Auth: API Key
+📋 Role: Automated Trading"]
         
-        BrokerB["🏦 Broker B LLC<br/>groups/BROKER_B<br/>📋 KYC'd by: Mesh Platform"]
-        BrokerBClient["🏢 Broker B Client Entity<br/>clients/BROKER_B_CLIENT<br/>📋 Legal Status: Limited Liability Company"]
+        ClientA2["🏢 Corporate Client A2
+groups/CLIENT_A2
+📋 KYC'd by: Broker A"]
+        ClientA2Entity["🏢 Client A2 Entity
+clients/CLIENT_A2_ENTITY
+📋 Legal Status: Investment Company"]
+        A2RegUser["👤 Sarah Johnson (Regular User)
+users/SARAH_JOHNSON
+📋 Auth: Google OAuth
+📋 Role: Portfolio Manager"]
+        A2ApiUser["🔑 Corp Risk System (API User)
+api_users/CORP_RISK
+📋 Auth: API Key
+📋 Role: Risk Monitoring"]
         
-        ClientA1["👤 Individual Client A1<br/>groups/CLIENT_A1<br/>📋 KYC'd by: Broker A"]
-        ClientA1Entity["👤 Client A1 Entity<br/>clients/CLIENT_A1_ENTITY<br/>📋 Legal Status: Natural Person"]
-        A1RegUser["👤 John Smith (Regular User)<br/>users/JOHN_SMITH<br/>📋 Auth: Username/Password<br/>📋 Role: Individual Trader"]
-        A1ApiUser["🔑 John's Trading Bot (API User)<br/>api_users/JOHN_BOT<br/>📋 Auth: API Key<br/>📋 Role: Automated Trading"]
+        ClientB1["🏛️ Trust Client B1
+groups/CLIENT_B1
+📋 KYC'd by: Broker B"]
+        ClientB1Entity["🏛️ Client B1 Entity
+clients/CLIENT_B1_ENTITY
+📋 Legal Status: Family Trust"]
+        B1RegUser["👤 Trust Manager (Regular User)
+users/TRUST_MGR
+📋 Auth: SSO/SAML
+📋 Role: Trust Administrator"]
         
-        ClientA2["🏢 Corporate Client A2<br/>groups/CLIENT_A2<br/>📋 KYC'd by: Broker A"]
-        ClientA2Entity["🏢 Client A2 Entity<br/>clients/CLIENT_A2_ENTITY<br/>📋 Legal Status: Investment Company"]
-        A2RegUser["👤 Sarah Johnson (Regular User)<br/>users/SARAH_JOHNSON<br/>📋 Auth: Google OAuth<br/>📋 Role: Portfolio Manager"]
-        A2ApiUser["🔑 Corp Risk System (API User)<br/>api_users/CORP_RISK<br/>📋 Auth: API Key<br/>📋 Role: Risk Monitoring"]
-        
-        ClientB1["🏛️ Trust Client B1<br/>groups/CLIENT_B1<br/>📋 KYC'd by: Broker B"]
-        ClientB1Entity["🏛️ Client B1 Entity<br/>clients/CLIENT_B1_ENTITY<br/>📋 Legal Status: Family Trust"]
-        B1RegUser["👤 Trust Manager (Regular User)<br/>users/TRUST_MGR<br/>📋 Auth: SSO/SAML<br/>📋 Role: Trust Administrator"]
-        
-        AccA1["💰 Individual Trading Account<br/>accounts/ACC_A1_MAIN<br/>owner: CLIENT_A1"]
-        
-        AccA2["💰 Corporate Trading Account<br/>accounts/ACC_A2_TRADE<br/>owner: CLIENT_A2"]
-        
-        AccB1["💰 Trust Settlement Account<br/>accounts/ACC_B1_SETTLE<br/>owner: CLIENT_B1"]
-        
-        OrderA1["📊 Individual Buy Order<br/>orders/ORDER_BUY_123<br/>owner: CLIENT_A1<br/>💡 Created via: Web Trading Interface"]
-        
-        OrderA2["📊 Automated Sell Order<br/>orders/ORDER_SELL_456<br/>owner: CLIENT_A2<br/>💡 Created via: API Integration"]
+        AccA1["💰 Individual Trading Account
+accounts/ACC_A1_MAIN
+owner: CLIENT_A1"]
+
+        AccA2["💰 Corporate Trading Account
+accounts/ACC_A2_TRADE
+owner: CLIENT_A2"]
+
+        AccB1["💰 Trust Settlement Account
+accounts/ACC_B1_SETTLE
+owner: CLIENT_B1"]
+
+        OrderA1["📊 Individual Buy Order
+orders/ORDER_BUY_123
+owner: CLIENT_A1
+💡 Created via: Web Trading Interface"]
+
+        OrderA2["📊 Automated Sell Order
+orders/ORDER_SELL_456
+owner: CLIENT_A2
+💡 Created via: API Integration"]
         
         Mesh --> MeshClient
         Mesh --> BrokerA
@@ -407,56 +520,128 @@ This example shows how complex financial institutions organize multiple fund str
 ```mermaid
 graph TD
     subgraph "Investment Bank Organizational Structure"
-        Bank["🏛️ Goldman Sachs International<br/>groups/GOLDMAN_INTL<br/>📋 Legal Entity: Investment Bank"]
-        BankClient["🏢 Goldman Client Entity<br/>clients/GOLDMAN_CLIENT<br/>📋 Legal Status: Financial Institution"]
+        Bank["🏛️ Goldman Sachs International
+groups/GOLDMAN_INTL
+📋 Legal Entity: Investment Bank"]
+        BankClient["🏢 Goldman Client Entity
+clients/GOLDMAN_CLIENT
+📋 Legal Status: Financial Institution"]
         
         subgraph "Fund Structures"
-            AlphaFund["💼 Alpha Hedge Fund LP<br/>groups/ALPHA_FUND<br/>📋 Legal Entity: Limited Partnership<br/>📋 KYC'd by: Goldman Sachs"]
-            AlphaFundClient["📊 Alpha Fund Client<br/>clients/ALPHA_FUND_CLIENT<br/>📋 Legal Status: Investment Vehicle"]
-            
-            BetaFund["💼 Beta Real Estate Fund<br/>groups/BETA_FUND<br/>📋 Legal Entity: REIT Corporation<br/>📋 KYC'd by: Goldman Sachs"]
-            BetaFundClient["🏢 Beta Fund Client<br/>clients/BETA_FUND_CLIENT<br/>📋 Legal Status: REIT Corporation"]
+            AlphaFund["💼 Alpha Hedge Fund LP
+groups/ALPHA_FUND
+📋 Legal Entity: Limited Partnership
+📋 KYC'd by: Goldman Sachs"]
+            AlphaFundClient["📊 Alpha Fund Client
+clients/ALPHA_FUND_CLIENT
+📋 Legal Status: Investment Vehicle"]
+
+            BetaFund["💼 Beta Real Estate Fund
+groups/BETA_FUND
+📋 Legal Entity: REIT Corporation
+📋 KYC'd by: Goldman Sachs"]
+            BetaFundClient["🏢 Beta Fund Client
+clients/BETA_FUND_CLIENT
+📋 Legal Status: REIT Corporation"]
         end
         
         subgraph "Alpha Fund Departments"
-            AlphaResearch["🔬 Alpha Research Division<br/>groups/ALPHA_RESEARCH<br/>📋 Internal Department"]
-            AlphaRisk["⚖️ Alpha Risk Management<br/>groups/ALPHA_RISK<br/>📋 Internal Department"]
+            AlphaResearch["🔬 Alpha Research Division
+groups/ALPHA_RESEARCH
+📋 Internal Department"]
+            AlphaRisk["⚖️ Alpha Risk Management
+groups/ALPHA_RISK
+📋 Internal Department"]
         end
         
         subgraph "Trading Desks"
-            BondDesk["📈 Fixed Income Desk<br/>groups/BOND_DESK<br/>📋 Trading Department<br/>📋 Specialization: Government & Corporate Bonds"]
-            ForexDesk["💱 Foreign Exchange Desk<br/>groups/FOREX_DESK<br/>📋 Trading Department<br/>📋 Specialization: Currency Trading"]
-            MetalsDesk["🥇 Precious Metals Desk<br/>groups/METALS_DESK<br/>📋 Trading Department<br/>📋 Specialization: Gold, Silver, Commodities"]
+            BondDesk["📈 Fixed Income Desk
+groups/BOND_DESK
+📋 Trading Department
+📋 Specialization: Government & Corporate Bonds"]
+            ForexDesk["💱 Foreign Exchange Desk
+groups/FOREX_DESK
+📋 Trading Department
+📋 Specialization: Currency Trading"]
+            MetalsDesk["🥇 Precious Metals Desk
+groups/METALS_DESK
+📋 Trading Department
+📋 Specialization: Gold, Silver, Commodities"]
         end
         
         subgraph "Users & System Access"
-            BondTrader["👤 Bond Trader (Regular User)<br/>users/BOND_TRADER_001<br/>📋 Auth: SSO/Active Directory<br/>📋 Access: Trading Terminal"]
-            BondTradingBot["🔑 Bond Algo System (API User)<br/>api_users/BOND_ALGO<br/>📋 Auth: API Key<br/>📋 Access: Automated Trading"]
-            
-            ForexAnalyst["👤 FX Analyst (Regular User)<br/>users/FX_ANALYST_001<br/>📋 Auth: Username/Password<br/>📋 Access: Risk Dashboard"]
-            ForexPricingAPI["🔑 FX Pricing Feed (API User)<br/>api_users/FX_PRICING<br/>📋 Auth: API Key<br/>📋 Access: Market Data"]
-            
-            MetalsManager["👤 Metals Desk Head (Regular User)<br/>users/METALS_HEAD<br/>📋 Auth: Smart Card + PIN<br/>📋 Access: Management Console"]
+            BondTrader["👤 Bond Trader (Regular User)
+users/BOND_TRADER_001
+📋 Auth: SSO/Active Directory
+📋 Access: Trading Terminal"]
+            BondTradingBot["🔑 Bond Algo System (API User)
+api_users/BOND_ALGO
+📋 Auth: API Key
+📋 Access: Automated Trading"]
+
+            ForexAnalyst["👤 FX Analyst (Regular User)
+users/FX_ANALYST_001
+📋 Auth: Username/Password
+📋 Access: Risk Dashboard"]
+            ForexPricingAPI["🔑 FX Pricing Feed (API User)
+api_users/FX_PRICING
+📋 Auth: API Key
+📋 Access: Market Data"]
+
+            MetalsManager["👤 Metals Desk Head (Regular User)
+users/METALS_HEAD
+📋 Auth: Smart Card + PIN
+📋 Access: Management Console"]
         end
         
         subgraph "Accounts & Trading Activity"
-            AlphaFundAcc["💰 Alpha Fund Master Account<br/>accounts/ALPHA_MASTER_ACC<br/>owner: ALPHA_FUND<br/>Balance: $500M"]
+            AlphaFundAcc["💰 Alpha Fund Master Account
+accounts/ALPHA_MASTER_ACC
+owner: ALPHA_FUND
+Balance: $500M"]
+
+            BetaFundAcc["💰 Beta Fund Property Account
+accounts/BETA_PROPERTY_ACC
+owner: BETA_FUND
+Balance: $200M"]
+
+            AlphaResearchAcc["💰 Research Analysis Account
+accounts/ALPHA_RESEARCH_ACC
+owner: ALPHA_RESEARCH
+Balance: $5M"]
+
+            BondDeskAcc["💰 Bond Trading Account
+accounts/BOND_TRADING_ACC
+owner: BOND_DESK
+Balance: $50M"]
+
+            ForexDeskAcc["💰 FX Trading Account
+accounts/FOREX_TRADING_ACC
+owner: FOREX_DESK
+Balance: $75M"]
+
+            MetalsDeskAcc["💰 Metals Trading Account
+accounts/METALS_TRADING_ACC
+owner: METALS_DESK
+Balance: $25M"]
             
-            BetaFundAcc["💰 Beta Fund Property Account<br/>accounts/BETA_PROPERTY_ACC<br/>owner: BETA_FUND<br/>Balance: $200M"]
-            
-            AlphaResearchAcc["💰 Research Analysis Account<br/>accounts/ALPHA_RESEARCH_ACC<br/>owner: ALPHA_RESEARCH<br/>Balance: $5M"]
-            
-            BondDeskAcc["💰 Bond Trading Account<br/>accounts/BOND_TRADING_ACC<br/>owner: BOND_DESK<br/>Balance: $50M"]
-            
-            ForexDeskAcc["💰 FX Trading Account<br/>accounts/FOREX_TRADING_ACC<br/>owner: FOREX_DESK<br/>Balance: $75M"]
-            
-            MetalsDeskAcc["💰 Metals Trading Account<br/>accounts/METALS_TRADING_ACC<br/>owner: METALS_DESK<br/>Balance: $25M"]
-            
-            GoldTrade["📊 Gold Futures Order<br/>orders/GOLD_FUTURES_001<br/>owner: METALS_DESK<br/>Amount: $2M Long Position<br/>💡 Created by: Regular User via Terminal"]
-            
-            BondTrade["📊 Treasury Bond Order<br/>orders/TREASURY_BOND_001<br/>owner: BOND_DESK<br/>Amount: $10M 10-Year Notes<br/>💡 Created by: API Integration"]
-            
-            FXTrade["📊 EUR/USD Trade<br/>orders/EUR_USD_001<br/>owner: FOREX_DESK<br/>Amount: €5M Currency Swap<br/>💡 Created by: Regular User via Dashboard"]
+            GoldTrade["📊 Gold Futures Order
+orders/GOLD_FUTURES_001
+owner: METALS_DESK
+Amount: $2M Long Position
+💡 Created by: Regular User via Terminal"]
+
+            BondTrade["📊 Treasury Bond Order
+orders/TREASURY_BOND_001
+owner: BOND_DESK
+Amount: $10M 10-Year Notes
+💡 Created by: API Integration"]
+
+            FXTrade["📊 EUR/USD Trade
+orders/EUR_USD_001
+owner: FOREX_DESK
+Amount: €5M Currency Swap
+💡 Created by: Regular User via Dashboard"]
         end
         
         Bank --> BankClient
