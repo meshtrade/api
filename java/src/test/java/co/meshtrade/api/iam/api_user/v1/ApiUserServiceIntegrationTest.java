@@ -522,23 +522,27 @@ class ApiUserServiceCredentialFilesTest {
             .url("localhost")
             .timeout(Duration.ofMillis(100))
             .build();
-        
+
         // The exact behavior depends on whether credentials can be discovered
-        // We don't assert specific error here as it may vary by test environment
+        // In test environments (like CI), credentials are typically not available
         try {
             ApiUserService service = new ApiUserService(options);
-            
+
             // If successful, validation should still work
             GetApiUserRequest validRequest = GetApiUserRequest.newBuilder()
                 .setName("api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV")
                 .build();
-            
+
             assertThatThrownBy(() -> service.getApiUser(validRequest, Optional.empty()))
                 .isInstanceOf(Exception.class);
-                
+
             service.close();
+        } catch (IllegalStateException e) {
+            // Expected if no credentials can be discovered - this is the normal case in CI
+            assertThat(e.getMessage()).contains("API credentials not provided");
+            System.out.println("Service creation without credentials (expected): " + e.getMessage());
         } catch (Exception e) {
-            // Service creation may fail if no credentials found - this is acceptable
+            // Other exceptions during service creation are also acceptable in test environments
             System.out.println("Service creation without credentials result: " + e.getMessage());
         }
     }
