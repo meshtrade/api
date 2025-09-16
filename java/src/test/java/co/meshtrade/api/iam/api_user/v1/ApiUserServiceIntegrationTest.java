@@ -523,27 +523,31 @@ class ApiUserServiceCredentialFilesTest {
             .timeout(Duration.ofMillis(100))
             .build();
 
-        // The exact behavior depends on whether credentials can be discovered
-        // In test environments (like CI), credentials are typically not available
+        // In test environments (like CI), credential discovery will fail with IllegalStateException
+        // In local environments with credentials, it should succeed
         try {
             ApiUserService service = new ApiUserService(options);
 
-            // If successful, validation should still work
+            // If we get here, credentials were found - test that service works
             GetApiUserRequest validRequest = GetApiUserRequest.newBuilder()
                 .setName("api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV")
                 .build();
 
+            // Should get network error, not validation error
             assertThatThrownBy(() -> service.getApiUser(validRequest, Optional.empty()))
-                .isInstanceOf(Exception.class);
+                .isInstanceOf(Exception.class)
+                .hasMessageNotContaining("Request validation failed");
 
             service.close();
+            System.out.println("Service creation without credentials: succeeded with discovered credentials");
         } catch (IllegalStateException e) {
-            // Expected if no credentials can be discovered - this is the normal case in CI
+            // Expected in CI environments - this is the normal case
             assertThat(e.getMessage()).contains("API credentials not provided");
-            System.out.println("Service creation without credentials (expected): " + e.getMessage());
+            System.out.println("Service creation without credentials (expected in CI): " + e.getMessage());
         } catch (Exception e) {
-            // Other exceptions during service creation are also acceptable in test environments
-            System.out.println("Service creation without credentials result: " + e.getMessage());
+            // Other exceptions might occur during service creation - acceptable in tests
+            System.out.println("Service creation without credentials (unexpected): " + e.getMessage());
+            // Don't fail the test for other exceptions as they might be environment-specific
         }
     }
 
