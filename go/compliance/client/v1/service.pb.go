@@ -212,14 +212,14 @@ const file_meshtrade_compliance_client_v1_service_proto_rawDesc = "" +
 	"\x06client\x18\x01 \x01(\v2&.meshtrade.compliance.client.v1.ClientB\x06\xbaH\x03\xc8\x01\x01R\x06client\"\x14\n" +
 	"\x12ListClientsRequest\"W\n" +
 	"\x13ListClientsResponse\x12@\n" +
-	"\aclients\x18\x01 \x03(\v2&.meshtrade.compliance.client.v1.ClientR\aclients2\x8f\x03\n" +
-	"\rClientService\x12z\n" +
-	"\fCreateClient\x123.meshtrade.compliance.client.v1.CreateClientRequest\x1a&.meshtrade.compliance.client.v1.Client\"\r\xa0\xb5\x18\x02\xaa\xb5\x18\x05\n" +
-	"\x03\x80\x89z\x12w\n" +
-	"\tGetClient\x120.meshtrade.compliance.client.v1.GetClientRequest\x1a&.meshtrade.compliance.client.v1.Client\"\x10\xa0\xb5\x18\x01\xaa\xb5\x18\b\n" +
-	"\x06\x80\x89z\x81\x89z\x12\x88\x01\n" +
-	"\vListClients\x122.meshtrade.compliance.client.v1.ListClientsRequest\x1a3.meshtrade.compliance.client.v1.ListClientsResponse\"\x10\xa0\xb5\x18\x01\xaa\xb5\x18\b\n" +
-	"\x06\x80\x89z\x81\x89zBc\n" +
+	"\aclients\x18\x01 \x03(\v2&.meshtrade.compliance.client.v1.ClientR\aclients2\x9e\x03\n" +
+	"\rClientService\x12}\n" +
+	"\fCreateClient\x123.meshtrade.compliance.client.v1.CreateClientRequest\x1a&.meshtrade.compliance.client.v1.Client\"\x10\xa0\xb5\x18\x02\xaa\xb5\x18\b\n" +
+	"\x06\x80\x89z\x82\x89z\x12}\n" +
+	"\tGetClient\x120.meshtrade.compliance.client.v1.GetClientRequest\x1a&.meshtrade.compliance.client.v1.Client\"\x16\xa0\xb5\x18\x01\xaa\xb5\x18\x0e\n" +
+	"\f\x80\x89z\x81\x89z\x82\x89z\x83\x89z\x12\x8e\x01\n" +
+	"\vListClients\x122.meshtrade.compliance.client.v1.ListClientsRequest\x1a3.meshtrade.compliance.client.v1.ListClientsResponse\"\x16\xa0\xb5\x18\x01\xaa\xb5\x18\x0e\n" +
+	"\f\x80\x89z\x81\x89z\x82\x89z\x83\x89zBc\n" +
 	"%co.meshtrade.api.compliance.client.v1Z:github.com/meshtrade/api/go/compliance/client/v1;client_v1b\x06proto3"
 
 var (
