@@ -45,7 +45,6 @@ type Client struct {
 	DisplayName string `protobuf:"bytes,3,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// Contains the specific data for the legal entity type.
 	// Only one of these may be set at a time.
-	// BUT AT LEAST 1 MUST be set!!
 	//
 	// Types that are valid to be assigned to LegalPerson:
 	//
@@ -250,17 +249,20 @@ var File_meshtrade_compliance_client_v1_client_proto protoreflect.FileDescriptor
 
 const file_meshtrade_compliance_client_v1_client_proto_rawDesc = "" +
 	"\n" +
-	"+meshtrade/compliance/client/v1/client.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a,meshtrade/compliance/client/v1/company.proto\x1a meshtrade/iam/role/v1/role.proto\x1a)meshtrade/compliance/client/v1/fund.proto\x1a3meshtrade/compliance/client/v1/natural_person.proto\x1a*meshtrade/compliance/client/v1/trust.proto\x1a8meshtrade/compliance/client/v1/verification_status.proto\"\xf9\x05\n" +
-	"\x06Client\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +
-	"\x05owner\x18\x02 \x01(\tR\x05owner\x12!\n" +
-	"\fdisplay_name\x18\x03 \x01(\tR\vdisplayName\x12V\n" +
+	"+meshtrade/compliance/client/v1/client.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a,meshtrade/compliance/client/v1/company.proto\x1a meshtrade/iam/role/v1/role.proto\x1a)meshtrade/compliance/client/v1/fund.proto\x1a3meshtrade/compliance/client/v1/natural_person.proto\x1a*meshtrade/compliance/client/v1/trust.proto\x1a8meshtrade/compliance/client/v1/verification_status.proto\"\xd1\t\n" +
+	"\x06Client\x12\xbe\x01\n" +
+	"\x04name\x18\x01 \x01(\tB\xa9\x01\xbaH\xa5\x01\xba\x01\xa1\x01\n" +
+	"\x14name.format.optional\x124name must be empty or in the format clients/{ULIDv2}\x1aSsize(this) == 0 || this.matches('^clients/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12R\n" +
+	"\x05owner\x18\x02 \x01(\tB<\xbaH9\xc8\x01\x01r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05owner\x120\n" +
+	"\fdisplay_name\x18\x03 \x01(\tB\r\xbaH\n" +
+	"\xc8\x01\x01r\x05\x10\x01\x18\xff\x01R\vdisplayName\x12V\n" +
 	"\x0enatural_person\x18\x04 \x01(\v2-.meshtrade.compliance.client.v1.NaturalPersonH\x00R\rnaturalPerson\x12C\n" +
 	"\acompany\x18\x05 \x01(\v2'.meshtrade.compliance.client.v1.CompanyH\x00R\acompany\x12:\n" +
 	"\x04fund\x18\x06 \x01(\v2$.meshtrade.compliance.client.v1.FundH\x00R\x04fund\x12=\n" +
-	"\x05trust\x18\a \x01(\v2%.meshtrade.compliance.client.v1.TrustH\x00R\x05trust\x12c\n" +
-	"\x13verification_status\x18\b \x01(\x0e22.meshtrade.compliance.client.v1.VerificationStatusR\x12verificationStatus\x125\n" +
-	"\x16verification_authority\x18\t \x01(\tR\x15verificationAuthority\x12G\n" +
+	"\x05trust\x18\a \x01(\v2%.meshtrade.compliance.client.v1.TrustH\x00R\x05trust\x12p\n" +
+	"\x13verification_status\x18\b \x01(\x0e22.meshtrade.compliance.client.v1.VerificationStatusB\v\xbaH\b\xc8\x01\x01\x82\x01\x02\x10\x01R\x12verificationStatus\x12\x85\x02\n" +
+	"\x16verification_authority\x18\t \x01(\tB\xcd\x01\xbaH\xc9\x01\xba\x01\xc5\x01\n" +
+	"&verification_authority.format.optional\x12Fverification_authority must be empty or in the format clients/{ULIDv2}\x1aSsize(this) == 0 || this.matches('^clients/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x15verificationAuthority\x12G\n" +
 	"\x11verification_date\x18\n" +
 	" \x01(\v2\x1a.google.protobuf.TimestampR\x10verificationDate\x12P\n" +
 	"\x16next_verification_date\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\x14nextVerificationDate\x12C\n" +

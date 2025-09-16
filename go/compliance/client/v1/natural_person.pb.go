@@ -7,6 +7,7 @@
 package client_v1
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	v1 "github.com/meshtrade/api/go/type/v1"
 	date "google.golang.org/genproto/googleapis/type/date"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -207,22 +208,25 @@ var File_meshtrade_compliance_client_v1_natural_person_proto protoreflect.FileDe
 
 const file_meshtrade_compliance_client_v1_natural_person_proto_rawDesc = "" +
 	"\n" +
-	"3meshtrade/compliance/client/v1/natural_person.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x16google/type/date.proto\x1aAmeshtrade/compliance/client/v1/identification_document_type.proto\x1a/meshtrade/compliance/client/v1/pep_status.proto\x1a@meshtrade/compliance/client/v1/source_of_income_and_wealth.proto\x1a2meshtrade/compliance/client/v1/tax_residency.proto\x1a\x1fmeshtrade/type/v1/address.proto\x1a'meshtrade/type/v1/contact_details.proto\"\xef\a\n" +
-	"\rNaturalPerson\x12\x1b\n" +
-	"\tfull_name\x18\x01 \x01(\tR\bfullName\x125\n" +
-	"\rdate_of_birth\x18\x02 \x01(\v2\x11.google.type.DateR\vdateOfBirth\x124\n" +
-	"\x16country_of_citizenship\x18\x03 \x01(\tR\x14countryOfCitizenship\x123\n" +
-	"\x15identification_number\x18\x04 \x01(\tR\x14identificationNumber\x12|\n" +
-	"\x1cidentification_document_type\x18\x05 \x01(\x0e2:.meshtrade.compliance.client.v1.IdentificationDocumentTypeR\x1aidentificationDocumentType\x12`\n" +
+	"3meshtrade/compliance/client/v1/natural_person.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x1bbuf/validate/validate.proto\x1a\x16google/type/date.proto\x1aAmeshtrade/compliance/client/v1/identification_document_type.proto\x1a/meshtrade/compliance/client/v1/pep_status.proto\x1a@meshtrade/compliance/client/v1/source_of_income_and_wealth.proto\x1a2meshtrade/compliance/client/v1/tax_residency.proto\x1a\x1fmeshtrade/type/v1/address.proto\x1a'meshtrade/type/v1/contact_details.proto\"\xdf\t\n" +
+	"\rNaturalPerson\x12%\n" +
+	"\tfull_name\x18\x01 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R\bfullName\x125\n" +
+	"\rdate_of_birth\x18\x02 \x01(\v2\x11.google.type.DateR\vdateOfBirth\x12\xdd\x01\n" +
+	"\x16country_of_citizenship\x18\x03 \x01(\tB\xa6\x01\xbaH\xa2\x01\xba\x01\x9e\x01\n" +
+	"\x1ccountry_code.format.optional\x12Ocountry_of_citizenship must be empty or a valid ISO 3166-1 alpha-2 country code\x1a-size(this) == 0 || this.matches('^[A-Z]{2}$')R\x14countryOfCitizenship\x12<\n" +
+	"\x15identification_number\x18\x04 \x01(\tB\a\xbaH\x04r\x02\x18dR\x14identificationNumber\x12\x86\x01\n" +
+	"\x1cidentification_document_type\x18\x05 \x01(\x0e2:.meshtrade.compliance.client.v1.IdentificationDocumentTypeB\b\xbaH\x05\x82\x01\x02\x10\x01R\x1aidentificationDocumentType\x12`\n" +
 	"#identification_document_expiry_date\x18\x06 \x01(\v2\x11.google.type.DateR identificationDocumentExpiryDate\x12E\n" +
 	"\x10physical_address\x18\a \x01(\v2\x1a.meshtrade.type.v1.AddressR\x0fphysicalAddress\x12A\n" +
-	"\x0epostal_address\x18\b \x01(\v2\x1a.meshtrade.type.v1.AddressR\rpostalAddress\x12H\n" +
+	"\x0epostal_address\x18\b \x01(\v2\x1a.meshtrade.type.v1.AddressR\rpostalAddress\x12R\n" +
 	"\n" +
-	"pep_status\x18\t \x01(\x0e2).meshtrade.compliance.client.v1.PepStatusR\tpepStatus\x12J\n" +
+	"pep_status\x18\t \x01(\x0e2).meshtrade.compliance.client.v1.PepStatusB\b\xbaH\x05\x82\x01\x02\x10\x01R\tpepStatus\x12J\n" +
 	"\x0fcontact_details\x18\n" +
-	" \x01(\v2!.meshtrade.type.v1.ContactDetailsR\x0econtactDetails\x12c\n" +
-	"\x11sources_of_income\x18\v \x03(\x0e27.meshtrade.compliance.client.v1.SourceOfIncomeAndWealthR\x0fsourcesOfIncome\x12c\n" +
-	"\x11sources_of_wealth\x18\f \x03(\x0e27.meshtrade.compliance.client.v1.SourceOfIncomeAndWealthR\x0fsourcesOfWealth\x12U\n" +
+	" \x01(\v2!.meshtrade.type.v1.ContactDetailsR\x0econtactDetails\x12r\n" +
+	"\x11sources_of_income\x18\v \x03(\x0e27.meshtrade.compliance.client.v1.SourceOfIncomeAndWealthB\r\xbaH\n" +
+	"\x92\x01\a\"\x05\x82\x01\x02\x10\x01R\x0fsourcesOfIncome\x12r\n" +
+	"\x11sources_of_wealth\x18\f \x03(\x0e27.meshtrade.compliance.client.v1.SourceOfIncomeAndWealthB\r\xbaH\n" +
+	"\x92\x01\a\"\x05\x82\x01\x02\x10\x01R\x0fsourcesOfWealth\x12U\n" +
 	"\x0ftax_residencies\x18\r \x03(\v2,.meshtrade.compliance.client.v1.TaxResidencyR\x0etaxResidenciesBc\n" +
 	"%co.meshtrade.api.compliance.client.v1Z:github.com/meshtrade/api/go/compliance/client/v1;client_v1b\x06proto3"
 

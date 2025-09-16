@@ -7,6 +7,7 @@
 package client_v1
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	date "google.golang.org/genproto/googleapis/type/date"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -118,12 +119,13 @@ var File_meshtrade_compliance_client_v1_trust_proto protoreflect.FileDescriptor
 
 const file_meshtrade_compliance_client_v1_trust_proto_rawDesc = "" +
 	"\n" +
-	"*meshtrade/compliance/client/v1/trust.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x16google/type/date.proto\"\xf7\x01\n" +
-	"\x05Trust\x12'\n" +
-	"\x0fregistered_name\x18\x01 \x01(\tR\x0eregisteredName\x12/\n" +
-	"\x13registration_number\x18\x02 \x01(\tR\x12registrationNumber\x12%\n" +
-	"\x0etax_identifier\x18\x03 \x01(\tR\rtaxIdentifier\x12.\n" +
-	"\x13country_of_domicile\x18\x04 \x01(\tR\x11countryOfDomicile\x12=\n" +
+	"*meshtrade/compliance/client/v1/trust.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x1bbuf/validate/validate.proto\x1a\x16google/type/date.proto\"\xba\x03\n" +
+	"\x05Trust\x121\n" +
+	"\x0fregistered_name\x18\x01 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R\x0eregisteredName\x128\n" +
+	"\x13registration_number\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x18dR\x12registrationNumber\x12.\n" +
+	"\x0etax_identifier\x18\x03 \x01(\tB\a\xbaH\x04r\x02\x182R\rtaxIdentifier\x12\xd4\x01\n" +
+	"\x13country_of_domicile\x18\x04 \x01(\tB\xa3\x01\xbaH\x9f\x01\xba\x01\x9b\x01\n" +
+	"\x1ccountry_code.format.optional\x12Lcountry_of_domicile must be empty or a valid ISO 3166-1 alpha-2 country code\x1a-size(this) == 0 || this.matches('^[A-Z]{2}$')R\x11countryOfDomicile\x12=\n" +
 	"\x11date_of_inception\x18\x05 \x01(\v2\x11.google.type.DateR\x0fdateOfInceptionBc\n" +
 	"%co.meshtrade.api.compliance.client.v1Z:github.com/meshtrade/api/go/compliance/client/v1;client_v1b\x06proto3"
 

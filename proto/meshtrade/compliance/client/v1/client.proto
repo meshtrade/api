@@ -25,7 +25,13 @@ message Client {
      The {client_id} is a system-generated unique identifier (e.g., UUID) that will never change. This name field will never change and should be used as the permanent primary key for this resource in all systems.
      System set on creation.
   */
-  string name = 1;
+  string name = 1 [(buf.validate.field) = {
+    cel: {
+      id: "name.format.optional",
+      message: "name must be empty or in the format clients/{ULIDv2}",
+      expression: "size(this) == 0 || this.matches('^clients/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
+    }
+  }];
 
   /*
      The resource name of the group that owns this client in the format groups/{group_id}.
@@ -34,19 +40,30 @@ message Client {
      The executing user needs to have permission to perform client.Create in this group.
      Required on creation.
   */
-  string owner = 2;
+  string owner = 2 [(buf.validate.field) = {
+    required: true,
+    string: {
+      len: 33,
+      pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+    }
+  }];
 
   /*
      A non-unique, user-provided name for the client, used for display purposes
      in user interfaces and reports.
      Required on creation.
   */
-  string display_name = 3;
+  string display_name = 3 [(buf.validate.field) = {
+    required: true,
+    string: {
+      min_len: 1,
+      max_len: 255
+    }
+  }];
 
   /*
      Contains the specific data for the legal entity type.
      Only one of these may be set at a time.
-     BUT AT LEAST 1 MUST be set!!
   */
   oneof legal_person {
     /*
@@ -74,14 +91,23 @@ message Client {
      The definitive, most recent compliance status of the client (e.g., VERIFICATION_STATUS_VERIFIED, VERIFICATION_STATUS_FAILED).
      Must always be a valid field
   */
-  meshtrade.compliance.client.v1.VerificationStatus verification_status = 8;
+  meshtrade.compliance.client.v1.VerificationStatus verification_status = 8 [(buf.validate.field) = {
+    required: true,
+    enum: {defined_only: true}
+  }];
 
   /*
      The resource name of the client (acting as a verifier) that last set the
      `verification_status`. This provides an audit trail for status changes.
      System set when verification_status changes.
   */
-  string verification_authority = 9;
+  string verification_authority = 9 [(buf.validate.field) = {
+    cel: {
+      id: "verification_authority.format.optional",
+      message: "verification_authority must be empty or in the format clients/{ULIDv2}",
+      expression: "size(this) == 0 || this.matches('^clients/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
+    }
+  }];
 
   /*
      The timestamp when the `verification_status` was last set to a conclusive

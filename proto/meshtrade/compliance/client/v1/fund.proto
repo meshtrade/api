@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package meshtrade.compliance.client.v1;
 
+import "buf/validate/validate.proto";
 import "google/type/date.proto";
 
 option go_package = "github.com/meshtrade/api/go/compliance/client/v1;client_v1";
@@ -17,20 +18,32 @@ message Fund {
      The official, registered name of the fund as it appears in its prospectus or formation documents.
      Required for verification.
   */
-  string registered_name = 1;
+  string registered_name = 1 [(buf.validate.field) = {
+    string: {
+      max_len: 255
+    }
+  }];
 
   /*
      The unique registration or identification number assigned by a regulatory body or authority.
      Examples: SEC CIK number, LEI (Legal Entity Identifier).
      Required for verification.
   */
-  string registration_number = 2;
+  string registration_number = 2 [(buf.validate.field) = {
+    string: {
+      max_len: 100
+    }
+  }];
 
   /*
      The primary tax identifier for the fund.
      Example: TIN in the US.
   */
-  string tax_identifier = 3;
+  string tax_identifier = 3 [(buf.validate.field) = {
+    string: {
+      max_len: 50
+    }
+  }];
 
   /*
      The ISO 3166-1 alpha-2 country code where the fund is domiciled (e.g., "KY" for Cayman Islands, "LU" for Luxembourg).
@@ -38,7 +51,13 @@ message Fund {
      See: https://www.iso.org/iso-3166-country-codes.html
      Required for verification.
   */
-  string country_of_domicile = 4;
+  string country_of_domicile = 4 [(buf.validate.field) = {
+    cel: {
+      id: "country_code.format.optional",
+      message: "country_of_domicile must be empty or a valid ISO 3166-1 alpha-2 country code",
+      expression: "size(this) == 0 || this.matches('^[A-Z]{2}$')"
+    }
+  }];
 
   /*
      The date on which the fund was established or began operations (inception date).

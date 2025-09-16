@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package meshtrade.compliance.client.v1;
 
+import "buf/validate/validate.proto";
 import "google/type/date.proto";
 import "meshtrade/compliance/client/v1/company_representative.proto";
 import "meshtrade/compliance/client/v1/fund.proto";
@@ -24,20 +25,32 @@ message Company {
      The official, registered name of the company as it appears in its articles of incorporation.
      Required for verification.
   */
-  string registered_name = 1;
+  string registered_name = 1 [(buf.validate.field) = {
+    string: {
+      max_len: 255
+    }
+  }];
 
   /*
      The unique number assigned by the relevant companies registry upon incorporation.
      Examples: UK Companies House number, NL KVK-nummer, US EIN.
      Required for verification.
   */
-  string registration_number = 3;
+  string registration_number = 3 [(buf.validate.field) = {
+    string: {
+      max_len: 100
+    }
+  }];
 
   /*
      The primary tax identifier for the company.
      Examples: VAT number in the EU, TIN in the US.
   */
-  string tax_identifier = 4;
+  string tax_identifier = 4 [(buf.validate.field) = {
+    string: {
+      max_len: 50
+    }
+  }];
 
   /*
      The ISO 3166-1 alpha-2 country code where the company was incorporated (e.g., "ZA", "NL").
@@ -45,7 +58,13 @@ message Company {
      See: https://www.iso.org/iso-3166-country-codes.html
      Required for verification.
   */
-  string country_of_incorporation = 5;
+  string country_of_incorporation = 5 [(buf.validate.field) = {
+    cel: {
+      id: "country_code.format.optional",
+      message: "country_of_incorporation must be empty or a valid ISO 3166-1 alpha-2 country code",
+      expression: "size(this) == 0 || this.matches('^[A-Z]{2}$')"
+    }
+  }];
 
   /*
      The date on which the company was incorporated.
@@ -101,12 +120,20 @@ message Company {
   /*
      The stock exchange where the company is listed, if applicable (e.g., "NASDAQ", "LSE").
   */
-  string listed_exchange_code = 14;
+  string listed_exchange_code = 14 [(buf.validate.field) = {
+    string: {
+      max_len: 20
+    }
+  }];
 
   /*
      The ticker symbol for the company on the specified stock exchange (e.g., "GOOGL").
   */
-  string listing_reference = 15;
+  string listing_reference = 15 [(buf.validate.field) = {
+    string: {
+      max_len: 20
+    }
+  }];
 }
 
 /*
@@ -148,7 +175,13 @@ message ConnectedLegalPerson {
      (e.g., Shareholder, Guarantor etc.).
      Required for verification.
   */
-  repeated meshtrade.compliance.client.v1.LegalPersonConnectionType connection_types = 5;
+  repeated meshtrade.compliance.client.v1.LegalPersonConnectionType connection_types = 5 [(buf.validate.field) = {
+    repeated: {
+      items: {
+        enum: {defined_only: true}
+      }
+    }
+  }];
 
   /*
      The percentage of direct or indirect ownership this person holds.
@@ -168,7 +201,11 @@ message ConnectedLegalPerson {
      A plain text description of the relationship.
      Optional for verification.
   */
-  string connection_description = 8;
+  string connection_description = 8 [(buf.validate.field) = {
+    string: {
+      max_len: 500
+    }
+  }];
 }
 
 /*

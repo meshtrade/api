@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package meshtrade.compliance.client.v1;
 
+import "buf/validate/validate.proto";
 import "meshtrade/compliance/client/v1/client.proto";
 import "meshtrade/iam/role/v1/role.proto";
 import "meshtrade/option/v1/method_type.proto";
@@ -20,7 +21,10 @@ service ClientService {
   rpc CreateClient(CreateClientRequest) returns (meshtrade.compliance.client.v1.Client) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
     option (meshtrade.iam.role.v1.roles) = {
-      roles: [ROLE_COMPLIANCE_ADMIN]
+      roles: [
+        ROLE_COMPLIANCE_ADMIN,
+        ROLE_COMPLIANCE_CLIENT_ADMIN
+      ]
     };
   }
 
@@ -34,7 +38,9 @@ service ClientService {
     option (meshtrade.iam.role.v1.roles) = {
       roles: [
         ROLE_COMPLIANCE_ADMIN,
-        ROLE_COMPLIANCE_VIEWER
+        ROLE_COMPLIANCE_VIEWER,
+        ROLE_COMPLIANCE_CLIENT_ADMIN,
+        ROLE_COMPLIANCE_CLIENT_VIEWER
       ]
     };
   }
@@ -48,7 +54,9 @@ service ClientService {
     option (meshtrade.iam.role.v1.roles) = {
       roles: [
         ROLE_COMPLIANCE_ADMIN,
-        ROLE_COMPLIANCE_VIEWER
+        ROLE_COMPLIANCE_VIEWER,
+        ROLE_COMPLIANCE_CLIENT_ADMIN,
+        ROLE_COMPLIANCE_CLIENT_VIEWER
       ]
     };
   }
@@ -59,13 +67,21 @@ message GetClientRequest {
   // The unique resource name of the client to be retrieved.
   // The name serves as the primary identifier for the client resource.
   // Format: "clients/{client_id}"
-  string name = 1;
+  string name = 1 [(buf.validate.field) = {
+    required: true,
+    string: {
+      len: 33,
+      pattern: "^clients/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+    }
+  }];
 }
 
 // GetClientRequest is the message used to request a single client resource.
 message CreateClientRequest {
   // Client is the client resource to create.
-  meshtrade.compliance.client.v1.Client client = 1;
+  meshtrade.compliance.client.v1.Client client = 1 [(buf.validate.field) = {
+    required: true
+  }];
 }
 
 // ListClientsRequest is the message used to request a list of client resources.
