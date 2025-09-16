@@ -1,112 +1,106 @@
 # Role-Based Access Control
 
-Understanding how business domain roles control method-level access within the Mesh API's hierarchical group ownership system.
+## Purpose
+Defines method-level access control through business domain roles within the Mesh API's hierarchical group ownership system.
 
-## Overview
+## Core Concept
 
 Role-Based Access Control (RBAC) in Mesh operates as a **two-layer security model** where roles define **what operations** users can perform, while groups define **which resources** they can access. This creates a comprehensive authorization system that combines business-level permissions with organizational hierarchy constraints.
 
 **The Dual Authorization Model:**
 - **Roles** (this document): Control method-level access to API operations
-- **Groups** ([Group Ownership](./group-ownership)): Control resource-level access through ownership hierarchy
+- **Groups** ([Resource Hierarchy](./resource-hierarchy)): Control resource-level access through ownership hierarchy
 
 Our guiding principle is using the **Protobuf schema as the single source of truth** for all authorization rules, ensuring our security model is self-documenting, automatically verifiable, and always in sync with the API contract.
 
-## What are Roles?
-
-Roles are **enum values** that provide implicit access to API methods within business domains. Unlike traditional permission systems with explicit permission strings, Mesh roles work by **method-level declaration** - each RPC method explicitly declares which role enum values can access it in its protobuf definition.
-
-**Key Distinction:**
-- **No Explicit Permissions**: Roles don't contain lists of permission strings
-- **Method-Level Grants**: API methods declare which roles can access them via protobuf annotations
-- **Implicit Authorization**: Having a role grants access to methods that declare that role
+## Key Implementation Points
 - **Enum-Based Design**: Roles are simple enum constants, not complex permission objects
-
-Each role represents a coherent set of capabilities that align with real-world job functions and responsibilities through the methods that reference them.
-
-**Key Characteristics:**
+- **Method-Level Grants**: API methods declare which roles can access them via protobuf annotations
 - **Domain-Scoped**: Roles are organized by business domains (Trading, Wallet, IAM, etc.)
-- **Method-Level Control**: Each RPC method explicitly declares which roles can access it
 - **Business-Aligned**: Role names reflect actual business functions and responsibilities
-- **Hierarchical Permissions**: Admin roles include all viewer capabilities plus write operations
+- **Universal User System**: Same permissions apply to regular users and API users
 
-## Universal User System: API Users & Regular Users
+## Essential Example
 
-**Important**: While this documentation focuses on "API users" for technical precision, the **exact same role-based permission system applies to regular users** accessing Mesh through web interfaces, mobile applications, and desktop software.
+A trading desk structure demonstrates role-based access control:
 
-### Unified Role Assignment Model
+- **Trading Admin**: Full trading operations including order management and risk controls
+- **Trading Viewer**: Read-only access to trading data for analysis and compliance
+- **IAM Admin**: User and permission management within the organization
+- **Wallet Viewer**: Account balance and transaction monitoring capabilities
 
-**Both user types receive identical role assignments:**
-- **Regular Users**: Login via username/password, OAuth (Google, Microsoft), or SSO systems
-- **API Users**: Authenticate via API keys for programmatic integration
-- **Same Roles**: Both receive identical role assignments within groups (e.g., `ROLE_TRADING_ADMIN`)
-- **Same Method Access**: Both are subject to the same protobuf method-level authorization rules
-- **Same Business Logic**: Identical permission validation regardless of authentication method
-
-### Digital Infrastructure Applications
-
-This role system enables comprehensive **enterprise digital infrastructure management**:
-
-**Complete Access Control:**
-- **Employee Access**: Staff using web dashboards, mobile apps, and desktop clients with role-based permissions
-- **System Integration**: API-driven workflows, automation, and third-party integrations with same role restrictions
-- **Unified Governance**: Single role model governing human users and automated systems
-- **Consistent Security**: Same authorization logic across all access methods and interfaces
-
-**Example: Financial Services Organization**
-- **Portfolio Managers**: Regular users with `ROLE_TRADING_ADMIN` accessing web trading platforms
-- **Risk Analysts**: Regular users with `ROLE_TRADING_VIEWER` using mobile dashboards for monitoring  
-- **Trading Algorithms**: API users with `ROLE_TRADING_ADMIN` for automated execution systems
-- **Compliance Systems**: API users with `ROLE_COMPLIANCE_VIEWER` for automated reporting and monitoring
-
-Throughout the examples below, we reference "API users" for technical clarity, but understand that **regular users appear in identical organizational roles** with the same permissions and access patterns.
+Roles work by **method-level declaration** - each RPC method explicitly declares which role enum values can access it in its protobuf definition.
 
 ## Role Hierarchy by Business Domain
 
 The Mesh API organizes roles into six core business domains, each with a consistent permission structure:
 
+<div style={{textAlign: 'center'}}>
+
 ```mermaid
 graph TD
     subgraph "Business Domain Roles"
         subgraph "Wallet Domain"
-            WalletAdmin["👤 ROLE_WALLET_ADMIN<br/>Full wallet operations"]
-            WalletViewer["👁️ ROLE_WALLET_VIEWER<br/>Read-only wallet access"]
-            WalletAccAdmin["👤 ROLE_WALLET_ACCOUNT_ADMIN<br/>Account management"]
-            WalletAccViewer["👁️ ROLE_WALLET_ACCOUNT_VIEWER<br/>Account read access"]
+            WalletAdmin["👤 ROLE_WALLET_ADMIN
+            Full wallet operations"]
+            WalletViewer["👁️ ROLE_WALLET_VIEWER
+            Read-only wallet access"]
+            WalletAccAdmin["👤 ROLE_WALLET_ACCOUNT_ADMIN
+            Account management"]
+            WalletAccViewer["👁️ ROLE_WALLET_ACCOUNT_VIEWER
+            Account read access"]
         end
-        
+
         subgraph "Trading Domain"
-            TradingAdmin["👤 ROLE_TRADING_ADMIN<br/>Full trading operations"]
-            TradingViewer["👁️ ROLE_TRADING_VIEWER<br/>Trading data access"]
+            TradingAdmin["👤 ROLE_TRADING_ADMIN
+            Full trading operations"]
+            TradingViewer["👁️ ROLE_TRADING_VIEWER
+            Trading data access"]
         end
-        
+
         subgraph "IAM Domain"
-            IAMAdmin["👤 ROLE_IAM_ADMIN<br/>Identity management"]
-            IAMViewer["👁️ ROLE_IAM_VIEWER<br/>Identity read access"]
-            IAMUserAdmin["👤 ROLE_IAM_USER_ADMIN<br/>User management"]
-            IAMUserViewer["👁️ ROLE_IAM_USER_VIEWER<br/>User read access"]
-            IAMGroupAdmin["👤 ROLE_IAM_GROUP_ADMIN<br/>Group management"]
-            IAMGroupViewer["👁️ ROLE_IAM_GROUP_VIEWER<br/>Group read access"]
-            IAMAPIAdmin["👤 ROLE_IAM_API_USER_ADMIN<br/>API user management"]
-            IAMAPIViewer["👁️ ROLE_IAM_API_USER_VIEWER<br/>API user read access"]
+            IAMAdmin["👤 ROLE_IAM_ADMIN
+            Identity management"]
+            IAMViewer["👁️ ROLE_IAM_VIEWER
+            Identity read access"]
+            IAMUserAdmin["👤 ROLE_IAM_USER_ADMIN
+            User management"]
+            IAMUserViewer["👁️ ROLE_IAM_USER_VIEWER
+            User read access"]
+            IAMGroupAdmin["👤 ROLE_IAM_GROUP_ADMIN
+            Group management"]
+            IAMGroupViewer["👁️ ROLE_IAM_GROUP_VIEWER
+            Group read access"]
+            IAMAPIAdmin["👤 ROLE_IAM_API_USER_ADMIN
+            API user management"]
+            IAMAPIViewer["👁️ ROLE_IAM_API_USER_VIEWER
+            API user read access"]
         end
-        
+
         subgraph "Compliance Domain"
-            CompAdmin["👤 ROLE_COMPLIANCE_ADMIN<br/>Compliance operations"]
-            CompViewer["👁️ ROLE_COMPLIANCE_VIEWER<br/>Compliance read access"]
+            CompAdmin["👤 ROLE_COMPLIANCE_ADMIN
+            Compliance operations"]
+            CompViewer["👁️ ROLE_COMPLIANCE_VIEWER
+            Compliance read access"]
         end
-        
+
         subgraph "Issuance Hub Domain"
-            IssuanceAdmin["👤 ROLE_STUDIO_ADMIN<br/>Asset issuance"]
-            IssuanceViewer["👁️ ROLE_STUDIO_VIEWER<br/>Issuance read access"]
+            IssuanceAdmin["👤 ROLE_STUDIO_ADMIN
+            Asset issuance"]
+            IssuanceViewer["👁️ ROLE_STUDIO_VIEWER
+            Issuance read access"]
         end
-        
+
         subgraph "Reporting Domain"
-            ReportingAdmin["👤 ROLE_REPORTING_ADMIN<br/>Report generation"]
-            ReportingViewer["👁️ ROLE_REPORTING_VIEWER<br/>Report access"]
+            ReportingAdmin["👤 ROLE_REPORTING_ADMIN
+            Report generation"]
+            ReportingViewer["👁️ ROLE_REPORTING_VIEWER
+            Report access"]
         end
     end
 ```
+
+</div>
 
 ### Role Naming Convention
 
@@ -119,7 +113,7 @@ All roles follow a consistent pattern: `ROLE_{DOMAIN}_{SCOPE}_{ACCESS_LEVEL}`
 ### Domain Role Structure
 
 **Wallet Domain:**
-- **General**: `ROLE_WALLET_ADMIN` 👤, `ROLE_WALLET_VIEWER` 👁️  
+- **General**: `ROLE_WALLET_ADMIN` 👤, `ROLE_WALLET_VIEWER` 👁️
 - **Specialized**: `ROLE_WALLET_ACCOUNT_ADMIN` 👤, `ROLE_WALLET_ACCOUNT_VIEWER` 👁️
 
 **Trading Domain:**
@@ -128,9 +122,9 @@ All roles follow a consistent pattern: `ROLE_{DOMAIN}_{SCOPE}_{ACCESS_LEVEL}`
 
 **IAM Domain:**
 - **General**: `ROLE_IAM_ADMIN` 👤, `ROLE_IAM_VIEWER` 👁️
-- **Specialized**: 
+- **Specialized**:
   - User Management: `ROLE_IAM_USER_ADMIN` 👤, `ROLE_IAM_USER_VIEWER` 👁️
-  - Group Management: `ROLE_IAM_GROUP_ADMIN` 👤, `ROLE_IAM_GROUP_VIEWER` 👁️  
+  - Group Management: `ROLE_IAM_GROUP_ADMIN` 👤, `ROLE_IAM_GROUP_VIEWER` 👁️
   - API User Management: `ROLE_IAM_API_USER_ADMIN` 👤, `ROLE_IAM_API_USER_VIEWER` 👁️
 
 **Compliance Domain:**
@@ -138,7 +132,7 @@ All roles follow a consistent pattern: `ROLE_{DOMAIN}_{SCOPE}_{ACCESS_LEVEL}`
 - **Specialized**: *(Future expansion planned)*
 
 **Issuance Hub Domain:**
-- **General**: `ROLE_STUDIO_ADMIN` 👤, `ROLE_STUDIO_VIEWER` 👁️  
+- **General**: `ROLE_STUDIO_ADMIN` 👤, `ROLE_STUDIO_VIEWER` 👁️
 - **Specialized**: *(Future expansion planned)*
 
 **Reporting Domain:**
@@ -176,46 +170,13 @@ Each domain implements a two-tier permission model that aligns with common organ
 - Monitoring and observability tools
 - Junior staff requiring supervised access
 
-## Integration with Group Ownership System
+## Integration
 
-Roles and groups work together to create a comprehensive authorization model. **Both** must be satisfied for an operation to succeed:
+Role-based access control integrates with other architecture components:
 
-### The Dual Gate Model
-
-```mermaid
-sequenceDiagram
-    participant Client
-    participant API Gateway
-    participant Auth Service
-    participant Resource Service
-    participant Database
-    
-    Client->>API Gateway: Request with API key + group context
-    API Gateway->>Auth Service: Validate credentials
-    
-    Auth Service->>Auth Service: 1. Verify API key validity
-    Auth Service->>Auth Service: 2. Check user has role in specified group
-    Auth Service->>Auth Service: 3. Verify role grants method access
-    
-    Auth Service->>API Gateway: ✅ Role authorization passed
-    API Gateway->>Resource Service: Forward request with context
-    
-    Resource Service->>Resource Service: 4. Apply ownership filter based on method type
-    Resource Service->>Database: Query with ownership constraints
-    Database->>Resource Service: Return filtered results
-    
-    Resource Service->>API Gateway: ✅ Resource access authorized
-    API Gateway->>Client: Response with accessible data
-```
-
-### Authorization Requirements
-
-For any API operation, **all four** requirements must be met:
-
-1. **Valid Credentials**: Active API key with proper authentication
-2. **Group Membership**: User must have role assignment in the specified group
-3. **Method Authorization**: User's role must include access to the specific RPC method
-4. **Resource Ownership**: Resources must pass ownership filter based on method type
+- [Resource Hierarchy](./resource-hierarchy) - Resource ownership and hierarchy system that works with roles
+- [Legal Entity Boundaries](./legal-entities) - How clients define role boundaries within organizational structures
+- [API Access](./api-access) - Authentication mechanisms and group context headers
 
 ## Method-Level Role Declaration
 
@@ -260,87 +221,15 @@ rpc GetLimitOrder(GetLimitOrderRequest) returns (LimitOrder) {
 }
 ```
 
-## Real-World Authorization Scenario
+## Real-World Authorization Example
 
-```mermaid
-graph TD
-    subgraph "Platform Authorization"
-        MeshRoot["🏢 Mesh Platform (Root)<br/>groups/MESH_ROOT"]
-        
-        BrokerA["🏦 Broker A<br/>groups/BROKER_A"]
-        BrokerB["🏦 Broker B<br/>groups/BROKER_B"]
-        
-        TeamLead["👨‍💼 Team Lead<br/>groups/TEAM_LEAD_A<br/>🔐 Roles: [TRADING_ADMIN, WALLET_ADMIN]"]
-        
-        TraderGroup["👤 Senior Trader<br/>groups/TRADER_A1<br/>🔐 Roles: [TRADING_ADMIN, WALLET_VIEWER]"]
-        TraderRegUser["👤 Mike Chen (Regular User)<br/>users/MIKE_CHEN<br/>📋 Auth: Username/Password<br/>📋 Access: Web Trading Terminal"]
-        TraderAPIUser["🔑 Mike's Algo System (API User)<br/>api_users/MIKE_ALGO<br/>📋 Auth: API Key<br/>📋 Access: Automated Trading"]
-        
-        AnalystGroup["📊 Market Analyst<br/>groups/ANALYST_A1<br/>🔐 Roles: [TRADING_VIEWER, REPORTING_VIEWER]"]
-        AnalystRegUser["👤 Lisa Park (Regular User)<br/>users/LISA_PARK<br/>📋 Auth: Google OAuth<br/>📋 Access: Analytics Dashboard"]
-        AnalystAPIUser["🔑 Research Data Feed (API User)<br/>api_users/RESEARCH_FEED<br/>📋 Auth: API Key<br/>📋 Access: Market Data Integration"]
-        
-        TradingAcc["💰 Trading Account<br/>accounts/TRADING_ACC_A1<br/>owner: TRADER_A1"]
-        SettlementAcc["🏦 Settlement Account<br/>accounts/SETTLE_ACC_A<br/>owner: BROKER_A"]
-        
-        BuyOrder["📈 Buy Order<br/>orders/BUY_ORDER_123<br/>owner: TRADER_A1<br/>💡 Created via: Web Interface"]
-        AlgoOrder["📊 Algorithmic Order<br/>orders/ALGO_ORDER_456<br/>owner: TRADER_A1<br/>💡 Created via: API Integration"]
-        
-        MeshRoot --> BrokerA
-        MeshRoot --> BrokerB
-        BrokerA --> TeamLead
-        TeamLead --> TraderGroup
-        TeamLead --> AnalystGroup
-        TraderGroup --> TraderRegUser
-        TraderGroup --> TraderAPIUser
-        AnalystGroup --> AnalystRegUser
-        AnalystGroup --> AnalystAPIUser
-        TraderGroup --> TradingAcc
-        BrokerA --> SettlementAcc
-        TraderGroup --> BuyOrder
-        TraderGroup --> AlgoOrder
-    end
-```
+For detailed authorization scenarios showing complete access patterns across multiple user types and organizational levels, see [Resource Hierarchy: Practical Examples](./resource-hierarchy#practical-examples).
 
-**Access Scenarios:**
-
-**Team Lead executing CreateAccount (WRITE method in Broker A context):**
-- ✅ **Role Check**: Has `WALLET_ADMIN` role for CreateAccount method
-- ✅ **Group Context**: Operating in `BROKER_A` group where they have role assignment
-- ✅ **Resource Access**: Can create accounts with `owner: BROKER_A` (direct ownership rule)
-- **Result**: Can create settlement accounts and team infrastructure
-
-**Mike Chen (Regular User) executing CreateOrder via Web Trading Terminal (WRITE method):**
-- ✅ **Role Check**: Has `TRADING_ADMIN` role for CreateOrder method
-- ✅ **Group Context**: Operating in `TRADER_A1` group where he has role assignment
-- ✅ **Resource Access**: Can create orders with `owner: TRADER_A1` (direct ownership rule)
-- **Authentication**: Username/password login to web trading platform
-- **Interface**: Browser-based trading terminal with real-time market feeds
-- **Result**: Can execute trades manually through web interface
-
-**Mike's Algo System (API User) executing CreateOrder via API (WRITE method):**
-- ✅ **Role Check**: Has same `TRADING_ADMIN` role (inherited from group assignment)
-- ✅ **Group Context**: Operating in same `TRADER_A1` group context
-- ✅ **Resource Access**: Can create orders with same `owner: TRADER_A1` permissions
-- **Authentication**: API key linked to same group and role assignments
-- **Integration**: Automated algorithmic trading system with identical business rules
-- **Result**: Can execute trades programmatically with same authorization scope
-
-**Lisa Park (Regular User) executing GetAccount via Analytics Dashboard (READ method):**
-- ✅ **Role Check**: Has `TRADING_VIEWER` role for GetAccount method
-- ✅ **Group Context**: Operating in `ANALYST_A1` group where she has role assignment
-- ✅ **Resource Access**: Can read accounts in ownership path (hierarchical READ access)
-- **Authentication**: Google OAuth integration for streamlined access
-- **Interface**: Web-based analytics dashboard with interactive charts and reports
-- **Result**: Can view trading data for analysis but cannot modify anything
-
-**Research Data Feed (API User) executing ListOrders for Market Analysis (READ method):**
-- ✅ **Role Check**: Has same `TRADING_VIEWER` role as regular analyst
-- ✅ **Group Context**: Operating in same `ANALYST_A1` group context  
-- ✅ **Resource Access**: Can read same trading data with identical scope restrictions
-- **Authentication**: API key with read-only permissions matching regular user
-- **Integration**: Automated market research system feeding external analytics platforms
-- **Result**: Enables automated data collection with same permission boundaries
+**Example Overview:**
+- Team leads with broad admin roles across domains
+- Individual traders with domain-specific permissions
+- Analysts with read-only access to trading data
+- Both regular users (web/mobile access) and API users (programmatic access) with identical permissions
 
 ## Role Assignment and Management
 
@@ -348,25 +237,34 @@ graph TD
 
 API Users receive role assignments within specific groups, creating the foundation for the authorization system:
 
+<div style={{textAlign: 'center'}}>
+
 ```mermaid
 graph LR
     subgraph "Role Assignment Model"
-        APIUser["🔑 API User<br/>api_users/USER_123"]
-        
-        GroupA["🏢 Group A<br/>groups/GROUP_A"]
-        GroupB["🏢 Group B<br/>groups/GROUP_B"]
-        GroupC["🏢 Group C<br/>groups/GROUP_C"]
-        
-        APIUser -.->|"Roles: [TRADING_ADMIN,<br/>WALLET_VIEWER]"| GroupA
+        APIUser["🔑 API User
+        api_users/USER_123"]
+
+        GroupA["🏢 Group A
+        groups/GROUP_A"]
+        GroupB["🏢 Group B
+        groups/GROUP_B"]
+        GroupC["🏢 Group C
+        groups/GROUP_C"]
+
+        APIUser -.->|"Roles: [TRADING_ADMIN,
+        WALLET_VIEWER]"| GroupA
         APIUser -.->|"Roles: [IAM_VIEWER]"| GroupB
         APIUser -.->|"Roles: [REPORTING_VIEWER]"| GroupC
-        
+
         style APIUser fill:#e3f2fd
         style GroupA fill:#c8e6c9
         style GroupB fill:#fff3e0
         style GroupC fill:#fce4ec
     end
 ```
+
+</div>
 
 **Key Principles:**
 - **Per-Group Assignment**: Same user can have different roles in different groups
@@ -386,10 +284,5 @@ graph LR
 - **Cross-Training**: Multiple people should have critical admin roles
 - **Automation Accounts**: Service accounts should have minimal required roles
 
-## Related Documentation
-
-- **[Group Ownership Structure](./group-ownership)** - Understanding the resource ownership and hierarchy system that works with roles
-- **[Authentication](./authentication)** - API key and group context authentication mechanisms  
-- **[Service Structure](./service-structure)** - Understanding API organization and method patterns
-- **[IAM API User Service Reference](/docs/api-reference/iam/api_user/v1)** - Complete API documentation for managing API users and role assignments
-- **[IAM Group Service Reference](/docs/api-reference/iam/group/v1)** - Complete API documentation for group management operations
+## API Reference
+[IAM API User Service API Reference](/docs/api-reference/iam/api_user/v1) - Complete API documentation for managing API users and role assignments

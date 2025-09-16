@@ -1,355 +1,196 @@
-# Group Ownership Structure
+# Resource Hierarchy
 
-## What are Groups?
+## Purpose
+Defines hierarchical resource ownership and multi-tenancy boundaries through groups.
 
-Groups are the fundamental organizational and ownership units in Mesh.
-They provide hierarchical ownership and multi-tenancy boundaries for all resources.
-Every resource in the system (API users, accounts, orders, instruments, etc.) belongs to exactly one group.
-Groups themselves can own other groups, forming hierarchical tree structures that
-model real-world organizational relationships.
+## Core Concept
+Groups are the fundamental organizational units that provide hierarchical ownership and multi-tenancy boundaries for all resources. Every resource in the system belongs to exactly one group, while groups themselves can own other groups, forming tree structures that model real-world organizational relationships.
 
-**Key Characteristics:**
-- **Resource Ownership**: Every entity in the system has an owner group
-- **Hierarchical Structure**: Groups can own sub-groups, creating tree structures
-- **Multi-tenancy Boundaries**: Groups provide complete isolation between organizations
-- **Permission Inheritance**: Access rights flow down the hierarchy
+## Key Implementation Points
+- **Universal Ownership**: Every resource has exactly one owner group
+- **Hierarchical Structure**: Groups form tree relationships through ownership
+- **Read Inheritance**: Parent groups can read descendant resources
+- **Write Restriction**: Only direct owners can modify resources
+- **Multi-tenancy Isolation**: Complete separation between organizational hierarchies
 
-## Universal User System: API Users & Regular Users
+## Essential Example
 
-**Important**: While this documentation focuses on "API users" due to its technical API context, the **exact same ownership and permission system applies to regular users** who access Mesh through web interfaces, mobile apps, and other user-facing applications.
+A trading firm demonstrates universal user integration:
 
-### Unified Authorization Model
+- **Executives**: Regular users with broad read access
+- **Traders**: Regular users with trading permissions in specific groups
+- **Risk Systems**: API users with read-only monitoring access
+- **Order Management**: API users with automated trading capabilities
 
-**Both user types follow identical patterns:**
-- **Regular Users**: Authenticate via username/password, OAuth providers (Google, Microsoft, etc.), or SSO systems
-- **API Users**: Authenticate via API keys for programmatic access
-- **Same Permissions**: Both receive identical role assignments within groups
-- **Same Ownership**: Both are subject to the same hierarchical ownership rules
-- **Same Access Control**: Both follow the same READ/WRITE method restrictions
-
-### Digital Infrastructure Structuring
-
-This system enables organizations to structure their **complete digital infrastructure** around groups:
-
-**Enterprise Use Cases:**
-- **Employee Access**: Regular users logging into web dashboards with group-based permissions
-- **System Integration**: API users enabling automated workflows and integrations  
-- **Unified Management**: Single ownership hierarchy governing both human and system access
-- **Consistent Security**: Same authorization model across all access methods
-
-**Example: Trading Firm Structure**
-- **Executives**: Regular users with broad read access across all groups via web interface
-- **Traders**: Regular users with trading permissions in specific desk groups via mobile/web apps
-- **Risk Systems**: API users with read-only access for automated monitoring and reporting
-- **Order Management**: API users with trading permissions for algorithmic execution
-
-Throughout the examples below, we reference "API users" for technical precision, but understand that **regular users would appear in identical organizational positions** with the same role assignments and access patterns.
-
-## Group Hierarchy Model
-
-Groups form tree structures with sophisticated ownership tracking:
+Both user types follow identical ownership rules and role assignments within the same hierarchical structure.
 
 ### Ownership Model
 
-Each group (and every other resource) maintains ownership relationships:
+Each resource maintains an `owner` field pointing to its direct parent group, with the system internally tracking complete hierarchical paths for efficient access control:
 
-- **`owner`** (Direct Owner): The immediate parent group that directly owns this resource
-- **Hierarchical Path**: The system internally maintains the complete ownership chain from root to immediate parent for efficient access control
-
-```mermaid
-graph TD
-    subgraph "Group Ownership Fields"
-        Root["Root Group
-        name: groups/01ABC123...XYZ
-        owner: groups/01ABC123...XYZ (self)"]
-
-        CompanyA["Company A Group
-        name: groups/01DEF456...ABC
-        owner: groups/01ABC123...XYZ"]
-
-        TeamX["Team X Group
-        name: groups/01GHI789...DEF
-        owner: groups/01DEF456...ABC"]
-
-        Account["User Account
-        name: accounts/01JKL012...GHI
-        owner: groups/01GHI789...DEF"]
-
-        Root --> CompanyA
-        CompanyA --> TeamX
-        TeamX --> Account
-    end
-```
-
-### Hierarchical Benefits
-
-The system's internal hierarchical tracking provides:
-- **Efficient Access Queries**: Find all resources accessible to a group through optimized ancestry checks
-- **Permission Inheritance**: Resources inherit access permissions from all ancestors
-- **Organizational Modeling**: Mirror real-world company structures and business units
-
-## Everything is Owned
-
-Every resource in Mesh has an owner group. This includes everything from clients, regular users, and API users through to accounts, financial instruments and different trade types.
+<div style={{textAlign: 'center'}}>
 
 ```mermaid
 graph TD
-    subgraph "Universal Ownership Model"
-        Root["🏢 Root Organization
-groups/01ROOT...ABC"]
-        
-        CompanyA["🏢 Company A
-groups/01COMP...DEF"]
-        CompanyB["🏢 Company B
-groups/01COMP...GHI"]
-        
-        TeamAlpha["👥 Team Alpha
-groups/01TEAM...JKL"]
-        TeamBeta["👥 Team Beta
-groups/01TEAM...MNO"]
-        
-        RegUser1["👤 Regular User 1
-users/01USER...ABC
-Auth: Username/Password"]
-        ApiUser1["🔑 API User 1
-api_users/01API...PQR
-Auth: API Key"]
-        
-        RegUser2["👤 Regular User 2
-users/01USER...DEF
-Auth: Google OAuth"]
-        ApiUser2["🔑 API User 2
-api_users/01API...STU
-Auth: API Key"]
-        
-        Account1["💰 Trading Account
-accounts/01ACC...VWX"]
-        Account2["💰 Settlement Account
-accounts/01ACC...YZA"]
-        
-        Order1["📊 Limit Order
-orders/01ORD...BCD
-Created by: Regular User"]
-        Order2["📊 Market Order
-orders/01ORD...EFG
-Created by: API User"]
-        
-        Instrument1["🏦 Bond Instrument
-instruments/01INS...HIJ"]
-        
-        Root --> CompanyA
-        Root --> CompanyB
-        
-        CompanyA --> TeamAlpha
-        CompanyA --> TeamBeta
-        
-        TeamAlpha --> RegUser1
-        TeamAlpha --> ApiUser1
-        TeamBeta --> RegUser2
-        TeamBeta --> ApiUser2
-        
-        TeamAlpha --> Account1
-        TeamBeta --> Account2
-        
-        Account1 --> Order1
-        Account2 --> Order2
-        
-        CompanyA --> Instrument1
-    end
+    Root["🏢 Root Group
+    groups/01ABC123...XYZ
+    owner: self"]
+    CompanyA["🏢 Company A
+    groups/01DEF456...ABC
+    owner: Root"]
+    TeamX["👥 Team X
+    groups/01GHI789...DEF
+    owner: Company A"]
+    Account["👤 User Account
+    accounts/01JKL012...GHI
+    owner: Team X"]
+
+    Root --> CompanyA
+    CompanyA --> TeamX
+    TeamX --> Account
+
+    style Root fill:#e1f5fe
+    style CompanyA fill:#c8e6c9
+    style TeamX fill:#fff3e0
+    style Account fill:#fce4ec
 ```
 
-## Access Control: Hierarchical vs Direct Ownership
+</div>
 
-The Mesh API enforces different access patterns based on method type:
 
-### Reading Methods (METHOD_TYPE_READ)
+### Universal Ownership
 
-**Rule**: Can access resources owned by your executing group OR any descendant groups in the hierarchy.
+Every resource in Mesh has an owner group, including users, accounts, orders, and instruments:
 
-**Implementation**: The system internally maintains hierarchical relationships to determine access based on group ancestry.
+<div style={{textAlign: 'center'}}>
 
 ```mermaid
 graph TD
-    subgraph "Read: Hierarchical Scope"
-        Root["🏢 Root Group
-groups/ROOT"]
-        CompanyA["🏢 Company A
-groups/COMP_A
-🔍 Executing Group"]
-        TeamX["👥 Team X
-groups/TEAM_X"]
-        TeamY["👥 Team Y
-groups/TEAM_Y"]
+    Root["🏢 Root Org
+    🏷️ Resource Type: Group"]
+    CompanyA["🏢 Company A
+    🏷️ Resource Type: Group"]
+    TeamA["👥 Team Alpha
+    🏷️ Resource Type: Group"]
+    TeamB["👥 Team Beta
+    🏷️ Resource Type: Group"]
 
-        Res1["📊 Resource 1
-owner: COMP_A
-✅ Accessible"]
-        Res2["📊 Resource 2
-owner: TEAM_X
-✅ Accessible"]
-        Res3["📊 Resource 3
-owner: TEAM_Y
-✅ Accessible"]
-        Res4["📊 Resource 4
-owner: OTHER_COMP
-❌ Not Accessible"]
-        
-        Root --> CompanyA
-        CompanyA --> TeamX
-        CompanyA --> TeamY
-        
-        CompanyA -.-> Res1
-        TeamX -.-> Res2
-        TeamY -.-> Res3
-        
-        style CompanyA fill:#e1f5fe
-        style Res1 fill:#c8e6c9
-        style Res2 fill:#c8e6c9
-        style Res3 fill:#c8e6c9
-        style Res4 fill:#ffcdd2
-    end
+    RegUser1["👤 Regular User
+    🏷️ Resource Type: User
+    Username/Password"]
+    ApiUser1["🔑 API User
+    🏷️ Resource Type: API User
+    API Key"]
+    Account1["💰 Trading Account
+    🏷️ Resource Type: Account"]
+    Order1["📊 Limit Order
+    🏷️ Resource Type: Order"]
+
+    Root --> CompanyA
+    CompanyA --> TeamA
+    CompanyA --> TeamB
+    TeamA --> RegUser1
+    TeamA --> ApiUser1
+    TeamA --> Account1
+    TeamA --> Order1
+
+    style Root fill:#e1f5fe
+    style CompanyA fill:#c8e6c9
+    style TeamA fill:#fff3e0
+    style RegUser1 fill:#fce4ec
+    style ApiUser1 fill:#f3e5f5
+    style Account1 fill:#e8f5e8
+    style Order1 fill:#fff8e1
 ```
 
-**Example**: If *executing* as Company A **Group**, you can read:
-- Resources directly owned by Company A
-- Resources owned by the Team X group (descendant)
-- Resources owned by the Team Y group (descendant)
-- But NOT resources owned by other company groups
+</div>
 
-### Writing Methods (METHOD_TYPE_WRITE)
+### Access Control Patterns
 
-**Rule**: Can only access resources directly owned by your **executing group**.
+**Read Operations**: Access resources owned by executing group OR any descendant groups.
 
-**Implementation**: Uses the `owner` field to check exact ownership match with executing group.
+**Write Operations**: Access only resources directly owned by executing group.
+
+<div style={{textAlign: 'center'}}>
 
 ```mermaid
 graph TD
-    subgraph "Write: Direct Ownership"
-        Root["🏢 Root Group
-groups/ROOT"]
-        CompanyA["🏢 Company A
-groups/COMP_A
-🔍 Executing Group"]
-        TeamX["👥 Team X
-groups/TEAM_X"]
-        TeamY["👥 Team Y
-groups/TEAM_Y"]
+    CompanyA["🏢 Company A
+    🔍 Executing Group"]
+    TeamX["👥 Team X"]
+    TeamY["👥 Team Y"]
 
-        Res1["📊 Resource 1
-owner: groups/COMP_A
-✅ Writable"]
-        Res2["📊 Resource 2
-owner: groups/TEAM_X
-❌ Not Writable"]
-        Res3["📊 Resource 3
-owner: groups/TEAM_Y
-❌ Not Writable"]
-        Res4["📊 Resource 4
-owner: groups/OTHER_COMP
-❌ Not Writable"]
-        
-        Root --> CompanyA
-        CompanyA --> TeamX
-        CompanyA --> TeamY
-        
-        CompanyA -.-> Res1
-        TeamX -.-> Res2
-        TeamY -.-> Res3
-        
-        style CompanyA fill:#e1f5fe
-        style Res1 fill:#c8e6c9
-        style Res2 fill:#ffcdd2
-        style Res3 fill:#ffcdd2
-        style Res4 fill:#ffcdd2
-    end
+    Res1["📊 Resource 1
+    owner: Company A
+    ✅ Read Access"]
+    Res2["📊 Resource 2
+    owner: Team X
+    ✅ Read Access"]
+    Res3["📊 Resource 3
+    owner: Team Y
+    ✅ Read Access"]
+
+    CompanyA --> TeamX
+    CompanyA --> TeamY
+    CompanyA -.-> Res1
+    TeamX -.-> Res2
+    TeamY -.-> Res3
+
+    style CompanyA fill:#e1f5fe
+    style Res1 fill:#c8e6c9
+    style Res2 fill:#c8e6c9
+    style Res3 fill:#c8e6c9
 ```
 
-**Example**: If executing as Company A, you can write:
-- Only resources directly owned by Company A
-- NOT resources owned by Team X or Team Y (even though they're descendants)
-- NOT resources owned by other companies
+</div>
 
-## Integration with Role-Based Access Control
-
-Groups work in conjunction with the role-based access control system:
-
-### Authentication Flow
-
-```mermaid
-sequenceDiagram
-    participant Client
-    participant API
-    participant AuthSystem
-    participant ResourceService
-    
-    Client->>API: Request with x-api-key & x-group headers
-    API->>AuthSystem: Validate API key & group context
-    AuthSystem->>AuthSystem: Check user has required role in specified group
-    AuthSystem->>API: Authentication successful
-    API->>ResourceService: Execute with group context
-    ResourceService->>ResourceService: Apply ownership filters based on method type
-    ResourceService->>API: Return accessible resources
-    API->>Client: Response with filtered data
-```
-
-### Role Assignment and Group Context
-
-**API Credentials Structure:**
-- **API Key**: Identifies the user
-- **Group Context Header** (`x-group`): Specifies which group the operation executes within
-- **Role Assignment**: User must have appropriate role assigned within the specified group
-
-**Access Requirements:**
-1. **Valid API Key**: Must be active and not expired
-2. **Group Access**: User must have role assignment in the specified group
-3. **Method Permissions**: User's role must include access to the specific API method
-4. **Resource Ownership**: Resource must pass ownership filter based on method type
-
-### Role-Based Method Access
+<div style={{textAlign: 'center'}}>
 
 ```mermaid
 graph TD
-    subgraph "Role-Based Access Matrix"
-        AdminRole["👤 IAM Admin Role
-ROLE_IAM_ADMIN"]
-        ViewerRole["👤 IAM Viewer Role
-ROLE_IAM_VIEWER"]
+    CompanyA["🏢 Company A
+    🔍 Executing Group"]
+    TeamX["👥 Team X"]
+    TeamY["👥 Team Y"]
 
-        ReadMethods["📖 Read Methods
-GetGroup, ListGroups, SearchGroups
-METHOD_TYPE_READ"]
-        WriteMethods["✏️ Write Methods
-CreateGroup, UpdateGroup
-METHOD_TYPE_WRITE"]
-        
-        AdminRole --> ReadMethods
-        AdminRole --> WriteMethods
-        ViewerRole --> ReadMethods
-        ViewerRole -.-> WriteMethods
-        
-        style AdminRole fill:#c8e6c9
-        style ViewerRole fill:#fff3e0
-        style WriteMethods fill:#ffcdd2
-    end
+    Res1["📊 Resource 1
+    owner: Company A
+    ✅ Write Access"]
+    Res2["📊 Resource 2
+    owner: Team X
+    ❌ No Write Access"]
+    Res3["📊 Resource 3
+    owner: Team Y
+    ❌ No Write Access"]
+
+    CompanyA --> TeamX
+    CompanyA --> TeamY
+    CompanyA -.-> Res1
+    TeamX -.-> Res2
+    TeamY -.-> Res3
+
+    style CompanyA fill:#e1f5fe
+    style Res1 fill:#c8e6c9
+    style Res2 fill:#ffcdd2
+    style Res3 fill:#ffcdd2
 ```
 
-**Permission Model:**
-- **Admin Roles** (`*_ADMIN`): Full read and write access to domain operations
-- **Viewer Roles** (`*_VIEWER`): Read-only access for monitoring and auditing
-- **Domain Separation**: Roles are scoped to specific business domains (IAM, Trading, Compliance, etc.)
+</div>
 
-### Example: Complete Access Check
+## Integration
 
-For a `CreateGroup` operation:
+The resource hierarchy system integrates with other architecture components:
 
-1. **Authentication**: Validate API key and extract user identity
-2. **Group Context**: Verify `x-group` header specifies valid group
-3. **Role Check**: User must have `ROLE_IAM_ADMIN` or `ROLE_IAM_GROUP_ADMIN` in specified group
-4. **Method Authorization**: `CreateGroup` requires write method permissions
-5. **Ownership Validation**: New group's owner must match executing group (direct ownership rule)
-6. **Hierarchy Update**: System automatically maintains hierarchical relationships for new group
+- [Legal Entity Boundaries](./legal-entities) - Client structuring within group hierarchy
+- [Method Permissions](./method-permissions) - Role system for operation control
+- [API Access](./api-access) - Authentication and group context
 
-## Practical Examples
+## API Reference
+[Group Service API Reference](/docs/api-reference/iam/group/v1) - Complete API documentation for group management operations
+
+---
+
+## Detailed Examples
 
 ### Multi-Tenant Brokerage Platform
 
@@ -737,14 +578,3 @@ Amount: €5M Currency Swap
 - **Operational Efficiency**: Specialized access patterns for different business functions
 - **Consolidated Oversight**: Bank-level visibility for enterprise risk management
 
-## Isolation Guarantees
-
-- **Complete Tenant Separation**: Resources in one group hierarchy cannot access resources in another
-- **Inheritance Control**: Parent groups gain read access to descendant resources but not write access
-- **Permission Boundaries**: Role assignments are scoped to specific groups
-
-## Related Documentation
-
-- **[Role-Based Access Control](./role-based-access)** - Understanding the role system that works with groups
-- **[Authentication](./authentication)** - API key and group context authentication
-- **[Group Service API Reference](/docs/api-reference/iam/group/v1)** - Complete API documentation for group management operations
