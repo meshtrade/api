@@ -36,10 +36,8 @@ func main() {
 	log.Printf("  Display Name: %s", group.DisplayName)
 	log.Printf("  Description: %s", group.Description)
 	log.Printf("  Direct Owner: %s", group.Owner)
-	log.Printf("  Full Ownership Path: %v", group.Owners)
-	
+	// System maintains hierarchical ownership relationships internally
+
 	// Use group information for resource ownership validation
-	if len(group.Owners) > 1 {
-		log.Printf("Group has %d levels in the hierarchy", len(group.Owners))
-	}
+	log.Printf("Group is available for resource ownership and access control")
 }

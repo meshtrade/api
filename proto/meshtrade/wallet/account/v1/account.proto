@@ -49,23 +49,6 @@ message Account {
   }];
 
   /*
-     The complete ownership path from the root to this account's owner.
-     This is a system-maintained array for efficient, hierarchical access control checks.
-     This field is system-generated and immutable.
-     Any value provided on creation is ignored.
-  */
-  repeated string owners = 3 [(buf.validate.field) = {
-    repeated: {
-      items: {
-        string: {
-          len: 33,
-          pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
-        }
-      }
-    }
-  }];
-
-  /*
      The Unique Mesh Account Number for simplified account identification.
      Format: 7-digit number starting with 1 (e.g., 1234567).
      This field is system-generated and immutable.

@@ -47,23 +47,23 @@ Throughout the examples below, we reference "API users" for technical precision,
 
 Groups form tree structures with sophisticated ownership tracking:
 
-### Ownership Fields
+### Ownership Model
 
-Each group (and every other resource) maintains two ownership fields:
+Each group (and every other resource) maintains ownership relationships:
 
 - **`owner`** (Direct Owner): The immediate parent group that directly owns this resource
-- **`owners`** (Ownership Path): An ordered array containing the complete ownership chain from root to immediate parent
+- **Hierarchical Path**: The system internally maintains the complete ownership chain from root to immediate parent for efficient access control
 
 ```mermaid
 graph TD
     subgraph "Group Ownership Fields"
-        Root["Root Group<br/>name: groups/01ABC123...XYZ<br/>owner: groups/01ABC123...XYZ (self)<br/>owners: [groups/01ABC123...XYZ]"]
+        Root["Root Group<br/>name: groups/01ABC123...XYZ<br/>owner: groups/01ABC123...XYZ (self)"]
         
-        CompanyA["Company A Group<br/>name: groups/01DEF456...ABC<br/>owner: groups/01ABC123...XYZ<br/>owners: [groups/01ABC123...XYZ, groups/01DEF456...ABC]"]
+        CompanyA["Company A Group<br/>name: groups/01DEF456...ABC<br/>owner: groups/01ABC123...XYZ"]
         
-        TeamX["Team X Group<br/>name: groups/01GHI789...DEF<br/>owner: groups/01DEF456...ABC<br/>owners: [groups/01ABC123...XYZ, groups/01DEF456...ABC, groups/01GHI789...DEF]"]
+        TeamX["Team X Group<br/>name: groups/01GHI789...DEF<br/>owner: groups/01DEF456...ABC"]
         
-        Account["User Account<br/>name: accounts/01JKL012...GHI<br/>owner: groups/01GHI789...DEF<br/>owners: [groups/01ABC123...XYZ, groups/01DEF456...ABC, groups/01GHI789...DEF]"]
+        Account["User Account<br/>name: accounts/01JKL012...GHI<br/>owner: groups/01GHI789...DEF"]
         
         Root --> CompanyA
         CompanyA --> TeamX
@@ -73,8 +73,8 @@ graph TD
 
 ### Hierarchical Benefits
 
-This denormalized structure provides:
-- **Efficient Access Queries**: Find all resources accessible to a group with simple array membership checks
+The system's internal hierarchical tracking provides:
+- **Efficient Access Queries**: Find all resources accessible to a group through optimized ancestry checks
 - **Permission Inheritance**: Resources inherit access permissions from all ancestors
 - **Organizational Modeling**: Mirror real-world company structures and business units
 
@@ -136,7 +136,7 @@ The Mesh API enforces different access patterns based on method type:
 
 **Rule**: Can access resources owned by your executing group OR any descendant groups in the hierarchy.
 
-**Implementation**: Uses the `owners` array to check if the executing group appears anywhere in the ownership path.
+**Implementation**: The system internally maintains hierarchical relationships to determine access based on group ancestry.
 
 ```mermaid
 graph TD
@@ -146,10 +146,10 @@ graph TD
         TeamX["👥 Team X<br/>groups/TEAM_X"]
         TeamY["👥 Team Y<br/>groups/TEAM_Y"]
         
-        Res1["📊 Resource 1<br/>owners: [ROOT, COMP_A]<br/>✅ Accessible"]
-        Res2["📊 Resource 2<br/>owners: [ROOT, COMP_A, TEAM_X]<br/>✅ Accessible"]
-        Res3["📊 Resource 3<br/>owners: [ROOT, COMP_A, TEAM_Y]<br/>✅ Accessible"]
-        Res4["📊 Resource 4<br/>owners: [ROOT, OTHER_COMP]<br/>❌ Not Accessible"]
+        Res1["📊 Resource 1<br/>owner: COMP_A<br/>✅ Accessible"]
+        Res2["📊 Resource 2<br/>owner: TEAM_X<br/>✅ Accessible"]
+        Res3["📊 Resource 3<br/>owner: TEAM_Y<br/>✅ Accessible"]
+        Res4["📊 Resource 4<br/>owner: OTHER_COMP<br/>❌ Not Accessible"]
         
         Root --> CompanyA
         CompanyA --> TeamX
@@ -285,7 +285,7 @@ For a `CreateGroup` operation:
 3. **Role Check**: User must have `ROLE_IAM_ADMIN` or `ROLE_IAM_GROUP_ADMIN` in specified group
 4. **Method Authorization**: `CreateGroup` requires write method permissions
 5. **Ownership Validation**: New group's owner must match executing group (direct ownership rule)
-6. **Hierarchy Update**: System automatically maintains `owners` array for new group
+6. **Hierarchy Update**: System automatically maintains hierarchical relationships for new group
 
 ## Practical Examples
 
@@ -324,15 +324,15 @@ graph TD
         ClientB1Entity["🏛️ Client B1 Entity<br/>clients/CLIENT_B1_ENTITY<br/>📋 Legal Status: Family Trust"]
         B1RegUser["👤 Trust Manager (Regular User)<br/>users/TRUST_MGR<br/>📋 Auth: SSO/SAML<br/>📋 Role: Trust Administrator"]
         
-        AccA1["💰 Individual Trading Account<br/>accounts/ACC_A1_MAIN<br/>owner: CLIENT_A1<br/>owners: [MESH_ROOT, BROKER_A, CLIENT_A1]"]
+        AccA1["💰 Individual Trading Account<br/>accounts/ACC_A1_MAIN<br/>owner: CLIENT_A1"]
         
-        AccA2["💰 Corporate Trading Account<br/>accounts/ACC_A2_TRADE<br/>owner: CLIENT_A2<br/>owners: [MESH_ROOT, BROKER_A, CLIENT_A2]"]
+        AccA2["💰 Corporate Trading Account<br/>accounts/ACC_A2_TRADE<br/>owner: CLIENT_A2"]
         
-        AccB1["💰 Trust Settlement Account<br/>accounts/ACC_B1_SETTLE<br/>owner: CLIENT_B1<br/>owners: [MESH_ROOT, BROKER_B, CLIENT_B1]"]
+        AccB1["💰 Trust Settlement Account<br/>accounts/ACC_B1_SETTLE<br/>owner: CLIENT_B1"]
         
-        OrderA1["📊 Individual Buy Order<br/>orders/ORDER_BUY_123<br/>owner: CLIENT_A1<br/>owners: [MESH_ROOT, BROKER_A, CLIENT_A1]<br/>💡 Created via: Web Trading Interface"]
+        OrderA1["📊 Individual Buy Order<br/>orders/ORDER_BUY_123<br/>owner: CLIENT_A1<br/>💡 Created via: Web Trading Interface"]
         
-        OrderA2["📊 Automated Sell Order<br/>orders/ORDER_SELL_456<br/>owner: CLIENT_A2<br/>owners: [MESH_ROOT, BROKER_A, CLIENT_A2]<br/>💡 Created via: API Integration"]
+        OrderA2["📊 Automated Sell Order<br/>orders/ORDER_SELL_456<br/>owner: CLIENT_A2<br/>💡 Created via: API Integration"]
         
         Mesh --> MeshClient
         Mesh --> BrokerA

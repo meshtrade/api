@@ -50,7 +50,7 @@ func main() {
 	log.Printf("  Display Name: %s (updated)", group.DisplayName)
 	log.Printf("  Description: %s (updated)", group.Description)
 	log.Printf("  Owner: %s (immutable)", group.Owner)
-	log.Printf("  Full Ownership Path: %v", group.Owners)
+	// System maintains hierarchical ownership relationships internally
 	
 	// Updated group retains all existing relationships and permissions
 	log.Printf("Group identity preserved, metadata updated successfully")

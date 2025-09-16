@@ -24,7 +24,6 @@ func TestUser_Validation(t *testing.T) {
 			user: &User{
 				Name:    "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				Owner:   "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				Owners:  []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV"},
 				Email:   "test@example.com",
 				Roles:   []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567"},
 			},
@@ -41,10 +40,9 @@ func TestUser_Validation(t *testing.T) {
 		{
 			name: "valid user with empty system-set fields",
 			user: &User{
-				Name:   "", // System set, can be empty
-				Owner:  "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				Owners: []string{}, // System set, can be empty
-				Email:  "test@example.com",
+				Name:  "", // System set, can be empty
+				Owner: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Email: "test@example.com",
 				Roles:  []string{}, // Can be empty
 			},
 			wantValid: true,
@@ -139,18 +137,16 @@ func TestUser_Validation(t *testing.T) {
 		{
 			name: "valid owners array",
 			user: &User{
-				Owner:  "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				Owners: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV", "groups/01BRZ3NDEKTSV4RRFFQ69G5FAV"},
-				Email:  "test@example.com",
+				Owner: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Email: "test@example.com",
 			},
 			wantValid: true,
 		},
 		{
 			name: "invalid owners item - wrong format",
 			user: &User{
-				Owner:  "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				Owners: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV", "invalid-format"},
-				Email:  "test@example.com",
+				Owner: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Email: "test@example.com",
 			},
 			wantValid: false,
 			wantError: "pattern",
@@ -158,9 +154,8 @@ func TestUser_Validation(t *testing.T) {
 		{
 			name: "invalid owners item - wrong length",
 			user: &User{
-				Owner:  "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				Owners: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FA"}, // Too short
-				Email:  "test@example.com",
+				Owner: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Email: "test@example.com",
 			},
 			wantValid: false,
 			wantError: "length",
@@ -418,9 +413,8 @@ func TestUser_RequiredFields(t *testing.T) {
 	t.Run("system-set fields can be empty", func(t *testing.T) {
 		user := &User{
 			// name field can be empty (system-set)
-			Owner:  "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-			Owners: []string{}, // owners field can be empty (system-set)  
-			Email:  "test@example.com",
+			Owner: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+			Email: "test@example.com",
 			Roles:  []string{}, // roles field can be empty (optional)
 		}
 

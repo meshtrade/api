@@ -35,7 +35,7 @@ func main() {
 	log.Printf("  Name: %s", user.Name)
 	log.Printf("  Email: %s", user.Email)
 	log.Printf("  Owner: %s", user.Owner)
-	log.Printf("  Full Ownership Path: %v", user.Owners)
+	// System maintains hierarchical ownership relationships internally
 	log.Printf("  Assigned Roles: %v", user.Roles)
 	
 	// Use user information for access validation

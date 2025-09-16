@@ -45,6 +45,7 @@ type Client struct {
 	DisplayName string `protobuf:"bytes,3,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// Contains the specific data for the legal entity type.
 	// Only one of these may be set at a time.
+	// BUT AT LEAST 1 MUST be set!!
 	//
 	// Types that are valid to be assigned to LegalPerson:
 	//
@@ -54,7 +55,7 @@ type Client struct {
 	//	*Client_Trust
 	LegalPerson isClient_LegalPerson `protobuf_oneof:"legal_person"`
 	// The definitive, most recent compliance status of the client (e.g., VERIFICATION_STATUS_VERIFIED, VERIFICATION_STATUS_FAILED).
-	// System controlled.
+	// Must always be a valid field
 	VerificationStatus VerificationStatus `protobuf:"varint,8,opt,name=verification_status,json=verificationStatus,proto3,enum=meshtrade.compliance.client.v1.VerificationStatus" json:"verification_status,omitempty"`
 	// The resource name of the client (acting as a verifier) that last set the
 	// `verification_status`. This provides an audit trail for status changes.

@@ -152,11 +152,6 @@ type APIUser struct {
 	// This field is required on creation and establishes the direct ownership link.
 	// Format: groups/{ULIDv2}.
 	Owner string `protobuf:"bytes,2,opt,name=owner,proto3" json:"owner,omitempty"`
-	// The complete ownership path from the root to this api user's owner.
-	// This is a system-maintained array for efficient, hierarchical access control checks.
-	// This field is system-generated and immutable.
-	// Any value provided on creation is ignored.
-	Owners []string `protobuf:"bytes,3,rep,name=owners,proto3" json:"owners,omitempty"`
 	// A non-unique, user-provided name for the api key, used for display purposes.
 	// Required on creation.
 	DisplayName string `protobuf:"bytes,4,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
@@ -219,13 +214,6 @@ func (x *APIUser) GetOwner() string {
 	return ""
 }
 
-func (x *APIUser) GetOwners() []string {
-	if x != nil {
-		return x.Owners
-	}
-	return nil
-}
-
 func (x *APIUser) GetDisplayName() string {
 	if x != nil {
 		return x.DisplayName
@@ -258,12 +246,11 @@ var File_meshtrade_iam_api_user_v1_api_user_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_api_user_v1_api_user_proto_rawDesc = "" +
 	"\n" +
-	"(meshtrade/iam/api_user/v1/api_user.proto\x12\x19meshtrade.iam.api_user.v1\x1a\x1bbuf/validate/validate.proto\"\xf6\x06\n" +
+	"(meshtrade/iam/api_user/v1/api_user.proto\x12\x19meshtrade.iam.api_user.v1\x1a\x1bbuf/validate/validate.proto\"\x9e\x06\n" +
 	"\aAPIUser\x12\xc2\x01\n" +
 	"\x04name\x18\x01 \x01(\tB\xad\x01\xbaH\xa9\x01\xba\x01\xa5\x01\n" +
 	"\x14name.format.optional\x126name must be empty or in the format api_users/{ULIDv2}\x1aUsize(this) == 0 || this.matches('^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12R\n" +
-	"\x05owner\x18\x02 \x01(\tB<\xbaH9\xc8\x01\x01r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05owner\x12V\n" +
-	"\x06owners\x18\x03 \x03(\tB>\xbaH;\x92\x018\"6r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x06owners\x12\xb4\x01\n" +
+	"\x05owner\x18\x02 \x01(\tB<\xbaH9\xc8\x01\x01r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05owner\x12\xb4\x01\n" +
 	"\fdisplay_name\x18\x04 \x01(\tB\x90\x01\xbaH\x8c\x01\xba\x01\x7f\n" +
 	"\x15display_name.required\x12Adisplay name is required and must be between 1 and 255 characters\x1a#size(this) > 0 && size(this) <= 255\xc8\x01\x01r\x05\x10\x01\x18\xff\x01R\vdisplayName\x12\xc2\x01\n" +
 	"\x05state\x18\x05 \x01(\x0e2'.meshtrade.iam.api_user.v1.APIUserStateB\x82\x01\xbaH\x7f\xba\x01t\n" +

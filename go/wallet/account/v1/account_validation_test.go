@@ -25,7 +25,6 @@ func TestAccount_Validation(t *testing.T) {
 			account: &Account{
 				Name:        "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Valid ULIDv2 but optional
 				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				Owners:      []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV"},
 				Number:      "1234567", // Valid but optional
 				LedgerId:    "GDQP2KPQGKIHYJGXNUIYOMHARUARCA7DJT5FO2FFOOKY3B2WSQHG4W37", // Stellar address example
 				Ledger:      type_v1.Ledger_LEDGER_STELLAR,
@@ -96,7 +95,6 @@ func TestAccount_Validation(t *testing.T) {
 			account: &Account{
 				Name:        "",
 				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				Owners:      []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FA"}, // Too short
 				Ledger:      type_v1.Ledger_LEDGER_STELLAR,
 				DisplayName: "Test Account",
 			},
@@ -108,7 +106,6 @@ func TestAccount_Validation(t *testing.T) {
 			account: &Account{
 				Name:        "",
 				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				Owners:      []string{"users/01ARZ3NDEKTSV4RRFFQ69G5FAV"}, // Wrong resource type
 				Ledger:      type_v1.Ledger_LEDGER_STELLAR,
 				DisplayName: "Test Account",
 			},

@@ -34,11 +34,6 @@ type Instrument struct {
 	// Defines the immediate hierarchical relationship.
 	// Required on creation.
 	Owner string `protobuf:"bytes,2,opt,name=owner,proto3" json:"owner,omitempty"`
-	// Complete ownership path from root to this entity's owner group for efficient access control.
-	// System-maintained array enabling hierarchical permission inheritance.
-	// Immutable and system-generated on creation.
-	// Ignored if provided on creation.
-	Owners []string `protobuf:"bytes,3,rep,name=owners,proto3" json:"owners,omitempty"`
 	// Human-readable name for organizational identification and display.
 	// User-configurable and non-unique across the system.
 	DisplayName string `protobuf:"bytes,4,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
@@ -92,13 +87,6 @@ func (x *Instrument) GetOwner() string {
 	return ""
 }
 
-func (x *Instrument) GetOwners() []string {
-	if x != nil {
-		return x.Owners
-	}
-	return nil
-}
-
 func (x *Instrument) GetDisplayName() string {
 	if x != nil {
 		return x.DisplayName
@@ -117,13 +105,12 @@ var File_meshtrade_studio_instrument_v1_instrument_proto protoreflect.FileDescri
 
 const file_meshtrade_studio_instrument_v1_instrument_proto_rawDesc = "" +
 	"\n" +
-	"/meshtrade/studio/instrument/v1/instrument.proto\x12\x1emeshtrade.studio.instrument.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1dmeshtrade/type/v1/token.proto\"\xd7\x03\n" +
+	"/meshtrade/studio/instrument/v1/instrument.proto\x12\x1emeshtrade.studio.instrument.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1dmeshtrade/type/v1/token.proto\"\xfb\x02\n" +
 	"\n" +
 	"Instrument\x12\xbc\x01\n" +
 	"\x04name\x18\x01 \x01(\tB\xa7\x01\xbaH\xa3\x01\xba\x01\x9f\x01\n" +
 	"\x14name.format.optional\x123name must be empty or in the format groups/{ULIDv2}\x1aRsize(this) == 0 || this.matches('^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12O\n" +
-	"\x05owner\x18\x02 \x01(\tB9\xbaH6r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05owner\x12Z\n" +
-	"\x06owners\x18\x03 \x03(\tBB\xbaH?\x92\x01<\b\x00\x10d\"6r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x06owners\x12-\n" +
+	"\x05owner\x18\x02 \x01(\tB9\xbaH6r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05owner\x12-\n" +
 	"\fdisplay_name\x18\x04 \x01(\tB\n" +
 	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\vdisplayName\x12.\n" +
 	"\x05token\x18\x05 \x01(\v2\x18.meshtrade.type.v1.TokenR\x05tokenBg\n" +

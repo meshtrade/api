@@ -38,25 +38,6 @@ message Instrument {
   }];
 
   /*
-     Complete ownership path from root to this entity's owner group for efficient access control.
-     System-maintained array enabling hierarchical permission inheritance.
-     Immutable and system-generated on creation.
-     Ignored if provided on creation.
-  */
-  repeated string owners = 3 [(buf.validate.field) = {
-    repeated: {
-      min_items: 0,
-      max_items: 100,
-      items: {
-        string: {
-          len: 33,
-          pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
-        }
-      }
-    }
-  }];
-
-  /*
      Human-readable name for organizational identification and display.
      User-configurable and non-unique across the system.
   */

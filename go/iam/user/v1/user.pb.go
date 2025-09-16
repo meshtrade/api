@@ -37,11 +37,6 @@ type User struct {
 	// This field is required on creation and establishes the direct ownership link.
 	// Format: groups/{ULIDv2}.
 	Owner string `protobuf:"bytes,2,opt,name=owner,proto3" json:"owner,omitempty"`
-	// The complete ownership path from the root to this user's owner.
-	// This is a system-maintained array for efficient, hierarchical access control checks.
-	// This field is system-generated and immutable.
-	// Any value provided on creation is ignored.
-	Owners []string `protobuf:"bytes,3,rep,name=owners,proto3" json:"owners,omitempty"`
 	// The unique email address of this user.
 	// This field is required on creation and must be a valid email format.
 	Email string `protobuf:"bytes,4,opt,name=email,proto3" json:"email,omitempty"`
@@ -97,13 +92,6 @@ func (x *User) GetOwner() string {
 	return ""
 }
 
-func (x *User) GetOwners() []string {
-	if x != nil {
-		return x.Owners
-	}
-	return nil
-}
-
 func (x *User) GetEmail() string {
 	if x != nil {
 		return x.Email
@@ -122,12 +110,11 @@ var File_meshtrade_iam_user_v1_user_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_user_v1_user_proto_rawDesc = "" +
 	"\n" +
-	" meshtrade/iam/user/v1/user.proto\x12\x15meshtrade.iam.user.v1\x1a\x1bbuf/validate/validate.proto\"\xf1\x03\n" +
+	" meshtrade/iam/user/v1/user.proto\x12\x15meshtrade.iam.user.v1\x1a\x1bbuf/validate/validate.proto\"\x99\x03\n" +
 	"\x04User\x12\xba\x01\n" +
 	"\x04name\x18\x01 \x01(\tB\xa5\x01\xbaH\xa1\x01\xba\x01\x9d\x01\n" +
 	"\x14name.format.optional\x122name must be empty or in the format users/{ULIDv2}\x1aQsize(this) == 0 || this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12R\n" +
-	"\x05owner\x18\x02 \x01(\tB<\xbaH9\xc8\x01\x01r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05owner\x12V\n" +
-	"\x06owners\x18\x03 \x03(\tB>\xbaH;\x92\x018\"6r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x06owners\x12 \n" +
+	"\x05owner\x18\x02 \x01(\tB<\xbaH9\xc8\x01\x01r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05owner\x12 \n" +
 	"\x05email\x18\x04 \x01(\tB\n" +
 	"\xbaH\a\xc8\x01\x01r\x02`\x01R\x05email\x12^\n" +
 	"\x05roles\x18\x06 \x03(\tBH\xbaHE\x92\x01B\"@r>29^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/1[0-9]{6}$\x98\x01)R\x05rolesBO\n" +

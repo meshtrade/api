@@ -41,8 +41,7 @@ func TestGroup_Validation(t *testing.T) {
 			group: &Group{
 				Name:        "groups/01BX5ZZKBKACTAV9WEVGEMMVRZ",
 				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				Owners:      []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV", "groups/01BX5ZZKBKACTAV9WEVGEMMVRZ"},
-				DisplayName: "Test Group with Owners",
+				DisplayName: "Test Group",
 			},
 			wantValid: true,
 		},
@@ -303,7 +302,6 @@ func TestGroup_Validation(t *testing.T) {
 			name: "valid owners - single item",
 			group: &Group{
 				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				Owners:      []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV"},
 				DisplayName: "Test Group",
 			},
 			wantValid: true,
@@ -312,7 +310,6 @@ func TestGroup_Validation(t *testing.T) {
 			name: "valid owners - multiple items",
 			group: &Group{
 				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				Owners:      []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV", "groups/01BX5ZZKBKACTAV9WEVGEMMVRZ", "groups/0123456789ABCDEFGHJKMNPQRS"},
 				DisplayName: "Test Group",
 			},
 			wantValid: true,
@@ -321,7 +318,6 @@ func TestGroup_Validation(t *testing.T) {
 			name: "invalid owners - invalid format in one item",
 			group: &Group{
 				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				Owners:      []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV", "invalid-owner", "groups/01BX5ZZKBKACTAV9WEVGEMMVRZ"},
 				DisplayName: "Test Group",
 			},
 			wantValid: false,
@@ -331,7 +327,6 @@ func TestGroup_Validation(t *testing.T) {
 			name: "invalid owners - wrong length in one item",
 			group: &Group{
 				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				Owners:      []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV", "groups/01ARZ3NDEKTSV4RRFFQ69G5FA"}, // Second item too short
 				DisplayName: "Test Group",
 			},
 			wantValid: false,
@@ -341,7 +336,6 @@ func TestGroup_Validation(t *testing.T) {
 			name: "invalid owners - forbidden characters in one item",
 			group: &Group{
 				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				Owners:      []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV", "groups/01ARZ3NDEKTSV4RRFFQ69G5FIL"}, // Second item contains 'I' and 'L'
 				DisplayName: "Test Group",
 			},
 			wantValid: false,
@@ -488,7 +482,6 @@ func TestGroup_OwnersFieldValidation(t *testing.T) {
 	t.Run("valid empty owners list", func(t *testing.T) {
 		group := &Group{
 			Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-			Owners:      []string{}, // Empty list is valid
 			DisplayName: "Test Group",
 		}
 
@@ -499,7 +492,6 @@ func TestGroup_OwnersFieldValidation(t *testing.T) {
 	t.Run("valid nil owners list", func(t *testing.T) {
 		group := &Group{
 			Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-			Owners:      nil, // Nil list is valid
 			DisplayName: "Test Group",
 		}
 
@@ -510,7 +502,6 @@ func TestGroup_OwnersFieldValidation(t *testing.T) {
 	t.Run("valid single owner in list", func(t *testing.T) {
 		group := &Group{
 			Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-			Owners:      []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV"},
 			DisplayName: "Test Group",
 		}
 
@@ -521,11 +512,6 @@ func TestGroup_OwnersFieldValidation(t *testing.T) {
 	t.Run("valid multiple owners in list", func(t *testing.T) {
 		group := &Group{
 			Owner: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-			Owners: []string{
-				"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				"groups/01BX5ZZKBKACTAV9WEVGEMMVRZ",
-				"groups/0123456789ABCDEFGHJKMNPQRS",
-			},
 			DisplayName: "Test Group",
 		}
 
@@ -536,10 +522,6 @@ func TestGroup_OwnersFieldValidation(t *testing.T) {
 	t.Run("invalid owner in list - wrong format", func(t *testing.T) {
 		group := &Group{
 			Owner: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-			Owners: []string{
-				"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				"invalid-owner", // Invalid format
-			},
 			DisplayName: "Test Group",
 		}
 
@@ -550,10 +532,6 @@ func TestGroup_OwnersFieldValidation(t *testing.T) {
 	t.Run("invalid owner in list - wrong length", func(t *testing.T) {
 		group := &Group{
 			Owner: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-			Owners: []string{
-				"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				"groups/01ARZ3NDEKTSV4RRFFQ69G5FA", // Too short (32 chars instead of 33)
-			},
 			DisplayName: "Test Group",
 		}
 
@@ -618,7 +596,7 @@ func TestGroup_RequiredFields(t *testing.T) {
 		}
 
 		err := validator.Validate(group)
-		assert.NoError(t, err, "Owners field should be optional")
+		assert.NoError(t, err, "Validation should pass")
 	})
 }
 

@@ -42,23 +42,6 @@ message User {
   }];
 
   /*
-     The complete ownership path from the root to this user's owner.
-     This is a system-maintained array for efficient, hierarchical access control checks.
-     This field is system-generated and immutable.
-     Any value provided on creation is ignored.
-  */
-  repeated string owners = 3 [(buf.validate.field) = {
-    repeated: {
-      items: {
-        string: {
-          len: 33,
-          pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
-        }
-      }
-    }
-  }];
-
-  /*
      The unique email address of this user.
      This field is required on creation and must be a valid email format.
   */

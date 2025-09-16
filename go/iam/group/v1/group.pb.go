@@ -39,11 +39,6 @@ type Group struct {
 	// This field is required on creation and establishes the direct ownership link.
 	// Format: groups/{ULIDv2}.
 	Owner string `protobuf:"bytes,2,opt,name=owner,proto3" json:"owner,omitempty"`
-	// The complete ownership path from the root to this group.
-	// This is a system-maintained array for efficient, hierarchical access control checks.
-	// This field is system-generated and immutable.
-	// Any value provided on creation is ignored.
-	Owners []string `protobuf:"bytes,3,rep,name=owners,proto3" json:"owners,omitempty"`
 	// Human-readable name for organizational identification and display.
 	// User-configurable and non-unique across the system.
 	DisplayName string `protobuf:"bytes,4,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
@@ -97,13 +92,6 @@ func (x *Group) GetOwner() string {
 	return ""
 }
 
-func (x *Group) GetOwners() []string {
-	if x != nil {
-		return x.Owners
-	}
-	return nil
-}
-
 func (x *Group) GetDisplayName() string {
 	if x != nil {
 		return x.DisplayName
@@ -122,12 +110,11 @@ var File_meshtrade_iam_group_v1_group_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_group_v1_group_proto_rawDesc = "" +
 	"\n" +
-	"\"meshtrade/iam/group/v1/group.proto\x12\x16meshtrade.iam.group.v1\x1a\x1bbuf/validate/validate.proto\"\xd0\x03\n" +
+	"\"meshtrade/iam/group/v1/group.proto\x12\x16meshtrade.iam.group.v1\x1a\x1bbuf/validate/validate.proto\"\xf8\x02\n" +
 	"\x05Group\x12\xbc\x01\n" +
 	"\x04name\x18\x01 \x01(\tB\xa7\x01\xbaH\xa3\x01\xba\x01\x9f\x01\n" +
 	"\x14name.format.optional\x123name must be empty or in the format groups/{ULIDv2}\x1aRsize(this) == 0 || this.matches('^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12R\n" +
-	"\x05owner\x18\x02 \x01(\tB<\xbaH9\xc8\x01\x01r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05owner\x12V\n" +
-	"\x06owners\x18\x03 \x03(\tB>\xbaH;\x92\x018\"6r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x06owners\x120\n" +
+	"\x05owner\x18\x02 \x01(\tB<\xbaH9\xc8\x01\x01r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05owner\x120\n" +
 	"\fdisplay_name\x18\x04 \x01(\tB\r\xbaH\n" +
 	"\xc8\x01\x01r\x05\x10\x01\x18\xff\x01R\vdisplayName\x12*\n" +
 	"\vdescription\x18\x05 \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aR\vdescriptionBR\n" +

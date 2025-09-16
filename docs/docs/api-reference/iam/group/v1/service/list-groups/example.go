@@ -41,7 +41,7 @@ func main() {
 		log.Printf("  Name: %s", group.Name)
 		log.Printf("  Display Name: %s", group.DisplayName)
 		log.Printf("  Owner: %s", group.Owner)
-		log.Printf("  Hierarchy Depth: %d levels", len(group.Owners))
+		// System maintains hierarchical ownership relationships internally
 		if group.Description != "" {
 			log.Printf("  Description: %s", group.Description)
 		}

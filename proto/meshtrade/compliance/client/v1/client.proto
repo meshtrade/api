@@ -46,6 +46,7 @@ message Client {
   /*
      Contains the specific data for the legal entity type.
      Only one of these may be set at a time.
+     BUT AT LEAST 1 MUST be set!!
   */
   oneof legal_person {
     /*
@@ -71,7 +72,7 @@ message Client {
 
   /*
      The definitive, most recent compliance status of the client (e.g., VERIFICATION_STATUS_VERIFIED, VERIFICATION_STATUS_FAILED).
-     System controlled.
+     Must always be a valid field
   */
   meshtrade.compliance.client.v1.VerificationStatus verification_status = 8;
 

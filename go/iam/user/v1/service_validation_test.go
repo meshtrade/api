@@ -1029,9 +1029,8 @@ func TestCreateUserRequest_Validation(t *testing.T) {
 			name: "valid request with user containing roles and owners",
 			request: &CreateUserRequest{
 				User: &User{
-					Owner:  "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-					Owners: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV", "groups/01BX5ZZKBKACTAV9WEVGEMMVRZ"},
-					Email:  "admin@example.com",
+					Owner: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+					Email: "admin@example.com",
 					Roles:  []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567", "groups/01BX5ZZKBKACTAV9WEVGEMMVRZ/1987654"},
 				},
 			},
@@ -1121,10 +1120,9 @@ func TestUpdateUserRequest_Validation(t *testing.T) {
 			name: "valid request with user containing roles and owners",
 			request: &UpdateUserRequest{
 				User: &User{
-					Name:   "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-					Owner:  "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-					Owners: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV", "groups/01BX5ZZKBKACTAV9WEVGEMMVRZ"},
-					Email:  "updated-admin@example.com",
+					Name:  "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+					Owner: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+					Email: "updated-admin@example.com",
 					Roles:  []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567", "groups/01BX5ZZKBKACTAV9WEVGEMMVRZ/1987654"},
 				},
 			},

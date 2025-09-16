@@ -45,7 +45,6 @@ func TestCreateGroupRequest_Validation(t *testing.T) {
 			request: &CreateGroupRequest{
 				Group: &Group{
 					Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-					Owners:      []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV", "groups/01BX5ZZKBKACTAV9WEVGEMMVRZ"},
 					DisplayName: "Admin Group",
 					Description: "This is a test group for administrative purposes.",
 				},
@@ -150,7 +149,6 @@ func TestUpdateGroupRequest_Validation(t *testing.T) {
 				Group: &Group{
 					Name:        "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 					Owner:       "groups/01BX5ZZKBKACTAV9WEVGEMMVRZ",
-					Owners:      []string{"groups/01BX5ZZKBKACTAV9WEVGEMMVRZ", "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV"},
 					DisplayName: "Updated Group",
 				},
 			},

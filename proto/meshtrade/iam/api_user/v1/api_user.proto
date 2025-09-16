@@ -43,23 +43,6 @@ message APIUser {
   }];
 
   /*
-     The complete ownership path from the root to this api user's owner.
-     This is a system-maintained array for efficient, hierarchical access control checks.
-     This field is system-generated and immutable.
-     Any value provided on creation is ignored.
-  */
-  repeated string owners = 3 [(buf.validate.field) = {
-    repeated: {
-      items: {
-        string: {
-          len: 33,
-          pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
-        }
-      }
-    }
-  }];
-
-  /*
      A non-unique, user-provided name for the api key, used for display purposes.
      Required on creation.
   */
