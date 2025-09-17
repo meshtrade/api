@@ -7,14 +7,13 @@
 package account_report_v1
 
 import (
-	reflect "reflect"
-	sync "sync"
-	unsafe "unsafe"
-
 	v1 "github.com/meshtrade/api/go/type/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
+	reflect "reflect"
+	sync "sync"
+	unsafe "unsafe"
 )
 
 const (
@@ -218,8 +217,12 @@ const file_meshtrade_reporting_account_report_v1_income_entry_proto_rawDesc = ""
 	"\x17reported_currency_value\x18\a \x01(\v2\x19.meshtrade.type.v1.AmountR\x15reportedCurrencyValue*\xfa\x01\n" +
 	"\x0fIncomeNarrative\x12 \n" +
 	"\x1cINCOME_NARRATIVE_UNSPECIFIED\x10\x00\x12\x1a\n" +
-	"\x16INCOME_NARRATIVE_YIELD\x10\x01\x12\x1b\n" +
-	"\x17INCOME_NARRATIVE_COUPON\x10\x02By\n" +
+	"\x16INCOME_NARRATIVE_YIELD\x10\x01\x12\x1d\n" +
+	"\x19INCOME_NARRATIVE_DIVIDEND\x10\x02\x12\x1d\n" +
+	"\x19INCOME_NARRATIVE_INTEREST\x10\x03\x12\x1e\n" +
+	"\x1aINCOME_NARRATIVE_PRINCIPAL\x10\x04\x12!\n" +
+	"\x1dINCOME_NARRATIVE_DISTRIBUTION\x10\x05\x12(\n" +
+	"$INCOME_NARRATIVE_PROFIT_DISTRIBUTION\x10\x06By\n" +
 	",co.meshtrade.api.reporting.account_report.v1ZIgithub.com/meshtrade/api/go/reporting/account_report/v1;account_report_v1b\x06proto3"
 
 var (
