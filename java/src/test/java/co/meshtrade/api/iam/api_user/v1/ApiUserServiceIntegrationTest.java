@@ -517,29 +517,37 @@ class ApiUserServiceCredentialFilesTest {
     @Test
     @DisplayName("Service creation without credentials")
     void serviceCreationWithoutCredentials() {
-        // Create service without any credentials - should fall back to discovery
-        ServiceOptions options = ServiceOptions.builder()
-            .url("localhost")
-            .timeout(Duration.ofMillis(100))
-            .build();
-        
-        // The exact behavior depends on whether credentials can be discovered
-        // We don't assert specific error here as it may vary by test environment
+        // In test environments (like CI), credential discovery will fail with IllegalStateException
+        // In local environments with credentials, it should succeed
         try {
+            // Create service without any credentials - should fall back to discovery
+            ServiceOptions options = ServiceOptions.builder()
+                .url("localhost")
+                .timeout(Duration.ofMillis(100))
+                .build();
+
             ApiUserService service = new ApiUserService(options);
-            
-            // If successful, validation should still work
+
+            // If we get here, credentials were found - test that service works
             GetApiUserRequest validRequest = GetApiUserRequest.newBuilder()
                 .setName("api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV")
                 .build();
-            
+
+            // Should get network error, not validation error
             assertThatThrownBy(() -> service.getApiUser(validRequest, Optional.empty()))
-                .isInstanceOf(Exception.class);
-                
+                .isInstanceOf(Exception.class)
+                .hasMessageNotContaining("Request validation failed");
+
             service.close();
+            System.out.println("Service creation without credentials: succeeded with discovered credentials");
+        } catch (IllegalStateException e) {
+            // Expected in CI environments - this is the normal case
+            assertThat(e.getMessage()).contains("API credentials not provided");
+            System.out.println("Service creation without credentials (expected in CI): " + e.getMessage());
         } catch (Exception e) {
-            // Service creation may fail if no credentials found - this is acceptable
-            System.out.println("Service creation without credentials result: " + e.getMessage());
+            // Other exceptions might occur during service creation - acceptable in tests
+            System.out.println("Service creation without credentials (unexpected): " + e.getMessage());
+            // Don't fail the test for other exceptions as they might be environment-specific
         }
     }
 
