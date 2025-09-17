@@ -20,6 +20,16 @@ option java_package = "co.meshtrade.api.compliance.client.v1";
    and verification status related to a single party.
 */
 message Client {
+  // List of roles available to all Clients without explicit assignment.
+  option (meshtrade.iam.role.v1.message_roles) = {
+    roles: [
+      // all clients can call client view methods
+      ROLE_COMPLIANCE_CLIENT_VIEWER,
+      // all clients can call iam view methods
+      ROLE_IAM_VIEWER
+    ]
+  };
+
   /*
      The unique, immutable, and canonical name of the client resource in the format clients/{client_id}.
      The {client_id} is a system-generated unique identifier (e.g., UUID) that will never change. This name field will never change and should be used as the permanent primary key for this resource in all systems.
