@@ -1,5 +1,7 @@
+from meshtrade.type.v1.sorting_pb2 import SORTING_ORDER_ASC
 from meshtrade.wallet.account.v1 import (
     AccountService,
+    ListAccountsRequest,
 )
 
 
@@ -10,11 +12,26 @@ def main():
     service = AccountService()
 
     with service:
-        # Call the ListAccounts method (no request parameters)
-        response = service.list_accounts()
+        # Create request with optional parameters
+        request = ListAccountsRequest(
+            populate_ledger_data=False,  # Set to True to fetch live blockchain data
+            sorting=ListAccountsRequest.Sorting(
+                field="number",  # Sort by account number
+                order=SORTING_ORDER_ASC,  # Ascending order
+            ),
+        )
 
-        # FIXME: Add relevant response object usage
-        print("ListAccounts successful:", response)
+        # Call the ListAccounts method
+        response = service.list_accounts(request)
+
+        # Display all accounts in the hierarchy
+        print(f"Found {len(response.accounts)} accounts:")
+        for account in response.accounts:
+            print(f"  Account {account.number}:")
+            print(f"    Name: {account.name}")
+            print(f"    Display Name: {account.display_name}")
+            print(f"    Ledger: {account.ledger}")
+            print(f"    State: {account.state}")
 
 
 if __name__ == "__main__":

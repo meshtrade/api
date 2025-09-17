@@ -4,7 +4,7 @@
 // 	protoc        (unknown)
 // source: meshtrade/trading/limit_order/v1/service.proto
 
-package limitorderv1
+package limit_order_v1
 
 import (
 	_ "github.com/meshtrade/api/go/iam/role/v1"
@@ -77,8 +77,8 @@ const file_meshtrade_trading_limit_order_v1_service_proto_rawDesc = "" +
 	"\x11LimitOrderService\x12\x89\x01\n" +
 	"\rGetLimitOrder\x126.meshtrade.trading.limit_order.v1.GetLimitOrderRequest\x1a,.meshtrade.trading.limit_order.v1.LimitOrder\"\x12\xa0\xb5\x18\x01\xaa\xb5\x18\n" +
 	"\n" +
-	"\b\xc0\x96\xb1\x02\xc1\x96\xb1\x02Bj\n" +
-	"'co.meshtrade.api.trading.limit_order.v1Z?github.com/meshtrade/api/go/trading/limit_order/v1;limitorderv1b\x06proto3"
+	"\b\xc0\x96\xb1\x02\xc1\x96\xb1\x02Bl\n" +
+	"'co.meshtrade.api.trading.limit_order.v1ZAgithub.com/meshtrade/api/go/trading/limit_order/v1;limit_order_v1b\x06proto3"
 
 var (
 	file_meshtrade_trading_limit_order_v1_service_proto_rawDescOnce sync.Once

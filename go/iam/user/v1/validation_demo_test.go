@@ -1,10 +1,9 @@
-package userv1
+package user_v1
 
 import (
 	"testing"
 
 	"buf.build/go/protovalidate"
-	rolev1 "github.com/meshtrade/api/go/iam/role/v1"
 	"github.com/stretchr/testify/require"
 )
 
@@ -18,31 +17,28 @@ func TestValidationDemo(t *testing.T) {
 	// Example 1: Completely invalid request
 	t.Log("\n1. Testing completely invalid request:")
 	invalidRequest := &AssignRoleToUserRequest{
-		Email: "",                              // Empty email
-		Group: "",                              // Empty group  
-		Role:  rolev1.Role_ROLE_UNSPECIFIED, // Unspecified role
+		Name: "",  // Empty name
+		Role: "",  // Empty role
 	}
 	
 	err = validator.Validate(invalidRequest)
 	t.Logf("Validation errors:\n%s\n", err.Error())
 
-	// Example 2: Invalid email format
-	t.Log("2. Testing invalid email format:")
-	invalidEmailRequest := &AssignRoleToUserRequest{
-		Email: "not-an-email",
-		Group: "admin-group",
-		Role:  rolev1.Role_ROLE_COMPLIANCE_ADMIN,
+	// Example 2: Invalid name format
+	t.Log("2. Testing invalid name format:")
+	invalidNameRequest := &AssignRoleToUserRequest{
+		Name: "not-a-valid-name",
+		Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1000000",
 	}
 	
-	err = validator.Validate(invalidEmailRequest)
+	err = validator.Validate(invalidNameRequest)
 	t.Logf("Validation errors:\n%s\n", err.Error())
 
 	// Example 3: Valid request (should pass)
 	t.Log("3. Testing valid request:")
 	validRequest := &AssignRoleToUserRequest{
-		Email: "user@example.com",
-		Group: "admin-group",
-		Role:  rolev1.Role_ROLE_COMPLIANCE_ADMIN,
+		Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+		Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1000000",
 	}
 	
 	err = validator.Validate(validRequest)

@@ -4,9 +4,10 @@
 // 	protoc        (unknown)
 // source: meshtrade/iam/user/v1/user.proto
 
-package userv1
+package user_v1
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -21,13 +22,27 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// A user in the IAM service.
+//
+// Each User belongs to a specific group and has
+// defined roles that determine their permissions within that group.
 type User struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Email address of the user.
-	Email string `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
-	// Roles is a list of the roles assigned to this user
+	// The unique resource name for the user.
+	// Format: users/{ULIDv2}.
+	// This field is system-generated and immutable upon creation.
+	// Any value provided on creation is ignored.
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	// The resource name of the parent group that owns this user.
+	// This field is required on creation and establishes the direct ownership link.
+	// Format: groups/{ULIDv2}.
+	Owner string `protobuf:"bytes,2,opt,name=owner,proto3" json:"owner,omitempty"`
+	// The unique email address of this user.
+	// This field is required on creation and must be a valid email format.
+	Email string `protobuf:"bytes,4,opt,name=email,proto3" json:"email,omitempty"`
+	// Roles is a list of standard roles assigned to this user,
 	// prepended by the name of the group in which they have been assigned that role.
-	// e.g. groups/{ulid}/{role}, where role is one of the rolev1.Role enum
+	// e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
 	Roles         []string `protobuf:"bytes,6,rep,name=roles,proto3" json:"roles,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -63,6 +78,20 @@ func (*User) Descriptor() ([]byte, []int) {
 	return file_meshtrade_iam_user_v1_user_proto_rawDescGZIP(), []int{0}
 }
 
+func (x *User) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *User) GetOwner() string {
+	if x != nil {
+		return x.Owner
+	}
+	return ""
+}
+
 func (x *User) GetEmail() string {
 	if x != nil {
 		return x.Email
@@ -81,11 +110,15 @@ var File_meshtrade_iam_user_v1_user_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_user_v1_user_proto_rawDesc = "" +
 	"\n" +
-	" meshtrade/iam/user/v1/user.proto\x12\x15meshtrade.iam.user.v1\"2\n" +
-	"\x04User\x12\x14\n" +
-	"\x05email\x18\x01 \x01(\tR\x05email\x12\x14\n" +
-	"\x05roles\x18\x06 \x03(\tR\x05rolesBN\n" +
-	"\x1cco.meshtrade.api.iam.user.v1Z.github.com/meshtrade/api/go/iam/user/v1;userv1b\x06proto3"
+	" meshtrade/iam/user/v1/user.proto\x12\x15meshtrade.iam.user.v1\x1a\x1bbuf/validate/validate.proto\"\x99\x03\n" +
+	"\x04User\x12\xba\x01\n" +
+	"\x04name\x18\x01 \x01(\tB\xa5\x01\xbaH\xa1\x01\xba\x01\x9d\x01\n" +
+	"\x14name.format.optional\x122name must be empty or in the format users/{ULIDv2}\x1aQsize(this) == 0 || this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12R\n" +
+	"\x05owner\x18\x02 \x01(\tB<\xbaH9\xc8\x01\x01r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05owner\x12 \n" +
+	"\x05email\x18\x04 \x01(\tB\n" +
+	"\xbaH\a\xc8\x01\x01r\x02`\x01R\x05email\x12^\n" +
+	"\x05roles\x18\x06 \x03(\tBH\xbaHE\x92\x01B\"@r>29^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/1[0-9]{6}$\x98\x01)R\x05rolesBO\n" +
+	"\x1cco.meshtrade.api.iam.user.v1Z/github.com/meshtrade/api/go/iam/user/v1;user_v1b\x06proto3"
 
 var (
 	file_meshtrade_iam_user_v1_user_proto_rawDescOnce sync.Once

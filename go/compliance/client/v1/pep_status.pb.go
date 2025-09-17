@@ -4,7 +4,7 @@
 // 	protoc        (unknown)
 // source: meshtrade/compliance/client/v1/pep_status.proto
 
-package clientv1
+package client_v1
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -88,8 +88,8 @@ const file_meshtrade_compliance_client_v1_pep_status_proto_rawDesc = "" +
 	"\x16PEP_STATUS_UNSPECIFIED\x10\x00\x12\x19\n" +
 	"\x15PEP_STATUS_IS_NOT_PEP\x10\x01\x12\x15\n" +
 	"\x11PEP_STATUS_IS_PEP\x10\x02\x12\x1b\n" +
-	"\x17PEP_STATUS_IS_ASSOCIATE\x10\x03Bb\n" +
-	"%co.meshtrade.api.compliance.client.v1Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
+	"\x17PEP_STATUS_IS_ASSOCIATE\x10\x03Bc\n" +
+	"%co.meshtrade.api.compliance.client.v1Z:github.com/meshtrade/api/go/compliance/client/v1;client_v1b\x06proto3"
 
 var (
 	file_meshtrade_compliance_client_v1_pep_status_proto_rawDescOnce sync.Once

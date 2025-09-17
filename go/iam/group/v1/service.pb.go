@@ -4,11 +4,13 @@
 // 	protoc        (unknown)
 // source: meshtrade/iam/group/v1/service.proto
 
-package groupv1
+package group_v1
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	_ "github.com/meshtrade/api/go/iam/role/v1"
 	_ "github.com/meshtrade/api/go/option/v1"
+	v1 "github.com/meshtrade/api/go/type/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -23,28 +25,30 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type GetGroupRequest struct {
+// Request to create a new group.
+type CreateGroupRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Name of the group to get.
-	Name          string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	// The group configuration for creation.
+	// The name field will be ignored and assigned by the system.
+	Group         *Group `protobuf:"bytes,1,opt,name=group,proto3" json:"group,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetGroupRequest) Reset() {
-	*x = GetGroupRequest{}
+func (x *CreateGroupRequest) Reset() {
+	*x = CreateGroupRequest{}
 	mi := &file_meshtrade_iam_group_v1_service_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetGroupRequest) String() string {
+func (x *CreateGroupRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetGroupRequest) ProtoMessage() {}
+func (*CreateGroupRequest) ProtoMessage() {}
 
-func (x *GetGroupRequest) ProtoReflect() protoreflect.Message {
+func (x *CreateGroupRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_meshtrade_iam_group_v1_service_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -56,27 +60,77 @@ func (x *GetGroupRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetGroupRequest.ProtoReflect.Descriptor instead.
-func (*GetGroupRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use CreateGroupRequest.ProtoReflect.Descriptor instead.
+func (*CreateGroupRequest) Descriptor() ([]byte, []int) {
 	return file_meshtrade_iam_group_v1_service_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *GetGroupRequest) GetName() string {
+func (x *CreateGroupRequest) GetGroup() *Group {
 	if x != nil {
-		return x.Name
+		return x.Group
 	}
-	return ""
+	return nil
 }
 
+// Request to update an existing group.
+type UpdateGroupRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Complete group resource with updated fields.
+	// Only display_name and description can be modified.
+	Group         *Group `protobuf:"bytes,1,opt,name=group,proto3" json:"group,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateGroupRequest) Reset() {
+	*x = UpdateGroupRequest{}
+	mi := &file_meshtrade_iam_group_v1_service_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateGroupRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateGroupRequest) ProtoMessage() {}
+
+func (x *UpdateGroupRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_iam_group_v1_service_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateGroupRequest.ProtoReflect.Descriptor instead.
+func (*UpdateGroupRequest) Descriptor() ([]byte, []int) {
+	return file_meshtrade_iam_group_v1_service_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *UpdateGroupRequest) GetGroup() *Group {
+	if x != nil {
+		return x.Group
+	}
+	return nil
+}
+
+// Request to list all groups in the hierarchy.
 type ListGroupsRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Optional sorting configuration.
+	Sorting       *ListGroupsRequest_Sorting `protobuf:"bytes,1,opt,name=sorting,proto3" json:"sorting,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListGroupsRequest) Reset() {
 	*x = ListGroupsRequest{}
-	mi := &file_meshtrade_iam_group_v1_service_proto_msgTypes[1]
+	mi := &file_meshtrade_iam_group_v1_service_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -88,7 +142,7 @@ func (x *ListGroupsRequest) String() string {
 func (*ListGroupsRequest) ProtoMessage() {}
 
 func (x *ListGroupsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_iam_group_v1_service_proto_msgTypes[1]
+	mi := &file_meshtrade_iam_group_v1_service_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -101,19 +155,28 @@ func (x *ListGroupsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListGroupsRequest.ProtoReflect.Descriptor instead.
 func (*ListGroupsRequest) Descriptor() ([]byte, []int) {
-	return file_meshtrade_iam_group_v1_service_proto_rawDescGZIP(), []int{1}
+	return file_meshtrade_iam_group_v1_service_proto_rawDescGZIP(), []int{2}
 }
 
+func (x *ListGroupsRequest) GetSorting() *ListGroupsRequest_Sorting {
+	if x != nil {
+		return x.Sorting
+	}
+	return nil
+}
+
+// Response containing a list of groups.
 type ListGroupsResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Groups        []*Group               `protobuf:"bytes,1,rep,name=groups,proto3" json:"groups,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Collection of groups in the hierarchy.
+	Groups        []*Group `protobuf:"bytes,1,rep,name=groups,proto3" json:"groups,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListGroupsResponse) Reset() {
 	*x = ListGroupsResponse{}
-	mi := &file_meshtrade_iam_group_v1_service_proto_msgTypes[2]
+	mi := &file_meshtrade_iam_group_v1_service_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -125,7 +188,7 @@ func (x *ListGroupsResponse) String() string {
 func (*ListGroupsResponse) ProtoMessage() {}
 
 func (x *ListGroupsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_iam_group_v1_service_proto_msgTypes[2]
+	mi := &file_meshtrade_iam_group_v1_service_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -138,7 +201,7 @@ func (x *ListGroupsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListGroupsResponse.ProtoReflect.Descriptor instead.
 func (*ListGroupsResponse) Descriptor() ([]byte, []int) {
-	return file_meshtrade_iam_group_v1_service_proto_rawDescGZIP(), []int{2}
+	return file_meshtrade_iam_group_v1_service_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *ListGroupsResponse) GetGroups() []*Group {
@@ -148,17 +211,24 @@ func (x *ListGroupsResponse) GetGroups() []*Group {
 	return nil
 }
 
+// Request to search groups with filtering criteria.
 type SearchGroupsRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Name is a substring search for groups.
-	Name          string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	// Optional substring to search for in group display names.
+	// Case-insensitive partial matching.
+	DisplayName string `protobuf:"bytes,1,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
+	// Optional substring to search for in group descriptions.
+	// Case-insensitive partial matching.
+	Description string `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	// Optional sorting configuration.
+	Sorting       *SearchGroupsRequest_Sorting `protobuf:"bytes,3,opt,name=sorting,proto3" json:"sorting,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *SearchGroupsRequest) Reset() {
 	*x = SearchGroupsRequest{}
-	mi := &file_meshtrade_iam_group_v1_service_proto_msgTypes[3]
+	mi := &file_meshtrade_iam_group_v1_service_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -170,7 +240,7 @@ func (x *SearchGroupsRequest) String() string {
 func (*SearchGroupsRequest) ProtoMessage() {}
 
 func (x *SearchGroupsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_iam_group_v1_service_proto_msgTypes[3]
+	mi := &file_meshtrade_iam_group_v1_service_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -183,26 +253,42 @@ func (x *SearchGroupsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SearchGroupsRequest.ProtoReflect.Descriptor instead.
 func (*SearchGroupsRequest) Descriptor() ([]byte, []int) {
-	return file_meshtrade_iam_group_v1_service_proto_rawDescGZIP(), []int{3}
+	return file_meshtrade_iam_group_v1_service_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *SearchGroupsRequest) GetName() string {
+func (x *SearchGroupsRequest) GetDisplayName() string {
 	if x != nil {
-		return x.Name
+		return x.DisplayName
 	}
 	return ""
 }
 
+func (x *SearchGroupsRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *SearchGroupsRequest) GetSorting() *SearchGroupsRequest_Sorting {
+	if x != nil {
+		return x.Sorting
+	}
+	return nil
+}
+
+// Response containing search results.
 type SearchGroupsResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Groups        []*Group               `protobuf:"bytes,1,rep,name=groups,proto3" json:"groups,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Collection of groups matching the search criteria.
+	Groups        []*Group `protobuf:"bytes,1,rep,name=groups,proto3" json:"groups,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *SearchGroupsResponse) Reset() {
 	*x = SearchGroupsResponse{}
-	mi := &file_meshtrade_iam_group_v1_service_proto_msgTypes[4]
+	mi := &file_meshtrade_iam_group_v1_service_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -214,7 +300,7 @@ func (x *SearchGroupsResponse) String() string {
 func (*SearchGroupsResponse) ProtoMessage() {}
 
 func (x *SearchGroupsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_iam_group_v1_service_proto_msgTypes[4]
+	mi := &file_meshtrade_iam_group_v1_service_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -227,7 +313,7 @@ func (x *SearchGroupsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SearchGroupsResponse.ProtoReflect.Descriptor instead.
 func (*SearchGroupsResponse) Descriptor() ([]byte, []int) {
-	return file_meshtrade_iam_group_v1_service_proto_rawDescGZIP(), []int{4}
+	return file_meshtrade_iam_group_v1_service_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *SearchGroupsResponse) GetGroups() []*Group {
@@ -237,32 +323,210 @@ func (x *SearchGroupsResponse) GetGroups() []*Group {
 	return nil
 }
 
+// Request to retrieve a specific group.
+type GetGroupRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The resource name of the group to retrieve in format groups/{group_id}.
+	Name          string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetGroupRequest) Reset() {
+	*x = GetGroupRequest{}
+	mi := &file_meshtrade_iam_group_v1_service_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetGroupRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetGroupRequest) ProtoMessage() {}
+
+func (x *GetGroupRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_iam_group_v1_service_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetGroupRequest.ProtoReflect.Descriptor instead.
+func (*GetGroupRequest) Descriptor() ([]byte, []int) {
+	return file_meshtrade_iam_group_v1_service_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *GetGroupRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+// Sorting configuration for organizing results.
+type ListGroupsRequest_Sorting struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Field to sort by (e.g., "name", "display_name").
+	Field string `protobuf:"bytes,1,opt,name=field,proto3" json:"field,omitempty"`
+	// Sort order for results.
+	Order         v1.SortingOrder `protobuf:"varint,2,opt,name=order,proto3,enum=meshtrade.type.v1.SortingOrder" json:"order,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListGroupsRequest_Sorting) Reset() {
+	*x = ListGroupsRequest_Sorting{}
+	mi := &file_meshtrade_iam_group_v1_service_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListGroupsRequest_Sorting) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListGroupsRequest_Sorting) ProtoMessage() {}
+
+func (x *ListGroupsRequest_Sorting) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_iam_group_v1_service_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListGroupsRequest_Sorting.ProtoReflect.Descriptor instead.
+func (*ListGroupsRequest_Sorting) Descriptor() ([]byte, []int) {
+	return file_meshtrade_iam_group_v1_service_proto_rawDescGZIP(), []int{2, 0}
+}
+
+func (x *ListGroupsRequest_Sorting) GetField() string {
+	if x != nil {
+		return x.Field
+	}
+	return ""
+}
+
+func (x *ListGroupsRequest_Sorting) GetOrder() v1.SortingOrder {
+	if x != nil {
+		return x.Order
+	}
+	return v1.SortingOrder(0)
+}
+
+// Sorting configuration for organizing results.
+type SearchGroupsRequest_Sorting struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Field to sort by ("name" or "display_name").
+	Field string `protobuf:"bytes,1,opt,name=field,proto3" json:"field,omitempty"`
+	// Sort order for results.
+	Order         v1.SortingOrder `protobuf:"varint,2,opt,name=order,proto3,enum=meshtrade.type.v1.SortingOrder" json:"order,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SearchGroupsRequest_Sorting) Reset() {
+	*x = SearchGroupsRequest_Sorting{}
+	mi := &file_meshtrade_iam_group_v1_service_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SearchGroupsRequest_Sorting) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SearchGroupsRequest_Sorting) ProtoMessage() {}
+
+func (x *SearchGroupsRequest_Sorting) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_iam_group_v1_service_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SearchGroupsRequest_Sorting.ProtoReflect.Descriptor instead.
+func (*SearchGroupsRequest_Sorting) Descriptor() ([]byte, []int) {
+	return file_meshtrade_iam_group_v1_service_proto_rawDescGZIP(), []int{4, 0}
+}
+
+func (x *SearchGroupsRequest_Sorting) GetField() string {
+	if x != nil {
+		return x.Field
+	}
+	return ""
+}
+
+func (x *SearchGroupsRequest_Sorting) GetOrder() v1.SortingOrder {
+	if x != nil {
+		return x.Order
+	}
+	return v1.SortingOrder(0)
+}
+
 var File_meshtrade_iam_group_v1_service_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_group_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"$meshtrade/iam/group/v1/service.proto\x12\x16meshtrade.iam.group.v1\x1a\"meshtrade/iam/group/v1/group.proto\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\"%\n" +
-	"\x0fGetGroupRequest\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\"\x13\n" +
-	"\x11ListGroupsRequest\"K\n" +
+	"$meshtrade/iam/group/v1/service.proto\x12\x16meshtrade.iam.group.v1\x1a\x1bbuf/validate/validate.proto\x1a\"meshtrade/iam/group/v1/group.proto\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\x1a\x1fmeshtrade/type/v1/sorting.proto\"Q\n" +
+	"\x12CreateGroupRequest\x12;\n" +
+	"\x05group\x18\x01 \x01(\v2\x1d.meshtrade.iam.group.v1.GroupB\x06\xbaH\x03\xc8\x01\x01R\x05group\"Q\n" +
+	"\x12UpdateGroupRequest\x12;\n" +
+	"\x05group\x18\x01 \x01(\v2\x1d.meshtrade.iam.group.v1.GroupB\x06\xbaH\x03\xc8\x01\x01R\x05group\"\xc3\x02\n" +
+	"\x11ListGroupsRequest\x12K\n" +
+	"\asorting\x18\x01 \x01(\v21.meshtrade.iam.group.v1.ListGroupsRequest.SortingR\asorting\x1a\xe0\x01\n" +
+	"\aSorting\x12\x9d\x01\n" +
+	"\x05field\x18\x01 \x01(\tB\x86\x01\xbaH\x82\x01\xba\x01g\n" +
+	"\vfield.valid\x122field must be one of: name, display_name, or empty\x1a$this in ['', 'name', 'display_name']r\x16R\x00R\x04nameR\fdisplay_nameR\x05field\x125\n" +
+	"\x05order\x18\x02 \x01(\x0e2\x1f.meshtrade.type.v1.SortingOrderR\x05order\"K\n" +
 	"\x12ListGroupsResponse\x125\n" +
-	"\x06groups\x18\x01 \x03(\v2\x1d.meshtrade.iam.group.v1.GroupR\x06groups\")\n" +
-	"\x13SearchGroupsRequest\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\"M\n" +
+	"\x06groups\x18\x01 \x03(\v2\x1d.meshtrade.iam.group.v1.GroupR\x06groups\"\xf0\x04\n" +
+	"\x13SearchGroupsRequest\x12\x93\x01\n" +
+	"\fdisplay_name\x18\x01 \x01(\tBp\xbaHm\xba\x01e\n" +
+	"\x17display_name.max_length\x127display_name search term must not exceed 255 characters\x1a\x11size(this) <= 255r\x03\x18\xff\x01R\vdisplayName\x12\x90\x01\n" +
+	"\vdescription\x18\x02 \x01(\tBn\xbaHk\xba\x01c\n" +
+	"\x16description.max_length\x126description search term must not exceed 255 characters\x1a\x11size(this) <= 255r\x03\x18\xff\x01R\vdescription\x12M\n" +
+	"\asorting\x18\x03 \x01(\v23.meshtrade.iam.group.v1.SearchGroupsRequest.SortingR\asorting\x1a\xe0\x01\n" +
+	"\aSorting\x12\x9d\x01\n" +
+	"\x05field\x18\x01 \x01(\tB\x86\x01\xbaH\x82\x01\xba\x01g\n" +
+	"\vfield.valid\x122field must be one of: name, display_name, or empty\x1a$this in ['', 'name', 'display_name']r\x16R\x00R\x04nameR\fdisplay_nameR\x05field\x125\n" +
+	"\x05order\x18\x02 \x01(\x0e2\x1f.meshtrade.type.v1.SortingOrderR\x05order\"M\n" +
 	"\x14SearchGroupsResponse\x125\n" +
-	"\x06groups\x18\x01 \x03(\v2\x1d.meshtrade.iam.group.v1.GroupR\x06groups2\xee\x02\n" +
-	"\fGroupService\x12f\n" +
-	"\bGetGroup\x12'.meshtrade.iam.group.v1.GetGroupRequest\x1a\x1d.meshtrade.iam.group.v1.Group\"\x12\xa0\xb5\x18\x01\xaa\xb5\x18\n" +
+	"\x06groups\x18\x01 \x03(\v2\x1d.meshtrade.iam.group.v1.GroupR\x06groups\"\xf3\x02\n" +
+	"\x0fGetGroupRequest\x12\xdf\x02\n" +
+	"\x04name\x18\x01 \x01(\tB\xca\x02\xbaH\xc6\x02\xba\x01W\n" +
+	"\rname.required\x126name is required and must be in format groups/{ULIDv2}\x1a\x0esize(this) > 0\xba\x01\xb3\x01\n" +
+	"\vname.format\x12cname must be in format groups/{ULIDv2} where ulidv2 is exactly 26 uppercase alphanumeric characters\x1a?this.matches('^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')r3\x10\x012/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$R\x04name2\xe3\x04\n" +
+	"\fGroupService\x12l\n" +
+	"\vCreateGroup\x12*.meshtrade.iam.group.v1.CreateGroupRequest\x1a\x1d.meshtrade.iam.group.v1.Group\"\x12\xa0\xb5\x18\x02\xaa\xb5\x18\n" +
 	"\n" +
-	"\b\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01\x12w\n" +
+	"\b\xc0\x8d\xb7\x01č\xb7\x01\x12l\n" +
+	"\vUpdateGroup\x12*.meshtrade.iam.group.v1.UpdateGroupRequest\x1a\x1d.meshtrade.iam.group.v1.Group\"\x12\xa0\xb5\x18\x02\xaa\xb5\x18\n" +
 	"\n" +
-	"ListGroups\x12).meshtrade.iam.group.v1.ListGroupsRequest\x1a*.meshtrade.iam.group.v1.ListGroupsResponse\"\x12\xa0\xb5\x18\x01\xaa\xb5\x18\n" +
+	"\b\xc0\x8d\xb7\x01č\xb7\x01\x12\x7f\n" +
 	"\n" +
-	"\b\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01\x12}\n" +
-	"\fSearchGroups\x12+.meshtrade.iam.group.v1.SearchGroupsRequest\x1a,.meshtrade.iam.group.v1.SearchGroupsResponse\"\x12\xa0\xb5\x18\x01\xaa\xb5\x18\n" +
-	"\n" +
-	"\b\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01BQ\n" +
-	"\x1dco.meshtrade.api.iam.group.v1Z0github.com/meshtrade/api/go/iam/group/v1;groupv1b\x06proto3"
+	"ListGroups\x12).meshtrade.iam.group.v1.ListGroupsRequest\x1a*.meshtrade.iam.group.v1.ListGroupsResponse\"\x1a\xa0\xb5\x18\x01\xaa\xb5\x18\x12\n" +
+	"\x10\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01č\xb7\x01ō\xb7\x01\x12\x85\x01\n" +
+	"\fSearchGroups\x12+.meshtrade.iam.group.v1.SearchGroupsRequest\x1a,.meshtrade.iam.group.v1.SearchGroupsResponse\"\x1a\xa0\xb5\x18\x01\xaa\xb5\x18\x12\n" +
+	"\x10\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01č\xb7\x01ō\xb7\x01\x12n\n" +
+	"\bGetGroup\x12'.meshtrade.iam.group.v1.GetGroupRequest\x1a\x1d.meshtrade.iam.group.v1.Group\"\x1a\xa0\xb5\x18\x01\xaa\xb5\x18\x12\n" +
+	"\x10\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01č\xb7\x01ō\xb7\x01BR\n" +
+	"\x1dco.meshtrade.api.iam.group.v1Z1github.com/meshtrade/api/go/iam/group/v1;group_v1b\x06proto3"
 
 var (
 	file_meshtrade_iam_group_v1_service_proto_rawDescOnce sync.Once
@@ -276,29 +540,44 @@ func file_meshtrade_iam_group_v1_service_proto_rawDescGZIP() []byte {
 	return file_meshtrade_iam_group_v1_service_proto_rawDescData
 }
 
-var file_meshtrade_iam_group_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_meshtrade_iam_group_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_meshtrade_iam_group_v1_service_proto_goTypes = []any{
-	(*GetGroupRequest)(nil),      // 0: meshtrade.iam.group.v1.GetGroupRequest
-	(*ListGroupsRequest)(nil),    // 1: meshtrade.iam.group.v1.ListGroupsRequest
-	(*ListGroupsResponse)(nil),   // 2: meshtrade.iam.group.v1.ListGroupsResponse
-	(*SearchGroupsRequest)(nil),  // 3: meshtrade.iam.group.v1.SearchGroupsRequest
-	(*SearchGroupsResponse)(nil), // 4: meshtrade.iam.group.v1.SearchGroupsResponse
-	(*Group)(nil),                // 5: meshtrade.iam.group.v1.Group
+	(*CreateGroupRequest)(nil),          // 0: meshtrade.iam.group.v1.CreateGroupRequest
+	(*UpdateGroupRequest)(nil),          // 1: meshtrade.iam.group.v1.UpdateGroupRequest
+	(*ListGroupsRequest)(nil),           // 2: meshtrade.iam.group.v1.ListGroupsRequest
+	(*ListGroupsResponse)(nil),          // 3: meshtrade.iam.group.v1.ListGroupsResponse
+	(*SearchGroupsRequest)(nil),         // 4: meshtrade.iam.group.v1.SearchGroupsRequest
+	(*SearchGroupsResponse)(nil),        // 5: meshtrade.iam.group.v1.SearchGroupsResponse
+	(*GetGroupRequest)(nil),             // 6: meshtrade.iam.group.v1.GetGroupRequest
+	(*ListGroupsRequest_Sorting)(nil),   // 7: meshtrade.iam.group.v1.ListGroupsRequest.Sorting
+	(*SearchGroupsRequest_Sorting)(nil), // 8: meshtrade.iam.group.v1.SearchGroupsRequest.Sorting
+	(*Group)(nil),                       // 9: meshtrade.iam.group.v1.Group
+	(v1.SortingOrder)(0),                // 10: meshtrade.type.v1.SortingOrder
 }
 var file_meshtrade_iam_group_v1_service_proto_depIdxs = []int32{
-	5, // 0: meshtrade.iam.group.v1.ListGroupsResponse.groups:type_name -> meshtrade.iam.group.v1.Group
-	5, // 1: meshtrade.iam.group.v1.SearchGroupsResponse.groups:type_name -> meshtrade.iam.group.v1.Group
-	0, // 2: meshtrade.iam.group.v1.GroupService.GetGroup:input_type -> meshtrade.iam.group.v1.GetGroupRequest
-	1, // 3: meshtrade.iam.group.v1.GroupService.ListGroups:input_type -> meshtrade.iam.group.v1.ListGroupsRequest
-	3, // 4: meshtrade.iam.group.v1.GroupService.SearchGroups:input_type -> meshtrade.iam.group.v1.SearchGroupsRequest
-	5, // 5: meshtrade.iam.group.v1.GroupService.GetGroup:output_type -> meshtrade.iam.group.v1.Group
-	2, // 6: meshtrade.iam.group.v1.GroupService.ListGroups:output_type -> meshtrade.iam.group.v1.ListGroupsResponse
-	4, // 7: meshtrade.iam.group.v1.GroupService.SearchGroups:output_type -> meshtrade.iam.group.v1.SearchGroupsResponse
-	5, // [5:8] is the sub-list for method output_type
-	2, // [2:5] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	9,  // 0: meshtrade.iam.group.v1.CreateGroupRequest.group:type_name -> meshtrade.iam.group.v1.Group
+	9,  // 1: meshtrade.iam.group.v1.UpdateGroupRequest.group:type_name -> meshtrade.iam.group.v1.Group
+	7,  // 2: meshtrade.iam.group.v1.ListGroupsRequest.sorting:type_name -> meshtrade.iam.group.v1.ListGroupsRequest.Sorting
+	9,  // 3: meshtrade.iam.group.v1.ListGroupsResponse.groups:type_name -> meshtrade.iam.group.v1.Group
+	8,  // 4: meshtrade.iam.group.v1.SearchGroupsRequest.sorting:type_name -> meshtrade.iam.group.v1.SearchGroupsRequest.Sorting
+	9,  // 5: meshtrade.iam.group.v1.SearchGroupsResponse.groups:type_name -> meshtrade.iam.group.v1.Group
+	10, // 6: meshtrade.iam.group.v1.ListGroupsRequest.Sorting.order:type_name -> meshtrade.type.v1.SortingOrder
+	10, // 7: meshtrade.iam.group.v1.SearchGroupsRequest.Sorting.order:type_name -> meshtrade.type.v1.SortingOrder
+	0,  // 8: meshtrade.iam.group.v1.GroupService.CreateGroup:input_type -> meshtrade.iam.group.v1.CreateGroupRequest
+	1,  // 9: meshtrade.iam.group.v1.GroupService.UpdateGroup:input_type -> meshtrade.iam.group.v1.UpdateGroupRequest
+	2,  // 10: meshtrade.iam.group.v1.GroupService.ListGroups:input_type -> meshtrade.iam.group.v1.ListGroupsRequest
+	4,  // 11: meshtrade.iam.group.v1.GroupService.SearchGroups:input_type -> meshtrade.iam.group.v1.SearchGroupsRequest
+	6,  // 12: meshtrade.iam.group.v1.GroupService.GetGroup:input_type -> meshtrade.iam.group.v1.GetGroupRequest
+	9,  // 13: meshtrade.iam.group.v1.GroupService.CreateGroup:output_type -> meshtrade.iam.group.v1.Group
+	9,  // 14: meshtrade.iam.group.v1.GroupService.UpdateGroup:output_type -> meshtrade.iam.group.v1.Group
+	3,  // 15: meshtrade.iam.group.v1.GroupService.ListGroups:output_type -> meshtrade.iam.group.v1.ListGroupsResponse
+	5,  // 16: meshtrade.iam.group.v1.GroupService.SearchGroups:output_type -> meshtrade.iam.group.v1.SearchGroupsResponse
+	9,  // 17: meshtrade.iam.group.v1.GroupService.GetGroup:output_type -> meshtrade.iam.group.v1.Group
+	13, // [13:18] is the sub-list for method output_type
+	8,  // [8:13] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_iam_group_v1_service_proto_init() }
@@ -313,7 +592,7 @@ func file_meshtrade_iam_group_v1_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_meshtrade_iam_group_v1_service_proto_rawDesc), len(file_meshtrade_iam_group_v1_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

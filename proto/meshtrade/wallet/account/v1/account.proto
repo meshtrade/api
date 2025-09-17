@@ -2,9 +2,190 @@ syntax = "proto3";
 
 package meshtrade.wallet.account.v1;
 
-option go_package = "github.com/meshtrade/api/go/wallet/account/v1;accountv1";
+import "buf/validate/validate.proto";
+import "meshtrade/type/v1/ledger.proto";
+import "meshtrade/type/v1/amount.proto";
+import "meshtrade/studio/instrument/v1/type.proto";
+import "meshtrade/studio/instrument/v1/unit.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/meshtrade/api/go/wallet/account/v1;account_v1";
 option java_package = "co.meshtrade.api.wallet.account.v1";
 
+/*
+   Account resource for holding and managing financial instruments on blockchain ledgers.
+
+   Accounts provide the foundational wallet infrastructure for the Mesh platform, enabling
+   secure storage and management of digital assets across multiple blockchain networks.
+   Each account is tied to a specific ledger (Stellar, Solana, Bitcoin, Ethereum etc.) and
+   can hold multiple instrument balances within that network's ecosystem.
+*/
 message Account {
-  string name = 1;
+  /*
+     The unique resource name for the account.
+     Format: accounts/{ULIDv2}.
+     This field is system-generated and immutable upon creation.
+     Any value provided on creation is ignored.
+  */
+  string name = 1 [(buf.validate.field) = {
+    cel: {
+      id: "name.format.optional",
+      message: "name must be empty or in the format accounts/{ULIDv2}",
+      expression: "size(this) == 0 || this.matches('^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
+    }
+  }];
+
+  /*
+     The resource name of the parent group that owns this account.
+     This field is required on creation and establishes the direct ownership link.
+     Format: groups/{ULIDv2}.
+  */
+  string owner = 2 [(buf.validate.field) = {
+    required: true,
+    string: {
+      len: 33,
+      pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+    }
+  }];
+
+  /*
+     The Unique Mesh Account Number for simplified account identification.
+     Format: 7-digit number starting with 1 (e.g., 1234567).
+     This field is system-generated and immutable.
+     Any value provided on creation is ignored.
+  */
+  string number = 5 [(buf.validate.field) = {
+    cel: {
+      id: "number.format.optional",
+      message: "number must be empty or a 7-digit account number starting with 1",
+      expression: "size(this) == 0 || this.matches('^1[0-9]{6}$')"
+    }
+  }];
+
+  /*
+     The account's blockchain address on the specified ledger network.
+     Format varies by ledger e.g. Ed25519 public key for Stellar/Solana,
+     secp256k1 address for Bitcoin/Ethereum.
+     This field is system-generated and immutable.
+     Any value provided on creation is ignored.
+  */
+  string ledger_id = 6 [(buf.validate.field) = {
+    string: {
+      max_len: 255
+    }
+  }];
+
+  /*
+     The ledger on which the account exists (e.g., Stellar, Solana, Bitcoin, Ethereum, etc.).
+     This field is required on creation to specify the target ledger for the account.
+  */
+  meshtrade.type.v1.Ledger ledger = 7 [(buf.validate.field) = {
+    required: true,
+    enum: {
+      defined_only: true,
+      not_in: [0]
+    }
+  }];
+
+  /*
+     Human-readable name for organizational identification and display.
+     User-configurable and non-unique across the system.
+  */
+  string display_name = 8 [(buf.validate.field) = {
+    required: true,
+    string: {
+      min_len: 1,
+      max_len: 255
+    }
+  }];
+
+  /*
+     Timestamp of the last live ledger data synchronization.
+     Only populated when accounts are retrieved with populate_ledger_data=true.
+     This timestamp indicates when balances and state were last fetched from the blockchain.
+  */
+  google.protobuf.Timestamp live_data_retrieved_at = 9;
+
+  /*
+     Current operational state of the account on the blockchain ledger.
+     Reflects whether the account is active and able to transact.
+  */
+  AccountState state = 10;
+
+  /*
+     Current instrument balances held in this account.
+     Each balance represents a specific financial instrument and its quantity.
+     NOTE: This is live ledger data - only populated when retrieved with populate_ledger_data=true.
+  */
+  repeated Balance balances = 11;
+}
+
+/*
+   Metadata describing financial instruments held in account balances.
+
+   Provides descriptive, non-quantifiable information about instruments to enable
+   proper identification and categorization of holdings within an account.
+*/
+message InstrumentMetaData {
+    /*
+       The official or commonly recognized name of the instrument.
+       Examples: "Apple Inc.", "Bitcoin", "US Dollar".
+    */
+    string name = 1;
+
+    /*
+       Classification category of the financial instrument.
+       Determines the instrument's fundamental nature and trading characteristics.
+    */
+    meshtrade.studio.instrument.v1.InstrumentType type = 2;
+
+    /*
+       Standard unit of measurement for quantifying the instrument.
+       Examples: SHARE for equities, OUNCE for precious metals, NOTE for bonds.
+    */
+    meshtrade.studio.instrument.v1.Unit unit = 3;
+}
+
+/*
+   Balance entry representing holdings of a specific financial instrument.
+
+   Combines quantity information with instrument metadata to provide a complete
+   view of each position held within an account.
+*/
+message Balance {
+    /*
+       Quantity of the instrument held, expressed as a high-precision decimal amount.
+       Includes both available and locked funds (e.g., in open orders or other obligations).
+       The amount's token field indicates the instrument's blockchain representation.
+    */
+    meshtrade.type.v1.Amount amount = 1;
+
+    /*
+       Descriptive metadata identifying and classifying the instrument.
+       Provides context for interpreting the balance quantity.
+    */
+    InstrumentMetaData instrument_metadata = 2;
+}
+
+/*
+   Operational state of an account on the blockchain ledger.
+*/
+enum AccountState {
+  /*
+     Unknown or unspecified state.
+     Default value to prevent accidental assignment - should not be used in practice.
+  */
+  ACCOUNT_STATE_UNSPECIFIED = 0;
+  
+  /*
+     Account is closed and cannot perform transactions.
+     Closed accounts may still be queried for historical purposes.
+  */
+  ACCOUNT_STATE_CLOSED = 1;
+
+  /*
+     Account is open and active for trading operations.
+     Open accounts can receive deposits and execute transactions.
+  */
+  ACCOUNT_STATE_OPEN = 2;
 }

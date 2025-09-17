@@ -2,13 +2,14 @@ syntax = "proto3";
 
 package meshtrade.compliance.client.v1;
 
+import "buf/validate/validate.proto";
 import "google/type/date.proto";
 import "meshtrade/compliance/client/v1/company_representative_role.proto";
 import "meshtrade/compliance/client/v1/natural_person.proto";
 import "meshtrade/type/v1/contact_details.proto";
 import "meshtrade/type/v1/decimal.proto";
 
-option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
+option go_package = "github.com/meshtrade/api/go/compliance/client/v1;client_v1";
 option java_package = "co.meshtrade.api.compliance.client.v1";
 
 /*
@@ -31,13 +32,19 @@ message CompanyRepresentative {
      The official role this person holds in relation to the company.
      Required for verification.
   */
-  meshtrade.compliance.client.v1.CompanyRepresentativeRole role = 2;
+  meshtrade.compliance.client.v1.CompanyRepresentativeRole role = 2 [(buf.validate.field) = {
+    enum: {defined_only: true}
+  }];
 
   /*
      The person's job title or position within the company (e.g., "CEO", "Managing Partner").
      Optional for verification.
   */
-  string position = 3;
+  string position = 3 [(buf.validate.field) = {
+    string: {
+      max_len: 500
+    }
+  }];
 
   /*
      For UBOs and Shareholders, this specifies the percentage of ownership or voting rights.

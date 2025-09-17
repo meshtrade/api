@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package meshtrade.type.v1;
 
-option go_package = "github.com/meshtrade/api/go/type/v1;typev1";
+option go_package = "github.com/meshtrade/api/go/type/v1;type_v1";
 option java_package = "co.meshtrade.api.type.v1";
 
 // Represents a time of day in 24-hour format. The date and time zone are either

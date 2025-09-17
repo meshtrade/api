@@ -4,7 +4,7 @@
 // 	protoc        (unknown)
 // source: meshtrade/type/v1/address.proto
 
-package typev1
+package type_v1
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -145,8 +145,8 @@ const file_meshtrade_type_v1_address_proto_rawDesc = "" +
 	"\bprovince\x18\x04 \x01(\tR\bprovince\x12!\n" +
 	"\fcountry_code\x18\x05 \x01(\tR\vcountryCode\x12\x1f\n" +
 	"\vpostal_code\x18\x06 \x01(\tR\n" +
-	"postalCodeBF\n" +
-	"\x18co.meshtrade.api.type.v1Z*github.com/meshtrade/api/go/type/v1;typev1b\x06proto3"
+	"postalCodeBG\n" +
+	"\x18co.meshtrade.api.type.v1Z+github.com/meshtrade/api/go/type/v1;type_v1b\x06proto3"
 
 var (
 	file_meshtrade_type_v1_address_proto_rawDescOnce sync.Once

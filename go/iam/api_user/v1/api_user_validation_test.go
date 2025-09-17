@@ -1,4 +1,4 @@
-package api_userv1
+package api_user_v1
 
 import (
 	"testing"
@@ -22,7 +22,6 @@ func TestAPIUser_ValidationUpdated(t *testing.T) {
 			name: "valid API user with all fields",
 			apiUser: &APIUser{
 				Owner:       "groups/test-group-123",
-				Owners:      []string{"groups/test-group-123"},
 				DisplayName: "Test API User",
 				State:       APIUserState_API_USER_STATE_ACTIVE,
 				Roles:       []string{"groups/test-group-123/ROLE_IAM_VIEWER"},
@@ -41,7 +40,6 @@ func TestAPIUser_ValidationUpdated(t *testing.T) {
 			name: "valid API user with empty system-set fields",
 			apiUser: &APIUser{
 				Owner:       "groups/test-group-123",
-				Owners:      []string{}, // System set, can be empty
 				DisplayName: "Test API User",
 				State:       APIUserState_API_USER_STATE_UNSPECIFIED, // System set, can be unspecified
 				Roles:       []string{},                              // Can be empty (0 roles allowed)
@@ -96,7 +94,6 @@ func TestAPIUser_ValidationUpdated(t *testing.T) {
 			name: "owners field accepts any values since no validation defined",
 			apiUser: &APIUser{
 				Owner:       "groups/test-group-123",
-				Owners:      []string{"groups/test-group-123", "invalid-owner"},
 				DisplayName: "Test API User",
 			},
 			wantValid: true, // No validation rules defined for owners field in proto
@@ -240,9 +237,8 @@ func TestAPIUser_SystemSetFieldsOptional(t *testing.T) {
 			DisplayName: "Test API User",
 
 			// System-set fields can be empty/unspecified
-			Name:   "",                                      // System set
-			Owners: []string{},                              // System set
-			State:  APIUserState_API_USER_STATE_UNSPECIFIED, // System set
+			Name:  "",                                      // System set
+			State: APIUserState_API_USER_STATE_UNSPECIFIED, // System set
 			ApiKey: "",                                      // System set
 			Roles:  []string{},                              // Can be empty
 		}
@@ -255,10 +251,9 @@ func TestAPIUser_SystemSetFieldsOptional(t *testing.T) {
 		apiUser := &APIUser{
 			Owner:       "groups/test-group-123",
 			DisplayName: "Test API User",
-			Owners:      []string{"invalid-owner"}, // Invalid format but no validation defined
 		}
 
 		err := validator.Validate(apiUser)
-		assert.NoError(t, err, "Owners field has no validation rules defined in proto")
+		assert.NoError(t, err, "Validation should pass")
 	})
 }

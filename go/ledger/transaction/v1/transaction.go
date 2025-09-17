@@ -1,4 +1,4 @@
-package transactionv1
+package transaction_v1
 
 func (s TransactionState) CanPerformActionAtState(action TransactionAction) bool {
 	switch s {

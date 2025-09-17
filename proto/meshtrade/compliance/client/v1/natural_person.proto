@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package meshtrade.compliance.client.v1;
 
+import "buf/validate/validate.proto";
 import "google/type/date.proto";
 import "meshtrade/compliance/client/v1/identification_document_type.proto";
 import "meshtrade/compliance/client/v1/pep_status.proto";
@@ -10,7 +11,7 @@ import "meshtrade/compliance/client/v1/tax_residency.proto";
 import "meshtrade/type/v1/address.proto";
 import "meshtrade/type/v1/contact_details.proto";
 
-option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
+option go_package = "github.com/meshtrade/api/go/compliance/client/v1;client_v1";
 option java_package = "co.meshtrade.api.compliance.client.v1";
 
 /*
@@ -25,7 +26,11 @@ message NaturalPerson {
      The client's full legal name, as it appears on their official identification documents.
      Required for verification.
   */
-  string full_name = 1;
+  string full_name = 1 [(buf.validate.field) = {
+    string: {
+      max_len: 255
+    }
+  }];
 
   /*
      The client's date of birth.
@@ -40,21 +45,33 @@ message NaturalPerson {
      See https://www.iso.org/iso-3166-country-codes.html for a full list.
      Required for verification.
   */
-  string country_of_citizenship = 3;
+  string country_of_citizenship = 3 [(buf.validate.field) = {
+    cel: {
+      id: "country_code.format.optional",
+      message: "country_of_citizenship must be empty or a valid ISO 3166-1 alpha-2 country code",
+      expression: "size(this) == 0 || this.matches('^[A-Z]{2}$')"
+    }
+  }];
 
   /*
      An identification number for the client, as found on the provided document.
      The format is dependent on the identification_document_type.
      Required for verification.
   */
-  string identification_number = 4;
+  string identification_number = 4 [(buf.validate.field) = {
+    string: {
+      max_len: 100
+    }
+  }];
 
   /*
      The type of identification document provided to prove the correctness of the
      given identification_number (e.g., Passport, Driver's License).
      Required for verification.
   */
-  meshtrade.compliance.client.v1.IdentificationDocumentType identification_document_type = 5;
+  meshtrade.compliance.client.v1.IdentificationDocumentType identification_document_type = 5 [(buf.validate.field) = {
+    enum: {defined_only: true}
+  }];
 
   /*
      The expiration date of the identification document, if applicable.
@@ -80,7 +97,9 @@ message NaturalPerson {
      This is a mandatory check for regulatory compliance.
      Required for verification.
   */
-  meshtrade.compliance.client.v1.PepStatus pep_status = 9;
+  meshtrade.compliance.client.v1.PepStatus pep_status = 9 [(buf.validate.field) = {
+    enum: {defined_only: true}
+  }];
 
   /*
      The individual's personal contact details (personal email, personal mobile).
@@ -92,14 +111,26 @@ message NaturalPerson {
      The primary sources of the client's regular income (e.g., employment, pension).
      Required for verification.
   */
-  repeated meshtrade.compliance.client.v1.SourceOfIncomeAndWealth sources_of_income = 11;
+  repeated meshtrade.compliance.client.v1.SourceOfIncomeAndWealth sources_of_income = 11 [(buf.validate.field) = {
+    repeated: {
+      items: {
+        enum: {defined_only: true}
+      }
+    }
+  }];
 
   /*
      The origins of the client's total net worth or assets (e.g., inheritance, investments).
      This is distinct from the source of income.
      Required for verification.
   */
-  repeated meshtrade.compliance.client.v1.SourceOfIncomeAndWealth sources_of_wealth = 12;
+  repeated meshtrade.compliance.client.v1.SourceOfIncomeAndWealth sources_of_wealth = 12 [(buf.validate.field) = {
+    repeated: {
+      items: {
+        enum: {defined_only: true}
+      }
+    }
+  }];
 
   /*
      The client's tax residency information, required for CRS/FATCA reporting.

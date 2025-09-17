@@ -6,8 +6,8 @@ import (
 	"log"
 	"time"
 
-	accountreportv1 "github.com/meshtrade/api/go/reporting/account_report/v1"
-	typev1 "github.com/meshtrade/api/go/type/v1"
+	account_report_v1 "github.com/meshtrade/api/go/reporting/account_report/v1"
+	type_v1 "github.com/meshtrade/api/go/type/v1"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -20,7 +20,7 @@ func main() {
 	// By default, the client will use the credentials from the MESH_API_CREDENTIALS
 	// environment variable or other default discovery methods.
 	// No specific configuration is required unless you need to customize client behavior.
-	service, err := accountreportv1.NewAccountReportService()
+	service, err := account_report_v1.NewAccountReportService()
 	if err != nil {
 		log.Fatalf("Failed to create service: %v", err)
 	}
@@ -39,7 +39,7 @@ func main() {
 
 	// Create a new GetAccountReportRequest.
 	// This request object is used to specify the parameters for the report.
-	request := &accountreportv1.GetAccountReportRequest{
+	request := &account_report_v1.GetAccountReportRequest{
 		// Specify the account for which to generate the report.
 		// Example: "12345"
 		AccountNumber: "100005",
@@ -53,10 +53,10 @@ func main() {
 		// This example uses mZAR (South African Rand) issued on the Stellar network.
 		// Learn more: https://mzar.mesh.trade
 		// Stellar Explorer: https://stellar.expert/explorer/public/asset/mZAR-GCBNWTCCMC32UHZ5OCC2PNMFDGXRVPA7MFFBFFTCVW77SX5PMRB7Q4BY
-		ReportingAssetToken: &typev1.Token{
+		ReportingAssetToken: &type_v1.Token{
 			Code:   "mZAR",
 			Issuer: "GCBNWTCCMC32UHZ5OCC2PNMFDGXRVPA7MFFBFFTCVW77SX5PMRB7Q4BY",
-			Ledger: typev1.Ledger_LEDGER_STELLAR,
+			Ledger: type_v1.Ledger_LEDGER_STELLAR,
 		},
 	}
 

@@ -21,7 +21,8 @@ func main() {
 
 	// Create request with service-specific parameters
 	request := &accountv1.GetAccountRequest{
-		// FIXME: Populate service-specific request fields
+		Name:               "accounts/01HQ3K5M8XYZ2NFVJT9BKR7P4C", // Account resource name
+		PopulateLedgerData: true,                                     // Fetch live blockchain data
 	}
 
 	// Call the GetAccount method
@@ -30,6 +31,21 @@ func main() {
 		log.Fatalf("GetAccount failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("GetAccount successful: %+v", account)
+	// Display account information
+	log.Printf("Account retrieved successfully:")
+	log.Printf("  Name: %s", account.Name)
+	log.Printf("  Number: %s", account.Number)
+	log.Printf("  Display Name: %s", account.DisplayName)
+	log.Printf("  Ledger: %s", account.Ledger)
+	log.Printf("  State: %s", account.State)
+
+	// Display balances if live data was populated
+	if request.PopulateLedgerData && len(account.Balances) > 0 {
+		log.Printf("  Balances:")
+		for _, balance := range account.Balances {
+			log.Printf("    %s: %s",
+				balance.InstrumentMetadata.Name,
+				balance.Amount.Value)
+		}
+	}
 }

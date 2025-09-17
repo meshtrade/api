@@ -4,6 +4,7 @@ import build.buf.protovalidate.ValidationResult;
 import build.buf.protovalidate.Validator;
 import build.buf.protovalidate.ValidatorFactory;
 import co.meshtrade.api.iam.api_user.v1.ApiUser.APIUser;
+import co.meshtrade.api.iam.api_user.v1.ApiUser.APIUserState;
 import co.meshtrade.api.iam.api_user.v1.Service.CreateApiUserRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,8 +28,9 @@ class ApiUserServiceValidationTest {
         // Create a valid request
         CreateApiUserRequest request = CreateApiUserRequest.newBuilder()
             .setApiUser(APIUser.newBuilder()
-                .setOwner("groups/test-group-123")
+                .setOwner("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
                 .setDisplayName("Test API User")
+                .setState(APIUserState.API_USER_STATE_ACTIVE)
                 .build())
             .build();
 
@@ -42,7 +44,7 @@ class ApiUserServiceValidationTest {
         
         // Verify the request structure
         assertThat(request.hasApiUser()).isTrue();
-        assertThat(request.getApiUser().getOwner()).isEqualTo("groups/test-group-123");
+        assertThat(request.getApiUser().getOwner()).isEqualTo("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV");
         assertThat(request.getApiUser().getDisplayName()).isEqualTo("Test API User");
     }
 
@@ -76,7 +78,7 @@ class ApiUserServiceValidationTest {
         // Create an invalid request - empty display name
         CreateApiUserRequest request = CreateApiUserRequest.newBuilder()
             .setApiUser(APIUser.newBuilder()
-                .setOwner("groups/test-group-123")
+                .setOwner("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
                 .setDisplayName("") // Invalid: empty display name
                 .build())
             .build();
@@ -101,7 +103,7 @@ class ApiUserServiceValidationTest {
         String longDisplayName = "a".repeat(256);
         CreateApiUserRequest request = CreateApiUserRequest.newBuilder()
             .setApiUser(APIUser.newBuilder()
-                .setOwner("groups/test-group-123")
+                .setOwner("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
                 .setDisplayName(longDisplayName)
                 .build())
             .build();
@@ -141,8 +143,9 @@ class ApiUserServiceValidationTest {
         // Test valid request
         CreateApiUserRequest validRequest = CreateApiUserRequest.newBuilder()
             .setApiUser(APIUser.newBuilder()
-                .setOwner("groups/test-group-123")
+                .setOwner("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
                 .setDisplayName("Test API User")
+                .setState(APIUserState.API_USER_STATE_ACTIVE)
                 .build())
             .build();
         

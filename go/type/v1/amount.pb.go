@@ -4,7 +4,7 @@
 // 	protoc        (unknown)
 // source: meshtrade/type/v1/amount.proto
 
-package typev1
+package type_v1
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -92,8 +92,8 @@ const file_meshtrade_type_v1_amount_proto_rawDesc = "" +
 	"\x1emeshtrade/type/v1/amount.proto\x12\x11meshtrade.type.v1\x1a\x1fmeshtrade/type/v1/decimal.proto\x1a\x1dmeshtrade/type/v1/token.proto\"j\n" +
 	"\x06Amount\x12.\n" +
 	"\x05token\x18\x01 \x01(\v2\x18.meshtrade.type.v1.TokenR\x05token\x120\n" +
-	"\x05value\x18\x02 \x01(\v2\x1a.meshtrade.type.v1.DecimalR\x05valueBF\n" +
-	"\x18co.meshtrade.api.type.v1Z*github.com/meshtrade/api/go/type/v1;typev1b\x06proto3"
+	"\x05value\x18\x02 \x01(\v2\x1a.meshtrade.type.v1.DecimalR\x05valueBG\n" +
+	"\x18co.meshtrade.api.type.v1Z+github.com/meshtrade/api/go/type/v1;type_v1b\x06proto3"
 
 var (
 	file_meshtrade_type_v1_amount_proto_rawDescOnce sync.Once

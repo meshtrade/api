@@ -18,15 +18,15 @@ import {api_reference_sidebar } from "./docs/api-reference/sidebar_meshdoc";
 const sidebars: SidebarsConfig = {
   tutorialSidebar: [
     'introduction/index',
-    'contributors/index',
     {
       type: 'category',
       label: 'Architecture',
       items: [
-        'architecture/service-structure',
-        'architecture/group-ownership', 
-        'architecture/role-based-access',
         'architecture/authentication',
+        'architecture/role-based-access',
+        'architecture/group-ownership', 
+        'architecture/client-structuring', 
+        'architecture/service-structure',
         'architecture/sdk-configuration'
       ],
     },
@@ -39,6 +39,7 @@ const sidebars: SidebarsConfig = {
       ],
     },
     'roadmap',
+    'contributors/index',
   ],
 };
 

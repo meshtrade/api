@@ -6,59 +6,250 @@ import "buf/validate/validate.proto";
 import "meshtrade/iam/role/v1/role.proto";
 import "meshtrade/iam/user/v1/user.proto";
 import "meshtrade/option/v1/method_type.proto";
+import "meshtrade/type/v1/sorting.proto";
 
-option go_package = "github.com/meshtrade/api/go/iam/user/v1;userv1";
+option go_package = "github.com/meshtrade/api/go/iam/user/v1;user_v1";
 option java_package = "co.meshtrade.api.iam.user.v1";
 
-// Service defines the RPC methods for interacting with the user resource,
+/*
+   UserService manages user lifecycle and identity operations within groups.
+
+   Users are individual identity entities that belong to specific groups and have
+   assigned roles that determine their permissions within that group context.
+   Each user has a unique email address and can be assigned multiple roles
+   across the group hierarchy for fine-grained access control.
+
+   All operations require appropriate IAM domain permissions and operate within
+   the authenticated group context.
+*/
 service UserService {
-  // Assign Role To User
+  /*
+     Assigns a role to an existing user within the authenticated group context.
+
+     The role assignment enables the user to perform operations according
+     to the permissions associated with that role within the group hierarchy.
+  */
   rpc AssignRoleToUser(AssignRoleToUserRequest) returns (meshtrade.iam.user.v1.User) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
     option (meshtrade.iam.role.v1.roles) = {
-      roles: [ROLE_IAM_ADMIN]
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_USER_ADMIN
+      ]
+    };
+  }
+
+  /*
+     Retrieves a single user by its unique identifier.
+
+     Returns user details including name, email, ownership information,
+     and assigned roles within the authenticated group's access scope.
+  */
+  rpc GetUser(GetUserRequest) returns (meshtrade.iam.user.v1.User) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_VIEWER,
+        ROLE_IAM_USER_ADMIN,
+        ROLE_IAM_USER_VIEWER
+      ]
+    };
+  }
+
+  /*
+     Returns all users accessible within the authenticated group's hierarchy.
+
+     Results include users directly owned and those accessible through the
+     group's hierarchical permissions, optionally sorted by email address.
+  */
+  rpc ListUsers(ListUsersRequest) returns (ListUsersResponse) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_VIEWER,
+        ROLE_IAM_USER_ADMIN,
+        ROLE_IAM_USER_VIEWER
+      ]
+    };
+  }
+
+  /*
+     Searches for users by email address using substring matching.
+
+     Returns users whose email addresses contain the provided search term,
+     filtered by the authenticated group's access permissions and optionally
+     sorted by email address.
+  */
+  rpc SearchUsers(SearchUsersRequest) returns (SearchUsersResponse) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_VIEWER,
+        ROLE_IAM_USER_ADMIN,
+        ROLE_IAM_USER_VIEWER
+      ]
+    };
+  }
+
+  /*
+     Creates a new user within the authenticated group context.
+
+     The user will be created with the provided email and group ownership,
+     with system-generated unique identifier and ownership hierarchy.
+     Additional roles can be assigned after creation.
+  */
+  rpc CreateUser(CreateUserRequest) returns (meshtrade.iam.user.v1.User) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_USER_ADMIN
+      ]
+    };
+  }
+
+  /*
+     Updates an existing user with modified field values.
+
+     Only mutable fields can be updated while preserving system-generated
+     identifiers and ownership relationships. Role modifications should
+     use dedicated role management operations.
+  */
+  rpc UpdateUser(UpdateUserRequest) returns (meshtrade.iam.user.v1.User) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_USER_ADMIN
+      ]
     };
   }
 }
 
 message AssignRoleToUserRequest {
-  // The email address of the user to assign a role to
-  string email = 1 [(buf.validate.field) = {
+  /*
+     Name of the user to assign a role to.
+  */
+  string name = 1 [(buf.validate.field) = {
     string: {
-      min_len: 1
-      max_len: 254
-      pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
-    }
-    cel: {
-      id: "email.required"
-      message: "email is required and must be a valid email address"
-      expression: "size(this) > 0"
+      len: 32,
+      pattern: "^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
 
-  // The name of the group in which the user is to be assigned the given role
-  string group = 2 [(buf.validate.field) = {
+  /*
+     Role to assign to the user in the format groups/{ULIDv2}/{role_id}.
+     The role_id corresponds to a value from the meshtrade.iam.role.v1.Role enum.
+  */
+  string role = 4 [(buf.validate.field) = {
+    required: true,
     string: {
-      min_len: 1
-      max_len: 255
+      len: 41,
+      pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/1[0-9]{6}$"
     }
-    cel: {
-      id: "group.required"
-      message: "group name is required and must be between 1 and 255 characters"
-      expression: "size(this) > 0 && size(this) <= 255"
-    }
-  }];
+  }];  
+}
 
-  // Role is the role to assign to the user
-  meshtrade.iam.role.v1.Role role = 3 [(buf.validate.field) = {
-    enum: {
-      defined_only: true
-      not_in: [0]
-    }
-    cel: {
-      id: "role.required"
-      message: "role is required and must be a valid role type (not UNSPECIFIED)"
-      expression: "int(this) != 0"
+message GetUserRequest {
+  /*
+     Name of the user to retrieve.
+     Format: users/{ULIDv2}
+  */
+  string name = 1 [(buf.validate.field) = {
+    required: true,
+    string: {
+      len: 32,
+      pattern: "^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
+}
+
+message ListUsersRequest {
+  message Sorting {
+    /*
+       Field to sort by (e.g., "email").
+    */
+    string field = 1 [(buf.validate.field) = {
+      string: {
+        in: [
+          "",
+          "email"
+        ]
+      }
+      cel: {
+        id: "field.valid"
+        message: "field must be one of: email, or empty"
+        expression: "this in ['', 'email']"
+      }
+    }];
+    /*
+       Sort order for results.
+    */
+    meshtrade.type.v1.SortingOrder order = 2;
+  }
+  /*
+     Optional sorting configuration.
+  */
+  Sorting sorting = 1;
+}
+
+message ListUsersResponse {
+  repeated meshtrade.iam.user.v1.User users = 1;
+}
+
+message SearchUsersRequest {
+  /*
+     Email is a substring search for users.
+  */
+  string email = 1;
+  
+  message Sorting {
+    /*
+       Field to sort by (e.g., "email").
+    */
+    string field = 1 [(buf.validate.field) = {
+      string: {
+        in: [
+          "",
+          "email"
+        ]
+      }
+      cel: {
+        id: "field.valid"
+        message: "field must be one of: email, or empty"
+        expression: "this in ['', 'email']"
+      }
+    }];
+    /*
+       Sort order for results.
+    */
+    meshtrade.type.v1.SortingOrder order = 2;
+  }
+  /*
+     Optional sorting configuration.
+  */
+  Sorting sorting = 2;
+}
+
+message SearchUsersResponse {
+  repeated meshtrade.iam.user.v1.User users = 1;
+}
+
+message CreateUserRequest {
+  /*
+     The user resource to create.
+     The name field will be ignored and assigned by the server.
+  */
+  meshtrade.iam.user.v1.User user = 1 [(buf.validate.field) = {required: true}];
+}
+
+message UpdateUserRequest {
+  /*
+     Complete user resource with updated fields.
+     Only mutable fields can be modified.
+  */
+  meshtrade.iam.user.v1.User user = 1 [(buf.validate.field) = {required: true}];
 }

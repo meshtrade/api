@@ -2,74 +2,279 @@ syntax = "proto3";
 
 package meshtrade.iam.group.v1;
 
+import "buf/validate/validate.proto";
 import "meshtrade/iam/group/v1/group.proto";
 import "meshtrade/iam/role/v1/role.proto";
 import "meshtrade/option/v1/method_type.proto";
+import "meshtrade/type/v1/sorting.proto";
 
-option go_package = "github.com/meshtrade/api/go/iam/group/v1;groupv1";
+option go_package = "github.com/meshtrade/api/go/iam/group/v1;group_v1";
 option java_package = "co.meshtrade.api.iam.group.v1";
 
+/*
+   GroupService manages organizational group hierarchy and lifecycle operations.
+
+   Groups are the fundamental multi-tenancy units in Mesh that own resources,
+   define permission boundaries, and enable hierarchical access control.
+   Each group can own sub-groups, users, API users, and platform resources,
+   forming tree structures for inherited permissions and resource isolation.
+
+   All operations are scoped to the authenticated group's hierarchy and
+   require appropriate IAM domain permissions.
+*/
 service GroupService {
   /*
-     Get Specific Group.
+     Creates a new child group within the authenticated group's hierarchy.
+
+     The new group inherits access from its parent and becomes part of the
+     organizational structure. Group ownership must match the executing context.
   */
-  rpc GetGroup(GetGroupRequest) returns (meshtrade.iam.group.v1.Group) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
+  rpc CreateGroup(CreateGroupRequest) returns (Group) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
     option (meshtrade.iam.role.v1.roles) = {
       roles: [
         ROLE_IAM_ADMIN,
-        ROLE_IAM_VIEWER
+        ROLE_IAM_GROUP_ADMIN
       ]
     };
   }
 
   /*
-     Get all groups
+     Updates an existing group's display name and description metadata.
+
+     Only mutable fields can be modified while preserving the group's
+     identity and ownership within the hierarchy.
+  */
+  rpc UpdateGroup(UpdateGroupRequest) returns (Group) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_GROUP_ADMIN
+      ]
+    };
+  }
+
+  /*
+     Retrieves all groups within the authenticated group's hierarchical scope.
+
+     Returns the complete organizational structure accessible to the executing
+     context, including the root group and all descendant groups.
   */
   rpc ListGroups(ListGroupsRequest) returns (ListGroupsResponse) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
     option (meshtrade.iam.role.v1.roles) = {
       roles: [
         ROLE_IAM_ADMIN,
-        ROLE_IAM_VIEWER
+        ROLE_IAM_VIEWER,
+        ROLE_IAM_GROUP_ADMIN,
+        ROLE_IAM_GROUP_VIEWER
       ]
     };
   }
 
   /*
-     Get all groups with search filtering options.
+     Searches groups using flexible text criteria within the hierarchy.
+
+     Performs case-insensitive substring matching on display names and
+     descriptions using OR logic across search terms.
   */
   rpc SearchGroups(SearchGroupsRequest) returns (SearchGroupsResponse) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
     option (meshtrade.iam.role.v1.roles) = {
       roles: [
         ROLE_IAM_ADMIN,
-        ROLE_IAM_VIEWER
+        ROLE_IAM_VIEWER,
+        ROLE_IAM_GROUP_ADMIN,
+        ROLE_IAM_GROUP_VIEWER
+      ]
+    };
+  }
+
+  /*
+     Retrieves a specific group by its resource identifier within the hierarchy.
+
+     Provides access to a single group's complete metadata and organizational
+     context if accessible within the executing group's scope.
+  */
+  rpc GetGroup(GetGroupRequest) returns (Group) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_VIEWER,
+        ROLE_IAM_GROUP_ADMIN,
+        ROLE_IAM_GROUP_VIEWER
       ]
     };
   }
 }
 
-message GetGroupRequest {
+/*
+   Request to create a new group.
+*/
+message CreateGroupRequest {
   /*
-     Name of the group to get.
+     The group configuration for creation.
+     The name field will be ignored and assigned by the system.
   */
-  string name = 1;
+  Group group = 1 [(buf.validate.field) = {required: true}];
 }
 
-message ListGroupsRequest {}
+/*
+   Request to update an existing group.
+*/
+message UpdateGroupRequest {
+  /*
+     Complete group resource with updated fields.
+     Only display_name and description can be modified.
+  */
+  Group group = 1 [(buf.validate.field) = {required: true}];
+}
 
+/*
+   Request to list all groups in the hierarchy.
+*/
+message ListGroupsRequest {
+  /*
+     Sorting configuration for organizing results.
+  */
+  message Sorting {
+    /*
+       Field to sort by (e.g., "name", "display_name").
+    */
+    string field = 1 [(buf.validate.field) = {
+      string: {
+        in: [
+          "",
+          "name",
+          "display_name"
+        ]
+      }
+      cel: {
+        id: "field.valid"
+        message: "field must be one of: name, display_name, or empty"
+        expression: "this in ['', 'name', 'display_name']"
+      }
+    }];
+
+    /*
+       Sort order for results.
+    */
+    meshtrade.type.v1.SortingOrder order = 2;
+  }
+
+  /*
+     Optional sorting configuration.
+  */
+  Sorting sorting = 1;
+}
+
+/*
+   Response containing a list of groups.
+*/
 message ListGroupsResponse {
-  repeated meshtrade.iam.group.v1.Group groups = 1;
+  /*
+     Collection of groups in the hierarchy.
+  */
+  repeated Group groups = 1;
 }
 
+/*
+   Request to search groups with filtering criteria.
+*/
 message SearchGroupsRequest {
   /*
-     Name is a substring search for groups.
+     Sorting configuration for organizing results.
   */
-  string name = 1;
+  message Sorting {
+    /*
+       Field to sort by ("name" or "display_name").
+    */
+    string field = 1 [(buf.validate.field) = {
+      string: {
+        in: [
+          "",
+          "name",
+          "display_name"
+        ]
+      }
+      cel: {
+        id: "field.valid"
+        message: "field must be one of: name, display_name, or empty"
+        expression: "this in ['', 'name', 'display_name']"
+      }
+    }];
+
+    /*
+       Sort order for results.
+    */
+    meshtrade.type.v1.SortingOrder order = 2;
+  }
+
+  /*
+     Optional substring to search for in group display names.
+     Case-insensitive partial matching.
+  */
+  string display_name = 1 [(buf.validate.field) = {
+    string: {max_len: 255}
+    cel: {
+      id: "display_name.max_length"
+      message: "display_name search term must not exceed 255 characters"
+      expression: "size(this) <= 255"
+    }
+  }];
+
+  /*
+     Optional substring to search for in group descriptions.
+     Case-insensitive partial matching.
+  */
+  string description = 2 [(buf.validate.field) = {
+    string: {max_len: 255}
+    cel: {
+      id: "description.max_length"
+      message: "description search term must not exceed 255 characters"
+      expression: "size(this) <= 255"
+    }
+  }];
+
+  /*
+     Optional sorting configuration.
+  */
+  Sorting sorting = 3;
 }
 
+/*
+   Response containing search results.
+*/
 message SearchGroupsResponse {
-  repeated meshtrade.iam.group.v1.Group groups = 1;
+  /*
+     Collection of groups matching the search criteria.
+  */
+  repeated Group groups = 1;
+}
+
+/*
+   Request to retrieve a specific group.
+*/
+message GetGroupRequest {
+  /*
+     The resource name of the group to retrieve in format groups/{group_id}.
+  */
+  string name = 1 [(buf.validate.field) = {
+    string: {
+      min_len: 1
+      pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+    }
+    cel: {
+      id: "name.required"
+      message: "name is required and must be in format groups/{ULIDv2}"
+      expression: "size(this) > 0"
+    }
+    cel: {
+      id: "name.format"
+      message: "name must be in format groups/{ULIDv2} where ulidv2 is exactly 26 uppercase alphanumeric characters"
+      expression: "this.matches('^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
+    }
+  }];
 }

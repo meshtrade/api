@@ -4,7 +4,7 @@
 // - protoc             (unknown)
 // source: meshtrade/reporting/account_report/v1/service.proto
 
-package account_reportv1
+package account_report_v1
 
 import (
 	context "context"
@@ -27,21 +27,25 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
-// AccountReportService manages comprehensive account activity report generation and export.
+// The AccountReportService provides endpoints for generating and exporting
+// comprehensive account activity reports.
 //
-// This service allows clients to retrieve structured account reports containing
-// income entries, fee transactions, and trading statements, as well as download
-// them as Excel files. Reports are generated for a specified account over a
-// given time range with all values denominated in the account's reporting currency.
+// Clients can use this service to retrieve structured reports containing income,
+// fees, and trading statements for a specified account and time period. All
+// financial values within the reports are denominated in a user-specified
+// reporting currency.
 //
-// All operations require Reporting domain permissions and operate within
-// the authenticated group context.
+// Access to all service methods requires appropriate Reporting domain permissions.
 type AccountReportServiceClient interface {
-	// Retrieves a structured account report for the given account, within the given time range
-	// denominated in the given reporting asset token.
+	// Retrieves a structured account report.
+	//
+	// Generates a detailed report for the given account and time range, with all
+	// values denominated in the specified reporting asset token.
 	GetAccountReport(ctx context.Context, in *GetAccountReportRequest, opts ...grpc.CallOption) (*AccountReport, error)
-	// Retrieves a structured account report for the given account, within the given time range
-	// denominated in the given reporting asset token, exported to an Excel file that can be downloaded.
+	// Exports an account report as a downloadable Excel file.
+	//
+	// Generates the same report as GetAccountReport but returns it as a
+	// base64-encoded string representing an Excel (.xlsx) file.
 	GetExcelAccountReport(ctx context.Context, in *GetExcelAccountReportRequest, opts ...grpc.CallOption) (*GetExcelAccountReportResponse, error)
 }
 
@@ -77,21 +81,25 @@ func (c *accountReportServiceClient) GetExcelAccountReport(ctx context.Context, 
 // All implementations must embed UnimplementedAccountReportServiceServer
 // for forward compatibility.
 //
-// AccountReportService manages comprehensive account activity report generation and export.
+// The AccountReportService provides endpoints for generating and exporting
+// comprehensive account activity reports.
 //
-// This service allows clients to retrieve structured account reports containing
-// income entries, fee transactions, and trading statements, as well as download
-// them as Excel files. Reports are generated for a specified account over a
-// given time range with all values denominated in the account's reporting currency.
+// Clients can use this service to retrieve structured reports containing income,
+// fees, and trading statements for a specified account and time period. All
+// financial values within the reports are denominated in a user-specified
+// reporting currency.
 //
-// All operations require Reporting domain permissions and operate within
-// the authenticated group context.
+// Access to all service methods requires appropriate Reporting domain permissions.
 type AccountReportServiceServer interface {
-	// Retrieves a structured account report for the given account, within the given time range
-	// denominated in the given reporting asset token.
+	// Retrieves a structured account report.
+	//
+	// Generates a detailed report for the given account and time range, with all
+	// values denominated in the specified reporting asset token.
 	GetAccountReport(context.Context, *GetAccountReportRequest) (*AccountReport, error)
-	// Retrieves a structured account report for the given account, within the given time range
-	// denominated in the given reporting asset token, exported to an Excel file that can be downloaded.
+	// Exports an account report as a downloadable Excel file.
+	//
+	// Generates the same report as GetAccountReport but returns it as a
+	// base64-encoded string representing an Excel (.xlsx) file.
 	GetExcelAccountReport(context.Context, *GetExcelAccountReportRequest) (*GetExcelAccountReportResponse, error)
 	mustEmbedUnimplementedAccountReportServiceServer()
 }

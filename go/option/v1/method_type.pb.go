@@ -4,7 +4,7 @@
 // 	protoc        (unknown)
 // source: meshtrade/option/v1/method_type.proto
 
-package optionv1
+package option_v1
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -105,8 +105,8 @@ const file_meshtrade_option_v1_method_type_proto_rawDesc = "" +
 	"\x10METHOD_TYPE_READ\x10\x01\x12\x15\n" +
 	"\x11METHOD_TYPE_WRITE\x10\x02:b\n" +
 	"\vmethod_type\x12\x1e.google.protobuf.MethodOptions\x18Ԇ\x03 \x01(\x0e2\x1f.meshtrade.option.v1.MethodTypeR\n" +
-	"methodTypeBL\n" +
-	"\x1aco.meshtrade.api.option.v1Z.github.com/meshtrade/api/go/option/v1;optionv1b\x06proto3"
+	"methodTypeBM\n" +
+	"\x1aco.meshtrade.api.option.v1Z/github.com/meshtrade/api/go/option/v1;option_v1b\x06proto3"
 
 var (
 	file_meshtrade_option_v1_method_type_proto_rawDescOnce sync.Once

@@ -4,7 +4,7 @@
 // - protoc             (unknown)
 // source: meshtrade/iam/api_user/v1/service.proto
 
-package api_userv1
+package api_user_v1
 
 import (
 	context "context"
@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	ApiUserService_GetApiUser_FullMethodName          = "/meshtrade.iam.api_user.v1.ApiUserService/GetApiUser"
 	ApiUserService_CreateApiUser_FullMethodName       = "/meshtrade.iam.api_user.v1.ApiUserService/CreateApiUser"
+	ApiUserService_AssignRoleToAPIUser_FullMethodName = "/meshtrade.iam.api_user.v1.ApiUserService/AssignRoleToAPIUser"
 	ApiUserService_ListApiUsers_FullMethodName        = "/meshtrade.iam.api_user.v1.ApiUserService/ListApiUsers"
 	ApiUserService_SearchApiUsers_FullMethodName      = "/meshtrade.iam.api_user.v1.ApiUserService/SearchApiUsers"
 	ApiUserService_ActivateApiUser_FullMethodName     = "/meshtrade.iam.api_user.v1.ApiUserService/ActivateApiUser"
@@ -52,6 +53,11 @@ type ApiUserServiceClient interface {
 	// and assigned the provided roles. The system generates a unique
 	// identifier and API key for authentication.
 	CreateApiUser(ctx context.Context, in *CreateApiUserRequest, opts ...grpc.CallOption) (*APIUser, error)
+	// Assigns a role to an existing api user within the authenticated group context.
+	//
+	// The role assignment enables the api user to perform operations according
+	// to the permissions associated with that role within the group hierarchy.
+	AssignRoleToAPIUser(ctx context.Context, in *AssignRoleToAPIUserRequest, opts ...grpc.CallOption) (*APIUser, error)
 	// Lists all API users in the authenticated group context.
 	//
 	// Returns all API users that belong to the current group,
@@ -101,6 +107,16 @@ func (c *apiUserServiceClient) CreateApiUser(ctx context.Context, in *CreateApiU
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(APIUser)
 	err := c.cc.Invoke(ctx, ApiUserService_CreateApiUser_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiUserServiceClient) AssignRoleToAPIUser(ctx context.Context, in *AssignRoleToAPIUserRequest, opts ...grpc.CallOption) (*APIUser, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(APIUser)
+	err := c.cc.Invoke(ctx, ApiUserService_AssignRoleToAPIUser_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -181,6 +197,11 @@ type ApiUserServiceServer interface {
 	// and assigned the provided roles. The system generates a unique
 	// identifier and API key for authentication.
 	CreateApiUser(context.Context, *CreateApiUserRequest) (*APIUser, error)
+	// Assigns a role to an existing api user within the authenticated group context.
+	//
+	// The role assignment enables the api user to perform operations according
+	// to the permissions associated with that role within the group hierarchy.
+	AssignRoleToAPIUser(context.Context, *AssignRoleToAPIUserRequest) (*APIUser, error)
 	// Lists all API users in the authenticated group context.
 	//
 	// Returns all API users that belong to the current group,
@@ -221,6 +242,9 @@ func (UnimplementedApiUserServiceServer) GetApiUser(context.Context, *GetApiUser
 }
 func (UnimplementedApiUserServiceServer) CreateApiUser(context.Context, *CreateApiUserRequest) (*APIUser, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateApiUser not implemented")
+}
+func (UnimplementedApiUserServiceServer) AssignRoleToAPIUser(context.Context, *AssignRoleToAPIUserRequest) (*APIUser, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AssignRoleToAPIUser not implemented")
 }
 func (UnimplementedApiUserServiceServer) ListApiUsers(context.Context, *ListApiUsersRequest) (*ListApiUsersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListApiUsers not implemented")
@@ -290,6 +314,24 @@ func _ApiUserService_CreateApiUser_Handler(srv interface{}, ctx context.Context,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ApiUserServiceServer).CreateApiUser(ctx, req.(*CreateApiUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ApiUserService_AssignRoleToAPIUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AssignRoleToAPIUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiUserServiceServer).AssignRoleToAPIUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ApiUserService_AssignRoleToAPIUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiUserServiceServer).AssignRoleToAPIUser(ctx, req.(*AssignRoleToAPIUserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -398,6 +440,10 @@ var ApiUserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateApiUser",
 			Handler:    _ApiUserService_CreateApiUser_Handler,
+		},
+		{
+			MethodName: "AssignRoleToAPIUser",
+			Handler:    _ApiUserService_AssignRoleToAPIUser_Handler,
 		},
 		{
 			MethodName: "ListApiUsers",

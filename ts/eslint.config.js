@@ -25,6 +25,6 @@ module.exports = tseslint.config(
     }
   },
   {
-    ignores: ["dist/**", ".prettierrc.js", "eslint.config.js", "src/**/*.d.ts", "src/**/*.js"],
+    ignores: ["dist/**", ".prettierrc.js", "eslint.config.js", "src/**/*.d.ts", "src/**/*.js", ".venv/**"],
   }
 );

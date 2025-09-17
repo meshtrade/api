@@ -1,4 +1,4 @@
-package rolev1
+package role_v1
 
 import (
 	"fmt"

@@ -1,3 +1,4 @@
+import co.meshtrade.api.type.v1.Ledger;
 import co.meshtrade.api.wallet.account.v1.AccountService;
 import co.meshtrade.api.wallet.account.v1.Service.CreateAccountRequest;
 import co.meshtrade.api.wallet.account.v1.Account.Account;
@@ -12,14 +13,22 @@ public class CreateAccountExample {
         try (AccountService service = new AccountService()) {
             // Create request with service-specific parameters
             CreateAccountRequest request = CreateAccountRequest.newBuilder()
-                // FIXME: Populate service-specific request fields
+                .setAccount(Account.newBuilder()
+                    .setOwner(service.group())  // Current group from service context
+                    .setLedger(Ledger.LEDGER_STELLAR)  // Choose ledger network
+                    .setDisplayName("Primary Trading Account")
+                    .build())
                 .build();
 
             // Call the CreateAccount method
             Account account = service.createAccount(request, Optional.empty());
 
-            // FIXME: Add relevant response object usage
-            System.out.println("CreateAccount successful: " + account);
+            // The account is created but not yet open on-chain
+            System.out.println("Account created successfully:");
+            System.out.println("  Name: " + account.getName());
+            System.out.println("  Number: " + account.getNumber());
+            System.out.println("  Ledger: " + account.getLedger());
+            System.out.println("  State: " + account.getState());
         } catch (Exception e) {
             System.err.println("CreateAccount failed: " + e.getMessage());
             e.printStackTrace();

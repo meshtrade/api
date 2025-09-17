@@ -7,7 +7,7 @@ import "meshtrade/iam/api_user/v1/api_user.proto";
 import "meshtrade/iam/role/v1/role.proto";
 import "meshtrade/option/v1/method_type.proto";
 
-option go_package = "github.com/meshtrade/api/go/iam/api_user/v1;api_userv1";
+option go_package = "github.com/meshtrade/api/go/iam/api_user/v1;api_user_v1";
 option java_package = "co.meshtrade.api.iam.api_user.v1";
 
 /*
@@ -32,7 +32,9 @@ service ApiUserService {
     option (meshtrade.iam.role.v1.roles) = {
       roles: [
         ROLE_IAM_ADMIN,
-        ROLE_IAM_VIEWER
+        ROLE_IAM_VIEWER,
+        ROLE_IAM_API_USER_ADMIN,
+        ROLE_IAM_API_USER_VIEWER
       ]
     };
   }
@@ -47,9 +49,28 @@ service ApiUserService {
   rpc CreateApiUser(CreateApiUserRequest) returns (meshtrade.iam.api_user.v1.APIUser) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
     option (meshtrade.iam.role.v1.roles) = {
-      roles: [ROLE_IAM_ADMIN]
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_API_USER_ADMIN        
+      ]
     };
   }
+
+  /*
+     Assigns a role to an existing api user within the authenticated group context.
+
+     The role assignment enables the api user to perform operations according
+     to the permissions associated with that role within the group hierarchy.
+  */
+  rpc AssignRoleToAPIUser(AssignRoleToAPIUserRequest) returns (meshtrade.iam.api_user.v1.APIUser) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_API_USER_ADMIN        
+      ]
+    };
+  }  
 
   /*
      Lists all API users in the authenticated group context.
@@ -62,7 +83,9 @@ service ApiUserService {
     option (meshtrade.iam.role.v1.roles) = {
       roles: [
         ROLE_IAM_ADMIN,
-        ROLE_IAM_VIEWER
+        ROLE_IAM_VIEWER,
+        ROLE_IAM_API_USER_ADMIN,
+        ROLE_IAM_API_USER_VIEWER        
       ]
     };
   }
@@ -78,7 +101,9 @@ service ApiUserService {
     option (meshtrade.iam.role.v1.roles) = {
       roles: [
         ROLE_IAM_ADMIN,
-        ROLE_IAM_VIEWER
+        ROLE_IAM_VIEWER,
+        ROLE_IAM_API_USER_ADMIN,
+        ROLE_IAM_API_USER_VIEWER        
       ]
     };
   }
@@ -92,7 +117,10 @@ service ApiUserService {
   rpc ActivateApiUser(ActivateApiUserRequest) returns (meshtrade.iam.api_user.v1.APIUser) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
     option (meshtrade.iam.role.v1.roles) = {
-      roles: [ROLE_IAM_ADMIN]
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_API_USER_ADMIN        
+      ]
     };
   }
 
@@ -105,7 +133,10 @@ service ApiUserService {
   rpc DeactivateApiUser(DeactivateApiUserRequest) returns (meshtrade.iam.api_user.v1.APIUser) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
     option (meshtrade.iam.role.v1.roles) = {
-      roles: [ROLE_IAM_ADMIN]
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_API_USER_ADMIN        
+      ]
     };
   }
 
@@ -120,7 +151,9 @@ service ApiUserService {
     option (meshtrade.iam.role.v1.roles) = {
       roles: [
         ROLE_IAM_ADMIN,
-        ROLE_IAM_VIEWER
+        ROLE_IAM_VIEWER,
+        ROLE_IAM_API_USER_ADMIN,
+        ROLE_IAM_API_USER_VIEWER        
       ]
     };
   }
@@ -128,16 +161,28 @@ service ApiUserService {
 
 message GetApiUserRequest {
   /*
-     Name of the API user to get.
+     Name of the API user to retrieve.
+     Format: api_users/{ULIDv2}
   */
-  string name = 1;
+  string name = 1 [(buf.validate.field) = {
+    required: true,
+    string: {
+      len: 36,
+      pattern: "^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+    }
+  }];
 }
 
 message GetApiUserByKeyHashRequest {
   /*
      Key hash of the API user to get.
   */
-  string key_hash = 1;
+  string key_hash = 1 [(buf.validate.field) = {
+    required: true,
+    string: {
+      len: 44,
+    }
+  }];
 }
 
 message CreateApiUserRequest {
@@ -145,7 +190,31 @@ message CreateApiUserRequest {
      The API user resource to create.
      The name field will be ignored and assigned by the server.
   */
-  meshtrade.iam.api_user.v1.APIUser api_user = 1;
+  meshtrade.iam.api_user.v1.APIUser api_user = 1 [(buf.validate.field) = {required: true}];
+}
+
+message AssignRoleToAPIUserRequest {
+  /*
+     Name of the api user to assign a role to.
+  */
+  string name = 1 [(buf.validate.field) = {
+    string: {
+      len: 36,
+      pattern: "^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+    }
+  }];
+
+  /*
+     Role to assign to the api user in the format groups/{ULIDv2}/{role_id}.
+     The role_id corresponds to a value from the meshtrade.iam.role.v1.Role enum.
+  */
+  string role = 4 [(buf.validate.field) = {
+    required: true,
+    string: {
+      len: 41,
+      pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/[123456][0-9]{6}$"
+    }
+  }];  
 }
 
 message ListApiUsersRequest {}
@@ -168,16 +237,13 @@ message SearchApiUsersResponse {
 message ActivateApiUserRequest {
   /*
      Name of the API user to activate.
+     Format: api_users/{ULIDv2}
   */
   string name = 1 [(buf.validate.field) = {
+    required: true,
     string: {
-      min_len: 1
-      pattern: "^api_users/[0-9A-HJKMNP-TV-Z]{26}$"
-    }
-    cel: {
-      id: "name.required"
-      message: "name is required and must be in format api_users/{id}"
-      expression: "this.matches('^api_users/[0-9A-HJKMNP-TV-Z]{26}$')"
+      len: 36,
+      pattern: "^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
 }
@@ -185,16 +251,13 @@ message ActivateApiUserRequest {
 message DeactivateApiUserRequest {
   /*
      Name of the API user to deactivate.
+     Format: api_users/{ULIDv2}
   */
   string name = 1 [(buf.validate.field) = {
+    required: true,
     string: {
-      min_len: 1
-      pattern: "^api_users/[0-9A-HJKMNP-TV-Z]{26}$"
-    }
-    cel: {
-      id: "name.required"
-      message: "name is required and must be in format api_users/{id}"
-      expression: "this.matches('^api_users/[0-9A-HJKMNP-TV-Z]{26}$')"
+      len: 36,
+      pattern: "^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
 }

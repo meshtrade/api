@@ -2,7 +2,9 @@ syntax = "proto3";
 
 package meshtrade.compliance.client.v1;
 
-option go_package = "github.com/meshtrade/api/go/compliance/client/v1;clientv1";
+import "buf/validate/validate.proto";
+
+option go_package = "github.com/meshtrade/api/go/compliance/client/v1;client_v1";
 option java_package = "co.meshtrade.api.compliance.client.v1";
 
 /*
@@ -18,11 +20,21 @@ message TaxResidency {
      See https://www.iso.org/iso-3166-country-codes.html for a full list.
      Required for verification.
   */
-  string country_code = 1;
+  string country_code = 1 [(buf.validate.field) = {
+    cel: {
+      id: "country_code.format.optional",
+      message: "country_code must be empty or a valid ISO 3166-1 alpha-2 country code",
+      expression: "size(this) == 0 || this.matches('^[A-Z]{2}$')"
+    }
+  }];
 
   /*
      The Tax Identification Number (TIN) for the client in that jurisdiction.
      Required for verification.
   */
-  string tin = 2;
+  string tin = 2 [(buf.validate.field) = {
+    string: {
+      max_len: 100
+    }
+  }];
 }

@@ -4,7 +4,7 @@
 // 	protoc        (unknown)
 // source: meshtrade/reporting/account_report/v1/trading_statement_entry.proto
 
-package account_reportv1
+package account_report_v1
 
 import (
 	v1 "github.com/meshtrade/api/go/type/v1"
@@ -149,8 +149,8 @@ const file_meshtrade_reporting_account_report_v1_trading_statement_entry_proto_r
 	"\x06amount\x18\x05 \x01(\v2\x19.meshtrade.type.v1.AmountR\x06amount\x12/\n" +
 	"\x05price\x18\x06 \x01(\v2\x19.meshtrade.type.v1.AmountR\x05price\x12-\n" +
 	"\x04cost\x18\a \x01(\v2\x19.meshtrade.type.v1.AmountR\x04cost\x123\n" +
-	"\abalance\x18\b \x01(\v2\x19.meshtrade.type.v1.AmountR\abalanceBx\n" +
-	",co.meshtrade.api.reporting.account_report.v1ZHgithub.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1b\x06proto3"
+	"\abalance\x18\b \x01(\v2\x19.meshtrade.type.v1.AmountR\abalanceBy\n" +
+	",co.meshtrade.api.reporting.account_report.v1ZIgithub.com/meshtrade/api/go/reporting/account_report/v1;account_report_v1b\x06proto3"
 
 var (
 	file_meshtrade_reporting_account_report_v1_trading_statement_entry_proto_rawDescOnce sync.Once

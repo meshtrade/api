@@ -4,7 +4,7 @@
 // 	protoc        (unknown)
 // source: meshtrade/compliance/client/v1/company_representative_role.proto
 
-package clientv1
+package client_v1
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -120,8 +120,8 @@ const file_meshtrade_compliance_client_v1_company_representative_role_proto_rawD
 	"$COMPANY_REPRESENTATIVE_ROLE_DIRECTOR\x10\x05\x12'\n" +
 	"#COMPANY_REPRESENTATIVE_ROLE_MANAGER\x10\x06\x124\n" +
 	"0COMPANY_REPRESENTATIVE_ROLE_AUTHORIZED_SIGNATORY\x10\a\x12/\n" +
-	"+COMPANY_REPRESENTATIVE_ROLE_PRIMARY_CONTACT\x10\bBb\n" +
-	"%co.meshtrade.api.compliance.client.v1Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
+	"+COMPANY_REPRESENTATIVE_ROLE_PRIMARY_CONTACT\x10\bBc\n" +
+	"%co.meshtrade.api.compliance.client.v1Z:github.com/meshtrade/api/go/compliance/client/v1;client_v1b\x06proto3"
 
 var (
 	file_meshtrade_compliance_client_v1_company_representative_role_proto_rawDescOnce sync.Once

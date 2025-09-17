@@ -1,4 +1,4 @@
-package typev1
+package type_v1
 
 func (n Ledger) IsValid() bool {
 	_, ok := Ledger_name[int32(n)]

@@ -4,7 +4,7 @@
 // 	protoc        (unknown)
 // source: meshtrade/reporting/account_report/v1/service.proto
 
-package account_reportv1
+package account_report_v1
 
 import (
 	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
@@ -26,17 +26,19 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// Defines the parameters for requesting a structured account report.
 type GetAccountReportRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Mesh account number for which the account report is requested.
+	// The Account Number for which the report is requested.
+	// Must be a 7-digit number starting with '1'.
 	AccountNumber string `protobuf:"bytes,1,opt,name=account_number,json=accountNumber,proto3" json:"account_number,omitempty"`
-	// Start of the reporting period (inclusive).
+	// The start of the reporting period (inclusive). This field is required.
 	PeriodStart *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=period_start,json=periodStart,proto3" json:"period_start,omitempty"`
-	// End of the reporting period (inclusive).
+	// The end of the reporting period (inclusive). This field is required.
 	PeriodEnd *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=period_end,json=periodEnd,proto3" json:"period_end,omitempty"`
-	// Reporting Asset Token is the asset token in which assets/transactions will be valuated.
-	// This will typically refer to some fiat currency stablecoin, but could also refer to another currency
-	// such as a crypto currency XLM, BTC etc.
+	// The asset token used to valuate all financial data in the report.
+	// This is typically a fiat stablecoin (e.g., USDC) but can be any supported asset.
+	// This field is required.
 	ReportingAssetToken *v1.Token `protobuf:"bytes,4,opt,name=reporting_asset_token,json=reportingAssetToken,proto3" json:"reporting_asset_token,omitempty"`
 	unknownFields       protoimpl.UnknownFields
 	sizeCache           protoimpl.SizeCache
@@ -100,17 +102,19 @@ func (x *GetAccountReportRequest) GetReportingAssetToken() *v1.Token {
 	return nil
 }
 
+// Defines the parameters for requesting an Excel export of an account report.
 type GetExcelAccountReportRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Mesh account number for which the account report is requested.
+	// The Unique Mesh Account Number for which the report is requested.
+	// Must be a 7-digit number starting with '1'.
 	AccountNumber string `protobuf:"bytes,1,opt,name=account_number,json=accountNumber,proto3" json:"account_number,omitempty"`
-	// Start of the reporting period (inclusive).
+	// The start of the reporting period (inclusive). This field is required.
 	PeriodStart *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=period_start,json=periodStart,proto3" json:"period_start,omitempty"`
-	// End of the reporting period (inclusive).
+	// The end of the reporting period (inclusive). This field is required.
 	PeriodEnd *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=period_end,json=periodEnd,proto3" json:"period_end,omitempty"`
-	// Reporting Asset Token is the asset token in which assets/transactions will be valuated.
-	// This will typically refer to some fiat currency stablecoin, but could also refer to another currency
-	// such as a crypto currency XLM, BTC etc.
+	// The asset token used to valuate all financial data in the report.
+	// This is typically a fiat stablecoin (e.g., mZAR or USDC) but can be any supported asset.
+	// This field is required.
 	ReportingAssetToken *v1.Token `protobuf:"bytes,4,opt,name=reporting_asset_token,json=reportingAssetToken,proto3" json:"reporting_asset_token,omitempty"`
 	unknownFields       protoimpl.UnknownFields
 	sizeCache           protoimpl.SizeCache
@@ -174,9 +178,11 @@ func (x *GetExcelAccountReportRequest) GetReportingAssetToken() *v1.Token {
 	return nil
 }
 
+// Contains the response for an Excel account report export.
 type GetExcelAccountReportResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Base64-encoded binary content of the Excel report file.
+	// The binary content of the generated Excel (.xlsx) report, encoded as a
+	// base64 string.
 	ExcelBase64   string `protobuf:"bytes,1,opt,name=excel_base64,json=excelBase64,proto3" json:"excel_base64,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -223,22 +229,21 @@ var File_meshtrade_reporting_account_report_v1_service_proto protoreflect.FileDe
 
 const file_meshtrade_reporting_account_report_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"3meshtrade/reporting/account_report/v1/service.proto\x12%meshtrade.reporting.account_report.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\x1a:meshtrade/reporting/account_report/v1/account_report.proto\x1a\x1dmeshtrade/type/v1/token.proto\"\x88\x02\n" +
-	"\x17GetAccountReportRequest\x12%\n" +
-	"\x0eaccount_number\x18\x01 \x01(\tR\raccountNumber\x12=\n" +
-	"\fperiod_start\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\vperiodStart\x129\n" +
+	"3meshtrade/reporting/account_report/v1/service.proto\x12%meshtrade.reporting.account_report.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\x1a:meshtrade/reporting/account_report/v1/account_report.proto\x1a\x1dmeshtrade/type/v1/token.proto\"\xa7\x03\n" +
+	"\x17GetAccountReportRequest\x129\n" +
+	"\x0eaccount_number\x18\x01 \x01(\tB\x12\xbaH\x0fr\r2\v^1[0-9]{6}$R\raccountNumber\x12E\n" +
+	"\fperiod_start\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xbaH\x03\xc8\x01\x01R\vperiodStart\x12A\n" +
 	"\n" +
-	"period_end\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tperiodEnd\x12L\n" +
-	"\x15reporting_asset_token\x18\x04 \x01(\v2\x18.meshtrade.type.v1.TokenR\x13reportingAssetToken\"\x9d\x04\n" +
-	"\x1cGetExcelAccountReportRequest\x12\x90\x01\n" +
-	"\x0eaccount_number\x18\x01 \x01(\tBi\xbaHf\xba\x01R\n" +
-	"\x17account_number.required\x12\x1aaccount_number is required\x1a\x1bthis.matches('^[0-9]{1,}$')r\x0f\x10\x012\v^[0-9]{1,}$R\raccountNumber\x12\x90\x01\n" +
-	"\fperiod_start\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampBQ\xbaHN\xba\x01K\n" +
-	"\x15period_start.required\x12$'period_start' timestamp is required\x1a\fthis != nullR\vperiodStart\x12\x88\x01\n" +
+	"period_end\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xbaH\x03\xc8\x01\x01R\tperiodEnd\x12T\n" +
+	"\x15reporting_asset_token\x18\x04 \x01(\v2\x18.meshtrade.type.v1.TokenB\x06\xbaH\x03\xc8\x01\x01R\x13reportingAssetToken:q\xbaHn\x1al\n" +
+	"\x18period.chronological.get\x12+period_end must be on or after period_start\x1a#this.period_end > this.period_start\"\xaf\x03\n" +
+	"\x1cGetExcelAccountReportRequest\x129\n" +
+	"\x0eaccount_number\x18\x01 \x01(\tB\x12\xbaH\x0fr\r2\v^1[0-9]{6}$R\raccountNumber\x12E\n" +
+	"\fperiod_start\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xbaH\x03\xc8\x01\x01R\vperiodStart\x12A\n" +
 	"\n" +
-	"period_end\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampBM\xbaHJ\xba\x01G\n" +
-	"\x13period_end.required\x12\"'period_end' timestamp is required\x1a\fthis != nullR\tperiodEnd\x12L\n" +
-	"\x15reporting_asset_token\x18\x04 \x01(\v2\x18.meshtrade.type.v1.TokenR\x13reportingAssetToken\"B\n" +
+	"period_end\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xbaH\x03\xc8\x01\x01R\tperiodEnd\x12T\n" +
+	"\x15reporting_asset_token\x18\x04 \x01(\v2\x18.meshtrade.type.v1.TokenB\x06\xbaH\x03\xc8\x01\x01R\x13reportingAssetToken:t\xbaHq\x1ao\n" +
+	"\x1aperiod.chronological.excel\x12+period_end must be on or after period_start\x1a$this.period_end >= this.period_start\"B\n" +
 	"\x1dGetExcelAccountReportResponse\x12!\n" +
 	"\fexcel_base64\x18\x01 \x01(\tR\vexcelBase642\xee\x02\n" +
 	"\x14AccountReportService\x12\x9c\x01\n" +
@@ -247,8 +252,8 @@ const file_meshtrade_reporting_account_report_v1_service_proto_rawDesc = "" +
 	"\b\x80\x9b\xee\x02\x81\x9b\xee\x02\x12\xb6\x01\n" +
 	"\x15GetExcelAccountReport\x12C.meshtrade.reporting.account_report.v1.GetExcelAccountReportRequest\x1aD.meshtrade.reporting.account_report.v1.GetExcelAccountReportResponse\"\x12\xa0\xb5\x18\x01\xaa\xb5\x18\n" +
 	"\n" +
-	"\b\x80\x9b\xee\x02\x81\x9b\xee\x02Bx\n" +
-	",co.meshtrade.api.reporting.account_report.v1ZHgithub.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1b\x06proto3"
+	"\b\x80\x9b\xee\x02\x81\x9b\xee\x02By\n" +
+	",co.meshtrade.api.reporting.account_report.v1ZIgithub.com/meshtrade/api/go/reporting/account_report/v1;account_report_v1b\x06proto3"
 
 var (
 	file_meshtrade_reporting_account_report_v1_service_proto_rawDescOnce sync.Once

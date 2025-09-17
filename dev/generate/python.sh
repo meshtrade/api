@@ -26,7 +26,7 @@ if [[ -z "${VIRTUAL_ENV:-}" ]]; then
     echo "   If you don't have a virtual environment, create one:"
     echo "   python -m venv .venv"
     echo "   source .venv/bin/activate"
-    echo "   pip install -e \".[dev]\""
+    echo "   pip install -r requirements-dev.txt"
     exit 1
 fi
 
@@ -85,7 +85,7 @@ fi
 if [[ ${#MISSING_DEPS[@]} -gt 0 ]]; then
     echo "❌ ERROR: Missing required Python dependencies: ${MISSING_DEPS[*]}"
     echo "   Please install development dependencies:"
-    echo "   pip install -e \".[dev]\""
+    echo "   pip install -r requirements-dev.txt"
     exit 1
 fi
 

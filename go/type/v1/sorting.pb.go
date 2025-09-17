@@ -4,7 +4,7 @@
 // 	protoc        (unknown)
 // source: meshtrade/type/v1/sorting.proto
 
-package typev1
+package type_v1
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -79,8 +79,8 @@ const file_meshtrade_type_v1_sorting_proto_rawDesc = "" +
 	"\fSortingOrder\x12\x1d\n" +
 	"\x19SORTING_ORDER_UNSPECIFIED\x10\x00\x12\x15\n" +
 	"\x11SORTING_ORDER_ASC\x10\x01\x12\x16\n" +
-	"\x12SORTING_ORDER_DESC\x10\x02BF\n" +
-	"\x18co.meshtrade.api.type.v1Z*github.com/meshtrade/api/go/type/v1;typev1b\x06proto3"
+	"\x12SORTING_ORDER_DESC\x10\x02BG\n" +
+	"\x18co.meshtrade.api.type.v1Z+github.com/meshtrade/api/go/type/v1;type_v1b\x06proto3"
 
 var (
 	file_meshtrade_type_v1_sorting_proto_rawDescOnce sync.Once

@@ -4,9 +4,10 @@
 // 	protoc        (unknown)
 // source: meshtrade/iam/group/v1/group.proto
 
-package groupv1
+package group_v1
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -21,9 +22,28 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// Organizational group resource representing a multi-tenancy boundary.
+//
+// Groups form hierarchical ownership structures within Mesh, enabling resource
+// isolation, permission inheritance, and organizational modeling. Each group
+// can own sub-groups, users, API users, accounts, and trading resources,
+// providing a complete tenant separation model.
 type Group struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The unique resource name for the group.
+	// Format: groups/{ULIDv2}.
+	// This field is system-generated and immutable upon creation.
+	// Any value provided on creation is ignored.
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	// The resource name of the parent group that owns this group.
+	// This field is required on creation and establishes the direct ownership link.
+	// Format: groups/{ULIDv2}.
+	Owner string `protobuf:"bytes,2,opt,name=owner,proto3" json:"owner,omitempty"`
+	// Human-readable name for organizational identification and display.
+	// User-configurable and non-unique across the system.
+	DisplayName string `protobuf:"bytes,4,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
+	// Optional contextual information describing the group's organizational purpose.
+	Description   string `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -65,14 +85,40 @@ func (x *Group) GetName() string {
 	return ""
 }
 
+func (x *Group) GetOwner() string {
+	if x != nil {
+		return x.Owner
+	}
+	return ""
+}
+
+func (x *Group) GetDisplayName() string {
+	if x != nil {
+		return x.DisplayName
+	}
+	return ""
+}
+
+func (x *Group) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
 var File_meshtrade_iam_group_v1_group_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_group_v1_group_proto_rawDesc = "" +
 	"\n" +
-	"\"meshtrade/iam/group/v1/group.proto\x12\x16meshtrade.iam.group.v1\"\x1b\n" +
-	"\x05Group\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04nameBQ\n" +
-	"\x1dco.meshtrade.api.iam.group.v1Z0github.com/meshtrade/api/go/iam/group/v1;groupv1b\x06proto3"
+	"\"meshtrade/iam/group/v1/group.proto\x12\x16meshtrade.iam.group.v1\x1a\x1bbuf/validate/validate.proto\"\xf8\x02\n" +
+	"\x05Group\x12\xbc\x01\n" +
+	"\x04name\x18\x01 \x01(\tB\xa7\x01\xbaH\xa3\x01\xba\x01\x9f\x01\n" +
+	"\x14name.format.optional\x123name must be empty or in the format groups/{ULIDv2}\x1aRsize(this) == 0 || this.matches('^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12R\n" +
+	"\x05owner\x18\x02 \x01(\tB<\xbaH9\xc8\x01\x01r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05owner\x120\n" +
+	"\fdisplay_name\x18\x04 \x01(\tB\r\xbaH\n" +
+	"\xc8\x01\x01r\x05\x10\x01\x18\xff\x01R\vdisplayName\x12*\n" +
+	"\vdescription\x18\x05 \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aR\vdescriptionBR\n" +
+	"\x1dco.meshtrade.api.iam.group.v1Z1github.com/meshtrade/api/go/iam/group/v1;group_v1b\x06proto3"
 
 var (
 	file_meshtrade_iam_group_v1_group_proto_rawDescOnce sync.Once

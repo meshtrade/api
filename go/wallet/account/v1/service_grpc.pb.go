@@ -4,7 +4,7 @@
 // - protoc             (unknown)
 // source: meshtrade/wallet/account/v1/service.proto
 
-package accountv1
+package account_v1
 
 import (
 	context "context"
@@ -19,26 +19,74 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	AccountService_CreateAccount_FullMethodName  = "/meshtrade.wallet.account.v1.AccountService/CreateAccount"
-	AccountService_GetAccount_FullMethodName     = "/meshtrade.wallet.account.v1.AccountService/GetAccount"
-	AccountService_ListAccounts_FullMethodName   = "/meshtrade.wallet.account.v1.AccountService/ListAccounts"
-	AccountService_SearchAccounts_FullMethodName = "/meshtrade.wallet.account.v1.AccountService/SearchAccounts"
+	AccountService_CreateAccount_FullMethodName      = "/meshtrade.wallet.account.v1.AccountService/CreateAccount"
+	AccountService_UpdateAccount_FullMethodName      = "/meshtrade.wallet.account.v1.AccountService/UpdateAccount"
+	AccountService_OpenAccount_FullMethodName        = "/meshtrade.wallet.account.v1.AccountService/OpenAccount"
+	AccountService_CloseAccount_FullMethodName       = "/meshtrade.wallet.account.v1.AccountService/CloseAccount"
+	AccountService_GetAccount_FullMethodName         = "/meshtrade.wallet.account.v1.AccountService/GetAccount"
+	AccountService_GetAccountByNumber_FullMethodName = "/meshtrade.wallet.account.v1.AccountService/GetAccountByNumber"
+	AccountService_ListAccounts_FullMethodName       = "/meshtrade.wallet.account.v1.AccountService/ListAccounts"
+	AccountService_SearchAccounts_FullMethodName     = "/meshtrade.wallet.account.v1.AccountService/SearchAccounts"
 )
 
 // AccountServiceClient is the client API for AccountService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
-// AccountService provides access to and management of wallet accounts.
+// AccountService manages blockchain wallet accounts and their lifecycle operations (BETA).
+//
+// This service provides comprehensive account management capabilities across multiple
+// blockchain networks (Stellar, Solana, Bitcoin, Ethereum). Accounts serve as the
+// primary containers for holding and managing digital assets on the Mesh platform.
+//
+// Key capabilities include account creation, opening on-chain, balance queries,
+// and account lifecycle management. All operations are scoped to the authenticated
+// group's hierarchy and require appropriate wallet domain permissions.
+//
+// Note: This service is currently in BETA. Interface and functionality may change.
 type AccountServiceClient interface {
-	// Creates a new wallet account.
-	// This is a write operation restricted to administrative roles.
+	// Creates a new account record in the system (off-chain).
+	//
+	// The account is created in a pending state and must be explicitly opened
+	// on the blockchain using OpenAccount before it can receive funds or execute
+	// transactions. Account ownership must match the executing context.
 	CreateAccount(ctx context.Context, in *CreateAccountRequest, opts ...grpc.CallOption) (*Account, error)
-	// Retrieves a single wallet account by its unique number.
+	// Updates an existing account's mutable metadata.
+	//
+	// Only the display_name field can be modified. All other fields including
+	// ownership, ledger, and account number are immutable after creation.
+	UpdateAccount(ctx context.Context, in *UpdateAccountRequest, opts ...grpc.CallOption) (*Account, error)
+	// Opens an account on the blockchain ledger.
+	//
+	// Initializes the account on-chain, making it ready to receive deposits
+	// and execute transactions. Returns the opened account and a transaction
+	// reference for monitoring the blockchain operation.
+	OpenAccount(ctx context.Context, in *OpenAccountRequest, opts ...grpc.CallOption) (*OpenAccountResponse, error)
+	// Closes an account on the blockchain ledger.
+	//
+	// Deactivates the account on-chain, preventing further transactions.
+	// The account record remains queryable for historical purposes.
+	// Returns the closed account and a transaction reference.
+	CloseAccount(ctx context.Context, in *CloseAccountRequest, opts ...grpc.CallOption) (*CloseAccountResponse, error)
+	// Retrieves a specific account by its resource identifier.
+	//
+	// Provides access to account metadata and optionally fetches live
+	// balance data from the blockchain when populate_ledger_data is true.
 	GetAccount(ctx context.Context, in *GetAccountRequest, opts ...grpc.CallOption) (*Account, error)
-	// Retrieves a list of all accounts for the authenticated principal.
+	// Retrieves an account using its Account Number.
+	//
+	// Provides a convenient lookup method using the 7-digit account number.
+	// Optionally fetches live balance data when populate_ledger_data is true.
+	GetAccountByNumber(ctx context.Context, in *GetAccountByNumberRequest, opts ...grpc.CallOption) (*Account, error)
+	// Lists all accounts within the authenticated group's hierarchical scope.
+	//
+	// Returns the complete set of accounts accessible to the executing context,
+	// including accounts owned by the group and all descendant groups.
 	ListAccounts(ctx context.Context, in *ListAccountsRequest, opts ...grpc.CallOption) (*ListAccountsResponse, error)
-	// Searches for accounts based on a partial label match.
+	// Searches accounts using flexible text criteria within the hierarchy.
+	//
+	// Performs case-insensitive substring matching on display names,
+	// returning accounts that match the search criteria.
 	SearchAccounts(ctx context.Context, in *SearchAccountsRequest, opts ...grpc.CallOption) (*SearchAccountsResponse, error)
 }
 
@@ -60,10 +108,50 @@ func (c *accountServiceClient) CreateAccount(ctx context.Context, in *CreateAcco
 	return out, nil
 }
 
+func (c *accountServiceClient) UpdateAccount(ctx context.Context, in *UpdateAccountRequest, opts ...grpc.CallOption) (*Account, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Account)
+	err := c.cc.Invoke(ctx, AccountService_UpdateAccount_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *accountServiceClient) OpenAccount(ctx context.Context, in *OpenAccountRequest, opts ...grpc.CallOption) (*OpenAccountResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OpenAccountResponse)
+	err := c.cc.Invoke(ctx, AccountService_OpenAccount_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *accountServiceClient) CloseAccount(ctx context.Context, in *CloseAccountRequest, opts ...grpc.CallOption) (*CloseAccountResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CloseAccountResponse)
+	err := c.cc.Invoke(ctx, AccountService_CloseAccount_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *accountServiceClient) GetAccount(ctx context.Context, in *GetAccountRequest, opts ...grpc.CallOption) (*Account, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(Account)
 	err := c.cc.Invoke(ctx, AccountService_GetAccount_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *accountServiceClient) GetAccountByNumber(ctx context.Context, in *GetAccountByNumberRequest, opts ...grpc.CallOption) (*Account, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Account)
+	err := c.cc.Invoke(ctx, AccountService_GetAccountByNumber_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -94,16 +182,60 @@ func (c *accountServiceClient) SearchAccounts(ctx context.Context, in *SearchAcc
 // All implementations must embed UnimplementedAccountServiceServer
 // for forward compatibility.
 //
-// AccountService provides access to and management of wallet accounts.
+// AccountService manages blockchain wallet accounts and their lifecycle operations (BETA).
+//
+// This service provides comprehensive account management capabilities across multiple
+// blockchain networks (Stellar, Solana, Bitcoin, Ethereum). Accounts serve as the
+// primary containers for holding and managing digital assets on the Mesh platform.
+//
+// Key capabilities include account creation, opening on-chain, balance queries,
+// and account lifecycle management. All operations are scoped to the authenticated
+// group's hierarchy and require appropriate wallet domain permissions.
+//
+// Note: This service is currently in BETA. Interface and functionality may change.
 type AccountServiceServer interface {
-	// Creates a new wallet account.
-	// This is a write operation restricted to administrative roles.
+	// Creates a new account record in the system (off-chain).
+	//
+	// The account is created in a pending state and must be explicitly opened
+	// on the blockchain using OpenAccount before it can receive funds or execute
+	// transactions. Account ownership must match the executing context.
 	CreateAccount(context.Context, *CreateAccountRequest) (*Account, error)
-	// Retrieves a single wallet account by its unique number.
+	// Updates an existing account's mutable metadata.
+	//
+	// Only the display_name field can be modified. All other fields including
+	// ownership, ledger, and account number are immutable after creation.
+	UpdateAccount(context.Context, *UpdateAccountRequest) (*Account, error)
+	// Opens an account on the blockchain ledger.
+	//
+	// Initializes the account on-chain, making it ready to receive deposits
+	// and execute transactions. Returns the opened account and a transaction
+	// reference for monitoring the blockchain operation.
+	OpenAccount(context.Context, *OpenAccountRequest) (*OpenAccountResponse, error)
+	// Closes an account on the blockchain ledger.
+	//
+	// Deactivates the account on-chain, preventing further transactions.
+	// The account record remains queryable for historical purposes.
+	// Returns the closed account and a transaction reference.
+	CloseAccount(context.Context, *CloseAccountRequest) (*CloseAccountResponse, error)
+	// Retrieves a specific account by its resource identifier.
+	//
+	// Provides access to account metadata and optionally fetches live
+	// balance data from the blockchain when populate_ledger_data is true.
 	GetAccount(context.Context, *GetAccountRequest) (*Account, error)
-	// Retrieves a list of all accounts for the authenticated principal.
+	// Retrieves an account using its Account Number.
+	//
+	// Provides a convenient lookup method using the 7-digit account number.
+	// Optionally fetches live balance data when populate_ledger_data is true.
+	GetAccountByNumber(context.Context, *GetAccountByNumberRequest) (*Account, error)
+	// Lists all accounts within the authenticated group's hierarchical scope.
+	//
+	// Returns the complete set of accounts accessible to the executing context,
+	// including accounts owned by the group and all descendant groups.
 	ListAccounts(context.Context, *ListAccountsRequest) (*ListAccountsResponse, error)
-	// Searches for accounts based on a partial label match.
+	// Searches accounts using flexible text criteria within the hierarchy.
+	//
+	// Performs case-insensitive substring matching on display names,
+	// returning accounts that match the search criteria.
 	SearchAccounts(context.Context, *SearchAccountsRequest) (*SearchAccountsResponse, error)
 	mustEmbedUnimplementedAccountServiceServer()
 }
@@ -118,8 +250,20 @@ type UnimplementedAccountServiceServer struct{}
 func (UnimplementedAccountServiceServer) CreateAccount(context.Context, *CreateAccountRequest) (*Account, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateAccount not implemented")
 }
+func (UnimplementedAccountServiceServer) UpdateAccount(context.Context, *UpdateAccountRequest) (*Account, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateAccount not implemented")
+}
+func (UnimplementedAccountServiceServer) OpenAccount(context.Context, *OpenAccountRequest) (*OpenAccountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OpenAccount not implemented")
+}
+func (UnimplementedAccountServiceServer) CloseAccount(context.Context, *CloseAccountRequest) (*CloseAccountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CloseAccount not implemented")
+}
 func (UnimplementedAccountServiceServer) GetAccount(context.Context, *GetAccountRequest) (*Account, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAccount not implemented")
+}
+func (UnimplementedAccountServiceServer) GetAccountByNumber(context.Context, *GetAccountByNumberRequest) (*Account, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAccountByNumber not implemented")
 }
 func (UnimplementedAccountServiceServer) ListAccounts(context.Context, *ListAccountsRequest) (*ListAccountsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListAccounts not implemented")
@@ -166,6 +310,60 @@ func _AccountService_CreateAccount_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AccountService_UpdateAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateAccountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).UpdateAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AccountService_UpdateAccount_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).UpdateAccount(ctx, req.(*UpdateAccountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AccountService_OpenAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OpenAccountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).OpenAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AccountService_OpenAccount_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).OpenAccount(ctx, req.(*OpenAccountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AccountService_CloseAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CloseAccountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).CloseAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AccountService_CloseAccount_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).CloseAccount(ctx, req.(*CloseAccountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _AccountService_GetAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetAccountRequest)
 	if err := dec(in); err != nil {
@@ -180,6 +378,24 @@ func _AccountService_GetAccount_Handler(srv interface{}, ctx context.Context, de
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AccountServiceServer).GetAccount(ctx, req.(*GetAccountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AccountService_GetAccountByNumber_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAccountByNumberRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).GetAccountByNumber(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AccountService_GetAccountByNumber_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).GetAccountByNumber(ctx, req.(*GetAccountByNumberRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -232,8 +448,24 @@ var AccountService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _AccountService_CreateAccount_Handler,
 		},
 		{
+			MethodName: "UpdateAccount",
+			Handler:    _AccountService_UpdateAccount_Handler,
+		},
+		{
+			MethodName: "OpenAccount",
+			Handler:    _AccountService_OpenAccount_Handler,
+		},
+		{
+			MethodName: "CloseAccount",
+			Handler:    _AccountService_CloseAccount_Handler,
+		},
+		{
 			MethodName: "GetAccount",
 			Handler:    _AccountService_GetAccount_Handler,
+		},
+		{
+			MethodName: "GetAccountByNumber",
+			Handler:    _AccountService_GetAccountByNumber_Handler,
 		},
 		{
 			MethodName: "ListAccounts",

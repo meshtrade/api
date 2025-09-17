@@ -24,7 +24,7 @@ function HomepageHeader(): React.JSX.Element {
             )}
             to="/docs/introduction"
           >
-            Get Started - 5min ⏱️
+            Read the Docs →
           </Link>
         </div>
       </div>

@@ -19,9 +19,9 @@ func main() {
 	}
 	defer service.Close()
 
-	// Create request with service-specific parameters
+	// Create request with group resource name
 	request := &groupv1.GetGroupRequest{
-		// FIXME: Populate service-specific request fields
+		Name: "groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU", // Group ULIDv2 identifier
 	}
 
 	// Call the GetGroup method
@@ -30,6 +30,14 @@ func main() {
 		log.Fatalf("GetGroup failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("GetGroup successful: %+v", group)
+	// Access group details and hierarchy information
+	log.Printf("Group retrieved successfully:")
+	log.Printf("  Name: %s", group.Name)
+	log.Printf("  Display Name: %s", group.DisplayName)
+	log.Printf("  Description: %s", group.Description)
+	log.Printf("  Direct Owner: %s", group.Owner)
+	// System maintains hierarchical ownership relationships internally
+
+	// Use group information for resource ownership validation
+	log.Printf("Group is available for resource ownership and access control")
 }

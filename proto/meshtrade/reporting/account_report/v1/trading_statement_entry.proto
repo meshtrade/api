@@ -5,7 +5,7 @@ import "meshtrade/type/v1/amount.proto";
 
 package meshtrade.reporting.account_report.v1;
 
-option go_package = "github.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1";
+option go_package = "github.com/meshtrade/api/go/reporting/account_report/v1;account_report_v1";
 option java_package = "co.meshtrade.api.reporting.account_report.v1";
 
 /*

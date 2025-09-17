@@ -4,9 +4,10 @@
 // 	protoc        (unknown)
 // source: meshtrade/compliance/client/v1/company_representative.proto
 
-package clientv1
+package client_v1
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	v1 "github.com/meshtrade/api/go/type/v1"
 	date "google.golang.org/genproto/googleapis/type/date"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -133,15 +134,15 @@ var File_meshtrade_compliance_client_v1_company_representative_proto protoreflec
 
 const file_meshtrade_compliance_client_v1_company_representative_proto_rawDesc = "" +
 	"\n" +
-	";meshtrade/compliance/client/v1/company_representative.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x16google/type/date.proto\x1a@meshtrade/compliance/client/v1/company_representative_role.proto\x1a3meshtrade/compliance/client/v1/natural_person.proto\x1a'meshtrade/type/v1/contact_details.proto\x1a\x1fmeshtrade/type/v1/decimal.proto\"\xcf\x03\n" +
+	";meshtrade/compliance/client/v1/company_representative.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x1bbuf/validate/validate.proto\x1a\x16google/type/date.proto\x1a@meshtrade/compliance/client/v1/company_representative_role.proto\x1a3meshtrade/compliance/client/v1/natural_person.proto\x1a'meshtrade/type/v1/contact_details.proto\x1a\x1fmeshtrade/type/v1/decimal.proto\"\xe3\x03\n" +
 	"\x15CompanyRepresentative\x12T\n" +
-	"\x0enatural_person\x18\x01 \x01(\v2-.meshtrade.compliance.client.v1.NaturalPersonR\rnaturalPerson\x12M\n" +
-	"\x04role\x18\x02 \x01(\x0e29.meshtrade.compliance.client.v1.CompanyRepresentativeRoleR\x04role\x12\x1a\n" +
-	"\bposition\x18\x03 \x01(\tR\bposition\x12M\n" +
+	"\x0enatural_person\x18\x01 \x01(\v2-.meshtrade.compliance.client.v1.NaturalPersonR\rnaturalPerson\x12W\n" +
+	"\x04role\x18\x02 \x01(\x0e29.meshtrade.compliance.client.v1.CompanyRepresentativeRoleB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04role\x12$\n" +
+	"\bposition\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xf4\x03R\bposition\x12M\n" +
 	"\x14ownership_percentage\x18\x04 \x01(\v2\x1a.meshtrade.type.v1.DecimalR\x13ownershipPercentage\x12c\n" +
 	"\x1cprofessional_contact_details\x18\x05 \x01(\v2!.meshtrade.type.v1.ContactDetailsR\x1aprofessionalContactDetails\x12A\n" +
-	"\x13date_of_appointment\x18\x06 \x01(\v2\x11.google.type.DateR\x11dateOfAppointmentBb\n" +
-	"%co.meshtrade.api.compliance.client.v1Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
+	"\x13date_of_appointment\x18\x06 \x01(\v2\x11.google.type.DateR\x11dateOfAppointmentBc\n" +
+	"%co.meshtrade.api.compliance.client.v1Z:github.com/meshtrade/api/go/compliance/client/v1;client_v1b\x06proto3"
 
 var (
 	file_meshtrade_compliance_client_v1_company_representative_proto_rawDescOnce sync.Once

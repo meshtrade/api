@@ -387,24 +387,26 @@ public final class ApiUser {
     /**
      * <pre>
      *
-     * The unique, immutable, and canonical name of the api user resource in the format api_users/{api_user_id}.
-     * The {api_user_id} is a system-generated unique identifier (e.g., UUID) that will never change.
-     * System set on creation.
+     * The unique resource name for the api user.
+     * Format: api_users/{ULIDv2}.
+     * This field is system-generated and immutable upon creation.
+     * Any value provided on creation is ignored.
      * </pre>
      *
-     * <code>string name = 1 [json_name = "name"];</code>
+     * <code>string name = 1 [json_name = "name", (.buf.validate.field) = { ... }</code>
      * @return The name.
      */
     java.lang.String getName();
     /**
      * <pre>
      *
-     * The unique, immutable, and canonical name of the api user resource in the format api_users/{api_user_id}.
-     * The {api_user_id} is a system-generated unique identifier (e.g., UUID) that will never change.
-     * System set on creation.
+     * The unique resource name for the api user.
+     * Format: api_users/{ULIDv2}.
+     * This field is system-generated and immutable upon creation.
+     * Any value provided on creation is ignored.
      * </pre>
      *
-     * <code>string name = 1 [json_name = "name"];</code>
+     * <code>string name = 1 [json_name = "name", (.buf.validate.field) = { ... }</code>
      * @return The bytes for name.
      */
     com.google.protobuf.ByteString
@@ -413,10 +415,9 @@ public final class ApiUser {
     /**
      * <pre>
      *
-     * The resource name of the group that owns this api user in the format groups/{ulid}.
-     * This field establishes the ownership link.
-     * NOTE: owner must be set to executing group context.
-     * Required on creation.
+     * The resource name of the parent group that owns this api user.
+     * This field is required on creation and establishes the direct ownership link.
+     * Format: groups/{ULIDv2}.
      * </pre>
      *
      * <code>string owner = 2 [json_name = "owner", (.buf.validate.field) = { ... }</code>
@@ -426,10 +427,9 @@ public final class ApiUser {
     /**
      * <pre>
      *
-     * The resource name of the group that owns this api user in the format groups/{ulid}.
-     * This field establishes the ownership link.
-     * NOTE: owner must be set to executing group context.
-     * Required on creation.
+     * The resource name of the parent group that owns this api user.
+     * This field is required on creation and establishes the direct ownership link.
+     * Format: groups/{ULIDv2}.
      * </pre>
      *
      * <code>string owner = 2 [json_name = "owner", (.buf.validate.field) = { ... }</code>
@@ -437,59 +437,6 @@ public final class ApiUser {
      */
     com.google.protobuf.ByteString
         getOwnerBytes();
-
-    /**
-     * <pre>
-     *
-     * List of resource names of groups that have ownership access to this api user in the format groups/{group_id}.
-     * This field supports multi-group ownership scenarios.
-     * System set on creation.
-     * </pre>
-     *
-     * <code>repeated string owners = 3 [json_name = "owners"];</code>
-     * @return A list containing the owners.
-     */
-    java.util.List<java.lang.String>
-        getOwnersList();
-    /**
-     * <pre>
-     *
-     * List of resource names of groups that have ownership access to this api user in the format groups/{group_id}.
-     * This field supports multi-group ownership scenarios.
-     * System set on creation.
-     * </pre>
-     *
-     * <code>repeated string owners = 3 [json_name = "owners"];</code>
-     * @return The count of owners.
-     */
-    int getOwnersCount();
-    /**
-     * <pre>
-     *
-     * List of resource names of groups that have ownership access to this api user in the format groups/{group_id}.
-     * This field supports multi-group ownership scenarios.
-     * System set on creation.
-     * </pre>
-     *
-     * <code>repeated string owners = 3 [json_name = "owners"];</code>
-     * @param index The index of the element to return.
-     * @return The owners at the given index.
-     */
-    java.lang.String getOwners(int index);
-    /**
-     * <pre>
-     *
-     * List of resource names of groups that have ownership access to this api user in the format groups/{group_id}.
-     * This field supports multi-group ownership scenarios.
-     * System set on creation.
-     * </pre>
-     *
-     * <code>repeated string owners = 3 [json_name = "owners"];</code>
-     * @param index The index of the value to return.
-     * @return The bytes of the owners at the given index.
-     */
-    com.google.protobuf.ByteString
-        getOwnersBytes(int index);
 
     /**
      * <pre>
@@ -541,12 +488,12 @@ public final class ApiUser {
     /**
      * <pre>
      *
-     * Roles is a list of the standard roles assigned to this api user
+     * Roles is a list of the standard roles assigned to this api user,
      * prepended by the name of the group in which they have been assigned that role.
-     * e.g. groups/{ulid}/{role}, where role is one of the rolev1.Role enum
+     * e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
      * </pre>
      *
-     * <code>repeated string roles = 6 [json_name = "roles"];</code>
+     * <code>repeated string roles = 6 [json_name = "roles", (.buf.validate.field) = { ... }</code>
      * @return A list containing the roles.
      */
     java.util.List<java.lang.String>
@@ -554,24 +501,24 @@ public final class ApiUser {
     /**
      * <pre>
      *
-     * Roles is a list of the standard roles assigned to this api user
+     * Roles is a list of the standard roles assigned to this api user,
      * prepended by the name of the group in which they have been assigned that role.
-     * e.g. groups/{ulid}/{role}, where role is one of the rolev1.Role enum
+     * e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
      * </pre>
      *
-     * <code>repeated string roles = 6 [json_name = "roles"];</code>
+     * <code>repeated string roles = 6 [json_name = "roles", (.buf.validate.field) = { ... }</code>
      * @return The count of roles.
      */
     int getRolesCount();
     /**
      * <pre>
      *
-     * Roles is a list of the standard roles assigned to this api user
+     * Roles is a list of the standard roles assigned to this api user,
      * prepended by the name of the group in which they have been assigned that role.
-     * e.g. groups/{ulid}/{role}, where role is one of the rolev1.Role enum
+     * e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
      * </pre>
      *
-     * <code>repeated string roles = 6 [json_name = "roles"];</code>
+     * <code>repeated string roles = 6 [json_name = "roles", (.buf.validate.field) = { ... }</code>
      * @param index The index of the element to return.
      * @return The roles at the given index.
      */
@@ -579,12 +526,12 @@ public final class ApiUser {
     /**
      * <pre>
      *
-     * Roles is a list of the standard roles assigned to this api user
+     * Roles is a list of the standard roles assigned to this api user,
      * prepended by the name of the group in which they have been assigned that role.
-     * e.g. groups/{ulid}/{role}, where role is one of the rolev1.Role enum
+     * e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
      * </pre>
      *
-     * <code>repeated string roles = 6 [json_name = "roles"];</code>
+     * <code>repeated string roles = 6 [json_name = "roles", (.buf.validate.field) = { ... }</code>
      * @param index The index of the value to return.
      * @return The bytes of the roles at the given index.
      */
@@ -650,8 +597,6 @@ public final class ApiUser {
     private APIUser() {
       name_ = "";
       owner_ = "";
-      owners_ =
-          com.google.protobuf.LazyStringArrayList.emptyList();
       displayName_ = "";
       state_ = 0;
       roles_ =
@@ -678,12 +623,13 @@ public final class ApiUser {
     /**
      * <pre>
      *
-     * The unique, immutable, and canonical name of the api user resource in the format api_users/{api_user_id}.
-     * The {api_user_id} is a system-generated unique identifier (e.g., UUID) that will never change.
-     * System set on creation.
+     * The unique resource name for the api user.
+     * Format: api_users/{ULIDv2}.
+     * This field is system-generated and immutable upon creation.
+     * Any value provided on creation is ignored.
      * </pre>
      *
-     * <code>string name = 1 [json_name = "name"];</code>
+     * <code>string name = 1 [json_name = "name", (.buf.validate.field) = { ... }</code>
      * @return The name.
      */
     @java.lang.Override
@@ -702,12 +648,13 @@ public final class ApiUser {
     /**
      * <pre>
      *
-     * The unique, immutable, and canonical name of the api user resource in the format api_users/{api_user_id}.
-     * The {api_user_id} is a system-generated unique identifier (e.g., UUID) that will never change.
-     * System set on creation.
+     * The unique resource name for the api user.
+     * Format: api_users/{ULIDv2}.
+     * This field is system-generated and immutable upon creation.
+     * Any value provided on creation is ignored.
      * </pre>
      *
-     * <code>string name = 1 [json_name = "name"];</code>
+     * <code>string name = 1 [json_name = "name", (.buf.validate.field) = { ... }</code>
      * @return The bytes for name.
      */
     @java.lang.Override
@@ -731,10 +678,9 @@ public final class ApiUser {
     /**
      * <pre>
      *
-     * The resource name of the group that owns this api user in the format groups/{ulid}.
-     * This field establishes the ownership link.
-     * NOTE: owner must be set to executing group context.
-     * Required on creation.
+     * The resource name of the parent group that owns this api user.
+     * This field is required on creation and establishes the direct ownership link.
+     * Format: groups/{ULIDv2}.
      * </pre>
      *
      * <code>string owner = 2 [json_name = "owner", (.buf.validate.field) = { ... }</code>
@@ -756,10 +702,9 @@ public final class ApiUser {
     /**
      * <pre>
      *
-     * The resource name of the group that owns this api user in the format groups/{ulid}.
-     * This field establishes the ownership link.
-     * NOTE: owner must be set to executing group context.
-     * Required on creation.
+     * The resource name of the parent group that owns this api user.
+     * This field is required on creation and establishes the direct ownership link.
+     * Format: groups/{ULIDv2}.
      * </pre>
      *
      * <code>string owner = 2 [json_name = "owner", (.buf.validate.field) = { ... }</code>
@@ -778,71 +723,6 @@ public final class ApiUser {
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
-    }
-
-    public static final int OWNERS_FIELD_NUMBER = 3;
-    @SuppressWarnings("serial")
-    private com.google.protobuf.LazyStringArrayList owners_ =
-        com.google.protobuf.LazyStringArrayList.emptyList();
-    /**
-     * <pre>
-     *
-     * List of resource names of groups that have ownership access to this api user in the format groups/{group_id}.
-     * This field supports multi-group ownership scenarios.
-     * System set on creation.
-     * </pre>
-     *
-     * <code>repeated string owners = 3 [json_name = "owners"];</code>
-     * @return A list containing the owners.
-     */
-    public com.google.protobuf.ProtocolStringList
-        getOwnersList() {
-      return owners_;
-    }
-    /**
-     * <pre>
-     *
-     * List of resource names of groups that have ownership access to this api user in the format groups/{group_id}.
-     * This field supports multi-group ownership scenarios.
-     * System set on creation.
-     * </pre>
-     *
-     * <code>repeated string owners = 3 [json_name = "owners"];</code>
-     * @return The count of owners.
-     */
-    public int getOwnersCount() {
-      return owners_.size();
-    }
-    /**
-     * <pre>
-     *
-     * List of resource names of groups that have ownership access to this api user in the format groups/{group_id}.
-     * This field supports multi-group ownership scenarios.
-     * System set on creation.
-     * </pre>
-     *
-     * <code>repeated string owners = 3 [json_name = "owners"];</code>
-     * @param index The index of the element to return.
-     * @return The owners at the given index.
-     */
-    public java.lang.String getOwners(int index) {
-      return owners_.get(index);
-    }
-    /**
-     * <pre>
-     *
-     * List of resource names of groups that have ownership access to this api user in the format groups/{group_id}.
-     * This field supports multi-group ownership scenarios.
-     * System set on creation.
-     * </pre>
-     *
-     * <code>repeated string owners = 3 [json_name = "owners"];</code>
-     * @param index The index of the value to return.
-     * @return The bytes of the owners at the given index.
-     */
-    public com.google.protobuf.ByteString
-        getOwnersBytes(int index) {
-      return owners_.getByteString(index);
     }
 
     public static final int DISPLAY_NAME_FIELD_NUMBER = 4;
@@ -933,12 +813,12 @@ public final class ApiUser {
     /**
      * <pre>
      *
-     * Roles is a list of the standard roles assigned to this api user
+     * Roles is a list of the standard roles assigned to this api user,
      * prepended by the name of the group in which they have been assigned that role.
-     * e.g. groups/{ulid}/{role}, where role is one of the rolev1.Role enum
+     * e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
      * </pre>
      *
-     * <code>repeated string roles = 6 [json_name = "roles"];</code>
+     * <code>repeated string roles = 6 [json_name = "roles", (.buf.validate.field) = { ... }</code>
      * @return A list containing the roles.
      */
     public com.google.protobuf.ProtocolStringList
@@ -948,12 +828,12 @@ public final class ApiUser {
     /**
      * <pre>
      *
-     * Roles is a list of the standard roles assigned to this api user
+     * Roles is a list of the standard roles assigned to this api user,
      * prepended by the name of the group in which they have been assigned that role.
-     * e.g. groups/{ulid}/{role}, where role is one of the rolev1.Role enum
+     * e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
      * </pre>
      *
-     * <code>repeated string roles = 6 [json_name = "roles"];</code>
+     * <code>repeated string roles = 6 [json_name = "roles", (.buf.validate.field) = { ... }</code>
      * @return The count of roles.
      */
     public int getRolesCount() {
@@ -962,12 +842,12 @@ public final class ApiUser {
     /**
      * <pre>
      *
-     * Roles is a list of the standard roles assigned to this api user
+     * Roles is a list of the standard roles assigned to this api user,
      * prepended by the name of the group in which they have been assigned that role.
-     * e.g. groups/{ulid}/{role}, where role is one of the rolev1.Role enum
+     * e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
      * </pre>
      *
-     * <code>repeated string roles = 6 [json_name = "roles"];</code>
+     * <code>repeated string roles = 6 [json_name = "roles", (.buf.validate.field) = { ... }</code>
      * @param index The index of the element to return.
      * @return The roles at the given index.
      */
@@ -977,12 +857,12 @@ public final class ApiUser {
     /**
      * <pre>
      *
-     * Roles is a list of the standard roles assigned to this api user
+     * Roles is a list of the standard roles assigned to this api user,
      * prepended by the name of the group in which they have been assigned that role.
-     * e.g. groups/{ulid}/{role}, where role is one of the rolev1.Role enum
+     * e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
      * </pre>
      *
-     * <code>repeated string roles = 6 [json_name = "roles"];</code>
+     * <code>repeated string roles = 6 [json_name = "roles", (.buf.validate.field) = { ... }</code>
      * @param index The index of the value to return.
      * @return The bytes of the roles at the given index.
      */
@@ -1064,9 +944,6 @@ public final class ApiUser {
       if (!com.google.protobuf.GeneratedMessage.isStringEmpty(owner_)) {
         com.google.protobuf.GeneratedMessage.writeString(output, 2, owner_);
       }
-      for (int i = 0; i < owners_.size(); i++) {
-        com.google.protobuf.GeneratedMessage.writeString(output, 3, owners_.getRaw(i));
-      }
       if (!com.google.protobuf.GeneratedMessage.isStringEmpty(displayName_)) {
         com.google.protobuf.GeneratedMessage.writeString(output, 4, displayName_);
       }
@@ -1093,14 +970,6 @@ public final class ApiUser {
       }
       if (!com.google.protobuf.GeneratedMessage.isStringEmpty(owner_)) {
         size += com.google.protobuf.GeneratedMessage.computeStringSize(2, owner_);
-      }
-      {
-        int dataSize = 0;
-        for (int i = 0; i < owners_.size(); i++) {
-          dataSize += computeStringSizeNoTag(owners_.getRaw(i));
-        }
-        size += dataSize;
-        size += 1 * getOwnersList().size();
       }
       if (!com.google.protobuf.GeneratedMessage.isStringEmpty(displayName_)) {
         size += com.google.protobuf.GeneratedMessage.computeStringSize(4, displayName_);
@@ -1139,8 +1008,6 @@ public final class ApiUser {
           .equals(other.getName())) return false;
       if (!getOwner()
           .equals(other.getOwner())) return false;
-      if (!getOwnersList()
-          .equals(other.getOwnersList())) return false;
       if (!getDisplayName()
           .equals(other.getDisplayName())) return false;
       if (state_ != other.state_) return false;
@@ -1163,10 +1030,6 @@ public final class ApiUser {
       hash = (53 * hash) + getName().hashCode();
       hash = (37 * hash) + OWNER_FIELD_NUMBER;
       hash = (53 * hash) + getOwner().hashCode();
-      if (getOwnersCount() > 0) {
-        hash = (37 * hash) + OWNERS_FIELD_NUMBER;
-        hash = (53 * hash) + getOwnersList().hashCode();
-      }
       hash = (37 * hash) + DISPLAY_NAME_FIELD_NUMBER;
       hash = (53 * hash) + getDisplayName().hashCode();
       hash = (37 * hash) + STATE_FIELD_NUMBER;
@@ -1319,8 +1182,6 @@ public final class ApiUser {
         bitField0_ = 0;
         name_ = "";
         owner_ = "";
-        owners_ =
-            com.google.protobuf.LazyStringArrayList.emptyList();
         displayName_ = "";
         state_ = 0;
         roles_ =
@@ -1366,20 +1227,16 @@ public final class ApiUser {
           result.owner_ = owner_;
         }
         if (((from_bitField0_ & 0x00000004) != 0)) {
-          owners_.makeImmutable();
-          result.owners_ = owners_;
-        }
-        if (((from_bitField0_ & 0x00000008) != 0)) {
           result.displayName_ = displayName_;
         }
-        if (((from_bitField0_ & 0x00000010) != 0)) {
+        if (((from_bitField0_ & 0x00000008) != 0)) {
           result.state_ = state_;
         }
-        if (((from_bitField0_ & 0x00000020) != 0)) {
+        if (((from_bitField0_ & 0x00000010) != 0)) {
           roles_.makeImmutable();
           result.roles_ = roles_;
         }
-        if (((from_bitField0_ & 0x00000040) != 0)) {
+        if (((from_bitField0_ & 0x00000020) != 0)) {
           result.apiKey_ = apiKey_;
         }
       }
@@ -1406,19 +1263,9 @@ public final class ApiUser {
           bitField0_ |= 0x00000002;
           onChanged();
         }
-        if (!other.owners_.isEmpty()) {
-          if (owners_.isEmpty()) {
-            owners_ = other.owners_;
-            bitField0_ |= 0x00000004;
-          } else {
-            ensureOwnersIsMutable();
-            owners_.addAll(other.owners_);
-          }
-          onChanged();
-        }
         if (!other.getDisplayName().isEmpty()) {
           displayName_ = other.displayName_;
-          bitField0_ |= 0x00000008;
+          bitField0_ |= 0x00000004;
           onChanged();
         }
         if (other.state_ != 0) {
@@ -1427,7 +1274,7 @@ public final class ApiUser {
         if (!other.roles_.isEmpty()) {
           if (roles_.isEmpty()) {
             roles_ = other.roles_;
-            bitField0_ |= 0x00000020;
+            bitField0_ |= 0x00000010;
           } else {
             ensureRolesIsMutable();
             roles_.addAll(other.roles_);
@@ -1436,7 +1283,7 @@ public final class ApiUser {
         }
         if (!other.getApiKey().isEmpty()) {
           apiKey_ = other.apiKey_;
-          bitField0_ |= 0x00000040;
+          bitField0_ |= 0x00000020;
           onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -1475,20 +1322,14 @@ public final class ApiUser {
                 bitField0_ |= 0x00000002;
                 break;
               } // case 18
-              case 26: {
-                java.lang.String s = input.readStringRequireUtf8();
-                ensureOwnersIsMutable();
-                owners_.add(s);
-                break;
-              } // case 26
               case 34: {
                 displayName_ = input.readStringRequireUtf8();
-                bitField0_ |= 0x00000008;
+                bitField0_ |= 0x00000004;
                 break;
               } // case 34
               case 40: {
                 state_ = input.readEnum();
-                bitField0_ |= 0x00000010;
+                bitField0_ |= 0x00000008;
                 break;
               } // case 40
               case 50: {
@@ -1499,7 +1340,7 @@ public final class ApiUser {
               } // case 50
               case 58: {
                 apiKey_ = input.readStringRequireUtf8();
-                bitField0_ |= 0x00000040;
+                bitField0_ |= 0x00000020;
                 break;
               } // case 58
               default: {
@@ -1523,12 +1364,13 @@ public final class ApiUser {
       /**
        * <pre>
        *
-       * The unique, immutable, and canonical name of the api user resource in the format api_users/{api_user_id}.
-       * The {api_user_id} is a system-generated unique identifier (e.g., UUID) that will never change.
-       * System set on creation.
+       * The unique resource name for the api user.
+       * Format: api_users/{ULIDv2}.
+       * This field is system-generated and immutable upon creation.
+       * Any value provided on creation is ignored.
        * </pre>
        *
-       * <code>string name = 1 [json_name = "name"];</code>
+       * <code>string name = 1 [json_name = "name", (.buf.validate.field) = { ... }</code>
        * @return The name.
        */
       public java.lang.String getName() {
@@ -1546,12 +1388,13 @@ public final class ApiUser {
       /**
        * <pre>
        *
-       * The unique, immutable, and canonical name of the api user resource in the format api_users/{api_user_id}.
-       * The {api_user_id} is a system-generated unique identifier (e.g., UUID) that will never change.
-       * System set on creation.
+       * The unique resource name for the api user.
+       * Format: api_users/{ULIDv2}.
+       * This field is system-generated and immutable upon creation.
+       * Any value provided on creation is ignored.
        * </pre>
        *
-       * <code>string name = 1 [json_name = "name"];</code>
+       * <code>string name = 1 [json_name = "name", (.buf.validate.field) = { ... }</code>
        * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
@@ -1570,12 +1413,13 @@ public final class ApiUser {
       /**
        * <pre>
        *
-       * The unique, immutable, and canonical name of the api user resource in the format api_users/{api_user_id}.
-       * The {api_user_id} is a system-generated unique identifier (e.g., UUID) that will never change.
-       * System set on creation.
+       * The unique resource name for the api user.
+       * Format: api_users/{ULIDv2}.
+       * This field is system-generated and immutable upon creation.
+       * Any value provided on creation is ignored.
        * </pre>
        *
-       * <code>string name = 1 [json_name = "name"];</code>
+       * <code>string name = 1 [json_name = "name", (.buf.validate.field) = { ... }</code>
        * @param value The name to set.
        * @return This builder for chaining.
        */
@@ -1590,12 +1434,13 @@ public final class ApiUser {
       /**
        * <pre>
        *
-       * The unique, immutable, and canonical name of the api user resource in the format api_users/{api_user_id}.
-       * The {api_user_id} is a system-generated unique identifier (e.g., UUID) that will never change.
-       * System set on creation.
+       * The unique resource name for the api user.
+       * Format: api_users/{ULIDv2}.
+       * This field is system-generated and immutable upon creation.
+       * Any value provided on creation is ignored.
        * </pre>
        *
-       * <code>string name = 1 [json_name = "name"];</code>
+       * <code>string name = 1 [json_name = "name", (.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearName() {
@@ -1607,12 +1452,13 @@ public final class ApiUser {
       /**
        * <pre>
        *
-       * The unique, immutable, and canonical name of the api user resource in the format api_users/{api_user_id}.
-       * The {api_user_id} is a system-generated unique identifier (e.g., UUID) that will never change.
-       * System set on creation.
+       * The unique resource name for the api user.
+       * Format: api_users/{ULIDv2}.
+       * This field is system-generated and immutable upon creation.
+       * Any value provided on creation is ignored.
        * </pre>
        *
-       * <code>string name = 1 [json_name = "name"];</code>
+       * <code>string name = 1 [json_name = "name", (.buf.validate.field) = { ... }</code>
        * @param value The bytes for name to set.
        * @return This builder for chaining.
        */
@@ -1630,10 +1476,9 @@ public final class ApiUser {
       /**
        * <pre>
        *
-       * The resource name of the group that owns this api user in the format groups/{ulid}.
-       * This field establishes the ownership link.
-       * NOTE: owner must be set to executing group context.
-       * Required on creation.
+       * The resource name of the parent group that owns this api user.
+       * This field is required on creation and establishes the direct ownership link.
+       * Format: groups/{ULIDv2}.
        * </pre>
        *
        * <code>string owner = 2 [json_name = "owner", (.buf.validate.field) = { ... }</code>
@@ -1654,10 +1499,9 @@ public final class ApiUser {
       /**
        * <pre>
        *
-       * The resource name of the group that owns this api user in the format groups/{ulid}.
-       * This field establishes the ownership link.
-       * NOTE: owner must be set to executing group context.
-       * Required on creation.
+       * The resource name of the parent group that owns this api user.
+       * This field is required on creation and establishes the direct ownership link.
+       * Format: groups/{ULIDv2}.
        * </pre>
        *
        * <code>string owner = 2 [json_name = "owner", (.buf.validate.field) = { ... }</code>
@@ -1679,10 +1523,9 @@ public final class ApiUser {
       /**
        * <pre>
        *
-       * The resource name of the group that owns this api user in the format groups/{ulid}.
-       * This field establishes the ownership link.
-       * NOTE: owner must be set to executing group context.
-       * Required on creation.
+       * The resource name of the parent group that owns this api user.
+       * This field is required on creation and establishes the direct ownership link.
+       * Format: groups/{ULIDv2}.
        * </pre>
        *
        * <code>string owner = 2 [json_name = "owner", (.buf.validate.field) = { ... }</code>
@@ -1700,10 +1543,9 @@ public final class ApiUser {
       /**
        * <pre>
        *
-       * The resource name of the group that owns this api user in the format groups/{ulid}.
-       * This field establishes the ownership link.
-       * NOTE: owner must be set to executing group context.
-       * Required on creation.
+       * The resource name of the parent group that owns this api user.
+       * This field is required on creation and establishes the direct ownership link.
+       * Format: groups/{ULIDv2}.
        * </pre>
        *
        * <code>string owner = 2 [json_name = "owner", (.buf.validate.field) = { ... }</code>
@@ -1718,10 +1560,9 @@ public final class ApiUser {
       /**
        * <pre>
        *
-       * The resource name of the group that owns this api user in the format groups/{ulid}.
-       * This field establishes the ownership link.
-       * NOTE: owner must be set to executing group context.
-       * Required on creation.
+       * The resource name of the parent group that owns this api user.
+       * This field is required on creation and establishes the direct ownership link.
+       * Format: groups/{ULIDv2}.
        * </pre>
        *
        * <code>string owner = 2 [json_name = "owner", (.buf.validate.field) = { ... }</code>
@@ -1734,180 +1575,6 @@ public final class ApiUser {
         checkByteStringIsUtf8(value);
         owner_ = value;
         bitField0_ |= 0x00000002;
-        onChanged();
-        return this;
-      }
-
-      private com.google.protobuf.LazyStringArrayList owners_ =
-          com.google.protobuf.LazyStringArrayList.emptyList();
-      private void ensureOwnersIsMutable() {
-        if (!owners_.isModifiable()) {
-          owners_ = new com.google.protobuf.LazyStringArrayList(owners_);
-        }
-        bitField0_ |= 0x00000004;
-      }
-      /**
-       * <pre>
-       *
-       * List of resource names of groups that have ownership access to this api user in the format groups/{group_id}.
-       * This field supports multi-group ownership scenarios.
-       * System set on creation.
-       * </pre>
-       *
-       * <code>repeated string owners = 3 [json_name = "owners"];</code>
-       * @return A list containing the owners.
-       */
-      public com.google.protobuf.ProtocolStringList
-          getOwnersList() {
-        owners_.makeImmutable();
-        return owners_;
-      }
-      /**
-       * <pre>
-       *
-       * List of resource names of groups that have ownership access to this api user in the format groups/{group_id}.
-       * This field supports multi-group ownership scenarios.
-       * System set on creation.
-       * </pre>
-       *
-       * <code>repeated string owners = 3 [json_name = "owners"];</code>
-       * @return The count of owners.
-       */
-      public int getOwnersCount() {
-        return owners_.size();
-      }
-      /**
-       * <pre>
-       *
-       * List of resource names of groups that have ownership access to this api user in the format groups/{group_id}.
-       * This field supports multi-group ownership scenarios.
-       * System set on creation.
-       * </pre>
-       *
-       * <code>repeated string owners = 3 [json_name = "owners"];</code>
-       * @param index The index of the element to return.
-       * @return The owners at the given index.
-       */
-      public java.lang.String getOwners(int index) {
-        return owners_.get(index);
-      }
-      /**
-       * <pre>
-       *
-       * List of resource names of groups that have ownership access to this api user in the format groups/{group_id}.
-       * This field supports multi-group ownership scenarios.
-       * System set on creation.
-       * </pre>
-       *
-       * <code>repeated string owners = 3 [json_name = "owners"];</code>
-       * @param index The index of the value to return.
-       * @return The bytes of the owners at the given index.
-       */
-      public com.google.protobuf.ByteString
-          getOwnersBytes(int index) {
-        return owners_.getByteString(index);
-      }
-      /**
-       * <pre>
-       *
-       * List of resource names of groups that have ownership access to this api user in the format groups/{group_id}.
-       * This field supports multi-group ownership scenarios.
-       * System set on creation.
-       * </pre>
-       *
-       * <code>repeated string owners = 3 [json_name = "owners"];</code>
-       * @param index The index to set the value at.
-       * @param value The owners to set.
-       * @return This builder for chaining.
-       */
-      public Builder setOwners(
-          int index, java.lang.String value) {
-        if (value == null) { throw new NullPointerException(); }
-        ensureOwnersIsMutable();
-        owners_.set(index, value);
-        bitField0_ |= 0x00000004;
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       *
-       * List of resource names of groups that have ownership access to this api user in the format groups/{group_id}.
-       * This field supports multi-group ownership scenarios.
-       * System set on creation.
-       * </pre>
-       *
-       * <code>repeated string owners = 3 [json_name = "owners"];</code>
-       * @param value The owners to add.
-       * @return This builder for chaining.
-       */
-      public Builder addOwners(
-          java.lang.String value) {
-        if (value == null) { throw new NullPointerException(); }
-        ensureOwnersIsMutable();
-        owners_.add(value);
-        bitField0_ |= 0x00000004;
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       *
-       * List of resource names of groups that have ownership access to this api user in the format groups/{group_id}.
-       * This field supports multi-group ownership scenarios.
-       * System set on creation.
-       * </pre>
-       *
-       * <code>repeated string owners = 3 [json_name = "owners"];</code>
-       * @param values The owners to add.
-       * @return This builder for chaining.
-       */
-      public Builder addAllOwners(
-          java.lang.Iterable<java.lang.String> values) {
-        ensureOwnersIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, owners_);
-        bitField0_ |= 0x00000004;
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       *
-       * List of resource names of groups that have ownership access to this api user in the format groups/{group_id}.
-       * This field supports multi-group ownership scenarios.
-       * System set on creation.
-       * </pre>
-       *
-       * <code>repeated string owners = 3 [json_name = "owners"];</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearOwners() {
-        owners_ =
-          com.google.protobuf.LazyStringArrayList.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000004);;
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       *
-       * List of resource names of groups that have ownership access to this api user in the format groups/{group_id}.
-       * This field supports multi-group ownership scenarios.
-       * System set on creation.
-       * </pre>
-       *
-       * <code>repeated string owners = 3 [json_name = "owners"];</code>
-       * @param value The bytes of the owners to add.
-       * @return This builder for chaining.
-       */
-      public Builder addOwnersBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) { throw new NullPointerException(); }
-        checkByteStringIsUtf8(value);
-        ensureOwnersIsMutable();
-        owners_.add(value);
-        bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
@@ -1973,7 +1640,7 @@ public final class ApiUser {
           java.lang.String value) {
         if (value == null) { throw new NullPointerException(); }
         displayName_ = value;
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
@@ -1989,7 +1656,7 @@ public final class ApiUser {
        */
       public Builder clearDisplayName() {
         displayName_ = getDefaultInstance().getDisplayName();
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000004);
         onChanged();
         return this;
       }
@@ -2009,7 +1676,7 @@ public final class ApiUser {
         if (value == null) { throw new NullPointerException(); }
         checkByteStringIsUtf8(value);
         displayName_ = value;
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
@@ -2041,7 +1708,7 @@ public final class ApiUser {
        */
       public Builder setStateValue(int value) {
         state_ = value;
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000008;
         onChanged();
         return this;
       }
@@ -2073,7 +1740,7 @@ public final class ApiUser {
        */
       public Builder setState(co.meshtrade.api.iam.api_user.v1.ApiUser.APIUserState value) {
         if (value == null) { throw new NullPointerException(); }
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000008;
         state_ = value.getNumber();
         onChanged();
         return this;
@@ -2089,7 +1756,7 @@ public final class ApiUser {
        * @return This builder for chaining.
        */
       public Builder clearState() {
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000008);
         state_ = 0;
         onChanged();
         return this;
@@ -2101,17 +1768,17 @@ public final class ApiUser {
         if (!roles_.isModifiable()) {
           roles_ = new com.google.protobuf.LazyStringArrayList(roles_);
         }
-        bitField0_ |= 0x00000020;
+        bitField0_ |= 0x00000010;
       }
       /**
        * <pre>
        *
-       * Roles is a list of the standard roles assigned to this api user
+       * Roles is a list of the standard roles assigned to this api user,
        * prepended by the name of the group in which they have been assigned that role.
-       * e.g. groups/{ulid}/{role}, where role is one of the rolev1.Role enum
+       * e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
        * </pre>
        *
-       * <code>repeated string roles = 6 [json_name = "roles"];</code>
+       * <code>repeated string roles = 6 [json_name = "roles", (.buf.validate.field) = { ... }</code>
        * @return A list containing the roles.
        */
       public com.google.protobuf.ProtocolStringList
@@ -2122,12 +1789,12 @@ public final class ApiUser {
       /**
        * <pre>
        *
-       * Roles is a list of the standard roles assigned to this api user
+       * Roles is a list of the standard roles assigned to this api user,
        * prepended by the name of the group in which they have been assigned that role.
-       * e.g. groups/{ulid}/{role}, where role is one of the rolev1.Role enum
+       * e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
        * </pre>
        *
-       * <code>repeated string roles = 6 [json_name = "roles"];</code>
+       * <code>repeated string roles = 6 [json_name = "roles", (.buf.validate.field) = { ... }</code>
        * @return The count of roles.
        */
       public int getRolesCount() {
@@ -2136,12 +1803,12 @@ public final class ApiUser {
       /**
        * <pre>
        *
-       * Roles is a list of the standard roles assigned to this api user
+       * Roles is a list of the standard roles assigned to this api user,
        * prepended by the name of the group in which they have been assigned that role.
-       * e.g. groups/{ulid}/{role}, where role is one of the rolev1.Role enum
+       * e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
        * </pre>
        *
-       * <code>repeated string roles = 6 [json_name = "roles"];</code>
+       * <code>repeated string roles = 6 [json_name = "roles", (.buf.validate.field) = { ... }</code>
        * @param index The index of the element to return.
        * @return The roles at the given index.
        */
@@ -2151,12 +1818,12 @@ public final class ApiUser {
       /**
        * <pre>
        *
-       * Roles is a list of the standard roles assigned to this api user
+       * Roles is a list of the standard roles assigned to this api user,
        * prepended by the name of the group in which they have been assigned that role.
-       * e.g. groups/{ulid}/{role}, where role is one of the rolev1.Role enum
+       * e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
        * </pre>
        *
-       * <code>repeated string roles = 6 [json_name = "roles"];</code>
+       * <code>repeated string roles = 6 [json_name = "roles", (.buf.validate.field) = { ... }</code>
        * @param index The index of the value to return.
        * @return The bytes of the roles at the given index.
        */
@@ -2167,12 +1834,12 @@ public final class ApiUser {
       /**
        * <pre>
        *
-       * Roles is a list of the standard roles assigned to this api user
+       * Roles is a list of the standard roles assigned to this api user,
        * prepended by the name of the group in which they have been assigned that role.
-       * e.g. groups/{ulid}/{role}, where role is one of the rolev1.Role enum
+       * e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
        * </pre>
        *
-       * <code>repeated string roles = 6 [json_name = "roles"];</code>
+       * <code>repeated string roles = 6 [json_name = "roles", (.buf.validate.field) = { ... }</code>
        * @param index The index to set the value at.
        * @param value The roles to set.
        * @return This builder for chaining.
@@ -2182,19 +1849,19 @@ public final class ApiUser {
         if (value == null) { throw new NullPointerException(); }
         ensureRolesIsMutable();
         roles_.set(index, value);
-        bitField0_ |= 0x00000020;
+        bitField0_ |= 0x00000010;
         onChanged();
         return this;
       }
       /**
        * <pre>
        *
-       * Roles is a list of the standard roles assigned to this api user
+       * Roles is a list of the standard roles assigned to this api user,
        * prepended by the name of the group in which they have been assigned that role.
-       * e.g. groups/{ulid}/{role}, where role is one of the rolev1.Role enum
+       * e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
        * </pre>
        *
-       * <code>repeated string roles = 6 [json_name = "roles"];</code>
+       * <code>repeated string roles = 6 [json_name = "roles", (.buf.validate.field) = { ... }</code>
        * @param value The roles to add.
        * @return This builder for chaining.
        */
@@ -2203,19 +1870,19 @@ public final class ApiUser {
         if (value == null) { throw new NullPointerException(); }
         ensureRolesIsMutable();
         roles_.add(value);
-        bitField0_ |= 0x00000020;
+        bitField0_ |= 0x00000010;
         onChanged();
         return this;
       }
       /**
        * <pre>
        *
-       * Roles is a list of the standard roles assigned to this api user
+       * Roles is a list of the standard roles assigned to this api user,
        * prepended by the name of the group in which they have been assigned that role.
-       * e.g. groups/{ulid}/{role}, where role is one of the rolev1.Role enum
+       * e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
        * </pre>
        *
-       * <code>repeated string roles = 6 [json_name = "roles"];</code>
+       * <code>repeated string roles = 6 [json_name = "roles", (.buf.validate.field) = { ... }</code>
        * @param values The roles to add.
        * @return This builder for chaining.
        */
@@ -2224,37 +1891,37 @@ public final class ApiUser {
         ensureRolesIsMutable();
         com.google.protobuf.AbstractMessageLite.Builder.addAll(
             values, roles_);
-        bitField0_ |= 0x00000020;
+        bitField0_ |= 0x00000010;
         onChanged();
         return this;
       }
       /**
        * <pre>
        *
-       * Roles is a list of the standard roles assigned to this api user
+       * Roles is a list of the standard roles assigned to this api user,
        * prepended by the name of the group in which they have been assigned that role.
-       * e.g. groups/{ulid}/{role}, where role is one of the rolev1.Role enum
+       * e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
        * </pre>
        *
-       * <code>repeated string roles = 6 [json_name = "roles"];</code>
+       * <code>repeated string roles = 6 [json_name = "roles", (.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearRoles() {
         roles_ =
           com.google.protobuf.LazyStringArrayList.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000020);;
+        bitField0_ = (bitField0_ & ~0x00000010);;
         onChanged();
         return this;
       }
       /**
        * <pre>
        *
-       * Roles is a list of the standard roles assigned to this api user
+       * Roles is a list of the standard roles assigned to this api user,
        * prepended by the name of the group in which they have been assigned that role.
-       * e.g. groups/{ulid}/{role}, where role is one of the rolev1.Role enum
+       * e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
        * </pre>
        *
-       * <code>repeated string roles = 6 [json_name = "roles"];</code>
+       * <code>repeated string roles = 6 [json_name = "roles", (.buf.validate.field) = { ... }</code>
        * @param value The bytes of the roles to add.
        * @return This builder for chaining.
        */
@@ -2264,7 +1931,7 @@ public final class ApiUser {
         checkByteStringIsUtf8(value);
         ensureRolesIsMutable();
         roles_.add(value);
-        bitField0_ |= 0x00000020;
+        bitField0_ |= 0x00000010;
         onChanged();
         return this;
       }
@@ -2333,7 +2000,7 @@ public final class ApiUser {
           java.lang.String value) {
         if (value == null) { throw new NullPointerException(); }
         apiKey_ = value;
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000020;
         onChanged();
         return this;
       }
@@ -2350,7 +2017,7 @@ public final class ApiUser {
        */
       public Builder clearApiKey() {
         apiKey_ = getDefaultInstance().getApiKey();
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000020);
         onChanged();
         return this;
       }
@@ -2371,7 +2038,7 @@ public final class ApiUser {
         if (value == null) { throw new NullPointerException(); }
         checkByteStringIsUtf8(value);
         apiKey_ = value;
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000020;
         onChanged();
         return this;
       }
@@ -2443,38 +2110,36 @@ public final class ApiUser {
     java.lang.String[] descriptorData = {
       "\n(meshtrade/iam/api_user/v1/api_user.pro" +
       "to\022\031meshtrade.iam.api_user.v1\032\033buf/valid" +
-      "ate/validate.proto\"\331\006\n\007APIUser\022\022\n\004name\030\001" +
-      " \001(\tR\004name\022\375\002\n\005owner\030\002 \001(\tB\346\002\272H\342\002r4\020\00120^" +
-      "groups/[a-zA-Z0-9]([a-zA-Z0-9_-]*[a-zA-Z" +
-      "0-9])?$\272\001[\n\016owner.required\0229owner is req" +
-      "uired and must be in format groups/{grou" +
-      "p_id}\032\016size(this) > 0\272\001\312\001\n\014owner.format\022" +
-      "xowner must be in format groups/{group_i" +
-      "d} where group_id contains only alphanum" +
-      "eric characters, underscores, and hyphen" +
-      "s\032@this.matches(\'^groups/[a-zA-Z0-9]([a-" +
-      "zA-Z0-9_-]*[a-zA-Z0-9])?$\')R\005owner\022\026\n\006ow" +
-      "ners\030\003 \003(\tR\006owners\022\261\001\n\014display_name\030\004 \001(" +
-      "\tB\215\001\272H\211\001r\005\020\001\030\377\001\272\001\177\n\025display_name.require" +
-      "d\022Adisplay name is required and must be " +
-      "between 1 and 255 characters\032#size(this)" +
-      " > 0 && size(this) <= 255R\013displayName\022\276" +
-      "\001\n\005state\030\005 \001(\0162\'.meshtrade.iam.api_user." +
-      "v1.APIUserStateB\177\272H|\202\001\002\020\001\272\001t\n\013state.vali" +
-      "d\022/state must be a valid APIUserState if" +
-      " specified\0324int(this) == 0 || (int(this)" +
-      " >= 1 && int(this) <= 2)R\005state\022\024\n\005roles" +
-      "\030\006 \003(\tR\005roles\022\027\n\007api_key\030\007 \001(\tR\006apiKey*f" +
-      "\n\014APIUserState\022\036\n\032API_USER_STATE_UNSPECI" +
-      "FIED\020\000\022\031\n\025API_USER_STATE_ACTIVE\020\001\022\033\n\027API" +
-      "_USER_STATE_INACTIVE\020\002*\246\001\n\rAPIUserAction" +
-      "\022\037\n\033API_USER_ACTION_UNSPECIFIED\020\000\022\034\n\030API" +
-      "_USER_ACTION_ACTIVATE\020\001\022\036\n\032API_USER_ACTI" +
-      "ON_DEACTIVATE\020\002\022\032\n\026API_USER_ACTION_CREAT" +
-      "E\020\003\022\032\n\026API_USER_ACTION_UPDATE\020\004BZ\n co.me" +
-      "shtrade.api.iam.api_user.v1Z6github.com/" +
-      "meshtrade/api/go/iam/api_user/v1;api_use" +
-      "rv1b\006proto3"
+      "ate/validate.proto\"\236\006\n\007APIUser\022\302\001\n\004name\030" +
+      "\001 \001(\tB\255\001\272H\251\001\272\001\245\001\n\024name.format.optional\0226" +
+      "name must be empty or in the format api_" +
+      "users/{ULIDv2}\032Usize(this) == 0 || this." +
+      "matches(\'^api_users/[0123456789ABCDEFGHJ" +
+      "KMNPQRSTVWXYZ]{26}$\')R\004name\022R\n\005owner\030\002 \001" +
+      "(\tB<\272H9r42/^groups/[0123456789ABCDEFGHJK" +
+      "MNPQRSTVWXYZ]{26}$\230\001!\310\001\001R\005owner\022\264\001\n\014disp" +
+      "lay_name\030\004 \001(\tB\220\001\272H\214\001r\005\020\001\030\377\001\272\001\177\n\025display" +
+      "_name.required\022Adisplay name is required" +
+      " and must be between 1 and 255 character" +
+      "s\032#size(this) > 0 && size(this) <= 255\310\001" +
+      "\001R\013displayName\022\302\001\n\005state\030\005 \001(\0162\'.meshtra" +
+      "de.iam.api_user.v1.APIUserStateB\202\001\272H\177\202\001\002" +
+      "\020\001\272\001t\n\013state.valid\022/state must be a vali" +
+      "d APIUserState if specified\0324int(this) =" +
+      "= 0 || (int(this) >= 1 && int(this) <= 2" +
+      ")\310\001\001R\005state\022e\n\005roles\030\006 \003(\tBO\272HL\222\001I\"GrE2@" +
+      "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXY" +
+      "Z]{26}/[123456][0-9]{6}$\230\001)R\005roles\022\027\n\007ap" +
+      "i_key\030\007 \001(\tR\006apiKey*f\n\014APIUserState\022\036\n\032A" +
+      "PI_USER_STATE_UNSPECIFIED\020\000\022\031\n\025API_USER_" +
+      "STATE_ACTIVE\020\001\022\033\n\027API_USER_STATE_INACTIV" +
+      "E\020\002*\246\001\n\rAPIUserAction\022\037\n\033API_USER_ACTION" +
+      "_UNSPECIFIED\020\000\022\034\n\030API_USER_ACTION_ACTIVA" +
+      "TE\020\001\022\036\n\032API_USER_ACTION_DEACTIVATE\020\002\022\032\n\026" +
+      "API_USER_ACTION_CREATE\020\003\022\032\n\026API_USER_ACT" +
+      "ION_UPDATE\020\004B[\n co.meshtrade.api.iam.api" +
+      "_user.v1Z7github.com/meshtrade/api/go/ia" +
+      "m/api_user/v1;api_user_v1b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -2486,7 +2151,7 @@ public final class ApiUser {
     internal_static_meshtrade_iam_api_user_v1_APIUser_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_meshtrade_iam_api_user_v1_APIUser_descriptor,
-        new java.lang.String[] { "Name", "Owner", "Owners", "DisplayName", "State", "Roles", "ApiKey", });
+        new java.lang.String[] { "Name", "Owner", "DisplayName", "State", "Roles", "ApiKey", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     com.google.protobuf.ExtensionRegistry registry =

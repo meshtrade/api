@@ -4,7 +4,7 @@
 // - protoc             (unknown)
 // source: meshtrade/iam/group/v1/service.proto
 
-package groupv1
+package group_v1
 
 import (
 	context "context"
@@ -19,21 +19,52 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	GroupService_GetGroup_FullMethodName     = "/meshtrade.iam.group.v1.GroupService/GetGroup"
+	GroupService_CreateGroup_FullMethodName  = "/meshtrade.iam.group.v1.GroupService/CreateGroup"
+	GroupService_UpdateGroup_FullMethodName  = "/meshtrade.iam.group.v1.GroupService/UpdateGroup"
 	GroupService_ListGroups_FullMethodName   = "/meshtrade.iam.group.v1.GroupService/ListGroups"
 	GroupService_SearchGroups_FullMethodName = "/meshtrade.iam.group.v1.GroupService/SearchGroups"
+	GroupService_GetGroup_FullMethodName     = "/meshtrade.iam.group.v1.GroupService/GetGroup"
 )
 
 // GroupServiceClient is the client API for GroupService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// GroupService manages organizational group hierarchy and lifecycle operations.
+//
+// Groups are the fundamental multi-tenancy units in Mesh that own resources,
+// define permission boundaries, and enable hierarchical access control.
+// Each group can own sub-groups, users, API users, and platform resources,
+// forming tree structures for inherited permissions and resource isolation.
+//
+// All operations are scoped to the authenticated group's hierarchy and
+// require appropriate IAM domain permissions.
 type GroupServiceClient interface {
-	// Get Specific Group.
-	GetGroup(ctx context.Context, in *GetGroupRequest, opts ...grpc.CallOption) (*Group, error)
-	// Get all groups
+	// Creates a new child group within the authenticated group's hierarchy.
+	//
+	// The new group inherits access from its parent and becomes part of the
+	// organizational structure. Group ownership must match the executing context.
+	CreateGroup(ctx context.Context, in *CreateGroupRequest, opts ...grpc.CallOption) (*Group, error)
+	// Updates an existing group's display name and description metadata.
+	//
+	// Only mutable fields can be modified while preserving the group's
+	// identity and ownership within the hierarchy.
+	UpdateGroup(ctx context.Context, in *UpdateGroupRequest, opts ...grpc.CallOption) (*Group, error)
+	// Retrieves all groups within the authenticated group's hierarchical scope.
+	//
+	// Returns the complete organizational structure accessible to the executing
+	// context, including the root group and all descendant groups.
 	ListGroups(ctx context.Context, in *ListGroupsRequest, opts ...grpc.CallOption) (*ListGroupsResponse, error)
-	// Get all groups with search filtering options.
+	// Searches groups using flexible text criteria within the hierarchy.
+	//
+	// Performs case-insensitive substring matching on display names and
+	// descriptions using OR logic across search terms.
 	SearchGroups(ctx context.Context, in *SearchGroupsRequest, opts ...grpc.CallOption) (*SearchGroupsResponse, error)
+	// Retrieves a specific group by its resource identifier within the hierarchy.
+	//
+	// Provides access to a single group's complete metadata and organizational
+	// context if accessible within the executing group's scope.
+	GetGroup(ctx context.Context, in *GetGroupRequest, opts ...grpc.CallOption) (*Group, error)
 }
 
 type groupServiceClient struct {
@@ -44,10 +75,20 @@ func NewGroupServiceClient(cc grpc.ClientConnInterface) GroupServiceClient {
 	return &groupServiceClient{cc}
 }
 
-func (c *groupServiceClient) GetGroup(ctx context.Context, in *GetGroupRequest, opts ...grpc.CallOption) (*Group, error) {
+func (c *groupServiceClient) CreateGroup(ctx context.Context, in *CreateGroupRequest, opts ...grpc.CallOption) (*Group, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(Group)
-	err := c.cc.Invoke(ctx, GroupService_GetGroup_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, GroupService_CreateGroup_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *groupServiceClient) UpdateGroup(ctx context.Context, in *UpdateGroupRequest, opts ...grpc.CallOption) (*Group, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Group)
+	err := c.cc.Invoke(ctx, GroupService_UpdateGroup_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -74,16 +115,55 @@ func (c *groupServiceClient) SearchGroups(ctx context.Context, in *SearchGroupsR
 	return out, nil
 }
 
+func (c *groupServiceClient) GetGroup(ctx context.Context, in *GetGroupRequest, opts ...grpc.CallOption) (*Group, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Group)
+	err := c.cc.Invoke(ctx, GroupService_GetGroup_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // GroupServiceServer is the server API for GroupService service.
 // All implementations must embed UnimplementedGroupServiceServer
 // for forward compatibility.
+//
+// GroupService manages organizational group hierarchy and lifecycle operations.
+//
+// Groups are the fundamental multi-tenancy units in Mesh that own resources,
+// define permission boundaries, and enable hierarchical access control.
+// Each group can own sub-groups, users, API users, and platform resources,
+// forming tree structures for inherited permissions and resource isolation.
+//
+// All operations are scoped to the authenticated group's hierarchy and
+// require appropriate IAM domain permissions.
 type GroupServiceServer interface {
-	// Get Specific Group.
-	GetGroup(context.Context, *GetGroupRequest) (*Group, error)
-	// Get all groups
+	// Creates a new child group within the authenticated group's hierarchy.
+	//
+	// The new group inherits access from its parent and becomes part of the
+	// organizational structure. Group ownership must match the executing context.
+	CreateGroup(context.Context, *CreateGroupRequest) (*Group, error)
+	// Updates an existing group's display name and description metadata.
+	//
+	// Only mutable fields can be modified while preserving the group's
+	// identity and ownership within the hierarchy.
+	UpdateGroup(context.Context, *UpdateGroupRequest) (*Group, error)
+	// Retrieves all groups within the authenticated group's hierarchical scope.
+	//
+	// Returns the complete organizational structure accessible to the executing
+	// context, including the root group and all descendant groups.
 	ListGroups(context.Context, *ListGroupsRequest) (*ListGroupsResponse, error)
-	// Get all groups with search filtering options.
+	// Searches groups using flexible text criteria within the hierarchy.
+	//
+	// Performs case-insensitive substring matching on display names and
+	// descriptions using OR logic across search terms.
 	SearchGroups(context.Context, *SearchGroupsRequest) (*SearchGroupsResponse, error)
+	// Retrieves a specific group by its resource identifier within the hierarchy.
+	//
+	// Provides access to a single group's complete metadata and organizational
+	// context if accessible within the executing group's scope.
+	GetGroup(context.Context, *GetGroupRequest) (*Group, error)
 	mustEmbedUnimplementedGroupServiceServer()
 }
 
@@ -94,14 +174,20 @@ type GroupServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedGroupServiceServer struct{}
 
-func (UnimplementedGroupServiceServer) GetGroup(context.Context, *GetGroupRequest) (*Group, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetGroup not implemented")
+func (UnimplementedGroupServiceServer) CreateGroup(context.Context, *CreateGroupRequest) (*Group, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateGroup not implemented")
+}
+func (UnimplementedGroupServiceServer) UpdateGroup(context.Context, *UpdateGroupRequest) (*Group, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateGroup not implemented")
 }
 func (UnimplementedGroupServiceServer) ListGroups(context.Context, *ListGroupsRequest) (*ListGroupsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListGroups not implemented")
 }
 func (UnimplementedGroupServiceServer) SearchGroups(context.Context, *SearchGroupsRequest) (*SearchGroupsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SearchGroups not implemented")
+}
+func (UnimplementedGroupServiceServer) GetGroup(context.Context, *GetGroupRequest) (*Group, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetGroup not implemented")
 }
 func (UnimplementedGroupServiceServer) mustEmbedUnimplementedGroupServiceServer() {}
 func (UnimplementedGroupServiceServer) testEmbeddedByValue()                      {}
@@ -124,20 +210,38 @@ func RegisterGroupServiceServer(s grpc.ServiceRegistrar, srv GroupServiceServer)
 	s.RegisterService(&GroupService_ServiceDesc, srv)
 }
 
-func _GroupService_GetGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetGroupRequest)
+func _GroupService_CreateGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateGroupRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GroupServiceServer).GetGroup(ctx, in)
+		return srv.(GroupServiceServer).CreateGroup(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: GroupService_GetGroup_FullMethodName,
+		FullMethod: GroupService_CreateGroup_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GroupServiceServer).GetGroup(ctx, req.(*GetGroupRequest))
+		return srv.(GroupServiceServer).CreateGroup(ctx, req.(*CreateGroupRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GroupService_UpdateGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateGroupRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GroupServiceServer).UpdateGroup(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GroupService_UpdateGroup_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GroupServiceServer).UpdateGroup(ctx, req.(*UpdateGroupRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -178,6 +282,24 @@ func _GroupService_SearchGroups_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _GroupService_GetGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetGroupRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GroupServiceServer).GetGroup(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GroupService_GetGroup_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GroupServiceServer).GetGroup(ctx, req.(*GetGroupRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // GroupService_ServiceDesc is the grpc.ServiceDesc for GroupService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -186,8 +308,12 @@ var GroupService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*GroupServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetGroup",
-			Handler:    _GroupService_GetGroup_Handler,
+			MethodName: "CreateGroup",
+			Handler:    _GroupService_CreateGroup_Handler,
+		},
+		{
+			MethodName: "UpdateGroup",
+			Handler:    _GroupService_UpdateGroup_Handler,
 		},
 		{
 			MethodName: "ListGroups",
@@ -196,6 +322,10 @@ var GroupService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SearchGroups",
 			Handler:    _GroupService_SearchGroups_Handler,
+		},
+		{
+			MethodName: "GetGroup",
+			Handler:    _GroupService_GetGroup_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

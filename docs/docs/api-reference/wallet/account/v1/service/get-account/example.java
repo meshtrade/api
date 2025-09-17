@@ -12,14 +12,29 @@ public class GetAccountExample {
         try (AccountService service = new AccountService()) {
             // Create request with service-specific parameters
             GetAccountRequest request = GetAccountRequest.newBuilder()
-                // FIXME: Populate service-specific request fields
+                .setName("accounts/01HQ3K5M8XYZ2NFVJT9BKR7P4C")  // Account resource name
+                .setPopulateLedgerData(true)  // Fetch live blockchain data
                 .build();
 
             // Call the GetAccount method
             Account account = service.getAccount(request, Optional.empty());
 
-            // FIXME: Add relevant response object usage
-            System.out.println("GetAccount successful: " + account);
+            // Display account information
+            System.out.println("Account retrieved successfully:");
+            System.out.println("  Name: " + account.getName());
+            System.out.println("  Number: " + account.getNumber());
+            System.out.println("  Display Name: " + account.getDisplayName());
+            System.out.println("  Ledger: " + account.getLedger());
+            System.out.println("  State: " + account.getState());
+
+            // Display balances if live data was populated
+            if (request.getPopulateLedgerData() && !account.getBalancesList().isEmpty()) {
+                System.out.println("  Balances:");
+                account.getBalancesList().forEach(balance -> 
+                    System.out.println("    " + balance.getInstrumentMetadata().getName() + 
+                                     ": " + balance.getAmount().getValue())
+                );
+            }
         } catch (Exception e) {
             System.err.println("GetAccount failed: " + e.getMessage());
             e.printStackTrace();

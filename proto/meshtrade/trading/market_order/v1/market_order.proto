@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package meshtrade.trading.market_order.v1;
 
-option go_package = "github.com/meshtrade/api/go/trading/market_order/v1;market_orderv1";
+option go_package = "github.com/meshtrade/api/go/trading/market_order/v1;market_order_v1";
 option java_package = "co.meshtrade.api.trading.market_order.v1";
 
 message MarketOrder {

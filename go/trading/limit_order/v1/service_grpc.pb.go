@@ -4,7 +4,7 @@
 // - protoc             (unknown)
 // source: meshtrade/trading/limit_order/v1/service.proto
 
-package limitorderv1
+package limit_order_v1
 
 import (
 	context "context"

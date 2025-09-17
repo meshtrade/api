@@ -2,9 +2,65 @@ syntax = "proto3";
 
 package meshtrade.iam.group.v1;
 
-option go_package = "github.com/meshtrade/api/go/iam/group/v1;groupv1";
+import "buf/validate/validate.proto";
+
+option go_package = "github.com/meshtrade/api/go/iam/group/v1;group_v1";
 option java_package = "co.meshtrade.api.iam.group.v1";
 
+/*
+   Organizational group resource representing a multi-tenancy boundary.
+
+   Groups form hierarchical ownership structures within Mesh, enabling resource
+   isolation, permission inheritance, and organizational modeling. Each group
+   can own sub-groups, users, API users, accounts, and trading resources,
+   providing a complete tenant separation model.
+*/
 message Group {
-  string name = 1;
+  /*
+     The unique resource name for the group.
+     Format: groups/{ULIDv2}.
+     This field is system-generated and immutable upon creation.
+     Any value provided on creation is ignored.
+  */
+  string name = 1 [(buf.validate.field) = {
+    cel: {
+      id: "name.format.optional",
+      message: "name must be empty or in the format groups/{ULIDv2}",
+      expression: "size(this) == 0 || this.matches('^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
+    }
+  }];
+
+  /*
+     The resource name of the parent group that owns this group.
+     This field is required on creation and establishes the direct ownership link.
+     Format: groups/{ULIDv2}.
+  */
+  string owner = 2 [(buf.validate.field) = {
+    required: true,
+    string: {
+      len: 33,
+      pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+    }
+  }];
+
+  /*
+     Human-readable name for organizational identification and display.
+     User-configurable and non-unique across the system.
+  */
+  string display_name = 4 [(buf.validate.field) = {
+    required: true,
+    string: {
+      min_len: 1,
+      max_len: 255
+    }
+  }];
+
+  /*
+     Optional contextual information describing the group's organizational purpose.
+  */
+  string description = 5 [(buf.validate.field) = {
+    string: {
+      max_len: 1000
+    }
+  }];
 }

@@ -3,7 +3,7 @@ import type { Config } from '@docusaurus/types';
 
 const config: Config = {
   title: 'Mesh API Documentation',
-  tagline: 'Comprehensive API documentation for the Mesh Platform',
+  tagline: 'Trading APIs for digital asset platforms',
   favicon: 'img/favicon.svg',
 
   url: 'https://meshtrade.github.io',
@@ -111,6 +111,10 @@ const config: Config = {
               {
                 label: 'Role-Based Access',
                 to: '/docs/architecture/role-based-access',
+              },
+              {
+                label: 'Client Structuring',
+                to: '/docs/architecture/client-structuring',
               },
               {
                 label: 'Authentication',

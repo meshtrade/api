@@ -4,7 +4,7 @@
 // 	protoc        (unknown)
 // source: meshtrade/reporting/account_report/v1/account_report.proto
 
-package account_reportv1
+package account_report_v1
 
 import (
 	v1 "github.com/meshtrade/api/go/type/v1"
@@ -243,8 +243,8 @@ const file_meshtrade_reporting_account_report_v1_account_report_proto_rawDesc = 
 	"\x06Period\x12=\n" +
 	"\fperiod_start\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\vperiodStart\x129\n" +
 	"\n" +
-	"period_end\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\tperiodEndBx\n" +
-	",co.meshtrade.api.reporting.account_report.v1ZHgithub.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1b\x06proto3"
+	"period_end\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\tperiodEndBy\n" +
+	",co.meshtrade.api.reporting.account_report.v1ZIgithub.com/meshtrade/api/go/reporting/account_report/v1;account_report_v1b\x06proto3"
 
 var (
 	file_meshtrade_reporting_account_report_v1_account_report_proto_rawDescOnce sync.Once

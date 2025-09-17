@@ -4,9 +4,10 @@
 // 	protoc        (unknown)
 // source: meshtrade/compliance/client/v1/company.proto
 
-package clientv1
+package client_v1
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	v1 "github.com/meshtrade/api/go/type/v1"
 	date "google.golang.org/genproto/googleapis/type/date"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -456,12 +457,13 @@ var File_meshtrade_compliance_client_v1_company_proto protoreflect.FileDescripto
 
 const file_meshtrade_compliance_client_v1_company_proto_rawDesc = "" +
 	"\n" +
-	",meshtrade/compliance/client/v1/company.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x16google/type/date.proto\x1a;meshtrade/compliance/client/v1/company_representative.proto\x1a)meshtrade/compliance/client/v1/fund.proto\x1a<meshtrade/compliance/client/v1/industry_classification.proto\x1a3meshtrade/compliance/client/v1/natural_person.proto\x1a*meshtrade/compliance/client/v1/trust.proto\x1a\x1fmeshtrade/type/v1/address.proto\x1a\x1fmeshtrade/type/v1/decimal.proto\"\xed\a\n" +
-	"\aCompany\x12'\n" +
-	"\x0fregistered_name\x18\x01 \x01(\tR\x0eregisteredName\x12/\n" +
-	"\x13registration_number\x18\x03 \x01(\tR\x12registrationNumber\x12%\n" +
-	"\x0etax_identifier\x18\x04 \x01(\tR\rtaxIdentifier\x128\n" +
-	"\x18country_of_incorporation\x18\x05 \x01(\tR\x16countryOfIncorporation\x12E\n" +
+	",meshtrade/compliance/client/v1/company.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x1bbuf/validate/validate.proto\x1a\x16google/type/date.proto\x1a;meshtrade/compliance/client/v1/company_representative.proto\x1a)meshtrade/compliance/client/v1/fund.proto\x1a<meshtrade/compliance/client/v1/industry_classification.proto\x1a3meshtrade/compliance/client/v1/natural_person.proto\x1a*meshtrade/compliance/client/v1/trust.proto\x1a\x1fmeshtrade/type/v1/address.proto\x1a\x1fmeshtrade/type/v1/decimal.proto\"\xc7\t\n" +
+	"\aCompany\x121\n" +
+	"\x0fregistered_name\x18\x01 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R\x0eregisteredName\x128\n" +
+	"\x13registration_number\x18\x03 \x01(\tB\a\xbaH\x04r\x02\x18dR\x12registrationNumber\x12.\n" +
+	"\x0etax_identifier\x18\x04 \x01(\tB\a\xbaH\x04r\x02\x182R\rtaxIdentifier\x12\xe3\x01\n" +
+	"\x18country_of_incorporation\x18\x05 \x01(\tB\xa8\x01\xbaH\xa4\x01\xba\x01\xa0\x01\n" +
+	"\x1ccountry_code.format.optional\x12Qcountry_of_incorporation must be empty or a valid ISO 3166-1 alpha-2 country code\x1a-size(this) == 0 || this.matches('^[A-Z]{2}$')R\x16countryOfIncorporation\x12E\n" +
 	"\x15date_of_incorporation\x18\x06 \x01(\v2\x11.google.type.DateR\x13dateOfIncorporation\x12I\n" +
 	"\x12registered_address\x18\a \x01(\v2\x1a.meshtrade.type.v1.AddressR\x11registeredAddress\x12X\n" +
 	"\x1aprincipal_physical_address\x18\b \x01(\v2\x1a.meshtrade.type.v1.AddressR\x18principalPhysicalAddress\x12A\n" +
@@ -470,18 +472,19 @@ const file_meshtrade_compliance_client_v1_company_proto_rawDesc = "" +
 	" \x01(\v2\x1a.meshtrade.type.v1.AddressR\x11headOfficeAddress\x12n\n" +
 	"\x17company_representatives\x18\v \x03(\v25.meshtrade.compliance.client.v1.CompanyRepresentativeR\x16companyRepresentatives\x12l\n" +
 	"\x17connected_legal_persons\x18\f \x03(\v24.meshtrade.compliance.client.v1.ConnectedLegalPersonR\x15connectedLegalPersons\x12o\n" +
-	"\x17industry_classification\x18\r \x01(\v26.meshtrade.compliance.client.v1.IndustryClassificationR\x16industryClassification\x120\n" +
-	"\x14listed_exchange_code\x18\x0e \x01(\tR\x12listedExchangeCode\x12+\n" +
-	"\x11listing_reference\x18\x0f \x01(\tR\x10listingReference\"\x80\x05\n" +
+	"\x17industry_classification\x18\r \x01(\v26.meshtrade.compliance.client.v1.IndustryClassificationR\x16industryClassification\x129\n" +
+	"\x14listed_exchange_code\x18\x0e \x01(\tB\a\xbaH\x04r\x02\x18\x14R\x12listedExchangeCode\x124\n" +
+	"\x11listing_reference\x18\x0f \x01(\tB\a\xbaH\x04r\x02\x18\x14R\x10listingReference\"\x99\x05\n" +
 	"\x14ConnectedLegalPerson\x12V\n" +
 	"\x0enatural_person\x18\x01 \x01(\v2-.meshtrade.compliance.client.v1.NaturalPersonH\x00R\rnaturalPerson\x12C\n" +
 	"\acompany\x18\x02 \x01(\v2'.meshtrade.compliance.client.v1.CompanyH\x00R\acompany\x12:\n" +
 	"\x04fund\x18\x03 \x01(\v2$.meshtrade.compliance.client.v1.FundH\x00R\x04fund\x12=\n" +
-	"\x05trust\x18\x04 \x01(\v2%.meshtrade.compliance.client.v1.TrustH\x00R\x05trust\x12d\n" +
-	"\x10connection_types\x18\x05 \x03(\x0e29.meshtrade.compliance.client.v1.LegalPersonConnectionTypeR\x0fconnectionTypes\x12M\n" +
+	"\x05trust\x18\x04 \x01(\v2%.meshtrade.compliance.client.v1.TrustH\x00R\x05trust\x12s\n" +
+	"\x10connection_types\x18\x05 \x03(\x0e29.meshtrade.compliance.client.v1.LegalPersonConnectionTypeB\r\xbaH\n" +
+	"\x92\x01\a\"\x05\x82\x01\x02\x10\x01R\x0fconnectionTypes\x12M\n" +
 	"\x14ownership_percentage\x18\x06 \x01(\v2\x1a.meshtrade.type.v1.DecimalR\x13ownershipPercentage\x12T\n" +
-	"\x18voting_rights_percentage\x18\a \x01(\v2\x1a.meshtrade.type.v1.DecimalR\x16votingRightsPercentage\x125\n" +
-	"\x16connection_description\x18\b \x01(\tR\x15connectionDescriptionB\x0e\n" +
+	"\x18voting_rights_percentage\x18\a \x01(\v2\x1a.meshtrade.type.v1.DecimalR\x16votingRightsPercentage\x12?\n" +
+	"\x16connection_description\x18\b \x01(\tB\b\xbaH\x05r\x03\x18\xf4\x03R\x15connectionDescriptionB\x0e\n" +
 	"\flegal_person*\xe3\x02\n" +
 	"\x19LegalPersonConnectionType\x12,\n" +
 	"(LEGAL_PERSON_CONNECTION_TYPE_UNSPECIFIED\x10\x00\x12,\n" +
@@ -490,8 +493,8 @@ const file_meshtrade_compliance_client_v1_company_proto_rawDesc = "" +
 	"/LEGAL_PERSON_CONNECTION_TYPE_CORPORATE_DIRECTOR\x10\x03\x12&\n" +
 	"\"LEGAL_PERSON_CONNECTION_TYPE_TRUST\x10\x04\x120\n" +
 	",LEGAL_PERSON_CONNECTION_TYPE_GENERAL_PARTNER\x10\x05\x12*\n" +
-	"&LEGAL_PERSON_CONNECTION_TYPE_GUARANTOR\x10\x06Bb\n" +
-	"%co.meshtrade.api.compliance.client.v1Z9github.com/meshtrade/api/go/compliance/client/v1;clientv1b\x06proto3"
+	"&LEGAL_PERSON_CONNECTION_TYPE_GUARANTOR\x10\x06Bc\n" +
+	"%co.meshtrade.api.compliance.client.v1Z:github.com/meshtrade/api/go/compliance/client/v1;client_v1b\x06proto3"
 
 var (
 	file_meshtrade_compliance_client_v1_company_proto_rawDescOnce sync.Once

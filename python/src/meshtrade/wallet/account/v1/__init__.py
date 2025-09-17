@@ -13,14 +13,25 @@
 # ===================================================================
 
 # Generated protobuf imports
-from .account_pb2 import Account
+from .account_pb2 import (
+    Account,
+    AccountState,
+    Balance,
+    InstrumentMetaData,
+)
 from .service_pb2 import (
+    CloseAccountRequest,
+    CloseAccountResponse,
     CreateAccountRequest,
+    GetAccountByNumberRequest,
     GetAccountRequest,
     ListAccountsRequest,
     ListAccountsResponse,
+    OpenAccountRequest,
+    OpenAccountResponse,
     SearchAccountsRequest,
     SearchAccountsResponse,
+    UpdateAccountRequest,
 )
 
 # Generated service imports
@@ -55,11 +66,20 @@ __all__ = [
     "AccountService",
     "AccountServiceGRPCClient",
     "AccountServiceGRPCClientInterface",
+    "AccountState",
+    "Balance",
     "ClientOptions",
+    "CloseAccountRequest",
+    "CloseAccountResponse",
     "CreateAccountRequest",
+    "GetAccountByNumberRequest",
     "GetAccountRequest",
+    "InstrumentMetaData",
     "ListAccountsRequest",
     "ListAccountsResponse",
+    "OpenAccountRequest",
+    "OpenAccountResponse",
     "SearchAccountsRequest",
     "SearchAccountsResponse",
+    "UpdateAccountRequest",
 ]

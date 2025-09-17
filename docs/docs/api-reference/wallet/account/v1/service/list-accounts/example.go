@@ -5,6 +5,7 @@ import (
 	"log"
 
 	accountv1 "github.com/meshtrade/api/go/wallet/account/v1"
+	typev1 "github.com/meshtrade/api/go/type/v1"
 )
 
 func main() {
@@ -21,7 +22,11 @@ func main() {
 
 	// Create request with service-specific parameters
 	request := &accountv1.ListAccountsRequest{
-		// FIXME: Populate service-specific request fields
+		PopulateLedgerData: false, // Set to true to fetch live blockchain data
+			Sorting: &accountv1.ListAccountsRequest_Sorting{
+			Field: "number",                                // Sort by account number
+			Order: typev1.SortingOrder_SORTING_ORDER_ASC, // Ascending order
+		},
 	}
 
 	// Call the ListAccounts method
@@ -30,6 +35,13 @@ func main() {
 		log.Fatalf("ListAccounts failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("ListAccounts successful: %+v", response)
+	// Display all accounts in the hierarchy
+	log.Printf("Found %d accounts:", len(response.Accounts))
+	for _, account := range response.Accounts {
+		log.Printf("  Account %s:", account.Number)
+		log.Printf("    Name: %s", account.Name)
+		log.Printf("    Display Name: %s", account.DisplayName)
+		log.Printf("    Ledger: %s", account.Ledger)
+		log.Printf("    State: %s", account.State)
+	}
 }

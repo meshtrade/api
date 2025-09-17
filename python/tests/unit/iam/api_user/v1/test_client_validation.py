@@ -20,7 +20,7 @@ class TestApiUserServiceClientValidation:
         # Create a valid request
         request = CreateApiUserRequest(
             api_user=APIUser(
-                owner="groups/test-group-123",
+                owner="groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
                 display_name="Test API User",
                 state=APIUserState.API_USER_STATE_ACTIVE,
             )
@@ -34,7 +34,7 @@ class TestApiUserServiceClientValidation:
 
         # Verify the request structure
         assert request.api_user is not None
-        assert request.api_user.owner == "groups/test-group-123"
+        assert request.api_user.owner == "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV"
         assert request.api_user.display_name == "Test API User"
 
     def test_create_api_user_invalid_owner_fails_validation(self):
@@ -65,7 +65,7 @@ class TestApiUserServiceClientValidation:
         # Create an invalid request - empty display name
         request = CreateApiUserRequest(
             api_user=APIUser(
-                owner="groups/test-group-123",
+                owner="groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
                 display_name="",  # Invalid: empty display name
             )
         )
@@ -89,7 +89,7 @@ class TestApiUserServiceClientValidation:
         long_display_name = "a" * 256
         request = CreateApiUserRequest(
             api_user=APIUser(
-                owner="groups/test-group-123",
+                owner="groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
                 display_name=long_display_name,
             )
         )
@@ -138,7 +138,7 @@ class TestClientValidationIntegration:
             stub_factory=dummy_stub_factory,
             find_credentials_func=find_credentials,
             api_key="test-key",
-            group="groups/test-group",
+            group="groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
         )
 
         # Verify the validator method exists and returns a Validator

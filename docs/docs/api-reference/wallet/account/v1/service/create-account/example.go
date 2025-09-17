@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 
+	typev1 "github.com/meshtrade/api/go/type/v1"
 	accountv1 "github.com/meshtrade/api/go/wallet/account/v1"
 )
 
@@ -21,7 +22,11 @@ func main() {
 
 	// Create request with service-specific parameters
 	request := &accountv1.CreateAccountRequest{
-		// FIXME: Populate service-specific request fields
+		Account: &accountv1.Account{
+			Owner:       service.Group(),              // Current group from service context
+			Ledger:      typev1.Ledger_LEDGER_STELLAR, // Choose ledger network
+			DisplayName: "Primary Trading Account",
+		},
 	}
 
 	// Call the CreateAccount method
@@ -30,6 +35,10 @@ func main() {
 		log.Fatalf("CreateAccount failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("CreateAccount successful: %+v", account)
+	// The account is created but not yet open on-chain
+	log.Printf("Account created successfully:")
+	log.Printf("  Name: %s", account.Name)
+	log.Printf("  Number: %s", account.Number)
+	log.Printf("  Ledger: %s", account.Ledger)
+	log.Printf("  State: %s", account.State)
 }

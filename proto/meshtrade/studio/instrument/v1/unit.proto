@@ -1,0 +1,85 @@
+syntax = "proto3";
+
+package meshtrade.studio.instrument.v1;
+
+option go_package = "github.com/meshtrade/api/go/studio/instrument/v1;instrument_v1";
+option java_package = "co.meshtrade.api.studio.instrument.v1";
+
+/*
+  Unit defines the standard of measurement for an instrument, specifying how
+  quantities of the asset are expressed. For example, oil is measured in
+  barrels, and equity is measured in shares.
+*/
+enum Unit {
+  // The unit is not specified. This is the default value and should be
+  // treated as an error or an uninitialized state.
+  UNIT_UNSPECIFIED = 0;
+
+  // Indicates that the instrument's name or code itself represents a single
+  // unit. This is used for assets where a separate unit qualifier is redundant,
+  // such as "1 US Dollar" or "1 Bitcoin".
+  UNIT_NULL = 1;
+
+  // A single unit of a debt instrument, such as a promissory note, commercial
+  // paper, or an Exchange-Traded Note (ETN).
+  UNIT_NOTE = 2;
+
+  // A single unit of equity ownership in a corporation.
+  UNIT_SHARE = 3;
+
+  // A single unit of a special class of equity that has preferential rights
+  // over common shares.
+  UNIT_PREFERENCE_SHARE = 4;
+
+  // A single unit of a bond issuance, typically with a defined face value
+  // (e.g., $1,000).
+  UNIT_BOND = 5;
+
+  // A single unit of a short-term debt obligation, such as a Treasury Bill
+  // (T-Bill).
+  UNIT_BILL = 6;
+
+  // The standard unit for a derivative, such as a futures or forward
+  // agreement, representing a standardized quantity of the underlying asset.
+  UNIT_CONTRACT = 7;
+
+  // The standard unit for an options derivative, giving the right to buy or
+  // sell a specific amount of an underlying asset. One contract often
+  // represents 100 shares of stock.
+  UNIT_OPTION = 8;
+
+  // The smallest individual unit of a digital asset or cryptocurrency recorded
+  // on a blockchain.
+  UNIT_TOKEN = 9;
+
+  // A standard volumetric unit for crude oil and petroleum products,
+  // equivalent to 42 US gallons.
+  UNIT_BARREL = 10;
+
+  // A metric unit of mass, commonly used for quoting prices of precious
+  // metals.
+  UNIT_GRAM = 11;
+
+  // A metric unit of mass equal to 1,000 grams.
+  UNIT_KILOGRAM = 12;
+
+  // A metric unit of mass equal to 1,000 kilograms, often used for industrial
+  // metals and bulk agricultural products.
+  UNIT_METRIC_TON = 13;
+
+  // A troy ounce, the standard unit of mass for precious metals, equivalent to
+  // approximately 31.103 grams.
+  UNIT_OUNCE = 14;
+
+  // A fractional unit representing one-half of a troy ounce.
+  UNIT_HALF_OUNCE = 15;
+
+  // A fractional unit representing one-quarter of a troy ounce.
+  UNIT_QUARTER_OUNCE = 16;
+
+  // A fractional unit representing one-tenth of a troy ounce.
+  UNIT_ONE_TENTH_OUNCE = 17;
+
+  // A fractional unit representing one-hundredth of a troy ounce.
+  UNIT_ONE_HUNDREDTH_OUNCE = 18;
+}

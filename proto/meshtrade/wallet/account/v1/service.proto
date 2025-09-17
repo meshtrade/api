@@ -2,116 +2,416 @@ syntax = "proto3";
 
 package meshtrade.wallet.account.v1;
 
+import "buf/validate/validate.proto";
 import "meshtrade/iam/role/v1/role.proto";
 import "meshtrade/option/v1/method_type.proto";
-import "meshtrade/type/v1/ledger.proto";
+import "meshtrade/type/v1/sorting.proto";
 import "meshtrade/wallet/account/v1/account.proto";
 
-option go_package = "github.com/meshtrade/api/go/wallet/account/v1;accountv1";
+option go_package = "github.com/meshtrade/api/go/wallet/account/v1;account_v1";
 option java_package = "co.meshtrade.api.wallet.account.v1";
 
 /*
-   AccountService provides access to and management of wallet accounts.
+   AccountService manages blockchain wallet accounts and their lifecycle operations (BETA).
+
+   This service provides comprehensive account management capabilities across multiple
+   blockchain networks (Stellar, Solana, Bitcoin, Ethereum). Accounts serve as the 
+   primary containers for holding and managing digital assets on the Mesh platform.
+   
+   Key capabilities include account creation, opening on-chain, balance queries,
+   and account lifecycle management. All operations are scoped to the authenticated
+   group's hierarchy and require appropriate wallet domain permissions.
+
+   Note: This service is currently in BETA. Interface and functionality may change.
 */
 service AccountService {
   /*
-     Creates a new wallet account.
-     This is a write operation restricted to administrative roles.
+     Creates a new account record in the system (off-chain).
+
+     The account is created in a pending state and must be explicitly opened
+     on the blockchain using OpenAccount before it can receive funds or execute
+     transactions. Account ownership must match the executing context.
   */
   rpc CreateAccount(CreateAccountRequest) returns (meshtrade.wallet.account.v1.Account) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
     option (meshtrade.iam.role.v1.roles) = {
-      roles: [ROLE_WALLET_ADMIN]
+      roles: [
+        ROLE_WALLET_ADMIN,
+        ROLE_WALLET_ACCOUNT_ADMIN
+      ]
     };
   }
+
   /*
-     Retrieves a single wallet account by its unique number.
+     Updates an existing account's mutable metadata.
+
+     Only the display_name field can be modified. All other fields including
+     ownership, ledger, and account number are immutable after creation.
+  */
+  rpc UpdateAccount(UpdateAccountRequest) returns (meshtrade.wallet.account.v1.Account) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [
+        ROLE_WALLET_ADMIN,
+        ROLE_WALLET_ACCOUNT_ADMIN
+      ]
+    };
+  }
+
+  /*
+     Opens an account on the blockchain ledger.
+
+     Initializes the account on-chain, making it ready to receive deposits
+     and execute transactions. Returns the opened account and a transaction
+     reference for monitoring the blockchain operation.
+  */
+  rpc OpenAccount(OpenAccountRequest) returns (OpenAccountResponse) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [
+        ROLE_WALLET_ADMIN,
+        ROLE_WALLET_ACCOUNT_ADMIN
+      ]
+    };
+  }
+
+  /*
+     Closes an account on the blockchain ledger.
+
+     Deactivates the account on-chain, preventing further transactions.
+     The account record remains queryable for historical purposes.
+     Returns the closed account and a transaction reference.
+  */
+  rpc CloseAccount(CloseAccountRequest) returns (CloseAccountResponse) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [
+        ROLE_WALLET_ADMIN,
+        ROLE_WALLET_ACCOUNT_ADMIN
+      ]
+    };
+  }
+
+  /*
+     Retrieves a specific account by its resource identifier.
+
+     Provides access to account metadata and optionally fetches live
+     balance data from the blockchain when populate_ledger_data is true.
   */
   rpc GetAccount(GetAccountRequest) returns (meshtrade.wallet.account.v1.Account) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
     option (meshtrade.iam.role.v1.roles) = {
       roles: [
         ROLE_WALLET_ADMIN,
-        ROLE_WALLET_VIEWER
+        ROLE_WALLET_VIEWER,
+        ROLE_WALLET_ACCOUNT_ADMIN,
+        ROLE_WALLET_ACCOUNT_VIEWER
       ]
     };
   }
+
   /*
-     Retrieves a list of all accounts for the authenticated principal.
+     Retrieves an account using its Account Number.
+
+     Provides a convenient lookup method using the 7-digit account number.
+     Optionally fetches live balance data when populate_ledger_data is true.
+  */
+  rpc GetAccountByNumber(GetAccountByNumberRequest) returns (meshtrade.wallet.account.v1.Account) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [
+        ROLE_WALLET_ADMIN,
+        ROLE_WALLET_VIEWER,
+        ROLE_WALLET_ACCOUNT_ADMIN,
+        ROLE_WALLET_ACCOUNT_VIEWER
+      ]
+    };
+  }
+
+  /*
+     Lists all accounts within the authenticated group's hierarchical scope.
+
+     Returns the complete set of accounts accessible to the executing context,
+     including accounts owned by the group and all descendant groups.
   */
   rpc ListAccounts(ListAccountsRequest) returns (ListAccountsResponse) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
     option (meshtrade.iam.role.v1.roles) = {
       roles: [
         ROLE_WALLET_ADMIN,
-        ROLE_WALLET_VIEWER
+        ROLE_WALLET_VIEWER,
+        ROLE_WALLET_ACCOUNT_ADMIN,
+        ROLE_WALLET_ACCOUNT_VIEWER
       ]
     };
   }
+
+
   /*
-     Searches for accounts based on a partial label match.
+     Searches accounts using flexible text criteria within the hierarchy.
+
+     Performs case-insensitive substring matching on display names,
+     returning accounts that match the search criteria.
   */
   rpc SearchAccounts(SearchAccountsRequest) returns (SearchAccountsResponse) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
     option (meshtrade.iam.role.v1.roles) = {
       roles: [
         ROLE_WALLET_ADMIN,
-        ROLE_WALLET_VIEWER
+        ROLE_WALLET_VIEWER,
+        ROLE_WALLET_ACCOUNT_ADMIN,
+        ROLE_WALLET_ACCOUNT_VIEWER        
       ]
     };
   }
 }
 
-/* CreateAccountRequest contains the parameters for creating a new account. */
+/*
+   Request to create a new account.
+*/
 message CreateAccountRequest {
   /*
-     A user-defined label for the new account, e.g., "Primary Savings".
+     The account configuration for creation.
+     The name, number, ledger_id, and owners fields will be ignored and assigned by the system.
   */
-  string label = 1;
-
-  /*
-     The ledger upon which the account should be created.
-  */
-  meshtrade.type.v1.Ledger ledger = 2;
-
-  /*
-     If true, the account will be opened immediately after creation, which
-     may result in a transaction.
-  */
-  bool open = 3;
+  meshtrade.wallet.account.v1.Account account = 1  [(buf.validate.field) = {required: true}];
 }
 
-/* GetAccountRequest specifies which account to retrieve. */
+/*
+   Request to update an existing account.
+*/
+message UpdateAccountRequest {
+  /*
+     Complete account resource with updated fields.
+     Only display_name can be modified.
+  */
+  meshtrade.wallet.account.v1.Account account = 1  [(buf.validate.field) = {required: true}];
+}
+
+/*
+   Request to open an account on the blockchain.
+*/
+message OpenAccountRequest {
+  /*
+     The resource name of the account to open.
+     Format: accounts/{ULIDv2}.
+  */
+  string name = 1 [(buf.validate.field) = {
+    string: {
+      len: 35,
+      pattern: "^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+    }
+  }];
+}
+
+/*
+   Response containing the opened account and transaction details.
+*/
+message OpenAccountResponse {
+  /*
+     The account after successful opening on the blockchain.
+  */
+  meshtrade.wallet.account.v1.Account account = 1;
+
+  /*
+     Transaction reference for monitoring the blockchain operation.
+     Format: transactions/{ULIDv2}.
+  */
+  string ledger_transaction = 3;
+}
+
+/*
+   Request to close an account on the blockchain.
+*/
+message CloseAccountRequest {
+  /*
+     The resource name of the account to close.
+     Format: accounts/{ULIDv2}.
+  */
+  string name = 1 [(buf.validate.field) = {
+    string: {
+      len: 35,
+      pattern: "^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+    }
+  }];
+}
+
+/*
+   Response containing the closed account and transaction details.
+*/
+message CloseAccountResponse {
+  /*
+     The account after successful closure on the blockchain.
+  */
+  meshtrade.wallet.account.v1.Account account = 1;
+
+  /*
+     Transaction reference for monitoring the blockchain operation.
+     Format: transactions/{ULIDv2}.
+  */
+  string ledger_transaction = 3;
+}
+
+/*
+   Request to retrieve a specific account.
+*/
 message GetAccountRequest {
   /*
-     The unique account number to retrieve.
+     The resource name of the account to retrieve.
+     Format: accounts/{ULIDv2}.
   */
-  string number = 1;
+  string name = 1 [(buf.validate.field) = {
+    string: {
+      len: 35,
+      pattern: "^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+    }
+  }];
+  
+  /*
+     When true, fetches current balances and state from the blockchain.
+     When false, returns only stored metadata without live data.
+  */
+  bool populate_ledger_data = 2;
 }
 
-/* ListAccountsRequest requires no parameters to list accounts for the caller. */
-message ListAccountsRequest {}
+/*
+   Request to retrieve an account by its account number.
+*/
+message GetAccountByNumberRequest {
+  /*
+     The Account Number.
+     Must be a 7-digit number starting with '1'.
+  */
+  string account_number = 1 [(buf.validate.field) = {
+    string: {
+      pattern: "^1[0-9]{6}$"
+    }
+  }];
 
-/* ListAccountsResponse contains a list of accounts. */
+  /*
+     When true, fetches current balances and state from the blockchain.
+     When false, returns only stored metadata without live data.
+  */
+  bool populate_ledger_data = 2;
+}
+
+/*
+   Request to list all accounts in the hierarchy.
+*/
+message ListAccountsRequest {
+  /*
+     Sorting configuration for organizing results.
+  */
+  message Sorting {
+    /*
+       Field to sort by.
+       Supported values: "number" or empty string for default ordering.
+    */
+    string field = 1 [(buf.validate.field) = {
+      string: {
+        in: [
+          "",
+          "number"
+        ]
+      }
+      cel: {
+        id: "field.valid"
+        message: "field must be one of: number, or empty"
+        expression: "this in ['', 'number']"
+      }
+    }];
+
+    /*
+       Sort order for results.
+    */
+    meshtrade.type.v1.SortingOrder order = 2;
+  }
+
+  /*
+     Optional sorting configuration.
+  */
+  Sorting sorting = 1;
+
+  /*
+     When true, fetches current balances and state from the blockchain.
+     When false, returns only stored metadata without live data.
+  */
+  bool populate_ledger_data = 2;
+}
+
+/*
+   Response containing a list of accounts.
+*/
 message ListAccountsResponse {
   /*
-     A list of accounts owned by the authenticated principal.
+     Collection of accounts in the hierarchy.
   */
   repeated meshtrade.wallet.account.v1.Account accounts = 1;
 }
 
-/* SearchAccountsRequest specifies the query for finding accounts. */
+/*
+   Request to search accounts with filtering criteria.
+*/
 message SearchAccountsRequest {
   /*
-     A substring to search for within account labels.
+     Sorting configuration for organizing results.
   */
-  string label = 1;
+  message Sorting {
+    /*
+       Field to sort by.
+       Supported values: "number" or empty string for default ordering.
+    */
+    string field = 1 [(buf.validate.field) = {
+      string: {
+        in: [
+          "",
+          "number"
+        ]
+      }
+      cel: {
+        id: "field.valid"
+        message: "field must be one of: number, or empty"
+        expression: "this in ['', 'number']"
+      }
+    }];
+
+    /*
+       Sort order for results.
+    */
+    meshtrade.type.v1.SortingOrder order = 2;
+  }
+
+  /*
+     Optional sorting configuration.
+  */
+  Sorting sorting = 1;
+
+  /*
+     Optional substring to search for in account display names.
+     Case-insensitive partial matching.
+  */
+  string display_name = 2 [(buf.validate.field) = {
+    string: {max_len: 255}
+    cel: {
+      id: "display_name.max_length"
+      message: "display_name search term must not exceed 255 characters"
+      expression: "size(this) <= 255"
+    }
+  }];
+
+  /*
+     When true, fetches current balances and state from the blockchain.
+     When false, returns only stored metadata without live data.
+  */
+  bool populate_ledger_data = 3;
 }
 
-/* SearchAccountsResponse contains the accounts that matched the search query. */
+/*
+   Response containing search results.
+*/
 message SearchAccountsResponse {
   /*
-     A list of accounts that matched the label search query.
+     Collection of accounts matching the search criteria.
   */
   repeated meshtrade.wallet.account.v1.Account accounts = 1;
 }

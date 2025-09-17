@@ -4,7 +4,7 @@
 // 	protoc        (unknown)
 // source: meshtrade/trading/market_order/v1/market_order.proto
 
-package market_orderv1
+package market_order_v1
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -71,8 +71,8 @@ const file_meshtrade_trading_market_order_v1_market_order_proto_rawDesc = "" +
 	"\n" +
 	"4meshtrade/trading/market_order/v1/market_order.proto\x12!meshtrade.trading.market_order.v1\"%\n" +
 	"\vMarketOrder\x12\x16\n" +
-	"\x06number\x18\x01 \x01(\tR\x06numberBn\n" +
-	"(co.meshtrade.api.trading.market_order.v1ZBgithub.com/meshtrade/api/go/trading/market_order/v1;market_orderv1b\x06proto3"
+	"\x06number\x18\x01 \x01(\tR\x06numberBo\n" +
+	"(co.meshtrade.api.trading.market_order.v1ZCgithub.com/meshtrade/api/go/trading/market_order/v1;market_order_v1b\x06proto3"
 
 var (
 	file_meshtrade_trading_market_order_v1_market_order_proto_rawDescOnce sync.Once
