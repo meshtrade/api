@@ -32,9 +32,16 @@ const (
 	// Indicates income derived from yield-generating activities,
 	// such as staking, lending, or liquidity provision.
 	IncomeNarrative_INCOME_NARRATIVE_YIELD IncomeNarrative = 1
-	// Indicates income received from bond coupon or
-	// similar fixed-income instruments.
-	IncomeNarrative_INCOME_NARRATIVE_COUPON IncomeNarrative = 2
+	// Income received from dividends paid out by a company.
+	IncomeNarrative_INCOME_NARRATIVE_DIVIDEND IncomeNarrative = 2
+	// Income earned from interest on loans or other debt instruments.
+	IncomeNarrative_INCOME_NARRATIVE_INTEREST IncomeNarrative = 3
+	// The original amount of a loan or investment, not including any interest or appreciation.
+	IncomeNarrative_INCOME_NARRATIVE_PRINCIPAL IncomeNarrative = 4
+	// A general distribution of funds or assets.
+	IncomeNarrative_INCOME_NARRATIVE_DISTRIBUTION IncomeNarrative = 5
+	// A distribution of profits to shareholders or partners.
+	IncomeNarrative_INCOME_NARRATIVE_PROFIT_DISTRIBUTION IncomeNarrative = 6
 )
 
 // Enum value maps for IncomeNarrative.
@@ -42,12 +49,20 @@ var (
 	IncomeNarrative_name = map[int32]string{
 		0: "INCOME_NARRATIVE_UNSPECIFIED",
 		1: "INCOME_NARRATIVE_YIELD",
-		2: "INCOME_NARRATIVE_COUPON",
+		2: "INCOME_NARRATIVE_DIVIDEND",
+		3: "INCOME_NARRATIVE_INTEREST",
+		4: "INCOME_NARRATIVE_PRINCIPAL",
+		5: "INCOME_NARRATIVE_DISTRIBUTION",
+		6: "INCOME_NARRATIVE_PROFIT_DISTRIBUTION",
 	}
 	IncomeNarrative_value = map[string]int32{
-		"INCOME_NARRATIVE_UNSPECIFIED": 0,
-		"INCOME_NARRATIVE_YIELD":       1,
-		"INCOME_NARRATIVE_COUPON":      2,
+		"INCOME_NARRATIVE_UNSPECIFIED":         0,
+		"INCOME_NARRATIVE_YIELD":               1,
+		"INCOME_NARRATIVE_DIVIDEND":            2,
+		"INCOME_NARRATIVE_INTEREST":            3,
+		"INCOME_NARRATIVE_PRINCIPAL":           4,
+		"INCOME_NARRATIVE_DISTRIBUTION":        5,
+		"INCOME_NARRATIVE_PROFIT_DISTRIBUTION": 6,
 	}
 )
 
@@ -199,11 +214,15 @@ const file_meshtrade_reporting_account_report_v1_income_entry_proto_rawDesc = ""
 	"\vdescription\x18\x04 \x01(\tR\vdescription\x12T\n" +
 	"\tnarrative\x18\x05 \x01(\x0e26.meshtrade.reporting.account_report.v1.IncomeNarrativeR\tnarrative\x121\n" +
 	"\x06amount\x18\x06 \x01(\v2\x19.meshtrade.type.v1.AmountR\x06amount\x12Q\n" +
-	"\x17reported_currency_value\x18\a \x01(\v2\x19.meshtrade.type.v1.AmountR\x15reportedCurrencyValue*l\n" +
+	"\x17reported_currency_value\x18\a \x01(\v2\x19.meshtrade.type.v1.AmountR\x15reportedCurrencyValue*\xfa\x01\n" +
 	"\x0fIncomeNarrative\x12 \n" +
 	"\x1cINCOME_NARRATIVE_UNSPECIFIED\x10\x00\x12\x1a\n" +
-	"\x16INCOME_NARRATIVE_YIELD\x10\x01\x12\x1b\n" +
-	"\x17INCOME_NARRATIVE_COUPON\x10\x02Bx\n" +
+	"\x16INCOME_NARRATIVE_YIELD\x10\x01\x12\x1d\n" +
+	"\x19INCOME_NARRATIVE_DIVIDEND\x10\x02\x12\x1d\n" +
+	"\x19INCOME_NARRATIVE_INTEREST\x10\x03\x12\x1e\n" +
+	"\x1aINCOME_NARRATIVE_PRINCIPAL\x10\x04\x12!\n" +
+	"\x1dINCOME_NARRATIVE_DISTRIBUTION\x10\x05\x12(\n" +
+	"$INCOME_NARRATIVE_PROFIT_DISTRIBUTION\x10\x06Bx\n" +
 	",co.meshtrade.api.reporting.account_report.v1ZHgithub.com/meshtrade/api/go/reporting/account_report/v1;account_reportv1b\x06proto3"
 
 var (
