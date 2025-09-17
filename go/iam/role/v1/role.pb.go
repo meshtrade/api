@@ -189,11 +189,11 @@ func (x *RoleList) GetRoles() []Role {
 
 var file_meshtrade_iam_role_v1_role_proto_extTypes = []protoimpl.ExtensionInfo{
 	{
-		ExtendedType:  (*descriptorpb.FileOptions)(nil),
+		ExtendedType:  (*descriptorpb.MessageOptions)(nil),
 		ExtensionType: (*RoleList)(nil),
-		Field:         50003,
-		Name:          "meshtrade.iam.role.v1.standard_roles",
-		Tag:           "bytes,50003,opt,name=standard_roles",
+		Field:         50006,
+		Name:          "meshtrade.iam.role.v1.message_roles",
+		Tag:           "bytes,50006,opt,name=message_roles",
 		Filename:      "meshtrade/iam/role/v1/role.proto",
 	},
 	{
@@ -206,10 +206,10 @@ var file_meshtrade_iam_role_v1_role_proto_extTypes = []protoimpl.ExtensionInfo{
 	},
 }
 
-// Extension fields to descriptorpb.FileOptions.
+// Extension fields to descriptorpb.MessageOptions.
 var (
-	// optional meshtrade.iam.role.v1.RoleList standard_roles = 50003;
-	E_StandardRoles = &file_meshtrade_iam_role_v1_role_proto_extTypes[0]
+	// optional meshtrade.iam.role.v1.RoleList message_roles = 50006;
+	E_MessageRoles = &file_meshtrade_iam_role_v1_role_proto_extTypes[0]
 )
 
 // Extension fields to descriptorpb.MethodOptions.
@@ -250,8 +250,8 @@ const file_meshtrade_iam_role_v1_role_proto_rawDesc = "" +
 	"\x12ROLE_TRADING_ADMIN\x10\xc0\x96\xb1\x02\x12\x1a\n" +
 	"\x13ROLE_TRADING_VIEWER\x10\xc1\x96\xb1\x02\x12\x1b\n" +
 	"\x14ROLE_REPORTING_ADMIN\x10\x80\x9b\xee\x02\x12\x1c\n" +
-	"\x15ROLE_REPORTING_VIEWER\x10\x81\x9b\xee\x02:f\n" +
-	"\x0estandard_roles\x12\x1c.google.protobuf.FileOptions\x18ӆ\x03 \x01(\v2\x1f.meshtrade.iam.role.v1.RoleListR\rstandardRoles:W\n" +
+	"\x15ROLE_REPORTING_VIEWER\x10\x81\x9b\xee\x02:g\n" +
+	"\rmessage_roles\x12\x1f.google.protobuf.MessageOptions\x18ֆ\x03 \x01(\v2\x1f.meshtrade.iam.role.v1.RoleListR\fmessageRoles:W\n" +
 	"\x05roles\x12\x1e.google.protobuf.MethodOptions\x18Ն\x03 \x01(\v2\x1f.meshtrade.iam.role.v1.RoleListR\x05rolesBO\n" +
 	"\x1cco.meshtrade.api.iam.role.v1Z/github.com/meshtrade/api/go/iam/role/v1;role_v1b\x06proto3"
 
@@ -270,16 +270,16 @@ func file_meshtrade_iam_role_v1_role_proto_rawDescGZIP() []byte {
 var file_meshtrade_iam_role_v1_role_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_meshtrade_iam_role_v1_role_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_meshtrade_iam_role_v1_role_proto_goTypes = []any{
-	(Role)(0),                          // 0: meshtrade.iam.role.v1.Role
-	(*RoleList)(nil),                   // 1: meshtrade.iam.role.v1.RoleList
-	(*descriptorpb.FileOptions)(nil),   // 2: google.protobuf.FileOptions
-	(*descriptorpb.MethodOptions)(nil), // 3: google.protobuf.MethodOptions
+	(Role)(0),                           // 0: meshtrade.iam.role.v1.Role
+	(*RoleList)(nil),                    // 1: meshtrade.iam.role.v1.RoleList
+	(*descriptorpb.MessageOptions)(nil), // 2: google.protobuf.MessageOptions
+	(*descriptorpb.MethodOptions)(nil),  // 3: google.protobuf.MethodOptions
 }
 var file_meshtrade_iam_role_v1_role_proto_depIdxs = []int32{
 	0, // 0: meshtrade.iam.role.v1.RoleList.roles:type_name -> meshtrade.iam.role.v1.Role
-	2, // 1: meshtrade.iam.role.v1.standard_roles:extendee -> google.protobuf.FileOptions
+	2, // 1: meshtrade.iam.role.v1.message_roles:extendee -> google.protobuf.MessageOptions
 	3, // 2: meshtrade.iam.role.v1.roles:extendee -> google.protobuf.MethodOptions
-	1, // 3: meshtrade.iam.role.v1.standard_roles:type_name -> meshtrade.iam.role.v1.RoleList
+	1, // 3: meshtrade.iam.role.v1.message_roles:type_name -> meshtrade.iam.role.v1.RoleList
 	1, // 4: meshtrade.iam.role.v1.roles:type_name -> meshtrade.iam.role.v1.RoleList
 	5, // [5:5] is the sub-list for method output_type
 	5, // [5:5] is the sub-list for method input_type

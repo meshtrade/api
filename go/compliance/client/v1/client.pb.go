@@ -249,7 +249,7 @@ var File_meshtrade_compliance_client_v1_client_proto protoreflect.FileDescriptor
 
 const file_meshtrade_compliance_client_v1_client_proto_rawDesc = "" +
 	"\n" +
-	"+meshtrade/compliance/client/v1/client.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a,meshtrade/compliance/client/v1/company.proto\x1a meshtrade/iam/role/v1/role.proto\x1a)meshtrade/compliance/client/v1/fund.proto\x1a3meshtrade/compliance/client/v1/natural_person.proto\x1a*meshtrade/compliance/client/v1/trust.proto\x1a8meshtrade/compliance/client/v1/verification_status.proto\"\xd1\t\n" +
+	"+meshtrade/compliance/client/v1/client.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a,meshtrade/compliance/client/v1/company.proto\x1a meshtrade/iam/role/v1/role.proto\x1a)meshtrade/compliance/client/v1/fund.proto\x1a3meshtrade/compliance/client/v1/natural_person.proto\x1a*meshtrade/compliance/client/v1/trust.proto\x1a8meshtrade/compliance/client/v1/verification_status.proto\"\xe0\t\n" +
 	"\x06Client\x12\xbe\x01\n" +
 	"\x04name\x18\x01 \x01(\tB\xa9\x01\xbaH\xa5\x01\xba\x01\xa1\x01\n" +
 	"\x14name.format.optional\x124name must be empty or in the format clients/{ULIDv2}\x1aSsize(this) == 0 || this.matches('^clients/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12R\n" +
@@ -266,7 +266,8 @@ const file_meshtrade_compliance_client_v1_client_proto_rawDesc = "" +
 	"\x11verification_date\x18\n" +
 	" \x01(\v2\x1a.google.protobuf.TimestampR\x10verificationDate\x12P\n" +
 	"\x16next_verification_date\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\x14nextVerificationDate\x12C\n" +
-	"\x05roles\x18\f \x03(\x0e2\x1b.meshtrade.iam.role.v1.RoleB\x10\xbaH\r\xc8\x01\x01\x92\x01\a\"\x05\x82\x01\x02\x10\x01R\x05rolesB\x0e\n" +
+	"\x05roles\x18\f \x03(\x0e2\x1b.meshtrade.iam.role.v1.RoleB\x10\xbaH\r\xc8\x01\x01\x92\x01\a\"\x05\x82\x01\x02\x10\x01R\x05roles:\r\xb2\xb5\x18\t\n" +
+	"\a\x83\x89z\xc1\x8d\xb7\x01B\x0e\n" +
 	"\flegal_personBc\n" +
 	"%co.meshtrade.api.compliance.client.v1Z:github.com/meshtrade/api/go/compliance/client/v1;client_v1b\x06proto3"
 
