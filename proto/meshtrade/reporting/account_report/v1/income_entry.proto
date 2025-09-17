@@ -71,8 +71,27 @@ enum IncomeNarrative {
   INCOME_NARRATIVE_YIELD = 1;
 
   /*
-     Indicates income received from bond coupon or
-     similar fixed-income instruments.
+     Income received from dividends paid out by a company.
   */
-  INCOME_NARRATIVE_COUPON = 2;
+  INCOME_NARRATIVE_DIVIDEND = 2;
+
+  /*
+     Income earned from interest on loans or other debt instruments.
+  */
+  INCOME_NARRATIVE_INTEREST = 3;
+
+  /*
+     The original amount of a loan or investment, not including any interest or appreciation.
+  */
+  INCOME_NARRATIVE_PRINCIPAL = 4;
+
+  /*
+     A general distribution of funds or assets.
+  */
+  INCOME_NARRATIVE_DISTRIBUTION = 5;
+
+  /*
+     A distribution of profits to shareholders or partners.
+  */
+  INCOME_NARRATIVE_PROFIT_DISTRIBUTION = 6;
 }
