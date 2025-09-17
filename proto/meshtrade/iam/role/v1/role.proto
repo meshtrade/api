@@ -51,15 +51,8 @@ enum Role {
   ROLE_REPORTING_VIEWER = 6000001;
 }
 
-/*
-   A file-level option to define a list of roles for a service domain.
-
-   This is used at the top of a `service.proto` file to declare all the
-   business roles relevant to that service, making the authorization
-   model for the service self-contained and easy to discover.
-*/
-extend google.protobuf.FileOptions {
-  RoleList standard_roles = 50003;
+extend google.protobuf.MessageOptions {
+  RoleList message_roles = 50006;
 }
 
 extend google.protobuf.MethodOptions {
