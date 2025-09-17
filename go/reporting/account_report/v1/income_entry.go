@@ -1,4 +1,4 @@
-package account_reportv1
+package account_report_v1
 
 func (a IncomeNarrative) PrettyString() string {
 	switch a {
