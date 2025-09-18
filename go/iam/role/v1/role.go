@@ -4,7 +4,22 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+
+	"github.com/oklog/ulid/v2"
 )
+
+// TODO: improve function documentation
+// IsValid returns...
+func (r Role) IsValid() bool {
+	_, ok := Role_name[int32(r)]
+	return ok
+}
+
+// TODO: improve function documentation
+// IsValidAndSpecified returns...
+func (r Role) IsValidAndSpecified() bool {
+	return r.IsValid() && r != Role_ROLE_UNSPECIFIED
+}
 
 // FullResourceNameFromGroupID returns the full qualified resource name of the role given a particular owner group id.
 func (r Role) FullResourceNameFromGroupID(groupID string) string {
@@ -61,4 +76,57 @@ func (r Role) FullResourceNameFromGroup(group string) (string, error) {
 	}
 
 	return r.FullResourceNameFromGroupID(groupID), nil
+}
+
+// TODO: review this function, add tests for this function, improve function documentation
+// ParseRoleParts parses a full role resource name into its constituent parts
+// e.g. ....
+func ParseRoleParts(roleFullResourceName string) (group string, role Role, err error) {
+	// Break role up into its parts
+	// groups/{{groupID}}/roles/{{meshtrade.iam.role.v1.Role enum}}
+	roleParts := strings.Split(roleFullResourceName, "/")
+	if len(roleParts) != 4 {
+		err = fmt.Errorf("invalid role format, should be groups/{{groupID}}/roles/{{meshtrade.iam.role.v1.Role enum}}, got %s", roleFullResourceName)
+		return
+	}
+
+	// get group ID and confirm validity
+	groupID := roleParts[1]
+	if _, parseErr := ulid.Parse(groupID); parseErr != nil {
+		err = fmt.Errorf("group id not valid: %w", parseErr)
+		return
+	}
+
+	// construct final group name
+	group = "groups/" + roleParts[1]
+
+	// parse role enum part
+	roleEnumRaw, err := strconv.Atoi(roleParts[3])
+	if err != nil {
+		err = fmt.Errorf("error parsing role enum value '%s'", roleParts[3])
+		return
+	}
+
+	// cast to final enum
+	role = Role(roleEnumRaw)
+
+	// confirm validity
+	if !role.IsValidAndSpecified() {
+		err = fmt.Errorf("parsed role enum value '%d' is not valid", role)
+		return
+	}
+
+	// return, role parts valid
+	return
+}
+
+// TODO: review this function, add tests for this function, improve function documentation
+// MustParseRoleParts parses a full role resource name into its constituent parts
+// e.g. ....
+func MustParseRoleParts(roleFullResourceName string) (string, Role) {
+	group, role, err := ParseRoleParts(roleFullResourceName)
+	if err != nil {
+		panic(err)
+	}
+	return group, role
 }

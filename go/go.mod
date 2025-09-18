@@ -5,6 +5,7 @@ go 1.24.3
 require (
 	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.6-20250717185734-6c6e0d3c608e.1
 	buf.build/go/protovalidate v0.14.0
+	github.com/oklog/ulid/v2 v2.1.1
 	github.com/shopspring/decimal v1.4.0
 	github.com/stretchr/testify v1.10.0
 	go.opentelemetry.io/otel/trace v1.37.0
