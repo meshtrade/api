@@ -8,15 +8,13 @@ import (
 	"github.com/oklog/ulid/v2"
 )
 
-// TODO: improve function documentation
-// IsValid returns...
+// IsValid reports whether r corresponds to a defined Role enum value.
 func (r Role) IsValid() bool {
 	_, ok := Role_name[int32(r)]
 	return ok
 }
 
-// TODO: improve function documentation
-// IsValidAndSpecified returns...
+// IsValidAndSpecified reports whether r is defined and not Role_ROLE_UNSPECIFIED.
 func (r Role) IsValidAndSpecified() bool {
 	return r.IsValid() && r != Role_ROLE_UNSPECIFIED
 }
@@ -78,51 +76,42 @@ func (r Role) FullResourceNameFromGroup(group string) (string, error) {
 	return r.FullResourceNameFromGroupID(groupID), nil
 }
 
-// TODO: review this function, add tests for this function, improve function documentation
-// ParseRoleParts parses a full role resource name into its constituent parts
-// e.g. ....
+// ParseRoleParts splits a role resource name formatted as "groups/{ULID}/{role}" into its
+// group resource name and the corresponding Role value. It validates the group identifier
+// and ensures the role is a recognised, non-unspecified enum value.
 func ParseRoleParts(roleFullResourceName string) (group string, role Role, err error) {
-	// Break role up into its parts
-	// groups/{{groupID}}/roles/{{meshtrade.iam.role.v1.Role enum}}
 	roleParts := strings.Split(roleFullResourceName, "/")
-	if len(roleParts) != 4 {
-		err = fmt.Errorf("invalid role format, should be groups/{{groupID}}/roles/{{meshtrade.iam.role.v1.Role enum}}, got %s", roleFullResourceName)
+	if len(roleParts) != 3 || roleParts[0] != "groups" {
+		err = fmt.Errorf("invalid role format, expected groups/{groupID}/{role}, got %s", roleFullResourceName)
 		return
 	}
 
-	// get group ID and confirm validity
 	groupID := roleParts[1]
 	if _, parseErr := ulid.Parse(groupID); parseErr != nil {
 		err = fmt.Errorf("group id not valid: %w", parseErr)
 		return
 	}
 
-	// construct final group name
-	group = "groups/" + roleParts[1]
+	group = "groups/" + groupID
 
-	// parse role enum part
-	roleEnumRaw, err := strconv.Atoi(roleParts[3])
-	if err != nil {
-		err = fmt.Errorf("error parsing role enum value '%s'", roleParts[3])
+	roleEnumRaw, convErr := strconv.Atoi(roleParts[2])
+	if convErr != nil {
+		err = fmt.Errorf("error parsing role enum value '%s'", roleParts[2])
 		return
 	}
 
-	// cast to final enum
 	role = Role(roleEnumRaw)
-
-	// confirm validity
 	if !role.IsValidAndSpecified() {
 		err = fmt.Errorf("parsed role enum value '%d' is not valid", role)
 		return
 	}
 
-	// return, role parts valid
 	return
 }
 
-// TODO: review this function, add tests for this function, improve function documentation
-// MustParseRoleParts parses a full role resource name into its constituent parts
-// e.g. ....
+// MustParseRoleParts parses a role resource name formatted as "groups/{ULID}/{role}" and
+// panics if the input cannot be validated or decoded. Prefer ParseRoleParts when you can
+// handle an error result.
 func MustParseRoleParts(roleFullResourceName string) (string, Role) {
 	group, role, err := ParseRoleParts(roleFullResourceName)
 	if err != nil {

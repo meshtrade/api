@@ -196,3 +196,98 @@ func TestRoundTrip(t *testing.T) {
 		})
 	}
 }
+
+func TestParseRoleParts(t *testing.T) {
+	const groupID = "01ARZ3NDEKTSV4RRFFQ69G5FAV"
+	const groupResourceName = "groups/" + groupID
+	const validResourceName = "groups/" + groupID + "/1000000"
+
+	testCases := []struct {
+		name     string
+		input    string
+		expGroup string
+		expRole  Role
+		expErr   bool
+	}{
+		{
+			name:     "valid role resource",
+			input:    validResourceName,
+			expGroup: groupResourceName,
+			expRole:  Role_ROLE_WALLET_ADMIN,
+		},
+		{
+			name:   "invalid prefix",
+			input:  "users/" + groupID + "/1000000",
+			expErr: true,
+		},
+		{
+			name:   "missing role component",
+			input:  "groups/" + groupID,
+			expErr: true,
+		},
+		{
+			name:   "invalid group id",
+			input:  "groups/notaulid/1000000",
+			expErr: true,
+		},
+		{
+			name:   "non numeric role",
+			input:  "groups/" + groupID + "/not-a-role",
+			expErr: true,
+		},
+		{
+			name:   "unspecified role value",
+			input:  "groups/" + groupID + "/0",
+			expErr: true,
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			group, role, err := ParseRoleParts(tc.input)
+
+			if tc.expErr {
+				if err == nil {
+					t.Fatalf("ParseRoleParts() expected error but got none")
+				}
+				return
+			}
+
+			if err != nil {
+				t.Fatalf("ParseRoleParts() unexpected error: %v", err)
+			}
+
+			if group != tc.expGroup {
+				t.Errorf("ParseRoleParts() group = %q, expected %q", group, tc.expGroup)
+			}
+
+			if role != tc.expRole {
+				t.Errorf("ParseRoleParts() role = %v, expected %v", role, tc.expRole)
+			}
+		})
+	}
+}
+
+func TestMustParseRoleParts(t *testing.T) {
+	const groupID = "01ARZ3NDEKTSV4RRFFQ69G5FAV"
+	const validResourceName = "groups/" + groupID + "/1000000"
+
+	t.Run("valid resource", func(t *testing.T) {
+		group, role := MustParseRoleParts(validResourceName)
+		if group != "groups/"+groupID {
+			t.Errorf("MustParseRoleParts() group = %q, expected %q", group, "groups/"+groupID)
+		}
+		if role != Role_ROLE_WALLET_ADMIN {
+			t.Errorf("MustParseRoleParts() role = %v, expected %v", role, Role_ROLE_WALLET_ADMIN)
+		}
+	})
+
+	t.Run("panics on invalid resource", func(t *testing.T) {
+		defer func() {
+			if r := recover(); r == nil {
+				t.Errorf("MustParseRoleParts() should have panicked but did not")
+			}
+		}()
+		MustParseRoleParts("invalid-resource")
+	})
+}
