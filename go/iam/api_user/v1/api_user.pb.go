@@ -156,7 +156,7 @@ type APIUser struct {
 	// Required on creation.
 	DisplayName string `protobuf:"bytes,4,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// The current state of the API user (active or inactive).
-	// System set on creation.
+	// System set on creation to default value of inactive.
 	State APIUserState `protobuf:"varint,5,opt,name=state,proto3,enum=meshtrade.iam.api_user.v1.APIUserState" json:"state,omitempty"`
 	// Roles is a list of the standard roles assigned to this api user,
 	// prepended by the name of the group in which they have been assigned that role.
@@ -246,15 +246,15 @@ var File_meshtrade_iam_api_user_v1_api_user_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_api_user_v1_api_user_proto_rawDesc = "" +
 	"\n" +
-	"(meshtrade/iam/api_user/v1/api_user.proto\x12\x19meshtrade.iam.api_user.v1\x1a\x1bbuf/validate/validate.proto\"\x9e\x06\n" +
+	"(meshtrade/iam/api_user/v1/api_user.proto\x12\x19meshtrade.iam.api_user.v1\x1a\x1bbuf/validate/validate.proto\"\x9a\x06\n" +
 	"\aAPIUser\x12\xc2\x01\n" +
 	"\x04name\x18\x01 \x01(\tB\xad\x01\xbaH\xa9\x01\xba\x01\xa5\x01\n" +
 	"\x14name.format.optional\x126name must be empty or in the format api_users/{ULIDv2}\x1aUsize(this) == 0 || this.matches('^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12R\n" +
 	"\x05owner\x18\x02 \x01(\tB<\xbaH9\xc8\x01\x01r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05owner\x12\xb4\x01\n" +
 	"\fdisplay_name\x18\x04 \x01(\tB\x90\x01\xbaH\x8c\x01\xba\x01\x7f\n" +
-	"\x15display_name.required\x12Adisplay name is required and must be between 1 and 255 characters\x1a#size(this) > 0 && size(this) <= 255\xc8\x01\x01r\x05\x10\x01\x18\xff\x01R\vdisplayName\x12\xc2\x01\n" +
-	"\x05state\x18\x05 \x01(\x0e2'.meshtrade.iam.api_user.v1.APIUserStateB\x82\x01\xbaH\x7f\xba\x01t\n" +
-	"\vstate.valid\x12/state must be a valid APIUserState if specified\x1a4int(this) == 0 || (int(this) >= 1 && int(this) <= 2)\xc8\x01\x01\x82\x01\x02\x10\x01R\x05state\x12e\n" +
+	"\x15display_name.required\x12Adisplay name is required and must be between 1 and 255 characters\x1a#size(this) > 0 && size(this) <= 255\xc8\x01\x01r\x05\x10\x01\x18\xff\x01R\vdisplayName\x12\xbe\x01\n" +
+	"\x05state\x18\x05 \x01(\x0e2'.meshtrade.iam.api_user.v1.APIUserStateB\x7f\xbaH|\xba\x01t\n" +
+	"\vstate.valid\x12/state must be a valid APIUserState if specified\x1a4int(this) == 0 || (int(this) >= 1 && int(this) <= 2)\x82\x01\x02\x10\x01R\x05state\x12e\n" +
 	"\x05roles\x18\x06 \x03(\tBO\xbaHL\x92\x01I\"GrE2@^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/[123456][0-9]{6}$\x98\x01)R\x05roles\x12\x17\n" +
 	"\aapi_key\x18\a \x01(\tR\x06apiKey*f\n" +
 	"\fAPIUserState\x12\x1e\n" +

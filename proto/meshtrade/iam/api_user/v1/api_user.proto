@@ -61,10 +61,9 @@ message APIUser {
 
   /*
      The current state of the API user (active or inactive).
-     System set on creation.
+     System set on creation to default value of inactive.
   */
   meshtrade.iam.api_user.v1.APIUserState state = 5 [(buf.validate.field) = {
-    required: true,
     enum: {defined_only: true}
     cel: {
       id: "state.valid"

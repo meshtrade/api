@@ -855,27 +855,27 @@ public final class ApiCredentials {
     java.lang.String[] descriptorData = {
       "\n/meshtrade/iam/api_user/v1/api_credenti" +
       "als.proto\022\031meshtrade.iam.api_user.v1\032\033bu" +
-      "f/validate/validate.proto\"\265\005\n\016APICredent" +
-      "ials\022\275\002\n\007api_key\030\001 \001(\tB\243\002\272H\237\002r\0302\023^[A-Za-" +
+      "f/validate/validate.proto\"\270\005\n\016APICredent" +
+      "ials\022\300\002\n\007api_key\030\001 \001(\tB\246\002\272H\242\002r\0302\023^[A-Za-" +
       "z0-9_-]{43}$\230\001+\272\001u\n\020api_key.required\022Oap" +
       "i_key is required and must be exactly 43" +
       " characters (base64 URL-safe encoded)\032\020s" +
       "ize(this) == 43\272\001\211\001\n\016api_key.format\022Rapi" +
       "_key must be base64 URL-safe encoded (43" +
       " characters, alphanumeric plus _ and -)\032" +
-      "#this.matches(\'^[A-Za-z0-9_-]{43}$\')R\006ap" +
-      "iKey\022\342\002\n\005group\030\002 \001(\tB\313\002\272H\307\002r42/^groups/[" +
-      "0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\230\001" +
-      "!\272\001Y\n\016group.required\0225group is required " +
-      "and must be in format groups/{ulid}\032\020siz" +
-      "e(this) == 33\272\001\261\001\n\014group.format\022`group m" +
-      "ust be in format groups/{ulid} where uli" +
-      "d is a 26-character ULID (uppercase alph" +
-      "anumeric)\032?this.matches(\'^groups/[012345" +
-      "6789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\')R\005grou" +
-      "pB[\n co.meshtrade.api.iam.api_user.v1Z7g" +
-      "ithub.com/meshtrade/api/go/iam/api_user/" +
-      "v1;api_user_v1b\006proto3"
+      "#this.matches(\'^[A-Za-z0-9_-]{43}$\')\310\001\001R" +
+      "\006apiKey\022\342\002\n\005group\030\002 \001(\tB\313\002\272H\307\002r42/^group" +
+      "s/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}" +
+      "$\230\001!\272\001Y\n\016group.required\0225group is requir" +
+      "ed and must be in format groups/{ulid}\032\020" +
+      "size(this) == 33\272\001\261\001\n\014group.format\022`grou" +
+      "p must be in format groups/{ulid} where " +
+      "ulid is a 26-character ULID (uppercase a" +
+      "lphanumeric)\032?this.matches(\'^groups/[012" +
+      "3456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\')R\005g" +
+      "roupB[\n co.meshtrade.api.iam.api_user.v1" +
+      "Z7github.com/meshtrade/api/go/iam/api_us" +
+      "er/v1;api_user_v1b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
