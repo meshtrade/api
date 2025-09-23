@@ -181,6 +181,7 @@ message GetApiUserByKeyHashRequest {
     required: true,
     string: {
       len: 44,
+      pattern: "^[A-Za-z0-9+/]{43}=$"
     }
   }];
 }
