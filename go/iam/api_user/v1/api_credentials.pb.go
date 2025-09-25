@@ -91,11 +91,9 @@ var File_meshtrade_iam_api_user_v1_api_credentials_proto protoreflect.FileDescri
 
 const file_meshtrade_iam_api_user_v1_api_credentials_proto_rawDesc = "" +
 	"\n" +
-	"/meshtrade/iam/api_user/v1/api_credentials.proto\x12\x19meshtrade.iam.api_user.v1\x1a\x1bbuf/validate/validate.proto\"\xb8\x05\n" +
-	"\x0eAPICredentials\x12\xc0\x02\n" +
-	"\aapi_key\x18\x01 \x01(\tB\xa6\x02\xbaH\xa2\x02\xba\x01u\n" +
-	"\x10api_key.required\x12Oapi_key is required and must be exactly 43 characters (base64 URL-safe encoded)\x1a\x10size(this) == 43\xba\x01\x89\x01\n" +
-	"\x0eapi_key.format\x12Rapi_key must be base64 URL-safe encoded (43 characters, alphanumeric plus _ and -)\x1a#this.matches('^[A-Za-z0-9_-]{43}$')\xc8\x01\x01r\x182\x13^[A-Za-z0-9_-]{43}$\x98\x01+R\x06apiKey\x12\xe2\x02\n" +
+	"/meshtrade/iam/api_user/v1/api_credentials.proto\x12\x19meshtrade.iam.api_user.v1\x1a\x1bbuf/validate/validate.proto\"\xb0\x03\n" +
+	"\x0eAPICredentials\x129\n" +
+	"\aapi_key\x18\x01 \x01(\tB \xbaH\x1d\xc8\x01\x01r\x182\x13^[A-Za-z0-9_-]{43}$\x98\x01+R\x06apiKey\x12\xe2\x02\n" +
 	"\x05group\x18\x02 \x01(\tB\xcb\x02\xbaH\xc7\x02\xba\x01Y\n" +
 	"\x0egroup.required\x125group is required and must be in format groups/{ulid}\x1a\x10size(this) == 33\xba\x01\xb1\x01\n" +
 	"\fgroup.format\x12`group must be in format groups/{ulid} where ulid is a 26-character ULID (uppercase alphanumeric)\x1a?this.matches('^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05groupB[\n" +

@@ -483,9 +483,9 @@ const file_meshtrade_iam_api_user_v1_service_proto_rawDesc = "" +
 	"\n" +
 	"'meshtrade/iam/api_user/v1/service.proto\x12\x19meshtrade.iam.api_user.v1\x1a\x1bbuf/validate/validate.proto\x1a(meshtrade/iam/api_user/v1/api_user.proto\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\"h\n" +
 	"\x11GetApiUserRequest\x12S\n" +
-	"\x04name\x18\x01 \x01(\tB?\xbaH<\xc8\x01\x01r722^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01$R\x04name\"D\n" +
-	"\x1aGetApiUserByKeyHashRequest\x12&\n" +
-	"\bkey_hash\x18\x01 \x01(\tB\v\xbaH\b\xc8\x01\x01r\x03\x98\x01,R\akeyHash\"]\n" +
+	"\x04name\x18\x01 \x01(\tB?\xbaH<\xc8\x01\x01r722^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01$R\x04name\"Z\n" +
+	"\x1aGetApiUserByKeyHashRequest\x12<\n" +
+	"\bkey_hash\x18\x01 \x01(\tB!\xbaH\x1e\xc8\x01\x01r\x192\x14^[A-Za-z0-9+/]{43}=$\x98\x01,R\akeyHash\"]\n" +
 	"\x14CreateApiUserRequest\x12E\n" +
 	"\bapi_user\x18\x01 \x01(\v2\".meshtrade.iam.api_user.v1.APIUserB\x06\xbaH\x03\xc8\x01\x01R\aapiUser\"\xd1\x01\n" +
 	"\x1aAssignRoleToAPIUserRequest\x12P\n" +
