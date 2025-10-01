@@ -121,6 +121,44 @@ func NewUserService(opts ...config.ServiceOption) (UserServiceClientInterface, e
 	return &userService{BaseGRPCClient: base}, nil
 }
 
+// WithGroup returns a new client instance configured with a different group context.
+// This enables convenient group context switching without reconstructing the entire client.
+// All other configuration (URL, port, timeout, tracer, API key, etc.) is preserved.
+//
+// The group parameter must be in the format 'groups/{group_id}' where group_id is a valid
+// group identifier (typically a ULID). The new client instance shares no state with the
+// original client, allowing safe concurrent usage across different goroutines.
+//
+// Example:
+//
+//	// Create initial client with default group from credentials
+//	service, err := NewUserService()
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//	defer service.Close()
+//
+//	// Switch to a different group context
+//	altService := service.WithGroup("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
+//	defer altService.Close()
+//
+//	// Both clients can be used independently
+//	resp1, _ := service.SomeMethod(ctx, req)      // Uses original group
+//	resp2, _ := altService.SomeMethod(ctx, req)   // Uses alternative group
+//
+// Parameters:
+//   - group: The group resource name in format 'groups/{group_id}'
+//
+// Returns:
+//   - UserServiceClientInterface: New client instance with updated group context
+func (s *userService) WithGroup(group string) UserServiceClientInterface {
+	// Create new base client with copied configuration but new group
+	newBase := s.BaseGRPCClient.WithGroup(group)
+
+	// Return new service instance wrapping the new base client
+	return &userService{BaseGRPCClient: newBase}
+}
+
 // AssignRoleToUser executes the AssignRoleToUser RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *userService) AssignRoleToUser(ctx context.Context, request *AssignRoleToUserRequest) (*User, error) {
