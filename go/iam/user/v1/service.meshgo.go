@@ -51,6 +51,9 @@ import (
 type UserServiceClientInterface interface {
 	UserService
 	grpc.GRPCClient
+
+	// WithGroup returns a new client instance with a different group context
+	WithGroup(group string) UserServiceClientInterface
 }
 
 // userService is the internal implementation of the UserServiceClientInterface interface.

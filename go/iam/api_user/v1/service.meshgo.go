@@ -51,6 +51,9 @@ import (
 type ApiUserServiceClientInterface interface {
 	ApiUserService
 	grpc.GRPCClient
+
+	// WithGroup returns a new client instance with a different group context
+	WithGroup(group string) ApiUserServiceClientInterface
 }
 
 // apiUserService is the internal implementation of the ApiUserServiceClientInterface interface.

@@ -51,6 +51,9 @@ import (
 type AccountReportServiceClientInterface interface {
 	AccountReportService
 	grpc.GRPCClient
+
+	// WithGroup returns a new client instance with a different group context
+	WithGroup(group string) AccountReportServiceClientInterface
 }
 
 // accountReportService is the internal implementation of the AccountReportServiceClientInterface interface.
