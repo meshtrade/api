@@ -50,6 +50,9 @@ type BaseGRPCClient[T any] struct {
 
 	// Interceptors
 	unaryClientInterceptors []grpc.UnaryClientInterceptor
+
+	// Client factory for creating new instances
+	clientFactory func(grpc.ClientConnInterface) T
 }
 
 // NewBaseGRPCClient creates a new generic gRPC client with all common functionality.
@@ -108,6 +111,7 @@ func NewBaseGRPCClient[T any](
 		apiKey:              cfg.ApiKey,
 		group:               cfg.Group,
 		validator:           validator,
+		clientFactory:       clientFactory,
 	}
 
 	// Validate authentication credentials
@@ -401,6 +405,53 @@ func (b *BaseGRPCClient[T]) Close() error {
 // and is sent as an "x-group" header with every request.
 func (b *BaseGRPCClient[T]) Group() string {
 	return b.group
+}
+
+// WithGroup creates a new BaseGRPCClient instance with a different group context.
+// This method copies all configuration from the current client but updates the group.
+// The new client has an independent connection and can be used safely across goroutines.
+//
+// The group parameter is validated to ensure it's not empty. The format should be
+// 'groups/{group_id}' where group_id is a valid group identifier.
+//
+// Parameters:
+//   - group: The new group resource name to use for API requests
+//
+// Returns:
+//   - *BaseGRPCClient[T]: A new client instance with the updated group context
+//
+// Note: The caller is responsible for calling Close() on the returned client
+// when it is no longer needed to prevent resource leaks.
+func (b *BaseGRPCClient[T]) WithGroup(group string) *BaseGRPCClient[T] {
+	// Validate group parameter
+	if group == "" {
+		panic("group parameter cannot be empty")
+	}
+
+	// Create configuration options matching current client
+	opts := []config.ServiceOption{
+		config.WithURL(b.url),
+		config.WithPort(b.port),
+		config.WithTLS(b.tls),
+		config.WithTracer(b.tracer),
+		config.WithTimeout(b.timeout),
+		config.WithAPIKey(b.apiKey),
+		config.WithGroup(group), // Only this differs
+	}
+
+	// Create new base client with updated group
+	newClient, err := NewBaseGRPCClient(
+		b.serviceProviderName,
+		b.clientFactory, // Use stored factory
+		opts...,
+	)
+	if err != nil {
+		// Since we're copying from a valid client, errors indicate programming bugs
+		// or resource exhaustion. Panic is appropriate here.
+		panic(fmt.Sprintf("failed to create new client with group %s: %v", group, err))
+	}
+
+	return newClient
 }
 
 // GrpcClient returns the underlying gRPC client for making service-specific calls.
