@@ -1,5 +1,5 @@
-from meshtrade.iam.role.v1.role import full_resource_name_from_group_name
-from meshtrade.iam.role.v1.role_pb2 import Role
+from meshtrade.api.iam.role.v1.role import full_resource_name_from_group_name
+from meshtrade.api.iam.role.v1.role_pb2 import Role
 from meshtrade.iam.user.v1 import (
     AssignRoleToUserRequest,
     UserService,

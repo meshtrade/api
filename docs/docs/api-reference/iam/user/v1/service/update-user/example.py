@@ -1,3 +1,5 @@
+from meshtrade.api.iam.role.v1.role import full_resource_name_from_group_name
+from meshtrade.api.iam.role.v1.role_pb2 import Role
 from meshtrade.iam.user.v1 import (
     UpdateUserRequest,
     User,
@@ -16,12 +18,12 @@ def main():
         request = UpdateUserRequest(
             user=User(
                 name="users/01HN2ZXQJ8K9M0L1N3P2Q4R5T6",  # Existing user identifier
-                owner="groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU",  # Owner must match current ownership
+                owner=service.group(),  # Owner must match current ownership
                 email="sarah.t.johnson@company.com",  # Updated email address
                 roles=[
-                    "groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU/1000000",  # ROLE_IAM_ADMIN
-                    "groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU/2000001",  # ROLE_TRADING_ADMIN
-                    "groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU/4000001",  # ROLE_COMPLIANCE_VIEWER
+                    full_resource_name_from_group_name(Role.ROLE_IAM_ADMIN, service.group()),
+                    full_resource_name_from_group_name(Role.ROLE_TRADING_ADMIN, service.group()),
+                    full_resource_name_from_group_name(Role.ROLE_COMPLIANCE_VIEWER, service.group()),
                 ],
             )
         )
