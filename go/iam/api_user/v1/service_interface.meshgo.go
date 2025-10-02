@@ -34,6 +34,13 @@ type ApiUserService interface {
 	// to the permissions associated with that role within the group hierarchy.
 	AssignRoleToAPIUser(ctx context.Context, request *AssignRoleToAPIUserRequest) (*APIUser, error)
 
+	// Revokes a role from an existing API user within the authenticated group context.
+	//
+	// The role revocation removes the permissions associated with that role from
+	// the API user within the group hierarchy. The API user will no longer be able
+	// to perform operations that require the revoked role.
+	RevokeRoleFromAPIUser(ctx context.Context, request *RevokeRoleFromAPIUserRequest) (*APIUser, error)
+
 	// Lists all API users in the authenticated group context.
 	//
 	// Returns all API users that belong to the current group,

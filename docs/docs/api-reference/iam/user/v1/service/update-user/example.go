@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 
+	rolev1 "github.com/meshtrade/api/go/iam/role/v1"
 	userv1 "github.com/meshtrade/api/go/iam/user/v1"
 )
 
@@ -22,13 +23,13 @@ func main() {
 	// Update user with modified information
 	request := &userv1.UpdateUserRequest{
 		User: &userv1.User{
-			Name:  "users/01HN2ZXQJ8K9M0L1N3P2Q4R5T6",  // Existing user identifier
-			Owner: "groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU", // Owner must match current ownership
+			Name:  "users/01HN2ZXQJ8K9M0L1N3P2Q4R5T6", // Existing user identifier
+			Owner: service.Group(),                      // Owner must match current ownership
 			Email: "sarah.t.johnson@company.com",        // Updated email address
 			Roles: []string{
-				"groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU/1000000", // ROLE_IAM_ADMIN
-				"groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU/2000001", // ROLE_TRADING_ADMIN
-				"groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU/4000001", // ROLE_COMPLIANCE_VIEWER
+				rolev1.Role_ROLE_IAM_ADMIN.FullResourceNameFromGroupName(service.Group()),
+				rolev1.Role_ROLE_TRADING_ADMIN.FullResourceNameFromGroupName(service.Group()),
+				rolev1.Role_ROLE_COMPLIANCE_VIEWER.FullResourceNameFromGroupName(service.Group()),
 			},
 		},
 	}

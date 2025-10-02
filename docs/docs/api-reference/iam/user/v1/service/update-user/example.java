@@ -1,6 +1,8 @@
 import co.meshtrade.api.iam.user.v1.UserService;
 import co.meshtrade.api.iam.user.v1.Service.UpdateUserRequest;
 import co.meshtrade.api.iam.user.v1.User.User;
+import co.meshtrade.api.iam.role.v1.RoleUtils;
+import co.meshtrade.api.iam.role.v1.RoleOuterClass.Role;
 
 import java.util.Optional;
 
@@ -14,11 +16,11 @@ public class UpdateUserExample {
             UpdateUserRequest request = UpdateUserRequest.newBuilder()
                 .setUser(User.newBuilder()
                     .setName("users/01HN2ZXQJ8K9M0L1N3P2Q4R5T6")  // Existing user identifier
-                    .setOwner("groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU")  // Owner must match current ownership
+                    .setOwner(service.getGroup())  // Owner must match current ownership
                     .setEmail("sarah.t.johnson@company.com")  // Updated email address
-                    .addRoles("groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU/1000000")  // ROLE_IAM_ADMIN
-                    .addRoles("groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU/2000001")  // ROLE_TRADING_ADMIN
-                    .addRoles("groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU/4000001")  // ROLE_COMPLIANCE_VIEWER
+                    .addRoles(RoleUtils.fullResourceNameFromGroupName(Role.ROLE_IAM_ADMIN, service.getGroup()))
+                    .addRoles(RoleUtils.fullResourceNameFromGroupName(Role.ROLE_TRADING_ADMIN, service.getGroup()))
+                    .addRoles(RoleUtils.fullResourceNameFromGroupName(Role.ROLE_COMPLIANCE_VIEWER, service.getGroup()))
                     .build())
                 .build();
 

@@ -19,14 +19,15 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ApiUserService_GetApiUser_FullMethodName          = "/meshtrade.iam.api_user.v1.ApiUserService/GetApiUser"
-	ApiUserService_CreateApiUser_FullMethodName       = "/meshtrade.iam.api_user.v1.ApiUserService/CreateApiUser"
-	ApiUserService_AssignRoleToAPIUser_FullMethodName = "/meshtrade.iam.api_user.v1.ApiUserService/AssignRoleToAPIUser"
-	ApiUserService_ListApiUsers_FullMethodName        = "/meshtrade.iam.api_user.v1.ApiUserService/ListApiUsers"
-	ApiUserService_SearchApiUsers_FullMethodName      = "/meshtrade.iam.api_user.v1.ApiUserService/SearchApiUsers"
-	ApiUserService_ActivateApiUser_FullMethodName     = "/meshtrade.iam.api_user.v1.ApiUserService/ActivateApiUser"
-	ApiUserService_DeactivateApiUser_FullMethodName   = "/meshtrade.iam.api_user.v1.ApiUserService/DeactivateApiUser"
-	ApiUserService_GetApiUserByKeyHash_FullMethodName = "/meshtrade.iam.api_user.v1.ApiUserService/GetApiUserByKeyHash"
+	ApiUserService_GetApiUser_FullMethodName            = "/meshtrade.iam.api_user.v1.ApiUserService/GetApiUser"
+	ApiUserService_CreateApiUser_FullMethodName         = "/meshtrade.iam.api_user.v1.ApiUserService/CreateApiUser"
+	ApiUserService_AssignRoleToAPIUser_FullMethodName   = "/meshtrade.iam.api_user.v1.ApiUserService/AssignRoleToAPIUser"
+	ApiUserService_RevokeRoleFromAPIUser_FullMethodName = "/meshtrade.iam.api_user.v1.ApiUserService/RevokeRoleFromAPIUser"
+	ApiUserService_ListApiUsers_FullMethodName          = "/meshtrade.iam.api_user.v1.ApiUserService/ListApiUsers"
+	ApiUserService_SearchApiUsers_FullMethodName        = "/meshtrade.iam.api_user.v1.ApiUserService/SearchApiUsers"
+	ApiUserService_ActivateApiUser_FullMethodName       = "/meshtrade.iam.api_user.v1.ApiUserService/ActivateApiUser"
+	ApiUserService_DeactivateApiUser_FullMethodName     = "/meshtrade.iam.api_user.v1.ApiUserService/DeactivateApiUser"
+	ApiUserService_GetApiUserByKeyHash_FullMethodName   = "/meshtrade.iam.api_user.v1.ApiUserService/GetApiUserByKeyHash"
 )
 
 // ApiUserServiceClient is the client API for ApiUserService service.
@@ -58,6 +59,12 @@ type ApiUserServiceClient interface {
 	// The role assignment enables the api user to perform operations according
 	// to the permissions associated with that role within the group hierarchy.
 	AssignRoleToAPIUser(ctx context.Context, in *AssignRoleToAPIUserRequest, opts ...grpc.CallOption) (*APIUser, error)
+	// Revokes a role from an existing API user within the authenticated group context.
+	//
+	// The role revocation removes the permissions associated with that role from
+	// the API user within the group hierarchy. The API user will no longer be able
+	// to perform operations that require the revoked role.
+	RevokeRoleFromAPIUser(ctx context.Context, in *RevokeRoleFromAPIUserRequest, opts ...grpc.CallOption) (*APIUser, error)
 	// Lists all API users in the authenticated group context.
 	//
 	// Returns all API users that belong to the current group,
@@ -117,6 +124,16 @@ func (c *apiUserServiceClient) AssignRoleToAPIUser(ctx context.Context, in *Assi
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(APIUser)
 	err := c.cc.Invoke(ctx, ApiUserService_AssignRoleToAPIUser_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiUserServiceClient) RevokeRoleFromAPIUser(ctx context.Context, in *RevokeRoleFromAPIUserRequest, opts ...grpc.CallOption) (*APIUser, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(APIUser)
+	err := c.cc.Invoke(ctx, ApiUserService_RevokeRoleFromAPIUser_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -202,6 +219,12 @@ type ApiUserServiceServer interface {
 	// The role assignment enables the api user to perform operations according
 	// to the permissions associated with that role within the group hierarchy.
 	AssignRoleToAPIUser(context.Context, *AssignRoleToAPIUserRequest) (*APIUser, error)
+	// Revokes a role from an existing API user within the authenticated group context.
+	//
+	// The role revocation removes the permissions associated with that role from
+	// the API user within the group hierarchy. The API user will no longer be able
+	// to perform operations that require the revoked role.
+	RevokeRoleFromAPIUser(context.Context, *RevokeRoleFromAPIUserRequest) (*APIUser, error)
 	// Lists all API users in the authenticated group context.
 	//
 	// Returns all API users that belong to the current group,
@@ -245,6 +268,9 @@ func (UnimplementedApiUserServiceServer) CreateApiUser(context.Context, *CreateA
 }
 func (UnimplementedApiUserServiceServer) AssignRoleToAPIUser(context.Context, *AssignRoleToAPIUserRequest) (*APIUser, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AssignRoleToAPIUser not implemented")
+}
+func (UnimplementedApiUserServiceServer) RevokeRoleFromAPIUser(context.Context, *RevokeRoleFromAPIUserRequest) (*APIUser, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RevokeRoleFromAPIUser not implemented")
 }
 func (UnimplementedApiUserServiceServer) ListApiUsers(context.Context, *ListApiUsersRequest) (*ListApiUsersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListApiUsers not implemented")
@@ -332,6 +358,24 @@ func _ApiUserService_AssignRoleToAPIUser_Handler(srv interface{}, ctx context.Co
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ApiUserServiceServer).AssignRoleToAPIUser(ctx, req.(*AssignRoleToAPIUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ApiUserService_RevokeRoleFromAPIUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RevokeRoleFromAPIUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiUserServiceServer).RevokeRoleFromAPIUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ApiUserService_RevokeRoleFromAPIUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiUserServiceServer).RevokeRoleFromAPIUser(ctx, req.(*RevokeRoleFromAPIUserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -444,6 +488,10 @@ var ApiUserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AssignRoleToAPIUser",
 			Handler:    _ApiUserService_AssignRoleToAPIUser_Handler,
+		},
+		{
+			MethodName: "RevokeRoleFromAPIUser",
+			Handler:    _ApiUserService_RevokeRoleFromAPIUser_Handler,
 		},
 		{
 			MethodName: "ListApiUsers",

@@ -24,6 +24,7 @@ from .service_pb2 import (
     GetApiUserRequest,
     ListApiUsersRequest,
     ListApiUsersResponse,
+    RevokeRoleFromAPIUserRequest,
     SearchApiUsersRequest,
     SearchApiUsersResponse,
 )
@@ -87,6 +88,7 @@ __all__ = [
     "GetApiUserRequest",
     "ListApiUsersRequest",
     "ListApiUsersResponse",
+    "RevokeRoleFromAPIUserRequest",
     "SearchApiUsersRequest",
     "SearchApiUsersResponse",
     # Manual exports
