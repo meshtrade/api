@@ -51,6 +51,9 @@ import (
 type LimitOrderServiceClientInterface interface {
 	LimitOrderService
 	grpc.GRPCClient
+
+	// WithGroup returns a new client instance with a different group context
+	WithGroup(group string) LimitOrderServiceClientInterface
 }
 
 // limitOrderService is the internal implementation of the LimitOrderServiceClientInterface interface.

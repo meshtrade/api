@@ -51,6 +51,9 @@ import (
 type MarketOrderServiceClientInterface interface {
 	MarketOrderService
 	grpc.GRPCClient
+
+	// WithGroup returns a new client instance with a different group context
+	WithGroup(group string) MarketOrderServiceClientInterface
 }
 
 // marketOrderService is the internal implementation of the MarketOrderServiceClientInterface interface.

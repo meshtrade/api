@@ -88,6 +88,9 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 	g.P("type ", clientInterfaceName, " interface {")
 	g.P("\t", svc.GoName)
 	g.P("\t", generate.GRPCClientPkg.Ident("GRPCClient"))
+	g.P("\t")
+	g.P("\t// WithGroup returns a new client instance with a different group context")
+	g.P("\tWithGroup(group string) ", clientInterfaceName)
 	g.P("}")
 	g.P()
 
