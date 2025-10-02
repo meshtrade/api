@@ -14,7 +14,7 @@ import (
 func TestGroupServiceWithGroupContextSwitch(t *testing.T) {
 	t.Run("WithGroupCreatesNewInstance", func(t *testing.T) {
 		// Create initial service with default group
-		service1Iface, err := group_v1.NewGroupService(
+		service1, err := group_v1.NewGroupService(
 			config.WithURL("localhost"),
 			config.WithPort(50051),
 			config.WithTLS(false),
@@ -22,13 +22,9 @@ func TestGroupServiceWithGroupContextSwitch(t *testing.T) {
 			config.WithGroup("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV"),
 		)
 		require.NoError(t, err, "Initial service creation should succeed")
-		defer service1Iface.Close()
+		defer service1.Close()
 
-		// Type assert to access WithGroup method (which is on concrete type)
-		service1, ok := service1Iface.(interface{ WithGroup(string) group_v1.GroupServiceClientInterface })
-		require.True(t, ok, "Service should implement WithGroup")
-
-		// Switch to a different group
+		// Switch to a different group - WithGroup is now available on the interface
 		service2 := service1.WithGroup("groups/01BRZ3NDEKTSV4RRFFQ69G5FAV")
 		require.NotNil(t, service2, "WithGroup should return non-nil client")
 		defer service2.Close()
@@ -37,7 +33,7 @@ func TestGroupServiceWithGroupContextSwitch(t *testing.T) {
 		assert.NotEqual(t, service1, service2, "WithGroup should create a new instance")
 
 		// Verify original service still has original group
-		assert.Equal(t, "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV", service1Iface.Group())
+		assert.Equal(t, "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV", service1.Group())
 
 		// Verify new service has new group
 		assert.Equal(t, "groups/01BRZ3NDEKTSV4RRFFQ69G5FAV", service2.Group())
@@ -48,7 +44,7 @@ func TestGroupServiceWithGroupContextSwitch(t *testing.T) {
 		customURL := "custom.example.com"
 
 		// Create service with custom configuration
-		service1Iface, err := group_v1.NewGroupService(
+		service1, err := group_v1.NewGroupService(
 			config.WithURL(customURL),
 			config.WithPort(8443),
 			config.WithTLS(true),
@@ -57,13 +53,9 @@ func TestGroupServiceWithGroupContextSwitch(t *testing.T) {
 			config.WithTimeout(customTimeout),
 		)
 		require.NoError(t, err)
-		defer service1Iface.Close()
+		defer service1.Close()
 
-		// Type assert to access WithGroup method
-		service1, ok := service1Iface.(interface{ WithGroup(string) group_v1.GroupServiceClientInterface })
-		require.True(t, ok, "Service should implement WithGroup")
-
-		// Switch group
+		// Switch group - WithGroup is now available on the interface
 		service2 := service1.WithGroup("groups/01BRZ3NDEKTSV4RRFFQ69G5FAV")
 		require.NotNil(t, service2)
 		defer service2.Close()
@@ -77,7 +69,7 @@ func TestGroupServiceWithGroupContextSwitch(t *testing.T) {
 
 	t.Run("WithGroupAllowsIndependentUsage", func(t *testing.T) {
 		// Create two services with different groups
-		service1Iface, err := group_v1.NewGroupService(
+		service1, err := group_v1.NewGroupService(
 			config.WithURL("localhost"),
 			config.WithPort(50051),
 			config.WithTLS(false),
@@ -85,24 +77,21 @@ func TestGroupServiceWithGroupContextSwitch(t *testing.T) {
 			config.WithGroup("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV"),
 		)
 		require.NoError(t, err)
-		defer service1Iface.Close()
+		defer service1.Close()
 
-		// Type assert to access WithGroup method
-		service1, ok := service1Iface.(interface{ WithGroup(string) group_v1.GroupServiceClientInterface })
-		require.True(t, ok, "Service should implement WithGroup")
-
+		// Switch to a different group - WithGroup is now available on the interface
 		service2 := service1.WithGroup("groups/01BRZ3NDEKTSV4RRFFQ69G5FAV")
 		require.NotNil(t, service2)
 		defer service2.Close()
 
 		// Both services should be independently usable
 		// Each service maintains its own connection and group context
-		assert.NotEqual(t, service1Iface.Group(), service2.Group())
+		assert.NotEqual(t, service1.Group(), service2.Group())
 	})
 
 	t.Run("WithGroupPanicsOnEmptyGroup", func(t *testing.T) {
 		// Create service
-		service1Iface, err := group_v1.NewGroupService(
+		service1, err := group_v1.NewGroupService(
 			config.WithURL("localhost"),
 			config.WithPort(50051),
 			config.WithTLS(false),
@@ -110,13 +99,9 @@ func TestGroupServiceWithGroupContextSwitch(t *testing.T) {
 			config.WithGroup("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV"),
 		)
 		require.NoError(t, err)
-		defer service1Iface.Close()
+		defer service1.Close()
 
-		// Type assert to access WithGroup method
-		service1, ok := service1Iface.(interface{ WithGroup(string) group_v1.GroupServiceClientInterface })
-		require.True(t, ok, "Service should implement WithGroup")
-
-		// Verify panic on empty group
+		// Verify panic on empty group - WithGroup is now available on the interface
 		assert.Panics(t, func() {
 			service1.WithGroup("")
 		}, "WithGroup should panic on empty group parameter")
