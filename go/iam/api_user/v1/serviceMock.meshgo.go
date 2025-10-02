@@ -13,24 +13,26 @@ var _ ApiUserService = &MockApiUserService{}
 
 // MockApiUserService is a mock implementation of the ApiUserService interface.
 type MockApiUserService struct {
-	mutex                              sync.Mutex
-	T                                  *testing.T
-	GetApiUserFunc                     func(t *testing.T, m *MockApiUserService, ctx context.Context, request *GetApiUserRequest) (*APIUser, error)
-	GetApiUserFuncInvocations          int
-	CreateApiUserFunc                  func(t *testing.T, m *MockApiUserService, ctx context.Context, request *CreateApiUserRequest) (*APIUser, error)
-	CreateApiUserFuncInvocations       int
-	AssignRoleToAPIUserFunc            func(t *testing.T, m *MockApiUserService, ctx context.Context, request *AssignRoleToAPIUserRequest) (*APIUser, error)
-	AssignRoleToAPIUserFuncInvocations int
-	ListApiUsersFunc                   func(t *testing.T, m *MockApiUserService, ctx context.Context, request *ListApiUsersRequest) (*ListApiUsersResponse, error)
-	ListApiUsersFuncInvocations        int
-	SearchApiUsersFunc                 func(t *testing.T, m *MockApiUserService, ctx context.Context, request *SearchApiUsersRequest) (*SearchApiUsersResponse, error)
-	SearchApiUsersFuncInvocations      int
-	ActivateApiUserFunc                func(t *testing.T, m *MockApiUserService, ctx context.Context, request *ActivateApiUserRequest) (*APIUser, error)
-	ActivateApiUserFuncInvocations     int
-	DeactivateApiUserFunc              func(t *testing.T, m *MockApiUserService, ctx context.Context, request *DeactivateApiUserRequest) (*APIUser, error)
-	DeactivateApiUserFuncInvocations   int
-	GetApiUserByKeyHashFunc            func(t *testing.T, m *MockApiUserService, ctx context.Context, request *GetApiUserByKeyHashRequest) (*APIUser, error)
-	GetApiUserByKeyHashFuncInvocations int
+	mutex                                sync.Mutex
+	T                                    *testing.T
+	GetApiUserFunc                       func(t *testing.T, m *MockApiUserService, ctx context.Context, request *GetApiUserRequest) (*APIUser, error)
+	GetApiUserFuncInvocations            int
+	CreateApiUserFunc                    func(t *testing.T, m *MockApiUserService, ctx context.Context, request *CreateApiUserRequest) (*APIUser, error)
+	CreateApiUserFuncInvocations         int
+	AssignRoleToAPIUserFunc              func(t *testing.T, m *MockApiUserService, ctx context.Context, request *AssignRoleToAPIUserRequest) (*APIUser, error)
+	AssignRoleToAPIUserFuncInvocations   int
+	RevokeRoleFromAPIUserFunc            func(t *testing.T, m *MockApiUserService, ctx context.Context, request *RevokeRoleFromAPIUserRequest) (*APIUser, error)
+	RevokeRoleFromAPIUserFuncInvocations int
+	ListApiUsersFunc                     func(t *testing.T, m *MockApiUserService, ctx context.Context, request *ListApiUsersRequest) (*ListApiUsersResponse, error)
+	ListApiUsersFuncInvocations          int
+	SearchApiUsersFunc                   func(t *testing.T, m *MockApiUserService, ctx context.Context, request *SearchApiUsersRequest) (*SearchApiUsersResponse, error)
+	SearchApiUsersFuncInvocations        int
+	ActivateApiUserFunc                  func(t *testing.T, m *MockApiUserService, ctx context.Context, request *ActivateApiUserRequest) (*APIUser, error)
+	ActivateApiUserFuncInvocations       int
+	DeactivateApiUserFunc                func(t *testing.T, m *MockApiUserService, ctx context.Context, request *DeactivateApiUserRequest) (*APIUser, error)
+	DeactivateApiUserFuncInvocations     int
+	GetApiUserByKeyHashFunc              func(t *testing.T, m *MockApiUserService, ctx context.Context, request *GetApiUserByKeyHashRequest) (*APIUser, error)
+	GetApiUserByKeyHashFuncInvocations   int
 }
 
 func (m *MockApiUserService) GetApiUser(ctx context.Context, request *GetApiUserRequest) (*APIUser, error) {
@@ -61,6 +63,16 @@ func (m *MockApiUserService) AssignRoleToAPIUser(ctx context.Context, request *A
 		return nil, nil
 	}
 	return m.AssignRoleToAPIUserFunc(m.T, m, ctx, request)
+}
+
+func (m *MockApiUserService) RevokeRoleFromAPIUser(ctx context.Context, request *RevokeRoleFromAPIUserRequest) (*APIUser, error) {
+	m.mutex.Lock()
+	m.RevokeRoleFromAPIUserFuncInvocations++
+	m.mutex.Unlock()
+	if m.RevokeRoleFromAPIUserFunc == nil {
+		return nil, nil
+	}
+	return m.RevokeRoleFromAPIUserFunc(m.T, m, ctx, request)
 }
 
 func (m *MockApiUserService) ListApiUsers(ctx context.Context, request *ListApiUsersRequest) (*ListApiUsersResponse, error) {

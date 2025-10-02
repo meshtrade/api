@@ -186,6 +186,14 @@ func (s *apiUserService) AssignRoleToAPIUser(ctx context.Context, request *Assig
 	})
 }
 
+// RevokeRoleFromAPIUser executes the RevokeRoleFromAPIUser RPC method with automatic
+// client-side validation, timeout handling, distributed tracing, and authentication.
+func (s *apiUserService) RevokeRoleFromAPIUser(ctx context.Context, request *RevokeRoleFromAPIUserRequest) (*APIUser, error) {
+	return grpc.Execute(s.Executor(), ctx, "RevokeRoleFromAPIUser", request, func(ctx context.Context) (*APIUser, error) {
+		return s.GrpcClient().RevokeRoleFromAPIUser(ctx, request)
+	})
+}
+
 // ListApiUsers executes the ListApiUsers RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *apiUserService) ListApiUsers(ctx context.Context, request *ListApiUsersRequest) (*ListApiUsersResponse, error) {

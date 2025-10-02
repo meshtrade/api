@@ -67,10 +67,27 @@ service ApiUserService {
     option (meshtrade.iam.role.v1.roles) = {
       roles: [
         ROLE_IAM_ADMIN,
-        ROLE_IAM_API_USER_ADMIN        
+        ROLE_IAM_API_USER_ADMIN
       ]
     };
-  }  
+  }
+
+  /*
+     Revokes a role from an existing API user within the authenticated group context.
+
+     The role revocation removes the permissions associated with that role from
+     the API user within the group hierarchy. The API user will no longer be able
+     to perform operations that require the revoked role.
+  */
+  rpc RevokeRoleFromAPIUser(RevokeRoleFromAPIUserRequest) returns (meshtrade.iam.api_user.v1.APIUser) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_API_USER_ADMIN
+      ]
+    };
+  }
 
   /*
      Lists all API users in the authenticated group context.
@@ -215,7 +232,33 @@ message AssignRoleToAPIUserRequest {
       len: 41,
       pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/[123456][0-9]{6}$"
     }
-  }];  
+  }];
+}
+
+message RevokeRoleFromAPIUserRequest {
+  /*
+     Name of the API user to revoke a role from.
+     Format: api_users/{ULIDv2}
+  */
+  string name = 1 [(buf.validate.field) = {
+    required: true,
+    string: {
+      len: 36,
+      pattern: "^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+    }
+  }];
+
+  /*
+     Role to revoke from the API user in the format groups/{ULIDv2}/{role_id}.
+     The role_id corresponds to a value from the meshtrade.iam.role.v1.Role enum.
+  */
+  string role = 2 [(buf.validate.field) = {
+    required: true,
+    string: {
+      len: 41,
+      pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/[123456][0-9]{6}$"
+    }
+  }];
 }
 
 message ListApiUsersRequest {}

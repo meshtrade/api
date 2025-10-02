@@ -43,9 +43,40 @@ service-specific information, examples, and usage guidance.
 2. **Choose your operations** from the available service methods
 3. **Review the types** to understand request/response structures
 
-## Common Workflows
+## Service Methods
 
-Add common workflow documentation here specific to this service.
+### User Lifecycle Management
+
+#### [CreateApiUser](/docs/api-reference/iam/api_user/v1/service/create-api-user)
+Creates a new API user with specified configuration within the authenticated group context. The system generates a unique identifier and API key for authentication. Use this to provision new automated clients that need programmatic access to the platform.
+
+#### [GetApiUser](/docs/api-reference/iam/api_user/v1/service/get-api-user)
+Retrieves a single API user by its unique identifier. Use this to view API user details, including current roles, state, and authentication information.
+
+#### [GetApiUserByKeyHash](/docs/api-reference/iam/api_user/v1/service/get-api-user-by-key-hash)
+Retrieves an API user using its API key hash. This method is primarily used in authentication flows to lookup an API user based on the hash of their API key.
+
+#### [ListApiUsers](/docs/api-reference/iam/api_user/v1/service/list-api-users)
+Lists all API users in the authenticated group context, regardless of their active/inactive state. Use this for inventory management and auditing of automated clients.
+
+#### [SearchApiUsers](/docs/api-reference/iam/api_user/v1/service/search-api-users)
+Searches API users using display name substring filtering within the authenticated group context. Useful for finding specific API users when the exact identifier is not known.
+
+### State Management
+
+#### [ActivateApiUser](/docs/api-reference/iam/api_user/v1/service/activate-api-user)
+Activates an API user, enabling API key authentication. Use this to restore access for previously deactivated API users or to enable newly created users.
+
+#### [DeactivateApiUser](/docs/api-reference/iam/api_user/v1/service/deactivate-api-user)
+Deactivates an API user, disabling API key authentication. Use this to temporarily or permanently revoke access without deleting the API user record, preserving audit trails.
+
+### Role Management
+
+#### [AssignRoleToAPIUser](/docs/api-reference/iam/api_user/v1/service/assign-role-to-a-p-i-user)
+Assigns a role to an existing API user within the authenticated group context. The role assignment enables the API user to perform operations according to the permissions associated with that role. Use this to grant new capabilities to an API user.
+
+#### [RevokeRoleFromAPIUser](/docs/api-reference/iam/api_user/v1/service/revoke-role-from-a-p-i-user)
+Revokes a role from an existing API user within the authenticated group context. The role revocation removes the permissions associated with that role from the API user. Use this to restrict API user capabilities or implement principle of least privilege.
 
 ## Authentication & Authorization
 
