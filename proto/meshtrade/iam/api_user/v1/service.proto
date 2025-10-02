@@ -216,6 +216,7 @@ message AssignRoleToAPIUserRequest {
      Name of the api user to assign a role to.
   */
   string name = 1 [(buf.validate.field) = {
+    required: true,
     string: {
       len: 36,
       pattern: "^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
