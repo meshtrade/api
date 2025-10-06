@@ -12,7 +12,7 @@
 
 // Generated exports
 export * from "./instrument_pb";
-export * from "./type_pb";
+export * from "./instrument_type_pb";
 export * from "./unit_pb";
 
 // ===================================================================

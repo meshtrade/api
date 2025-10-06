@@ -102,12 +102,23 @@ enum InstrumentType {
   // pegged to a reference asset, such as a fiat currency (e.g., USD).
   INSTRUMENT_TYPE_FIAT_STABLECOIN = 22;
 
-  // A type of mutual fund that invests in highly liquid, short-term
-  // instruments such as cash, cash equivalents, and high-credit-rating
-  // debt securities.
+  // A mutual fund investing in highly liquid, short-term debt securities,
+  // cash, and cash equivalents.
   INSTRUMENT_TYPE_MONEY_MARKET_FUND = 23;
 
-  // A tax-structured investment vehicle, typically a life insurance policy,
-  // that combines investment growth with a small amount of life cover.
-  INSTRUMENT_TYPE_ENDOWMENT_WRAPPER = 24;
+  // A stablecoin collateralized by shares in a money market fund,
+  // representing a claim on the fund's underlying assets.
+  INSTRUMENT_TYPE_MONEY_MARKET_FUND_STABLECOIN = 24;
+
+  // A tax-efficient investment vehicle, structured as a life insurance policy,
+  // that combines investment components with a nominal life insurance benefit.
+  INSTRUMENT_TYPE_ENDOWMENT_WRAPPER = 25;
+
+  // A collective investment scheme that pools capital from multiple investors
+  // to purchase a diversified portfolio of securities.
+  INSTRUMENT_TYPE_FUND = 26;
+
+  // A stablecoin collateralized by a portfolio of assets held within a fund,
+  // representing a claim on those assets.
+  INSTRUMENT_TYPE_FUND_STABLECOIN = 27;
 }

@@ -358,7 +358,7 @@ var File_meshtrade_wallet_account_v1_account_proto protoreflect.FileDescriptor
 
 const file_meshtrade_wallet_account_v1_account_proto_rawDesc = "" +
 	"\n" +
-	")meshtrade/wallet/account/v1/account.proto\x12\x1bmeshtrade.wallet.account.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1emeshtrade/type/v1/ledger.proto\x1a\x1emeshtrade/type/v1/amount.proto\x1a)meshtrade/studio/instrument/v1/type.proto\x1a)meshtrade/studio/instrument/v1/unit.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xbd\x06\n" +
+	")meshtrade/wallet/account/v1/account.proto\x12\x1bmeshtrade.wallet.account.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1emeshtrade/type/v1/ledger.proto\x1a\x1emeshtrade/type/v1/amount.proto\x1a4meshtrade/studio/instrument/v1/instrument_type.proto\x1a)meshtrade/studio/instrument/v1/unit.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xbd\x06\n" +
 	"\aAccount\x12\xc0\x01\n" +
 	"\x04name\x18\x01 \x01(\tB\xab\x01\xbaH\xa7\x01\xba\x01\xa3\x01\n" +
 	"\x14name.format.optional\x125name must be empty or in the format accounts/{ULIDv2}\x1aTsize(this) == 0 || this.matches('^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12R\n" +
