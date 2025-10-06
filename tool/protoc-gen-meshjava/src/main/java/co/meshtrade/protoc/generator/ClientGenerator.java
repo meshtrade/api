@@ -43,7 +43,7 @@ public class ClientGenerator {
             // Collect all required imports
             Set<String> requiredImports = new HashSet<>();
             for (MethodModel method : serviceModel.getMethods()) {
-                if (method.isUnary()) {
+                if (method.isUnary() || method.isServerSideStreaming()) {
                     requiredImports.add(method.getInputTypeQualifiedName());
                     requiredImports.add(method.getOutputTypeQualifiedName());
                 }
@@ -69,10 +69,12 @@ public class ClientGenerator {
             
             // Add method implementations
             for (MethodModel method : serviceModel.getMethods()) {
-                if (method.isUnary()) {
+                if (method.isServerSideStreaming()) {
+                    clientBuilder.addMethod(generateServerStreamingMethodImplementation(method));
+                } else if (method.isUnary()) {
                     clientBuilder.addMethod(generateUnaryMethodImplementation(method));
                 } else {
-                    logger.warn("Skipping streaming method {} - not yet supported", method.getMethodName());
+                    logger.warn("Skipping client/bidirectional streaming method {} - not yet supported", method.getMethodName());
                 }
             }
             
@@ -342,7 +344,7 @@ public class ClientGenerator {
     
     /**
      * Generates JavaDoc for a method implementation.
-     * 
+     *
      * @param method the method model
      * @return the JavaDoc code block
      */
@@ -352,6 +354,61 @@ public class ClientGenerator {
             .add("\n")
             .add("<p>This implementation uses the BaseGRPCClient infrastructure for\n")
             .add("authentication, timeout handling, and retry logic.\n")
+            .build();
+    }
+
+    /**
+     * Generates a method implementation for a server-side streaming gRPC method.
+     *
+     * @param method the method model
+     * @return the method specification
+     */
+    private MethodSpec generateServerStreamingMethodImplementation(MethodModel method) {
+        // Create parameter types
+        TypeName requestType = ClassName.bestGuess(method.getInputTypeName());
+        TypeName responseType = ClassName.bestGuess(method.getOutputTypeName());
+        ParameterizedTypeName optionalTimeout = ParameterizedTypeName.get(OPTIONAL, DURATION);
+
+        // Return Iterator<ResponseType> for server-side streaming
+        ParameterizedTypeName returnType = ParameterizedTypeName.get(
+            ClassName.get(java.util.Iterator.class),
+            responseType
+        );
+
+        return MethodSpec.methodBuilder(method.getJavaMethodName())
+            .addModifiers(Modifier.PUBLIC)
+            .addAnnotation(Override.class)
+            .addParameter(requestType, "request")
+            .addParameter(optionalTimeout, "timeout")
+            .returns(returnType)
+            .addStatement("return executeStream($S, request, timeout.orElse(null), (stub, req) -> stub.$L(req))",
+                         method.getJavaMethodName(), method.getJavaMethodName())
+            .addJavadoc(generateStreamingMethodJavadoc(method))
+            .build();
+    }
+
+    /**
+     * Generates JavaDoc for a server-side streaming method implementation.
+     *
+     * @param method the method model
+     * @return the JavaDoc code block
+     */
+    private CodeBlock generateStreamingMethodJavadoc(MethodModel method) {
+        return CodeBlock.builder()
+            .add("{@inheritDoc}\n")
+            .add("\n")
+            .add("<p>This is a server-side streaming method that returns an iterator of responses.\n")
+            .add("The iterator should be fully consumed or the connection may leak resources.\n")
+            .add("\n")
+            .add("<p>Example usage:\n")
+            .add("<pre>{@code\n")
+            .add("Iterator<$L> stream = client.$L(request, Optional.empty());\n",
+                method.getOutputTypeName(), method.getJavaMethodName())
+            .add("while (stream.hasNext()) {\n")
+            .add("    $L response = stream.next();\n", method.getOutputTypeName())
+            .add("    // Process response\n")
+            .add("}\n")
+            .add("}</pre>\n")
             .build();
     }
 }

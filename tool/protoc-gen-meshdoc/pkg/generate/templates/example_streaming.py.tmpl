@@ -1,0 +1,48 @@
+from meshtrade.{{.Domain}}.{{.ServiceName}}.{{.Version}} import (
+    {{.ServiceTitle}}Service,{{if .HasRequest}}
+    {{.RequestType}},{{end}}
+)
+
+
+def main():
+    # Default configuration is used and credentials come from MESH_API_CREDENTIALS
+    # environment variable or default discovery methods. Zero config required
+    # unless you want custom configuration.
+    service = {{.ServiceTitle}}Service()
+
+    with service:{{if .HasRequest}}
+        # Create request with service-specific parameters
+        request = {{.RequestType}}(
+            # FIXME: Populate service-specific request fields
+        )
+
+        # Call the {{.MethodName}} streaming method
+        stream = service.{{.MethodName | snakeCase}}(request)
+
+        try:
+            # Consume stream responses using iterator pattern
+            for {{if .ReturnsEntityType}}{{.ResponseVariable}}{{else}}response{{end}} in stream:
+                # Process each response as it arrives
+                print("Received:", {{if .ReturnsEntityType}}{{.ResponseVariable}}{{else}}response{{end}})
+
+            print("Stream completed successfully")
+        except Exception as e:
+            print("Stream error:", e)
+            raise{{else}}
+        # Call the {{.MethodName}} streaming method (no request parameters)
+        stream = service.{{.MethodName | snakeCase}}()
+
+        try:
+            # Consume stream responses using iterator pattern
+            for {{if .ReturnsEntityType}}{{.ResponseVariable}}{{else}}response{{end}} in stream:
+                # Process each response as it arrives
+                print("Received:", {{if .ReturnsEntityType}}{{.ResponseVariable}}{{else}}response{{end}})
+
+            print("Stream completed successfully")
+        except Exception as e:
+            print("Stream error:", e)
+            raise{{end}}
+
+
+if __name__ == "__main__":
+    main()

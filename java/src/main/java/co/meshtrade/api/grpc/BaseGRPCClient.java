@@ -134,7 +134,83 @@ public abstract class BaseGRPCClient<T extends AbstractStub<T>> implements AutoC
     public String group() {
         return options.getGroup();
     }
-    
+
+    /**
+     * Executes a server-side streaming gRPC call with client-side validation, authentication, timeout, and error handling.
+     *
+     * <p>This method provides the streaming equivalent of {@link #execute}, handling validation,
+     * authentication (via CallCredentials), timeout application, and structured error handling for
+     * server-side streaming methods.
+     *
+     * @param <REQ> the request message type
+     * @param <RESP> the response message type
+     * @param methodName the name of the gRPC method (for logging)
+     * @param request the request message
+     * @param timeout optional timeout override (null to use default)
+     * @param streamCall function to execute the actual streaming gRPC call
+     * @return an Iterator of response messages from the stream
+     * @throws StatusRuntimeException if the gRPC call fails
+     * @throws IllegalStateException if the client is closed
+     * @throws IllegalArgumentException if the request is invalid or fails validation
+     */
+    protected <REQ, RESP> java.util.Iterator<RESP> executeStream(
+            String methodName,
+            REQ request,
+            Duration timeout,
+            BiFunction<T, REQ, java.util.Iterator<RESP>> streamCall) {
+
+        if (closed) {
+            throw new IllegalStateException("Client is closed");
+        }
+
+        if (request == null) {
+            throw new IllegalArgumentException("Request cannot be null");
+        }
+
+        // Validate request using protovalidate before initiating stream
+        if (request instanceof Message) {
+            try {
+                ValidationResult result = validator.validate((Message) request);
+                if (!result.isSuccess()) {
+                    throw new IllegalArgumentException("Request validation failed: " + result.toString());
+                }
+            } catch (ValidationException e) {
+                throw new IllegalArgumentException("Request validation failed: " + e.getMessage(), e);
+            }
+        }
+
+        Duration effectiveTimeout = timeout != null ? timeout : options.getTimeout();
+        logger.debug("Executing {}.{} (streaming) with timeout: {}", serviceName, methodName, effectiveTimeout);
+
+        try {
+            // Apply timeout to stub if specified
+            T timeoutStub = stub;
+            if (effectiveTimeout != null) {
+                timeoutStub = stub.withDeadlineAfter(effectiveTimeout.toMillis(), TimeUnit.MILLISECONDS);
+            }
+
+            // Execute the streaming call (authentication applied via CallCredentials)
+            java.util.Iterator<RESP> responseStream = streamCall.apply(timeoutStub, request);
+
+            logger.debug("Successfully initiated stream for {}.{}", serviceName, methodName);
+            return responseStream;
+
+        } catch (StatusRuntimeException e) {
+            logger.error("gRPC streaming call {}.{} failed with status: {} - {}",
+                        serviceName, methodName, e.getStatus().getCode(), e.getStatus().getDescription());
+
+            // Enhanced error context
+            throw Status.fromThrowable(e)
+                .withDescription(String.format("Failed to execute %s.%s: %s",
+                    serviceName, methodName, e.getStatus().getDescription()))
+                .asRuntimeException();
+
+        } catch (Exception e) {
+            logger.error("Unexpected error in {}.{}: {}", serviceName, methodName, e.getMessage(), e);
+            throw new RuntimeException("Unexpected error executing " + serviceName + "." + methodName, e);
+        }
+    }
+
     /**
      * Executes a unary gRPC call with client-side validation, authentication, timeout, and error handling.
      * 

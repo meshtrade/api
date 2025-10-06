@@ -36,7 +36,7 @@ public class InterfaceGenerator {
             // Collect all required imports
             Set<String> requiredImports = new HashSet<>();
             for (MethodModel method : serviceModel.getMethods()) {
-                if (method.isUnary()) {
+                if (method.isUnary() || method.isServerSideStreaming()) {
                     requiredImports.add(method.getInputTypeQualifiedName());
                     requiredImports.add(method.getOutputTypeQualifiedName());
                 }
@@ -50,10 +50,12 @@ public class InterfaceGenerator {
             
             // Add methods to the interface
             for (MethodModel method : serviceModel.getMethods()) {
-                if (method.isUnary()) {
+                if (method.isServerSideStreaming()) {
+                    interfaceBuilder.addMethod(generateServerStreamingMethod(method));
+                } else if (method.isUnary()) {
                     interfaceBuilder.addMethod(generateUnaryMethod(method));
                 } else {
-                    logger.warn("Skipping streaming method {} - not yet supported", method.getMethodName());
+                    logger.warn("Skipping client/bidirectional streaming method {} - not yet supported", method.getMethodName());
                 }
             }
             
@@ -157,8 +159,43 @@ public class InterfaceGenerator {
     }
     
     /**
+     * Generates a method specification for a server-side streaming gRPC method.
+     *
+     * @param method the method model
+     * @return the method specification
+     */
+    private MethodSpec generateServerStreamingMethod(MethodModel method) {
+        // Create parameter for request
+        ParameterSpec requestParam = ParameterSpec.builder(
+            ClassName.bestGuess(method.getInputTypeName()), "request")
+            .build();
+
+        // Create parameter for optional timeout
+        ParameterSpec timeoutParam = ParameterSpec.builder(
+            ParameterizedTypeName.get(ClassName.get("java.util", "Optional"),
+                                    ClassName.get(Duration.class)), "timeout")
+            .addAnnotation(AnnotationSpec.builder(ClassName.get("jakarta.annotation", "Nullable")).build())
+            .build();
+
+        // Create return type - Iterator<ResponseType>
+        TypeName returnType = ParameterizedTypeName.get(
+            ClassName.get(java.util.Iterator.class),
+            ClassName.bestGuess(method.getOutputTypeName())
+        );
+
+        // Build the method
+        return MethodSpec.methodBuilder(method.getJavaMethodName())
+            .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
+            .addParameter(requestParam)
+            .addParameter(timeoutParam)
+            .returns(returnType)
+            .addJavadoc(generateStreamingMethodJavadoc(method))
+            .build();
+    }
+
+    /**
      * Generates JavaDoc for a service method.
-     * 
+     *
      * @param method the method model
      * @return the JavaDoc code block
      */
@@ -169,6 +206,27 @@ public class InterfaceGenerator {
             .add("@param request the $L request message\n", method.getInputTypeName())
             .add("@param timeout optional timeout override for this call (null for default)\n")
             .add("@return the $L response\n", method.getOutputTypeName())
+            .add("@throws io.grpc.StatusRuntimeException if the gRPC call fails\n")
+            .add("@throws IllegalArgumentException if the request is invalid\n")
+            .build();
+    }
+
+    /**
+     * Generates JavaDoc for a server-side streaming method.
+     *
+     * @param method the method model
+     * @return the JavaDoc code block
+     */
+    private CodeBlock generateStreamingMethodJavadoc(MethodModel method) {
+        return CodeBlock.builder()
+            .add("$L (server-side streaming)\n", method.getDescription())
+            .add("\n")
+            .add("<p>This is a server-side streaming method that returns an iterator of responses.\n")
+            .add("The iterator should be fully consumed or the connection may leak resources.\n")
+            .add("\n")
+            .add("@param request the $L request message\n", method.getInputTypeName())
+            .add("@param timeout optional timeout override for this call (null for default)\n")
+            .add("@return an iterator of $L responses\n", method.getOutputTypeName())
             .add("@throws io.grpc.StatusRuntimeException if the gRPC call fails\n")
             .add("@throws IllegalArgumentException if the request is invalid\n")
             .build();

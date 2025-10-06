@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        (unknown)
-// source: meshtrade/studio/instrument/v1/type.proto
+// source: meshtrade/studio/instrument/v1/instrument_type.proto
 
 package instrument_v1
 
@@ -95,13 +95,21 @@ const (
 	// A type of cryptocurrency designed to maintain a stable value by being
 	// pegged to a reference asset, such as a fiat currency (e.g., USD).
 	InstrumentType_INSTRUMENT_TYPE_FIAT_STABLECOIN InstrumentType = 22
-	// A type of mutual fund that invests in highly liquid, short-term
-	// instruments such as cash, cash equivalents, and high-credit-rating
-	// debt securities.
+	// A mutual fund investing in highly liquid, short-term debt securities,
+	// cash, and cash equivalents.
 	InstrumentType_INSTRUMENT_TYPE_MONEY_MARKET_FUND InstrumentType = 23
-	// A tax-structured investment vehicle, typically a life insurance policy,
-	// that combines investment growth with a small amount of life cover.
-	InstrumentType_INSTRUMENT_TYPE_ENDOWMENT_WRAPPER InstrumentType = 24
+	// A stablecoin collateralized by shares in a money market fund,
+	// representing a claim on the fund's underlying assets.
+	InstrumentType_INSTRUMENT_TYPE_MONEY_MARKET_FUND_STABLECOIN InstrumentType = 24
+	// A tax-efficient investment vehicle, structured as a life insurance policy,
+	// that combines investment components with a nominal life insurance benefit.
+	InstrumentType_INSTRUMENT_TYPE_ENDOWMENT_WRAPPER InstrumentType = 25
+	// A collective investment scheme that pools capital from multiple investors
+	// to purchase a diversified portfolio of securities.
+	InstrumentType_INSTRUMENT_TYPE_FUND InstrumentType = 26
+	// A stablecoin collateralized by a portfolio of assets held within a fund,
+	// representing a claim on those assets.
+	InstrumentType_INSTRUMENT_TYPE_FUND_STABLECOIN InstrumentType = 27
 )
 
 // Enum value maps for InstrumentType.
@@ -131,34 +139,40 @@ var (
 		21: "INSTRUMENT_TYPE_SOYBEANS",
 		22: "INSTRUMENT_TYPE_FIAT_STABLECOIN",
 		23: "INSTRUMENT_TYPE_MONEY_MARKET_FUND",
-		24: "INSTRUMENT_TYPE_ENDOWMENT_WRAPPER",
+		24: "INSTRUMENT_TYPE_MONEY_MARKET_FUND_STABLECOIN",
+		25: "INSTRUMENT_TYPE_ENDOWMENT_WRAPPER",
+		26: "INSTRUMENT_TYPE_FUND",
+		27: "INSTRUMENT_TYPE_FUND_STABLECOIN",
 	}
 	InstrumentType_value = map[string]int32{
-		"INSTRUMENT_TYPE_UNSPECIFIED":       0,
-		"INSTRUMENT_TYPE_OTHER":             1,
-		"INSTRUMENT_TYPE_SHARE":             2,
-		"INSTRUMENT_TYPE_PREFERENCE_SHARE":  3,
-		"INSTRUMENT_TYPE_BOND":              4,
-		"INSTRUMENT_TYPE_ETF":               5,
-		"INSTRUMENT_TYPE_ETN":               6,
-		"INSTRUMENT_TYPE_AMC":               7,
-		"INSTRUMENT_TYPE_UNIT_TRUST":        8,
-		"INSTRUMENT_TYPE_CRYPTO_CURRENCY":   9,
-		"INSTRUMENT_TYPE_FIAT_CURRENCY":     10,
-		"INSTRUMENT_TYPE_RIGHTS":            11,
-		"INSTRUMENT_TYPE_GOLD":              12,
-		"INSTRUMENT_TYPE_SILVER":            13,
-		"INSTRUMENT_TYPE_PLATINUM":          14,
-		"INSTRUMENT_TYPE_PALLADIUM":         15,
-		"INSTRUMENT_TYPE_CRUDE_OIL":         16,
-		"INSTRUMENT_TYPE_NATURAL_GAS":       17,
-		"INSTRUMENT_TYPE_COPPER":            18,
-		"INSTRUMENT_TYPE_CORN":              19,
-		"INSTRUMENT_TYPE_WHEAT":             20,
-		"INSTRUMENT_TYPE_SOYBEANS":          21,
-		"INSTRUMENT_TYPE_FIAT_STABLECOIN":   22,
-		"INSTRUMENT_TYPE_MONEY_MARKET_FUND": 23,
-		"INSTRUMENT_TYPE_ENDOWMENT_WRAPPER": 24,
+		"INSTRUMENT_TYPE_UNSPECIFIED":                  0,
+		"INSTRUMENT_TYPE_OTHER":                        1,
+		"INSTRUMENT_TYPE_SHARE":                        2,
+		"INSTRUMENT_TYPE_PREFERENCE_SHARE":             3,
+		"INSTRUMENT_TYPE_BOND":                         4,
+		"INSTRUMENT_TYPE_ETF":                          5,
+		"INSTRUMENT_TYPE_ETN":                          6,
+		"INSTRUMENT_TYPE_AMC":                          7,
+		"INSTRUMENT_TYPE_UNIT_TRUST":                   8,
+		"INSTRUMENT_TYPE_CRYPTO_CURRENCY":              9,
+		"INSTRUMENT_TYPE_FIAT_CURRENCY":                10,
+		"INSTRUMENT_TYPE_RIGHTS":                       11,
+		"INSTRUMENT_TYPE_GOLD":                         12,
+		"INSTRUMENT_TYPE_SILVER":                       13,
+		"INSTRUMENT_TYPE_PLATINUM":                     14,
+		"INSTRUMENT_TYPE_PALLADIUM":                    15,
+		"INSTRUMENT_TYPE_CRUDE_OIL":                    16,
+		"INSTRUMENT_TYPE_NATURAL_GAS":                  17,
+		"INSTRUMENT_TYPE_COPPER":                       18,
+		"INSTRUMENT_TYPE_CORN":                         19,
+		"INSTRUMENT_TYPE_WHEAT":                        20,
+		"INSTRUMENT_TYPE_SOYBEANS":                     21,
+		"INSTRUMENT_TYPE_FIAT_STABLECOIN":              22,
+		"INSTRUMENT_TYPE_MONEY_MARKET_FUND":            23,
+		"INSTRUMENT_TYPE_MONEY_MARKET_FUND_STABLECOIN": 24,
+		"INSTRUMENT_TYPE_ENDOWMENT_WRAPPER":            25,
+		"INSTRUMENT_TYPE_FUND":                         26,
+		"INSTRUMENT_TYPE_FUND_STABLECOIN":              27,
 	}
 )
 
@@ -173,11 +187,11 @@ func (x InstrumentType) String() string {
 }
 
 func (InstrumentType) Descriptor() protoreflect.EnumDescriptor {
-	return file_meshtrade_studio_instrument_v1_type_proto_enumTypes[0].Descriptor()
+	return file_meshtrade_studio_instrument_v1_instrument_type_proto_enumTypes[0].Descriptor()
 }
 
 func (InstrumentType) Type() protoreflect.EnumType {
-	return &file_meshtrade_studio_instrument_v1_type_proto_enumTypes[0]
+	return &file_meshtrade_studio_instrument_v1_instrument_type_proto_enumTypes[0]
 }
 
 func (x InstrumentType) Number() protoreflect.EnumNumber {
@@ -186,14 +200,14 @@ func (x InstrumentType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use InstrumentType.Descriptor instead.
 func (InstrumentType) EnumDescriptor() ([]byte, []int) {
-	return file_meshtrade_studio_instrument_v1_type_proto_rawDescGZIP(), []int{0}
+	return file_meshtrade_studio_instrument_v1_instrument_type_proto_rawDescGZIP(), []int{0}
 }
 
-var File_meshtrade_studio_instrument_v1_type_proto protoreflect.FileDescriptor
+var File_meshtrade_studio_instrument_v1_instrument_type_proto protoreflect.FileDescriptor
 
-const file_meshtrade_studio_instrument_v1_type_proto_rawDesc = "" +
+const file_meshtrade_studio_instrument_v1_instrument_type_proto_rawDesc = "" +
 	"\n" +
-	")meshtrade/studio/instrument/v1/type.proto\x12\x1emeshtrade.studio.instrument.v1*\x8b\x06\n" +
+	"4meshtrade/studio/instrument/v1/instrument_type.proto\x12\x1emeshtrade.studio.instrument.v1*\xfc\x06\n" +
 	"\x0eInstrumentType\x12\x1f\n" +
 	"\x1bINSTRUMENT_TYPE_UNSPECIFIED\x10\x00\x12\x19\n" +
 	"\x15INSTRUMENT_TYPE_OTHER\x10\x01\x12\x19\n" +
@@ -219,27 +233,30 @@ const file_meshtrade_studio_instrument_v1_type_proto_rawDesc = "" +
 	"\x15INSTRUMENT_TYPE_WHEAT\x10\x14\x12\x1c\n" +
 	"\x18INSTRUMENT_TYPE_SOYBEANS\x10\x15\x12#\n" +
 	"\x1fINSTRUMENT_TYPE_FIAT_STABLECOIN\x10\x16\x12%\n" +
-	"!INSTRUMENT_TYPE_MONEY_MARKET_FUND\x10\x17\x12%\n" +
-	"!INSTRUMENT_TYPE_ENDOWMENT_WRAPPER\x10\x18Bg\n" +
+	"!INSTRUMENT_TYPE_MONEY_MARKET_FUND\x10\x17\x120\n" +
+	",INSTRUMENT_TYPE_MONEY_MARKET_FUND_STABLECOIN\x10\x18\x12%\n" +
+	"!INSTRUMENT_TYPE_ENDOWMENT_WRAPPER\x10\x19\x12\x18\n" +
+	"\x14INSTRUMENT_TYPE_FUND\x10\x1a\x12#\n" +
+	"\x1fINSTRUMENT_TYPE_FUND_STABLECOIN\x10\x1bBg\n" +
 	"%co.meshtrade.api.studio.instrument.v1Z>github.com/meshtrade/api/go/studio/instrument/v1;instrument_v1b\x06proto3"
 
 var (
-	file_meshtrade_studio_instrument_v1_type_proto_rawDescOnce sync.Once
-	file_meshtrade_studio_instrument_v1_type_proto_rawDescData []byte
+	file_meshtrade_studio_instrument_v1_instrument_type_proto_rawDescOnce sync.Once
+	file_meshtrade_studio_instrument_v1_instrument_type_proto_rawDescData []byte
 )
 
-func file_meshtrade_studio_instrument_v1_type_proto_rawDescGZIP() []byte {
-	file_meshtrade_studio_instrument_v1_type_proto_rawDescOnce.Do(func() {
-		file_meshtrade_studio_instrument_v1_type_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_meshtrade_studio_instrument_v1_type_proto_rawDesc), len(file_meshtrade_studio_instrument_v1_type_proto_rawDesc)))
+func file_meshtrade_studio_instrument_v1_instrument_type_proto_rawDescGZIP() []byte {
+	file_meshtrade_studio_instrument_v1_instrument_type_proto_rawDescOnce.Do(func() {
+		file_meshtrade_studio_instrument_v1_instrument_type_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_meshtrade_studio_instrument_v1_instrument_type_proto_rawDesc), len(file_meshtrade_studio_instrument_v1_instrument_type_proto_rawDesc)))
 	})
-	return file_meshtrade_studio_instrument_v1_type_proto_rawDescData
+	return file_meshtrade_studio_instrument_v1_instrument_type_proto_rawDescData
 }
 
-var file_meshtrade_studio_instrument_v1_type_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_meshtrade_studio_instrument_v1_type_proto_goTypes = []any{
+var file_meshtrade_studio_instrument_v1_instrument_type_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_meshtrade_studio_instrument_v1_instrument_type_proto_goTypes = []any{
 	(InstrumentType)(0), // 0: meshtrade.studio.instrument.v1.InstrumentType
 }
-var file_meshtrade_studio_instrument_v1_type_proto_depIdxs = []int32{
+var file_meshtrade_studio_instrument_v1_instrument_type_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
 	0, // [0:0] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -247,26 +264,26 @@ var file_meshtrade_studio_instrument_v1_type_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_meshtrade_studio_instrument_v1_type_proto_init() }
-func file_meshtrade_studio_instrument_v1_type_proto_init() {
-	if File_meshtrade_studio_instrument_v1_type_proto != nil {
+func init() { file_meshtrade_studio_instrument_v1_instrument_type_proto_init() }
+func file_meshtrade_studio_instrument_v1_instrument_type_proto_init() {
+	if File_meshtrade_studio_instrument_v1_instrument_type_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_meshtrade_studio_instrument_v1_type_proto_rawDesc), len(file_meshtrade_studio_instrument_v1_type_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_meshtrade_studio_instrument_v1_instrument_type_proto_rawDesc), len(file_meshtrade_studio_instrument_v1_instrument_type_proto_rawDesc)),
 			NumEnums:      1,
 			NumMessages:   0,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_meshtrade_studio_instrument_v1_type_proto_goTypes,
-		DependencyIndexes: file_meshtrade_studio_instrument_v1_type_proto_depIdxs,
-		EnumInfos:         file_meshtrade_studio_instrument_v1_type_proto_enumTypes,
+		GoTypes:           file_meshtrade_studio_instrument_v1_instrument_type_proto_goTypes,
+		DependencyIndexes: file_meshtrade_studio_instrument_v1_instrument_type_proto_depIdxs,
+		EnumInfos:         file_meshtrade_studio_instrument_v1_instrument_type_proto_enumTypes,
 	}.Build()
-	File_meshtrade_studio_instrument_v1_type_proto = out.File
-	file_meshtrade_studio_instrument_v1_type_proto_goTypes = nil
-	file_meshtrade_studio_instrument_v1_type_proto_depIdxs = nil
+	File_meshtrade_studio_instrument_v1_instrument_type_proto = out.File
+	file_meshtrade_studio_instrument_v1_instrument_type_proto_goTypes = nil
+	file_meshtrade_studio_instrument_v1_instrument_type_proto_depIdxs = nil
 }

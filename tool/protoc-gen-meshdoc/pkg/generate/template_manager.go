@@ -19,13 +19,13 @@ type TemplateManager struct {
 // NewTemplateManager creates a new template manager with all templates loaded
 func NewTemplateManager() (*TemplateManager, error) {
 	funcMap := template.FuncMap{
-		"kebabCase":       kebabCase,
-		"titleCase":       titleCase,
-		"snakeCase":       snakeCase,
-		"camelCase":       camelCase,
-		"sub":             sub,
-		"escapeCurly":     escapeCurly,
-		"normalizeTable":  normalizeForTable,
+		"kebabCase":      kebabCase,
+		"titleCase":      titleCase,
+		"snakeCase":      snakeCase,
+		"camelCase":      camelCase,
+		"sub":            sub,
+		"escapeCurly":    escapeCurly,
+		"normalizeTable": normalizeForTable,
 	}
 
 	tmpl, err := template.New("").Funcs(funcMap).ParseFS(templateFS, "templates/*.tmpl")
@@ -41,12 +41,12 @@ func NewTemplateManager() (*TemplateManager, error) {
 // Execute executes a template with the given data
 func (tm *TemplateManager) Execute(templateName string, data interface{}) (string, error) {
 	var buf bytes.Buffer
-	
+
 	err := tm.templates.ExecuteTemplate(&buf, templateName, data)
 	if err != nil {
 		return "", fmt.Errorf("failed to execute template %s: %w", templateName, err)
 	}
-	
+
 	return buf.String(), nil
 }
 
@@ -76,19 +76,20 @@ type ServiceIndexData struct {
 
 // MethodDocData contains data for method documentation template
 type MethodDocData struct {
-	Name           string
-	Description    string
-	RolesStr       string
-	ParametersStr  string
-	Returns        string
-	MethodType     string
-	ProtoPath      string
-	Domain         string
-	DomainTitle    string
-	ServiceName    string
+	Name               string
+	Description        string
+	RolesStr           string
+	ParametersStr      string
+	Returns            string
+	MethodType         string
+	IsServerStreaming  bool
+	ProtoPath          string
+	Domain             string
+	DomainTitle        string
+	ServiceName        string
 	ServiceDisplayName string
-	Version        string
-	VersionDisplay string
+	Version            string
+	VersionDisplay     string
 }
 
 // TypeIndexData contains data for type index template
@@ -153,19 +154,19 @@ type ExamplePyData struct {
 
 // ExampleJavaData contains data for Java example template
 type ExampleJavaData struct {
-	Domain               string
-	ServiceName          string
-	ServiceTitle         string
-	Version              string
-	MethodName           string
-	MethodNameCamelCase  string
-	RequestType          string
-	RequestFields        []ExampleFieldData
-	ResponseType         string
-	ResponseTypeImport   string
-	HasRequest           bool
-	ReturnsEntityType    bool
-	ResponseVariable     string
+	Domain              string
+	ServiceName         string
+	ServiceTitle        string
+	Version             string
+	MethodName          string
+	MethodNameCamelCase string
+	RequestType         string
+	RequestFields       []ExampleFieldData
+	ResponseType        string
+	ResponseTypeImport  string
+	HasRequest          bool
+	ReturnsEntityType   bool
+	ResponseVariable    string
 }
 
 // ExampleFieldData contains data for generating example field values
@@ -188,12 +189,12 @@ type SidebarData struct {
 // Template data helper structures
 
 type MethodTemplateData struct {
-	Name     string
+	Name      string
 	KebabName string
 }
 
 type TypeTemplateData struct {
-	Name     string
+	Name      string
 	KebabName string
 }
 
@@ -261,19 +262,19 @@ func escapeCurly(s string) string {
 func normalizeForTable(s string) string {
 	// First escape curly braces
 	s = escapeCurly(s)
-	
+
 	// Replace newlines and multiple spaces with single spaces
 	s = strings.ReplaceAll(s, "\n", " ")
 	s = strings.ReplaceAll(s, "\r", " ")
-	
+
 	// Clean up multiple spaces
 	for strings.Contains(s, "  ") {
 		s = strings.ReplaceAll(s, "  ", " ")
 	}
-	
+
 	// Trim whitespace
 	s = strings.TrimSpace(s)
-	
+
 	return s
 }
 
@@ -282,45 +283,45 @@ func sanitizeForTable(text string) string {
 	if text == "" {
 		return ""
 	}
-	
+
 	// First escape curly braces to prevent MDX/JSX interpretation issues
 	text = escapeCurly(text)
-	
+
 	// Escape square brackets to prevent link interpretation of regex patterns
 	text = strings.ReplaceAll(text, "[", "\\[")
 	text = strings.ReplaceAll(text, "]", "\\]")
-	
+
 	// Replace newlines with separator to maintain readability
 	text = strings.ReplaceAll(text, "\n", " | ")
 	text = strings.ReplaceAll(text, "\r\n", " | ")
 	text = strings.ReplaceAll(text, "\r", " | ")
-	
+
 	// Escape pipe characters to prevent table breaking
 	text = strings.ReplaceAll(text, "|", "\\|")
-	
+
 	// Replace tabs with spaces
 	text = strings.ReplaceAll(text, "\t", " ")
-	
+
 	// Clean up multiple spaces
 	for strings.Contains(text, "  ") {
 		text = strings.ReplaceAll(text, "  ", " ")
 	}
-	
+
 	// Trim whitespace
 	text = strings.TrimSpace(text)
-	
+
 	// Truncate if too long to prevent excessive table width
 	if len(text) > 200 {
 		text = text[:197] + "..."
 	}
-	
+
 	return text
 }
 
 // generateExampleValue creates realistic example values based on field name and type
 func generateExampleValue(fieldName, fieldType string) string {
 	fieldNameLower := strings.ToLower(fieldName)
-	
+
 	// Handle common field patterns
 	switch {
 	case strings.Contains(fieldNameLower, "name") && strings.Contains(fieldType, "api_users"):

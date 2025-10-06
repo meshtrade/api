@@ -8,7 +8,7 @@ Role-Based Access Control (RBAC) in Mesh operates as a **two-layer security mode
 
 **The Dual Authorization Model:**
 - **Roles** (this document): Control method-level access to API operations
-- **Groups** ([Group Ownership](./group-ownership)): Control resource-level access through ownership hierarchy
+- **Groups** ([Resource Hierarchy](./resource-hierarchy)): Control resource-level access through ownership hierarchy
 
 Our guiding principle is using the **Protobuf schema as the single source of truth** for all authorization rules, ensuring our security model is self-documenting, automatically verifiable, and always in sync with the API contract.
 
@@ -388,8 +388,8 @@ graph LR
 
 ## Related Documentation
 
-- **[Group Ownership Structure](./group-ownership)** - Understanding the resource ownership and hierarchy system that works with roles
-- **[Authentication](./authentication)** - API key and group context authentication mechanisms  
+- **[Resource Hierarchy](./resource-hierarchy)** - Understanding the resource ownership and hierarchy system that works with roles
+- **[Authentication](./api-access)** - API key and group context authentication mechanisms  
 - **[Service Structure](./service-structure)** - Understanding API organization and method patterns
 - **[IAM API User Service Reference](/docs/api-reference/iam/api_user/v1)** - Complete API documentation for managing API users and role assignments
 - **[IAM Group Service Reference](/docs/api-reference/iam/group/v1)** - Complete API documentation for group management operations
