@@ -28,6 +28,22 @@ service TransactionService {
       ]
     };
   }
+
+  /*
+     Monitor Transaction state by the unique identifier of the transaction.
+     TODO: update rpc method to perform streaming
+  */
+  rpc MonitorTransactionState(MonitorTransactionStateRequest) returns (MonitorTransactionStateResponse) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [
+        ROLE_LEDGER_ADMIN,
+        ROLE_LEDGER_VIEWER,
+        ROLE_LEDGER_TRANSACTION_ADMIN,
+        ROLE_LEDGER_TRANSACTION_VIEWER
+      ]
+    };
+  }
 }
 
 message GetTransactionStateRequest {
@@ -45,5 +61,23 @@ message GetTransactionStateRequest {
 }
 
 message GetTransactionStateResponse {
+  meshtrade.ledger.transaction.v1.TransactionState state = 1;
+}
+
+message MonitorTransactionStateRequest {
+  /*
+     Name of the Transaction whose state is to be retrieved.
+     Format: transactions/{ULIDv2}
+  */
+  string name = 1 [(buf.validate.field) = {
+    required: true,
+    string: {
+      len: 36,
+      pattern: "^transactions/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+    }
+  }];
+}
+
+message MonitorTransactionStateResponse {
   meshtrade.ledger.transaction.v1.TransactionState state = 1;
 }

@@ -11,6 +11,9 @@
 // ===================================================================
 
 // Generated exports
+export * from "./service_grpc_web_client_meshts";
+export * from "./service_grpc_web_pb";
+export * from "./service_pb";
 export * from "./transaction_action_pb";
 export * from "./transaction_state_pb";
 

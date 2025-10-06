@@ -114,6 +114,96 @@ func (x *GetTransactionStateResponse) GetState() TransactionState {
 	return TransactionState_TRANSACTION_STATE_UNSPECIFIED
 }
 
+type MonitorTransactionStateRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Name of the Transaction whose state is to be retrieved.
+	// Format: transactions/{ULIDv2}
+	Name          string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *MonitorTransactionStateRequest) Reset() {
+	*x = MonitorTransactionStateRequest{}
+	mi := &file_meshtrade_ledger_transaction_v1_service_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MonitorTransactionStateRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MonitorTransactionStateRequest) ProtoMessage() {}
+
+func (x *MonitorTransactionStateRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_ledger_transaction_v1_service_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MonitorTransactionStateRequest.ProtoReflect.Descriptor instead.
+func (*MonitorTransactionStateRequest) Descriptor() ([]byte, []int) {
+	return file_meshtrade_ledger_transaction_v1_service_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *MonitorTransactionStateRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+type MonitorTransactionStateResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	State         TransactionState       `protobuf:"varint,1,opt,name=state,proto3,enum=meshtrade.ledger.transaction.v1.TransactionState" json:"state,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *MonitorTransactionStateResponse) Reset() {
+	*x = MonitorTransactionStateResponse{}
+	mi := &file_meshtrade_ledger_transaction_v1_service_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MonitorTransactionStateResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MonitorTransactionStateResponse) ProtoMessage() {}
+
+func (x *MonitorTransactionStateResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_ledger_transaction_v1_service_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MonitorTransactionStateResponse.ProtoReflect.Descriptor instead.
+func (*MonitorTransactionStateResponse) Descriptor() ([]byte, []int) {
+	return file_meshtrade_ledger_transaction_v1_service_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *MonitorTransactionStateResponse) GetState() TransactionState {
+	if x != nil {
+		return x.State
+	}
+	return TransactionState_TRANSACTION_STATE_UNSPECIFIED
+}
+
 var File_meshtrade_ledger_transaction_v1_service_proto protoreflect.FileDescriptor
 
 const file_meshtrade_ledger_transaction_v1_service_proto_rawDesc = "" +
@@ -122,9 +212,15 @@ const file_meshtrade_ledger_transaction_v1_service_proto_rawDesc = "" +
 	"\x1aGetTransactionStateRequest\x12V\n" +
 	"\x04name\x18\x01 \x01(\tBB\xbaH?\xc8\x01\x01r:25^transactions/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01$R\x04name\"f\n" +
 	"\x1bGetTransactionStateResponse\x12G\n" +
-	"\x05state\x18\x01 \x01(\x0e21.meshtrade.ledger.transaction.v1.TransactionStateR\x05state2\xc3\x01\n" +
+	"\x05state\x18\x01 \x01(\x0e21.meshtrade.ledger.transaction.v1.TransactionStateR\x05state\"x\n" +
+	"\x1eMonitorTransactionStateRequest\x12V\n" +
+	"\x04name\x18\x01 \x01(\tBB\xbaH?\xc8\x01\x01r:25^transactions/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01$R\x04name\"j\n" +
+	"\x1fMonitorTransactionStateResponse\x12G\n" +
+	"\x05state\x18\x01 \x01(\x0e21.meshtrade.ledger.transaction.v1.TransactionStateR\x05state2\xfe\x02\n" +
 	"\x12TransactionService\x12\xac\x01\n" +
 	"\x13GetTransactionState\x12;.meshtrade.ledger.transaction.v1.GetTransactionStateRequest\x1a<.meshtrade.ledger.transaction.v1.GetTransactionStateResponse\"\x1a\xa0\xb5\x18\x01\xaa\xb5\x18\x12\n" +
+	"\x10\xc0\x9f\xab\x03\xc1\x9f\xab\x03\u009f\xab\x03ß\xab\x03\x12\xb8\x01\n" +
+	"\x17MonitorTransactionState\x12?.meshtrade.ledger.transaction.v1.MonitorTransactionStateRequest\x1a@.meshtrade.ledger.transaction.v1.MonitorTransactionStateResponse\"\x1a\xa0\xb5\x18\x01\xaa\xb5\x18\x12\n" +
 	"\x10\xc0\x9f\xab\x03\xc1\x9f\xab\x03\u009f\xab\x03ß\xab\x03Bj\n" +
 	"&co.meshtrade.api.ledger.transaction.v1Z@github.com/meshtrade/api/go/ledger/transaction/v1;transaction_v1b\x06proto3"
 
@@ -140,21 +236,26 @@ func file_meshtrade_ledger_transaction_v1_service_proto_rawDescGZIP() []byte {
 	return file_meshtrade_ledger_transaction_v1_service_proto_rawDescData
 }
 
-var file_meshtrade_ledger_transaction_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_meshtrade_ledger_transaction_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_meshtrade_ledger_transaction_v1_service_proto_goTypes = []any{
-	(*GetTransactionStateRequest)(nil),  // 0: meshtrade.ledger.transaction.v1.GetTransactionStateRequest
-	(*GetTransactionStateResponse)(nil), // 1: meshtrade.ledger.transaction.v1.GetTransactionStateResponse
-	(TransactionState)(0),               // 2: meshtrade.ledger.transaction.v1.TransactionState
+	(*GetTransactionStateRequest)(nil),      // 0: meshtrade.ledger.transaction.v1.GetTransactionStateRequest
+	(*GetTransactionStateResponse)(nil),     // 1: meshtrade.ledger.transaction.v1.GetTransactionStateResponse
+	(*MonitorTransactionStateRequest)(nil),  // 2: meshtrade.ledger.transaction.v1.MonitorTransactionStateRequest
+	(*MonitorTransactionStateResponse)(nil), // 3: meshtrade.ledger.transaction.v1.MonitorTransactionStateResponse
+	(TransactionState)(0),                   // 4: meshtrade.ledger.transaction.v1.TransactionState
 }
 var file_meshtrade_ledger_transaction_v1_service_proto_depIdxs = []int32{
-	2, // 0: meshtrade.ledger.transaction.v1.GetTransactionStateResponse.state:type_name -> meshtrade.ledger.transaction.v1.TransactionState
-	0, // 1: meshtrade.ledger.transaction.v1.TransactionService.GetTransactionState:input_type -> meshtrade.ledger.transaction.v1.GetTransactionStateRequest
-	1, // 2: meshtrade.ledger.transaction.v1.TransactionService.GetTransactionState:output_type -> meshtrade.ledger.transaction.v1.GetTransactionStateResponse
-	2, // [2:3] is the sub-list for method output_type
-	1, // [1:2] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	4, // 0: meshtrade.ledger.transaction.v1.GetTransactionStateResponse.state:type_name -> meshtrade.ledger.transaction.v1.TransactionState
+	4, // 1: meshtrade.ledger.transaction.v1.MonitorTransactionStateResponse.state:type_name -> meshtrade.ledger.transaction.v1.TransactionState
+	0, // 2: meshtrade.ledger.transaction.v1.TransactionService.GetTransactionState:input_type -> meshtrade.ledger.transaction.v1.GetTransactionStateRequest
+	2, // 3: meshtrade.ledger.transaction.v1.TransactionService.MonitorTransactionState:input_type -> meshtrade.ledger.transaction.v1.MonitorTransactionStateRequest
+	1, // 4: meshtrade.ledger.transaction.v1.TransactionService.GetTransactionState:output_type -> meshtrade.ledger.transaction.v1.GetTransactionStateResponse
+	3, // 5: meshtrade.ledger.transaction.v1.TransactionService.MonitorTransactionState:output_type -> meshtrade.ledger.transaction.v1.MonitorTransactionStateResponse
+	4, // [4:6] is the sub-list for method output_type
+	2, // [2:4] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_ledger_transaction_v1_service_proto_init() }
@@ -169,7 +270,7 @@ func file_meshtrade_ledger_transaction_v1_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_meshtrade_ledger_transaction_v1_service_proto_rawDesc), len(file_meshtrade_ledger_transaction_v1_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

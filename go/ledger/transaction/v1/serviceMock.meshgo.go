@@ -13,10 +13,12 @@ var _ TransactionService = &MockTransactionService{}
 
 // MockTransactionService is a mock implementation of the TransactionService interface.
 type MockTransactionService struct {
-	mutex                              sync.Mutex
-	T                                  *testing.T
-	GetTransactionStateFunc            func(t *testing.T, m *MockTransactionService, ctx context.Context, request *GetTransactionStateRequest) (*GetTransactionStateResponse, error)
-	GetTransactionStateFuncInvocations int
+	mutex                                  sync.Mutex
+	T                                      *testing.T
+	GetTransactionStateFunc                func(t *testing.T, m *MockTransactionService, ctx context.Context, request *GetTransactionStateRequest) (*GetTransactionStateResponse, error)
+	GetTransactionStateFuncInvocations     int
+	MonitorTransactionStateFunc            func(t *testing.T, m *MockTransactionService, ctx context.Context, request *MonitorTransactionStateRequest) (*MonitorTransactionStateResponse, error)
+	MonitorTransactionStateFuncInvocations int
 }
 
 func (m *MockTransactionService) GetTransactionState(ctx context.Context, request *GetTransactionStateRequest) (*GetTransactionStateResponse, error) {
@@ -27,4 +29,14 @@ func (m *MockTransactionService) GetTransactionState(ctx context.Context, reques
 		return nil, nil
 	}
 	return m.GetTransactionStateFunc(m.T, m, ctx, request)
+}
+
+func (m *MockTransactionService) MonitorTransactionState(ctx context.Context, request *MonitorTransactionStateRequest) (*MonitorTransactionStateResponse, error) {
+	m.mutex.Lock()
+	m.MonitorTransactionStateFuncInvocations++
+	m.mutex.Unlock()
+	if m.MonitorTransactionStateFunc == nil {
+		return nil, nil
+	}
+	return m.MonitorTransactionStateFunc(m.T, m, ctx, request)
 }

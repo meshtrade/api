@@ -169,3 +169,11 @@ func (s *transactionService) GetTransactionState(ctx context.Context, request *G
 		return s.GrpcClient().GetTransactionState(ctx, request)
 	})
 }
+
+// MonitorTransactionState executes the MonitorTransactionState RPC method with automatic
+// client-side validation, timeout handling, distributed tracing, and authentication.
+func (s *transactionService) MonitorTransactionState(ctx context.Context, request *MonitorTransactionStateRequest) (*MonitorTransactionStateResponse, error) {
+	return grpc.Execute(s.Executor(), ctx, "MonitorTransactionState", request, func(ctx context.Context) (*MonitorTransactionStateResponse, error) {
+		return s.GrpcClient().MonitorTransactionState(ctx, request)
+	})
+}
