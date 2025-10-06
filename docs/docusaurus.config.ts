@@ -13,7 +13,6 @@ const config: Config = {
   projectName: 'api',
 
   onBrokenLinks: 'warn',
-  onBrokenMarkdownLinks: 'warn',
 
   i18n: {
     defaultLocale: 'en',
@@ -23,6 +22,9 @@ const config: Config = {
   markdown: {
     format: 'mdx',
     mermaid: true,
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
+    },
   },
 
   themes: ['@docusaurus/theme-mermaid'],
