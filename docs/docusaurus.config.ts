@@ -36,8 +36,8 @@ const config: Config = {
         docs: {
           sidebarPath: './sidebars.ts',
           editUrl: undefined,
-          showLastUpdateAuthor: true,
-          showLastUpdateTime: true,
+          showLastUpdateAuthor: false,
+          showLastUpdateTime: false,
           remarkPlugins: [],
           rehypePlugins: [],
         },
