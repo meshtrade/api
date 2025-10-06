@@ -2,6 +2,7 @@ import co.meshtrade.api.ledger.transaction.v1.TransactionService;
 import co.meshtrade.api.ledger.transaction.v1.Service.MonitorTransactionStateRequest;
 import co.meshtrade.api.ledger.transaction.v1.Service.MonitorTransactionStateResponse;
 
+import java.util.Iterator;
 import java.util.Optional;
 
 public class MonitorTransactionStateExample {
@@ -15,13 +16,20 @@ public class MonitorTransactionStateExample {
                 // FIXME: Populate service-specific request fields
                 .build();
 
-            // Call the MonitorTransactionState method
-            MonitorTransactionStateResponse response = service.monitorTransactionState(request, Optional.empty());
+            // Call the MonitorTransactionState streaming method
+            Iterator<MonitorTransactionStateResponse> stream = service.monitorTransactionState(request, Optional.empty());
 
-            // FIXME: Add relevant response object usage
-            System.out.println("MonitorTransactionState successful: " + response);
+            // Consume stream responses using iterator pattern
+            while (stream.hasNext()) {
+                MonitorTransactionStateResponse response = stream.next();
+
+                // Process each response as it arrives
+                System.out.println("Received: " + response);
+            }
+
+            System.out.println("Stream completed successfully");
         } catch (Exception e) {
-            System.err.println("MonitorTransactionState failed: " + e.getMessage());
+            System.err.println("MonitorTransactionState stream failed: " + e.getMessage());
             e.printStackTrace();
         }
     }

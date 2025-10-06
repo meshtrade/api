@@ -56,7 +56,7 @@ func GenerateServiceDocs(plugin *protogen.Plugin, serviceInfo *ServiceInfo) erro
 func generateServiceOverview(plugin *protogen.Plugin, serviceInfo *ServiceInfo, domain, serviceName, version string) error {
 	filename := filepath.Join(domain, serviceName, version, "index.mdx")
 	fullPath := filepath.Join("docs", "docs", "api-reference", filename)
-	
+
 	// Only generate if file doesn't exist (allows manual customization)
 	if !fileExists(fullPath) {
 		file := plugin.NewGeneratedFile(filename, "")
@@ -92,7 +92,7 @@ func generateServiceIndex(plugin *protogen.Plugin, serviceInfo *ServiceInfo, dom
 	var methods []MethodTemplateData
 	for _, method := range serviceInfo.Methods {
 		methods = append(methods, MethodTemplateData{
-			Name:     method.Name,
+			Name:      method.Name,
 			KebabName: kebabCase(method.Name),
 		})
 	}
@@ -156,6 +156,7 @@ func generateMethodDoc(plugin *protogen.Plugin, serviceInfo *ServiceInfo, method
 		ParametersStr:      parametersStr,
 		Returns:            method.Returns,
 		MethodType:         method.MethodType,
+		IsServerStreaming:  method.IsServerStreaming,
 		ProtoPath:          serviceInfo.ProtoPath,
 		Domain:             domain,
 		DomainTitle:        titleCase(domain),
@@ -182,18 +183,24 @@ func generateExampleFiles(plugin *protogen.Plugin, method *MethodInfo, domain, s
 	// Parse request fields for example generation
 	requestFields := parseRequestFields(method.Parameters)
 	hasRequest := method.RequestType != "" // All gRPC methods have request types, even if empty
-	needsContext := true // All gRPC methods need context
-	
+	needsContext := true                   // All gRPC methods need context
+
 	// Detect return type information for semantic variable naming
 	returnsEntityType, goResponseVar, pythonResponseVar := detectReturnTypeInfo(method.Returns)
+
+	// Select appropriate template based on streaming nature
+	goTemplateName := "example.go.tmpl"
+	if method.IsServerStreaming {
+		goTemplateName = "example_streaming.go.tmpl"
+	}
 
 	// Generate Go example (only if it doesn't exist)
 	goFilename := filepath.Join(domain, serviceName, version, "service", methodPath, "example.go")
 	goFullPath := filepath.Join("docs", "docs", "api-reference", goFilename)
-	
+
 	if !fileExists(goFullPath) {
 		goFile := plugin.NewGeneratedFile(goFilename, "")
-		
+
 		goData := ExampleGoData{
 			Domain:             domain,
 			ServiceName:        serviceName,
@@ -209,21 +216,27 @@ func generateExampleFiles(plugin *protogen.Plugin, method *MethodInfo, domain, s
 			ReturnsEntityType:  returnsEntityType,
 			ResponseVariable:   goResponseVar,
 		}
-		
-		goContent, err := templateManager.Execute("example.go.tmpl", goData)
+
+		goContent, err := templateManager.Execute(goTemplateName, goData)
 		if err != nil {
 			return fmt.Errorf("failed to execute Go example template: %w", err)
 		}
 		goFile.Write([]byte(goContent))
 	}
 
+	// Select Python template based on streaming nature
+	pyTemplateName := "example.py.tmpl"
+	if method.IsServerStreaming {
+		pyTemplateName = "example_streaming.py.tmpl"
+	}
+
 	// Generate Python example (only if it doesn't exist)
 	pyFilename := filepath.Join(domain, serviceName, version, "service", methodPath, "example.py")
 	pyFullPath := filepath.Join("docs", "docs", "api-reference", pyFilename)
-	
+
 	if !fileExists(pyFullPath) {
 		pyFile := plugin.NewGeneratedFile(pyFilename, "")
-		
+
 		pyData := ExamplePyData{
 			Domain:            domain,
 			ServiceName:       serviceName,
@@ -237,25 +250,31 @@ func generateExampleFiles(plugin *protogen.Plugin, method *MethodInfo, domain, s
 			ReturnsEntityType: returnsEntityType,
 			ResponseVariable:  pythonResponseVar,
 		}
-		
-		pyContent, err := templateManager.Execute("example.py.tmpl", pyData)
+
+		pyContent, err := templateManager.Execute(pyTemplateName, pyData)
 		if err != nil {
 			return fmt.Errorf("failed to execute Python example template: %w", err)
 		}
 		pyFile.Write([]byte(pyContent))
 	}
 
+	// Select Java template based on streaming nature
+	javaTemplateName := "example.java.tmpl"
+	if method.IsServerStreaming {
+		javaTemplateName = "example_streaming.java.tmpl"
+	}
+
 	// Generate Java example (only if it doesn't exist)
 	javaFilename := filepath.Join(domain, serviceName, version, "service", methodPath, "example.java")
 	javaFullPath := filepath.Join("docs", "docs", "api-reference", javaFilename)
-	
+
 	if !fileExists(javaFullPath) {
 		javaFile := plugin.NewGeneratedFile(javaFilename, "")
-		
+
 		// Determine Java-specific return type and response variable
 		javaResponseVar := "response"
 		responseTypeImport := "Service"
-		
+
 		if returnsEntityType {
 			if method.Returns == "APIUser" {
 				javaResponseVar = "apiUser"
@@ -265,24 +284,24 @@ func generateExampleFiles(plugin *protogen.Plugin, method *MethodInfo, domain, s
 				responseTypeImport = method.Returns
 			}
 		}
-		
+
 		javaData := ExampleJavaData{
-			Domain:               domain,
-			ServiceName:          serviceName,
-			ServiceTitle:         strings.ReplaceAll(titleCase(serviceName), " ", ""),
-			Version:              version,
-			MethodName:           method.Name,
-			MethodNameCamelCase:  camelCase(method.Name),
-			RequestType:          method.RequestType,
-			RequestFields:        requestFields,
-			ResponseType:         method.Returns,
-			ResponseTypeImport:   responseTypeImport,
-			HasRequest:           hasRequest,
-			ReturnsEntityType:    returnsEntityType,
-			ResponseVariable:     javaResponseVar,
+			Domain:              domain,
+			ServiceName:         serviceName,
+			ServiceTitle:        strings.ReplaceAll(titleCase(serviceName), " ", ""),
+			Version:             version,
+			MethodName:          method.Name,
+			MethodNameCamelCase: camelCase(method.Name),
+			RequestType:         method.RequestType,
+			RequestFields:       requestFields,
+			ResponseType:        method.Returns,
+			ResponseTypeImport:  responseTypeImport,
+			HasRequest:          hasRequest,
+			ReturnsEntityType:   returnsEntityType,
+			ResponseVariable:    javaResponseVar,
 		}
-		
-		javaContent, err := templateManager.Execute("example.java.tmpl", javaData)
+
+		javaContent, err := templateManager.Execute(javaTemplateName, javaData)
 		if err != nil {
 			return fmt.Errorf("failed to execute Java example template: %w", err)
 		}
@@ -295,7 +314,7 @@ func generateExampleFiles(plugin *protogen.Plugin, method *MethodInfo, domain, s
 // parseRequestFields converts MethodInfo parameters to ExampleFieldData
 func parseRequestFields(parameters []FieldInfo) []ExampleFieldData {
 	var fields []ExampleFieldData
-	
+
 	for _, param := range parameters {
 		field := ExampleFieldData{
 			Name:         param.Name,
@@ -309,7 +328,7 @@ func parseRequestFields(parameters []FieldInfo) []ExampleFieldData {
 		}
 		fields = append(fields, field)
 	}
-	
+
 	return fields
 }
 
@@ -352,7 +371,7 @@ func detectReturnTypeInfo(returnType string) (bool, string, string) {
 	if strings.HasSuffix(returnType, "Response") {
 		return false, "response", "response"
 	}
-	
+
 	// Otherwise, treat as entity and generate semantic variable names from the return type
 	// Handle special case for APIUser
 	var goVar, pythonVar string
@@ -364,7 +383,7 @@ func detectReturnTypeInfo(returnType string) (bool, string, string) {
 		goVar = strings.ToLower(returnType[:1]) + returnType[1:] // standard camelCase
 		pythonVar = snakeCase(returnType)                        // snake_case
 	}
-	
+
 	return true, goVar, pythonVar
 }
 
@@ -376,7 +395,7 @@ func properKebabCase(typeName string) string {
 		rest := typeName[3:] // Remove "API" prefix
 		return "api-" + kebabCase(rest)
 	}
-	
+
 	// Use standard kebab case for other types
 	return kebabCase(typeName)
 }
@@ -412,7 +431,7 @@ func generateTypeIndex(plugin *protogen.Plugin, packageInfo *PackageTypeInfo) er
 	var types []TypeTemplateData
 	for _, typeInfo := range packageInfo.Types {
 		types = append(types, TypeTemplateData{
-			Name:     typeInfo.Name,
+			Name:      typeInfo.Name,
 			KebabName: properKebabCase(typeInfo.Name),
 		})
 	}
@@ -541,7 +560,7 @@ func GenerateNavigation(plugin *protogen.Plugin, serviceInfos []*ServiceInfo, pa
 
 	// Build template data structure
 	var domains []DomainTemplateData
-	
+
 	// Convert map to sorted slice for consistent ordering
 	var domainNames []string
 	for domain := range domainMap {
@@ -579,13 +598,13 @@ func GenerateNavigation(plugin *protogen.Plugin, serviceInfos []*ServiceInfo, pa
 
 			for _, version := range versionNames {
 				serviceInfo := versions[version]
-				
+
 				// Load status configuration from the same source as the table
 				tableConfig, _ := LoadServicesTableConfig()
 				var statusDetails StatusDetails
-				if tableConfig.Services[domain] != nil && 
-				   tableConfig.Services[domain][serviceName] != nil && 
-				   tableConfig.Services[domain][serviceName][version] != "" {
+				if tableConfig.Services[domain] != nil &&
+					tableConfig.Services[domain][serviceName] != nil &&
+					tableConfig.Services[domain][serviceName][version] != "" {
 					// Use status from table config
 					tableStatus := tableConfig.Services[domain][serviceName][version]
 					if details, exists := PredefinedStatuses[tableStatus]; exists {
@@ -598,7 +617,7 @@ func GenerateNavigation(plugin *protogen.Plugin, serviceInfos []*ServiceInfo, pa
 					// Fallback to development status
 					statusDetails = PredefinedStatuses["development"]
 				}
-				
+
 				versionData := VersionTemplateData{
 					Name:       version,
 					Display:    version, // Keep version as lowercase
@@ -610,7 +629,7 @@ func GenerateNavigation(plugin *protogen.Plugin, serviceInfos []*ServiceInfo, pa
 				if packageInfo, exists := packageInfos[packageKey]; exists {
 					for _, typeInfo := range packageInfo.Types {
 						versionData.Types = append(versionData.Types, TypeTemplateData{
-							Name:     typeInfo.Name,
+							Name:      typeInfo.Name,
 							KebabName: properKebabCase(typeInfo.Name),
 						})
 					}
@@ -619,7 +638,7 @@ func GenerateNavigation(plugin *protogen.Plugin, serviceInfos []*ServiceInfo, pa
 				// Add methods
 				for _, method := range serviceInfo.Methods {
 					versionData.Methods = append(versionData.Methods, MethodTemplateData{
-						Name:     method.Name,
+						Name:      method.Name,
 						KebabName: kebabCase(method.Name),
 					})
 				}

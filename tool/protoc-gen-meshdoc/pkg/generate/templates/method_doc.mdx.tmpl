@@ -13,6 +13,19 @@ import PythonExample from '!!raw-loader!./example.py';
 import JavaExample from '!!raw-loader!./example.java';
 import Proto from '!!raw-loader!../../../../../../../../proto/{{.ProtoPath}}';
 
+{{if .IsServerStreaming}}
+:::info Server-Side Streaming Method
+This method uses **server-side streaming**, meaning it returns multiple responses over time rather than a single response. The server sends a stream of responses to the client, and the client processes each response as it arrives.
+
+**Stream Lifecycle:**
+- **Initiation**: Call the method to create a stream
+- **Data Reception**: Receive multiple responses over the stream
+- **Completion**: Stream ends normally (EOF/end event) or with an error
+- **Resource Management**: Streams should be fully consumed or explicitly closed
+
+See the code examples below for language-specific streaming consumption patterns.
+:::
+{{end}}
 
 ## Method Details
 
@@ -20,10 +33,10 @@ import Proto from '!!raw-loader!../../../../../../../../proto/{{.ProtoPath}}';
 
 **Required Roles:** {{.RolesStr}}
 
-**Parameters:** 
+**Parameters:**
 {{.ParametersStr}}
 
-**Returns:** {{.Returns}}
+**Returns:** {{if .IsServerStreaming}}Stream of {{.Returns}} (server-streaming){{else}}{{.Returns}}{{end}}
 
 **Method Type:** {{.MethodType}}
 

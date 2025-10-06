@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"io"
 	"log"
 
 	transactionv1 "github.com/meshtrade/api/go/ledger/transaction/v1"
@@ -24,12 +25,25 @@ func main() {
 		// FIXME: Populate service-specific request fields
 	}
 
-	// Call the MonitorTransactionState method
-	response, err := service.MonitorTransactionState(ctx, request)
+	// Call the MonitorTransactionState streaming method
+	stream, err := service.MonitorTransactionState(ctx, request)
 	if err != nil {
-		log.Fatalf("MonitorTransactionState failed: %v", err)
+		log.Fatalf("Failed to initiate stream: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("MonitorTransactionState successful: %+v", response)
+	// Consume stream responses
+	for {
+		response, err := stream.Recv()
+		if err == io.EOF {
+			break // Stream completed normally
+		}
+		if err != nil {
+			log.Fatalf("Stream error: %v", err)
+		}
+
+		// Process each response as it arrives
+		log.Printf("Received: %+v", response)
+	}
+
+	log.Println("Stream completed successfully")
 }

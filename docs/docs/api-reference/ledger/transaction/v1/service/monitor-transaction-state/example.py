@@ -16,11 +16,19 @@ def main():
             # FIXME: Populate service-specific request fields
         )
 
-        # Call the MonitorTransactionState method
-        response = service.monitor_transaction_state(request)
+        # Call the MonitorTransactionState streaming method
+        stream = service.monitor_transaction_state(request)
 
-        # FIXME: Add relevant response object usage
-        print("MonitorTransactionState successful:", response)
+        try:
+            # Consume stream responses using iterator pattern
+            for response in stream:
+                # Process each response as it arrives
+                print("Received:", response)
+
+            print("Stream completed successfully")
+        except Exception as e:
+            print("Stream error:", e)
+            raise
 
 
 if __name__ == "__main__":
