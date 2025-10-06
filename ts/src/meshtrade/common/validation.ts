@@ -48,3 +48,28 @@ export function isValidULID(ulid: string): boolean {
 export function isValidGroupResourceName(resourceName: string): boolean {
   return /^groups\/[0-9A-Z]{26}$/.test(resourceName);
 }
+
+/**
+ * Validates a protobuf request message before sending to the server.
+ *
+ * This function serves as a client-side validation hook that can be extended
+ * to include protovalidate integration or other validation logic.
+ *
+ * Currently performs basic null/undefined checks. Future enhancements may include
+ * protovalidate integration for comprehensive message validation.
+ *
+ * @param request - The protobuf request message to validate
+ * @throws {Error} If the request is null or undefined
+ *
+ * @example
+ * ```typescript
+ * validateRequest(myRequest); // Throws if request is invalid
+ * ```
+ */
+export function validateRequest(request: unknown): void {
+  if (request === null || request === undefined) {
+    throw new Error("Request cannot be null or undefined");
+  }
+  // Future: Integrate protovalidate for comprehensive message validation
+  // For now, basic validation is sufficient as the server also validates
+}

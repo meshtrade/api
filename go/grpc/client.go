@@ -218,6 +218,70 @@ func Execute[T any, R any](
 	return executeWithRetry(executor, ctx, grpcCall)
 }
 
+// ExecuteStream provides a fully type-safe streaming method execution pattern that handles
+// all common functionality including request validation, connection health checking, timeout
+// handling, distributed tracing, and authentication for server-side streaming methods.
+//
+// Type parameters:
+//   - T: The gRPC client type
+//   - R: The return type (the streaming client interface)
+//
+// Parameters:
+//   - executor: The executor instance containing the client
+//   - ctx: Context for the request (can include custom timeout, tracing, etc.)
+//   - methodName: Name of the method being called (used for tracing)
+//   - request: The request message to validate using protovalidate
+//   - streamCall: Function that executes the actual gRPC streaming call
+//
+// Returns:
+//   - R: The streaming client interface with full type safety
+//   - error: Any error that occurred during validation or the request
+func ExecuteStream[T any, R any](
+	executor *Executor[T],
+	ctx context.Context,
+	methodName string,
+	request proto.Message,
+	streamCall func(context.Context) (R, error),
+) (R, error) {
+	// Validate request using protovalidate before any processing
+	if err := executor.client.validator.Validate(request); err != nil {
+		var zero R
+		return zero, fmt.Errorf("request validation failed: %w", err)
+	}
+
+	// Apply timeout if no deadline is already set
+	if _, hasDeadline := ctx.Deadline(); !hasDeadline {
+		var cancel context.CancelFunc
+		ctx, cancel = context.WithTimeout(ctx, executor.client.timeout)
+		defer cancel()
+	}
+
+	// Create tracing span
+	ctx, span := executor.client.tracer.Start(
+		ctx,
+		executor.client.serviceProviderName+methodName,
+	)
+	defer span.End()
+
+	// Check connection health before initiating stream
+	if err := executor.client.ensureConnectionHealth(ctx); err != nil {
+		var zero R
+		return zero, fmt.Errorf("connection health check failed: %w", err)
+	}
+
+	// Add authentication metadata to context
+	ctx = metadata.AppendToOutgoingContext(
+		ctx,
+		auth.APIKeyHeader,
+		executor.client.apiKey,
+		auth.GroupHeaderKey,
+		executor.client.group,
+	)
+
+	// Execute the streaming call
+	return streamCall(ctx)
+}
+
 // executeWithRetry implements connection health checking and conservative retry logic.
 // Only retries on connection establishment failures to prevent double-processing in financial systems.
 func executeWithRetry[T any, R any](

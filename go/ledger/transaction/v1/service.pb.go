@@ -216,12 +216,12 @@ const file_meshtrade_ledger_transaction_v1_service_proto_rawDesc = "" +
 	"\x1eMonitorTransactionStateRequest\x12V\n" +
 	"\x04name\x18\x01 \x01(\tBB\xbaH?\xc8\x01\x01r:25^transactions/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01$R\x04name\"j\n" +
 	"\x1fMonitorTransactionStateResponse\x12G\n" +
-	"\x05state\x18\x01 \x01(\x0e21.meshtrade.ledger.transaction.v1.TransactionStateR\x05state2\xfe\x02\n" +
+	"\x05state\x18\x01 \x01(\x0e21.meshtrade.ledger.transaction.v1.TransactionStateR\x05state2\x80\x03\n" +
 	"\x12TransactionService\x12\xac\x01\n" +
 	"\x13GetTransactionState\x12;.meshtrade.ledger.transaction.v1.GetTransactionStateRequest\x1a<.meshtrade.ledger.transaction.v1.GetTransactionStateResponse\"\x1a\xa0\xb5\x18\x01\xaa\xb5\x18\x12\n" +
-	"\x10\xc0\x9f\xab\x03\xc1\x9f\xab\x03\u009f\xab\x03ß\xab\x03\x12\xb8\x01\n" +
+	"\x10\xc0\x9f\xab\x03\xc1\x9f\xab\x03\u009f\xab\x03ß\xab\x03\x12\xba\x01\n" +
 	"\x17MonitorTransactionState\x12?.meshtrade.ledger.transaction.v1.MonitorTransactionStateRequest\x1a@.meshtrade.ledger.transaction.v1.MonitorTransactionStateResponse\"\x1a\xa0\xb5\x18\x01\xaa\xb5\x18\x12\n" +
-	"\x10\xc0\x9f\xab\x03\xc1\x9f\xab\x03\u009f\xab\x03ß\xab\x03Bj\n" +
+	"\x10\xc0\x9f\xab\x03\xc1\x9f\xab\x03\u009f\xab\x03ß\xab\x030\x01Bj\n" +
 	"&co.meshtrade.api.ledger.transaction.v1Z@github.com/meshtrade/api/go/ledger/transaction/v1;transaction_v1b\x06proto3"
 
 var (

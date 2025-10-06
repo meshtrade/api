@@ -39,8 +39,13 @@ func Mock(p *protogen.Plugin, f *protogen.File, svc *protogen.Service) error {
 
 	// add fields in the mock
 	for _, method := range svc.Methods {
-		// add mock function pointer
-		g.P(method.GoName, "Func func(t *", generate.TestingPkg.Ident("T"), ", m *", mockServiceProviderName, ", ctx ", generate.ContextPkg.Ident("Context"), ", request *", method.Input.GoIdent, ") (*", method.Output.GoIdent, ", error)")
+		// add mock function pointer - different signature for streaming
+		if isServerSideStreaming(method) {
+			streamClientType := svc.GoName + "_" + method.GoName + "Client"
+			g.P(method.GoName, "Func func(t *", generate.TestingPkg.Ident("T"), ", m *", mockServiceProviderName, ", ctx ", generate.ContextPkg.Ident("Context"), ", request *", method.Input.GoIdent, ") (", streamClientType, ", error)")
+		} else {
+			g.P(method.GoName, "Func func(t *", generate.TestingPkg.Ident("T"), ", m *", mockServiceProviderName, ", ctx ", generate.ContextPkg.Ident("Context"), ", request *", method.Input.GoIdent, ") (*", method.Output.GoIdent, ", error)")
+		}
 
 		// add mock function invocations
 		g.P(method.GoName, "FuncInvocations int")
@@ -53,7 +58,13 @@ func Mock(p *protogen.Plugin, f *protogen.File, svc *protogen.Service) error {
 
 	// write the mock svc provider receivers
 	for i, method := range svc.Methods {
-		g.P("func (m *", mockServiceProviderName, ") ", method.GoName, "(ctx ", generate.ContextPkg.Ident("Context"), ", request *", method.Input.GoIdent, ") (*", method.Output.GoIdent, ", error) {")
+		// Different signature for streaming vs unary
+		if isServerSideStreaming(method) {
+			streamClientType := svc.GoName + "_" + method.GoName + "Client"
+			g.P("func (m *", mockServiceProviderName, ") ", method.GoName, "(ctx ", generate.ContextPkg.Ident("Context"), ", request *", method.Input.GoIdent, ") (", streamClientType, ", error) {")
+		} else {
+			g.P("func (m *", mockServiceProviderName, ") ", method.GoName, "(ctx ", generate.ContextPkg.Ident("Context"), ", request *", method.Input.GoIdent, ") (*", method.Output.GoIdent, ", error) {")
+		}
 		g.P("m.mutex.Lock()")
 		g.P("m.", method.GoName, "FuncInvocations++")
 		g.P("m.mutex.Unlock()")

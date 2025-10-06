@@ -17,7 +17,7 @@ type MockTransactionService struct {
 	T                                      *testing.T
 	GetTransactionStateFunc                func(t *testing.T, m *MockTransactionService, ctx context.Context, request *GetTransactionStateRequest) (*GetTransactionStateResponse, error)
 	GetTransactionStateFuncInvocations     int
-	MonitorTransactionStateFunc            func(t *testing.T, m *MockTransactionService, ctx context.Context, request *MonitorTransactionStateRequest) (*MonitorTransactionStateResponse, error)
+	MonitorTransactionStateFunc            func(t *testing.T, m *MockTransactionService, ctx context.Context, request *MonitorTransactionStateRequest) (TransactionService_MonitorTransactionStateClient, error)
 	MonitorTransactionStateFuncInvocations int
 }
 
@@ -31,7 +31,7 @@ func (m *MockTransactionService) GetTransactionState(ctx context.Context, reques
 	return m.GetTransactionStateFunc(m.T, m, ctx, request)
 }
 
-func (m *MockTransactionService) MonitorTransactionState(ctx context.Context, request *MonitorTransactionStateRequest) (*MonitorTransactionStateResponse, error) {
+func (m *MockTransactionService) MonitorTransactionState(ctx context.Context, request *MonitorTransactionStateRequest) (TransactionService_MonitorTransactionStateClient, error) {
 	m.mutex.Lock()
 	m.MonitorTransactionStateFuncInvocations++
 	m.mutex.Unlock()

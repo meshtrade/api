@@ -200,3 +200,50 @@ class BaseGRPCClient(GRPCClient):
 
         # Make the authenticated call
         return method(request, metadata=metadata, timeout=timeout_seconds)
+
+    def _execute_streaming_method(self, method_name: str, request: Any, timeout: timedelta | None = None) -> Any:
+        """Execute a server-side streaming gRPC method with authentication and error handling.
+
+        This is the streaming equivalent of _execute_method() - it handles validation,
+        authentication metadata injection, and timeout handling for server-side streaming calls.
+
+        Args:
+            method_name: The name of the gRPC stub streaming method to call
+            request: The request message
+            timeout: Optional timeout override
+
+        Returns:
+            Iterator yielding response messages from the stream
+
+        Raises:
+            grpc.RpcError: If the gRPC call fails
+            ValueError: If authentication credentials are missing or request validation fails
+        """
+        # Validate request using protovalidate BEFORE initiating stream
+        try:
+            self._validator.validate(request)
+        except Exception as e:
+            raise ValueError(f"Request validation failed: {e}") from e
+
+        self._ensure_connected()
+
+        if not self._api_key or not self._group:
+            raise ValueError(
+                "API key and group are required for authentication. Provide them via constructor or set MESH_API_CREDENTIALS environment variable."
+            )
+
+        if self._stub is None:
+            raise RuntimeError("gRPC stub not initialized. Call _ensure_connected() first.")
+
+        # Get the streaming method from the stub
+        method = getattr(self._stub, method_name)
+
+        # Create authentication metadata (x-api-key, x-group headers)
+        metadata = create_auth_metadata(self._api_key, self._group)
+
+        # Use provided timeout or default
+        call_timeout = timeout or self._timeout
+        timeout_seconds = call_timeout.total_seconds()
+
+        # Make the authenticated streaming call with metadata
+        return method(request, metadata=metadata, timeout=timeout_seconds)

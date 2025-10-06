@@ -170,10 +170,29 @@ func (s *transactionService) GetTransactionState(ctx context.Context, request *G
 	})
 }
 
-// MonitorTransactionState executes the MonitorTransactionState RPC method with automatic
-// client-side validation, timeout handling, distributed tracing, and authentication.
-func (s *transactionService) MonitorTransactionState(ctx context.Context, request *MonitorTransactionStateRequest) (*MonitorTransactionStateResponse, error) {
-	return grpc.Execute(s.Executor(), ctx, "MonitorTransactionState", request, func(ctx context.Context) (*MonitorTransactionStateResponse, error) {
+// MonitorTransactionState executes the MonitorTransactionState server-side streaming RPC method
+// with automatic client-side validation, timeout handling, distributed tracing, and authentication.
+// Returns a stream client that yields multiple MonitorTransactionStateResponse messages.
+//
+// The returned stream must be fully consumed or explicitly closed to avoid resource leaks.
+// Example usage:
+//
+//	stream, err := client.MonitorTransactionState(ctx, request)
+//	if err != nil {
+//		return err
+//	}
+//	for {
+//		resp, err := stream.Recv()
+//		if err == io.EOF {
+//			break
+//		}
+//		if err != nil {
+//			return err
+//		}
+//		// Process resp...
+//	}
+func (s *transactionService) MonitorTransactionState(ctx context.Context, request *MonitorTransactionStateRequest) (TransactionService_MonitorTransactionStateClient, error) {
+	return grpc.ExecuteStream(s.Executor(), ctx, "MonitorTransactionState", request, func(ctx context.Context) (TransactionService_MonitorTransactionStateClient, error) {
 		return s.GrpcClient().MonitorTransactionState(ctx, request)
 	})
 }

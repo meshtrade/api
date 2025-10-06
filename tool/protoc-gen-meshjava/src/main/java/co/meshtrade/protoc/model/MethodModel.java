@@ -138,6 +138,13 @@ public class MethodModel {
     public boolean isUnary() {
         return !clientStreaming && !serverStreaming;
     }
+
+    /**
+     * @return true if this is a server-side streaming method (single request, stream of responses)
+     */
+    public boolean isServerSideStreaming() {
+        return serverStreaming && !clientStreaming;
+    }
     
     /**
      * @return the Java method name in camelCase (e.g., "getApiUser")

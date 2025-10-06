@@ -30,10 +30,10 @@ service TransactionService {
   }
 
   /*
-     Monitor Transaction state by the unique identifier of the transaction.
-     TODO: update rpc method to perform streaming
+     Monitor Transaction state changes by the unique identifier of the transaction.
+     Server-side streaming method that sends state updates as the transaction progresses.
   */
-  rpc MonitorTransactionState(MonitorTransactionStateRequest) returns (MonitorTransactionStateResponse) {
+  rpc MonitorTransactionState(MonitorTransactionStateRequest) returns (stream MonitorTransactionStateResponse) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
     option (meshtrade.iam.role.v1.roles) = {
       roles: [

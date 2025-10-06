@@ -11,9 +11,9 @@ type TransactionService interface {
 	// Retrieves a single Transaction state by the unique identifier of the transaction
 	GetTransactionState(ctx context.Context, request *GetTransactionStateRequest) (*GetTransactionStateResponse, error)
 
-	// Monitor Transaction state by the unique identifier of the transaction.
-	// TODO: update rpc method to perform streaming
-	MonitorTransactionState(ctx context.Context, request *MonitorTransactionStateRequest) (*MonitorTransactionStateResponse, error)
+	// Monitor Transaction state changes by the unique identifier of the transaction.
+	// Server-side streaming method that sends state updates as the transaction progresses.
+	MonitorTransactionState(ctx context.Context, request *MonitorTransactionStateRequest) (TransactionService_MonitorTransactionStateClient, error)
 }
 
 const TransactionServiceServiceProviderName = "meshtrade-ledger-transaction-v1-TransactionService"

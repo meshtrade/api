@@ -5,6 +5,7 @@ import "google.golang.org/protobuf/compiler/protogen"
 const (
 	// Go core packages
 	ContextPkg        = protogen.GoImportPath("context")
+	IOPkg             = protogen.GoImportPath("io")
 	SyncPkg           = protogen.GoImportPath("sync")
 	TestingPkg        = protogen.GoImportPath("testing")
 	TimePackage       = protogen.GoImportPath("time")

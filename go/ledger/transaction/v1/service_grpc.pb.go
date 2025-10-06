@@ -31,9 +31,9 @@ const (
 type TransactionServiceClient interface {
 	// Retrieves a single Transaction state by the unique identifier of the transaction
 	GetTransactionState(ctx context.Context, in *GetTransactionStateRequest, opts ...grpc.CallOption) (*GetTransactionStateResponse, error)
-	// Monitor Transaction state by the unique identifier of the transaction.
-	// TODO: update rpc method to perform streaming
-	MonitorTransactionState(ctx context.Context, in *MonitorTransactionStateRequest, opts ...grpc.CallOption) (*MonitorTransactionStateResponse, error)
+	// Monitor Transaction state changes by the unique identifier of the transaction.
+	// Server-side streaming method that sends state updates as the transaction progresses.
+	MonitorTransactionState(ctx context.Context, in *MonitorTransactionStateRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[MonitorTransactionStateResponse], error)
 }
 
 type transactionServiceClient struct {
@@ -54,15 +54,24 @@ func (c *transactionServiceClient) GetTransactionState(ctx context.Context, in *
 	return out, nil
 }
 
-func (c *transactionServiceClient) MonitorTransactionState(ctx context.Context, in *MonitorTransactionStateRequest, opts ...grpc.CallOption) (*MonitorTransactionStateResponse, error) {
+func (c *transactionServiceClient) MonitorTransactionState(ctx context.Context, in *MonitorTransactionStateRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[MonitorTransactionStateResponse], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(MonitorTransactionStateResponse)
-	err := c.cc.Invoke(ctx, TransactionService_MonitorTransactionState_FullMethodName, in, out, cOpts...)
+	stream, err := c.cc.NewStream(ctx, &TransactionService_ServiceDesc.Streams[0], TransactionService_MonitorTransactionState_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
-	return out, nil
+	x := &grpc.GenericClientStream[MonitorTransactionStateRequest, MonitorTransactionStateResponse]{ClientStream: stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
 }
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type TransactionService_MonitorTransactionStateClient = grpc.ServerStreamingClient[MonitorTransactionStateResponse]
 
 // TransactionServiceServer is the server API for TransactionService service.
 // All implementations must embed UnimplementedTransactionServiceServer
@@ -72,9 +81,9 @@ func (c *transactionServiceClient) MonitorTransactionState(ctx context.Context, 
 type TransactionServiceServer interface {
 	// Retrieves a single Transaction state by the unique identifier of the transaction
 	GetTransactionState(context.Context, *GetTransactionStateRequest) (*GetTransactionStateResponse, error)
-	// Monitor Transaction state by the unique identifier of the transaction.
-	// TODO: update rpc method to perform streaming
-	MonitorTransactionState(context.Context, *MonitorTransactionStateRequest) (*MonitorTransactionStateResponse, error)
+	// Monitor Transaction state changes by the unique identifier of the transaction.
+	// Server-side streaming method that sends state updates as the transaction progresses.
+	MonitorTransactionState(*MonitorTransactionStateRequest, grpc.ServerStreamingServer[MonitorTransactionStateResponse]) error
 	mustEmbedUnimplementedTransactionServiceServer()
 }
 
@@ -88,8 +97,8 @@ type UnimplementedTransactionServiceServer struct{}
 func (UnimplementedTransactionServiceServer) GetTransactionState(context.Context, *GetTransactionStateRequest) (*GetTransactionStateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTransactionState not implemented")
 }
-func (UnimplementedTransactionServiceServer) MonitorTransactionState(context.Context, *MonitorTransactionStateRequest) (*MonitorTransactionStateResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method MonitorTransactionState not implemented")
+func (UnimplementedTransactionServiceServer) MonitorTransactionState(*MonitorTransactionStateRequest, grpc.ServerStreamingServer[MonitorTransactionStateResponse]) error {
+	return status.Errorf(codes.Unimplemented, "method MonitorTransactionState not implemented")
 }
 func (UnimplementedTransactionServiceServer) mustEmbedUnimplementedTransactionServiceServer() {}
 func (UnimplementedTransactionServiceServer) testEmbeddedByValue()                            {}
@@ -130,23 +139,16 @@ func _TransactionService_GetTransactionState_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
-func _TransactionService_MonitorTransactionState_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MonitorTransactionStateRequest)
-	if err := dec(in); err != nil {
-		return nil, err
+func _TransactionService_MonitorTransactionState_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(MonitorTransactionStateRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
 	}
-	if interceptor == nil {
-		return srv.(TransactionServiceServer).MonitorTransactionState(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: TransactionService_MonitorTransactionState_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TransactionServiceServer).MonitorTransactionState(ctx, req.(*MonitorTransactionStateRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+	return srv.(TransactionServiceServer).MonitorTransactionState(m, &grpc.GenericServerStream[MonitorTransactionStateRequest, MonitorTransactionStateResponse]{ServerStream: stream})
 }
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type TransactionService_MonitorTransactionStateServer = grpc.ServerStreamingServer[MonitorTransactionStateResponse]
 
 // TransactionService_ServiceDesc is the grpc.ServiceDesc for TransactionService service.
 // It's only intended for direct use with grpc.RegisterService,
@@ -159,11 +161,13 @@ var TransactionService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "GetTransactionState",
 			Handler:    _TransactionService_GetTransactionState_Handler,
 		},
+	},
+	Streams: []grpc.StreamDesc{
 		{
-			MethodName: "MonitorTransactionState",
-			Handler:    _TransactionService_MonitorTransactionState_Handler,
+			StreamName:    "MonitorTransactionState",
+			Handler:       _TransactionService_MonitorTransactionState_Handler,
+			ServerStreams: true,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
 	Metadata: "meshtrade/ledger/transaction/v1/service.proto",
 }

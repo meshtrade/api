@@ -9,6 +9,11 @@ import (
 	"google.golang.org/protobuf/compiler/protogen"
 )
 
+// isServerSideStreaming returns true if the method is server-side streaming
+func isServerSideStreaming(method *protogen.Method) bool {
+	return method.Desc.IsStreamingServer() && !method.Desc.IsStreamingClient()
+}
+
 func Interface(p *protogen.Plugin, f *protogen.File, svc *protogen.Service) error {
 	// generate a new go file for the clean service interface
 	g := p.NewGeneratedFile(
@@ -44,8 +49,13 @@ func Interface(p *protogen.Plugin, f *protogen.File, svc *protogen.Service) erro
 			}
 		}
 
-		// add method
-		g.P(method.GoName, "(ctx ", generate.ContextPkg.Ident("Context"), ", request *", method.Input.GoIdent, ") (*", method.Output.GoIdent, ", error)")
+		// add method - different signature for streaming vs unary
+		if isServerSideStreaming(method) {
+			streamClientType := svc.GoName + "_" + method.GoName + "Client"
+			g.P(method.GoName, "(ctx ", generate.ContextPkg.Ident("Context"), ", request *", method.Input.GoIdent, ") (", streamClientType, ", error)")
+		} else {
+			g.P(method.GoName, "(ctx ", generate.ContextPkg.Ident("Context"), ", request *", method.Input.GoIdent, ") (*", method.Output.GoIdent, ", error)")
+		}
 
 		// add spaces between methods
 		if i != len(svc.Methods)-1 {
