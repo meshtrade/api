@@ -222,109 +222,6 @@ func (x *OpenAccountResponse) GetLedgerTransaction() string {
 	return ""
 }
 
-// Request to close an account on the blockchain.
-type CloseAccountRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// The resource name of the account to close.
-	// Format: accounts/{ULIDv2}.
-	Name          string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *CloseAccountRequest) Reset() {
-	*x = CloseAccountRequest{}
-	mi := &file_meshtrade_wallet_account_v1_service_proto_msgTypes[4]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CloseAccountRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CloseAccountRequest) ProtoMessage() {}
-
-func (x *CloseAccountRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_wallet_account_v1_service_proto_msgTypes[4]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CloseAccountRequest.ProtoReflect.Descriptor instead.
-func (*CloseAccountRequest) Descriptor() ([]byte, []int) {
-	return file_meshtrade_wallet_account_v1_service_proto_rawDescGZIP(), []int{4}
-}
-
-func (x *CloseAccountRequest) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-// Response containing the closed account and transaction details.
-type CloseAccountResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// The account after successful closure on the blockchain.
-	Account *Account `protobuf:"bytes,1,opt,name=account,proto3" json:"account,omitempty"`
-	// Transaction reference for monitoring the blockchain operation.
-	// Format: transactions/{ULIDv2}.
-	LedgerTransaction string `protobuf:"bytes,3,opt,name=ledger_transaction,json=ledgerTransaction,proto3" json:"ledger_transaction,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
-}
-
-func (x *CloseAccountResponse) Reset() {
-	*x = CloseAccountResponse{}
-	mi := &file_meshtrade_wallet_account_v1_service_proto_msgTypes[5]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CloseAccountResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CloseAccountResponse) ProtoMessage() {}
-
-func (x *CloseAccountResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_wallet_account_v1_service_proto_msgTypes[5]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CloseAccountResponse.ProtoReflect.Descriptor instead.
-func (*CloseAccountResponse) Descriptor() ([]byte, []int) {
-	return file_meshtrade_wallet_account_v1_service_proto_rawDescGZIP(), []int{5}
-}
-
-func (x *CloseAccountResponse) GetAccount() *Account {
-	if x != nil {
-		return x.Account
-	}
-	return nil
-}
-
-func (x *CloseAccountResponse) GetLedgerTransaction() string {
-	if x != nil {
-		return x.LedgerTransaction
-	}
-	return ""
-}
-
 // Request to retrieve a specific account.
 type GetAccountRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -340,7 +237,7 @@ type GetAccountRequest struct {
 
 func (x *GetAccountRequest) Reset() {
 	*x = GetAccountRequest{}
-	mi := &file_meshtrade_wallet_account_v1_service_proto_msgTypes[6]
+	mi := &file_meshtrade_wallet_account_v1_service_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -352,7 +249,7 @@ func (x *GetAccountRequest) String() string {
 func (*GetAccountRequest) ProtoMessage() {}
 
 func (x *GetAccountRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_wallet_account_v1_service_proto_msgTypes[6]
+	mi := &file_meshtrade_wallet_account_v1_service_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -365,7 +262,7 @@ func (x *GetAccountRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAccountRequest.ProtoReflect.Descriptor instead.
 func (*GetAccountRequest) Descriptor() ([]byte, []int) {
-	return file_meshtrade_wallet_account_v1_service_proto_rawDescGZIP(), []int{6}
+	return file_meshtrade_wallet_account_v1_service_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *GetAccountRequest) GetName() string {
@@ -397,7 +294,7 @@ type GetAccountByNumberRequest struct {
 
 func (x *GetAccountByNumberRequest) Reset() {
 	*x = GetAccountByNumberRequest{}
-	mi := &file_meshtrade_wallet_account_v1_service_proto_msgTypes[7]
+	mi := &file_meshtrade_wallet_account_v1_service_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -409,7 +306,7 @@ func (x *GetAccountByNumberRequest) String() string {
 func (*GetAccountByNumberRequest) ProtoMessage() {}
 
 func (x *GetAccountByNumberRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_wallet_account_v1_service_proto_msgTypes[7]
+	mi := &file_meshtrade_wallet_account_v1_service_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -422,7 +319,7 @@ func (x *GetAccountByNumberRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAccountByNumberRequest.ProtoReflect.Descriptor instead.
 func (*GetAccountByNumberRequest) Descriptor() ([]byte, []int) {
-	return file_meshtrade_wallet_account_v1_service_proto_rawDescGZIP(), []int{7}
+	return file_meshtrade_wallet_account_v1_service_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *GetAccountByNumberRequest) GetAccountNumber() string {
@@ -453,7 +350,7 @@ type ListAccountsRequest struct {
 
 func (x *ListAccountsRequest) Reset() {
 	*x = ListAccountsRequest{}
-	mi := &file_meshtrade_wallet_account_v1_service_proto_msgTypes[8]
+	mi := &file_meshtrade_wallet_account_v1_service_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -465,7 +362,7 @@ func (x *ListAccountsRequest) String() string {
 func (*ListAccountsRequest) ProtoMessage() {}
 
 func (x *ListAccountsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_wallet_account_v1_service_proto_msgTypes[8]
+	mi := &file_meshtrade_wallet_account_v1_service_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -478,7 +375,7 @@ func (x *ListAccountsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListAccountsRequest.ProtoReflect.Descriptor instead.
 func (*ListAccountsRequest) Descriptor() ([]byte, []int) {
-	return file_meshtrade_wallet_account_v1_service_proto_rawDescGZIP(), []int{8}
+	return file_meshtrade_wallet_account_v1_service_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *ListAccountsRequest) GetSorting() *ListAccountsRequest_Sorting {
@@ -506,7 +403,7 @@ type ListAccountsResponse struct {
 
 func (x *ListAccountsResponse) Reset() {
 	*x = ListAccountsResponse{}
-	mi := &file_meshtrade_wallet_account_v1_service_proto_msgTypes[9]
+	mi := &file_meshtrade_wallet_account_v1_service_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -518,7 +415,7 @@ func (x *ListAccountsResponse) String() string {
 func (*ListAccountsResponse) ProtoMessage() {}
 
 func (x *ListAccountsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_wallet_account_v1_service_proto_msgTypes[9]
+	mi := &file_meshtrade_wallet_account_v1_service_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -531,7 +428,7 @@ func (x *ListAccountsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListAccountsResponse.ProtoReflect.Descriptor instead.
 func (*ListAccountsResponse) Descriptor() ([]byte, []int) {
-	return file_meshtrade_wallet_account_v1_service_proto_rawDescGZIP(), []int{9}
+	return file_meshtrade_wallet_account_v1_service_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *ListAccountsResponse) GetAccounts() []*Account {
@@ -558,7 +455,7 @@ type SearchAccountsRequest struct {
 
 func (x *SearchAccountsRequest) Reset() {
 	*x = SearchAccountsRequest{}
-	mi := &file_meshtrade_wallet_account_v1_service_proto_msgTypes[10]
+	mi := &file_meshtrade_wallet_account_v1_service_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -570,7 +467,7 @@ func (x *SearchAccountsRequest) String() string {
 func (*SearchAccountsRequest) ProtoMessage() {}
 
 func (x *SearchAccountsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_wallet_account_v1_service_proto_msgTypes[10]
+	mi := &file_meshtrade_wallet_account_v1_service_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -583,7 +480,7 @@ func (x *SearchAccountsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SearchAccountsRequest.ProtoReflect.Descriptor instead.
 func (*SearchAccountsRequest) Descriptor() ([]byte, []int) {
-	return file_meshtrade_wallet_account_v1_service_proto_rawDescGZIP(), []int{10}
+	return file_meshtrade_wallet_account_v1_service_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *SearchAccountsRequest) GetSorting() *SearchAccountsRequest_Sorting {
@@ -618,7 +515,7 @@ type SearchAccountsResponse struct {
 
 func (x *SearchAccountsResponse) Reset() {
 	*x = SearchAccountsResponse{}
-	mi := &file_meshtrade_wallet_account_v1_service_proto_msgTypes[11]
+	mi := &file_meshtrade_wallet_account_v1_service_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -630,7 +527,7 @@ func (x *SearchAccountsResponse) String() string {
 func (*SearchAccountsResponse) ProtoMessage() {}
 
 func (x *SearchAccountsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_wallet_account_v1_service_proto_msgTypes[11]
+	mi := &file_meshtrade_wallet_account_v1_service_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -643,7 +540,7 @@ func (x *SearchAccountsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SearchAccountsResponse.ProtoReflect.Descriptor instead.
 func (*SearchAccountsResponse) Descriptor() ([]byte, []int) {
-	return file_meshtrade_wallet_account_v1_service_proto_rawDescGZIP(), []int{11}
+	return file_meshtrade_wallet_account_v1_service_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *SearchAccountsResponse) GetAccounts() []*Account {
@@ -667,7 +564,7 @@ type ListAccountsRequest_Sorting struct {
 
 func (x *ListAccountsRequest_Sorting) Reset() {
 	*x = ListAccountsRequest_Sorting{}
-	mi := &file_meshtrade_wallet_account_v1_service_proto_msgTypes[12]
+	mi := &file_meshtrade_wallet_account_v1_service_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -679,7 +576,7 @@ func (x *ListAccountsRequest_Sorting) String() string {
 func (*ListAccountsRequest_Sorting) ProtoMessage() {}
 
 func (x *ListAccountsRequest_Sorting) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_wallet_account_v1_service_proto_msgTypes[12]
+	mi := &file_meshtrade_wallet_account_v1_service_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -692,7 +589,7 @@ func (x *ListAccountsRequest_Sorting) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListAccountsRequest_Sorting.ProtoReflect.Descriptor instead.
 func (*ListAccountsRequest_Sorting) Descriptor() ([]byte, []int) {
-	return file_meshtrade_wallet_account_v1_service_proto_rawDescGZIP(), []int{8, 0}
+	return file_meshtrade_wallet_account_v1_service_proto_rawDescGZIP(), []int{6, 0}
 }
 
 func (x *ListAccountsRequest_Sorting) GetField() string {
@@ -723,7 +620,7 @@ type SearchAccountsRequest_Sorting struct {
 
 func (x *SearchAccountsRequest_Sorting) Reset() {
 	*x = SearchAccountsRequest_Sorting{}
-	mi := &file_meshtrade_wallet_account_v1_service_proto_msgTypes[13]
+	mi := &file_meshtrade_wallet_account_v1_service_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -735,7 +632,7 @@ func (x *SearchAccountsRequest_Sorting) String() string {
 func (*SearchAccountsRequest_Sorting) ProtoMessage() {}
 
 func (x *SearchAccountsRequest_Sorting) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_wallet_account_v1_service_proto_msgTypes[13]
+	mi := &file_meshtrade_wallet_account_v1_service_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -748,7 +645,7 @@ func (x *SearchAccountsRequest_Sorting) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SearchAccountsRequest_Sorting.ProtoReflect.Descriptor instead.
 func (*SearchAccountsRequest_Sorting) Descriptor() ([]byte, []int) {
-	return file_meshtrade_wallet_account_v1_service_proto_rawDescGZIP(), []int{10, 0}
+	return file_meshtrade_wallet_account_v1_service_proto_rawDescGZIP(), []int{8, 0}
 }
 
 func (x *SearchAccountsRequest_Sorting) GetField() string {
@@ -778,11 +675,6 @@ const file_meshtrade_wallet_account_v1_service_proto_rawDesc = "" +
 	"\x04name\x18\x01 \x01(\tB;\xbaH8r621^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01#R\x04name\"\x84\x01\n" +
 	"\x13OpenAccountResponse\x12>\n" +
 	"\aaccount\x18\x01 \x01(\v2$.meshtrade.wallet.account.v1.AccountR\aaccount\x12-\n" +
-	"\x12ledger_transaction\x18\x03 \x01(\tR\x11ledgerTransaction\"f\n" +
-	"\x13CloseAccountRequest\x12O\n" +
-	"\x04name\x18\x01 \x01(\tB;\xbaH8r621^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01#R\x04name\"\x85\x01\n" +
-	"\x14CloseAccountResponse\x12>\n" +
-	"\aaccount\x18\x01 \x01(\v2$.meshtrade.wallet.account.v1.AccountR\aaccount\x12-\n" +
 	"\x12ledger_transaction\x18\x03 \x01(\tR\x11ledgerTransaction\"\x96\x01\n" +
 	"\x11GetAccountRequest\x12O\n" +
 	"\x04name\x18\x01 \x01(\tB;\xbaH8r621^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01#R\x04name\x120\n" +
@@ -811,15 +703,13 @@ const file_meshtrade_wallet_account_v1_service_proto_rawDesc = "" +
 	"R\x00R\x06numberR\x05field\x125\n" +
 	"\x05order\x18\x02 \x01(\x0e2\x1f.meshtrade.type.v1.SortingOrderR\x05order\"Z\n" +
 	"\x16SearchAccountsResponse\x12@\n" +
-	"\baccounts\x18\x01 \x03(\v2$.meshtrade.wallet.account.v1.AccountR\baccounts2\xc0\b\n" +
+	"\baccounts\x18\x01 \x03(\v2$.meshtrade.wallet.account.v1.AccountR\baccounts2\xb8\a\n" +
 	"\x0eAccountService\x12z\n" +
 	"\rCreateAccount\x121.meshtrade.wallet.account.v1.CreateAccountRequest\x1a$.meshtrade.wallet.account.v1.Account\"\x10\xa0\xb5\x18\x02\xaa\xb5\x18\b\n" +
 	"\x06\xc0\x84=\u0084=\x12z\n" +
 	"\rUpdateAccount\x121.meshtrade.wallet.account.v1.UpdateAccountRequest\x1a$.meshtrade.wallet.account.v1.Account\"\x10\xa0\xb5\x18\x02\xaa\xb5\x18\b\n" +
 	"\x06\xc0\x84=\u0084=\x12\x82\x01\n" +
 	"\vOpenAccount\x12/.meshtrade.wallet.account.v1.OpenAccountRequest\x1a0.meshtrade.wallet.account.v1.OpenAccountResponse\"\x10\xa0\xb5\x18\x02\xaa\xb5\x18\b\n" +
-	"\x06\xc0\x84=\u0084=\x12\x85\x01\n" +
-	"\fCloseAccount\x120.meshtrade.wallet.account.v1.CloseAccountRequest\x1a1.meshtrade.wallet.account.v1.CloseAccountResponse\"\x10\xa0\xb5\x18\x02\xaa\xb5\x18\b\n" +
 	"\x06\xc0\x84=\u0084=\x12z\n" +
 	"\n" +
 	"GetAccount\x12..meshtrade.wallet.account.v1.GetAccountRequest\x1a$.meshtrade.wallet.account.v1.Account\"\x16\xa0\xb5\x18\x01\xaa\xb5\x18\x0e\n" +
@@ -844,57 +734,52 @@ func file_meshtrade_wallet_account_v1_service_proto_rawDescGZIP() []byte {
 	return file_meshtrade_wallet_account_v1_service_proto_rawDescData
 }
 
-var file_meshtrade_wallet_account_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
+var file_meshtrade_wallet_account_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_meshtrade_wallet_account_v1_service_proto_goTypes = []any{
 	(*CreateAccountRequest)(nil),          // 0: meshtrade.wallet.account.v1.CreateAccountRequest
 	(*UpdateAccountRequest)(nil),          // 1: meshtrade.wallet.account.v1.UpdateAccountRequest
 	(*OpenAccountRequest)(nil),            // 2: meshtrade.wallet.account.v1.OpenAccountRequest
 	(*OpenAccountResponse)(nil),           // 3: meshtrade.wallet.account.v1.OpenAccountResponse
-	(*CloseAccountRequest)(nil),           // 4: meshtrade.wallet.account.v1.CloseAccountRequest
-	(*CloseAccountResponse)(nil),          // 5: meshtrade.wallet.account.v1.CloseAccountResponse
-	(*GetAccountRequest)(nil),             // 6: meshtrade.wallet.account.v1.GetAccountRequest
-	(*GetAccountByNumberRequest)(nil),     // 7: meshtrade.wallet.account.v1.GetAccountByNumberRequest
-	(*ListAccountsRequest)(nil),           // 8: meshtrade.wallet.account.v1.ListAccountsRequest
-	(*ListAccountsResponse)(nil),          // 9: meshtrade.wallet.account.v1.ListAccountsResponse
-	(*SearchAccountsRequest)(nil),         // 10: meshtrade.wallet.account.v1.SearchAccountsRequest
-	(*SearchAccountsResponse)(nil),        // 11: meshtrade.wallet.account.v1.SearchAccountsResponse
-	(*ListAccountsRequest_Sorting)(nil),   // 12: meshtrade.wallet.account.v1.ListAccountsRequest.Sorting
-	(*SearchAccountsRequest_Sorting)(nil), // 13: meshtrade.wallet.account.v1.SearchAccountsRequest.Sorting
-	(*Account)(nil),                       // 14: meshtrade.wallet.account.v1.Account
-	(v1.SortingOrder)(0),                  // 15: meshtrade.type.v1.SortingOrder
+	(*GetAccountRequest)(nil),             // 4: meshtrade.wallet.account.v1.GetAccountRequest
+	(*GetAccountByNumberRequest)(nil),     // 5: meshtrade.wallet.account.v1.GetAccountByNumberRequest
+	(*ListAccountsRequest)(nil),           // 6: meshtrade.wallet.account.v1.ListAccountsRequest
+	(*ListAccountsResponse)(nil),          // 7: meshtrade.wallet.account.v1.ListAccountsResponse
+	(*SearchAccountsRequest)(nil),         // 8: meshtrade.wallet.account.v1.SearchAccountsRequest
+	(*SearchAccountsResponse)(nil),        // 9: meshtrade.wallet.account.v1.SearchAccountsResponse
+	(*ListAccountsRequest_Sorting)(nil),   // 10: meshtrade.wallet.account.v1.ListAccountsRequest.Sorting
+	(*SearchAccountsRequest_Sorting)(nil), // 11: meshtrade.wallet.account.v1.SearchAccountsRequest.Sorting
+	(*Account)(nil),                       // 12: meshtrade.wallet.account.v1.Account
+	(v1.SortingOrder)(0),                  // 13: meshtrade.type.v1.SortingOrder
 }
 var file_meshtrade_wallet_account_v1_service_proto_depIdxs = []int32{
-	14, // 0: meshtrade.wallet.account.v1.CreateAccountRequest.account:type_name -> meshtrade.wallet.account.v1.Account
-	14, // 1: meshtrade.wallet.account.v1.UpdateAccountRequest.account:type_name -> meshtrade.wallet.account.v1.Account
-	14, // 2: meshtrade.wallet.account.v1.OpenAccountResponse.account:type_name -> meshtrade.wallet.account.v1.Account
-	14, // 3: meshtrade.wallet.account.v1.CloseAccountResponse.account:type_name -> meshtrade.wallet.account.v1.Account
-	12, // 4: meshtrade.wallet.account.v1.ListAccountsRequest.sorting:type_name -> meshtrade.wallet.account.v1.ListAccountsRequest.Sorting
-	14, // 5: meshtrade.wallet.account.v1.ListAccountsResponse.accounts:type_name -> meshtrade.wallet.account.v1.Account
-	13, // 6: meshtrade.wallet.account.v1.SearchAccountsRequest.sorting:type_name -> meshtrade.wallet.account.v1.SearchAccountsRequest.Sorting
-	14, // 7: meshtrade.wallet.account.v1.SearchAccountsResponse.accounts:type_name -> meshtrade.wallet.account.v1.Account
-	15, // 8: meshtrade.wallet.account.v1.ListAccountsRequest.Sorting.order:type_name -> meshtrade.type.v1.SortingOrder
-	15, // 9: meshtrade.wallet.account.v1.SearchAccountsRequest.Sorting.order:type_name -> meshtrade.type.v1.SortingOrder
-	0,  // 10: meshtrade.wallet.account.v1.AccountService.CreateAccount:input_type -> meshtrade.wallet.account.v1.CreateAccountRequest
-	1,  // 11: meshtrade.wallet.account.v1.AccountService.UpdateAccount:input_type -> meshtrade.wallet.account.v1.UpdateAccountRequest
-	2,  // 12: meshtrade.wallet.account.v1.AccountService.OpenAccount:input_type -> meshtrade.wallet.account.v1.OpenAccountRequest
-	4,  // 13: meshtrade.wallet.account.v1.AccountService.CloseAccount:input_type -> meshtrade.wallet.account.v1.CloseAccountRequest
-	6,  // 14: meshtrade.wallet.account.v1.AccountService.GetAccount:input_type -> meshtrade.wallet.account.v1.GetAccountRequest
-	7,  // 15: meshtrade.wallet.account.v1.AccountService.GetAccountByNumber:input_type -> meshtrade.wallet.account.v1.GetAccountByNumberRequest
-	8,  // 16: meshtrade.wallet.account.v1.AccountService.ListAccounts:input_type -> meshtrade.wallet.account.v1.ListAccountsRequest
-	10, // 17: meshtrade.wallet.account.v1.AccountService.SearchAccounts:input_type -> meshtrade.wallet.account.v1.SearchAccountsRequest
-	14, // 18: meshtrade.wallet.account.v1.AccountService.CreateAccount:output_type -> meshtrade.wallet.account.v1.Account
-	14, // 19: meshtrade.wallet.account.v1.AccountService.UpdateAccount:output_type -> meshtrade.wallet.account.v1.Account
-	3,  // 20: meshtrade.wallet.account.v1.AccountService.OpenAccount:output_type -> meshtrade.wallet.account.v1.OpenAccountResponse
-	5,  // 21: meshtrade.wallet.account.v1.AccountService.CloseAccount:output_type -> meshtrade.wallet.account.v1.CloseAccountResponse
-	14, // 22: meshtrade.wallet.account.v1.AccountService.GetAccount:output_type -> meshtrade.wallet.account.v1.Account
-	14, // 23: meshtrade.wallet.account.v1.AccountService.GetAccountByNumber:output_type -> meshtrade.wallet.account.v1.Account
-	9,  // 24: meshtrade.wallet.account.v1.AccountService.ListAccounts:output_type -> meshtrade.wallet.account.v1.ListAccountsResponse
-	11, // 25: meshtrade.wallet.account.v1.AccountService.SearchAccounts:output_type -> meshtrade.wallet.account.v1.SearchAccountsResponse
-	18, // [18:26] is the sub-list for method output_type
-	10, // [10:18] is the sub-list for method input_type
-	10, // [10:10] is the sub-list for extension type_name
-	10, // [10:10] is the sub-list for extension extendee
-	0,  // [0:10] is the sub-list for field type_name
+	12, // 0: meshtrade.wallet.account.v1.CreateAccountRequest.account:type_name -> meshtrade.wallet.account.v1.Account
+	12, // 1: meshtrade.wallet.account.v1.UpdateAccountRequest.account:type_name -> meshtrade.wallet.account.v1.Account
+	12, // 2: meshtrade.wallet.account.v1.OpenAccountResponse.account:type_name -> meshtrade.wallet.account.v1.Account
+	10, // 3: meshtrade.wallet.account.v1.ListAccountsRequest.sorting:type_name -> meshtrade.wallet.account.v1.ListAccountsRequest.Sorting
+	12, // 4: meshtrade.wallet.account.v1.ListAccountsResponse.accounts:type_name -> meshtrade.wallet.account.v1.Account
+	11, // 5: meshtrade.wallet.account.v1.SearchAccountsRequest.sorting:type_name -> meshtrade.wallet.account.v1.SearchAccountsRequest.Sorting
+	12, // 6: meshtrade.wallet.account.v1.SearchAccountsResponse.accounts:type_name -> meshtrade.wallet.account.v1.Account
+	13, // 7: meshtrade.wallet.account.v1.ListAccountsRequest.Sorting.order:type_name -> meshtrade.type.v1.SortingOrder
+	13, // 8: meshtrade.wallet.account.v1.SearchAccountsRequest.Sorting.order:type_name -> meshtrade.type.v1.SortingOrder
+	0,  // 9: meshtrade.wallet.account.v1.AccountService.CreateAccount:input_type -> meshtrade.wallet.account.v1.CreateAccountRequest
+	1,  // 10: meshtrade.wallet.account.v1.AccountService.UpdateAccount:input_type -> meshtrade.wallet.account.v1.UpdateAccountRequest
+	2,  // 11: meshtrade.wallet.account.v1.AccountService.OpenAccount:input_type -> meshtrade.wallet.account.v1.OpenAccountRequest
+	4,  // 12: meshtrade.wallet.account.v1.AccountService.GetAccount:input_type -> meshtrade.wallet.account.v1.GetAccountRequest
+	5,  // 13: meshtrade.wallet.account.v1.AccountService.GetAccountByNumber:input_type -> meshtrade.wallet.account.v1.GetAccountByNumberRequest
+	6,  // 14: meshtrade.wallet.account.v1.AccountService.ListAccounts:input_type -> meshtrade.wallet.account.v1.ListAccountsRequest
+	8,  // 15: meshtrade.wallet.account.v1.AccountService.SearchAccounts:input_type -> meshtrade.wallet.account.v1.SearchAccountsRequest
+	12, // 16: meshtrade.wallet.account.v1.AccountService.CreateAccount:output_type -> meshtrade.wallet.account.v1.Account
+	12, // 17: meshtrade.wallet.account.v1.AccountService.UpdateAccount:output_type -> meshtrade.wallet.account.v1.Account
+	3,  // 18: meshtrade.wallet.account.v1.AccountService.OpenAccount:output_type -> meshtrade.wallet.account.v1.OpenAccountResponse
+	12, // 19: meshtrade.wallet.account.v1.AccountService.GetAccount:output_type -> meshtrade.wallet.account.v1.Account
+	12, // 20: meshtrade.wallet.account.v1.AccountService.GetAccountByNumber:output_type -> meshtrade.wallet.account.v1.Account
+	7,  // 21: meshtrade.wallet.account.v1.AccountService.ListAccounts:output_type -> meshtrade.wallet.account.v1.ListAccountsResponse
+	9,  // 22: meshtrade.wallet.account.v1.AccountService.SearchAccounts:output_type -> meshtrade.wallet.account.v1.SearchAccountsResponse
+	16, // [16:23] is the sub-list for method output_type
+	9,  // [9:16] is the sub-list for method input_type
+	9,  // [9:9] is the sub-list for extension type_name
+	9,  // [9:9] is the sub-list for extension extendee
+	0,  // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_wallet_account_v1_service_proto_init() }
@@ -909,7 +794,7 @@ func file_meshtrade_wallet_account_v1_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_meshtrade_wallet_account_v1_service_proto_rawDesc), len(file_meshtrade_wallet_account_v1_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   14,
+			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -20,8 +20,6 @@ from .account_pb2 import (
     InstrumentMetaData,
 )
 from .service_pb2 import (
-    CloseAccountRequest,
-    CloseAccountResponse,
     CreateAccountRequest,
     GetAccountByNumberRequest,
     GetAccountRequest,
@@ -69,8 +67,6 @@ __all__ = [
     "AccountState",
     "Balance",
     "ClientOptions",
-    "CloseAccountRequest",
-    "CloseAccountResponse",
     "CreateAccountRequest",
     "GetAccountByNumberRequest",
     "GetAccountRequest",

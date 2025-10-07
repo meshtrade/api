@@ -186,14 +186,6 @@ func (s *accountService) OpenAccount(ctx context.Context, request *OpenAccountRe
 	})
 }
 
-// CloseAccount executes the CloseAccount RPC method with automatic
-// client-side validation, timeout handling, distributed tracing, and authentication.
-func (s *accountService) CloseAccount(ctx context.Context, request *CloseAccountRequest) (*CloseAccountResponse, error) {
-	return grpc.Execute(s.Executor(), ctx, "CloseAccount", request, func(ctx context.Context) (*CloseAccountResponse, error) {
-		return s.GrpcClient().CloseAccount(ctx, request)
-	})
-}
-
 // GetAccount executes the GetAccount RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *accountService) GetAccount(ctx context.Context, request *GetAccountRequest) (*Account, error) {
