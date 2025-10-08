@@ -6,6 +6,19 @@ import (
 	context "context"
 )
 
+// TransactionService_MonitorTransactionStateStream is a transport-agnostic interface for server-side streaming.
+// The service implementation uses this interface to send multiple responses to the client.
+type TransactionService_MonitorTransactionStateStream interface {
+	// Send sends a MonitorTransactionStateResponse to the client.
+	// It can be called multiple times to stream responses.
+	// Returns an error if the stream is closed or the client has disconnected.
+	Send(*MonitorTransactionStateResponse) error
+
+	// Context returns the stream's context.
+	// The context is canceled when the client disconnects or the deadline expires.
+	Context() context.Context
+}
+
 // TransactionService manages Transaction lifecycle.
 type TransactionService interface {
 	// Retrieves a single Transaction state by the unique identifier of the transaction
@@ -13,7 +26,7 @@ type TransactionService interface {
 
 	// Monitor Transaction state changes by the unique identifier of the transaction.
 	// Server-side streaming method that sends state updates as the transaction progresses.
-	MonitorTransactionState(ctx context.Context, request *MonitorTransactionStateRequest) (TransactionService_MonitorTransactionStateClient, error)
+	MonitorTransactionState(ctx context.Context, request *MonitorTransactionStateRequest, stream TransactionService_MonitorTransactionStateStream) error
 }
 
 const TransactionServiceServiceProviderName = "meshtrade-ledger-transaction-v1-TransactionService"

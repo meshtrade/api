@@ -49,8 +49,44 @@ import (
 //
 // For more information on service configuration: https://meshtrade.github.io/api/docs/architecture/sdk-configuration
 type ApiUserServiceClientInterface interface {
-	ApiUserService
 	grpc.GRPCClient
+
+	// Retrieves a single API user by its unique identifier.
+	GetApiUser(ctx context.Context, request *GetApiUserRequest) (*APIUser, error)
+	// Creates a new API user with the specified configuration.
+	// The API user will be created in the authenticated group context
+	// and assigned the provided roles. The system generates a unique
+	// identifier and API key for authentication.
+	CreateApiUser(ctx context.Context, request *CreateApiUserRequest) (*APIUser, error)
+	// Assigns a role to an existing api user within the authenticated group context.
+	// The role assignment enables the api user to perform operations according
+	// to the permissions associated with that role within the group hierarchy.
+	AssignRoleToAPIUser(ctx context.Context, request *AssignRoleToAPIUserRequest) (*APIUser, error)
+	// Revokes a role from an existing API user within the authenticated group context.
+	// The role revocation removes the permissions associated with that role from
+	// the API user within the group hierarchy. The API user will no longer be able
+	// to perform operations that require the revoked role.
+	RevokeRoleFromAPIUser(ctx context.Context, request *RevokeRoleFromAPIUserRequest) (*APIUser, error)
+	// Lists all API users in the authenticated group context.
+	// Returns all API users that belong to the current group,
+	// regardless of their active/inactive state.
+	ListApiUsers(ctx context.Context, request *ListApiUsersRequest) (*ListApiUsersResponse, error)
+	// Searches API users using display name filtering.
+	// Performs substring matching on API user display names
+	// within the authenticated group context.
+	SearchApiUsers(ctx context.Context, request *SearchApiUsersRequest) (*SearchApiUsersResponse, error)
+	// Activates an API user, enabling API key authentication.
+	// Changes the API user state to active, allowing the associated
+	// API key to be used for authentication and authorization.
+	ActivateApiUser(ctx context.Context, request *ActivateApiUserRequest) (*APIUser, error)
+	// Deactivates an API user, disabling API key authentication.
+	// Changes the API user state to inactive, preventing the associated
+	// API key from being used for authentication.
+	DeactivateApiUser(ctx context.Context, request *DeactivateApiUserRequest) (*APIUser, error)
+	// Retrieves an API user using its API key hash.
+	// This method is used for authentication flows to lookup
+	// an API user based on the hash of their API key.
+	GetApiUserByKeyHash(ctx context.Context, request *GetApiUserByKeyHashRequest) (*APIUser, error)
 
 	// WithGroup returns a new client instance with a different group context
 	WithGroup(group string) ApiUserServiceClientInterface

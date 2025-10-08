@@ -49,8 +49,19 @@ import (
 //
 // For more information on service configuration: https://meshtrade.github.io/api/docs/architecture/sdk-configuration
 type ClientServiceClientInterface interface {
-	ClientService
 	grpc.GRPCClient
+
+	// CreateClient creates a single client.
+	CreateClient(ctx context.Context, request *CreateClientRequest) (*Client, error)
+	// GetClient retrieves a single client's compliance profile by its unique resource name.
+	// This allows for fetching the complete compliance details of a specific client,
+	// including all associated information like identification documents, tax residencies,
+	// and company structures.
+	GetClient(ctx context.Context, request *GetClientRequest) (*Client, error)
+	// ListClients retrieves a collection of client compliance profiles.
+	// This method is useful for fetching multiple client records at once.
+	// Note: This endpoint does not currently support pagination or filtering.
+	ListClients(ctx context.Context, request *ListClientsRequest) (*ListClientsResponse, error)
 
 	// WithGroup returns a new client instance with a different group context
 	WithGroup(group string) ClientServiceClientInterface

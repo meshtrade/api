@@ -49,8 +49,13 @@ import (
 //
 // For more information on service configuration: https://meshtrade.github.io/api/docs/architecture/sdk-configuration
 type TransactionServiceClientInterface interface {
-	TransactionService
 	grpc.GRPCClient
+
+	// Retrieves a single Transaction state by the unique identifier of the transaction
+	GetTransactionState(ctx context.Context, request *GetTransactionStateRequest) (*GetTransactionStateResponse, error)
+	// Monitor Transaction state changes by the unique identifier of the transaction.
+	// Server-side streaming method that sends state updates as the transaction progresses.
+	MonitorTransactionState(ctx context.Context, request *MonitorTransactionStateRequest) (TransactionService_MonitorTransactionStateClient, error)
 
 	// WithGroup returns a new client instance with a different group context
 	WithGroup(group string) TransactionServiceClientInterface
