@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"buf.build/go/protovalidate"
-	"github.com/meshtrade/api/go/type/v1"
+	type_v1 "github.com/meshtrade/api/go/type/v1"
 )
 
 func TestCreateAccountRequest_Validation(t *testing.T) {
@@ -166,61 +166,6 @@ func TestOpenAccountRequest_Validation(t *testing.T) {
 	}
 }
 
-func TestCloseAccountRequest_Validation(t *testing.T) {
-	v, err := protovalidate.New()
-	if err != nil {
-		t.Fatalf("failed to initialize validator: %v", err)
-	}
-
-	tests := []struct {
-		name    string
-		request *CloseAccountRequest
-		wantErr bool
-		errMsg  string
-	}{
-		{
-			name: "valid close account request",
-			request: &CloseAccountRequest{
-				Name: "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-			},
-			wantErr: false,
-		},
-		{
-			name: "invalid name format - wrong length",
-			request: &CloseAccountRequest{
-				Name: "accounts/01ARZ3NDEKTSV4RRFFQ69G5FA", // Too short by 1 char
-			},
-			wantErr: true,
-			errMsg:  "name",
-		},
-		{
-			name: "invalid name format - wrong pattern",
-			request: &CloseAccountRequest{
-				Name: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Wrong resource type
-			},
-			wantErr: true,
-			errMsg:  "name",
-		},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			err := v.Validate(tt.request)
-			if tt.wantErr {
-				if err == nil {
-					t.Errorf("expected validation error but got none")
-				} else if tt.errMsg != "" && !containsError(err.Error(), tt.errMsg) {
-					t.Errorf("expected error containing %q, got %q", tt.errMsg, err.Error())
-				}
-			} else {
-				if err != nil {
-					t.Errorf("unexpected validation error: %v", err)
-				}
-			}
-		})
-	}
-}
-
 func TestGetAccountRequest_Validation(t *testing.T) {
 	v, err := protovalidate.New()
 	if err != nil {
@@ -236,7 +181,7 @@ func TestGetAccountRequest_Validation(t *testing.T) {
 		{
 			name: "valid get account request",
 			request: &GetAccountRequest{
-				Name:                "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Name:               "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				PopulateLedgerData: true,
 			},
 			wantErr: false,
@@ -244,7 +189,7 @@ func TestGetAccountRequest_Validation(t *testing.T) {
 		{
 			name: "valid get account request without ledger data",
 			request: &GetAccountRequest{
-				Name:                "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Name:               "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				PopulateLedgerData: false,
 			},
 			wantErr: false,
@@ -540,56 +485,8 @@ func TestOpenAccountResponse_Validation(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "empty open account response",
+			name:     "empty open account response",
 			response: &OpenAccountResponse{},
-			wantErr:  false, // No validation constraints on response
-		},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			err := v.Validate(tt.response)
-			if tt.wantErr {
-				if err == nil {
-					t.Errorf("expected validation error but got none")
-				}
-			} else {
-				if err != nil {
-					t.Errorf("unexpected validation error: %v", err)
-				}
-			}
-		})
-	}
-}
-
-func TestCloseAccountResponse_Validation(t *testing.T) {
-	v, err := protovalidate.New()
-	if err != nil {
-		t.Fatalf("failed to initialize validator: %v", err)
-	}
-
-	tests := []struct {
-		name     string
-		response *CloseAccountResponse
-		wantErr  bool
-	}{
-		{
-			name: "valid close account response",
-			response: &CloseAccountResponse{
-				Account: &Account{
-					Name:        "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-					Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-					Ledger:      type_v1.Ledger_LEDGER_STELLAR,
-					DisplayName: "Closed Account",
-					State:       AccountState_ACCOUNT_STATE_CLOSED,
-				},
-				LedgerTransaction: "transactions/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-			},
-			wantErr: false,
-		},
-		{
-			name: "empty close account response",
-			response: &CloseAccountResponse{},
 			wantErr:  false, // No validation constraints on response
 		},
 	}
@@ -709,4 +606,3 @@ func TestSearchAccountsResponse_Validation(t *testing.T) {
 		})
 	}
 }
-

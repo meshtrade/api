@@ -49,8 +49,9 @@ import (
 //
 // For more information on service configuration: https://meshtrade.github.io/api/docs/architecture/sdk-configuration
 type LimitOrderServiceClientInterface interface {
-	LimitOrderService
 	grpc.GRPCClient
+
+	GetLimitOrder(ctx context.Context, request *GetLimitOrderRequest) (*LimitOrder, error)
 
 	// WithGroup returns a new client instance with a different group context
 	WithGroup(group string) LimitOrderServiceClientInterface

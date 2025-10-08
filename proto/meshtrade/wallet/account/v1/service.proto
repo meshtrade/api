@@ -76,23 +76,6 @@ service AccountService {
   }
 
   /*
-     Closes an account on the blockchain ledger.
-
-     Deactivates the account on-chain, preventing further transactions.
-     The account record remains queryable for historical purposes.
-     Returns the closed account and a transaction reference.
-  */
-  rpc CloseAccount(CloseAccountRequest) returns (CloseAccountResponse) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
-    option (meshtrade.iam.role.v1.roles) = {
-      roles: [
-        ROLE_WALLET_ADMIN,
-        ROLE_WALLET_ACCOUNT_ADMIN
-      ]
-    };
-  }
-
-  /*
      Retrieves a specific account by its resource identifier.
 
      Provides access to account metadata and optionally fetches live
@@ -210,38 +193,6 @@ message OpenAccountRequest {
 message OpenAccountResponse {
   /*
      The account after successful opening on the blockchain.
-  */
-  meshtrade.wallet.account.v1.Account account = 1;
-
-  /*
-     Transaction reference for monitoring the blockchain operation.
-     Format: transactions/{ULIDv2}.
-  */
-  string ledger_transaction = 3;
-}
-
-/*
-   Request to close an account on the blockchain.
-*/
-message CloseAccountRequest {
-  /*
-     The resource name of the account to close.
-     Format: accounts/{ULIDv2}.
-  */
-  string name = 1 [(buf.validate.field) = {
-    string: {
-      len: 35,
-      pattern: "^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
-    }
-  }];
-}
-
-/*
-   Response containing the closed account and transaction details.
-*/
-message CloseAccountResponse {
-  /*
-     The account after successful closure on the blockchain.
   */
   meshtrade.wallet.account.v1.Account account = 1;
 

@@ -49,8 +49,28 @@ import (
 //
 // For more information on service configuration: https://meshtrade.github.io/api/docs/architecture/sdk-configuration
 type GroupServiceClientInterface interface {
-	GroupService
 	grpc.GRPCClient
+
+	// Creates a new child group within the authenticated group's hierarchy.
+	// The new group inherits access from its parent and becomes part of the
+	// organizational structure. Group ownership must match the executing context.
+	CreateGroup(ctx context.Context, request *CreateGroupRequest) (*Group, error)
+	// Updates an existing group's display name and description metadata.
+	// Only mutable fields can be modified while preserving the group's
+	// identity and ownership within the hierarchy.
+	UpdateGroup(ctx context.Context, request *UpdateGroupRequest) (*Group, error)
+	// Retrieves all groups within the authenticated group's hierarchical scope.
+	// Returns the complete organizational structure accessible to the executing
+	// context, including the root group and all descendant groups.
+	ListGroups(ctx context.Context, request *ListGroupsRequest) (*ListGroupsResponse, error)
+	// Searches groups using flexible text criteria within the hierarchy.
+	// Performs case-insensitive substring matching on display names and
+	// descriptions using OR logic across search terms.
+	SearchGroups(ctx context.Context, request *SearchGroupsRequest) (*SearchGroupsResponse, error)
+	// Retrieves a specific group by its resource identifier within the hierarchy.
+	// Provides access to a single group's complete metadata and organizational
+	// context if accessible within the executing group's scope.
+	GetGroup(ctx context.Context, request *GetGroupRequest) (*Group, error)
 
 	// WithGroup returns a new client instance with a different group context
 	WithGroup(group string) GroupServiceClientInterface

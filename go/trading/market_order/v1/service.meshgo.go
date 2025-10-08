@@ -49,8 +49,9 @@ import (
 //
 // For more information on service configuration: https://meshtrade.github.io/api/docs/architecture/sdk-configuration
 type MarketOrderServiceClientInterface interface {
-	MarketOrderService
 	grpc.GRPCClient
+
+	GetMarketOrder(ctx context.Context, request *GetMarketOrderRequest) (*MarketOrder, error)
 
 	// WithGroup returns a new client instance with a different group context
 	WithGroup(group string) MarketOrderServiceClientInterface

@@ -91,8 +91,34 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 	g.P("//")
 	g.P("// For more information on service configuration: https://meshtrade.github.io/api/docs/architecture/sdk-configuration")
 	g.P("type ", clientInterfaceName, " interface {")
-	g.P("\t", svc.GoName)
 	g.P("\t", generate.GRPCClientPkg.Ident("GRPCClient"))
+	g.P("\t")
+
+	// Generate method signatures explicitly for client interface
+	// Streaming methods return streams (client usage), not accept them (server usage)
+	for _, method := range svc.Methods {
+		// Add method comments with proper formatting
+		// Comments.String() returns lines with "//" prefix but may not have space after it
+		if len(method.Comments.Leading) > 0 {
+			for _, comment := range strings.Split(strings.TrimSpace(method.Comments.Leading.String()), "\n") {
+				// Remove the "//" prefix, trim whitespace, then re-add "// " with proper spacing
+				commentText := strings.TrimSpace(strings.TrimPrefix(strings.TrimSpace(comment), "//"))
+				if commentText != "" {
+					g.P("\t// ", commentText)
+				}
+			}
+		}
+
+		if isServerSideStreaming(method) {
+			// Client streaming method: returns stream for receiving responses
+			streamClientType := svc.GoName + "_" + method.GoName + "Client"
+			g.P("\t", method.GoName, "(ctx ", generate.ContextPkg.Ident("Context"), ", request *", method.Input.GoIdent, ") (", streamClientType, ", error)")
+		} else {
+			// Unary method: same signature as service interface
+			g.P("\t", method.GoName, "(ctx ", generate.ContextPkg.Ident("Context"), ", request *", method.Input.GoIdent, ") (*", method.Output.GoIdent, ", error)")
+		}
+	}
+
 	g.P("\t")
 	g.P("\t// WithGroup returns a new client instance with a different group context")
 	g.P("\tWithGroup(group string) ", clientInterfaceName)

@@ -49,8 +49,35 @@ import (
 //
 // For more information on service configuration: https://meshtrade.github.io/api/docs/architecture/sdk-configuration
 type UserServiceClientInterface interface {
-	UserService
 	grpc.GRPCClient
+
+	// Assigns a role to an existing user within the authenticated group context.
+	// The role assignment enables the user to perform operations according
+	// to the permissions associated with that role within the group hierarchy.
+	AssignRoleToUser(ctx context.Context, request *AssignRoleToUserRequest) (*User, error)
+	// Retrieves a single user by its unique identifier.
+	// Returns user details including name, email, ownership information,
+	// and assigned roles within the authenticated group's access scope.
+	GetUser(ctx context.Context, request *GetUserRequest) (*User, error)
+	// Returns all users accessible within the authenticated group's hierarchy.
+	// Results include users directly owned and those accessible through the
+	// group's hierarchical permissions, optionally sorted by email address.
+	ListUsers(ctx context.Context, request *ListUsersRequest) (*ListUsersResponse, error)
+	// Searches for users by email address using substring matching.
+	// Returns users whose email addresses contain the provided search term,
+	// filtered by the authenticated group's access permissions and optionally
+	// sorted by email address.
+	SearchUsers(ctx context.Context, request *SearchUsersRequest) (*SearchUsersResponse, error)
+	// Creates a new user within the authenticated group context.
+	// The user will be created with the provided email and group ownership,
+	// with system-generated unique identifier and ownership hierarchy.
+	// Additional roles can be assigned after creation.
+	CreateUser(ctx context.Context, request *CreateUserRequest) (*User, error)
+	// Updates an existing user with modified field values.
+	// Only mutable fields can be updated while preserving system-generated
+	// identifiers and ownership relationships. Role modifications should
+	// use dedicated role management operations.
+	UpdateUser(ctx context.Context, request *UpdateUserRequest) (*User, error)
 
 	// WithGroup returns a new client instance with a different group context
 	WithGroup(group string) UserServiceClientInterface

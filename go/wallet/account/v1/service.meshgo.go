@@ -49,8 +49,38 @@ import (
 //
 // For more information on service configuration: https://meshtrade.github.io/api/docs/architecture/sdk-configuration
 type AccountServiceClientInterface interface {
-	AccountService
 	grpc.GRPCClient
+
+	// Creates a new account record in the system (off-chain).
+	// The account is created in a pending state and must be explicitly opened
+	// on the blockchain using OpenAccount before it can receive funds or execute
+	// transactions. Account ownership must match the executing context.
+	CreateAccount(ctx context.Context, request *CreateAccountRequest) (*Account, error)
+	// Updates an existing account's mutable metadata.
+	// Only the display_name field can be modified. All other fields including
+	// ownership, ledger, and account number are immutable after creation.
+	UpdateAccount(ctx context.Context, request *UpdateAccountRequest) (*Account, error)
+	// Opens an account on the blockchain ledger.
+	// Initializes the account on-chain, making it ready to receive deposits
+	// and execute transactions. Returns the opened account and a transaction
+	// reference for monitoring the blockchain operation.
+	OpenAccount(ctx context.Context, request *OpenAccountRequest) (*OpenAccountResponse, error)
+	// Retrieves a specific account by its resource identifier.
+	// Provides access to account metadata and optionally fetches live
+	// balance data from the blockchain when populate_ledger_data is true.
+	GetAccount(ctx context.Context, request *GetAccountRequest) (*Account, error)
+	// Retrieves an account using its Account Number.
+	// Provides a convenient lookup method using the 7-digit account number.
+	// Optionally fetches live balance data when populate_ledger_data is true.
+	GetAccountByNumber(ctx context.Context, request *GetAccountByNumberRequest) (*Account, error)
+	// Lists all accounts within the authenticated group's hierarchical scope.
+	// Returns the complete set of accounts accessible to the executing context,
+	// including accounts owned by the group and all descendant groups.
+	ListAccounts(ctx context.Context, request *ListAccountsRequest) (*ListAccountsResponse, error)
+	// Searches accounts using flexible text criteria within the hierarchy.
+	// Performs case-insensitive substring matching on display names,
+	// returning accounts that match the search criteria.
+	SearchAccounts(ctx context.Context, request *SearchAccountsRequest) (*SearchAccountsResponse, error)
 
 	// WithGroup returns a new client instance with a different group context
 	WithGroup(group string) AccountServiceClientInterface
@@ -183,14 +213,6 @@ func (s *accountService) UpdateAccount(ctx context.Context, request *UpdateAccou
 func (s *accountService) OpenAccount(ctx context.Context, request *OpenAccountRequest) (*OpenAccountResponse, error) {
 	return grpc.Execute(s.Executor(), ctx, "OpenAccount", request, func(ctx context.Context) (*OpenAccountResponse, error) {
 		return s.GrpcClient().OpenAccount(ctx, request)
-	})
-}
-
-// CloseAccount executes the CloseAccount RPC method with automatic
-// client-side validation, timeout handling, distributed tracing, and authentication.
-func (s *accountService) CloseAccount(ctx context.Context, request *CloseAccountRequest) (*CloseAccountResponse, error) {
-	return grpc.Execute(s.Executor(), ctx, "CloseAccount", request, func(ctx context.Context) (*CloseAccountResponse, error) {
-		return s.GrpcClient().CloseAccount(ctx, request)
 	})
 }
 

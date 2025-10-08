@@ -49,8 +49,16 @@ import (
 //
 // For more information on service configuration: https://meshtrade.github.io/api/docs/architecture/sdk-configuration
 type AccountReportServiceClientInterface interface {
-	AccountReportService
 	grpc.GRPCClient
+
+	// Retrieves a structured account report.
+	// Generates a detailed report for the given account and time range, with all
+	// values denominated in the specified reporting asset token.
+	GetAccountReport(ctx context.Context, request *GetAccountReportRequest) (*AccountReport, error)
+	// Exports an account report as a downloadable Excel file.
+	// Generates the same report as GetAccountReport but returns it as a
+	// base64-encoded string representing an Excel (.xlsx) file.
+	GetExcelAccountReport(ctx context.Context, request *GetExcelAccountReportRequest) (*GetExcelAccountReportResponse, error)
 
 	// WithGroup returns a new client instance with a different group context
 	WithGroup(group string) AccountReportServiceClientInterface
