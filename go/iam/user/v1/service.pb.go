@@ -517,10 +517,10 @@ var File_meshtrade_iam_user_v1_service_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_user_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"#meshtrade/iam/user/v1/service.proto\x12\x15meshtrade.iam.user.v1\x1a\x1bbuf/validate/validate.proto\x1a meshtrade/iam/role/v1/role.proto\x1a meshtrade/iam/user/v1/user.proto\x1a%meshtrade/option/v1/method_type.proto\x1a\x1fmeshtrade/type/v1/sorting.proto\"\xc3\x01\n" +
+	"#meshtrade/iam/user/v1/service.proto\x12\x15meshtrade.iam.user.v1\x1a\x1bbuf/validate/validate.proto\x1a meshtrade/iam/role/v1/role.proto\x1a meshtrade/iam/user/v1/user.proto\x1a%meshtrade/option/v1/method_type.proto\x1a\x1fmeshtrade/type/v1/sorting.proto\"\xc7\x01\n" +
 	"\x17AssignRoleToUserRequest\x12L\n" +
-	"\x04name\x18\x01 \x01(\tB8\xbaH5r32.^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01 R\x04name\x12Z\n" +
-	"\x04role\x18\x04 \x01(\tBF\xbaHC\xc8\x01\x01r>29^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/1[0-9]{6}$\x98\x01)R\x04role\"a\n" +
+	"\x04name\x18\x01 \x01(\tB8\xbaH5r32.^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01 R\x04name\x12^\n" +
+	"\x04role\x18\x04 \x01(\tBJ\xbaHG\xc8\x01\x01rB2=^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/[1-9][0-9]{6}$\x98\x01)R\x04role\"a\n" +
 	"\x0eGetUserRequest\x12O\n" +
 	"\x04name\x18\x01 \x01(\tB;\xbaH8\xc8\x01\x01r32.^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01 R\x04name\"\x94\x02\n" +
 	"\x10ListUsersRequest\x12I\n" +

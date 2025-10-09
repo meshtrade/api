@@ -164,13 +164,12 @@ func TestAssignRoleToUserRequest_Validation(t *testing.T) {
 			wantError: "pattern",
 		},
 		{
-			name: "invalid role format - wrong role ID format (not starting with 1)",
+			name: "valid role format - role ID starting with 2",
 			request: &AssignRoleToUserRequest{
 				Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/2234567", // Starts with 2, 41 chars
+				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/2234567", // Starts with 2, valid under new pattern [1-9][0-9]{6}
 			},
-			wantValid: false,
-			wantError: "pattern",
+			wantValid: true,
 		},
 		{
 			name: "invalid role format - wrong role ID format (non-numeric)",
@@ -326,7 +325,6 @@ func TestAssignRoleToUserRequest_RoleFieldValidation(t *testing.T) {
 		"groups/01arz3ndektsv4rrffq69g5fav/1234567",   // Lowercase not allowed
 		"groups/01ARZ3NDEKTSV4RRFFQ69G5FA/1234567",    // Group too short (40 chars total)
 		"groups/01ARZ3NDEKTSV4RRFFQ69G5FAVX/1234567",  // Too long overall (42 chars)
-		"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/2234567",   // Role ID starts with 2
 		"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/0234567",   // Role ID starts with 0
 		"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/123456A",   // Non-numeric role ID
 		"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/123456",    // Role ID too short (6 digits)

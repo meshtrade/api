@@ -2110,7 +2110,7 @@ public final class ApiUser {
     java.lang.String[] descriptorData = {
       "\n(meshtrade/iam/api_user/v1/api_user.pro" +
       "to\022\031meshtrade.iam.api_user.v1\032\033buf/valid" +
-      "ate/validate.proto\"\232\006\n\007APIUser\022\302\001\n\004name\030" +
+      "ate/validate.proto\"\227\006\n\007APIUser\022\302\001\n\004name\030" +
       "\001 \001(\tB\255\001\272H\251\001\272\001\245\001\n\024name.format.optional\0226" +
       "name must be empty or in the format api_" +
       "users/{ULIDv2}\032Usize(this) == 0 || this." +
@@ -2127,19 +2127,19 @@ public final class ApiUser {
       "\001\272\001t\n\013state.valid\022/state must be a valid" +
       " APIUserState if specified\0324int(this) ==" +
       " 0 || (int(this) >= 1 && int(this) <= 2)" +
-      "R\005state\022e\n\005roles\030\006 \003(\tBO\272HL\222\001I\"GrE2@^gro" +
+      "R\005state\022b\n\005roles\030\006 \003(\tBL\272HI\222\001F\"DrB2=^gro" +
       "ups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{2" +
-      "6}/[123456][0-9]{6}$\230\001)R\005roles\022\027\n\007api_ke" +
-      "y\030\007 \001(\tR\006apiKey*f\n\014APIUserState\022\036\n\032API_U" +
-      "SER_STATE_UNSPECIFIED\020\000\022\031\n\025API_USER_STAT" +
-      "E_ACTIVE\020\001\022\033\n\027API_USER_STATE_INACTIVE\020\002*" +
-      "\246\001\n\rAPIUserAction\022\037\n\033API_USER_ACTION_UNS" +
-      "PECIFIED\020\000\022\034\n\030API_USER_ACTION_ACTIVATE\020\001" +
-      "\022\036\n\032API_USER_ACTION_DEACTIVATE\020\002\022\032\n\026API_" +
-      "USER_ACTION_CREATE\020\003\022\032\n\026API_USER_ACTION_" +
-      "UPDATE\020\004B[\n co.meshtrade.api.iam.api_use" +
-      "r.v1Z7github.com/meshtrade/api/go/iam/ap" +
-      "i_user/v1;api_user_v1b\006proto3"
+      "6}/[1-9][0-9]{6}$\230\001)R\005roles\022\027\n\007api_key\030\007" +
+      " \001(\tR\006apiKey*f\n\014APIUserState\022\036\n\032API_USER" +
+      "_STATE_UNSPECIFIED\020\000\022\031\n\025API_USER_STATE_A" +
+      "CTIVE\020\001\022\033\n\027API_USER_STATE_INACTIVE\020\002*\246\001\n" +
+      "\rAPIUserAction\022\037\n\033API_USER_ACTION_UNSPEC" +
+      "IFIED\020\000\022\034\n\030API_USER_ACTION_ACTIVATE\020\001\022\036\n" +
+      "\032API_USER_ACTION_DEACTIVATE\020\002\022\032\n\026API_USE" +
+      "R_ACTION_CREATE\020\003\022\032\n\026API_USER_ACTION_UPD" +
+      "ATE\020\004B[\n co.meshtrade.api.iam.api_user.v" +
+      "1Z7github.com/meshtrade/api/go/iam/api_u" +
+      "ser/v1;api_user_v1b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

@@ -21,17 +21,17 @@ func TestAPIUser_ValidationUpdated(t *testing.T) {
 		{
 			name: "valid API user with all fields",
 			apiUser: &APIUser{
-				Owner:       "groups/test-group-123",
+				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				DisplayName: "Test API User",
 				State:       APIUserState_API_USER_STATE_ACTIVE,
-				Roles:       []string{"groups/test-group-123/ROLE_IAM_VIEWER"},
+				Roles:       []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/3000001"},
 			},
 			wantValid: true,
 		},
 		{
 			name: "valid API user with minimal required fields",
 			apiUser: &APIUser{
-				Owner:       "groups/test-group-123",
+				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				DisplayName: "Test API User",
 			},
 			wantValid: true,
@@ -39,7 +39,7 @@ func TestAPIUser_ValidationUpdated(t *testing.T) {
 		{
 			name: "valid API user with empty system-set fields",
 			apiUser: &APIUser{
-				Owner:       "groups/test-group-123",
+				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				DisplayName: "Test API User",
 				State:       APIUserState_API_USER_STATE_UNSPECIFIED, // System set, can be unspecified
 				Roles:       []string{},                              // Can be empty (0 roles allowed)
@@ -49,7 +49,7 @@ func TestAPIUser_ValidationUpdated(t *testing.T) {
 		{
 			name: "valid API user with no roles",
 			apiUser: &APIUser{
-				Owner:       "groups/test-group-123",
+				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				DisplayName: "Test API User",
 				Roles:       []string{}, // 0 roles allowed
 			},
@@ -62,7 +62,7 @@ func TestAPIUser_ValidationUpdated(t *testing.T) {
 				DisplayName: "Test API User",
 			},
 			wantValid: false,
-			wantError: "owner is required",
+			wantError: "required",
 		},
 		{
 			name: "invalid owner format - missing groups prefix",
@@ -71,7 +71,7 @@ func TestAPIUser_ValidationUpdated(t *testing.T) {
 				DisplayName: "Test API User",
 			},
 			wantValid: false,
-			wantError: "owner must be in format groups/{group_id}",
+			wantError: "pattern",
 		},
 		{
 			name: "invalid owner format - invalid group ID characters",
@@ -80,12 +80,12 @@ func TestAPIUser_ValidationUpdated(t *testing.T) {
 				DisplayName: "Test API User",
 			},
 			wantValid: false,
-			wantError: "group_id contains only alphanumeric characters",
+			wantError: "pattern",
 		},
 		{
-			name: "valid owner with underscores and hyphens",
+			name: "valid owner with proper ULIDv2 format",
 			apiUser: &APIUser{
-				Owner:       "groups/test_group-123",
+				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				DisplayName: "Test API User",
 			},
 			wantValid: true,
@@ -93,7 +93,7 @@ func TestAPIUser_ValidationUpdated(t *testing.T) {
 		{
 			name: "owners field accepts any values since no validation defined",
 			apiUser: &APIUser{
-				Owner:       "groups/test-group-123",
+				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				DisplayName: "Test API User",
 			},
 			wantValid: true, // No validation rules defined for owners field in proto
@@ -101,16 +101,16 @@ func TestAPIUser_ValidationUpdated(t *testing.T) {
 		{
 			name: "empty display name - should fail (required field)",
 			apiUser: &APIUser{
-				Owner:       "groups/test-group-123",
+				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				DisplayName: "",
 			},
 			wantValid: false,
-			wantError: "display name is required",
+			wantError: "required",
 		},
 		{
 			name: "display name too long",
 			apiUser: &APIUser{
-				Owner:       "groups/test-group-123",
+				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				DisplayName: string(make([]byte, 256)), // 256 characters
 			},
 			wantValid: false,
@@ -119,7 +119,7 @@ func TestAPIUser_ValidationUpdated(t *testing.T) {
 		{
 			name: "valid state when specified",
 			apiUser: &APIUser{
-				Owner:       "groups/test-group-123",
+				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				DisplayName: "Test API User",
 				State:       APIUserState_API_USER_STATE_ACTIVE,
 			},
@@ -128,7 +128,7 @@ func TestAPIUser_ValidationUpdated(t *testing.T) {
 		{
 			name: "valid unspecified state (system can set this)",
 			apiUser: &APIUser{
-				Owner:       "groups/test-group-123",
+				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				DisplayName: "Test API User",
 				State:       APIUserState_API_USER_STATE_UNSPECIFIED,
 			},
@@ -137,20 +137,21 @@ func TestAPIUser_ValidationUpdated(t *testing.T) {
 		{
 			name: "multiple valid roles",
 			apiUser: &APIUser{
-				Owner:       "groups/test-group-123",
+				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				DisplayName: "Test API User",
-				Roles:       []string{"groups/test-group-123/ROLE_IAM_VIEWER", "groups/test-group-123/ROLE_IAM_ADMIN"},
+				Roles:       []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/3000001", "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/3000000"},
 			},
 			wantValid: true,
 		},
 		{
 			name: "invalid role format when roles provided",
 			apiUser: &APIUser{
-				Owner:       "groups/test-group-123",
+				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				DisplayName: "Test API User",
-				Roles:       []string{"invalid-role-format"}, // Invalid role format
+				Roles:       []string{"invalid-role-format"},
 			},
-			wantValid: true, // Currently no validation on role format in proto
+			wantValid: false, // Role validation is enforced
+			wantError: "pattern",
 		},
 	}
 
@@ -174,29 +175,21 @@ func TestAPIUser_ValidationOwnerFormatsUpdated(t *testing.T) {
 	validator, err := protovalidate.New()
 	require.NoError(t, err)
 
+	// Valid ULIDv2 formats
 	validOwnerFormats := []string{
-		"groups/a",                    // single character
-		"groups/abc123",               // alphanumeric
-		"groups/test-group-123",       // with hyphens
-		"groups/test_group_123",       // with underscores
-		"groups/group-with_mixed-123", // mixed separators
-		"groups/ABC123",               // uppercase
-		"groups/a1b2c3",               // mixed case
+		"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Standard ULIDv2
+		"groups/01BX5ZZKBKACTAV9WEVGEMMVRZ", // Another valid ULIDv2
 	}
 
+	// Invalid owner formats
 	invalidOwnerFormats := []string{
-		"",                // empty (required field)
-		"groups/",         // missing group ID
-		"groups/-invalid", // starts with hyphen
-		"groups/invalid-", // ends with hyphen
-		"groups/_invalid", // starts with underscore
-		"groups/invalid_", // ends with underscore
-		"groups/inv@lid",  // invalid character @
-		"groups/inv!lid",  // invalid character !
-		"groups/inv lid",  // space
-		"groups/inv.lid",  // dot
-		"group/test",      // wrong prefix
-		"test-group-123",  // no prefix
+		"",                                    // empty (required field)
+		"groups/",                             // missing group ID
+		"groups/01ARZ3NDEKTSV4RRFFQ69G5FIL",  // Contains 'I' and 'L' (invalid in ULIDv2)
+		"groups/01ARZ3NDEKTSV4RRFFQ69G5FA",   // Too short (25 chars instead of 26)
+		"groups/01ARZ3NDEKTSV4RRFFQ69G5FAVX", // Too long (27 chars instead of 26)
+		"group/01ARZ3NDEKTSV4RRFFQ69G5FAV",   // Wrong prefix (missing 's')
+		"test-group-123",                      // No prefix
 	}
 
 	// Test valid formats
@@ -233,7 +226,7 @@ func TestAPIUser_SystemSetFieldsOptional(t *testing.T) {
 	t.Run("all system-set fields can be empty/unspecified", func(t *testing.T) {
 		apiUser := &APIUser{
 			// Only required fields
-			Owner:       "groups/test-group-123",
+			Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 			DisplayName: "Test API User",
 
 			// System-set fields can be empty/unspecified
@@ -249,7 +242,7 @@ func TestAPIUser_SystemSetFieldsOptional(t *testing.T) {
 
 	t.Run("system-set fields are validated when present", func(t *testing.T) {
 		apiUser := &APIUser{
-			Owner:       "groups/test-group-123",
+			Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 			DisplayName: "Test API User",
 		}
 
