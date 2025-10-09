@@ -148,7 +148,7 @@ message AssignRoleToUserRequest {
     required: true,
     string: {
       len: 41,
-      pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/1[0-9]{6}$"
+      pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/[1-9][0-9]{6}$"
     }
   }];  
 }

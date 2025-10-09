@@ -568,13 +568,13 @@ func TestAssignRoleToAPIUserRequest_Validation(t *testing.T) {
 		},
 		// name field tests
 		{
-			name: "empty name - should fail due to length validation",
+			name: "empty name - should fail (required field)",
 			request: &AssignRoleToAPIUserRequest{
 				Name: "",
 				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567",
 			},
-			wantValid: false, // Empty string fails length validation (expects exactly 36 chars)
-			wantError: "len",
+			wantValid: false,
+			wantError: "required",
 		},
 		{
 			name: "invalid name format - users prefix (wrong resource type)",
@@ -650,13 +650,12 @@ func TestAssignRoleToAPIUserRequest_Validation(t *testing.T) {
 			wantError: "len",
 		},
 		{
-			name: "invalid role format - role_id doesn't start with 1",
+			name: "valid role format - role_id starts with 2",
 			request: &AssignRoleToAPIUserRequest{
 				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Corrected to api_users/
-				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/2234567", // Must start with 1
+				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/2234567", // Valid under new pattern [1-9][0-9]{6}
 			},
-			wantValid: false,
-			wantError: "pattern",
+			wantValid: true,
 		},
 		{
 			name: "invalid role format - role_id contains letters",

@@ -143,18 +143,18 @@ func TestUser_Validation(t *testing.T) {
 			wantValid: true,
 		},
 		{
-			name: "invalid owners item - wrong format",
+			name: "invalid owner - wrong format",
 			user: &User{
-				Owner: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Owner: "group/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Missing 's' in 'groups'
 				Email: "test@example.com",
 			},
 			wantValid: false,
 			wantError: "pattern",
 		},
 		{
-			name: "invalid owners item - wrong length",
+			name: "invalid owner - wrong length",
 			user: &User{
-				Owner: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Owner: "groups/01ARZ3NDEKTSV4RRFFQ69G5FA", // 32 chars instead of 33
 				Email: "test@example.com",
 			},
 			wantValid: false,
