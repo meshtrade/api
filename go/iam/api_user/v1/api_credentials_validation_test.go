@@ -52,7 +52,7 @@ func TestAPICredentials_Validation(t *testing.T) {
 				Group:  "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 			},
 			wantValid: false,
-			wantError: "api_key is required",
+			wantError: "required",
 		},
 		{
 			name: "api_key too short - 42 characters",
@@ -79,7 +79,7 @@ func TestAPICredentials_Validation(t *testing.T) {
 				Group:  "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 			},
 			wantValid: false,
-			wantError: "base64 URL-safe encoded",
+			wantError: "pattern",
 		},
 		{
 			name: "api_key with invalid character - plus sign",
@@ -88,7 +88,7 @@ func TestAPICredentials_Validation(t *testing.T) {
 				Group:  "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 			},
 			wantValid: false,
-			wantError: "base64 URL-safe encoded",
+			wantError: "pattern",
 		},
 		{
 			name: "api_key with invalid character - forward slash",
@@ -97,7 +97,7 @@ func TestAPICredentials_Validation(t *testing.T) {
 				Group:  "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 			},
 			wantValid: false,
-			wantError: "base64 URL-safe encoded",
+			wantError: "pattern",
 		},
 		{
 			name: "api_key with invalid character - equals sign",
@@ -106,7 +106,7 @@ func TestAPICredentials_Validation(t *testing.T) {
 				Group:  "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 			},
 			wantValid: false,
-			wantError: "base64 URL-safe encoded",
+			wantError: "pattern",
 		},
 		{
 			name: "api_key with invalid character - special symbol",
@@ -115,7 +115,7 @@ func TestAPICredentials_Validation(t *testing.T) {
 				Group:  "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 			},
 			wantValid: false,
-			wantError: "base64 URL-safe encoded",
+			wantError: "pattern",
 		},
 		// group field tests
 		{

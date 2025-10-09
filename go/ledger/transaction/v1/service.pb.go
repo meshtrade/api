@@ -210,7 +210,7 @@ const file_meshtrade_ledger_transaction_v1_service_proto_rawDesc = "" +
 	"\n" +
 	"-meshtrade/ledger/transaction/v1/service.proto\x12\x1fmeshtrade.ledger.transaction.v1\x1a\x1bbuf/validate/validate.proto\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\x1a7meshtrade/ledger/transaction/v1/transaction_state.proto\"t\n" +
 	"\x1aGetTransactionStateRequest\x12V\n" +
-	"\x04name\x18\x01 \x01(\tBB\xbaH?\xc8\x01\x01r:25^transactions/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01$R\x04name\"f\n" +
+	"\x04name\x18\x01 \x01(\tBB\xbaH?\xc8\x01\x01r:25^transactions/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01'R\x04name\"f\n" +
 	"\x1bGetTransactionStateResponse\x12G\n" +
 	"\x05state\x18\x01 \x01(\x0e21.meshtrade.ledger.transaction.v1.TransactionStateR\x05state\"x\n" +
 	"\x1eMonitorTransactionStateRequest\x12V\n" +

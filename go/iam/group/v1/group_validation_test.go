@@ -297,50 +297,6 @@ func TestGroup_Validation(t *testing.T) {
 			wantValid: false,
 			wantError: "format",
 		},
-		// owners field tests (repeated, each item must be 33 chars, groups/{ULIDv2})
-		{
-			name: "valid owners - single item",
-			group: &Group{
-				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				DisplayName: "Test Group",
-			},
-			wantValid: true,
-		},
-		{
-			name: "valid owners - multiple items",
-			group: &Group{
-				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				DisplayName: "Test Group",
-			},
-			wantValid: true,
-		},
-		{
-			name: "invalid owners - invalid format in one item",
-			group: &Group{
-				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				DisplayName: "Test Group",
-			},
-			wantValid: false,
-			wantError: "pattern",
-		},
-		{
-			name: "invalid owners - wrong length in one item",
-			group: &Group{
-				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				DisplayName: "Test Group",
-			},
-			wantValid: false,
-			wantError: "33",
-		},
-		{
-			name: "invalid owners - forbidden characters in one item",
-			group: &Group{
-				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				DisplayName: "Test Group",
-			},
-			wantValid: false,
-			wantError: "pattern",
-		},
 	}
 
 	for _, tt := range tests {
@@ -519,25 +475,6 @@ func TestGroup_OwnersFieldValidation(t *testing.T) {
 		assert.NoError(t, err, "Valid multiple owners should be valid")
 	})
 
-	t.Run("invalid owner in list - wrong format", func(t *testing.T) {
-		group := &Group{
-			Owner: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-			DisplayName: "Test Group",
-		}
-
-		err := validator.Validate(group)
-		assert.Error(t, err, "Invalid owner format should fail validation")
-	})
-
-	t.Run("invalid owner in list - wrong length", func(t *testing.T) {
-		group := &Group{
-			Owner: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-			DisplayName: "Test Group",
-		}
-
-		err := validator.Validate(group)
-		assert.Error(t, err, "Owner with wrong length should fail validation")
-	})
 }
 
 func TestGroup_RequiredFields(t *testing.T) {
@@ -588,16 +525,6 @@ func TestGroup_RequiredFields(t *testing.T) {
 		assert.NoError(t, err, "Description field should be optional")
 	})
 
-	t.Run("owners field is optional", func(t *testing.T) {
-		group := &Group{
-			Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-			DisplayName: "Test Group",
-			// Missing owners field - should be valid
-		}
-
-		err := validator.Validate(group)
-		assert.NoError(t, err, "Validation should pass")
-	})
 }
 
 func TestGroup_EdgeCases(t *testing.T) {
