@@ -72,7 +72,7 @@ message MonitorTransactionStateRequest {
   string name = 1 [(buf.validate.field) = {
     required: true,
     string: {
-      len: 36,
+      len: 39,
       pattern: "^transactions/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
