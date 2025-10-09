@@ -137,14 +137,14 @@ func TestGetApiUserByKeyHashRequest_Validation(t *testing.T) {
 		{
 			name: "valid request with 44-character key hash",
 			request: &GetApiUserByKeyHashRequest{
-				KeyHash: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijk1234567",
+				KeyHash: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijk123456=",
 			},
 			wantValid: true,
 		},
 		{
 			name: "valid request with different 44-character hash",
 			request: &GetApiUserByKeyHashRequest{
-				KeyHash: "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGH",
+				KeyHash: "0123456789abcdefghijklmnopqrstuvwxyzABCDEFG=",
 			},
 			wantValid: true,
 		},
@@ -174,11 +174,11 @@ func TestGetApiUserByKeyHashRequest_Validation(t *testing.T) {
 			wantError: "44",
 		},
 		{
-			name: "key_hash with special characters - should be valid",
+			name: "key_hash with base64 special characters - should be valid",
 			request: &GetApiUserByKeyHashRequest{
-				KeyHash: "ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+-={}[]", // 44 chars with special characters
+				KeyHash: "ABCDEFGHIJKLMNOPQRSTUVWXYZ+/abc012345678901=", // 44 chars with valid base64 chars
 			},
-			wantValid: true, // No pattern restriction, only length requirement
+			wantValid: true,
 		},
 	}
 
