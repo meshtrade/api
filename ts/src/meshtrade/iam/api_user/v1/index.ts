@@ -14,7 +14,6 @@
 export * from "./api_credentials_pb";
 export * from "./api_user_pb";
 export * from "./service_grpc_web_client_meshts";
-export * from "./service_grpc_web_pb";
 export * from "./service_pb";
 
 // ===================================================================

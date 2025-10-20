@@ -1,4 +1,5 @@
-import { Date as ProtoDate } from "./date_pb";
+import { DateSchema, Date as ProtoDate } from "./date_pb";
+import { create } from "@bufbuild/protobuf";
 
 /**
  * Creates a new Date protobuf message from year, month, and day values.
@@ -12,7 +13,7 @@ import { Date as ProtoDate } from "./date_pb";
  */
 export function newDate(year: number, month: number, day: number): ProtoDate {
   validateDate(year, month, day);
-  return new ProtoDate().setYear(year).setMonth(month).setDay(day);
+  return create(DateSchema, {year, month, day})
 }
 
 /**
@@ -22,10 +23,11 @@ export function newDate(year: number, month: number, day: number): ProtoDate {
  * @returns A Date protobuf message
  */
 export function newDateFromJsDate(jsDate: Date): ProtoDate {
-  return new ProtoDate()
-    .setYear(jsDate.getFullYear())
-    .setMonth(jsDate.getMonth() + 1) // JS months are 0-indexed
-    .setDay(jsDate.getDate());
+  return create(DateSchema, {
+    year: (jsDate.getFullYear()),
+    month: (jsDate.getMonth() + 1),
+    day: (jsDate.getDate()),
+  })
 }
 
 /**
@@ -42,15 +44,15 @@ export function dateToJsDate(protoDate: ProtoDate): Date {
 
   if (!isValid(protoDate)) {
     throw new Error(
-      `Invalid date: year=${protoDate.getYear()}, month=${protoDate.getMonth()}, day=${protoDate.getDay()}`
+      `Invalid date: year=${protoDate.year}, month=${protoDate.month}, day=${protoDate.day}`
     );
   }
 
   try {
     return new Date(
-      protoDate.getYear(),
-      protoDate.getMonth() - 1,
-      protoDate.getDay()
+      protoDate.year,
+      protoDate.month - 1,
+      protoDate.day
     ); // JS months are 0-indexed
   } catch (e) {
     throw new Error(`Invalid date values: ${e}`);
@@ -69,7 +71,7 @@ export function isValid(protoDate?: ProtoDate): boolean {
   }
 
   try {
-    validateDate(protoDate.getYear(), protoDate.getMonth(), protoDate.getDay());
+    validateDate(protoDate.year, protoDate.month, protoDate.day);
     return true;
   } catch {
     return false;
@@ -88,9 +90,9 @@ export function isComplete(protoDate?: ProtoDate): boolean {
     return false;
   }
   return (
-    protoDate.getYear() !== 0 &&
-    protoDate.getMonth() !== 0 &&
-    protoDate.getDay() !== 0
+    protoDate.year !== 0 &&
+    protoDate.month !== 0 &&
+    protoDate.day !== 0
   );
 }
 
@@ -106,9 +108,9 @@ export function dateToString(protoDate?: ProtoDate): string {
   }
 
   if (isValid(protoDate)) {
-    return `${protoDate.getYear().toString().padStart(4, "0")}-${protoDate.getMonth().toString().padStart(2, "0")}-${protoDate.getDay().toString().padStart(2, "0")}`;
+    return `${protoDate.year.toString().padStart(4, "0")}-${protoDate.month.toString().padStart(2, "0")}-${protoDate.day.toString().padStart(2, "0")}`;
   } else {
-    return `Date{year=${protoDate.getYear()}, month=${protoDate.getMonth()}, day=${protoDate.getDay()}} [INVALID]`;
+    return `Date{year=${protoDate.year}, month=${protoDate.month}, day=${protoDate.day}} [INVALID]`;
   }
 }
 

@@ -1,9 +1,10 @@
 import { BigNumber } from "bignumber.js";
-import { Token } from "./token_pb";
+import { Token, TokenSchema } from "./token_pb";
 import { Decimal } from "./decimal_pb";
 import { Amount } from "./amount_pb";
 import { newAmountOfToken } from "./amount";
 import { Ledger } from "./ledger_pb";
+import { create } from "@bufbuild/protobuf";
 
 /**
  * Class representing a wrapper around a Amount.
@@ -24,14 +25,15 @@ export class TokenWrapper {
    * @param {Token} [token] - The token to be wrapped. Must be defined.
    */
   constructor(token?: Token) {
-    this._token = new Token()
-      .setCode(token?.getCode() ?? "")
-      .setIssuer(token?.getIssuer() ?? "")
-      .setLedger(token?.getLedger() ?? Ledger.LEDGER_UNSPECIFIED);
+    this._token = create(TokenSchema, {
+      code: token?.code,
+      issuer: token?.issuer,
+      ledger: token?.ledger ?? Ledger.UNSPECIFIED,
+    })
   }
 
   get code(): string {
-    return this._token.getCode();
+    return this._token.code;
   }
 
   getCode() {
@@ -39,7 +41,7 @@ export class TokenWrapper {
   }
 
   get issuer(): string {
-    return this._token.getIssuer();
+    return this._token.issuer;
   }
 
   getIssuer() {
@@ -47,7 +49,7 @@ export class TokenWrapper {
   }
 
   get ledger(): Ledger {
-    return this._token.getLedger();
+    return this._token.ledger;
   }
 
   getLedger() {
@@ -81,9 +83,9 @@ export class TokenWrapper {
 
   isEqualTo(t2: Token | TokenWrapper): boolean {
     return (
-      this.code === t2.getCode() &&
-      this.issuer === t2.getIssuer() &&
-      this.ledger === t2.getLedger()
+      this.code === t2.code &&
+      this.issuer === t2.issuer &&
+      this.ledger === t2.ledger
     );
   }
 }

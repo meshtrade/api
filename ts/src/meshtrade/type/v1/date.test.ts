@@ -6,21 +6,22 @@ import {
   dateToJsDate,
   dateToString,
 } from "./date";
-import { Date as ProtoDate } from "./date_pb";
+import { DateSchema, Date as ProtoDate } from "./date_pb";
+import { create } from "@bufbuild/protobuf";
 
 describe("newDate", () => {
   test("valid complete date", () => {
     const result = newDate(2023, 12, 25);
-    expect(result.getYear()).toBe(2023);
-    expect(result.getMonth()).toBe(12);
-    expect(result.getDay()).toBe(25);
+    expect(result.year).toBe(2023);
+    expect(result.month).toBe(12);
+    expect(result.day).toBe(25);
   });
 
   test("valid leap year February 29", () => {
     const result = newDate(2024, 2, 29);
-    expect(result.getYear()).toBe(2024);
-    expect(result.getMonth()).toBe(2);
-    expect(result.getDay()).toBe(29);
+    expect(result.year).toBe(2024);
+    expect(result.month).toBe(2);
+    expect(result.day).toBe(29);
   });
 
   test("invalid year zero", () => {
@@ -74,9 +75,9 @@ describe("newDateFromJsDate", () => {
     "%s",
     (_, jsDate, expectedYear, expectedMonth, expectedDay) => {
       const result = newDateFromJsDate(jsDate);
-      expect(result.getYear()).toBe(expectedYear);
-      expect(result.getMonth()).toBe(expectedMonth);
-      expect(result.getDay()).toBe(expectedDay);
+      expect(result.year).toBe(expectedYear);
+      expect(result.month).toBe(expectedMonth);
+      expect(result.day).toBe(expectedDay);
     }
   );
 });
@@ -87,32 +88,32 @@ describe("isValid", () => {
     ["valid complete date", newDate(2023, 12, 25), true],
     [
       "invalid year zero",
-      new ProtoDate().setYear(0).setMonth(12).setDay(25),
+      create(DateSchema, { year: 0, month: 12, day: 25 }),
       false,
     ],
     [
       "invalid year too high",
-      new ProtoDate().setYear(10000).setMonth(1).setDay(1),
+      create(DateSchema, { year: 10000, month: 1, day: 1 }),
       false,
     ],
     [
       "invalid month zero",
-      new ProtoDate().setYear(2023).setMonth(0).setDay(25),
+      create(DateSchema, { year: 2023, month: 0, day: 25 }),
       false,
     ],
     [
       "invalid month too high",
-      new ProtoDate().setYear(2023).setMonth(13).setDay(1),
+      create(DateSchema, { year: 2023, month: 13, day: 1 }),
       false,
     ],
     [
       "invalid day zero",
-      new ProtoDate().setYear(2023).setMonth(1).setDay(0),
+      create(DateSchema, { year: 2023, month: 1, day: 0 }),
       false,
     ],
     [
       "invalid day too high",
-      new ProtoDate().setYear(2023).setMonth(1).setDay(32),
+      create(DateSchema, { year: 2023, month: 1, day: 32 }),
       false,
     ],
   ];
@@ -128,20 +129,24 @@ describe("isComplete", () => {
     ["complete date", newDate(2023, 12, 25), true],
     [
       "incomplete - year zero",
-      new ProtoDate().setYear(0).setMonth(12).setDay(25),
+      create(DateSchema, { year: 0, month: 12, day: 25 }),
       false,
     ],
     [
       "incomplete - month zero",
-      new ProtoDate().setYear(2023).setMonth(0).setDay(25),
+      create(DateSchema, { year: 2023, month: 0, day: 25 }),
       false,
     ],
     [
       "incomplete - day zero",
-      new ProtoDate().setYear(2023).setMonth(12).setDay(0),
+      create(DateSchema, { year: 2023, month: 12, day: 0 }),
       false,
     ],
-    ["zero date", new ProtoDate().setYear(0).setMonth(0).setDay(0), false],
+    [
+      "zero date",
+      create(DateSchema, { year: 0, month: 0, day: 0 }),
+      false,
+    ],
   ];
 
   test.each(testCases)("%s", (_, date, expected) => {
@@ -163,7 +168,7 @@ describe("dateToJsDate", () => {
   });
 
   test("invalid date throws error", () => {
-    const date = new ProtoDate().setYear(2023).setMonth(2).setDay(30);
+    const date = create(DateSchema, { year: 2023, month: 2, day: 30 });
     expect(() => dateToJsDate(date)).toThrow();
   });
 });
@@ -174,12 +179,12 @@ describe("dateToString", () => {
     ["complete date", newDate(2023, 12, 25), "2023-12-25"],
     [
       "invalid date",
-      new ProtoDate().setYear(0).setMonth(12).setDay(25),
+      create(DateSchema, { year: 0, month: 12, day: 25 }),
       "Date{year=0, month=12, day=25} [INVALID]",
     ],
     [
       "invalid date February 30",
-      new ProtoDate().setYear(2023).setMonth(2).setDay(30),
+      create(DateSchema, { year: 2023, month: 2, day: 30 }),
       "Date{year=2023, month=2, day=30} [INVALID]",
     ],
   ];

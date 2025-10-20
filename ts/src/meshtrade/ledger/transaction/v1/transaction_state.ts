@@ -9,16 +9,16 @@ export const allTransactionStates: TransactionState[] = Object.values(
 const networkToStringMapping: {
   [key in TransactionState]: string;
 } = {
-  [TransactionState.TRANSACTION_STATE_UNSPECIFIED]: "-",
-  [TransactionState.TRANSACTION_STATE_DRAFT]: "Draft",
-  [TransactionState.TRANSACTION_STATE_SIGNING_IN_PROGRESS]:
+  [TransactionState.UNSPECIFIED]: "-",
+  [TransactionState.DRAFT]: "Draft",
+  [TransactionState.SIGNING_IN_PROGRESS]:
     "Signing in Progress",
-  [TransactionState.TRANSACTION_STATE_PENDING]: "Pending",
-  [TransactionState.TRANSACTION_STATE_SUBMISSION_IN_PROGRESS]:
+  [TransactionState.PENDING]: "Pending",
+  [TransactionState.SUBMISSION_IN_PROGRESS]:
     "Submission in Progress",
-  [TransactionState.TRANSACTION_STATE_FAILED]: "Failed",
-  [TransactionState.TRANSACTION_STATE_INDETERMINATE]: "Indeterminate",
-  [TransactionState.TRANSACTION_STATE_SUCCESSFUL]: "Successful",
+  [TransactionState.FAILED]: "Failed",
+  [TransactionState.INDETERMINATE]: "Indeterminate",
+  [TransactionState.SUCCESSFUL]: "Successful",
 };
 
 // Reverse mapping from string to TransactionState enum

@@ -1,4 +1,4 @@
-import { Amount } from "./amount_pb";
+import { Amount, AmountSchema } from "./amount_pb";
 import { Token } from "./token_pb";
 import { bigNumberToDecimal, decimalToBigNumber } from "./decimalConversions";
 import { getLedgerNoDecimalPlaces } from "./ledger";
@@ -6,6 +6,7 @@ import BigNumber from "bignumber.js";
 import { Decimal } from "./decimal_pb";
 import { Ledger } from "./ledger_pb";
 import { tokenIsUndefined } from "./token";
+import { create } from "@bufbuild/protobuf";
 
 /**
  * Creates a new Amount object using a BigNumber and a Token.
@@ -21,18 +22,17 @@ import { tokenIsUndefined } from "./token";
  * decimal places for the target ledger.
  */
 function newAmountFromBigNumber(amount: BigNumber, token?: Token): Amount {
-  return new Amount()
-    .setValue(
-      bigNumberToDecimal(
+  return create(AmountSchema, {
+    value: bigNumberToDecimal(
         amount.decimalPlaces(
           getLedgerNoDecimalPlaces(
-            token?.getLedger() ?? Ledger.LEDGER_UNSPECIFIED
+            token?.ledger ?? Ledger.UNSPECIFIED
           ),
           BigNumber.ROUND_HALF_DOWN
         )
-      )
-    )
-    .setToken(token);
+      ),
+    token: token,
+  })
 }
 
 /**
@@ -51,13 +51,13 @@ export function newAmountOfToken(
     value = new BigNumber("0");
   } else if (amount instanceof BigNumber) {
     value = amount;
-  } else if (amount instanceof Decimal) {
-    value = decimalToBigNumber(amount);
+  } else if (typeof amount === "string") {
+    value = new BigNumber(amount);
   } else {
     if (isNaN(Number(amount))) {
       value = new BigNumber("0");
     } else {
-      value = new BigNumber(amount);
+      value = decimalToBigNumber(amount);
     }
   }
 
@@ -68,5 +68,5 @@ export function amountIsUndefined(amount?: Amount): boolean {
   if (!amount) {
     return true;
   }
-  return tokenIsUndefined(amount.getToken());
+  return tokenIsUndefined(amount.token);
 }

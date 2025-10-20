@@ -1,6 +1,7 @@
 import BigNumber from "bignumber.js";
-import { Decimal } from "./decimal_pb";
+import { Decimal, DecimalSchema } from "./decimal_pb";
 
+import { create } from "@bufbuild/protobuf";
 /**
  * Converts a BigNumber instance to a Decimal object.
  *
@@ -12,7 +13,9 @@ import { Decimal } from "./decimal_pb";
  * to construct a Decimal object.
  */
 export function bigNumberToDecimal(bigNumberToConvert: BigNumber): Decimal {
-  const dec = new Decimal().setValue(bigNumberToConvert.toString());
+  const dec = create(DecimalSchema, {
+    value: bigNumberToConvert.toString(),
+  })
 
   return dec;
 }
@@ -28,9 +31,9 @@ export function bigNumberToDecimal(bigNumberToConvert: BigNumber): Decimal {
  * to construct a BigNumber instance.
  */
 export function decimalToBigNumber(decimal?: Decimal): BigNumber {
-  if (!decimal || decimal.getValue() == "") {
+  if (!decimal || decimal.value == "") {
     return new BigNumber("0");
   }
-  const value = decimal.getValue();
+  const value = decimal.value;
   return new BigNumber(`${value}`);
 }
