@@ -146,41 +146,6 @@ func (t *Token) IsUndefined() bool {
 		t.GetLedger() == Ledger_LEDGER_UNSPECIFIED
 }
 
-// ledgerToNetworkName converts a Ledger enum value to a human-readable network name.
-//
-// Parameters:
-//   - ledger: The Ledger enum value to convert
-//
-// Returns:
-//   - A human-readable network name string
-//
-// Example:
-//
-//	ledgerToNetworkName(Ledger_LEDGER_STELLAR)   // Returns: "Stellar"
-//	ledgerToNetworkName(Ledger_LEDGER_ETHEREUM)  // Returns: "Ethereum"
-func ledgerToNetworkName(ledger Ledger) string {
-	switch ledger {
-	case Ledger_LEDGER_STELLAR:
-		return "Stellar"
-	case Ledger_LEDGER_ETHEREUM:
-		return "Ethereum"
-	case Ledger_LEDGER_BITCOIN:
-		return "Bitcoin"
-	case Ledger_LEDGER_LITECOIN:
-		return "Litecoin"
-	case Ledger_LEDGER_XRP:
-		return "XRP"
-	case Ledger_LEDGER_SA_STOCK_BROKERS:
-		return "SA Stock Brokers"
-	case Ledger_LEDGER_NULL:
-		return "Null"
-	case Ledger_LEDGER_UNSPECIFIED:
-		return "Unspecified"
-	default:
-		return "Unknown"
-	}
-}
-
 // PrettyString returns a human-readable string representation of the token
 // in the format "CODE by ISSUER on NETWORK".
 //
@@ -209,5 +174,5 @@ func (t *Token) PrettyString() string {
 		return "undefined"
 	}
 
-	return fmt.Sprintf("%s by %s on %s", t.GetCode(), t.GetIssuer(), ledgerToNetworkName(t.GetLedger()))
+	return fmt.Sprintf("%s by %s on %s", t.GetCode(), t.GetIssuer(), t.GetLedger().ToPrettyString())
 }
