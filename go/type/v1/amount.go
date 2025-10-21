@@ -24,7 +24,7 @@ func (a *Amount) IsSameTypeAs(a2 *Amount) bool {
 }
 
 func (a *Amount) IsEqualTo(a2 *Amount) bool {
-	return a.GetToken() == a2.GetToken() && a.GetValue().Equal(a2.GetValue())
+	return a.GetToken().IsEqualTo(a2.GetToken()) && a.GetValue().Equal(a2.GetValue())
 }
 
 func (a *Amount) ContainsFractions() bool {
