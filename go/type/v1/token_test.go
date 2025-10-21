@@ -460,7 +460,7 @@ func TestToken_PrettyString(t *testing.T) {
 				Issuer: "CIRCLE",
 				Ledger: Ledger_LEDGER_STELLAR,
 			},
-			want: "USD by CIRCLE",
+			want: "USD by CIRCLE on Stellar",
 		},
 		{
 			name: "bitcoin token formats correctly",
@@ -469,7 +469,7 @@ func TestToken_PrettyString(t *testing.T) {
 				Issuer: "BITCOIN_NETWORK",
 				Ledger: Ledger_LEDGER_BITCOIN,
 			},
-			want: "BTC by BITCOIN_NETWORK",
+			want: "BTC by BITCOIN_NETWORK on Bitcoin",
 		},
 		{
 			name: "ethereum token formats correctly",
@@ -478,7 +478,7 @@ func TestToken_PrettyString(t *testing.T) {
 				Issuer: "ETHEREUM_NETWORK",
 				Ledger: Ledger_LEDGER_ETHEREUM,
 			},
-			want: "ETH by ETHEREUM_NETWORK",
+			want: "ETH by ETHEREUM_NETWORK on Ethereum",
 		},
 		{
 			name: "token with empty code and issuer",
@@ -487,7 +487,7 @@ func TestToken_PrettyString(t *testing.T) {
 				Issuer: "",
 				Ledger: Ledger_LEDGER_STELLAR,
 			},
-			want: " by ",
+			want: " by  on Stellar",
 		},
 		{
 			name: "token with special characters in code",
@@ -496,7 +496,7 @@ func TestToken_PrettyString(t *testing.T) {
 				Issuer: "TETHER",
 				Ledger: Ledger_LEDGER_ETHEREUM,
 			},
-			want: "USD-T by TETHER",
+			want: "USD-T by TETHER on Ethereum",
 		},
 		{
 			name: "token with long issuer name",
@@ -505,7 +505,7 @@ func TestToken_PrettyString(t *testing.T) {
 				Issuer: "GAKRW3JXRQYJHTKQRUJLNVT7QI2EE3X6ZFHQKZBQPMDWURZQNZQ5NN6C",
 				Ledger: Ledger_LEDGER_STELLAR,
 			},
-			want: "USDC by GAKRW3JXRQYJHTKQRUJLNVT7QI2EE3X6ZFHQKZBQPMDWURZQNZQ5NN6C",
+			want: "USDC by GAKRW3JXRQYJHTKQRUJLNVT7QI2EE3X6ZFHQKZBQPMDWURZQNZQ5NN6C on Stellar",
 		},
 	}
 
