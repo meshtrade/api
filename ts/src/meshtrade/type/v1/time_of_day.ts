@@ -26,7 +26,7 @@ export function newTimeOfDay(
     minutes,
     seconds,
     nanos,
-  })
+  });
 }
 
 /**
@@ -38,11 +38,11 @@ export function newTimeOfDay(
  */
 export function newTimeOfDayFromJsDate(jsDate: Date): TimeOfDay {
   return create(TimeOfDaySchema, {
-    hours: (jsDate.getHours()),
-    minutes: (jsDate.getMinutes()),
-    seconds: (jsDate.getSeconds()),
-    nanos: (jsDate.getMilliseconds() * 1000000),
-  })
+    hours: jsDate.getHours(),
+    minutes: jsDate.getMinutes(),
+    seconds: jsDate.getSeconds(),
+    nanos: jsDate.getMilliseconds() * 1000000,
+  });
 }
 
 /**
@@ -73,7 +73,7 @@ export function newTimeOfDayFromMillis(millisSinceMidnight: number): TimeOfDay {
     minutes,
     seconds,
     nanos,
-  })
+  });
 }
 
 /**
@@ -149,7 +149,7 @@ export function isValid(protoTime?: TimeOfDay): boolean {
       protoTime.hours,
       protoTime.minutes,
       protoTime.seconds,
-      protoTime.nanos,
+      protoTime.nanos
     );
     return true;
   } catch {

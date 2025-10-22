@@ -5,8 +5,7 @@ export function tokensAreEqual(t?: Token, t2?: Token): boolean {
   return (
     (t?.code ?? "") === (t2?.code ?? "") &&
     (t?.issuer ?? "") === (t2?.issuer ?? "") &&
-    (t?.ledger ?? Ledger.UNSPECIFIED) ===
-      (t2?.ledger ?? Ledger.UNSPECIFIED)
+    (t?.ledger ?? Ledger.UNSPECIFIED) === (t2?.ledger ?? Ledger.UNSPECIFIED)
   );
 }
 

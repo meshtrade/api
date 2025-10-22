@@ -15,7 +15,7 @@ import { create } from "@bufbuild/protobuf";
 export function bigNumberToDecimal(bigNumberToConvert: BigNumber): Decimal {
   const dec = create(DecimalSchema, {
     value: bigNumberToConvert.toString(),
-  })
+  });
 
   return dec;
 }

@@ -24,15 +24,13 @@ import { create } from "@bufbuild/protobuf";
 function newAmountFromBigNumber(amount: BigNumber, token?: Token): Amount {
   return create(AmountSchema, {
     value: bigNumberToDecimal(
-        amount.decimalPlaces(
-          getLedgerNoDecimalPlaces(
-            token?.ledger ?? Ledger.UNSPECIFIED
-          ),
-          BigNumber.ROUND_HALF_DOWN
-        )
-      ),
+      amount.decimalPlaces(
+        getLedgerNoDecimalPlaces(token?.ledger ?? Ledger.UNSPECIFIED),
+        BigNumber.ROUND_HALF_DOWN
+      )
+    ),
     token: token,
-  })
+  });
 }
 
 /**

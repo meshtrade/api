@@ -11,11 +11,9 @@ const networkToStringMapping: {
 } = {
   [TransactionState.UNSPECIFIED]: "-",
   [TransactionState.DRAFT]: "Draft",
-  [TransactionState.SIGNING_IN_PROGRESS]:
-    "Signing in Progress",
+  [TransactionState.SIGNING_IN_PROGRESS]: "Signing in Progress",
   [TransactionState.PENDING]: "Pending",
-  [TransactionState.SUBMISSION_IN_PROGRESS]:
-    "Submission in Progress",
+  [TransactionState.SUBMISSION_IN_PROGRESS]: "Submission in Progress",
   [TransactionState.FAILED]: "Failed",
   [TransactionState.INDETERMINATE]: "Indeterminate",
   [TransactionState.SUCCESSFUL]: "Successful",

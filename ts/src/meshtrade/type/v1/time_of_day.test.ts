@@ -44,57 +44,57 @@ describe("newTimeOfDay", () => {
   const invalidTestCases: Array<
     [string, number, number, number, number, string?]
   > = [
-      ["invalid hours too low", -1, 0, 0, 0, "Hours must be between 0 and 23"],
-      ["invalid hours too high", 24, 0, 0, 0, "Hours must be between 0 and 23"],
-      [
-        "invalid minutes too low",
-        12,
-        -1,
-        0,
-        0,
-        "Minutes must be between 0 and 59",
-      ],
-      [
-        "invalid minutes too high",
-        12,
-        60,
-        0,
-        0,
-        "Minutes must be between 0 and 59",
-      ],
-      [
-        "invalid seconds too low",
-        12,
-        30,
-        -1,
-        0,
-        "Seconds must be between 0 and 59",
-      ],
-      [
-        "invalid seconds too high",
-        12,
-        30,
-        60,
-        0,
-        "Seconds must be between 0 and 59",
-      ],
-      [
-        "invalid nanos too low",
-        12,
-        30,
-        45,
-        -1,
-        "Nanos must be between 0 and 999,999,999",
-      ],
-      [
-        "invalid nanos too high",
-        12,
-        30,
-        45,
-        1000000000,
-        "Nanos must be between 0 and 999,999,999",
-      ],
-    ];
+    ["invalid hours too low", -1, 0, 0, 0, "Hours must be between 0 and 23"],
+    ["invalid hours too high", 24, 0, 0, 0, "Hours must be between 0 and 23"],
+    [
+      "invalid minutes too low",
+      12,
+      -1,
+      0,
+      0,
+      "Minutes must be between 0 and 59",
+    ],
+    [
+      "invalid minutes too high",
+      12,
+      60,
+      0,
+      0,
+      "Minutes must be between 0 and 59",
+    ],
+    [
+      "invalid seconds too low",
+      12,
+      30,
+      -1,
+      0,
+      "Seconds must be between 0 and 59",
+    ],
+    [
+      "invalid seconds too high",
+      12,
+      30,
+      60,
+      0,
+      "Seconds must be between 0 and 59",
+    ],
+    [
+      "invalid nanos too low",
+      12,
+      30,
+      45,
+      -1,
+      "Nanos must be between 0 and 999,999,999",
+    ],
+    [
+      "invalid nanos too high",
+      12,
+      30,
+      45,
+      1000000000,
+      "Nanos must be between 0 and 999,999,999",
+    ],
+  ];
 
   test.each(invalidTestCases)(
     "%s",
@@ -253,7 +253,7 @@ describe("timeOfDayToJsDateWithDate", () => {
     expect(result).toBeInstanceOf(Date);
     expect(result.getFullYear()).toBe(date.year);
     expect(result.getMonth()).toBe(date.month - 1); // JS months are 0-indexed
-    expect(result.getDay()).toBe(date.day);
+    expect(result.getDate()).toBe(date.day);
     expect(result.getHours()).toBe(timeOfDay.hours);
     expect(result.getMinutes()).toBe(timeOfDay.minutes);
     expect(result.getSeconds()).toBe(timeOfDay.seconds);
@@ -275,31 +275,31 @@ describe("timeOfDayToJsDateWithDate", () => {
   const invalidTestCases: Array<
     [string, TimeOfDay | undefined, typeof date | undefined, string]
   > = [
-      [
-        "undefined time",
-        undefined,
-        date,
-        "TimeOfDay object is null or undefined",
-      ],
-      [
-        "undefined date",
-        newTimeOfDay(12, 0, 0, 0),
-        undefined,
-        "Date object is null or undefined",
-      ],
-      [
-        "incomplete date",
-        newTimeOfDay(12, 0, 0, 0),
-        (() => {
-          const incompleteDate = create(DateSchema)
-          incompleteDate.year = 2023;
-          incompleteDate.month = 1;
-          // Day is not set, so it remains 0, making the date incomplete
-          return incompleteDate;
-        })(),
-        "Date must be complete",
-      ],
-    ];
+    [
+      "undefined time",
+      undefined,
+      date,
+      "TimeOfDay object is null or undefined",
+    ],
+    [
+      "undefined date",
+      newTimeOfDay(12, 0, 0, 0),
+      undefined,
+      "Date object is null or undefined",
+    ],
+    [
+      "incomplete date",
+      newTimeOfDay(12, 0, 0, 0),
+      (() => {
+        const incompleteDate = create(DateSchema);
+        incompleteDate.year = 2023;
+        incompleteDate.month = 1;
+        // Day is not set, so it remains 0, making the date incomplete
+        return incompleteDate;
+      })(),
+      "Date must be complete",
+    ],
+  ];
 
   test.each(invalidTestCases)("%s", (_, timeOfDay, protoDate, errorMessage) => {
     expect(() => timeOfDayToJsDateWithDate(timeOfDay!, protoDate!)).toThrow();
@@ -328,11 +328,11 @@ describe("isValid", () => {
 
   test("invalid hours", () => {
     const timeOfDay = create(TimeOfDaySchema, {
-      hours: 12,
+      hours: 24,
       minutes: 0,
       seconds: 0,
       nanos: 0,
-    })
+    });
     expect(isValid(timeOfDay)).toBe(false);
   });
 
@@ -342,7 +342,7 @@ describe("isValid", () => {
       minutes: 60,
       seconds: 0,
       nanos: 0,
-    })
+    });
     expect(isValid(timeOfDay)).toBe(false);
   });
 
@@ -352,7 +352,7 @@ describe("isValid", () => {
       minutes: 30,
       seconds: 60,
       nanos: 0,
-    })
+    });
     expect(isValid(timeOfDay)).toBe(false);
   });
 
@@ -362,7 +362,7 @@ describe("isValid", () => {
       minutes: 30,
       seconds: 45,
       nanos: 1000000000,
-    })
+    });
     expect(isValid(timeOfDay)).toBe(false);
   });
 });

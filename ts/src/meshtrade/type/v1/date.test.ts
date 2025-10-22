@@ -142,11 +142,7 @@ describe("isComplete", () => {
       create(DateSchema, { year: 2023, month: 12, day: 0 }),
       false,
     ],
-    [
-      "zero date",
-      create(DateSchema, { year: 0, month: 0, day: 0 }),
-      false,
-    ],
+    ["zero date", create(DateSchema, { year: 0, month: 0, day: 0 }), false],
   ];
 
   test.each(testCases)("%s", (_, date, expected) => {

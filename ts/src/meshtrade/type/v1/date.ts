@@ -13,7 +13,7 @@ import { create } from "@bufbuild/protobuf";
  */
 export function newDate(year: number, month: number, day: number): ProtoDate {
   validateDate(year, month, day);
-  return create(DateSchema, {year, month, day})
+  return create(DateSchema, { year, month, day });
 }
 
 /**
@@ -24,10 +24,10 @@ export function newDate(year: number, month: number, day: number): ProtoDate {
  */
 export function newDateFromJsDate(jsDate: Date): ProtoDate {
   return create(DateSchema, {
-    year: (jsDate.getFullYear()),
-    month: (jsDate.getMonth() + 1),
-    day: (jsDate.getDate()),
-  })
+    year: jsDate.getFullYear(),
+    month: jsDate.getMonth() + 1,
+    day: jsDate.getDate(),
+  });
 }
 
 /**
@@ -49,11 +49,7 @@ export function dateToJsDate(protoDate: ProtoDate): Date {
   }
 
   try {
-    return new Date(
-      protoDate.year,
-      protoDate.month - 1,
-      protoDate.day
-    ); // JS months are 0-indexed
+    return new Date(protoDate.year, protoDate.month - 1, protoDate.day); // JS months are 0-indexed
   } catch (e) {
     throw new Error(`Invalid date values: ${e}`);
   }
@@ -89,11 +85,7 @@ export function isComplete(protoDate?: ProtoDate): boolean {
   if (!protoDate) {
     return false;
   }
-  return (
-    protoDate.year !== 0 &&
-    protoDate.month !== 0 &&
-    protoDate.day !== 0
-  );
+  return protoDate.year !== 0 && protoDate.month !== 0 && protoDate.day !== 0;
 }
 
 /**

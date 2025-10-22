@@ -29,7 +29,7 @@ export class TokenWrapper {
       code: token?.code,
       issuer: token?.issuer,
       ledger: token?.ledger ?? Ledger.UNSPECIFIED,
-    })
+    });
   }
 
   get code(): string {
