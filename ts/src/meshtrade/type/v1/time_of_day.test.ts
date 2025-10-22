@@ -253,7 +253,7 @@ describe("timeOfDayToJsDateWithDate", () => {
     expect(result).toBeInstanceOf(Date);
     expect(result.getFullYear()).toBe(date.year);
     expect(result.getMonth()).toBe(date.month - 1); // JS months are 0-indexed
-    expect(result.getDate()).toBe(date.day);
+    expect(result.getDay()).toBe(date.day);
     expect(result.getHours()).toBe(timeOfDay.hours);
     expect(result.getMinutes()).toBe(timeOfDay.minutes);
     expect(result.getSeconds()).toBe(timeOfDay.seconds);

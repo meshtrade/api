@@ -168,7 +168,7 @@ function generateServiceClientString(service: DescService, file: DescFile): stri
   content += "    const transport = createConnectTransport({\n";
   content += "       baseUrl: this._config.apiServerURL,\n";
   content += "       interceptors: this._interceptors,\n";
-  content += '       // credentials: "include",\n';
+  content += "       fetch: (input, init) => fetch(input, { ...init, credentials: \"include\" }),\n";
   content += "     })\n";
   content += `    this._service = createClient(${serviceClientName}, transport)\n`;
   content += "  }\n";
