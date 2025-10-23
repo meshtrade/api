@@ -356,17 +356,42 @@ public abstract class BaseGRPCClient<T extends AbstractStub<T>> implements AutoC
     
     /**
      * Returns the protovalidate validator for request validation.
-     * 
+     *
      * <p>This provides access to the validator for client-side request validation.
      * All requests are automatically validated before gRPC calls, but this method
      * allows for manual validation if needed.
-     * 
+     *
      * @return the protovalidate Validator instance
      */
     public Validator getValidator() {
         return validator;
     }
-    
+
+    /**
+     * Creates a new ServiceOptions instance with a different group context.
+     *
+     * <p>This enables convenient group context switching without reconstructing the entire client.
+     * All other configuration (URL, port, timeout, API key, etc.) is preserved.
+     * The new client instance shares no state with the original client, allowing safe concurrent
+     * usage across different threads.
+     *
+     * <p>The group parameter must be in the format 'groups/{group_id}' where group_id is a valid
+     * group identifier (typically a ULID).
+     *
+     * @param group the group resource name in format 'groups/{group_id}'
+     * @return new ServiceOptions instance with updated group context
+     */
+    protected ServiceOptions createOptionsWithGroup(String group) {
+        return ServiceOptions.builder()
+            .url(options.getUrl())
+            .port(options.getPort())
+            .apiKey(options.getApiKey())
+            .group(group)
+            .timeout(options.getTimeout())
+            .tls(options.isTls())
+            .build();
+    }
+
     /**
      * Creates a managed gRPC channel from service options.
      * 
