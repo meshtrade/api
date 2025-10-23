@@ -202,10 +202,10 @@ def process_service(proto_file, service, template_env):
         "doc_url_path": doc_url_path,
     }
 
-    # Generate the two main files with _meshpy.py suffix
+    # Generate service file with _meshpy.py suffix
+    # Note: service_options is now a shared module in meshtrade.common.service_options
     file_configs = [
         ("service_meshpy.py.j2", "service"),
-        ("service_options_meshpy.py.j2", "service_options"),
     ]
 
     for template_name, file_type in file_configs:
@@ -302,20 +302,20 @@ def extract_service_exports(service_info):
 
     service_name = service_info.name
 
+    # Note: ClientOptions is no longer generated per-service, it's now a shared module
+    # in meshtrade.common.service_options, so we don't export it from service packages
     imports = [
         "from .service_meshpy import (",
         f"    {service_name},",
         f"    {service_name}GRPCClient,",
         f"    {service_name}GRPCClientInterface,",
         ")",
-        "from .service_options_meshpy import ClientOptions",
     ]
 
     exports = [
         f"{service_name}",
         f"{service_name}GRPCClient",
         f"{service_name}GRPCClientInterface",
-        "ClientOptions",
     ]
 
     return imports, exports

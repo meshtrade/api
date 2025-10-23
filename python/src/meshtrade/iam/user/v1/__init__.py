@@ -31,7 +31,6 @@ from .service_meshpy import (
     UserServiceGRPCClient,
     UserServiceGRPCClientInterface,
 )
-from .service_options_meshpy import ClientOptions
 
 # ===================================================================
 # END OF AUTO-GENERATED SECTION
@@ -54,7 +53,6 @@ from .service_options_meshpy import ClientOptions
 __all__ = [
     # Generated exports
     "AssignRoleToUserRequest",
-    "ClientOptions",
     "CreateUserRequest",
     "GetUserRequest",
     "ListUsersRequest",

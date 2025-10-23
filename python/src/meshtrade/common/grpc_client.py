@@ -146,6 +146,99 @@ class BaseGRPCClient(GRPCClient):
             raise ValueError("Group not configured. Provide via constructor or set MESH_API_CREDENTIALS environment variable.")
         return self._group
 
+    @property
+    def url(self) -> str:
+        """Get the gRPC server URL.
+
+        Returns:
+            The gRPC server URL
+        """
+        return self._url
+
+    @property
+    def port(self) -> int:
+        """Get the gRPC server port.
+
+        Returns:
+            The gRPC server port
+        """
+        return self._port
+
+    @property
+    def api_key(self) -> str | None:
+        """Get the API key used for authentication.
+
+        Returns:
+            The API key, or None if not configured
+        """
+        return self._api_key
+
+    @property
+    def timeout(self) -> timedelta:
+        """Get the request timeout.
+
+        Returns:
+            The request timeout
+        """
+        return self._timeout
+
+    @property
+    def tls(self) -> bool:
+        """Get the TLS setting.
+
+        Returns:
+            True if TLS is enabled, False otherwise
+        """
+        return self._tls
+
+    def with_group(self, group: str):
+        """Return a new client instance configured with a different group context.
+
+        This enables convenient group context switching without reconstructing the entire client.
+        All other configuration (URL, port, timeout, API key, TLS) is preserved.
+
+        The group parameter must be in the format 'groups/{group_id}' where group_id is a valid
+        group identifier (typically a ULID). The new client instance shares no state with the
+        original client, allowing safe concurrent usage.
+
+        Args:
+            group: The group resource name in format 'groups/{group_id}'
+
+        Returns:
+            A new client instance of the same service type with updated group context.
+
+        Raises:
+            ValueError: If group is empty or not in correct format
+
+        Example:
+            >>> service = GroupService()
+            >>> alt_service = service.with_group("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
+            >>> resp1 = service.some_method(request)      # Uses original group
+            >>> resp2 = alt_service.some_method(request)  # Uses alternative group
+        """
+        # Validation
+        if not group:
+            raise ValueError("Group parameter cannot be empty")
+        if not group.startswith("groups/"):
+            raise ValueError("Group must be in format 'groups/{group_id}'")
+
+        # Import ServiceOptions from common module
+        from meshtrade.common.service_options import ServiceOptions
+
+        # Create new options with all config preserved except group
+        options = ServiceOptions(
+            url=self._url,
+            port=self._port,
+            api_key=self._api_key,
+            group=group,
+            timeout=self._timeout,
+            tls=self._tls,
+        )
+
+        # Create new instance of actual runtime class (GroupService, AccountService, etc.)
+        # type(self) returns the actual class, and all services accept ServiceOptions
+        return type(self)(options)
+
     def validator(self) -> Validator:
         """Get the protovalidate validator for request validation.
 
