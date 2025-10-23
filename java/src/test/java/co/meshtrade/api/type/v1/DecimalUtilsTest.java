@@ -123,4 +123,31 @@ class DecimalUtilsTest {
         assertTrue(DecimalUtils.decimalCompareTo(d2, d1) < 0);
         assertEquals(0, DecimalUtils.decimalCompareTo(d1, d3));
     }
+
+    @Test
+    void testDivisionPrecision() {
+        // Test that division uses correct precision (34 decimals with HALF_EVEN rounding)
+        Decimal d1 = dec("1");
+        Decimal d2 = dec("3");
+        Decimal result = DecimalUtils.decimalDiv(d1, d2);
+
+        // Should be 0.3333... with 34 decimal places
+        String resultValue = result.getValue();
+        assertNotNull(resultValue);
+        assertTrue(resultValue.startsWith("0.3333333333"),
+            "Division result should start with 0.3333333333, got: " + resultValue);
+
+        // Verify precision is exactly 34 decimal places
+        String[] parts = resultValue.split("\\.");
+        assertEquals(2, parts.length, "Result should have decimal point");
+        assertEquals(34, parts[1].length(),
+            "Division should produce exactly 34 decimal places, got: " + parts[1].length());
+
+        // Test HALF_EVEN rounding behavior
+        Decimal d3 = dec("10");
+        Decimal d4 = dec("3");
+        Decimal result2 = DecimalUtils.decimalDiv(d3, d4);
+        assertTrue(result2.getValue().startsWith("3.3333333333"),
+            "10/3 should start with 3.3333333333");
+    }
 }

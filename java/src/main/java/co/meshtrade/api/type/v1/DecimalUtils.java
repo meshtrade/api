@@ -10,10 +10,34 @@ import java.math.RoundingMode;
  * <p>This class provides conversion between protobuf Decimal and Java BigDecimal,
  * as well as arithmetic, comparison, and rounding operations.
  *
- * <p>All methods are null-safe and will handle null inputs gracefully according
- * to their documented behavior.
+ * <p><b>IMPORTANT NULL HANDLING:</b> All methods in this class treat null Decimal
+ * inputs as BigDecimal.ZERO. This is by design for convenience in arithmetic operations,
+ * but callers should be aware that null values are silently converted rather than
+ * causing exceptions.
+ *
+ * <p>If you need to distinguish between null and zero, check for null before calling
+ * these methods:
+ * <pre>{@code
+ * if (decimal == null) {
+ *     // Handle null case explicitly
+ * } else {
+ *     BigDecimal value = DecimalUtils.decimalToBigDecimal(decimal);
+ * }
+ * }</pre>
+ *
+ * <p><b>Thread-safety:</b> All methods are thread-safe as they are stateless utility functions.
  */
 public final class DecimalUtils {
+
+    /**
+     * Default scale (decimal places) used for division operations.
+     *
+     * <p>This provides sufficient precision for most financial calculations while avoiding
+     * infinite decimal expansions (e.g., 1/3 = 0.333...). The value of 34 decimal places
+     * exceeds typical financial precision requirements and matches common industry standards
+     * for high-precision decimal arithmetic.
+     */
+    private static final int DEFAULT_DIVISION_SCALE = 34;
 
     private DecimalUtils() {
         throw new UnsupportedOperationException("Utility class - cannot be instantiated");
@@ -107,12 +131,17 @@ public final class DecimalUtils {
     /**
      * Divides one Decimal by another and returns the result.
      *
-     * <p>Performs d1 / d2. Null inputs are treated as zero. The result preserves
-     * full precision (no rounding).
+     * <p>Performs d1 / d2. Null inputs are treated as zero. The result uses
+     * 34 decimal places of precision with HALF_EVEN (banker's) rounding mode
+     * to prevent infinite decimal expansions.
+     *
+     * <p><b>Precision:</b> Results are rounded to {@value #DEFAULT_DIVISION_SCALE} decimal places
+     * using {@link RoundingMode#HALF_EVEN} (banker's rounding). This provides sufficient precision
+     * for financial calculations while avoiding infinite repeating decimals.
      *
      * @param d1 The dividend. Null treated as zero.
      * @param d2 The divisor. Null treated as zero.
-     * @return A new Decimal containing the quotient, never null.
+     * @return A new Decimal containing the quotient with 34 decimal places precision, never null.
      * @throws ArithmeticException if d2 is zero (division by zero).
      */
     public static Decimal decimalDiv(Decimal d1, Decimal d2) {
@@ -123,8 +152,7 @@ public final class DecimalUtils {
             throw new ArithmeticException("Division by zero");
         }
 
-        // Use a reasonable scale and rounding mode for division
-        return decimalFromBigDecimal(bd1.divide(bd2, 34, RoundingMode.HALF_EVEN));
+        return decimalFromBigDecimal(bd1.divide(bd2, DEFAULT_DIVISION_SCALE, RoundingMode.HALF_EVEN));
     }
 
     /**

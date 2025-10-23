@@ -45,11 +45,16 @@ class ClientRolesTest {
     void getClientDefaultRoles_containsComplianceRoles() {
         List<RoleOuterClass.Role> roles = ClientRoles.getClientDefaultRoles();
 
-        // Client should have compliance-related roles
-        // Note: Actual roles depend on proto definition
-        assertTrue(roles.stream().anyMatch(role ->
-            role.name().contains("COMPLIANCE") || role != RoleOuterClass.Role.ROLE_UNSPECIFIED
-        ), "Client should have compliance-related roles");
+        // Should contain at least one compliance-related role
+        boolean hasComplianceRole = roles.stream()
+            .anyMatch(role -> role.name().contains("COMPLIANCE"));
+
+        assertTrue(hasComplianceRole,
+            "Client should have at least one compliance-related role. Found: " + roles);
+
+        // Should not contain UNSPECIFIED
+        assertFalse(roles.contains(RoleOuterClass.Role.ROLE_UNSPECIFIED),
+            "Client roles should not contain ROLE_UNSPECIFIED");
     }
 
     @Test
@@ -114,5 +119,93 @@ class ClientRolesTest {
         // Verify set matches list
         assertEquals(rolesList.size(), roleSet.size());
         assertTrue(roleSet.containsAll(rolesList));
+    }
+
+    // Thread-safety test
+    @Test
+    void threadSafety_concurrentAccess_cachesCorrectly() throws Exception {
+        int threadCount = 10;
+        java.util.concurrent.CountDownLatch startLatch = new java.util.concurrent.CountDownLatch(1);
+        java.util.concurrent.CountDownLatch doneLatch = new java.util.concurrent.CountDownLatch(threadCount);
+        java.util.concurrent.ExecutorService executor = java.util.concurrent.Executors.newFixedThreadPool(threadCount);
+
+        java.util.List<java.util.concurrent.Future<List<RoleOuterClass.Role>>> futures = new java.util.ArrayList<>();
+
+        try {
+            for (int i = 0; i < threadCount; i++) {
+                futures.add(executor.submit(() -> {
+                    try {
+                        startLatch.await(); // All threads start simultaneously
+                        return ClientRoles.getClientDefaultRoles();
+                    } finally {
+                        doneLatch.countDown();
+                    }
+                }));
+            }
+
+            // Release all threads at once
+            startLatch.countDown();
+
+            // Wait for all threads to complete
+            assertTrue(doneLatch.await(5, java.util.concurrent.TimeUnit.SECONDS),
+                "All threads should complete within 5 seconds");
+
+            // All threads should get the same cached instance
+            List<RoleOuterClass.Role> first = futures.get(0).get();
+            assertNotNull(first, "First result should not be null");
+
+            for (java.util.concurrent.Future<List<RoleOuterClass.Role>> future : futures) {
+                List<RoleOuterClass.Role> result = future.get();
+                assertSame(first, result, "All threads should get same cached instance");
+            }
+        } finally {
+            executor.shutdown();
+            assertTrue(executor.awaitTermination(5, java.util.concurrent.TimeUnit.SECONDS),
+                "Executor should terminate within 5 seconds");
+        }
+    }
+
+    // Thread-safety test for role set
+    @Test
+    void threadSafety_concurrentAccessRoleSet_cachesCorrectly() throws Exception {
+        int threadCount = 10;
+        java.util.concurrent.CountDownLatch startLatch = new java.util.concurrent.CountDownLatch(1);
+        java.util.concurrent.CountDownLatch doneLatch = new java.util.concurrent.CountDownLatch(threadCount);
+        java.util.concurrent.ExecutorService executor = java.util.concurrent.Executors.newFixedThreadPool(threadCount);
+
+        java.util.List<java.util.concurrent.Future<Set<RoleOuterClass.Role>>> futures = new java.util.ArrayList<>();
+
+        try {
+            for (int i = 0; i < threadCount; i++) {
+                futures.add(executor.submit(() -> {
+                    try {
+                        startLatch.await(); // All threads start simultaneously
+                        return ClientRoles.getClientDefaultRoleSet();
+                    } finally {
+                        doneLatch.countDown();
+                    }
+                }));
+            }
+
+            // Release all threads at once
+            startLatch.countDown();
+
+            // Wait for all threads to complete
+            assertTrue(doneLatch.await(5, java.util.concurrent.TimeUnit.SECONDS),
+                "All threads should complete within 5 seconds");
+
+            // All threads should get the same cached instance
+            Set<RoleOuterClass.Role> first = futures.get(0).get();
+            assertNotNull(first, "First result should not be null");
+
+            for (java.util.concurrent.Future<Set<RoleOuterClass.Role>> future : futures) {
+                Set<RoleOuterClass.Role> result = future.get();
+                assertSame(first, result, "All threads should get same cached instance");
+            }
+        } finally {
+            executor.shutdown();
+            assertTrue(executor.awaitTermination(5, java.util.concurrent.TimeUnit.SECONDS),
+                "Executor should terminate within 5 seconds");
+        }
     }
 }

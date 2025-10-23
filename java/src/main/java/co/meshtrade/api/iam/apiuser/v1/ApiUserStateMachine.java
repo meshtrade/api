@@ -83,8 +83,15 @@ public final class ApiUserStateMachine {
      * <p>This method provides a complete list of actions allowed at a specific state,
      * useful for UI generation or API validation.
      *
-     * @param state The current state
-     * @return Set of valid actions, or empty set if state is invalid
+     * <p><b>Special Cases:</b>
+     * <ul>
+     *   <li>UNSPECIFIED state returns empty set (no actions allowed)</li>
+     *   <li>UNRECOGNIZED state returns empty set (invalid state)</li>
+     *   <li>Null state returns empty set</li>
+     * </ul>
+     *
+     * @param state The current state (may be null or UNSPECIFIED)
+     * @return Set of valid actions, or empty set if state is invalid, null, or UNSPECIFIED
      */
     public static Set<APIUserAction> apiUserStateGetValidActions(APIUserState state) {
         if (state == null || !apiUserStateIsValidAndDefined(state)) {

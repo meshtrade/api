@@ -139,7 +139,7 @@ public final class TokenUtils {
             return "undefined";
         }
 
-        String ledgerName = ledgerToPrettyString(token.getLedger());
+        String ledgerName = LedgerUtils.ledgerToPrettyString(token.getLedger());
         return String.format("%s by %s on %s", token.getCode(), token.getIssuer(), ledgerName);
     }
 
@@ -181,38 +181,5 @@ public final class TokenUtils {
         }
 
         return token;
-    }
-
-    /**
-     * Helper method to convert Ledger enum to human-readable string.
-     *
-     * @param ledger The ledger enum value.
-     * @return A human-readable network name.
-     */
-    private static String ledgerToPrettyString(Ledger ledger) {
-        if (ledger == null) {
-            return "Unknown";
-        }
-
-        switch (ledger) {
-            case LEDGER_STELLAR:
-                return "Stellar";
-            case LEDGER_ETHEREUM:
-                return "Ethereum";
-            case LEDGER_BITCOIN:
-                return "Bitcoin";
-            case LEDGER_LITECOIN:
-                return "Litecoin";
-            case LEDGER_XRP:
-                return "XRP";
-            case LEDGER_SA_STOCK_BROKERS:
-                return "SA Stock Brokers";
-            case LEDGER_NULL:
-                return "Null";
-            case LEDGER_UNSPECIFIED:
-                return "Unspecified";
-            default:
-                return "Unknown";
-        }
     }
 }

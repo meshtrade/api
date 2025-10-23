@@ -36,18 +36,34 @@ public final class AmountUtils {
     /**
      * Creates a new Amount with the same token but a different value.
      *
-     * <p>Despite its name, this method does NOT modify the input - it creates and returns a NEW Amount.
+     * <p>This method creates and returns a NEW Amount instance without modifying the input.
      *
      * @param amount The original amount. If null, returns null.
      * @param value The new value. If null, treated as zero.
      * @return A new Amount with the specified value and the same token, or null if amount is null.
      */
-    public static Amount amountSetValue(Amount amount, Decimal value) {
+    public static Amount amountWithValue(Amount amount, Decimal value) {
         if (amount == null) {
             return null;
         }
 
         return TokenUtils.tokenNewAmountOf(amount.getToken(), value);
+    }
+
+    /**
+     * Creates a new Amount with the same token but a different value.
+     *
+     * <p>This method creates and returns a NEW Amount instance without modifying the input.
+     *
+     * @param amount The original amount. If null, returns null.
+     * @param value The new value. If null, treated as zero.
+     * @return A new Amount with the specified value and the same token, or null if amount is null.
+     * @deprecated Use {@link #amountWithValue(Amount, Decimal)} instead. This method will be
+     *             removed in a future version. The "set" prefix incorrectly implies mutation.
+     */
+    @Deprecated
+    public static Amount amountSetValue(Amount amount, Decimal value) {
+        return amountWithValue(amount, value);
     }
 
     /**
@@ -162,7 +178,7 @@ public final class AmountUtils {
         }
 
         Decimal sum = DecimalUtils.decimalAdd(amount1.getValue(), amount2.getValue());
-        return amountSetValue(amount1, sum);
+        return amountWithValue(amount1, sum);
     }
 
     /**
@@ -186,7 +202,7 @@ public final class AmountUtils {
         }
 
         Decimal diff = DecimalUtils.decimalSub(amount1.getValue(), amount2.getValue());
-        return amountSetValue(amount1, diff);
+        return amountWithValue(amount1, diff);
     }
 
     /**
@@ -202,7 +218,7 @@ public final class AmountUtils {
         }
 
         Decimal product = DecimalUtils.decimalMul(amount.getValue(), multiplier);
-        return amountSetValue(amount, product);
+        return amountWithValue(amount, product);
     }
 
     /**
@@ -219,7 +235,7 @@ public final class AmountUtils {
         }
 
         Decimal quotient = DecimalUtils.decimalDiv(amount.getValue(), divisor);
-        return amountSetValue(amount, quotient);
+        return amountWithValue(amount, quotient);
     }
 
     /**
@@ -234,7 +250,7 @@ public final class AmountUtils {
         }
 
         Decimal abs = DecimalUtils.decimalAbs(amount.getValue());
-        return amountSetValue(amount, abs);
+        return amountWithValue(amount, abs);
     }
 
     /**
@@ -249,7 +265,7 @@ public final class AmountUtils {
         }
 
         Decimal negated = DecimalUtils.decimalNegate(amount.getValue());
-        return amountSetValue(amount, negated);
+        return amountWithValue(amount, negated);
     }
 
     /**

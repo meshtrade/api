@@ -194,4 +194,47 @@ class AmountUtilsTest {
         assertEquals("undefined", AmountUtils.amountToString(null));
         assertEquals("undefined", AmountUtils.amountToString(AmountUtils.newUndefinedAmount(dec("100"))));
     }
+
+    @Test
+    void testNullHandling_allMethods_handleGracefully() {
+        Token token = createUSDToken();
+        Decimal dec = dec("10");
+
+        // These should all return null
+        assertNull(AmountUtils.amountAbs(null));
+        assertNull(AmountUtils.amountNegate(null));
+        assertNull(AmountUtils.amountDecimalMul(null, dec));
+        assertNull(AmountUtils.amountDecimalDiv(null, dec));
+        assertNull(AmountUtils.amountAdd(null, null));
+        assertNull(AmountUtils.amountSub(null, null));
+        assertNull(AmountUtils.amountWithValue(null, dec));
+
+        // Test partial null in binary operations
+        Amount amount = TokenUtils.tokenNewAmountOf(token, dec("100"));
+        assertNull(AmountUtils.amountAdd(amount, null));
+        assertNull(AmountUtils.amountAdd(null, amount));
+        assertNull(AmountUtils.amountSub(amount, null));
+        assertNull(AmountUtils.amountSub(null, amount));
+    }
+
+    @Test
+    void testNullHandling_comparison_handlesGracefully() {
+        Token token = createUSDToken();
+        Amount amount = TokenUtils.tokenNewAmountOf(token, dec("100"));
+
+        // Null handling in type comparisons
+        assertFalse(AmountUtils.amountIsSameTypeAs(null, amount));
+        assertFalse(AmountUtils.amountIsSameTypeAs(amount, null));
+        assertFalse(AmountUtils.amountIsSameTypeAs(null, null));
+
+        // Null handling in equality comparisons
+        assertFalse(AmountUtils.amountIsEqualTo(null, amount));
+        assertFalse(AmountUtils.amountIsEqualTo(amount, null));
+        assertTrue(AmountUtils.amountIsEqualTo(null, null));
+
+        // Null handling in predicate methods
+        assertFalse(AmountUtils.amountIsZero(null));
+        assertFalse(AmountUtils.amountIsNegative(null));
+        assertFalse(AmountUtils.amountContainsFractions(null));
+    }
 }

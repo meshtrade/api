@@ -23,7 +23,9 @@ import java.util.Set;
 public final class ClientRoles {
 
     private static volatile List<RoleOuterClass.Role> cachedRoles;
+    private static volatile List<RoleOuterClass.Role> cachedUnmodifiableRoles;
     private static volatile Set<RoleOuterClass.Role> cachedRoleSet;
+    private static volatile Set<RoleOuterClass.Role> cachedUnmodifiableRoleSet;
 
     private ClientRoles() {
         throw new UnsupportedOperationException("Utility class - cannot be instantiated");
@@ -42,21 +44,24 @@ public final class ClientRoles {
      * @return Immutable list of roles declared on the Client message
      * @throws IllegalStateException if the message_roles extension cannot be read
      *
-     * @example
+     * <p><b>Example:</b>
      * <pre>{@code
      * List<Role> roles = ClientRoles.getClientDefaultRoles();
      * // Returns roles like [ROLE_COMPLIANCE_ADMIN, ROLE_COMPLIANCE_VIEWER, ...]
      * }</pre>
      */
     public static List<RoleOuterClass.Role> getClientDefaultRoles() {
-        if (cachedRoles == null) {
+        if (cachedUnmodifiableRoles == null) {
             synchronized (ClientRoles.class) {
-                if (cachedRoles == null) {
-                    cachedRoles = extractClientRoles();
+                if (cachedUnmodifiableRoles == null) {
+                    if (cachedRoles == null) {
+                        cachedRoles = extractClientRoles();
+                    }
+                    cachedUnmodifiableRoles = Collections.unmodifiableList(cachedRoles);
                 }
             }
         }
-        return Collections.unmodifiableList(cachedRoles);
+        return cachedUnmodifiableRoles;
     }
 
     /**
@@ -69,7 +74,7 @@ public final class ClientRoles {
      * @return Immutable set of roles declared on the Client message
      * @throws IllegalStateException if the message_roles extension cannot be read
      *
-     * @example
+     * <p><b>Example:</b>
      * <pre>{@code
      * Set<Role> roleSet = ClientRoles.getClientDefaultRoleSet();
      * if (roleSet.contains(Role.ROLE_COMPLIANCE_ADMIN)) {
@@ -78,14 +83,17 @@ public final class ClientRoles {
      * }</pre>
      */
     public static Set<RoleOuterClass.Role> getClientDefaultRoleSet() {
-        if (cachedRoleSet == null) {
+        if (cachedUnmodifiableRoleSet == null) {
             synchronized (ClientRoles.class) {
-                if (cachedRoleSet == null) {
-                    cachedRoleSet = new HashSet<>(getClientDefaultRoles());
+                if (cachedUnmodifiableRoleSet == null) {
+                    if (cachedRoleSet == null) {
+                        cachedRoleSet = new HashSet<>(getClientDefaultRoles());
+                    }
+                    cachedUnmodifiableRoleSet = Collections.unmodifiableSet(cachedRoleSet);
                 }
             }
         }
-        return Collections.unmodifiableSet(cachedRoleSet);
+        return cachedUnmodifiableRoleSet;
     }
 
     /**

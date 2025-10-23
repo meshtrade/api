@@ -238,7 +238,7 @@ class RoleUtilsTest {
         assertTrue(exception.getMessage().contains("Invalid role format"));
     }
 
-    // Test existing fullResourceNameFromGroupName (for backward compatibility)
+    // Test fullResourceNameFromGroupName
     @Test
     void fullResourceNameFromGroupName_validInputs_returnsCorrectFormat() {
         String result = RoleUtils.fullResourceNameFromGroupName(
@@ -249,7 +249,62 @@ class RoleUtilsTest {
         assertEquals(String.format("groups/01DD32GZ7R0000000000000001/%d", roleNumber), result);
     }
 
-    // Test existing fullResourceNameFromGroupId (for backward compatibility)
+    @Test
+    void fullResourceNameFromGroupName_invalidRole_throwsException() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            RoleUtils.fullResourceNameFromGroupName(
+                RoleOuterClass.Role.ROLE_UNSPECIFIED,
+                "groups/01DD32GZ7R0000000000000001"
+            );
+        });
+        assertTrue(exception.getMessage().contains("Role must be valid and specified"));
+    }
+
+    @Test
+    void fullResourceNameFromGroupName_nullGroupName_throwsException() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            RoleUtils.fullResourceNameFromGroupName(
+                RoleOuterClass.Role.ROLE_IAM_ADMIN,
+                null
+            );
+        });
+        assertTrue(exception.getMessage().contains("Group name cannot be null or empty"));
+    }
+
+    @Test
+    void fullResourceNameFromGroupName_emptyGroupName_throwsException() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            RoleUtils.fullResourceNameFromGroupName(
+                RoleOuterClass.Role.ROLE_IAM_ADMIN,
+                ""
+            );
+        });
+        assertTrue(exception.getMessage().contains("Group name cannot be null or empty"));
+    }
+
+    @Test
+    void fullResourceNameFromGroupName_invalidFormat_throwsException() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            RoleUtils.fullResourceNameFromGroupName(
+                RoleOuterClass.Role.ROLE_IAM_ADMIN,
+                "invalid/format"
+            );
+        });
+        assertTrue(exception.getMessage().contains("Invalid group format"));
+    }
+
+    @Test
+    void fullResourceNameFromGroupName_emptyGroupId_throwsException() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            RoleUtils.fullResourceNameFromGroupName(
+                RoleOuterClass.Role.ROLE_IAM_ADMIN,
+                "groups/"
+            );
+        });
+        assertTrue(exception.getMessage().contains("Group ID cannot be empty"));
+    }
+
+    // Test fullResourceNameFromGroupId
     @Test
     void fullResourceNameFromGroupId_validInputs_returnsCorrectFormat() {
         String result = RoleUtils.fullResourceNameFromGroupId(
@@ -258,6 +313,50 @@ class RoleUtilsTest {
         );
         int roleNumber = RoleOuterClass.Role.ROLE_IAM_ADMIN.getNumber();
         assertEquals(String.format("groups/01DD32GZ7R0000000000000001/%d", roleNumber), result);
+    }
+
+    @Test
+    void fullResourceNameFromGroupId_invalidRole_throwsException() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            RoleUtils.fullResourceNameFromGroupId(
+                RoleOuterClass.Role.ROLE_UNSPECIFIED,
+                "01DD32GZ7R0000000000000001"
+            );
+        });
+        assertTrue(exception.getMessage().contains("Role must be valid and specified"));
+    }
+
+    @Test
+    void fullResourceNameFromGroupId_nullGroupId_throwsException() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            RoleUtils.fullResourceNameFromGroupId(
+                RoleOuterClass.Role.ROLE_IAM_ADMIN,
+                null
+            );
+        });
+        assertTrue(exception.getMessage().contains("Group ID cannot be null or empty"));
+    }
+
+    @Test
+    void fullResourceNameFromGroupId_emptyGroupId_throwsException() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            RoleUtils.fullResourceNameFromGroupId(
+                RoleOuterClass.Role.ROLE_IAM_ADMIN,
+                ""
+            );
+        });
+        assertTrue(exception.getMessage().contains("Group ID cannot be null or empty"));
+    }
+
+    @Test
+    void fullResourceNameFromGroupId_invalidULID_throwsException() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            RoleUtils.fullResourceNameFromGroupId(
+                RoleOuterClass.Role.ROLE_IAM_ADMIN,
+                "INVALID_ULID"
+            );
+        });
+        assertTrue(exception.getMessage().contains("not a valid ULID"));
     }
 
     // Integration test - round trip

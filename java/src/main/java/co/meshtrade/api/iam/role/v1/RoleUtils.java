@@ -38,7 +38,7 @@ public final class RoleUtils {
      * @param role The role to check
      * @return true if role is a recognized enum value, false otherwise
      *
-     * @example
+     * <p><b>Example:</b>
      * <pre>{@code
      * boolean valid = RoleUtils.roleIsValid(Role.ROLE_IAM_ADMIN);  // true
      * boolean invalid = RoleUtils.roleIsValid(null);               // false
@@ -58,7 +58,7 @@ public final class RoleUtils {
      * @param role The role to check
      * @return true if valid and specified (not ROLE_UNSPECIFIED), false otherwise
      *
-     * @example
+     * <p><b>Example:</b>
      * <pre>{@code
      * boolean validAndSpecified = RoleUtils.roleIsValidAndSpecified(Role.ROLE_IAM_ADMIN);        // true
      * boolean unspecified = RoleUtils.roleIsValidAndSpecified(Role.ROLE_UNSPECIFIED);            // false
@@ -80,7 +80,7 @@ public final class RoleUtils {
      * @return Full resource name string (e.g., "groups/01DD32GZ7R0000000000000001/5")
      * @throws IllegalArgumentException if role is invalid/unspecified or group format is invalid
      *
-     * @example
+     * <p><b>Example:</b>
      * <pre>{@code
      * String resourceName = RoleUtils.roleFullResourceNameFromGroup(
      *     Role.ROLE_IAM_ADMIN,
@@ -118,7 +118,7 @@ public final class RoleUtils {
      * @return The Role enum value
      * @throws IllegalArgumentException if parsing fails or role is invalid
      *
-     * @example
+     * <p><b>Example:</b>
      * <pre>{@code
      * Role role = RoleUtils.roleFromFullResourceName("groups/01DD32GZ7R0000000000000001/5");
      * // Result: Role.ROLE_IAM_ADMIN (assuming 5 is IAM_ADMIN's enum number)
@@ -140,7 +140,7 @@ public final class RoleUtils {
      * @return RoleParts containing group and role
      * @throws IllegalArgumentException if parsing fails or validation errors occur
      *
-     * @example
+     * <p><b>Example:</b>
      * <pre>{@code
      * RoleParts parts = RoleUtils.parseRoleParts("groups/01DD32GZ7R0000000000000001/5");
      * String group = parts.group();  // "groups/01DD32GZ7R0000000000000001"
@@ -191,30 +191,75 @@ public final class RoleUtils {
 
     /**
      * Creates a full resource name for a role within a specific group.
-     * 
-         * and Python's full_resource_name_from_group_name() function.
-     * 
+     *
+     * <p>This method provides backward compatibility and convenience when you already
+     * have a fully-qualified group name.
+     *
      * @param role The Role enum value (e.g., Role.ROLE_IAM_ADMIN)
      * @param groupName The group name (e.g., "groups/01DD32GZ7R0000000000000001")
      * @return The full resource name string (e.g., "groups/01DD32GZ7R0000000000000001/5")
-     * 
-     * @example
-     * String roleName = RoleUtils.fullResourceNameFromGroupName(Role.ROLE_IAM_ADMIN, "groups/01DD32GZ7R0000000000000001");
+     * @throws IllegalArgumentException if role is invalid/unspecified or groupName format is invalid
+     *
+     * <p><b>Example:</b>
+     * <pre>{@code
+     * String roleName = RoleUtils.fullResourceNameFromGroupName(
+     *     Role.ROLE_IAM_ADMIN,
+     *     "groups/01DD32GZ7R0000000000000001"
+     * );
      * // Result: "groups/01DD32GZ7R0000000000000001/5"
+     * }</pre>
      */
     public static String fullResourceNameFromGroupName(RoleOuterClass.Role role, String groupName) {
+        if (!roleIsValidAndSpecified(role)) {
+            throw new IllegalArgumentException("Role must be valid and specified, got: " + role);
+        }
+        if (groupName == null || groupName.isEmpty()) {
+            throw new IllegalArgumentException("Group name cannot be null or empty");
+        }
+        if (!groupName.startsWith("groups/")) {
+            throw new IllegalArgumentException(
+                String.format("Invalid group format, expected groups/{groupID}, got: %s", groupName)
+            );
+        }
+        String groupId = groupName.substring(7); // Remove "groups/" prefix
+        if (groupId.isEmpty()) {
+            throw new IllegalArgumentException("Group ID cannot be empty in group name: " + groupName);
+        }
         return String.format("%s/%d", groupName, role.getNumber());
     }
     
     /**
      * Creates a full resource name for a role within a specific group using group ID.
-     * 
-         * 
+     *
+     * <p>This method provides convenience when you only have the group ID (ULID)
+     * and need to construct the full resource name.
+     *
      * @param role The Role enum value (e.g., Role.ROLE_IAM_ADMIN)
      * @param groupId The group ID (e.g., "01DD32GZ7R0000000000000001")
      * @return The full resource name string (e.g., "groups/01DD32GZ7R0000000000000001/5")
+     * @throws IllegalArgumentException if role is invalid/unspecified or groupId is not a valid ULID
+     *
+     * <p><b>Example:</b>
+     * <pre>{@code
+     * String roleName = RoleUtils.fullResourceNameFromGroupId(
+     *     Role.ROLE_IAM_ADMIN,
+     *     "01DD32GZ7R0000000000000001"
+     * );
+     * // Result: "groups/01DD32GZ7R0000000000000001/5"
+     * }</pre>
      */
     public static String fullResourceNameFromGroupId(RoleOuterClass.Role role, String groupId) {
+        if (!roleIsValidAndSpecified(role)) {
+            throw new IllegalArgumentException("Role must be valid and specified, got: " + role);
+        }
+        if (groupId == null || groupId.isEmpty()) {
+            throw new IllegalArgumentException("Group ID cannot be null or empty");
+        }
+        if (!isValidULIDFormat(groupId)) {
+            throw new IllegalArgumentException(
+                String.format("Group ID is not a valid ULID format: %s", groupId)
+            );
+        }
         return String.format("groups/%s/%d", groupId, role.getNumber());
     }
 

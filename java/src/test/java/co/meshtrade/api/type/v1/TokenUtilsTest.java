@@ -143,4 +143,76 @@ class TokenUtilsTest {
         // Null token returns null
         assertNull(TokenUtils.tokenNewAmountOf(null, value));
     }
+
+    @Test
+    void testTokenNewAmountOf_differentLedgerPrecisions() {
+        Decimal highPrecision = Decimal.newBuilder().setValue("1.123456789012345678").build();
+
+        // Test Stellar (7 decimals) - should truncate
+        Token stellarToken = Token.newBuilder()
+                .setCode("XLM")
+                .setIssuer("NATIVE")
+                .setLedger(Ledger.LEDGER_STELLAR)
+                .build();
+        Amount stellarAmount = TokenUtils.tokenNewAmountOf(stellarToken, highPrecision);
+        assertEquals("1.1234567", stellarAmount.getValue().getValue(),
+            "Stellar should truncate to 7 decimal places");
+
+        // Test Ethereum (non-Stellar) - should preserve full precision
+        Token ethToken = Token.newBuilder()
+                .setCode("ETH")
+                .setIssuer("NATIVE")
+                .setLedger(Ledger.LEDGER_ETHEREUM)
+                .build();
+        Amount ethAmount = TokenUtils.tokenNewAmountOf(ethToken, highPrecision);
+        assertEquals("1.123456789012345678", ethAmount.getValue().getValue(),
+            "Ethereum should preserve full precision");
+
+        // Test Bitcoin (non-Stellar) - should preserve full precision
+        Token btcToken = Token.newBuilder()
+                .setCode("BTC")
+                .setIssuer("NATIVE")
+                .setLedger(Ledger.LEDGER_BITCOIN)
+                .build();
+        Amount btcAmount = TokenUtils.tokenNewAmountOf(btcToken, highPrecision);
+        assertEquals("1.123456789012345678", btcAmount.getValue().getValue(),
+            "Bitcoin should preserve full precision");
+
+        // Test XRP (non-Stellar) - should preserve full precision
+        Token xrpToken = Token.newBuilder()
+                .setCode("XRP")
+                .setIssuer("NATIVE")
+                .setLedger(Ledger.LEDGER_XRP)
+                .build();
+        Amount xrpAmount = TokenUtils.tokenNewAmountOf(xrpToken, highPrecision);
+        assertEquals("1.123456789012345678", xrpAmount.getValue().getValue(),
+            "XRP should preserve full precision");
+    }
+
+    @Test
+    void testTokenNewAmountOf_stellarPrecisionRounding() {
+        Token stellarToken = Token.newBuilder()
+                .setCode("USDC")
+                .setIssuer("CIRCLE")
+                .setLedger(Ledger.LEDGER_STELLAR)
+                .build();
+
+        // Test rounding down (truncation)
+        Decimal value1 = Decimal.newBuilder().setValue("100.12345678").build();
+        Amount amount1 = TokenUtils.tokenNewAmountOf(stellarToken, value1);
+        assertEquals("100.1234567", amount1.getValue().getValue(),
+            "Should truncate (round down) to 7 decimals");
+
+        // Test exact 7 decimals
+        Decimal value2 = Decimal.newBuilder().setValue("100.1234567").build();
+        Amount amount2 = TokenUtils.tokenNewAmountOf(stellarToken, value2);
+        assertEquals("100.1234567", amount2.getValue().getValue(),
+            "Should preserve exact 7 decimals");
+
+        // Test fewer than 7 decimals
+        Decimal value3 = Decimal.newBuilder().setValue("100.12").build();
+        Amount amount3 = TokenUtils.tokenNewAmountOf(stellarToken, value3);
+        assertEquals("100.1200000", amount3.getValue().getValue(),
+            "Should pad to 7 decimals");
+    }
 }

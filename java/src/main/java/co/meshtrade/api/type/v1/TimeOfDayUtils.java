@@ -18,6 +18,9 @@ import java.time.LocalTime;
  */
 public final class TimeOfDayUtils {
 
+    /** Nanoseconds in one second. */
+    private static final double NANOS_PER_SECOND = 1_000_000_000.0;
+
     private TimeOfDayUtils() {
         throw new UnsupportedOperationException("Utility class cannot be instantiated");
     }
@@ -224,7 +227,7 @@ public final class TimeOfDayUtils {
         return time.getHours() * 3600.0
                 + time.getMinutes() * 60.0
                 + time.getSeconds()
-                + time.getNanos() / 1_000_000_000.0;
+                + time.getNanos() / NANOS_PER_SECOND;
     }
 
     /**

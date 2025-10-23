@@ -35,7 +35,7 @@ public final class IncomeEntryUtils {
      * @param narrative The income narrative enum value
      * @return Pretty string representation, or empty string for invalid/null inputs
      *
-     * @example
+     * <p><b>Example:</b>
      * <pre>{@code
      * String display = IncomeEntryUtils.incomeNarrativePrettyString(
      *     IncomeNarrative.INCOME_NARRATIVE_DIVIDEND
