@@ -49,7 +49,8 @@ type BaseGRPCClient[T any] struct {
 	validator protovalidate.Validator
 
 	// Interceptors
-	unaryClientInterceptors []grpc.UnaryClientInterceptor
+	unaryClientInterceptors  []grpc.UnaryClientInterceptor
+	streamClientInterceptors []grpc.StreamClientInterceptor
 
 	// Client factory for creating new instances
 	clientFactory func(grpc.ClientConnInterface) T
@@ -119,9 +120,14 @@ func NewBaseGRPCClient[T any](
 		return nil, err
 	}
 
-	// Prepare authentication interceptor
+	// Prepare authentication interceptors
 	client.unaryClientInterceptors = []grpc.UnaryClientInterceptor{
 		client.authInterceptor(),
+	}
+
+	// Prepare streaming authentication interceptor
+	client.streamClientInterceptors = []grpc.StreamClientInterceptor{
+		client.streamAuthInterceptor(),
 	}
 
 	// Prepare dial options
@@ -135,6 +141,7 @@ func NewBaseGRPCClient[T any](
 	}
 
 	dialOpts = append(dialOpts, grpc.WithChainUnaryInterceptor(client.unaryClientInterceptors...))
+	dialOpts = append(dialOpts, grpc.WithChainStreamInterceptor(client.streamClientInterceptors...))
 
 	// Construct gRPC client connection
 	conn, err := grpc.NewClient(
@@ -219,8 +226,15 @@ func Execute[T any, R any](
 }
 
 // ExecuteStream provides a fully type-safe streaming method execution pattern that handles
-// all common functionality including request validation, connection health checking, timeout
-// handling, distributed tracing, and authentication for server-side streaming methods.
+// all common functionality including request validation, connection health checking,
+// and authentication for server-side streaming methods.
+//
+// IMPORTANT: Unlike Execute (for unary methods), ExecuteStream does NOT apply automatic
+// timeout or manage the context lifecycle. Tracing spans are NOT created by ExecuteStream.
+// The caller is responsible for:
+//   - Providing an appropriate context (with timeout if needed)
+//   - Consuming or closing the stream
+//   - Adding tracing if needed at the application level
 //
 // Type parameters:
 //   - T: The gRPC client type
@@ -249,19 +263,9 @@ func ExecuteStream[T any, R any](
 		return zero, fmt.Errorf("request validation failed: %w", err)
 	}
 
-	// Apply timeout if no deadline is already set
-	if _, hasDeadline := ctx.Deadline(); !hasDeadline {
-		var cancel context.CancelFunc
-		ctx, cancel = context.WithTimeout(ctx, executor.client.timeout)
-		defer cancel()
-	}
-
-	// Create tracing span
-	ctx, span := executor.client.tracer.Start(
-		ctx,
-		executor.client.serviceProviderName+methodName,
-	)
-	defer span.End()
+	// NOTE: Unlike Execute (for unary methods), ExecuteStream does NOT apply automatic
+	// timeout or manage the context lifecycle. The caller is responsible for providing
+	// an appropriate context (with timeout if needed) and for consuming/closing the stream.
 
 	// Check connection health before initiating stream
 	if err := executor.client.ensureConnectionHealth(ctx); err != nil {
@@ -269,16 +273,7 @@ func ExecuteStream[T any, R any](
 		return zero, fmt.Errorf("connection health check failed: %w", err)
 	}
 
-	// Add authentication metadata to context
-	ctx = metadata.AppendToOutgoingContext(
-		ctx,
-		auth.APIKeyHeader,
-		executor.client.apiKey,
-		auth.GroupHeaderKey,
-		executor.client.group,
-	)
-
-	// Execute the streaming call
+	// Execute the streaming call (authentication handled by stream interceptor)
 	return streamCall(ctx)
 }
 
@@ -554,5 +549,20 @@ func (b *BaseGRPCClient[T]) authInterceptor() grpc.UnaryClientInterceptor {
 			b.group,
 		)
 		return invoker(ctx, method, req, reply, cc, opts...)
+	}
+}
+
+// streamAuthInterceptor creates and returns the gRPC streaming interceptor for authentication.
+// This interceptor automatically adds authentication and group ID headers to all outgoing streaming requests.
+func (b *BaseGRPCClient[T]) streamAuthInterceptor() grpc.StreamClientInterceptor {
+	return func(ctx context.Context, desc *grpc.StreamDesc, cc *grpc.ClientConn, method string, streamer grpc.Streamer, opts ...grpc.CallOption) (grpc.ClientStream, error) {
+		ctx = metadata.AppendToOutgoingContext(
+			ctx,
+			auth.APIKeyHeader,
+			b.apiKey,
+			auth.GroupHeaderKey,
+			b.group,
+		)
+		return streamer(ctx, desc, cc, method, opts...)
 	}
 }
