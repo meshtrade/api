@@ -1284,6 +1284,16 @@
   resolved "https://registry.yarnpkg.com/@colors/colors/-/colors-1.5.0.tgz#bb504579c1cae923e6576a4f5da43d25f97bdbd9"
   integrity sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==
 
+"@connectrpc/connect-web@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@connectrpc/connect-web/-/connect-web-2.1.0.tgz#9f95b216ca1c54d8e17237714efc5ca189ae535d"
+  integrity sha512-4IBFeMeXS1RVtmmFE/MwH+vWq/5vDRKys70va+DAaWDh83Rdy0iUQOJbITUDzvonlY5as3vwfs5yy9Yp2miHSw==
+
+"@connectrpc/connect@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@connectrpc/connect/-/connect-2.1.0.tgz#514e3643ba756cef435902a4b4ed3a861b66a305"
+  integrity sha512-xhiwnYlJNHzmFsRw+iSPIwXR/xweTvTw8x5HiwWp10sbVtd4OpOXbRgE7V58xs1EC17fzusF1f5uOAy24OkBuA==
+
 "@csstools/cascade-layer-name-parser@^2.0.5":
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/@csstools/cascade-layer-name-parser/-/cascade-layer-name-parser-2.0.5.tgz#43f962bebead0052a9fed1a2deeb11f85efcbc72"

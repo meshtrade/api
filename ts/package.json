@@ -20,6 +20,11 @@
       "require": "./dist/meshtrade/compliance/client/v1/index.js",
       "import": "./dist/meshtrade/compliance/client/v1/index.js"
     },
+    "./iam/api_user/v1": {
+      "types": "./dist/meshtrade/iam/api_user/v1/index.d.ts",
+      "require": "./dist/meshtrade/iam/api_user/v1/index.js",
+      "import": "./dist/meshtrade/iam/api_user/v1/index.js"
+    },
     "./iam/role/v1": {
       "types": "./dist/meshtrade/iam/role/v1/index.d.ts",
       "require": "./dist/meshtrade/iam/role/v1/index.js",
@@ -85,6 +90,8 @@
     "dist"
   ],
   "dependencies": {
+    "@connectrpc/connect": "^2.1.0",
+    "@connectrpc/connect-web": "^2.1.0",
     "bignumber.js": "^9.3.0",
     "google-protobuf": "^3.21.4",
     "grpc-web": "^1.5.0"

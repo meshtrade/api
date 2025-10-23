@@ -3,7 +3,8 @@
 version: v2
 
 plugins:
-  - remote: buf.build/protocolbuffers/js:v3.21.4
+  - remote: buf.build/bufbuild/es:v2.9.0
     out: ./ts/src
     opt:
-      - import_style=commonjs,binary
+      - target=ts
+      - import_extension=js
