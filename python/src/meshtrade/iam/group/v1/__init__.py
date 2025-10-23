@@ -30,7 +30,6 @@ from .service_meshpy import (
     GroupServiceGRPCClient,
     GroupServiceGRPCClientInterface,
 )
-from .service_options_meshpy import ClientOptions
 
 # ===================================================================
 # END OF AUTO-GENERATED SECTION
@@ -52,7 +51,6 @@ from .service_options_meshpy import ClientOptions
 # Combined auto-generated and manual exports
 __all__ = [
     # Generated exports
-    "ClientOptions",
     "CreateGroupRequest",
     "GetGroupRequest",
     "Group",

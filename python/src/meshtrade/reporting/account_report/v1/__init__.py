@@ -26,7 +26,6 @@ from .service_meshpy import (
     AccountReportServiceGRPCClient,
     AccountReportServiceGRPCClientInterface,
 )
-from .service_options_meshpy import ClientOptions
 
 # ===================================================================
 # END OF AUTO-GENERATED SECTION
@@ -52,7 +51,6 @@ __all__ = [
     "AccountReportService",
     "AccountReportServiceGRPCClient",
     "AccountReportServiceGRPCClientInterface",
-    "ClientOptions",
     "Disclaimer",
     "FeeEntry",
     "GetAccountReportRequest",

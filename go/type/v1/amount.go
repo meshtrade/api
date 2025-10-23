@@ -6,39 +6,6 @@ import (
 	"github.com/shopspring/decimal"
 )
 
-// IsEqual checks if two amounts are equal in both value and token type.
-// This method is deprecated in favor of IsEqualTo for API consistency.
-//
-// Deprecated: Use IsEqualTo instead for consistency with Token.IsEqualTo.
-//
-// Parameters:
-//   - x2: The amount to compare against. Can be nil.
-//
-// Returns:
-//   - true if both amounts have equal values and equal tokens
-//   - false if amounts differ, or if either amount is nil
-//
-// Nil Safety:
-//   - Returns false if either receiver or parameter is nil
-//   - Safe to call on nil receiver
-//
-// Example:
-//
-//	amount1 := &Amount{Value: FromShopspringDecimal(decimal.NewFromInt(100)), Token: token}
-//	amount2 := &Amount{Value: FromShopspringDecimal(decimal.NewFromInt(100)), Token: token}
-//	if amount1.IsEqual(amount2) {
-//	    // Amounts are equal
-//	}
-func (x *Amount) IsEqual(x2 *Amount) bool {
-	// Nil safety
-	if x == nil || x2 == nil {
-		return x == x2 // Both nil returns true, one nil returns false
-	}
-
-	return x.GetValue().Equal(x2.GetValue()) &&
-		x.GetToken().IsEqualTo(x2.GetToken())
-}
-
 // IsUndefined checks whether this amount has an undefined token.
 // An amount is considered undefined if its associated token is undefined.
 //

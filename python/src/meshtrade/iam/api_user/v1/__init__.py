@@ -35,7 +35,6 @@ from .service_meshpy import (
     ApiUserServiceGRPCClient,
     ApiUserServiceGRPCClientInterface,
 )
-from .service_options_meshpy import ClientOptions
 
 # ===================================================================
 # END OF AUTO-GENERATED SECTION
@@ -81,7 +80,6 @@ __all__ = [
     "ApiUserServiceGRPCClient",
     "ApiUserServiceGRPCClientInterface",
     "AssignRoleToAPIUserRequest",
-    "ClientOptions",
     "CreateApiUserRequest",
     "DeactivateApiUserRequest",
     "GetApiUserByKeyHashRequest",
