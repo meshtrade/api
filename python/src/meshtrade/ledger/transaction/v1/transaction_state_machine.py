@@ -8,7 +8,7 @@ from meshtrade.ledger.transaction.v1.transaction_action_pb2 import TransactionAc
 from meshtrade.ledger.transaction.v1.transaction_state_pb2 import TransactionState
 
 
-def transaction_state_can_perform_action_at_state(state: TransactionState, action: TransactionAction) -> bool:
+def transaction_state_can_perform_action_at_state(state: TransactionState | None, action: TransactionAction | None) -> bool:
     """Check if the given action can be performed at the current transaction state.
 
     This implements the state machine logic for transaction lifecycle management.
@@ -22,11 +22,14 @@ def transaction_state_can_perform_action_at_state(state: TransactionState, actio
     - FAILED/SUCCESSFUL -> No further actions allowed (terminal states)
 
     Args:
-        state: The current TransactionState
-        action: The TransactionAction to perform
+        state: The current TransactionState (can be None)
+        action: The TransactionAction to perform (can be None)
 
     Returns:
         True if the action can be performed at the given state, False otherwise
+
+    None Safety:
+        Returns False if either state or action is None
 
     Example:
         >>> transaction_state_can_perform_action_at_state(

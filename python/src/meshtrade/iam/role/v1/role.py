@@ -105,9 +105,12 @@ def role_from_full_resource_name(full_resource_name: str) -> Role:
         >>> role_from_full_resource_name("invalid/format")
         0
     """
+    from typing import cast
+
     try:
         _, role_int = parse_role_parts(full_resource_name)
-        return role_int  # type: ignore[return-value]  # Python protobuf enums are ints
+        # Python protobuf enums are integers, safe to cast
+        return cast(Role, role_int)
     except ValueError:
         return Role.ROLE_UNSPECIFIED
 

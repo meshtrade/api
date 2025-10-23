@@ -42,7 +42,7 @@ def new_undefined_token() -> Token:
     )
 
 
-def token_new_amount_of(token: Token, value: PyDecimal) -> Amount | None:
+def token_new_amount_of(token: Token | None, value: PyDecimal) -> Amount | None:
     """Create a new Amount with the given decimal value and this token.
 
     The precision handling depends on the token's ledger:
@@ -50,11 +50,14 @@ def token_new_amount_of(token: Token, value: PyDecimal) -> Amount | None:
     - All other ledgers: Full precision is preserved
 
     Args:
-        token: The token to use for the amount
+        token: The token to use for the amount (can be None)
         value: The decimal value for the amount (can be positive, negative, or zero)
 
     Returns:
         A new Amount, or None if token is None
+
+    None Safety:
+        Returns None if token is None
 
     Example:
         >>> from decimal import Decimal as PyDecimal
@@ -82,7 +85,7 @@ def token_new_amount_of(token: Token, value: PyDecimal) -> Amount | None:
     )
 
 
-def token_is_undefined(token: Token) -> bool:
+def token_is_undefined(token: Token | None) -> bool:
     """Check whether this token represents an undefined or placeholder token.
 
     A token is considered undefined if:
@@ -94,6 +97,9 @@ def token_is_undefined(token: Token) -> bool:
 
     Returns:
         True if the token is undefined (None or matches undefined pattern), False otherwise
+
+    None Safety:
+        Returns True if token is None
 
     Example:
         >>> token = None
@@ -112,7 +118,7 @@ def token_is_undefined(token: Token) -> bool:
     return token.code == "-" and token.issuer == "-" and token.ledger == Ledger.LEDGER_UNSPECIFIED
 
 
-def token_is_equal_to(token1: Token, token2: Token) -> bool:
+def token_is_equal_to(token1: Token | None, token2: Token | None) -> bool:
     """Compare two tokens for equality.
 
     Two tokens are considered equal if and only if all of the following match:
@@ -126,6 +132,9 @@ def token_is_equal_to(token1: Token, token2: Token) -> bool:
 
     Returns:
         True if both tokens are equal (including both being None), False otherwise
+
+    None Safety:
+        Returns True if both are None, False if only one is None
 
     Example:
         >>> token1 = Token(code="USD", issuer="ISSUER1", ledger=Ledger.LEDGER_STELLAR)
@@ -147,7 +156,7 @@ def token_is_equal_to(token1: Token, token2: Token) -> bool:
     return token1.code == token2.code and token1.issuer == token2.issuer and token1.ledger == token2.ledger
 
 
-def token_pretty_string(token: Token) -> str:
+def token_pretty_string(token: Token | None) -> str:
     """Return a human-readable string representation of the token.
 
     Format: "CODE by ISSUER on NETWORK"
@@ -157,6 +166,9 @@ def token_pretty_string(token: Token) -> str:
 
     Returns:
         A formatted string describing the token, or "undefined" if None/undefined
+
+    None Safety:
+        Returns "undefined" if token is None
 
     Example:
         >>> token = Token(code="USD", issuer="CIRCLE", ledger=Ledger.LEDGER_STELLAR)

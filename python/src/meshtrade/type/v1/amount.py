@@ -127,7 +127,7 @@ def amount_set_value(amount: Amount, value: PyDecimal) -> Amount | None:
     return token_new_amount_of(amount.token, value)
 
 
-def amount_is_undefined(amount: Amount) -> bool:
+def amount_is_undefined(amount: Amount | None) -> bool:
     """Check whether this amount has an undefined token.
 
     An amount is considered undefined if its associated token is undefined.
@@ -137,6 +137,9 @@ def amount_is_undefined(amount: Amount) -> bool:
 
     Returns:
         True if the amount's token is undefined or if amount is None, False otherwise
+
+    None Safety:
+        Returns True if amount is None
 
     Example:
         >>> amount = new_undefined_amount(PyDecimal("100"))
@@ -151,7 +154,7 @@ def amount_is_undefined(amount: Amount) -> bool:
     return token_is_undefined(amount.token)
 
 
-def amount_is_same_type_as(amount1: Amount, amount2: Amount) -> bool:
+def amount_is_same_type_as(amount1: Amount | None, amount2: Amount | None) -> bool:
     """Check if two amounts have the same token type (same currency/asset).
 
     This is useful for validating that amounts can be compared or combined arithmetically.
@@ -162,6 +165,9 @@ def amount_is_same_type_as(amount1: Amount, amount2: Amount) -> bool:
 
     Returns:
         True if both amounts have equal tokens, False otherwise
+
+    None Safety:
+        Returns False if either amount is None
 
     Example:
         >>> usd_amount1 = new_undefined_amount(PyDecimal("100"))
@@ -177,7 +183,7 @@ def amount_is_same_type_as(amount1: Amount, amount2: Amount) -> bool:
     return token_is_equal_to(amount1.token, amount2.token)
 
 
-def amount_is_equal_to(amount1: Amount, amount2: Amount) -> bool:
+def amount_is_equal_to(amount1: Amount | None, amount2: Amount | None) -> bool:
     """Check if two amounts are equal in both value and token type.
 
     Two amounts are considered equal if they have the same decimal value AND the same token.
@@ -188,6 +194,9 @@ def amount_is_equal_to(amount1: Amount, amount2: Amount) -> bool:
 
     Returns:
         True if both amounts have equal values and tokens (or both are None), False otherwise
+
+    None Safety:
+        Returns True if both are None, False if only one is None
 
     Example:
         >>> amount1 = new_undefined_amount(PyDecimal("100"))
@@ -206,7 +215,7 @@ def amount_is_equal_to(amount1: Amount, amount2: Amount) -> bool:
     return token_is_equal_to(amount1.token, amount2.token) and decimal_equal(amount1.value, amount2.value)
 
 
-def amount_is_negative(amount: Amount) -> bool:
+def amount_is_negative(amount: Amount | None) -> bool:
     """Check whether the amount's value is less than zero.
 
     Args:
@@ -214,6 +223,9 @@ def amount_is_negative(amount: Amount) -> bool:
 
     Returns:
         True if the value is negative (< 0), False otherwise
+
+    None Safety:
+        Returns False if amount is None
 
     Example:
         >>> amount = new_undefined_amount(PyDecimal("-50"))
@@ -228,7 +240,7 @@ def amount_is_negative(amount: Amount) -> bool:
     return decimal_is_negative(amount.value)
 
 
-def amount_is_zero(amount: Amount) -> bool:
+def amount_is_zero(amount: Amount | None) -> bool:
     """Check whether the amount's value is exactly zero.
 
     Args:
@@ -236,6 +248,9 @@ def amount_is_zero(amount: Amount) -> bool:
 
     Returns:
         True if the value is zero, False otherwise
+
+    None Safety:
+        Returns False if amount is None
 
     Example:
         >>> amount = new_undefined_amount(PyDecimal("0"))
@@ -250,7 +265,7 @@ def amount_is_zero(amount: Amount) -> bool:
     return decimal_is_zero(amount.value)
 
 
-def amount_contains_fractions(amount: Amount) -> bool:
+def amount_contains_fractions(amount: Amount | None) -> bool:
     """Check whether the amount's value has any fractional (decimal) component.
 
     This is useful for determining if an amount can be represented as a whole number.
@@ -260,6 +275,9 @@ def amount_contains_fractions(amount: Amount) -> bool:
 
     Returns:
         True if the value has fractional/decimal places, False otherwise
+
+    None Safety:
+        Returns False if amount is None
 
     Example:
         >>> amount1 = new_undefined_amount(PyDecimal("100.50"))

@@ -10,7 +10,7 @@ class UnsupportedLedgerError(Exception):
     """Exception raised for unsupported Ledger values."""
 
     def __init__(self, ledger: Ledger):
-        self.financial_business_day_convention = ledger
+        self.ledger = ledger
         message = f"Unsupported Ledger: {ledger}"
         super().__init__(message)
 
