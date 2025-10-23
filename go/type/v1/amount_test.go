@@ -35,69 +35,6 @@ func TestNewUndefinedAmount(t *testing.T) {
 	}
 }
 
-// TestAmount_IsEqual verifies the deprecated IsEqual method with nil safety.
-func TestAmount_IsEqual(t *testing.T) {
-	t.Parallel()
-
-	token := createTestToken("USD", Ledger_LEDGER_STELLAR)
-
-	tests := []struct {
-		name string
-		x    *Amount
-		x2   *Amount
-		want bool
-	}{
-		{
-			name: "both nil amounts are equal",
-			x:    nil,
-			x2:   nil,
-			want: true,
-		},
-		{
-			name: "first nil, second non-nil - not equal",
-			x:    nil,
-			x2:   token.NewAmountOf(decimal.NewFromInt(100)),
-			want: false,
-		},
-		{
-			name: "first non-nil, second nil - not equal",
-			x:    token.NewAmountOf(decimal.NewFromInt(100)),
-			x2:   nil,
-			want: false,
-		},
-		{
-			name: "equal amounts",
-			x:    token.NewAmountOf(decimal.NewFromInt(100)),
-			x2:   token.NewAmountOf(decimal.NewFromInt(100)),
-			want: true,
-		},
-		{
-			name: "different values - not equal",
-			x:    token.NewAmountOf(decimal.NewFromInt(100)),
-			x2:   token.NewAmountOf(decimal.NewFromInt(200)),
-			want: false,
-		},
-		{
-			name: "different tokens - not equal",
-			x:    createTestToken("USD", Ledger_LEDGER_STELLAR).NewAmountOf(decimal.NewFromInt(100)),
-			x2:   createTestToken("EUR", Ledger_LEDGER_STELLAR).NewAmountOf(decimal.NewFromInt(100)),
-			want: false,
-		},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			t.Parallel()
-
-			got := tt.x.IsEqual(tt.x2)
-
-			if got != tt.want {
-				t.Errorf("IsEqual() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
 // TestAmount_IsEqualTo verifies amount equality with comprehensive nil handling.
 func TestAmount_IsEqualTo(t *testing.T) {
 	t.Parallel()
@@ -234,10 +171,10 @@ func TestAmount_SetValue(t *testing.T) {
 		wantNil   bool
 	}{
 		{
-			name:    "nil receiver returns nil",
-			amount:  nil,
+			name:     "nil receiver returns nil",
+			amount:   nil,
 			newValue: decimal.NewFromInt(200),
-			wantNil: true,
+			wantNil:  true,
 		},
 		{
 			name:      "set value on stellar amount - truncates to 7 decimals",
@@ -883,15 +820,6 @@ func TestAmount_NilSafetyIntegration(t *testing.T) {
 	t.Parallel()
 
 	var nilAmount *Amount = nil
-
-	t.Run("IsEqual on nil does not panic", func(t *testing.T) {
-		defer func() {
-			if r := recover(); r != nil {
-				t.Errorf("IsEqual() on nil panicked: %v", r)
-			}
-		}()
-		_ = nilAmount.IsEqual(nil)
-	})
 
 	t.Run("IsEqualTo on nil does not panic", func(t *testing.T) {
 		defer func() {
