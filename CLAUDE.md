@@ -136,10 +136,8 @@ message = (
 
 **Linting Tools**:
 - **Checkstyle**: Code style enforcement (Google Java Style Guide)
-- **SpotBugs**: Bug detection with FindSecBugs security plugin
 - **PMD**: Code quality analysis and complexity checking
 - **Error Prone**: Compile-time bug detection (Google)
-- **Modernizer**: Legacy API detection for Java 21
 
 **Key Style Rules**:
 - **Line Length**: 120 characters max (adjusted for Java verbosity)
@@ -157,19 +155,15 @@ mvn verify
 
 # Run individual linters
 mvn checkstyle:check     # Code style
-mvn spotbugs:check       # Bug detection + security
 mvn pmd:check            # Code quality
-mvn modernizer:modernizer # Legacy API detection
 
 # View HTML reports
 open target/site/checkstyle.html
-open target/spotbugsXml.html
 open target/site/pmd.html
 ```
 
 **Configuration Files**:
 - `java/checkstyle.xml` - Checkstyle rules (Google Style)
-- `java/spotbugs-exclude.xml` - Exclusions for generated code
 - `java/pmd-ruleset.xml` - PMD custom rules
 - `java/.editorconfig` - Editor consistency settings
 
@@ -271,7 +265,7 @@ The testing system provides robust validation across all SDK languages:
 
 # Individual language tests
 ./dev/test/python.sh      # Python with pytest, coverage, ruff linting
-./dev/test/java.sh        # Java with Maven, JaCoCo coverage, SpotBugs
+./dev/test/java.sh        # Java with Maven, JaCoCo coverage
 ./dev/test/go.sh          # Go with race detection, coverage, golangci-lint
 ./dev/test/typescript.sh  # TypeScript with Jest, type checking, ESLint
 ```
@@ -295,7 +289,7 @@ Before testing, validate your development environment:
 ### Test Features
 
 **Python Tests**: pytest with coverage, ruff linting, virtual environment validation
-**Java Tests**: Maven surefire/failsafe, JaCoCo coverage, SpotBugs security analysis
+**Java Tests**: Maven surefire/failsafe, JaCoCo coverage
 **Go Tests**: Standard testing, race detection, coverage analysis, security linting
 **TypeScript Tests**: Jest framework, type checking, ESLint validation, build verification
 
