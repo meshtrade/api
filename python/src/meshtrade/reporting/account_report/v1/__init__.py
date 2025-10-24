@@ -41,6 +41,8 @@ from .service_meshpy import (
 #
 # ===================================================================
 
+from .income_entry import income_narrative_pretty_string
+
 # ===================================================================
 # MODULE EXPORTS
 # ===================================================================
@@ -59,4 +61,6 @@ __all__ = [
     "IncomeEntry",
     "IncomeNarrative",
     "TradingStatementEntry",
+    # Manual exports
+    "income_narrative_pretty_string",
 ]
