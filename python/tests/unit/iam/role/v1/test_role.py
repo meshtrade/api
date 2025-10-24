@@ -27,7 +27,7 @@ def test_role_is_valid():
 
 def test_role_is_valid_invalid():
     """Test role validity check with invalid value."""
-    assert role_is_valid(999999) is False
+    assert role_is_valid(Role(999999)) is False
 
 
 def test_role_is_valid_and_specified():
@@ -43,7 +43,7 @@ def test_role_is_valid_and_specified_unspecified():
 
 def test_role_is_valid_and_specified_invalid():
     """Test with invalid role value."""
-    assert role_is_valid_and_specified(999999) is False
+    assert role_is_valid_and_specified(Role(999999)) is False
 
 
 def test_role_full_resource_name_from_group_id():
