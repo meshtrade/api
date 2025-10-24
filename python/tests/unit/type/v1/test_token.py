@@ -20,6 +20,7 @@ class TestTokenCreation:
         undefined = token.new_undefined_token()
         assert token.token_is_undefined(undefined) is True
 
+
 class TestTokenIsUndefined:
     """Tests for token_is_undefined function."""
 

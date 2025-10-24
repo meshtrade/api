@@ -13,7 +13,7 @@ def test_ledger_is_valid():
 
 def test_ledger_is_valid_invalid():
     """Test ledger validity check with invalid value."""
-    assert ledger_is_valid(Ledger(999)) is False
+    assert ledger_is_valid(999) is False  # type: ignore
 
 
 def test_ledger_is_valid_and_defined():
@@ -29,4 +29,4 @@ def test_ledger_is_valid_and_defined_unspecified():
 
 def test_ledger_is_valid_and_defined_invalid():
     """Test with invalid ledger value."""
-    assert ledger_is_valid_and_defined(Ledger(999)) is False
+    assert ledger_is_valid_and_defined(999) is False  # type: ignore

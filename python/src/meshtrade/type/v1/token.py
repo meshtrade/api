@@ -37,6 +37,7 @@ def new_undefined_token() -> Token:
         ledger=Ledger.LEDGER_UNSPECIFIED,
     )
 
+
 def token_is_undefined(token: Token | None) -> bool:
     """Check whether this token represents an undefined or placeholder token.
 

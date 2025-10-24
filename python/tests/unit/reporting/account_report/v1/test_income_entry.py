@@ -53,5 +53,5 @@ def test_income_narrative_pretty_string_all_values():
 def test_income_narrative_pretty_string_unknown():
     """Test pretty string for unknown narrative value."""
     # Test with an invalid enum value (999 is not defined)
-    result = income_narrative_pretty_string(IncomeNarrative(999))
+    result = income_narrative_pretty_string(999)  # type: ignore
     assert result == ""
