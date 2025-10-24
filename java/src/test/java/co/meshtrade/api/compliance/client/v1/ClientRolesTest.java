@@ -1,13 +1,19 @@
 package co.meshtrade.api.compliance.client.v1;
 
 import co.meshtrade.api.iam.role.v1.RoleOuterClass;
+
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Comprehensive tests for ClientRoles utility methods.
@@ -15,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ClientRolesTest {
 
     @Test
-    void getClientDefaultRoles_returnsNonEmptyList() {
+    void getClientDefaultRolesReturnsNonEmptyList() {
         List<RoleOuterClass.Role> roles = ClientRoles.getClientDefaultRoles();
 
         assertNotNull(roles);
@@ -23,7 +29,7 @@ class ClientRolesTest {
     }
 
     @Test
-    void getClientDefaultRoles_returnsImmutableList() {
+    void getClientDefaultRolesReturnsImmutableList() {
         List<RoleOuterClass.Role> roles = ClientRoles.getClientDefaultRoles();
 
         assertThrows(UnsupportedOperationException.class, () -> {
@@ -32,7 +38,7 @@ class ClientRolesTest {
     }
 
     @Test
-    void getClientDefaultRoles_consistentAcrossCalls() {
+    void getClientDefaultRolesConsistentAcrossCalls() {
         List<RoleOuterClass.Role> roles1 = ClientRoles.getClientDefaultRoles();
         List<RoleOuterClass.Role> roles2 = ClientRoles.getClientDefaultRoles();
 
@@ -42,7 +48,7 @@ class ClientRolesTest {
     }
 
     @Test
-    void getClientDefaultRoles_containsComplianceRoles() {
+    void getClientDefaultRolesContainsComplianceRoles() {
         List<RoleOuterClass.Role> roles = ClientRoles.getClientDefaultRoles();
 
         // Should contain at least one compliance-related role
@@ -58,7 +64,7 @@ class ClientRolesTest {
     }
 
     @Test
-    void getClientDefaultRoleSet_returnsNonEmptySet() {
+    void getClientDefaultRoleSetReturnsNonEmptySet() {
         Set<RoleOuterClass.Role> roleSet = ClientRoles.getClientDefaultRoleSet();
 
         assertNotNull(roleSet);
@@ -66,7 +72,7 @@ class ClientRolesTest {
     }
 
     @Test
-    void getClientDefaultRoleSet_returnsImmutableSet() {
+    void getClientDefaultRoleSetReturnsImmutableSet() {
         Set<RoleOuterClass.Role> roleSet = ClientRoles.getClientDefaultRoleSet();
 
         assertThrows(UnsupportedOperationException.class, () -> {
@@ -75,7 +81,7 @@ class ClientRolesTest {
     }
 
     @Test
-    void getClientDefaultRoleSet_containsSameRolesAsList() {
+    void getClientDefaultRoleSetContainsSameRolesAsList() {
         List<RoleOuterClass.Role> rolesList = ClientRoles.getClientDefaultRoles();
         Set<RoleOuterClass.Role> roleSet = ClientRoles.getClientDefaultRoleSet();
 
@@ -84,7 +90,7 @@ class ClientRolesTest {
     }
 
     @Test
-    void getClientDefaultRoleSet_efficientMembershipCheck() {
+    void getClientDefaultRoleSetEfficientMembershipCheck() {
         Set<RoleOuterClass.Role> roleSet = ClientRoles.getClientDefaultRoleSet();
         List<RoleOuterClass.Role> rolesList = ClientRoles.getClientDefaultRoles();
 
@@ -96,7 +102,7 @@ class ClientRolesTest {
     }
 
     @Test
-    void getClientDefaultRoleSet_consistentAcrossCalls() {
+    void getClientDefaultRoleSetConsistentAcrossCalls() {
         Set<RoleOuterClass.Role> set1 = ClientRoles.getClientDefaultRoleSet();
         Set<RoleOuterClass.Role> set2 = ClientRoles.getClientDefaultRoleSet();
 
@@ -107,7 +113,7 @@ class ClientRolesTest {
 
     // Integration test - list and set consistency
     @Test
-    void integration_listAndSet_maintainConsistency() {
+    void integrationListAndSetMaintainConsistency() {
         List<RoleOuterClass.Role> rolesList = ClientRoles.getClientDefaultRoles();
         Set<RoleOuterClass.Role> roleSet = ClientRoles.getClientDefaultRoleSet();
 
@@ -123,7 +129,7 @@ class ClientRolesTest {
 
     // Thread-safety test
     @Test
-    void threadSafety_concurrentAccess_cachesCorrectly() throws Exception {
+    void threadSafetyConcurrentAccessCachesCorrectly() throws Exception {
         int threadCount = 10;
         java.util.concurrent.CountDownLatch startLatch = new java.util.concurrent.CountDownLatch(1);
         java.util.concurrent.CountDownLatch doneLatch = new java.util.concurrent.CountDownLatch(threadCount);
@@ -167,7 +173,7 @@ class ClientRolesTest {
 
     // Thread-safety test for role set
     @Test
-    void threadSafety_concurrentAccessRoleSet_cachesCorrectly() throws Exception {
+    void threadSafetyConcurrentAccessRoleSetCachesCorrectly() throws Exception {
         int threadCount = 10;
         java.util.concurrent.CountDownLatch startLatch = new java.util.concurrent.CountDownLatch(1);
         java.util.concurrent.CountDownLatch doneLatch = new java.util.concurrent.CountDownLatch(threadCount);

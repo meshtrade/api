@@ -1,12 +1,15 @@
 package co.meshtrade.api.ledger.transaction.v1;
 
-import co.meshtrade.api.ledger.transaction.v1.TransactionStateOuterClass.TransactionState;
-import co.meshtrade.api.ledger.transaction.v1.TransactionActionOuterClass.TransactionAction;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+
+import co.meshtrade.api.ledger.transaction.v1.TransactionActionOuterClass.TransactionAction;
+import co.meshtrade.api.ledger.transaction.v1.TransactionStateOuterClass.TransactionState;
 
 /**
  * Comprehensive tests for TransactionStateMachine utility methods.
@@ -15,7 +18,7 @@ class TransactionStateMachineTest {
 
     // Test DRAFT state transitions
     @Test
-    void canPerformAction_draftStateBuildAction_returnsTrue() {
+    void canPerformActionDraftStateBuildActionReturnsTrue() {
         assertTrue(TransactionStateMachine.transactionStateCanPerformActionAtState(
             TransactionState.TRANSACTION_STATE_DRAFT,
             TransactionAction.TRANSACTION_ACTION_BUILD
@@ -23,7 +26,7 @@ class TransactionStateMachineTest {
     }
 
     @Test
-    void canPerformAction_draftStateCommitAction_returnsTrue() {
+    void canPerformActionDraftStateCommitActionReturnsTrue() {
         assertTrue(TransactionStateMachine.transactionStateCanPerformActionAtState(
             TransactionState.TRANSACTION_STATE_DRAFT,
             TransactionAction.TRANSACTION_ACTION_COMMIT
@@ -31,7 +34,7 @@ class TransactionStateMachineTest {
     }
 
     @Test
-    void canPerformAction_draftStateSignAction_returnsFalse() {
+    void canPerformActionDraftStateSignActionReturnsFalse() {
         assertFalse(TransactionStateMachine.transactionStateCanPerformActionAtState(
             TransactionState.TRANSACTION_STATE_DRAFT,
             TransactionAction.TRANSACTION_ACTION_SIGN
@@ -40,7 +43,7 @@ class TransactionStateMachineTest {
 
     // Test SIGNING_IN_PROGRESS state transitions
     @Test
-    void canPerformAction_signingStateSignAction_returnsTrue() {
+    void canPerformActionSigningStateSignActionReturnsTrue() {
         assertTrue(TransactionStateMachine.transactionStateCanPerformActionAtState(
             TransactionState.TRANSACTION_STATE_SIGNING_IN_PROGRESS,
             TransactionAction.TRANSACTION_ACTION_SIGN
@@ -48,7 +51,7 @@ class TransactionStateMachineTest {
     }
 
     @Test
-    void canPerformAction_signingStateMarkPendingAction_returnsTrue() {
+    void canPerformActionSigningStateMarkPendingActionReturnsTrue() {
         assertTrue(TransactionStateMachine.transactionStateCanPerformActionAtState(
             TransactionState.TRANSACTION_STATE_SIGNING_IN_PROGRESS,
             TransactionAction.TRANSACTION_ACTION_MARK_PENDING
@@ -56,7 +59,7 @@ class TransactionStateMachineTest {
     }
 
     @Test
-    void canPerformAction_signingStateSubmitAction_returnsFalse() {
+    void canPerformActionSigningStateSubmitActionReturnsFalse() {
         assertFalse(TransactionStateMachine.transactionStateCanPerformActionAtState(
             TransactionState.TRANSACTION_STATE_SIGNING_IN_PROGRESS,
             TransactionAction.TRANSACTION_ACTION_SUBMIT
@@ -65,7 +68,7 @@ class TransactionStateMachineTest {
 
     // Test PENDING state transitions
     @Test
-    void canPerformAction_pendingStateSubmitAction_returnsTrue() {
+    void canPerformActionPendingStateSubmitActionReturnsTrue() {
         assertTrue(TransactionStateMachine.transactionStateCanPerformActionAtState(
             TransactionState.TRANSACTION_STATE_PENDING,
             TransactionAction.TRANSACTION_ACTION_SUBMIT
@@ -73,7 +76,7 @@ class TransactionStateMachineTest {
     }
 
     @Test
-    void canPerformAction_pendingStateBuildAction_returnsFalse() {
+    void canPerformActionPendingStateBuildActionReturnsFalse() {
         assertFalse(TransactionStateMachine.transactionStateCanPerformActionAtState(
             TransactionState.TRANSACTION_STATE_PENDING,
             TransactionAction.TRANSACTION_ACTION_BUILD
@@ -82,7 +85,7 @@ class TransactionStateMachineTest {
 
     // Test SUBMISSION_IN_PROGRESS state transitions
     @Test
-    void canPerformAction_submissionInProgressStateSubmitAction_returnsTrue() {
+    void canPerformActionSubmissionInProgressStateSubmitActionReturnsTrue() {
         assertTrue(TransactionStateMachine.transactionStateCanPerformActionAtState(
             TransactionState.TRANSACTION_STATE_SUBMISSION_IN_PROGRESS,
             TransactionAction.TRANSACTION_ACTION_SUBMIT
@@ -91,7 +94,7 @@ class TransactionStateMachineTest {
 
     // Test INDETERMINATE state transitions
     @Test
-    void canPerformAction_indeterminateStateSubmitAction_returnsTrue() {
+    void canPerformActionIndeterminateStateSubmitActionReturnsTrue() {
         assertTrue(TransactionStateMachine.transactionStateCanPerformActionAtState(
             TransactionState.TRANSACTION_STATE_INDETERMINATE,
             TransactionAction.TRANSACTION_ACTION_SUBMIT
@@ -100,7 +103,7 @@ class TransactionStateMachineTest {
 
     // Test terminal states
     @Test
-    void canPerformAction_failedState_noActionsAllowed() {
+    void canPerformActionFailedStateNoActionsAllowed() {
         assertFalse(TransactionStateMachine.transactionStateCanPerformActionAtState(
             TransactionState.TRANSACTION_STATE_FAILED,
             TransactionAction.TRANSACTION_ACTION_BUILD
@@ -112,7 +115,7 @@ class TransactionStateMachineTest {
     }
 
     @Test
-    void canPerformAction_successfulState_noActionsAllowed() {
+    void canPerformActionSuccessfulStateNoActionsAllowed() {
         assertFalse(TransactionStateMachine.transactionStateCanPerformActionAtState(
             TransactionState.TRANSACTION_STATE_SUCCESSFUL,
             TransactionAction.TRANSACTION_ACTION_BUILD
@@ -125,7 +128,7 @@ class TransactionStateMachineTest {
 
     // Test null handling
     @Test
-    void canPerformAction_nullState_returnsFalse() {
+    void canPerformActionNullStateReturnsFalse() {
         assertFalse(TransactionStateMachine.transactionStateCanPerformActionAtState(
             null,
             TransactionAction.TRANSACTION_ACTION_BUILD
@@ -133,7 +136,7 @@ class TransactionStateMachineTest {
     }
 
     @Test
-    void canPerformAction_nullAction_returnsFalse() {
+    void canPerformActionNullActionReturnsFalse() {
         assertFalse(TransactionStateMachine.transactionStateCanPerformActionAtState(
             TransactionState.TRANSACTION_STATE_DRAFT,
             null
@@ -142,7 +145,7 @@ class TransactionStateMachineTest {
 
     // Test transactionStateGetValidActions
     @Test
-    void getValidActions_draftState_includesBuildAndCommit() {
+    void getValidActionsDraftStateIncludesBuildAndCommit() {
         Set<TransactionAction> actions = TransactionStateMachine.transactionStateGetValidActions(
             TransactionState.TRANSACTION_STATE_DRAFT
         );
@@ -154,7 +157,7 @@ class TransactionStateMachineTest {
     }
 
     @Test
-    void getValidActions_signingState_includesSignAndMarkPending() {
+    void getValidActionsSigningStateIncludesSignAndMarkPending() {
         Set<TransactionAction> actions = TransactionStateMachine.transactionStateGetValidActions(
             TransactionState.TRANSACTION_STATE_SIGNING_IN_PROGRESS
         );
@@ -166,7 +169,7 @@ class TransactionStateMachineTest {
     }
 
     @Test
-    void getValidActions_pendingState_includesOnlySubmit() {
+    void getValidActionsPendingStateIncludesOnlySubmit() {
         Set<TransactionAction> actions = TransactionStateMachine.transactionStateGetValidActions(
             TransactionState.TRANSACTION_STATE_PENDING
         );
@@ -176,7 +179,7 @@ class TransactionStateMachineTest {
     }
 
     @Test
-    void getValidActions_submissionInProgressState_includesOnlySubmit() {
+    void getValidActionsSubmissionInProgressStateIncludesOnlySubmit() {
         Set<TransactionAction> actions = TransactionStateMachine.transactionStateGetValidActions(
             TransactionState.TRANSACTION_STATE_SUBMISSION_IN_PROGRESS
         );
@@ -186,7 +189,7 @@ class TransactionStateMachineTest {
     }
 
     @Test
-    void getValidActions_indeterminateState_includesOnlySubmit() {
+    void getValidActionsIndeterminateStateIncludesOnlySubmit() {
         Set<TransactionAction> actions = TransactionStateMachine.transactionStateGetValidActions(
             TransactionState.TRANSACTION_STATE_INDETERMINATE
         );
@@ -196,7 +199,7 @@ class TransactionStateMachineTest {
     }
 
     @Test
-    void getValidActions_failedState_returnsEmptySet() {
+    void getValidActionsFailedStateReturnsEmptySet() {
         Set<TransactionAction> actions = TransactionStateMachine.transactionStateGetValidActions(
             TransactionState.TRANSACTION_STATE_FAILED
         );
@@ -205,7 +208,7 @@ class TransactionStateMachineTest {
     }
 
     @Test
-    void getValidActions_successfulState_returnsEmptySet() {
+    void getValidActionsSuccessfulStateReturnsEmptySet() {
         Set<TransactionAction> actions = TransactionStateMachine.transactionStateGetValidActions(
             TransactionState.TRANSACTION_STATE_SUCCESSFUL
         );
@@ -214,14 +217,14 @@ class TransactionStateMachineTest {
     }
 
     @Test
-    void getValidActions_nullState_returnsEmptySet() {
+    void getValidActionsNullStateReturnsEmptySet() {
         Set<TransactionAction> actions = TransactionStateMachine.transactionStateGetValidActions(null);
         assertTrue(actions.isEmpty());
     }
 
     // Integration test - transaction lifecycle
     @Test
-    void integration_transactionLifecycle_workCorrectly() {
+    void integrationTransactionLifecycleWorkCorrectly() {
         // Start in DRAFT
         TransactionState currentState = TransactionState.TRANSACTION_STATE_DRAFT;
 

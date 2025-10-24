@@ -1,9 +1,10 @@
 package co.meshtrade.api.type.v1;
 
-import co.meshtrade.api.type.v1.DateOuterClass.Date;
-import co.meshtrade.api.type.v1.TimeOfDayOuterClass.TimeOfDay;
 import java.time.Duration;
 import java.time.LocalTime;
+
+import co.meshtrade.api.type.v1.DateOuterClass.Date;
+import co.meshtrade.api.type.v1.TimeOfDayOuterClass.TimeOfDay;
 
 /**
  * Utility functions for working with protobuf TimeOfDay messages.

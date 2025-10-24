@@ -1,9 +1,13 @@
 package co.meshtrade.api.type.v1;
 
 import co.meshtrade.api.type.v1.LedgerOuterClass.Ledger;
+
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test suite for LedgerUtils.
@@ -83,7 +87,7 @@ class LedgerUtilsTest {
     }
 
     @Test
-    void testLedgerValidate_Success() {
+    void testLedgerValidateSuccess() {
         // Valid and defined ledgers should pass validation
         assertEquals(Ledger.LEDGER_STELLAR, LedgerUtils.ledgerValidate(Ledger.LEDGER_STELLAR));
         assertEquals(Ledger.LEDGER_ETHEREUM, LedgerUtils.ledgerValidate(Ledger.LEDGER_ETHEREUM));
@@ -91,7 +95,7 @@ class LedgerUtilsTest {
     }
 
     @Test
-    void testLedgerValidate_NullThrowsException() {
+    void testLedgerValidateNullThrowsException() {
         IllegalArgumentException exception = assertThrows(
             IllegalArgumentException.class,
             () -> LedgerUtils.ledgerValidate(null)
@@ -100,7 +104,7 @@ class LedgerUtilsTest {
     }
 
     @Test
-    void testLedgerValidate_UnspecifiedThrowsException() {
+    void testLedgerValidateUnspecifiedThrowsException() {
         IllegalArgumentException exception = assertThrows(
             IllegalArgumentException.class,
             () -> LedgerUtils.ledgerValidate(Ledger.LEDGER_UNSPECIFIED)
@@ -109,7 +113,7 @@ class LedgerUtilsTest {
     }
 
     @Test
-    void testLedgerValidate_UnrecognizedThrowsException() {
+    void testLedgerValidateUnrecognizedThrowsException() {
         IllegalArgumentException exception = assertThrows(
             IllegalArgumentException.class,
             () -> LedgerUtils.ledgerValidate(Ledger.UNRECOGNIZED)

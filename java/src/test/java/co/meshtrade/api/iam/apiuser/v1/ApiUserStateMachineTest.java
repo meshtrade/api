@@ -1,12 +1,15 @@
 package co.meshtrade.api.iam.apiuser.v1;
 
-import co.meshtrade.api.iam.api_user.v1.ApiUser.APIUserState;
-import co.meshtrade.api.iam.api_user.v1.ApiUser.APIUserAction;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+
+import co.meshtrade.api.iam.api_user.v1.ApiUser.APIUserAction;
+import co.meshtrade.api.iam.api_user.v1.ApiUser.APIUserState;
 
 /**
  * Comprehensive tests for ApiUserStateMachine utility methods.
@@ -15,42 +18,42 @@ class ApiUserStateMachineTest {
 
     // Test apiUserStateIsValid
     @Test
-    void apiUserStateIsValid_validStates_returnsTrue() {
+    void apiUserStateIsValidValidStatesReturnsTrue() {
         assertTrue(ApiUserStateMachine.apiUserStateIsValid(APIUserState.API_USER_STATE_INACTIVE));
         assertTrue(ApiUserStateMachine.apiUserStateIsValid(APIUserState.API_USER_STATE_ACTIVE));
         assertTrue(ApiUserStateMachine.apiUserStateIsValid(APIUserState.API_USER_STATE_UNSPECIFIED));
     }
 
     @Test
-    void apiUserStateIsValid_nullState_returnsFalse() {
+    void apiUserStateIsValidNullStateReturnsFalse() {
         assertFalse(ApiUserStateMachine.apiUserStateIsValid(null));
     }
 
     @Test
-    void apiUserStateIsValid_unrecognizedState_returnsFalse() {
+    void apiUserStateIsValidUnrecognizedStateReturnsFalse() {
         assertFalse(ApiUserStateMachine.apiUserStateIsValid(APIUserState.UNRECOGNIZED));
     }
 
     // Test apiUserStateIsValidAndDefined
     @Test
-    void apiUserStateIsValidAndDefined_definedStates_returnsTrue() {
+    void apiUserStateIsValidAndDefinedDefinedStatesReturnsTrue() {
         assertTrue(ApiUserStateMachine.apiUserStateIsValidAndDefined(APIUserState.API_USER_STATE_INACTIVE));
         assertTrue(ApiUserStateMachine.apiUserStateIsValidAndDefined(APIUserState.API_USER_STATE_ACTIVE));
     }
 
     @Test
-    void apiUserStateIsValidAndDefined_unspecifiedState_returnsFalse() {
+    void apiUserStateIsValidAndDefinedUnspecifiedStateReturnsFalse() {
         assertFalse(ApiUserStateMachine.apiUserStateIsValidAndDefined(APIUserState.API_USER_STATE_UNSPECIFIED));
     }
 
     @Test
-    void apiUserStateIsValidAndDefined_nullState_returnsFalse() {
+    void apiUserStateIsValidAndDefinedNullStateReturnsFalse() {
         assertFalse(ApiUserStateMachine.apiUserStateIsValidAndDefined(null));
     }
 
     // Test apiUserStateCanPerformActionAtState
     @Test
-    void canPerformAction_inactiveStateActivateAction_returnsTrue() {
+    void canPerformActionInactiveStateActivateActionReturnsTrue() {
         assertTrue(ApiUserStateMachine.apiUserStateCanPerformActionAtState(
             APIUserState.API_USER_STATE_INACTIVE,
             APIUserAction.API_USER_ACTION_ACTIVATE
@@ -58,7 +61,7 @@ class ApiUserStateMachineTest {
     }
 
     @Test
-    void canPerformAction_activeStateDeactivateAction_returnsTrue() {
+    void canPerformActionActiveStateDeactivateActionReturnsTrue() {
         assertTrue(ApiUserStateMachine.apiUserStateCanPerformActionAtState(
             APIUserState.API_USER_STATE_ACTIVE,
             APIUserAction.API_USER_ACTION_DEACTIVATE
@@ -66,7 +69,7 @@ class ApiUserStateMachineTest {
     }
 
     @Test
-    void canPerformAction_updateActionAllStates_returnsTrue() {
+    void canPerformActionUpdateActionAllStatesReturnsTrue() {
         // UPDATE action should be allowed in all states
         assertTrue(ApiUserStateMachine.apiUserStateCanPerformActionAtState(
             APIUserState.API_USER_STATE_INACTIVE,
@@ -79,7 +82,7 @@ class ApiUserStateMachineTest {
     }
 
     @Test
-    void canPerformAction_inactiveStateDeactivateAction_returnsFalse() {
+    void canPerformActionInactiveStateDeactivateActionReturnsFalse() {
         assertFalse(ApiUserStateMachine.apiUserStateCanPerformActionAtState(
             APIUserState.API_USER_STATE_INACTIVE,
             APIUserAction.API_USER_ACTION_DEACTIVATE
@@ -87,7 +90,7 @@ class ApiUserStateMachineTest {
     }
 
     @Test
-    void canPerformAction_activeStateActivateAction_returnsFalse() {
+    void canPerformActionActiveStateActivateActionReturnsFalse() {
         assertFalse(ApiUserStateMachine.apiUserStateCanPerformActionAtState(
             APIUserState.API_USER_STATE_ACTIVE,
             APIUserAction.API_USER_ACTION_ACTIVATE
@@ -95,7 +98,7 @@ class ApiUserStateMachineTest {
     }
 
     @Test
-    void canPerformAction_nullState_returnsFalse() {
+    void canPerformActionNullStateReturnsFalse() {
         assertFalse(ApiUserStateMachine.apiUserStateCanPerformActionAtState(
             null,
             APIUserAction.API_USER_ACTION_ACTIVATE
@@ -103,7 +106,7 @@ class ApiUserStateMachineTest {
     }
 
     @Test
-    void canPerformAction_nullAction_returnsFalse() {
+    void canPerformActionNullActionReturnsFalse() {
         assertFalse(ApiUserStateMachine.apiUserStateCanPerformActionAtState(
             APIUserState.API_USER_STATE_INACTIVE,
             null
@@ -112,7 +115,7 @@ class ApiUserStateMachineTest {
 
     // Test apiUserStateGetValidActions
     @Test
-    void getValidActions_inactiveState_includesActivateAndUpdate() {
+    void getValidActionsInactiveStateIncludesActivateAndUpdate() {
         Set<APIUserAction> actions = ApiUserStateMachine.apiUserStateGetValidActions(
             APIUserState.API_USER_STATE_INACTIVE
         );
@@ -124,7 +127,7 @@ class ApiUserStateMachineTest {
     }
 
     @Test
-    void getValidActions_activeState_includesDeactivateAndUpdate() {
+    void getValidActionsActiveStateIncludesDeactivateAndUpdate() {
         Set<APIUserAction> actions = ApiUserStateMachine.apiUserStateGetValidActions(
             APIUserState.API_USER_STATE_ACTIVE
         );
@@ -136,13 +139,13 @@ class ApiUserStateMachineTest {
     }
 
     @Test
-    void getValidActions_nullState_returnsEmptySet() {
+    void getValidActionsNullStateReturnsEmptySet() {
         Set<APIUserAction> actions = ApiUserStateMachine.apiUserStateGetValidActions(null);
         assertTrue(actions.isEmpty());
     }
 
     @Test
-    void getValidActions_unspecifiedState_returnsEmptySet() {
+    void getValidActionsUnspecifiedStateReturnsEmptySet() {
         Set<APIUserAction> actions = ApiUserStateMachine.apiUserStateGetValidActions(
             APIUserState.API_USER_STATE_UNSPECIFIED
         );
@@ -151,7 +154,7 @@ class ApiUserStateMachineTest {
 
     // Integration test - state transitions
     @Test
-    void integration_stateTransitions_workCorrectly() {
+    void integrationStateTransitionsWorkCorrectly() {
         // Start in INACTIVE state
         APIUserState currentState = APIUserState.API_USER_STATE_INACTIVE;
 

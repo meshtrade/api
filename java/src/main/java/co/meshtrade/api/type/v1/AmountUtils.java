@@ -1,9 +1,9 @@
 package co.meshtrade.api.type.v1;
 
+import java.math.BigDecimal;
+
 import co.meshtrade.api.type.v1.AmountOuterClass.Amount;
 import co.meshtrade.api.type.v1.DecimalOuterClass.Decimal;
-import co.meshtrade.api.type.v1.TokenOuterClass.Token;
-import java.math.BigDecimal;
 
 /**
  * Utility methods for working with Amount protobuf messages.

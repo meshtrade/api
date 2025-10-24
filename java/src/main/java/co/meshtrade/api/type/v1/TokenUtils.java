@@ -1,10 +1,11 @@
 package co.meshtrade.api.type.v1;
 
-import co.meshtrade.api.type.v1.TokenOuterClass.Token;
-import co.meshtrade.api.type.v1.AmountOuterClass.Amount;
-import co.meshtrade.api.type.v1.LedgerOuterClass.Ledger;
-import co.meshtrade.api.type.v1.DecimalOuterClass.Decimal;
 import java.math.BigDecimal;
+
+import co.meshtrade.api.type.v1.AmountOuterClass.Amount;
+import co.meshtrade.api.type.v1.DecimalOuterClass.Decimal;
+import co.meshtrade.api.type.v1.LedgerOuterClass.Ledger;
+import co.meshtrade.api.type.v1.TokenOuterClass.Token;
 
 /**
  * Utility methods for working with Token protobuf messages.

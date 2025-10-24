@@ -1,14 +1,15 @@
 package co.meshtrade.api.compliance.client.v1;
 
-import co.meshtrade.api.compliance.client.v1.ClientOuterClass.Client;
-import co.meshtrade.api.iam.role.v1.RoleOuterClass;
-import com.google.protobuf.Descriptors;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import com.google.protobuf.Descriptors;
+
+import co.meshtrade.api.compliance.client.v1.ClientOuterClass.Client;
+import co.meshtrade.api.iam.role.v1.RoleOuterClass;
 
 /**
  * Utility methods for accessing Client default roles via protobuf extensions.

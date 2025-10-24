@@ -1,17 +1,16 @@
 package co.meshtrade.api.iam.api_user.v1;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import build.buf.protovalidate.ValidationResult;
 import build.buf.protovalidate.Validator;
 import build.buf.protovalidate.ValidatorFactory;
-import co.meshtrade.api.iam.api_user.v1.ApiUser.APIUser;
-import co.meshtrade.api.iam.api_user.v1.ApiUser.APIUserState;
-import co.meshtrade.api.iam.api_user.v1.Service.CreateApiUserRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.api.Assertions.assertThatCode;
+import co.meshtrade.api.iam.api_user.v1.ApiUser.APIUser;
+import co.meshtrade.api.iam.api_user.v1.ApiUser.APIUserState;
+import co.meshtrade.api.iam.api_user.v1.Service.CreateApiUserRequest;
 
 /**
  * Unit tests for client-side validation in Java IAM API User service.
@@ -24,7 +23,7 @@ class ApiUserServiceValidationTest {
 
     @Test
     @DisplayName("Valid CreateApiUser request passes validation")
-    void createApiUser_validRequest_passesValidation() throws Exception {
+    void createApiUserValidRequestPassesValidation() throws Exception {
         // Create a valid request
         CreateApiUserRequest request = CreateApiUserRequest.newBuilder()
             .setApiUser(APIUser.newBuilder()
@@ -50,7 +49,7 @@ class ApiUserServiceValidationTest {
 
     @Test
     @DisplayName("Empty owner fails validation")
-    void createApiUser_invalidOwner_failsValidation() throws Exception {
+    void createApiUserInvalidOwnerFailsValidation() throws Exception {
         // Create an invalid request - empty owner
         CreateApiUserRequest request = CreateApiUserRequest.newBuilder()
             .setApiUser(APIUser.newBuilder()
@@ -74,7 +73,7 @@ class ApiUserServiceValidationTest {
 
     @Test
     @DisplayName("Empty display name fails validation")
-    void createApiUser_invalidDisplayName_failsValidation() throws Exception {
+    void createApiUserInvalidDisplayNameFailsValidation() throws Exception {
         // Create an invalid request - empty display name
         CreateApiUserRequest request = CreateApiUserRequest.newBuilder()
             .setApiUser(APIUser.newBuilder()
@@ -98,7 +97,7 @@ class ApiUserServiceValidationTest {
 
     @Test
     @DisplayName("Display name too long fails validation")
-    void createApiUser_displayNameTooLong_failsValidation() throws Exception {
+    void createApiUserDisplayNameTooLongFailsValidation() throws Exception {
         // Create an invalid request - display name too long (max 255 chars)
         String longDisplayName = "a".repeat(256);
         CreateApiUserRequest request = CreateApiUserRequest.newBuilder()
@@ -122,7 +121,7 @@ class ApiUserServiceValidationTest {
 
     @Test
     @DisplayName("BaseGRPCClient validation integration test")
-    void baseGRPCClient_validationIntegration_worksCorrectly() throws Exception {
+    void baseGRPCClientValidationIntegrationWorksCorrectly() throws Exception {
         // This test documents the expected validation flow in Java clients:
         //
         // 1. User calls: service.createApiUser(request, Optional.empty())
@@ -192,7 +191,7 @@ class ApiUserServiceValidationTest {
      */
     @Test
     @DisplayName("Client validation flow documentation")
-    void clientValidationFlow_documentation() {
+    void clientValidationFlowDocumentation() {
         // This test documents the architectural consistency across SDKs:
         //
         // Go:     grpc.Execute() function validates before gRPC call

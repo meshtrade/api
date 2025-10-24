@@ -1,7 +1,11 @@
 package co.meshtrade.api.iam.role.v1;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Comprehensive tests for RoleUtils utility methods.
@@ -13,47 +17,47 @@ class RoleUtilsTest {
 
     // Test roleIsValid
     @Test
-    void roleIsValid_validRole_returnsTrue() {
+    void roleIsValidValidRoleReturnsTrue() {
         assertTrue(RoleUtils.roleIsValid(RoleOuterClass.Role.ROLE_IAM_ADMIN));
         assertTrue(RoleUtils.roleIsValid(RoleOuterClass.Role.ROLE_IAM_VIEWER));
         assertTrue(RoleUtils.roleIsValid(RoleOuterClass.Role.ROLE_UNSPECIFIED));
     }
 
     @Test
-    void roleIsValid_nullRole_returnsFalse() {
+    void roleIsValidNullRoleReturnsFalse() {
         assertFalse(RoleUtils.roleIsValid(null));
     }
 
     @Test
-    void roleIsValid_unrecognizedRole_returnsFalse() {
+    void roleIsValidUnrecognizedRoleReturnsFalse() {
         assertFalse(RoleUtils.roleIsValid(RoleOuterClass.Role.UNRECOGNIZED));
     }
 
     // Test roleIsValidAndSpecified
     @Test
-    void roleIsValidAndSpecified_validSpecifiedRole_returnsTrue() {
+    void roleIsValidAndSpecifiedValidSpecifiedRoleReturnsTrue() {
         assertTrue(RoleUtils.roleIsValidAndSpecified(RoleOuterClass.Role.ROLE_IAM_ADMIN));
         assertTrue(RoleUtils.roleIsValidAndSpecified(RoleOuterClass.Role.ROLE_IAM_VIEWER));
     }
 
     @Test
-    void roleIsValidAndSpecified_unspecifiedRole_returnsFalse() {
+    void roleIsValidAndSpecifiedUnspecifiedRoleReturnsFalse() {
         assertFalse(RoleUtils.roleIsValidAndSpecified(RoleOuterClass.Role.ROLE_UNSPECIFIED));
     }
 
     @Test
-    void roleIsValidAndSpecified_nullRole_returnsFalse() {
+    void roleIsValidAndSpecifiedNullRoleReturnsFalse() {
         assertFalse(RoleUtils.roleIsValidAndSpecified(null));
     }
 
     @Test
-    void roleIsValidAndSpecified_unrecognizedRole_returnsFalse() {
+    void roleIsValidAndSpecifiedUnrecognizedRoleReturnsFalse() {
         assertFalse(RoleUtils.roleIsValidAndSpecified(RoleOuterClass.Role.UNRECOGNIZED));
     }
 
     // Test roleFullResourceNameFromGroup (new validated version)
     @Test
-    void roleFullResourceNameFromGroup_validInputs_returnsCorrectFormat() {
+    void roleFullResourceNameFromGroupValidInputsReturnsCorrectFormat() {
         String result = RoleUtils.roleFullResourceNameFromGroup(
             RoleOuterClass.Role.ROLE_IAM_ADMIN,
             "groups/01DD32GZ7R0000000000000001"
@@ -63,7 +67,7 @@ class RoleUtilsTest {
     }
 
     @Test
-    void roleFullResourceNameFromGroup_invalidRole_throwsException() {
+    void roleFullResourceNameFromGroupInvalidRoleThrowsException() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             RoleUtils.roleFullResourceNameFromGroup(
                 RoleOuterClass.Role.ROLE_UNSPECIFIED,
@@ -74,7 +78,7 @@ class RoleUtilsTest {
     }
 
     @Test
-    void roleFullResourceNameFromGroup_nullGroup_throwsException() {
+    void roleFullResourceNameFromGroupNullGroupThrowsException() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             RoleUtils.roleFullResourceNameFromGroup(
                 RoleOuterClass.Role.ROLE_IAM_ADMIN,
@@ -85,7 +89,7 @@ class RoleUtilsTest {
     }
 
     @Test
-    void roleFullResourceNameFromGroup_emptyGroup_throwsException() {
+    void roleFullResourceNameFromGroupEmptyGroupThrowsException() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             RoleUtils.roleFullResourceNameFromGroup(
                 RoleOuterClass.Role.ROLE_IAM_ADMIN,
@@ -96,7 +100,7 @@ class RoleUtilsTest {
     }
 
     @Test
-    void roleFullResourceNameFromGroup_invalidGroupFormat_throwsException() {
+    void roleFullResourceNameFromGroupInvalidGroupFormatThrowsException() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             RoleUtils.roleFullResourceNameFromGroup(
                 RoleOuterClass.Role.ROLE_IAM_ADMIN,
@@ -107,7 +111,7 @@ class RoleUtilsTest {
     }
 
     @Test
-    void roleFullResourceNameFromGroup_emptyGroupId_throwsException() {
+    void roleFullResourceNameFromGroupEmptyGroupIdThrowsException() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             RoleUtils.roleFullResourceNameFromGroup(
                 RoleOuterClass.Role.ROLE_IAM_ADMIN,
@@ -119,7 +123,7 @@ class RoleUtilsTest {
 
     // Test parseRoleParts
     @Test
-    void parseRoleParts_validFullResourceName_returnsCorrectParts() {
+    void parseRolePartsValidFullResourceNameReturnsCorrectParts() {
         int roleNumber = RoleOuterClass.Role.ROLE_IAM_ADMIN.getNumber();
         String fullName = String.format("groups/01DD32GZ7R0000000000000001/%d", roleNumber);
 
@@ -130,7 +134,7 @@ class RoleUtilsTest {
     }
 
     @Test
-    void parseRoleParts_nullInput_throwsException() {
+    void parseRolePartsNullInputThrowsException() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             RoleUtils.parseRoleParts(null);
         });
@@ -138,7 +142,7 @@ class RoleUtilsTest {
     }
 
     @Test
-    void parseRoleParts_emptyInput_throwsException() {
+    void parseRolePartsEmptyInputThrowsException() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             RoleUtils.parseRoleParts("");
         });
@@ -146,7 +150,7 @@ class RoleUtilsTest {
     }
 
     @Test
-    void parseRoleParts_invalidFormat_throwsException() {
+    void parseRolePartsInvalidFormatThrowsException() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             RoleUtils.parseRoleParts("invalid/format");
         });
@@ -154,7 +158,7 @@ class RoleUtilsTest {
     }
 
     @Test
-    void parseRoleParts_wrongPrefix_throwsException() {
+    void parseRolePartsWrongPrefixThrowsException() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             RoleUtils.parseRoleParts("users/01DD32GZ7R0000000000000001/5");
         });
@@ -162,7 +166,7 @@ class RoleUtilsTest {
     }
 
     @Test
-    void parseRoleParts_emptyGroupId_throwsException() {
+    void parseRolePartsEmptyGroupIdThrowsException() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             RoleUtils.parseRoleParts("groups//5");
         });
@@ -170,7 +174,7 @@ class RoleUtilsTest {
     }
 
     @Test
-    void parseRoleParts_invalidULIDFormat_throwsException() {
+    void parseRolePartsInvalidULIDFormatThrowsException() {
         // Test various invalid ULID formats for cross-SDK consistency
         Exception exception1 = assertThrows(IllegalArgumentException.class, () -> {
             RoleUtils.parseRoleParts("groups/NOT_A_VALID_ULID/5");
@@ -203,7 +207,7 @@ class RoleUtilsTest {
     }
 
     @Test
-    void parseRoleParts_invalidRoleNumber_throwsException() {
+    void parseRolePartsInvalidRoleNumberThrowsException() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             RoleUtils.parseRoleParts("groups/01DD32GZ7R0000000000000001/invalid");
         });
@@ -211,7 +215,7 @@ class RoleUtilsTest {
     }
 
     @Test
-    void parseRoleParts_unspecifiedRole_throwsException() {
+    void parseRolePartsUnspecifiedRoleThrowsException() {
         int unspecifiedNumber = RoleOuterClass.Role.ROLE_UNSPECIFIED.getNumber();
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             RoleUtils.parseRoleParts(String.format("groups/01DD32GZ7R0000000000000001/%d", unspecifiedNumber));
@@ -221,7 +225,7 @@ class RoleUtilsTest {
 
     // Test roleFromFullResourceName
     @Test
-    void roleFromFullResourceName_validInput_returnsRole() {
+    void roleFromFullResourceNameValidInputReturnsRole() {
         int roleNumber = RoleOuterClass.Role.ROLE_IAM_ADMIN.getNumber();
         String fullName = String.format("groups/01DD32GZ7R0000000000000001/%d", roleNumber);
 
@@ -231,7 +235,7 @@ class RoleUtilsTest {
     }
 
     @Test
-    void roleFromFullResourceName_invalidInput_throwsException() {
+    void roleFromFullResourceNameInvalidInputThrowsException() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             RoleUtils.roleFromFullResourceName("invalid");
         });
@@ -240,7 +244,7 @@ class RoleUtilsTest {
 
     // Test fullResourceNameFromGroupName
     @Test
-    void fullResourceNameFromGroupName_validInputs_returnsCorrectFormat() {
+    void fullResourceNameFromGroupNameValidInputsReturnsCorrectFormat() {
         String result = RoleUtils.fullResourceNameFromGroupName(
             RoleOuterClass.Role.ROLE_IAM_ADMIN,
             "groups/01DD32GZ7R0000000000000001"
@@ -250,7 +254,7 @@ class RoleUtilsTest {
     }
 
     @Test
-    void fullResourceNameFromGroupName_invalidRole_throwsException() {
+    void fullResourceNameFromGroupNameInvalidRoleThrowsException() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             RoleUtils.fullResourceNameFromGroupName(
                 RoleOuterClass.Role.ROLE_UNSPECIFIED,
@@ -261,7 +265,7 @@ class RoleUtilsTest {
     }
 
     @Test
-    void fullResourceNameFromGroupName_nullGroupName_throwsException() {
+    void fullResourceNameFromGroupNameNullGroupNameThrowsException() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             RoleUtils.fullResourceNameFromGroupName(
                 RoleOuterClass.Role.ROLE_IAM_ADMIN,
@@ -272,7 +276,7 @@ class RoleUtilsTest {
     }
 
     @Test
-    void fullResourceNameFromGroupName_emptyGroupName_throwsException() {
+    void fullResourceNameFromGroupNameEmptyGroupNameThrowsException() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             RoleUtils.fullResourceNameFromGroupName(
                 RoleOuterClass.Role.ROLE_IAM_ADMIN,
@@ -283,7 +287,7 @@ class RoleUtilsTest {
     }
 
     @Test
-    void fullResourceNameFromGroupName_invalidFormat_throwsException() {
+    void fullResourceNameFromGroupNameInvalidFormatThrowsException() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             RoleUtils.fullResourceNameFromGroupName(
                 RoleOuterClass.Role.ROLE_IAM_ADMIN,
@@ -294,7 +298,7 @@ class RoleUtilsTest {
     }
 
     @Test
-    void fullResourceNameFromGroupName_emptyGroupId_throwsException() {
+    void fullResourceNameFromGroupNameEmptyGroupIdThrowsException() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             RoleUtils.fullResourceNameFromGroupName(
                 RoleOuterClass.Role.ROLE_IAM_ADMIN,
@@ -306,7 +310,7 @@ class RoleUtilsTest {
 
     // Test fullResourceNameFromGroupId
     @Test
-    void fullResourceNameFromGroupId_validInputs_returnsCorrectFormat() {
+    void fullResourceNameFromGroupIdValidInputsReturnsCorrectFormat() {
         String result = RoleUtils.fullResourceNameFromGroupId(
             RoleOuterClass.Role.ROLE_IAM_ADMIN,
             "01DD32GZ7R0000000000000001"
@@ -316,7 +320,7 @@ class RoleUtilsTest {
     }
 
     @Test
-    void fullResourceNameFromGroupId_invalidRole_throwsException() {
+    void fullResourceNameFromGroupIdInvalidRoleThrowsException() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             RoleUtils.fullResourceNameFromGroupId(
                 RoleOuterClass.Role.ROLE_UNSPECIFIED,
@@ -327,7 +331,7 @@ class RoleUtilsTest {
     }
 
     @Test
-    void fullResourceNameFromGroupId_nullGroupId_throwsException() {
+    void fullResourceNameFromGroupIdNullGroupIdThrowsException() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             RoleUtils.fullResourceNameFromGroupId(
                 RoleOuterClass.Role.ROLE_IAM_ADMIN,
@@ -338,7 +342,7 @@ class RoleUtilsTest {
     }
 
     @Test
-    void fullResourceNameFromGroupId_emptyGroupId_throwsException() {
+    void fullResourceNameFromGroupIdEmptyGroupIdThrowsException() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             RoleUtils.fullResourceNameFromGroupId(
                 RoleOuterClass.Role.ROLE_IAM_ADMIN,
@@ -349,7 +353,7 @@ class RoleUtilsTest {
     }
 
     @Test
-    void fullResourceNameFromGroupId_invalidULID_throwsException() {
+    void fullResourceNameFromGroupIdInvalidULIDThrowsException() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             RoleUtils.fullResourceNameFromGroupId(
                 RoleOuterClass.Role.ROLE_IAM_ADMIN,
@@ -361,7 +365,7 @@ class RoleUtilsTest {
 
     // Integration test - round trip
     @Test
-    void integration_createAndParse_roundTrip() {
+    void integrationCreateAndParseRoundTrip() {
         RoleOuterClass.Role originalRole = RoleOuterClass.Role.ROLE_IAM_ADMIN;
         String group = "groups/01DD32GZ7R0000000000000001";
 
@@ -378,7 +382,7 @@ class RoleUtilsTest {
 
     // Test RoleParts record
     @Test
-    void roleParts_creation_storesValues() {
+    void rolePartsCreationStoresValues() {
         RoleOuterClass.Role role = RoleOuterClass.Role.ROLE_IAM_ADMIN;
         String group = "groups/01DD32GZ7R0000000000000001";
 
@@ -389,7 +393,7 @@ class RoleUtilsTest {
     }
 
     @Test
-    void roleParts_equality_worksCorrectly() {
+    void rolePartsEqualityWorksCorrectly() {
         RoleOuterClass.Role role = RoleOuterClass.Role.ROLE_IAM_ADMIN;
         String group = "groups/01DD32GZ7R0000000000000001";
 

@@ -1,10 +1,16 @@
 package co.meshtrade.api.type.v1;
 
-import co.meshtrade.api.type.v1.DecimalOuterClass.Decimal;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.math.BigDecimal;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+
+import co.meshtrade.api.type.v1.DecimalOuterClass.Decimal;
 
 /**
  * Unit tests for DecimalUtils.

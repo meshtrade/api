@@ -1,12 +1,19 @@
 package co.meshtrade.api.type.v1;
 
-import co.meshtrade.api.type.v1.TokenOuterClass.Token;
-import co.meshtrade.api.type.v1.AmountOuterClass.Amount;
-import co.meshtrade.api.type.v1.LedgerOuterClass.Ledger;
-import co.meshtrade.api.type.v1.DecimalOuterClass.Decimal;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import co.meshtrade.api.type.v1.AmountOuterClass.Amount;
+import co.meshtrade.api.type.v1.DecimalOuterClass.Decimal;
+import co.meshtrade.api.type.v1.LedgerOuterClass.Ledger;
+import co.meshtrade.api.type.v1.TokenOuterClass.Token;
 
 /**
  * Unit tests for TokenUtils.
@@ -145,7 +152,7 @@ class TokenUtilsTest {
     }
 
     @Test
-    void testTokenNewAmountOf_differentLedgerPrecisions() {
+    void testTokenNewAmountOfDifferentLedgerPrecisions() {
         Decimal highPrecision = Decimal.newBuilder().setValue("1.123456789012345678").build();
 
         // Test Stellar (7 decimals) - should truncate
@@ -190,7 +197,7 @@ class TokenUtilsTest {
     }
 
     @Test
-    void testTokenNewAmountOf_stellarPrecisionRounding() {
+    void testTokenNewAmountOfStellarPrecisionRounding() {
         Token stellarToken = Token.newBuilder()
                 .setCode("USDC")
                 .setIssuer("CIRCLE")

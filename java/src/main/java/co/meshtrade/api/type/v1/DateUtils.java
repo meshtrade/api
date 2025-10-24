@@ -1,7 +1,8 @@
 package co.meshtrade.api.type.v1;
 
-import co.meshtrade.api.type.v1.DateOuterClass.Date;
 import java.time.LocalDate;
+
+import co.meshtrade.api.type.v1.DateOuterClass.Date;
 
 /**
  * Utility functions for working with protobuf Date messages.

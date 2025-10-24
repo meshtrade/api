@@ -1,9 +1,11 @@
 package co.meshtrade.api.reporting.accountreport.v1;
 
-import co.meshtrade.api.reporting.account_report.v1.IncomeEntryOuterClass.IncomeNarrative;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import co.meshtrade.api.reporting.account_report.v1.IncomeEntryOuterClass.IncomeNarrative;
 
 /**
  * Comprehensive tests for IncomeEntryUtils utility methods.
@@ -11,69 +13,69 @@ import static org.junit.jupiter.api.Assertions.*;
 class IncomeEntryUtilsTest {
 
     @Test
-    void incomeNarrativePrettyString_yield_returnsYield() {
+    void incomeNarrativePrettyStringYieldReturnsYield() {
         assertEquals("Yield", IncomeEntryUtils.incomeNarrativePrettyString(
             IncomeNarrative.INCOME_NARRATIVE_YIELD
         ));
     }
 
     @Test
-    void incomeNarrativePrettyString_dividend_returnsDividend() {
+    void incomeNarrativePrettyStringDividendReturnsDividend() {
         assertEquals("Dividend", IncomeEntryUtils.incomeNarrativePrettyString(
             IncomeNarrative.INCOME_NARRATIVE_DIVIDEND
         ));
     }
 
     @Test
-    void incomeNarrativePrettyString_interest_returnsInterest() {
+    void incomeNarrativePrettyStringInterestReturnsInterest() {
         assertEquals("Interest", IncomeEntryUtils.incomeNarrativePrettyString(
             IncomeNarrative.INCOME_NARRATIVE_INTEREST
         ));
     }
 
     @Test
-    void incomeNarrativePrettyString_principal_returnsPrincipal() {
+    void incomeNarrativePrettyStringPrincipalReturnsPrincipal() {
         assertEquals("Principal", IncomeEntryUtils.incomeNarrativePrettyString(
             IncomeNarrative.INCOME_NARRATIVE_PRINCIPAL
         ));
     }
 
     @Test
-    void incomeNarrativePrettyString_distribution_returnsDistribution() {
+    void incomeNarrativePrettyStringDistributionReturnsDistribution() {
         assertEquals("Distribution", IncomeEntryUtils.incomeNarrativePrettyString(
             IncomeNarrative.INCOME_NARRATIVE_DISTRIBUTION
         ));
     }
 
     @Test
-    void incomeNarrativePrettyString_profitDistribution_returnsProfitDistribution() {
+    void incomeNarrativePrettyStringProfitDistributionReturnsProfitDistribution() {
         assertEquals("Profit Distribution", IncomeEntryUtils.incomeNarrativePrettyString(
             IncomeNarrative.INCOME_NARRATIVE_PROFIT_DISTRIBUTION
         ));
     }
 
     @Test
-    void incomeNarrativePrettyString_unspecified_returnsDash() {
+    void incomeNarrativePrettyStringUnspecifiedReturnsDash() {
         assertEquals("-", IncomeEntryUtils.incomeNarrativePrettyString(
             IncomeNarrative.INCOME_NARRATIVE_UNSPECIFIED
         ));
     }
 
     @Test
-    void incomeNarrativePrettyString_unrecognized_returnsEmptyString() {
+    void incomeNarrativePrettyStringUnrecognizedReturnsEmptyString() {
         assertEquals("", IncomeEntryUtils.incomeNarrativePrettyString(
             IncomeNarrative.UNRECOGNIZED
         ));
     }
 
     @Test
-    void incomeNarrativePrettyString_null_returnsEmptyString() {
+    void incomeNarrativePrettyStringNullReturnsEmptyString() {
         assertEquals("", IncomeEntryUtils.incomeNarrativePrettyString(null));
     }
 
     // Test all enum values are handled
     @Test
-    void incomeNarrativePrettyString_allEnumValues_handleCorrectly() {
+    void incomeNarrativePrettyStringAllEnumValuesHandleCorrectly() {
         for (IncomeNarrative narrative : IncomeNarrative.values()) {
             String result = IncomeEntryUtils.incomeNarrativePrettyString(narrative);
             assertNotNull(result, "Pretty string should never be null for: " + narrative);

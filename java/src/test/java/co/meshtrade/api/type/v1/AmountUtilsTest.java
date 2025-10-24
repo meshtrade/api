@@ -1,12 +1,18 @@
 package co.meshtrade.api.type.v1;
 
-import co.meshtrade.api.type.v1.AmountOuterClass.Amount;
-import co.meshtrade.api.type.v1.DecimalOuterClass.Decimal;
-import co.meshtrade.api.type.v1.TokenOuterClass.Token;
-import co.meshtrade.api.type.v1.LedgerOuterClass.Ledger;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import co.meshtrade.api.type.v1.AmountOuterClass.Amount;
+import co.meshtrade.api.type.v1.DecimalOuterClass.Decimal;
+import co.meshtrade.api.type.v1.LedgerOuterClass.Ledger;
+import co.meshtrade.api.type.v1.TokenOuterClass.Token;
 
 /**
  * Unit tests for AmountUtils.
@@ -196,8 +202,7 @@ class AmountUtilsTest {
     }
 
     @Test
-    void testNullHandling_allMethods_handleGracefully() {
-        Token token = createUSDToken();
+    void testNullHandlingAllMethodsHandleGracefully() {
         Decimal dec = dec("10");
 
         // These should all return null
@@ -210,6 +215,7 @@ class AmountUtilsTest {
         assertNull(AmountUtils.amountWithValue(null, dec));
 
         // Test partial null in binary operations
+        Token token = createUSDToken();
         Amount amount = TokenUtils.tokenNewAmountOf(token, dec("100"));
         assertNull(AmountUtils.amountAdd(amount, null));
         assertNull(AmountUtils.amountAdd(null, amount));
@@ -218,7 +224,7 @@ class AmountUtilsTest {
     }
 
     @Test
-    void testNullHandling_comparison_handlesGracefully() {
+    void testNullHandlingComparisonHandlesGracefully() {
         Token token = createUSDToken();
         Amount amount = TokenUtils.tokenNewAmountOf(token, dec("100"));
 

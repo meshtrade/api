@@ -1,7 +1,5 @@
 package co.meshtrade.api.iam.role.v1;
 
-import co.meshtrade.api.iam.role.v1.RoleOuterClass;
-
 /**
  * Utility methods for working with IAM roles.
  *
@@ -26,7 +24,7 @@ public final class RoleUtils {
      * @param group The group identifier (e.g., "groups/01DD32GZ7R0000000000000001")
      * @param role The Role enum value
      */
-    public static record RoleParts(String group, RoleOuterClass.Role role) {}
+    public record RoleParts(String group, RoleOuterClass.Role role) {}
 
     /**
      * Checks if a Role enum value is valid (recognized).
@@ -40,7 +38,7 @@ public final class RoleUtils {
      *
      * <p><b>Example:</b>
      * <pre>{@code
-     * boolean valid = RoleUtils.roleIsValid(Role.ROLE_IAM_ADMIN);  // true
+     * boolean valid = RoleUtils.roleIsValid(RoleOuterClass.Role.ROLE_IAM_ADMIN);  // true
      * boolean invalid = RoleUtils.roleIsValid(null);               // false
      * }</pre>
      */
@@ -60,8 +58,8 @@ public final class RoleUtils {
      *
      * <p><b>Example:</b>
      * <pre>{@code
-     * boolean validAndSpecified = RoleUtils.roleIsValidAndSpecified(Role.ROLE_IAM_ADMIN);        // true
-     * boolean unspecified = RoleUtils.roleIsValidAndSpecified(Role.ROLE_UNSPECIFIED);            // false
+     * boolean validAndSpecified = RoleUtils.roleIsValidAndSpecified(RoleOuterClass.Role.ROLE_IAM_ADMIN);  // true
+     * boolean unspecified = RoleUtils.roleIsValidAndSpecified(RoleOuterClass.Role.ROLE_UNSPECIFIED);  // false
      * }</pre>
      */
     public static boolean roleIsValidAndSpecified(RoleOuterClass.Role role) {
@@ -83,7 +81,7 @@ public final class RoleUtils {
      * <p><b>Example:</b>
      * <pre>{@code
      * String resourceName = RoleUtils.roleFullResourceNameFromGroup(
-     *     Role.ROLE_IAM_ADMIN,
+     *     RoleOuterClass.Role.ROLE_IAM_ADMIN,
      *     "groups/01DD32GZ7R0000000000000001"
      * );
      * // Result: "groups/01DD32GZ7R0000000000000001/5"
@@ -120,8 +118,8 @@ public final class RoleUtils {
      *
      * <p><b>Example:</b>
      * <pre>{@code
-     * Role role = RoleUtils.roleFromFullResourceName("groups/01DD32GZ7R0000000000000001/5");
-     * // Result: Role.ROLE_IAM_ADMIN (assuming 5 is IAM_ADMIN's enum number)
+     * RoleOuterClass.Role role = RoleUtils.roleFromFullResourceName("groups/01DD32GZ7R0000000000000001/5");
+     * // Result: RoleOuterClass.Role.ROLE_IAM_ADMIN (assuming 5 is IAM_ADMIN's enum number)
      * }</pre>
      */
     public static RoleOuterClass.Role roleFromFullResourceName(String fullResourceName) {
@@ -144,7 +142,7 @@ public final class RoleUtils {
      * <pre>{@code
      * RoleParts parts = RoleUtils.parseRoleParts("groups/01DD32GZ7R0000000000000001/5");
      * String group = parts.group();  // "groups/01DD32GZ7R0000000000000001"
-     * Role role = parts.role();      // Role.ROLE_IAM_ADMIN
+     * RoleOuterClass.Role role = parts.role();  // RoleOuterClass.Role.ROLE_IAM_ADMIN
      * }</pre>
      */
     public static RoleParts parseRoleParts(String roleFullResourceName) {
@@ -195,7 +193,7 @@ public final class RoleUtils {
      * <p>This method provides backward compatibility and convenience when you already
      * have a fully-qualified group name.
      *
-     * @param role The Role enum value (e.g., Role.ROLE_IAM_ADMIN)
+     * @param role The Role enum value (e.g., RoleOuterClass.Role.ROLE_IAM_ADMIN)
      * @param groupName The group name (e.g., "groups/01DD32GZ7R0000000000000001")
      * @return The full resource name string (e.g., "groups/01DD32GZ7R0000000000000001/5")
      * @throws IllegalArgumentException if role is invalid/unspecified or groupName format is invalid
@@ -203,7 +201,7 @@ public final class RoleUtils {
      * <p><b>Example:</b>
      * <pre>{@code
      * String roleName = RoleUtils.fullResourceNameFromGroupName(
-     *     Role.ROLE_IAM_ADMIN,
+     *     RoleOuterClass.Role.ROLE_IAM_ADMIN,
      *     "groups/01DD32GZ7R0000000000000001"
      * );
      * // Result: "groups/01DD32GZ7R0000000000000001/5"
@@ -234,7 +232,7 @@ public final class RoleUtils {
      * <p>This method provides convenience when you only have the group ID (ULID)
      * and need to construct the full resource name.
      *
-     * @param role The Role enum value (e.g., Role.ROLE_IAM_ADMIN)
+     * @param role The Role enum value (e.g., RoleOuterClass.Role.ROLE_IAM_ADMIN)
      * @param groupId The group ID (e.g., "01DD32GZ7R0000000000000001")
      * @return The full resource name string (e.g., "groups/01DD32GZ7R0000000000000001/5")
      * @throws IllegalArgumentException if role is invalid/unspecified or groupId is not a valid ULID
@@ -242,7 +240,7 @@ public final class RoleUtils {
      * <p><b>Example:</b>
      * <pre>{@code
      * String roleName = RoleUtils.fullResourceNameFromGroupId(
-     *     Role.ROLE_IAM_ADMIN,
+     *     RoleOuterClass.Role.ROLE_IAM_ADMIN,
      *     "01DD32GZ7R0000000000000001"
      * );
      * // Result: "groups/01DD32GZ7R0000000000000001/5"

@@ -1,8 +1,9 @@
 package co.meshtrade.api.type.v1;
 
-import co.meshtrade.api.type.v1.DecimalOuterClass.Decimal;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+
+import co.meshtrade.api.type.v1.DecimalOuterClass.Decimal;
 
 /**
  * Utility methods for working with Decimal protobuf messages.

@@ -1,10 +1,18 @@
 package co.meshtrade.api.type.v1;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.time.LocalDate;
+
+import org.junit.jupiter.api.Test;
 
 import co.meshtrade.api.type.v1.DateOuterClass.Date;
-import java.time.LocalDate;
-import org.junit.jupiter.api.Test;
 
 /**
  * Tests for DateUtils utility functions.
@@ -14,7 +22,7 @@ import org.junit.jupiter.api.Test;
 class DateUtilsTest {
 
     @Test
-    void newDate_validInputs_createsDate() {
+    void newDateValidInputsCreatesDate() {
         Date date = DateUtils.newDate(2024, 10, 23);
         assertNotNull(date);
         assertEquals(2024, date.getYear());
@@ -23,28 +31,28 @@ class DateUtilsTest {
     }
 
     @Test
-    void newDate_invalidYear_throwsException() {
+    void newDateInvalidYearThrowsException() {
         assertThrows(IllegalArgumentException.class, () -> DateUtils.newDate(0, 10, 23));
         assertThrows(IllegalArgumentException.class, () -> DateUtils.newDate(10000, 10, 23));
         assertThrows(IllegalArgumentException.class, () -> DateUtils.newDate(-1, 10, 23));
     }
 
     @Test
-    void newDate_invalidMonth_throwsException() {
+    void newDateInvalidMonthThrowsException() {
         assertThrows(IllegalArgumentException.class, () -> DateUtils.newDate(2024, 0, 23));
         assertThrows(IllegalArgumentException.class, () -> DateUtils.newDate(2024, 13, 23));
         assertThrows(IllegalArgumentException.class, () -> DateUtils.newDate(2024, -1, 23));
     }
 
     @Test
-    void newDate_invalidDay_throwsException() {
+    void newDateInvalidDayThrowsException() {
         assertThrows(IllegalArgumentException.class, () -> DateUtils.newDate(2024, 10, 0));
         assertThrows(IllegalArgumentException.class, () -> DateUtils.newDate(2024, 10, 32));
         assertThrows(IllegalArgumentException.class, () -> DateUtils.newDate(2024, 2, 30)); // Feb 30th invalid
     }
 
     @Test
-    void newDate_invalidCalendarDate_throwsException() {
+    void newDateInvalidCalendarDateThrowsException() {
         // February 30th doesn't exist
         assertThrows(IllegalArgumentException.class, () -> DateUtils.newDate(2024, 2, 30));
         // April 31st doesn't exist
@@ -54,7 +62,7 @@ class DateUtilsTest {
     }
 
     @Test
-    void newDate_leapYearFebruary29_succeeds() {
+    void newDateLeapYearFebruary29Succeeds() {
         // 2024 is a leap year
         Date date = DateUtils.newDate(2024, 2, 29);
         assertNotNull(date);
@@ -62,7 +70,7 @@ class DateUtilsTest {
     }
 
     @Test
-    void newDateFromLocalDate_validInputs_createsDate() {
+    void newDateFromLocalDateValidInputsCreatesDate() {
         LocalDate localDate = LocalDate.of(2024, 10, 23);
         Date date = DateUtils.newDateFromLocalDate(localDate);
         assertNotNull(date);
@@ -72,12 +80,12 @@ class DateUtilsTest {
     }
 
     @Test
-    void newDateFromLocalDate_nullInput_throwsException() {
+    void newDateFromLocalDateNullInputThrowsException() {
         assertThrows(IllegalArgumentException.class, () -> DateUtils.newDateFromLocalDate(null));
     }
 
     @Test
-    void newDateFromLocalDate_yearOutOfRange_throwsException() {
+    void newDateFromLocalDateYearOutOfRangeThrowsException() {
         LocalDate tooOld = LocalDate.of(0, 1, 1);
         assertThrows(IllegalArgumentException.class, () -> DateUtils.newDateFromLocalDate(tooOld));
 
@@ -86,7 +94,7 @@ class DateUtilsTest {
     }
 
     @Test
-    void dateToLocalDate_validDate_convertsCorrectly() {
+    void dateToLocalDateValidDateConvertsCorrectly() {
         Date date = DateUtils.newDate(2024, 10, 23);
         LocalDate localDate = DateUtils.dateToLocalDate(date);
         assertNotNull(localDate);
@@ -96,12 +104,12 @@ class DateUtilsTest {
     }
 
     @Test
-    void dateToLocalDate_nullInput_returnsNull() {
+    void dateToLocalDateNullInputReturnsNull() {
         assertNull(DateUtils.dateToLocalDate(null));
     }
 
     @Test
-    void dateToLocalDate_invalidDate_throwsException() {
+    void dateToLocalDateInvalidDateThrowsException() {
         // Create an invalid date using builder (bypassing validation)
         Date invalidDate = Date.newBuilder()
                 .setYear(2024)
@@ -112,18 +120,18 @@ class DateUtilsTest {
     }
 
     @Test
-    void dateIsValid_validDate_returnsTrue() {
+    void dateIsValidValidDateReturnsTrue() {
         Date date = DateUtils.newDate(2024, 10, 23);
         assertTrue(DateUtils.dateIsValid(date));
     }
 
     @Test
-    void dateIsValid_nullDate_returnsFalse() {
+    void dateIsValidNullDateReturnsFalse() {
         assertFalse(DateUtils.dateIsValid(null));
     }
 
     @Test
-    void dateIsValid_invalidYear_returnsFalse() {
+    void dateIsValidInvalidYearReturnsFalse() {
         Date invalidDate = Date.newBuilder().setYear(0).setMonth(10).setDay(23).build();
         assertFalse(DateUtils.dateIsValid(invalidDate));
 
@@ -132,7 +140,7 @@ class DateUtilsTest {
     }
 
     @Test
-    void dateIsValid_invalidMonth_returnsFalse() {
+    void dateIsValidInvalidMonthReturnsFalse() {
         Date invalidDate = Date.newBuilder().setYear(2024).setMonth(0).setDay(23).build();
         assertFalse(DateUtils.dateIsValid(invalidDate));
 
@@ -141,7 +149,7 @@ class DateUtilsTest {
     }
 
     @Test
-    void dateIsValid_invalidDay_returnsFalse() {
+    void dateIsValidInvalidDayReturnsFalse() {
         Date invalidDate = Date.newBuilder().setYear(2024).setMonth(10).setDay(0).build();
         assertFalse(DateUtils.dateIsValid(invalidDate));
 
@@ -154,18 +162,18 @@ class DateUtilsTest {
     }
 
     @Test
-    void dateIsComplete_completeDate_returnsTrue() {
+    void dateIsCompleteCompleteDateReturnsTrue() {
         Date date = DateUtils.newDate(2024, 10, 23);
         assertTrue(DateUtils.dateIsComplete(date));
     }
 
     @Test
-    void dateIsComplete_nullDate_returnsFalse() {
+    void dateIsCompleteNullDateReturnsFalse() {
         assertFalse(DateUtils.dateIsComplete(null));
     }
 
     @Test
-    void dateIsComplete_incompleteDate_returnsFalse() {
+    void dateIsCompleteIncompleteDateReturnsFalse() {
         Date incompleteDate = Date.newBuilder().setYear(2024).setMonth(0).setDay(0).build();
         assertFalse(DateUtils.dateIsComplete(incompleteDate));
 
@@ -177,7 +185,7 @@ class DateUtilsTest {
     }
 
     @Test
-    void roundTripConversion_dateToLocalDateAndBack_preservesValues() {
+    void roundTripConversionDateToLocalDateAndBackPreservesValues() {
         Date originalDate = DateUtils.newDate(2024, 10, 23);
         LocalDate localDate = DateUtils.dateToLocalDate(originalDate);
         Date convertedBack = DateUtils.newDateFromLocalDate(localDate);
@@ -188,7 +196,7 @@ class DateUtilsTest {
     }
 
     @Test
-    void edgeCases_boundaryYears_workCorrectly() {
+    void edgeCasesBoundaryYearsWorkCorrectly() {
         // Minimum valid year
         Date minYear = DateUtils.newDate(1, 1, 1);
         assertTrue(DateUtils.dateIsValid(minYear));
@@ -199,7 +207,7 @@ class DateUtilsTest {
     }
 
     @Test
-    void edgeCases_monthBoundaries_workCorrectly() {
+    void edgeCasesMonthBoundariesWorkCorrectly() {
         // 31-day months
         assertDoesNotThrow(() -> DateUtils.newDate(2024, 1, 31));
         assertDoesNotThrow(() -> DateUtils.newDate(2024, 3, 31));

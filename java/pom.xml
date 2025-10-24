@@ -54,7 +54,7 @@
 
         <!-- Linting and code quality tool versions -->
         <checkstyle.version>10.20.2</checkstyle.version>
-        <spotbugs.version>4.9.3</spotbugs.version>
+        <spotbugs.version>4.7.3.6</spotbugs.version>
         <pmd.version>7.11.0</pmd.version>
         <error-prone.version>2.36.0</error-prone.version>
         <findsecbugs.version>1.13.0</findsecbugs.version>
@@ -66,6 +66,42 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Force consistent versions to resolve convergence errors -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>33.4.0-jre</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.errorprone</groupId>
+                <artifactId>error_prone_annotations</artifactId>
+                <version>2.36.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.j2objc</groupId>
+                <artifactId>j2objc-annotations</artifactId>
+                <version>3.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>2.11.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.code.findbugs</groupId>
+                <artifactId>jsr305</artifactId>
+                <version>3.0.2</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-java</artifactId>
+                <version>${protobuf.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <!-- gRPC dependencies -->
@@ -197,6 +233,8 @@
                     <compilerArgs>
                         <arg>-parameters</arg>
                         <arg>-XDcompilePolicy=simple</arg>
+                        <!-- NOTE: Error Prone 2.36.0 is not compatible with Java 24+
+                             If using Java 24, comment out this line or downgrade to Java 21 -->
                         <arg>-Xplugin:ErrorProne -XepDisableWarningsInGeneratedCode</arg>
                     </compilerArgs>
                     <annotationProcessorPaths>
@@ -417,7 +455,7 @@
             <plugin>
                 <groupId>org.gaul</groupId>
                 <artifactId>modernizer-maven-plugin</artifactId>
-                <version>2.10.0</version>
+                <version>2.9.0</version>
                 <configuration>
                     <javaVersion>21</javaVersion>
                     <failOnViolations>true</failOnViolations>

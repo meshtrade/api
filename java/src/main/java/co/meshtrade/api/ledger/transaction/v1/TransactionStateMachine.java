@@ -1,10 +1,10 @@
 package co.meshtrade.api.ledger.transaction.v1;
 
-import co.meshtrade.api.ledger.transaction.v1.TransactionStateOuterClass.TransactionState;
-import co.meshtrade.api.ledger.transaction.v1.TransactionActionOuterClass.TransactionAction;
-
-import java.util.Set;
 import java.util.EnumSet;
+import java.util.Set;
+
+import co.meshtrade.api.ledger.transaction.v1.TransactionActionOuterClass.TransactionAction;
+import co.meshtrade.api.ledger.transaction.v1.TransactionStateOuterClass.TransactionState;
 
 /**
  * State machine utilities for Transaction lifecycle management.
