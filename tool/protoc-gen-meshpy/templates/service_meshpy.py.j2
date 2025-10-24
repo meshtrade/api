@@ -9,6 +9,7 @@ the service interface with resource management capabilities, providing authentic
 timeouts, and proper connection handling.
 """
 
+from collections.abc import Iterator
 from datetime import timedelta
 from typing import Optional
 
@@ -141,7 +142,7 @@ class {{ service_name }}(BaseGRPCClient):
 
     {% for method in methods %}
     {% if method.server_streaming and not method.client_streaming %}
-    def {{ method.snake_name }}(self, request: {{ method.input_type.split('.')[-1] }}, timeout: Optional[timedelta] = None):
+    def {{ method.snake_name }}(self, request: {{ method.input_type.split('.')[-1] }}, timeout: Optional[timedelta] = None) -> Iterator[{{ method.output_type.split('.')[-1] }}]:
         """{{ method.name }} server-side streaming method with authentication and validation.
 
         Args:

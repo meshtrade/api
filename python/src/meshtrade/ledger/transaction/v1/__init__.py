@@ -43,6 +43,8 @@ from .service_meshpy import (
 #
 # ===================================================================
 
+from .transaction_state_machine import transaction_state_can_perform_action_at_state
+
 # ===================================================================
 # MODULE EXPORTS
 # ===================================================================
@@ -58,4 +60,6 @@ __all__ = [
     "TransactionServiceGRPCClient",
     "TransactionServiceGRPCClientInterface",
     "TransactionState",
+    # Manual exports
+    "transaction_state_can_perform_action_at_state",
 ]

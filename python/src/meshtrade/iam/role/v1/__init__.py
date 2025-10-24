@@ -29,7 +29,15 @@ from .role_pb2 import Role, RoleList
 #
 # ===================================================================
 
-from .role import role_full_resource_name_from_group
+from .role import (
+    must_parse_role_parts,
+    parse_role_parts,
+    role_from_full_resource_name,
+    role_full_resource_name_from_group,
+    role_full_resource_name_from_group_id,
+    role_is_valid,
+    role_is_valid_and_specified,
+)
 
 # ===================================================================
 # MODULE EXPORTS
@@ -40,5 +48,11 @@ __all__ = [
     "Role",
     "RoleList",
     # Manual exports
+    "must_parse_role_parts",
+    "parse_role_parts",
+    "role_from_full_resource_name",
     "role_full_resource_name_from_group",
+    "role_full_resource_name_from_group_id",
+    "role_is_valid",
+    "role_is_valid_and_specified",
 ]

@@ -55,6 +55,13 @@ from .service_meshpy import (
 #
 # ===================================================================
 
+from .client_roles import (
+    get_client_default_role_index,
+    get_client_default_roles,
+    must_get_client_default_role_index,
+    must_get_client_default_roles,
+)
+
 # ===================================================================
 # MODULE EXPORTS
 # ===================================================================
@@ -84,4 +91,9 @@ __all__ = [
     "TaxResidency",
     "Trust",
     "VerificationStatus",
+    # Manual exports
+    "get_client_default_role_index",
+    "get_client_default_roles",
+    "must_get_client_default_role_index",
+    "must_get_client_default_roles",
 ]
