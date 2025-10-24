@@ -1,5 +1,8 @@
 package account_report_v1
 
+// PrettyString returns a human-readable string representation of the IncomeNarrative enum.
+// It converts enum values to concise, display-friendly strings suitable for reports and user interfaces.
+// Returns "-" for unspecified narratives, descriptive names for known types, and an empty string for unknown values.
 func (a IncomeNarrative) PrettyString() string {
 	switch a {
 	case IncomeNarrative_INCOME_NARRATIVE_UNSPECIFIED:
