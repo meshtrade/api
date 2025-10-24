@@ -4,10 +4,6 @@ This module provides utility functions for working with Token protobuf messages,
 including helper functions for token creation, validation, and formatting.
 """
 
-from decimal import Decimal as PyDecimal
-
-from .amount_pb2 import Amount
-from .decimal_pb2 import Decimal
 from .ledger_pb2 import Ledger
 from .token_pb2 import Token
 
@@ -40,50 +36,6 @@ def new_undefined_token() -> Token:
         issuer="-",
         ledger=Ledger.LEDGER_UNSPECIFIED,
     )
-
-
-def token_new_amount_of(token: Token | None, value: PyDecimal) -> Amount | None:
-    """Create a new Amount with the given decimal value and this token.
-
-    The precision handling depends on the token's ledger:
-    - Stellar ledger: Values are truncated to 7 decimal places (Stellar's native precision)
-    - All other ledgers: Full precision is preserved
-
-    Args:
-        token: The token to use for the amount (can be None)
-        value: The decimal value for the amount (can be positive, negative, or zero)
-
-    Returns:
-        A new Amount, or None if token is None
-
-    None Safety:
-        Returns None if token is None
-
-    Example:
-        >>> from decimal import Decimal as PyDecimal
-        >>> token = Token(code="USD", issuer="ISSUER", ledger=Ledger.LEDGER_STELLAR)
-        >>> amount = token_new_amount_of(token, PyDecimal("123.456789012"))
-        >>> # Stellar truncates to 7 decimal places
-        >>> amount.value.value
-        '123.4567890'
-    """
-    if token is None:
-        return None
-
-    # Convert Python Decimal to protobuf Decimal
-    decimal_value = Decimal(value=str(value))
-
-    if token.ledger == Ledger.LEDGER_STELLAR:
-        # Stellar network has 7 decimal places of precision
-        # Truncate to 7 decimal places
-        truncated = value.quantize(PyDecimal("0.0000001"))
-        decimal_value = Decimal(value=str(truncated))
-
-    return Amount(
-        value=decimal_value,
-        token=token,
-    )
-
 
 def token_is_undefined(token: Token | None) -> bool:
     """Check whether this token represents an undefined or placeholder token.

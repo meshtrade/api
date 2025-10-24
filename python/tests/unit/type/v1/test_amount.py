@@ -42,14 +42,14 @@ class TestAmountSetValue:
         assert modified.value.value == "200"
 
     def test_amount_set_value_with_none(self):
-        """Test that None amount returns None."""
-        result = amount.amount_set_value(None, PyDecimal("100"))
-        assert result is None
+        """Test that None amount raises ValueError."""
+        with pytest.raises(ValueError, match="amount cannot be None"):
+            amount.amount_set_value(None, PyDecimal("100"))  # type: ignore
 
     def test_amount_set_value_preserves_token(self):
         """Test that set_value preserves the token."""
         tok = Token(code="USD", issuer="ISSUER", ledger=Ledger.LEDGER_STELLAR)
-        amt = amount.token_new_amount_of(tok, PyDecimal("100"))
+        amt = amount.new_amount(PyDecimal("100"), tok)
         modified = amount.amount_set_value(amt, PyDecimal("200"))
         assert modified.token.code == "USD"
         assert modified.token.issuer == "ISSUER"
@@ -66,7 +66,7 @@ class TestAmountIsUndefined:
     def test_amount_is_undefined_with_defined_amount(self):
         """Test that defined amount is not undefined."""
         tok = Token(code="USD", issuer="ISSUER", ledger=Ledger.LEDGER_STELLAR)
-        amt = amount.token_new_amount_of(tok, PyDecimal("100"))
+        amt = amount.new_amount(PyDecimal("100"), tok)
         assert amount.amount_is_undefined(amt) is False
 
     def test_amount_is_undefined_with_none(self):
@@ -87,8 +87,8 @@ class TestAmountIsSameTypeAs:
         """Test that amounts with different tokens are not same type."""
         tok1 = Token(code="USD", issuer="ISSUER1", ledger=Ledger.LEDGER_STELLAR)
         tok2 = Token(code="EUR", issuer="ISSUER2", ledger=Ledger.LEDGER_STELLAR)
-        amt1 = amount.token_new_amount_of(tok1, PyDecimal("100"))
-        amt2 = amount.token_new_amount_of(tok2, PyDecimal("100"))
+        amt1 = amount.new_amount(PyDecimal("100"), tok1)
+        amt2 = amount.new_amount(PyDecimal("100"), tok2)
         assert amount.amount_is_same_type_as(amt1, amt2) is False
 
     def test_amount_is_same_type_as_with_none(self):
@@ -117,8 +117,8 @@ class TestAmountIsEqualTo:
         """Test that amounts with different tokens are not equal."""
         tok1 = Token(code="USD", issuer="ISSUER1", ledger=Ledger.LEDGER_STELLAR)
         tok2 = Token(code="EUR", issuer="ISSUER2", ledger=Ledger.LEDGER_STELLAR)
-        amt1 = amount.token_new_amount_of(tok1, PyDecimal("100"))
-        amt2 = amount.token_new_amount_of(tok2, PyDecimal("100"))
+        amt1 = amount.new_amount(PyDecimal("100"), tok1)
+        amt2 = amount.new_amount(PyDecimal("100"), tok2)
         assert amount.amount_is_equal_to(amt1, amt2) is False
 
     def test_amount_is_equal_to_both_none(self):
@@ -200,17 +200,19 @@ class TestAmountArithmetic:
         assert result.value.value == "70"
 
     def test_amount_add_with_none(self):
-        """Test that adding with None returns None."""
+        """Test that adding with None raises ValueError."""
         amt1 = amount.new_undefined_amount(PyDecimal("100"))
-        assert amount.amount_add(amt1, None) is None
-        assert amount.amount_add(None, amt1) is None
+        with pytest.raises(ValueError, match="amount2 cannot be None"):
+            amount.amount_add(amt1, None)  # type: ignore
+        with pytest.raises(ValueError, match="amount1 cannot be None"):
+            amount.amount_add(None, amt1)  # type: ignore
 
     def test_amount_add_different_tokens_raises_error(self):
         """Test that adding different token types raises error."""
         tok1 = Token(code="USD", issuer="ISSUER1", ledger=Ledger.LEDGER_STELLAR)
         tok2 = Token(code="EUR", issuer="ISSUER2", ledger=Ledger.LEDGER_STELLAR)
-        amt1 = amount.token_new_amount_of(tok1, PyDecimal("100"))
-        amt2 = amount.token_new_amount_of(tok2, PyDecimal("30"))
+        amt1 = amount.new_amount(PyDecimal("100"), tok1)
+        amt2 = amount.new_amount(PyDecimal("30"), tok2)
         with pytest.raises(ValueError, match="cannot do arithmetic on amounts of different token denominations"):
             amount.amount_add(amt1, amt2)
 
@@ -229,17 +231,19 @@ class TestAmountArithmetic:
         assert result.value.value == "-70"
 
     def test_amount_sub_with_none(self):
-        """Test that subtracting with None returns None."""
+        """Test that subtracting with None raises ValueError."""
         amt1 = amount.new_undefined_amount(PyDecimal("100"))
-        assert amount.amount_sub(amt1, None) is None
-        assert amount.amount_sub(None, amt1) is None
+        with pytest.raises(ValueError, match="amount2 cannot be None"):
+            amount.amount_sub(amt1, None)  # type: ignore
+        with pytest.raises(ValueError, match="amount1 cannot be None"):
+            amount.amount_sub(None, amt1)  # type: ignore
 
     def test_amount_sub_different_tokens_raises_error(self):
         """Test that subtracting different token types raises error."""
         tok1 = Token(code="USD", issuer="ISSUER1", ledger=Ledger.LEDGER_STELLAR)
         tok2 = Token(code="EUR", issuer="ISSUER2", ledger=Ledger.LEDGER_STELLAR)
-        amt1 = amount.token_new_amount_of(tok1, PyDecimal("100"))
-        amt2 = amount.token_new_amount_of(tok2, PyDecimal("30"))
+        amt1 = amount.new_amount(PyDecimal("100"), tok1)
+        amt2 = amount.new_amount(PyDecimal("30"), tok2)
         with pytest.raises(ValueError, match="cannot do arithmetic on amounts of different token denominations"):
             amount.amount_sub(amt1, amt2)
 
@@ -257,9 +261,9 @@ class TestAmountArithmetic:
         assert PyDecimal(result.value.value) == PyDecimal("50")
 
     def test_amount_decimal_mul_with_none(self):
-        """Test that multiplying None returns None."""
-        result = amount.amount_decimal_mul(None, PyDecimal("2"))
-        assert result is None
+        """Test that multiplying None raises ValueError."""
+        with pytest.raises(ValueError, match="amount cannot be None"):
+            amount.amount_decimal_mul(None, PyDecimal("2"))  # type: ignore
 
     def test_amount_decimal_div_basic(self):
         """Test dividing amount by decimal."""
@@ -277,9 +281,9 @@ class TestAmountArithmetic:
         assert result_value < PyDecimal("33.34")
 
     def test_amount_decimal_div_with_none(self):
-        """Test that dividing None returns None."""
-        result = amount.amount_decimal_div(None, PyDecimal("2"))
-        assert result is None
+        """Test that dividing None raises ValueError."""
+        with pytest.raises(ValueError, match="amount cannot be None"):
+            amount.amount_decimal_div(None, PyDecimal("2"))  # type: ignore
 
     def test_amount_decimal_div_by_zero_raises_error(self):
         """Test that dividing by zero raises error."""

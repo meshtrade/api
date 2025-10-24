@@ -22,52 +22,6 @@ class TestTokenCreation:
         undefined = token.new_undefined_token()
         assert token.token_is_undefined(undefined) is True
 
-
-class TestTokenNewAmountOf:
-    """Tests for token_new_amount_of function."""
-
-    def test_token_new_amount_of_basic(self):
-        """Test creating an amount with a token."""
-        tok = Token(code="USD", issuer="ISSUER", ledger=Ledger.LEDGER_ETHEREUM)
-        amount = token.token_new_amount_of(tok, PyDecimal("100.5"))
-        assert amount.value.value == "100.5"
-        assert amount.token.code == "USD"
-        assert amount.token.issuer == "ISSUER"
-
-    def test_token_new_amount_of_stellar_truncation(self):
-        """Test that Stellar ledger truncates to 7 decimal places."""
-        tok = Token(code="USD", issuer="ISSUER", ledger=Ledger.LEDGER_STELLAR)
-        # Provide a value with more than 7 decimal places
-        amount = token.token_new_amount_of(tok, PyDecimal("123.456789012345"))
-        # Should be truncated to 7 decimal places
-        assert amount.value.value == "123.4567890"
-
-    def test_token_new_amount_of_non_stellar_full_precision(self):
-        """Test that non-Stellar ledgers preserve full precision."""
-        tok = Token(code="ETH", issuer="ISSUER", ledger=Ledger.LEDGER_ETHEREUM)
-        # Provide a value with many decimal places
-        amount = token.token_new_amount_of(tok, PyDecimal("123.456789012345"))
-        # Should preserve full precision
-        assert amount.value.value == "123.456789012345"
-
-    def test_token_new_amount_of_with_none_token(self):
-        """Test that None token returns None."""
-        result = token.token_new_amount_of(None, PyDecimal("100"))
-        assert result is None
-
-    def test_token_new_amount_of_negative_value(self):
-        """Test creating an amount with negative value."""
-        tok = Token(code="USD", issuer="ISSUER", ledger=Ledger.LEDGER_ETHEREUM)
-        amount = token.token_new_amount_of(tok, PyDecimal("-50.25"))
-        assert amount.value.value == "-50.25"
-
-    def test_token_new_amount_of_zero_value(self):
-        """Test creating an amount with zero value."""
-        tok = Token(code="USD", issuer="ISSUER", ledger=Ledger.LEDGER_ETHEREUM)
-        amount = token.token_new_amount_of(tok, PyDecimal("0"))
-        assert amount.value.value == "0"
-
-
 class TestTokenIsUndefined:
     """Tests for token_is_undefined function."""
 

@@ -11,7 +11,7 @@ from .amount_pb2 import Amount
 from .decimal_built_in_conversions import built_in_to_decimal, decimal_to_built_in
 from .decimal_pb2 import Decimal
 from .ledger import get_ledger_no_decimal_places
-from .token import new_undefined_token, token_new_amount_of
+from .token import new_undefined_token
 from .token_pb2 import Token
 
 
@@ -83,10 +83,12 @@ def new_amount(value: PyDecimal, token: Token, precision_loss_tolerance: PyDecim
     )
 
 
-def new_undefined_amount(value: PyDecimal) -> Amount | None:
+def new_undefined_amount(value: PyDecimal) -> Amount:
     """Create a new Amount with the specified value and an undefined token.
 
     This is useful as a placeholder or when the token type is not yet known.
+    Since undefined tokens don't have a valid ledger, this bypasses ledger
+    validation and creates the amount directly with full precision.
 
     Args:
         value: The decimal value for the amount
@@ -100,20 +102,35 @@ def new_undefined_amount(value: PyDecimal) -> Amount | None:
         >>> amount_is_undefined(amount)
         True
     """
-    return token_new_amount_of(new_undefined_token(), value)
+    # Undefined tokens don't have a valid ledger, so we create the Amount directly
+    # without going through new_amount() which requires ledger validation
+    return Amount(
+        value=built_in_to_decimal(value),
+        token=new_undefined_token(),
+    )
 
 
-def amount_set_value(amount: Amount, value: PyDecimal) -> Amount | None:
+def amount_set_value(
+    amount: Amount,
+    value: PyDecimal,
+    precision_loss_tolerance: PyDecimal = PyDecimal("0.00000001"),
+) -> Amount:
     """Create a new Amount with the given value and the same token as the input amount.
 
     Despite its name, this function does NOT modify the input - it creates and returns a NEW Amount.
 
     Args:
-        amount: The amount whose token to use (can be None)
+        amount: The amount whose token to use
         value: The decimal value for the new amount
+        precision_loss_tolerance: The maximum acceptable difference after validation
+            round-trip. Defaults to a small tolerance for robustness.
 
     Returns:
-        A new Amount with the specified value and the same token, or None if amount is None
+        A new Amount with the specified value and the same token
+
+    Raises:
+        ValueError: If amount is None
+        AssertionError: If the value exceeds system precision limits
 
     Example:
         >>> from decimal import Decimal as PyDecimal
@@ -122,9 +139,19 @@ def amount_set_value(amount: Amount, value: PyDecimal) -> Amount | None:
         >>> # original is unchanged, modified is a new Amount with value 200
     """
     if amount is None:
-        return None
+        raise ValueError("amount cannot be None")
 
-    return token_new_amount_of(amount.token, value)
+    # Check if the token is undefined (doesn't have a valid ledger)
+    from .token import token_is_undefined
+
+    if token_is_undefined(amount.token):
+        # For undefined tokens, create Amount directly without ledger validation
+        return Amount(
+            value=built_in_to_decimal(value),
+            token=amount.token,
+        )
+
+    return new_amount(value, amount.token, precision_loss_tolerance)
 
 
 def amount_is_undefined(amount: Amount | None) -> bool:
@@ -297,7 +324,11 @@ def amount_contains_fractions(amount: Amount | None) -> bool:
     return value.quantize(PyDecimal("1"), rounding=ROUND_DOWN) != value
 
 
-def amount_add(amount1: Amount, amount2: Amount) -> Amount | None:
+def amount_add(
+    amount1: Amount,
+    amount2: Amount,
+    precision_loss_tolerance: PyDecimal = PyDecimal("0.00000001"),
+) -> Amount:
     """Add two amounts and return a new amount with the result.
 
     The amounts must have the same token type (currency/asset).
@@ -305,12 +336,15 @@ def amount_add(amount1: Amount, amount2: Amount) -> Amount | None:
     Args:
         amount1: First amount
         amount2: Second amount (must have same token as amount1)
+        precision_loss_tolerance: The maximum acceptable difference after validation
+            round-trip. Defaults to a small tolerance for robustness.
 
     Returns:
-        A new Amount containing the sum (amount1 + amount2), or None if either is None
+        A new Amount containing the sum (amount1 + amount2)
 
     Raises:
-        ValueError: If the amounts have different token types
+        ValueError: If either amount is None or if the amounts have different token types
+        AssertionError: If the result exceeds system precision limits
 
     Example:
         >>> amount1 = new_undefined_amount(PyDecimal("100"))
@@ -318,8 +352,10 @@ def amount_add(amount1: Amount, amount2: Amount) -> Amount | None:
         >>> result = amount_add(amount1, amount2)
         >>> # result value is 130
     """
-    if amount1 is None or amount2 is None:
-        return None
+    if amount1 is None:
+        raise ValueError("amount1 cannot be None")
+    if amount2 is None:
+        raise ValueError("amount2 cannot be None")
 
     from .decimal_operations import decimal_add
     from .token import token_is_equal_to, token_pretty_string
@@ -333,10 +369,14 @@ def amount_add(amount1: Amount, amount2: Amount) -> Amount | None:
     new_value_decimal = decimal_add(amount1.value, amount2.value)
     new_value_py = PyDecimal(new_value_decimal.value) if new_value_decimal.value else PyDecimal(0)
 
-    return amount_set_value(amount1, new_value_py)
+    return amount_set_value(amount1, new_value_py, precision_loss_tolerance)
 
 
-def amount_sub(amount1: Amount, amount2: Amount) -> Amount | None:
+def amount_sub(
+    amount1: Amount,
+    amount2: Amount,
+    precision_loss_tolerance: PyDecimal = PyDecimal("0.00000001"),
+) -> Amount:
     """Subtract amount2 from amount1 and return a new amount with the result.
 
     The amounts must have the same token type (currency/asset).
@@ -344,12 +384,15 @@ def amount_sub(amount1: Amount, amount2: Amount) -> Amount | None:
     Args:
         amount1: First amount
         amount2: Second amount to subtract (must have same token as amount1)
+        precision_loss_tolerance: The maximum acceptable difference after validation
+            round-trip. Defaults to a small tolerance for robustness.
 
     Returns:
-        A new Amount containing the difference (amount1 - amount2), or None if either is None
+        A new Amount containing the difference (amount1 - amount2)
 
     Raises:
-        ValueError: If the amounts have different token types
+        ValueError: If either amount is None or if the amounts have different token types
+        AssertionError: If the result exceeds system precision limits
 
     Example:
         >>> amount1 = new_undefined_amount(PyDecimal("100"))
@@ -357,8 +400,10 @@ def amount_sub(amount1: Amount, amount2: Amount) -> Amount | None:
         >>> result = amount_sub(amount1, amount2)
         >>> # result value is 70
     """
-    if amount1 is None or amount2 is None:
-        return None
+    if amount1 is None:
+        raise ValueError("amount1 cannot be None")
+    if amount2 is None:
+        raise ValueError("amount2 cannot be None")
 
     from .decimal_operations import decimal_sub
     from .token import token_is_equal_to, token_pretty_string
@@ -372,10 +417,14 @@ def amount_sub(amount1: Amount, amount2: Amount) -> Amount | None:
     new_value_decimal = decimal_sub(amount1.value, amount2.value)
     new_value_py = PyDecimal(new_value_decimal.value) if new_value_decimal.value else PyDecimal(0)
 
-    return amount_set_value(amount1, new_value_py)
+    return amount_set_value(amount1, new_value_py, precision_loss_tolerance)
 
 
-def amount_decimal_mul(amount: Amount, multiplier: PyDecimal) -> Amount | None:
+def amount_decimal_mul(
+    amount: Amount,
+    multiplier: PyDecimal,
+    precision_loss_tolerance: PyDecimal = PyDecimal("0.00000001"),
+) -> Amount:
     """Multiply this amount by a decimal value and return a new amount with the result.
 
     The token type is preserved.
@@ -383,9 +432,15 @@ def amount_decimal_mul(amount: Amount, multiplier: PyDecimal) -> Amount | None:
     Args:
         amount: The amount to multiply
         multiplier: The decimal multiplier
+        precision_loss_tolerance: The maximum acceptable difference after validation
+            round-trip. Defaults to a small tolerance for robustness.
 
     Returns:
-        A new Amount containing the product (amount * multiplier), or None if amount is None
+        A new Amount containing the product (amount * multiplier)
+
+    Raises:
+        ValueError: If amount is None
+        AssertionError: If the result exceeds system precision limits
 
     Example:
         >>> amount = new_undefined_amount(PyDecimal("100"))
@@ -393,7 +448,7 @@ def amount_decimal_mul(amount: Amount, multiplier: PyDecimal) -> Amount | None:
         >>> # result value is 200
     """
     if amount is None:
-        return None
+        raise ValueError("amount cannot be None")
 
     from .decimal_operations import decimal_mul
 
@@ -401,10 +456,14 @@ def amount_decimal_mul(amount: Amount, multiplier: PyDecimal) -> Amount | None:
     new_value_decimal = decimal_mul(amount.value, multiplier_decimal)
     new_value_py = PyDecimal(new_value_decimal.value) if new_value_decimal.value else PyDecimal(0)
 
-    return amount_set_value(amount, new_value_py)
+    return amount_set_value(amount, new_value_py, precision_loss_tolerance)
 
 
-def amount_decimal_div(amount: Amount, divisor: PyDecimal) -> Amount | None:
+def amount_decimal_div(
+    amount: Amount,
+    divisor: PyDecimal,
+    precision_loss_tolerance: PyDecimal = PyDecimal("0.00000001"),
+) -> Amount:
     """Divide this amount by a decimal value and return a new amount with the result.
 
     The token type is preserved.
@@ -412,12 +471,16 @@ def amount_decimal_div(amount: Amount, divisor: PyDecimal) -> Amount | None:
     Args:
         amount: The amount to divide
         divisor: The decimal divisor (must not be zero)
+        precision_loss_tolerance: The maximum acceptable difference after validation
+            round-trip. Defaults to a small tolerance for robustness.
 
     Returns:
-        A new Amount containing the quotient (amount / divisor), or None if amount is None
+        A new Amount containing the quotient (amount / divisor)
 
     Raises:
+        ValueError: If amount is None
         ZeroDivisionError: If divisor is zero
+        AssertionError: If the result exceeds system precision limits
 
     Example:
         >>> amount = new_undefined_amount(PyDecimal("100"))
@@ -425,7 +488,7 @@ def amount_decimal_div(amount: Amount, divisor: PyDecimal) -> Amount | None:
         >>> # result value is 25
     """
     if amount is None:
-        return None
+        raise ValueError("amount cannot be None")
 
     if divisor == 0:
         raise ZeroDivisionError("cannot divide amount by zero")
@@ -436,4 +499,4 @@ def amount_decimal_div(amount: Amount, divisor: PyDecimal) -> Amount | None:
     new_value_decimal = decimal_div(amount.value, divisor_decimal)
     new_value_py = PyDecimal(new_value_decimal.value) if new_value_decimal.value else PyDecimal(0)
 
-    return amount_set_value(amount, new_value_py)
+    return amount_set_value(amount, new_value_py, precision_loss_tolerance)
