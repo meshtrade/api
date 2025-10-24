@@ -3,12 +3,15 @@ package co.meshtrade.api.grpc;
 import co.meshtrade.api.config.ServiceOptions;
 import co.meshtrade.api.iam.group.v1.GroupService;
 import co.meshtrade.api.iam.group.v1.GroupServiceInterface;
-import org.junit.jupiter.api.Test;
+
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Integration tests for withGroup method functionality.

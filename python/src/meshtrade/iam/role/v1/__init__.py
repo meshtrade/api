@@ -29,7 +29,7 @@ from .role_pb2 import Role, RoleList
 #
 # ===================================================================
 
-from .role import full_resource_name_from_group_name
+from .role import role_full_resource_name_from_group
 
 # ===================================================================
 # MODULE EXPORTS
@@ -40,5 +40,5 @@ __all__ = [
     "Role",
     "RoleList",
     # Manual exports
-    "full_resource_name_from_group_name",
+    "role_full_resource_name_from_group",
 ]
