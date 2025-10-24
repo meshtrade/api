@@ -45,6 +45,12 @@ jobs:
           echo "☕ Generating Java code from protobuf definitions..."
           ./dev/tool.sh generate --targets=java
 
+      - name: Run Java linting (early validation)
+        run: |
+          echo "🔍 Running Java linting and code quality checks..."
+          cd java
+          mvn checkstyle:check spotbugs:check pmd:check modernizer:modernizer
+
       - name: Run Java tests (early validation)
         run: |
           echo "🧪 Running Java tests..."

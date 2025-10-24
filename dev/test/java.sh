@@ -42,23 +42,23 @@ echo
 echo "🚀 Running integration tests..."
 mvn verify -q -DskipUnitTests
 
-# Optional: Run static analysis if available
+# Run linting and static analysis (mandatory)
 echo
-echo "🔍 Running static analysis..."
-if command -v golangci-lint &> /dev/null; then
-    echo "⚠️  Note: golangci-lint is for Go, not Java"
-fi
+echo "🔍 Running code quality checks..."
 
-# Check for common Java linting tools
-if mvn help:evaluate -Dexpression=project.build.plugins -q 2>/dev/null | grep -q "spotbugs"; then
-    echo "🔍 Running SpotBugs analysis..."
-    mvn spotbugs:check -q || echo "⚠️  SpotBugs found issues (non-fatal)"
-fi
+echo "   📋 Checkstyle (code style)..."
+mvn checkstyle:check -q
 
-if mvn help:evaluate -Dexpression=project.build.plugins -q 2>/dev/null | grep -q "checkstyle"; then
-    echo "🔍 Running Checkstyle analysis..."
-    mvn checkstyle:check -q || echo "⚠️  Checkstyle found issues (non-fatal)"
-fi
+echo "   🐛 SpotBugs (bug detection + security)..."
+mvn spotbugs:check -q
+
+echo "   📊 PMD (code quality)..."
+mvn pmd:check -q
+
+echo "   🔧 Modernizer (legacy API detection)..."
+mvn modernizer:modernizer -q
+
+echo "✅ All code quality checks passed!"
 
 cd ..
 

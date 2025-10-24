@@ -130,6 +130,55 @@ message = (
 )
 ```
 
+### Java Linting Standards
+
+**Configuration**: Uses comprehensive linting stack with multiple tools (see `java/pom.xml`)
+
+**Linting Tools**:
+- **Checkstyle**: Code style enforcement (Google Java Style Guide)
+- **SpotBugs**: Bug detection with FindSecBugs security plugin
+- **PMD**: Code quality analysis and complexity checking
+- **Error Prone**: Compile-time bug detection (Google)
+- **Modernizer**: Legacy API detection for Java 21
+
+**Key Style Rules**:
+- **Line Length**: 120 characters max (adjusted for Java verbosity)
+- **JavaDoc**: Required for all public classes, methods, and constructors
+- **Indentation**: 4 spaces (no tabs)
+- **Naming**: camelCase for variables/methods, PascalCase for classes, UPPER_SNAKE_CASE for constants
+- **Imports**: No star imports, organized by groups (java.*, javax.*, *, co.meshtrade.*)
+
+**Running Linters**:
+```bash
+cd java
+
+# Run all linters (part of test suite)
+mvn verify
+
+# Run individual linters
+mvn checkstyle:check     # Code style
+mvn spotbugs:check       # Bug detection + security
+mvn pmd:check            # Code quality
+mvn modernizer:modernizer # Legacy API detection
+
+# View HTML reports
+open target/site/checkstyle.html
+open target/spotbugsXml.html
+open target/site/pmd.html
+```
+
+**Configuration Files**:
+- `java/checkstyle.xml` - Checkstyle rules (Google Style)
+- `java/spotbugs-exclude.xml` - Exclusions for generated code
+- `java/pmd-ruleset.xml` - PMD custom rules
+- `java/.editorconfig` - Editor consistency settings
+
+**Best Practices**:
+1. Run `mvn verify` before committing to catch all violations
+2. Fix violations immediately - don't accumulate technical debt
+3. Use `@SuppressWarnings` sparingly and only with justification comments
+4. Generated protobuf code is automatically excluded from all checks
+
 
 ## Architecture
 
