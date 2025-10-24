@@ -5,20 +5,24 @@ with protobuf Decimal messages, offering a Pythonic API for decimal arithmetic
 with consistent precision handling.
 """
 
-from decimal import Decimal as PyDecimal
+from decimal import ROUND_HALF_UP
 
+from .decimal_built_in_conversions import decimal_to_built_in
 from .decimal_pb2 import Decimal
 
 
-def decimal_add(d1: Decimal, d2: Decimal) -> Decimal:
+def decimal_add(d1: Decimal | None, d2: Decimal | None) -> Decimal:
     """Add two Decimal values.
 
     Args:
-        d1: First decimal value
-        d2: Second decimal value
+        d1: First decimal value (None treated as 0)
+        d2: Second decimal value (None treated as 0)
 
     Returns:
         New Decimal containing the sum (d1 + d2)
+
+    None Safety:
+        None inputs are treated as zero
 
     Example:
         >>> d1 = Decimal(value="10.5")
@@ -27,22 +31,23 @@ def decimal_add(d1: Decimal, d2: Decimal) -> Decimal:
         >>> result.value
         '30.8'
     """
-    val1 = PyDecimal(d1.value) if d1 and d1.value else PyDecimal(0)
-    val2 = PyDecimal(d2.value) if d2 and d2.value else PyDecimal(0)
-    result = Decimal()
-    result.value = str(val1 + val2)
-    return result
+    val1 = decimal_to_built_in(d1)
+    val2 = decimal_to_built_in(d2)
+    return Decimal(value=str(val1 + val2))
 
 
-def decimal_sub(d1: Decimal, d2: Decimal) -> Decimal:
+def decimal_sub(d1: Decimal | None, d2: Decimal | None) -> Decimal:
     """Subtract two Decimal values.
 
     Args:
-        d1: First decimal value
-        d2: Second decimal value (subtrahend)
+        d1: First decimal value (None treated as 0)
+        d2: Second decimal value (subtrahend, None treated as 0)
 
     Returns:
         New Decimal containing the difference (d1 - d2)
+
+    None Safety:
+        None inputs are treated as zero
 
     Example:
         >>> d1 = Decimal(value="100.5")
@@ -51,22 +56,23 @@ def decimal_sub(d1: Decimal, d2: Decimal) -> Decimal:
         >>> result.value
         '70.3'
     """
-    val1 = PyDecimal(d1.value) if d1 and d1.value else PyDecimal(0)
-    val2 = PyDecimal(d2.value) if d2 and d2.value else PyDecimal(0)
-    result = Decimal()
-    result.value = str(val1 - val2)
-    return result
+    val1 = decimal_to_built_in(d1)
+    val2 = decimal_to_built_in(d2)
+    return Decimal(value=str(val1 - val2))
 
 
-def decimal_mul(d1: Decimal, d2: Decimal) -> Decimal:
+def decimal_mul(d1: Decimal | None, d2: Decimal | None) -> Decimal:
     """Multiply two Decimal values.
 
     Args:
-        d1: First decimal value
-        d2: Second decimal value
+        d1: First decimal value (None treated as 0)
+        d2: Second decimal value (None treated as 0)
 
     Returns:
         New Decimal containing the product (d1 * d2)
+
+    None Safety:
+        None inputs are treated as zero
 
     Example:
         >>> d1 = Decimal(value="10.5")
@@ -75,25 +81,26 @@ def decimal_mul(d1: Decimal, d2: Decimal) -> Decimal:
         >>> result.value
         '21.0'
     """
-    val1 = PyDecimal(d1.value) if d1 and d1.value else PyDecimal(0)
-    val2 = PyDecimal(d2.value) if d2 and d2.value else PyDecimal(0)
-    result = Decimal()
-    result.value = str(val1 * val2)
-    return result
+    val1 = decimal_to_built_in(d1)
+    val2 = decimal_to_built_in(d2)
+    return Decimal(value=str(val1 * val2))
 
 
-def decimal_div(d1: Decimal, d2: Decimal) -> Decimal:
+def decimal_div(d1: Decimal | None, d2: Decimal | None) -> Decimal:
     """Divide two Decimal values.
 
     Args:
-        d1: Dividend
-        d2: Divisor (must not be zero)
+        d1: Dividend (None treated as 0)
+        d2: Divisor (must not be zero, None treated as 0)
 
     Returns:
         New Decimal containing the quotient (d1 / d2)
 
     Raises:
         ZeroDivisionError: If d2 is zero
+
+    None Safety:
+        None inputs are treated as zero (note: None d2 will raise ZeroDivisionError)
 
     Example:
         >>> d1 = Decimal(value="100")
@@ -102,26 +109,27 @@ def decimal_div(d1: Decimal, d2: Decimal) -> Decimal:
         >>> result.value
         '25'
     """
-    val1 = PyDecimal(d1.value) if d1 and d1.value else PyDecimal(0)
-    val2 = PyDecimal(d2.value) if d2 and d2.value else PyDecimal(0)
+    val1 = decimal_to_built_in(d1)
+    val2 = decimal_to_built_in(d2)
 
     if val2 == 0:
         raise ZeroDivisionError("cannot divide by zero")
 
-    result = Decimal()
-    result.value = str(val1 / val2)
-    return result
+    return Decimal(value=str(val1 / val2))
 
 
-def decimal_equal(d1: Decimal, d2: Decimal) -> bool:
+def decimal_equal(d1: Decimal | None, d2: Decimal | None) -> bool:
     """Check if two Decimal values are equal.
 
     Args:
-        d1: First decimal value
-        d2: Second decimal value
+        d1: First decimal value (None treated as 0)
+        d2: Second decimal value (None treated as 0)
 
     Returns:
         True if d1 == d2, False otherwise
+
+    None Safety:
+        None inputs are treated as zero
 
     Example:
         >>> d1 = Decimal(value="10.5")
@@ -129,20 +137,23 @@ def decimal_equal(d1: Decimal, d2: Decimal) -> bool:
         >>> decimal_equal(d1, d2)
         True
     """
-    val1 = PyDecimal(d1.value) if d1 and d1.value else PyDecimal(0)
-    val2 = PyDecimal(d2.value) if d2 and d2.value else PyDecimal(0)
+    val1 = decimal_to_built_in(d1)
+    val2 = decimal_to_built_in(d2)
     return val1 == val2
 
 
-def decimal_less_than(d1: Decimal, d2: Decimal) -> bool:
+def decimal_less_than(d1: Decimal | None, d2: Decimal | None) -> bool:
     """Check if first Decimal is less than second.
 
     Args:
-        d1: First decimal value
-        d2: Second decimal value
+        d1: First decimal value (None treated as 0)
+        d2: Second decimal value (None treated as 0)
 
     Returns:
         True if d1 < d2, False otherwise
+
+    None Safety:
+        None inputs are treated as zero
 
     Example:
         >>> d1 = Decimal(value="10.5")
@@ -150,20 +161,23 @@ def decimal_less_than(d1: Decimal, d2: Decimal) -> bool:
         >>> decimal_less_than(d1, d2)
         True
     """
-    val1 = PyDecimal(d1.value) if d1 and d1.value else PyDecimal(0)
-    val2 = PyDecimal(d2.value) if d2 and d2.value else PyDecimal(0)
+    val1 = decimal_to_built_in(d1)
+    val2 = decimal_to_built_in(d2)
     return val1 < val2
 
 
-def decimal_less_than_or_equal(d1: Decimal, d2: Decimal) -> bool:
+def decimal_less_than_or_equal(d1: Decimal | None, d2: Decimal | None) -> bool:
     """Check if first Decimal is less than or equal to second.
 
     Args:
-        d1: First decimal value
-        d2: Second decimal value
+        d1: First decimal value (None treated as 0)
+        d2: Second decimal value (None treated as 0)
 
     Returns:
         True if d1 <= d2, False otherwise
+
+    None Safety:
+        None inputs are treated as zero
 
     Example:
         >>> d1 = Decimal(value="10.5")
@@ -171,20 +185,23 @@ def decimal_less_than_or_equal(d1: Decimal, d2: Decimal) -> bool:
         >>> decimal_less_than_or_equal(d1, d2)
         True
     """
-    val1 = PyDecimal(d1.value) if d1 and d1.value else PyDecimal(0)
-    val2 = PyDecimal(d2.value) if d2 and d2.value else PyDecimal(0)
+    val1 = decimal_to_built_in(d1)
+    val2 = decimal_to_built_in(d2)
     return val1 <= val2
 
 
-def decimal_greater_than(d1: Decimal, d2: Decimal) -> bool:
+def decimal_greater_than(d1: Decimal | None, d2: Decimal | None) -> bool:
     """Check if first Decimal is greater than second.
 
     Args:
-        d1: First decimal value
-        d2: Second decimal value
+        d1: First decimal value (None treated as 0)
+        d2: Second decimal value (None treated as 0)
 
     Returns:
         True if d1 > d2, False otherwise
+
+    None Safety:
+        None inputs are treated as zero
 
     Example:
         >>> d1 = Decimal(value="20.3")
@@ -192,20 +209,23 @@ def decimal_greater_than(d1: Decimal, d2: Decimal) -> bool:
         >>> decimal_greater_than(d1, d2)
         True
     """
-    val1 = PyDecimal(d1.value) if d1 and d1.value else PyDecimal(0)
-    val2 = PyDecimal(d2.value) if d2 and d2.value else PyDecimal(0)
+    val1 = decimal_to_built_in(d1)
+    val2 = decimal_to_built_in(d2)
     return val1 > val2
 
 
-def decimal_greater_than_or_equal(d1: Decimal, d2: Decimal) -> bool:
+def decimal_greater_than_or_equal(d1: Decimal | None, d2: Decimal | None) -> bool:
     """Check if first Decimal is greater than or equal to second.
 
     Args:
-        d1: First decimal value
-        d2: Second decimal value
+        d1: First decimal value (None treated as 0)
+        d2: Second decimal value (None treated as 0)
 
     Returns:
         True if d1 >= d2, False otherwise
+
+    None Safety:
+        None inputs are treated as zero
 
     Example:
         >>> d1 = Decimal(value="10.5")
@@ -213,19 +233,22 @@ def decimal_greater_than_or_equal(d1: Decimal, d2: Decimal) -> bool:
         >>> decimal_greater_than_or_equal(d1, d2)
         True
     """
-    val1 = PyDecimal(d1.value) if d1 and d1.value else PyDecimal(0)
-    val2 = PyDecimal(d2.value) if d2 and d2.value else PyDecimal(0)
+    val1 = decimal_to_built_in(d1)
+    val2 = decimal_to_built_in(d2)
     return val1 >= val2
 
 
-def decimal_is_zero(d: Decimal) -> bool:
+def decimal_is_zero(d: Decimal | None) -> bool:
     """Check if Decimal value is zero.
 
     Args:
-        d: Decimal value to check
+        d: Decimal value to check (None treated as 0)
 
     Returns:
         True if d == 0, False otherwise
+
+    None Safety:
+        None inputs are treated as zero (returns True)
 
     Example:
         >>> d = Decimal(value="0")
@@ -235,18 +258,21 @@ def decimal_is_zero(d: Decimal) -> bool:
         >>> decimal_is_zero(d2)
         False
     """
-    val = PyDecimal(d.value) if d and d.value else PyDecimal(0)
+    val = decimal_to_built_in(d)
     return val == 0
 
 
-def decimal_is_negative(d: Decimal) -> bool:
+def decimal_is_negative(d: Decimal | None) -> bool:
     """Check if Decimal value is negative (< 0).
 
     Args:
-        d: Decimal value to check
+        d: Decimal value to check (None treated as 0)
 
     Returns:
         True if d < 0, False if d >= 0
+
+    None Safety:
+        None inputs are treated as zero (returns False)
 
     Example:
         >>> d = Decimal(value="-10.5")
@@ -256,18 +282,21 @@ def decimal_is_negative(d: Decimal) -> bool:
         >>> decimal_is_negative(d2)
         False
     """
-    val = PyDecimal(d.value) if d and d.value else PyDecimal(0)
+    val = decimal_to_built_in(d)
     return val < 0
 
 
-def decimal_is_positive(d: Decimal) -> bool:
+def decimal_is_positive(d: Decimal | None) -> bool:
     """Check if Decimal value is positive (> 0).
 
     Args:
-        d: Decimal value to check
+        d: Decimal value to check (None treated as 0)
 
     Returns:
         True if d > 0, False if d <= 0
+
+    None Safety:
+        None inputs are treated as zero (returns False)
 
     Example:
         >>> d = Decimal(value="10.5")
@@ -277,21 +306,24 @@ def decimal_is_positive(d: Decimal) -> bool:
         >>> decimal_is_positive(d2)
         False
     """
-    val = PyDecimal(d.value) if d and d.value else PyDecimal(0)
+    val = decimal_to_built_in(d)
     return val > 0
 
 
-def decimal_round(d: Decimal, places: int) -> Decimal:
+def decimal_round(d: Decimal | None, places: int) -> Decimal:
     """Round Decimal to specified number of decimal places.
 
     If places < 0, it rounds the integer part to the nearest 10^(-places).
 
     Args:
-        d: Decimal value to round
+        d: Decimal value to round (None treated as 0)
         places: Number of decimal places (can be negative)
 
     Returns:
         New Decimal containing the rounded value
+
+    None Safety:
+        None inputs are treated as zero
 
     Example:
         >>> d = Decimal(value="5.45")
@@ -303,9 +335,9 @@ def decimal_round(d: Decimal, places: int) -> Decimal:
         >>> result2.value
         '550'
     """
-    from decimal import ROUND_HALF_UP
+    from decimal import Decimal as PyDecimal
 
-    val = PyDecimal(d.value) if d and d.value else PyDecimal(0)
+    val = decimal_to_built_in(d)
 
     if places < 0:
         # For negative places, use shift-quantize-shift back approach
@@ -319,6 +351,4 @@ def decimal_round(d: Decimal, places: int) -> Decimal:
         quantizer = PyDecimal(10) ** -places
         rounded_val = val.quantize(quantizer, rounding=ROUND_HALF_UP)
 
-    result = Decimal()
-    result.value = str(rounded_val)
-    return result
+    return Decimal(value=str(rounded_val))

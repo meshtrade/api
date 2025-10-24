@@ -1,7 +1,5 @@
 """Unit tests for token utility functions."""
 
-from decimal import Decimal as PyDecimal
-
 from meshtrade.type.v1 import token
 from meshtrade.type.v1.ledger_pb2 import Ledger
 from meshtrade.type.v1.token_pb2 import Token

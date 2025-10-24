@@ -255,3 +255,84 @@ class TestDecimalUtilities:
         result = decimal_operations.decimal_round(d, -2)
         # ROUND_HALF_UP: 12350 has 5 in the tens place, rounds UP to 12400
         assert result.value == "12400"
+
+
+class TestNoneSafety:
+    """Tests for None input handling (None treated as 0)."""
+
+    def test_decimal_add_with_none_inputs(self):
+        """Test adding with None inputs treats them as zero."""
+        d1 = Decimal(value="10.5")
+        result1 = decimal_operations.decimal_add(d1, None)
+        assert result1.value == "10.5"
+
+        result2 = decimal_operations.decimal_add(None, d1)
+        assert result2.value == "10.5"
+
+        result3 = decimal_operations.decimal_add(None, None)
+        assert PyDecimal(result3.value) == PyDecimal("0")
+
+    def test_decimal_sub_with_none_inputs(self):
+        """Test subtracting with None inputs treats them as zero."""
+        d1 = Decimal(value="10.5")
+        result1 = decimal_operations.decimal_sub(d1, None)
+        assert result1.value == "10.5"
+
+        result2 = decimal_operations.decimal_sub(None, d1)
+        assert result2.value == "-10.5"
+
+    def test_decimal_mul_with_none_inputs(self):
+        """Test multiplying with None inputs treats them as zero."""
+        d1 = Decimal(value="10.5")
+        result1 = decimal_operations.decimal_mul(d1, None)
+        assert PyDecimal(result1.value) == PyDecimal("0")
+
+        result2 = decimal_operations.decimal_mul(None, d1)
+        assert PyDecimal(result2.value) == PyDecimal("0")
+
+    def test_decimal_div_with_none_divisor_raises_zero_division(self):
+        """Test dividing by None (treated as 0) raises ZeroDivisionError."""
+        d1 = Decimal(value="10.5")
+        with pytest.raises(ZeroDivisionError, match="cannot divide by zero"):
+            decimal_operations.decimal_div(d1, None)
+
+    def test_decimal_equal_with_none_inputs(self):
+        """Test equality with None inputs treats them as zero."""
+        d1 = Decimal(value="0")
+        assert decimal_operations.decimal_equal(None, None) is True
+        assert decimal_operations.decimal_equal(d1, None) is True
+        assert decimal_operations.decimal_equal(None, d1) is True
+
+        d2 = Decimal(value="10.5")
+        assert decimal_operations.decimal_equal(d2, None) is False
+
+    def test_decimal_less_than_with_none_inputs(self):
+        """Test less than with None inputs treats them as zero."""
+        d1 = Decimal(value="10.5")
+        assert decimal_operations.decimal_less_than(None, d1) is True
+        assert decimal_operations.decimal_less_than(d1, None) is False
+        assert decimal_operations.decimal_less_than(None, None) is False
+
+    def test_decimal_is_zero_with_none(self):
+        """Test is_zero with None returns True (None treated as 0)."""
+        assert decimal_operations.decimal_is_zero(None) is True
+
+    def test_decimal_is_negative_with_none(self):
+        """Test is_negative with None returns False (None treated as 0)."""
+        assert decimal_operations.decimal_is_negative(None) is False
+
+    def test_decimal_is_positive_with_none(self):
+        """Test is_positive with None returns False (None treated as 0)."""
+        assert decimal_operations.decimal_is_positive(None) is False
+
+    def test_decimal_round_with_none(self):
+        """Test rounding with None input treats it as zero."""
+        result = decimal_operations.decimal_round(None, 2)
+        assert PyDecimal(result.value) == PyDecimal("0")
+
+    def test_decimal_with_empty_string_value(self):
+        """Test that empty string values are treated as zero."""
+        d1 = Decimal(value="")
+        d2 = Decimal(value="10")
+        result = decimal_operations.decimal_add(d1, d2)
+        assert result.value == "10"
