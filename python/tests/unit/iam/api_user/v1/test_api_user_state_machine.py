@@ -23,8 +23,8 @@ class TestAPIUserStateIsValid:
 
     def test_invalid_state_out_of_range(self):
         """Test that out-of-range enum values return False."""
-        assert api_user_state_is_valid(999) is False
-        assert api_user_state_is_valid(-1) is False
+        assert api_user_state_is_valid(APIUserState(999)) is False
+        assert api_user_state_is_valid(APIUserState(-1)) is False
 
 
 class TestAPIUserStateIsValidAndDefined:
@@ -41,8 +41,8 @@ class TestAPIUserStateIsValidAndDefined:
 
     def test_invalid_states_return_false(self):
         """Test that invalid states return False."""
-        assert api_user_state_is_valid_and_defined(None) is False
-        assert api_user_state_is_valid_and_defined(999) is False
+        assert api_user_state_is_valid_and_defined(None) is False # type: ignore
+        assert api_user_state_is_valid_and_defined(APIUserState(999)) is False
 
 
 class TestAPIUserStateCanPerformActionAtState:
