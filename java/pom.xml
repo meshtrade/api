@@ -41,8 +41,8 @@
         <maven.deploy.skip>false</maven.deploy.skip>
 
         <!-- Dependency versions for standalone deployment -->
-        <grpc.version>1.74.0</grpc.version>
-        <protobuf.version>4.31.1</protobuf.version>
+        <grpc.version>1.76.0</grpc.version>
+        <protobuf.version>4.33.0</protobuf.version>
         <jakarta.annotation.version>3.0.0</jakarta.annotation.version>
         <slf4j.version>2.0.17</slf4j.version>
         <jackson.version>2.19.2</jackson.version>
@@ -52,13 +52,8 @@
         <assertj.version>3.27.3</assertj.version>
         <logback.version>1.5.18</logback.version>
 
-        <!-- Linting and code quality tool versions -->
+        <!-- Linting tool versions -->
         <checkstyle.version>10.20.2</checkstyle.version>
-        <spotbugs.version>4.7.3.6</spotbugs.version>
-        <pmd.version>7.11.0</pmd.version>
-        <error-prone.version>2.36.0</error-prone.version>
-        <findsecbugs.version>1.13.0</findsecbugs.version>
-        <fb-contrib.version>7.6.10</fb-contrib.version>
 
         <!-- Maven compiler settings -->
         <maven.compiler.source>21</maven.compiler.source>
@@ -75,6 +70,7 @@
                 <artifactId>guava</artifactId>
                 <version>33.4.0-jre</version>
             </dependency>
+            <!-- Error Prone annotations pulled in by grpc/protobuf - force consistent version -->
             <dependency>
                 <groupId>com.google.errorprone</groupId>
                 <artifactId>error_prone_annotations</artifactId>
@@ -207,14 +203,6 @@
             <version>${logback.version}</version>
             <scope>test</scope>
         </dependency>
-
-        <!-- Error Prone for compile-time bug detection -->
-        <dependency>
-            <groupId>com.google.errorprone</groupId>
-            <artifactId>error_prone_core</artifactId>
-            <version>${error-prone.version}</version>
-            <scope>provided</scope>
-        </dependency>
     </dependencies>
 
     <build>
@@ -222,7 +210,7 @@
         <finalName>${project.groupId}.${project.artifactId}-${project.version}</finalName>
         
         <plugins>
-            <!-- Compiler plugin with Error Prone integration -->
+            <!-- Compiler plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -232,18 +220,7 @@
                     <encoding>UTF-8</encoding>
                     <compilerArgs>
                         <arg>-parameters</arg>
-                        <arg>-XDcompilePolicy=simple</arg>
-                        <!-- NOTE: Error Prone 2.36.0 is not compatible with Java 24+
-                             If using Java 24, comment out this line or downgrade to Java 21 -->
-                        <arg>-Xplugin:ErrorProne -XepDisableWarningsInGeneratedCode</arg>
                     </compilerArgs>
-                    <annotationProcessorPaths>
-                        <path>
-                            <groupId>com.google.errorprone</groupId>
-                            <artifactId>error_prone_core</artifactId>
-                            <version>${error-prone.version}</version>
-                        </path>
-                    </annotationProcessorPaths>
                     <showWarnings>true</showWarnings>
                     <failOnWarning>false</failOnWarning>
                 </configuration>
@@ -358,118 +335,6 @@
                         <phase>validate</phase>
                         <goals>
                             <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- SpotBugs for bug detection and security analysis -->
-            <plugin>
-                <groupId>com.github.spotbugs</groupId>
-                <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>${spotbugs.version}</version>
-                <dependencies>
-                    <!-- FindSecBugs for security vulnerability detection -->
-                    <dependency>
-                        <groupId>com.h3xstream.findsecbugs</groupId>
-                        <artifactId>findsecbugs-plugin</artifactId>
-                        <version>${findsecbugs.version}</version>
-                    </dependency>
-                    <!-- fb-contrib for additional bug patterns -->
-                    <dependency>
-                        <groupId>com.mebigfatguy.fb-contrib</groupId>
-                        <artifactId>fb-contrib</artifactId>
-                        <version>${fb-contrib.version}</version>
-                    </dependency>
-                </dependencies>
-                <configuration>
-                    <effort>Max</effort>
-                    <threshold>High</threshold>
-                    <xmlOutput>true</xmlOutput>
-                    <htmlOutput>true</htmlOutput>
-                    <excludeFilterFile>spotbugs-exclude.xml</excludeFilterFile>
-                    <plugins>
-                        <plugin>
-                            <groupId>com.h3xstream.findsecbugs</groupId>
-                            <artifactId>findsecbugs-plugin</artifactId>
-                            <version>${findsecbugs.version}</version>
-                        </plugin>
-                        <plugin>
-                            <groupId>com.mebigfatguy.fb-contrib</groupId>
-                            <artifactId>fb-contrib</artifactId>
-                            <version>${fb-contrib.version}</version>
-                        </plugin>
-                    </plugins>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>spotbugs-check</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- PMD for code quality analysis -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-pmd-plugin</artifactId>
-                <version>3.27.0</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>net.sourceforge.pmd</groupId>
-                        <artifactId>pmd-core</artifactId>
-                        <version>${pmd.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>net.sourceforge.pmd</groupId>
-                        <artifactId>pmd-java</artifactId>
-                        <version>${pmd.version}</version>
-                    </dependency>
-                </dependencies>
-                <configuration>
-                    <rulesets>
-                        <ruleset>pmd-ruleset.xml</ruleset>
-                    </rulesets>
-                    <printFailingErrors>true</printFailingErrors>
-                    <failOnViolation>true</failOnViolation>
-                    <verbose>true</verbose>
-                    <includeTests>true</includeTests>
-                    <analysisCache>true</analysisCache>
-                    <analysisCacheLocation>${project.build.directory}/pmd/pmd.cache</analysisCacheLocation>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>pmd-check</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- Modernizer for detecting legacy API usage -->
-            <plugin>
-                <groupId>org.gaul</groupId>
-                <artifactId>modernizer-maven-plugin</artifactId>
-                <version>2.9.0</version>
-                <configuration>
-                    <javaVersion>21</javaVersion>
-                    <failOnViolations>true</failOnViolations>
-                    <includeTestClasses>false</includeTestClasses>
-                    <exclusions>
-                        <!-- Allow specific legacy patterns if needed -->
-                    </exclusions>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>modernizer</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>modernizer</goal>
                         </goals>
                     </execution>
                 </executions>

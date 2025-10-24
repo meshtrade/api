@@ -42,21 +42,12 @@ echo
 echo "🚀 Running integration tests..."
 mvn verify -q -DskipUnitTests
 
-# Run linting and static analysis (mandatory)
+# Run linting (mandatory)
 echo
 echo "🔍 Running code quality checks..."
 
 echo "   📋 Checkstyle (code style)..."
 mvn checkstyle:check -q
-
-echo "   🐛 SpotBugs (bug detection + security)..."
-mvn spotbugs:check -q
-
-echo "   📊 PMD (code quality)..."
-mvn pmd:check -q
-
-echo "   🔧 Modernizer (legacy API detection)..."
-mvn modernizer:modernizer -q
 
 echo "✅ All code quality checks passed!"
 

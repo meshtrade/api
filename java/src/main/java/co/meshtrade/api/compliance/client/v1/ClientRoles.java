@@ -100,40 +100,36 @@ public final class ClientRoles {
     /**
      * Extracts client default roles from the protobuf message descriptor.
      *
+     * <p>Note: This method does not catch exceptions because protobuf descriptor operations
+     * don't throw checked exceptions. Any RuntimeExceptions are programming errors that
+     * should propagate naturally for debugging.
+     *
      * @return List of roles from the message_roles extension
-     * @throws IllegalStateException if extraction fails
+     * @throws IllegalStateException if the message_roles extension is not defined
      */
     private static List<RoleOuterClass.Role> extractClientRoles() {
-        try {
-            // Get the Client message descriptor
-            Descriptors.Descriptor descriptor = Client.getDescriptor();
-            Descriptors.FieldDescriptor messageRolesField = RoleOuterClass.messageRoles.getDescriptor();
+        // Get the Client message descriptor
+        Descriptors.Descriptor descriptor = Client.getDescriptor();
+        Descriptors.FieldDescriptor messageRolesField = RoleOuterClass.messageRoles.getDescriptor();
 
-            // Get the message options
-            com.google.protobuf.DescriptorProtos.MessageOptions options =
-                descriptor.getOptions();
+        // Get the message options
+        com.google.protobuf.DescriptorProtos.MessageOptions options = descriptor.getOptions();
 
-            // Check if the extension exists
-            if (!options.hasExtension(RoleOuterClass.messageRoles)) {
-                throw new IllegalStateException(
-                    String.format(
-                        "Proto message %s does not define extension %s",
-                        descriptor.getFullName(),
-                        messageRolesField.getFullName()
-                    )
-                );
-            }
-
-            // Get the extension value (RoleList)
-            RoleOuterClass.RoleList roleList = options.getExtension(RoleOuterClass.messageRoles);
-
-            // Extract roles from the RoleList
-            return new ArrayList<>(roleList.getRolesList());
-
-        } catch (Exception e) {
+        // Check if the extension exists
+        if (!options.hasExtension(RoleOuterClass.messageRoles)) {
             throw new IllegalStateException(
-                "Failed to extract client default roles from protobuf extension", e
+                String.format(
+                    "Proto message %s does not define extension %s",
+                    descriptor.getFullName(),
+                    messageRolesField.getFullName()
+                )
             );
         }
+
+        // Get the extension value (RoleList)
+        RoleOuterClass.RoleList roleList = options.getExtension(RoleOuterClass.messageRoles);
+
+        // Extract roles from the RoleList
+        return new ArrayList<>(roleList.getRolesList());
     }
 }

@@ -2,7 +2,6 @@ package co.meshtrade.api.config;
 
 import java.time.Duration;
 import java.util.Objects;
-import java.util.Optional;
 
 import co.meshtrade.api.auth.Credentials;
 import co.meshtrade.api.auth.CredentialsDiscovery;
@@ -335,24 +334,20 @@ public final class ServiceOptions {
         public ServiceOptions build() {
             // Attempt credential discovery if not explicitly set
             if (apiKey == null || group == null) {
-                Optional<Credentials> discoveredCredentials = CredentialsDiscovery.findCredentials();
-                if (discoveredCredentials.isPresent()) {
-                    Credentials creds = discoveredCredentials.get();
-                    if (apiKey == null) {
-                        apiKey = creds.apiKey();
-                    }
-                    if (group == null) {
-                        group = creds.group();
-                    }
-                } else {
-                    throw new IllegalStateException(
+                Credentials creds = CredentialsDiscovery.findCredentials()
+                    .orElseThrow(() -> new IllegalStateException(
                         "API credentials not provided and could not be discovered automatically. " +
                         "Either provide credentials via builder methods or ensure they are available " +
                         "via environment variable or credential files. " +
-                        "See CredentialsDiscovery.getCredentialSearchInfo() for details.");
+                        "See CredentialsDiscovery.getCredentialSearchInfo() for details."));
+                if (apiKey == null) {
+                    apiKey = creds.apiKey();
+                }
+                if (group == null) {
+                    group = creds.group();
                 }
             }
-            
+
             ServiceOptions options = new ServiceOptions(this);
             options.validate();
             return options;
