@@ -588,9 +588,9 @@ The repository includes a comprehensive testing infrastructure accessible throug
 ./dev/tool.sh test --verbose  # Detailed output for debugging
 
 # Individual language tests
-./dev/test/go.sh              # Go tests with coverage, race detection, linting  
+./dev/test/go.sh              # Go tests with coverage, race detection, linting
 ./dev/test/python.sh          # Python with pytest, coverage, ruff linting
-./dev/test/java.sh            # Java with Maven, JaCoCo coverage, SpotBugs security
+./dev/test/java.sh            # Java with Maven, JaCoCo coverage
 ./dev/test/typescript.sh      # TypeScript with Jest, type checking, ESLint
 
 # Environment validation (troubleshooting)
@@ -620,7 +620,6 @@ The repository includes a comprehensive testing infrastructure accessible throug
 - Unit tests with Maven Surefire plugin
 - Integration tests with Maven Failsafe plugin
 - Code coverage analysis with JaCoCo
-- Security analysis with SpotBugs
 - Dependency vulnerability scanning
 
 **TypeScript Tests** (`./dev/test/typescript.sh`):

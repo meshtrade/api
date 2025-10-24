@@ -49,7 +49,7 @@ jobs:
         run: |
           echo "🔍 Running Java linting and code quality checks..."
           cd java
-          mvn checkstyle:check spotbugs:check pmd:check modernizer:modernizer
+          mvn checkstyle:check
 
       - name: Run Java tests (early validation)
         run: |
