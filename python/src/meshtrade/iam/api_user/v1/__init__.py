@@ -62,7 +62,10 @@ from meshtrade.common import (
 from .api_credentials import (
     MESH_API_CREDENTIALS_ENV_VAR,
     api_credentials_from_environment,
+    default_credentials_path,
+    find_credentials,
     load_api_credentials_from_file,
+    load_default_credentials,
 )
 
 # ===================================================================
@@ -97,5 +100,8 @@ __all__ = [
     "MESH_API_CREDENTIALS_ENV_VAR",
     "api_credentials_from_environment",
     "create_auth_metadata",
+    "default_credentials_path",
+    "find_credentials",
     "load_api_credentials_from_file",
+    "load_default_credentials",
 ]
