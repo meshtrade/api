@@ -23,8 +23,8 @@ message APIUser {
   */
   string name = 1 [(buf.validate.field) = {
     cel: {
-      id: "name.format.optional",
-      message: "name must be empty or in the format api_users/{ULIDv2}",
+      id: "name.format.optional"
+      message: "name must be empty or in the format api_users/{ULIDv2}"
       expression: "size(this) == 0 || this.matches('^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
     }
   }];
@@ -35,9 +35,9 @@ message APIUser {
      Format: groups/{ULIDv2}.
   */
   string owner = 2 [(buf.validate.field) = {
-    required: true,
+    required: true
     string: {
-      len: 33,
+      len: 33
       pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
@@ -47,7 +47,7 @@ message APIUser {
      Required on creation.
   */
   string display_name = 4 [(buf.validate.field) = {
-    required: true,
+    required: true
     string: {
       min_len: 1
       max_len: 255
@@ -75,14 +75,16 @@ message APIUser {
   /*
      Roles is a list of the standard roles assigned to this api user,
      prepended by the name of the group in which they have been assigned that role.
-     e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
+     e.g. groups/{ULIDv2}/roles/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
   */
   repeated string roles = 6 [(buf.validate.field) = {
+    required: true
     repeated: {
       items: {
         string: {
-          len: 41,
-          pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/[1-9][0-9]{6}$"
+          min_len: 47
+          max_len: 48
+          pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/roles/[1-9][0-9]{6,7}$"
         }
       }
     }
