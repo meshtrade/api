@@ -56,7 +56,6 @@ message User {
      e.g. groups/{ULIDv2}/roles/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
   */
   repeated string roles = 4 [(buf.validate.field) = {
-    required: true
     repeated: {
       items: {
         string: {
