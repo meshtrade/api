@@ -15,11 +15,12 @@
 # Generated protobuf imports
 from .user_pb2 import User
 from .service_pb2 import (
-    AssignRoleToUserRequest,
+    AssignRolesToUserRequest,
     CreateUserRequest,
     GetUserRequest,
     ListUsersRequest,
     ListUsersResponse,
+    RevokeRolesFromUserRequest,
     SearchUsersRequest,
     SearchUsersResponse,
     UpdateUserRequest,
@@ -52,11 +53,12 @@ from .service_meshpy import (
 # Combined auto-generated and manual exports
 __all__ = [
     # Generated exports
-    "AssignRoleToUserRequest",
+    "AssignRolesToUserRequest",
     "CreateUserRequest",
     "GetUserRequest",
     "ListUsersRequest",
     "ListUsersResponse",
+    "RevokeRolesFromUserRequest",
     "SearchUsersRequest",
     "SearchUsersResponse",
     "UpdateUserRequest",
