@@ -30,6 +30,7 @@ class ApiUserServiceValidationTest {
                 .setOwner("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
                 .setDisplayName("Test API User")
                 .setState(APIUserState.API_USER_STATE_ACTIVE)
+                // roles field is now optional - can be empty on creation
                 .build())
             .build();
 
@@ -145,6 +146,7 @@ class ApiUserServiceValidationTest {
                 .setOwner("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
                 .setDisplayName("Test API User")
                 .setState(APIUserState.API_USER_STATE_ACTIVE)
+                // roles field is now optional - can be empty on creation
                 .build())
             .build();
         

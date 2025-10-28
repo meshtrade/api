@@ -1,6 +1,6 @@
 """Unit tests for role utility functions.
 
-Tests validate the 3-part integer format: groups/{groupID}/{roleNumber}
+Tests validate the 4-part integer format: groups/{groupID}/roles/{roleNumber}
 for cross-language compatibility.
 """
 
@@ -47,21 +47,21 @@ def test_role_is_valid_and_specified_invalid():
 
 
 def test_role_full_resource_name_from_group_id():
-    """Test role full resource name generation from group ID using 3-part integer format."""
+    """Test role full resource name generation from group ID using 4-part integer format."""
     result = role_full_resource_name_from_group_id(Role.ROLE_IAM_ADMIN, "test-group-id")
-    assert result == "groups/test-group-id/3000000"
+    assert result == "groups/test-group-id/roles/3000000"
 
     result = role_full_resource_name_from_group_id(Role.ROLE_WALLET_VIEWER, "01DD32GZ7R0000000000000001")
-    assert result == "groups/01DD32GZ7R0000000000000001/1000001"
+    assert result == "groups/01DD32GZ7R0000000000000001/roles/1000001"
 
 
 def test_role_full_resource_name_from_group():
-    """Test role full resource name generation from group resource name using 3-part integer format."""
+    """Test role full resource name generation from group resource name using 4-part integer format."""
     result = role_full_resource_name_from_group(Role.ROLE_IAM_ADMIN, "groups/test-group-id")
-    assert result == "groups/test-group-id/3000000"
+    assert result == "groups/test-group-id/roles/3000000"
 
     result = role_full_resource_name_from_group(Role.ROLE_WALLET_VIEWER, "groups/01DD32GZ7R0000000000000001")
-    assert result == "groups/01DD32GZ7R0000000000000001/1000001"
+    assert result == "groups/01DD32GZ7R0000000000000001/roles/1000001"
 
 
 def test_role_full_resource_name_from_group_invalid_format():
@@ -74,13 +74,13 @@ def test_role_full_resource_name_from_group_invalid_format():
 
 
 def test_parse_role_parts_success():
-    """Test successful parsing of role parts using 3-part integer format."""
-    group_id, role_int = parse_role_parts("groups/test-group-id/3000000")
+    """Test successful parsing of role parts using 4-part integer format."""
+    group_id, role_int = parse_role_parts("groups/test-group-id/roles/3000000")
     assert group_id == "test-group-id"
     assert role_int == 3000000
     assert role_int == Role.ROLE_IAM_ADMIN
 
-    group_id, role_int = parse_role_parts("groups/01DD32GZ7R0000000000000001/1000001")
+    group_id, role_int = parse_role_parts("groups/01DD32GZ7R0000000000000001/roles/1000001")
     assert group_id == "01DD32GZ7R0000000000000001"
     assert role_int == 1000001
     assert role_int == Role.ROLE_WALLET_VIEWER
@@ -95,31 +95,35 @@ def test_parse_role_parts_invalid_format():
         parse_role_parts("groups/id")
 
     with pytest.raises(ValueError, match="invalid role format"):
-        parse_role_parts("not-groups/id/3000000")
+        parse_role_parts("not-groups/id/roles/3000000")
 
-    # 4-part format is WRONG (old Python format)
+    # Old 3-part format should be rejected
     with pytest.raises(ValueError, match="invalid role format"):
+        parse_role_parts("groups/id/3000000")
+
+    # String-based role names are invalid (we use integers)
+    with pytest.raises(ValueError, match="error parsing role enum value"):
         parse_role_parts("groups/id/roles/ROLE_IAM_ADMIN")
 
 
 def test_parse_role_parts_invalid_role_number():
     """Test parsing with invalid role number."""
     with pytest.raises(ValueError, match="error parsing role enum value"):
-        parse_role_parts("groups/test-id/not-a-number")
+        parse_role_parts("groups/test-id/roles/not-a-number")
 
     with pytest.raises(ValueError, match="invalid role number"):
-        parse_role_parts("groups/test-id/-1")
+        parse_role_parts("groups/test-id/roles/-1")
 
 
 def test_parse_role_parts_empty_group_id():
     """Test parsing with empty group ID."""
     with pytest.raises(ValueError, match="group ID cannot be empty"):
-        parse_role_parts("groups//3000000")
+        parse_role_parts("groups//roles/3000000")
 
 
 def test_must_parse_role_parts():
     """Test must_parse_role_parts alias."""
-    group_id, role_int = must_parse_role_parts("groups/test-group-id/3000000")
+    group_id, role_int = must_parse_role_parts("groups/test-group-id/roles/3000000")
     assert group_id == "test-group-id"
     assert role_int == 3000000
 
@@ -128,11 +132,11 @@ def test_must_parse_role_parts():
 
 
 def test_role_from_full_resource_name_success():
-    """Test extracting role from full resource name using 3-part integer format."""
-    role = role_from_full_resource_name("groups/test-id/3000000")
+    """Test extracting role from full resource name using 4-part integer format."""
+    role = role_from_full_resource_name("groups/test-id/roles/3000000")
     assert role == Role.ROLE_IAM_ADMIN
 
-    role = role_from_full_resource_name("groups/01DD32GZ7R0000000000000001/1000001")
+    role = role_from_full_resource_name("groups/01DD32GZ7R0000000000000001/roles/1000001")
     assert role == Role.ROLE_WALLET_VIEWER
 
 
@@ -141,16 +145,20 @@ def test_role_from_full_resource_name_invalid():
     role = role_from_full_resource_name("invalid/format")
     assert role == Role.ROLE_UNSPECIFIED
 
-    role = role_from_full_resource_name("groups/id/not-a-number")
+    role = role_from_full_resource_name("groups/id/roles/not-a-number")
     assert role == Role.ROLE_UNSPECIFIED
 
-    # Old 4-part string format should return UNSPECIFIED
+    # Old 3-part format should return UNSPECIFIED
+    role = role_from_full_resource_name("groups/id/3000000")
+    assert role == Role.ROLE_UNSPECIFIED
+
+    # String-based role names should return UNSPECIFIED
     role = role_from_full_resource_name("groups/id/roles/ROLE_IAM_ADMIN")
     assert role == Role.ROLE_UNSPECIFIED
 
 
 def test_round_trip_role_resource_name():
-    """Test that we can generate and parse role resource names using 3-part integer format."""
+    """Test that we can generate and parse role resource names using 4-part integer format."""
     test_roles = [
         Role.ROLE_IAM_ADMIN,
         Role.ROLE_WALLET_VIEWER,
@@ -161,15 +169,16 @@ def test_round_trip_role_resource_name():
     group_id = "test-group-id"
 
     for original_role in test_roles:
-        # Generate resource name (3-part integer format)
+        # Generate resource name (4-part integer format)
         resource_name = role_full_resource_name_from_group_id(original_role, group_id)
 
-        # Verify format is correct (3 parts with integer)
+        # Verify format is correct (4 parts with "roles" segment and integer)
         parts = resource_name.split("/")
-        assert len(parts) == 3
+        assert len(parts) == 4
         assert parts[0] == "groups"
         assert parts[1] == group_id
-        assert parts[2].isdigit()
+        assert parts[2] == "roles"
+        assert parts[3].isdigit()
 
         # Parse it back
         parsed_group_id, parsed_role_int = parse_role_parts(resource_name)
@@ -182,14 +191,14 @@ def test_round_trip_role_resource_name():
 def test_cross_sdk_compatibility():
     """Test that resource names use the cross-language compatible format.
 
-    Expected format: groups/{groupID}/{roleNumber}
-    Example: groups/01DD32GZ7R0000000000000001/3000000
+    Expected format: groups/{groupID}/roles/{roleNumber}
+    Example: groups/01DD32GZ7R0000000000000001/roles/3000000
     """
     # Generate resource name
     resource_name = role_full_resource_name_from_group_id(Role.ROLE_IAM_ADMIN, "01DD32GZ7R0000000000000001")
 
-    # Should use 3-part integer format
-    assert resource_name == "groups/01DD32GZ7R0000000000000001/3000000"
+    # Should use 4-part integer format
+    assert resource_name == "groups/01DD32GZ7R0000000000000001/roles/3000000"
 
     # Should be parseable back to integer role value
     group_id, role_int = parse_role_parts(resource_name)

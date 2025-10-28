@@ -26,7 +26,8 @@ import co.meshtrade.api.grpc.BaseGRPCClient;
 import co.meshtrade.api.iam.api_user.v1.ApiUser.APIUser;
 import co.meshtrade.api.iam.api_user.v1.ApiUser.APIUserState;
 import co.meshtrade.api.iam.api_user.v1.Service.ActivateApiUserRequest;
-import co.meshtrade.api.iam.api_user.v1.Service.AssignRoleToAPIUserRequest;
+import co.meshtrade.api.iam.api_user.v1.Service.AssignRolesToAPIUserRequest;
+import co.meshtrade.api.iam.api_user.v1.Service.RevokeRolesFromAPIUserRequest;
 import co.meshtrade.api.iam.api_user.v1.Service.CreateApiUserRequest;
 import co.meshtrade.api.iam.api_user.v1.Service.DeactivateApiUserRequest;
 import co.meshtrade.api.iam.api_user.v1.Service.GetApiUserByKeyHashRequest;
@@ -299,8 +300,11 @@ class ApiUserServiceIntegrationTest {
                 .isNotNull();
             assertThat(service.getClass().getMethod("createApiUser", CreateApiUserRequest.class, Optional.class))
                 .isNotNull();
-            assertThat(service.getClass().getMethod("assignRoleToAPIUser",
-                    AssignRoleToAPIUserRequest.class, Optional.class))
+            assertThat(service.getClass().getMethod("assignRolesToAPIUser",
+                    AssignRolesToAPIUserRequest.class, Optional.class))
+                .isNotNull();
+            assertThat(service.getClass().getMethod("revokeRolesFromAPIUser",
+                    RevokeRolesFromAPIUserRequest.class, Optional.class))
                 .isNotNull();
             assertThat(service.getClass().getMethod("listApiUsers", ListApiUsersRequest.class, Optional.class))
                 .isNotNull();

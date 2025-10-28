@@ -16,11 +16,18 @@ import (
 // All operations require appropriate IAM domain permissions and operate within
 // the authenticated group context.
 type UserService interface {
-	// Assigns a role to an existing user within the authenticated group context.
+	// Assign roles to an existing user within the authenticated group context.
 	//
 	// The role assignment enables the user to perform operations according
 	// to the permissions associated with that role within the group hierarchy.
-	AssignRoleToUser(ctx context.Context, request *AssignRoleToUserRequest) (*User, error)
+	AssignRolesToUser(ctx context.Context, request *AssignRolesToUserRequest) (*User, error)
+
+	// Revoke roles from an existing user within the authenticated group context.
+	//
+	// The role revocation removes the permissions associated with that role from
+	// the user within the group hierarchy. The user will no longer be able
+	// to perform operations that require the revoked role.
+	RevokeRolesFromUser(ctx context.Context, request *RevokeRolesFromUserRequest) (*User, error)
 
 	// Retrieves a single user by its unique identifier.
 	//

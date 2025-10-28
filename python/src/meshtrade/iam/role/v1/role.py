@@ -1,7 +1,7 @@
 """Role utility functions for Mesh API.
 
 This module provides helper functions for working with Role enums and their resource names.
-All functions use the 3-part integer format: groups/{groupID}/{roleNumber}
+All functions use the 4-part integer format: groups/{groupID}/roles/{roleNumber}
 for cross-language compatibility.
 """
 
@@ -47,7 +47,7 @@ def role_is_valid_and_specified(role: Role) -> bool:
 def role_full_resource_name_from_group_id(role: Role, group_id: str) -> str:
     """Generate full resource name from role and group ID.
 
-    Format: groups/{group_id}/{role_int}
+    Format: groups/{group_id}/roles/{role_int}
 
     Args:
         role: Role enum value (integer)
@@ -58,9 +58,9 @@ def role_full_resource_name_from_group_id(role: Role, group_id: str) -> str:
 
     Example:
         >>> role_full_resource_name_from_group_id(Role.ROLE_IAM_ADMIN, "01DD32GZ7R0000000000000001")
-        'groups/01DD32GZ7R0000000000000001/3000000'
+        'groups/01DD32GZ7R0000000000000001/roles/3000000'
     """
-    return f"groups/{group_id}/{int(role)}"
+    return f"groups/{group_id}/roles/{int(role)}"
 
 
 def role_full_resource_name_from_group(role: Role, group: str) -> str:
@@ -78,7 +78,7 @@ def role_full_resource_name_from_group(role: Role, group: str) -> str:
 
     Example:
         >>> role_full_resource_name_from_group(Role.ROLE_IAM_ADMIN, "groups/01DD32GZ7R0000000000000001")
-        'groups/01DD32GZ7R0000000000000001/3000000'
+        'groups/01DD32GZ7R0000000000000001/roles/3000000'
     """
     if not group.startswith("groups/"):
         raise ValueError(f"invalid group format, expected groups/{{groupID}}, got: {group}")
@@ -94,13 +94,13 @@ def role_from_full_resource_name(full_resource_name: str) -> Role:
     """Extract Role from full resource name.
 
     Args:
-        full_resource_name: Full resource name (e.g., "groups/{id}/{role_int}")
+        full_resource_name: Full resource name (e.g., "groups/{id}/roles/{role_int}")
 
     Returns:
         Role enum value (integer), or ROLE_UNSPECIFIED if parsing fails
 
     Example:
-        >>> role_from_full_resource_name("groups/01DD32GZ7R0000000000000001/3000000")
+        >>> role_from_full_resource_name("groups/01DD32GZ7R0000000000000001/roles/3000000")
         3000000
         >>> role_from_full_resource_name("invalid/format")
         0
@@ -118,7 +118,7 @@ def role_from_full_resource_name(full_resource_name: str) -> Role:
 def parse_role_parts(role_full_resource_name: str) -> tuple[str, int]:
     """Parse full resource name into group ID and Role.
 
-    Expected format: groups/{group_id}/{role_int}
+    Expected format: groups/{group_id}/roles/{role_int}
 
     Args:
         role_full_resource_name: Full resource name
@@ -130,21 +130,21 @@ def parse_role_parts(role_full_resource_name: str) -> tuple[str, int]:
         ValueError: If format is invalid or role number cannot be parsed
 
     Example:
-        >>> parse_role_parts("groups/01DD32GZ7R0000000000000001/3000000")
+        >>> parse_role_parts("groups/01DD32GZ7R0000000000000001/roles/3000000")
         ('01DD32GZ7R0000000000000001', 3000000)
     """
     parts = role_full_resource_name.split("/")
-    if len(parts) != 3 or parts[0] != "groups":
-        raise ValueError(f"invalid role format, expected groups/{{groupID}}/{{role}}, got {role_full_resource_name}")
+    if len(parts) != 4 or parts[0] != "groups" or parts[2] != "roles":
+        raise ValueError(f"invalid role format, expected groups/{{groupID}}/roles/{{role}}, got {role_full_resource_name}")
 
     group_id = parts[1]
     if not group_id:
         raise ValueError("group ID cannot be empty")
 
     try:
-        role_int = int(parts[2])
+        role_int = int(parts[3])
     except ValueError as e:
-        raise ValueError(f"error parsing role enum value '{parts[2]}'") from e
+        raise ValueError(f"error parsing role enum value '{parts[3]}'") from e
 
     if role_int < 0:
         raise ValueError(f"invalid role number in full resource name: {role_full_resource_name}")
@@ -168,7 +168,7 @@ def must_parse_role_parts(role_full_resource_name: str) -> tuple[str, int]:
         ValueError: If format is invalid
 
     Example:
-        >>> must_parse_role_parts("groups/01DD32GZ7R0000000000000001/3000000")
+        >>> must_parse_role_parts("groups/01DD32GZ7R0000000000000001/roles/3000000")
         ('01DD32GZ7R0000000000000001', 3000000)
     """
     return parse_role_parts(role_full_resource_name)

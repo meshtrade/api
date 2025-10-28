@@ -44,7 +44,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
     /**
      * <pre>
      *
-     * API user is active and associated api keys can be used.
+     * API user is active and associated API keys can be used.
      * </pre>
      *
      * <code>API_USER_STATE_ACTIVE = 1;</code>
@@ -53,7 +53,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
     /**
      * <pre>
      *
-     * API user is inactive and associated api keys cannot be used.
+     * API user is inactive and associated API keys cannot be used.
      * </pre>
      *
      * <code>API_USER_STATE_INACTIVE = 2;</code>
@@ -84,7 +84,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
     /**
      * <pre>
      *
-     * API user is active and associated api keys can be used.
+     * API user is active and associated API keys can be used.
      * </pre>
      *
      * <code>API_USER_STATE_ACTIVE = 1;</code>
@@ -93,7 +93,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
     /**
      * <pre>
      *
-     * API user is inactive and associated api keys cannot be used.
+     * API user is inactive and associated API keys cannot be used.
      * </pre>
      *
      * <code>API_USER_STATE_INACTIVE = 2;</code>
@@ -387,7 +387,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
     /**
      * <pre>
      *
-     * The unique resource name for the api user.
+     * The unique resource name for the API user.
      * Format: api_users/{ULIDv2}.
      * This field is system-generated and immutable upon creation.
      * Any value provided on creation is ignored.
@@ -400,7 +400,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
     /**
      * <pre>
      *
-     * The unique resource name for the api user.
+     * The unique resource name for the API user.
      * Format: api_users/{ULIDv2}.
      * This field is system-generated and immutable upon creation.
      * Any value provided on creation is ignored.
@@ -415,7 +415,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
     /**
      * <pre>
      *
-     * The resource name of the parent group that owns this api user.
+     * The resource name of the parent group that owns this API user.
      * This field is required on creation and establishes the direct ownership link.
      * Format: groups/{ULIDv2}.
      * </pre>
@@ -427,7 +427,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
     /**
      * <pre>
      *
-     * The resource name of the parent group that owns this api user.
+     * The resource name of the parent group that owns this API user.
      * This field is required on creation and establishes the direct ownership link.
      * Format: groups/{ULIDv2}.
      * </pre>
@@ -441,22 +441,22 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
     /**
      * <pre>
      *
-     * A non-unique, user-provided name for the api key, used for display purposes.
+     * A non-unique, user-provided name for the API user, used for display purposes.
      * Required on creation.
      * </pre>
      *
-     * <code>string display_name = 4 [json_name = "displayName", (.buf.validate.field) = { ... }</code>
+     * <code>string display_name = 3 [json_name = "displayName", (.buf.validate.field) = { ... }</code>
      * @return The displayName.
      */
     java.lang.String getDisplayName();
     /**
      * <pre>
      *
-     * A non-unique, user-provided name for the api key, used for display purposes.
+     * A non-unique, user-provided name for the API user, used for display purposes.
      * Required on creation.
      * </pre>
      *
-     * <code>string display_name = 4 [json_name = "displayName", (.buf.validate.field) = { ... }</code>
+     * <code>string display_name = 3 [json_name = "displayName", (.buf.validate.field) = { ... }</code>
      * @return The bytes for displayName.
      */
     com.google.protobuf.ByteString
@@ -469,7 +469,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
      * System set on creation to default value of inactive.
      * </pre>
      *
-     * <code>.meshtrade.iam.api_user.v1.APIUserState state = 5 [json_name = "state", (.buf.validate.field) = { ... }</code>
+     * <code>.meshtrade.iam.api_user.v1.APIUserState state = 4 [json_name = "state", (.buf.validate.field) = { ... }</code>
      * @return The enum numeric value on the wire for state.
      */
     int getStateValue();
@@ -480,7 +480,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
      * System set on creation to default value of inactive.
      * </pre>
      *
-     * <code>.meshtrade.iam.api_user.v1.APIUserState state = 5 [json_name = "state", (.buf.validate.field) = { ... }</code>
+     * <code>.meshtrade.iam.api_user.v1.APIUserState state = 4 [json_name = "state", (.buf.validate.field) = { ... }</code>
      * @return The state.
      */
     co.meshtrade.api.iam.api_user.v1.ApiUser.APIUserState getState();
@@ -488,12 +488,12 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
     /**
      * <pre>
      *
-     * Roles is a list of the standard roles assigned to this api user,
+     * Roles is a list of the standard roles assigned to this API user,
      * prepended by the name of the group in which they have been assigned that role.
-     * e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
+     * e.g. groups/{ULIDv2}/roles/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
      * </pre>
      *
-     * <code>repeated string roles = 6 [json_name = "roles", (.buf.validate.field) = { ... }</code>
+     * <code>repeated string roles = 5 [json_name = "roles", (.buf.validate.field) = { ... }</code>
      * @return A list containing the roles.
      */
     java.util.List<java.lang.String>
@@ -501,24 +501,24 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
     /**
      * <pre>
      *
-     * Roles is a list of the standard roles assigned to this api user,
+     * Roles is a list of the standard roles assigned to this API user,
      * prepended by the name of the group in which they have been assigned that role.
-     * e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
+     * e.g. groups/{ULIDv2}/roles/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
      * </pre>
      *
-     * <code>repeated string roles = 6 [json_name = "roles", (.buf.validate.field) = { ... }</code>
+     * <code>repeated string roles = 5 [json_name = "roles", (.buf.validate.field) = { ... }</code>
      * @return The count of roles.
      */
     int getRolesCount();
     /**
      * <pre>
      *
-     * Roles is a list of the standard roles assigned to this api user,
+     * Roles is a list of the standard roles assigned to this API user,
      * prepended by the name of the group in which they have been assigned that role.
-     * e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
+     * e.g. groups/{ULIDv2}/roles/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
      * </pre>
      *
-     * <code>repeated string roles = 6 [json_name = "roles", (.buf.validate.field) = { ... }</code>
+     * <code>repeated string roles = 5 [json_name = "roles", (.buf.validate.field) = { ... }</code>
      * @param index The index of the element to return.
      * @return The roles at the given index.
      */
@@ -526,12 +526,12 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
     /**
      * <pre>
      *
-     * Roles is a list of the standard roles assigned to this api user,
+     * Roles is a list of the standard roles assigned to this API user,
      * prepended by the name of the group in which they have been assigned that role.
-     * e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
+     * e.g. groups/{ULIDv2}/roles/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
      * </pre>
      *
-     * <code>repeated string roles = 6 [json_name = "roles", (.buf.validate.field) = { ... }</code>
+     * <code>repeated string roles = 5 [json_name = "roles", (.buf.validate.field) = { ... }</code>
      * @param index The index of the value to return.
      * @return The bytes of the roles at the given index.
      */
@@ -546,7 +546,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
      * Populated once by system on creation.
      * </pre>
      *
-     * <code>string api_key = 7 [json_name = "apiKey"];</code>
+     * <code>string api_key = 6 [json_name = "apiKey"];</code>
      * @return The apiKey.
      */
     java.lang.String getApiKey();
@@ -558,7 +558,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
      * Populated once by system on creation.
      * </pre>
      *
-     * <code>string api_key = 7 [json_name = "apiKey"];</code>
+     * <code>string api_key = 6 [json_name = "apiKey"];</code>
      * @return The bytes for apiKey.
      */
     com.google.protobuf.ByteString
@@ -623,7 +623,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
     /**
      * <pre>
      *
-     * The unique resource name for the api user.
+     * The unique resource name for the API user.
      * Format: api_users/{ULIDv2}.
      * This field is system-generated and immutable upon creation.
      * Any value provided on creation is ignored.
@@ -648,7 +648,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
     /**
      * <pre>
      *
-     * The unique resource name for the api user.
+     * The unique resource name for the API user.
      * Format: api_users/{ULIDv2}.
      * This field is system-generated and immutable upon creation.
      * Any value provided on creation is ignored.
@@ -678,7 +678,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
     /**
      * <pre>
      *
-     * The resource name of the parent group that owns this api user.
+     * The resource name of the parent group that owns this API user.
      * This field is required on creation and establishes the direct ownership link.
      * Format: groups/{ULIDv2}.
      * </pre>
@@ -702,7 +702,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
     /**
      * <pre>
      *
-     * The resource name of the parent group that owns this api user.
+     * The resource name of the parent group that owns this API user.
      * This field is required on creation and establishes the direct ownership link.
      * Format: groups/{ULIDv2}.
      * </pre>
@@ -725,17 +725,17 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
       }
     }
 
-    public static final int DISPLAY_NAME_FIELD_NUMBER = 4;
+    public static final int DISPLAY_NAME_FIELD_NUMBER = 3;
     @SuppressWarnings("serial")
     private volatile java.lang.Object displayName_ = "";
     /**
      * <pre>
      *
-     * A non-unique, user-provided name for the api key, used for display purposes.
+     * A non-unique, user-provided name for the API user, used for display purposes.
      * Required on creation.
      * </pre>
      *
-     * <code>string display_name = 4 [json_name = "displayName", (.buf.validate.field) = { ... }</code>
+     * <code>string display_name = 3 [json_name = "displayName", (.buf.validate.field) = { ... }</code>
      * @return The displayName.
      */
     @java.lang.Override
@@ -754,11 +754,11 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
     /**
      * <pre>
      *
-     * A non-unique, user-provided name for the api key, used for display purposes.
+     * A non-unique, user-provided name for the API user, used for display purposes.
      * Required on creation.
      * </pre>
      *
-     * <code>string display_name = 4 [json_name = "displayName", (.buf.validate.field) = { ... }</code>
+     * <code>string display_name = 3 [json_name = "displayName", (.buf.validate.field) = { ... }</code>
      * @return The bytes for displayName.
      */
     @java.lang.Override
@@ -776,7 +776,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
       }
     }
 
-    public static final int STATE_FIELD_NUMBER = 5;
+    public static final int STATE_FIELD_NUMBER = 4;
     private int state_ = 0;
     /**
      * <pre>
@@ -785,7 +785,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
      * System set on creation to default value of inactive.
      * </pre>
      *
-     * <code>.meshtrade.iam.api_user.v1.APIUserState state = 5 [json_name = "state", (.buf.validate.field) = { ... }</code>
+     * <code>.meshtrade.iam.api_user.v1.APIUserState state = 4 [json_name = "state", (.buf.validate.field) = { ... }</code>
      * @return The enum numeric value on the wire for state.
      */
     @java.lang.Override public int getStateValue() {
@@ -798,7 +798,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
      * System set on creation to default value of inactive.
      * </pre>
      *
-     * <code>.meshtrade.iam.api_user.v1.APIUserState state = 5 [json_name = "state", (.buf.validate.field) = { ... }</code>
+     * <code>.meshtrade.iam.api_user.v1.APIUserState state = 4 [json_name = "state", (.buf.validate.field) = { ... }</code>
      * @return The state.
      */
     @java.lang.Override public co.meshtrade.api.iam.api_user.v1.ApiUser.APIUserState getState() {
@@ -806,19 +806,19 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
       return result == null ? co.meshtrade.api.iam.api_user.v1.ApiUser.APIUserState.UNRECOGNIZED : result;
     }
 
-    public static final int ROLES_FIELD_NUMBER = 6;
+    public static final int ROLES_FIELD_NUMBER = 5;
     @SuppressWarnings("serial")
     private com.google.protobuf.LazyStringArrayList roles_ =
         com.google.protobuf.LazyStringArrayList.emptyList();
     /**
      * <pre>
      *
-     * Roles is a list of the standard roles assigned to this api user,
+     * Roles is a list of the standard roles assigned to this API user,
      * prepended by the name of the group in which they have been assigned that role.
-     * e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
+     * e.g. groups/{ULIDv2}/roles/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
      * </pre>
      *
-     * <code>repeated string roles = 6 [json_name = "roles", (.buf.validate.field) = { ... }</code>
+     * <code>repeated string roles = 5 [json_name = "roles", (.buf.validate.field) = { ... }</code>
      * @return A list containing the roles.
      */
     public com.google.protobuf.ProtocolStringList
@@ -828,12 +828,12 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
     /**
      * <pre>
      *
-     * Roles is a list of the standard roles assigned to this api user,
+     * Roles is a list of the standard roles assigned to this API user,
      * prepended by the name of the group in which they have been assigned that role.
-     * e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
+     * e.g. groups/{ULIDv2}/roles/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
      * </pre>
      *
-     * <code>repeated string roles = 6 [json_name = "roles", (.buf.validate.field) = { ... }</code>
+     * <code>repeated string roles = 5 [json_name = "roles", (.buf.validate.field) = { ... }</code>
      * @return The count of roles.
      */
     public int getRolesCount() {
@@ -842,12 +842,12 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
     /**
      * <pre>
      *
-     * Roles is a list of the standard roles assigned to this api user,
+     * Roles is a list of the standard roles assigned to this API user,
      * prepended by the name of the group in which they have been assigned that role.
-     * e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
+     * e.g. groups/{ULIDv2}/roles/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
      * </pre>
      *
-     * <code>repeated string roles = 6 [json_name = "roles", (.buf.validate.field) = { ... }</code>
+     * <code>repeated string roles = 5 [json_name = "roles", (.buf.validate.field) = { ... }</code>
      * @param index The index of the element to return.
      * @return The roles at the given index.
      */
@@ -857,12 +857,12 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
     /**
      * <pre>
      *
-     * Roles is a list of the standard roles assigned to this api user,
+     * Roles is a list of the standard roles assigned to this API user,
      * prepended by the name of the group in which they have been assigned that role.
-     * e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
+     * e.g. groups/{ULIDv2}/roles/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
      * </pre>
      *
-     * <code>repeated string roles = 6 [json_name = "roles", (.buf.validate.field) = { ... }</code>
+     * <code>repeated string roles = 5 [json_name = "roles", (.buf.validate.field) = { ... }</code>
      * @param index The index of the value to return.
      * @return The bytes of the roles at the given index.
      */
@@ -871,7 +871,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
       return roles_.getByteString(index);
     }
 
-    public static final int API_KEY_FIELD_NUMBER = 7;
+    public static final int API_KEY_FIELD_NUMBER = 6;
     @SuppressWarnings("serial")
     private volatile java.lang.Object apiKey_ = "";
     /**
@@ -882,7 +882,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
      * Populated once by system on creation.
      * </pre>
      *
-     * <code>string api_key = 7 [json_name = "apiKey"];</code>
+     * <code>string api_key = 6 [json_name = "apiKey"];</code>
      * @return The apiKey.
      */
     @java.lang.Override
@@ -906,7 +906,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
      * Populated once by system on creation.
      * </pre>
      *
-     * <code>string api_key = 7 [json_name = "apiKey"];</code>
+     * <code>string api_key = 6 [json_name = "apiKey"];</code>
      * @return The bytes for apiKey.
      */
     @java.lang.Override
@@ -945,16 +945,16 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
         com.google.protobuf.GeneratedMessage.writeString(output, 2, owner_);
       }
       if (!com.google.protobuf.GeneratedMessage.isStringEmpty(displayName_)) {
-        com.google.protobuf.GeneratedMessage.writeString(output, 4, displayName_);
+        com.google.protobuf.GeneratedMessage.writeString(output, 3, displayName_);
       }
       if (state_ != co.meshtrade.api.iam.api_user.v1.ApiUser.APIUserState.API_USER_STATE_UNSPECIFIED.getNumber()) {
-        output.writeEnum(5, state_);
+        output.writeEnum(4, state_);
       }
       for (int i = 0; i < roles_.size(); i++) {
-        com.google.protobuf.GeneratedMessage.writeString(output, 6, roles_.getRaw(i));
+        com.google.protobuf.GeneratedMessage.writeString(output, 5, roles_.getRaw(i));
       }
       if (!com.google.protobuf.GeneratedMessage.isStringEmpty(apiKey_)) {
-        com.google.protobuf.GeneratedMessage.writeString(output, 7, apiKey_);
+        com.google.protobuf.GeneratedMessage.writeString(output, 6, apiKey_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -972,11 +972,11 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
         size += com.google.protobuf.GeneratedMessage.computeStringSize(2, owner_);
       }
       if (!com.google.protobuf.GeneratedMessage.isStringEmpty(displayName_)) {
-        size += com.google.protobuf.GeneratedMessage.computeStringSize(4, displayName_);
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(3, displayName_);
       }
       if (state_ != co.meshtrade.api.iam.api_user.v1.ApiUser.APIUserState.API_USER_STATE_UNSPECIFIED.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(5, state_);
+          .computeEnumSize(4, state_);
       }
       {
         int dataSize = 0;
@@ -987,7 +987,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
         size += 1 * getRolesList().size();
       }
       if (!com.google.protobuf.GeneratedMessage.isStringEmpty(apiKey_)) {
-        size += com.google.protobuf.GeneratedMessage.computeStringSize(7, apiKey_);
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(6, apiKey_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -1322,27 +1322,27 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
                 bitField0_ |= 0x00000002;
                 break;
               } // case 18
-              case 34: {
+              case 26: {
                 displayName_ = input.readStringRequireUtf8();
                 bitField0_ |= 0x00000004;
                 break;
-              } // case 34
-              case 40: {
+              } // case 26
+              case 32: {
                 state_ = input.readEnum();
                 bitField0_ |= 0x00000008;
                 break;
-              } // case 40
-              case 50: {
+              } // case 32
+              case 42: {
                 java.lang.String s = input.readStringRequireUtf8();
                 ensureRolesIsMutable();
                 roles_.add(s);
                 break;
-              } // case 50
-              case 58: {
+              } // case 42
+              case 50: {
                 apiKey_ = input.readStringRequireUtf8();
                 bitField0_ |= 0x00000020;
                 break;
-              } // case 58
+              } // case 50
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -1364,7 +1364,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
       /**
        * <pre>
        *
-       * The unique resource name for the api user.
+       * The unique resource name for the API user.
        * Format: api_users/{ULIDv2}.
        * This field is system-generated and immutable upon creation.
        * Any value provided on creation is ignored.
@@ -1388,7 +1388,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
       /**
        * <pre>
        *
-       * The unique resource name for the api user.
+       * The unique resource name for the API user.
        * Format: api_users/{ULIDv2}.
        * This field is system-generated and immutable upon creation.
        * Any value provided on creation is ignored.
@@ -1413,7 +1413,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
       /**
        * <pre>
        *
-       * The unique resource name for the api user.
+       * The unique resource name for the API user.
        * Format: api_users/{ULIDv2}.
        * This field is system-generated and immutable upon creation.
        * Any value provided on creation is ignored.
@@ -1434,7 +1434,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
       /**
        * <pre>
        *
-       * The unique resource name for the api user.
+       * The unique resource name for the API user.
        * Format: api_users/{ULIDv2}.
        * This field is system-generated and immutable upon creation.
        * Any value provided on creation is ignored.
@@ -1452,7 +1452,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
       /**
        * <pre>
        *
-       * The unique resource name for the api user.
+       * The unique resource name for the API user.
        * Format: api_users/{ULIDv2}.
        * This field is system-generated and immutable upon creation.
        * Any value provided on creation is ignored.
@@ -1476,7 +1476,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
       /**
        * <pre>
        *
-       * The resource name of the parent group that owns this api user.
+       * The resource name of the parent group that owns this API user.
        * This field is required on creation and establishes the direct ownership link.
        * Format: groups/{ULIDv2}.
        * </pre>
@@ -1499,7 +1499,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
       /**
        * <pre>
        *
-       * The resource name of the parent group that owns this api user.
+       * The resource name of the parent group that owns this API user.
        * This field is required on creation and establishes the direct ownership link.
        * Format: groups/{ULIDv2}.
        * </pre>
@@ -1523,7 +1523,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
       /**
        * <pre>
        *
-       * The resource name of the parent group that owns this api user.
+       * The resource name of the parent group that owns this API user.
        * This field is required on creation and establishes the direct ownership link.
        * Format: groups/{ULIDv2}.
        * </pre>
@@ -1543,7 +1543,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
       /**
        * <pre>
        *
-       * The resource name of the parent group that owns this api user.
+       * The resource name of the parent group that owns this API user.
        * This field is required on creation and establishes the direct ownership link.
        * Format: groups/{ULIDv2}.
        * </pre>
@@ -1560,7 +1560,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
       /**
        * <pre>
        *
-       * The resource name of the parent group that owns this api user.
+       * The resource name of the parent group that owns this API user.
        * This field is required on creation and establishes the direct ownership link.
        * Format: groups/{ULIDv2}.
        * </pre>
@@ -1583,11 +1583,11 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
       /**
        * <pre>
        *
-       * A non-unique, user-provided name for the api key, used for display purposes.
+       * A non-unique, user-provided name for the API user, used for display purposes.
        * Required on creation.
        * </pre>
        *
-       * <code>string display_name = 4 [json_name = "displayName", (.buf.validate.field) = { ... }</code>
+       * <code>string display_name = 3 [json_name = "displayName", (.buf.validate.field) = { ... }</code>
        * @return The displayName.
        */
       public java.lang.String getDisplayName() {
@@ -1605,11 +1605,11 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
       /**
        * <pre>
        *
-       * A non-unique, user-provided name for the api key, used for display purposes.
+       * A non-unique, user-provided name for the API user, used for display purposes.
        * Required on creation.
        * </pre>
        *
-       * <code>string display_name = 4 [json_name = "displayName", (.buf.validate.field) = { ... }</code>
+       * <code>string display_name = 3 [json_name = "displayName", (.buf.validate.field) = { ... }</code>
        * @return The bytes for displayName.
        */
       public com.google.protobuf.ByteString
@@ -1628,11 +1628,11 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
       /**
        * <pre>
        *
-       * A non-unique, user-provided name for the api key, used for display purposes.
+       * A non-unique, user-provided name for the API user, used for display purposes.
        * Required on creation.
        * </pre>
        *
-       * <code>string display_name = 4 [json_name = "displayName", (.buf.validate.field) = { ... }</code>
+       * <code>string display_name = 3 [json_name = "displayName", (.buf.validate.field) = { ... }</code>
        * @param value The displayName to set.
        * @return This builder for chaining.
        */
@@ -1647,11 +1647,11 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
       /**
        * <pre>
        *
-       * A non-unique, user-provided name for the api key, used for display purposes.
+       * A non-unique, user-provided name for the API user, used for display purposes.
        * Required on creation.
        * </pre>
        *
-       * <code>string display_name = 4 [json_name = "displayName", (.buf.validate.field) = { ... }</code>
+       * <code>string display_name = 3 [json_name = "displayName", (.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearDisplayName() {
@@ -1663,11 +1663,11 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
       /**
        * <pre>
        *
-       * A non-unique, user-provided name for the api key, used for display purposes.
+       * A non-unique, user-provided name for the API user, used for display purposes.
        * Required on creation.
        * </pre>
        *
-       * <code>string display_name = 4 [json_name = "displayName", (.buf.validate.field) = { ... }</code>
+       * <code>string display_name = 3 [json_name = "displayName", (.buf.validate.field) = { ... }</code>
        * @param value The bytes for displayName to set.
        * @return This builder for chaining.
        */
@@ -1689,7 +1689,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
        * System set on creation to default value of inactive.
        * </pre>
        *
-       * <code>.meshtrade.iam.api_user.v1.APIUserState state = 5 [json_name = "state", (.buf.validate.field) = { ... }</code>
+       * <code>.meshtrade.iam.api_user.v1.APIUserState state = 4 [json_name = "state", (.buf.validate.field) = { ... }</code>
        * @return The enum numeric value on the wire for state.
        */
       @java.lang.Override public int getStateValue() {
@@ -1702,7 +1702,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
        * System set on creation to default value of inactive.
        * </pre>
        *
-       * <code>.meshtrade.iam.api_user.v1.APIUserState state = 5 [json_name = "state", (.buf.validate.field) = { ... }</code>
+       * <code>.meshtrade.iam.api_user.v1.APIUserState state = 4 [json_name = "state", (.buf.validate.field) = { ... }</code>
        * @param value The enum numeric value on the wire for state to set.
        * @return This builder for chaining.
        */
@@ -1719,7 +1719,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
        * System set on creation to default value of inactive.
        * </pre>
        *
-       * <code>.meshtrade.iam.api_user.v1.APIUserState state = 5 [json_name = "state", (.buf.validate.field) = { ... }</code>
+       * <code>.meshtrade.iam.api_user.v1.APIUserState state = 4 [json_name = "state", (.buf.validate.field) = { ... }</code>
        * @return The state.
        */
       @java.lang.Override
@@ -1734,7 +1734,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
        * System set on creation to default value of inactive.
        * </pre>
        *
-       * <code>.meshtrade.iam.api_user.v1.APIUserState state = 5 [json_name = "state", (.buf.validate.field) = { ... }</code>
+       * <code>.meshtrade.iam.api_user.v1.APIUserState state = 4 [json_name = "state", (.buf.validate.field) = { ... }</code>
        * @param value The state to set.
        * @return This builder for chaining.
        */
@@ -1752,7 +1752,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
        * System set on creation to default value of inactive.
        * </pre>
        *
-       * <code>.meshtrade.iam.api_user.v1.APIUserState state = 5 [json_name = "state", (.buf.validate.field) = { ... }</code>
+       * <code>.meshtrade.iam.api_user.v1.APIUserState state = 4 [json_name = "state", (.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearState() {
@@ -1773,12 +1773,12 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
       /**
        * <pre>
        *
-       * Roles is a list of the standard roles assigned to this api user,
+       * Roles is a list of the standard roles assigned to this API user,
        * prepended by the name of the group in which they have been assigned that role.
-       * e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
+       * e.g. groups/{ULIDv2}/roles/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
        * </pre>
        *
-       * <code>repeated string roles = 6 [json_name = "roles", (.buf.validate.field) = { ... }</code>
+       * <code>repeated string roles = 5 [json_name = "roles", (.buf.validate.field) = { ... }</code>
        * @return A list containing the roles.
        */
       public com.google.protobuf.ProtocolStringList
@@ -1789,12 +1789,12 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
       /**
        * <pre>
        *
-       * Roles is a list of the standard roles assigned to this api user,
+       * Roles is a list of the standard roles assigned to this API user,
        * prepended by the name of the group in which they have been assigned that role.
-       * e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
+       * e.g. groups/{ULIDv2}/roles/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
        * </pre>
        *
-       * <code>repeated string roles = 6 [json_name = "roles", (.buf.validate.field) = { ... }</code>
+       * <code>repeated string roles = 5 [json_name = "roles", (.buf.validate.field) = { ... }</code>
        * @return The count of roles.
        */
       public int getRolesCount() {
@@ -1803,12 +1803,12 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
       /**
        * <pre>
        *
-       * Roles is a list of the standard roles assigned to this api user,
+       * Roles is a list of the standard roles assigned to this API user,
        * prepended by the name of the group in which they have been assigned that role.
-       * e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
+       * e.g. groups/{ULIDv2}/roles/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
        * </pre>
        *
-       * <code>repeated string roles = 6 [json_name = "roles", (.buf.validate.field) = { ... }</code>
+       * <code>repeated string roles = 5 [json_name = "roles", (.buf.validate.field) = { ... }</code>
        * @param index The index of the element to return.
        * @return The roles at the given index.
        */
@@ -1818,12 +1818,12 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
       /**
        * <pre>
        *
-       * Roles is a list of the standard roles assigned to this api user,
+       * Roles is a list of the standard roles assigned to this API user,
        * prepended by the name of the group in which they have been assigned that role.
-       * e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
+       * e.g. groups/{ULIDv2}/roles/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
        * </pre>
        *
-       * <code>repeated string roles = 6 [json_name = "roles", (.buf.validate.field) = { ... }</code>
+       * <code>repeated string roles = 5 [json_name = "roles", (.buf.validate.field) = { ... }</code>
        * @param index The index of the value to return.
        * @return The bytes of the roles at the given index.
        */
@@ -1834,12 +1834,12 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
       /**
        * <pre>
        *
-       * Roles is a list of the standard roles assigned to this api user,
+       * Roles is a list of the standard roles assigned to this API user,
        * prepended by the name of the group in which they have been assigned that role.
-       * e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
+       * e.g. groups/{ULIDv2}/roles/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
        * </pre>
        *
-       * <code>repeated string roles = 6 [json_name = "roles", (.buf.validate.field) = { ... }</code>
+       * <code>repeated string roles = 5 [json_name = "roles", (.buf.validate.field) = { ... }</code>
        * @param index The index to set the value at.
        * @param value The roles to set.
        * @return This builder for chaining.
@@ -1856,12 +1856,12 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
       /**
        * <pre>
        *
-       * Roles is a list of the standard roles assigned to this api user,
+       * Roles is a list of the standard roles assigned to this API user,
        * prepended by the name of the group in which they have been assigned that role.
-       * e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
+       * e.g. groups/{ULIDv2}/roles/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
        * </pre>
        *
-       * <code>repeated string roles = 6 [json_name = "roles", (.buf.validate.field) = { ... }</code>
+       * <code>repeated string roles = 5 [json_name = "roles", (.buf.validate.field) = { ... }</code>
        * @param value The roles to add.
        * @return This builder for chaining.
        */
@@ -1877,12 +1877,12 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
       /**
        * <pre>
        *
-       * Roles is a list of the standard roles assigned to this api user,
+       * Roles is a list of the standard roles assigned to this API user,
        * prepended by the name of the group in which they have been assigned that role.
-       * e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
+       * e.g. groups/{ULIDv2}/roles/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
        * </pre>
        *
-       * <code>repeated string roles = 6 [json_name = "roles", (.buf.validate.field) = { ... }</code>
+       * <code>repeated string roles = 5 [json_name = "roles", (.buf.validate.field) = { ... }</code>
        * @param values The roles to add.
        * @return This builder for chaining.
        */
@@ -1898,12 +1898,12 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
       /**
        * <pre>
        *
-       * Roles is a list of the standard roles assigned to this api user,
+       * Roles is a list of the standard roles assigned to this API user,
        * prepended by the name of the group in which they have been assigned that role.
-       * e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
+       * e.g. groups/{ULIDv2}/roles/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
        * </pre>
        *
-       * <code>repeated string roles = 6 [json_name = "roles", (.buf.validate.field) = { ... }</code>
+       * <code>repeated string roles = 5 [json_name = "roles", (.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearRoles() {
@@ -1916,12 +1916,12 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
       /**
        * <pre>
        *
-       * Roles is a list of the standard roles assigned to this api user,
+       * Roles is a list of the standard roles assigned to this API user,
        * prepended by the name of the group in which they have been assigned that role.
-       * e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
+       * e.g. groups/{ULIDv2}/roles/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
        * </pre>
        *
-       * <code>repeated string roles = 6 [json_name = "roles", (.buf.validate.field) = { ... }</code>
+       * <code>repeated string roles = 5 [json_name = "roles", (.buf.validate.field) = { ... }</code>
        * @param value The bytes of the roles to add.
        * @return This builder for chaining.
        */
@@ -1945,7 +1945,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
        * Populated once by system on creation.
        * </pre>
        *
-       * <code>string api_key = 7 [json_name = "apiKey"];</code>
+       * <code>string api_key = 6 [json_name = "apiKey"];</code>
        * @return The apiKey.
        */
       public java.lang.String getApiKey() {
@@ -1968,7 +1968,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
        * Populated once by system on creation.
        * </pre>
        *
-       * <code>string api_key = 7 [json_name = "apiKey"];</code>
+       * <code>string api_key = 6 [json_name = "apiKey"];</code>
        * @return The bytes for apiKey.
        */
       public com.google.protobuf.ByteString
@@ -1992,7 +1992,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
        * Populated once by system on creation.
        * </pre>
        *
-       * <code>string api_key = 7 [json_name = "apiKey"];</code>
+       * <code>string api_key = 6 [json_name = "apiKey"];</code>
        * @param value The apiKey to set.
        * @return This builder for chaining.
        */
@@ -2012,7 +2012,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
        * Populated once by system on creation.
        * </pre>
        *
-       * <code>string api_key = 7 [json_name = "apiKey"];</code>
+       * <code>string api_key = 6 [json_name = "apiKey"];</code>
        * @return This builder for chaining.
        */
       public Builder clearApiKey() {
@@ -2029,7 +2029,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
        * Populated once by system on creation.
        * </pre>
        *
-       * <code>string api_key = 7 [json_name = "apiKey"];</code>
+       * <code>string api_key = 6 [json_name = "apiKey"];</code>
        * @param value The bytes for apiKey to set.
        * @return This builder for chaining.
        */
@@ -2110,7 +2110,7 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
     java.lang.String[] descriptorData = {
       "\n(meshtrade/iam/api_user/v1/api_user.pro" +
       "to\022\031meshtrade.iam.api_user.v1\032\033buf/valid" +
-      "ate/validate.proto\"\227\006\n\007APIUser\022\302\001\n\004name\030" +
+      "ate/validate.proto\"\240\006\n\007APIUser\022\302\001\n\004name\030" +
       "\001 \001(\tB\255\001\272H\251\001\272\001\245\001\n\024name.format.optional\0226" +
       "name must be empty or in the format api_" +
       "users/{ULIDv2}\032Usize(this) == 0 || this." +
@@ -2118,28 +2118,28 @@ public final class ApiUser extends com.google.protobuf.GeneratedFile {
       "KMNPQRSTVWXYZ]{26}$\')R\004name\022R\n\005owner\030\002 \001" +
       "(\tB<\272H9r42/^groups/[0123456789ABCDEFGHJK" +
       "MNPQRSTVWXYZ]{26}$\230\001!\310\001\001R\005owner\022\264\001\n\014disp" +
-      "lay_name\030\004 \001(\tB\220\001\272H\214\001r\005\020\001\030\377\001\272\001\177\n\025display" +
+      "lay_name\030\003 \001(\tB\220\001\272H\214\001r\005\020\001\030\377\001\272\001\177\n\025display" +
       "_name.required\022Adisplay name is required" +
       " and must be between 1 and 255 character" +
       "s\032#size(this) > 0 && size(this) <= 255\310\001" +
-      "\001R\013displayName\022\276\001\n\005state\030\005 \001(\0162\'.meshtra" +
+      "\001R\013displayName\022\276\001\n\005state\030\004 \001(\0162\'.meshtra" +
       "de.iam.api_user.v1.APIUserStateB\177\272H|\202\001\002\020" +
       "\001\272\001t\n\013state.valid\022/state must be a valid" +
       " APIUserState if specified\0324int(this) ==" +
       " 0 || (int(this) >= 1 && int(this) <= 2)" +
-      "R\005state\022b\n\005roles\030\006 \003(\tBL\272HI\222\001F\"DrB2=^gro" +
-      "ups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{2" +
-      "6}/[1-9][0-9]{6}$\230\001)R\005roles\022\027\n\007api_key\030\007" +
-      " \001(\tR\006apiKey*f\n\014APIUserState\022\036\n\032API_USER" +
-      "_STATE_UNSPECIFIED\020\000\022\031\n\025API_USER_STATE_A" +
-      "CTIVE\020\001\022\033\n\027API_USER_STATE_INACTIVE\020\002*\246\001\n" +
-      "\rAPIUserAction\022\037\n\033API_USER_ACTION_UNSPEC" +
-      "IFIED\020\000\022\034\n\030API_USER_ACTION_ACTIVATE\020\001\022\036\n" +
-      "\032API_USER_ACTION_DEACTIVATE\020\002\022\032\n\026API_USE" +
-      "R_ACTION_CREATE\020\003\022\032\n\026API_USER_ACTION_UPD" +
-      "ATE\020\004B[\n co.meshtrade.api.iam.api_user.v" +
-      "1Z7github.com/meshtrade/api/go/iam/api_u" +
-      "ser/v1;api_user_v1b\006proto3"
+      "R\005state\022k\n\005roles\030\005 \003(\tBU\272HR\222\001O\"MrK\020/\03002E" +
+      "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXY" +
+      "Z]{26}/roles/[1-9][0-9]{6,7}$R\005roles\022\027\n\007" +
+      "api_key\030\006 \001(\tR\006apiKey*f\n\014APIUserState\022\036\n" +
+      "\032API_USER_STATE_UNSPECIFIED\020\000\022\031\n\025API_USE" +
+      "R_STATE_ACTIVE\020\001\022\033\n\027API_USER_STATE_INACT" +
+      "IVE\020\002*\246\001\n\rAPIUserAction\022\037\n\033API_USER_ACTI" +
+      "ON_UNSPECIFIED\020\000\022\034\n\030API_USER_ACTION_ACTI" +
+      "VATE\020\001\022\036\n\032API_USER_ACTION_DEACTIVATE\020\002\022\032" +
+      "\n\026API_USER_ACTION_CREATE\020\003\022\032\n\026API_USER_A" +
+      "CTION_UPDATE\020\004B[\n co.meshtrade.api.iam.a" +
+      "pi_user.v1Z7github.com/meshtrade/api/go/" +
+      "iam/api_user/v1;api_user_v1b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
