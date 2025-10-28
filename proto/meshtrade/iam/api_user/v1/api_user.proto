@@ -73,7 +73,7 @@ message APIUser {
   }];
 
   /*
-     Roles is a list of the standard roles assigned to this api user,
+     Roles is a list of the standard roles assigned to this API user,
      prepended by the name of the group in which they have been assigned that role.
      e.g. groups/{ULIDv2}/roles/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
   */
