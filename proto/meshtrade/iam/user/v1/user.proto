@@ -45,7 +45,7 @@ message User {
      The unique email address of this user.
      This field is required on creation and must be a valid email format.
   */
-  string email = 4 [(buf.validate.field) = {
+  string email = 3 [(buf.validate.field) = {
     required: true
     string: {email: true}
   }];
@@ -55,7 +55,7 @@ message User {
      prepended by the name of the group in which they have been assigned that role.
      e.g. groups/{ULIDv2}/roles/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
   */
-  repeated string roles = 5 [(buf.validate.field) = {
+  repeated string roles = 4 [(buf.validate.field) = {
     required: true
     repeated: {
       items: {
