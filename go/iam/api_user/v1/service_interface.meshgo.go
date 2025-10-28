@@ -28,18 +28,18 @@ type ApiUserService interface {
 	// identifier and API key for authentication.
 	CreateApiUser(ctx context.Context, request *CreateApiUserRequest) (*APIUser, error)
 
-	// Assigns a role to an existing api user within the authenticated group context.
+	// Assign roles to an existing api user within the authenticated group context.
 	//
 	// The role assignment enables the api user to perform operations according
 	// to the permissions associated with that role within the group hierarchy.
-	AssignRoleToAPIUser(ctx context.Context, request *AssignRoleToAPIUserRequest) (*APIUser, error)
+	AssignRolesToAPIUser(ctx context.Context, request *AssignRolesToAPIUserRequest) (*APIUser, error)
 
-	// Revokes a role from an existing API user within the authenticated group context.
+	// Revoke roles from an existing API user within the authenticated group context.
 	//
 	// The role revocation removes the permissions associated with that role from
 	// the API user within the group hierarchy. The API user will no longer be able
 	// to perform operations that require the revoked role.
-	RevokeRoleFromAPIUser(ctx context.Context, request *RevokeRoleFromAPIUserRequest) (*APIUser, error)
+	RevokeRolesFromAPIUser(ctx context.Context, request *RevokeRolesFromAPIUserRequest) (*APIUser, error)
 
 	// Lists all API users in the authenticated group context.
 	//
