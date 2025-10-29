@@ -20,24 +20,27 @@ func (r Role) IsValidAndSpecified() bool {
 }
 
 // FullResourceNameFromGroupID returns the full qualified resource name of the role given a particular owner group id.
+// Format: groups/{groupID}/roles/{roleNumber}
 func (r Role) FullResourceNameFromGroupID(groupID string) string {
-	return fmt.Sprintf("groups/%s/%d", groupID, r)
+	return fmt.Sprintf("groups/%s/roles/%d", groupID, r)
 }
 
+// FullResourceNameFromGroupName returns the full qualified resource name of the role given a group resource name.
+// Format: {groupName}/roles/{roleNumber}
 func (r Role) FullResourceNameFromGroupName(groupName string) string {
-	return fmt.Sprintf("%s/%d", groupName, r)
+	return fmt.Sprintf("%s/roles/%d", groupName, r)
 }
 
 // RoleFromFullResourceName parses a full resource name and returns the Role.
-// The full resource name should be in the format "groups/{groupID}/{roleNumber}".
+// The full resource name should be in the format "groups/{groupID}/roles/{roleNumber}".
 // Returns Role_ROLE_UNSPECIFIED and an error if the format is invalid or the role number cannot be parsed.
 func RoleFromFullResourceName(fullResourceName string) (Role, error) {
 	parts := strings.Split(fullResourceName, "/")
-	if len(parts) != 3 || parts[0] != "groups" {
-		return Role_ROLE_UNSPECIFIED, fmt.Errorf("invalid full resource name format: %s", fullResourceName)
+	if len(parts) != 4 || parts[0] != "groups" || parts[2] != "roles" {
+		return Role_ROLE_UNSPECIFIED, fmt.Errorf("invalid full resource name format, expected groups/{groupID}/roles/{roleNumber}, got: %s", fullResourceName)
 	}
 
-	roleNum, err := strconv.ParseInt(parts[2], 10, 32)
+	roleNum, err := strconv.ParseInt(parts[3], 10, 32)
 	if err != nil {
 		return Role_ROLE_UNSPECIFIED, fmt.Errorf("invalid role number in full resource name: %s", fullResourceName)
 	}
@@ -76,13 +79,13 @@ func (r Role) FullResourceNameFromGroup(group string) (string, error) {
 	return r.FullResourceNameFromGroupID(groupID), nil
 }
 
-// ParseRoleParts splits a role resource name formatted as "groups/{ULID}/{role}" into its
+// ParseRoleParts splits a role resource name formatted as "groups/{ULID}/roles/{role}" into its
 // group resource name and the corresponding Role value. It validates the group identifier
 // and ensures the role is a recognised, non-unspecified enum value.
 func ParseRoleParts(roleFullResourceName string) (group string, role Role, err error) {
 	roleParts := strings.Split(roleFullResourceName, "/")
-	if len(roleParts) != 3 || roleParts[0] != "groups" {
-		err = fmt.Errorf("invalid role format, expected groups/{groupID}/{role}, got %s", roleFullResourceName)
+	if len(roleParts) != 4 || roleParts[0] != "groups" || roleParts[2] != "roles" {
+		err = fmt.Errorf("invalid role format, expected groups/{groupID}/roles/{role}, got %s", roleFullResourceName)
 		return
 	}
 
@@ -94,9 +97,9 @@ func ParseRoleParts(roleFullResourceName string) (group string, role Role, err e
 
 	group = "groups/" + groupID
 
-	roleEnumRaw, convErr := strconv.Atoi(roleParts[2])
+	roleEnumRaw, convErr := strconv.Atoi(roleParts[3])
 	if convErr != nil {
-		err = fmt.Errorf("error parsing role enum value '%s'", roleParts[2])
+		err = fmt.Errorf("error parsing role enum value '%s'", roleParts[3])
 		return
 	}
 
@@ -109,7 +112,7 @@ func ParseRoleParts(roleFullResourceName string) (group string, role Role, err e
 	return
 }
 
-// MustParseRoleParts parses a role resource name formatted as "groups/{ULID}/{role}" and
+// MustParseRoleParts parses a role resource name formatted as "groups/{ULID}/roles/{role}" and
 // panics if the input cannot be validated or decoded. Prefer ParseRoleParts when you can
 // handle an error result.
 func MustParseRoleParts(roleFullResourceName string) (string, Role) {
