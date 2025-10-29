@@ -20,6 +20,11 @@
       "require": "./dist/meshtrade/compliance/client/v1/index.js",
       "import": "./dist/meshtrade/compliance/client/v1/index.js"
     },
+    "./iam/api_user/v1": {
+      "types": "./dist/meshtrade/iam/api_user/v1/index.d.ts",
+      "require": "./dist/meshtrade/iam/api_user/v1/index.js",
+      "import": "./dist/meshtrade/iam/api_user/v1/index.js"
+    },
     "./iam/role/v1": {
       "types": "./dist/meshtrade/iam/role/v1/index.d.ts",
       "require": "./dist/meshtrade/iam/role/v1/index.js",
@@ -35,50 +40,67 @@
       "require": "./dist/meshtrade/iam/user/v1/index.js",
       "import": "./dist/meshtrade/iam/user/v1/index.js"
     },
-    "./issuance_hub/instrument/v1": {
-      "types": "./dist/meshtrade/issuance_hub/instrument/v1/index.d.ts",
-      "require": "./dist/meshtrade/issuance_hub/instrument/v1/index.js",
-      "import": "./dist/meshtrade/issuance_hub/instrument/v1/index.js"
+    "./ledger/transaction/v1": {
+      "types": "./dist/meshtrade/ledger/transaction/v1/index.d.ts",
+      "require": "./dist/meshtrade/ledger/transaction/v1/index.js",
+      "import": "./dist/meshtrade/ledger/transaction/v1/index.js"
+    },
+    "./option/v1": {
+      "types": "./dist/meshtrade/option/v1/index.d.ts",
+      "require": "./dist/meshtrade/option/v1/index.js",
+      "import": "./dist/meshtrade/option/v1/index.js"
     },
     "./reporting/account_report/v1": {
       "types": "./dist/meshtrade/reporting/account_report/v1/index.d.ts",
       "require": "./dist/meshtrade/reporting/account_report/v1/index.js",
       "import": "./dist/meshtrade/reporting/account_report/v1/index.js"
     },
-    "./ledger/transaction/v1": {
-      "types": "./dist/meshtrade/ledger/transaction/v1/index.d.ts",
-      "require": "./dist/meshtrade/ledger/transaction/v1/index.js",
-      "import": "./dist/meshtrade/ledger/transaction/v1/index.js"
-    },
-    "./trading/direct_order/v1": {
-      "types": "./dist/meshtrade/trading/direct_order/v1/index.d.ts",
-      "require": "./dist/meshtrade/trading/direct_order/v1/index.js",
-      "import": "./dist/meshtrade/trading/direct_order/v1/index.js"
+    "./studio/instrument/v1": {
+      "types": "./dist/meshtrade/studio/instrument/v1/index.d.ts",
+      "require": "./dist/meshtrade/studio/instrument/v1/index.js",
+      "import": "./dist/meshtrade/studio/instrument/v1/index.js"
     },
     "./trading/limit_order/v1": {
       "types": "./dist/meshtrade/trading/limit_order/v1/index.d.ts",
       "require": "./dist/meshtrade/trading/limit_order/v1/index.js",
       "import": "./dist/meshtrade/trading/limit_order/v1/index.js"
     },
-    "./trading/spot/v1": {
-      "types": "./dist/meshtrade/trading/spot/v1/index.d.ts",
-      "require": "./dist/meshtrade/trading/spot/v1/index.js",
-      "import": "./dist/meshtrade/trading/spot/v1/index.js"
-    },
-    "./wallet/account/v1": {
-      "types": "./dist/meshtrade/wallet/account/v1/index.d.ts",
-      "require": "./dist/meshtrade/wallet/account/v1/index.js",
-      "import": "./dist/meshtrade/wallet/account/v1/index.js"
+    "./trading/market_order/v1": {
+      "types": "./dist/meshtrade/trading/market_order/v1/index.d.ts",
+      "require": "./dist/meshtrade/trading/market_order/v1/index.js",
+      "import": "./dist/meshtrade/trading/market_order/v1/index.js"
     },
     "./type/v1": {
       "types": "./dist/meshtrade/type/v1/index.d.ts",
       "require": "./dist/meshtrade/type/v1/index.js",
       "import": "./dist/meshtrade/type/v1/index.js"
     },
+    "./wallet/account/v1": {
+      "types": "./dist/meshtrade/wallet/account/v1/index.d.ts",
+      "require": "./dist/meshtrade/wallet/account/v1/index.js",
+      "import": "./dist/meshtrade/wallet/account/v1/index.js"
+    },
     "./*": {
       "types": "./dist/meshtrade/*",
       "require": "./dist/meshtrade/*",
       "import": "./dist/meshtrade/*"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "compliance/client/v1": ["dist/meshtrade/compliance/client/v1/index.d.ts"],
+      "iam/api_user/v1": ["dist/meshtrade/iam/api_user/v1/index.d.ts"],
+      "iam/role/v1": ["dist/meshtrade/iam/role/v1/index.d.ts"],
+      "iam/group/v1": ["dist/meshtrade/iam/group/v1/index.d.ts"],
+      "iam/user/v1": ["dist/meshtrade/iam/user/v1/index.d.ts"],
+      "ledger/transaction/v1": ["dist/meshtrade/ledger/transaction/v1/index.d.ts"],
+      "option/v1": ["dist/meshtrade/option/v1/index.d.ts"],
+      "reporting/account_report/v1": ["dist/meshtrade/reporting/account_report/v1/index.d.ts"],
+      "studio/instrument/v1": ["dist/meshtrade/studio/instrument/v1/index.d.ts"],
+      "trading/limit_order/v1": ["dist/meshtrade/trading/limit_order/v1/index.d.ts"],
+      "trading/market_order/v1": ["dist/meshtrade/trading/market_order/v1/index.d.ts"],
+      "type/v1": ["dist/meshtrade/type/v1/index.d.ts"],
+      "wallet/account/v1": ["dist/meshtrade/wallet/account/v1/index.d.ts"]
     }
   },
   "files": [
