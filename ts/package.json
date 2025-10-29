@@ -1,6 +1,6 @@
 {
   "name": "@meshtrade/api",
-  "version": "1.24.0",
+  "version": "1.25.0",
   "description": "Mesh Typescript SDK",
   "author": "Bernard Bussy <bernard@meshtrade.co>",
   "keywords": [
@@ -88,19 +88,45 @@
   },
   "typesVersions": {
     "*": {
-      "compliance/client/v1": ["dist/meshtrade/compliance/client/v1/index.d.ts"],
-      "iam/api_user/v1": ["dist/meshtrade/iam/api_user/v1/index.d.ts"],
-      "iam/role/v1": ["dist/meshtrade/iam/role/v1/index.d.ts"],
-      "iam/group/v1": ["dist/meshtrade/iam/group/v1/index.d.ts"],
-      "iam/user/v1": ["dist/meshtrade/iam/user/v1/index.d.ts"],
-      "ledger/transaction/v1": ["dist/meshtrade/ledger/transaction/v1/index.d.ts"],
-      "option/v1": ["dist/meshtrade/option/v1/index.d.ts"],
-      "reporting/account_report/v1": ["dist/meshtrade/reporting/account_report/v1/index.d.ts"],
-      "studio/instrument/v1": ["dist/meshtrade/studio/instrument/v1/index.d.ts"],
-      "trading/limit_order/v1": ["dist/meshtrade/trading/limit_order/v1/index.d.ts"],
-      "trading/market_order/v1": ["dist/meshtrade/trading/market_order/v1/index.d.ts"],
-      "type/v1": ["dist/meshtrade/type/v1/index.d.ts"],
-      "wallet/account/v1": ["dist/meshtrade/wallet/account/v1/index.d.ts"]
+      "compliance/client/v1": [
+        "dist/meshtrade/compliance/client/v1/index.d.ts"
+      ],
+      "iam/api_user/v1": [
+        "dist/meshtrade/iam/api_user/v1/index.d.ts"
+      ],
+      "iam/role/v1": [
+        "dist/meshtrade/iam/role/v1/index.d.ts"
+      ],
+      "iam/group/v1": [
+        "dist/meshtrade/iam/group/v1/index.d.ts"
+      ],
+      "iam/user/v1": [
+        "dist/meshtrade/iam/user/v1/index.d.ts"
+      ],
+      "ledger/transaction/v1": [
+        "dist/meshtrade/ledger/transaction/v1/index.d.ts"
+      ],
+      "option/v1": [
+        "dist/meshtrade/option/v1/index.d.ts"
+      ],
+      "reporting/account_report/v1": [
+        "dist/meshtrade/reporting/account_report/v1/index.d.ts"
+      ],
+      "studio/instrument/v1": [
+        "dist/meshtrade/studio/instrument/v1/index.d.ts"
+      ],
+      "trading/limit_order/v1": [
+        "dist/meshtrade/trading/limit_order/v1/index.d.ts"
+      ],
+      "trading/market_order/v1": [
+        "dist/meshtrade/trading/market_order/v1/index.d.ts"
+      ],
+      "type/v1": [
+        "dist/meshtrade/type/v1/index.d.ts"
+      ],
+      "wallet/account/v1": [
+        "dist/meshtrade/wallet/account/v1/index.d.ts"
+      ]
     }
   },
   "files": [
