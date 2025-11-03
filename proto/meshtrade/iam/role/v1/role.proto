@@ -57,7 +57,6 @@ enum Role {
 
   ROLE_MARKET_INDICATIVE_PRICE_ADMIN = 8000000;
   ROLE_MARKET_INDICATIVE_PRICE_VIEWER = 8000001;
-
 }
 
 extend google.protobuf.MessageOptions {
