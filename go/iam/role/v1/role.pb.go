@@ -60,6 +60,8 @@ const (
 	Role_ROLE_LEDGER_VIEWER             Role = 7000001
 	Role_ROLE_LEDGER_TRANSACTION_ADMIN  Role = 7000002
 	Role_ROLE_LEDGER_TRANSACTION_VIEWER Role = 7000003
+	Role_ROLE_LEDGER_TOKEN_TAP_ADMIN    Role = 7000004
+	Role_ROLE_LEDGER_TOKEN_TAP_VIEWER   Role = 7000005
 )
 
 // Enum value maps for Role.
@@ -94,6 +96,8 @@ var (
 		7000001: "ROLE_LEDGER_VIEWER",
 		7000002: "ROLE_LEDGER_TRANSACTION_ADMIN",
 		7000003: "ROLE_LEDGER_TRANSACTION_VIEWER",
+		7000004: "ROLE_LEDGER_TOKEN_TAP_ADMIN",
+		7000005: "ROLE_LEDGER_TOKEN_TAP_VIEWER",
 	}
 	Role_value = map[string]int32{
 		"ROLE_UNSPECIFIED":               0,
@@ -125,6 +129,8 @@ var (
 		"ROLE_LEDGER_VIEWER":             7000001,
 		"ROLE_LEDGER_TRANSACTION_ADMIN":  7000002,
 		"ROLE_LEDGER_TRANSACTION_VIEWER": 7000003,
+		"ROLE_LEDGER_TOKEN_TAP_ADMIN":    7000004,
+		"ROLE_LEDGER_TOKEN_TAP_VIEWER":   7000005,
 	}
 )
 
@@ -236,7 +242,7 @@ const file_meshtrade_iam_role_v1_role_proto_rawDesc = "" +
 	"\n" +
 	" meshtrade/iam/role/v1/role.proto\x12\x15meshtrade.iam.role.v1\x1a google/protobuf/descriptor.proto\"=\n" +
 	"\bRoleList\x121\n" +
-	"\x05roles\x18\x01 \x03(\x0e2\x1b.meshtrade.iam.role.v1.RoleR\x05roles*\xee\x06\n" +
+	"\x05roles\x18\x01 \x03(\x0e2\x1b.meshtrade.iam.role.v1.RoleR\x05roles*\xb7\a\n" +
 	"\x04Role\x12\x14\n" +
 	"\x10ROLE_UNSPECIFIED\x10\x00\x12\x17\n" +
 	"\x11ROLE_WALLET_ADMIN\x10\xc0\x84=\x12\x18\n" +
@@ -266,7 +272,9 @@ const file_meshtrade_iam_role_v1_role_proto_rawDesc = "" +
 	"\x11ROLE_LEDGER_ADMIN\x10\xc0\x9f\xab\x03\x12\x19\n" +
 	"\x12ROLE_LEDGER_VIEWER\x10\xc1\x9f\xab\x03\x12$\n" +
 	"\x1dROLE_LEDGER_TRANSACTION_ADMIN\x10\u009f\xab\x03\x12%\n" +
-	"\x1eROLE_LEDGER_TRANSACTION_VIEWER\x10ß\xab\x03:g\n" +
+	"\x1eROLE_LEDGER_TRANSACTION_VIEWER\x10ß\xab\x03\x12\"\n" +
+	"\x1bROLE_LEDGER_TOKEN_TAP_ADMIN\x10ğ\xab\x03\x12#\n" +
+	"\x1cROLE_LEDGER_TOKEN_TAP_VIEWER\x10ş\xab\x03:g\n" +
 	"\rmessage_roles\x12\x1f.google.protobuf.MessageOptions\x18ֆ\x03 \x01(\v2\x1f.meshtrade.iam.role.v1.RoleListR\fmessageRoles:W\n" +
 	"\x05roles\x12\x1e.google.protobuf.MethodOptions\x18Ն\x03 \x01(\v2\x1f.meshtrade.iam.role.v1.RoleListR\x05rolesBO\n" +
 	"\x1cco.meshtrade.api.iam.role.v1Z/github.com/meshtrade/api/go/iam/role/v1;role_v1b\x06proto3"

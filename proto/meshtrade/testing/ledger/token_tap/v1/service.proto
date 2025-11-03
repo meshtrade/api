@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package meshtrade.testing.ledger.token_tap.v1;
+
+import "meshtrade/iam/role/v1/role.proto";
+import "meshtrade/option/v1/method_type.proto";
+import "meshtrade/type/v1/amount.proto";
+import "meshtrade/type/v1/token.proto";
+
+option go_package = "github.com/meshtrade/api/go/testing/ledger/token_tap/v1;token_tap_v1";
+option java_package = "co.meshtrade.api.testing.ledger.token_tap.v1";
+
+service TokenTapService {
+  rpc InitialiseTokenTaps(InitialiseTokenTapsRequest) returns (InitialiseTokenTapsResponse) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [
+        ROLE_LEDGER_ADMIN,
+        ROLE_LEDGER_TOKEN_TAP_ADMIN
+      ]
+    };
+  }
+
+  rpc ListTokenTaps(ListTokenTapsRequest) returns (ListTokenTapsResponse) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [
+        ROLE_LEDGER_ADMIN,
+        ROLE_LEDGER_VIEWER,
+        ROLE_LEDGER_TOKEN_TAP_ADMIN,
+        ROLE_LEDGER_TOKEN_TAP_VIEWER
+      ]
+    };
+  }
+
+  rpc MintToken(MintTokenRequest) returns (MintTokenResponse) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [
+        ROLE_LEDGER_ADMIN,
+        ROLE_LEDGER_TOKEN_TAP_ADMIN
+      ]
+    };
+  }
+}
+
+message InitialiseTokenTapsRequest {
+  string number = 1;
+}
+
+message InitialiseTokenTapsResponse {}
+
+message ListTokenTapsRequest {}
+
+message ListTokenTapsResponse {
+  repeated type.v1.Token token = 1;
+}
+
+message MintTokenRequest {
+  type.v1.Amount amount = 1;
+  string address = 2;
+}
+
+message MintTokenResponse {}
+;
