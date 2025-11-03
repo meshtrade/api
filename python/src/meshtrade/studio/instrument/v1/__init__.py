@@ -14,7 +14,7 @@
 
 # Generated protobuf imports
 from .instrument_pb2 import Instrument
-from .type_pb2 import InstrumentType
+from .instrument_type_pb2 import InstrumentType
 from .unit_pb2 import Unit
 
 # ===================================================================

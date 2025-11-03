@@ -9,6 +9,7 @@ the service interface with resource management capabilities, providing authentic
 timeouts, and proper connection handling.
 """
 
+from collections.abc import Iterator
 from datetime import timedelta
 from typing import Optional
 
@@ -22,7 +23,7 @@ from meshtrade.iam.api_user.v1.api_credentials import find_credentials
 {% for type_name, module in external_types.items() -%}
 from .{{ module }} import {{ type_name }}
 {% endfor -%}
-from .service_options_meshpy import ServiceOptions
+from meshtrade.common.service_options import ServiceOptions
 {% if service_types -%}
 from .{{ proto_base }}_pb2 import (
 {% for type in service_types | sort -%}
@@ -140,6 +141,29 @@ class {{ service_name }}(BaseGRPCClient):
         )
 
     {% for method in methods %}
+    {% if method.server_streaming and not method.client_streaming %}
+    def {{ method.snake_name }}(self, request: {{ method.input_type.split('.')[-1] }}, timeout: Optional[timedelta] = None) -> Iterator[{{ method.output_type.split('.')[-1] }}]:
+        """{{ method.name }} server-side streaming method with authentication and validation.
+
+        Args:
+            request: The {{ method.name }} request message
+            timeout: Optional timeout override for this call
+
+        Yields:
+            {{ method.output_type.split('.')[-1] }}: Stream of response messages
+
+        Raises:
+            grpc.RpcError: If the gRPC call fails
+            ValueError: If authentication credentials are missing or request validation fails
+
+        Example:
+            >>> stream = service.{{ method.snake_name }}(request)
+            >>> for response in stream:
+            ...     # Process each response
+            ...     print(response)
+        """
+        return self._execute_streaming_method("{{ method.name }}", request, timeout)
+    {% else %}
     def {{ method.snake_name }}(self, request: {{ method.input_type.split('.')[-1] }}, timeout: Optional[timedelta] = None) -> {{ method.output_type.split('.')[-1] }}:
         """{{ method.name }} method.
 
@@ -155,6 +179,7 @@ class {{ service_name }}(BaseGRPCClient):
             ValueError: If authentication credentials are missing
         """
         return self._execute_method("{{ method.name }}", request, timeout)
+    {% endif %}
 
     {% endfor %}
 

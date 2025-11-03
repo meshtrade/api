@@ -13,8 +13,21 @@
 # ===================================================================
 
 # Generated protobuf imports
-from .transaction_action_pb2 import TransactionAction
 from .transaction_state_pb2 import TransactionState
+from .service_pb2 import (
+    GetTransactionStateRequest,
+    GetTransactionStateResponse,
+    MonitorTransactionStateRequest,
+    MonitorTransactionStateResponse,
+)
+from .transaction_action_pb2 import TransactionAction
+
+# Generated service imports
+from .service_meshpy import (
+    TransactionService,
+    TransactionServiceGRPCClient,
+    TransactionServiceGRPCClientInterface,
+)
 
 # ===================================================================
 # END OF AUTO-GENERATED SECTION
@@ -30,12 +43,23 @@ from .transaction_state_pb2 import TransactionState
 #
 # ===================================================================
 
+from .transaction_state_machine import transaction_state_can_perform_action_at_state
+
 # ===================================================================
 # MODULE EXPORTS
 # ===================================================================
 # Combined auto-generated and manual exports
 __all__ = [
     # Generated exports
+    "GetTransactionStateRequest",
+    "GetTransactionStateResponse",
+    "MonitorTransactionStateRequest",
+    "MonitorTransactionStateResponse",
     "TransactionAction",
+    "TransactionService",
+    "TransactionServiceGRPCClient",
+    "TransactionServiceGRPCClientInterface",
     "TransactionState",
+    # Manual exports
+    "transaction_state_can_perform_action_at_state",
 ]

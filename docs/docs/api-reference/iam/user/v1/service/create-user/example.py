@@ -1,3 +1,5 @@
+from meshtrade.api.iam.role.v1.role import full_resource_name_from_group_name
+from meshtrade.api.iam.role.v1.role_pb2 import Role
 from meshtrade.iam.user.v1 import (
     CreateUserRequest,
     User,
@@ -18,8 +20,8 @@ def main():
                 owner=service.group(),  # Current authenticated group becomes the owner
                 email="sarah.thompson@company.com",  # Unique email address
                 roles=[
-                    "groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU/1000001",  # ROLE_IAM_VIEWER
-                    "groups/01HZ2XWFQ4QV2J5K8MN0PQRSTU/2000002",  # ROLE_TRADING_VIEWER
+                    full_resource_name_from_group_name(Role.ROLE_IAM_VIEWER, service.group()),
+                    full_resource_name_from_group_name(Role.ROLE_TRADING_VIEWER, service.group()),
                 ],
             )
         )

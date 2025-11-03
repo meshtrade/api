@@ -7,9 +7,9 @@ Understanding how clients define legal entity boundaries within Mesh's hierarchi
 Clients in Mesh serve as **legal entity boundaries** that define where one legal entity ends and another begins within the hierarchical group structure. Each client represents a distinct legal entity (individual, company, fund, or trust) that has undergone compliance verification and establishes the scope of role assignments for users and API users operating within that entity's organizational structure.
 
 **The Three-Layer Architecture:**
-- **Groups** ([Group Ownership](./group-ownership)): Control resource ownership and access hierarchy
+- **Groups** ([Resource Hierarchy](./resource-hierarchy)): Control resource ownership and access hierarchy
 - **Clients** (this document): Define legal entity boundaries and available role types
-- **Roles** ([Role-Based Access](./role-based-access)): Control method-level API access permissions
+- **Roles** ([Role-Based Access Control](./method-permissions)): Control method-level API access permissions
 
 ## What are Clients?
 
@@ -605,8 +605,8 @@ Client verification status provides the compliance foundation for the entire org
 ## Related Documentation
 
 ### Core Architecture Components
-- **[Group Ownership Structure](./group-ownership)** - Understanding the hierarchical resource ownership system that provides the foundation for client positioning
-- **[Role-Based Access Control](./role-based-access)** - Understanding the role system that clients control and how method-level permissions work
+- **[Resource Hierarchy](./resource-hierarchy)** - Understanding the hierarchical resource ownership system that provides the foundation for client positioning
+- **[Role-Based Access Control](./method-permissions)** - Understanding the role system that clients control and how method-level permissions work
 
 ### API Reference Documentation
 - **[Compliance Client Service API Reference](/docs/api-reference/compliance/client/v1)** - Complete API documentation for client management operations and legal entity types
@@ -614,5 +614,5 @@ Client verification status provides the compliance foundation for the entire org
 - **[IAM API User Service Reference](/docs/api-reference/iam/api_user/v1)** - Complete API documentation for managing API users and role assignments within client boundaries
 
 ### Implementation Guides
-- **[Authentication](./authentication)** - API key and group context authentication mechanisms that work with client role boundaries
+- **[Authentication](./api-access)** - API key and group context authentication mechanisms that work with client role boundaries
 - **[Service Structure](./service-structure)** - Understanding API organization and method patterns that clients control access to

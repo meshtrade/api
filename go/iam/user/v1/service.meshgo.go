@@ -49,8 +49,43 @@ import (
 //
 // For more information on service configuration: https://meshtrade.github.io/api/docs/architecture/sdk-configuration
 type UserServiceClientInterface interface {
-	UserService
 	grpc.GRPCClient
+
+	// Assign roles to an existing user within the authenticated group context.
+	// The role assignment enables the user to perform operations according
+	// to the permissions associated with that role within the group hierarchy.
+	AssignRolesToUser(ctx context.Context, request *AssignRolesToUserRequest) (*User, error)
+	// Revoke roles from an existing user within the authenticated group context.
+	// The role revocation removes the permissions associated with that role from
+	// the user within the group hierarchy. The user will no longer be able
+	// to perform operations that require the revoked role.
+	RevokeRolesFromUser(ctx context.Context, request *RevokeRolesFromUserRequest) (*User, error)
+	// Retrieves a single user by its unique identifier.
+	// Returns user details including name, email, ownership information,
+	// and assigned roles within the authenticated group's access scope.
+	GetUser(ctx context.Context, request *GetUserRequest) (*User, error)
+	// Returns all users accessible within the authenticated group's hierarchy.
+	// Results include users directly owned and those accessible through the
+	// group's hierarchical permissions, optionally sorted by email address.
+	ListUsers(ctx context.Context, request *ListUsersRequest) (*ListUsersResponse, error)
+	// Searches for users by email address using substring matching.
+	// Returns users whose email addresses contain the provided search term,
+	// filtered by the authenticated group's access permissions and optionally
+	// sorted by email address.
+	SearchUsers(ctx context.Context, request *SearchUsersRequest) (*SearchUsersResponse, error)
+	// Creates a new user within the authenticated group context.
+	// The user will be created with the provided email and group ownership,
+	// with system-generated unique identifier and ownership hierarchy.
+	// Additional roles can be assigned after creation.
+	CreateUser(ctx context.Context, request *CreateUserRequest) (*User, error)
+	// Updates an existing user with modified field values.
+	// Only mutable fields can be updated while preserving system-generated
+	// identifiers and ownership relationships. Role modifications should
+	// use dedicated role management operations.
+	UpdateUser(ctx context.Context, request *UpdateUserRequest) (*User, error)
+
+	// WithGroup returns a new client instance with a different group context
+	WithGroup(group string) UserServiceClientInterface
 }
 
 // userService is the internal implementation of the UserServiceClientInterface interface.
@@ -121,11 +156,57 @@ func NewUserService(opts ...config.ServiceOption) (UserServiceClientInterface, e
 	return &userService{BaseGRPCClient: base}, nil
 }
 
-// AssignRoleToUser executes the AssignRoleToUser RPC method with automatic
+// WithGroup returns a new client instance configured with a different group context.
+// This enables convenient group context switching without reconstructing the entire client.
+// All other configuration (URL, port, timeout, tracer, API key, etc.) is preserved.
+//
+// The group parameter must be in the format 'groups/{group_id}' where group_id is a valid
+// group identifier (typically a ULID). The new client instance shares no state with the
+// original client, allowing safe concurrent usage across different goroutines.
+//
+// Example:
+//
+//	// Create initial client with default group from credentials
+//	service, err := NewUserService()
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//	defer service.Close()
+//
+//	// Switch to a different group context
+//	altService := service.WithGroup("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
+//	defer altService.Close()
+//
+//	// Both clients can be used independently
+//	resp1, _ := service.SomeMethod(ctx, req)      // Uses original group
+//	resp2, _ := altService.SomeMethod(ctx, req)   // Uses alternative group
+//
+// Parameters:
+//   - group: The group resource name in format 'groups/{group_id}'
+//
+// Returns:
+//   - UserServiceClientInterface: New client instance with updated group context
+func (s *userService) WithGroup(group string) UserServiceClientInterface {
+	// Create new base client with copied configuration but new group
+	newBase := s.BaseGRPCClient.WithGroup(group)
+
+	// Return new service instance wrapping the new base client
+	return &userService{BaseGRPCClient: newBase}
+}
+
+// AssignRolesToUser executes the AssignRolesToUser RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
-func (s *userService) AssignRoleToUser(ctx context.Context, request *AssignRoleToUserRequest) (*User, error) {
-	return grpc.Execute(s.Executor(), ctx, "AssignRoleToUser", request, func(ctx context.Context) (*User, error) {
-		return s.GrpcClient().AssignRoleToUser(ctx, request)
+func (s *userService) AssignRolesToUser(ctx context.Context, request *AssignRolesToUserRequest) (*User, error) {
+	return grpc.Execute(s.Executor(), ctx, "AssignRolesToUser", request, func(ctx context.Context) (*User, error) {
+		return s.GrpcClient().AssignRolesToUser(ctx, request)
+	})
+}
+
+// RevokeRolesFromUser executes the RevokeRolesFromUser RPC method with automatic
+// client-side validation, timeout handling, distributed tracing, and authentication.
+func (s *userService) RevokeRolesFromUser(ctx context.Context, request *RevokeRolesFromUserRequest) (*User, error) {
+	return grpc.Execute(s.Executor(), ctx, "RevokeRolesFromUser", request, func(ctx context.Context) (*User, error) {
+		return s.GrpcClient().RevokeRolesFromUser(ctx, request)
 	})
 }
 

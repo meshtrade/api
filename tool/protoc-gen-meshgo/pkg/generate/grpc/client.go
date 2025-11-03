@@ -24,6 +24,11 @@ func Client(p *protogen.Plugin, f *protogen.File, svc *protogen.Service) error {
 	return generateClientFile(p, f, svc)
 }
 
+// isServerSideStreaming returns true if the method is server-side streaming
+// (single request, stream of responses)
+func isServerSideStreaming(method *protogen.Method) bool {
+	return method.Desc.IsStreamingServer() && !method.Desc.IsStreamingClient()
+}
 
 func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Service) error {
 	// Generate minimal service file using BaseGRPCClient
@@ -43,7 +48,7 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 
 	// Generate documentation URL
 	docURL := generateDocURL(f.Desc.Path())
-	
+
 	// Generate combined interface with comprehensive documentation
 	g.P("// ", clientInterfaceName, " is a gRPC service for the ", svc.GoName, " service.")
 	g.P("// It combines the service interface with resource management capabilities using")
@@ -66,7 +71,7 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 	g.P("// 2. Default credential file location:")
 	g.P("//")
 	g.P("//    - Linux:   $XDG_CONFIG_HOME/mesh/credentials.json or fallback to $HOME/.config/mesh/credentials.json")
-	g.P("//    - macOS:   $HOME/Library/Application Support/mesh/credentials.json")  
+	g.P("//    - macOS:   $HOME/Library/Application Support/mesh/credentials.json")
 	g.P("//    - Windows: C:\\Users\\<user>\\AppData\\Roaming\\mesh\\credentials.json")
 	g.P("//")
 	g.P("// For more information on authentication: https://meshtrade.github.io/api/docs/architecture/authentication")
@@ -86,8 +91,37 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 	g.P("//")
 	g.P("// For more information on service configuration: https://meshtrade.github.io/api/docs/architecture/sdk-configuration")
 	g.P("type ", clientInterfaceName, " interface {")
-	g.P("\t", svc.GoName)
 	g.P("\t", generate.GRPCClientPkg.Ident("GRPCClient"))
+	g.P("\t")
+
+	// Generate method signatures explicitly for client interface
+	// Streaming methods return streams (client usage), not accept them (server usage)
+	for _, method := range svc.Methods {
+		// Add method comments with proper formatting
+		// Comments.String() returns lines with "//" prefix but may not have space after it
+		if len(method.Comments.Leading) > 0 {
+			for _, comment := range strings.Split(strings.TrimSpace(method.Comments.Leading.String()), "\n") {
+				// Remove the "//" prefix, trim whitespace, then re-add "// " with proper spacing
+				commentText := strings.TrimSpace(strings.TrimPrefix(strings.TrimSpace(comment), "//"))
+				if commentText != "" {
+					g.P("\t// ", commentText)
+				}
+			}
+		}
+
+		if isServerSideStreaming(method) {
+			// Client streaming method: returns stream for receiving responses
+			streamClientType := svc.GoName + "_" + method.GoName + "Client"
+			g.P("\t", method.GoName, "(ctx ", generate.ContextPkg.Ident("Context"), ", request *", method.Input.GoIdent, ") (", streamClientType, ", error)")
+		} else {
+			// Unary method: same signature as service interface
+			g.P("\t", method.GoName, "(ctx ", generate.ContextPkg.Ident("Context"), ", request *", method.Input.GoIdent, ") (*", method.Output.GoIdent, ", error)")
+		}
+	}
+
+	g.P("\t")
+	g.P("\t// WithGroup returns a new client instance with a different group context")
+	g.P("\tWithGroup(group string) ", clientInterfaceName)
 	g.P("}")
 	g.P()
 
@@ -165,15 +199,60 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 	g.P("}")
 	g.P()
 
+	// Generate WithGroup method for context switching
+	g.P("// WithGroup returns a new client instance configured with a different group context.")
+	g.P("// This enables convenient group context switching without reconstructing the entire client.")
+	g.P("// All other configuration (URL, port, timeout, tracer, API key, etc.) is preserved.")
+	g.P("//")
+	g.P("// The group parameter must be in the format 'groups/{group_id}' where group_id is a valid")
+	g.P("// group identifier (typically a ULID). The new client instance shares no state with the")
+	g.P("// original client, allowing safe concurrent usage across different goroutines.")
+	g.P("//")
+	g.P("// Example:")
+	g.P("//")
+	g.P("//\t// Create initial client with default group from credentials")
+	g.P("//\tservice, err := New", svc.GoName, "()")
+	g.P("//\tif err != nil {")
+	g.P("//\t\tlog.Fatal(err)")
+	g.P("//\t}")
+	g.P("//\tdefer service.Close()")
+	g.P("//")
+	g.P("//\t// Switch to a different group context")
+	g.P("//\taltService := service.WithGroup(\"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV\")")
+	g.P("//\tdefer altService.Close()")
+	g.P("//")
+	g.P("//\t// Both clients can be used independently")
+	g.P("//\tresp1, _ := service.SomeMethod(ctx, req)      // Uses original group")
+	g.P("//\tresp2, _ := altService.SomeMethod(ctx, req)   // Uses alternative group")
+	g.P("//")
+	g.P("// Parameters:")
+	g.P("//   - group: The group resource name in format 'groups/{group_id}'")
+	g.P("//")
+	g.P("// Returns:")
+	g.P("//   - ", clientInterfaceName, ": New client instance with updated group context")
+	g.P("func (s *", clientStructName, ") WithGroup(group string) ", clientInterfaceName, " {")
+	g.P("\t// Create new base client with copied configuration but new group")
+	g.P("\tnewBase := s.BaseGRPCClient.WithGroup(group)")
+	g.P("\t")
+	g.P("\t// Return new service instance wrapping the new base client")
+	g.P("\treturn &", clientStructName, "{BaseGRPCClient: newBase}")
+	g.P("}")
+	g.P()
+
 	// Generate ultra-clean method implementations with validation handled in base Execute function
 	for i, method := range svc.Methods {
-		g.P("// ", method.GoName, " executes the ", method.GoName, " RPC method with automatic")
-		g.P("// client-side validation, timeout handling, distributed tracing, and authentication.")
-		g.P("func (s *", clientStructName, ") ", method.GoName, "(ctx ", generate.ContextPkg.Ident("Context"), ", request *", method.Input.GoIdent, ") (*", method.Output.GoIdent, ", error) {")
-		g.P("\treturn ", generate.GRPCClientPkg.Ident("Execute"), "(s.Executor(), ctx, \"", method.GoName, "\", request, func(ctx ", generate.ContextPkg.Ident("Context"), ") (*", method.Output.GoIdent, ", error) {")
-		g.P("\t\treturn s.GrpcClient().", method.GoName, "(ctx, request)")
-		g.P("\t})")
-		g.P("}")
+		if isServerSideStreaming(method) {
+			generateStreamingMethod(g, method, clientStructName, svc.GoName)
+		} else {
+			// Unary method (existing logic)
+			g.P("// ", method.GoName, " executes the ", method.GoName, " RPC method with automatic")
+			g.P("// client-side validation, timeout handling, distributed tracing, and authentication.")
+			g.P("func (s *", clientStructName, ") ", method.GoName, "(ctx ", generate.ContextPkg.Ident("Context"), ", request *", method.Input.GoIdent, ") (*", method.Output.GoIdent, ", error) {")
+			g.P("\treturn ", generate.GRPCClientPkg.Ident("Execute"), "(s.Executor(), ctx, \"", method.GoName, "\", request, func(ctx ", generate.ContextPkg.Ident("Context"), ") (*", method.Output.GoIdent, ", error) {")
+			g.P("\t\treturn s.GrpcClient().", method.GoName, "(ctx, request)")
+			g.P("\t})")
+			g.P("}")
+		}
 
 		if i != len(svc.Methods)-1 {
 			g.P()
@@ -181,4 +260,38 @@ func generateClientFile(p *protogen.Plugin, f *protogen.File, svc *protogen.Serv
 	}
 
 	return nil
+}
+
+// generateStreamingMethod generates a server-side streaming method wrapper
+func generateStreamingMethod(g *protogen.GeneratedFile, method *protogen.Method, clientStructName string, serviceName string) {
+	// Generate streaming method documentation
+	g.P("// ", method.GoName, " executes the ", method.GoName, " server-side streaming RPC method")
+	g.P("// with automatic client-side validation, timeout handling, distributed tracing, and authentication.")
+	g.P("// Returns a stream client that yields multiple ", method.Output.GoIdent, " messages.")
+	g.P("//")
+	g.P("// The returned stream must be fully consumed or explicitly closed to avoid resource leaks.")
+	g.P("// Example usage:")
+	g.P("//")
+	g.P("//\tstream, err := client.", method.GoName, "(ctx, request)")
+	g.P("//\tif err != nil {")
+	g.P("//\t\treturn err")
+	g.P("//\t}")
+	g.P("//\tfor {")
+	g.P("//\t\tresp, err := stream.Recv()")
+	g.P("//\t\tif err == io.EOF {")
+	g.P("//\t\t\tbreak")
+	g.P("//\t\t}")
+	g.P("//\t\tif err != nil {")
+	g.P("//\t\t\treturn err")
+	g.P("//\t\t}")
+	g.P("//\t\t// Process resp...")
+	g.P("//\t}")
+
+	// Generate method signature - return the gRPC streaming client directly
+	streamClientType := serviceName + "_" + method.GoName + "Client"
+	g.P("func (s *", clientStructName, ") ", method.GoName, "(ctx ", generate.ContextPkg.Ident("Context"), ", request *", method.Input.GoIdent, ") (", streamClientType, ", error) {")
+	g.P("\treturn ", generate.GRPCClientPkg.Ident("ExecuteStream"), "(s.Executor(), ctx, \"", method.GoName, "\", request, func(ctx ", generate.ContextPkg.Ident("Context"), ") (", streamClientType, ", error) {")
+	g.P("\t\treturn s.GrpcClient().", method.GoName, "(ctx, request)")
+	g.P("\t})")
+	g.P("}")
 }

@@ -267,7 +267,6 @@ Validate your development environment before testing:
 - **Unit Tests**: Maven surefire plugin execution
 - **Integration Tests**: Maven failsafe plugin execution
 - **Coverage**: JaCoCo coverage analysis and reporting
-- **Security**: SpotBugs static analysis
 - **Dependencies**: Dependency vulnerability scanning
 
 #### Go Tests (`./dev/test/go.sh`)

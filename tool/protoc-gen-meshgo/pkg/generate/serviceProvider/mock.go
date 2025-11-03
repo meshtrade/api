@@ -39,8 +39,13 @@ func Mock(p *protogen.Plugin, f *protogen.File, svc *protogen.Service) error {
 
 	// add fields in the mock
 	for _, method := range svc.Methods {
-		// add mock function pointer
-		g.P(method.GoName, "Func func(t *", generate.TestingPkg.Ident("T"), ", m *", mockServiceProviderName, ", ctx ", generate.ContextPkg.Ident("Context"), ", request *", method.Input.GoIdent, ") (*", method.Output.GoIdent, ", error)")
+		// add mock function pointer - different signature for streaming
+		if isServerSideStreaming(method) {
+			streamInterfaceName := svc.GoName + "_" + method.GoName + "Stream"
+			g.P(method.GoName, "Func func(t *", generate.TestingPkg.Ident("T"), ", m *", mockServiceProviderName, ", ctx ", generate.ContextPkg.Ident("Context"), ", request *", method.Input.GoIdent, ", stream ", streamInterfaceName, ") error")
+		} else {
+			g.P(method.GoName, "Func func(t *", generate.TestingPkg.Ident("T"), ", m *", mockServiceProviderName, ", ctx ", generate.ContextPkg.Ident("Context"), ", request *", method.Input.GoIdent, ") (*", method.Output.GoIdent, ", error)")
+		}
 
 		// add mock function invocations
 		g.P(method.GoName, "FuncInvocations int")
@@ -53,14 +58,30 @@ func Mock(p *protogen.Plugin, f *protogen.File, svc *protogen.Service) error {
 
 	// write the mock svc provider receivers
 	for i, method := range svc.Methods {
-		g.P("func (m *", mockServiceProviderName, ") ", method.GoName, "(ctx ", generate.ContextPkg.Ident("Context"), ", request *", method.Input.GoIdent, ") (*", method.Output.GoIdent, ", error) {")
+		// Different signature for streaming vs unary
+		if isServerSideStreaming(method) {
+			streamInterfaceName := svc.GoName + "_" + method.GoName + "Stream"
+			g.P("func (m *", mockServiceProviderName, ") ", method.GoName, "(ctx ", generate.ContextPkg.Ident("Context"), ", request *", method.Input.GoIdent, ", stream ", streamInterfaceName, ") error {")
+		} else {
+			g.P("func (m *", mockServiceProviderName, ") ", method.GoName, "(ctx ", generate.ContextPkg.Ident("Context"), ", request *", method.Input.GoIdent, ") (*", method.Output.GoIdent, ", error) {")
+		}
 		g.P("m.mutex.Lock()")
 		g.P("m.", method.GoName, "FuncInvocations++")
 		g.P("m.mutex.Unlock()")
 		g.P("if m.", method.GoName, "Func == nil {")
-		g.P("return nil, nil")
+		// Return appropriate zero values based on method type
+		if isServerSideStreaming(method) {
+			g.P("return nil") // streaming methods return just error
+		} else {
+			g.P("return nil, nil") // unary methods return (response, error)
+		}
 		g.P("}")
-		g.P("return m.", method.GoName, "Func(m.T, m, ctx, request)")
+		// Pass stream parameter only for streaming methods
+		if isServerSideStreaming(method) {
+			g.P("return m.", method.GoName, "Func(m.T, m, ctx, request, stream)")
+		} else {
+			g.P("return m.", method.GoName, "Func(m.T, m, ctx, request)")
+		}
 		g.P("}")
 
 		if i != len(svc.Methods)-1 {

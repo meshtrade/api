@@ -49,7 +49,11 @@ type BaseGRPCClient[T any] struct {
 	validator protovalidate.Validator
 
 	// Interceptors
-	unaryClientInterceptors []grpc.UnaryClientInterceptor
+	unaryClientInterceptors  []grpc.UnaryClientInterceptor
+	streamClientInterceptors []grpc.StreamClientInterceptor
+
+	// Client factory for creating new instances
+	clientFactory func(grpc.ClientConnInterface) T
 }
 
 // NewBaseGRPCClient creates a new generic gRPC client with all common functionality.
@@ -108,6 +112,7 @@ func NewBaseGRPCClient[T any](
 		apiKey:              cfg.ApiKey,
 		group:               cfg.Group,
 		validator:           validator,
+		clientFactory:       clientFactory,
 	}
 
 	// Validate authentication credentials
@@ -115,9 +120,14 @@ func NewBaseGRPCClient[T any](
 		return nil, err
 	}
 
-	// Prepare authentication interceptor
+	// Prepare authentication interceptors
 	client.unaryClientInterceptors = []grpc.UnaryClientInterceptor{
 		client.authInterceptor(),
+	}
+
+	// Prepare streaming authentication interceptor
+	client.streamClientInterceptors = []grpc.StreamClientInterceptor{
+		client.streamAuthInterceptor(),
 	}
 
 	// Prepare dial options
@@ -131,6 +141,7 @@ func NewBaseGRPCClient[T any](
 	}
 
 	dialOpts = append(dialOpts, grpc.WithChainUnaryInterceptor(client.unaryClientInterceptors...))
+	dialOpts = append(dialOpts, grpc.WithChainStreamInterceptor(client.streamClientInterceptors...))
 
 	// Construct gRPC client connection
 	conn, err := grpc.NewClient(
@@ -212,6 +223,58 @@ func Execute[T any, R any](
 
 	// Execute with connection resilience
 	return executeWithRetry(executor, ctx, grpcCall)
+}
+
+// ExecuteStream provides a fully type-safe streaming method execution pattern that handles
+// all common functionality including request validation, connection health checking,
+// and authentication for server-side streaming methods.
+//
+// IMPORTANT: Unlike Execute (for unary methods), ExecuteStream does NOT apply automatic
+// timeout or manage the context lifecycle. Tracing spans are NOT created by ExecuteStream.
+// The caller is responsible for:
+//   - Providing an appropriate context (with timeout if needed)
+//   - Consuming or closing the stream
+//   - Adding tracing if needed at the application level
+//
+// Type parameters:
+//   - T: The gRPC client type
+//   - R: The return type (the streaming client interface)
+//
+// Parameters:
+//   - executor: The executor instance containing the client
+//   - ctx: Context for the request (can include custom timeout, tracing, etc.)
+//   - methodName: Name of the method being called (used for tracing)
+//   - request: The request message to validate using protovalidate
+//   - streamCall: Function that executes the actual gRPC streaming call
+//
+// Returns:
+//   - R: The streaming client interface with full type safety
+//   - error: Any error that occurred during validation or the request
+func ExecuteStream[T any, R any](
+	executor *Executor[T],
+	ctx context.Context,
+	methodName string,
+	request proto.Message,
+	streamCall func(context.Context) (R, error),
+) (R, error) {
+	// Validate request using protovalidate before any processing
+	if err := executor.client.validator.Validate(request); err != nil {
+		var zero R
+		return zero, fmt.Errorf("request validation failed: %w", err)
+	}
+
+	// NOTE: Unlike Execute (for unary methods), ExecuteStream does NOT apply automatic
+	// timeout or manage the context lifecycle. The caller is responsible for providing
+	// an appropriate context (with timeout if needed) and for consuming/closing the stream.
+
+	// Check connection health before initiating stream
+	if err := executor.client.ensureConnectionHealth(ctx); err != nil {
+		var zero R
+		return zero, fmt.Errorf("connection health check failed: %w", err)
+	}
+
+	// Execute the streaming call (authentication handled by stream interceptor)
+	return streamCall(ctx)
 }
 
 // executeWithRetry implements connection health checking and conservative retry logic.
@@ -403,6 +466,53 @@ func (b *BaseGRPCClient[T]) Group() string {
 	return b.group
 }
 
+// WithGroup creates a new BaseGRPCClient instance with a different group context.
+// This method copies all configuration from the current client but updates the group.
+// The new client has an independent connection and can be used safely across goroutines.
+//
+// The group parameter is validated to ensure it's not empty. The format should be
+// 'groups/{group_id}' where group_id is a valid group identifier.
+//
+// Parameters:
+//   - group: The new group resource name to use for API requests
+//
+// Returns:
+//   - *BaseGRPCClient[T]: A new client instance with the updated group context
+//
+// Note: The caller is responsible for calling Close() on the returned client
+// when it is no longer needed to prevent resource leaks.
+func (b *BaseGRPCClient[T]) WithGroup(group string) *BaseGRPCClient[T] {
+	// Validate group parameter
+	if group == "" {
+		panic("group parameter cannot be empty")
+	}
+
+	// Create configuration options matching current client
+	opts := []config.ServiceOption{
+		config.WithURL(b.url),
+		config.WithPort(b.port),
+		config.WithTLS(b.tls),
+		config.WithTracer(b.tracer),
+		config.WithTimeout(b.timeout),
+		config.WithAPIKey(b.apiKey),
+		config.WithGroup(group), // Only this differs
+	}
+
+	// Create new base client with updated group
+	newClient, err := NewBaseGRPCClient(
+		b.serviceProviderName,
+		b.clientFactory, // Use stored factory
+		opts...,
+	)
+	if err != nil {
+		// Since we're copying from a valid client, errors indicate programming bugs
+		// or resource exhaustion. Panic is appropriate here.
+		panic(fmt.Sprintf("failed to create new client with group %s: %v", group, err))
+	}
+
+	return newClient
+}
+
 // GrpcClient returns the underlying gRPC client for making service-specific calls.
 // This provides access to the typed gRPC client methods.
 func (b *BaseGRPCClient[T]) GrpcClient() T {
@@ -439,5 +549,20 @@ func (b *BaseGRPCClient[T]) authInterceptor() grpc.UnaryClientInterceptor {
 			b.group,
 		)
 		return invoker(ctx, method, req, reply, cc, opts...)
+	}
+}
+
+// streamAuthInterceptor creates and returns the gRPC streaming interceptor for authentication.
+// This interceptor automatically adds authentication and group ID headers to all outgoing streaming requests.
+func (b *BaseGRPCClient[T]) streamAuthInterceptor() grpc.StreamClientInterceptor {
+	return func(ctx context.Context, desc *grpc.StreamDesc, cc *grpc.ClientConn, method string, streamer grpc.Streamer, opts ...grpc.CallOption) (grpc.ClientStream, error) {
+		ctx = metadata.AppendToOutgoingContext(
+			ctx,
+			auth.APIKeyHeader,
+			b.apiKey,
+			auth.GroupHeaderKey,
+			b.group,
+		)
+		return streamer(ctx, desc, cc, method, opts...)
 	}
 }

@@ -25,7 +25,7 @@ func TestUser_Validation(t *testing.T) {
 				Name:    "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				Owner:   "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				Email:   "test@example.com",
-				Roles:   []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567"},
+				Roles:   []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567"},
 			},
 			wantValid: true,
 		},
@@ -143,18 +143,18 @@ func TestUser_Validation(t *testing.T) {
 			wantValid: true,
 		},
 		{
-			name: "invalid owners item - wrong format",
+			name: "invalid owner - wrong format",
 			user: &User{
-				Owner: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Owner: "group/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Missing 's' in 'groups'
 				Email: "test@example.com",
 			},
 			wantValid: false,
 			wantError: "pattern",
 		},
 		{
-			name: "invalid owners item - wrong length",
+			name: "invalid owner - wrong length",
 			user: &User{
-				Owner: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Owner: "groups/01ARZ3NDEKTSV4RRFFQ69G5FA", // 32 chars instead of 33
 				Email: "test@example.com",
 			},
 			wantValid: false,
@@ -194,8 +194,8 @@ func TestUser_Validation(t *testing.T) {
 				Owner: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				Email: "test@example.com",
 				Roles: []string{
-					"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567",
-					"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1987654",
+					"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567",
+					"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1987654",
 				},
 			},
 			wantValid: true,
@@ -225,7 +225,7 @@ func TestUser_Validation(t *testing.T) {
 			user: &User{
 				Owner: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				Email: "test@example.com",
-				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FIL/1234567"}, // Contains 'I' and 'L'
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FIL/roles/1234567"}, // Contains 'I' and 'L'
 			},
 			wantValid: false,
 			wantError: "pattern",
@@ -235,7 +235,7 @@ func TestUser_Validation(t *testing.T) {
 			user: &User{
 				Owner: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				Email: "test@example.com",
-				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/123456A"}, // Non-numeric role
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/123456A"}, // Non-numeric role
 			},
 			wantValid: false,
 			wantError: "pattern",
@@ -245,7 +245,7 @@ func TestUser_Validation(t *testing.T) {
 			user: &User{
 				Owner: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				Email: "test@example.com",
-				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FA/1234567"}, // Group part too short
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FA/roles/1234567"}, // Group part too short
 			},
 			wantValid: false,
 			wantError: "length",
@@ -255,10 +255,10 @@ func TestUser_Validation(t *testing.T) {
 			user: &User{
 				Owner: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				Email: "test@example.com",
-				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAVX/1234567"}, // Too long overall
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAVX/roles/1234567"}, // Too long overall
 			},
 			wantValid: false,
-			wantError: "length",
+			wantError: "pattern",
 		},
 	}
 

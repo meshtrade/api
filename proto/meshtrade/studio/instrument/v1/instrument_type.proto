@@ -1,0 +1,124 @@
+syntax = "proto3";
+
+package meshtrade.studio.instrument.v1;
+
+option go_package = "github.com/meshtrade/api/go/studio/instrument/v1;instrument_v1";
+option java_package = "co.meshtrade.api.studio.instrument.v1";
+
+/*
+  The type of an instrument structured in Mesh Studio. This enum categorizes
+  various financial instruments and assets available on the platform, providing
+  a standardized way to identify them.
+*/
+enum InstrumentType {
+  // The instrument type is not specified. This is the default value and
+  // should be treated as an error or an uninitialized state.
+  INSTRUMENT_TYPE_UNSPECIFIED = 0;
+
+  // A catch-all for any instrument type not explicitly listed in this enum.
+  // Use this for miscellaneous or newly introduced asset types.
+  INSTRUMENT_TYPE_OTHER = 1;
+
+  // Common equity in a corporation, also known as ordinary shares.
+  // Holders have ownership rights, including voting rights, and are entitled
+  // to a portion of profits through dividends and capital gains.
+  INSTRUMENT_TYPE_SHARE = 2;
+
+  // A class of share ownership with a higher claim on assets and earnings
+  // than common shares. Preference shares generally have a fixed dividend that
+  // must be paid out before dividends to common shareholders.
+  INSTRUMENT_TYPE_PREFERENCE_SHARE = 3;
+
+  // A fixed-income instrument representing a loan made by an investor to a
+  // borrower (typically corporate or governmental). The borrower pays interest
+  // (coupon) and repays the principal amount at a later date (maturity).
+  INSTRUMENT_TYPE_BOND = 4;
+
+  // Exchange-Traded Fund. A type of pooled investment security that operates
+  // much like a mutual fund but trades like a stock on an exchange. ETFs
+  // hold assets such as stocks, commodities, or bonds and are typically
+  // designed to track an underlying index.
+  INSTRUMENT_TYPE_ETF = 5;
+
+  // Exchange-Traded Note. A type of senior, unsecured debt security that
+  // tracks an underlying index of securities. ETNs do not own the underlying
+  // assets and are subject to the credit risk of the issuing institution.
+  INSTRUMENT_TYPE_ETN = 6;
+
+  // Actively Managed Certificate. A structured product linked to an
+  // underlying portfolio or strategy. Unlike a typical index-tracking ETF,
+  // its portfolio is actively managed by an investment advisor.
+  INSTRUMENT_TYPE_AMC = 7;
+
+  // An open-ended investment vehicle where funds from multiple investors are
+  // pooled to invest in a diversified portfolio of securities. Common in
+  // collective investment schemes.
+  INSTRUMENT_TYPE_UNIT_TRUST = 8;
+
+  // A digital or virtual currency secured by cryptography.
+  // Examples include Bitcoin (BTC) and Ethereum (ETH).
+  INSTRUMENT_TYPE_CRYPTO_CURRENCY = 9;
+
+  // Government-issued currency that is not backed by a physical commodity
+  // but by the government that issued it. Examples include the US Dollar
+  // (USD) and the Euro (EUR).
+  INSTRUMENT_TYPE_FIAT_CURRENCY = 10;
+
+  // Rights to the financial value of a linked underlying.
+  INSTRUMENT_TYPE_RIGHTS = 11;
+
+  // Gold as a commodity. Can be invested in via physical bullion, futures,
+  // or other financial products tracking its price.
+  INSTRUMENT_TYPE_GOLD = 12;
+
+  // Silver as a commodity.
+  INSTRUMENT_TYPE_SILVER = 13;
+
+  // Platinum as a commodity.
+  INSTRUMENT_TYPE_PLATINUM = 14;
+
+  // Palladium as a commodity.
+  INSTRUMENT_TYPE_PALLADIUM = 15;
+
+  // Crude oil, a key global energy commodity.
+  INSTRUMENT_TYPE_CRUDE_OIL = 16;
+
+  // Natural gas, a major energy commodity.
+  INSTRUMENT_TYPE_NATURAL_GAS = 17;
+
+  // Copper, an important industrial metal.
+  INSTRUMENT_TYPE_COPPER = 18;
+
+  // Corn, a major agricultural commodity.
+  INSTRUMENT_TYPE_CORN = 19;
+
+  // Wheat, a staple agricultural commodity.
+  INSTRUMENT_TYPE_WHEAT = 20;
+
+  // Soybeans, a key agricultural commodity used for food and animal feed.
+  INSTRUMENT_TYPE_SOYBEANS = 21;
+
+  // A type of cryptocurrency designed to maintain a stable value by being
+  // pegged to a reference asset, such as a fiat currency (e.g., USD).
+  INSTRUMENT_TYPE_FIAT_STABLECOIN = 22;
+
+  // A mutual fund investing in highly liquid, short-term debt securities,
+  // cash, and cash equivalents.
+  INSTRUMENT_TYPE_MONEY_MARKET_FUND = 23;
+
+  // A stablecoin collateralized by shares in a money market fund,
+  // representing a claim on the fund's underlying assets.
+  INSTRUMENT_TYPE_MONEY_MARKET_FUND_STABLECOIN = 24;
+
+  // A tax-efficient investment vehicle, structured as a life insurance policy,
+  // that combines investment components with a nominal life insurance benefit.
+  INSTRUMENT_TYPE_ENDOWMENT_WRAPPER = 25;
+
+  // A collective investment scheme that pools capital from multiple investors
+  // to purchase a diversified portfolio of securities.
+  INSTRUMENT_TYPE_FUND = 26;
+
+  // A stablecoin collateralized by a portfolio of assets held within a fund,
+  // representing a claim on those assets.
+  INSTRUMENT_TYPE_FUND_STABLECOIN = 27;
+}

@@ -22,7 +22,6 @@ const (
 	AccountService_CreateAccount_FullMethodName      = "/meshtrade.wallet.account.v1.AccountService/CreateAccount"
 	AccountService_UpdateAccount_FullMethodName      = "/meshtrade.wallet.account.v1.AccountService/UpdateAccount"
 	AccountService_OpenAccount_FullMethodName        = "/meshtrade.wallet.account.v1.AccountService/OpenAccount"
-	AccountService_CloseAccount_FullMethodName       = "/meshtrade.wallet.account.v1.AccountService/CloseAccount"
 	AccountService_GetAccount_FullMethodName         = "/meshtrade.wallet.account.v1.AccountService/GetAccount"
 	AccountService_GetAccountByNumber_FullMethodName = "/meshtrade.wallet.account.v1.AccountService/GetAccountByNumber"
 	AccountService_ListAccounts_FullMethodName       = "/meshtrade.wallet.account.v1.AccountService/ListAccounts"
@@ -62,12 +61,6 @@ type AccountServiceClient interface {
 	// and execute transactions. Returns the opened account and a transaction
 	// reference for monitoring the blockchain operation.
 	OpenAccount(ctx context.Context, in *OpenAccountRequest, opts ...grpc.CallOption) (*OpenAccountResponse, error)
-	// Closes an account on the blockchain ledger.
-	//
-	// Deactivates the account on-chain, preventing further transactions.
-	// The account record remains queryable for historical purposes.
-	// Returns the closed account and a transaction reference.
-	CloseAccount(ctx context.Context, in *CloseAccountRequest, opts ...grpc.CallOption) (*CloseAccountResponse, error)
 	// Retrieves a specific account by its resource identifier.
 	//
 	// Provides access to account metadata and optionally fetches live
@@ -122,16 +115,6 @@ func (c *accountServiceClient) OpenAccount(ctx context.Context, in *OpenAccountR
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(OpenAccountResponse)
 	err := c.cc.Invoke(ctx, AccountService_OpenAccount_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *accountServiceClient) CloseAccount(ctx context.Context, in *CloseAccountRequest, opts ...grpc.CallOption) (*CloseAccountResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CloseAccountResponse)
-	err := c.cc.Invoke(ctx, AccountService_CloseAccount_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -211,12 +194,6 @@ type AccountServiceServer interface {
 	// and execute transactions. Returns the opened account and a transaction
 	// reference for monitoring the blockchain operation.
 	OpenAccount(context.Context, *OpenAccountRequest) (*OpenAccountResponse, error)
-	// Closes an account on the blockchain ledger.
-	//
-	// Deactivates the account on-chain, preventing further transactions.
-	// The account record remains queryable for historical purposes.
-	// Returns the closed account and a transaction reference.
-	CloseAccount(context.Context, *CloseAccountRequest) (*CloseAccountResponse, error)
 	// Retrieves a specific account by its resource identifier.
 	//
 	// Provides access to account metadata and optionally fetches live
@@ -255,9 +232,6 @@ func (UnimplementedAccountServiceServer) UpdateAccount(context.Context, *UpdateA
 }
 func (UnimplementedAccountServiceServer) OpenAccount(context.Context, *OpenAccountRequest) (*OpenAccountResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method OpenAccount not implemented")
-}
-func (UnimplementedAccountServiceServer) CloseAccount(context.Context, *CloseAccountRequest) (*CloseAccountResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CloseAccount not implemented")
 }
 func (UnimplementedAccountServiceServer) GetAccount(context.Context, *GetAccountRequest) (*Account, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAccount not implemented")
@@ -342,24 +316,6 @@ func _AccountService_OpenAccount_Handler(srv interface{}, ctx context.Context, d
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AccountServiceServer).OpenAccount(ctx, req.(*OpenAccountRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _AccountService_CloseAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CloseAccountRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountServiceServer).CloseAccount(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: AccountService_CloseAccount_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServiceServer).CloseAccount(ctx, req.(*CloseAccountRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -454,10 +410,6 @@ var AccountService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "OpenAccount",
 			Handler:    _AccountService_OpenAccount_Handler,
-		},
-		{
-			MethodName: "CloseAccount",
-			Handler:    _AccountService_CloseAccount_Handler,
 		},
 		{
 			MethodName: "GetAccount",

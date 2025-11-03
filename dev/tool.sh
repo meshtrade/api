@@ -30,7 +30,7 @@ COMMANDS:
     build       Build SDK packages
     clean       Clean generated files
     test        Run tests for specified targets
-    all         Run generate + build
+    all         Run clean + generate + build + test
     doctor      Check development environment health
     help        Show this help message
 
@@ -56,10 +56,10 @@ EXAMPLES:
     # Clean all generated files
     $0 clean
 
-    # Generate and build everything
+    # Clean, generate, build, and test everything
     $0 all
 
-    # Clean, generate, and build TypeScript
+    # Clean, generate, build, and test TypeScript only
     $0 all --targets=ts
 
 TARGETS:
@@ -353,24 +353,29 @@ case $COMMAND in
         ;;
         
     all)
-        echo -e "${GREEN}🔄 Running full cycle: clean → generate → build${NC}"
+        echo -e "${GREEN}🔄 Running full cycle: clean → generate → build → test${NC}"
         echo
-        
+
         # Clean
-        echo -e "${YELLOW}Step 1/3: Cleaning...${NC}"
+        echo -e "${YELLOW}Step 1/4: Cleaning...${NC}"
         "$0" clean --targets="$TARGETS"
         echo
-        
+
         # Generate
-        echo -e "${YELLOW}Step 2/3: Generating...${NC}"
+        echo -e "${YELLOW}Step 2/4: Generating...${NC}"
         "$0" generate --targets="$TARGETS"
         echo
-        
+
         # Build
-        echo -e "${YELLOW}Step 3/3: Building...${NC}"
+        echo -e "${YELLOW}Step 3/4: Building...${NC}"
         "$0" build --targets="$TARGETS"
         echo
-        
+
+        # Test
+        echo -e "${YELLOW}Step 4/4: Testing...${NC}"
+        "$0" test --targets="$TARGETS"
+        echo
+
         echo -e "${GREEN}🎉 Full cycle completed successfully!${NC}"
         ;;
         

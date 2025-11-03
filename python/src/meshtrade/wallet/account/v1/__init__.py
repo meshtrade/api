@@ -20,8 +20,6 @@ from .account_pb2 import (
     InstrumentMetaData,
 )
 from .service_pb2 import (
-    CloseAccountRequest,
-    CloseAccountResponse,
     CreateAccountRequest,
     GetAccountByNumberRequest,
     GetAccountRequest,
@@ -40,7 +38,6 @@ from .service_meshpy import (
     AccountServiceGRPCClient,
     AccountServiceGRPCClientInterface,
 )
-from .service_options_meshpy import ClientOptions
 
 # ===================================================================
 # END OF AUTO-GENERATED SECTION
@@ -68,9 +65,6 @@ __all__ = [
     "AccountServiceGRPCClientInterface",
     "AccountState",
     "Balance",
-    "ClientOptions",
-    "CloseAccountRequest",
-    "CloseAccountResponse",
     "CreateAccountRequest",
     "GetAccountByNumberRequest",
     "GetAccountRequest",

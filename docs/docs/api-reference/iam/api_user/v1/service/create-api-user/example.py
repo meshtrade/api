@@ -1,9 +1,10 @@
+from meshtrade.api.iam.role.v1.role import full_resource_name_from_group_name
+from meshtrade.api.iam.role.v1.role_pb2 import Role
 from meshtrade.iam.api_user.v1 import (
     APIUser,
     ApiUserService,
     CreateApiUserRequest,
 )
-from meshtrade.iam.role.v1 import Role, full_resource_name_from_group_name
 
 
 def main():

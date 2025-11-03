@@ -38,13 +38,6 @@ type AccountService interface {
 	// reference for monitoring the blockchain operation.
 	OpenAccount(ctx context.Context, request *OpenAccountRequest) (*OpenAccountResponse, error)
 
-	// Closes an account on the blockchain ledger.
-	//
-	// Deactivates the account on-chain, preventing further transactions.
-	// The account record remains queryable for historical purposes.
-	// Returns the closed account and a transaction reference.
-	CloseAccount(ctx context.Context, request *CloseAccountRequest) (*CloseAccountResponse, error)
-
 	// Retrieves a specific account by its resource identifier.
 	//
 	// Provides access to account metadata and optionally fetches live

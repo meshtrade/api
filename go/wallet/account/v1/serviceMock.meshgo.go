@@ -21,8 +21,6 @@ type MockAccountService struct {
 	UpdateAccountFuncInvocations      int
 	OpenAccountFunc                   func(t *testing.T, m *MockAccountService, ctx context.Context, request *OpenAccountRequest) (*OpenAccountResponse, error)
 	OpenAccountFuncInvocations        int
-	CloseAccountFunc                  func(t *testing.T, m *MockAccountService, ctx context.Context, request *CloseAccountRequest) (*CloseAccountResponse, error)
-	CloseAccountFuncInvocations       int
 	GetAccountFunc                    func(t *testing.T, m *MockAccountService, ctx context.Context, request *GetAccountRequest) (*Account, error)
 	GetAccountFuncInvocations         int
 	GetAccountByNumberFunc            func(t *testing.T, m *MockAccountService, ctx context.Context, request *GetAccountByNumberRequest) (*Account, error)
@@ -61,16 +59,6 @@ func (m *MockAccountService) OpenAccount(ctx context.Context, request *OpenAccou
 		return nil, nil
 	}
 	return m.OpenAccountFunc(m.T, m, ctx, request)
-}
-
-func (m *MockAccountService) CloseAccount(ctx context.Context, request *CloseAccountRequest) (*CloseAccountResponse, error) {
-	m.mutex.Lock()
-	m.CloseAccountFuncInvocations++
-	m.mutex.Unlock()
-	if m.CloseAccountFunc == nil {
-		return nil, nil
-	}
-	return m.CloseAccountFunc(m.T, m, ctx, request)
 }
 
 func (m *MockAccountService) GetAccount(ctx context.Context, request *GetAccountRequest) (*Account, error) {

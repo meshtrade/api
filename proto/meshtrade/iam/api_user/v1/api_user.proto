@@ -16,38 +16,38 @@ option java_package = "co.meshtrade.api.iam.api_user.v1";
 */
 message APIUser {
   /*
-     The unique resource name for the api user.
+     The unique resource name for the API user.
      Format: api_users/{ULIDv2}.
      This field is system-generated and immutable upon creation.
      Any value provided on creation is ignored.
   */
   string name = 1 [(buf.validate.field) = {
     cel: {
-      id: "name.format.optional",
-      message: "name must be empty or in the format api_users/{ULIDv2}",
+      id: "name.format.optional"
+      message: "name must be empty or in the format api_users/{ULIDv2}"
       expression: "size(this) == 0 || this.matches('^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
     }
   }];
 
   /*
-     The resource name of the parent group that owns this api user.
+     The resource name of the parent group that owns this API user.
      This field is required on creation and establishes the direct ownership link.
      Format: groups/{ULIDv2}.
   */
   string owner = 2 [(buf.validate.field) = {
-    required: true,
+    required: true
     string: {
-      len: 33,
+      len: 33
       pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
 
   /*
-     A non-unique, user-provided name for the api key, used for display purposes.
+     A non-unique, user-provided name for the API user, used for display purposes.
      Required on creation.
   */
-  string display_name = 4 [(buf.validate.field) = {
-    required: true,
+  string display_name = 3 [(buf.validate.field) = {
+    required: true
     string: {
       min_len: 1
       max_len: 255
@@ -63,7 +63,7 @@ message APIUser {
      The current state of the API user (active or inactive).
      System set on creation to default value of inactive.
   */
-  meshtrade.iam.api_user.v1.APIUserState state = 5 [(buf.validate.field) = {
+  meshtrade.iam.api_user.v1.APIUserState state = 4 [(buf.validate.field) = {
     enum: {defined_only: true}
     cel: {
       id: "state.valid"
@@ -73,16 +73,17 @@ message APIUser {
   }];
 
   /*
-     Roles is a list of the standard roles assigned to this api user,
+     Roles is a list of the standard roles assigned to this API user,
      prepended by the name of the group in which they have been assigned that role.
-     e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
+     e.g. groups/{ULIDv2}/roles/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
   */
-  repeated string roles = 6 [(buf.validate.field) = {
+  repeated string roles = 5 [(buf.validate.field) = {
     repeated: {
       items: {
         string: {
-          len: 41,
-          pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/[123456][0-9]{6}$"
+          min_len: 47
+          max_len: 48
+          pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/roles/[1-9][0-9]{6,7}$"
         }
       }
     }
@@ -93,7 +94,7 @@ message APIUser {
      This field is only populated on the entity the first time it is returned after creation - it is NOT stored.
      Populated once by system on creation.
   */
-  string api_key = 7;
+  string api_key = 6;
 }
 
 enum APIUserState {
@@ -104,12 +105,12 @@ enum APIUserState {
   API_USER_STATE_UNSPECIFIED = 0;
 
   /*
-     API user is active and associated api keys can be used.
+     API user is active and associated API keys can be used.
   */
   API_USER_STATE_ACTIVE = 1;
 
   /*
-     API user is inactive and associated api keys cannot be used.
+     API user is inactive and associated API keys cannot be used.
   */
   API_USER_STATE_INACTIVE = 2;
 }

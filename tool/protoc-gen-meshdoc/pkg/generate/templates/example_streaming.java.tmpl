@@ -1,0 +1,48 @@
+import co.meshtrade.api.{{.Domain}}.{{.ServiceName}}.{{.Version}}.{{.ServiceTitle}}Service;{{if .HasRequest}}
+import co.meshtrade.api.{{.Domain}}.{{.ServiceName}}.{{.Version}}.Service.{{.RequestType}};{{end}}{{if .ReturnsEntityType}}
+import co.meshtrade.api.{{.Domain}}.{{.ServiceName}}.{{.Version}}.{{.ResponseTypeImport}}.{{.ResponseType}};{{end}}{{if not .ReturnsEntityType}}
+import co.meshtrade.api.{{.Domain}}.{{.ServiceName}}.{{.Version}}.Service.{{.ResponseType}};{{end}}
+
+import java.util.Iterator;
+import java.util.Optional;
+
+public class {{.MethodName}}Example {
+    public static void main(String[] args) {
+        // Default configuration is used and credentials come from MESH_API_CREDENTIALS
+        // environment variable or default discovery methods. Zero config required
+        // unless you want custom configuration.
+        try ({{.ServiceTitle}}Service service = new {{.ServiceTitle}}Service()) {
+            {{if .HasRequest}}// Create request with service-specific parameters
+            {{.RequestType}} request = {{.RequestType}}.newBuilder()
+                // FIXME: Populate service-specific request fields
+                .build();
+
+            // Call the {{.MethodName}} streaming method
+            Iterator<{{.ResponseType}}> stream = service.{{.MethodNameCamelCase}}(request, Optional.empty());
+
+            // Consume stream responses using iterator pattern
+            while (stream.hasNext()) {
+                {{.ResponseType}} {{if .ReturnsEntityType}}{{.ResponseVariable}}{{else}}response{{end}} = stream.next();
+
+                // Process each response as it arrives
+                System.out.println("Received: " + {{if .ReturnsEntityType}}{{.ResponseVariable}}{{else}}response{{end}});
+            }
+
+            System.out.println("Stream completed successfully");{{else}}// Call the {{.MethodName}} streaming method (no request parameters)
+            Iterator<{{.ResponseType}}> stream = service.{{.MethodNameCamelCase}}(Optional.empty());
+
+            // Consume stream responses using iterator pattern
+            while (stream.hasNext()) {
+                {{.ResponseType}} {{if .ReturnsEntityType}}{{.ResponseVariable}}{{else}}response{{end}} = stream.next();
+
+                // Process each response as it arrives
+                System.out.println("Received: " + {{if .ReturnsEntityType}}{{.ResponseVariable}}{{else}}response{{end}});
+            }
+
+            System.out.println("Stream completed successfully");{{end}}
+        } catch (Exception e) {
+            System.err.println("{{.MethodName}} stream failed: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+}

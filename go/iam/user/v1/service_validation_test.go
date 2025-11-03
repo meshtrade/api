@@ -9,219 +9,218 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestAssignRoleToUserRequest_Validation(t *testing.T) {
+func TestAssignRolesToUserRequest_Validation(t *testing.T) {
 	validator, err := protovalidate.New()
 	require.NoError(t, err)
 
 	tests := []struct {
 		name      string
-		request   *AssignRoleToUserRequest
+		request   *AssignRolesToUserRequest
 		wantValid bool
 		wantError string
 	}{
 		{
 			name: "valid request with all fields",
-			request: &AssignRoleToUserRequest{
+			request: &AssignRolesToUserRequest{
 				Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567",
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567"},
 			},
 			wantValid: true,
 		},
 		{
 			name: "valid request with different ULIDv2 values",
-			request: &AssignRoleToUserRequest{
+			request: &AssignRolesToUserRequest{
 				Name: "users/01BX5ZZKBKACTAV9WEVGEMMVRZ",
-				Role: "groups/01BX5ZZKBKACTAV9WEVGEMMVRZ/1987654",
+				Roles: []string{"groups/01BX5ZZKBKACTAV9WEVGEMMVRZ/roles/1987654"},
 			},
 			wantValid: true,
 		},
 		// name field tests (32 characters total, users/{ULIDv2})
 		{
-			name: "empty name - should fail (not explicitly required but has length validation)",
-			request: &AssignRoleToUserRequest{
-				Name: "",
-				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567",
+			name: "empty name - should fail (required field)",
+			request: &AssignRolesToUserRequest{
+				Name:  "",
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567"},
 			},
 			wantValid: false,
-			wantError: "32",
+			wantError: "required",
 		},
 		{
 			name: "invalid name format - wrong prefix",
-			request: &AssignRoleToUserRequest{
+			request: &AssignRolesToUserRequest{
 				Name: "user/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Missing 's', 31 chars
-				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567",
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567"},
 			},
 			wantValid: false,
 			wantError: "32",
 		},
 		{
 			name: "invalid name format - wrong resource type",
-			request: &AssignRoleToUserRequest{
+			request: &AssignRolesToUserRequest{
 				Name: "groups/01ARZ3NDEKTSV4RRFFQ69G5FA", // Wrong resource, 32 chars
-				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567",
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567"},
 			},
 			wantValid: false,
 			wantError: "pattern",
 		},
 		{
 			name: "invalid name format - invalid ULIDv2 characters",
-			request: &AssignRoleToUserRequest{
+			request: &AssignRolesToUserRequest{
 				Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FIL", // Contains 'I' and 'L', 32 chars
-				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567",
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567"},
 			},
 			wantValid: false,
 			wantError: "pattern",
 		},
 		{
 			name: "invalid name format - lowercase ULIDv2",
-			request: &AssignRoleToUserRequest{
+			request: &AssignRolesToUserRequest{
 				Name: "users/01arz3ndektsv4rrffq69g5fav", // Lowercase, 32 chars
-				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567",
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567"},
 			},
 			wantValid: false,
 			wantError: "pattern",
 		},
 		{
 			name: "invalid name length - too short",
-			request: &AssignRoleToUserRequest{
+			request: &AssignRolesToUserRequest{
 				Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FA", // 31 chars instead of 32
-				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567",
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567"},
 			},
 			wantValid: false,
 			wantError: "32",
 		},
 		{
 			name: "invalid name length - too long",
-			request: &AssignRoleToUserRequest{
+			request: &AssignRolesToUserRequest{
 				Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FAVX", // 33 chars instead of 32
-				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567",
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567"},
 			},
 			wantValid: false,
 			wantError: "32",
 		},
 		{
 			name: "invalid name format - forbidden characters",
-			request: &AssignRoleToUserRequest{
+			request: &AssignRolesToUserRequest{
 				Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FAU", // Contains 'U', 32 chars
-				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567",
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567"},
 			},
 			wantValid: false,
 			wantError: "pattern",
 		},
 		{
 			name: "invalid name format - special characters in ULIDv2",
-			request: &AssignRoleToUserRequest{
+			request: &AssignRolesToUserRequest{
 				Name: "users/01ARZ3NDEKTSV4RRFFQ69G5F@V", // Contains @, 32 chars
-				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567",
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567"},
 			},
 			wantValid: false,
 			wantError: "pattern",
 		},
-		// role field tests (required, 41 characters total, groups/{ULIDv2}/1{role_id})
+		// roles field tests (required, 47-48 characters total, groups/{ULIDv2}/roles/{role_id})
 		{
 			name: "empty role - should fail (required)",
-			request: &AssignRoleToUserRequest{
+			request: &AssignRolesToUserRequest{
 				Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				Role: "",
+				Roles: []string{},
 			},
 			wantValid: false,
 			wantError: "required",
 		},
 		{
 			name: "invalid role format - wrong prefix",
-			request: &AssignRoleToUserRequest{
-				Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				Role: "group/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567", // Missing 's', 40 chars
+			request: &AssignRolesToUserRequest{
+				Name:  "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Roles: []string{"group/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567"}, // Missing 's', 40 chars
 			},
 			wantValid: false,
-			wantError: "41",
+			wantError: "pattern",
 		},
 		{
 			name: "invalid role format - wrong resource type",
-			request: &AssignRoleToUserRequest{
-				Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				Role: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567X", // Wrong resource, 41 chars
+			request: &AssignRolesToUserRequest{
+				Name:  "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Roles: []string{"users/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567X"}, // Wrong resource
 			},
 			wantValid: false,
 			wantError: "pattern",
 		},
 		{
 			name: "invalid role format - invalid ULIDv2 characters in group",
-			request: &AssignRoleToUserRequest{
+			request: &AssignRolesToUserRequest{
 				Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FIL/1234567", // Contains 'I' and 'L', 41 chars
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FIL/roles/1234567"}, // Contains 'I' and 'L'
 			},
 			wantValid: false,
 			wantError: "pattern",
 		},
 		{
 			name: "invalid role format - lowercase ULIDv2 in group",
-			request: &AssignRoleToUserRequest{
+			request: &AssignRolesToUserRequest{
 				Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				Role: "groups/01arz3ndektsv4rrffq69g5fav/1234567", // Lowercase, 41 chars
+				Roles: []string{"groups/01arz3ndektsv4rrffq69g5fav/roles/1234567"}, // Lowercase
 			},
 			wantValid: false,
 			wantError: "pattern",
 		},
 		{
-			name: "invalid role format - wrong role ID format (not starting with 1)",
-			request: &AssignRoleToUserRequest{
+			name: "valid role format - role ID starting with 2",
+			request: &AssignRolesToUserRequest{
 				Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/2234567", // Starts with 2, 41 chars
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/2234567"}, // Starts with 2, valid under new pattern [1-9][0-9]{6}
 			},
-			wantValid: false,
-			wantError: "pattern",
+			wantValid: true,
 		},
 		{
 			name: "invalid role format - wrong role ID format (non-numeric)",
-			request: &AssignRoleToUserRequest{
-				Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/123456A", // Non-numeric role, 41 chars
+			request: &AssignRolesToUserRequest{
+				Name:  "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/123456A"}, // Non-numeric role
 			},
 			wantValid: false,
 			wantError: "pattern",
 		},
 		{
 			name: "invalid role format - wrong role ID length",
-			request: &AssignRoleToUserRequest{
+			request: &AssignRolesToUserRequest{
 				Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/123456", // 6 digits instead of 7, 40 chars
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/123456"}, // 6 digits instead of 7, 40 chars
 			},
 			wantValid: false,
-			wantError: "41",
+			wantError: "pattern",
 		},
 		{
 			name: "invalid role length - too short",
-			request: &AssignRoleToUserRequest{
+			request: &AssignRolesToUserRequest{
 				Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FA/1234567", // Group part too short, 40 chars
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FA/roles/1234567"}, // Group part too short, 40 chars
 			},
 			wantValid: false,
-			wantError: "41",
+			wantError: "pattern",
 		},
 		{
 			name: "invalid role length - too long",
-			request: &AssignRoleToUserRequest{
+			request: &AssignRolesToUserRequest{
 				Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAVX/1234567", // Too long overall, 42 chars
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAVX/roles/1234567"}, // Too long overall, 42 chars
 			},
 			wantValid: false,
-			wantError: "41",
+			wantError: "pattern",
 		},
 		{
 			name: "invalid role format - missing slash separator",
-			request: &AssignRoleToUserRequest{
-				Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV1234567", // Missing slash, 40 chars
+			request: &AssignRolesToUserRequest{
+				Name:  "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV1234567"}, // Missing slash, 40 chars
 			},
 			wantValid: false,
-			wantError: "41",
+			wantError: "pattern",
 		},
 		{
 			name: "invalid role format - special characters in group ULIDv2",
-			request: &AssignRoleToUserRequest{
+			request: &AssignRolesToUserRequest{
 				Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5F@V/1234567", // Contains @, 41 chars
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5F@V/roles/1234567"}, // Contains @
 			},
 			wantValid: false,
 			wantError: "pattern",
@@ -244,7 +243,7 @@ func TestAssignRoleToUserRequest_Validation(t *testing.T) {
 	}
 }
 
-func TestAssignRoleToUserRequest_NameFieldValidation(t *testing.T) {
+func TestAssignRolesToUserRequest_NameFieldValidation(t *testing.T) {
 	validator, err := protovalidate.New()
 	require.NoError(t, err)
 
@@ -277,9 +276,9 @@ func TestAssignRoleToUserRequest_NameFieldValidation(t *testing.T) {
 	// Test valid names
 	for i, name := range validNames {
 		t.Run("valid_name_"+string(rune(i+'0')), func(t *testing.T) {
-			request := &AssignRoleToUserRequest{
+			request := &AssignRolesToUserRequest{
 				Name: name,
-				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567",
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567"},
 			}
 
 			err := validator.Validate(request)
@@ -290,9 +289,9 @@ func TestAssignRoleToUserRequest_NameFieldValidation(t *testing.T) {
 	// Test invalid names
 	for i, name := range invalidNames {
 		t.Run("invalid_name_"+string(rune(i+'0')), func(t *testing.T) {
-			request := &AssignRoleToUserRequest{
+			request := &AssignRolesToUserRequest{
 				Name: name,
-				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567",
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567"},
 			}
 
 			err := validator.Validate(request)
@@ -301,50 +300,49 @@ func TestAssignRoleToUserRequest_NameFieldValidation(t *testing.T) {
 	}
 }
 
-func TestAssignRoleToUserRequest_RoleFieldValidation(t *testing.T) {
+func TestAssignRolesToUserRequest_RoleFieldValidation(t *testing.T) {
 	validator, err := protovalidate.New()
 	require.NoError(t, err)
 
-	// Valid role formats (41 characters total, groups/{ULIDv2}/1{6-digit-number})
+	// Valid role formats (47-48 characters total, groups/{ULIDv2}/roles/{role_id})
 	validRoles := []string{
-		"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567",   // Standard example
-		"groups/01BX5ZZKBKACTAV9WEVGEMMVRZ/1987654",   // Another valid ULIDv2
-		"groups/0123456789ABCDEFGHJKMNPQRS/1000000",   // All valid ULIDv2 characters, min role
-		"groups/ZZZZZZZZZZZZZZZZZZZZZZZZZZ/1999999",    // All Z's, max role
-		"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1111111",   // All 1's in role ID
-		"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1098765",   // Mixed digits starting with 1
+		"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567",   // Standard example
+		"groups/01BX5ZZKBKACTAV9WEVGEMMVRZ/roles/1987654",   // Another valid ULIDv2
+		"groups/0123456789ABCDEFGHJKMNPQRS/roles/1000000",   // All valid ULIDv2 characters, min role
+		"groups/ZZZZZZZZZZZZZZZZZZZZZZZZZZ/roles/1999999",    // All Z's, max role
+		"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1111111",   // All 1's in role ID
+		"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1098765",   // Mixed digits starting with 1
 	}
 
 	// Invalid role formats
 	invalidRoles := []string{
-		"",                                              // Empty (required field)
-		"group/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567",     // Wrong prefix (missing 's')
-		"users/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567",     // Wrong resource type
-		"groups/01ARZ3NDEKTSV4RRFFQ69G5FIL/1234567",   // Contains forbidden 'I' and 'L'
-		"groups/01ARZ3NDEKTSV4RRFFQ69G5FAU/1234567",   // Contains forbidden 'U'
-		"groups/01ARZ3NDEKTSV4RRFFQ69G5FAO/1234567",   // Contains forbidden 'O'
-		"groups/01arz3ndektsv4rrffq69g5fav/1234567",   // Lowercase not allowed
-		"groups/01ARZ3NDEKTSV4RRFFQ69G5FA/1234567",    // Group too short (40 chars total)
-		"groups/01ARZ3NDEKTSV4RRFFQ69G5FAVX/1234567",  // Too long overall (42 chars)
-		"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/2234567",   // Role ID starts with 2
-		"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/0234567",   // Role ID starts with 0
-		"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/123456A",   // Non-numeric role ID
-		"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/123456",    // Role ID too short (6 digits)
-		"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/12345678",  // Role ID too long (8 digits)
-		"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV1234567",    // Missing slash separator
-		"groups/01ARZ3NDEKTSV4RRFFQ69G5F@V/1234567",   // Contains @ symbol
-		"groups/01ARZ3NDEKTSV4RRFFQ69G5F V/1234567",   // Contains space
-		"groups/01ARZ3NDEKTSV4RRFFQ69G5F-V/1234567",   // Contains hyphen
-		"/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567",         // Missing groups prefix
-		"01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567",          // Missing groups prefix entirely
+		"",                                                  // Empty (required field)
+		"group/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567",   // Wrong prefix (missing 's')
+		"users/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567",   // Wrong resource type
+		"groups/01ARZ3NDEKTSV4RRFFQ69G5FIL/roles/1234567", // Contains forbidden 'I' and 'L'
+		"groups/01ARZ3NDEKTSV4RRFFQ69G5FAU/roles/1234567", // Contains forbidden 'U'
+		"groups/01ARZ3NDEKTSV4RRFFQ69G5FAO/roles/1234567", // Contains forbidden 'O'
+		"groups/01arz3ndektsv4rrffq69g5fav/roles/1234567", // Lowercase not allowed
+		"groups/01ARZ3NDEKTSV4RRFFQ69G5FA/roles/1234567",  // Group too short
+		"groups/01ARZ3NDEKTSV4RRFFQ69G5FAVX/roles/1234567", // Too long overall
+		"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/0234567", // Role ID starts with 0
+		"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/123456A", // Non-numeric role ID
+		"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/123456",  // Role ID too short (6 digits)
+		"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/123456789", // Role ID too long (9 digits)
+		"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV1234567",        // Missing /roles/ separator
+		"groups/01ARZ3NDEKTSV4RRFFQ69G5F@V/roles/1234567", // Contains @ symbol
+		"groups/01ARZ3NDEKTSV4RRFFQ69G5F V/roles/1234567", // Contains space
+		"groups/01ARZ3NDEKTSV4RRFFQ69G5F-V/roles/1234567", // Contains hyphen
+		"/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567",       // Missing groups prefix
+		"01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567",        // Missing groups prefix entirely
 	}
 
 	// Test valid roles
 	for i, role := range validRoles {
 		t.Run("valid_role_"+string(rune(i+'0')), func(t *testing.T) {
-			request := &AssignRoleToUserRequest{
-				Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				Role: role,
+			request := &AssignRolesToUserRequest{
+				Name:  "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Roles: []string{role},
 			}
 
 			err := validator.Validate(request)
@@ -355,9 +353,9 @@ func TestAssignRoleToUserRequest_RoleFieldValidation(t *testing.T) {
 	// Test invalid roles
 	for i, role := range invalidRoles {
 		t.Run("invalid_role_"+string(rune(i+'0')), func(t *testing.T) {
-			request := &AssignRoleToUserRequest{
-				Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				Role: role,
+			request := &AssignRolesToUserRequest{
+				Name:  "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Roles: []string{role},
 			}
 
 			err := validator.Validate(request)
@@ -366,12 +364,12 @@ func TestAssignRoleToUserRequest_RoleFieldValidation(t *testing.T) {
 	}
 }
 
-func TestAssignRoleToUserRequest_RequiredFields(t *testing.T) {
+func TestAssignRolesToUserRequest_RequiredFields(t *testing.T) {
 	validator, err := protovalidate.New()
 	require.NoError(t, err)
 
 	t.Run("role field is required", func(t *testing.T) {
-		request := &AssignRoleToUserRequest{
+		request := &AssignRolesToUserRequest{
 			Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 			// Missing role field
 		}
@@ -381,19 +379,19 @@ func TestAssignRoleToUserRequest_RequiredFields(t *testing.T) {
 		assert.Contains(t, strings.ToLower(err.Error()), "required", "Error should indicate required field")
 	})
 
-	t.Run("name field has length validation (acts as implicit required)", func(t *testing.T) {
-		request := &AssignRoleToUserRequest{
+	t.Run("name field is required", func(t *testing.T) {
+		request := &AssignRolesToUserRequest{
 			// Missing name field (empty string)
-			Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567",
+			Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567"},
 		}
 
 		err := validator.Validate(request)
-		assert.Error(t, err, "Empty name should fail length validation")
-		assert.Contains(t, err.Error(), "32", "Error should mention length requirement")
+		assert.Error(t, err, "Empty name should fail validation")
+		assert.Contains(t, strings.ToLower(err.Error()), "required", "Error should indicate required field")
 	})
 }
 
-func TestAssignRoleToUserRequest_EdgeCases(t *testing.T) {
+func TestAssignRolesToUserRequest_EdgeCases(t *testing.T) {
 	validator, err := protovalidate.New()
 	require.NoError(t, err)
 
@@ -402,35 +400,35 @@ func TestAssignRoleToUserRequest_EdgeCases(t *testing.T) {
 		name := "users/01ARZ3NDEKTSV4RRFFQ69G5FAV" // This is exactly 32 chars
 		assert.Equal(t, 32, len(name), "Test name should be exactly 32 characters")
 
-		request := &AssignRoleToUserRequest{
+		request := &AssignRolesToUserRequest{
 			Name: name,
-			Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567",
+			Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567"},
 		}
 
 		err := validator.Validate(request)
 		assert.NoError(t, err, "Exactly 32 character name should be valid")
 	})
 
-	t.Run("exactly 41 characters for role", func(t *testing.T) {
-		// Test boundary condition - exactly 41 characters
-		role := "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567" // This is exactly 41 chars
-		assert.Equal(t, 41, len(role), "Test role should be exactly 41 characters")
+	t.Run("exactly 47 characters for role", func(t *testing.T) {
+		// Test boundary condition - exactly 47 characters (7-digit role ID)
+		role := "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567" // This is 47 chars
+		assert.Equal(t, 47, len(role), "Test role should be exactly 47 characters")
 
-		request := &AssignRoleToUserRequest{
-			Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-			Role: role,
+		request := &AssignRolesToUserRequest{
+			Name:  "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+			Roles: []string{role},
 		}
 
 		err := validator.Validate(request)
-		assert.NoError(t, err, "Exactly 41 character role should be valid")
+		assert.NoError(t, err, "Exactly 47 character role should be valid")
 	})
 
 	t.Run("all valid ULIDv2 characters in name", func(t *testing.T) {
 		// Test with all valid ULIDv2 characters: 0123456789ABCDEFGHJKMNPQRSTVWXYZ
 		name := "users/0123456789ABCDEFGHJKMNPQRS" // Uses most valid chars, 32 chars
-		request := &AssignRoleToUserRequest{
+		request := &AssignRolesToUserRequest{
 			Name: name,
-			Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567",
+			Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567"},
 		}
 
 		err := validator.Validate(request)
@@ -439,10 +437,10 @@ func TestAssignRoleToUserRequest_EdgeCases(t *testing.T) {
 
 	t.Run("all valid ULIDv2 characters in role group part", func(t *testing.T) {
 		// Test with all valid ULIDv2 characters in role group part
-		role := "groups/0123456789ABCDEFGHJKMNPQRS/1234567" // Uses most valid chars, 41 chars
-		request := &AssignRoleToUserRequest{
-			Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-			Role: role,
+		role := "groups/0123456789ABCDEFGHJKMNPQRS/roles/1234567" // Uses most valid chars, 47 chars
+		request := &AssignRolesToUserRequest{
+			Name:  "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+			Roles: []string{role},
 		}
 
 		err := validator.Validate(request)
@@ -451,17 +449,17 @@ func TestAssignRoleToUserRequest_EdgeCases(t *testing.T) {
 
 	t.Run("role ID boundary values", func(t *testing.T) {
 		// Test minimum valid role ID (1000000)
-		request1 := &AssignRoleToUserRequest{
+		request1 := &AssignRolesToUserRequest{
 			Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-			Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1000000",
+			Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1000000"},
 		}
 		err := validator.Validate(request1)
 		assert.NoError(t, err, "Role ID 1000000 should be valid")
 
 		// Test maximum valid role ID (1999999)
-		request2 := &AssignRoleToUserRequest{
+		request2 := &AssignRolesToUserRequest{
 			Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-			Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1999999",
+			Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1999999"},
 		}
 		err = validator.Validate(request2)
 		assert.NoError(t, err, "Role ID 1999999 should be valid")
@@ -1031,7 +1029,7 @@ func TestCreateUserRequest_Validation(t *testing.T) {
 				User: &User{
 					Owner: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 					Email: "admin@example.com",
-					Roles:  []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567", "groups/01BX5ZZKBKACTAV9WEVGEMMVRZ/1987654"},
+					Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567", "groups/01BX5ZZKBKACTAV9WEVGEMMVRZ/roles/1987654"},
 				},
 			},
 			wantValid: true,
@@ -1123,7 +1121,7 @@ func TestUpdateUserRequest_Validation(t *testing.T) {
 					Name:  "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 					Owner: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 					Email: "updated-admin@example.com",
-					Roles:  []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567", "groups/01BX5ZZKBKACTAV9WEVGEMMVRZ/1987654"},
+					Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567", "groups/01BX5ZZKBKACTAV9WEVGEMMVRZ/roles/1987654"},
 				},
 			},
 			wantValid: true,
@@ -1196,6 +1194,136 @@ func TestUpdateUserRequest_Validation(t *testing.T) {
 				assert.Error(t, err, "Expected validation to fail for case: %s", tt.name)
 				if tt.wantError != "" && err != nil {
 					assert.Contains(t, strings.ToLower(err.Error()), tt.wantError, "Error message should contain expected text for case: %s. Got error: %s", tt.name, err.Error())
+				}
+			}
+		})
+	}
+}
+
+func TestRevokeRolesFromUserRequest_Validation(t *testing.T) {
+	validator, err := protovalidate.New()
+	require.NoError(t, err)
+
+	tests := []struct {
+		name      string
+		request   *RevokeRolesFromUserRequest
+		wantValid bool
+		wantError string
+	}{
+		{
+			name: "valid request with all fields",
+			request: &RevokeRolesFromUserRequest{
+				Name:  "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567"},
+			},
+			wantValid: true,
+		},
+		{
+			name: "valid request with multiple roles",
+			request: &RevokeRolesFromUserRequest{
+				Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Roles: []string{
+					"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567",
+					"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/7654321",
+				},
+			},
+			wantValid: true,
+		},
+		{
+			name: "empty name - should fail",
+			request: &RevokeRolesFromUserRequest{
+				Name:  "",
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567"},
+			},
+			wantValid: false,
+			wantError: "required",
+		},
+		{
+			name: "invalid name format - wrong prefix",
+			request: &RevokeRolesFromUserRequest{
+				Name:  "user/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567"},
+			},
+			wantValid: false,
+			wantError: "pattern",
+		},
+		{
+			name: "empty roles - should fail (required)",
+			request: &RevokeRolesFromUserRequest{
+				Name:  "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Roles: []string{},
+			},
+			wantValid: false,
+			wantError: "required",
+		},
+		{
+			name: "invalid role format - wrong prefix",
+			request: &RevokeRolesFromUserRequest{
+				Name:  "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Roles: []string{"group/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567"},
+			},
+			wantValid: false,
+			wantError: "pattern",
+		},
+		{
+			name: "invalid role format - invalid ULIDv2 characters",
+			request: &RevokeRolesFromUserRequest{
+				Name:  "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FIL/roles/1234567"},
+			},
+			wantValid: false,
+			wantError: "pattern",
+		},
+		{
+			name: "invalid role format - non-numeric role ID",
+			request: &RevokeRolesFromUserRequest{
+				Name:  "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/123456A"},
+			},
+			wantValid: false,
+			wantError: "pattern",
+		},
+		{
+			name: "invalid role length - too short",
+			request: &RevokeRolesFromUserRequest{
+				Name:  "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FA/roles/1234567"},
+			},
+			wantValid: false,
+			wantError: "length",
+		},
+		{
+			name: "valid 8-digit role ID",
+			request: &RevokeRolesFromUserRequest{
+				Name:  "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/12345678"},
+			},
+			wantValid: true,
+		},
+		{
+			name: "mixed valid and invalid roles - should fail",
+			request: &RevokeRolesFromUserRequest{
+				Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Roles: []string{
+					"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567",
+					"invalid-role-format",
+				},
+			},
+			wantValid: false,
+			wantError: "pattern",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			err := validator.Validate(tt.request)
+
+			if tt.wantValid {
+				assert.NoError(t, err, "Expected validation to pass for case: %s", tt.name)
+			} else {
+				assert.Error(t, err, "Expected validation to fail for case: %s", tt.name)
+				if tt.wantError != "" {
+					assert.Contains(t, err.Error(), tt.wantError, "Error message should contain expected text for case: %s", tt.name)
 				}
 			}
 		})

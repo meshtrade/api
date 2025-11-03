@@ -91,28 +91,6 @@ func TestAccount_Validation(t *testing.T) {
 			errMsg:  "owner",
 		},
 		{
-			name: "invalid owners array - wrong length",
-			account: &Account{
-				Name:        "",
-				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				Ledger:      type_v1.Ledger_LEDGER_STELLAR,
-				DisplayName: "Test Account",
-			},
-			wantErr: true,
-			errMsg:  "owners",
-		},
-		{
-			name: "invalid owners array - wrong pattern",
-			account: &Account{
-				Name:        "",
-				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				Ledger:      type_v1.Ledger_LEDGER_STELLAR,
-				DisplayName: "Test Account",
-			},
-			wantErr: true,
-			errMsg:  "owners",
-		},
-		{
 			name: "invalid name format - wrong length", 
 			account: &Account{
 				Name:        "accounts/01ARZ3NDEKTSV4RRFFQ69G5FA", // Too short by 1 char

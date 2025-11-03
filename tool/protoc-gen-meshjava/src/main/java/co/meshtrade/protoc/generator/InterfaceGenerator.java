@@ -36,7 +36,7 @@ public class InterfaceGenerator {
             // Collect all required imports
             Set<String> requiredImports = new HashSet<>();
             for (MethodModel method : serviceModel.getMethods()) {
-                if (method.isUnary()) {
+                if (method.isUnary() || method.isServerSideStreaming()) {
                     requiredImports.add(method.getInputTypeQualifiedName());
                     requiredImports.add(method.getOutputTypeQualifiedName());
                 }
@@ -50,13 +50,18 @@ public class InterfaceGenerator {
             
             // Add methods to the interface
             for (MethodModel method : serviceModel.getMethods()) {
-                if (method.isUnary()) {
+                if (method.isServerSideStreaming()) {
+                    interfaceBuilder.addMethod(generateServerStreamingMethod(method));
+                } else if (method.isUnary()) {
                     interfaceBuilder.addMethod(generateUnaryMethod(method));
                 } else {
-                    logger.warn("Skipping streaming method {} - not yet supported", method.getMethodName());
+                    logger.warn("Skipping client/bidirectional streaming method {} - not yet supported", method.getMethodName());
                 }
             }
-            
+
+            // Add withGroup method to the interface (matching Go generator pattern)
+            interfaceBuilder.addMethod(generateWithGroupMethod(serviceModel));
+
             // Add service provider name constant (matching Go generator pattern)
             interfaceBuilder.addField(generateServiceProviderNameConstant(serviceModel));
             
@@ -157,8 +162,43 @@ public class InterfaceGenerator {
     }
     
     /**
+     * Generates a method specification for a server-side streaming gRPC method.
+     *
+     * @param method the method model
+     * @return the method specification
+     */
+    private MethodSpec generateServerStreamingMethod(MethodModel method) {
+        // Create parameter for request
+        ParameterSpec requestParam = ParameterSpec.builder(
+            ClassName.bestGuess(method.getInputTypeName()), "request")
+            .build();
+
+        // Create parameter for optional timeout
+        ParameterSpec timeoutParam = ParameterSpec.builder(
+            ParameterizedTypeName.get(ClassName.get("java.util", "Optional"),
+                                    ClassName.get(Duration.class)), "timeout")
+            .addAnnotation(AnnotationSpec.builder(ClassName.get("jakarta.annotation", "Nullable")).build())
+            .build();
+
+        // Create return type - Iterator<ResponseType>
+        TypeName returnType = ParameterizedTypeName.get(
+            ClassName.get(java.util.Iterator.class),
+            ClassName.bestGuess(method.getOutputTypeName())
+        );
+
+        // Build the method
+        return MethodSpec.methodBuilder(method.getJavaMethodName())
+            .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
+            .addParameter(requestParam)
+            .addParameter(timeoutParam)
+            .returns(returnType)
+            .addJavadoc(generateStreamingMethodJavadoc(method))
+            .build();
+    }
+
+    /**
      * Generates JavaDoc for a service method.
-     * 
+     *
      * @param method the method model
      * @return the JavaDoc code block
      */
@@ -173,13 +213,34 @@ public class InterfaceGenerator {
             .add("@throws IllegalArgumentException if the request is invalid\n")
             .build();
     }
+
+    /**
+     * Generates JavaDoc for a server-side streaming method.
+     *
+     * @param method the method model
+     * @return the JavaDoc code block
+     */
+    private CodeBlock generateStreamingMethodJavadoc(MethodModel method) {
+        return CodeBlock.builder()
+            .add("$L (server-side streaming)\n", method.getDescription())
+            .add("\n")
+            .add("<p>This is a server-side streaming method that returns an iterator of responses.\n")
+            .add("The iterator should be fully consumed or the connection may leak resources.\n")
+            .add("\n")
+            .add("@param request the $L request message\n", method.getInputTypeName())
+            .add("@param timeout optional timeout override for this call (null for default)\n")
+            .add("@return an iterator of $L responses\n", method.getOutputTypeName())
+            .add("@throws io.grpc.StatusRuntimeException if the gRPC call fails\n")
+            .add("@throws IllegalArgumentException if the request is invalid\n")
+            .build();
+    }
     
     /**
      * Generates the service provider name constant field.
-     * 
+     *
      * <p>This constant follows the same pattern as the Go generator:
      * {@code {proto_package_with_dashes}-{ServiceName}}
-     * 
+     *
      * @param serviceModel the service model
      * @return the field specification for the service provider name constant
      */
@@ -188,10 +249,10 @@ public class InterfaceGenerator {
         // e.g., "meshtrade.compliance.client.v1" -> "meshtrade-compliance-client-v1-ClientService"
         String serviceProviderName = serviceModel.getProtoPackage()
             .replace('.', '-') + "-" + serviceModel.getServiceName();
-        
+
         String constantName = serviceModel.getServiceName().toUpperCase() + "_SERVICE_PROVIDER_NAME";
-        
-        return FieldSpec.builder(String.class, constantName, 
+
+        return FieldSpec.builder(String.class, constantName,
                 Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL)
             .initializer("$S", serviceProviderName)
             .addJavadoc(CodeBlock.builder()
@@ -201,6 +262,40 @@ public class InterfaceGenerator {
                 .add("frameworks, service registries, and monitoring systems.\n")
                 .add("\n")
                 .add("<p>Value: {@value}\n")
+                .build())
+            .build();
+    }
+
+    /**
+     * Generates the withGroup method specification for the service interface.
+     *
+     * <p>This method matches the pattern from the Go generator, allowing convenient
+     * group context switching without reconstructing the entire client.
+     *
+     * @param serviceModel the service model
+     * @return the method specification for withGroup
+     */
+    private MethodSpec generateWithGroupMethod(ServiceModel serviceModel) {
+        ClassName interfaceType = ClassName.get(serviceModel.getJavaPackage(),
+                                                serviceModel.getServiceName() + "Interface");
+
+        return MethodSpec.methodBuilder("withGroup")
+            .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
+            .addParameter(String.class, "group")
+            .returns(interfaceType)
+            .addJavadoc(CodeBlock.builder()
+                .add("Creates a new client instance with a different group context.\n")
+                .add("\n")
+                .add("<p>This enables convenient group context switching without reconstructing the entire client.\n")
+                .add("All other configuration (URL, port, timeout, API key, etc.) is preserved.\n")
+                .add("The new client instance shares no state with the original client, allowing safe concurrent\n")
+                .add("usage across different threads.\n")
+                .add("\n")
+                .add("<p>The group parameter must be in the format 'groups/{group_id}' where group_id is a valid\n")
+                .add("group identifier (typically a ULID).\n")
+                .add("\n")
+                .add("@param group the group resource name in format 'groups/{group_id}'\n")
+                .add("@return new client instance with updated group context\n")
                 .build())
             .build();
     }

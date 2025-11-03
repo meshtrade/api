@@ -137,14 +137,14 @@ func TestGetApiUserByKeyHashRequest_Validation(t *testing.T) {
 		{
 			name: "valid request with 44-character key hash",
 			request: &GetApiUserByKeyHashRequest{
-				KeyHash: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijk1234567",
+				KeyHash: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijk123456=",
 			},
 			wantValid: true,
 		},
 		{
 			name: "valid request with different 44-character hash",
 			request: &GetApiUserByKeyHashRequest{
-				KeyHash: "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGH",
+				KeyHash: "0123456789abcdefghijklmnopqrstuvwxyzABCDEFG=",
 			},
 			wantValid: true,
 		},
@@ -174,11 +174,11 @@ func TestGetApiUserByKeyHashRequest_Validation(t *testing.T) {
 			wantError: "44",
 		},
 		{
-			name: "key_hash with special characters - should be valid",
+			name: "key_hash with base64 special characters - should be valid",
 			request: &GetApiUserByKeyHashRequest{
-				KeyHash: "ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+-={}[]", // 44 chars with special characters
+				KeyHash: "ABCDEFGHIJKLMNOPQRSTUVWXYZ+/abc012345678901=", // 44 chars with valid base64 chars
 			},
-			wantValid: true, // No pattern restriction, only length requirement
+			wantValid: true,
 		},
 	}
 
@@ -214,7 +214,7 @@ func TestCreateApiUserRequest_Validation(t *testing.T) {
 				ApiUser: &APIUser{
 					DisplayName: "Test API User",
 					Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-					Roles:       []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567"},
+					Roles:       []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/3000001"},
 					State:       APIUserState_API_USER_STATE_ACTIVE,
 				},
 			},
@@ -540,150 +540,296 @@ func TestNameFieldValidation_Comprehensive(t *testing.T) {
 		})
 	}
 }
-func TestAssignRoleToAPIUserRequest_Validation(t *testing.T) {
+func TestAssignRolesToAPIUserRequest_Validation(t *testing.T) {
 	validator, err := protovalidate.New()
 	require.NoError(t, err)
 
 	tests := []struct {
 		name      string
-		request   *AssignRoleToAPIUserRequest
+		request   *AssignRolesToAPIUserRequest
 		wantValid bool
 		wantError string
 	}{
 		{
 			name: "valid request with correct formats",
-			request: &AssignRoleToAPIUserRequest{
-				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV", // 36 chars - correct format after proto fix
-				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567",
+			request: &AssignRolesToAPIUserRequest{
+				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV", // 36 chars - correct format after proto fix
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567"},
 			},
 			wantValid: true,
 		},
 		{
 			name: "valid request with different ULIDv2 values",
-			request: &AssignRoleToAPIUserRequest{
-				Name: "api_users/01BX5ZZKBKACTAV9WEVGEMMVRZ", // 36 chars - correct format after proto fix
-				Role: "groups/01BX5ZZKBKACTAV9WEVGEMMVRZ/1000001",
+			request: &AssignRolesToAPIUserRequest{
+				Name:  "api_users/01BX5ZZKBKACTAV9WEVGEMMVRZ", // 36 chars - correct format after proto fix
+				Roles: []string{"groups/01BX5ZZKBKACTAV9WEVGEMMVRZ/roles/1000001"},
 			},
 			wantValid: true,
 		},
 		// name field tests
 		{
-			name: "empty name - should fail due to length validation",
-			request: &AssignRoleToAPIUserRequest{
-				Name: "",
-				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567",
+			name: "empty name - should fail (required field)",
+			request: &AssignRolesToAPIUserRequest{
+				Name:  "",
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567"},
 			},
-			wantValid: false, // Empty string fails length validation (expects exactly 36 chars)
-			wantError: "len",
+			wantValid: false,
+			wantError: "required",
 		},
 		{
 			name: "invalid name format - users prefix (wrong resource type)",
-			request: &AssignRoleToAPIUserRequest{
-				Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Should be api_users/ not users/
-				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567",
+			request: &AssignRolesToAPIUserRequest{
+				Name:  "users/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Should be api_users/ not users/
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567"},
 			},
 			wantValid: false,
 			wantError: "pattern",
 		},
 		{
 			name: "invalid name format - wrong length (too short)",
-			request: &AssignRoleToAPIUserRequest{
-				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FA", // 35 chars instead of 36
-				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567",
+			request: &AssignRolesToAPIUserRequest{
+				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FA", // 35 chars instead of 36
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567"},
 			},
 			wantValid: false,
 			wantError: "len",
 		},
 		{
 			name: "invalid name format - wrong length (too long)",
-			request: &AssignRoleToAPIUserRequest{
-				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAVX", // 37 chars instead of 36
-				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567",
+			request: &AssignRolesToAPIUserRequest{
+				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAVX", // 37 chars instead of 36
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567"},
 			},
 			wantValid: false,
 			wantError: "len",
 		},
 		{
 			name: "invalid name format - lowercase chars",
-			request: &AssignRoleToAPIUserRequest{
-				Name: "api_users/01arz3ndektsv4rrffq69g5fav", // Lowercase not allowed in ULIDv2
-				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567",
+			request: &AssignRolesToAPIUserRequest{
+				Name:  "api_users/01arz3ndektsv4rrffq69g5fav", // Lowercase not allowed in ULIDv2
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567"},
 			},
 			wantValid: false,
 			wantError: "pattern",
 		},
-		// role field tests
+		// roles field tests
 		{
-			name: "empty role - should fail (required)",
-			request: &AssignRoleToAPIUserRequest{
-				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Corrected to api_users/
-				Role: "",
+			name: "empty roles - should fail (required)",
+			request: &AssignRolesToAPIUserRequest{
+				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Roles: []string{},
 			},
 			wantValid: false,
 			wantError: "required",
 		},
 		{
-			name: "invalid role format - wrong prefix",
-			request: &AssignRoleToAPIUserRequest{
-				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Corrected to api_users/
-				Role: "group/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567", // Missing 's'
+			name: "invalid role format - wrong prefix (missing /roles/ segment)",
+			request: &AssignRolesToAPIUserRequest{
+				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Roles: []string{"group/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567"}, // Missing 's' in groups
 			},
 			wantValid: false,
 			wantError: "pattern",
 		},
 		{
-			name: "invalid role format - wrong length (too short)",
-			request: &AssignRoleToAPIUserRequest{
-				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Corrected to api_users/
-				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/123456", // Missing one digit in role_id
+			name: "invalid role format - missing /roles/ segment",
+			request: &AssignRolesToAPIUserRequest{
+				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567"}, // Missing /roles/ segment
 			},
 			wantValid: false,
-			wantError: "len",
+			wantError: "min_len",
 		},
 		{
-			name: "invalid role format - wrong length (too long)",
-			request: &AssignRoleToAPIUserRequest{
-				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Corrected to api_users/
-				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/12345678", // One extra digit in role_id
+			name: "invalid role format - role_id too long (8 digits allowed max)",
+			request: &AssignRolesToAPIUserRequest{
+				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/123456789"}, // 9 digits
 			},
 			wantValid: false,
-			wantError: "len",
+			wantError: "max_len",
 		},
 		{
-			name: "invalid role format - role_id doesn't start with 1",
-			request: &AssignRoleToAPIUserRequest{
-				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Corrected to api_users/
-				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/2234567", // Must start with 1
+			name: "valid role format - 7-digit role_id",
+			request: &AssignRolesToAPIUserRequest{
+				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/2234567"}, // Valid [1-9][0-9]{6}
 			},
-			wantValid: false,
-			wantError: "pattern",
+			wantValid: true,
+		},
+		{
+			name: "valid role format - 8-digit role_id",
+			request: &AssignRolesToAPIUserRequest{
+				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/12345678"}, // Valid [1-9][0-9]{7}
+			},
+			wantValid: true,
 		},
 		{
 			name: "invalid role format - role_id contains letters",
-			request: &AssignRoleToAPIUserRequest{
-				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Corrected to api_users/
-				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/123456A", // Must be digits only
+			request: &AssignRolesToAPIUserRequest{
+				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/123456A"}, // Must be digits only
 			},
 			wantValid: false,
 			wantError: "pattern",
 		},
 		{
 			name: "invalid role format - ULIDv2 group part too short",
-			request: &AssignRoleToAPIUserRequest{
-				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Corrected to api_users/
-				Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FA/1234567", // Missing one char in group ULID
+			request: &AssignRolesToAPIUserRequest{
+				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FA/roles/1234567"}, // Missing one char in group ULID
+			},
+			wantValid: false,
+			wantError: "min_len",
+		},
+		{
+			name: "invalid role format - lowercase chars in group ULID",
+			request: &AssignRolesToAPIUserRequest{
+				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Roles: []string{"groups/01arz3ndektsv4rrffq69g5fav/roles/1234567"}, // Lowercase not allowed
+			},
+			wantValid: false,
+			wantError: "pattern",
+		},
+		{
+			name: "valid request - multiple roles",
+			request: &AssignRolesToAPIUserRequest{
+				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Roles: []string{
+					"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567",
+					"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/7654321",
+				},
+			},
+			wantValid: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			err := validator.Validate(tt.request)
+			if tt.wantValid {
+				assert.NoError(t, err, "expected validation to pass but got error")
+			} else {
+				assert.Error(t, err, "expected validation to fail but got no error")
+				if tt.wantError != "" {
+					assert.Contains(t, err.Error(), tt.wantError, "error message should contain expected substring")
+				}
+			}
+		})
+	}
+}
+
+func TestRevokeRolesFromAPIUserRequest_Validation(t *testing.T) {
+	validator, err := protovalidate.New()
+	require.NoError(t, err)
+
+	tests := []struct {
+		name      string
+		request   *RevokeRolesFromAPIUserRequest
+		wantValid bool
+		wantError string
+	}{
+		{
+			name: "valid request with correct formats",
+			request: &RevokeRolesFromAPIUserRequest{
+				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567"},
+			},
+			wantValid: true,
+		},
+		{
+			name: "valid request with multiple roles",
+			request: &RevokeRolesFromAPIUserRequest{
+				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Roles: []string{
+					"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567",
+					"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/7654321",
+				},
+			},
+			wantValid: true,
+		},
+		{
+			name: "valid request with 8-digit role_id",
+			request: &RevokeRolesFromAPIUserRequest{
+				Name:  "api_users/01BX5ZZKBKACTAV9WEVGEMMVRZ",
+				Roles: []string{"groups/01BX5ZZKBKACTAV9WEVGEMMVRZ/roles/12345678"},
+			},
+			wantValid: true,
+		},
+		// name field tests
+		{
+			name: "empty name - should fail (required field)",
+			request: &RevokeRolesFromAPIUserRequest{
+				Name:  "",
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567"},
+			},
+			wantValid: false,
+			wantError: "required",
+		},
+		{
+			name: "invalid name format - wrong length",
+			request: &RevokeRolesFromAPIUserRequest{
+				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FA",
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567"},
 			},
 			wantValid: false,
 			wantError: "len",
 		},
 		{
-			name: "invalid role format - lowercase chars in group ULID",
-			request: &AssignRoleToAPIUserRequest{
-				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Corrected to api_users/
-				Role: "groups/01arz3ndektsv4rrffq69g5fav/1234567", // Lowercase not allowed
+			name: "invalid name format - wrong pattern",
+			request: &RevokeRolesFromAPIUserRequest{
+				Name:  "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567"},
 			},
 			wantValid: false,
 			wantError: "pattern",
+		},
+		// roles field tests
+		{
+			name: "empty roles - should fail (required)",
+			request: &RevokeRolesFromAPIUserRequest{
+				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Roles: []string{},
+			},
+			wantValid: false,
+			wantError: "required",
+		},
+		{
+			name: "invalid role format - missing /roles/ segment",
+			request: &RevokeRolesFromAPIUserRequest{
+				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567"},
+			},
+			wantValid: false,
+			wantError: "min_len",
+		},
+		{
+			name: "invalid role format - wrong prefix",
+			request: &RevokeRolesFromAPIUserRequest{
+				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Roles: []string{"group/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567"},
+			},
+			wantValid: false,
+			wantError: "pattern",
+		},
+		{
+			name: "invalid role format - role_id contains letters",
+			request: &RevokeRolesFromAPIUserRequest{
+				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/123456A"},
+			},
+			wantValid: false,
+			wantError: "pattern",
+		},
+		{
+			name: "invalid role format - role_id too long (9 digits)",
+			request: &RevokeRolesFromAPIUserRequest{
+				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/123456789"},
+			},
+			wantValid: false,
+			wantError: "max_len",
 		},
 	}
 

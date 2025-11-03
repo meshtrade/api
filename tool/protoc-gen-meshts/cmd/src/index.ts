@@ -89,8 +89,10 @@ function generateGrpcWebClientManually(schema: Schema, file: DescFile) {
   }
   
   content += `import { UnaryInterceptor } from "grpc-web";\n`;
+  content += `import * as grpcWeb from "grpc-web";\n`;
   content += `import { ConfigOpts, getConfigFromOpts } from "../../../common/config";\n`;
   content += `import { GroupHeaderInterceptor } from "../../../common/groupHeaderInterceptor";\n`;
+  content += `import { validateRequest } from "../../../common/validation";\n`;
   content += `\n`;
   
   // Generate client class for each service
@@ -222,26 +224,85 @@ function generateServiceClientString(service: DescService, file: DescFile): stri
   return content;
 }
 
+function generateStreamingMethodString(
+  method: DescMethod,
+  methodName: string,
+  requestType: string,
+  responseType: string,
+  resourceName: string
+): string {
+  let content = "";
+
+  // Generate method JSDoc
+  content += "  /**\n";
+  content += `   * ${getMethodDescription(method.name, resourceName)}\n`;
+  content += `   * Server-side streaming method with client-side validation and authentication.\n`;
+  content += `   * @param {${requestType}} request - The request object for ${method.name.toLowerCase()}.\n`;
+  content += `   * @returns {grpcWeb.ClientReadableStream<${responseType}>} A readable stream of ${responseType} messages.\n`;
+  content += `   * @throws {Error} If request validation fails.\n`;
+  content += "   * \n";
+  content += "   * @example\n";
+  content += `   * const stream = client.${methodName}(request);\n`;
+  content += "   * stream.on('data', (response) => {\n";
+  content += "   *   // Process each response\n";
+  content += "   *   console.log(response);\n";
+  content += "   * });\n";
+  content += "   * stream.on('end', () => {\n";
+  content += "   *   console.log('Stream ended');\n";
+  content += "   * });\n";
+  content += "   * stream.on('error', (err) => {\n";
+  content += "   *   console.error('Stream error:', err);\n";
+  content += "   * });\n";
+  content += "   */\n";
+
+  // Generate method signature and implementation with validation
+  content += `  ${methodName}(request: ${requestType}): grpcWeb.ClientReadableStream<${responseType}> {\n`;
+  content += "    // Validate request before initiating stream\n";
+  content += "    validateRequest(request);\n";
+  content += "\n";
+  content += "    // Apply metadata from interceptors manually (grpc-web streaming doesn't support interceptors)\n";
+  content += "    const metadata: { [key: string]: string } = {};\n";
+  content += "    this._interceptors.forEach((interceptor) => {\n";
+  content += "      if (interceptor instanceof GroupHeaderInterceptor) {\n";
+  content += "        // Extract group header from GroupHeaderInterceptor\n";
+  content += "        metadata['x-group'] = (interceptor as any).group;\n";
+  content += "      }\n";
+  content += "    });\n";
+  content += "\n";
+  content += `    return this._service.${methodName}(request, metadata);\n`;
+  content += "  }\n";
+  content += "\n";
+
+  return content;
+}
+
 function generateServiceMethodString(method: DescMethod, service: DescService, resourceName: string): string {
   const methodName = camelCase(method.name);
   const requestType = method.input.name;
   const responseType = method.output.name;
-  
+
+  // Detect server-side streaming
+  const isServerStreaming = method.methodKind === "server_streaming";
+
   let content = "";
-  
+
+  if (isServerStreaming) {
+    return generateStreamingMethodString(method, methodName, requestType, responseType, resourceName);
+  }
+
   // Generate method JSDoc
   content += "  /**\n";
   content += `   * ${getMethodDescription(method.name, resourceName)}\n`;
   content += `   * @param {${requestType}} request - The request object for ${method.name.toLowerCase()}.\n`;
   content += `   * @returns {Promise<${responseType}>} A promise that resolves with the ${getMethodReturnDescription(method.name, resourceName)}.\n`;
   content += "   */\n";
-  
+
   // Generate method signature and implementation
   content += `  ${methodName}(request: ${requestType}): Promise<${responseType}> {\n`;
   content += `    return this._service.${methodName}(request);\n`;
   content += "  }\n";
   content += "\n";
-  
+
   return content;
 }
 

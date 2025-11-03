@@ -28,9 +28,9 @@ const (
 	// Unknown or not specified.
 	// This is a default value to prevent accidental assignment and should not be used.
 	APIUserState_API_USER_STATE_UNSPECIFIED APIUserState = 0
-	// API user is active and associated api keys can be used.
+	// API user is active and associated API keys can be used.
 	APIUserState_API_USER_STATE_ACTIVE APIUserState = 1
-	// API user is inactive and associated api keys cannot be used.
+	// API user is inactive and associated API keys cannot be used.
 	APIUserState_API_USER_STATE_INACTIVE APIUserState = 2
 )
 
@@ -143,29 +143,29 @@ func (APIUserAction) EnumDescriptor() ([]byte, []int) {
 // defined roles that determine their permissions within that group.
 type APIUser struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// The unique resource name for the api user.
+	// The unique resource name for the API user.
 	// Format: api_users/{ULIDv2}.
 	// This field is system-generated and immutable upon creation.
 	// Any value provided on creation is ignored.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	// The resource name of the parent group that owns this api user.
+	// The resource name of the parent group that owns this API user.
 	// This field is required on creation and establishes the direct ownership link.
 	// Format: groups/{ULIDv2}.
 	Owner string `protobuf:"bytes,2,opt,name=owner,proto3" json:"owner,omitempty"`
-	// A non-unique, user-provided name for the api key, used for display purposes.
+	// A non-unique, user-provided name for the API user, used for display purposes.
 	// Required on creation.
-	DisplayName string `protobuf:"bytes,4,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
+	DisplayName string `protobuf:"bytes,3,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// The current state of the API user (active or inactive).
 	// System set on creation to default value of inactive.
-	State APIUserState `protobuf:"varint,5,opt,name=state,proto3,enum=meshtrade.iam.api_user.v1.APIUserState" json:"state,omitempty"`
-	// Roles is a list of the standard roles assigned to this api user,
+	State APIUserState `protobuf:"varint,4,opt,name=state,proto3,enum=meshtrade.iam.api_user.v1.APIUserState" json:"state,omitempty"`
+	// Roles is a list of the standard roles assigned to this API user,
 	// prepended by the name of the group in which they have been assigned that role.
-	// e.g. groups/{ULIDv2}/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
-	Roles []string `protobuf:"bytes,6,rep,name=roles,proto3" json:"roles,omitempty"`
+	// e.g. groups/{ULIDv2}/roles/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
+	Roles []string `protobuf:"bytes,5,rep,name=roles,proto3" json:"roles,omitempty"`
 	// The plaintext API key for the API user.
 	// This field is only populated on the entity the first time it is returned after creation - it is NOT stored.
 	// Populated once by system on creation.
-	ApiKey        string `protobuf:"bytes,7,opt,name=api_key,json=apiKey,proto3" json:"api_key,omitempty"`
+	ApiKey        string `protobuf:"bytes,6,opt,name=api_key,json=apiKey,proto3" json:"api_key,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -246,17 +246,17 @@ var File_meshtrade_iam_api_user_v1_api_user_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_api_user_v1_api_user_proto_rawDesc = "" +
 	"\n" +
-	"(meshtrade/iam/api_user/v1/api_user.proto\x12\x19meshtrade.iam.api_user.v1\x1a\x1bbuf/validate/validate.proto\"\x9a\x06\n" +
+	"(meshtrade/iam/api_user/v1/api_user.proto\x12\x19meshtrade.iam.api_user.v1\x1a\x1bbuf/validate/validate.proto\"\xa0\x06\n" +
 	"\aAPIUser\x12\xc2\x01\n" +
 	"\x04name\x18\x01 \x01(\tB\xad\x01\xbaH\xa9\x01\xba\x01\xa5\x01\n" +
 	"\x14name.format.optional\x126name must be empty or in the format api_users/{ULIDv2}\x1aUsize(this) == 0 || this.matches('^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12R\n" +
 	"\x05owner\x18\x02 \x01(\tB<\xbaH9\xc8\x01\x01r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05owner\x12\xb4\x01\n" +
-	"\fdisplay_name\x18\x04 \x01(\tB\x90\x01\xbaH\x8c\x01\xba\x01\x7f\n" +
+	"\fdisplay_name\x18\x03 \x01(\tB\x90\x01\xbaH\x8c\x01\xba\x01\x7f\n" +
 	"\x15display_name.required\x12Adisplay name is required and must be between 1 and 255 characters\x1a#size(this) > 0 && size(this) <= 255\xc8\x01\x01r\x05\x10\x01\x18\xff\x01R\vdisplayName\x12\xbe\x01\n" +
-	"\x05state\x18\x05 \x01(\x0e2'.meshtrade.iam.api_user.v1.APIUserStateB\x7f\xbaH|\xba\x01t\n" +
-	"\vstate.valid\x12/state must be a valid APIUserState if specified\x1a4int(this) == 0 || (int(this) >= 1 && int(this) <= 2)\x82\x01\x02\x10\x01R\x05state\x12e\n" +
-	"\x05roles\x18\x06 \x03(\tBO\xbaHL\x92\x01I\"GrE2@^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/[123456][0-9]{6}$\x98\x01)R\x05roles\x12\x17\n" +
-	"\aapi_key\x18\a \x01(\tR\x06apiKey*f\n" +
+	"\x05state\x18\x04 \x01(\x0e2'.meshtrade.iam.api_user.v1.APIUserStateB\x7f\xbaH|\xba\x01t\n" +
+	"\vstate.valid\x12/state must be a valid APIUserState if specified\x1a4int(this) == 0 || (int(this) >= 1 && int(this) <= 2)\x82\x01\x02\x10\x01R\x05state\x12k\n" +
+	"\x05roles\x18\x05 \x03(\tBU\xbaHR\x92\x01O\"MrK\x10/\x1802E^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/roles/[1-9][0-9]{6,7}$R\x05roles\x12\x17\n" +
+	"\aapi_key\x18\x06 \x01(\tR\x06apiKey*f\n" +
 	"\fAPIUserState\x12\x1e\n" +
 	"\x1aAPI_USER_STATE_UNSPECIFIED\x10\x00\x12\x19\n" +
 	"\x15API_USER_STATE_ACTIVE\x10\x01\x12\x1b\n" +

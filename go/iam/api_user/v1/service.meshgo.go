@@ -49,8 +49,47 @@ import (
 //
 // For more information on service configuration: https://meshtrade.github.io/api/docs/architecture/sdk-configuration
 type ApiUserServiceClientInterface interface {
-	ApiUserService
 	grpc.GRPCClient
+
+	// Retrieves a single API user by its unique identifier.
+	GetApiUser(ctx context.Context, request *GetApiUserRequest) (*APIUser, error)
+	// Creates a new API user with the specified configuration.
+	// The API user will be created in the authenticated group context
+	// and assigned the provided roles. The system generates a unique
+	// identifier and API key for authentication.
+	CreateApiUser(ctx context.Context, request *CreateApiUserRequest) (*APIUser, error)
+	// Assign roles to an existing api user within the authenticated group context.
+	// The role assignment enables the api user to perform operations according
+	// to the permissions associated with that role within the group hierarchy.
+	AssignRolesToAPIUser(ctx context.Context, request *AssignRolesToAPIUserRequest) (*APIUser, error)
+	// Revoke roles from an existing API user within the authenticated group context.
+	// The role revocation removes the permissions associated with that role from
+	// the API user within the group hierarchy. The API user will no longer be able
+	// to perform operations that require the revoked role.
+	RevokeRolesFromAPIUser(ctx context.Context, request *RevokeRolesFromAPIUserRequest) (*APIUser, error)
+	// Lists all API users in the authenticated group context.
+	// Returns all API users that belong to the current group,
+	// regardless of their active/inactive state.
+	ListApiUsers(ctx context.Context, request *ListApiUsersRequest) (*ListApiUsersResponse, error)
+	// Searches API users using display name filtering.
+	// Performs substring matching on API user display names
+	// within the authenticated group context.
+	SearchApiUsers(ctx context.Context, request *SearchApiUsersRequest) (*SearchApiUsersResponse, error)
+	// Activates an API user, enabling API key authentication.
+	// Changes the API user state to active, allowing the associated
+	// API key to be used for authentication and authorization.
+	ActivateApiUser(ctx context.Context, request *ActivateApiUserRequest) (*APIUser, error)
+	// Deactivates an API user, disabling API key authentication.
+	// Changes the API user state to inactive, preventing the associated
+	// API key from being used for authentication.
+	DeactivateApiUser(ctx context.Context, request *DeactivateApiUserRequest) (*APIUser, error)
+	// Retrieves an API user using its API key hash.
+	// This method is used for authentication flows to lookup
+	// an API user based on the hash of their API key.
+	GetApiUserByKeyHash(ctx context.Context, request *GetApiUserByKeyHashRequest) (*APIUser, error)
+
+	// WithGroup returns a new client instance with a different group context
+	WithGroup(group string) ApiUserServiceClientInterface
 }
 
 // apiUserService is the internal implementation of the ApiUserServiceClientInterface interface.
@@ -121,6 +160,44 @@ func NewApiUserService(opts ...config.ServiceOption) (ApiUserServiceClientInterf
 	return &apiUserService{BaseGRPCClient: base}, nil
 }
 
+// WithGroup returns a new client instance configured with a different group context.
+// This enables convenient group context switching without reconstructing the entire client.
+// All other configuration (URL, port, timeout, tracer, API key, etc.) is preserved.
+//
+// The group parameter must be in the format 'groups/{group_id}' where group_id is a valid
+// group identifier (typically a ULID). The new client instance shares no state with the
+// original client, allowing safe concurrent usage across different goroutines.
+//
+// Example:
+//
+//	// Create initial client with default group from credentials
+//	service, err := NewApiUserService()
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//	defer service.Close()
+//
+//	// Switch to a different group context
+//	altService := service.WithGroup("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
+//	defer altService.Close()
+//
+//	// Both clients can be used independently
+//	resp1, _ := service.SomeMethod(ctx, req)      // Uses original group
+//	resp2, _ := altService.SomeMethod(ctx, req)   // Uses alternative group
+//
+// Parameters:
+//   - group: The group resource name in format 'groups/{group_id}'
+//
+// Returns:
+//   - ApiUserServiceClientInterface: New client instance with updated group context
+func (s *apiUserService) WithGroup(group string) ApiUserServiceClientInterface {
+	// Create new base client with copied configuration but new group
+	newBase := s.BaseGRPCClient.WithGroup(group)
+
+	// Return new service instance wrapping the new base client
+	return &apiUserService{BaseGRPCClient: newBase}
+}
+
 // GetApiUser executes the GetApiUser RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
 func (s *apiUserService) GetApiUser(ctx context.Context, request *GetApiUserRequest) (*APIUser, error) {
@@ -137,11 +214,19 @@ func (s *apiUserService) CreateApiUser(ctx context.Context, request *CreateApiUs
 	})
 }
 
-// AssignRoleToAPIUser executes the AssignRoleToAPIUser RPC method with automatic
+// AssignRolesToAPIUser executes the AssignRolesToAPIUser RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
-func (s *apiUserService) AssignRoleToAPIUser(ctx context.Context, request *AssignRoleToAPIUserRequest) (*APIUser, error) {
-	return grpc.Execute(s.Executor(), ctx, "AssignRoleToAPIUser", request, func(ctx context.Context) (*APIUser, error) {
-		return s.GrpcClient().AssignRoleToAPIUser(ctx, request)
+func (s *apiUserService) AssignRolesToAPIUser(ctx context.Context, request *AssignRolesToAPIUserRequest) (*APIUser, error) {
+	return grpc.Execute(s.Executor(), ctx, "AssignRolesToAPIUser", request, func(ctx context.Context) (*APIUser, error) {
+		return s.GrpcClient().AssignRolesToAPIUser(ctx, request)
+	})
+}
+
+// RevokeRolesFromAPIUser executes the RevokeRolesFromAPIUser RPC method with automatic
+// client-side validation, timeout handling, distributed tracing, and authentication.
+func (s *apiUserService) RevokeRolesFromAPIUser(ctx context.Context, request *RevokeRolesFromAPIUserRequest) (*APIUser, error) {
+	return grpc.Execute(s.Executor(), ctx, "RevokeRolesFromAPIUser", request, func(ctx context.Context) (*APIUser, error) {
+		return s.GrpcClient().RevokeRolesFromAPIUser(ctx, request)
 	})
 }
 

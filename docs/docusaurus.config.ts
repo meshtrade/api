@@ -13,7 +13,6 @@ const config: Config = {
   projectName: 'api',
 
   onBrokenLinks: 'warn',
-  onBrokenMarkdownLinks: 'warn',
 
   i18n: {
     defaultLocale: 'en',
@@ -23,6 +22,9 @@ const config: Config = {
   markdown: {
     format: 'mdx',
     mermaid: true,
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
+    },
   },
 
   themes: ['@docusaurus/theme-mermaid'],
@@ -34,8 +36,8 @@ const config: Config = {
         docs: {
           sidebarPath: './sidebars.ts',
           editUrl: undefined,
-          showLastUpdateAuthor: true,
-          showLastUpdateTime: true,
+          showLastUpdateAuthor: false,
+          showLastUpdateTime: false,
           remarkPlugins: [],
           rehypePlugins: [],
         },
@@ -106,19 +108,19 @@ const config: Config = {
               },
               {
                 label: 'Group Ownership',
-                to: '/docs/architecture/group-ownership',
+                to: '/docs/architecture/resource-hierarchy',
               },
               {
                 label: 'Role-Based Access',
-                to: '/docs/architecture/role-based-access',
+                to: '/docs/architecture/method-permissions',
               },
               {
                 label: 'Client Structuring',
-                to: '/docs/architecture/client-structuring',
+                to: '/docs/architecture/legal-entities',
               },
               {
                 label: 'Authentication',
-                to: '/docs/architecture/authentication',
+                to: '/docs/architecture/api-access',
               },
             ],
           },

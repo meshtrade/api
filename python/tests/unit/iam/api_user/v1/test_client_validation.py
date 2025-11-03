@@ -23,6 +23,7 @@ class TestApiUserServiceClientValidation:
                 owner="groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
                 display_name="Test API User",
                 state=APIUserState.API_USER_STATE_ACTIVE,
+                roles=[],  # Empty roles list is now allowed
             )
         )
 
@@ -44,6 +45,7 @@ class TestApiUserServiceClientValidation:
             api_user=APIUser(
                 owner="",  # Invalid: empty owner
                 display_name="Test API User",
+                roles=[],
             )
         )
 
@@ -67,6 +69,7 @@ class TestApiUserServiceClientValidation:
             api_user=APIUser(
                 owner="groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
                 display_name="",  # Invalid: empty display name
+                roles=[],
             )
         )
 
@@ -91,6 +94,7 @@ class TestApiUserServiceClientValidation:
             api_user=APIUser(
                 owner="groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
                 display_name=long_display_name,
+                roles=[],
             )
         )
 

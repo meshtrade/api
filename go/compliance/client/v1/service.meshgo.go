@@ -49,8 +49,22 @@ import (
 //
 // For more information on service configuration: https://meshtrade.github.io/api/docs/architecture/sdk-configuration
 type ClientServiceClientInterface interface {
-	ClientService
 	grpc.GRPCClient
+
+	// CreateClient creates a single client.
+	CreateClient(ctx context.Context, request *CreateClientRequest) (*Client, error)
+	// GetClient retrieves a single client's compliance profile by its unique resource name.
+	// This allows for fetching the complete compliance details of a specific client,
+	// including all associated information like identification documents, tax residencies,
+	// and company structures.
+	GetClient(ctx context.Context, request *GetClientRequest) (*Client, error)
+	// ListClients retrieves a collection of client compliance profiles.
+	// This method is useful for fetching multiple client records at once.
+	// Note: This endpoint does not currently support pagination or filtering.
+	ListClients(ctx context.Context, request *ListClientsRequest) (*ListClientsResponse, error)
+
+	// WithGroup returns a new client instance with a different group context
+	WithGroup(group string) ClientServiceClientInterface
 }
 
 // clientService is the internal implementation of the ClientServiceClientInterface interface.
@@ -119,6 +133,44 @@ func NewClientService(opts ...config.ServiceOption) (ClientServiceClientInterfac
 	}
 
 	return &clientService{BaseGRPCClient: base}, nil
+}
+
+// WithGroup returns a new client instance configured with a different group context.
+// This enables convenient group context switching without reconstructing the entire client.
+// All other configuration (URL, port, timeout, tracer, API key, etc.) is preserved.
+//
+// The group parameter must be in the format 'groups/{group_id}' where group_id is a valid
+// group identifier (typically a ULID). The new client instance shares no state with the
+// original client, allowing safe concurrent usage across different goroutines.
+//
+// Example:
+//
+//	// Create initial client with default group from credentials
+//	service, err := NewClientService()
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//	defer service.Close()
+//
+//	// Switch to a different group context
+//	altService := service.WithGroup("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
+//	defer altService.Close()
+//
+//	// Both clients can be used independently
+//	resp1, _ := service.SomeMethod(ctx, req)      // Uses original group
+//	resp2, _ := altService.SomeMethod(ctx, req)   // Uses alternative group
+//
+// Parameters:
+//   - group: The group resource name in format 'groups/{group_id}'
+//
+// Returns:
+//   - ClientServiceClientInterface: New client instance with updated group context
+func (s *clientService) WithGroup(group string) ClientServiceClientInterface {
+	// Create new base client with copied configuration but new group
+	newBase := s.BaseGRPCClient.WithGroup(group)
+
+	// Return new service instance wrapping the new base client
+	return &clientService{BaseGRPCClient: newBase}
 }
 
 // CreateClient executes the CreateClient RPC method with automatic

@@ -20,13 +20,14 @@ type ServiceInfo struct {
 
 // MethodInfo holds parsed information about a service method
 type MethodInfo struct {
-	Name        string
-	Description string
-	Roles       []string
-	MethodType  string
-	Parameters  []FieldInfo
-	Returns     string
-	RequestType string
+	Name              string
+	Description       string
+	Roles             []string
+	MethodType        string
+	Parameters        []FieldInfo
+	Returns           string
+	RequestType       string
+	IsServerStreaming bool // Indicates if this method uses server-side streaming
 }
 
 // FieldInfo holds information about message fields
@@ -75,6 +76,9 @@ func parseMethod(method *protogen.Method) (*MethodInfo, error) {
 	commentsText := string(method.Comments.Leading)
 	methodInfo.Roles = extractRolesFromText(commentsText)
 	methodInfo.MethodType = extractMethodTypeFromText(commentsText)
+
+	// Detect server-streaming methods
+	methodInfo.IsServerStreaming = method.Desc.IsStreamingServer()
 
 	// Parse request parameters
 	methodInfo.Parameters = parseMessageFields(method.Input)

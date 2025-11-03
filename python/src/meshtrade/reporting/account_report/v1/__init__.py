@@ -26,7 +26,6 @@ from .service_meshpy import (
     AccountReportServiceGRPCClient,
     AccountReportServiceGRPCClientInterface,
 )
-from .service_options_meshpy import ClientOptions
 
 # ===================================================================
 # END OF AUTO-GENERATED SECTION
@@ -42,6 +41,8 @@ from .service_options_meshpy import ClientOptions
 #
 # ===================================================================
 
+from .income_entry import income_narrative_pretty_string
+
 # ===================================================================
 # MODULE EXPORTS
 # ===================================================================
@@ -52,7 +53,6 @@ __all__ = [
     "AccountReportService",
     "AccountReportServiceGRPCClient",
     "AccountReportServiceGRPCClientInterface",
-    "ClientOptions",
     "Disclaimer",
     "FeeEntry",
     "GetAccountReportRequest",
@@ -61,4 +61,6 @@ __all__ = [
     "IncomeEntry",
     "IncomeNarrative",
     "TradingStatementEntry",
+    # Manual exports
+    "income_narrative_pretty_string",
 ]
