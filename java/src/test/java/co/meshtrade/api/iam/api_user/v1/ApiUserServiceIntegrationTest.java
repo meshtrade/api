@@ -1,33 +1,39 @@
 package co.meshtrade.api.iam.api_user.v1;
 
-import build.buf.protovalidate.Validator;
-import build.buf.protovalidate.ValidatorFactory;
-import co.meshtrade.api.auth.CredentialsDiscovery;
-import co.meshtrade.api.config.ServiceOptions;
-import co.meshtrade.api.grpc.BaseGRPCClient;
-import co.meshtrade.api.iam.api_user.v1.ApiUser.APIUser;
-import co.meshtrade.api.iam.api_user.v1.ApiUser.APIUserState;
-import co.meshtrade.api.iam.api_user.v1.Service.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.io.TempDir;
-import org.mockito.MockedStatic;
-import org.mockito.junit.jupiter.MockitoExtension;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
+import build.buf.protovalidate.Validator;
+import build.buf.protovalidate.ValidatorFactory;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.io.TempDir;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import co.meshtrade.api.auth.CredentialsDiscovery;
+import co.meshtrade.api.config.ServiceOptions;
+import co.meshtrade.api.grpc.BaseGRPCClient;
+import co.meshtrade.api.iam.api_user.v1.ApiUser.APIUser;
+import co.meshtrade.api.iam.api_user.v1.ApiUser.APIUserState;
+import co.meshtrade.api.iam.api_user.v1.Service.ActivateApiUserRequest;
+import co.meshtrade.api.iam.api_user.v1.Service.AssignRolesToAPIUserRequest;
+import co.meshtrade.api.iam.api_user.v1.Service.RevokeRolesFromAPIUserRequest;
+import co.meshtrade.api.iam.api_user.v1.Service.CreateApiUserRequest;
+import co.meshtrade.api.iam.api_user.v1.Service.DeactivateApiUserRequest;
+import co.meshtrade.api.iam.api_user.v1.Service.GetApiUserByKeyHashRequest;
+import co.meshtrade.api.iam.api_user.v1.Service.GetApiUserRequest;
+import co.meshtrade.api.iam.api_user.v1.Service.ListApiUsersRequest;
+import co.meshtrade.api.iam.api_user.v1.Service.SearchApiUsersRequest;
 
 /**
  * Integration tests for Java API User service SDK client configuration.
@@ -54,7 +60,7 @@ class ApiUserServiceIntegrationTest {
 
     @Test
     @DisplayName("Service configuration with all options")
-    void serviceConfiguration_allOptions_configuresCorrectly() {
+    void serviceConfigurationAllOptionsConfiguresCorrectly() {
         // Test comprehensive service configuration without network calls
         ServiceOptions options = ServiceOptions.builder()
             .apiKey("dGVzdC1rZXktZm9yLWphdmEtc2RrLXRlc3RpbmctcHU")
@@ -82,7 +88,7 @@ class ApiUserServiceIntegrationTest {
 
     @Test
     @DisplayName("Service creation with minimal configuration")
-    void serviceCreation_minimalConfiguration_succeeds() {
+    void serviceCreationMinimalConfigurationSucceeds() {
         // Test service creation with minimal required configuration
         ServiceOptions options = ServiceOptions.builder()
             .apiKey("dGVzdC1rZXktZm9yLWphdmEtc2RrLXRlc3RpbmctcHU")
@@ -103,7 +109,7 @@ class ApiUserServiceIntegrationTest {
 
     @Test
     @DisplayName("Service creation with default constructor")
-    void serviceCreation_defaultConstructor_usesCredentialDiscovery() {
+    void serviceCreationDefaultConstructorUsesCredentialDiscovery() {
         // Test that default constructor uses credential discovery without network calls
         
         // We can't easily mock the credential discovery in the constructor without
@@ -128,7 +134,7 @@ class ApiUserServiceIntegrationTest {
 
     @Test
     @DisplayName("Service configuration with custom timeout")
-    void serviceConfiguration_customTimeout_configuresCorrectly() {
+    void serviceConfigurationCustomTimeoutConfiguresCorrectly() {
         Duration customTimeout = Duration.ofMinutes(5);
         
         ServiceOptions options = ServiceOptions.builder()
@@ -153,7 +159,7 @@ class ApiUserServiceIntegrationTest {
 
     @Test
     @DisplayName("Service configuration with TLS disabled")
-    void serviceConfiguration_tlsDisabled_configuresCorrectly() {
+    void serviceConfigurationTlsDisabledConfiguresCorrectly() {
         ServiceOptions options = ServiceOptions.builder()
             .apiKey("dGVzdC1rZXktZm9yLWphdmEtc2RrLXRlc3RpbmctcHU")
             .group("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
@@ -176,7 +182,7 @@ class ApiUserServiceIntegrationTest {
 
     @Test
     @DisplayName("Service configuration with invalid API key format")
-    void serviceConfiguration_invalidApiKeyFormat_failsAtCreation() {
+    void serviceConfigurationInvalidApiKeyFormatFailsAtCreation() {
         // Test that service properly validates API key format at creation time
         
         // Service creation should fail with invalid API key format
@@ -193,7 +199,7 @@ class ApiUserServiceIntegrationTest {
 
     @Test
     @DisplayName("Service configuration with invalid group format")
-    void serviceConfiguration_invalidGroupFormat_failsAtCreation() {
+    void serviceConfigurationInvalidGroupFormatFailsAtCreation() {
         // Test that service properly validates group format at creation time
         
         // Service creation should fail with invalid group format
@@ -210,7 +216,7 @@ class ApiUserServiceIntegrationTest {
 
     @Test
     @DisplayName("Service validation integration with BaseGRPCClient")
-    void serviceValidation_integration_worksCorrectly() {
+    void serviceValidationIntegrationWorksCorrectly() {
         // Test that validation is properly integrated through BaseGRPCClient
         ServiceOptions options = ServiceOptions.builder()
             .apiKey("dGVzdC1rZXktZm9yLWphdmEtc2RrLXRlc3RpbmctcHU")
@@ -245,7 +251,7 @@ class ApiUserServiceIntegrationTest {
 
     @Test
     @DisplayName("Service method timeout configuration")
-    void serviceMethodTimeout_configuration_worksCorrectly() {
+    void serviceMethodTimeoutConfigurationWorksCorrectly() {
         ServiceOptions options = ServiceOptions.builder()
             .apiKey("dGVzdC1rZXktZm9yLWphdmEtc2RrLXRlc3RpbmctcHU")
             .group("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
@@ -274,7 +280,7 @@ class ApiUserServiceIntegrationTest {
 
     @Test
     @DisplayName("Service interface compliance verification")
-    void serviceInterface_compliance_isCorrect() {
+    void serviceInterfaceComplianceIsCorrect() {
         // Test that ApiUserService implements ApiUserServiceInterface correctly
         ServiceOptions options = ServiceOptions.builder()
             .apiKey("dGVzdC1rZXktZm9yLWphdmEtc2RrLXRlc3RpbmctcHU")
@@ -294,7 +300,11 @@ class ApiUserServiceIntegrationTest {
                 .isNotNull();
             assertThat(service.getClass().getMethod("createApiUser", CreateApiUserRequest.class, Optional.class))
                 .isNotNull();
-            assertThat(service.getClass().getMethod("assignRoleToAPIUser", AssignRoleToAPIUserRequest.class, Optional.class))
+            assertThat(service.getClass().getMethod("assignRolesToAPIUser",
+                    AssignRolesToAPIUserRequest.class, Optional.class))
+                .isNotNull();
+            assertThat(service.getClass().getMethod("revokeRolesFromAPIUser",
+                    RevokeRolesFromAPIUserRequest.class, Optional.class))
                 .isNotNull();
             assertThat(service.getClass().getMethod("listApiUsers", ListApiUsersRequest.class, Optional.class))
                 .isNotNull();
@@ -302,9 +312,11 @@ class ApiUserServiceIntegrationTest {
                 .isNotNull();
             assertThat(service.getClass().getMethod("activateApiUser", ActivateApiUserRequest.class, Optional.class))
                 .isNotNull();
-            assertThat(service.getClass().getMethod("deactivateApiUser", DeactivateApiUserRequest.class, Optional.class))
+            assertThat(service.getClass().getMethod("deactivateApiUser",
+                    DeactivateApiUserRequest.class, Optional.class))
                 .isNotNull();
-            assertThat(service.getClass().getMethod("getApiUserByKeyHash", GetApiUserByKeyHashRequest.class, Optional.class))
+            assertThat(service.getClass().getMethod("getApiUserByKeyHash",
+                    GetApiUserByKeyHashRequest.class, Optional.class))
                 .isNotNull();
                 
         } catch (InterruptedException | NoSuchMethodException ignored) {
@@ -314,7 +326,7 @@ class ApiUserServiceIntegrationTest {
 
     @Test
     @DisplayName("SDK architecture consistency documentation")
-    void sdkArchitecture_consistency_isDocumented() {
+    void sdkArchitectureConsistencyIsDocumented() {
         // This test documents the SDK architecture and validation flow without network calls
         
         // Verify that BaseGRPCClient provides consistent validation
@@ -605,7 +617,8 @@ class ApiUserServiceCredentialFilesTest {
         
         // Test that services work with various credential formats
         String[] validCredentials = {
-            "{\"api_key\":\"a2V5LWZvci1qYXZhLXNkay10ZXN0aW5nLXB1cnBvc3M\",\"group\":\"groups/01BRZ3NDEKTSV4RRFFQ69G5FAV\"}",  // Minimal
+            "{\"api_key\":\"a2V5LWZvci1qYXZhLXNkay10ZXN0aW5nLXB1cnBvc3M\","
+                + "\"group\":\"groups/01BRZ3NDEKTSV4RRFFQ69G5FAV\"}",  // Minimal
             """
             {
                 "api_key"  :  "a2V5LWZvci1qYXZhLXNkay10ZXN0aW5nLXB1cnBvc3M"  ,
@@ -633,7 +646,7 @@ class ApiUserServiceCredentialFilesTest {
 
     @Test
     @DisplayName("Service resource management works correctly")
-    void serviceResourceManagement_cleanup_worksCorrectly() {
+    void serviceResourceManagementCleanupWorksCorrectly() {
         // Test that service resource management works without network calls
         
         ServiceOptions options = ServiceOptions.builder()

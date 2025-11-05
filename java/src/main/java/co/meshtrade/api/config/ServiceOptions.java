@@ -1,11 +1,10 @@
 package co.meshtrade.api.config;
 
-import co.meshtrade.api.auth.Credentials;
-import co.meshtrade.api.auth.CredentialsDiscovery;
-
 import java.time.Duration;
 import java.util.Objects;
-import java.util.Optional;
+
+import co.meshtrade.api.auth.Credentials;
+import co.meshtrade.api.auth.CredentialsDiscovery;
 
 /**
  * Configuration options for Meshtrade API service clients.
@@ -74,41 +73,53 @@ public final class ServiceOptions {
     }
     
     /**
+     * Gets the gRPC server URL.
+     *
      * @return the gRPC server URL (default: "api.mesh.dev")
      */
     public String getUrl() {
         return url;
     }
-    
+
     /**
+     * Gets the gRPC server port.
+     *
      * @return the gRPC server port (default: 443)
      */
     public int getPort() {
         return port;
     }
-    
+
     /**
+     * Checks whether TLS is enabled.
+     *
      * @return whether TLS is enabled (default: true)
      */
     public boolean isTls() {
         return tls;
     }
-    
+
     /**
+     * Gets the request timeout.
+     *
      * @return the request timeout (default: 30 seconds)
      */
     public Duration getTimeout() {
         return timeout;
     }
-    
+
     /**
+     * Gets the API key for authentication.
+     *
      * @return the API key for authentication
      */
     public String getApiKey() {
         return apiKey;
     }
-    
+
     /**
+     * Gets the group resource name for organizational context.
+     *
      * @return the group resource name for organizational context
      */
     public String getGroup() {
@@ -176,101 +187,101 @@ public final class ServiceOptions {
         
         /**
          * Sets the gRPC server URL.
-         * 
-         * @param url the server URL (default: "api.mesh.dev")
+         *
+         * @param serverUrl the server URL (default: "api.mesh.dev")
          * @return this builder for method chaining
-         * @throws NullPointerException if url is null
-         * @throws IllegalArgumentException if url is empty
+         * @throws NullPointerException if serverUrl is null
+         * @throws IllegalArgumentException if serverUrl is empty
          */
-        public Builder url(String url) {
-            Objects.requireNonNull(url, "URL cannot be null");
-            if (url.trim().isEmpty()) {
+        public Builder url(String serverUrl) {
+            Objects.requireNonNull(serverUrl, "URL cannot be null");
+            if (serverUrl.trim().isEmpty()) {
                 throw new IllegalArgumentException("URL cannot be empty");
             }
-            this.url = url.trim();
+            this.url = serverUrl.trim();
             return this;
         }
         
         /**
          * Sets the gRPC server port.
-         * 
-         * @param port the server port (default: 443)
+         *
+         * @param serverPort the server port (default: 443)
          * @return this builder for method chaining
-         * @throws IllegalArgumentException if port is not between 1 and 65535
+         * @throws IllegalArgumentException if serverPort is not between 1 and 65535
          */
-        public Builder port(int port) {
-            if (port <= 0 || port > 65535) {
-                throw new IllegalArgumentException("Port must be between 1 and 65535, got: " + port);
+        public Builder port(int serverPort) {
+            if (serverPort <= 0 || serverPort > 65535) {
+                throw new IllegalArgumentException("Port must be between 1 and 65535, got: " + serverPort);
             }
-            this.port = port;
+            this.port = serverPort;
             return this;
         }
         
         /**
          * Sets whether TLS is enabled for the connection.
-         * 
-         * @param tls true to enable TLS, false to use plaintext (default: true)
+         *
+         * @param enableTls true to enable TLS, false to use plaintext (default: true)
          * @return this builder for method chaining
          */
-        public Builder tls(boolean tls) {
-            this.tls = tls;
+        public Builder tls(boolean enableTls) {
+            this.tls = enableTls;
             return this;
         }
         
         /**
          * Sets the request timeout.
-         * 
-         * @param timeout the timeout duration (default: 30 seconds)
+         *
+         * @param requestTimeout the timeout duration (default: 30 seconds)
          * @return this builder for method chaining
-         * @throws NullPointerException if timeout is null
-         * @throws IllegalArgumentException if timeout is zero or negative
+         * @throws NullPointerException if requestTimeout is null
+         * @throws IllegalArgumentException if requestTimeout is zero or negative
          */
-        public Builder timeout(Duration timeout) {
-            Objects.requireNonNull(timeout, "Timeout cannot be null");
-            if (timeout.isZero() || timeout.isNegative()) {
-                throw new IllegalArgumentException("Timeout must be positive, got: " + timeout);
+        public Builder timeout(Duration requestTimeout) {
+            Objects.requireNonNull(requestTimeout, "Timeout cannot be null");
+            if (requestTimeout.isZero() || requestTimeout.isNegative()) {
+                throw new IllegalArgumentException("Timeout must be positive, got: " + requestTimeout);
             }
-            this.timeout = timeout;
+            this.timeout = requestTimeout;
             return this;
         }
         
         /**
          * Sets the API key for authentication.
-         * 
+         *
          * <p>If not set, the builder will attempt to discover the API key
          * automatically using {@link CredentialsDiscovery} when {@link #build()} is called.
-         * 
-         * @param apiKey the API key (43 characters, base64 URL-safe)
+         *
+         * @param authApiKey the API key (43 characters, base64 URL-safe)
          * @return this builder for method chaining
-         * @throws NullPointerException if apiKey is null
-         * @throws IllegalArgumentException if apiKey is empty or invalid format
+         * @throws NullPointerException if authApiKey is null
+         * @throws IllegalArgumentException if authApiKey is empty or invalid format
          */
-        public Builder apiKey(String apiKey) {
-            Objects.requireNonNull(apiKey, "API key cannot be null");
-            if (apiKey.trim().isEmpty()) {
+        public Builder apiKey(String authApiKey) {
+            Objects.requireNonNull(authApiKey, "API key cannot be null");
+            if (authApiKey.trim().isEmpty()) {
                 throw new IllegalArgumentException("API key cannot be empty");
             }
-            this.apiKey = apiKey.trim();
+            this.apiKey = authApiKey.trim();
             return this;
         }
         
         /**
          * Sets the group resource name for organizational context.
-         * 
+         *
          * <p>If not set, the builder will attempt to discover the group
          * automatically using {@link CredentialsDiscovery} when {@link #build()} is called.
-         * 
-         * @param group the group resource name in format "groups/{group_id}"
+         *
+         * @param groupName the group resource name in format "groups/{group_id}"
          * @return this builder for method chaining
-         * @throws NullPointerException if group is null
-         * @throws IllegalArgumentException if group is empty or invalid format
+         * @throws NullPointerException if groupName is null
+         * @throws IllegalArgumentException if groupName is empty or invalid format
          */
-        public Builder group(String group) {
-            Objects.requireNonNull(group, "Group cannot be null");
-            if (group.trim().isEmpty()) {
+        public Builder group(String groupName) {
+            Objects.requireNonNull(groupName, "Group cannot be null");
+            if (groupName.trim().isEmpty()) {
                 throw new IllegalArgumentException("Group cannot be empty");
             }
-            this.group = group.trim();
+            this.group = groupName.trim();
             return this;
         }
         
@@ -323,24 +334,20 @@ public final class ServiceOptions {
         public ServiceOptions build() {
             // Attempt credential discovery if not explicitly set
             if (apiKey == null || group == null) {
-                Optional<Credentials> discoveredCredentials = CredentialsDiscovery.findCredentials();
-                if (discoveredCredentials.isPresent()) {
-                    Credentials creds = discoveredCredentials.get();
-                    if (apiKey == null) {
-                        apiKey = creds.apiKey();
-                    }
-                    if (group == null) {
-                        group = creds.group();
-                    }
-                } else {
-                    throw new IllegalStateException(
+                Credentials creds = CredentialsDiscovery.findCredentials()
+                    .orElseThrow(() -> new IllegalStateException(
                         "API credentials not provided and could not be discovered automatically. " +
                         "Either provide credentials via builder methods or ensure they are available " +
                         "via environment variable or credential files. " +
-                        "See CredentialsDiscovery.getCredentialSearchInfo() for details.");
+                        "See CredentialsDiscovery.getCredentialSearchInfo() for details."));
+                if (apiKey == null) {
+                    apiKey = creds.apiKey();
+                }
+                if (group == null) {
+                    group = creds.group();
                 }
             }
-            
+
             ServiceOptions options = new ServiceOptions(this);
             options.validate();
             return options;

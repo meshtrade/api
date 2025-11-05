@@ -1,16 +1,17 @@
 package co.meshtrade.api.grpc;
 
 import co.meshtrade.api.config.ServiceOptions;
-import co.meshtrade.api.auth.Credentials;
-import io.grpc.stub.AbstractStub;
-import org.junit.jupiter.api.Test;
+
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit tests for the BaseGRPCClient abstract class.

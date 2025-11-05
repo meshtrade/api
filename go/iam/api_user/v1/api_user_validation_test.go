@@ -24,7 +24,7 @@ func TestAPIUser_ValidationUpdated(t *testing.T) {
 				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				DisplayName: "Test API User",
 				State:       APIUserState_API_USER_STATE_ACTIVE,
-				Roles:       []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/3000001"},
+				Roles:       []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/3000001"},
 			},
 			wantValid: true,
 		},
@@ -33,21 +33,22 @@ func TestAPIUser_ValidationUpdated(t *testing.T) {
 			apiUser: &APIUser{
 				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				DisplayName: "Test API User",
+				Roles:       []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/3000001"},
 			},
 			wantValid: true,
 		},
 		{
-			name: "valid API user with empty system-set fields",
+			name: "valid API user with empty roles",
 			apiUser: &APIUser{
 				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				DisplayName: "Test API User",
 				State:       APIUserState_API_USER_STATE_UNSPECIFIED, // System set, can be unspecified
-				Roles:       []string{},                              // Can be empty (0 roles allowed)
+				Roles:       []string{},                              // Empty roles allowed
 			},
 			wantValid: true,
 		},
 		{
-			name: "valid API user with no roles",
+			name: "valid API user with no roles specified",
 			apiUser: &APIUser{
 				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				DisplayName: "Test API User",
@@ -87,6 +88,7 @@ func TestAPIUser_ValidationUpdated(t *testing.T) {
 			apiUser: &APIUser{
 				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				DisplayName: "Test API User",
+				Roles:       []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/3000001"},
 			},
 			wantValid: true,
 		},
@@ -139,7 +141,7 @@ func TestAPIUser_ValidationUpdated(t *testing.T) {
 			apiUser: &APIUser{
 				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				DisplayName: "Test API User",
-				Roles:       []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/3000001", "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/3000000"},
+				Roles:       []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/3000001", "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/3000000"},
 			},
 			wantValid: true,
 		},

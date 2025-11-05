@@ -58,7 +58,10 @@ public class InterfaceGenerator {
                     logger.warn("Skipping client/bidirectional streaming method {} - not yet supported", method.getMethodName());
                 }
             }
-            
+
+            // Add withGroup method to the interface (matching Go generator pattern)
+            interfaceBuilder.addMethod(generateWithGroupMethod(serviceModel));
+
             // Add service provider name constant (matching Go generator pattern)
             interfaceBuilder.addField(generateServiceProviderNameConstant(serviceModel));
             
@@ -234,10 +237,10 @@ public class InterfaceGenerator {
     
     /**
      * Generates the service provider name constant field.
-     * 
+     *
      * <p>This constant follows the same pattern as the Go generator:
      * {@code {proto_package_with_dashes}-{ServiceName}}
-     * 
+     *
      * @param serviceModel the service model
      * @return the field specification for the service provider name constant
      */
@@ -246,10 +249,10 @@ public class InterfaceGenerator {
         // e.g., "meshtrade.compliance.client.v1" -> "meshtrade-compliance-client-v1-ClientService"
         String serviceProviderName = serviceModel.getProtoPackage()
             .replace('.', '-') + "-" + serviceModel.getServiceName();
-        
+
         String constantName = serviceModel.getServiceName().toUpperCase() + "_SERVICE_PROVIDER_NAME";
-        
-        return FieldSpec.builder(String.class, constantName, 
+
+        return FieldSpec.builder(String.class, constantName,
                 Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL)
             .initializer("$S", serviceProviderName)
             .addJavadoc(CodeBlock.builder()
@@ -259,6 +262,40 @@ public class InterfaceGenerator {
                 .add("frameworks, service registries, and monitoring systems.\n")
                 .add("\n")
                 .add("<p>Value: {@value}\n")
+                .build())
+            .build();
+    }
+
+    /**
+     * Generates the withGroup method specification for the service interface.
+     *
+     * <p>This method matches the pattern from the Go generator, allowing convenient
+     * group context switching without reconstructing the entire client.
+     *
+     * @param serviceModel the service model
+     * @return the method specification for withGroup
+     */
+    private MethodSpec generateWithGroupMethod(ServiceModel serviceModel) {
+        ClassName interfaceType = ClassName.get(serviceModel.getJavaPackage(),
+                                                serviceModel.getServiceName() + "Interface");
+
+        return MethodSpec.methodBuilder("withGroup")
+            .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
+            .addParameter(String.class, "group")
+            .returns(interfaceType)
+            .addJavadoc(CodeBlock.builder()
+                .add("Creates a new client instance with a different group context.\n")
+                .add("\n")
+                .add("<p>This enables convenient group context switching without reconstructing the entire client.\n")
+                .add("All other configuration (URL, port, timeout, API key, etc.) is preserved.\n")
+                .add("The new client instance shares no state with the original client, allowing safe concurrent\n")
+                .add("usage across different threads.\n")
+                .add("\n")
+                .add("<p>The group parameter must be in the format 'groups/{group_id}' where group_id is a valid\n")
+                .add("group identifier (typically a ULID).\n")
+                .add("\n")
+                .add("@param group the group resource name in format 'groups/{group_id}'\n")
+                .add("@return new client instance with updated group context\n")
                 .build())
             .build();
     }

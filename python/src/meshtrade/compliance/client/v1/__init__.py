@@ -40,7 +40,6 @@ from .service_meshpy import (
     ClientServiceGRPCClient,
     ClientServiceGRPCClientInterface,
 )
-from .service_options_meshpy import ClientOptions
 
 # ===================================================================
 # END OF AUTO-GENERATED SECTION
@@ -63,7 +62,6 @@ from .service_options_meshpy import ClientOptions
 __all__ = [
     # Generated exports
     "Client",
-    "ClientOptions",
     "ClientService",
     "ClientServiceGRPCClient",
     "ClientServiceGRPCClientInterface",

@@ -58,15 +58,15 @@ type ApiUserServiceClientInterface interface {
 	// and assigned the provided roles. The system generates a unique
 	// identifier and API key for authentication.
 	CreateApiUser(ctx context.Context, request *CreateApiUserRequest) (*APIUser, error)
-	// Assigns a role to an existing api user within the authenticated group context.
+	// Assign roles to an existing api user within the authenticated group context.
 	// The role assignment enables the api user to perform operations according
 	// to the permissions associated with that role within the group hierarchy.
-	AssignRoleToAPIUser(ctx context.Context, request *AssignRoleToAPIUserRequest) (*APIUser, error)
-	// Revokes a role from an existing API user within the authenticated group context.
+	AssignRolesToAPIUser(ctx context.Context, request *AssignRolesToAPIUserRequest) (*APIUser, error)
+	// Revoke roles from an existing API user within the authenticated group context.
 	// The role revocation removes the permissions associated with that role from
 	// the API user within the group hierarchy. The API user will no longer be able
 	// to perform operations that require the revoked role.
-	RevokeRoleFromAPIUser(ctx context.Context, request *RevokeRoleFromAPIUserRequest) (*APIUser, error)
+	RevokeRolesFromAPIUser(ctx context.Context, request *RevokeRolesFromAPIUserRequest) (*APIUser, error)
 	// Lists all API users in the authenticated group context.
 	// Returns all API users that belong to the current group,
 	// regardless of their active/inactive state.
@@ -214,19 +214,19 @@ func (s *apiUserService) CreateApiUser(ctx context.Context, request *CreateApiUs
 	})
 }
 
-// AssignRoleToAPIUser executes the AssignRoleToAPIUser RPC method with automatic
+// AssignRolesToAPIUser executes the AssignRolesToAPIUser RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
-func (s *apiUserService) AssignRoleToAPIUser(ctx context.Context, request *AssignRoleToAPIUserRequest) (*APIUser, error) {
-	return grpc.Execute(s.Executor(), ctx, "AssignRoleToAPIUser", request, func(ctx context.Context) (*APIUser, error) {
-		return s.GrpcClient().AssignRoleToAPIUser(ctx, request)
+func (s *apiUserService) AssignRolesToAPIUser(ctx context.Context, request *AssignRolesToAPIUserRequest) (*APIUser, error) {
+	return grpc.Execute(s.Executor(), ctx, "AssignRolesToAPIUser", request, func(ctx context.Context) (*APIUser, error) {
+		return s.GrpcClient().AssignRolesToAPIUser(ctx, request)
 	})
 }
 
-// RevokeRoleFromAPIUser executes the RevokeRoleFromAPIUser RPC method with automatic
+// RevokeRolesFromAPIUser executes the RevokeRolesFromAPIUser RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
-func (s *apiUserService) RevokeRoleFromAPIUser(ctx context.Context, request *RevokeRoleFromAPIUserRequest) (*APIUser, error) {
-	return grpc.Execute(s.Executor(), ctx, "RevokeRoleFromAPIUser", request, func(ctx context.Context) (*APIUser, error) {
-		return s.GrpcClient().RevokeRoleFromAPIUser(ctx, request)
+func (s *apiUserService) RevokeRolesFromAPIUser(ctx context.Context, request *RevokeRolesFromAPIUserRequest) (*APIUser, error) {
+	return grpc.Execute(s.Executor(), ctx, "RevokeRolesFromAPIUser", request, func(ctx context.Context) (*APIUser, error) {
+		return s.GrpcClient().RevokeRolesFromAPIUser(ctx, request)
 	})
 }
 
