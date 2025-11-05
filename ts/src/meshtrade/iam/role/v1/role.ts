@@ -35,6 +35,8 @@ const roleToStringMapping: { [key in Role]: string } = {
 
   [Role.ROLE_TRADING_ADMIN]: "Trading Admin",
   [Role.ROLE_TRADING_VIEWER]: "Trading Viewer",
+  [Role.ROLE_TRADING_LIMIT_ORDER_ADMIN]: "Trading Limit Order Admin",
+  [Role.ROLE_TRADING_LIMIT_ORDER_VIEWER]: "Trading Limit Order Viewer",
 
   [Role.ROLE_REPORTING_ADMIN]: "Reporting Admin",
   [Role.ROLE_REPORTING_VIEWER]: "Reporting Viewer",
