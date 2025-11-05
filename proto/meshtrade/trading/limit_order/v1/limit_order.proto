@@ -2,9 +2,119 @@ syntax = "proto3";
 
 package meshtrade.trading.limit_order.v1;
 
+import "buf/validate/validate.proto";
+import "meshtrade/type/v1/amount.proto";
+
 option go_package = "github.com/meshtrade/api/go/trading/limit_order/v1;limit_order_v1";
 option java_package = "co.meshtrade.api.trading.limit_order.v1";
 
+/*
+   LimitOrder resource representing a limit order for trading on the Mesh platform.
+
+   Limit orders enable traders to specify price and quantity for buying or selling
+   instruments on supported ledgers. Each order is owned by a group and associated
+   with a specific account.
+*/
 message LimitOrder {
-  string number = 1;
+  /*
+     The unique resource name for the limit order.
+     Format: limit_orders/{ULIDv2}.
+     This field is system-generated and immutable upon creation.
+     Any value provided on creation is ignored.
+  */
+  string name = 1 [(buf.validate.field) = {
+    cel: {
+      id: "name.format.optional",
+      message: "name must be empty or in the format limit_orders/{ULIDv2}",
+      expression: "size(this) == 0 || this.matches('^limit_orders/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
+    }
+  }];
+
+  /*
+     The resource name of the parent group that owns this limit order.
+     This field is required on creation and establishes the direct ownership link.
+     Format: groups/{ULIDv2}.
+  */
+  string owner = 2 [(buf.validate.field) = {
+    required: true,
+    string: {
+      len: 33,
+      pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+    }
+  }];
+
+  /*
+     The account associated with this limit order.
+     Format: accounts/{ULIDv2}.
+     This field is required on creation.
+  */
+  string account = 3 [(buf.validate.field) = {
+    required: true,
+    string: {
+      len: 35,
+      pattern: "^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+    }
+  }];
+
+  /*
+     Human-readable name for organizational identification and display.
+     User-configurable and non-unique across the system.
+  */
+  string display_name = 4 [(buf.validate.field) = {
+    string: {
+      max_len: 100
+    }
+  }];
+
+  /*
+     External reference for client-side tracking and correlation.
+     This field allows clients to associate orders with their own identifiers.
+  */
+  string external_reference = 5 [(buf.validate.field) = {
+    string: {
+      max_len: 200
+    }
+  }];
+
+  /*
+     Order side indicating buy or sell.
+     This field is required on creation.
+  */
+  string side = 6 [(buf.validate.field) = {
+    required: true
+  }];
+
+  /*
+     Limit price for the order.
+     This field is required on creation.
+  */
+  meshtrade.type.v1.Amount limit_price = 7 [(buf.validate.field) = {
+    required: true
+  }];
+
+  /*
+     Order quantity.
+     This field is required on creation.
+  */
+  meshtrade.type.v1.Amount quantity = 8 [(buf.validate.field) = {
+    required: true
+  }];
+
+  /*
+     Fill price from live ledger data.
+     Only populated when live_ledger_data=true in request.
+  */
+  meshtrade.type.v1.Amount fill_price = 9;
+
+  /*
+     Filled quantity from live ledger data.
+     Only populated when live_ledger_data=true in request.
+  */
+  meshtrade.type.v1.Amount filled_quantity = 10;
+
+  /*
+     Order status from live ledger data.
+     Only populated when live_ledger_data=true in request.
+  */
+  string status = 11;
 }
