@@ -55,7 +55,6 @@ from .service_meshpy import (
 __all__ = [
     # Generated exports
     "CancelLimitOrderRequest",
-    "ClientOptions",
     "CreateLimitOrderRequest",
     "GetLimitOrderByExternalReferenceRequest",
     "GetLimitOrderRequest",
