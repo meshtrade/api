@@ -19,14 +19,63 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	LimitOrderService_GetLimitOrder_FullMethodName = "/meshtrade.trading.limit_order.v1.LimitOrderService/GetLimitOrder"
+	LimitOrderService_CreateLimitOrder_FullMethodName                     = "/meshtrade.trading.limit_order.v1.LimitOrderService/CreateLimitOrder"
+	LimitOrderService_CancelLimitOrder_FullMethodName                     = "/meshtrade.trading.limit_order.v1.LimitOrderService/CancelLimitOrder"
+	LimitOrderService_GetLimitOrder_FullMethodName                        = "/meshtrade.trading.limit_order.v1.LimitOrderService/GetLimitOrder"
+	LimitOrderService_GetLimitOrderByExternalReference_FullMethodName     = "/meshtrade.trading.limit_order.v1.LimitOrderService/GetLimitOrderByExternalReference"
+	LimitOrderService_ListLimitOrders_FullMethodName                      = "/meshtrade.trading.limit_order.v1.LimitOrderService/ListLimitOrders"
+	LimitOrderService_SearchLimitOrders_FullMethodName                    = "/meshtrade.trading.limit_order.v1.LimitOrderService/SearchLimitOrders"
+	LimitOrderService_MonitorLimitOrder_FullMethodName                    = "/meshtrade.trading.limit_order.v1.LimitOrderService/MonitorLimitOrder"
+	LimitOrderService_MonitorLimitOrderByExternalReference_FullMethodName = "/meshtrade.trading.limit_order.v1.LimitOrderService/MonitorLimitOrderByExternalReference"
 )
 
 // LimitOrderServiceClient is the client API for LimitOrderService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// LimitOrderService manages limit orders for trading operations (BETA).
+//
+// This service provides comprehensive limit order management capabilities including
+// order creation, cancellation, querying, and real-time monitoring. All operations
+// are scoped to the authenticated group's hierarchy and require appropriate trading
+// domain permissions.
+//
+// Note: This service is currently in BETA. Interface and functionality may change.
 type LimitOrderServiceClient interface {
+	// Creates a new limit order.
+	//
+	// Submits a limit order to the trading system. The order is validated and
+	// submitted to the appropriate ledger for execution.
+	CreateLimitOrder(ctx context.Context, in *CreateLimitOrderRequest, opts ...grpc.CallOption) (*LimitOrder, error)
+	// Cancels an existing limit order.
+	//
+	// Initiates cancellation of a limit order on the ledger.
+	CancelLimitOrder(ctx context.Context, in *CancelLimitOrderRequest, opts ...grpc.CallOption) (*LimitOrder, error)
+	// Retrieves a specific limit order by its resource name.
+	//
+	// Provides access to limit order metadata and optionally fetches live
+	// ledger data when populate_ledger_data is true.
 	GetLimitOrder(ctx context.Context, in *GetLimitOrderRequest, opts ...grpc.CallOption) (*LimitOrder, error)
+	// Retrieves a limit order by its external reference.
+	//
+	// Convenient lookup using client-provided external reference identifier.
+	GetLimitOrderByExternalReference(ctx context.Context, in *GetLimitOrderByExternalReferenceRequest, opts ...grpc.CallOption) (*LimitOrder, error)
+	// Lists all limit orders within the authenticated group's scope.
+	//
+	// Returns the complete set of limit orders accessible to the executing context.
+	ListLimitOrders(ctx context.Context, in *ListLimitOrdersRequest, opts ...grpc.CallOption) (*ListLimitOrdersResponse, error)
+	// Searches limit orders using flexible filtering criteria.
+	//
+	// Supports filtering by token, account, and populating live ledger data.
+	SearchLimitOrders(ctx context.Context, in *SearchLimitOrdersRequest, opts ...grpc.CallOption) (*SearchLimitOrdersResponse, error)
+	// Monitors a limit order for real-time updates.
+	//
+	// Returns a stream of limit order states as they change.
+	MonitorLimitOrder(ctx context.Context, in *MonitorLimitOrderRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[LimitOrder], error)
+	// Monitors a limit order by external reference for real-time updates.
+	//
+	// Returns a stream of limit order states as they change.
+	MonitorLimitOrderByExternalReference(ctx context.Context, in *MonitorLimitOrderByExternalReferenceRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[LimitOrder], error)
 }
 
 type limitOrderServiceClient struct {
@@ -35,6 +84,26 @@ type limitOrderServiceClient struct {
 
 func NewLimitOrderServiceClient(cc grpc.ClientConnInterface) LimitOrderServiceClient {
 	return &limitOrderServiceClient{cc}
+}
+
+func (c *limitOrderServiceClient) CreateLimitOrder(ctx context.Context, in *CreateLimitOrderRequest, opts ...grpc.CallOption) (*LimitOrder, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(LimitOrder)
+	err := c.cc.Invoke(ctx, LimitOrderService_CreateLimitOrder_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *limitOrderServiceClient) CancelLimitOrder(ctx context.Context, in *CancelLimitOrderRequest, opts ...grpc.CallOption) (*LimitOrder, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(LimitOrder)
+	err := c.cc.Invoke(ctx, LimitOrderService_CancelLimitOrder_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *limitOrderServiceClient) GetLimitOrder(ctx context.Context, in *GetLimitOrderRequest, opts ...grpc.CallOption) (*LimitOrder, error) {
@@ -47,11 +116,121 @@ func (c *limitOrderServiceClient) GetLimitOrder(ctx context.Context, in *GetLimi
 	return out, nil
 }
 
+func (c *limitOrderServiceClient) GetLimitOrderByExternalReference(ctx context.Context, in *GetLimitOrderByExternalReferenceRequest, opts ...grpc.CallOption) (*LimitOrder, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(LimitOrder)
+	err := c.cc.Invoke(ctx, LimitOrderService_GetLimitOrderByExternalReference_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *limitOrderServiceClient) ListLimitOrders(ctx context.Context, in *ListLimitOrdersRequest, opts ...grpc.CallOption) (*ListLimitOrdersResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListLimitOrdersResponse)
+	err := c.cc.Invoke(ctx, LimitOrderService_ListLimitOrders_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *limitOrderServiceClient) SearchLimitOrders(ctx context.Context, in *SearchLimitOrdersRequest, opts ...grpc.CallOption) (*SearchLimitOrdersResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SearchLimitOrdersResponse)
+	err := c.cc.Invoke(ctx, LimitOrderService_SearchLimitOrders_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *limitOrderServiceClient) MonitorLimitOrder(ctx context.Context, in *MonitorLimitOrderRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[LimitOrder], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &LimitOrderService_ServiceDesc.Streams[0], LimitOrderService_MonitorLimitOrder_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[MonitorLimitOrderRequest, LimitOrder]{ClientStream: stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type LimitOrderService_MonitorLimitOrderClient = grpc.ServerStreamingClient[LimitOrder]
+
+func (c *limitOrderServiceClient) MonitorLimitOrderByExternalReference(ctx context.Context, in *MonitorLimitOrderByExternalReferenceRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[LimitOrder], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &LimitOrderService_ServiceDesc.Streams[1], LimitOrderService_MonitorLimitOrderByExternalReference_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[MonitorLimitOrderByExternalReferenceRequest, LimitOrder]{ClientStream: stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type LimitOrderService_MonitorLimitOrderByExternalReferenceClient = grpc.ServerStreamingClient[LimitOrder]
+
 // LimitOrderServiceServer is the server API for LimitOrderService service.
 // All implementations must embed UnimplementedLimitOrderServiceServer
 // for forward compatibility.
+//
+// LimitOrderService manages limit orders for trading operations (BETA).
+//
+// This service provides comprehensive limit order management capabilities including
+// order creation, cancellation, querying, and real-time monitoring. All operations
+// are scoped to the authenticated group's hierarchy and require appropriate trading
+// domain permissions.
+//
+// Note: This service is currently in BETA. Interface and functionality may change.
 type LimitOrderServiceServer interface {
+	// Creates a new limit order.
+	//
+	// Submits a limit order to the trading system. The order is validated and
+	// submitted to the appropriate ledger for execution.
+	CreateLimitOrder(context.Context, *CreateLimitOrderRequest) (*LimitOrder, error)
+	// Cancels an existing limit order.
+	//
+	// Initiates cancellation of a limit order on the ledger.
+	CancelLimitOrder(context.Context, *CancelLimitOrderRequest) (*LimitOrder, error)
+	// Retrieves a specific limit order by its resource name.
+	//
+	// Provides access to limit order metadata and optionally fetches live
+	// ledger data when populate_ledger_data is true.
 	GetLimitOrder(context.Context, *GetLimitOrderRequest) (*LimitOrder, error)
+	// Retrieves a limit order by its external reference.
+	//
+	// Convenient lookup using client-provided external reference identifier.
+	GetLimitOrderByExternalReference(context.Context, *GetLimitOrderByExternalReferenceRequest) (*LimitOrder, error)
+	// Lists all limit orders within the authenticated group's scope.
+	//
+	// Returns the complete set of limit orders accessible to the executing context.
+	ListLimitOrders(context.Context, *ListLimitOrdersRequest) (*ListLimitOrdersResponse, error)
+	// Searches limit orders using flexible filtering criteria.
+	//
+	// Supports filtering by token, account, and populating live ledger data.
+	SearchLimitOrders(context.Context, *SearchLimitOrdersRequest) (*SearchLimitOrdersResponse, error)
+	// Monitors a limit order for real-time updates.
+	//
+	// Returns a stream of limit order states as they change.
+	MonitorLimitOrder(*MonitorLimitOrderRequest, grpc.ServerStreamingServer[LimitOrder]) error
+	// Monitors a limit order by external reference for real-time updates.
+	//
+	// Returns a stream of limit order states as they change.
+	MonitorLimitOrderByExternalReference(*MonitorLimitOrderByExternalReferenceRequest, grpc.ServerStreamingServer[LimitOrder]) error
 	mustEmbedUnimplementedLimitOrderServiceServer()
 }
 
@@ -62,8 +241,29 @@ type LimitOrderServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedLimitOrderServiceServer struct{}
 
+func (UnimplementedLimitOrderServiceServer) CreateLimitOrder(context.Context, *CreateLimitOrderRequest) (*LimitOrder, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateLimitOrder not implemented")
+}
+func (UnimplementedLimitOrderServiceServer) CancelLimitOrder(context.Context, *CancelLimitOrderRequest) (*LimitOrder, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CancelLimitOrder not implemented")
+}
 func (UnimplementedLimitOrderServiceServer) GetLimitOrder(context.Context, *GetLimitOrderRequest) (*LimitOrder, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetLimitOrder not implemented")
+}
+func (UnimplementedLimitOrderServiceServer) GetLimitOrderByExternalReference(context.Context, *GetLimitOrderByExternalReferenceRequest) (*LimitOrder, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetLimitOrderByExternalReference not implemented")
+}
+func (UnimplementedLimitOrderServiceServer) ListLimitOrders(context.Context, *ListLimitOrdersRequest) (*ListLimitOrdersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListLimitOrders not implemented")
+}
+func (UnimplementedLimitOrderServiceServer) SearchLimitOrders(context.Context, *SearchLimitOrdersRequest) (*SearchLimitOrdersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SearchLimitOrders not implemented")
+}
+func (UnimplementedLimitOrderServiceServer) MonitorLimitOrder(*MonitorLimitOrderRequest, grpc.ServerStreamingServer[LimitOrder]) error {
+	return status.Errorf(codes.Unimplemented, "method MonitorLimitOrder not implemented")
+}
+func (UnimplementedLimitOrderServiceServer) MonitorLimitOrderByExternalReference(*MonitorLimitOrderByExternalReferenceRequest, grpc.ServerStreamingServer[LimitOrder]) error {
+	return status.Errorf(codes.Unimplemented, "method MonitorLimitOrderByExternalReference not implemented")
 }
 func (UnimplementedLimitOrderServiceServer) mustEmbedUnimplementedLimitOrderServiceServer() {}
 func (UnimplementedLimitOrderServiceServer) testEmbeddedByValue()                           {}
@@ -86,6 +286,42 @@ func RegisterLimitOrderServiceServer(s grpc.ServiceRegistrar, srv LimitOrderServ
 	s.RegisterService(&LimitOrderService_ServiceDesc, srv)
 }
 
+func _LimitOrderService_CreateLimitOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateLimitOrderRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LimitOrderServiceServer).CreateLimitOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: LimitOrderService_CreateLimitOrder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LimitOrderServiceServer).CreateLimitOrder(ctx, req.(*CreateLimitOrderRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LimitOrderService_CancelLimitOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CancelLimitOrderRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LimitOrderServiceServer).CancelLimitOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: LimitOrderService_CancelLimitOrder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LimitOrderServiceServer).CancelLimitOrder(ctx, req.(*CancelLimitOrderRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _LimitOrderService_GetLimitOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetLimitOrderRequest)
 	if err := dec(in); err != nil {
@@ -104,6 +340,82 @@ func _LimitOrderService_GetLimitOrder_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _LimitOrderService_GetLimitOrderByExternalReference_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetLimitOrderByExternalReferenceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LimitOrderServiceServer).GetLimitOrderByExternalReference(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: LimitOrderService_GetLimitOrderByExternalReference_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LimitOrderServiceServer).GetLimitOrderByExternalReference(ctx, req.(*GetLimitOrderByExternalReferenceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LimitOrderService_ListLimitOrders_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListLimitOrdersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LimitOrderServiceServer).ListLimitOrders(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: LimitOrderService_ListLimitOrders_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LimitOrderServiceServer).ListLimitOrders(ctx, req.(*ListLimitOrdersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LimitOrderService_SearchLimitOrders_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SearchLimitOrdersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LimitOrderServiceServer).SearchLimitOrders(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: LimitOrderService_SearchLimitOrders_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LimitOrderServiceServer).SearchLimitOrders(ctx, req.(*SearchLimitOrdersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LimitOrderService_MonitorLimitOrder_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(MonitorLimitOrderRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(LimitOrderServiceServer).MonitorLimitOrder(m, &grpc.GenericServerStream[MonitorLimitOrderRequest, LimitOrder]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type LimitOrderService_MonitorLimitOrderServer = grpc.ServerStreamingServer[LimitOrder]
+
+func _LimitOrderService_MonitorLimitOrderByExternalReference_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(MonitorLimitOrderByExternalReferenceRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(LimitOrderServiceServer).MonitorLimitOrderByExternalReference(m, &grpc.GenericServerStream[MonitorLimitOrderByExternalReferenceRequest, LimitOrder]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type LimitOrderService_MonitorLimitOrderByExternalReferenceServer = grpc.ServerStreamingServer[LimitOrder]
+
 // LimitOrderService_ServiceDesc is the grpc.ServiceDesc for LimitOrderService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -112,10 +424,41 @@ var LimitOrderService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*LimitOrderServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
+			MethodName: "CreateLimitOrder",
+			Handler:    _LimitOrderService_CreateLimitOrder_Handler,
+		},
+		{
+			MethodName: "CancelLimitOrder",
+			Handler:    _LimitOrderService_CancelLimitOrder_Handler,
+		},
+		{
 			MethodName: "GetLimitOrder",
 			Handler:    _LimitOrderService_GetLimitOrder_Handler,
 		},
+		{
+			MethodName: "GetLimitOrderByExternalReference",
+			Handler:    _LimitOrderService_GetLimitOrderByExternalReference_Handler,
+		},
+		{
+			MethodName: "ListLimitOrders",
+			Handler:    _LimitOrderService_ListLimitOrders_Handler,
+		},
+		{
+			MethodName: "SearchLimitOrders",
+			Handler:    _LimitOrderService_SearchLimitOrders_Handler,
+		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "MonitorLimitOrder",
+			Handler:       _LimitOrderService_MonitorLimitOrder_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "MonitorLimitOrderByExternalReference",
+			Handler:       _LimitOrderService_MonitorLimitOrderByExternalReference_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "meshtrade/trading/limit_order/v1/service.proto",
 }

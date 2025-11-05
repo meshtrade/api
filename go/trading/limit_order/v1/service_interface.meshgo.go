@@ -6,8 +6,82 @@ import (
 	context "context"
 )
 
+// LimitOrderService_MonitorLimitOrderStream is a transport-agnostic interface for server-side streaming.
+// The service implementation uses this interface to send multiple responses to the client.
+type LimitOrderService_MonitorLimitOrderStream interface {
+	// Send sends a LimitOrder to the client.
+	// It can be called multiple times to stream responses.
+	// Returns an error if the stream is closed or the client has disconnected.
+	Send(*LimitOrder) error
+
+	// Context returns the stream's context.
+	// The context is canceled when the client disconnects or the deadline expires.
+	Context() context.Context
+}
+
+// LimitOrderService_MonitorLimitOrderByExternalReferenceStream is a transport-agnostic interface for server-side streaming.
+// The service implementation uses this interface to send multiple responses to the client.
+type LimitOrderService_MonitorLimitOrderByExternalReferenceStream interface {
+	// Send sends a LimitOrder to the client.
+	// It can be called multiple times to stream responses.
+	// Returns an error if the stream is closed or the client has disconnected.
+	Send(*LimitOrder) error
+
+	// Context returns the stream's context.
+	// The context is canceled when the client disconnects or the deadline expires.
+	Context() context.Context
+}
+
+// LimitOrderService manages limit orders for trading operations (BETA).
+//
+// This service provides comprehensive limit order management capabilities including
+// order creation, cancellation, querying, and real-time monitoring. All operations
+// are scoped to the authenticated group's hierarchy and require appropriate trading
+// domain permissions.
+//
+// Note: This service is currently in BETA. Interface and functionality may change.
 type LimitOrderService interface {
+	// Creates a new limit order.
+	//
+	// Submits a limit order to the trading system. The order is validated and
+	// submitted to the appropriate ledger for execution.
+	CreateLimitOrder(ctx context.Context, request *CreateLimitOrderRequest) (*LimitOrder, error)
+
+	// Cancels an existing limit order.
+	//
+	// Initiates cancellation of a limit order on the ledger.
+	CancelLimitOrder(ctx context.Context, request *CancelLimitOrderRequest) (*LimitOrder, error)
+
+	// Retrieves a specific limit order by its resource name.
+	//
+	// Provides access to limit order metadata and optionally fetches live
+	// ledger data when populate_ledger_data is true.
 	GetLimitOrder(ctx context.Context, request *GetLimitOrderRequest) (*LimitOrder, error)
+
+	// Retrieves a limit order by its external reference.
+	//
+	// Convenient lookup using client-provided external reference identifier.
+	GetLimitOrderByExternalReference(ctx context.Context, request *GetLimitOrderByExternalReferenceRequest) (*LimitOrder, error)
+
+	// Lists all limit orders within the authenticated group's scope.
+	//
+	// Returns the complete set of limit orders accessible to the executing context.
+	ListLimitOrders(ctx context.Context, request *ListLimitOrdersRequest) (*ListLimitOrdersResponse, error)
+
+	// Searches limit orders using flexible filtering criteria.
+	//
+	// Supports filtering by token, account, and populating live ledger data.
+	SearchLimitOrders(ctx context.Context, request *SearchLimitOrdersRequest) (*SearchLimitOrdersResponse, error)
+
+	// Monitors a limit order for real-time updates.
+	//
+	// Returns a stream of limit order states as they change.
+	MonitorLimitOrder(ctx context.Context, request *MonitorLimitOrderRequest, stream LimitOrderService_MonitorLimitOrderStream) error
+
+	// Monitors a limit order by external reference for real-time updates.
+	//
+	// Returns a stream of limit order states as they change.
+	MonitorLimitOrderByExternalReference(ctx context.Context, request *MonitorLimitOrderByExternalReferenceRequest, stream LimitOrderService_MonitorLimitOrderByExternalReferenceStream) error
 }
 
 const LimitOrderServiceServiceProviderName = "meshtrade-trading-limit_order-v1-LimitOrderService"

@@ -7,6 +7,8 @@
 package limit_order_v1
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
+	v1 "github.com/meshtrade/api/go/type/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -21,9 +23,50 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// LimitOrder resource representing a limit order for trading on the Mesh platform.
+//
+// Limit orders enable traders to specify price and quantity for buying or selling
+// instruments on supported ledgers. Each order is owned by a group and associated
+// with a specific account.
 type LimitOrder struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Number        string                 `protobuf:"bytes,1,opt,name=number,proto3" json:"number,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The unique resource name for the limit order.
+	// Format: limit_orders/{ULIDv2}.
+	// This field is system-generated and immutable upon creation.
+	// Any value provided on creation is ignored.
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	// The resource name of the parent group that owns this limit order.
+	// This field is required on creation and establishes the direct ownership link.
+	// Format: groups/{ULIDv2}.
+	Owner string `protobuf:"bytes,2,opt,name=owner,proto3" json:"owner,omitempty"`
+	// The account associated with this limit order.
+	// Format: accounts/{ULIDv2}.
+	// This field is required on creation.
+	Account string `protobuf:"bytes,3,opt,name=account,proto3" json:"account,omitempty"`
+	// Human-readable name for organizational identification and display.
+	// User-configurable and non-unique across the system.
+	DisplayName string `protobuf:"bytes,4,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
+	// External reference for client-side tracking and correlation.
+	// This field allows clients to associate orders with their own identifiers.
+	ExternalReference string `protobuf:"bytes,5,opt,name=external_reference,json=externalReference,proto3" json:"external_reference,omitempty"`
+	// Order side indicating buy or sell.
+	// This field is required on creation.
+	Side string `protobuf:"bytes,6,opt,name=side,proto3" json:"side,omitempty"`
+	// Limit price for the order.
+	// This field is required on creation.
+	LimitPrice *v1.Amount `protobuf:"bytes,7,opt,name=limit_price,json=limitPrice,proto3" json:"limit_price,omitempty"`
+	// Order quantity.
+	// This field is required on creation.
+	Quantity *v1.Amount `protobuf:"bytes,8,opt,name=quantity,proto3" json:"quantity,omitempty"`
+	// Fill price from live ledger data.
+	// Only populated when live_ledger_data=true in request.
+	FillPrice *v1.Amount `protobuf:"bytes,9,opt,name=fill_price,json=fillPrice,proto3" json:"fill_price,omitempty"`
+	// Filled quantity from live ledger data.
+	// Only populated when live_ledger_data=true in request.
+	FilledQuantity *v1.Amount `protobuf:"bytes,10,opt,name=filled_quantity,json=filledQuantity,proto3" json:"filled_quantity,omitempty"`
+	// Order status from live ledger data.
+	// Only populated when live_ledger_data=true in request.
+	Status        string `protobuf:"bytes,11,opt,name=status,proto3" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -58,9 +101,79 @@ func (*LimitOrder) Descriptor() ([]byte, []int) {
 	return file_meshtrade_trading_limit_order_v1_limit_order_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *LimitOrder) GetNumber() string {
+func (x *LimitOrder) GetName() string {
 	if x != nil {
-		return x.Number
+		return x.Name
+	}
+	return ""
+}
+
+func (x *LimitOrder) GetOwner() string {
+	if x != nil {
+		return x.Owner
+	}
+	return ""
+}
+
+func (x *LimitOrder) GetAccount() string {
+	if x != nil {
+		return x.Account
+	}
+	return ""
+}
+
+func (x *LimitOrder) GetDisplayName() string {
+	if x != nil {
+		return x.DisplayName
+	}
+	return ""
+}
+
+func (x *LimitOrder) GetExternalReference() string {
+	if x != nil {
+		return x.ExternalReference
+	}
+	return ""
+}
+
+func (x *LimitOrder) GetSide() string {
+	if x != nil {
+		return x.Side
+	}
+	return ""
+}
+
+func (x *LimitOrder) GetLimitPrice() *v1.Amount {
+	if x != nil {
+		return x.LimitPrice
+	}
+	return nil
+}
+
+func (x *LimitOrder) GetQuantity() *v1.Amount {
+	if x != nil {
+		return x.Quantity
+	}
+	return nil
+}
+
+func (x *LimitOrder) GetFillPrice() *v1.Amount {
+	if x != nil {
+		return x.FillPrice
+	}
+	return nil
+}
+
+func (x *LimitOrder) GetFilledQuantity() *v1.Amount {
+	if x != nil {
+		return x.FilledQuantity
+	}
+	return nil
+}
+
+func (x *LimitOrder) GetStatus() string {
+	if x != nil {
+		return x.Status
 	}
 	return ""
 }
@@ -69,10 +182,24 @@ var File_meshtrade_trading_limit_order_v1_limit_order_proto protoreflect.FileDes
 
 const file_meshtrade_trading_limit_order_v1_limit_order_proto_rawDesc = "" +
 	"\n" +
-	"2meshtrade/trading/limit_order/v1/limit_order.proto\x12 meshtrade.trading.limit_order.v1\"$\n" +
+	"2meshtrade/trading/limit_order/v1/limit_order.proto\x12 meshtrade.trading.limit_order.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1emeshtrade/type/v1/amount.proto\"\x9f\x06\n" +
 	"\n" +
-	"LimitOrder\x12\x16\n" +
-	"\x06number\x18\x01 \x01(\tR\x06numberBl\n" +
+	"LimitOrder\x12\xc8\x01\n" +
+	"\x04name\x18\x01 \x01(\tB\xb3\x01\xbaH\xaf\x01\xba\x01\xab\x01\n" +
+	"\x14name.format.optional\x129name must be empty or in the format limit_orders/{ULIDv2}\x1aXsize(this) == 0 || this.matches('^limit_orders/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12R\n" +
+	"\x05owner\x18\x02 \x01(\tB<\xbaH9\xc8\x01\x01r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05owner\x12X\n" +
+	"\aaccount\x18\x03 \x01(\tB>\xbaH;\xc8\x01\x01r621^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01#R\aaccount\x12*\n" +
+	"\fdisplay_name\x18\x04 \x01(\tB\a\xbaH\x04r\x02\x18dR\vdisplayName\x127\n" +
+	"\x12external_reference\x18\x05 \x01(\tB\b\xbaH\x05r\x03\x18\xc8\x01R\x11externalReference\x12\x1a\n" +
+	"\x04side\x18\x06 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\x04side\x12B\n" +
+	"\vlimit_price\x18\a \x01(\v2\x19.meshtrade.type.v1.AmountB\x06\xbaH\x03\xc8\x01\x01R\n" +
+	"limitPrice\x12=\n" +
+	"\bquantity\x18\b \x01(\v2\x19.meshtrade.type.v1.AmountB\x06\xbaH\x03\xc8\x01\x01R\bquantity\x128\n" +
+	"\n" +
+	"fill_price\x18\t \x01(\v2\x19.meshtrade.type.v1.AmountR\tfillPrice\x12B\n" +
+	"\x0ffilled_quantity\x18\n" +
+	" \x01(\v2\x19.meshtrade.type.v1.AmountR\x0efilledQuantity\x12\x16\n" +
+	"\x06status\x18\v \x01(\tR\x06statusBl\n" +
 	"'co.meshtrade.api.trading.limit_order.v1ZAgithub.com/meshtrade/api/go/trading/limit_order/v1;limit_order_v1b\x06proto3"
 
 var (
@@ -90,13 +217,18 @@ func file_meshtrade_trading_limit_order_v1_limit_order_proto_rawDescGZIP() []byt
 var file_meshtrade_trading_limit_order_v1_limit_order_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_meshtrade_trading_limit_order_v1_limit_order_proto_goTypes = []any{
 	(*LimitOrder)(nil), // 0: meshtrade.trading.limit_order.v1.LimitOrder
+	(*v1.Amount)(nil),  // 1: meshtrade.type.v1.Amount
 }
 var file_meshtrade_trading_limit_order_v1_limit_order_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	1, // 0: meshtrade.trading.limit_order.v1.LimitOrder.limit_price:type_name -> meshtrade.type.v1.Amount
+	1, // 1: meshtrade.trading.limit_order.v1.LimitOrder.quantity:type_name -> meshtrade.type.v1.Amount
+	1, // 2: meshtrade.trading.limit_order.v1.LimitOrder.fill_price:type_name -> meshtrade.type.v1.Amount
+	1, // 3: meshtrade.trading.limit_order.v1.LimitOrder.filled_quantity:type_name -> meshtrade.type.v1.Amount
+	4, // [4:4] is the sub-list for method output_type
+	4, // [4:4] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_trading_limit_order_v1_limit_order_proto_init() }
