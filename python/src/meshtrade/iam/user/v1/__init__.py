@@ -15,11 +15,12 @@
 # Generated protobuf imports
 from .user_pb2 import User
 from .service_pb2 import (
-    AssignRoleToUserRequest,
+    AssignRolesToUserRequest,
     CreateUserRequest,
     GetUserRequest,
     ListUsersRequest,
     ListUsersResponse,
+    RevokeRolesFromUserRequest,
     SearchUsersRequest,
     SearchUsersResponse,
     UpdateUserRequest,
@@ -31,7 +32,6 @@ from .service_meshpy import (
     UserServiceGRPCClient,
     UserServiceGRPCClientInterface,
 )
-from .service_options_meshpy import ClientOptions
 
 # ===================================================================
 # END OF AUTO-GENERATED SECTION
@@ -53,12 +53,12 @@ from .service_options_meshpy import ClientOptions
 # Combined auto-generated and manual exports
 __all__ = [
     # Generated exports
-    "AssignRoleToUserRequest",
-    "ClientOptions",
+    "AssignRolesToUserRequest",
     "CreateUserRequest",
     "GetUserRequest",
     "ListUsersRequest",
     "ListUsersResponse",
+    "RevokeRolesFromUserRequest",
     "SearchUsersRequest",
     "SearchUsersResponse",
     "UpdateUserRequest",

@@ -5,7 +5,6 @@ package meshtrade.compliance.client.v1;
 import "buf/validate/validate.proto";
 import "google/protobuf/timestamp.proto";
 import "meshtrade/compliance/client/v1/company.proto";
-import "meshtrade/iam/role/v1/role.proto";
 import "meshtrade/compliance/client/v1/fund.proto";
 import "meshtrade/compliance/client/v1/natural_person.proto";
 import "meshtrade/compliance/client/v1/trust.proto";
@@ -20,17 +19,6 @@ option java_package = "co.meshtrade.api.compliance.client.v1";
    and verification status related to a single party.
 */
 message Client {
-  // List of roles available to all Clients without explicit assignment.
-  option (meshtrade.iam.role.v1.message_roles) = {
-    roles: [
-      ROLE_COMPLIANCE_CLIENT_VIEWER,
-      ROLE_IAM_VIEWER,
-      ROLE_IAM_API_USER_VIEWER,
-      ROLE_IAM_GROUP_VIEWER,
-      ROLE_IAM_USER_VIEWER
-    ]
-  };
-
   /*
      The unique, immutable, and canonical name of the client resource in the format clients/{client_id}.
      The {client_id} is a system-generated unique identifier (e.g., UUID) that will never change. This name field will never change and should be used as the permanent primary key for this resource in all systems.
@@ -38,8 +26,8 @@ message Client {
   */
   string name = 1 [(buf.validate.field) = {
     cel: {
-      id: "name.format.optional",
-      message: "name must be empty or in the format clients/{ULIDv2}",
+      id: "name.format.optional"
+      message: "name must be empty or in the format clients/{ULIDv2}"
       expression: "size(this) == 0 || this.matches('^clients/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
     }
   }];
@@ -52,9 +40,9 @@ message Client {
      Required on creation.
   */
   string owner = 2 [(buf.validate.field) = {
-    required: true,
+    required: true
     string: {
-      len: 33,
+      len: 33
       pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
@@ -65,9 +53,9 @@ message Client {
      Required on creation.
   */
   string display_name = 3 [(buf.validate.field) = {
-    required: true,
+    required: true
     string: {
-      min_len: 1,
+      min_len: 1
       max_len: 255
     }
   }];
@@ -103,7 +91,7 @@ message Client {
      Must always be a valid field
   */
   meshtrade.compliance.client.v1.VerificationStatus verification_status = 8 [(buf.validate.field) = {
-    required: true,
+    required: true
     enum: {defined_only: true}
   }];
 
@@ -114,8 +102,8 @@ message Client {
   */
   string verification_authority = 9 [(buf.validate.field) = {
     cel: {
-      id: "verification_authority.format.optional",
-      message: "verification_authority must be empty or in the format clients/{ULIDv2}",
+      id: "verification_authority.format.optional"
+      message: "verification_authority must be empty or in the format clients/{ULIDv2}"
       expression: "size(this) == 0 || this.matches('^clients/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
     }
   }];
@@ -133,26 +121,4 @@ message Client {
      Optional for Verification.
   */
   google.protobuf.Timestamp next_verification_date = 11;
-
-  /*
-     A list of the role types that meshtrade.iam.user.v1.User and  meshtrade.iam.api_user.v1.User instances may be assigned
-     in groups within this client structure.
-
-	   NOTE: a viewer role at a domain e.g. IAM_VIEWER allows viewer roles in ALL sub domain roles e.g. IAM_GROUP_VIEWER
-	   NOTE: an admin role at a domain e.g. IAM_ADMIN allows viewer at that domain i.e. IAM_VIEWER, AND
-	         admin and viewer roles in ALL sub domain roles e.g., IAM_GROUP_ADMIN and IAM_GROUP_VIEWER
-
-     For more on client and group structures see:
-     See https://meshtrade.github.io/api/docs/architecture/group-ownership
-     See https://meshtrade.github.io/api/docs/architecture/role-based-access
-     See https://meshtrade.github.io/api/docs/architecture/client-structuring
-  */
-   repeated meshtrade.iam.role.v1.Role roles = 12 [(buf.validate.field) = {
-   required: true
-   repeated: {
-      items: {
-         enum: {defined_only: true}
-      }
-    }
-   }];
 }

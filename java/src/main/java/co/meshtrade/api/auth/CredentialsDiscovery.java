@@ -1,15 +1,15 @@
 package co.meshtrade.api.auth;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Utility class for discovering Meshtrade API credentials using a standardized hierarchy.
@@ -18,7 +18,8 @@ import java.util.Optional;
  * as the Go and Python SDKs. It searches for credentials in the following order:
  * 
  * <ol>
- * <li><strong>Environment Variable:</strong> {@code MESH_API_CREDENTIALS} containing the path to a JSON credentials file</li>
+ * <li><strong>Environment Variable:</strong> {@code MESH_API_CREDENTIALS} containing the path to a JSON
+ * credentials file</li>
  * <li><strong>Platform-specific files:</strong>
  *     <ul>
  *     <li>Linux: {@code $XDG_CONFIG_HOME/mesh/credentials.json} or {@code ~/.config/mesh/credentials.json}</li>
@@ -54,11 +55,11 @@ import java.util.Optional;
  * @see <a href="https://meshtrade.github.io/api/docs/architecture/authentication">Authentication Guide</a>
  */
 public final class CredentialsDiscovery {
-    private static final Logger logger = LoggerFactory.getLogger(CredentialsDiscovery.class);
-    
+    private static final Logger LOGGER = LoggerFactory.getLogger(CredentialsDiscovery.class);
+
     private static final String ENV_VAR_NAME = "MESH_API_CREDENTIALS";
     private static final String CREDENTIALS_FILENAME = "credentials.json";
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     
     // Private constructor to prevent instantiation
     private CredentialsDiscovery() {
@@ -77,23 +78,23 @@ public final class CredentialsDiscovery {
      * @return credentials if found, or empty Optional if no valid credentials are discovered
      */
     public static Optional<Credentials> findCredentials() {
-        logger.debug("Starting credential discovery");
+        LOGGER.debug("Starting credential discovery");
         
         // 1. Check environment variable
         Optional<Credentials> envCredentials = findCredentialsFromEnvironment();
         if (envCredentials.isPresent()) {
-            logger.debug("Found credentials in environment variable");
+            LOGGER.debug("Found credentials in environment variable");
             return envCredentials;
         }
         
         // 2. Check platform-specific files
         Optional<Credentials> fileCredentials = findCredentialsFromFile();
         if (fileCredentials.isPresent()) {
-            logger.debug("Found credentials in file");
+            LOGGER.debug("Found credentials in file");
             return fileCredentials;
         }
         
-        logger.debug("No credentials found in any location");
+        LOGGER.debug("No credentials found in any location");
         return Optional.empty();
     }
     
@@ -108,16 +109,16 @@ public final class CredentialsDiscovery {
     static Optional<Credentials> findCredentialsFromEnvironment() {
         String envValue = System.getenv(ENV_VAR_NAME);
         if (envValue == null || envValue.trim().isEmpty()) {
-            logger.debug("Environment variable {} not set or empty", ENV_VAR_NAME);
+            LOGGER.debug("Environment variable {} not set or empty", ENV_VAR_NAME);
             return Optional.empty();
         }
         
         String credentialsPath = envValue.trim();
-        logger.debug("Loading credentials from environment variable path: {}", credentialsPath);
+        LOGGER.debug("Loading credentials from environment variable path: {}", credentialsPath);
         
         Path path = Paths.get(credentialsPath);
         if (!Files.exists(path) || !Files.isReadable(path)) {
-            logger.warn("Credentials file not found or not readable: {}", credentialsPath);
+            LOGGER.warn("Credentials file not found or not readable: {}", credentialsPath);
             return Optional.empty();
         }
         
@@ -125,13 +126,15 @@ public final class CredentialsDiscovery {
             String content = Files.readString(path);
             Optional<Credentials> credentials = parseCredentialsJson(content);
             if (credentials.isPresent()) {
-                logger.debug("Successfully loaded credentials from environment variable path: {}", credentialsPath);
+                LOGGER.debug("Successfully loaded credentials from environment variable path: {}", credentialsPath);
                 return credentials;
             }
         } catch (IOException e) {
-            logger.warn("Failed to read credentials file from environment variable {}: {}", credentialsPath, e.getMessage());
+            LOGGER.warn("Failed to read credentials file from environment variable {}: {}",
+                    credentialsPath, e.getMessage());
         } catch (Exception e) {
-            logger.warn("Failed to parse credentials from environment variable file {}: {}", credentialsPath, e.getMessage());
+            LOGGER.warn("Failed to parse credentials from environment variable file {}: {}",
+                    credentialsPath, e.getMessage());
         }
         
         return Optional.empty();
@@ -144,20 +147,20 @@ public final class CredentialsDiscovery {
      */
     static Optional<Credentials> findCredentialsFromFile() {
         for (Path credentialsPath : getPlatformCredentialPaths()) {
-            logger.debug("Checking for credentials file: {}", credentialsPath);
+            LOGGER.debug("Checking for credentials file: {}", credentialsPath);
             
             if (Files.exists(credentialsPath) && Files.isReadable(credentialsPath)) {
                 try {
                     String content = Files.readString(credentialsPath);
                     Optional<Credentials> credentials = parseCredentialsJson(content);
                     if (credentials.isPresent()) {
-                        logger.debug("Successfully loaded credentials from: {}", credentialsPath);
+                        LOGGER.debug("Successfully loaded credentials from: {}", credentialsPath);
                         return credentials;
                     }
                 } catch (IOException e) {
-                    logger.warn("Failed to read credentials file {}: {}", credentialsPath, e.getMessage());
+                    LOGGER.warn("Failed to read credentials file {}: {}", credentialsPath, e.getMessage());
                 } catch (Exception e) {
-                    logger.warn("Failed to parse credentials from file {}: {}", credentialsPath, e.getMessage());
+                    LOGGER.warn("Failed to parse credentials from file {}: {}", credentialsPath, e.getMessage());
                 }
             }
         }
@@ -221,19 +224,19 @@ public final class CredentialsDiscovery {
             return Optional.empty();
         }
         
-        JsonNode root = objectMapper.readTree(jsonContent.trim());
+        JsonNode root = OBJECT_MAPPER.readTree(jsonContent.trim());
         
         // Extract required fields
         JsonNode apiKeyNode = root.get("api_key");
         JsonNode groupNode = root.get("group");
         
         if (apiKeyNode == null || !apiKeyNode.isTextual()) {
-            logger.warn("Missing or invalid 'api_key' field in credentials JSON");
+            LOGGER.warn("Missing or invalid 'api_key' field in credentials JSON");
             return Optional.empty();
         }
         
         if (groupNode == null || !groupNode.isTextual()) {
-            logger.warn("Missing or invalid 'group' field in credentials JSON");
+            LOGGER.warn("Missing or invalid 'group' field in credentials JSON");
             return Optional.empty();
         }
         
@@ -241,16 +244,16 @@ public final class CredentialsDiscovery {
         String group = groupNode.asText().trim();
         
         if (apiKey.isEmpty() || group.isEmpty()) {
-            logger.warn("Empty api_key or group in credentials JSON");
+            LOGGER.warn("Empty api_key or group in credentials JSON");
             return Optional.empty();
         }
         
         try {
             Credentials credentials = new Credentials(apiKey, group);
-            logger.debug("Successfully parsed credentials for group: {}", group);
+            LOGGER.debug("Successfully parsed credentials for group: {}", group);
             return Optional.of(credentials);
         } catch (Exception e) {
-            logger.warn("Invalid credential format: {}", e.getMessage());
+            LOGGER.warn("Invalid credential format: {}", e.getMessage());
             return Optional.empty();
         }
     }

@@ -130,6 +130,49 @@ message = (
 )
 ```
 
+### Java Linting Standards
+
+**Configuration**: Uses comprehensive linting stack with multiple tools (see `java/pom.xml`)
+
+**Linting Tools**:
+- **Checkstyle**: Code style enforcement (Google Java Style Guide)
+- **PMD**: Code quality analysis and complexity checking
+- **Error Prone**: Compile-time bug detection (Google)
+
+**Key Style Rules**:
+- **Line Length**: 120 characters max (adjusted for Java verbosity)
+- **JavaDoc**: Required for all public classes, methods, and constructors
+- **Indentation**: 4 spaces (no tabs)
+- **Naming**: camelCase for variables/methods, PascalCase for classes, UPPER_SNAKE_CASE for constants
+- **Imports**: No star imports, organized by groups (java.*, javax.*, *, co.meshtrade.*)
+
+**Running Linters**:
+```bash
+cd java
+
+# Run all linters (part of test suite)
+mvn verify
+
+# Run individual linters
+mvn checkstyle:check     # Code style
+mvn pmd:check            # Code quality
+
+# View HTML reports
+open target/site/checkstyle.html
+open target/site/pmd.html
+```
+
+**Configuration Files**:
+- `java/checkstyle.xml` - Checkstyle rules (Google Style)
+- `java/pmd-ruleset.xml` - PMD custom rules
+- `java/.editorconfig` - Editor consistency settings
+
+**Best Practices**:
+1. Run `mvn verify` before committing to catch all violations
+2. Fix violations immediately - don't accumulate technical debt
+3. Use `@SuppressWarnings` sparingly and only with justification comments
+4. Generated protobuf code is automatically excluded from all checks
+
 
 ## Architecture
 
@@ -222,7 +265,7 @@ The testing system provides robust validation across all SDK languages:
 
 # Individual language tests
 ./dev/test/python.sh      # Python with pytest, coverage, ruff linting
-./dev/test/java.sh        # Java with Maven, JaCoCo coverage, SpotBugs
+./dev/test/java.sh        # Java with Maven, JaCoCo coverage
 ./dev/test/go.sh          # Go with race detection, coverage, golangci-lint
 ./dev/test/typescript.sh  # TypeScript with Jest, type checking, ESLint
 ```
@@ -246,7 +289,7 @@ Before testing, validate your development environment:
 ### Test Features
 
 **Python Tests**: pytest with coverage, ruff linting, virtual environment validation
-**Java Tests**: Maven surefire/failsafe, JaCoCo coverage, SpotBugs security analysis
+**Java Tests**: Maven surefire/failsafe, JaCoCo coverage
 **Go Tests**: Standard testing, race detection, coverage analysis, security linting
 **TypeScript Tests**: Jest framework, type checking, ESLint validation, build verification
 

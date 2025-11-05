@@ -1,9 +1,13 @@
 package co.meshtrade.api.config;
 
-import co.meshtrade.api.auth.Credentials;
 import org.junit.jupiter.api.Test;
+
 import java.time.Duration;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit tests for the ServiceOptions builder pattern.

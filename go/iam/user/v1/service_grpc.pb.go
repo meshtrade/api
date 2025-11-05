@@ -19,12 +19,13 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	UserService_AssignRoleToUser_FullMethodName = "/meshtrade.iam.user.v1.UserService/AssignRoleToUser"
-	UserService_GetUser_FullMethodName          = "/meshtrade.iam.user.v1.UserService/GetUser"
-	UserService_ListUsers_FullMethodName        = "/meshtrade.iam.user.v1.UserService/ListUsers"
-	UserService_SearchUsers_FullMethodName      = "/meshtrade.iam.user.v1.UserService/SearchUsers"
-	UserService_CreateUser_FullMethodName       = "/meshtrade.iam.user.v1.UserService/CreateUser"
-	UserService_UpdateUser_FullMethodName       = "/meshtrade.iam.user.v1.UserService/UpdateUser"
+	UserService_AssignRolesToUser_FullMethodName   = "/meshtrade.iam.user.v1.UserService/AssignRolesToUser"
+	UserService_RevokeRolesFromUser_FullMethodName = "/meshtrade.iam.user.v1.UserService/RevokeRolesFromUser"
+	UserService_GetUser_FullMethodName             = "/meshtrade.iam.user.v1.UserService/GetUser"
+	UserService_ListUsers_FullMethodName           = "/meshtrade.iam.user.v1.UserService/ListUsers"
+	UserService_SearchUsers_FullMethodName         = "/meshtrade.iam.user.v1.UserService/SearchUsers"
+	UserService_CreateUser_FullMethodName          = "/meshtrade.iam.user.v1.UserService/CreateUser"
+	UserService_UpdateUser_FullMethodName          = "/meshtrade.iam.user.v1.UserService/UpdateUser"
 )
 
 // UserServiceClient is the client API for UserService service.
@@ -41,11 +42,17 @@ const (
 // All operations require appropriate IAM domain permissions and operate within
 // the authenticated group context.
 type UserServiceClient interface {
-	// Assigns a role to an existing user within the authenticated group context.
+	// Assign roles to an existing user within the authenticated group context.
 	//
 	// The role assignment enables the user to perform operations according
 	// to the permissions associated with that role within the group hierarchy.
-	AssignRoleToUser(ctx context.Context, in *AssignRoleToUserRequest, opts ...grpc.CallOption) (*User, error)
+	AssignRolesToUser(ctx context.Context, in *AssignRolesToUserRequest, opts ...grpc.CallOption) (*User, error)
+	// Revoke roles from an existing user within the authenticated group context.
+	//
+	// The role revocation removes the permissions associated with that role from
+	// the user within the group hierarchy. The user will no longer be able
+	// to perform operations that require the revoked role.
+	RevokeRolesFromUser(ctx context.Context, in *RevokeRolesFromUserRequest, opts ...grpc.CallOption) (*User, error)
 	// Retrieves a single user by its unique identifier.
 	//
 	// Returns user details including name, email, ownership information,
@@ -84,10 +91,20 @@ func NewUserServiceClient(cc grpc.ClientConnInterface) UserServiceClient {
 	return &userServiceClient{cc}
 }
 
-func (c *userServiceClient) AssignRoleToUser(ctx context.Context, in *AssignRoleToUserRequest, opts ...grpc.CallOption) (*User, error) {
+func (c *userServiceClient) AssignRolesToUser(ctx context.Context, in *AssignRolesToUserRequest, opts ...grpc.CallOption) (*User, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(User)
-	err := c.cc.Invoke(ctx, UserService_AssignRoleToUser_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, UserService_AssignRolesToUser_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) RevokeRolesFromUser(ctx context.Context, in *RevokeRolesFromUserRequest, opts ...grpc.CallOption) (*User, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(User)
+	err := c.cc.Invoke(ctx, UserService_RevokeRolesFromUser_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -158,11 +175,17 @@ func (c *userServiceClient) UpdateUser(ctx context.Context, in *UpdateUserReques
 // All operations require appropriate IAM domain permissions and operate within
 // the authenticated group context.
 type UserServiceServer interface {
-	// Assigns a role to an existing user within the authenticated group context.
+	// Assign roles to an existing user within the authenticated group context.
 	//
 	// The role assignment enables the user to perform operations according
 	// to the permissions associated with that role within the group hierarchy.
-	AssignRoleToUser(context.Context, *AssignRoleToUserRequest) (*User, error)
+	AssignRolesToUser(context.Context, *AssignRolesToUserRequest) (*User, error)
+	// Revoke roles from an existing user within the authenticated group context.
+	//
+	// The role revocation removes the permissions associated with that role from
+	// the user within the group hierarchy. The user will no longer be able
+	// to perform operations that require the revoked role.
+	RevokeRolesFromUser(context.Context, *RevokeRolesFromUserRequest) (*User, error)
 	// Retrieves a single user by its unique identifier.
 	//
 	// Returns user details including name, email, ownership information,
@@ -201,8 +224,11 @@ type UserServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedUserServiceServer struct{}
 
-func (UnimplementedUserServiceServer) AssignRoleToUser(context.Context, *AssignRoleToUserRequest) (*User, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AssignRoleToUser not implemented")
+func (UnimplementedUserServiceServer) AssignRolesToUser(context.Context, *AssignRolesToUserRequest) (*User, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AssignRolesToUser not implemented")
+}
+func (UnimplementedUserServiceServer) RevokeRolesFromUser(context.Context, *RevokeRolesFromUserRequest) (*User, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RevokeRolesFromUser not implemented")
 }
 func (UnimplementedUserServiceServer) GetUser(context.Context, *GetUserRequest) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUser not implemented")
@@ -240,20 +266,38 @@ func RegisterUserServiceServer(s grpc.ServiceRegistrar, srv UserServiceServer) {
 	s.RegisterService(&UserService_ServiceDesc, srv)
 }
 
-func _UserService_AssignRoleToUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AssignRoleToUserRequest)
+func _UserService_AssignRolesToUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AssignRolesToUserRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServiceServer).AssignRoleToUser(ctx, in)
+		return srv.(UserServiceServer).AssignRolesToUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UserService_AssignRoleToUser_FullMethodName,
+		FullMethod: UserService_AssignRolesToUser_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).AssignRoleToUser(ctx, req.(*AssignRoleToUserRequest))
+		return srv.(UserServiceServer).AssignRolesToUser(ctx, req.(*AssignRolesToUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_RevokeRolesFromUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RevokeRolesFromUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).RevokeRolesFromUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_RevokeRolesFromUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).RevokeRolesFromUser(ctx, req.(*RevokeRolesFromUserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -356,8 +400,12 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*UserServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "AssignRoleToUser",
-			Handler:    _UserService_AssignRoleToUser_Handler,
+			MethodName: "AssignRolesToUser",
+			Handler:    _UserService_AssignRolesToUser_Handler,
+		},
+		{
+			MethodName: "RevokeRolesFromUser",
+			Handler:    _UserService_RevokeRolesFromUser_Handler,
 		},
 		{
 			MethodName: "GetUser",

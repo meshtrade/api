@@ -51,18 +51,18 @@ service ApiUserService {
     option (meshtrade.iam.role.v1.roles) = {
       roles: [
         ROLE_IAM_ADMIN,
-        ROLE_IAM_API_USER_ADMIN        
+        ROLE_IAM_API_USER_ADMIN
       ]
     };
   }
 
   /*
-     Assigns a role to an existing api user within the authenticated group context.
+     Assign roles to an existing api user within the authenticated group context.
 
      The role assignment enables the api user to perform operations according
      to the permissions associated with that role within the group hierarchy.
   */
-  rpc AssignRoleToAPIUser(AssignRoleToAPIUserRequest) returns (meshtrade.iam.api_user.v1.APIUser) {
+  rpc AssignRolesToAPIUser(AssignRolesToAPIUserRequest) returns (meshtrade.iam.api_user.v1.APIUser) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
     option (meshtrade.iam.role.v1.roles) = {
       roles: [
@@ -73,13 +73,13 @@ service ApiUserService {
   }
 
   /*
-     Revokes a role from an existing API user within the authenticated group context.
+     Revoke roles from an existing API user within the authenticated group context.
 
      The role revocation removes the permissions associated with that role from
      the API user within the group hierarchy. The API user will no longer be able
      to perform operations that require the revoked role.
   */
-  rpc RevokeRoleFromAPIUser(RevokeRoleFromAPIUserRequest) returns (meshtrade.iam.api_user.v1.APIUser) {
+  rpc RevokeRolesFromAPIUser(RevokeRolesFromAPIUserRequest) returns (meshtrade.iam.api_user.v1.APIUser) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
     option (meshtrade.iam.role.v1.roles) = {
       roles: [
@@ -102,7 +102,7 @@ service ApiUserService {
         ROLE_IAM_ADMIN,
         ROLE_IAM_VIEWER,
         ROLE_IAM_API_USER_ADMIN,
-        ROLE_IAM_API_USER_VIEWER        
+        ROLE_IAM_API_USER_VIEWER
       ]
     };
   }
@@ -120,7 +120,7 @@ service ApiUserService {
         ROLE_IAM_ADMIN,
         ROLE_IAM_VIEWER,
         ROLE_IAM_API_USER_ADMIN,
-        ROLE_IAM_API_USER_VIEWER        
+        ROLE_IAM_API_USER_VIEWER
       ]
     };
   }
@@ -136,7 +136,7 @@ service ApiUserService {
     option (meshtrade.iam.role.v1.roles) = {
       roles: [
         ROLE_IAM_ADMIN,
-        ROLE_IAM_API_USER_ADMIN        
+        ROLE_IAM_API_USER_ADMIN
       ]
     };
   }
@@ -152,7 +152,7 @@ service ApiUserService {
     option (meshtrade.iam.role.v1.roles) = {
       roles: [
         ROLE_IAM_ADMIN,
-        ROLE_IAM_API_USER_ADMIN        
+        ROLE_IAM_API_USER_ADMIN
       ]
     };
   }
@@ -170,7 +170,7 @@ service ApiUserService {
         ROLE_IAM_ADMIN,
         ROLE_IAM_VIEWER,
         ROLE_IAM_API_USER_ADMIN,
-        ROLE_IAM_API_USER_VIEWER        
+        ROLE_IAM_API_USER_VIEWER
       ]
     };
   }
@@ -182,9 +182,9 @@ message GetApiUserRequest {
      Format: api_users/{ULIDv2}
   */
   string name = 1 [(buf.validate.field) = {
-    required: true,
+    required: true
     string: {
-      len: 36,
+      len: 36
       pattern: "^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
@@ -195,9 +195,9 @@ message GetApiUserByKeyHashRequest {
      Key hash of the API user to get.
   */
   string key_hash = 1 [(buf.validate.field) = {
-    required: true,
+    required: true
     string: {
-      len: 44,
+      len: 44
       pattern: "^[A-Za-z0-9+/]{43}=$"
     }
   }];
@@ -211,53 +211,62 @@ message CreateApiUserRequest {
   meshtrade.iam.api_user.v1.APIUser api_user = 1 [(buf.validate.field) = {required: true}];
 }
 
-message AssignRoleToAPIUserRequest {
+message AssignRolesToAPIUserRequest {
   /*
-     Name of the api user to assign a role to.
+     Name of the API user to assign roles to in the format api_users/{ULIDv2}.
   */
   string name = 1 [(buf.validate.field) = {
-    required: true,
+    required: true
     string: {
-      len: 36,
+      len: 36
       pattern: "^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
 
   /*
-     Role to assign to the api user in the format groups/{ULIDv2}/{role_id}.
+     Roles to assign to the API user in the format groups/{ULIDv2}/roles/{role_id}.
      The role_id corresponds to a value from the meshtrade.iam.role.v1.Role enum.
   */
-  string role = 4 [(buf.validate.field) = {
-    required: true,
-    string: {
-      len: 41,
-      pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/[1-9][0-9]{6}$"
+  repeated string roles = 2 [(buf.validate.field) = {
+    required: true
+    repeated: {
+      items: {
+        string: {
+          min_len: 47
+          max_len: 48
+          pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/roles/[1-9][0-9]{6,7}$"
+        }
+      }
     }
   }];
 }
 
-message RevokeRoleFromAPIUserRequest {
+message RevokeRolesFromAPIUserRequest {
   /*
-     Name of the API user to revoke a role from.
-     Format: api_users/{ULIDv2}
+     Name of the API user to revoke roles from in the format api_users/{ULIDv2}.
   */
   string name = 1 [(buf.validate.field) = {
-    required: true,
+    required: true
     string: {
-      len: 36,
+      len: 36
       pattern: "^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
 
   /*
-     Role to revoke from the API user in the format groups/{ULIDv2}/{role_id}.
+     Roles to revoke from the API user in the format groups/{ULIDv2}/roles/{role_id}.
      The role_id corresponds to a value from the meshtrade.iam.role.v1.Role enum.
   */
-  string role = 2 [(buf.validate.field) = {
-    required: true,
-    string: {
-      len: 41,
-      pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/[1-9][0-9]{6}$"
+  repeated string roles = 2 [(buf.validate.field) = {
+    required: true
+    repeated: {
+      items: {
+        string: {
+          min_len: 47
+          max_len: 48
+          pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/roles/[1-9][0-9]{6,7}$"
+        }
+      }
     }
   }];
 }
@@ -285,9 +294,9 @@ message ActivateApiUserRequest {
      Format: api_users/{ULIDv2}
   */
   string name = 1 [(buf.validate.field) = {
-    required: true,
+    required: true
     string: {
-      len: 36,
+      len: 36
       pattern: "^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
@@ -299,9 +308,9 @@ message DeactivateApiUserRequest {
      Format: api_users/{ULIDv2}
   */
   string name = 1 [(buf.validate.field) = {
-    required: true,
+    required: true
     string: {
-      len: 36,
+      len: 36
       pattern: "^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];

@@ -33,7 +33,6 @@ from .service_meshpy import (
     LimitOrderServiceGRPCClient,
     LimitOrderServiceGRPCClientInterface,
 )
-from .service_options_meshpy import ClientOptions
 
 # ===================================================================
 # END OF AUTO-GENERATED SECTION

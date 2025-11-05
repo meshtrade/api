@@ -17,14 +17,14 @@ from .api_credentials_pb2 import APICredentials
 from .api_user_pb2 import APIUser, APIUserAction, APIUserState
 from .service_pb2 import (
     ActivateApiUserRequest,
-    AssignRoleToAPIUserRequest,
+    AssignRolesToAPIUserRequest,
     CreateApiUserRequest,
     DeactivateApiUserRequest,
     GetApiUserByKeyHashRequest,
     GetApiUserRequest,
     ListApiUsersRequest,
     ListApiUsersResponse,
-    RevokeRoleFromAPIUserRequest,
+    RevokeRolesFromAPIUserRequest,
     SearchApiUsersRequest,
     SearchApiUsersResponse,
 )
@@ -35,7 +35,6 @@ from .service_meshpy import (
     ApiUserServiceGRPCClient,
     ApiUserServiceGRPCClientInterface,
 )
-from .service_options_meshpy import ClientOptions
 
 # ===================================================================
 # END OF AUTO-GENERATED SECTION
@@ -63,7 +62,10 @@ from meshtrade.common import (
 from .api_credentials import (
     MESH_API_CREDENTIALS_ENV_VAR,
     api_credentials_from_environment,
+    default_credentials_path,
+    find_credentials,
     load_api_credentials_from_file,
+    load_default_credentials,
 )
 
 # ===================================================================
@@ -80,15 +82,14 @@ __all__ = [
     "ApiUserService",
     "ApiUserServiceGRPCClient",
     "ApiUserServiceGRPCClientInterface",
-    "AssignRoleToAPIUserRequest",
-    "ClientOptions",
+    "AssignRolesToAPIUserRequest",
     "CreateApiUserRequest",
     "DeactivateApiUserRequest",
     "GetApiUserByKeyHashRequest",
     "GetApiUserRequest",
     "ListApiUsersRequest",
     "ListApiUsersResponse",
-    "RevokeRoleFromAPIUserRequest",
+    "RevokeRolesFromAPIUserRequest",
     "SearchApiUsersRequest",
     "SearchApiUsersResponse",
     # Manual exports
@@ -99,5 +100,8 @@ __all__ = [
     "MESH_API_CREDENTIALS_ENV_VAR",
     "api_credentials_from_environment",
     "create_auth_metadata",
+    "default_credentials_path",
+    "find_credentials",
     "load_api_credentials_from_file",
+    "load_default_credentials",
 ]

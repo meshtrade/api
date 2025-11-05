@@ -28,7 +28,6 @@ from .service_meshpy import (
     TransactionServiceGRPCClient,
     TransactionServiceGRPCClientInterface,
 )
-from .service_options_meshpy import ClientOptions
 
 # ===================================================================
 # END OF AUTO-GENERATED SECTION
@@ -44,13 +43,14 @@ from .service_options_meshpy import ClientOptions
 #
 # ===================================================================
 
+from .transaction_state_machine import transaction_state_can_perform_action_at_state
+
 # ===================================================================
 # MODULE EXPORTS
 # ===================================================================
 # Combined auto-generated and manual exports
 __all__ = [
     # Generated exports
-    "ClientOptions",
     "GetTransactionStateRequest",
     "GetTransactionStateResponse",
     "MonitorTransactionStateRequest",
@@ -60,4 +60,6 @@ __all__ = [
     "TransactionServiceGRPCClient",
     "TransactionServiceGRPCClientInterface",
     "TransactionState",
+    # Manual exports
+    "transaction_state_can_perform_action_at_state",
 ]
