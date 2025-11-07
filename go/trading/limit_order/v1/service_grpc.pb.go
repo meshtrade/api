@@ -19,14 +19,13 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	LimitOrderService_CreateLimitOrder_FullMethodName                     = "/meshtrade.trading.limit_order.v1.LimitOrderService/CreateLimitOrder"
-	LimitOrderService_CancelLimitOrder_FullMethodName                     = "/meshtrade.trading.limit_order.v1.LimitOrderService/CancelLimitOrder"
-	LimitOrderService_GetLimitOrder_FullMethodName                        = "/meshtrade.trading.limit_order.v1.LimitOrderService/GetLimitOrder"
-	LimitOrderService_GetLimitOrderByExternalReference_FullMethodName     = "/meshtrade.trading.limit_order.v1.LimitOrderService/GetLimitOrderByExternalReference"
-	LimitOrderService_ListLimitOrders_FullMethodName                      = "/meshtrade.trading.limit_order.v1.LimitOrderService/ListLimitOrders"
-	LimitOrderService_SearchLimitOrders_FullMethodName                    = "/meshtrade.trading.limit_order.v1.LimitOrderService/SearchLimitOrders"
-	LimitOrderService_MonitorLimitOrder_FullMethodName                    = "/meshtrade.trading.limit_order.v1.LimitOrderService/MonitorLimitOrder"
-	LimitOrderService_MonitorLimitOrderByExternalReference_FullMethodName = "/meshtrade.trading.limit_order.v1.LimitOrderService/MonitorLimitOrderByExternalReference"
+	LimitOrderService_CreateLimitOrder_FullMethodName                 = "/meshtrade.trading.limit_order.v1.LimitOrderService/CreateLimitOrder"
+	LimitOrderService_CancelLimitOrder_FullMethodName                 = "/meshtrade.trading.limit_order.v1.LimitOrderService/CancelLimitOrder"
+	LimitOrderService_GetLimitOrder_FullMethodName                    = "/meshtrade.trading.limit_order.v1.LimitOrderService/GetLimitOrder"
+	LimitOrderService_GetLimitOrderByExternalReference_FullMethodName = "/meshtrade.trading.limit_order.v1.LimitOrderService/GetLimitOrderByExternalReference"
+	LimitOrderService_ListLimitOrders_FullMethodName                  = "/meshtrade.trading.limit_order.v1.LimitOrderService/ListLimitOrders"
+	LimitOrderService_SearchLimitOrders_FullMethodName                = "/meshtrade.trading.limit_order.v1.LimitOrderService/SearchLimitOrders"
+	LimitOrderService_MonitorLimitOrder_FullMethodName                = "/meshtrade.trading.limit_order.v1.LimitOrderService/MonitorLimitOrder"
 )
 
 // LimitOrderServiceClient is the client API for LimitOrderService service.
@@ -70,12 +69,10 @@ type LimitOrderServiceClient interface {
 	SearchLimitOrders(ctx context.Context, in *SearchLimitOrdersRequest, opts ...grpc.CallOption) (*SearchLimitOrdersResponse, error)
 	// Monitors a limit order for real-time updates.
 	//
-	// Returns a stream of limit order states as they change.
+	// Supports lookup by either resource name or external reference using
+	// the identifier oneof field in the request. Returns a stream of limit
+	// order states as they change.
 	MonitorLimitOrder(ctx context.Context, in *MonitorLimitOrderRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[LimitOrder], error)
-	// Monitors a limit order by external reference for real-time updates.
-	//
-	// Returns a stream of limit order states as they change.
-	MonitorLimitOrderByExternalReference(ctx context.Context, in *MonitorLimitOrderByExternalReferenceRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[LimitOrder], error)
 }
 
 type limitOrderServiceClient struct {
@@ -165,25 +162,6 @@ func (c *limitOrderServiceClient) MonitorLimitOrder(ctx context.Context, in *Mon
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type LimitOrderService_MonitorLimitOrderClient = grpc.ServerStreamingClient[LimitOrder]
 
-func (c *limitOrderServiceClient) MonitorLimitOrderByExternalReference(ctx context.Context, in *MonitorLimitOrderByExternalReferenceRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[LimitOrder], error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	stream, err := c.cc.NewStream(ctx, &LimitOrderService_ServiceDesc.Streams[1], LimitOrderService_MonitorLimitOrderByExternalReference_FullMethodName, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	x := &grpc.GenericClientStream[MonitorLimitOrderByExternalReferenceRequest, LimitOrder]{ClientStream: stream}
-	if err := x.ClientStream.SendMsg(in); err != nil {
-		return nil, err
-	}
-	if err := x.ClientStream.CloseSend(); err != nil {
-		return nil, err
-	}
-	return x, nil
-}
-
-// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type LimitOrderService_MonitorLimitOrderByExternalReferenceClient = grpc.ServerStreamingClient[LimitOrder]
-
 // LimitOrderServiceServer is the server API for LimitOrderService service.
 // All implementations must embed UnimplementedLimitOrderServiceServer
 // for forward compatibility.
@@ -225,12 +203,10 @@ type LimitOrderServiceServer interface {
 	SearchLimitOrders(context.Context, *SearchLimitOrdersRequest) (*SearchLimitOrdersResponse, error)
 	// Monitors a limit order for real-time updates.
 	//
-	// Returns a stream of limit order states as they change.
+	// Supports lookup by either resource name or external reference using
+	// the identifier oneof field in the request. Returns a stream of limit
+	// order states as they change.
 	MonitorLimitOrder(*MonitorLimitOrderRequest, grpc.ServerStreamingServer[LimitOrder]) error
-	// Monitors a limit order by external reference for real-time updates.
-	//
-	// Returns a stream of limit order states as they change.
-	MonitorLimitOrderByExternalReference(*MonitorLimitOrderByExternalReferenceRequest, grpc.ServerStreamingServer[LimitOrder]) error
 	mustEmbedUnimplementedLimitOrderServiceServer()
 }
 
@@ -261,9 +237,6 @@ func (UnimplementedLimitOrderServiceServer) SearchLimitOrders(context.Context, *
 }
 func (UnimplementedLimitOrderServiceServer) MonitorLimitOrder(*MonitorLimitOrderRequest, grpc.ServerStreamingServer[LimitOrder]) error {
 	return status.Errorf(codes.Unimplemented, "method MonitorLimitOrder not implemented")
-}
-func (UnimplementedLimitOrderServiceServer) MonitorLimitOrderByExternalReference(*MonitorLimitOrderByExternalReferenceRequest, grpc.ServerStreamingServer[LimitOrder]) error {
-	return status.Errorf(codes.Unimplemented, "method MonitorLimitOrderByExternalReference not implemented")
 }
 func (UnimplementedLimitOrderServiceServer) mustEmbedUnimplementedLimitOrderServiceServer() {}
 func (UnimplementedLimitOrderServiceServer) testEmbeddedByValue()                           {}
@@ -405,17 +378,6 @@ func _LimitOrderService_MonitorLimitOrder_Handler(srv interface{}, stream grpc.S
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type LimitOrderService_MonitorLimitOrderServer = grpc.ServerStreamingServer[LimitOrder]
 
-func _LimitOrderService_MonitorLimitOrderByExternalReference_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(MonitorLimitOrderByExternalReferenceRequest)
-	if err := stream.RecvMsg(m); err != nil {
-		return err
-	}
-	return srv.(LimitOrderServiceServer).MonitorLimitOrderByExternalReference(m, &grpc.GenericServerStream[MonitorLimitOrderByExternalReferenceRequest, LimitOrder]{ServerStream: stream})
-}
-
-// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type LimitOrderService_MonitorLimitOrderByExternalReferenceServer = grpc.ServerStreamingServer[LimitOrder]
-
 // LimitOrderService_ServiceDesc is the grpc.ServiceDesc for LimitOrderService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -452,11 +414,6 @@ var LimitOrderService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "MonitorLimitOrder",
 			Handler:       _LimitOrderService_MonitorLimitOrder_Handler,
-			ServerStreams: true,
-		},
-		{
-			StreamName:    "MonitorLimitOrderByExternalReference",
-			Handler:       _LimitOrderService_MonitorLimitOrderByExternalReference_Handler,
 			ServerStreams: true,
 		},
 	},

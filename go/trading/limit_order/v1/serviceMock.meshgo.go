@@ -13,24 +13,22 @@ var _ LimitOrderService = &MockLimitOrderService{}
 
 // MockLimitOrderService is a mock implementation of the LimitOrderService interface.
 type MockLimitOrderService struct {
-	mutex                                               sync.Mutex
-	T                                                   *testing.T
-	CreateLimitOrderFunc                                func(t *testing.T, m *MockLimitOrderService, ctx context.Context, request *CreateLimitOrderRequest) (*LimitOrder, error)
-	CreateLimitOrderFuncInvocations                     int
-	CancelLimitOrderFunc                                func(t *testing.T, m *MockLimitOrderService, ctx context.Context, request *CancelLimitOrderRequest) (*LimitOrder, error)
-	CancelLimitOrderFuncInvocations                     int
-	GetLimitOrderFunc                                   func(t *testing.T, m *MockLimitOrderService, ctx context.Context, request *GetLimitOrderRequest) (*LimitOrder, error)
-	GetLimitOrderFuncInvocations                        int
-	GetLimitOrderByExternalReferenceFunc                func(t *testing.T, m *MockLimitOrderService, ctx context.Context, request *GetLimitOrderByExternalReferenceRequest) (*LimitOrder, error)
-	GetLimitOrderByExternalReferenceFuncInvocations     int
-	ListLimitOrdersFunc                                 func(t *testing.T, m *MockLimitOrderService, ctx context.Context, request *ListLimitOrdersRequest) (*ListLimitOrdersResponse, error)
-	ListLimitOrdersFuncInvocations                      int
-	SearchLimitOrdersFunc                               func(t *testing.T, m *MockLimitOrderService, ctx context.Context, request *SearchLimitOrdersRequest) (*SearchLimitOrdersResponse, error)
-	SearchLimitOrdersFuncInvocations                    int
-	MonitorLimitOrderFunc                               func(t *testing.T, m *MockLimitOrderService, ctx context.Context, request *MonitorLimitOrderRequest, stream LimitOrderService_MonitorLimitOrderStream) error
-	MonitorLimitOrderFuncInvocations                    int
-	MonitorLimitOrderByExternalReferenceFunc            func(t *testing.T, m *MockLimitOrderService, ctx context.Context, request *MonitorLimitOrderByExternalReferenceRequest, stream LimitOrderService_MonitorLimitOrderByExternalReferenceStream) error
-	MonitorLimitOrderByExternalReferenceFuncInvocations int
+	mutex                                           sync.Mutex
+	T                                               *testing.T
+	CreateLimitOrderFunc                            func(t *testing.T, m *MockLimitOrderService, ctx context.Context, request *CreateLimitOrderRequest) (*LimitOrder, error)
+	CreateLimitOrderFuncInvocations                 int
+	CancelLimitOrderFunc                            func(t *testing.T, m *MockLimitOrderService, ctx context.Context, request *CancelLimitOrderRequest) (*LimitOrder, error)
+	CancelLimitOrderFuncInvocations                 int
+	GetLimitOrderFunc                               func(t *testing.T, m *MockLimitOrderService, ctx context.Context, request *GetLimitOrderRequest) (*LimitOrder, error)
+	GetLimitOrderFuncInvocations                    int
+	GetLimitOrderByExternalReferenceFunc            func(t *testing.T, m *MockLimitOrderService, ctx context.Context, request *GetLimitOrderByExternalReferenceRequest) (*LimitOrder, error)
+	GetLimitOrderByExternalReferenceFuncInvocations int
+	ListLimitOrdersFunc                             func(t *testing.T, m *MockLimitOrderService, ctx context.Context, request *ListLimitOrdersRequest) (*ListLimitOrdersResponse, error)
+	ListLimitOrdersFuncInvocations                  int
+	SearchLimitOrdersFunc                           func(t *testing.T, m *MockLimitOrderService, ctx context.Context, request *SearchLimitOrdersRequest) (*SearchLimitOrdersResponse, error)
+	SearchLimitOrdersFuncInvocations                int
+	MonitorLimitOrderFunc                           func(t *testing.T, m *MockLimitOrderService, ctx context.Context, request *MonitorLimitOrderRequest, stream LimitOrderService_MonitorLimitOrderStream) error
+	MonitorLimitOrderFuncInvocations                int
 }
 
 func (m *MockLimitOrderService) CreateLimitOrder(ctx context.Context, request *CreateLimitOrderRequest) (*LimitOrder, error) {
@@ -101,14 +99,4 @@ func (m *MockLimitOrderService) MonitorLimitOrder(ctx context.Context, request *
 		return nil
 	}
 	return m.MonitorLimitOrderFunc(m.T, m, ctx, request, stream)
-}
-
-func (m *MockLimitOrderService) MonitorLimitOrderByExternalReference(ctx context.Context, request *MonitorLimitOrderByExternalReferenceRequest, stream LimitOrderService_MonitorLimitOrderByExternalReferenceStream) error {
-	m.mutex.Lock()
-	m.MonitorLimitOrderByExternalReferenceFuncInvocations++
-	m.mutex.Unlock()
-	if m.MonitorLimitOrderByExternalReferenceFunc == nil {
-		return nil
-	}
-	return m.MonitorLimitOrderByExternalReferenceFunc(m.T, m, ctx, request, stream)
 }
