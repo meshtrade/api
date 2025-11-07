@@ -436,12 +436,18 @@ func (x *SearchLimitOrdersResponse) GetLimitOrders() []*LimitOrder {
 	return nil
 }
 
-// Request to monitor a limit order by name.
+// Request to monitor a limit order.
+// Supports lookup by either resource name or external reference.
 type MonitorLimitOrderRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// The resource name of the limit order to monitor.
-	// Format: limit_orders/{ULIDv2}.
-	Name          string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	// Identifier for the limit order to monitor.
+	// Exactly one field must be specified.
+	//
+	// Types that are valid to be assigned to Identifier:
+	//
+	//	*MonitorLimitOrderRequest_Name
+	//	*MonitorLimitOrderRequest_ExternalReference
+	Identifier    isMonitorLimitOrderRequest_Identifier `protobuf_oneof:"identifier"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -476,58 +482,49 @@ func (*MonitorLimitOrderRequest) Descriptor() ([]byte, []int) {
 	return file_meshtrade_trading_limit_order_v1_service_proto_rawDescGZIP(), []int{8}
 }
 
+func (x *MonitorLimitOrderRequest) GetIdentifier() isMonitorLimitOrderRequest_Identifier {
+	if x != nil {
+		return x.Identifier
+	}
+	return nil
+}
+
 func (x *MonitorLimitOrderRequest) GetName() string {
 	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-// Request to monitor a limit order by external reference.
-type MonitorLimitOrderByExternalReferenceRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// The external reference identifier.
-	ExternalReference string `protobuf:"bytes,1,opt,name=external_reference,json=externalReference,proto3" json:"external_reference,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
-}
-
-func (x *MonitorLimitOrderByExternalReferenceRequest) Reset() {
-	*x = MonitorLimitOrderByExternalReferenceRequest{}
-	mi := &file_meshtrade_trading_limit_order_v1_service_proto_msgTypes[9]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *MonitorLimitOrderByExternalReferenceRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*MonitorLimitOrderByExternalReferenceRequest) ProtoMessage() {}
-
-func (x *MonitorLimitOrderByExternalReferenceRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_trading_limit_order_v1_service_proto_msgTypes[9]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
+		if x, ok := x.Identifier.(*MonitorLimitOrderRequest_Name); ok {
+			return x.Name
 		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use MonitorLimitOrderByExternalReferenceRequest.ProtoReflect.Descriptor instead.
-func (*MonitorLimitOrderByExternalReferenceRequest) Descriptor() ([]byte, []int) {
-	return file_meshtrade_trading_limit_order_v1_service_proto_rawDescGZIP(), []int{9}
-}
-
-func (x *MonitorLimitOrderByExternalReferenceRequest) GetExternalReference() string {
-	if x != nil {
-		return x.ExternalReference
 	}
 	return ""
 }
+
+func (x *MonitorLimitOrderRequest) GetExternalReference() string {
+	if x != nil {
+		if x, ok := x.Identifier.(*MonitorLimitOrderRequest_ExternalReference); ok {
+			return x.ExternalReference
+		}
+	}
+	return ""
+}
+
+type isMonitorLimitOrderRequest_Identifier interface {
+	isMonitorLimitOrderRequest_Identifier()
+}
+
+type MonitorLimitOrderRequest_Name struct {
+	// The resource name of the limit order to monitor.
+	// Format: limit_orders/{ULIDv2}.
+	Name string `protobuf:"bytes,1,opt,name=name,proto3,oneof"`
+}
+
+type MonitorLimitOrderRequest_ExternalReference struct {
+	// The external reference identifier.
+	ExternalReference string `protobuf:"bytes,2,opt,name=external_reference,json=externalReference,proto3,oneof"`
+}
+
+func (*MonitorLimitOrderRequest_Name) isMonitorLimitOrderRequest_Identifier() {}
+
+func (*MonitorLimitOrderRequest_ExternalReference) isMonitorLimitOrderRequest_Identifier() {}
 
 var File_meshtrade_trading_limit_order_v1_service_proto protoreflect.FileDescriptor
 
@@ -554,12 +551,12 @@ const file_meshtrade_trading_limit_order_v1_service_proto_rawDesc = "" +
 	"\aaccount\x18\x02 \x01(\tB8\xbaH5r321^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$R\aaccount\x12(\n" +
 	"\x10live_ledger_data\x18\x03 \x01(\bR\x0eliveLedgerData\"l\n" +
 	"\x19SearchLimitOrdersResponse\x12O\n" +
-	"\flimit_orders\x18\x01 \x03(\v2,.meshtrade.trading.limit_order.v1.LimitOrderR\vlimitOrders\"r\n" +
-	"\x18MonitorLimitOrderRequest\x12V\n" +
-	"\x04name\x18\x01 \x01(\tBB\xbaH?\xc8\x01\x01r:25^limit_orders/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01&R\x04name\"d\n" +
-	"+MonitorLimitOrderByExternalReferenceRequest\x125\n" +
-	"\x12external_reference\x18\x01 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\x11externalReference2\xb7\n" +
+	"\flimit_orders\x18\x01 \x03(\v2,.meshtrade.trading.limit_order.v1.LimitOrderR\vlimitOrders\"\xb0\x01\n" +
+	"\x18MonitorLimitOrderRequest\x12U\n" +
+	"\x04name\x18\x01 \x01(\tB?\xbaH<r:25^limit_orders/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01&H\x00R\x04name\x12/\n" +
+	"\x12external_reference\x18\x02 \x01(\tH\x00R\x11externalReferenceB\f\n" +
 	"\n" +
+	"identifier2\xf3\b\n" +
 	"\x11LimitOrderService\x12\x8f\x01\n" +
 	"\x10CreateLimitOrder\x129.meshtrade.trading.limit_order.v1.CreateLimitOrderRequest\x1a,.meshtrade.trading.limit_order.v1.LimitOrder\"\x12\xa0\xb5\x18\x02\xaa\xb5\x18\n" +
 	"\n" +
@@ -576,8 +573,6 @@ const file_meshtrade_trading_limit_order_v1_service_proto_rawDesc = "" +
 	"\x11SearchLimitOrders\x12:.meshtrade.trading.limit_order.v1.SearchLimitOrdersRequest\x1a;.meshtrade.trading.limit_order.v1.SearchLimitOrdersResponse\"\x1a\xa0\xb5\x18\x01\xaa\xb5\x18\x12\n" +
 	"\x10\xc0\x96\xb1\x02\xc1\x96\xb1\x02\u0096\xb1\x02Ö\xb1\x02\x12\x9b\x01\n" +
 	"\x11MonitorLimitOrder\x12:.meshtrade.trading.limit_order.v1.MonitorLimitOrderRequest\x1a,.meshtrade.trading.limit_order.v1.LimitOrder\"\x1a\xa0\xb5\x18\x01\xaa\xb5\x18\x12\n" +
-	"\x10\xc0\x96\xb1\x02\xc1\x96\xb1\x02\u0096\xb1\x02Ö\xb1\x020\x01\x12\xc1\x01\n" +
-	"$MonitorLimitOrderByExternalReference\x12M.meshtrade.trading.limit_order.v1.MonitorLimitOrderByExternalReferenceRequest\x1a,.meshtrade.trading.limit_order.v1.LimitOrder\"\x1a\xa0\xb5\x18\x01\xaa\xb5\x18\x12\n" +
 	"\x10\xc0\x96\xb1\x02\xc1\x96\xb1\x02\u0096\xb1\x02Ö\xb1\x020\x01Bl\n" +
 	"'co.meshtrade.api.trading.limit_order.v1ZAgithub.com/meshtrade/api/go/trading/limit_order/v1;limit_order_v1b\x06proto3"
 
@@ -593,24 +588,23 @@ func file_meshtrade_trading_limit_order_v1_service_proto_rawDescGZIP() []byte {
 	return file_meshtrade_trading_limit_order_v1_service_proto_rawDescData
 }
 
-var file_meshtrade_trading_limit_order_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_meshtrade_trading_limit_order_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_meshtrade_trading_limit_order_v1_service_proto_goTypes = []any{
-	(*CreateLimitOrderRequest)(nil),                     // 0: meshtrade.trading.limit_order.v1.CreateLimitOrderRequest
-	(*CancelLimitOrderRequest)(nil),                     // 1: meshtrade.trading.limit_order.v1.CancelLimitOrderRequest
-	(*GetLimitOrderRequest)(nil),                        // 2: meshtrade.trading.limit_order.v1.GetLimitOrderRequest
-	(*GetLimitOrderByExternalReferenceRequest)(nil),     // 3: meshtrade.trading.limit_order.v1.GetLimitOrderByExternalReferenceRequest
-	(*ListLimitOrdersRequest)(nil),                      // 4: meshtrade.trading.limit_order.v1.ListLimitOrdersRequest
-	(*ListLimitOrdersResponse)(nil),                     // 5: meshtrade.trading.limit_order.v1.ListLimitOrdersResponse
-	(*SearchLimitOrdersRequest)(nil),                    // 6: meshtrade.trading.limit_order.v1.SearchLimitOrdersRequest
-	(*SearchLimitOrdersResponse)(nil),                   // 7: meshtrade.trading.limit_order.v1.SearchLimitOrdersResponse
-	(*MonitorLimitOrderRequest)(nil),                    // 8: meshtrade.trading.limit_order.v1.MonitorLimitOrderRequest
-	(*MonitorLimitOrderByExternalReferenceRequest)(nil), // 9: meshtrade.trading.limit_order.v1.MonitorLimitOrderByExternalReferenceRequest
-	(*LimitOrder)(nil),                                  // 10: meshtrade.trading.limit_order.v1.LimitOrder
+	(*CreateLimitOrderRequest)(nil),                 // 0: meshtrade.trading.limit_order.v1.CreateLimitOrderRequest
+	(*CancelLimitOrderRequest)(nil),                 // 1: meshtrade.trading.limit_order.v1.CancelLimitOrderRequest
+	(*GetLimitOrderRequest)(nil),                    // 2: meshtrade.trading.limit_order.v1.GetLimitOrderRequest
+	(*GetLimitOrderByExternalReferenceRequest)(nil), // 3: meshtrade.trading.limit_order.v1.GetLimitOrderByExternalReferenceRequest
+	(*ListLimitOrdersRequest)(nil),                  // 4: meshtrade.trading.limit_order.v1.ListLimitOrdersRequest
+	(*ListLimitOrdersResponse)(nil),                 // 5: meshtrade.trading.limit_order.v1.ListLimitOrdersResponse
+	(*SearchLimitOrdersRequest)(nil),                // 6: meshtrade.trading.limit_order.v1.SearchLimitOrdersRequest
+	(*SearchLimitOrdersResponse)(nil),               // 7: meshtrade.trading.limit_order.v1.SearchLimitOrdersResponse
+	(*MonitorLimitOrderRequest)(nil),                // 8: meshtrade.trading.limit_order.v1.MonitorLimitOrderRequest
+	(*LimitOrder)(nil),                              // 9: meshtrade.trading.limit_order.v1.LimitOrder
 }
 var file_meshtrade_trading_limit_order_v1_service_proto_depIdxs = []int32{
-	10, // 0: meshtrade.trading.limit_order.v1.CreateLimitOrderRequest.limit_order:type_name -> meshtrade.trading.limit_order.v1.LimitOrder
-	10, // 1: meshtrade.trading.limit_order.v1.ListLimitOrdersResponse.limit_orders:type_name -> meshtrade.trading.limit_order.v1.LimitOrder
-	10, // 2: meshtrade.trading.limit_order.v1.SearchLimitOrdersResponse.limit_orders:type_name -> meshtrade.trading.limit_order.v1.LimitOrder
+	9,  // 0: meshtrade.trading.limit_order.v1.CreateLimitOrderRequest.limit_order:type_name -> meshtrade.trading.limit_order.v1.LimitOrder
+	9,  // 1: meshtrade.trading.limit_order.v1.ListLimitOrdersResponse.limit_orders:type_name -> meshtrade.trading.limit_order.v1.LimitOrder
+	9,  // 2: meshtrade.trading.limit_order.v1.SearchLimitOrdersResponse.limit_orders:type_name -> meshtrade.trading.limit_order.v1.LimitOrder
 	0,  // 3: meshtrade.trading.limit_order.v1.LimitOrderService.CreateLimitOrder:input_type -> meshtrade.trading.limit_order.v1.CreateLimitOrderRequest
 	1,  // 4: meshtrade.trading.limit_order.v1.LimitOrderService.CancelLimitOrder:input_type -> meshtrade.trading.limit_order.v1.CancelLimitOrderRequest
 	2,  // 5: meshtrade.trading.limit_order.v1.LimitOrderService.GetLimitOrder:input_type -> meshtrade.trading.limit_order.v1.GetLimitOrderRequest
@@ -618,17 +612,15 @@ var file_meshtrade_trading_limit_order_v1_service_proto_depIdxs = []int32{
 	4,  // 7: meshtrade.trading.limit_order.v1.LimitOrderService.ListLimitOrders:input_type -> meshtrade.trading.limit_order.v1.ListLimitOrdersRequest
 	6,  // 8: meshtrade.trading.limit_order.v1.LimitOrderService.SearchLimitOrders:input_type -> meshtrade.trading.limit_order.v1.SearchLimitOrdersRequest
 	8,  // 9: meshtrade.trading.limit_order.v1.LimitOrderService.MonitorLimitOrder:input_type -> meshtrade.trading.limit_order.v1.MonitorLimitOrderRequest
-	9,  // 10: meshtrade.trading.limit_order.v1.LimitOrderService.MonitorLimitOrderByExternalReference:input_type -> meshtrade.trading.limit_order.v1.MonitorLimitOrderByExternalReferenceRequest
-	10, // 11: meshtrade.trading.limit_order.v1.LimitOrderService.CreateLimitOrder:output_type -> meshtrade.trading.limit_order.v1.LimitOrder
-	10, // 12: meshtrade.trading.limit_order.v1.LimitOrderService.CancelLimitOrder:output_type -> meshtrade.trading.limit_order.v1.LimitOrder
-	10, // 13: meshtrade.trading.limit_order.v1.LimitOrderService.GetLimitOrder:output_type -> meshtrade.trading.limit_order.v1.LimitOrder
-	10, // 14: meshtrade.trading.limit_order.v1.LimitOrderService.GetLimitOrderByExternalReference:output_type -> meshtrade.trading.limit_order.v1.LimitOrder
-	5,  // 15: meshtrade.trading.limit_order.v1.LimitOrderService.ListLimitOrders:output_type -> meshtrade.trading.limit_order.v1.ListLimitOrdersResponse
-	7,  // 16: meshtrade.trading.limit_order.v1.LimitOrderService.SearchLimitOrders:output_type -> meshtrade.trading.limit_order.v1.SearchLimitOrdersResponse
-	10, // 17: meshtrade.trading.limit_order.v1.LimitOrderService.MonitorLimitOrder:output_type -> meshtrade.trading.limit_order.v1.LimitOrder
-	10, // 18: meshtrade.trading.limit_order.v1.LimitOrderService.MonitorLimitOrderByExternalReference:output_type -> meshtrade.trading.limit_order.v1.LimitOrder
-	11, // [11:19] is the sub-list for method output_type
-	3,  // [3:11] is the sub-list for method input_type
+	9,  // 10: meshtrade.trading.limit_order.v1.LimitOrderService.CreateLimitOrder:output_type -> meshtrade.trading.limit_order.v1.LimitOrder
+	9,  // 11: meshtrade.trading.limit_order.v1.LimitOrderService.CancelLimitOrder:output_type -> meshtrade.trading.limit_order.v1.LimitOrder
+	9,  // 12: meshtrade.trading.limit_order.v1.LimitOrderService.GetLimitOrder:output_type -> meshtrade.trading.limit_order.v1.LimitOrder
+	9,  // 13: meshtrade.trading.limit_order.v1.LimitOrderService.GetLimitOrderByExternalReference:output_type -> meshtrade.trading.limit_order.v1.LimitOrder
+	5,  // 14: meshtrade.trading.limit_order.v1.LimitOrderService.ListLimitOrders:output_type -> meshtrade.trading.limit_order.v1.ListLimitOrdersResponse
+	7,  // 15: meshtrade.trading.limit_order.v1.LimitOrderService.SearchLimitOrders:output_type -> meshtrade.trading.limit_order.v1.SearchLimitOrdersResponse
+	9,  // 16: meshtrade.trading.limit_order.v1.LimitOrderService.MonitorLimitOrder:output_type -> meshtrade.trading.limit_order.v1.LimitOrder
+	10, // [10:17] is the sub-list for method output_type
+	3,  // [3:10] is the sub-list for method input_type
 	3,  // [3:3] is the sub-list for extension type_name
 	3,  // [3:3] is the sub-list for extension extendee
 	0,  // [0:3] is the sub-list for field type_name
@@ -640,13 +632,17 @@ func file_meshtrade_trading_limit_order_v1_service_proto_init() {
 		return
 	}
 	file_meshtrade_trading_limit_order_v1_limit_order_proto_init()
+	file_meshtrade_trading_limit_order_v1_service_proto_msgTypes[8].OneofWrappers = []any{
+		(*MonitorLimitOrderRequest_Name)(nil),
+		(*MonitorLimitOrderRequest_ExternalReference)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_meshtrade_trading_limit_order_v1_service_proto_rawDesc), len(file_meshtrade_trading_limit_order_v1_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -19,19 +19,6 @@ type LimitOrderService_MonitorLimitOrderStream interface {
 	Context() context.Context
 }
 
-// LimitOrderService_MonitorLimitOrderByExternalReferenceStream is a transport-agnostic interface for server-side streaming.
-// The service implementation uses this interface to send multiple responses to the client.
-type LimitOrderService_MonitorLimitOrderByExternalReferenceStream interface {
-	// Send sends a LimitOrder to the client.
-	// It can be called multiple times to stream responses.
-	// Returns an error if the stream is closed or the client has disconnected.
-	Send(*LimitOrder) error
-
-	// Context returns the stream's context.
-	// The context is canceled when the client disconnects or the deadline expires.
-	Context() context.Context
-}
-
 // LimitOrderService manages limit orders for trading operations (BETA).
 //
 // This service provides comprehensive limit order management capabilities including
@@ -75,13 +62,10 @@ type LimitOrderService interface {
 
 	// Monitors a limit order for real-time updates.
 	//
-	// Returns a stream of limit order states as they change.
+	// Supports lookup by either resource name or external reference using
+	// the identifier oneof field in the request. Returns a stream of limit
+	// order states as they change.
 	MonitorLimitOrder(ctx context.Context, request *MonitorLimitOrderRequest, stream LimitOrderService_MonitorLimitOrderStream) error
-
-	// Monitors a limit order by external reference for real-time updates.
-	//
-	// Returns a stream of limit order states as they change.
-	MonitorLimitOrderByExternalReference(ctx context.Context, request *MonitorLimitOrderByExternalReferenceRequest, stream LimitOrderService_MonitorLimitOrderByExternalReferenceStream) error
 }
 
 const LimitOrderServiceServiceProviderName = "meshtrade-trading-limit_order-v1-LimitOrderService"

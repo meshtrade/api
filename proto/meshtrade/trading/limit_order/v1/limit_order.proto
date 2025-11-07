@@ -69,6 +69,10 @@ message LimitOrder {
   /*
      External reference for client-side tracking and correlation.
      This field allows clients to associate orders with their own identifiers.
+
+     If specified, must be unique within the scope of limit orders owned by
+     this owner. The Mesh system enforces this constraint to ensure reliable
+     lookups via GetLimitOrderByExternalReference.
   */
   string external_reference = 5 [(buf.validate.field) = {
     string: {
@@ -80,8 +84,11 @@ message LimitOrder {
      Order side indicating buy or sell.
      This field is required on creation.
   */
-  string side = 6 [(buf.validate.field) = {
-    required: true
+  LimitOrderSide side = 6 [(buf.validate.field) = {
+    enum: {
+      defined_only: true,
+      not_in: [0]
+    }
   }];
 
   /*
@@ -102,12 +109,20 @@ message LimitOrder {
 
   /*
      Fill price from live ledger data.
+     Calculated as the volume weighted average price (VWAP) of all trades
+     that filled this order. This value is computed in real-time from ledger
+     data and becomes final when the order is marked complete.
+
      Only populated when live_ledger_data=true in request.
   */
   meshtrade.type.v1.Amount fill_price = 9;
 
   /*
      Filled quantity from live ledger data.
+     Represents the total amount of the order that has been filled on the ledger.
+     This value is computed in real-time from ledger data and becomes final
+     when the order is marked complete.
+
      Only populated when live_ledger_data=true in request.
   */
   meshtrade.type.v1.Amount filled_quantity = 10;
@@ -116,5 +131,50 @@ message LimitOrder {
      Order status from live ledger data.
      Only populated when live_ledger_data=true in request.
   */
-  string status = 11;
+  LimitOrderStatus status = 11;
+}
+
+
+/*
+   LimitOrderSide represents the direction of a limit order.
+*/
+enum LimitOrderSide {
+  // Unspecified side (invalid for creation).
+  LIMIT_ORDER_SIDE_UNSPECIFIED = 0;
+
+  // Buy order.
+  LIMIT_ORDER_SIDE_BUY = 1;
+
+  // Sell order.
+  LIMIT_ORDER_SIDE_SELL = 2;
+}
+
+/*
+   LimitOrderStatus represents the current state of a limit order.
+   Populated only when live_ledger_data=true in requests.
+*/
+enum LimitOrderStatus {
+  // Unspecified status.
+  LIMIT_ORDER_STATUS_UNSPECIFIED = 0;
+
+  // Submission transaction in progress.
+  LIMIT_ORDER_STATUS_SUBMISSION_IN_PROGRESS = 1;
+
+  // Submission failed.
+  LIMIT_ORDER_STATUS_SUBMISSION_FAILED = 2;
+
+  // Order is open on the ledger.
+  LIMIT_ORDER_STATUS_OPEN = 3;
+
+  // Completion in progress.
+  LIMIT_ORDER_STATUS_COMPLETE_IN_PROGRESS = 4;
+
+  // Order completed (fully filled).
+  LIMIT_ORDER_STATUS_COMPLETE = 5;
+
+  // Cancellation in progress.
+  LIMIT_ORDER_STATUS_CANCELLATION_IN_PROGRESS = 6;
+
+  // Order cancelled.
+  LIMIT_ORDER_STATUS_CANCELLED = 7;
 }

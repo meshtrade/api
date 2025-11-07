@@ -124,26 +124,11 @@ service LimitOrderService {
   /*
      Monitors a limit order for real-time updates.
 
-     Returns a stream of limit order states as they change.
+     Supports lookup by either resource name or external reference using
+     the identifier oneof field in the request. Returns a stream of limit
+     order states as they change.
   */
   rpc MonitorLimitOrder(MonitorLimitOrderRequest) returns (stream LimitOrder) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
-    option (meshtrade.iam.role.v1.roles) = {
-      roles: [
-        ROLE_TRADING_ADMIN,
-        ROLE_TRADING_VIEWER,
-        ROLE_TRADING_LIMIT_ORDER_ADMIN,
-        ROLE_TRADING_LIMIT_ORDER_VIEWER
-      ]
-    };
-  }
-
-  /*
-     Monitors a limit order by external reference for real-time updates.
-
-     Returns a stream of limit order states as they change.
-  */
-  rpc MonitorLimitOrderByExternalReference(MonitorLimitOrderByExternalReferenceRequest) returns (stream LimitOrder) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
     option (meshtrade.iam.role.v1.roles) = {
       roles: [
@@ -285,30 +270,29 @@ message SearchLimitOrdersResponse {
 }
 
 /*
-   Request to monitor a limit order by name.
+   Request to monitor a limit order.
+   Supports lookup by either resource name or external reference.
 */
 message MonitorLimitOrderRequest {
   /*
-     The resource name of the limit order to monitor.
-     Format: limit_orders/{ULIDv2}.
+     Identifier for the limit order to monitor.
+     Exactly one field must be specified.
   */
-  string name = 1 [(buf.validate.field) = {
-    required: true,
-    string: {
-      len: 38,
-      pattern: "^limit_orders/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
-    }
-  }];
-}
+  oneof identifier {
+    /*
+       The resource name of the limit order to monitor.
+       Format: limit_orders/{ULIDv2}.
+    */
+    string name = 1 [(buf.validate.field) = {
+      string: {
+        len: 38,
+        pattern: "^limit_orders/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+      }
+    }];
 
-/*
-   Request to monitor a limit order by external reference.
-*/
-message MonitorLimitOrderByExternalReferenceRequest {
-  /*
-     The external reference identifier.
-  */
-  string external_reference = 1 [(buf.validate.field) = {
-    required: true
-  }];
+    /*
+       The external reference identifier.
+    */
+    string external_reference = 2;
+  }
 }

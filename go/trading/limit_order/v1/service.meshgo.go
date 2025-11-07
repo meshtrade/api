@@ -72,11 +72,10 @@ type LimitOrderServiceClientInterface interface {
 	// Supports filtering by token, account, and populating live ledger data.
 	SearchLimitOrders(ctx context.Context, request *SearchLimitOrdersRequest) (*SearchLimitOrdersResponse, error)
 	// Monitors a limit order for real-time updates.
-	// Returns a stream of limit order states as they change.
+	// Supports lookup by either resource name or external reference using
+	// the identifier oneof field in the request. Returns a stream of limit
+	// order states as they change.
 	MonitorLimitOrder(ctx context.Context, request *MonitorLimitOrderRequest) (LimitOrderService_MonitorLimitOrderClient, error)
-	// Monitors a limit order by external reference for real-time updates.
-	// Returns a stream of limit order states as they change.
-	MonitorLimitOrderByExternalReference(ctx context.Context, request *MonitorLimitOrderByExternalReferenceRequest) (LimitOrderService_MonitorLimitOrderByExternalReferenceClient, error)
 
 	// WithGroup returns a new client instance with a different group context
 	WithGroup(group string) LimitOrderServiceClientInterface
@@ -260,32 +259,5 @@ func (s *limitOrderService) SearchLimitOrders(ctx context.Context, request *Sear
 func (s *limitOrderService) MonitorLimitOrder(ctx context.Context, request *MonitorLimitOrderRequest) (LimitOrderService_MonitorLimitOrderClient, error) {
 	return grpc.ExecuteStream(s.Executor(), ctx, "MonitorLimitOrder", request, func(ctx context.Context) (LimitOrderService_MonitorLimitOrderClient, error) {
 		return s.GrpcClient().MonitorLimitOrder(ctx, request)
-	})
-}
-
-// MonitorLimitOrderByExternalReference executes the MonitorLimitOrderByExternalReference server-side streaming RPC method
-// with automatic client-side validation, timeout handling, distributed tracing, and authentication.
-// Returns a stream client that yields multiple LimitOrder messages.
-//
-// The returned stream must be fully consumed or explicitly closed to avoid resource leaks.
-// Example usage:
-//
-//	stream, err := client.MonitorLimitOrderByExternalReference(ctx, request)
-//	if err != nil {
-//		return err
-//	}
-//	for {
-//		resp, err := stream.Recv()
-//		if err == io.EOF {
-//			break
-//		}
-//		if err != nil {
-//			return err
-//		}
-//		// Process resp...
-//	}
-func (s *limitOrderService) MonitorLimitOrderByExternalReference(ctx context.Context, request *MonitorLimitOrderByExternalReferenceRequest) (LimitOrderService_MonitorLimitOrderByExternalReferenceClient, error) {
-	return grpc.ExecuteStream(s.Executor(), ctx, "MonitorLimitOrderByExternalReference", request, func(ctx context.Context) (LimitOrderService_MonitorLimitOrderByExternalReferenceClient, error) {
-		return s.GrpcClient().MonitorLimitOrderByExternalReference(ctx, request)
 	})
 }
