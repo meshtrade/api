@@ -170,9 +170,6 @@ type LimitOrder struct {
 	// Format: accounts/{ULIDv2}.
 	// This field is required on creation.
 	Account string `protobuf:"bytes,3,opt,name=account,proto3" json:"account,omitempty"`
-	// Human-readable name for organizational identification and display.
-	// User-configurable and non-unique across the system.
-	DisplayName string `protobuf:"bytes,4,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// External reference for client-side tracking and correlation.
 	// This field allows clients to associate orders with their own identifiers.
 	//
@@ -261,13 +258,6 @@ func (x *LimitOrder) GetAccount() string {
 	return ""
 }
 
-func (x *LimitOrder) GetDisplayName() string {
-	if x != nil {
-		return x.DisplayName
-	}
-	return ""
-}
-
 func (x *LimitOrder) GetExternalReference() string {
 	if x != nil {
 		return x.ExternalReference
@@ -321,14 +311,13 @@ var File_meshtrade_trading_limit_order_v1_limit_order_proto protoreflect.FileDes
 
 const file_meshtrade_trading_limit_order_v1_limit_order_proto_rawDesc = "" +
 	"\n" +
-	"2meshtrade/trading/limit_order/v1/limit_order.proto\x12 meshtrade.trading.limit_order.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1emeshtrade/type/v1/amount.proto\"\x89\a\n" +
+	"2meshtrade/trading/limit_order/v1/limit_order.proto\x12 meshtrade.trading.limit_order.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1emeshtrade/type/v1/amount.proto\"\xf1\x06\n" +
 	"\n" +
 	"LimitOrder\x12\xc8\x01\n" +
 	"\x04name\x18\x01 \x01(\tB\xb3\x01\xbaH\xaf\x01\xba\x01\xab\x01\n" +
 	"\x14name.format.optional\x129name must be empty or in the format limit_orders/{ULIDv2}\x1aXsize(this) == 0 || this.matches('^limit_orders/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12R\n" +
 	"\x05owner\x18\x02 \x01(\tB<\xbaH9\xc8\x01\x01r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05owner\x12X\n" +
-	"\aaccount\x18\x03 \x01(\tB>\xbaH;\xc8\x01\x01r621^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01#R\aaccount\x12*\n" +
-	"\fdisplay_name\x18\x04 \x01(\tB\a\xbaH\x04r\x02\x18dR\vdisplayName\x127\n" +
+	"\aaccount\x18\x03 \x01(\tB>\xbaH;\xc8\x01\x01r621^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01#R\aaccount\x127\n" +
 	"\x12external_reference\x18\x05 \x01(\tB\b\xbaH\x05r\x03\x18\xc8\x01R\x11externalReference\x12P\n" +
 	"\x04side\x18\x06 \x01(\x0e20.meshtrade.trading.limit_order.v1.LimitOrderSideB\n" +
 	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\x04side\x12B\n" +
@@ -339,7 +328,7 @@ const file_meshtrade_trading_limit_order_v1_limit_order_proto_rawDesc = "" +
 	"fill_price\x18\t \x01(\v2\x19.meshtrade.type.v1.AmountR\tfillPrice\x12B\n" +
 	"\x0ffilled_quantity\x18\n" +
 	" \x01(\v2\x19.meshtrade.type.v1.AmountR\x0efilledQuantity\x12J\n" +
-	"\x06status\x18\v \x01(\x0e22.meshtrade.trading.limit_order.v1.LimitOrderStatusR\x06status*g\n" +
+	"\x06status\x18\v \x01(\x0e22.meshtrade.trading.limit_order.v1.LimitOrderStatusR\x06statusJ\x04\b\x04\x10\x05R\fdisplay_name*g\n" +
 	"\x0eLimitOrderSide\x12 \n" +
 	"\x1cLIMIT_ORDER_SIDE_UNSPECIFIED\x10\x00\x12\x18\n" +
 	"\x14LIMIT_ORDER_SIDE_BUY\x10\x01\x12\x19\n" +

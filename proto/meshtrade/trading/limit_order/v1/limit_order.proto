@@ -16,6 +16,10 @@ option java_package = "co.meshtrade.api.trading.limit_order.v1";
    with a specific account.
 */
 message LimitOrder {
+  // Reserved field numbers for removed fields.
+  reserved 4;
+  reserved "display_name";
+
   /*
      The unique resource name for the limit order.
      Format: limit_orders/{ULIDv2}.
@@ -53,16 +57,6 @@ message LimitOrder {
     string: {
       len: 35,
       pattern: "^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
-    }
-  }];
-
-  /*
-     Human-readable name for organizational identification and display.
-     User-configurable and non-unique across the system.
-  */
-  string display_name = 4 [(buf.validate.field) = {
-    string: {
-      max_len: 100
     }
   }];
 
