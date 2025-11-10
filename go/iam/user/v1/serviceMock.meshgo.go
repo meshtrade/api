@@ -21,6 +21,8 @@ type MockUserService struct {
 	RevokeRolesFromUserFuncInvocations int
 	GetUserFunc                        func(t *testing.T, m *MockUserService, ctx context.Context, request *GetUserRequest) (*User, error)
 	GetUserFuncInvocations             int
+	GetUserByEmailFunc                 func(t *testing.T, m *MockUserService, ctx context.Context, request *GetUserByEmailRequest) (*User, error)
+	GetUserByEmailFuncInvocations      int
 	ListUsersFunc                      func(t *testing.T, m *MockUserService, ctx context.Context, request *ListUsersRequest) (*ListUsersResponse, error)
 	ListUsersFuncInvocations           int
 	SearchUsersFunc                    func(t *testing.T, m *MockUserService, ctx context.Context, request *SearchUsersRequest) (*SearchUsersResponse, error)
@@ -59,6 +61,16 @@ func (m *MockUserService) GetUser(ctx context.Context, request *GetUserRequest) 
 		return nil, nil
 	}
 	return m.GetUserFunc(m.T, m, ctx, request)
+}
+
+func (m *MockUserService) GetUserByEmail(ctx context.Context, request *GetUserByEmailRequest) (*User, error) {
+	m.mutex.Lock()
+	m.GetUserByEmailFuncInvocations++
+	m.mutex.Unlock()
+	if m.GetUserByEmailFunc == nil {
+		return nil, nil
+	}
+	return m.GetUserByEmailFunc(m.T, m, ctx, request)
 }
 
 func (m *MockUserService) ListUsers(ctx context.Context, request *ListUsersRequest) (*ListUsersResponse, error) {
