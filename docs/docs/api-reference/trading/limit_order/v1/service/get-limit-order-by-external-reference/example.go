@@ -20,16 +20,16 @@ func main() {
 	defer service.Close()
 
 	// Create request with service-specific parameters
-	request := &limit_orderv1.GetLimitOrderRequest{
+	request := &limit_orderv1.GetLimitOrderByExternalReferenceRequest{
 		// FIXME: Populate service-specific request fields
 	}
 
-	// Call the GetLimitOrder method
-	limitOrder, err := service.GetLimitOrder(ctx, request)
+	// Call the GetLimitOrderByExternalReference method
+	limitOrder, err := service.GetLimitOrderByExternalReference(ctx, request)
 	if err != nil {
-		log.Fatalf("GetLimitOrder failed: %v", err)
+		log.Fatalf("GetLimitOrderByExternalReference failed: %v", err)
 	}
 
 	// FIXME: Add relevant response object usage
-	log.Printf("GetLimitOrder successful: %+v", limitOrder)
+	log.Printf("GetLimitOrderByExternalReference successful: %+v", limitOrder)
 }

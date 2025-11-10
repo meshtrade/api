@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"io"
 	"log"
 
 	limit_orderv1 "github.com/meshtrade/api/go/trading/limit_order/v1"
@@ -20,16 +21,29 @@ func main() {
 	defer service.Close()
 
 	// Create request with service-specific parameters
-	request := &limit_orderv1.GetLimitOrderRequest{
+	request := &limit_orderv1.MonitorLimitOrderRequest{
 		// FIXME: Populate service-specific request fields
 	}
 
-	// Call the GetLimitOrder method
-	limitOrder, err := service.GetLimitOrder(ctx, request)
+	// Call the MonitorLimitOrder streaming method
+	stream, err := service.MonitorLimitOrder(ctx, request)
 	if err != nil {
-		log.Fatalf("GetLimitOrder failed: %v", err)
+		log.Fatalf("Failed to initiate stream: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("GetLimitOrder successful: %+v", limitOrder)
+	// Consume stream responses
+	for {
+		limitOrder, err := stream.Recv()
+		if err == io.EOF {
+			break // Stream completed normally
+		}
+		if err != nil {
+			log.Fatalf("Stream error: %v", err)
+		}
+
+		// Process each response as it arrives
+		log.Printf("Received: %+v", limitOrder)
+	}
+
+	log.Println("Stream completed successfully")
 }

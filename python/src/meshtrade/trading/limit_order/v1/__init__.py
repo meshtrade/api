@@ -13,8 +13,18 @@
 # ===================================================================
 
 # Generated protobuf imports
-from .limit_order_pb2 import LimitOrder
-from .service_pb2 import GetLimitOrderRequest
+from .limit_order_pb2 import LimitOrder, LimitOrderSide, LimitOrderStatus
+from .service_pb2 import (
+    CancelLimitOrderRequest,
+    CreateLimitOrderRequest,
+    GetLimitOrderByExternalReferenceRequest,
+    GetLimitOrderRequest,
+    ListLimitOrdersRequest,
+    ListLimitOrdersResponse,
+    MonitorLimitOrderRequest,
+    SearchLimitOrdersRequest,
+    SearchLimitOrdersResponse,
+)
 
 # Generated service imports
 from .service_meshpy import (
@@ -43,9 +53,19 @@ from .service_meshpy import (
 # Combined auto-generated and manual exports
 __all__ = [
     # Generated exports
+    "CancelLimitOrderRequest",
+    "CreateLimitOrderRequest",
+    "GetLimitOrderByExternalReferenceRequest",
     "GetLimitOrderRequest",
     "LimitOrder",
     "LimitOrderService",
     "LimitOrderServiceGRPCClient",
     "LimitOrderServiceGRPCClientInterface",
+    "LimitOrderSide",
+    "LimitOrderStatus",
+    "ListLimitOrdersRequest",
+    "ListLimitOrdersResponse",
+    "MonitorLimitOrderRequest",
+    "SearchLimitOrdersRequest",
+    "SearchLimitOrdersResponse",
 ]

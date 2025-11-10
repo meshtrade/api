@@ -1,5 +1,5 @@
 from meshtrade.trading.limit_order.v1 import (
-    GetLimitOrderRequest,
+    CreateLimitOrderRequest,
     LimitOrderService,
 )
 
@@ -12,15 +12,15 @@ def main():
 
     with service:
         # Create request with service-specific parameters
-        request = GetLimitOrderRequest(
+        request = CreateLimitOrderRequest(
             # FIXME: Populate service-specific request fields
         )
 
-        # Call the GetLimitOrder method
-        limit_order = service.get_limit_order(request)
+        # Call the CreateLimitOrder method
+        limit_order = service.create_limit_order(request)
 
         # FIXME: Add relevant response object usage
-        print("GetLimitOrder successful:", limit_order)
+        print("CreateLimitOrder successful:", limit_order)
 
 
 if __name__ == "__main__":

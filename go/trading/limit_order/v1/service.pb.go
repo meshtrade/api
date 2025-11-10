@@ -7,6 +7,7 @@
 package limit_order_v1
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	_ "github.com/meshtrade/api/go/iam/role/v1"
 	_ "github.com/meshtrade/api/go/option/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -23,16 +24,116 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type GetLimitOrderRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Number        string                 `protobuf:"bytes,1,opt,name=number,proto3" json:"number,omitempty"`
+// Request to create a new limit order.
+type CreateLimitOrderRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The limit order configuration for creation.
+	// The name field will be ignored and assigned by the system.
+	LimitOrder    *LimitOrder `protobuf:"bytes,1,opt,name=limit_order,json=limitOrder,proto3" json:"limit_order,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
+func (x *CreateLimitOrderRequest) Reset() {
+	*x = CreateLimitOrderRequest{}
+	mi := &file_meshtrade_trading_limit_order_v1_service_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateLimitOrderRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateLimitOrderRequest) ProtoMessage() {}
+
+func (x *CreateLimitOrderRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_trading_limit_order_v1_service_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateLimitOrderRequest.ProtoReflect.Descriptor instead.
+func (*CreateLimitOrderRequest) Descriptor() ([]byte, []int) {
+	return file_meshtrade_trading_limit_order_v1_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *CreateLimitOrderRequest) GetLimitOrder() *LimitOrder {
+	if x != nil {
+		return x.LimitOrder
+	}
+	return nil
+}
+
+// Request to cancel a limit order.
+type CancelLimitOrderRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The resource name of the limit order to cancel.
+	// Format: limit_orders/{ULIDv2}.
+	Name          string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CancelLimitOrderRequest) Reset() {
+	*x = CancelLimitOrderRequest{}
+	mi := &file_meshtrade_trading_limit_order_v1_service_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CancelLimitOrderRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CancelLimitOrderRequest) ProtoMessage() {}
+
+func (x *CancelLimitOrderRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_trading_limit_order_v1_service_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CancelLimitOrderRequest.ProtoReflect.Descriptor instead.
+func (*CancelLimitOrderRequest) Descriptor() ([]byte, []int) {
+	return file_meshtrade_trading_limit_order_v1_service_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *CancelLimitOrderRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+// Request to retrieve a limit order by name.
+type GetLimitOrderRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The resource name of the limit order to retrieve.
+	// Format: limit_orders/{ULIDv2}.
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	// When true, fetches live ledger data including fill status.
+	// When false, returns only stored metadata.
+	LiveLedgerData bool `protobuf:"varint,2,opt,name=live_ledger_data,json=liveLedgerData,proto3" json:"live_ledger_data,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
 func (x *GetLimitOrderRequest) Reset() {
 	*x = GetLimitOrderRequest{}
-	mi := &file_meshtrade_trading_limit_order_v1_service_proto_msgTypes[0]
+	mi := &file_meshtrade_trading_limit_order_v1_service_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -44,7 +145,7 @@ func (x *GetLimitOrderRequest) String() string {
 func (*GetLimitOrderRequest) ProtoMessage() {}
 
 func (x *GetLimitOrderRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_trading_limit_order_v1_service_proto_msgTypes[0]
+	mi := &file_meshtrade_trading_limit_order_v1_service_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -57,27 +158,422 @@ func (x *GetLimitOrderRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetLimitOrderRequest.ProtoReflect.Descriptor instead.
 func (*GetLimitOrderRequest) Descriptor() ([]byte, []int) {
-	return file_meshtrade_trading_limit_order_v1_service_proto_rawDescGZIP(), []int{0}
+	return file_meshtrade_trading_limit_order_v1_service_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *GetLimitOrderRequest) GetNumber() string {
+func (x *GetLimitOrderRequest) GetName() string {
 	if x != nil {
-		return x.Number
+		return x.Name
 	}
 	return ""
 }
+
+func (x *GetLimitOrderRequest) GetLiveLedgerData() bool {
+	if x != nil {
+		return x.LiveLedgerData
+	}
+	return false
+}
+
+// Request to retrieve a limit order by external reference.
+type GetLimitOrderByExternalReferenceRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The external reference identifier.
+	ExternalReference string `protobuf:"bytes,1,opt,name=external_reference,json=externalReference,proto3" json:"external_reference,omitempty"`
+	// When true, fetches live ledger data including fill status.
+	// When false, returns only stored metadata.
+	LiveLedgerData bool `protobuf:"varint,2,opt,name=live_ledger_data,json=liveLedgerData,proto3" json:"live_ledger_data,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *GetLimitOrderByExternalReferenceRequest) Reset() {
+	*x = GetLimitOrderByExternalReferenceRequest{}
+	mi := &file_meshtrade_trading_limit_order_v1_service_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetLimitOrderByExternalReferenceRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetLimitOrderByExternalReferenceRequest) ProtoMessage() {}
+
+func (x *GetLimitOrderByExternalReferenceRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_trading_limit_order_v1_service_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetLimitOrderByExternalReferenceRequest.ProtoReflect.Descriptor instead.
+func (*GetLimitOrderByExternalReferenceRequest) Descriptor() ([]byte, []int) {
+	return file_meshtrade_trading_limit_order_v1_service_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *GetLimitOrderByExternalReferenceRequest) GetExternalReference() string {
+	if x != nil {
+		return x.ExternalReference
+	}
+	return ""
+}
+
+func (x *GetLimitOrderByExternalReferenceRequest) GetLiveLedgerData() bool {
+	if x != nil {
+		return x.LiveLedgerData
+	}
+	return false
+}
+
+// Request to list all limit orders.
+type ListLimitOrdersRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// When true, fetches live ledger data for all orders.
+	// When false, returns only stored metadata.
+	LiveLedgerData bool `protobuf:"varint,1,opt,name=live_ledger_data,json=liveLedgerData,proto3" json:"live_ledger_data,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *ListLimitOrdersRequest) Reset() {
+	*x = ListLimitOrdersRequest{}
+	mi := &file_meshtrade_trading_limit_order_v1_service_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListLimitOrdersRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListLimitOrdersRequest) ProtoMessage() {}
+
+func (x *ListLimitOrdersRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_trading_limit_order_v1_service_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListLimitOrdersRequest.ProtoReflect.Descriptor instead.
+func (*ListLimitOrdersRequest) Descriptor() ([]byte, []int) {
+	return file_meshtrade_trading_limit_order_v1_service_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *ListLimitOrdersRequest) GetLiveLedgerData() bool {
+	if x != nil {
+		return x.LiveLedgerData
+	}
+	return false
+}
+
+// Response containing a list of limit orders.
+type ListLimitOrdersResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Collection of limit orders in the hierarchy.
+	LimitOrders   []*LimitOrder `protobuf:"bytes,1,rep,name=limit_orders,json=limitOrders,proto3" json:"limit_orders,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListLimitOrdersResponse) Reset() {
+	*x = ListLimitOrdersResponse{}
+	mi := &file_meshtrade_trading_limit_order_v1_service_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListLimitOrdersResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListLimitOrdersResponse) ProtoMessage() {}
+
+func (x *ListLimitOrdersResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_trading_limit_order_v1_service_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListLimitOrdersResponse.ProtoReflect.Descriptor instead.
+func (*ListLimitOrdersResponse) Descriptor() ([]byte, []int) {
+	return file_meshtrade_trading_limit_order_v1_service_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *ListLimitOrdersResponse) GetLimitOrders() []*LimitOrder {
+	if x != nil {
+		return x.LimitOrders
+	}
+	return nil
+}
+
+// Request to search limit orders with filtering criteria.
+type SearchLimitOrdersRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Filter by token (optional).
+	Token string `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
+	// Filter by account (optional).
+	// Format: accounts/{ULIDv2}.
+	Account string `protobuf:"bytes,2,opt,name=account,proto3" json:"account,omitempty"`
+	// When true, fetches live ledger data for matching orders.
+	// When false, returns only stored metadata.
+	LiveLedgerData bool `protobuf:"varint,3,opt,name=live_ledger_data,json=liveLedgerData,proto3" json:"live_ledger_data,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *SearchLimitOrdersRequest) Reset() {
+	*x = SearchLimitOrdersRequest{}
+	mi := &file_meshtrade_trading_limit_order_v1_service_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SearchLimitOrdersRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SearchLimitOrdersRequest) ProtoMessage() {}
+
+func (x *SearchLimitOrdersRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_trading_limit_order_v1_service_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SearchLimitOrdersRequest.ProtoReflect.Descriptor instead.
+func (*SearchLimitOrdersRequest) Descriptor() ([]byte, []int) {
+	return file_meshtrade_trading_limit_order_v1_service_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *SearchLimitOrdersRequest) GetToken() string {
+	if x != nil {
+		return x.Token
+	}
+	return ""
+}
+
+func (x *SearchLimitOrdersRequest) GetAccount() string {
+	if x != nil {
+		return x.Account
+	}
+	return ""
+}
+
+func (x *SearchLimitOrdersRequest) GetLiveLedgerData() bool {
+	if x != nil {
+		return x.LiveLedgerData
+	}
+	return false
+}
+
+// Response containing search results.
+type SearchLimitOrdersResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Collection of limit orders matching the search criteria.
+	LimitOrders   []*LimitOrder `protobuf:"bytes,1,rep,name=limit_orders,json=limitOrders,proto3" json:"limit_orders,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SearchLimitOrdersResponse) Reset() {
+	*x = SearchLimitOrdersResponse{}
+	mi := &file_meshtrade_trading_limit_order_v1_service_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SearchLimitOrdersResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SearchLimitOrdersResponse) ProtoMessage() {}
+
+func (x *SearchLimitOrdersResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_trading_limit_order_v1_service_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SearchLimitOrdersResponse.ProtoReflect.Descriptor instead.
+func (*SearchLimitOrdersResponse) Descriptor() ([]byte, []int) {
+	return file_meshtrade_trading_limit_order_v1_service_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *SearchLimitOrdersResponse) GetLimitOrders() []*LimitOrder {
+	if x != nil {
+		return x.LimitOrders
+	}
+	return nil
+}
+
+// Request to monitor a limit order.
+// Supports lookup by either resource name or external reference.
+type MonitorLimitOrderRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Identifier for the limit order to monitor.
+	// Exactly one field must be specified.
+	//
+	// Types that are valid to be assigned to Identifier:
+	//
+	//	*MonitorLimitOrderRequest_Name
+	//	*MonitorLimitOrderRequest_ExternalReference
+	Identifier    isMonitorLimitOrderRequest_Identifier `protobuf_oneof:"identifier"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *MonitorLimitOrderRequest) Reset() {
+	*x = MonitorLimitOrderRequest{}
+	mi := &file_meshtrade_trading_limit_order_v1_service_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MonitorLimitOrderRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MonitorLimitOrderRequest) ProtoMessage() {}
+
+func (x *MonitorLimitOrderRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_trading_limit_order_v1_service_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MonitorLimitOrderRequest.ProtoReflect.Descriptor instead.
+func (*MonitorLimitOrderRequest) Descriptor() ([]byte, []int) {
+	return file_meshtrade_trading_limit_order_v1_service_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *MonitorLimitOrderRequest) GetIdentifier() isMonitorLimitOrderRequest_Identifier {
+	if x != nil {
+		return x.Identifier
+	}
+	return nil
+}
+
+func (x *MonitorLimitOrderRequest) GetName() string {
+	if x != nil {
+		if x, ok := x.Identifier.(*MonitorLimitOrderRequest_Name); ok {
+			return x.Name
+		}
+	}
+	return ""
+}
+
+func (x *MonitorLimitOrderRequest) GetExternalReference() string {
+	if x != nil {
+		if x, ok := x.Identifier.(*MonitorLimitOrderRequest_ExternalReference); ok {
+			return x.ExternalReference
+		}
+	}
+	return ""
+}
+
+type isMonitorLimitOrderRequest_Identifier interface {
+	isMonitorLimitOrderRequest_Identifier()
+}
+
+type MonitorLimitOrderRequest_Name struct {
+	// The resource name of the limit order to monitor.
+	// Format: limit_orders/{ULIDv2}.
+	Name string `protobuf:"bytes,1,opt,name=name,proto3,oneof"`
+}
+
+type MonitorLimitOrderRequest_ExternalReference struct {
+	// The external reference identifier.
+	ExternalReference string `protobuf:"bytes,2,opt,name=external_reference,json=externalReference,proto3,oneof"`
+}
+
+func (*MonitorLimitOrderRequest_Name) isMonitorLimitOrderRequest_Identifier() {}
+
+func (*MonitorLimitOrderRequest_ExternalReference) isMonitorLimitOrderRequest_Identifier() {}
 
 var File_meshtrade_trading_limit_order_v1_service_proto protoreflect.FileDescriptor
 
 const file_meshtrade_trading_limit_order_v1_service_proto_rawDesc = "" +
 	"\n" +
-	".meshtrade/trading/limit_order/v1/service.proto\x12 meshtrade.trading.limit_order.v1\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\x1a2meshtrade/trading/limit_order/v1/limit_order.proto\".\n" +
-	"\x14GetLimitOrderRequest\x12\x16\n" +
-	"\x06number\x18\x01 \x01(\tR\x06number2\x9f\x01\n" +
-	"\x11LimitOrderService\x12\x89\x01\n" +
-	"\rGetLimitOrder\x126.meshtrade.trading.limit_order.v1.GetLimitOrderRequest\x1a,.meshtrade.trading.limit_order.v1.LimitOrder\"\x12\xa0\xb5\x18\x01\xaa\xb5\x18\n" +
+	".meshtrade/trading/limit_order/v1/service.proto\x12 meshtrade.trading.limit_order.v1\x1a\x1bbuf/validate/validate.proto\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\x1a2meshtrade/trading/limit_order/v1/limit_order.proto\"p\n" +
+	"\x17CreateLimitOrderRequest\x12U\n" +
+	"\vlimit_order\x18\x01 \x01(\v2,.meshtrade.trading.limit_order.v1.LimitOrderB\x06\xbaH\x03\xc8\x01\x01R\n" +
+	"limitOrder\"q\n" +
+	"\x17CancelLimitOrderRequest\x12V\n" +
+	"\x04name\x18\x01 \x01(\tBB\xbaH?\xc8\x01\x01r:25^limit_orders/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01&R\x04name\"\x98\x01\n" +
+	"\x14GetLimitOrderRequest\x12V\n" +
+	"\x04name\x18\x01 \x01(\tBB\xbaH?\xc8\x01\x01r:25^limit_orders/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01&R\x04name\x12(\n" +
+	"\x10live_ledger_data\x18\x02 \x01(\bR\x0eliveLedgerData\"\x8a\x01\n" +
+	"'GetLimitOrderByExternalReferenceRequest\x125\n" +
+	"\x12external_reference\x18\x01 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\x11externalReference\x12(\n" +
+	"\x10live_ledger_data\x18\x02 \x01(\bR\x0eliveLedgerData\"B\n" +
+	"\x16ListLimitOrdersRequest\x12(\n" +
+	"\x10live_ledger_data\x18\x01 \x01(\bR\x0eliveLedgerData\"j\n" +
+	"\x17ListLimitOrdersResponse\x12O\n" +
+	"\flimit_orders\x18\x01 \x03(\v2,.meshtrade.trading.limit_order.v1.LimitOrderR\vlimitOrders\"\xae\x01\n" +
+	"\x18SearchLimitOrdersRequest\x12\x14\n" +
+	"\x05token\x18\x01 \x01(\tR\x05token\x12R\n" +
+	"\aaccount\x18\x02 \x01(\tB8\xbaH5r321^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$R\aaccount\x12(\n" +
+	"\x10live_ledger_data\x18\x03 \x01(\bR\x0eliveLedgerData\"l\n" +
+	"\x19SearchLimitOrdersResponse\x12O\n" +
+	"\flimit_orders\x18\x01 \x03(\v2,.meshtrade.trading.limit_order.v1.LimitOrderR\vlimitOrders\"\xb0\x01\n" +
+	"\x18MonitorLimitOrderRequest\x12U\n" +
+	"\x04name\x18\x01 \x01(\tB?\xbaH<r:25^limit_orders/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01&H\x00R\x04name\x12/\n" +
+	"\x12external_reference\x18\x02 \x01(\tH\x00R\x11externalReferenceB\f\n" +
 	"\n" +
-	"\b\xc0\x96\xb1\x02\xc1\x96\xb1\x02Bl\n" +
+	"identifier2\xf3\b\n" +
+	"\x11LimitOrderService\x12\x8f\x01\n" +
+	"\x10CreateLimitOrder\x129.meshtrade.trading.limit_order.v1.CreateLimitOrderRequest\x1a,.meshtrade.trading.limit_order.v1.LimitOrder\"\x12\xa0\xb5\x18\x02\xaa\xb5\x18\n" +
+	"\n" +
+	"\b\xc0\x96\xb1\x02\u0096\xb1\x02\x12\x8f\x01\n" +
+	"\x10CancelLimitOrder\x129.meshtrade.trading.limit_order.v1.CancelLimitOrderRequest\x1a,.meshtrade.trading.limit_order.v1.LimitOrder\"\x12\xa0\xb5\x18\x02\xaa\xb5\x18\n" +
+	"\n" +
+	"\b\xc0\x96\xb1\x02\u0096\xb1\x02\x12\x91\x01\n" +
+	"\rGetLimitOrder\x126.meshtrade.trading.limit_order.v1.GetLimitOrderRequest\x1a,.meshtrade.trading.limit_order.v1.LimitOrder\"\x1a\xa0\xb5\x18\x01\xaa\xb5\x18\x12\n" +
+	"\x10\xc0\x96\xb1\x02\xc1\x96\xb1\x02\u0096\xb1\x02Ö\xb1\x02\x12\xb7\x01\n" +
+	" GetLimitOrderByExternalReference\x12I.meshtrade.trading.limit_order.v1.GetLimitOrderByExternalReferenceRequest\x1a,.meshtrade.trading.limit_order.v1.LimitOrder\"\x1a\xa0\xb5\x18\x01\xaa\xb5\x18\x12\n" +
+	"\x10\xc0\x96\xb1\x02\xc1\x96\xb1\x02\u0096\xb1\x02Ö\xb1\x02\x12\xa2\x01\n" +
+	"\x0fListLimitOrders\x128.meshtrade.trading.limit_order.v1.ListLimitOrdersRequest\x1a9.meshtrade.trading.limit_order.v1.ListLimitOrdersResponse\"\x1a\xa0\xb5\x18\x01\xaa\xb5\x18\x12\n" +
+	"\x10\xc0\x96\xb1\x02\xc1\x96\xb1\x02\u0096\xb1\x02Ö\xb1\x02\x12\xa8\x01\n" +
+	"\x11SearchLimitOrders\x12:.meshtrade.trading.limit_order.v1.SearchLimitOrdersRequest\x1a;.meshtrade.trading.limit_order.v1.SearchLimitOrdersResponse\"\x1a\xa0\xb5\x18\x01\xaa\xb5\x18\x12\n" +
+	"\x10\xc0\x96\xb1\x02\xc1\x96\xb1\x02\u0096\xb1\x02Ö\xb1\x02\x12\x9b\x01\n" +
+	"\x11MonitorLimitOrder\x12:.meshtrade.trading.limit_order.v1.MonitorLimitOrderRequest\x1a,.meshtrade.trading.limit_order.v1.LimitOrder\"\x1a\xa0\xb5\x18\x01\xaa\xb5\x18\x12\n" +
+	"\x10\xc0\x96\xb1\x02\xc1\x96\xb1\x02\u0096\xb1\x02Ö\xb1\x020\x01Bl\n" +
 	"'co.meshtrade.api.trading.limit_order.v1ZAgithub.com/meshtrade/api/go/trading/limit_order/v1;limit_order_v1b\x06proto3"
 
 var (
@@ -92,19 +588,42 @@ func file_meshtrade_trading_limit_order_v1_service_proto_rawDescGZIP() []byte {
 	return file_meshtrade_trading_limit_order_v1_service_proto_rawDescData
 }
 
-var file_meshtrade_trading_limit_order_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_meshtrade_trading_limit_order_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_meshtrade_trading_limit_order_v1_service_proto_goTypes = []any{
-	(*GetLimitOrderRequest)(nil), // 0: meshtrade.trading.limit_order.v1.GetLimitOrderRequest
-	(*LimitOrder)(nil),           // 1: meshtrade.trading.limit_order.v1.LimitOrder
+	(*CreateLimitOrderRequest)(nil),                 // 0: meshtrade.trading.limit_order.v1.CreateLimitOrderRequest
+	(*CancelLimitOrderRequest)(nil),                 // 1: meshtrade.trading.limit_order.v1.CancelLimitOrderRequest
+	(*GetLimitOrderRequest)(nil),                    // 2: meshtrade.trading.limit_order.v1.GetLimitOrderRequest
+	(*GetLimitOrderByExternalReferenceRequest)(nil), // 3: meshtrade.trading.limit_order.v1.GetLimitOrderByExternalReferenceRequest
+	(*ListLimitOrdersRequest)(nil),                  // 4: meshtrade.trading.limit_order.v1.ListLimitOrdersRequest
+	(*ListLimitOrdersResponse)(nil),                 // 5: meshtrade.trading.limit_order.v1.ListLimitOrdersResponse
+	(*SearchLimitOrdersRequest)(nil),                // 6: meshtrade.trading.limit_order.v1.SearchLimitOrdersRequest
+	(*SearchLimitOrdersResponse)(nil),               // 7: meshtrade.trading.limit_order.v1.SearchLimitOrdersResponse
+	(*MonitorLimitOrderRequest)(nil),                // 8: meshtrade.trading.limit_order.v1.MonitorLimitOrderRequest
+	(*LimitOrder)(nil),                              // 9: meshtrade.trading.limit_order.v1.LimitOrder
 }
 var file_meshtrade_trading_limit_order_v1_service_proto_depIdxs = []int32{
-	0, // 0: meshtrade.trading.limit_order.v1.LimitOrderService.GetLimitOrder:input_type -> meshtrade.trading.limit_order.v1.GetLimitOrderRequest
-	1, // 1: meshtrade.trading.limit_order.v1.LimitOrderService.GetLimitOrder:output_type -> meshtrade.trading.limit_order.v1.LimitOrder
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	9,  // 0: meshtrade.trading.limit_order.v1.CreateLimitOrderRequest.limit_order:type_name -> meshtrade.trading.limit_order.v1.LimitOrder
+	9,  // 1: meshtrade.trading.limit_order.v1.ListLimitOrdersResponse.limit_orders:type_name -> meshtrade.trading.limit_order.v1.LimitOrder
+	9,  // 2: meshtrade.trading.limit_order.v1.SearchLimitOrdersResponse.limit_orders:type_name -> meshtrade.trading.limit_order.v1.LimitOrder
+	0,  // 3: meshtrade.trading.limit_order.v1.LimitOrderService.CreateLimitOrder:input_type -> meshtrade.trading.limit_order.v1.CreateLimitOrderRequest
+	1,  // 4: meshtrade.trading.limit_order.v1.LimitOrderService.CancelLimitOrder:input_type -> meshtrade.trading.limit_order.v1.CancelLimitOrderRequest
+	2,  // 5: meshtrade.trading.limit_order.v1.LimitOrderService.GetLimitOrder:input_type -> meshtrade.trading.limit_order.v1.GetLimitOrderRequest
+	3,  // 6: meshtrade.trading.limit_order.v1.LimitOrderService.GetLimitOrderByExternalReference:input_type -> meshtrade.trading.limit_order.v1.GetLimitOrderByExternalReferenceRequest
+	4,  // 7: meshtrade.trading.limit_order.v1.LimitOrderService.ListLimitOrders:input_type -> meshtrade.trading.limit_order.v1.ListLimitOrdersRequest
+	6,  // 8: meshtrade.trading.limit_order.v1.LimitOrderService.SearchLimitOrders:input_type -> meshtrade.trading.limit_order.v1.SearchLimitOrdersRequest
+	8,  // 9: meshtrade.trading.limit_order.v1.LimitOrderService.MonitorLimitOrder:input_type -> meshtrade.trading.limit_order.v1.MonitorLimitOrderRequest
+	9,  // 10: meshtrade.trading.limit_order.v1.LimitOrderService.CreateLimitOrder:output_type -> meshtrade.trading.limit_order.v1.LimitOrder
+	9,  // 11: meshtrade.trading.limit_order.v1.LimitOrderService.CancelLimitOrder:output_type -> meshtrade.trading.limit_order.v1.LimitOrder
+	9,  // 12: meshtrade.trading.limit_order.v1.LimitOrderService.GetLimitOrder:output_type -> meshtrade.trading.limit_order.v1.LimitOrder
+	9,  // 13: meshtrade.trading.limit_order.v1.LimitOrderService.GetLimitOrderByExternalReference:output_type -> meshtrade.trading.limit_order.v1.LimitOrder
+	5,  // 14: meshtrade.trading.limit_order.v1.LimitOrderService.ListLimitOrders:output_type -> meshtrade.trading.limit_order.v1.ListLimitOrdersResponse
+	7,  // 15: meshtrade.trading.limit_order.v1.LimitOrderService.SearchLimitOrders:output_type -> meshtrade.trading.limit_order.v1.SearchLimitOrdersResponse
+	9,  // 16: meshtrade.trading.limit_order.v1.LimitOrderService.MonitorLimitOrder:output_type -> meshtrade.trading.limit_order.v1.LimitOrder
+	10, // [10:17] is the sub-list for method output_type
+	3,  // [3:10] is the sub-list for method input_type
+	3,  // [3:3] is the sub-list for extension type_name
+	3,  // [3:3] is the sub-list for extension extendee
+	0,  // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_trading_limit_order_v1_service_proto_init() }
@@ -113,13 +632,17 @@ func file_meshtrade_trading_limit_order_v1_service_proto_init() {
 		return
 	}
 	file_meshtrade_trading_limit_order_v1_limit_order_proto_init()
+	file_meshtrade_trading_limit_order_v1_service_proto_msgTypes[8].OneofWrappers = []any{
+		(*MonitorLimitOrderRequest_Name)(nil),
+		(*MonitorLimitOrderRequest_ExternalReference)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_meshtrade_trading_limit_order_v1_service_proto_rawDesc), len(file_meshtrade_trading_limit_order_v1_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   1,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
