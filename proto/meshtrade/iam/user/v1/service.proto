@@ -57,12 +57,30 @@ service UserService {
   }
 
   /*
-     Retrieves a single user by its unique identifier.
+     Retrieves a single user by their unique identifier.
 
      Returns user details including name, email, ownership information,
      and assigned roles within the authenticated group's access scope.
   */
   rpc GetUser(GetUserRequest) returns (meshtrade.iam.user.v1.User) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_VIEWER,
+        ROLE_IAM_USER_ADMIN,
+        ROLE_IAM_USER_VIEWER
+      ]
+    };
+  }
+
+  /*
+     Retrieves a single user by their email address.
+
+     Returns user details including name, email, ownership information,
+     and assigned roles within the authenticated group's access scope.
+  */
+  rpc GetUserByEmail(GetUserByEmailRequest) returns (meshtrade.iam.user.v1.User) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
     option (meshtrade.iam.role.v1.roles) = {
       roles: [
@@ -217,6 +235,17 @@ message GetUserRequest {
       len: 32
       pattern: "^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
+  }];
+}
+
+message GetUserByEmailRequest {
+  /*
+     Email address of the user to retrieve.
+     Must be a valid email address format.
+  */
+  string email = 1 [(buf.validate.field) = {
+    required: true
+    string: {email: true}
   }];
 }
 

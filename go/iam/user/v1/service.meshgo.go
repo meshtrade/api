@@ -64,6 +64,10 @@ type UserServiceClientInterface interface {
 	// Returns user details including name, email, ownership information,
 	// and assigned roles within the authenticated group's access scope.
 	GetUser(ctx context.Context, request *GetUserRequest) (*User, error)
+	// Retrieves a single user by its email address.
+	// Returns user details including name, email, ownership information,
+	// and assigned roles within the authenticated group's access scope.
+	GetUserByEmail(ctx context.Context, request *GetUserByEmailRequest) (*User, error)
 	// Returns all users accessible within the authenticated group's hierarchy.
 	// Results include users directly owned and those accessible through the
 	// group's hierarchical permissions, optionally sorted by email address.
@@ -215,6 +219,14 @@ func (s *userService) RevokeRolesFromUser(ctx context.Context, request *RevokeRo
 func (s *userService) GetUser(ctx context.Context, request *GetUserRequest) (*User, error) {
 	return grpc.Execute(s.Executor(), ctx, "GetUser", request, func(ctx context.Context) (*User, error) {
 		return s.GrpcClient().GetUser(ctx, request)
+	})
+}
+
+// GetUserByEmail executes the GetUserByEmail RPC method with automatic
+// client-side validation, timeout handling, distributed tracing, and authentication.
+func (s *userService) GetUserByEmail(ctx context.Context, request *GetUserByEmailRequest) (*User, error) {
+	return grpc.Execute(s.Executor(), ctx, "GetUserByEmail", request, func(ctx context.Context) (*User, error) {
+		return s.GrpcClient().GetUserByEmail(ctx, request)
 	})
 }
 

@@ -17,6 +17,7 @@ from .user_pb2 import User
 from .service_pb2 import (
     AssignRolesToUserRequest,
     CreateUserRequest,
+    GetUserByEmailRequest,
     GetUserRequest,
     ListUsersRequest,
     ListUsersResponse,
@@ -55,6 +56,7 @@ __all__ = [
     # Generated exports
     "AssignRolesToUserRequest",
     "CreateUserRequest",
+    "GetUserByEmailRequest",
     "GetUserRequest",
     "ListUsersRequest",
     "ListUsersResponse",
