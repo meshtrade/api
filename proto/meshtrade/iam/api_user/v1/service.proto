@@ -3,7 +3,7 @@ syntax = "proto3";
 package meshtrade.iam.api_user.v1;
 
 import "buf/validate/validate.proto";
-import "meshtrade/iam/api_user/v1/api_user.proto
+import "meshtrade/iam/api_user/v1/api_user.proto";
 import "meshtrade/option/method_options/v1/method_options.proto";
 
 option go_package = "github.com/meshtrade/api/go/iam/api_user/v1;api_user_v1";
