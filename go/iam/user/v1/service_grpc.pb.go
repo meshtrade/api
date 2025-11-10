@@ -54,12 +54,12 @@ type UserServiceClient interface {
 	// the user within the group hierarchy. The user will no longer be able
 	// to perform operations that require the revoked role.
 	RevokeRolesFromUser(ctx context.Context, in *RevokeRolesFromUserRequest, opts ...grpc.CallOption) (*User, error)
-	// Retrieves a single user by its unique identifier.
+	// Retrieves a single user by their unique identifier.
 	//
 	// Returns user details including name, email, ownership information,
 	// and assigned roles within the authenticated group's access scope.
 	GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*User, error)
-	// Retrieves a single user by its email address.
+	// Retrieves a single user by their email address.
 	//
 	// Returns user details including name, email, ownership information,
 	// and assigned roles within the authenticated group's access scope.
@@ -202,12 +202,12 @@ type UserServiceServer interface {
 	// the user within the group hierarchy. The user will no longer be able
 	// to perform operations that require the revoked role.
 	RevokeRolesFromUser(context.Context, *RevokeRolesFromUserRequest) (*User, error)
-	// Retrieves a single user by its unique identifier.
+	// Retrieves a single user by their unique identifier.
 	//
 	// Returns user details including name, email, ownership information,
 	// and assigned roles within the authenticated group's access scope.
 	GetUser(context.Context, *GetUserRequest) (*User, error)
-	// Retrieves a single user by its email address.
+	// Retrieves a single user by their email address.
 	//
 	// Returns user details including name, email, ownership information,
 	// and assigned roles within the authenticated group's access scope.

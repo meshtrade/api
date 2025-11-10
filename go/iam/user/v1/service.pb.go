@@ -183,7 +183,8 @@ func (x *GetUserRequest) GetName() string {
 
 type GetUserByEmailRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// The unique email address of the user to retrieve
+	// Email address of the user to retrieve.
+	// Must be a valid email address format.
 	Email         string `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
