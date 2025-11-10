@@ -58,14 +58,13 @@ enum Role {
   ROLE_LEDGER_TRANSACTION_VIEWER = 7000003;
 }
 
-extend google.protobuf.MessageOptions {
-  RoleList message_roles = 50006;
+/*
+   TODO: add description
+*/
+message RoleList {
+  repeated Role roles = 1;
 }
 
 extend google.protobuf.MethodOptions {
   RoleList roles = 50005;
-}
-
-message RoleList {
-  repeated Role roles = 1;
 }
