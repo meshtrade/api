@@ -3,8 +3,7 @@ syntax = "proto3";
 package meshtrade.wallet.account.v1;
 
 import "buf/validate/validate.proto";
-import "meshtrade/iam/role/v1/role.proto";
-import "meshtrade/option/v1/method_type.proto";
+import "meshtrade/option/method_options/v1/method_options.proto";
 import "meshtrade/type/v1/sorting.proto";
 import "meshtrade/wallet/account/v1/account.proto";
 
@@ -33,8 +32,9 @@ service AccountService {
      transactions. Account ownership must match the executing context.
   */
   rpc CreateAccount(CreateAccountRequest) returns (meshtrade.wallet.account.v1.Account) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_WRITE
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_WALLET_ADMIN,
         ROLE_WALLET_ACCOUNT_ADMIN
@@ -49,8 +49,9 @@ service AccountService {
      ownership, ledger, and account number are immutable after creation.
   */
   rpc UpdateAccount(UpdateAccountRequest) returns (meshtrade.wallet.account.v1.Account) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_WRITE
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_WALLET_ADMIN,
         ROLE_WALLET_ACCOUNT_ADMIN
@@ -66,8 +67,9 @@ service AccountService {
      reference for monitoring the blockchain operation.
   */
   rpc OpenAccount(OpenAccountRequest) returns (OpenAccountResponse) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_WRITE
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_WALLET_ADMIN,
         ROLE_WALLET_ACCOUNT_ADMIN
@@ -82,8 +84,9 @@ service AccountService {
      balance data from the blockchain when populate_ledger_data is true.
   */
   rpc GetAccount(GetAccountRequest) returns (meshtrade.wallet.account.v1.Account) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHENTICATED
       roles: [
         ROLE_WALLET_ADMIN,
         ROLE_WALLET_VIEWER,
@@ -100,8 +103,9 @@ service AccountService {
      Optionally fetches live balance data when populate_ledger_data is true.
   */
   rpc GetAccountByNumber(GetAccountByNumberRequest) returns (meshtrade.wallet.account.v1.Account) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHENTICATED
       roles: [
         ROLE_WALLET_ADMIN,
         ROLE_WALLET_VIEWER,
@@ -118,8 +122,9 @@ service AccountService {
      including accounts owned by the group and all descendant groups.
   */
   rpc ListAccounts(ListAccountsRequest) returns (ListAccountsResponse) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHENTICATED
       roles: [
         ROLE_WALLET_ADMIN,
         ROLE_WALLET_VIEWER,
@@ -137,13 +142,14 @@ service AccountService {
      returning accounts that match the search criteria.
   */
   rpc SearchAccounts(SearchAccountsRequest) returns (SearchAccountsResponse) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHENTICATED
       roles: [
         ROLE_WALLET_ADMIN,
         ROLE_WALLET_VIEWER,
         ROLE_WALLET_ACCOUNT_ADMIN,
-        ROLE_WALLET_ACCOUNT_VIEWER        
+        ROLE_WALLET_ACCOUNT_VIEWER
       ]
     };
   }

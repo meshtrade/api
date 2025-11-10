@@ -4,8 +4,7 @@ package meshtrade.compliance.client.v1;
 
 import "buf/validate/validate.proto";
 import "meshtrade/compliance/client/v1/client.proto";
-import "meshtrade/iam/role/v1/role.proto";
-import "meshtrade/option/v1/method_type.proto";
+import "meshtrade/option/method_options/v1/method_options.proto";
 
 option go_package = "github.com/meshtrade/api/go/compliance/client/v1;client_v1";
 option java_package = "co.meshtrade.api.compliance.client.v1";
@@ -19,8 +18,9 @@ option java_package = "co.meshtrade.api.compliance.client.v1";
 service ClientService {
   // CreateClient creates a single client.
   rpc CreateClient(CreateClientRequest) returns (meshtrade.compliance.client.v1.Client) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_WRITE
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_COMPLIANCE_ADMIN,
         ROLE_COMPLIANCE_CLIENT_ADMIN
@@ -34,8 +34,9 @@ service ClientService {
   // including all associated information like identification documents, tax residencies,
   // and company structures.
   rpc GetClient(GetClientRequest) returns (meshtrade.compliance.client.v1.Client) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHENTICATED
       roles: [
         ROLE_COMPLIANCE_ADMIN,
         ROLE_COMPLIANCE_VIEWER,
@@ -50,8 +51,9 @@ service ClientService {
   // This method is useful for fetching multiple client records at once.
   // Note: This endpoint does not currently support pagination or filtering.
   rpc ListClients(ListClientsRequest) returns (ListClientsResponse) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHENTICATED
       roles: [
         ROLE_COMPLIANCE_ADMIN,
         ROLE_COMPLIANCE_VIEWER,

@@ -3,8 +3,7 @@ syntax = "proto3";
 package meshtrade.ledger.transaction.v1;
 
 import "buf/validate/validate.proto";
-import "meshtrade/iam/role/v1/role.proto";
-import "meshtrade/option/v1/method_type.proto";
+import "meshtrade/option/method_options/v1/method_options.proto";
 import "meshtrade/ledger/transaction/v1/transaction_state.proto";
 
 option go_package = "github.com/meshtrade/api/go/ledger/transaction/v1;transaction_v1";
@@ -18,8 +17,9 @@ service TransactionService {
      Retrieves a single Transaction state by the unique identifier of the transaction
   */
   rpc GetTransactionState(GetTransactionStateRequest) returns (GetTransactionStateResponse) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHENTICATED
       roles: [
         ROLE_LEDGER_ADMIN,
         ROLE_LEDGER_VIEWER,
@@ -34,8 +34,9 @@ service TransactionService {
      Server-side streaming method that sends state updates as the transaction progresses.
   */
   rpc MonitorTransactionState(MonitorTransactionStateRequest) returns (stream MonitorTransactionStateResponse) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHENTICATED
       roles: [
         ROLE_LEDGER_ADMIN,
         ROLE_LEDGER_VIEWER,
