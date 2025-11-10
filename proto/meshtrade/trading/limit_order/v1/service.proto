@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package meshtrade.trading.limit_order.v1;
 
+import "buf/validate/validate.proto";
 import "meshtrade/iam/role/v1/role.proto";
 import "meshtrade/option/v1/method_type.proto";
 import "meshtrade/trading/limit_order/v1/limit_order.proto";
@@ -9,8 +10,55 @@ import "meshtrade/trading/limit_order/v1/limit_order.proto";
 option go_package = "github.com/meshtrade/api/go/trading/limit_order/v1;limit_order_v1";
 option java_package = "co.meshtrade.api.trading.limit_order.v1";
 
+/*
+   LimitOrderService manages limit orders for trading operations (BETA).
+
+   This service provides comprehensive limit order management capabilities including
+   order creation, cancellation, querying, and real-time monitoring. All operations
+   are scoped to the authenticated group's hierarchy and require appropriate trading
+   domain permissions.
+
+   Note: This service is currently in BETA. Interface and functionality may change.
+*/
 service LimitOrderService {
-  rpc GetLimitOrder(GetLimitOrderRequest) returns (meshtrade.trading.limit_order.v1.LimitOrder) {
+  /*
+     Creates a new limit order.
+
+     Submits a limit order to the trading system. The order is validated and
+     submitted to the appropriate ledger for execution.
+  */
+  rpc CreateLimitOrder(CreateLimitOrderRequest) returns (LimitOrder) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [
+        ROLE_TRADING_ADMIN,
+        ROLE_TRADING_LIMIT_ORDER_ADMIN
+      ]
+    };
+  }
+
+  /*
+     Cancels an existing limit order.
+
+     Initiates cancellation of a limit order on the ledger.
+  */
+  rpc CancelLimitOrder(CancelLimitOrderRequest) returns (LimitOrder) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [
+        ROLE_TRADING_ADMIN,
+        ROLE_TRADING_LIMIT_ORDER_ADMIN
+      ]
+    };
+  }
+
+  /*
+     Retrieves a specific limit order by its resource name.
+
+     Provides access to limit order metadata and optionally fetches live
+     ledger data when populate_ledger_data is true.
+  */
+  rpc GetLimitOrder(GetLimitOrderRequest) returns (LimitOrder) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
     option (meshtrade.iam.role.v1.roles) = {
       roles: [
@@ -93,15 +141,46 @@ service LimitOrderService {
   }
 }
 
+/*
+   Request to create a new limit order.
+*/
+message CreateLimitOrderRequest {
+  /*
+     The limit order configuration for creation.
+     The name field will be ignored and assigned by the system.
+  */
+  LimitOrder limit_order = 1 [(buf.validate.field) = {required: true}];
+}
+
+/*
+   Request to cancel a limit order.
+*/
+message CancelLimitOrderRequest {
+  /*
+     The resource name of the limit order to cancel.
+     Format: limit_orders/{ULIDv2}.
+  */
+  string name = 1 [(buf.validate.field) = {
+    required: true
+    string: {
+      len: 38
+      pattern: "^limit_orders/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+    }
+  }];
+}
+
+/*
+   Request to retrieve a limit order by name.
+*/
 message GetLimitOrderRequest {
   /*
      The resource name of the limit order to retrieve.
      Format: limit_orders/{ULIDv2}.
   */
   string name = 1 [(buf.validate.field) = {
-    required: true,
+    required: true
     string: {
-      len: 38,
+      len: 38
       pattern: "^limit_orders/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
@@ -120,9 +199,7 @@ message GetLimitOrderByExternalReferenceRequest {
   /*
      The external reference identifier.
   */
-  string external_reference = 1 [(buf.validate.field) = {
-    required: true
-  }];
+  string external_reference = 1 [(buf.validate.field) = {required: true}];
 
   /*
      When true, fetches live ledger data including fill status.
@@ -166,9 +243,7 @@ message SearchLimitOrdersRequest {
      Format: accounts/{ULIDv2}.
   */
   string account = 2 [(buf.validate.field) = {
-    string: {
-      pattern: "^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
-    }
+    string: {pattern: "^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"}
   }];
 
   /*
@@ -204,7 +279,7 @@ message MonitorLimitOrderRequest {
     */
     string name = 1 [(buf.validate.field) = {
       string: {
-        len: 38,
+        len: 38
         pattern: "^limit_orders/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
       }
     }];

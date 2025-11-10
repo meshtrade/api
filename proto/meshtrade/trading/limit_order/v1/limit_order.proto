@@ -2,10 +2,24 @@ syntax = "proto3";
 
 package meshtrade.trading.limit_order.v1;
 
+import "buf/validate/validate.proto";
+import "meshtrade/type/v1/amount.proto";
+
 option go_package = "github.com/meshtrade/api/go/trading/limit_order/v1;limit_order_v1";
 option java_package = "co.meshtrade.api.trading.limit_order.v1";
 
+/*
+   LimitOrder resource representing a limit order for trading on the Mesh platform.
+
+   Limit orders enable traders to specify price and quantity for buying or selling
+   instruments on supported ledgers. Each order is owned by a group and associated
+   with a specific account.
+*/
 message LimitOrder {
+  // Reserved field numbers for removed fields.
+  reserved 4;
+  reserved "display_name";
+
   /*
      The unique resource name for the limit order.
      Format: limit_orders/{ULIDv2}.
@@ -14,8 +28,8 @@ message LimitOrder {
   */
   string name = 1 [(buf.validate.field) = {
     cel: {
-      id: "name.format.optional",
-      message: "name must be empty or in the format limit_orders/{ULIDv2}",
+      id: "name.format.optional"
+      message: "name must be empty or in the format limit_orders/{ULIDv2}"
       expression: "size(this) == 0 || this.matches('^limit_orders/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
     }
   }];
@@ -26,9 +40,9 @@ message LimitOrder {
      Format: groups/{ULIDv2}.
   */
   string owner = 2 [(buf.validate.field) = {
-    required: true,
+    required: true
     string: {
-      len: 33,
+      len: 33
       pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
@@ -39,20 +53,10 @@ message LimitOrder {
      This field is required on creation.
   */
   string account = 3 [(buf.validate.field) = {
-    required: true,
+    required: true
     string: {
-      len: 35,
+      len: 35
       pattern: "^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
-    }
-  }];
-
-  /*
-     Human-readable name for organizational identification and display.
-     User-configurable and non-unique across the system.
-  */
-  string display_name = 4 [(buf.validate.field) = {
-    string: {
-      max_len: 100
     }
   }];
 
@@ -65,9 +69,7 @@ message LimitOrder {
      lookups via GetLimitOrderByExternalReference.
   */
   string external_reference = 5 [(buf.validate.field) = {
-    string: {
-      max_len: 200
-    }
+    string: {max_len: 200}
   }];
 
   /*
@@ -76,7 +78,7 @@ message LimitOrder {
   */
   LimitOrderSide side = 6 [(buf.validate.field) = {
     enum: {
-      defined_only: true,
+      defined_only: true
       not_in: [0]
     }
   }];
@@ -85,17 +87,13 @@ message LimitOrder {
      Limit price for the order.
      This field is required on creation.
   */
-  meshtrade.type.v1.Amount limit_price = 7 [(buf.validate.field) = {
-    required: true
-  }];
+  meshtrade.type.v1.Amount limit_price = 7 [(buf.validate.field) = {required: true}];
 
   /*
      Order quantity.
      This field is required on creation.
   */
-  meshtrade.type.v1.Amount quantity = 8 [(buf.validate.field) = {
-    required: true
-  }];
+  meshtrade.type.v1.Amount quantity = 8 [(buf.validate.field) = {required: true}];
 
   /*
      Fill price from live ledger data.
@@ -123,7 +121,6 @@ message LimitOrder {
   */
   LimitOrderStatus status = 11;
 }
-
 
 /*
    LimitOrderSide represents the direction of a limit order.

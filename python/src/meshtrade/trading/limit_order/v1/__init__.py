@@ -13,7 +13,7 @@
 # ===================================================================
 
 # Generated protobuf imports
-from .limit_order_pb2 import LimitOrder
+from .limit_order_pb2 import LimitOrder, LimitOrderSide, LimitOrderStatus
 from .service_pb2 import (
     CancelLimitOrderRequest,
     CreateLimitOrderRequest,
@@ -21,7 +21,6 @@ from .service_pb2 import (
     GetLimitOrderRequest,
     ListLimitOrdersRequest,
     ListLimitOrdersResponse,
-    MonitorLimitOrderByExternalReferenceRequest,
     MonitorLimitOrderRequest,
     SearchLimitOrdersRequest,
     SearchLimitOrdersResponse,
@@ -62,9 +61,10 @@ __all__ = [
     "LimitOrderService",
     "LimitOrderServiceGRPCClient",
     "LimitOrderServiceGRPCClientInterface",
+    "LimitOrderSide",
+    "LimitOrderStatus",
     "ListLimitOrdersRequest",
     "ListLimitOrdersResponse",
-    "MonitorLimitOrderByExternalReferenceRequest",
     "MonitorLimitOrderRequest",
     "SearchLimitOrdersRequest",
     "SearchLimitOrdersResponse",

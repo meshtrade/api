@@ -25,11 +25,11 @@ func main() {
 	}
 
 	// Call the GetLimitOrder method
-	order, err := service.GetLimitOrder(ctx, request)
+	limitOrder, err := service.GetLimitOrder(ctx, request)
 	if err != nil {
 		log.Fatalf("GetLimitOrder failed: %v", err)
 	}
 
 	// FIXME: Add relevant response object usage
-	log.Printf("GetLimitOrder successful: %+v", order)
+	log.Printf("GetLimitOrder successful: %+v", limitOrder)
 }
