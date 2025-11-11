@@ -19,7 +19,7 @@ func main() {
 	}
 	defer service.Close()
 
-	// Create request with service-specific parameters
+	// Create request (no parameters required)
 	request := &ledgerv1.InitialiseTokenTapsRequest{}
 
 	// Call the InitialiseTokenTaps method
@@ -27,4 +27,6 @@ func main() {
 	if err != nil {
 		log.Fatalf("InitialiseTokenTaps failed: %v", err)
 	}
+
+	log.Println("InitialiseTokenTaps successful")
 }

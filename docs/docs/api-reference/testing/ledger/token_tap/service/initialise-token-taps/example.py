@@ -11,10 +11,8 @@ def main():
     service = LedgerService()
 
     with service:
-        # Create request with service-specific parameters
-        request = InitialiseTokenTapsRequest(
-            number="1",
-        )
+        # Create request (no parameters required)
+        request = InitialiseTokenTapsRequest()
 
         # Call the InitialiseTokenTaps method
         service.initialise_token_taps(request)

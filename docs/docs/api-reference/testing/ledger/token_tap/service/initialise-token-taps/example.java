@@ -9,9 +9,8 @@ public class InitialiseTokenTapsExample {
         // environment variable or default discovery methods. Zero config required
         // unless you want custom configuration.
         try (LedgerService service = new LedgerService()) {
-            // Create request with service-specific parameters
+            // Create request (no parameters required)
             InitialiseTokenTapsRequest request = InitialiseTokenTapsRequest.newBuilder()
-                .setNumber("1")
                 .build();
 
             // Call the InitialiseTokenTaps method

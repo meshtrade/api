@@ -7,9 +7,8 @@ async function main() {
     // unless you want custom configuration.
     const service = new TokenTapService();
 
-    // Create request with service-specific parameters
+    // Create request (no parameters required)
     const request = new InitialiseTokenTapsRequest();
-    request.setNumber("1");
 
     // Call the InitialiseTokenTaps method
     const response = await service.initialiseTokenTaps(request);
