@@ -21,6 +21,27 @@ func init() {
 	}
 }
 
+// convertFieldInfoToTemplateData recursively converts FieldInfo to FieldTemplateData
+func convertFieldInfoToTemplateData(field FieldInfo) FieldTemplateData {
+	templateData := FieldTemplateData{
+		Name:        field.Name,
+		Type:        field.Type,
+		Description: field.Description,
+		Required:    field.Required,
+		Validation:  field.Validation,
+	}
+
+	// Recursively convert nested fields if present
+	if len(field.NestedFields) > 0 {
+		templateData.NestedFields = make([]FieldTemplateData, 0, len(field.NestedFields))
+		for _, nestedField := range field.NestedFields {
+			templateData.NestedFields = append(templateData.NestedFields, convertFieldInfoToTemplateData(nestedField))
+		}
+	}
+
+	return templateData
+}
+
 // GenerateServiceDocs generates all documentation files for a service
 func GenerateServiceDocs(plugin *protogen.Plugin, serviceInfo *ServiceInfo) error {
 	domain := getServiceDomain(serviceInfo.Package)
@@ -160,13 +181,7 @@ func generateMethodDoc(plugin *protogen.Plugin, serviceInfo *ServiceInfo, method
 	// Convert parameters to template data for structured table generation
 	var paramTemplateData []FieldTemplateData
 	for _, param := range method.Parameters {
-		paramTemplateData = append(paramTemplateData, FieldTemplateData{
-			Name:        param.Name,
-			Type:        param.Type,
-			Description: param.Description,
-			Required:    param.Required,
-			Validation:  param.Validation,
-		})
+		paramTemplateData = append(paramTemplateData, convertFieldInfoToTemplateData(param))
 	}
 
 	// Detect if return type is a resource (domain entity) vs response message
@@ -535,13 +550,7 @@ func generateMessageDocContent(typeInfo *TypeInfo) string {
 	// Prepare field data
 	var fields []FieldTemplateData
 	for _, field := range typeInfo.Fields {
-		fields = append(fields, FieldTemplateData{
-			Name:        field.Name,
-			Type:        field.Type,
-			Description: field.Description,
-			Required:    field.Required,
-			Validation:  field.Validation,
-		})
+		fields = append(fields, convertFieldInfoToTemplateData(field))
 	}
 
 	// Prepare template data

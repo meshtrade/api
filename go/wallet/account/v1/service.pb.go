@@ -8,8 +8,7 @@ package account_v1
 
 import (
 	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
-	_ "github.com/meshtrade/api/go/iam/role/v1"
-	_ "github.com/meshtrade/api/go/option/v1"
+	_ "github.com/meshtrade/api/go/option/method_options/v1"
 	v1 "github.com/meshtrade/api/go/type/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -666,7 +665,7 @@ var File_meshtrade_wallet_account_v1_service_proto protoreflect.FileDescriptor
 
 const file_meshtrade_wallet_account_v1_service_proto_rawDesc = "" +
 	"\n" +
-	")meshtrade/wallet/account/v1/service.proto\x12\x1bmeshtrade.wallet.account.v1\x1a\x1bbuf/validate/validate.proto\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\x1a\x1fmeshtrade/type/v1/sorting.proto\x1a)meshtrade/wallet/account/v1/account.proto\"^\n" +
+	")meshtrade/wallet/account/v1/service.proto\x12\x1bmeshtrade.wallet.account.v1\x1a\x1bbuf/validate/validate.proto\x1a7meshtrade/option/method_options/v1/method_options.proto\x1a\x1fmeshtrade/type/v1/sorting.proto\x1a)meshtrade/wallet/account/v1/account.proto\"^\n" +
 	"\x14CreateAccountRequest\x12F\n" +
 	"\aaccount\x18\x01 \x01(\v2$.meshtrade.wallet.account.v1.AccountB\x06\xbaH\x03\xc8\x01\x01R\aaccount\"^\n" +
 	"\x14UpdateAccountRequest\x12F\n" +
@@ -705,21 +704,14 @@ const file_meshtrade_wallet_account_v1_service_proto_rawDesc = "" +
 	"\x16SearchAccountsResponse\x12@\n" +
 	"\baccounts\x18\x01 \x03(\v2$.meshtrade.wallet.account.v1.AccountR\baccounts2\xb8\a\n" +
 	"\x0eAccountService\x12z\n" +
-	"\rCreateAccount\x121.meshtrade.wallet.account.v1.CreateAccountRequest\x1a$.meshtrade.wallet.account.v1.Account\"\x10\xa0\xb5\x18\x02\xaa\xb5\x18\b\n" +
-	"\x06\xc0\x84=\u0084=\x12z\n" +
-	"\rUpdateAccount\x121.meshtrade.wallet.account.v1.UpdateAccountRequest\x1a$.meshtrade.wallet.account.v1.Account\"\x10\xa0\xb5\x18\x02\xaa\xb5\x18\b\n" +
-	"\x06\xc0\x84=\u0084=\x12\x82\x01\n" +
-	"\vOpenAccount\x12/.meshtrade.wallet.account.v1.OpenAccountRequest\x1a0.meshtrade.wallet.account.v1.OpenAccountResponse\"\x10\xa0\xb5\x18\x02\xaa\xb5\x18\b\n" +
-	"\x06\xc0\x84=\u0084=\x12z\n" +
+	"\rCreateAccount\x121.meshtrade.wallet.account.v1.CreateAccountRequest\x1a$.meshtrade.wallet.account.v1.Account\"\x10\xb2\xb5\x18\f\b\x02\x10\x03\x1a\x06\xc0\x84=\u0084=\x12z\n" +
+	"\rUpdateAccount\x121.meshtrade.wallet.account.v1.UpdateAccountRequest\x1a$.meshtrade.wallet.account.v1.Account\"\x10\xb2\xb5\x18\f\b\x02\x10\x03\x1a\x06\xc0\x84=\u0084=\x12\x82\x01\n" +
+	"\vOpenAccount\x12/.meshtrade.wallet.account.v1.OpenAccountRequest\x1a0.meshtrade.wallet.account.v1.OpenAccountResponse\"\x10\xb2\xb5\x18\f\b\x02\x10\x03\x1a\x06\xc0\x84=\u0084=\x12z\n" +
 	"\n" +
-	"GetAccount\x12..meshtrade.wallet.account.v1.GetAccountRequest\x1a$.meshtrade.wallet.account.v1.Account\"\x16\xa0\xb5\x18\x01\xaa\xb5\x18\x0e\n" +
-	"\f\xc0\x84=\xc1\x84=\u0084=Ä=\x12\x8a\x01\n" +
-	"\x12GetAccountByNumber\x126.meshtrade.wallet.account.v1.GetAccountByNumberRequest\x1a$.meshtrade.wallet.account.v1.Account\"\x16\xa0\xb5\x18\x01\xaa\xb5\x18\x0e\n" +
-	"\f\xc0\x84=\xc1\x84=\u0084=Ä=\x12\x8b\x01\n" +
-	"\fListAccounts\x120.meshtrade.wallet.account.v1.ListAccountsRequest\x1a1.meshtrade.wallet.account.v1.ListAccountsResponse\"\x16\xa0\xb5\x18\x01\xaa\xb5\x18\x0e\n" +
-	"\f\xc0\x84=\xc1\x84=\u0084=Ä=\x12\x91\x01\n" +
-	"\x0eSearchAccounts\x122.meshtrade.wallet.account.v1.SearchAccountsRequest\x1a3.meshtrade.wallet.account.v1.SearchAccountsResponse\"\x16\xa0\xb5\x18\x01\xaa\xb5\x18\x0e\n" +
-	"\f\xc0\x84=\xc1\x84=\u0084=Ä=B^\n" +
+	"GetAccount\x12..meshtrade.wallet.account.v1.GetAccountRequest\x1a$.meshtrade.wallet.account.v1.Account\"\x16\xb2\xb5\x18\x12\b\x01\x10\x02\x1a\f\xc0\x84=\xc1\x84=\u0084=Ä=\x12\x8a\x01\n" +
+	"\x12GetAccountByNumber\x126.meshtrade.wallet.account.v1.GetAccountByNumberRequest\x1a$.meshtrade.wallet.account.v1.Account\"\x16\xb2\xb5\x18\x12\b\x01\x10\x02\x1a\f\xc0\x84=\xc1\x84=\u0084=Ä=\x12\x8b\x01\n" +
+	"\fListAccounts\x120.meshtrade.wallet.account.v1.ListAccountsRequest\x1a1.meshtrade.wallet.account.v1.ListAccountsResponse\"\x16\xb2\xb5\x18\x12\b\x01\x10\x02\x1a\f\xc0\x84=\xc1\x84=\u0084=Ä=\x12\x91\x01\n" +
+	"\x0eSearchAccounts\x122.meshtrade.wallet.account.v1.SearchAccountsRequest\x1a3.meshtrade.wallet.account.v1.SearchAccountsResponse\"\x16\xb2\xb5\x18\x12\b\x01\x10\x02\x1a\f\xc0\x84=\xc1\x84=\u0084=Ä=B^\n" +
 	"\"co.meshtrade.api.wallet.account.v1Z8github.com/meshtrade/api/go/wallet/account/v1;account_v1b\x06proto3"
 
 var (

@@ -8,8 +8,7 @@ package client_v1
 
 import (
 	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
-	_ "github.com/meshtrade/api/go/iam/role/v1"
-	_ "github.com/meshtrade/api/go/option/v1"
+	_ "github.com/meshtrade/api/go/option/method_options/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -205,7 +204,7 @@ var File_meshtrade_compliance_client_v1_service_proto protoreflect.FileDescripto
 
 const file_meshtrade_compliance_client_v1_service_proto_rawDesc = "" +
 	"\n" +
-	",meshtrade/compliance/client/v1/service.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x1bbuf/validate/validate.proto\x1a+meshtrade/compliance/client/v1/client.proto\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\"e\n" +
+	",meshtrade/compliance/client/v1/service.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x1bbuf/validate/validate.proto\x1a+meshtrade/compliance/client/v1/client.proto\x1a7meshtrade/option/method_options/v1/method_options.proto\"e\n" +
 	"\x10GetClientRequest\x12Q\n" +
 	"\x04name\x18\x01 \x01(\tB=\xbaH:\xc8\x01\x01r520^clients/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x04name\"]\n" +
 	"\x13CreateClientRequest\x12F\n" +
@@ -214,12 +213,9 @@ const file_meshtrade_compliance_client_v1_service_proto_rawDesc = "" +
 	"\x13ListClientsResponse\x12@\n" +
 	"\aclients\x18\x01 \x03(\v2&.meshtrade.compliance.client.v1.ClientR\aclients2\x9e\x03\n" +
 	"\rClientService\x12}\n" +
-	"\fCreateClient\x123.meshtrade.compliance.client.v1.CreateClientRequest\x1a&.meshtrade.compliance.client.v1.Client\"\x10\xa0\xb5\x18\x02\xaa\xb5\x18\b\n" +
-	"\x06\x80\x89z\x82\x89z\x12}\n" +
-	"\tGetClient\x120.meshtrade.compliance.client.v1.GetClientRequest\x1a&.meshtrade.compliance.client.v1.Client\"\x16\xa0\xb5\x18\x01\xaa\xb5\x18\x0e\n" +
-	"\f\x80\x89z\x81\x89z\x82\x89z\x83\x89z\x12\x8e\x01\n" +
-	"\vListClients\x122.meshtrade.compliance.client.v1.ListClientsRequest\x1a3.meshtrade.compliance.client.v1.ListClientsResponse\"\x16\xa0\xb5\x18\x01\xaa\xb5\x18\x0e\n" +
-	"\f\x80\x89z\x81\x89z\x82\x89z\x83\x89zBc\n" +
+	"\fCreateClient\x123.meshtrade.compliance.client.v1.CreateClientRequest\x1a&.meshtrade.compliance.client.v1.Client\"\x10\xb2\xb5\x18\f\b\x02\x10\x03\x1a\x06\x80\x89z\x82\x89z\x12}\n" +
+	"\tGetClient\x120.meshtrade.compliance.client.v1.GetClientRequest\x1a&.meshtrade.compliance.client.v1.Client\"\x16\xb2\xb5\x18\x12\b\x01\x10\x02\x1a\f\x80\x89z\x81\x89z\x82\x89z\x83\x89z\x12\x8e\x01\n" +
+	"\vListClients\x122.meshtrade.compliance.client.v1.ListClientsRequest\x1a3.meshtrade.compliance.client.v1.ListClientsResponse\"\x16\xb2\xb5\x18\x12\b\x01\x10\x02\x1a\f\x80\x89z\x81\x89z\x82\x89z\x83\x89zBc\n" +
 	"%co.meshtrade.api.compliance.client.v1Z:github.com/meshtrade/api/go/compliance/client/v1;client_v1b\x06proto3"
 
 var (

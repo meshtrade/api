@@ -221,11 +221,12 @@ type TypeTemplateData struct {
 }
 
 type FieldTemplateData struct {
-	Name        string
-	Type        string
-	Description string
-	Required    bool
-	Validation  string
+	Name         string
+	Type         string
+	Description  string
+	Required     bool
+	Validation   string
+	NestedFields []FieldTemplateData // For inline message types, contains the nested field structure
 }
 
 type EnumValueTemplateData struct {

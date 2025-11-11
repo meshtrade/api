@@ -73,6 +73,7 @@ Request and response parameter message overview:
   <thead>
     <tr>
       <th scope="col">Field</th>
+      <th scope="col">Type</th>
       <th scope="col">Required</th>
       <th scope="col">Description</th>
     </tr>
@@ -81,6 +82,32 @@ Request and response parameter message overview:
 {{- range .Parameters}}
     <tr>
       <td>`{{.Name}}`</td>
+      <td>
+{{- if .NestedFields}}
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Field</th>
+              <th scope="col">Type</th>
+              <th scope="col">Required</th>
+              <th scope="col">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+{{- range .NestedFields}}
+            <tr>
+              <td>`{{.Name}}`</td>
+              <td>`{{.Type}}`</td>
+              <td>{{if .Required}}True{{else}}False{{end}}</td>
+              <td>{{escapeCurly .Description}}</td>
+            </tr>
+{{- end}}
+          </tbody>
+        </table>
+{{- else}}
+        `{{.Type}}`
+{{- end}}
+      </td>
       <td>{{if .Required}}True{{else}}False{{end}}</td>
       <td>
      {{escapeCurly .Description}}

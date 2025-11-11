@@ -69,11 +69,12 @@ type MethodInfo struct {
 
 // FieldInfo holds information about message fields
 type FieldInfo struct {
-	Name        string
-	Type        string
-	Description string
-	Required    bool
-	Validation  string
+	Name         string
+	Type         string
+	Description  string
+	Required     bool
+	Validation   string
+	NestedFields []FieldInfo // For inline message types, contains the nested field structure
 }
 
 // ParseService extracts information from a protobuf service
@@ -480,22 +481,16 @@ func extractValidationRules(field *protogen.Field) (required bool, validation st
 	}
 
 	var validationParts []string
-	required = false
+
+	// ONLY check explicit required field - this is the single source of truth
+	required = fieldConstraint.GetRequired()
 
 	// Handle different constraint types based on field type
 	switch constraint := fieldConstraint.Type.(type) {
 	case *validate.FieldRules_String_:
 		stringConstraint := constraint.String_
 		if stringConstraint != nil {
-			// Check for required conditions
-			if stringConstraint.GetMinLen() > 0 {
-				required = true
-			}
-			if stringConstraint.GetLen() > 0 {
-				required = true
-			}
-
-			// Build validation description
+			// Build validation description (DO NOT set required from these)
 			if stringConstraint.GetLen() > 0 {
 				validationParts = append(validationParts, fmt.Sprintf("Exactly %d characters", stringConstraint.GetLen()))
 			} else {
@@ -557,23 +552,17 @@ func extractValidationRules(field *protogen.Field) (required bool, validation st
 	case *validate.FieldRules_Enum:
 		enumConstraint := constraint.Enum
 		if enumConstraint != nil {
-			// For enums, we typically want them to be specified (not default value)
-			required = true
+			// Build validation string but DO NOT set required
 			validationParts = append(validationParts, "Must be a valid enum value")
 		}
 	}
 
-	// Handle CEL expressions
+	// Handle CEL expressions - build validation string but DO NOT set required
 	for _, celConstraint := range fieldConstraint.Cel {
 		if celConstraint.GetMessage() != "" {
 			validationParts = append(validationParts, celConstraint.GetMessage())
 		} else if celConstraint.GetExpression() != "" {
-			// Check if expression suggests required field
-			expr := strings.ToLower(celConstraint.GetExpression())
-			if strings.Contains(expr, "size(this)") && (strings.Contains(expr, "> 0") || strings.Contains(expr, ">= 1")) {
-				required = true
-			}
-			// Add abbreviated expression
+			// Add abbreviated expression (DO NOT check for required)
 			if len(celConstraint.GetExpression()) > 50 {
 				validationParts = append(validationParts, fmt.Sprintf("CEL: %s...", celConstraint.GetExpression()[:47]))
 			} else {
@@ -598,18 +587,27 @@ func parseMessageFields(message *protogen.Message) []FieldInfo {
 		// Extract validation rules from buf.validate annotations
 		required, validation := extractValidationRules(field)
 
-		// Fall back to presence check if no validation rules found
-		if !required {
-			required = field.Desc.HasPresence()
-		}
+		// DO NOT fall back to HasPresence() - only use explicit required:true
 
 		fieldInfo := FieldInfo{
 			Name:        field.GoName,
-			Type:        field.Desc.Kind().String(),
+			Type:        getFieldTypeString(field),
 			Description: extractComment(field.Comments.Leading),
 			Required:    required,
 			Validation:  validation,
 		}
+
+		// Check if this field is an inline message type (nested message definition)
+		// An inline message is one whose parent is another message (not the file itself)
+		if field.Message != nil {
+			// Check if the message is defined within another message (inline)
+			parent := field.Message.Desc.Parent()
+			if parent != nil && parent != field.Message.Desc.ParentFile() {
+				// This is an inline message - recursively parse its fields
+				fieldInfo.NestedFields = parseMessageFields(field.Message)
+			}
+		}
+
 		fields = append(fields, fieldInfo)
 	}
 

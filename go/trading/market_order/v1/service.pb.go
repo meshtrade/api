@@ -7,8 +7,7 @@
 package market_order_v1
 
 import (
-	_ "github.com/meshtrade/api/go/iam/role/v1"
-	_ "github.com/meshtrade/api/go/option/v1"
+	_ "github.com/meshtrade/api/go/option/method_options/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -71,13 +70,11 @@ var File_meshtrade_trading_market_order_v1_service_proto protoreflect.FileDescri
 
 const file_meshtrade_trading_market_order_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"/meshtrade/trading/market_order/v1/service.proto\x12!meshtrade.trading.market_order.v1\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\x1a4meshtrade/trading/market_order/v1/market_order.proto\"/\n" +
+	"/meshtrade/trading/market_order/v1/service.proto\x12!meshtrade.trading.market_order.v1\x1a7meshtrade/option/method_options/v1/method_options.proto\x1a4meshtrade/trading/market_order/v1/market_order.proto\"/\n" +
 	"\x15GetMarketOrderRequest\x12\x16\n" +
 	"\x06number\x18\x01 \x01(\tR\x06number2\xa5\x01\n" +
 	"\x12MarketOrderService\x12\x8e\x01\n" +
-	"\x0eGetMarketOrder\x128.meshtrade.trading.market_order.v1.GetMarketOrderRequest\x1a..meshtrade.trading.market_order.v1.MarketOrder\"\x12\xa0\xb5\x18\x01\xaa\xb5\x18\n" +
-	"\n" +
-	"\b\xc0\x96\xb1\x02\xc1\x96\xb1\x02Bo\n" +
+	"\x0eGetMarketOrder\x128.meshtrade.trading.market_order.v1.GetMarketOrderRequest\x1a..meshtrade.trading.market_order.v1.MarketOrder\"\x12\xb2\xb5\x18\x0e\b\x01\x10\x02\x1a\b\xc0\x96\xb1\x02\xc1\x96\xb1\x02Bo\n" +
 	"(co.meshtrade.api.trading.market_order.v1ZCgithub.com/meshtrade/api/go/trading/market_order/v1;market_order_v1b\x06proto3"
 
 var (
