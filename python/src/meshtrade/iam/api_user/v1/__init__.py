@@ -17,14 +17,14 @@ from .api_credentials_pb2 import APICredentials
 from .api_user_pb2 import APIUser, APIUserAction, APIUserState
 from .service_pb2 import (
     ActivateApiUserRequest,
-    AssignRoleToAPIUserRequest,
+    AssignRolesToAPIUserRequest,
     CreateApiUserRequest,
     DeactivateApiUserRequest,
     GetApiUserByKeyHashRequest,
     GetApiUserRequest,
     ListApiUsersRequest,
     ListApiUsersResponse,
-    RevokeRoleFromAPIUserRequest,
+    RevokeRolesFromAPIUserRequest,
     SearchApiUsersRequest,
     SearchApiUsersResponse,
 )
@@ -82,14 +82,14 @@ __all__ = [
     "ApiUserService",
     "ApiUserServiceGRPCClient",
     "ApiUserServiceGRPCClientInterface",
-    "AssignRoleToAPIUserRequest",
+    "AssignRolesToAPIUserRequest",
     "CreateApiUserRequest",
     "DeactivateApiUserRequest",
     "GetApiUserByKeyHashRequest",
     "GetApiUserRequest",
     "ListApiUsersRequest",
     "ListApiUsersResponse",
-    "RevokeRoleFromAPIUserRequest",
+    "RevokeRolesFromAPIUserRequest",
     "SearchApiUsersRequest",
     "SearchApiUsersResponse",
     # Manual exports

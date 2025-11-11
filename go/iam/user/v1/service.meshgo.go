@@ -51,14 +51,23 @@ import (
 type UserServiceClientInterface interface {
 	grpc.GRPCClient
 
-	// Assigns a role to an existing user within the authenticated group context.
+	// Assign roles to an existing user within the authenticated group context.
 	// The role assignment enables the user to perform operations according
 	// to the permissions associated with that role within the group hierarchy.
-	AssignRoleToUser(ctx context.Context, request *AssignRoleToUserRequest) (*User, error)
-	// Retrieves a single user by its unique identifier.
+	AssignRolesToUser(ctx context.Context, request *AssignRolesToUserRequest) (*User, error)
+	// Revoke roles from an existing user within the authenticated group context.
+	// The role revocation removes the permissions associated with that role from
+	// the user within the group hierarchy. The user will no longer be able
+	// to perform operations that require the revoked role.
+	RevokeRolesFromUser(ctx context.Context, request *RevokeRolesFromUserRequest) (*User, error)
+	// Retrieves a single user by their unique identifier.
 	// Returns user details including name, email, ownership information,
 	// and assigned roles within the authenticated group's access scope.
 	GetUser(ctx context.Context, request *GetUserRequest) (*User, error)
+	// Retrieves a single user by their email address.
+	// Returns user details including name, email, ownership information,
+	// and assigned roles within the authenticated group's access scope.
+	GetUserByEmail(ctx context.Context, request *GetUserByEmailRequest) (*User, error)
 	// Returns all users accessible within the authenticated group's hierarchy.
 	// Results include users directly owned and those accessible through the
 	// group's hierarchical permissions, optionally sorted by email address.
@@ -189,11 +198,19 @@ func (s *userService) WithGroup(group string) UserServiceClientInterface {
 	return &userService{BaseGRPCClient: newBase}
 }
 
-// AssignRoleToUser executes the AssignRoleToUser RPC method with automatic
+// AssignRolesToUser executes the AssignRolesToUser RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
-func (s *userService) AssignRoleToUser(ctx context.Context, request *AssignRoleToUserRequest) (*User, error) {
-	return grpc.Execute(s.Executor(), ctx, "AssignRoleToUser", request, func(ctx context.Context) (*User, error) {
-		return s.GrpcClient().AssignRoleToUser(ctx, request)
+func (s *userService) AssignRolesToUser(ctx context.Context, request *AssignRolesToUserRequest) (*User, error) {
+	return grpc.Execute(s.Executor(), ctx, "AssignRolesToUser", request, func(ctx context.Context) (*User, error) {
+		return s.GrpcClient().AssignRolesToUser(ctx, request)
+	})
+}
+
+// RevokeRolesFromUser executes the RevokeRolesFromUser RPC method with automatic
+// client-side validation, timeout handling, distributed tracing, and authentication.
+func (s *userService) RevokeRolesFromUser(ctx context.Context, request *RevokeRolesFromUserRequest) (*User, error) {
+	return grpc.Execute(s.Executor(), ctx, "RevokeRolesFromUser", request, func(ctx context.Context) (*User, error) {
+		return s.GrpcClient().RevokeRolesFromUser(ctx, request)
 	})
 }
 
@@ -202,6 +219,14 @@ func (s *userService) AssignRoleToUser(ctx context.Context, request *AssignRoleT
 func (s *userService) GetUser(ctx context.Context, request *GetUserRequest) (*User, error) {
 	return grpc.Execute(s.Executor(), ctx, "GetUser", request, func(ctx context.Context) (*User, error) {
 		return s.GrpcClient().GetUser(ctx, request)
+	})
+}
+
+// GetUserByEmail executes the GetUserByEmail RPC method with automatic
+// client-side validation, timeout handling, distributed tracing, and authentication.
+func (s *userService) GetUserByEmail(ctx context.Context, request *GetUserByEmailRequest) (*User, error) {
+	return grpc.Execute(s.Executor(), ctx, "GetUserByEmail", request, func(ctx context.Context) (*User, error) {
+		return s.GrpcClient().GetUserByEmail(ctx, request)
 	})
 }
 

@@ -15,25 +15,25 @@ func TestFullResourceNameFromGroupID(t *testing.T) {
 			name:     "wallet admin role",
 			role:     Role_ROLE_WALLET_ADMIN,
 			groupID:  "test-group-123",
-			expected: "groups/test-group-123/1000000",
+			expected: "groups/test-group-123/roles/1000000",
 		},
 		{
 			name:     "compliance viewer role",
 			role:     Role_ROLE_COMPLIANCE_VIEWER,
 			groupID:  "compliance-team",
-			expected: "groups/compliance-team/2000001",
+			expected: "groups/compliance-team/roles/2000001",
 		},
 		{
 			name:     "iam admin role",
 			role:     Role_ROLE_IAM_ADMIN,
 			groupID:  "admin-group",
-			expected: "groups/admin-group/3000000",
+			expected: "groups/admin-group/roles/3000000",
 		},
 		{
 			name:     "trading viewer role",
 			role:     Role_ROLE_TRADING_VIEWER,
 			groupID:  "trading-viewers",
-			expected: "groups/trading-viewers/5000001",
+			expected: "groups/trading-viewers/roles/5000001",
 		},
 	}
 
@@ -56,49 +56,49 @@ func TestRoleFromFullResourceName(t *testing.T) {
 	}{
 		{
 			name:             "valid wallet admin role",
-			fullResourceName: "groups/test-group/1000000",
+			fullResourceName: "groups/test-group/roles/1000000",
 			expectedRole:     Role_ROLE_WALLET_ADMIN,
 			expectedError:    false,
 		},
 		{
 			name:             "valid compliance viewer role",
-			fullResourceName: "groups/compliance-team/2000001",
+			fullResourceName: "groups/compliance-team/roles/2000001",
 			expectedRole:     Role_ROLE_COMPLIANCE_VIEWER,
 			expectedError:    false,
 		},
 		{
 			name:             "valid iam admin role",
-			fullResourceName: "groups/admin-group/3000000",
+			fullResourceName: "groups/admin-group/roles/3000000",
 			expectedRole:     Role_ROLE_IAM_ADMIN,
 			expectedError:    false,
 		},
 		{
 			name:             "valid trading viewer role",
-			fullResourceName: "groups/trading-viewers/5000001",
+			fullResourceName: "groups/trading-viewers/roles/5000001",
 			expectedRole:     Role_ROLE_TRADING_VIEWER,
 			expectedError:    false,
 		},
 		{
 			name:             "valid role unspecified",
-			fullResourceName: "groups/test-group/0",
+			fullResourceName: "groups/test-group/roles/0",
 			expectedRole:     Role_ROLE_UNSPECIFIED,
 			expectedError:    false,
 		},
 		{
 			name:             "invalid format - missing groups prefix",
-			fullResourceName: "test-group/1",
+			fullResourceName: "test-group/roles/1",
 			expectedRole:     Role_ROLE_UNSPECIFIED,
 			expectedError:    true,
 		},
 		{
 			name:             "invalid format - wrong prefix",
-			fullResourceName: "users/test-group/1",
+			fullResourceName: "users/test-group/roles/1",
 			expectedRole:     Role_ROLE_UNSPECIFIED,
 			expectedError:    true,
 		},
 		{
 			name:             "invalid format - too many parts",
-			fullResourceName: "groups/test-group/1/extra",
+			fullResourceName: "groups/test-group/roles/1/extra",
 			expectedRole:     Role_ROLE_UNSPECIFIED,
 			expectedError:    true,
 		},
@@ -109,14 +109,20 @@ func TestRoleFromFullResourceName(t *testing.T) {
 			expectedError:    true,
 		},
 		{
+			name:             "invalid format - missing roles part",
+			fullResourceName: "groups/test-group/1",
+			expectedRole:     Role_ROLE_UNSPECIFIED,
+			expectedError:    true,
+		},
+		{
 			name:             "invalid role number - not a number",
-			fullResourceName: "groups/test-group/abc",
+			fullResourceName: "groups/test-group/roles/abc",
 			expectedRole:     Role_ROLE_UNSPECIFIED,
 			expectedError:    true,
 		},
 		{
 			name:             "invalid role number - negative",
-			fullResourceName: "groups/test-group/-1",
+			fullResourceName: "groups/test-group/roles/-1",
 			expectedRole:     Role_ROLE_UNSPECIFIED,
 			expectedError:    true,
 		},
@@ -151,7 +157,7 @@ func TestRoleFromFullResourceName(t *testing.T) {
 
 func TestMustRoleFromFullResourceName(t *testing.T) {
 	t.Run("valid resource name", func(t *testing.T) {
-		fullResourceName := "groups/test-group/1000000"
+		fullResourceName := "groups/test-group/roles/1000000"
 		role := MustRoleFromFullResourceName(fullResourceName)
 		if role != Role_ROLE_WALLET_ADMIN {
 			t.Errorf("MustRoleFromFullResourceName() = %v, expected %v", role, Role_ROLE_WALLET_ADMIN)
@@ -200,7 +206,7 @@ func TestRoundTrip(t *testing.T) {
 func TestParseRoleParts(t *testing.T) {
 	const groupID = "01ARZ3NDEKTSV4RRFFQ69G5FAV"
 	const groupResourceName = "groups/" + groupID
-	const validResourceName = "groups/" + groupID + "/1000000"
+	const validResourceName = "groups/" + groupID + "/roles/1000000"
 
 	testCases := []struct {
 		name     string
@@ -217,7 +223,7 @@ func TestParseRoleParts(t *testing.T) {
 		},
 		{
 			name:   "invalid prefix",
-			input:  "users/" + groupID + "/1000000",
+			input:  "users/" + groupID + "/roles/1000000",
 			expErr: true,
 		},
 		{
@@ -227,17 +233,22 @@ func TestParseRoleParts(t *testing.T) {
 		},
 		{
 			name:   "invalid group id",
-			input:  "groups/notaulid/1000000",
+			input:  "groups/notaulid/roles/1000000",
 			expErr: true,
 		},
 		{
 			name:   "non numeric role",
-			input:  "groups/" + groupID + "/not-a-role",
+			input:  "groups/" + groupID + "/roles/not-a-role",
 			expErr: true,
 		},
 		{
 			name:   "unspecified role value",
-			input:  "groups/" + groupID + "/0",
+			input:  "groups/" + groupID + "/roles/0",
+			expErr: true,
+		},
+		{
+			name:   "missing roles keyword",
+			input:  "groups/" + groupID + "/1000000",
 			expErr: true,
 		},
 	}
@@ -270,7 +281,7 @@ func TestParseRoleParts(t *testing.T) {
 
 func TestMustParseRoleParts(t *testing.T) {
 	const groupID = "01ARZ3NDEKTSV4RRFFQ69G5FAV"
-	const validResourceName = "groups/" + groupID + "/1000000"
+	const validResourceName = "groups/" + groupID + "/roles/1000000"
 
 	t.Run("valid resource", func(t *testing.T) {
 		group, role := MustParseRoleParts(validResourceName)

@@ -125,7 +125,7 @@ class RoleUtilsTest {
     @Test
     void parseRolePartsValidFullResourceNameReturnsCorrectParts() {
         int roleNumber = RoleOuterClass.Role.ROLE_IAM_ADMIN.getNumber();
-        String fullName = String.format("groups/01DD32GZ7R0000000000000001/%d", roleNumber);
+        String fullName = String.format("groups/01DD32GZ7R0000000000000001/roles/%d", roleNumber);
 
         RoleUtils.RoleParts parts = RoleUtils.parseRoleParts(fullName);
 
@@ -160,7 +160,7 @@ class RoleUtilsTest {
     @Test
     void parseRolePartsWrongPrefixThrowsException() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            RoleUtils.parseRoleParts("users/01DD32GZ7R0000000000000001/5");
+            RoleUtils.parseRoleParts("users/01DD32GZ7R0000000000000001/roles/5");
         });
         assertTrue(exception.getMessage().contains("Invalid role format"));
     }
@@ -168,40 +168,50 @@ class RoleUtilsTest {
     @Test
     void parseRolePartsEmptyGroupIdThrowsException() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            RoleUtils.parseRoleParts("groups//5");
+            RoleUtils.parseRoleParts("groups//roles/5");
         });
         assertTrue(exception.getMessage().contains("Group ID cannot be empty"));
+    }
+
+    @Test
+    void parseRolePartsMissingRolesSegmentThrowsException() {
+        // Test that old format (without /roles/) is now invalid
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            RoleUtils.parseRoleParts("groups/01DD32GZ7R0000000000000001/5");
+        });
+        assertTrue(exception.getMessage().contains("Invalid role format"));
+        assertTrue(exception.getMessage().contains("groups/{groupID}/roles/{role}"));
     }
 
     @Test
     void parseRolePartsInvalidULIDFormatThrowsException() {
         // Test various invalid ULID formats for cross-SDK consistency
         Exception exception1 = assertThrows(IllegalArgumentException.class, () -> {
-            RoleUtils.parseRoleParts("groups/NOT_A_VALID_ULID/5");
+            RoleUtils.parseRoleParts("groups/NOT_A_VALID_ULID/roles/5");
         });
         assertTrue(exception1.getMessage().contains("not a valid ULID"));
 
         // ULID too short
         Exception exception2 = assertThrows(IllegalArgumentException.class, () -> {
-            RoleUtils.parseRoleParts("groups/TOOSHORT/5");
+            RoleUtils.parseRoleParts("groups/TOOSHORT/roles/5");
         });
         assertTrue(exception2.getMessage().contains("not a valid ULID"));
 
         // ULID too long
         Exception exception3 = assertThrows(IllegalArgumentException.class, () -> {
-            RoleUtils.parseRoleParts("groups/01DD32GZ7R0000000000000001TOOLONG/5");
+            RoleUtils.parseRoleParts("groups/01DD32GZ7R0000000000000001TOOLONG/roles/5");
         });
         assertTrue(exception3.getMessage().contains("not a valid ULID"));
 
         // ULID with invalid characters (I, L, O, U are excluded from Crockford Base32)
         Exception exception4 = assertThrows(IllegalArgumentException.class, () -> {
-            RoleUtils.parseRoleParts("groups/01DD32GZ7R000000000000IOLU/5");
+            RoleUtils.parseRoleParts("groups/01DD32GZ7R000000000000IOLU/roles/5");
         });
         assertTrue(exception4.getMessage().contains("not a valid ULID"));
 
         // ULID with special characters
         Exception exception5 = assertThrows(IllegalArgumentException.class, () -> {
-            RoleUtils.parseRoleParts("groups/01DD32GZ7R00000000000000-1/5");
+            RoleUtils.parseRoleParts("groups/01DD32GZ7R00000000000000-1/roles/5");
         });
         assertTrue(exception5.getMessage().contains("not a valid ULID"));
     }
@@ -209,7 +219,7 @@ class RoleUtilsTest {
     @Test
     void parseRolePartsInvalidRoleNumberThrowsException() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            RoleUtils.parseRoleParts("groups/01DD32GZ7R0000000000000001/invalid");
+            RoleUtils.parseRoleParts("groups/01DD32GZ7R0000000000000001/roles/invalid");
         });
         assertTrue(exception.getMessage().contains("Error parsing role enum value"));
     }
@@ -218,7 +228,7 @@ class RoleUtilsTest {
     void parseRolePartsUnspecifiedRoleThrowsException() {
         int unspecifiedNumber = RoleOuterClass.Role.ROLE_UNSPECIFIED.getNumber();
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            RoleUtils.parseRoleParts(String.format("groups/01DD32GZ7R0000000000000001/%d", unspecifiedNumber));
+            RoleUtils.parseRoleParts(String.format("groups/01DD32GZ7R0000000000000001/roles/%d", unspecifiedNumber));
         });
         assertTrue(exception.getMessage().contains("is not valid"));
     }
@@ -227,7 +237,7 @@ class RoleUtilsTest {
     @Test
     void roleFromFullResourceNameValidInputReturnsRole() {
         int roleNumber = RoleOuterClass.Role.ROLE_IAM_ADMIN.getNumber();
-        String fullName = String.format("groups/01DD32GZ7R0000000000000001/%d", roleNumber);
+        String fullName = String.format("groups/01DD32GZ7R0000000000000001/roles/%d", roleNumber);
 
         RoleOuterClass.Role role = RoleUtils.roleFromFullResourceName(fullName);
 
@@ -250,7 +260,7 @@ class RoleUtilsTest {
             "groups/01DD32GZ7R0000000000000001"
         );
         int roleNumber = RoleOuterClass.Role.ROLE_IAM_ADMIN.getNumber();
-        assertEquals(String.format("groups/01DD32GZ7R0000000000000001/%d", roleNumber), result);
+        assertEquals(String.format("groups/01DD32GZ7R0000000000000001/roles/%d", roleNumber), result);
     }
 
     @Test
@@ -316,7 +326,7 @@ class RoleUtilsTest {
             "01DD32GZ7R0000000000000001"
         );
         int roleNumber = RoleOuterClass.Role.ROLE_IAM_ADMIN.getNumber();
-        assertEquals(String.format("groups/01DD32GZ7R0000000000000001/%d", roleNumber), result);
+        assertEquals(String.format("groups/01DD32GZ7R0000000000000001/roles/%d", roleNumber), result);
     }
 
     @Test
@@ -369,7 +379,7 @@ class RoleUtilsTest {
         RoleOuterClass.Role originalRole = RoleOuterClass.Role.ROLE_IAM_ADMIN;
         String group = "groups/01DD32GZ7R0000000000000001";
 
-        // Create full resource name
+        // Create full resource name (now with /roles/)
         String fullResourceName = RoleUtils.roleFullResourceNameFromGroup(originalRole, group);
 
         // Parse it back
@@ -378,6 +388,9 @@ class RoleUtilsTest {
         // Verify round trip
         assertEquals(group, parts.group());
         assertEquals(originalRole, parts.role());
+
+        // Verify format includes /roles/ segment
+        assertTrue(fullResourceName.contains("/roles/"));
     }
 
     // Test RoleParts record

@@ -24,12 +24,12 @@ option java_package = "co.meshtrade.api.iam.user.v1";
 */
 service UserService {
   /*
-     Assigns a role to an existing user within the authenticated group context.
+     Assign roles to an existing user within the authenticated group context.
 
      The role assignment enables the user to perform operations according
      to the permissions associated with that role within the group hierarchy.
   */
-  rpc AssignRoleToUser(AssignRoleToUserRequest) returns (meshtrade.iam.user.v1.User) {
+  rpc AssignRolesToUser(AssignRolesToUserRequest) returns (meshtrade.iam.user.v1.User) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
     option (meshtrade.iam.role.v1.roles) = {
       roles: [
@@ -40,12 +40,47 @@ service UserService {
   }
 
   /*
-     Retrieves a single user by its unique identifier.
+     Revoke roles from an existing user within the authenticated group context.
+
+     The role revocation removes the permissions associated with that role from
+     the user within the group hierarchy. The user will no longer be able
+     to perform operations that require the revoked role.
+  */
+  rpc RevokeRolesFromUser(RevokeRolesFromUserRequest) returns (meshtrade.iam.user.v1.User) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_USER_ADMIN
+      ]
+    };
+  }
+
+  /*
+     Retrieves a single user by their unique identifier.
 
      Returns user details including name, email, ownership information,
      and assigned roles within the authenticated group's access scope.
   */
   rpc GetUser(GetUserRequest) returns (meshtrade.iam.user.v1.User) {
+    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
+    option (meshtrade.iam.role.v1.roles) = {
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_VIEWER,
+        ROLE_IAM_USER_ADMIN,
+        ROLE_IAM_USER_VIEWER
+      ]
+    };
+  }
+
+  /*
+     Retrieves a single user by their email address.
+
+     Returns user details including name, email, ownership information,
+     and assigned roles within the authenticated group's access scope.
+  */
+  rpc GetUserByEmail(GetUserByEmailRequest) returns (meshtrade.iam.user.v1.User) {
     option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
     option (meshtrade.iam.role.v1.roles) = {
       roles: [
@@ -129,28 +164,64 @@ service UserService {
   }
 }
 
-message AssignRoleToUserRequest {
+message AssignRolesToUserRequest {
   /*
-     Name of the user to assign a role to.
+     Name of the user to assign roles to in the format users/{ULIDv2}.
   */
   string name = 1 [(buf.validate.field) = {
+    required: true
     string: {
-      len: 32,
+      len: 32
       pattern: "^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
 
   /*
-     Role to assign to the user in the format groups/{ULIDv2}/{role_id}.
+     Roles to assign to the user in the format groups/{ULIDv2}/roles/{role_id}.
      The role_id corresponds to a value from the meshtrade.iam.role.v1.Role enum.
   */
-  string role = 4 [(buf.validate.field) = {
-    required: true,
-    string: {
-      len: 41,
-      pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/[1-9][0-9]{6}$"
+  repeated string roles = 2 [(buf.validate.field) = {
+    required: true
+    repeated: {
+      items: {
+        string: {
+          min_len: 47
+          max_len: 48
+          pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/roles/[1-9][0-9]{6,7}$"
+        }
+      }
     }
-  }];  
+  }];
+}
+
+message RevokeRolesFromUserRequest {
+  /*
+     Name of the user to revoke roles from in the format users/{ULIDv2}.
+  */
+  string name = 1 [(buf.validate.field) = {
+    required: true
+    string: {
+      len: 32
+      pattern: "^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+    }
+  }];
+
+  /*
+     Roles to revoke from the user in the format groups/{ULIDv2}/roles/{role_id}.
+     The role_id corresponds to a value from the meshtrade.iam.role.v1.Role enum.
+  */
+  repeated string roles = 2 [(buf.validate.field) = {
+    required: true
+    repeated: {
+      items: {
+        string: {
+          min_len: 47
+          max_len: 48
+          pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/roles/[1-9][0-9]{6,7}$"
+        }
+      }
+    }
+  }];
 }
 
 message GetUserRequest {
@@ -159,11 +230,22 @@ message GetUserRequest {
      Format: users/{ULIDv2}
   */
   string name = 1 [(buf.validate.field) = {
-    required: true,
+    required: true
     string: {
-      len: 32,
+      len: 32
       pattern: "^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
+  }];
+}
+
+message GetUserByEmailRequest {
+  /*
+     Email address of the user to retrieve.
+     Must be a valid email address format.
+  */
+  string email = 1 [(buf.validate.field) = {
+    required: true
+    string: {email: true}
   }];
 }
 
@@ -205,7 +287,7 @@ message SearchUsersRequest {
      Email is a substring search for users.
   */
   string email = 1;
-  
+
   message Sorting {
     /*
        Field to sort by (e.g., "email").

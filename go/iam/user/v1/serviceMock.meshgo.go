@@ -13,30 +13,44 @@ var _ UserService = &MockUserService{}
 
 // MockUserService is a mock implementation of the UserService interface.
 type MockUserService struct {
-	mutex                           sync.Mutex
-	T                               *testing.T
-	AssignRoleToUserFunc            func(t *testing.T, m *MockUserService, ctx context.Context, request *AssignRoleToUserRequest) (*User, error)
-	AssignRoleToUserFuncInvocations int
-	GetUserFunc                     func(t *testing.T, m *MockUserService, ctx context.Context, request *GetUserRequest) (*User, error)
-	GetUserFuncInvocations          int
-	ListUsersFunc                   func(t *testing.T, m *MockUserService, ctx context.Context, request *ListUsersRequest) (*ListUsersResponse, error)
-	ListUsersFuncInvocations        int
-	SearchUsersFunc                 func(t *testing.T, m *MockUserService, ctx context.Context, request *SearchUsersRequest) (*SearchUsersResponse, error)
-	SearchUsersFuncInvocations      int
-	CreateUserFunc                  func(t *testing.T, m *MockUserService, ctx context.Context, request *CreateUserRequest) (*User, error)
-	CreateUserFuncInvocations       int
-	UpdateUserFunc                  func(t *testing.T, m *MockUserService, ctx context.Context, request *UpdateUserRequest) (*User, error)
-	UpdateUserFuncInvocations       int
+	mutex                              sync.Mutex
+	T                                  *testing.T
+	AssignRolesToUserFunc              func(t *testing.T, m *MockUserService, ctx context.Context, request *AssignRolesToUserRequest) (*User, error)
+	AssignRolesToUserFuncInvocations   int
+	RevokeRolesFromUserFunc            func(t *testing.T, m *MockUserService, ctx context.Context, request *RevokeRolesFromUserRequest) (*User, error)
+	RevokeRolesFromUserFuncInvocations int
+	GetUserFunc                        func(t *testing.T, m *MockUserService, ctx context.Context, request *GetUserRequest) (*User, error)
+	GetUserFuncInvocations             int
+	GetUserByEmailFunc                 func(t *testing.T, m *MockUserService, ctx context.Context, request *GetUserByEmailRequest) (*User, error)
+	GetUserByEmailFuncInvocations      int
+	ListUsersFunc                      func(t *testing.T, m *MockUserService, ctx context.Context, request *ListUsersRequest) (*ListUsersResponse, error)
+	ListUsersFuncInvocations           int
+	SearchUsersFunc                    func(t *testing.T, m *MockUserService, ctx context.Context, request *SearchUsersRequest) (*SearchUsersResponse, error)
+	SearchUsersFuncInvocations         int
+	CreateUserFunc                     func(t *testing.T, m *MockUserService, ctx context.Context, request *CreateUserRequest) (*User, error)
+	CreateUserFuncInvocations          int
+	UpdateUserFunc                     func(t *testing.T, m *MockUserService, ctx context.Context, request *UpdateUserRequest) (*User, error)
+	UpdateUserFuncInvocations          int
 }
 
-func (m *MockUserService) AssignRoleToUser(ctx context.Context, request *AssignRoleToUserRequest) (*User, error) {
+func (m *MockUserService) AssignRolesToUser(ctx context.Context, request *AssignRolesToUserRequest) (*User, error) {
 	m.mutex.Lock()
-	m.AssignRoleToUserFuncInvocations++
+	m.AssignRolesToUserFuncInvocations++
 	m.mutex.Unlock()
-	if m.AssignRoleToUserFunc == nil {
+	if m.AssignRolesToUserFunc == nil {
 		return nil, nil
 	}
-	return m.AssignRoleToUserFunc(m.T, m, ctx, request)
+	return m.AssignRolesToUserFunc(m.T, m, ctx, request)
+}
+
+func (m *MockUserService) RevokeRolesFromUser(ctx context.Context, request *RevokeRolesFromUserRequest) (*User, error) {
+	m.mutex.Lock()
+	m.RevokeRolesFromUserFuncInvocations++
+	m.mutex.Unlock()
+	if m.RevokeRolesFromUserFunc == nil {
+		return nil, nil
+	}
+	return m.RevokeRolesFromUserFunc(m.T, m, ctx, request)
 }
 
 func (m *MockUserService) GetUser(ctx context.Context, request *GetUserRequest) (*User, error) {
@@ -47,6 +61,16 @@ func (m *MockUserService) GetUser(ctx context.Context, request *GetUserRequest) 
 		return nil, nil
 	}
 	return m.GetUserFunc(m.T, m, ctx, request)
+}
+
+func (m *MockUserService) GetUserByEmail(ctx context.Context, request *GetUserByEmailRequest) (*User, error) {
+	m.mutex.Lock()
+	m.GetUserByEmailFuncInvocations++
+	m.mutex.Unlock()
+	if m.GetUserByEmailFunc == nil {
+		return nil, nil
+	}
+	return m.GetUserByEmailFunc(m.T, m, ctx, request)
 }
 
 func (m *MockUserService) ListUsers(ctx context.Context, request *ListUsersRequest) (*ListUsersResponse, error) {

@@ -16,9 +16,9 @@ func TestValidationDemo(t *testing.T) {
 
 	// Example 1: Completely invalid request
 	t.Log("\n1. Testing completely invalid request:")
-	invalidRequest := &AssignRoleToUserRequest{
-		Name: "",  // Empty name
-		Role: "",  // Empty role
+	invalidRequest := &AssignRolesToUserRequest{
+		Name:  "",         // Empty name
+		Roles: []string{}, // Empty roles
 	}
 	
 	err = validator.Validate(invalidRequest)
@@ -26,9 +26,9 @@ func TestValidationDemo(t *testing.T) {
 
 	// Example 2: Invalid name format
 	t.Log("2. Testing invalid name format:")
-	invalidNameRequest := &AssignRoleToUserRequest{
-		Name: "not-a-valid-name",
-		Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1000000",
+	invalidNameRequest := &AssignRolesToUserRequest{
+		Name:  "not-a-valid-name",
+		Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1000000"},
 	}
 	
 	err = validator.Validate(invalidNameRequest)
@@ -36,9 +36,9 @@ func TestValidationDemo(t *testing.T) {
 
 	// Example 3: Valid request (should pass)
 	t.Log("3. Testing valid request:")
-	validRequest := &AssignRoleToUserRequest{
-		Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-		Role: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1000000",
+	validRequest := &AssignRolesToUserRequest{
+		Name:  "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+		Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1000000"},
 	}
 	
 	err = validator.Validate(validRequest)
