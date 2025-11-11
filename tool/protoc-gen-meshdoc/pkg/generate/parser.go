@@ -59,12 +59,13 @@ type MethodInfo struct {
 	Description       string
 	Roles             []string
 	MethodType        string
-	AccessLevel       string // NEW: Access level from method_options (e.g., METHOD_ACCESS_LEVEL_AUTHENTICATED)
+	AccessLevel       string        // NEW: Access level from method_options (e.g., METHOD_ACCESS_LEVEL_AUTHENTICATED)
 	Parameters        []FieldInfo
 	Returns           string
 	RequestType       string
-	ResponseType      string // NEW: Fully qualified response type name
-	IsServerStreaming bool   // Indicates if this method uses server-side streaming
+	ResponseType      string        // NEW: Fully qualified response type name
+	OutputMessage     *protogen.Message // Reference to response message for field parsing
+	IsServerStreaming bool          // Indicates if this method uses server-side streaming
 }
 
 // FieldInfo holds information about message fields
@@ -104,11 +105,12 @@ func ParseService(file *protogen.File, service *protogen.Service) (*ServiceInfo,
 // parseMethod extracts information from a service method
 func parseMethod(method *protogen.Method) (*MethodInfo, error) {
 	methodInfo := &MethodInfo{
-		Name:         method.GoName,
-		Description:  extractComment(method.Comments.Leading),
-		RequestType:  method.Input.GoIdent.GoName,
-		Returns:      method.Output.GoIdent.GoName,
-		ResponseType: string(method.Output.Desc.FullName()), // Fully qualified type name
+		Name:          method.GoName,
+		Description:   extractComment(method.Comments.Leading),
+		RequestType:   method.Input.GoIdent.GoName,
+		Returns:       method.Output.GoIdent.GoName,
+		ResponseType:  string(method.Output.Desc.FullName()), // Fully qualified type name
+		OutputMessage: method.Output, // Store response message reference for field parsing
 	}
 
 	// Extract method options from protobuf extension (type, access_level, roles)

@@ -121,10 +121,59 @@ No parameters required.
 {{- end}}
 
 {{- if .IsResourceReturn}}
-{/* Response is the {{.Returns}} 'resource' message - so just 1 line. If a full message was returned then a table as for the request message  */}
+{/* Response is the {{.Returns}} 'resource' message - so just 1 line with link */}
 ### Returns: [`{{.Returns}} Message`]({{.ReturnTypeURL}})
 {{- else}}
 ### Returns: `{{.Returns}}` Message
+
+{/* Response is a response object - show full field table */}
+{{- if .ResponseFields}}
+<table>
+  <thead>
+    <tr>
+      <th scope="col">Field</th>
+      <th scope="col">Type</th>
+      <th scope="col">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+{{- range .ResponseFields}}
+    <tr>
+      <td>`{{.Name}}`</td>
+      <td>
+{{- if .NestedFields}}
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Field</th>
+              <th scope="col">Type</th>
+              <th scope="col">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+{{- range .NestedFields}}
+            <tr>
+              <td>`{{.Name}}`</td>
+              <td>`{{.Type}}`</td>
+              <td>{{escapeCurly .Description}}</td>
+            </tr>
+{{- end}}
+          </tbody>
+        </table>
+{{- else}}
+        `{{.Type}}`
+{{- end}}
+      </td>
+      <td>
+     {{escapeCurly .Description}}
+      </td>
+    </tr>
+{{- end}}
+  </tbody>
+</table>
+{{- else}}
+No response fields documented.
+{{- end}}
 {{- end}}
 
 </TabItem>

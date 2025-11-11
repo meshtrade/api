@@ -96,6 +96,7 @@ type MethodDocData struct {
 	RequestMessage     string   // Fully qualified request message name
 	ResponseMessage    string   // Fully qualified response message name
 	Parameters         []FieldTemplateData // Structured parameters for table generation
+	ResponseFields     []FieldTemplateData // Structured response fields for table generation (when not a resource)
 
 	// Return Type Classification
 	IsResourceReturn   bool     // True if returns a domain resource

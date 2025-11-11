@@ -208,6 +208,17 @@ func generateMethodDoc(plugin *protogen.Plugin, serviceInfo *ServiceInfo, method
 		}
 	}
 
+	// Parse response message fields if this is a response object (not a resource)
+	var responseFieldsData []FieldTemplateData
+	if !isResourceReturn {
+		// Parse the response message fields
+		responseFields := parseMessageFields(method.OutputMessage)
+		// Convert to template data
+		for _, field := range responseFields {
+			responseFieldsData = append(responseFieldsData, convertFieldInfoToTemplateData(field))
+		}
+	}
+
 	// Prepare template data
 	data := MethodDocData{
 		Name:               method.Name,
@@ -224,6 +235,7 @@ func generateMethodDoc(plugin *protogen.Plugin, serviceInfo *ServiceInfo, method
 		RequestMessage:     requestMessage,
 		ResponseMessage:    responseMessage,
 		Parameters:         paramTemplateData,
+		ResponseFields:     responseFieldsData,
 		IsResourceReturn:   isResourceReturn,
 		ReturnTypeURL:      returnTypeURL,
 		IsServerStreaming:  method.IsServerStreaming,
