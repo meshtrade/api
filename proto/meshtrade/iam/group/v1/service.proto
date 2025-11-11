@@ -266,6 +266,7 @@ message GetGroupRequest {
      The resource name of the group to retrieve in format groups/{group_id}.
   */
   string name = 1 [(buf.validate.field) = {
+    required: true
     string: {
       min_len: 1
       pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
