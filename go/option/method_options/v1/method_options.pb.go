@@ -94,21 +94,16 @@ type MethodAccessLevel int32
 const (
 	// Default value, should not be used.
 	MethodAccessLevel_METHOD_ACCESS_LEVEL_UNSPECIFIED MethodAccessLevel = 0
-	// x-api-key: optional (if provided x-group defaults to API users's owner group).
-	// x-group: optional (if provided x-api-key is required).
+	// x-api-key: optional (if provided must be valid and identify an active API user).
+	// x-group: ignored
 	//
 	// Allows unauthenticated access. If credentials provided, authentication and role checks enforced.
 	MethodAccessLevel_METHOD_ACCESS_LEVEL_PUBLIC MethodAccessLevel = 1
-	// x-api-key: required.
-	// x-group: optional (defaults to API user's owner group).
-	//
-	// Requires valid API key. Group context defaults to user's owner if not specified.
-	MethodAccessLevel_METHOD_ACCESS_LEVEL_AUTHENTICATED MethodAccessLevel = 2
 	// x-api-key: required
 	// x-group: required
 	//
 	// Requires both valid API key and explicit group context. Most secure and explicit.
-	MethodAccessLevel_METHOD_ACCESS_LEVEL_AUTHORISED MethodAccessLevel = 3
+	MethodAccessLevel_METHOD_ACCESS_LEVEL_AUTHORISED MethodAccessLevel = 2
 )
 
 // Enum value maps for MethodAccessLevel.
@@ -116,14 +111,12 @@ var (
 	MethodAccessLevel_name = map[int32]string{
 		0: "METHOD_ACCESS_LEVEL_UNSPECIFIED",
 		1: "METHOD_ACCESS_LEVEL_PUBLIC",
-		2: "METHOD_ACCESS_LEVEL_AUTHENTICATED",
-		3: "METHOD_ACCESS_LEVEL_AUTHORISED",
+		2: "METHOD_ACCESS_LEVEL_AUTHORISED",
 	}
 	MethodAccessLevel_value = map[string]int32{
-		"METHOD_ACCESS_LEVEL_UNSPECIFIED":   0,
-		"METHOD_ACCESS_LEVEL_PUBLIC":        1,
-		"METHOD_ACCESS_LEVEL_AUTHENTICATED": 2,
-		"METHOD_ACCESS_LEVEL_AUTHORISED":    3,
+		"METHOD_ACCESS_LEVEL_UNSPECIFIED": 0,
+		"METHOD_ACCESS_LEVEL_PUBLIC":      1,
+		"METHOD_ACCESS_LEVEL_AUTHORISED":  2,
 	}
 )
 
@@ -160,7 +153,7 @@ type MethodOptions struct {
 	// Method type: READ for queries, WRITE for mutations.
 	Type MethodType `protobuf:"varint,1,opt,name=type,proto3,enum=meshtrade.option.method_options.v1.MethodType" json:"type,omitempty"`
 	// Access level: Defines authentication header requirements.
-	// PUBLIC allows anonymous, AUTHENTICATED requires key, AUTHORISED requires key + group.
+	// PUBLIC allows anonymous, AUTHORISED requires key + group.
 	AccessLevel MethodAccessLevel `protobuf:"varint,2,opt,name=access_level,json=accessLevel,proto3,enum=meshtrade.option.method_options.v1.MethodAccessLevel" json:"access_level,omitempty"`
 	// Roles that grant access to this method.
 	// Used for access control checking if group header is required and/or given.
@@ -250,12 +243,11 @@ const file_meshtrade_option_method_options_v1_method_options_proto_rawDesc = "" 
 	"MethodType\x12\x1b\n" +
 	"\x17METHOD_TYPE_UNSPECIFIED\x10\x00\x12\x14\n" +
 	"\x10METHOD_TYPE_READ\x10\x01\x12\x15\n" +
-	"\x11METHOD_TYPE_WRITE\x10\x02*\xa3\x01\n" +
+	"\x11METHOD_TYPE_WRITE\x10\x02*|\n" +
 	"\x11MethodAccessLevel\x12#\n" +
 	"\x1fMETHOD_ACCESS_LEVEL_UNSPECIFIED\x10\x00\x12\x1e\n" +
-	"\x1aMETHOD_ACCESS_LEVEL_PUBLIC\x10\x01\x12%\n" +
-	"!METHOD_ACCESS_LEVEL_AUTHENTICATED\x10\x02\x12\"\n" +
-	"\x1eMETHOD_ACCESS_LEVEL_AUTHORISED\x10\x03:z\n" +
+	"\x1aMETHOD_ACCESS_LEVEL_PUBLIC\x10\x01\x12\"\n" +
+	"\x1eMETHOD_ACCESS_LEVEL_AUTHORISED\x10\x02:z\n" +
 	"\x0emethod_options\x12\x1e.google.protobuf.MethodOptions\x18ֆ\x03 \x01(\v21.meshtrade.option.method_options.v1.MethodOptionsR\rmethodOptionsBs\n" +
 	")co.meshtrade.api.option.method_options.v1ZFgithub.com/meshtrade/api/go/option/method_options/v1;method_options_v1b\x06proto3"
 

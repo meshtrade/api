@@ -50,20 +50,12 @@ enum MethodAccessLevel {
   METHOD_ACCESS_LEVEL_UNSPECIFIED = 0;
 
   /*
-     x-api-key: optional (if provided x-group defaults to API users's owner group).
-     x-group: optional (if provided x-api-key is required).
+     x-api-key: optional (if provided must be valid and identify an active API user).
+     x-group: ignored
 
      Allows unauthenticated access. If credentials provided, authentication and role checks enforced.
   */
   METHOD_ACCESS_LEVEL_PUBLIC = 1;
-
-  /*
-     x-api-key: required.
-     x-group: optional (defaults to API user's owner group).
-
-     Requires valid API key. Group context defaults to user's owner if not specified.
-  */
-  METHOD_ACCESS_LEVEL_AUTHENTICATED = 2;
 
   /*
      x-api-key: required
@@ -71,7 +63,7 @@ enum MethodAccessLevel {
 
      Requires both valid API key and explicit group context. Most secure and explicit.
   */
-  METHOD_ACCESS_LEVEL_AUTHORISED = 3;
+  METHOD_ACCESS_LEVEL_AUTHORISED = 2;
 }
 
 /*
@@ -85,7 +77,7 @@ message MethodOptions {
 
   /*
      Access level: Defines authentication header requirements.
-     PUBLIC allows anonymous, AUTHENTICATED requires key, AUTHORISED requires key + group.
+     PUBLIC allows anonymous, AUTHORISED requires key + group.
   */
   MethodAccessLevel access_level = 2;
 

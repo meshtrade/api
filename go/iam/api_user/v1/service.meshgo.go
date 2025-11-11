@@ -8,7 +8,7 @@ import (
 	config "github.com/meshtrade/api/go/grpc/config"
 )
 
-// ApiUserServiceClientInterface is a gRPC service for the ApiUserService service.
+// APIUserServiceClientInterface is a gRPC service for the APIUserService service.
 // It combines the service interface with resource management capabilities using
 // the common BaseGRPCClient for consistent authentication, timeouts, and tracing.
 //
@@ -16,7 +16,7 @@ import (
 //
 // Basic service usage with default SDK Configuration:
 //
-//	service, err := NewApiUserService()
+//	service, err := NewAPIUserService()
 //	if err != nil {
 //		log.Fatal(err)
 //	}
@@ -36,7 +36,7 @@ import (
 //
 // The service may also be configured with custom options:
 //
-//	service, err := NewApiUserService(
+//	service, err := NewAPIUserService(
 //		config.WithURL("api.staging.example.com:443"),
 //		config.WithAPIKey("your-api-key"),
 //		config.WithGroup("groups/your-group-id"),
@@ -48,16 +48,16 @@ import (
 //	defer service.Close() // ensures proper cleanup of underlying connection
 //
 // For more information on service configuration: https://meshtrade.github.io/api/docs/architecture/sdk-configuration
-type ApiUserServiceClientInterface interface {
+type APIUserServiceClientInterface interface {
 	grpc.GRPCClient
 
 	// Retrieves a single API user by its unique identifier.
-	GetApiUser(ctx context.Context, request *GetApiUserRequest) (*APIUser, error)
+	GetAPIUser(ctx context.Context, request *GetAPIUserRequest) (*APIUser, error)
 	// Creates a new API user with the specified configuration.
 	// The API user will be created in the authenticated group context
 	// and assigned the provided roles. The system generates a unique
 	// identifier and API key for authentication.
-	CreateApiUser(ctx context.Context, request *CreateApiUserRequest) (*APIUser, error)
+	CreateAPIUser(ctx context.Context, request *CreateAPIUserRequest) (*APIUser, error)
 	// Assign roles to an existing api user within the authenticated group context.
 	// The role assignment enables the api user to perform operations according
 	// to the permissions associated with that role within the group hierarchy.
@@ -70,38 +70,38 @@ type ApiUserServiceClientInterface interface {
 	// Lists all API users in the authenticated group context.
 	// Returns all API users that belong to the current group,
 	// regardless of their active/inactive state.
-	ListApiUsers(ctx context.Context, request *ListApiUsersRequest) (*ListApiUsersResponse, error)
+	ListAPIUsers(ctx context.Context, request *ListAPIUsersRequest) (*ListAPIUsersResponse, error)
 	// Searches API users using display name filtering.
 	// Performs substring matching on API user display names
 	// within the authenticated group context.
-	SearchApiUsers(ctx context.Context, request *SearchApiUsersRequest) (*SearchApiUsersResponse, error)
+	SearchAPIUsers(ctx context.Context, request *SearchAPIUsersRequest) (*SearchAPIUsersResponse, error)
 	// Activates an API user, enabling API key authentication.
 	// Changes the API user state to active, allowing the associated
 	// API key to be used for authentication and authorization.
-	ActivateApiUser(ctx context.Context, request *ActivateApiUserRequest) (*APIUser, error)
+	ActivateAPIUser(ctx context.Context, request *ActivateAPIUserRequest) (*APIUser, error)
 	// Deactivates an API user, disabling API key authentication.
 	// Changes the API user state to inactive, preventing the associated
 	// API key from being used for authentication.
-	DeactivateApiUser(ctx context.Context, request *DeactivateApiUserRequest) (*APIUser, error)
+	DeactivateAPIUser(ctx context.Context, request *DeactivateAPIUserRequest) (*APIUser, error)
 	// Retrieves an API user using its API key hash.
 	// This method is used for authentication flows to lookup
 	// an API user based on the hash of their API key.
-	GetApiUserByKeyHash(ctx context.Context, request *GetApiUserByKeyHashRequest) (*APIUser, error)
+	GetAPIUserByKeyHash(ctx context.Context, request *GetAPIUserByKeyHashRequest) (*APIUser, error)
 
 	// WithGroup returns a new client instance with a different group context
-	WithGroup(group string) ApiUserServiceClientInterface
+	WithGroup(group string) APIUserServiceClientInterface
 }
 
-// apiUserService is the internal implementation of the ApiUserServiceClientInterface interface.
+// aPIUserService is the internal implementation of the APIUserServiceClientInterface interface.
 // It embeds BaseGRPCClient to provide all common gRPC functionality including validation.
-type apiUserService struct {
-	*grpc.BaseGRPCClient[ApiUserServiceClient]
+type aPIUserService struct {
+	*grpc.BaseGRPCClient[APIUserServiceClient]
 }
 
-// ensure apiUserService implements the ApiUserServiceClientInterface interface
-var _ ApiUserServiceClientInterface = &apiUserService{}
+// ensure aPIUserService implements the APIUserServiceClientInterface interface
+var _ APIUserServiceClientInterface = &aPIUserService{}
 
-// NewApiUserService creates and initializes the ApiUserService service.
+// NewAPIUserService creates and initializes the APIUserService service.
 // The service uses the common BaseGRPCClient for all functionality including
 // connection management, authentication, timeouts, and distributed tracing.
 //
@@ -124,14 +124,14 @@ var _ ApiUserServiceClientInterface = &apiUserService{}
 // Examples:
 //
 //	// Create with default configuration
-//	service, err := NewApiUserService()
+//	service, err := NewAPIUserService()
 //	if err != nil {
 //		log.Fatal(err)
 //	}
 //	defer service.Close()
 //
 //	// Create with custom configuration
-//	service, err := NewApiUserService(
+//	service, err := NewAPIUserService(
 //		config.WithURL("api.example.com:443"),
 //		config.WithAPIKey("your-api-key"),
 //		config.WithGroup("groups/your-group-id"),
@@ -145,19 +145,19 @@ var _ ApiUserServiceClientInterface = &apiUserService{}
 //   - opts: Functional options to configure the client
 //
 // Returns:
-//   - ApiUserServiceClientInterface: Configured service instance
+//   - APIUserServiceClientInterface: Configured service instance
 //   - error: Configuration or connection error
-func NewApiUserService(opts ...config.ServiceOption) (ApiUserServiceClientInterface, error) {
+func NewAPIUserService(opts ...config.ServiceOption) (APIUserServiceClientInterface, error) {
 	base, err := grpc.NewBaseGRPCClient(
-		ApiUserServiceServiceProviderName,
-		NewApiUserServiceClient,
+		APIUserServiceServiceProviderName,
+		NewAPIUserServiceClient,
 		opts...,
 	)
 	if err != nil {
 		return nil, err
 	}
 
-	return &apiUserService{BaseGRPCClient: base}, nil
+	return &aPIUserService{BaseGRPCClient: base}, nil
 }
 
 // WithGroup returns a new client instance configured with a different group context.
@@ -171,7 +171,7 @@ func NewApiUserService(opts ...config.ServiceOption) (ApiUserServiceClientInterf
 // Example:
 //
 //	// Create initial client with default group from credentials
-//	service, err := NewApiUserService()
+//	service, err := NewAPIUserService()
 //	if err != nil {
 //		log.Fatal(err)
 //	}
@@ -189,34 +189,34 @@ func NewApiUserService(opts ...config.ServiceOption) (ApiUserServiceClientInterf
 //   - group: The group resource name in format 'groups/{group_id}'
 //
 // Returns:
-//   - ApiUserServiceClientInterface: New client instance with updated group context
-func (s *apiUserService) WithGroup(group string) ApiUserServiceClientInterface {
+//   - APIUserServiceClientInterface: New client instance with updated group context
+func (s *aPIUserService) WithGroup(group string) APIUserServiceClientInterface {
 	// Create new base client with copied configuration but new group
 	newBase := s.BaseGRPCClient.WithGroup(group)
 
 	// Return new service instance wrapping the new base client
-	return &apiUserService{BaseGRPCClient: newBase}
+	return &aPIUserService{BaseGRPCClient: newBase}
 }
 
-// GetApiUser executes the GetApiUser RPC method with automatic
+// GetAPIUser executes the GetAPIUser RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
-func (s *apiUserService) GetApiUser(ctx context.Context, request *GetApiUserRequest) (*APIUser, error) {
-	return grpc.Execute(s.Executor(), ctx, "GetApiUser", request, func(ctx context.Context) (*APIUser, error) {
-		return s.GrpcClient().GetApiUser(ctx, request)
+func (s *aPIUserService) GetAPIUser(ctx context.Context, request *GetAPIUserRequest) (*APIUser, error) {
+	return grpc.Execute(s.Executor(), ctx, "GetAPIUser", request, func(ctx context.Context) (*APIUser, error) {
+		return s.GrpcClient().GetAPIUser(ctx, request)
 	})
 }
 
-// CreateApiUser executes the CreateApiUser RPC method with automatic
+// CreateAPIUser executes the CreateAPIUser RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
-func (s *apiUserService) CreateApiUser(ctx context.Context, request *CreateApiUserRequest) (*APIUser, error) {
-	return grpc.Execute(s.Executor(), ctx, "CreateApiUser", request, func(ctx context.Context) (*APIUser, error) {
-		return s.GrpcClient().CreateApiUser(ctx, request)
+func (s *aPIUserService) CreateAPIUser(ctx context.Context, request *CreateAPIUserRequest) (*APIUser, error) {
+	return grpc.Execute(s.Executor(), ctx, "CreateAPIUser", request, func(ctx context.Context) (*APIUser, error) {
+		return s.GrpcClient().CreateAPIUser(ctx, request)
 	})
 }
 
 // AssignRolesToAPIUser executes the AssignRolesToAPIUser RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
-func (s *apiUserService) AssignRolesToAPIUser(ctx context.Context, request *AssignRolesToAPIUserRequest) (*APIUser, error) {
+func (s *aPIUserService) AssignRolesToAPIUser(ctx context.Context, request *AssignRolesToAPIUserRequest) (*APIUser, error) {
 	return grpc.Execute(s.Executor(), ctx, "AssignRolesToAPIUser", request, func(ctx context.Context) (*APIUser, error) {
 		return s.GrpcClient().AssignRolesToAPIUser(ctx, request)
 	})
@@ -224,48 +224,48 @@ func (s *apiUserService) AssignRolesToAPIUser(ctx context.Context, request *Assi
 
 // RevokeRolesFromAPIUser executes the RevokeRolesFromAPIUser RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
-func (s *apiUserService) RevokeRolesFromAPIUser(ctx context.Context, request *RevokeRolesFromAPIUserRequest) (*APIUser, error) {
+func (s *aPIUserService) RevokeRolesFromAPIUser(ctx context.Context, request *RevokeRolesFromAPIUserRequest) (*APIUser, error) {
 	return grpc.Execute(s.Executor(), ctx, "RevokeRolesFromAPIUser", request, func(ctx context.Context) (*APIUser, error) {
 		return s.GrpcClient().RevokeRolesFromAPIUser(ctx, request)
 	})
 }
 
-// ListApiUsers executes the ListApiUsers RPC method with automatic
+// ListAPIUsers executes the ListAPIUsers RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
-func (s *apiUserService) ListApiUsers(ctx context.Context, request *ListApiUsersRequest) (*ListApiUsersResponse, error) {
-	return grpc.Execute(s.Executor(), ctx, "ListApiUsers", request, func(ctx context.Context) (*ListApiUsersResponse, error) {
-		return s.GrpcClient().ListApiUsers(ctx, request)
+func (s *aPIUserService) ListAPIUsers(ctx context.Context, request *ListAPIUsersRequest) (*ListAPIUsersResponse, error) {
+	return grpc.Execute(s.Executor(), ctx, "ListAPIUsers", request, func(ctx context.Context) (*ListAPIUsersResponse, error) {
+		return s.GrpcClient().ListAPIUsers(ctx, request)
 	})
 }
 
-// SearchApiUsers executes the SearchApiUsers RPC method with automatic
+// SearchAPIUsers executes the SearchAPIUsers RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
-func (s *apiUserService) SearchApiUsers(ctx context.Context, request *SearchApiUsersRequest) (*SearchApiUsersResponse, error) {
-	return grpc.Execute(s.Executor(), ctx, "SearchApiUsers", request, func(ctx context.Context) (*SearchApiUsersResponse, error) {
-		return s.GrpcClient().SearchApiUsers(ctx, request)
+func (s *aPIUserService) SearchAPIUsers(ctx context.Context, request *SearchAPIUsersRequest) (*SearchAPIUsersResponse, error) {
+	return grpc.Execute(s.Executor(), ctx, "SearchAPIUsers", request, func(ctx context.Context) (*SearchAPIUsersResponse, error) {
+		return s.GrpcClient().SearchAPIUsers(ctx, request)
 	})
 }
 
-// ActivateApiUser executes the ActivateApiUser RPC method with automatic
+// ActivateAPIUser executes the ActivateAPIUser RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
-func (s *apiUserService) ActivateApiUser(ctx context.Context, request *ActivateApiUserRequest) (*APIUser, error) {
-	return grpc.Execute(s.Executor(), ctx, "ActivateApiUser", request, func(ctx context.Context) (*APIUser, error) {
-		return s.GrpcClient().ActivateApiUser(ctx, request)
+func (s *aPIUserService) ActivateAPIUser(ctx context.Context, request *ActivateAPIUserRequest) (*APIUser, error) {
+	return grpc.Execute(s.Executor(), ctx, "ActivateAPIUser", request, func(ctx context.Context) (*APIUser, error) {
+		return s.GrpcClient().ActivateAPIUser(ctx, request)
 	})
 }
 
-// DeactivateApiUser executes the DeactivateApiUser RPC method with automatic
+// DeactivateAPIUser executes the DeactivateAPIUser RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
-func (s *apiUserService) DeactivateApiUser(ctx context.Context, request *DeactivateApiUserRequest) (*APIUser, error) {
-	return grpc.Execute(s.Executor(), ctx, "DeactivateApiUser", request, func(ctx context.Context) (*APIUser, error) {
-		return s.GrpcClient().DeactivateApiUser(ctx, request)
+func (s *aPIUserService) DeactivateAPIUser(ctx context.Context, request *DeactivateAPIUserRequest) (*APIUser, error) {
+	return grpc.Execute(s.Executor(), ctx, "DeactivateAPIUser", request, func(ctx context.Context) (*APIUser, error) {
+		return s.GrpcClient().DeactivateAPIUser(ctx, request)
 	})
 }
 
-// GetApiUserByKeyHash executes the GetApiUserByKeyHash RPC method with automatic
+// GetAPIUserByKeyHash executes the GetAPIUserByKeyHash RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
-func (s *apiUserService) GetApiUserByKeyHash(ctx context.Context, request *GetApiUserByKeyHashRequest) (*APIUser, error) {
-	return grpc.Execute(s.Executor(), ctx, "GetApiUserByKeyHash", request, func(ctx context.Context) (*APIUser, error) {
-		return s.GrpcClient().GetApiUserByKeyHash(ctx, request)
+func (s *aPIUserService) GetAPIUserByKeyHash(ctx context.Context, request *GetAPIUserByKeyHashRequest) (*APIUser, error) {
+	return grpc.Execute(s.Executor(), ctx, "GetAPIUserByKeyHash", request, func(ctx context.Context) (*APIUser, error) {
+		return s.GrpcClient().GetAPIUserByKeyHash(ctx, request)
 	})
 }

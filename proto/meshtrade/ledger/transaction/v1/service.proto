@@ -3,8 +3,8 @@ syntax = "proto3";
 package meshtrade.ledger.transaction.v1;
 
 import "buf/validate/validate.proto";
-import "meshtrade/option/method_options/v1/method_options.proto";
 import "meshtrade/ledger/transaction/v1/transaction_state.proto";
+import "meshtrade/option/method_options/v1/method_options.proto";
 
 option go_package = "github.com/meshtrade/api/go/ledger/transaction/v1;transaction_v1";
 option java_package = "co.meshtrade.api.ledger.transaction.v1";
@@ -19,7 +19,7 @@ service TransactionService {
   rpc GetTransactionState(GetTransactionStateRequest) returns (GetTransactionStateResponse) {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_READ
-      access_level: METHOD_ACCESS_LEVEL_AUTHENTICATED
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_LEDGER_ADMIN,
         ROLE_LEDGER_VIEWER,
@@ -36,7 +36,7 @@ service TransactionService {
   rpc MonitorTransactionState(MonitorTransactionStateRequest) returns (stream MonitorTransactionStateResponse) {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_READ
-      access_level: METHOD_ACCESS_LEVEL_AUTHENTICATED
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_LEDGER_ADMIN,
         ROLE_LEDGER_VIEWER,
@@ -53,9 +53,9 @@ message GetTransactionStateRequest {
      Format: transactions/{ULIDv2}
   */
   string name = 1 [(buf.validate.field) = {
-    required: true,
+    required: true
     string: {
-      len: 39,
+      len: 39
       pattern: "^transactions/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
@@ -71,9 +71,9 @@ message MonitorTransactionStateRequest {
      Format: transactions/{ULIDv2}
   */
   string name = 1 [(buf.validate.field) = {
-    required: true,
+    required: true
     string: {
-      len: 39,
+      len: 39
       pattern: "^transactions/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];

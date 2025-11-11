@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import co.meshtrade.api.iam.api_user.v1.ApiUser.APIUser;
 import co.meshtrade.api.iam.api_user.v1.ApiUser.APIUserState;
-import co.meshtrade.api.iam.api_user.v1.Service.CreateApiUserRequest;
+import co.meshtrade.api.iam.api_user.v1.Service.CreateAPIUserRequest;
 
 /**
  * Unit tests for client-side validation in Java IAM API User service.
@@ -18,14 +18,14 @@ import co.meshtrade.api.iam.api_user.v1.Service.CreateApiUserRequest;
  * <p>This test class verifies that protovalidate validation is properly integrated
  * into the Java generated clients and works as expected.
  */
-@DisplayName("ApiUserService Client Validation Tests")
-class ApiUserServiceValidationTest {
+@DisplayName("APIUserService Client Validation Tests")
+class APIUserServiceValidationTest {
 
     @Test
-    @DisplayName("Valid CreateApiUser request passes validation")
-    void createApiUserValidRequestPassesValidation() throws Exception {
+    @DisplayName("Valid CreateAPIUser request passes validation")
+    void createAPIUserValidRequestPassesValidation() throws Exception {
         // Create a valid request
-        CreateApiUserRequest request = CreateApiUserRequest.newBuilder()
+        CreateAPIUserRequest request = CreateAPIUserRequest.newBuilder()
             .setApiUser(APIUser.newBuilder()
                 .setOwner("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
                 .setDisplayName("Test API User")
@@ -50,9 +50,9 @@ class ApiUserServiceValidationTest {
 
     @Test
     @DisplayName("Empty owner fails validation")
-    void createApiUserInvalidOwnerFailsValidation() throws Exception {
+    void createAPIUserInvalidOwnerFailsValidation() throws Exception {
         // Create an invalid request - empty owner
-        CreateApiUserRequest request = CreateApiUserRequest.newBuilder()
+        CreateAPIUserRequest request = CreateAPIUserRequest.newBuilder()
             .setApiUser(APIUser.newBuilder()
                 .setOwner("") // Invalid: empty owner
                 .setDisplayName("Test API User")
@@ -74,9 +74,9 @@ class ApiUserServiceValidationTest {
 
     @Test
     @DisplayName("Empty display name fails validation")
-    void createApiUserInvalidDisplayNameFailsValidation() throws Exception {
+    void createAPIUserInvalidDisplayNameFailsValidation() throws Exception {
         // Create an invalid request - empty display name
-        CreateApiUserRequest request = CreateApiUserRequest.newBuilder()
+        CreateAPIUserRequest request = CreateAPIUserRequest.newBuilder()
             .setApiUser(APIUser.newBuilder()
                 .setOwner("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
                 .setDisplayName("") // Invalid: empty display name
@@ -98,10 +98,10 @@ class ApiUserServiceValidationTest {
 
     @Test
     @DisplayName("Display name too long fails validation")
-    void createApiUserDisplayNameTooLongFailsValidation() throws Exception {
+    void createAPIUserDisplayNameTooLongFailsValidation() throws Exception {
         // Create an invalid request - display name too long (max 255 chars)
         String longDisplayName = "a".repeat(256);
-        CreateApiUserRequest request = CreateApiUserRequest.newBuilder()
+        CreateAPIUserRequest request = CreateAPIUserRequest.newBuilder()
             .setApiUser(APIUser.newBuilder()
                 .setOwner("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
                 .setDisplayName(longDisplayName)
@@ -125,8 +125,8 @@ class ApiUserServiceValidationTest {
     void baseGRPCClientValidationIntegrationWorksCorrectly() throws Exception {
         // This test documents the expected validation flow in Java clients:
         //
-        // 1. User calls: service.createApiUser(request, Optional.empty())
-        // 2. Generated client calls: execute("CreateApiUser", request, timeout, methodCall)
+        // 1. User calls: service.createAPIUser(request, Optional.empty())
+        // 2. Generated client calls: execute("CreateAPIUser", request, timeout, methodCall)
         // 3. BaseGRPCClient.execute() validates: validator.validate((Message) request)
         // 4. If validation fails: throws IllegalArgumentException("Request validation failed: ...")
         // 5. If validation passes: makes gRPC call to server
@@ -141,7 +141,7 @@ class ApiUserServiceValidationTest {
         Validator validator = ValidatorFactory.newBuilder().build();
         
         // Test valid request
-        CreateApiUserRequest validRequest = CreateApiUserRequest.newBuilder()
+        CreateAPIUserRequest validRequest = CreateAPIUserRequest.newBuilder()
             .setApiUser(APIUser.newBuilder()
                 .setOwner("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
                 .setDisplayName("Test API User")
@@ -156,7 +156,7 @@ class ApiUserServiceValidationTest {
         assertThat(validResult.getViolations()).isEmpty();
         
         // Test invalid request  
-        CreateApiUserRequest invalidRequest = CreateApiUserRequest.newBuilder()
+        CreateAPIUserRequest invalidRequest = CreateAPIUserRequest.newBuilder()
             .setApiUser(APIUser.newBuilder()
                 .setOwner("") // Invalid: empty owner
                 .setDisplayName("Test API User")
@@ -175,8 +175,8 @@ class ApiUserServiceValidationTest {
      * <p>This test serves as documentation of the validation flow in Java clients:
      * 
      * <ol>
-     * <li>User calls: {@code service.createApiUser(request, Optional.empty())}</li>
-     * <li>Generated client calls: {@code execute("CreateApiUser", request, timeout, methodCall)}</li>
+     * <li>User calls: {@code service.createAPIUser(request, Optional.empty())}</li>
+     * <li>Generated client calls: {@code execute("CreateAPIUser", request, timeout, methodCall)}</li>
      * <li>BaseGRPCClient.execute() validates: {@code validator.validate((Message) request)}</li>
      * <li>If validation fails: throws {@code IllegalArgumentException("Request validation failed: ...")}</li>
      * <li>If validation passes: makes gRPC call to server</li>
@@ -229,9 +229,9 @@ class ApiUserServiceValidationTest {
  *     .group("groups/your-group-id")
  *     .build();
  * 
- * try (ApiUserService service = new ApiUserService(options)) {
+ * try (APIUserService service = new APIUserService(options)) {
  *     // Create invalid request
- *     CreateApiUserRequest request = CreateApiUserRequest.newBuilder()
+ *     CreateAPIUserRequest request = CreateAPIUserRequest.newBuilder()
  *         .setApiUser(APIUser.newBuilder()
  *             .setOwner("") // Invalid - empty owner
  *             .setDisplayName("Test User")
@@ -239,7 +239,7 @@ class ApiUserServiceValidationTest {
  *         .build();
  *     
  *     // This would throw IllegalArgumentException with validation details
- *     APIUser response = service.createApiUser(request, Optional.empty());
+ *     APIUser response = service.createAPIUser(request, Optional.empty());
  *     
  * } catch (IllegalArgumentException e) {
  *     // This error would contain: "Request validation failed: ..."
@@ -248,6 +248,6 @@ class ApiUserServiceValidationTest {
  * }
  * }</pre>
  */
-class ApiUserServiceValidationExamples {
+class APIUserServiceValidationExamples {
     // This class exists only for documentation purposes
 }

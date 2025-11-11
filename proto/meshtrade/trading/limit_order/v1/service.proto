@@ -62,7 +62,7 @@ service LimitOrderService {
   rpc GetLimitOrder(GetLimitOrderRequest) returns (LimitOrder) {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_READ
-      access_level: METHOD_ACCESS_LEVEL_AUTHENTICATED
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_TRADING_ADMIN,
         ROLE_TRADING_VIEWER,
@@ -80,7 +80,7 @@ service LimitOrderService {
   rpc GetLimitOrderByExternalReference(GetLimitOrderByExternalReferenceRequest) returns (LimitOrder) {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_READ
-      access_level: METHOD_ACCESS_LEVEL_AUTHENTICATED
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_TRADING_ADMIN,
         ROLE_TRADING_VIEWER,
@@ -98,7 +98,7 @@ service LimitOrderService {
   rpc ListLimitOrders(ListLimitOrdersRequest) returns (ListLimitOrdersResponse) {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_READ
-      access_level: METHOD_ACCESS_LEVEL_AUTHENTICATED
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_TRADING_ADMIN,
         ROLE_TRADING_VIEWER,
@@ -116,7 +116,7 @@ service LimitOrderService {
   rpc SearchLimitOrders(SearchLimitOrdersRequest) returns (SearchLimitOrdersResponse) {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_READ
-      access_level: METHOD_ACCESS_LEVEL_AUTHENTICATED
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_TRADING_ADMIN,
         ROLE_TRADING_VIEWER,
@@ -136,7 +136,7 @@ service LimitOrderService {
   rpc MonitorLimitOrder(MonitorLimitOrderRequest) returns (stream LimitOrder) {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_READ
-      access_level: METHOD_ACCESS_LEVEL_AUTHENTICATED
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_TRADING_ADMIN,
         ROLE_TRADING_VIEWER,

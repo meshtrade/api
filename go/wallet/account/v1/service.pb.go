@@ -704,9 +704,9 @@ const file_meshtrade_wallet_account_v1_service_proto_rawDesc = "" +
 	"\x16SearchAccountsResponse\x12@\n" +
 	"\baccounts\x18\x01 \x03(\v2$.meshtrade.wallet.account.v1.AccountR\baccounts2\xb8\a\n" +
 	"\x0eAccountService\x12z\n" +
-	"\rCreateAccount\x121.meshtrade.wallet.account.v1.CreateAccountRequest\x1a$.meshtrade.wallet.account.v1.Account\"\x10\xb2\xb5\x18\f\b\x02\x10\x03\x1a\x06\xc0\x84=\u0084=\x12z\n" +
-	"\rUpdateAccount\x121.meshtrade.wallet.account.v1.UpdateAccountRequest\x1a$.meshtrade.wallet.account.v1.Account\"\x10\xb2\xb5\x18\f\b\x02\x10\x03\x1a\x06\xc0\x84=\u0084=\x12\x82\x01\n" +
-	"\vOpenAccount\x12/.meshtrade.wallet.account.v1.OpenAccountRequest\x1a0.meshtrade.wallet.account.v1.OpenAccountResponse\"\x10\xb2\xb5\x18\f\b\x02\x10\x03\x1a\x06\xc0\x84=\u0084=\x12z\n" +
+	"\rCreateAccount\x121.meshtrade.wallet.account.v1.CreateAccountRequest\x1a$.meshtrade.wallet.account.v1.Account\"\x10\xb2\xb5\x18\f\b\x02\x10\x02\x1a\x06\xc0\x84=\u0084=\x12z\n" +
+	"\rUpdateAccount\x121.meshtrade.wallet.account.v1.UpdateAccountRequest\x1a$.meshtrade.wallet.account.v1.Account\"\x10\xb2\xb5\x18\f\b\x02\x10\x02\x1a\x06\xc0\x84=\u0084=\x12\x82\x01\n" +
+	"\vOpenAccount\x12/.meshtrade.wallet.account.v1.OpenAccountRequest\x1a0.meshtrade.wallet.account.v1.OpenAccountResponse\"\x10\xb2\xb5\x18\f\b\x02\x10\x02\x1a\x06\xc0\x84=\u0084=\x12z\n" +
 	"\n" +
 	"GetAccount\x12..meshtrade.wallet.account.v1.GetAccountRequest\x1a$.meshtrade.wallet.account.v1.Account\"\x16\xb2\xb5\x18\x12\b\x01\x10\x02\x1a\f\xc0\x84=\xc1\x84=\u0084=Ä=\x12\x8a\x01\n" +
 	"\x12GetAccountByNumber\x126.meshtrade.wallet.account.v1.GetAccountByNumberRequest\x1a$.meshtrade.wallet.account.v1.Account\"\x16\xb2\xb5\x18\x12\b\x01\x10\x02\x1a\f\xc0\x84=\xc1\x84=\u0084=Ä=\x12\x8b\x01\n" +

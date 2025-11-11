@@ -36,7 +36,7 @@ service ClientService {
   rpc GetClient(GetClientRequest) returns (meshtrade.compliance.client.v1.Client) {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_READ
-      access_level: METHOD_ACCESS_LEVEL_AUTHENTICATED
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_COMPLIANCE_ADMIN,
         ROLE_COMPLIANCE_VIEWER,
@@ -53,7 +53,7 @@ service ClientService {
   rpc ListClients(ListClientsRequest) returns (ListClientsResponse) {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_READ
-      access_level: METHOD_ACCESS_LEVEL_AUTHENTICATED
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_COMPLIANCE_ADMIN,
         ROLE_COMPLIANCE_VIEWER,
@@ -70,9 +70,9 @@ message GetClientRequest {
   // The name serves as the primary identifier for the client resource.
   // Format: "clients/{client_id}"
   string name = 1 [(buf.validate.field) = {
-    required: true,
+    required: true
     string: {
-      len: 33,
+      len: 33
       pattern: "^clients/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
@@ -81,9 +81,7 @@ message GetClientRequest {
 // GetClientRequest is the message used to request a single client resource.
 message CreateClientRequest {
   // Client is the client resource to create.
-  meshtrade.compliance.client.v1.Client client = 1 [(buf.validate.field) = {
-    required: true
-  }];
+  meshtrade.compliance.client.v1.Client client = 1 [(buf.validate.field) = {required: true}];
 }
 
 // ListClientsRequest is the message used to request a list of client resources.

@@ -12,7 +12,7 @@ service MarketOrderService {
   rpc GetMarketOrder(GetMarketOrderRequest) returns (meshtrade.trading.market_order.v1.MarketOrder) {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_READ
-      access_level: METHOD_ACCESS_LEVEL_AUTHENTICATED
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_TRADING_ADMIN,
         ROLE_TRADING_VIEWER

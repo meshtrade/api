@@ -512,8 +512,8 @@ const file_meshtrade_iam_group_v1_service_proto_rawDesc = "" +
 	"\rname.required\x126name is required and must be in format groups/{ULIDv2}\x1a\x0esize(this) > 0\xba\x01\xb3\x01\n" +
 	"\vname.format\x12cname must be in format groups/{ULIDv2} where ulidv2 is exactly 26 uppercase alphanumeric characters\x1a?this.matches('^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')\xc8\x01\x01r3\x10\x012/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$R\x04name2\xe3\x04\n" +
 	"\fGroupService\x12l\n" +
-	"\vCreateGroup\x12*.meshtrade.iam.group.v1.CreateGroupRequest\x1a\x1d.meshtrade.iam.group.v1.Group\"\x12\xb2\xb5\x18\x0e\b\x02\x10\x03\x1a\b\xc0\x8d\xb7\x01č\xb7\x01\x12l\n" +
-	"\vUpdateGroup\x12*.meshtrade.iam.group.v1.UpdateGroupRequest\x1a\x1d.meshtrade.iam.group.v1.Group\"\x12\xb2\xb5\x18\x0e\b\x02\x10\x03\x1a\b\xc0\x8d\xb7\x01č\xb7\x01\x12\x7f\n" +
+	"\vCreateGroup\x12*.meshtrade.iam.group.v1.CreateGroupRequest\x1a\x1d.meshtrade.iam.group.v1.Group\"\x12\xb2\xb5\x18\x0e\b\x02\x10\x02\x1a\b\xc0\x8d\xb7\x01č\xb7\x01\x12l\n" +
+	"\vUpdateGroup\x12*.meshtrade.iam.group.v1.UpdateGroupRequest\x1a\x1d.meshtrade.iam.group.v1.Group\"\x12\xb2\xb5\x18\x0e\b\x02\x10\x02\x1a\b\xc0\x8d\xb7\x01č\xb7\x01\x12\x7f\n" +
 	"\n" +
 	"ListGroups\x12).meshtrade.iam.group.v1.ListGroupsRequest\x1a*.meshtrade.iam.group.v1.ListGroupsResponse\"\x1a\xb2\xb5\x18\x16\b\x01\x10\x02\x1a\x10\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01č\xb7\x01ō\xb7\x01\x12\x85\x01\n" +
 	"\fSearchGroups\x12+.meshtrade.iam.group.v1.SearchGroupsRequest\x1a,.meshtrade.iam.group.v1.SearchGroupsResponse\"\x1a\xb2\xb5\x18\x16\b\x01\x10\x02\x1a\x10\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01č\xb7\x01ō\xb7\x01\x12n\n" +

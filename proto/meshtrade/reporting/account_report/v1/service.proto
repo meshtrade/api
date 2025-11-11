@@ -32,7 +32,7 @@ service AccountReportService {
   rpc GetAccountReport(GetAccountReportRequest) returns (meshtrade.reporting.account_report.v1.AccountReport) {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_READ
-      access_level: METHOD_ACCESS_LEVEL_AUTHENTICATED
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_REPORTING_ADMIN,
         ROLE_REPORTING_VIEWER
@@ -49,7 +49,7 @@ service AccountReportService {
   rpc GetExcelAccountReport(GetExcelAccountReportRequest) returns (GetExcelAccountReportResponse) {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_READ
-      access_level: METHOD_ACCESS_LEVEL_AUTHENTICATED
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_REPORTING_ADMIN,
         ROLE_REPORTING_VIEWER
@@ -59,12 +59,12 @@ service AccountReportService {
 }
 
 /*
-  Defines the parameters for requesting a structured account report.
+   Defines the parameters for requesting a structured account report.
 */
 message GetAccountReportRequest {
   option (buf.validate.message).cel = {
-    id: "period.chronological.get",
-    message: "period_end must be on or after period_start",
+    id: "period.chronological.get"
+    message: "period_end must be on or after period_start"
     expression: "this.period_end > this.period_start"
   };
 
@@ -73,9 +73,7 @@ message GetAccountReportRequest {
      Must be a 7-digit number starting with '1'.
   */
   string account_number = 1 [(buf.validate.field) = {
-    string: {
-      pattern: "^1[0-9]{6}$"
-    }
+    string: {pattern: "^1[0-9]{6}$"}
   }];
 
   /*
@@ -97,12 +95,12 @@ message GetAccountReportRequest {
 }
 
 /*
-  Defines the parameters for requesting an Excel export of an account report.
+   Defines the parameters for requesting an Excel export of an account report.
 */
 message GetExcelAccountReportRequest {
   option (buf.validate.message).cel = {
-    id: "period.chronological.excel",
-    message: "period_end must be on or after period_start",
+    id: "period.chronological.excel"
+    message: "period_end must be on or after period_start"
     expression: "this.period_end >= this.period_start"
   };
 
@@ -111,9 +109,7 @@ message GetExcelAccountReportRequest {
      Must be a 7-digit number starting with '1'.
   */
   string account_number = 1 [(buf.validate.field) = {
-    string: {
-      pattern: "^1[0-9]{6}$"
-    }
+    string: {pattern: "^1[0-9]{6}$"}
   }];
 
   /*
@@ -135,7 +131,7 @@ message GetExcelAccountReportRequest {
 }
 
 /*
-  Contains the response for an Excel account report export.
+   Contains the response for an Excel account report export.
 */
 message GetExcelAccountReportResponse {
   /*
@@ -144,4 +140,3 @@ message GetExcelAccountReportResponse {
   */
   string excel_base64 = 1;
 }
-

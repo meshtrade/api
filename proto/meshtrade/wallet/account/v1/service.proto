@@ -14,9 +14,9 @@ option java_package = "co.meshtrade.api.wallet.account.v1";
    AccountService manages blockchain wallet accounts and their lifecycle operations (BETA).
 
    This service provides comprehensive account management capabilities across multiple
-   blockchain networks (Stellar, Solana, Bitcoin, Ethereum). Accounts serve as the 
+   blockchain networks (Stellar, Solana, Bitcoin, Ethereum). Accounts serve as the
    primary containers for holding and managing digital assets on the Mesh platform.
-   
+
    Key capabilities include account creation, opening on-chain, balance queries,
    and account lifecycle management. All operations are scoped to the authenticated
    group's hierarchy and require appropriate wallet domain permissions.
@@ -86,7 +86,7 @@ service AccountService {
   rpc GetAccount(GetAccountRequest) returns (meshtrade.wallet.account.v1.Account) {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_READ
-      access_level: METHOD_ACCESS_LEVEL_AUTHENTICATED
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_WALLET_ADMIN,
         ROLE_WALLET_VIEWER,
@@ -105,7 +105,7 @@ service AccountService {
   rpc GetAccountByNumber(GetAccountByNumberRequest) returns (meshtrade.wallet.account.v1.Account) {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_READ
-      access_level: METHOD_ACCESS_LEVEL_AUTHENTICATED
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_WALLET_ADMIN,
         ROLE_WALLET_VIEWER,
@@ -124,7 +124,7 @@ service AccountService {
   rpc ListAccounts(ListAccountsRequest) returns (ListAccountsResponse) {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_READ
-      access_level: METHOD_ACCESS_LEVEL_AUTHENTICATED
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_WALLET_ADMIN,
         ROLE_WALLET_VIEWER,
@@ -133,7 +133,6 @@ service AccountService {
       ]
     };
   }
-
 
   /*
      Searches accounts using flexible text criteria within the hierarchy.
@@ -144,7 +143,7 @@ service AccountService {
   rpc SearchAccounts(SearchAccountsRequest) returns (SearchAccountsResponse) {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_READ
-      access_level: METHOD_ACCESS_LEVEL_AUTHENTICATED
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_WALLET_ADMIN,
         ROLE_WALLET_VIEWER,
@@ -163,7 +162,7 @@ message CreateAccountRequest {
      The account configuration for creation.
      The name, number, ledger_id, and owners fields will be ignored and assigned by the system.
   */
-  meshtrade.wallet.account.v1.Account account = 1  [(buf.validate.field) = {required: true}];
+  meshtrade.wallet.account.v1.Account account = 1 [(buf.validate.field) = {required: true}];
 }
 
 /*
@@ -174,7 +173,7 @@ message UpdateAccountRequest {
      Complete account resource with updated fields.
      Only display_name can be modified.
   */
-  meshtrade.wallet.account.v1.Account account = 1  [(buf.validate.field) = {required: true}];
+  meshtrade.wallet.account.v1.Account account = 1 [(buf.validate.field) = {required: true}];
 }
 
 /*
@@ -187,7 +186,7 @@ message OpenAccountRequest {
   */
   string name = 1 [(buf.validate.field) = {
     string: {
-      len: 35,
+      len: 35
       pattern: "^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
@@ -219,11 +218,11 @@ message GetAccountRequest {
   */
   string name = 1 [(buf.validate.field) = {
     string: {
-      len: 35,
+      len: 35
       pattern: "^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
-  
+
   /*
      When true, fetches current balances and state from the blockchain.
      When false, returns only stored metadata without live data.
@@ -240,9 +239,7 @@ message GetAccountByNumberRequest {
      Must be a 7-digit number starting with '1'.
   */
   string account_number = 1 [(buf.validate.field) = {
-    string: {
-      pattern: "^1[0-9]{6}$"
-    }
+    string: {pattern: "^1[0-9]{6}$"}
   }];
 
   /*

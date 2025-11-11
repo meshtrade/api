@@ -557,8 +557,8 @@ const file_meshtrade_trading_limit_order_v1_service_proto_rawDesc = "" +
 	"\n" +
 	"identifier2\xf3\b\n" +
 	"\x11LimitOrderService\x12\x8f\x01\n" +
-	"\x10CreateLimitOrder\x129.meshtrade.trading.limit_order.v1.CreateLimitOrderRequest\x1a,.meshtrade.trading.limit_order.v1.LimitOrder\"\x12\xb2\xb5\x18\x0e\b\x02\x10\x03\x1a\b\xc0\x96\xb1\x02\u0096\xb1\x02\x12\x8f\x01\n" +
-	"\x10CancelLimitOrder\x129.meshtrade.trading.limit_order.v1.CancelLimitOrderRequest\x1a,.meshtrade.trading.limit_order.v1.LimitOrder\"\x12\xb2\xb5\x18\x0e\b\x02\x10\x03\x1a\b\xc0\x96\xb1\x02\u0096\xb1\x02\x12\x91\x01\n" +
+	"\x10CreateLimitOrder\x129.meshtrade.trading.limit_order.v1.CreateLimitOrderRequest\x1a,.meshtrade.trading.limit_order.v1.LimitOrder\"\x12\xb2\xb5\x18\x0e\b\x02\x10\x02\x1a\b\xc0\x96\xb1\x02\u0096\xb1\x02\x12\x8f\x01\n" +
+	"\x10CancelLimitOrder\x129.meshtrade.trading.limit_order.v1.CancelLimitOrderRequest\x1a,.meshtrade.trading.limit_order.v1.LimitOrder\"\x12\xb2\xb5\x18\x0e\b\x02\x10\x02\x1a\b\xc0\x96\xb1\x02\u0096\xb1\x02\x12\x91\x01\n" +
 	"\rGetLimitOrder\x126.meshtrade.trading.limit_order.v1.GetLimitOrderRequest\x1a,.meshtrade.trading.limit_order.v1.LimitOrder\"\x1a\xb2\xb5\x18\x16\b\x01\x10\x02\x1a\x10\xc0\x96\xb1\x02\xc1\x96\xb1\x02\u0096\xb1\x02Ö\xb1\x02\x12\xb7\x01\n" +
 	" GetLimitOrderByExternalReference\x12I.meshtrade.trading.limit_order.v1.GetLimitOrderByExternalReferenceRequest\x1a,.meshtrade.trading.limit_order.v1.LimitOrder\"\x1a\xb2\xb5\x18\x16\b\x01\x10\x02\x1a\x10\xc0\x96\xb1\x02\xc1\x96\xb1\x02\u0096\xb1\x02Ö\xb1\x02\x12\xa2\x01\n" +
 	"\x0fListLimitOrders\x128.meshtrade.trading.limit_order.v1.ListLimitOrdersRequest\x1a9.meshtrade.trading.limit_order.v1.ListLimitOrdersResponse\"\x1a\xb2\xb5\x18\x16\b\x01\x10\x02\x1a\x10\xc0\x96\xb1\x02\xc1\x96\xb1\x02\u0096\xb1\x02Ö\xb1\x02\x12\xa8\x01\n" +

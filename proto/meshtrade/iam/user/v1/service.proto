@@ -66,7 +66,7 @@ service UserService {
   rpc GetUser(GetUserRequest) returns (meshtrade.iam.user.v1.User) {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_READ
-      access_level: METHOD_ACCESS_LEVEL_AUTHENTICATED
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_IAM_ADMIN,
         ROLE_IAM_VIEWER,
@@ -85,7 +85,7 @@ service UserService {
   rpc GetUserByEmail(GetUserByEmailRequest) returns (meshtrade.iam.user.v1.User) {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_READ
-      access_level: METHOD_ACCESS_LEVEL_AUTHENTICATED
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_IAM_ADMIN,
         ROLE_IAM_VIEWER,
@@ -104,7 +104,7 @@ service UserService {
   rpc ListUsers(ListUsersRequest) returns (ListUsersResponse) {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_READ
-      access_level: METHOD_ACCESS_LEVEL_AUTHENTICATED
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_IAM_ADMIN,
         ROLE_IAM_VIEWER,
@@ -124,7 +124,7 @@ service UserService {
   rpc SearchUsers(SearchUsersRequest) returns (SearchUsersResponse) {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_READ
-      access_level: METHOD_ACCESS_LEVEL_AUTHENTICATED
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_IAM_ADMIN,
         ROLE_IAM_VIEWER,
