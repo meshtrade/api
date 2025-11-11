@@ -1,7 +1,10 @@
 import co.meshtrade.api.testing.ledger.token_tap.LedgerService;
 import co.meshtrade.api.testing.ledger.token_tap.Service.MintTokenRequest;
-import co.meshtrade.api.testing.ledger.token_tap.Service.MintTokenResponse;
+import co.meshtrade.api.type.v1.Amount;
+import co.meshtrade.api.type.v1.Token;
+import co.meshtrade.api.type.v1.Ledger;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 public class MintTokenExample {
@@ -12,14 +15,29 @@ public class MintTokenExample {
         try (LedgerService service = new LedgerService()) {
             // Create request with service-specific parameters
             MintTokenRequest request = MintTokenRequest.newBuilder()
-                // FIXME: Populate service-specific request fields
+                .setAmount(
+                    Amount.newBuilder()
+                        .setToken(
+                            Token.newBuilder()
+                                .setCode("mZAR")
+                                .setIssuer("Emcuqgub4rddZMceYqg5tJHGbtn9AhjdYnmvK9qrkR6b")
+                                .setLedger(Ledger.LEDGER_SOLANA)
+                                .build()
+                        )
+                        .setValue(
+                            co.meshtrade.api.type.v1.Decimal.newBuilder()
+                                .setValue(new BigDecimal("10").toPlainString())
+                                .build()
+                        )
+                        .build()
+                )
+                .setAddress("2kUctW3vK9jBHVE2aUjMqqeZvCHqT5ggZBv5p3nggj1P")
                 .build();
 
             // Call the MintToken method
-            MintTokenResponse response = service.mintToken(request, Optional.empty());
+            service.mintToken(request, Optional.empty());
 
-            // FIXME: Add relevant response object usage
-            System.out.println("MintToken successful: " + response);
+            System.out.println("MintToken successful");
         } catch (Exception e) {
             System.err.println("MintToken failed: " + e.getMessage());
             e.printStackTrace();
