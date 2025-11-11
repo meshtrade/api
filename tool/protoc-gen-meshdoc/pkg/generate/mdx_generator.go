@@ -124,13 +124,22 @@ func generateMethodDoc(plugin *protogen.Plugin, serviceInfo *ServiceInfo, method
 	filename := filepath.Join(domain, serviceName, version, "service", methodPath, "index.mdx")
 	file := plugin.NewGeneratedFile(filename, "")
 
-	// Format roles
+	// Build fully qualified method name (FQN)
+	fqn := fmt.Sprintf("%s.%s.%s", serviceInfo.Package, serviceInfo.Name, method.Name)
+
+	// Build fully qualified request message name
+	requestMessage := fmt.Sprintf("%s.%s", serviceInfo.Package, method.RequestType)
+
+	// Build fully qualified response message name
+	responseMessage := method.ResponseType
+
+	// Format roles (legacy string format for compatibility)
 	rolesStr := strings.Join(method.Roles, ", ")
 	if rolesStr == "" {
 		rolesStr = "auto-generated from proto file"
 	}
 
-	// Format parameters
+	// Format parameters (legacy string format for compatibility)
 	var parametersStr string
 	if len(method.Parameters) > 0 {
 		var paramParts []string
@@ -148,14 +157,60 @@ func generateMethodDoc(plugin *protogen.Plugin, serviceInfo *ServiceInfo, method
 		parametersStr = "No parameters"
 	}
 
+	// Convert parameters to template data for structured table generation
+	var paramTemplateData []FieldTemplateData
+	for _, param := range method.Parameters {
+		paramTemplateData = append(paramTemplateData, FieldTemplateData{
+			Name:        param.Name,
+			Type:        param.Type,
+			Description: param.Description,
+			Required:    param.Required,
+			Validation:  param.Validation,
+		})
+	}
+
+	// Detect if return type is a resource (domain entity) vs response message
+	isResourceReturn := !strings.HasSuffix(method.Returns, "Response")
+
+	// Generate return type URL for resource types
+	var returnTypeURL string
+	if isResourceReturn {
+		// Extract domain/resource/version from response type
+		// ResponseType format: meshtrade.domain.resource.version.TypeName
+		typeParts := strings.Split(responseMessage, ".")
+		if len(typeParts) >= 5 && typeParts[0] == "meshtrade" {
+			typeDomain := typeParts[1]
+			typeResource := typeParts[2]
+			typeVersion := typeParts[3]
+			typeName := typeParts[len(typeParts)-1]
+
+			// Generate kebab-case type name
+			kebabTypeName := properKebabCase(typeName)
+
+			// Build URL: /docs/api-reference/{domain}/{resource}/{version}/type/{kebab-case-name}
+			returnTypeURL = fmt.Sprintf("/docs/api-reference/%s/%s/%s/type/%s",
+				typeDomain, typeResource, typeVersion, kebabTypeName)
+		}
+	}
+
 	// Prepare template data
 	data := MethodDocData{
 		Name:               method.Name,
 		Description:        method.Description,
+		FQN:                fqn,
+		MethodType:         method.MethodType,
+		AccessLevel:        method.AccessLevel,
+		Roles:              method.Roles,
 		RolesStr:           rolesStr,
 		ParametersStr:      parametersStr,
+		RequestType:        method.RequestType,
+		ResponseType:       method.ResponseType,
 		Returns:            method.Returns,
-		MethodType:         method.MethodType,
+		RequestMessage:     requestMessage,
+		ResponseMessage:    responseMessage,
+		Parameters:         paramTemplateData,
+		IsResourceReturn:   isResourceReturn,
+		ReturnTypeURL:      returnTypeURL,
 		IsServerStreaming:  method.IsServerStreaming,
 		ProtoPath:          serviceInfo.ProtoPath,
 		Domain:             domain,

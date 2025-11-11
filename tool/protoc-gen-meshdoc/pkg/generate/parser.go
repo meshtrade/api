@@ -2,11 +2,46 @@ package generate
 
 import (
 	"fmt"
+	"os"
 	"strings"
 
 	validate "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	"google.golang.org/protobuf/compiler/protogen"
+	"google.golang.org/protobuf/encoding/protowire"
 	"google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/reflect/protoreflect"
+)
+
+var debugFile *os.File
+var debugEnabled bool
+
+func init() {
+	// Only enable debug logging if DEBUG_MESHDOC environment variable is set
+	debugEnabled = os.Getenv("DEBUG_MESHDOC") != ""
+	if debugEnabled {
+		var err error
+		debugFile, err = os.Create("/tmp/protoc-gen-meshdoc-debug.log")
+		if err != nil {
+			panic(err)
+		}
+	}
+}
+
+func debugLog(format string, args ...interface{}) {
+	if debugEnabled && debugFile != nil {
+		fmt.Fprintf(debugFile, format+"\n", args...)
+		debugFile.Sync()
+	}
+}
+
+const (
+	// Extension tag for meshtrade.option.method_options.v1.method_options
+	methodOptionsExtension = 50006
+
+	// Field numbers within MethodOptions message
+	methodTypeFieldNumber   = 1 // type field (MethodType enum)
+	accessLevelFieldNumber  = 2 // access_level field (MethodAccessLevel enum)
+	rolesFieldNumber        = 3 // roles field (repeated Role enum)
 )
 
 // ServiceInfo holds parsed information about a protobuf service
@@ -24,10 +59,12 @@ type MethodInfo struct {
 	Description       string
 	Roles             []string
 	MethodType        string
+	AccessLevel       string // NEW: Access level from method_options (e.g., METHOD_ACCESS_LEVEL_AUTHENTICATED)
 	Parameters        []FieldInfo
 	Returns           string
 	RequestType       string
-	IsServerStreaming bool // Indicates if this method uses server-side streaming
+	ResponseType      string // NEW: Fully qualified response type name
+	IsServerStreaming bool   // Indicates if this method uses server-side streaming
 }
 
 // FieldInfo holds information about message fields
@@ -66,16 +103,18 @@ func ParseService(file *protogen.File, service *protogen.Service) (*ServiceInfo,
 // parseMethod extracts information from a service method
 func parseMethod(method *protogen.Method) (*MethodInfo, error) {
 	methodInfo := &MethodInfo{
-		Name:        method.GoName,
-		Description: extractComment(method.Comments.Leading),
-		RequestType: method.Input.GoIdent.GoName,
-		Returns:     method.Output.GoIdent.GoName,
+		Name:         method.GoName,
+		Description:  extractComment(method.Comments.Leading),
+		RequestType:  method.Input.GoIdent.GoName,
+		Returns:      method.Output.GoIdent.GoName,
+		ResponseType: string(method.Output.Desc.FullName()), // Fully qualified type name
 	}
 
-	// Extract roles and method type from comment and method description
-	commentsText := string(method.Comments.Leading)
-	methodInfo.Roles = extractRolesFromText(commentsText)
-	methodInfo.MethodType = extractMethodTypeFromText(commentsText)
+	// Extract method options from protobuf extension (type, access_level, roles)
+	methodType, accessLevel, roles := extractMethodOptions(method)
+	methodInfo.MethodType = methodType
+	methodInfo.AccessLevel = accessLevel
+	methodInfo.Roles = roles
 
 	// Detect server-streaming methods
 	methodInfo.IsServerStreaming = method.Desc.IsStreamingServer()
@@ -84,6 +123,341 @@ func parseMethod(method *protogen.Method) (*MethodInfo, error) {
 	methodInfo.Parameters = parseMessageFields(method.Input)
 
 	return methodInfo, nil
+}
+
+// getEnumNameMap builds a map of enum number -> enum name from an enum descriptor
+// This is a generic function that can find any enum by its fully-qualified name
+func getEnumNameMap(method *protogen.Method, enumFullName string) map[int32]string {
+	enumMap := make(map[int32]string)
+
+	// Helper function to search for the enum in a file descriptor
+	searchFileForEnum := func(fileDesc protoreflect.FileDescriptor) bool {
+		enums := fileDesc.Enums()
+		for j := 0; j < enums.Len(); j++ {
+			enum := enums.Get(j)
+			if string(enum.FullName()) == enumFullName {
+				// Found the enum! Build the map
+				values := enum.Values()
+				for k := 0; k < values.Len(); k++ {
+					value := values.Get(k)
+					enumMap[int32(value.Number())] = string(value.Name())
+				}
+				debugLog("Found enum %s with %d entries in %s\n", enumFullName, len(enumMap), fileDesc.Path())
+				return true
+			}
+		}
+		return false
+	}
+
+	// Search through all imported files for the enum
+	imports := method.Parent.Desc.ParentFile().Imports()
+	for i := 0; i < imports.Len(); i++ {
+		fileDesc := imports.Get(i).FileDescriptor
+
+		// Check if this file contains the enum
+		if searchFileForEnum(fileDesc) {
+			return enumMap
+		}
+
+		// Also search this file's imports (transitive search)
+		// This is important because service.proto -> method_options.proto -> role.proto
+		transImports := fileDesc.Imports()
+		for j := 0; j < transImports.Len(); j++ {
+			transFileDesc := transImports.Get(j).FileDescriptor
+			if searchFileForEnum(transFileDesc) {
+				return enumMap
+			}
+		}
+	}
+
+	debugLog("Enum %s not found in imports\n", enumFullName)
+	return enumMap
+}
+
+// getRoleNameMap builds a map of role number -> role name from the Role enum descriptor
+func getRoleNameMap(method *protogen.Method) map[int32]string {
+	return getEnumNameMap(method, "meshtrade.iam.role.v1.Role")
+}
+
+// getMethodTypeNameMap builds a map of method type number -> method type name from the MethodType enum descriptor
+func getMethodTypeNameMap(method *protogen.Method) map[int32]string {
+	return getEnumNameMap(method, "meshtrade.option.method_options.v1.MethodType")
+}
+
+// getAccessLevelNameMap builds a map of access level number -> access level name from the MethodAccessLevel enum descriptor
+func getAccessLevelNameMap(method *protogen.Method) map[int32]string {
+	return getEnumNameMap(method, "meshtrade.option.method_options.v1.MethodAccessLevel")
+}
+
+// extractMethodOptionsFromBytes parses the raw protobuf wire format bytes
+// of the MethodOptions message and returns the parsed values
+func extractMethodOptionsFromBytes(methodName string, data []byte, methodTypeMap, accessLevelMap, roleMap map[int32]string) (methodType string, accessLevel string, roles []string) {
+	// Default values
+	methodType = "Unknown"
+	accessLevel = "Unknown"
+	var roleNumbers []int32
+
+	// Parse the wire format
+	pos := 0
+	for pos < len(data) {
+		// Read field tag
+		tag, n := protowire.ConsumeVarint(data[pos:])
+		if n < 0 {
+			debugLog("DEBUG [%s]: Failed to read tag in extension bytes\n", methodName)
+			return
+		}
+		pos += n
+
+		fieldNum := protowire.Number(tag >> 3)
+		wireType := protowire.Type(tag & 0x7)
+
+		switch fieldNum {
+		case methodTypeFieldNumber:
+			if wireType == protowire.VarintType {
+				typeNum, n := protowire.ConsumeVarint(data[pos:])
+				if n < 0 {
+					debugLog("[%s] Failed to read type value\n", methodName)
+					return
+				}
+				pos += n
+				// Map enum number to name using dynamic map
+				if typeName, ok := methodTypeMap[int32(typeNum)]; ok {
+					methodType = typeName
+				} else {
+					methodType = "METHOD_TYPE_UNSPECIFIED"
+				}
+			}
+		case accessLevelFieldNumber:
+			if wireType == protowire.VarintType {
+				accessNum, n := protowire.ConsumeVarint(data[pos:])
+				if n < 0 {
+					debugLog("[%s] Failed to read access_level value\n", methodName)
+					return
+				}
+				pos += n
+				// Map enum number to name using dynamic map
+				if accessName, ok := accessLevelMap[int32(accessNum)]; ok {
+					accessLevel = accessName
+				} else {
+					accessLevel = "METHOD_ACCESS_LEVEL_UNSPECIFIED"
+				}
+			}
+		case rolesFieldNumber:
+			if wireType == protowire.BytesType {
+				// Packed repeated field - read the length-delimited bytes containing multiple varints
+				packedBytes, n := protowire.ConsumeBytes(data[pos:])
+				if n < 0 {
+					debugLog("[%s] Failed to read packed roles bytes\n", methodName)
+					return
+				}
+				pos += n
+
+				// Parse the packed varints
+				packedPos := 0
+				for packedPos < len(packedBytes) {
+					roleNum, n := protowire.ConsumeVarint(packedBytes[packedPos:])
+					if n < 0 {
+						debugLog("[%s] Failed to parse role from packed bytes\n", methodName)
+						break
+					}
+					packedPos += n
+					roleNumbers = append(roleNumbers, int32(roleNum))
+				}
+			} else if wireType == protowire.VarintType {
+				// Non-packed repeated field (individual varints)
+				roleNum, n := protowire.ConsumeVarint(data[pos:])
+				if n < 0 {
+					debugLog("[%s] Failed to read role value\n", methodName)
+					return
+				}
+				pos += n
+				roleNumbers = append(roleNumbers, int32(roleNum))
+			}
+		default:
+			// Skip unknown fields
+			switch wireType {
+			case protowire.VarintType:
+				_, n = protowire.ConsumeVarint(data[pos:])
+			case protowire.Fixed64Type:
+				_, n = protowire.ConsumeFixed64(data[pos:])
+			case protowire.BytesType:
+				_, n = protowire.ConsumeBytes(data[pos:])
+			case protowire.Fixed32Type:
+				_, n = protowire.ConsumeFixed32(data[pos:])
+			default:
+				debugLog("[%s] Unknown wire type in extension: %d\n", methodName, wireType)
+				return
+			}
+			if n < 0 {
+				debugLog("[%s] Failed to skip unknown field in extension\n", methodName)
+				return
+			}
+			pos += n
+		}
+	}
+
+	// Convert role numbers to role names using the provided roleMap
+	for _, roleNum := range roleNumbers {
+		if roleName, ok := roleMap[roleNum]; ok {
+			roles = append(roles, roleName)
+		} else {
+			// Fallback to numeric representation if role not found in map
+			roleName := fmt.Sprintf("ROLE_ENUM_%d", roleNum)
+			roles = append(roles, roleName)
+			debugLog("[%s] Role %d not in map, using %s\n", methodName, roleNum, roleName)
+		}
+	}
+
+	debugLog("[%s] Parsed: type=%s, access=%s, roles=%v\n", methodName, methodType, accessLevel, roles)
+
+	return methodType, accessLevel, roles
+}
+
+// extractMethodOptions reads method options from proto extension without importing generated code
+// This avoids circular dependency on generated Go code.
+func extractMethodOptions(method *protogen.Method) (methodType, accessLevel string, roles []string) {
+	// Default values if extension not found
+	methodType = "Unknown"
+	accessLevel = "Unknown"
+	roles = []string{"Check proto file for roles"}
+
+	// Get method options
+	methodOpts := method.Desc.Options()
+	if methodOpts == nil {
+		return
+	}
+
+	// Get the protoreflect message
+	methodOptsMsg := methodOpts.ProtoReflect()
+
+	// Try to find the extension descriptor from the parent file
+	// Look for extensions named "method_options" in imported files
+	var extensionField protoreflect.FieldDescriptor
+
+	// Search through all imported files for the extension descriptor
+	imports := method.Parent.Desc.ParentFile().Imports()
+	for i := 0; i < imports.Len(); i++ {
+		fileDesc := imports.Get(i).FileDescriptor
+		exts := fileDesc.Extensions()
+		// Check if this file contains our extension
+		for j := 0; j < exts.Len(); j++ {
+			ext := exts.Get(j)
+			if ext.Number() == methodOptionsExtension &&
+			   string(ext.FullName()) == "meshtrade.option.method_options.v1.method_options" {
+				extensionField = ext
+				debugLog("[%s] Found extension descriptor in %s\n", method.GoName, fileDesc.Path())
+				break
+			}
+		}
+		if extensionField != nil {
+			break
+		}
+	}
+
+	// If we didn't find the extension descriptor, try the method's own file
+	if extensionField == nil {
+		exts := method.Parent.Desc.ParentFile().Extensions()
+		for i := 0; i < exts.Len(); i++ {
+			ext := exts.Get(i)
+			if ext.Number() == methodOptionsExtension &&
+			   string(ext.FullName()) == "meshtrade.option.method_options.v1.method_options" {
+				extensionField = ext
+				debugLog("[%s] Found extension in method's own file\n", method.GoName)
+				break
+			}
+		}
+	}
+
+	// If we still don't have the extension, return defaults
+	if extensionField == nil {
+		debugLog("[%s] Extension descriptor not found\n", method.GoName)
+		return
+	}
+
+	// APPROACH: Parse extension from unknown fields
+	// When extensions aren't registered (to avoid circular deps), they're stored in unknown fields
+	// We need to manually parse the wire format from unknown fields
+
+	// Get unknown fields from the message
+	unknownFields := methodOptsMsg.GetUnknown()
+
+	if len(unknownFields) == 0 {
+		return
+	}
+
+	// Parse the unknown fields looking for our extension number (50006)
+	// Wire format: field number is (tag >> 3), wire type is (tag & 0x7)
+	// For a length-delimited field (messages), wire type is 2
+
+	var extensionBytes []byte
+	pos := 0
+	for pos < len(unknownFields) {
+		if pos >= len(unknownFields) {
+			break
+		}
+
+		// Read varint tag
+		tag, n := protowire.ConsumeVarint(unknownFields[pos:])
+		if n < 0 {
+			debugLog("[%s] Failed to read tag at pos %d\n", method.GoName, pos)
+			break
+		}
+		pos += n
+
+		fieldNum := protowire.Number(tag >> 3)
+		wireType := protowire.Type(tag & 0x7)
+
+		if fieldNum == protowire.Number(methodOptionsExtension) && wireType == protowire.BytesType {
+			// Found our extension! Read the length-delimited value
+			extensionBytes, n = protowire.ConsumeBytes(unknownFields[pos:])
+			if n < 0 {
+				debugLog("[%s] Failed to read extension bytes\n", method.GoName)
+				return
+			}
+			debugLog("[%s] Found extension: %d bytes\n", method.GoName, len(extensionBytes))
+			break
+		}
+
+		// Skip this field's value based on wire type
+		switch wireType {
+		case protowire.VarintType:
+			_, n = protowire.ConsumeVarint(unknownFields[pos:])
+		case protowire.Fixed64Type:
+			_, n = protowire.ConsumeFixed64(unknownFields[pos:])
+		case protowire.BytesType:
+			_, n = protowire.ConsumeBytes(unknownFields[pos:])
+		case protowire.Fixed32Type:
+			_, n = protowire.ConsumeFixed32(unknownFields[pos:])
+		default:
+			debugLog("[%s] Unknown wire type %d\n", method.GoName, wireType)
+			return
+		}
+		if n < 0 {
+			debugLog("[%s] Failed to skip field value\n", method.GoName)
+			return
+		}
+		pos += n
+	}
+
+	if extensionBytes == nil {
+		debugLog("[%s] Extension field not found in unknown fields\n", method.GoName)
+		return
+	}
+
+	// Now we have the raw bytes of the MethodOptions message
+	// We need to parse it manually to extract the three fields:
+	// 1 = type (enum)
+	// 2 = access_level (enum)
+	// 3 = roles (repeated enum)
+
+	// Build enum name maps from descriptors
+	methodTypeMap := getMethodTypeNameMap(method)
+	accessLevelMap := getAccessLevelNameMap(method)
+	roleMap := getRoleNameMap(method)
+
+	methodType, accessLevel, roles = extractMethodOptionsFromBytes(method.GoName, extensionBytes, methodTypeMap, accessLevelMap, roleMap)
+
+	return
 }
 
 // parseMessageFields extracts field information from a message
@@ -210,7 +584,7 @@ func extractValidationRules(field *protogen.Field) (required bool, validation st
 
 	// Join all validation parts
 	validation = strings.Join(validationParts, " | ")
-	
+
 	// Sanitize for table safety
 	validation = sanitizeForTable(validation)
 
@@ -223,12 +597,12 @@ func parseMessageFields(message *protogen.Message) []FieldInfo {
 	for _, field := range message.Fields {
 		// Extract validation rules from buf.validate annotations
 		required, validation := extractValidationRules(field)
-		
+
 		// Fall back to presence check if no validation rules found
 		if !required {
 			required = field.Desc.HasPresence()
 		}
-		
+
 		fieldInfo := FieldInfo{
 			Name:        field.GoName,
 			Type:        field.Desc.Kind().String(),
@@ -257,65 +631,6 @@ func extractComment(comments protogen.Comments) string {
 
 	return text
 }
-
-// extractRolesFromText extracts role information from comment text
-func extractRolesFromText(commentText string) []string {
-	var roles []string
-	
-	// Look for "Authorization: Requires" pattern in comments
-	lines := strings.Split(commentText, "\n")
-	for _, line := range lines {
-		line = strings.TrimSpace(line)
-		if strings.Contains(line, "Authorization:") && strings.Contains(line, "Requires") {
-			// Extract roles from this line
-			// Pattern: "Authorization: Requires ROLE_IAM_ADMIN or ROLE_IAM_VIEWER"
-			roleStr := strings.Split(line, "Requires")[1]
-			roleStr = strings.TrimSpace(roleStr)
-			
-			// Split by "or" and "and" to get individual roles
-			roleParts := strings.Split(roleStr, " or ")
-			for _, part := range roleParts {
-				part = strings.TrimSpace(part)
-				andParts := strings.Split(part, " and ")
-				for _, andPart := range andParts {
-					andPart = strings.TrimSpace(andPart)
-					if strings.HasPrefix(andPart, "ROLE_") {
-						roles = append(roles, andPart)
-					}
-				}
-			}
-		}
-	}
-	
-	if len(roles) == 0 {
-		return []string{"Check proto file for roles"}
-	}
-	
-	return roles
-}
-
-// extractMethodTypeFromText extracts method type from comment text
-func extractMethodTypeFromText(commentText string) string {
-	// For now, we can't easily extract this from comments since it's in the option
-	// Let's use a simple heuristic based on method name patterns
-	if strings.Contains(strings.ToLower(commentText), "get") ||
-		strings.Contains(strings.ToLower(commentText), "list") ||
-		strings.Contains(strings.ToLower(commentText), "search") ||
-		strings.Contains(strings.ToLower(commentText), "retriev") {
-		return "METHOD_TYPE_READ"
-	}
-	
-	if strings.Contains(strings.ToLower(commentText), "creat") ||
-		strings.Contains(strings.ToLower(commentText), "updat") ||
-		strings.Contains(strings.ToLower(commentText), "delet") ||
-		strings.Contains(strings.ToLower(commentText), "activat") ||
-		strings.Contains(strings.ToLower(commentText), "deactivat") {
-		return "METHOD_TYPE_WRITE"
-	}
-	
-	return "Unknown"
-}
-
 
 // getServiceDomain extracts domain from package name (e.g., "meshtrade.iam.api_user.v1" -> "iam")
 func getServiceDomain(packageName string) string {
