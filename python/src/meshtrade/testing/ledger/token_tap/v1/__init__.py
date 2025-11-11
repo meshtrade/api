@@ -13,6 +13,16 @@
 # ===================================================================
 
 # Generated protobuf imports
+from .option_pb2 import (
+    MintTokenOptions,
+    SolanaMintOption,
+    SolanaMintOptions,
+    SolanaMintToken,
+    SolanaMintTokenOption,
+    StellarMintOption,
+    StellarMintOptions,
+    StellarMintTokenWithMemo,
+)
 from .service_pb2 import (
     InitialiseTokenTapsRequest,
     InitialiseTokenTapsResponse,
@@ -53,8 +63,16 @@ __all__ = [
     "InitialiseTokenTapsResponse",
     "ListTokenTapsRequest",
     "ListTokenTapsResponse",
+    "MintTokenOptions",
     "MintTokenRequest",
     "MintTokenResponse",
+    "SolanaMintOption",
+    "SolanaMintOptions",
+    "SolanaMintToken",
+    "SolanaMintTokenOption",
+    "StellarMintOption",
+    "StellarMintOptions",
+    "StellarMintTokenWithMemo",
     "TokenTapService",
     "TokenTapServiceGRPCClient",
     "TokenTapServiceGRPCClientInterface",

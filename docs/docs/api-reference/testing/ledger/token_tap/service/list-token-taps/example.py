@@ -1,6 +1,5 @@
 from meshtrade.testing.ledger.token_tap import (
     LedgerService,
-    ListTokenTapsRequest,
 )
 
 
@@ -11,16 +10,12 @@ def main():
     service = LedgerService()
 
     with service:
-        # Create request with service-specific parameters
-        request = ListTokenTapsRequest(
-            # FIXME: Populate service-specific request fields
-        )
+        # Call the ListTokenTaps method (no request parameters)
+        response = service.list_token_taps()
 
-        # Call the ListTokenTaps method
-        response = service.list_token_taps(request)
-
-        # FIXME: Add relevant response object usage
-        print("ListTokenTaps successful:", response)
+        # Process the response tokens
+        for token in response.token:
+            print(f"Token - Code: {token.code}, Issuer: {token.issuer}, Ledger: {token.ledger}")
 
 
 if __name__ == "__main__":

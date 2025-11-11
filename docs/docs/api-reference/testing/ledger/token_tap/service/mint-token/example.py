@@ -1,7 +1,10 @@
+from decimal import Decimal
+
 from meshtrade.testing.ledger.token_tap import (
     LedgerService,
     MintTokenRequest,
 )
+from meshtrade.type.v1 import Amount, Ledger, Token
 
 
 def main():
@@ -13,14 +16,21 @@ def main():
     with service:
         # Create request with service-specific parameters
         request = MintTokenRequest(
-            # FIXME: Populate service-specific request fields
+            amount=Amount(
+                token=Token(
+                    code="mZAR",
+                    issuer="Emcuqgub4rddZMceYqg5tJHGbtn9AhjdYnmvK9qrkR6b",
+                    ledger=Ledger.LEDGER_SOLANA,
+                ),
+                value=Decimal("10"),
+            ),
+            address="2kUctW3vK9jBHVE2aUjMqqeZvCHqT5ggZBv5p3nggj1P",
         )
 
         # Call the MintToken method
-        response = service.mint_token(request)
+        service.mint_token(request)
 
-        # FIXME: Add relevant response object usage
-        print("MintToken successful:", response)
+        print("MintToken successful")
 
 
 if __name__ == "__main__":

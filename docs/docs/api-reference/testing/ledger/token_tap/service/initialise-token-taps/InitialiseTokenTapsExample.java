@@ -1,5 +1,6 @@
 import co.meshtrade.api.testing.ledger.token_tap.LedgerService;
 import co.meshtrade.api.testing.ledger.token_tap.Service.InitialiseTokenTapsRequest;
+import co.meshtrade.api.testing.ledger.token_tap.Service.InitialiseTokenTapsResponse;
 
 import java.util.Optional;
 
@@ -11,13 +12,10 @@ public class InitialiseTokenTapsExample {
         try (LedgerService service = new LedgerService()) {
             // Create request with service-specific parameters
             InitialiseTokenTapsRequest request = InitialiseTokenTapsRequest.newBuilder()
-                .setNumber("1")
                 .build();
 
             // Call the InitialiseTokenTaps method
             service.initialiseTokenTaps(request, Optional.empty());
-
-            System.out.println("InitialiseTokenTaps successful");
         } catch (Exception e) {
             System.err.println("InitialiseTokenTaps failed: " + e.getMessage());
             e.printStackTrace();

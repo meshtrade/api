@@ -4,6 +4,7 @@ package meshtrade.testing.ledger.token_tap.v1;
 
 import "meshtrade/iam/role/v1/role.proto";
 import "meshtrade/option/v1/method_type.proto";
+import "meshtrade/testing/ledger/token_tap/v1/option.proto";
 import "meshtrade/type/v1/amount.proto";
 import "meshtrade/type/v1/token.proto";
 
@@ -44,21 +45,20 @@ service TokenTapService {
   }
 }
 
-message InitialiseTokenTapsRequest {
-  string number = 1;
-}
+message InitialiseTokenTapsRequest {}
 
 message InitialiseTokenTapsResponse {}
 
 message ListTokenTapsRequest {}
 
 message ListTokenTapsResponse {
-  repeated type.v1.Token token = 1;
+  repeated type.v1.Token tokens = 1;
 }
 
 message MintTokenRequest {
   type.v1.Amount amount = 1;
   string address = 2;
+  meshtrade.testing.ledger.token_tap.v1.MintTokenOptions options = 3;
 }
 
 message MintTokenResponse {}

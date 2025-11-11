@@ -13,14 +13,13 @@ def main():
     with service:
         # Create request with service-specific parameters
         request = InitialiseTokenTapsRequest(
-            # FIXME: Populate service-specific request fields
+            number="1",
         )
 
         # Call the InitialiseTokenTaps method
-        response = service.initialise_token_taps(request)
+        service.initialise_token_taps(request)
 
-        # FIXME: Add relevant response object usage
-        print("InitialiseTokenTaps successful:", response)
+        print("InitialiseTokenTaps successful")
 
 
 if __name__ == "__main__":
