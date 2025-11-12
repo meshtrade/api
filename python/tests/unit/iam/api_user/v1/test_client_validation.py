@@ -9,16 +9,16 @@ import pytest
 from protovalidate import Validator
 
 from meshtrade.iam.api_user.v1.api_user_pb2 import APIUser, APIUserState
-from meshtrade.iam.api_user.v1.service_pb2 import CreateApiUserRequest
+from meshtrade.iam.api_user.v1.service_pb2 import CreateAPIUserRequest
 
 
-class TestApiUserServiceClientValidation:
+class TestAPIUserServiceClientValidation:
     """Test client-side validation for Python API User service."""
 
     def test_create_api_user_valid_request_passes_validation(self):
         """Test that a valid CreateApiUser request passes validation."""
         # Create a valid request
-        request = CreateApiUserRequest(
+        request = CreateAPIUserRequest(
             api_user=APIUser(
                 owner="groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
                 display_name="Test API User",
@@ -41,7 +41,7 @@ class TestApiUserServiceClientValidation:
     def test_create_api_user_invalid_owner_fails_validation(self):
         """Test that an invalid owner fails validation."""
         # Create an invalid request - empty owner
-        request = CreateApiUserRequest(
+        request = CreateAPIUserRequest(
             api_user=APIUser(
                 owner="",  # Invalid: empty owner
                 display_name="Test API User",
@@ -65,7 +65,7 @@ class TestApiUserServiceClientValidation:
     def test_create_api_user_invalid_display_name_fails_validation(self):
         """Test that an empty display name fails validation."""
         # Create an invalid request - empty display name
-        request = CreateApiUserRequest(
+        request = CreateAPIUserRequest(
             api_user=APIUser(
                 owner="groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
                 display_name="",  # Invalid: empty display name
@@ -90,7 +90,7 @@ class TestApiUserServiceClientValidation:
         """Test that a display name that's too long fails validation."""
         # Create an invalid request - display name too long (max 255 chars)
         long_display_name = "a" * 256
-        request = CreateApiUserRequest(
+        request = CreateAPIUserRequest(
             api_user=APIUser(
                 owner="groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
                 display_name=long_display_name,
@@ -164,7 +164,7 @@ def example_python_client_validation_errors():
 
     ```python
     from meshtrade.iam.api_user.v1.service_meshpy import ApiUserService
-    from meshtrade.iam.api_user.v1.service_pb2 import CreateApiUserRequest
+    from meshtrade.iam.api_user.v1.service_pb2 import CreateAPIUserRequest
     from meshtrade.iam.api_user.v1.api_user_pb2 import APIUser
 
     # Create service instance

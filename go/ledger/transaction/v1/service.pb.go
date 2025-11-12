@@ -8,8 +8,7 @@ package transaction_v1
 
 import (
 	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
-	_ "github.com/meshtrade/api/go/iam/role/v1"
-	_ "github.com/meshtrade/api/go/option/v1"
+	_ "github.com/meshtrade/api/go/option/method_options/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -208,7 +207,7 @@ var File_meshtrade_ledger_transaction_v1_service_proto protoreflect.FileDescript
 
 const file_meshtrade_ledger_transaction_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"-meshtrade/ledger/transaction/v1/service.proto\x12\x1fmeshtrade.ledger.transaction.v1\x1a\x1bbuf/validate/validate.proto\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\x1a7meshtrade/ledger/transaction/v1/transaction_state.proto\"t\n" +
+	"-meshtrade/ledger/transaction/v1/service.proto\x12\x1fmeshtrade.ledger.transaction.v1\x1a\x1bbuf/validate/validate.proto\x1a7meshtrade/ledger/transaction/v1/transaction_state.proto\x1a7meshtrade/option/method_options/v1/method_options.proto\"t\n" +
 	"\x1aGetTransactionStateRequest\x12V\n" +
 	"\x04name\x18\x01 \x01(\tBB\xbaH?\xc8\x01\x01r:25^transactions/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01'R\x04name\"f\n" +
 	"\x1bGetTransactionStateResponse\x12G\n" +
@@ -218,10 +217,8 @@ const file_meshtrade_ledger_transaction_v1_service_proto_rawDesc = "" +
 	"\x1fMonitorTransactionStateResponse\x12G\n" +
 	"\x05state\x18\x01 \x01(\x0e21.meshtrade.ledger.transaction.v1.TransactionStateR\x05state2\x80\x03\n" +
 	"\x12TransactionService\x12\xac\x01\n" +
-	"\x13GetTransactionState\x12;.meshtrade.ledger.transaction.v1.GetTransactionStateRequest\x1a<.meshtrade.ledger.transaction.v1.GetTransactionStateResponse\"\x1a\xa0\xb5\x18\x01\xaa\xb5\x18\x12\n" +
-	"\x10\xc0\x9f\xab\x03\xc1\x9f\xab\x03\u009f\xab\x03ß\xab\x03\x12\xba\x01\n" +
-	"\x17MonitorTransactionState\x12?.meshtrade.ledger.transaction.v1.MonitorTransactionStateRequest\x1a@.meshtrade.ledger.transaction.v1.MonitorTransactionStateResponse\"\x1a\xa0\xb5\x18\x01\xaa\xb5\x18\x12\n" +
-	"\x10\xc0\x9f\xab\x03\xc1\x9f\xab\x03\u009f\xab\x03ß\xab\x030\x01Bj\n" +
+	"\x13GetTransactionState\x12;.meshtrade.ledger.transaction.v1.GetTransactionStateRequest\x1a<.meshtrade.ledger.transaction.v1.GetTransactionStateResponse\"\x1a\xb2\xb5\x18\x16\b\x01\x10\x02\x1a\x10\xc0\x9f\xab\x03\xc1\x9f\xab\x03\u009f\xab\x03ß\xab\x03\x12\xba\x01\n" +
+	"\x17MonitorTransactionState\x12?.meshtrade.ledger.transaction.v1.MonitorTransactionStateRequest\x1a@.meshtrade.ledger.transaction.v1.MonitorTransactionStateResponse\"\x1a\xb2\xb5\x18\x16\b\x01\x10\x02\x1a\x10\xc0\x9f\xab\x03\xc1\x9f\xab\x03\u009f\xab\x03ß\xab\x030\x01Bj\n" +
 	"&co.meshtrade.api.ledger.transaction.v1Z@github.com/meshtrade/api/go/ledger/transaction/v1;transaction_v1b\x06proto3"
 
 var (

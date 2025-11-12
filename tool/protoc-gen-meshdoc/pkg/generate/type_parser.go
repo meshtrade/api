@@ -142,15 +142,15 @@ func getFieldTypeString(field *protogen.Field) string {
 func getBaseTypeString(field *protogen.Field) string {
 	switch field.Desc.Kind().String() {
 	case "message":
-		// For message types, use the name
+		// For message types, use the fully qualified name
 		if field.Message != nil {
-			return string(field.Message.Desc.Name())
+			return string(field.Message.Desc.FullName())
 		}
 		return "message"
 	case "enum":
-		// For enum types, use the name
+		// For enum types, use the fully qualified name
 		if field.Enum != nil {
-			return string(field.Enum.Desc.Name())
+			return string(field.Enum.Desc.FullName())
 		}
 		return "enum"
 	default:

@@ -19,22 +19,22 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ApiUserService_GetApiUser_FullMethodName             = "/meshtrade.iam.api_user.v1.ApiUserService/GetApiUser"
-	ApiUserService_CreateApiUser_FullMethodName          = "/meshtrade.iam.api_user.v1.ApiUserService/CreateApiUser"
-	ApiUserService_AssignRolesToAPIUser_FullMethodName   = "/meshtrade.iam.api_user.v1.ApiUserService/AssignRolesToAPIUser"
-	ApiUserService_RevokeRolesFromAPIUser_FullMethodName = "/meshtrade.iam.api_user.v1.ApiUserService/RevokeRolesFromAPIUser"
-	ApiUserService_ListApiUsers_FullMethodName           = "/meshtrade.iam.api_user.v1.ApiUserService/ListApiUsers"
-	ApiUserService_SearchApiUsers_FullMethodName         = "/meshtrade.iam.api_user.v1.ApiUserService/SearchApiUsers"
-	ApiUserService_ActivateApiUser_FullMethodName        = "/meshtrade.iam.api_user.v1.ApiUserService/ActivateApiUser"
-	ApiUserService_DeactivateApiUser_FullMethodName      = "/meshtrade.iam.api_user.v1.ApiUserService/DeactivateApiUser"
-	ApiUserService_GetApiUserByKeyHash_FullMethodName    = "/meshtrade.iam.api_user.v1.ApiUserService/GetApiUserByKeyHash"
+	APIUserService_GetAPIUser_FullMethodName             = "/meshtrade.iam.api_user.v1.APIUserService/GetAPIUser"
+	APIUserService_CreateAPIUser_FullMethodName          = "/meshtrade.iam.api_user.v1.APIUserService/CreateAPIUser"
+	APIUserService_AssignRolesToAPIUser_FullMethodName   = "/meshtrade.iam.api_user.v1.APIUserService/AssignRolesToAPIUser"
+	APIUserService_RevokeRolesFromAPIUser_FullMethodName = "/meshtrade.iam.api_user.v1.APIUserService/RevokeRolesFromAPIUser"
+	APIUserService_ListAPIUsers_FullMethodName           = "/meshtrade.iam.api_user.v1.APIUserService/ListAPIUsers"
+	APIUserService_SearchAPIUsers_FullMethodName         = "/meshtrade.iam.api_user.v1.APIUserService/SearchAPIUsers"
+	APIUserService_ActivateAPIUser_FullMethodName        = "/meshtrade.iam.api_user.v1.APIUserService/ActivateAPIUser"
+	APIUserService_DeactivateAPIUser_FullMethodName      = "/meshtrade.iam.api_user.v1.APIUserService/DeactivateAPIUser"
+	APIUserService_GetAPIUserByKeyHash_FullMethodName    = "/meshtrade.iam.api_user.v1.APIUserService/GetAPIUserByKeyHash"
 )
 
-// ApiUserServiceClient is the client API for ApiUserService service.
+// APIUserServiceClient is the client API for APIUserService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
-// ApiUserService manages API user lifecycle and authentication credentials.
+// APIUserService manages API user lifecycle and authentication credentials.
 //
 // API users represent automated clients that can authenticate with API keys
 // and perform operations within a specific group context. Each API user has:
@@ -45,15 +45,15 @@ const (
 //
 // All operations require IAM domain permissions and operate within
 // the authenticated group context.
-type ApiUserServiceClient interface {
+type APIUserServiceClient interface {
 	// Retrieves a single API user by its unique identifier.
-	GetApiUser(ctx context.Context, in *GetApiUserRequest, opts ...grpc.CallOption) (*APIUser, error)
+	GetAPIUser(ctx context.Context, in *GetAPIUserRequest, opts ...grpc.CallOption) (*APIUser, error)
 	// Creates a new API user with the specified configuration.
 	//
 	// The API user will be created in the authenticated group context
 	// and assigned the provided roles. The system generates a unique
 	// identifier and API key for authentication.
-	CreateApiUser(ctx context.Context, in *CreateApiUserRequest, opts ...grpc.CallOption) (*APIUser, error)
+	CreateAPIUser(ctx context.Context, in *CreateAPIUserRequest, opts ...grpc.CallOption) (*APIUser, error)
 	// Assign roles to an existing api user within the authenticated group context.
 	//
 	// The role assignment enables the api user to perform operations according
@@ -69,132 +69,132 @@ type ApiUserServiceClient interface {
 	//
 	// Returns all API users that belong to the current group,
 	// regardless of their active/inactive state.
-	ListApiUsers(ctx context.Context, in *ListApiUsersRequest, opts ...grpc.CallOption) (*ListApiUsersResponse, error)
+	ListAPIUsers(ctx context.Context, in *ListAPIUsersRequest, opts ...grpc.CallOption) (*ListAPIUsersResponse, error)
 	// Searches API users using display name filtering.
 	//
 	// Performs substring matching on API user display names
 	// within the authenticated group context.
-	SearchApiUsers(ctx context.Context, in *SearchApiUsersRequest, opts ...grpc.CallOption) (*SearchApiUsersResponse, error)
+	SearchAPIUsers(ctx context.Context, in *SearchAPIUsersRequest, opts ...grpc.CallOption) (*SearchAPIUsersResponse, error)
 	// Activates an API user, enabling API key authentication.
 	//
 	// Changes the API user state to active, allowing the associated
 	// API key to be used for authentication and authorization.
-	ActivateApiUser(ctx context.Context, in *ActivateApiUserRequest, opts ...grpc.CallOption) (*APIUser, error)
+	ActivateAPIUser(ctx context.Context, in *ActivateAPIUserRequest, opts ...grpc.CallOption) (*APIUser, error)
 	// Deactivates an API user, disabling API key authentication.
 	//
 	// Changes the API user state to inactive, preventing the associated
 	// API key from being used for authentication.
-	DeactivateApiUser(ctx context.Context, in *DeactivateApiUserRequest, opts ...grpc.CallOption) (*APIUser, error)
+	DeactivateAPIUser(ctx context.Context, in *DeactivateAPIUserRequest, opts ...grpc.CallOption) (*APIUser, error)
 	// Retrieves an API user using its API key hash.
 	//
 	// This method is used for authentication flows to lookup
 	// an API user based on the hash of their API key.
-	GetApiUserByKeyHash(ctx context.Context, in *GetApiUserByKeyHashRequest, opts ...grpc.CallOption) (*APIUser, error)
+	GetAPIUserByKeyHash(ctx context.Context, in *GetAPIUserByKeyHashRequest, opts ...grpc.CallOption) (*APIUser, error)
 }
 
-type apiUserServiceClient struct {
+type aPIUserServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewApiUserServiceClient(cc grpc.ClientConnInterface) ApiUserServiceClient {
-	return &apiUserServiceClient{cc}
+func NewAPIUserServiceClient(cc grpc.ClientConnInterface) APIUserServiceClient {
+	return &aPIUserServiceClient{cc}
 }
 
-func (c *apiUserServiceClient) GetApiUser(ctx context.Context, in *GetApiUserRequest, opts ...grpc.CallOption) (*APIUser, error) {
+func (c *aPIUserServiceClient) GetAPIUser(ctx context.Context, in *GetAPIUserRequest, opts ...grpc.CallOption) (*APIUser, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(APIUser)
-	err := c.cc.Invoke(ctx, ApiUserService_GetApiUser_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, APIUserService_GetAPIUser_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *apiUserServiceClient) CreateApiUser(ctx context.Context, in *CreateApiUserRequest, opts ...grpc.CallOption) (*APIUser, error) {
+func (c *aPIUserServiceClient) CreateAPIUser(ctx context.Context, in *CreateAPIUserRequest, opts ...grpc.CallOption) (*APIUser, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(APIUser)
-	err := c.cc.Invoke(ctx, ApiUserService_CreateApiUser_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, APIUserService_CreateAPIUser_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *apiUserServiceClient) AssignRolesToAPIUser(ctx context.Context, in *AssignRolesToAPIUserRequest, opts ...grpc.CallOption) (*APIUser, error) {
+func (c *aPIUserServiceClient) AssignRolesToAPIUser(ctx context.Context, in *AssignRolesToAPIUserRequest, opts ...grpc.CallOption) (*APIUser, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(APIUser)
-	err := c.cc.Invoke(ctx, ApiUserService_AssignRolesToAPIUser_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, APIUserService_AssignRolesToAPIUser_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *apiUserServiceClient) RevokeRolesFromAPIUser(ctx context.Context, in *RevokeRolesFromAPIUserRequest, opts ...grpc.CallOption) (*APIUser, error) {
+func (c *aPIUserServiceClient) RevokeRolesFromAPIUser(ctx context.Context, in *RevokeRolesFromAPIUserRequest, opts ...grpc.CallOption) (*APIUser, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(APIUser)
-	err := c.cc.Invoke(ctx, ApiUserService_RevokeRolesFromAPIUser_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, APIUserService_RevokeRolesFromAPIUser_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *apiUserServiceClient) ListApiUsers(ctx context.Context, in *ListApiUsersRequest, opts ...grpc.CallOption) (*ListApiUsersResponse, error) {
+func (c *aPIUserServiceClient) ListAPIUsers(ctx context.Context, in *ListAPIUsersRequest, opts ...grpc.CallOption) (*ListAPIUsersResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ListApiUsersResponse)
-	err := c.cc.Invoke(ctx, ApiUserService_ListApiUsers_FullMethodName, in, out, cOpts...)
+	out := new(ListAPIUsersResponse)
+	err := c.cc.Invoke(ctx, APIUserService_ListAPIUsers_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *apiUserServiceClient) SearchApiUsers(ctx context.Context, in *SearchApiUsersRequest, opts ...grpc.CallOption) (*SearchApiUsersResponse, error) {
+func (c *aPIUserServiceClient) SearchAPIUsers(ctx context.Context, in *SearchAPIUsersRequest, opts ...grpc.CallOption) (*SearchAPIUsersResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SearchApiUsersResponse)
-	err := c.cc.Invoke(ctx, ApiUserService_SearchApiUsers_FullMethodName, in, out, cOpts...)
+	out := new(SearchAPIUsersResponse)
+	err := c.cc.Invoke(ctx, APIUserService_SearchAPIUsers_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *apiUserServiceClient) ActivateApiUser(ctx context.Context, in *ActivateApiUserRequest, opts ...grpc.CallOption) (*APIUser, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(APIUser)
-	err := c.cc.Invoke(ctx, ApiUserService_ActivateApiUser_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *apiUserServiceClient) DeactivateApiUser(ctx context.Context, in *DeactivateApiUserRequest, opts ...grpc.CallOption) (*APIUser, error) {
+func (c *aPIUserServiceClient) ActivateAPIUser(ctx context.Context, in *ActivateAPIUserRequest, opts ...grpc.CallOption) (*APIUser, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(APIUser)
-	err := c.cc.Invoke(ctx, ApiUserService_DeactivateApiUser_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, APIUserService_ActivateAPIUser_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *apiUserServiceClient) GetApiUserByKeyHash(ctx context.Context, in *GetApiUserByKeyHashRequest, opts ...grpc.CallOption) (*APIUser, error) {
+func (c *aPIUserServiceClient) DeactivateAPIUser(ctx context.Context, in *DeactivateAPIUserRequest, opts ...grpc.CallOption) (*APIUser, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(APIUser)
-	err := c.cc.Invoke(ctx, ApiUserService_GetApiUserByKeyHash_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, APIUserService_DeactivateAPIUser_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// ApiUserServiceServer is the server API for ApiUserService service.
-// All implementations must embed UnimplementedApiUserServiceServer
+func (c *aPIUserServiceClient) GetAPIUserByKeyHash(ctx context.Context, in *GetAPIUserByKeyHashRequest, opts ...grpc.CallOption) (*APIUser, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(APIUser)
+	err := c.cc.Invoke(ctx, APIUserService_GetAPIUserByKeyHash_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// APIUserServiceServer is the server API for APIUserService service.
+// All implementations must embed UnimplementedAPIUserServiceServer
 // for forward compatibility.
 //
-// ApiUserService manages API user lifecycle and authentication credentials.
+// APIUserService manages API user lifecycle and authentication credentials.
 //
 // API users represent automated clients that can authenticate with API keys
 // and perform operations within a specific group context. Each API user has:
@@ -205,15 +205,15 @@ func (c *apiUserServiceClient) GetApiUserByKeyHash(ctx context.Context, in *GetA
 //
 // All operations require IAM domain permissions and operate within
 // the authenticated group context.
-type ApiUserServiceServer interface {
+type APIUserServiceServer interface {
 	// Retrieves a single API user by its unique identifier.
-	GetApiUser(context.Context, *GetApiUserRequest) (*APIUser, error)
+	GetAPIUser(context.Context, *GetAPIUserRequest) (*APIUser, error)
 	// Creates a new API user with the specified configuration.
 	//
 	// The API user will be created in the authenticated group context
 	// and assigned the provided roles. The system generates a unique
 	// identifier and API key for authentication.
-	CreateApiUser(context.Context, *CreateApiUserRequest) (*APIUser, error)
+	CreateAPIUser(context.Context, *CreateAPIUserRequest) (*APIUser, error)
 	// Assign roles to an existing api user within the authenticated group context.
 	//
 	// The role assignment enables the api user to perform operations according
@@ -229,289 +229,289 @@ type ApiUserServiceServer interface {
 	//
 	// Returns all API users that belong to the current group,
 	// regardless of their active/inactive state.
-	ListApiUsers(context.Context, *ListApiUsersRequest) (*ListApiUsersResponse, error)
+	ListAPIUsers(context.Context, *ListAPIUsersRequest) (*ListAPIUsersResponse, error)
 	// Searches API users using display name filtering.
 	//
 	// Performs substring matching on API user display names
 	// within the authenticated group context.
-	SearchApiUsers(context.Context, *SearchApiUsersRequest) (*SearchApiUsersResponse, error)
+	SearchAPIUsers(context.Context, *SearchAPIUsersRequest) (*SearchAPIUsersResponse, error)
 	// Activates an API user, enabling API key authentication.
 	//
 	// Changes the API user state to active, allowing the associated
 	// API key to be used for authentication and authorization.
-	ActivateApiUser(context.Context, *ActivateApiUserRequest) (*APIUser, error)
+	ActivateAPIUser(context.Context, *ActivateAPIUserRequest) (*APIUser, error)
 	// Deactivates an API user, disabling API key authentication.
 	//
 	// Changes the API user state to inactive, preventing the associated
 	// API key from being used for authentication.
-	DeactivateApiUser(context.Context, *DeactivateApiUserRequest) (*APIUser, error)
+	DeactivateAPIUser(context.Context, *DeactivateAPIUserRequest) (*APIUser, error)
 	// Retrieves an API user using its API key hash.
 	//
 	// This method is used for authentication flows to lookup
 	// an API user based on the hash of their API key.
-	GetApiUserByKeyHash(context.Context, *GetApiUserByKeyHashRequest) (*APIUser, error)
-	mustEmbedUnimplementedApiUserServiceServer()
+	GetAPIUserByKeyHash(context.Context, *GetAPIUserByKeyHashRequest) (*APIUser, error)
+	mustEmbedUnimplementedAPIUserServiceServer()
 }
 
-// UnimplementedApiUserServiceServer must be embedded to have
+// UnimplementedAPIUserServiceServer must be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
 // pointer dereference when methods are called.
-type UnimplementedApiUserServiceServer struct{}
+type UnimplementedAPIUserServiceServer struct{}
 
-func (UnimplementedApiUserServiceServer) GetApiUser(context.Context, *GetApiUserRequest) (*APIUser, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetApiUser not implemented")
+func (UnimplementedAPIUserServiceServer) GetAPIUser(context.Context, *GetAPIUserRequest) (*APIUser, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAPIUser not implemented")
 }
-func (UnimplementedApiUserServiceServer) CreateApiUser(context.Context, *CreateApiUserRequest) (*APIUser, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateApiUser not implemented")
+func (UnimplementedAPIUserServiceServer) CreateAPIUser(context.Context, *CreateAPIUserRequest) (*APIUser, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateAPIUser not implemented")
 }
-func (UnimplementedApiUserServiceServer) AssignRolesToAPIUser(context.Context, *AssignRolesToAPIUserRequest) (*APIUser, error) {
+func (UnimplementedAPIUserServiceServer) AssignRolesToAPIUser(context.Context, *AssignRolesToAPIUserRequest) (*APIUser, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AssignRolesToAPIUser not implemented")
 }
-func (UnimplementedApiUserServiceServer) RevokeRolesFromAPIUser(context.Context, *RevokeRolesFromAPIUserRequest) (*APIUser, error) {
+func (UnimplementedAPIUserServiceServer) RevokeRolesFromAPIUser(context.Context, *RevokeRolesFromAPIUserRequest) (*APIUser, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RevokeRolesFromAPIUser not implemented")
 }
-func (UnimplementedApiUserServiceServer) ListApiUsers(context.Context, *ListApiUsersRequest) (*ListApiUsersResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListApiUsers not implemented")
+func (UnimplementedAPIUserServiceServer) ListAPIUsers(context.Context, *ListAPIUsersRequest) (*ListAPIUsersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListAPIUsers not implemented")
 }
-func (UnimplementedApiUserServiceServer) SearchApiUsers(context.Context, *SearchApiUsersRequest) (*SearchApiUsersResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SearchApiUsers not implemented")
+func (UnimplementedAPIUserServiceServer) SearchAPIUsers(context.Context, *SearchAPIUsersRequest) (*SearchAPIUsersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SearchAPIUsers not implemented")
 }
-func (UnimplementedApiUserServiceServer) ActivateApiUser(context.Context, *ActivateApiUserRequest) (*APIUser, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ActivateApiUser not implemented")
+func (UnimplementedAPIUserServiceServer) ActivateAPIUser(context.Context, *ActivateAPIUserRequest) (*APIUser, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ActivateAPIUser not implemented")
 }
-func (UnimplementedApiUserServiceServer) DeactivateApiUser(context.Context, *DeactivateApiUserRequest) (*APIUser, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeactivateApiUser not implemented")
+func (UnimplementedAPIUserServiceServer) DeactivateAPIUser(context.Context, *DeactivateAPIUserRequest) (*APIUser, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeactivateAPIUser not implemented")
 }
-func (UnimplementedApiUserServiceServer) GetApiUserByKeyHash(context.Context, *GetApiUserByKeyHashRequest) (*APIUser, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetApiUserByKeyHash not implemented")
+func (UnimplementedAPIUserServiceServer) GetAPIUserByKeyHash(context.Context, *GetAPIUserByKeyHashRequest) (*APIUser, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAPIUserByKeyHash not implemented")
 }
-func (UnimplementedApiUserServiceServer) mustEmbedUnimplementedApiUserServiceServer() {}
-func (UnimplementedApiUserServiceServer) testEmbeddedByValue()                        {}
+func (UnimplementedAPIUserServiceServer) mustEmbedUnimplementedAPIUserServiceServer() {}
+func (UnimplementedAPIUserServiceServer) testEmbeddedByValue()                        {}
 
-// UnsafeApiUserServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to ApiUserServiceServer will
+// UnsafeAPIUserServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to APIUserServiceServer will
 // result in compilation errors.
-type UnsafeApiUserServiceServer interface {
-	mustEmbedUnimplementedApiUserServiceServer()
+type UnsafeAPIUserServiceServer interface {
+	mustEmbedUnimplementedAPIUserServiceServer()
 }
 
-func RegisterApiUserServiceServer(s grpc.ServiceRegistrar, srv ApiUserServiceServer) {
-	// If the following call pancis, it indicates UnimplementedApiUserServiceServer was
+func RegisterAPIUserServiceServer(s grpc.ServiceRegistrar, srv APIUserServiceServer) {
+	// If the following call pancis, it indicates UnimplementedAPIUserServiceServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
 	// time to prevent it from happening at runtime later due to I/O.
 	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
 		t.testEmbeddedByValue()
 	}
-	s.RegisterService(&ApiUserService_ServiceDesc, srv)
+	s.RegisterService(&APIUserService_ServiceDesc, srv)
 }
 
-func _ApiUserService_GetApiUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetApiUserRequest)
+func _APIUserService_GetAPIUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAPIUserRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ApiUserServiceServer).GetApiUser(ctx, in)
+		return srv.(APIUserServiceServer).GetAPIUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ApiUserService_GetApiUser_FullMethodName,
+		FullMethod: APIUserService_GetAPIUser_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiUserServiceServer).GetApiUser(ctx, req.(*GetApiUserRequest))
+		return srv.(APIUserServiceServer).GetAPIUser(ctx, req.(*GetAPIUserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ApiUserService_CreateApiUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateApiUserRequest)
+func _APIUserService_CreateAPIUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateAPIUserRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ApiUserServiceServer).CreateApiUser(ctx, in)
+		return srv.(APIUserServiceServer).CreateAPIUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ApiUserService_CreateApiUser_FullMethodName,
+		FullMethod: APIUserService_CreateAPIUser_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiUserServiceServer).CreateApiUser(ctx, req.(*CreateApiUserRequest))
+		return srv.(APIUserServiceServer).CreateAPIUser(ctx, req.(*CreateAPIUserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ApiUserService_AssignRolesToAPIUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _APIUserService_AssignRolesToAPIUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AssignRolesToAPIUserRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ApiUserServiceServer).AssignRolesToAPIUser(ctx, in)
+		return srv.(APIUserServiceServer).AssignRolesToAPIUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ApiUserService_AssignRolesToAPIUser_FullMethodName,
+		FullMethod: APIUserService_AssignRolesToAPIUser_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiUserServiceServer).AssignRolesToAPIUser(ctx, req.(*AssignRolesToAPIUserRequest))
+		return srv.(APIUserServiceServer).AssignRolesToAPIUser(ctx, req.(*AssignRolesToAPIUserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ApiUserService_RevokeRolesFromAPIUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _APIUserService_RevokeRolesFromAPIUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RevokeRolesFromAPIUserRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ApiUserServiceServer).RevokeRolesFromAPIUser(ctx, in)
+		return srv.(APIUserServiceServer).RevokeRolesFromAPIUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ApiUserService_RevokeRolesFromAPIUser_FullMethodName,
+		FullMethod: APIUserService_RevokeRolesFromAPIUser_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiUserServiceServer).RevokeRolesFromAPIUser(ctx, req.(*RevokeRolesFromAPIUserRequest))
+		return srv.(APIUserServiceServer).RevokeRolesFromAPIUser(ctx, req.(*RevokeRolesFromAPIUserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ApiUserService_ListApiUsers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListApiUsersRequest)
+func _APIUserService_ListAPIUsers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListAPIUsersRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ApiUserServiceServer).ListApiUsers(ctx, in)
+		return srv.(APIUserServiceServer).ListAPIUsers(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ApiUserService_ListApiUsers_FullMethodName,
+		FullMethod: APIUserService_ListAPIUsers_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiUserServiceServer).ListApiUsers(ctx, req.(*ListApiUsersRequest))
+		return srv.(APIUserServiceServer).ListAPIUsers(ctx, req.(*ListAPIUsersRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ApiUserService_SearchApiUsers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SearchApiUsersRequest)
+func _APIUserService_SearchAPIUsers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SearchAPIUsersRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ApiUserServiceServer).SearchApiUsers(ctx, in)
+		return srv.(APIUserServiceServer).SearchAPIUsers(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ApiUserService_SearchApiUsers_FullMethodName,
+		FullMethod: APIUserService_SearchAPIUsers_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiUserServiceServer).SearchApiUsers(ctx, req.(*SearchApiUsersRequest))
+		return srv.(APIUserServiceServer).SearchAPIUsers(ctx, req.(*SearchAPIUsersRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ApiUserService_ActivateApiUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ActivateApiUserRequest)
+func _APIUserService_ActivateAPIUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ActivateAPIUserRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ApiUserServiceServer).ActivateApiUser(ctx, in)
+		return srv.(APIUserServiceServer).ActivateAPIUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ApiUserService_ActivateApiUser_FullMethodName,
+		FullMethod: APIUserService_ActivateAPIUser_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiUserServiceServer).ActivateApiUser(ctx, req.(*ActivateApiUserRequest))
+		return srv.(APIUserServiceServer).ActivateAPIUser(ctx, req.(*ActivateAPIUserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ApiUserService_DeactivateApiUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeactivateApiUserRequest)
+func _APIUserService_DeactivateAPIUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeactivateAPIUserRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ApiUserServiceServer).DeactivateApiUser(ctx, in)
+		return srv.(APIUserServiceServer).DeactivateAPIUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ApiUserService_DeactivateApiUser_FullMethodName,
+		FullMethod: APIUserService_DeactivateAPIUser_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiUserServiceServer).DeactivateApiUser(ctx, req.(*DeactivateApiUserRequest))
+		return srv.(APIUserServiceServer).DeactivateAPIUser(ctx, req.(*DeactivateAPIUserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ApiUserService_GetApiUserByKeyHash_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetApiUserByKeyHashRequest)
+func _APIUserService_GetAPIUserByKeyHash_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAPIUserByKeyHashRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ApiUserServiceServer).GetApiUserByKeyHash(ctx, in)
+		return srv.(APIUserServiceServer).GetAPIUserByKeyHash(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ApiUserService_GetApiUserByKeyHash_FullMethodName,
+		FullMethod: APIUserService_GetAPIUserByKeyHash_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiUserServiceServer).GetApiUserByKeyHash(ctx, req.(*GetApiUserByKeyHashRequest))
+		return srv.(APIUserServiceServer).GetAPIUserByKeyHash(ctx, req.(*GetAPIUserByKeyHashRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// ApiUserService_ServiceDesc is the grpc.ServiceDesc for ApiUserService service.
+// APIUserService_ServiceDesc is the grpc.ServiceDesc for APIUserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var ApiUserService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "meshtrade.iam.api_user.v1.ApiUserService",
-	HandlerType: (*ApiUserServiceServer)(nil),
+var APIUserService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "meshtrade.iam.api_user.v1.APIUserService",
+	HandlerType: (*APIUserServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetApiUser",
-			Handler:    _ApiUserService_GetApiUser_Handler,
+			MethodName: "GetAPIUser",
+			Handler:    _APIUserService_GetAPIUser_Handler,
 		},
 		{
-			MethodName: "CreateApiUser",
-			Handler:    _ApiUserService_CreateApiUser_Handler,
+			MethodName: "CreateAPIUser",
+			Handler:    _APIUserService_CreateAPIUser_Handler,
 		},
 		{
 			MethodName: "AssignRolesToAPIUser",
-			Handler:    _ApiUserService_AssignRolesToAPIUser_Handler,
+			Handler:    _APIUserService_AssignRolesToAPIUser_Handler,
 		},
 		{
 			MethodName: "RevokeRolesFromAPIUser",
-			Handler:    _ApiUserService_RevokeRolesFromAPIUser_Handler,
+			Handler:    _APIUserService_RevokeRolesFromAPIUser_Handler,
 		},
 		{
-			MethodName: "ListApiUsers",
-			Handler:    _ApiUserService_ListApiUsers_Handler,
+			MethodName: "ListAPIUsers",
+			Handler:    _APIUserService_ListAPIUsers_Handler,
 		},
 		{
-			MethodName: "SearchApiUsers",
-			Handler:    _ApiUserService_SearchApiUsers_Handler,
+			MethodName: "SearchAPIUsers",
+			Handler:    _APIUserService_SearchAPIUsers_Handler,
 		},
 		{
-			MethodName: "ActivateApiUser",
-			Handler:    _ApiUserService_ActivateApiUser_Handler,
+			MethodName: "ActivateAPIUser",
+			Handler:    _APIUserService_ActivateAPIUser_Handler,
 		},
 		{
-			MethodName: "DeactivateApiUser",
-			Handler:    _ApiUserService_DeactivateApiUser_Handler,
+			MethodName: "DeactivateAPIUser",
+			Handler:    _APIUserService_DeactivateAPIUser_Handler,
 		},
 		{
-			MethodName: "GetApiUserByKeyHash",
-			Handler:    _ApiUserService_GetApiUserByKeyHash_Handler,
+			MethodName: "GetAPIUserByKeyHash",
+			Handler:    _APIUserService_GetAPIUserByKeyHash_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

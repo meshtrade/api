@@ -13,7 +13,7 @@
 # ===================================================================
 
 # Generated protobuf imports
-from .role_pb2 import Role, RoleList
+from .role_pb2 import Role
 
 # ===================================================================
 # END OF AUTO-GENERATED SECTION
@@ -46,7 +46,6 @@ from .role import (
 __all__ = [
     # Generated exports
     "Role",
-    "RoleList",
     # Manual exports
     "must_parse_role_parts",
     "parse_role_parts",
