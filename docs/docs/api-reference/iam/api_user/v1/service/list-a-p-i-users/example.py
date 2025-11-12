@@ -1,24 +1,24 @@
 from meshtrade.iam.api_user.v1 import (
-    ApiUserService,
+    APIUserService,
     ListAPIUsersRequest,
 )
 
 
 def main():
-    # Default configuration is used and credentials come from MESH_API_CREDENTIALS 
-    # environment variable or default discovery methods. Zero config required 
+    # Default configuration is used and credentials come from MESH_API_CREDENTIALS
+    # environment variable or default discovery methods. Zero config required
     # unless you want custom configuration.
-    service = ApiUserService()
-    
+    service = APIUserService()
+
     with service:
         # Create request with service-specific parameters
         request = ListAPIUsersRequest(
             # FIXME: Populate service-specific request fields
         )
-        
-        # Call the ListAPIUsers method  
-        response = service.list_a_p_i_users(request)
-        
+
+        # Call the ListAPIUsers method
+        response = service.list_apiusers(request)
+
         # FIXME: Add relevant response object usage
         print("ListAPIUsers successful:", response)
 
