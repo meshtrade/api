@@ -22,6 +22,7 @@ const (
 	UserService_AssignRolesToUser_FullMethodName   = "/meshtrade.iam.user.v1.UserService/AssignRolesToUser"
 	UserService_RevokeRolesFromUser_FullMethodName = "/meshtrade.iam.user.v1.UserService/RevokeRolesFromUser"
 	UserService_GetUser_FullMethodName             = "/meshtrade.iam.user.v1.UserService/GetUser"
+	UserService_GetUserByEmail_FullMethodName      = "/meshtrade.iam.user.v1.UserService/GetUserByEmail"
 	UserService_ListUsers_FullMethodName           = "/meshtrade.iam.user.v1.UserService/ListUsers"
 	UserService_SearchUsers_FullMethodName         = "/meshtrade.iam.user.v1.UserService/SearchUsers"
 	UserService_CreateUser_FullMethodName          = "/meshtrade.iam.user.v1.UserService/CreateUser"
@@ -53,11 +54,16 @@ type UserServiceClient interface {
 	// the user within the group hierarchy. The user will no longer be able
 	// to perform operations that require the revoked role.
 	RevokeRolesFromUser(ctx context.Context, in *RevokeRolesFromUserRequest, opts ...grpc.CallOption) (*User, error)
-	// Retrieves a single user by its unique identifier.
+	// Retrieves a single user by their unique identifier.
 	//
 	// Returns user details including name, email, ownership information,
 	// and assigned roles within the authenticated group's access scope.
 	GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*User, error)
+	// Retrieves a single user by their email address.
+	//
+	// Returns user details including name, email, ownership information,
+	// and assigned roles within the authenticated group's access scope.
+	GetUserByEmail(ctx context.Context, in *GetUserByEmailRequest, opts ...grpc.CallOption) (*User, error)
 	// Returns all users accessible within the authenticated group's hierarchy.
 	//
 	// Results include users directly owned and those accessible through the
@@ -115,6 +121,16 @@ func (c *userServiceClient) GetUser(ctx context.Context, in *GetUserRequest, opt
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(User)
 	err := c.cc.Invoke(ctx, UserService_GetUser_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) GetUserByEmail(ctx context.Context, in *GetUserByEmailRequest, opts ...grpc.CallOption) (*User, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(User)
+	err := c.cc.Invoke(ctx, UserService_GetUserByEmail_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -186,11 +202,16 @@ type UserServiceServer interface {
 	// the user within the group hierarchy. The user will no longer be able
 	// to perform operations that require the revoked role.
 	RevokeRolesFromUser(context.Context, *RevokeRolesFromUserRequest) (*User, error)
-	// Retrieves a single user by its unique identifier.
+	// Retrieves a single user by their unique identifier.
 	//
 	// Returns user details including name, email, ownership information,
 	// and assigned roles within the authenticated group's access scope.
 	GetUser(context.Context, *GetUserRequest) (*User, error)
+	// Retrieves a single user by their email address.
+	//
+	// Returns user details including name, email, ownership information,
+	// and assigned roles within the authenticated group's access scope.
+	GetUserByEmail(context.Context, *GetUserByEmailRequest) (*User, error)
 	// Returns all users accessible within the authenticated group's hierarchy.
 	//
 	// Results include users directly owned and those accessible through the
@@ -232,6 +253,9 @@ func (UnimplementedUserServiceServer) RevokeRolesFromUser(context.Context, *Revo
 }
 func (UnimplementedUserServiceServer) GetUser(context.Context, *GetUserRequest) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUser not implemented")
+}
+func (UnimplementedUserServiceServer) GetUserByEmail(context.Context, *GetUserByEmailRequest) (*User, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserByEmail not implemented")
 }
 func (UnimplementedUserServiceServer) ListUsers(context.Context, *ListUsersRequest) (*ListUsersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListUsers not implemented")
@@ -316,6 +340,24 @@ func _UserService_GetUser_Handler(srv interface{}, ctx context.Context, dec func
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserServiceServer).GetUser(ctx, req.(*GetUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_GetUserByEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserByEmailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).GetUserByEmail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_GetUserByEmail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).GetUserByEmail(ctx, req.(*GetUserByEmailRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -410,6 +452,10 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUser",
 			Handler:    _UserService_GetUser_Handler,
+		},
+		{
+			MethodName: "GetUserByEmail",
+			Handler:    _UserService_GetUserByEmail_Handler,
 		},
 		{
 			MethodName: "ListUsers",

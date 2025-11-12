@@ -8,54 +8,54 @@ import (
 	testing "testing"
 )
 
-// Ensure that MockApiUserService implements the ApiUserService interface
-var _ ApiUserService = &MockApiUserService{}
+// Ensure that MockAPIUserService implements the APIUserService interface
+var _ APIUserService = &MockAPIUserService{}
 
-// MockApiUserService is a mock implementation of the ApiUserService interface.
-type MockApiUserService struct {
+// MockAPIUserService is a mock implementation of the APIUserService interface.
+type MockAPIUserService struct {
 	mutex                                 sync.Mutex
 	T                                     *testing.T
-	GetApiUserFunc                        func(t *testing.T, m *MockApiUserService, ctx context.Context, request *GetApiUserRequest) (*APIUser, error)
-	GetApiUserFuncInvocations             int
-	CreateApiUserFunc                     func(t *testing.T, m *MockApiUserService, ctx context.Context, request *CreateApiUserRequest) (*APIUser, error)
-	CreateApiUserFuncInvocations          int
-	AssignRolesToAPIUserFunc              func(t *testing.T, m *MockApiUserService, ctx context.Context, request *AssignRolesToAPIUserRequest) (*APIUser, error)
+	GetAPIUserFunc                        func(t *testing.T, m *MockAPIUserService, ctx context.Context, request *GetAPIUserRequest) (*APIUser, error)
+	GetAPIUserFuncInvocations             int
+	CreateAPIUserFunc                     func(t *testing.T, m *MockAPIUserService, ctx context.Context, request *CreateAPIUserRequest) (*APIUser, error)
+	CreateAPIUserFuncInvocations          int
+	AssignRolesToAPIUserFunc              func(t *testing.T, m *MockAPIUserService, ctx context.Context, request *AssignRolesToAPIUserRequest) (*APIUser, error)
 	AssignRolesToAPIUserFuncInvocations   int
-	RevokeRolesFromAPIUserFunc            func(t *testing.T, m *MockApiUserService, ctx context.Context, request *RevokeRolesFromAPIUserRequest) (*APIUser, error)
+	RevokeRolesFromAPIUserFunc            func(t *testing.T, m *MockAPIUserService, ctx context.Context, request *RevokeRolesFromAPIUserRequest) (*APIUser, error)
 	RevokeRolesFromAPIUserFuncInvocations int
-	ListApiUsersFunc                      func(t *testing.T, m *MockApiUserService, ctx context.Context, request *ListApiUsersRequest) (*ListApiUsersResponse, error)
-	ListApiUsersFuncInvocations           int
-	SearchApiUsersFunc                    func(t *testing.T, m *MockApiUserService, ctx context.Context, request *SearchApiUsersRequest) (*SearchApiUsersResponse, error)
-	SearchApiUsersFuncInvocations         int
-	ActivateApiUserFunc                   func(t *testing.T, m *MockApiUserService, ctx context.Context, request *ActivateApiUserRequest) (*APIUser, error)
-	ActivateApiUserFuncInvocations        int
-	DeactivateApiUserFunc                 func(t *testing.T, m *MockApiUserService, ctx context.Context, request *DeactivateApiUserRequest) (*APIUser, error)
-	DeactivateApiUserFuncInvocations      int
-	GetApiUserByKeyHashFunc               func(t *testing.T, m *MockApiUserService, ctx context.Context, request *GetApiUserByKeyHashRequest) (*APIUser, error)
-	GetApiUserByKeyHashFuncInvocations    int
+	ListAPIUsersFunc                      func(t *testing.T, m *MockAPIUserService, ctx context.Context, request *ListAPIUsersRequest) (*ListAPIUsersResponse, error)
+	ListAPIUsersFuncInvocations           int
+	SearchAPIUsersFunc                    func(t *testing.T, m *MockAPIUserService, ctx context.Context, request *SearchAPIUsersRequest) (*SearchAPIUsersResponse, error)
+	SearchAPIUsersFuncInvocations         int
+	ActivateAPIUserFunc                   func(t *testing.T, m *MockAPIUserService, ctx context.Context, request *ActivateAPIUserRequest) (*APIUser, error)
+	ActivateAPIUserFuncInvocations        int
+	DeactivateAPIUserFunc                 func(t *testing.T, m *MockAPIUserService, ctx context.Context, request *DeactivateAPIUserRequest) (*APIUser, error)
+	DeactivateAPIUserFuncInvocations      int
+	GetAPIUserByKeyHashFunc               func(t *testing.T, m *MockAPIUserService, ctx context.Context, request *GetAPIUserByKeyHashRequest) (*APIUser, error)
+	GetAPIUserByKeyHashFuncInvocations    int
 }
 
-func (m *MockApiUserService) GetApiUser(ctx context.Context, request *GetApiUserRequest) (*APIUser, error) {
+func (m *MockAPIUserService) GetAPIUser(ctx context.Context, request *GetAPIUserRequest) (*APIUser, error) {
 	m.mutex.Lock()
-	m.GetApiUserFuncInvocations++
+	m.GetAPIUserFuncInvocations++
 	m.mutex.Unlock()
-	if m.GetApiUserFunc == nil {
+	if m.GetAPIUserFunc == nil {
 		return nil, nil
 	}
-	return m.GetApiUserFunc(m.T, m, ctx, request)
+	return m.GetAPIUserFunc(m.T, m, ctx, request)
 }
 
-func (m *MockApiUserService) CreateApiUser(ctx context.Context, request *CreateApiUserRequest) (*APIUser, error) {
+func (m *MockAPIUserService) CreateAPIUser(ctx context.Context, request *CreateAPIUserRequest) (*APIUser, error) {
 	m.mutex.Lock()
-	m.CreateApiUserFuncInvocations++
+	m.CreateAPIUserFuncInvocations++
 	m.mutex.Unlock()
-	if m.CreateApiUserFunc == nil {
+	if m.CreateAPIUserFunc == nil {
 		return nil, nil
 	}
-	return m.CreateApiUserFunc(m.T, m, ctx, request)
+	return m.CreateAPIUserFunc(m.T, m, ctx, request)
 }
 
-func (m *MockApiUserService) AssignRolesToAPIUser(ctx context.Context, request *AssignRolesToAPIUserRequest) (*APIUser, error) {
+func (m *MockAPIUserService) AssignRolesToAPIUser(ctx context.Context, request *AssignRolesToAPIUserRequest) (*APIUser, error) {
 	m.mutex.Lock()
 	m.AssignRolesToAPIUserFuncInvocations++
 	m.mutex.Unlock()
@@ -65,7 +65,7 @@ func (m *MockApiUserService) AssignRolesToAPIUser(ctx context.Context, request *
 	return m.AssignRolesToAPIUserFunc(m.T, m, ctx, request)
 }
 
-func (m *MockApiUserService) RevokeRolesFromAPIUser(ctx context.Context, request *RevokeRolesFromAPIUserRequest) (*APIUser, error) {
+func (m *MockAPIUserService) RevokeRolesFromAPIUser(ctx context.Context, request *RevokeRolesFromAPIUserRequest) (*APIUser, error) {
 	m.mutex.Lock()
 	m.RevokeRolesFromAPIUserFuncInvocations++
 	m.mutex.Unlock()
@@ -75,52 +75,52 @@ func (m *MockApiUserService) RevokeRolesFromAPIUser(ctx context.Context, request
 	return m.RevokeRolesFromAPIUserFunc(m.T, m, ctx, request)
 }
 
-func (m *MockApiUserService) ListApiUsers(ctx context.Context, request *ListApiUsersRequest) (*ListApiUsersResponse, error) {
+func (m *MockAPIUserService) ListAPIUsers(ctx context.Context, request *ListAPIUsersRequest) (*ListAPIUsersResponse, error) {
 	m.mutex.Lock()
-	m.ListApiUsersFuncInvocations++
+	m.ListAPIUsersFuncInvocations++
 	m.mutex.Unlock()
-	if m.ListApiUsersFunc == nil {
+	if m.ListAPIUsersFunc == nil {
 		return nil, nil
 	}
-	return m.ListApiUsersFunc(m.T, m, ctx, request)
+	return m.ListAPIUsersFunc(m.T, m, ctx, request)
 }
 
-func (m *MockApiUserService) SearchApiUsers(ctx context.Context, request *SearchApiUsersRequest) (*SearchApiUsersResponse, error) {
+func (m *MockAPIUserService) SearchAPIUsers(ctx context.Context, request *SearchAPIUsersRequest) (*SearchAPIUsersResponse, error) {
 	m.mutex.Lock()
-	m.SearchApiUsersFuncInvocations++
+	m.SearchAPIUsersFuncInvocations++
 	m.mutex.Unlock()
-	if m.SearchApiUsersFunc == nil {
+	if m.SearchAPIUsersFunc == nil {
 		return nil, nil
 	}
-	return m.SearchApiUsersFunc(m.T, m, ctx, request)
+	return m.SearchAPIUsersFunc(m.T, m, ctx, request)
 }
 
-func (m *MockApiUserService) ActivateApiUser(ctx context.Context, request *ActivateApiUserRequest) (*APIUser, error) {
+func (m *MockAPIUserService) ActivateAPIUser(ctx context.Context, request *ActivateAPIUserRequest) (*APIUser, error) {
 	m.mutex.Lock()
-	m.ActivateApiUserFuncInvocations++
+	m.ActivateAPIUserFuncInvocations++
 	m.mutex.Unlock()
-	if m.ActivateApiUserFunc == nil {
+	if m.ActivateAPIUserFunc == nil {
 		return nil, nil
 	}
-	return m.ActivateApiUserFunc(m.T, m, ctx, request)
+	return m.ActivateAPIUserFunc(m.T, m, ctx, request)
 }
 
-func (m *MockApiUserService) DeactivateApiUser(ctx context.Context, request *DeactivateApiUserRequest) (*APIUser, error) {
+func (m *MockAPIUserService) DeactivateAPIUser(ctx context.Context, request *DeactivateAPIUserRequest) (*APIUser, error) {
 	m.mutex.Lock()
-	m.DeactivateApiUserFuncInvocations++
+	m.DeactivateAPIUserFuncInvocations++
 	m.mutex.Unlock()
-	if m.DeactivateApiUserFunc == nil {
+	if m.DeactivateAPIUserFunc == nil {
 		return nil, nil
 	}
-	return m.DeactivateApiUserFunc(m.T, m, ctx, request)
+	return m.DeactivateAPIUserFunc(m.T, m, ctx, request)
 }
 
-func (m *MockApiUserService) GetApiUserByKeyHash(ctx context.Context, request *GetApiUserByKeyHashRequest) (*APIUser, error) {
+func (m *MockAPIUserService) GetAPIUserByKeyHash(ctx context.Context, request *GetAPIUserByKeyHashRequest) (*APIUser, error) {
 	m.mutex.Lock()
-	m.GetApiUserByKeyHashFuncInvocations++
+	m.GetAPIUserByKeyHashFuncInvocations++
 	m.mutex.Unlock()
-	if m.GetApiUserByKeyHashFunc == nil {
+	if m.GetAPIUserByKeyHashFunc == nil {
 		return nil, nil
 	}
-	return m.GetApiUserByKeyHashFunc(m.T, m, ctx, request)
+	return m.GetAPIUserByKeyHashFunc(m.T, m, ctx, request)
 }

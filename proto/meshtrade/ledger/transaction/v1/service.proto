@@ -3,9 +3,8 @@ syntax = "proto3";
 package meshtrade.ledger.transaction.v1;
 
 import "buf/validate/validate.proto";
-import "meshtrade/iam/role/v1/role.proto";
-import "meshtrade/option/v1/method_type.proto";
 import "meshtrade/ledger/transaction/v1/transaction_state.proto";
+import "meshtrade/option/method_options/v1/method_options.proto";
 
 option go_package = "github.com/meshtrade/api/go/ledger/transaction/v1;transaction_v1";
 option java_package = "co.meshtrade.api.ledger.transaction.v1";
@@ -18,8 +17,9 @@ service TransactionService {
      Retrieves a single Transaction state by the unique identifier of the transaction
   */
   rpc GetTransactionState(GetTransactionStateRequest) returns (GetTransactionStateResponse) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_LEDGER_ADMIN,
         ROLE_LEDGER_VIEWER,
@@ -34,8 +34,9 @@ service TransactionService {
      Server-side streaming method that sends state updates as the transaction progresses.
   */
   rpc MonitorTransactionState(MonitorTransactionStateRequest) returns (stream MonitorTransactionStateResponse) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_LEDGER_ADMIN,
         ROLE_LEDGER_VIEWER,
@@ -52,9 +53,9 @@ message GetTransactionStateRequest {
      Format: transactions/{ULIDv2}
   */
   string name = 1 [(buf.validate.field) = {
-    required: true,
+    required: true
     string: {
-      len: 39,
+      len: 39
       pattern: "^transactions/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
@@ -70,9 +71,9 @@ message MonitorTransactionStateRequest {
      Format: transactions/{ULIDv2}
   */
   string name = 1 [(buf.validate.field) = {
-    required: true,
+    required: true
     string: {
-      len: 39,
+      len: 39
       pattern: "^transactions/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
