@@ -19,16 +19,6 @@ option java_package = "co.meshtrade.api.trading.limit_order.v1";
 
    Note: This service is currently in BETA. Interface and functionality may change.
 */
-/*
-   LimitOrderService manages limit orders for trading operations (BETA).
-
-   This service provides comprehensive limit order management capabilities including
-   order creation, cancellation, querying, and real-time monitoring. All operations
-   are scoped to the authenticated group's hierarchy and require appropriate trading
-   domain permissions.
-
-   Note: This service is currently in BETA. Interface and functionality may change.
-*/
 service LimitOrderService {
   /*
      Creates a new limit order.
