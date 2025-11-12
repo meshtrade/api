@@ -34,10 +34,10 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@meshtrade/api": "1.15.0",
     "@docusaurus/module-type-aliases": "^3.9.1",
     "@docusaurus/tsconfig": "^3.9.1",
     "@docusaurus/types": "^3.9.1",
+    "@meshtrade/api": "1.15.0",
     "@types/node": "^24.0.10",
     "@types/react": "^18.3.17",
     "@types/react-dom": "^18.3.5",
