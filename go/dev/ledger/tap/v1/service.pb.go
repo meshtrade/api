@@ -2,9 +2,9 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        (unknown)
-// source: meshtrade/dev/ledger/token_tap/v1/service.proto
+// source: meshtrade/dev/ledger/tap/v1/service.proto
 
-package token_tap_v1
+package tap_v1
 
 import (
 	_ "github.com/meshtrade/api/go/iam/role/v1"
@@ -32,7 +32,7 @@ type InitialiseTokenTapsRequest struct {
 
 func (x *InitialiseTokenTapsRequest) Reset() {
 	*x = InitialiseTokenTapsRequest{}
-	mi := &file_meshtrade_dev_ledger_token_tap_v1_service_proto_msgTypes[0]
+	mi := &file_meshtrade_dev_ledger_tap_v1_service_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -44,7 +44,7 @@ func (x *InitialiseTokenTapsRequest) String() string {
 func (*InitialiseTokenTapsRequest) ProtoMessage() {}
 
 func (x *InitialiseTokenTapsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_dev_ledger_token_tap_v1_service_proto_msgTypes[0]
+	mi := &file_meshtrade_dev_ledger_tap_v1_service_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -57,7 +57,7 @@ func (x *InitialiseTokenTapsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use InitialiseTokenTapsRequest.ProtoReflect.Descriptor instead.
 func (*InitialiseTokenTapsRequest) Descriptor() ([]byte, []int) {
-	return file_meshtrade_dev_ledger_token_tap_v1_service_proto_rawDescGZIP(), []int{0}
+	return file_meshtrade_dev_ledger_tap_v1_service_proto_rawDescGZIP(), []int{0}
 }
 
 type InitialiseTokenTapsResponse struct {
@@ -68,7 +68,7 @@ type InitialiseTokenTapsResponse struct {
 
 func (x *InitialiseTokenTapsResponse) Reset() {
 	*x = InitialiseTokenTapsResponse{}
-	mi := &file_meshtrade_dev_ledger_token_tap_v1_service_proto_msgTypes[1]
+	mi := &file_meshtrade_dev_ledger_tap_v1_service_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -80,7 +80,7 @@ func (x *InitialiseTokenTapsResponse) String() string {
 func (*InitialiseTokenTapsResponse) ProtoMessage() {}
 
 func (x *InitialiseTokenTapsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_dev_ledger_token_tap_v1_service_proto_msgTypes[1]
+	mi := &file_meshtrade_dev_ledger_tap_v1_service_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -93,7 +93,7 @@ func (x *InitialiseTokenTapsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use InitialiseTokenTapsResponse.ProtoReflect.Descriptor instead.
 func (*InitialiseTokenTapsResponse) Descriptor() ([]byte, []int) {
-	return file_meshtrade_dev_ledger_token_tap_v1_service_proto_rawDescGZIP(), []int{1}
+	return file_meshtrade_dev_ledger_tap_v1_service_proto_rawDescGZIP(), []int{1}
 }
 
 type ListTokenTapsRequest struct {
@@ -104,7 +104,7 @@ type ListTokenTapsRequest struct {
 
 func (x *ListTokenTapsRequest) Reset() {
 	*x = ListTokenTapsRequest{}
-	mi := &file_meshtrade_dev_ledger_token_tap_v1_service_proto_msgTypes[2]
+	mi := &file_meshtrade_dev_ledger_tap_v1_service_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -116,7 +116,7 @@ func (x *ListTokenTapsRequest) String() string {
 func (*ListTokenTapsRequest) ProtoMessage() {}
 
 func (x *ListTokenTapsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_dev_ledger_token_tap_v1_service_proto_msgTypes[2]
+	mi := &file_meshtrade_dev_ledger_tap_v1_service_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -129,7 +129,7 @@ func (x *ListTokenTapsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListTokenTapsRequest.ProtoReflect.Descriptor instead.
 func (*ListTokenTapsRequest) Descriptor() ([]byte, []int) {
-	return file_meshtrade_dev_ledger_token_tap_v1_service_proto_rawDescGZIP(), []int{2}
+	return file_meshtrade_dev_ledger_tap_v1_service_proto_rawDescGZIP(), []int{2}
 }
 
 type ListTokenTapsResponse struct {
@@ -141,7 +141,7 @@ type ListTokenTapsResponse struct {
 
 func (x *ListTokenTapsResponse) Reset() {
 	*x = ListTokenTapsResponse{}
-	mi := &file_meshtrade_dev_ledger_token_tap_v1_service_proto_msgTypes[3]
+	mi := &file_meshtrade_dev_ledger_tap_v1_service_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -153,7 +153,7 @@ func (x *ListTokenTapsResponse) String() string {
 func (*ListTokenTapsResponse) ProtoMessage() {}
 
 func (x *ListTokenTapsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_dev_ledger_token_tap_v1_service_proto_msgTypes[3]
+	mi := &file_meshtrade_dev_ledger_tap_v1_service_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -166,7 +166,7 @@ func (x *ListTokenTapsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListTokenTapsResponse.ProtoReflect.Descriptor instead.
 func (*ListTokenTapsResponse) Descriptor() ([]byte, []int) {
-	return file_meshtrade_dev_ledger_token_tap_v1_service_proto_rawDescGZIP(), []int{3}
+	return file_meshtrade_dev_ledger_tap_v1_service_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *ListTokenTapsResponse) GetTokens() []*v1.Token {
@@ -187,7 +187,7 @@ type MintTokenRequest struct {
 
 func (x *MintTokenRequest) Reset() {
 	*x = MintTokenRequest{}
-	mi := &file_meshtrade_dev_ledger_token_tap_v1_service_proto_msgTypes[4]
+	mi := &file_meshtrade_dev_ledger_tap_v1_service_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -199,7 +199,7 @@ func (x *MintTokenRequest) String() string {
 func (*MintTokenRequest) ProtoMessage() {}
 
 func (x *MintTokenRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_dev_ledger_token_tap_v1_service_proto_msgTypes[4]
+	mi := &file_meshtrade_dev_ledger_tap_v1_service_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -212,7 +212,7 @@ func (x *MintTokenRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MintTokenRequest.ProtoReflect.Descriptor instead.
 func (*MintTokenRequest) Descriptor() ([]byte, []int) {
-	return file_meshtrade_dev_ledger_token_tap_v1_service_proto_rawDescGZIP(), []int{4}
+	return file_meshtrade_dev_ledger_tap_v1_service_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *MintTokenRequest) GetAmount() *v1.Amount {
@@ -244,7 +244,7 @@ type MintTokenResponse struct {
 
 func (x *MintTokenResponse) Reset() {
 	*x = MintTokenResponse{}
-	mi := &file_meshtrade_dev_ledger_token_tap_v1_service_proto_msgTypes[5]
+	mi := &file_meshtrade_dev_ledger_tap_v1_service_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -256,7 +256,7 @@ func (x *MintTokenResponse) String() string {
 func (*MintTokenResponse) ProtoMessage() {}
 
 func (x *MintTokenResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_dev_ledger_token_tap_v1_service_proto_msgTypes[5]
+	mi := &file_meshtrade_dev_ledger_tap_v1_service_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -269,69 +269,69 @@ func (x *MintTokenResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MintTokenResponse.ProtoReflect.Descriptor instead.
 func (*MintTokenResponse) Descriptor() ([]byte, []int) {
-	return file_meshtrade_dev_ledger_token_tap_v1_service_proto_rawDescGZIP(), []int{5}
+	return file_meshtrade_dev_ledger_tap_v1_service_proto_rawDescGZIP(), []int{5}
 }
 
-var File_meshtrade_dev_ledger_token_tap_v1_service_proto protoreflect.FileDescriptor
+var File_meshtrade_dev_ledger_tap_v1_service_proto protoreflect.FileDescriptor
 
-const file_meshtrade_dev_ledger_token_tap_v1_service_proto_rawDesc = "" +
+const file_meshtrade_dev_ledger_tap_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"/meshtrade/dev/ledger/token_tap/v1/service.proto\x12!meshtrade.dev.ledger.token_tap.v1\x1a.meshtrade/dev/ledger/token_tap/v1/option.proto\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\x1a\x1emeshtrade/type/v1/amount.proto\x1a\x1dmeshtrade/type/v1/token.proto\"\x1c\n" +
+	")meshtrade/dev/ledger/tap/v1/service.proto\x12\x1bmeshtrade.dev.ledger.tap.v1\x1a(meshtrade/dev/ledger/tap/v1/option.proto\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\x1a\x1emeshtrade/type/v1/amount.proto\x1a\x1dmeshtrade/type/v1/token.proto\"\x1c\n" +
 	"\x1aInitialiseTokenTapsRequest\"\x1d\n" +
 	"\x1bInitialiseTokenTapsResponse\"\x16\n" +
 	"\x14ListTokenTapsRequest\"I\n" +
 	"\x15ListTokenTapsResponse\x120\n" +
-	"\x06tokens\x18\x01 \x03(\v2\x18.meshtrade.type.v1.TokenR\x06tokens\"\xae\x01\n" +
+	"\x06tokens\x18\x01 \x03(\v2\x18.meshtrade.type.v1.TokenR\x06tokens\"\xa8\x01\n" +
 	"\x10MintTokenRequest\x121\n" +
 	"\x06amount\x18\x01 \x01(\v2\x19.meshtrade.type.v1.AmountR\x06amount\x12\x18\n" +
-	"\aaddress\x18\x02 \x01(\tR\aaddress\x12M\n" +
-	"\aoptions\x18\x03 \x01(\v23.meshtrade.dev.ledger.token_tap.v1.MintTokenOptionsR\aoptions\"\x13\n" +
-	"\x11MintTokenResponse2\xea\x03\n" +
-	"\x0fTokenTapService\x12\xa8\x01\n" +
-	"\x13InitialiseTokenTaps\x12=.meshtrade.dev.ledger.token_tap.v1.InitialiseTokenTapsRequest\x1a>.meshtrade.dev.ledger.token_tap.v1.InitialiseTokenTapsResponse\"\x12\xa0\xb5\x18\x02\xaa\xb5\x18\n" +
+	"\aaddress\x18\x02 \x01(\tR\aaddress\x12G\n" +
+	"\aoptions\x18\x03 \x01(\v2-.meshtrade.dev.ledger.tap.v1.MintTokenOptionsR\aoptions\"\x13\n" +
+	"\x11MintTokenResponse2\xc5\x03\n" +
+	"\x0fTokenTapService\x12\x9c\x01\n" +
+	"\x13InitialiseTokenTaps\x127.meshtrade.dev.ledger.tap.v1.InitialiseTokenTapsRequest\x1a8.meshtrade.dev.ledger.tap.v1.InitialiseTokenTapsResponse\"\x12\xa0\xb5\x18\x02\xaa\xb5\x18\n" +
 	"\n" +
-	"\b\xc0\x9f\xab\x03ğ\xab\x03\x12\x9e\x01\n" +
-	"\rListTokenTaps\x127.meshtrade.dev.ledger.token_tap.v1.ListTokenTapsRequest\x1a8.meshtrade.dev.ledger.token_tap.v1.ListTokenTapsResponse\"\x1a\xa0\xb5\x18\x01\xaa\xb5\x18\x12\n" +
-	"\x10\xc0\x9f\xab\x03\xc1\x9f\xab\x03ğ\xab\x03ş\xab\x03\x12\x8a\x01\n" +
-	"\tMintToken\x123.meshtrade.dev.ledger.token_tap.v1.MintTokenRequest\x1a4.meshtrade.dev.ledger.token_tap.v1.MintTokenResponse\"\x12\xa0\xb5\x18\x02\xaa\xb5\x18\n" +
+	"\b\xc0\x9f\xab\x03ğ\xab\x03\x12\x92\x01\n" +
+	"\rListTokenTaps\x121.meshtrade.dev.ledger.tap.v1.ListTokenTapsRequest\x1a2.meshtrade.dev.ledger.tap.v1.ListTokenTapsResponse\"\x1a\xa0\xb5\x18\x01\xaa\xb5\x18\x12\n" +
+	"\x10\xc0\x9f\xab\x03\xc1\x9f\xab\x03ğ\xab\x03ş\xab\x03\x12~\n" +
+	"\tMintToken\x12-.meshtrade.dev.ledger.tap.v1.MintTokenRequest\x1a..meshtrade.dev.ledger.tap.v1.MintTokenResponse\"\x12\xa0\xb5\x18\x02\xaa\xb5\x18\n" +
 	"\n" +
-	"\b\xc0\x9f\xab\x03ğ\xab\x03Bl\n" +
-	"(co.meshtrade.api.dev.ledger.token_tap.v1Z@github.com/meshtrade/api/go/dev/ledger/token_tap/v1;token_tap_v1b\x06proto3"
+	"\b\xc0\x9f\xab\x03ğ\xab\x03BZ\n" +
+	"\"co.meshtrade.api.dev.ledger.tap.v1Z4github.com/meshtrade/api/go/dev/ledger/tap/v1;tap_v1b\x06proto3"
 
 var (
-	file_meshtrade_dev_ledger_token_tap_v1_service_proto_rawDescOnce sync.Once
-	file_meshtrade_dev_ledger_token_tap_v1_service_proto_rawDescData []byte
+	file_meshtrade_dev_ledger_tap_v1_service_proto_rawDescOnce sync.Once
+	file_meshtrade_dev_ledger_tap_v1_service_proto_rawDescData []byte
 )
 
-func file_meshtrade_dev_ledger_token_tap_v1_service_proto_rawDescGZIP() []byte {
-	file_meshtrade_dev_ledger_token_tap_v1_service_proto_rawDescOnce.Do(func() {
-		file_meshtrade_dev_ledger_token_tap_v1_service_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_meshtrade_dev_ledger_token_tap_v1_service_proto_rawDesc), len(file_meshtrade_dev_ledger_token_tap_v1_service_proto_rawDesc)))
+func file_meshtrade_dev_ledger_tap_v1_service_proto_rawDescGZIP() []byte {
+	file_meshtrade_dev_ledger_tap_v1_service_proto_rawDescOnce.Do(func() {
+		file_meshtrade_dev_ledger_tap_v1_service_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_meshtrade_dev_ledger_tap_v1_service_proto_rawDesc), len(file_meshtrade_dev_ledger_tap_v1_service_proto_rawDesc)))
 	})
-	return file_meshtrade_dev_ledger_token_tap_v1_service_proto_rawDescData
+	return file_meshtrade_dev_ledger_tap_v1_service_proto_rawDescData
 }
 
-var file_meshtrade_dev_ledger_token_tap_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
-var file_meshtrade_dev_ledger_token_tap_v1_service_proto_goTypes = []any{
-	(*InitialiseTokenTapsRequest)(nil),  // 0: meshtrade.dev.ledger.token_tap.v1.InitialiseTokenTapsRequest
-	(*InitialiseTokenTapsResponse)(nil), // 1: meshtrade.dev.ledger.token_tap.v1.InitialiseTokenTapsResponse
-	(*ListTokenTapsRequest)(nil),        // 2: meshtrade.dev.ledger.token_tap.v1.ListTokenTapsRequest
-	(*ListTokenTapsResponse)(nil),       // 3: meshtrade.dev.ledger.token_tap.v1.ListTokenTapsResponse
-	(*MintTokenRequest)(nil),            // 4: meshtrade.dev.ledger.token_tap.v1.MintTokenRequest
-	(*MintTokenResponse)(nil),           // 5: meshtrade.dev.ledger.token_tap.v1.MintTokenResponse
+var file_meshtrade_dev_ledger_tap_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_meshtrade_dev_ledger_tap_v1_service_proto_goTypes = []any{
+	(*InitialiseTokenTapsRequest)(nil),  // 0: meshtrade.dev.ledger.tap.v1.InitialiseTokenTapsRequest
+	(*InitialiseTokenTapsResponse)(nil), // 1: meshtrade.dev.ledger.tap.v1.InitialiseTokenTapsResponse
+	(*ListTokenTapsRequest)(nil),        // 2: meshtrade.dev.ledger.tap.v1.ListTokenTapsRequest
+	(*ListTokenTapsResponse)(nil),       // 3: meshtrade.dev.ledger.tap.v1.ListTokenTapsResponse
+	(*MintTokenRequest)(nil),            // 4: meshtrade.dev.ledger.tap.v1.MintTokenRequest
+	(*MintTokenResponse)(nil),           // 5: meshtrade.dev.ledger.tap.v1.MintTokenResponse
 	(*v1.Token)(nil),                    // 6: meshtrade.type.v1.Token
 	(*v1.Amount)(nil),                   // 7: meshtrade.type.v1.Amount
-	(*MintTokenOptions)(nil),            // 8: meshtrade.dev.ledger.token_tap.v1.MintTokenOptions
+	(*MintTokenOptions)(nil),            // 8: meshtrade.dev.ledger.tap.v1.MintTokenOptions
 }
-var file_meshtrade_dev_ledger_token_tap_v1_service_proto_depIdxs = []int32{
-	6, // 0: meshtrade.dev.ledger.token_tap.v1.ListTokenTapsResponse.tokens:type_name -> meshtrade.type.v1.Token
-	7, // 1: meshtrade.dev.ledger.token_tap.v1.MintTokenRequest.amount:type_name -> meshtrade.type.v1.Amount
-	8, // 2: meshtrade.dev.ledger.token_tap.v1.MintTokenRequest.options:type_name -> meshtrade.dev.ledger.token_tap.v1.MintTokenOptions
-	0, // 3: meshtrade.dev.ledger.token_tap.v1.TokenTapService.InitialiseTokenTaps:input_type -> meshtrade.dev.ledger.token_tap.v1.InitialiseTokenTapsRequest
-	2, // 4: meshtrade.dev.ledger.token_tap.v1.TokenTapService.ListTokenTaps:input_type -> meshtrade.dev.ledger.token_tap.v1.ListTokenTapsRequest
-	4, // 5: meshtrade.dev.ledger.token_tap.v1.TokenTapService.MintToken:input_type -> meshtrade.dev.ledger.token_tap.v1.MintTokenRequest
-	1, // 6: meshtrade.dev.ledger.token_tap.v1.TokenTapService.InitialiseTokenTaps:output_type -> meshtrade.dev.ledger.token_tap.v1.InitialiseTokenTapsResponse
-	3, // 7: meshtrade.dev.ledger.token_tap.v1.TokenTapService.ListTokenTaps:output_type -> meshtrade.dev.ledger.token_tap.v1.ListTokenTapsResponse
-	5, // 8: meshtrade.dev.ledger.token_tap.v1.TokenTapService.MintToken:output_type -> meshtrade.dev.ledger.token_tap.v1.MintTokenResponse
+var file_meshtrade_dev_ledger_tap_v1_service_proto_depIdxs = []int32{
+	6, // 0: meshtrade.dev.ledger.tap.v1.ListTokenTapsResponse.tokens:type_name -> meshtrade.type.v1.Token
+	7, // 1: meshtrade.dev.ledger.tap.v1.MintTokenRequest.amount:type_name -> meshtrade.type.v1.Amount
+	8, // 2: meshtrade.dev.ledger.tap.v1.MintTokenRequest.options:type_name -> meshtrade.dev.ledger.tap.v1.MintTokenOptions
+	0, // 3: meshtrade.dev.ledger.tap.v1.TokenTapService.InitialiseTokenTaps:input_type -> meshtrade.dev.ledger.tap.v1.InitialiseTokenTapsRequest
+	2, // 4: meshtrade.dev.ledger.tap.v1.TokenTapService.ListTokenTaps:input_type -> meshtrade.dev.ledger.tap.v1.ListTokenTapsRequest
+	4, // 5: meshtrade.dev.ledger.tap.v1.TokenTapService.MintToken:input_type -> meshtrade.dev.ledger.tap.v1.MintTokenRequest
+	1, // 6: meshtrade.dev.ledger.tap.v1.TokenTapService.InitialiseTokenTaps:output_type -> meshtrade.dev.ledger.tap.v1.InitialiseTokenTapsResponse
+	3, // 7: meshtrade.dev.ledger.tap.v1.TokenTapService.ListTokenTaps:output_type -> meshtrade.dev.ledger.tap.v1.ListTokenTapsResponse
+	5, // 8: meshtrade.dev.ledger.tap.v1.TokenTapService.MintToken:output_type -> meshtrade.dev.ledger.tap.v1.MintTokenResponse
 	6, // [6:9] is the sub-list for method output_type
 	3, // [3:6] is the sub-list for method input_type
 	3, // [3:3] is the sub-list for extension type_name
@@ -339,27 +339,27 @@ var file_meshtrade_dev_ledger_token_tap_v1_service_proto_depIdxs = []int32{
 	0, // [0:3] is the sub-list for field type_name
 }
 
-func init() { file_meshtrade_dev_ledger_token_tap_v1_service_proto_init() }
-func file_meshtrade_dev_ledger_token_tap_v1_service_proto_init() {
-	if File_meshtrade_dev_ledger_token_tap_v1_service_proto != nil {
+func init() { file_meshtrade_dev_ledger_tap_v1_service_proto_init() }
+func file_meshtrade_dev_ledger_tap_v1_service_proto_init() {
+	if File_meshtrade_dev_ledger_tap_v1_service_proto != nil {
 		return
 	}
-	file_meshtrade_dev_ledger_token_tap_v1_option_proto_init()
+	file_meshtrade_dev_ledger_tap_v1_option_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_meshtrade_dev_ledger_token_tap_v1_service_proto_rawDesc), len(file_meshtrade_dev_ledger_token_tap_v1_service_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_meshtrade_dev_ledger_tap_v1_service_proto_rawDesc), len(file_meshtrade_dev_ledger_tap_v1_service_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_meshtrade_dev_ledger_token_tap_v1_service_proto_goTypes,
-		DependencyIndexes: file_meshtrade_dev_ledger_token_tap_v1_service_proto_depIdxs,
-		MessageInfos:      file_meshtrade_dev_ledger_token_tap_v1_service_proto_msgTypes,
+		GoTypes:           file_meshtrade_dev_ledger_tap_v1_service_proto_goTypes,
+		DependencyIndexes: file_meshtrade_dev_ledger_tap_v1_service_proto_depIdxs,
+		MessageInfos:      file_meshtrade_dev_ledger_tap_v1_service_proto_msgTypes,
 	}.Build()
-	File_meshtrade_dev_ledger_token_tap_v1_service_proto = out.File
-	file_meshtrade_dev_ledger_token_tap_v1_service_proto_goTypes = nil
-	file_meshtrade_dev_ledger_token_tap_v1_service_proto_depIdxs = nil
+	File_meshtrade_dev_ledger_tap_v1_service_proto = out.File
+	file_meshtrade_dev_ledger_tap_v1_service_proto_goTypes = nil
+	file_meshtrade_dev_ledger_tap_v1_service_proto_depIdxs = nil
 }

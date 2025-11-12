@@ -1,15 +1,15 @@
 syntax = "proto3";
 
-package meshtrade.dev.ledger.token_tap.v1;
+package meshtrade.dev.ledger.tap.v1;
 
-import "meshtrade/dev/ledger/token_tap/v1/option.proto";
+import "meshtrade/dev/ledger/tap/v1/option.proto";
 import "meshtrade/iam/role/v1/role.proto";
 import "meshtrade/option/v1/method_type.proto";
 import "meshtrade/type/v1/amount.proto";
 import "meshtrade/type/v1/token.proto";
 
-option go_package = "github.com/meshtrade/api/go/dev/ledger/token_tap/v1;token_tap_v1";
-option java_package = "co.meshtrade.api.dev.ledger.token_tap.v1";
+option go_package = "github.com/meshtrade/api/go/dev/ledger/tap/v1;tap_v1";
+option java_package = "co.meshtrade.api.dev.ledger.tap.v1";
 
 service TokenTapService {
   rpc InitialiseTokenTaps(InitialiseTokenTapsRequest) returns (InitialiseTokenTapsResponse) {
@@ -58,7 +58,7 @@ message ListTokenTapsResponse {
 message MintTokenRequest {
   type.v1.Amount amount = 1;
   string address = 2;
-  meshtrade.dev.ledger.token_tap.v1.MintTokenOptions options = 3;
+  meshtrade.dev.ledger.tap.v1.MintTokenOptions options = 3;
 }
 
 message MintTokenResponse {}

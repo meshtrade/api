@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             (unknown)
-// source: meshtrade/dev/ledger/token_tap/v1/service.proto
+// source: meshtrade/dev/ledger/tap/v1/service.proto
 
-package token_tap_v1
+package tap_v1
 
 import (
 	context "context"
@@ -19,9 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	TokenTapService_InitialiseTokenTaps_FullMethodName = "/meshtrade.dev.ledger.token_tap.v1.TokenTapService/InitialiseTokenTaps"
-	TokenTapService_ListTokenTaps_FullMethodName       = "/meshtrade.dev.ledger.token_tap.v1.TokenTapService/ListTokenTaps"
-	TokenTapService_MintToken_FullMethodName           = "/meshtrade.dev.ledger.token_tap.v1.TokenTapService/MintToken"
+	TokenTapService_InitialiseTokenTaps_FullMethodName = "/meshtrade.dev.ledger.tap.v1.TokenTapService/InitialiseTokenTaps"
+	TokenTapService_ListTokenTaps_FullMethodName       = "/meshtrade.dev.ledger.tap.v1.TokenTapService/ListTokenTaps"
+	TokenTapService_MintToken_FullMethodName           = "/meshtrade.dev.ledger.tap.v1.TokenTapService/MintToken"
 )
 
 // TokenTapServiceClient is the client API for TokenTapService service.
@@ -176,7 +176,7 @@ func _TokenTapService_MintToken_Handler(srv interface{}, ctx context.Context, de
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var TokenTapService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "meshtrade.dev.ledger.token_tap.v1.TokenTapService",
+	ServiceName: "meshtrade.dev.ledger.tap.v1.TokenTapService",
 	HandlerType: (*TokenTapServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -193,5 +193,5 @@ var TokenTapService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "meshtrade/dev/ledger/token_tap/v1/service.proto",
+	Metadata: "meshtrade/dev/ledger/tap/v1/service.proto",
 }

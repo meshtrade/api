@@ -1,6 +1,6 @@
-import co.meshtrade.api.dev.ledger.token_tap.LedgerService;
-import co.meshtrade.api.dev.ledger.token_tap.Service.InitialiseTokenTapsRequest;
-import co.meshtrade.api.dev.ledger.token_tap.Service.InitialiseTokenTapsResponse;
+import co.meshtrade.api.dev.ledger.tap.LedgerService;
+import co.meshtrade.api.dev.ledger.tap.Service.InitialiseTokenTapsRequest;
+import co.meshtrade.api.dev.ledger.tap.Service.InitialiseTokenTapsResponse;
 
 import java.util.Optional;
 

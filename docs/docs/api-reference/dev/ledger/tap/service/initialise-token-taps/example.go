@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	ledgerv1 "github.com/meshtrade/api/go/dev/ledger/token_tap/v1"
+	ledgerv1 "github.com/meshtrade/api/go/dev/ledger/tap/v1"
 )
 
 func main() {

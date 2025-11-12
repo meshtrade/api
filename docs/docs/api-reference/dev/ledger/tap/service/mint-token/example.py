@@ -1,4 +1,4 @@
-from meshtrade.dev.ledger.token_tap import (
+from meshtrade.dev.ledger.tap import (
     LedgerService,
     MintTokenRequest,
 )

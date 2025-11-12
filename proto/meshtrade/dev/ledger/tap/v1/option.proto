@@ -1,9 +1,9 @@
 syntax = "proto3";
 
-package meshtrade.dev.ledger.token_tap.v1;
+package meshtrade.dev.ledger.tap.v1;
 
-option go_package = "github.com/meshtrade/api/go/dev/ledger/token_tap/v1;token_tap_v1";
-option java_package = "co.meshtrade.api.dev.ledger.token_tap.v1";
+option go_package = "github.com/meshtrade/api/go/dev/ledger/tap/v1;tap_v1";
+option java_package = "co.meshtrade.api.dev.ledger.tap.v1";
 
 message MintTokenOptions {
   oneof mint_token_options {

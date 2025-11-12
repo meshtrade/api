@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	ledgerv1 "github.com/meshtrade/api/go/dev/ledger/token_tap/v1"
+	ledgerv1 "github.com/meshtrade/api/go/dev/ledger/tap/v1"
 )
 
 func main() {
@@ -20,16 +20,16 @@ func main() {
 	defer service.Close()
 
 	// Create request with service-specific parameters
-	request := &ledgerv1.ListTokenTapsRequest{
+	request := &ledgerv1.MintTokenRequest{
 		// FIXME: Populate service-specific request fields
 	}
 
-	// Call the ListTokenTaps method
-	response, err := service.ListTokenTaps(ctx, request)
+	// Call the MintToken method
+	response, err := service.MintToken(ctx, request)
 	if err != nil {
-		log.Fatalf("ListTokenTaps failed: %v", err)
+		log.Fatalf("MintToken failed: %v", err)
 	}
 
 	// FIXME: Add relevant response object usage
-	log.Printf("ListTokenTaps successful: %+v", response)
+	log.Printf("MintToken successful: %+v", response)
 }
