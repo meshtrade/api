@@ -37,8 +37,9 @@ service LimitOrderService {
      submitted to the appropriate ledger for execution.
   */
   rpc CreateLimitOrder(CreateLimitOrderRequest) returns (LimitOrder) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_WRITE
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_TRADING_ADMIN,
         ROLE_TRADING_LIMIT_ORDER_ADMIN
@@ -52,8 +53,9 @@ service LimitOrderService {
      Initiates cancellation of a limit order on the ledger.
   */
   rpc CancelLimitOrder(CancelLimitOrderRequest) returns (LimitOrder) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_WRITE
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_TRADING_ADMIN,
         ROLE_TRADING_LIMIT_ORDER_ADMIN
@@ -68,8 +70,9 @@ service LimitOrderService {
      ledger data when populate_ledger_data is true.
   */
   rpc GetLimitOrder(GetLimitOrderRequest) returns (LimitOrder) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_TRADING_ADMIN,
         ROLE_TRADING_VIEWER,
@@ -85,8 +88,9 @@ service LimitOrderService {
      Convenient lookup using client-provided external reference identifier.
   */
   rpc GetLimitOrderByExternalReference(GetLimitOrderByExternalReferenceRequest) returns (LimitOrder) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_TRADING_ADMIN,
         ROLE_TRADING_VIEWER,
@@ -102,8 +106,9 @@ service LimitOrderService {
      Returns the complete set of limit orders accessible to the executing context.
   */
   rpc ListLimitOrders(ListLimitOrdersRequest) returns (ListLimitOrdersResponse) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_TRADING_ADMIN,
         ROLE_TRADING_VIEWER,
@@ -119,8 +124,9 @@ service LimitOrderService {
      Supports filtering by token, account, and populating live ledger data.
   */
   rpc SearchLimitOrders(SearchLimitOrdersRequest) returns (SearchLimitOrdersResponse) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_TRADING_ADMIN,
         ROLE_TRADING_VIEWER,
@@ -138,8 +144,9 @@ service LimitOrderService {
      order states as they change.
   */
   rpc MonitorLimitOrder(MonitorLimitOrderRequest) returns (stream LimitOrder) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_TRADING_ADMIN,
         ROLE_TRADING_VIEWER,
