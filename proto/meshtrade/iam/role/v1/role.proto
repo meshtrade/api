@@ -2,8 +2,6 @@ syntax = "proto3";
 
 package meshtrade.iam.role.v1;
 
-import "google/protobuf/descriptor.proto";
-
 option go_package = "github.com/meshtrade/api/go/iam/role/v1;role_v1";
 option java_package = "co.meshtrade.api.iam.role.v1";
 
@@ -58,16 +56,4 @@ enum Role {
   ROLE_LEDGER_TRANSACTION_VIEWER = 7000003;
   ROLE_LEDGER_TOKEN_TAP_ADMIN = 7000004;
   ROLE_LEDGER_TOKEN_TAP_VIEWER = 7000005;
-}
-
-extend google.protobuf.MessageOptions {
-  RoleList message_roles = 50006;
-}
-
-extend google.protobuf.MethodOptions {
-  RoleList roles = 50005;
-}
-
-message RoleList {
-  repeated Role roles = 1;
 }

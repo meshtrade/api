@@ -3,9 +3,8 @@ syntax = "proto3";
 package meshtrade.iam.user.v1;
 
 import "buf/validate/validate.proto";
-import "meshtrade/iam/role/v1/role.proto";
 import "meshtrade/iam/user/v1/user.proto";
-import "meshtrade/option/v1/method_type.proto";
+import "meshtrade/option/method_options/v1/method_options.proto";
 import "meshtrade/type/v1/sorting.proto";
 
 option go_package = "github.com/meshtrade/api/go/iam/user/v1;user_v1";
@@ -30,8 +29,9 @@ service UserService {
      to the permissions associated with that role within the group hierarchy.
   */
   rpc AssignRolesToUser(AssignRolesToUserRequest) returns (meshtrade.iam.user.v1.User) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_WRITE
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_IAM_ADMIN,
         ROLE_IAM_USER_ADMIN
@@ -47,8 +47,9 @@ service UserService {
      to perform operations that require the revoked role.
   */
   rpc RevokeRolesFromUser(RevokeRolesFromUserRequest) returns (meshtrade.iam.user.v1.User) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_WRITE
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_IAM_ADMIN,
         ROLE_IAM_USER_ADMIN
@@ -63,8 +64,9 @@ service UserService {
      and assigned roles within the authenticated group's access scope.
   */
   rpc GetUser(GetUserRequest) returns (meshtrade.iam.user.v1.User) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_IAM_ADMIN,
         ROLE_IAM_VIEWER,
@@ -81,8 +83,9 @@ service UserService {
      and assigned roles within the authenticated group's access scope.
   */
   rpc GetUserByEmail(GetUserByEmailRequest) returns (meshtrade.iam.user.v1.User) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_IAM_ADMIN,
         ROLE_IAM_VIEWER,
@@ -99,8 +102,9 @@ service UserService {
      group's hierarchical permissions, optionally sorted by email address.
   */
   rpc ListUsers(ListUsersRequest) returns (ListUsersResponse) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_IAM_ADMIN,
         ROLE_IAM_VIEWER,
@@ -118,8 +122,9 @@ service UserService {
      sorted by email address.
   */
   rpc SearchUsers(SearchUsersRequest) returns (SearchUsersResponse) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_IAM_ADMIN,
         ROLE_IAM_VIEWER,
@@ -137,8 +142,9 @@ service UserService {
      Additional roles can be assigned after creation.
   */
   rpc CreateUser(CreateUserRequest) returns (meshtrade.iam.user.v1.User) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_WRITE
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_IAM_ADMIN,
         ROLE_IAM_USER_ADMIN
@@ -154,8 +160,9 @@ service UserService {
      use dedicated role management operations.
   */
   rpc UpdateUser(UpdateUserRequest) returns (meshtrade.iam.user.v1.User) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_WRITE
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_IAM_ADMIN,
         ROLE_IAM_USER_ADMIN

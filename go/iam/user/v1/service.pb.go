@@ -8,8 +8,7 @@ package user_v1
 
 import (
 	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
-	_ "github.com/meshtrade/api/go/iam/role/v1"
-	_ "github.com/meshtrade/api/go/option/v1"
+	_ "github.com/meshtrade/api/go/option/method_options/v1"
 	v1 "github.com/meshtrade/api/go/type/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -618,7 +617,7 @@ var File_meshtrade_iam_user_v1_service_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_user_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"#meshtrade/iam/user/v1/service.proto\x12\x15meshtrade.iam.user.v1\x1a\x1bbuf/validate/validate.proto\x1a meshtrade/iam/role/v1/role.proto\x1a meshtrade/iam/user/v1/user.proto\x1a%meshtrade/option/v1/method_type.proto\x1a\x1fmeshtrade/type/v1/sorting.proto\"\xdb\x01\n" +
+	"#meshtrade/iam/user/v1/service.proto\x12\x15meshtrade.iam.user.v1\x1a\x1bbuf/validate/validate.proto\x1a meshtrade/iam/user/v1/user.proto\x1a7meshtrade/option/method_options/v1/method_options.proto\x1a\x1fmeshtrade/type/v1/sorting.proto\"\xdb\x01\n" +
 	"\x18AssignRolesToUserRequest\x12O\n" +
 	"\x04name\x18\x01 \x01(\tB;\xbaH8\xc8\x01\x01r32.^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01 R\x04name\x12n\n" +
 	"\x05roles\x18\x02 \x03(\tBX\xbaHU\xc8\x01\x01\x92\x01O\"MrK\x10/\x1802E^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/roles/[1-9][0-9]{6,7}$R\x05roles\"\xdd\x01\n" +
@@ -652,28 +651,16 @@ const file_meshtrade_iam_user_v1_service_proto_rawDesc = "" +
 	"\x11UpdateUserRequest\x127\n" +
 	"\x04user\x18\x01 \x01(\v2\x1b.meshtrade.iam.user.v1.UserB\x06\xbaH\x03\xc8\x01\x01R\x04user2\xb4\a\n" +
 	"\vUserService\x12u\n" +
-	"\x11AssignRolesToUser\x12/.meshtrade.iam.user.v1.AssignRolesToUserRequest\x1a\x1b.meshtrade.iam.user.v1.User\"\x12\xa0\xb5\x18\x02\xaa\xb5\x18\n" +
+	"\x11AssignRolesToUser\x12/.meshtrade.iam.user.v1.AssignRolesToUserRequest\x1a\x1b.meshtrade.iam.user.v1.User\"\x12\xb2\xb5\x18\x0e\b\x02\x10\x02\x1a\b\xc0\x8d\xb7\x01ƍ\xb7\x01\x12y\n" +
+	"\x13RevokeRolesFromUser\x121.meshtrade.iam.user.v1.RevokeRolesFromUserRequest\x1a\x1b.meshtrade.iam.user.v1.User\"\x12\xb2\xb5\x18\x0e\b\x02\x10\x02\x1a\b\xc0\x8d\xb7\x01ƍ\xb7\x01\x12i\n" +
+	"\aGetUser\x12%.meshtrade.iam.user.v1.GetUserRequest\x1a\x1b.meshtrade.iam.user.v1.User\"\x1a\xb2\xb5\x18\x16\b\x01\x10\x02\x1a\x10\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01ƍ\xb7\x01Ǎ\xb7\x01\x12w\n" +
+	"\x0eGetUserByEmail\x12,.meshtrade.iam.user.v1.GetUserByEmailRequest\x1a\x1b.meshtrade.iam.user.v1.User\"\x1a\xb2\xb5\x18\x16\b\x01\x10\x02\x1a\x10\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01ƍ\xb7\x01Ǎ\xb7\x01\x12z\n" +
+	"\tListUsers\x12'.meshtrade.iam.user.v1.ListUsersRequest\x1a(.meshtrade.iam.user.v1.ListUsersResponse\"\x1a\xb2\xb5\x18\x16\b\x01\x10\x02\x1a\x10\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01ƍ\xb7\x01Ǎ\xb7\x01\x12\x80\x01\n" +
+	"\vSearchUsers\x12).meshtrade.iam.user.v1.SearchUsersRequest\x1a*.meshtrade.iam.user.v1.SearchUsersResponse\"\x1a\xb2\xb5\x18\x16\b\x01\x10\x02\x1a\x10\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01ƍ\xb7\x01Ǎ\xb7\x01\x12g\n" +
 	"\n" +
-	"\b\xc0\x8d\xb7\x01ƍ\xb7\x01\x12y\n" +
-	"\x13RevokeRolesFromUser\x121.meshtrade.iam.user.v1.RevokeRolesFromUserRequest\x1a\x1b.meshtrade.iam.user.v1.User\"\x12\xa0\xb5\x18\x02\xaa\xb5\x18\n" +
+	"CreateUser\x12(.meshtrade.iam.user.v1.CreateUserRequest\x1a\x1b.meshtrade.iam.user.v1.User\"\x12\xb2\xb5\x18\x0e\b\x02\x10\x02\x1a\b\xc0\x8d\xb7\x01ƍ\xb7\x01\x12g\n" +
 	"\n" +
-	"\b\xc0\x8d\xb7\x01ƍ\xb7\x01\x12i\n" +
-	"\aGetUser\x12%.meshtrade.iam.user.v1.GetUserRequest\x1a\x1b.meshtrade.iam.user.v1.User\"\x1a\xa0\xb5\x18\x01\xaa\xb5\x18\x12\n" +
-	"\x10\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01ƍ\xb7\x01Ǎ\xb7\x01\x12w\n" +
-	"\x0eGetUserByEmail\x12,.meshtrade.iam.user.v1.GetUserByEmailRequest\x1a\x1b.meshtrade.iam.user.v1.User\"\x1a\xa0\xb5\x18\x01\xaa\xb5\x18\x12\n" +
-	"\x10\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01ƍ\xb7\x01Ǎ\xb7\x01\x12z\n" +
-	"\tListUsers\x12'.meshtrade.iam.user.v1.ListUsersRequest\x1a(.meshtrade.iam.user.v1.ListUsersResponse\"\x1a\xa0\xb5\x18\x01\xaa\xb5\x18\x12\n" +
-	"\x10\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01ƍ\xb7\x01Ǎ\xb7\x01\x12\x80\x01\n" +
-	"\vSearchUsers\x12).meshtrade.iam.user.v1.SearchUsersRequest\x1a*.meshtrade.iam.user.v1.SearchUsersResponse\"\x1a\xa0\xb5\x18\x01\xaa\xb5\x18\x12\n" +
-	"\x10\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01ƍ\xb7\x01Ǎ\xb7\x01\x12g\n" +
-	"\n" +
-	"CreateUser\x12(.meshtrade.iam.user.v1.CreateUserRequest\x1a\x1b.meshtrade.iam.user.v1.User\"\x12\xa0\xb5\x18\x02\xaa\xb5\x18\n" +
-	"\n" +
-	"\b\xc0\x8d\xb7\x01ƍ\xb7\x01\x12g\n" +
-	"\n" +
-	"UpdateUser\x12(.meshtrade.iam.user.v1.UpdateUserRequest\x1a\x1b.meshtrade.iam.user.v1.User\"\x12\xa0\xb5\x18\x02\xaa\xb5\x18\n" +
-	"\n" +
-	"\b\xc0\x8d\xb7\x01ƍ\xb7\x01BO\n" +
+	"UpdateUser\x12(.meshtrade.iam.user.v1.UpdateUserRequest\x1a\x1b.meshtrade.iam.user.v1.User\"\x12\xb2\xb5\x18\x0e\b\x02\x10\x02\x1a\b\xc0\x8d\xb7\x01ƍ\xb7\x01BO\n" +
 	"\x1cco.meshtrade.api.iam.user.v1Z/github.com/meshtrade/api/go/iam/user/v1;user_v1b\x06proto3"
 
 var (

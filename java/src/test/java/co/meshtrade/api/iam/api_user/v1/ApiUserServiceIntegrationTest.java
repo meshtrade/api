@@ -25,15 +25,15 @@ import co.meshtrade.api.config.ServiceOptions;
 import co.meshtrade.api.grpc.BaseGRPCClient;
 import co.meshtrade.api.iam.api_user.v1.ApiUser.APIUser;
 import co.meshtrade.api.iam.api_user.v1.ApiUser.APIUserState;
-import co.meshtrade.api.iam.api_user.v1.Service.ActivateApiUserRequest;
+import co.meshtrade.api.iam.api_user.v1.Service.ActivateAPIUserRequest;
 import co.meshtrade.api.iam.api_user.v1.Service.AssignRolesToAPIUserRequest;
 import co.meshtrade.api.iam.api_user.v1.Service.RevokeRolesFromAPIUserRequest;
-import co.meshtrade.api.iam.api_user.v1.Service.CreateApiUserRequest;
-import co.meshtrade.api.iam.api_user.v1.Service.DeactivateApiUserRequest;
-import co.meshtrade.api.iam.api_user.v1.Service.GetApiUserByKeyHashRequest;
-import co.meshtrade.api.iam.api_user.v1.Service.GetApiUserRequest;
-import co.meshtrade.api.iam.api_user.v1.Service.ListApiUsersRequest;
-import co.meshtrade.api.iam.api_user.v1.Service.SearchApiUsersRequest;
+import co.meshtrade.api.iam.api_user.v1.Service.CreateAPIUserRequest;
+import co.meshtrade.api.iam.api_user.v1.Service.DeactivateAPIUserRequest;
+import co.meshtrade.api.iam.api_user.v1.Service.GetAPIUserByKeyHashRequest;
+import co.meshtrade.api.iam.api_user.v1.Service.GetAPIUserRequest;
+import co.meshtrade.api.iam.api_user.v1.Service.ListAPIUsersRequest;
+import co.meshtrade.api.iam.api_user.v1.Service.SearchAPIUsersRequest;
 
 /**
  * Integration tests for Java API User service SDK client configuration.
@@ -42,15 +42,15 @@ import co.meshtrade.api.iam.api_user.v1.Service.SearchApiUsersRequest;
  * validation is properly integrated without making any network calls.
  */
 @ExtendWith(MockitoExtension.class)
-@DisplayName("ApiUserService Integration Tests")
-class ApiUserServiceIntegrationTest {
+@DisplayName("APIUserService Integration Tests")
+class APIUserServiceIntegrationTest {
 
-    private APIUser mockApiUser;
+    private APIUser mockAPIUser;
     
     @BeforeEach
     void setUp() {
         // Create mock API user for test data
-        mockApiUser = APIUser.newBuilder()
+        mockAPIUser = APIUser.newBuilder()
             .setName("api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV")
             .setOwner("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
             .setDisplayName("Test API User")
@@ -73,7 +73,7 @@ class ApiUserServiceIntegrationTest {
             
         // Verify service can be created with all configuration options
         assertThatCode(() -> {
-            try (ApiUserService service = new ApiUserService(options)) {
+            try (APIUserService service = new APIUserService(options)) {
                 // Verify service is properly initialized
                 assertThat(service).isNotNull();
                 
@@ -96,7 +96,7 @@ class ApiUserServiceIntegrationTest {
             .build();
             
         assertThatCode(() -> {
-            try (ApiUserService service = new ApiUserService(options)) {
+            try (APIUserService service = new APIUserService(options)) {
                 assertThat(service).isNotNull();
                 
                 // Verify default configurations are applied
@@ -117,7 +117,7 @@ class ApiUserServiceIntegrationTest {
         // and verify it has proper validation capabilities
         try {
             // This may throw if no credentials are found, which is acceptable in tests
-            try (ApiUserService service = new ApiUserService()) {
+            try (APIUserService service = new APIUserService()) {
                 assertThat(service).isNotNull();
                 assertThat(service.getValidator()).isNotNull();
             } catch (InterruptedException ignored) {
@@ -144,7 +144,7 @@ class ApiUserServiceIntegrationTest {
             .build();
             
         assertThatCode(() -> {
-            try (ApiUserService service = new ApiUserService(options)) {
+            try (APIUserService service = new APIUserService(options)) {
                 assertThat(service).isNotNull();
                 
                 // Service should be created with custom timeout
@@ -169,7 +169,7 @@ class ApiUserServiceIntegrationTest {
             .build();
             
         assertThatCode(() -> {
-            try (ApiUserService service = new ApiUserService(options)) {
+            try (APIUserService service = new APIUserService(options)) {
                 assertThat(service).isNotNull();
                 
                 // Verify service was created with TLS disabled configuration
@@ -191,7 +191,7 @@ class ApiUserServiceIntegrationTest {
                 .apiKey("invalid-api-key-format")
                 .group("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
                 .build();
-            new ApiUserService(options);
+            new APIUserService(options);
         })
             .isInstanceOf(IllegalStateException.class)
             .hasMessageContaining("Invalid credentials");
@@ -208,7 +208,7 @@ class ApiUserServiceIntegrationTest {
                 .apiKey("dGVzdC1rZXktZm9yLWphdmEtc2RrLXRlc3RpbmctcHU")
                 .group("invalid-group-format")
                 .build();
-            new ApiUserService(options);
+            new APIUserService(options);
         })
             .isInstanceOf(IllegalStateException.class)
             .hasMessageContaining("Invalid credentials");
@@ -223,7 +223,7 @@ class ApiUserServiceIntegrationTest {
             .group("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
             .build();
             
-        try (ApiUserService service = new ApiUserService(options)) {
+        try (APIUserService service = new APIUserService(options)) {
             // Verify service extends BaseGRPCClient and inherits validation
             assertThat(service).isInstanceOf(BaseGRPCClient.class);
             
@@ -233,7 +233,7 @@ class ApiUserServiceIntegrationTest {
             assertThat(validator).isInstanceOf(Validator.class);
             
             // Test that validator can validate a simple request
-            CreateApiUserRequest request = CreateApiUserRequest.newBuilder()
+            CreateAPIUserRequest request = CreateAPIUserRequest.newBuilder()
                 .setApiUser(APIUser.newBuilder()
                     .setOwner("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
                     .setDisplayName("Test User")
@@ -258,7 +258,7 @@ class ApiUserServiceIntegrationTest {
             .timeout(Duration.ofSeconds(10)) // Default timeout
             .build();
             
-        try (ApiUserService service = new ApiUserService(options)) {
+        try (APIUserService service = new APIUserService(options)) {
             // Verify that service accepts method-level timeouts
             assertThat(service).isNotNull();
             
@@ -281,24 +281,24 @@ class ApiUserServiceIntegrationTest {
     @Test
     @DisplayName("Service interface compliance verification")
     void serviceInterfaceComplianceIsCorrect() {
-        // Test that ApiUserService implements ApiUserServiceInterface correctly
+        // Test that APIUserService implements APIUserServiceInterface correctly
         ServiceOptions options = ServiceOptions.builder()
             .apiKey("dGVzdC1rZXktZm9yLWphdmEtc2RrLXRlc3RpbmctcHU")
             .group("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
             .build();
             
-        try (ApiUserService service = new ApiUserService(options)) {
+        try (APIUserService service = new APIUserService(options)) {
             // Verify service implements the interface
-            assertThat(service).isInstanceOf(ApiUserServiceInterface.class);
+            assertThat(service).isInstanceOf(APIUserServiceInterface.class);
             
             // Verify service extends BaseGRPCClient
             assertThat(service).isInstanceOf(BaseGRPCClient.class);
             
             // Verify all required methods are available (without calling them)
             // This tests that the service has the correct API structure
-            assertThat(service.getClass().getMethod("getApiUser", GetApiUserRequest.class, Optional.class))
+            assertThat(service.getClass().getMethod("getAPIUser", GetAPIUserRequest.class, Optional.class))
                 .isNotNull();
-            assertThat(service.getClass().getMethod("createApiUser", CreateApiUserRequest.class, Optional.class))
+            assertThat(service.getClass().getMethod("createAPIUser", CreateAPIUserRequest.class, Optional.class))
                 .isNotNull();
             assertThat(service.getClass().getMethod("assignRolesToAPIUser",
                     AssignRolesToAPIUserRequest.class, Optional.class))
@@ -306,17 +306,17 @@ class ApiUserServiceIntegrationTest {
             assertThat(service.getClass().getMethod("revokeRolesFromAPIUser",
                     RevokeRolesFromAPIUserRequest.class, Optional.class))
                 .isNotNull();
-            assertThat(service.getClass().getMethod("listApiUsers", ListApiUsersRequest.class, Optional.class))
+            assertThat(service.getClass().getMethod("listAPIUsers", ListAPIUsersRequest.class, Optional.class))
                 .isNotNull();
-            assertThat(service.getClass().getMethod("searchApiUsers", SearchApiUsersRequest.class, Optional.class))
+            assertThat(service.getClass().getMethod("searchAPIUsers", SearchAPIUsersRequest.class, Optional.class))
                 .isNotNull();
-            assertThat(service.getClass().getMethod("activateApiUser", ActivateApiUserRequest.class, Optional.class))
+            assertThat(service.getClass().getMethod("activateAPIUser", ActivateAPIUserRequest.class, Optional.class))
                 .isNotNull();
-            assertThat(service.getClass().getMethod("deactivateApiUser",
-                    DeactivateApiUserRequest.class, Optional.class))
+            assertThat(service.getClass().getMethod("deactivateAPIUser",
+                    DeactivateAPIUserRequest.class, Optional.class))
                 .isNotNull();
-            assertThat(service.getClass().getMethod("getApiUserByKeyHash",
-                    GetApiUserByKeyHashRequest.class, Optional.class))
+            assertThat(service.getClass().getMethod("getAPIUserByKeyHash",
+                    GetAPIUserByKeyHashRequest.class, Optional.class))
                 .isNotNull();
                 
         } catch (InterruptedException | NoSuchMethodException ignored) {
@@ -338,7 +338,7 @@ class ApiUserServiceIntegrationTest {
             .group("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
             .build();
         
-        try (ApiUserService testService = new ApiUserService(options)) {
+        try (APIUserService testService = new APIUserService(options)) {
             // Verify architectural consistency
             assertThat(testService).isInstanceOf(BaseGRPCClient.class)
                 .as("Service extends BaseGRPCClient for consistency");
@@ -374,8 +374,8 @@ class ApiUserServiceIntegrationTest {
 /**
  * Tests for MESH_API_CREDENTIALS environment variable functionality.
  */
-@DisplayName("ApiUserService Credential Files Tests")
-class ApiUserServiceCredentialFilesTest {
+@DisplayName("APIUserService Credential Files Tests")
+class APIUserServiceCredentialFilesTest {
 
     @TempDir
     Path tempDir;
@@ -419,14 +419,14 @@ class ApiUserServiceCredentialFilesTest {
             .timeout(Duration.ofMillis(100))
             .build();
         
-        try (ApiUserService service = new ApiUserService(options)) {
+        try (APIUserService service = new APIUserService(options)) {
             // Test that validation works with loaded credentials
-            GetApiUserRequest validRequest = GetApiUserRequest.newBuilder()
+            GetAPIUserRequest validRequest = GetAPIUserRequest.newBuilder()
                 .setName("api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV")
                 .build();
 
             // Should get network error, not validation error
-            assertThatThrownBy(() -> service.getApiUser(validRequest, Optional.empty()))
+            assertThatThrownBy(() -> service.getAPIUser(validRequest, Optional.empty()))
                 .isInstanceOf(Exception.class)
                 .hasMessageNotContaining("Request validation failed");
         }
@@ -470,7 +470,7 @@ class ApiUserServiceCredentialFilesTest {
                 .port(9999)
                 .timeout(Duration.ofMillis(100))
                 .build();
-            new ApiUserService(invalidOptions);
+            new APIUserService(invalidOptions);
         })
             .isInstanceOf(IllegalStateException.class);
     }
@@ -491,12 +491,12 @@ class ApiUserServiceCredentialFilesTest {
             .timeout(Duration.ofMillis(100))
             .build();
         
-        try (ApiUserService service = new ApiUserService(options)) {
-            GetApiUserRequest validRequest = GetApiUserRequest.newBuilder()
+        try (APIUserService service = new APIUserService(options)) {
+            GetAPIUserRequest validRequest = GetAPIUserRequest.newBuilder()
                 .setName("api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV")
                 .build();
 
-            assertThatThrownBy(() -> service.getApiUser(validRequest, Optional.empty()))
+            assertThatThrownBy(() -> service.getAPIUser(validRequest, Optional.empty()))
                 .isInstanceOf(Exception.class)
                 .hasMessageNotContaining("Request validation failed");
         }
@@ -514,13 +514,13 @@ class ApiUserServiceCredentialFilesTest {
             .timeout(Duration.ofMillis(100))
             .build();
         
-        try (ApiUserService service = new ApiUserService(options)) {
+        try (APIUserService service = new APIUserService(options)) {
             // Test that validation works with explicit credentials
-            GetApiUserRequest validRequest = GetApiUserRequest.newBuilder()
+            GetAPIUserRequest validRequest = GetAPIUserRequest.newBuilder()
                 .setName("api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV")
                 .build();
 
-            assertThatThrownBy(() -> service.getApiUser(validRequest, Optional.empty()))
+            assertThatThrownBy(() -> service.getAPIUser(validRequest, Optional.empty()))
                 .isInstanceOf(Exception.class)
                 .hasMessageNotContaining("Request validation failed");
         }
@@ -538,15 +538,15 @@ class ApiUserServiceCredentialFilesTest {
                 .timeout(Duration.ofMillis(100))
                 .build();
 
-            ApiUserService service = new ApiUserService(options);
+            APIUserService service = new APIUserService(options);
 
             // If we get here, credentials were found - test that service works
-            GetApiUserRequest validRequest = GetApiUserRequest.newBuilder()
+            GetAPIUserRequest validRequest = GetAPIUserRequest.newBuilder()
                 .setName("api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV")
                 .build();
 
             // Should get network error, not validation error
-            assertThatThrownBy(() -> service.getApiUser(validRequest, Optional.empty()))
+            assertThatThrownBy(() -> service.getAPIUser(validRequest, Optional.empty()))
                 .isInstanceOf(Exception.class)
                 .hasMessageNotContaining("Request validation failed");
 
@@ -638,7 +638,7 @@ class ApiUserServiceCredentialFilesTest {
             .timeout(Duration.ofMillis(100))
             .build();
         
-        try (ApiUserService service = new ApiUserService(options)) {
+        try (APIUserService service = new APIUserService(options)) {
             // Service created successfully with these credentials
             assertThat(service).isNotNull();
         }
@@ -655,7 +655,7 @@ class ApiUserServiceCredentialFilesTest {
             .build();
             
         // Test manual resource management
-        ApiUserService service = new ApiUserService(options);
+        APIUserService service = new APIUserService(options);
         try {
             // Test service creation
             assertThat(service).isNotNull();
@@ -680,7 +680,7 @@ class ApiUserServiceCredentialFilesTest {
         
         // Test try-with-resources usage
         assertThatCode(() -> {
-            try (ApiUserService autoService = new ApiUserService(options)) {
+            try (APIUserService autoService = new APIUserService(options)) {
                 assertThat(autoService).isNotNull();
                 assertThat(autoService.getValidator()).isNotNull();
             } catch (InterruptedException ignored) {

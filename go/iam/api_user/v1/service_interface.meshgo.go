@@ -6,7 +6,7 @@ import (
 	context "context"
 )
 
-// ApiUserService manages API user lifecycle and authentication credentials.
+// APIUserService manages API user lifecycle and authentication credentials.
 //
 // API users represent automated clients that can authenticate with API keys
 // and perform operations within a specific group context. Each API user has:
@@ -17,16 +17,16 @@ import (
 //
 // All operations require IAM domain permissions and operate within
 // the authenticated group context.
-type ApiUserService interface {
+type APIUserService interface {
 	// Retrieves a single API user by its unique identifier.
-	GetApiUser(ctx context.Context, request *GetApiUserRequest) (*APIUser, error)
+	GetAPIUser(ctx context.Context, request *GetAPIUserRequest) (*APIUser, error)
 
 	// Creates a new API user with the specified configuration.
 	//
 	// The API user will be created in the authenticated group context
 	// and assigned the provided roles. The system generates a unique
 	// identifier and API key for authentication.
-	CreateApiUser(ctx context.Context, request *CreateApiUserRequest) (*APIUser, error)
+	CreateAPIUser(ctx context.Context, request *CreateAPIUserRequest) (*APIUser, error)
 
 	// Assign roles to an existing api user within the authenticated group context.
 	//
@@ -45,31 +45,31 @@ type ApiUserService interface {
 	//
 	// Returns all API users that belong to the current group,
 	// regardless of their active/inactive state.
-	ListApiUsers(ctx context.Context, request *ListApiUsersRequest) (*ListApiUsersResponse, error)
+	ListAPIUsers(ctx context.Context, request *ListAPIUsersRequest) (*ListAPIUsersResponse, error)
 
 	// Searches API users using display name filtering.
 	//
 	// Performs substring matching on API user display names
 	// within the authenticated group context.
-	SearchApiUsers(ctx context.Context, request *SearchApiUsersRequest) (*SearchApiUsersResponse, error)
+	SearchAPIUsers(ctx context.Context, request *SearchAPIUsersRequest) (*SearchAPIUsersResponse, error)
 
 	// Activates an API user, enabling API key authentication.
 	//
 	// Changes the API user state to active, allowing the associated
 	// API key to be used for authentication and authorization.
-	ActivateApiUser(ctx context.Context, request *ActivateApiUserRequest) (*APIUser, error)
+	ActivateAPIUser(ctx context.Context, request *ActivateAPIUserRequest) (*APIUser, error)
 
 	// Deactivates an API user, disabling API key authentication.
 	//
 	// Changes the API user state to inactive, preventing the associated
 	// API key from being used for authentication.
-	DeactivateApiUser(ctx context.Context, request *DeactivateApiUserRequest) (*APIUser, error)
+	DeactivateAPIUser(ctx context.Context, request *DeactivateAPIUserRequest) (*APIUser, error)
 
 	// Retrieves an API user using its API key hash.
 	//
 	// This method is used for authentication flows to lookup
 	// an API user based on the hash of their API key.
-	GetApiUserByKeyHash(ctx context.Context, request *GetApiUserByKeyHashRequest) (*APIUser, error)
+	GetAPIUserByKeyHash(ctx context.Context, request *GetAPIUserByKeyHashRequest) (*APIUser, error)
 }
 
-const ApiUserServiceServiceProviderName = "meshtrade-iam-api_user-v1-ApiUserService"
+const APIUserServiceServiceProviderName = "meshtrade-iam-api_user-v1-APIUserService"

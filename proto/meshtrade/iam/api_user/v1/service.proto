@@ -4,14 +4,13 @@ package meshtrade.iam.api_user.v1;
 
 import "buf/validate/validate.proto";
 import "meshtrade/iam/api_user/v1/api_user.proto";
-import "meshtrade/iam/role/v1/role.proto";
-import "meshtrade/option/v1/method_type.proto";
+import "meshtrade/option/method_options/v1/method_options.proto";
 
 option go_package = "github.com/meshtrade/api/go/iam/api_user/v1;api_user_v1";
 option java_package = "co.meshtrade.api.iam.api_user.v1";
 
 /*
-   ApiUserService manages API user lifecycle and authentication credentials.
+   APIUserService manages API user lifecycle and authentication credentials.
 
    API users represent automated clients that can authenticate with API keys
    and perform operations within a specific group context. Each API user has:
@@ -23,13 +22,14 @@ option java_package = "co.meshtrade.api.iam.api_user.v1";
    All operations require IAM domain permissions and operate within
    the authenticated group context.
 */
-service ApiUserService {
+service APIUserService {
   /*
      Retrieves a single API user by its unique identifier.
   */
-  rpc GetApiUser(GetApiUserRequest) returns (meshtrade.iam.api_user.v1.APIUser) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
-    option (meshtrade.iam.role.v1.roles) = {
+  rpc GetAPIUser(GetAPIUserRequest) returns (meshtrade.iam.api_user.v1.APIUser) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_IAM_ADMIN,
         ROLE_IAM_VIEWER,
@@ -46,9 +46,10 @@ service ApiUserService {
      and assigned the provided roles. The system generates a unique
      identifier and API key for authentication.
   */
-  rpc CreateApiUser(CreateApiUserRequest) returns (meshtrade.iam.api_user.v1.APIUser) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
-    option (meshtrade.iam.role.v1.roles) = {
+  rpc CreateAPIUser(CreateAPIUserRequest) returns (meshtrade.iam.api_user.v1.APIUser) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_WRITE
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_IAM_ADMIN,
         ROLE_IAM_API_USER_ADMIN
@@ -63,8 +64,9 @@ service ApiUserService {
      to the permissions associated with that role within the group hierarchy.
   */
   rpc AssignRolesToAPIUser(AssignRolesToAPIUserRequest) returns (meshtrade.iam.api_user.v1.APIUser) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_WRITE
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_IAM_ADMIN,
         ROLE_IAM_API_USER_ADMIN
@@ -80,8 +82,9 @@ service ApiUserService {
      to perform operations that require the revoked role.
   */
   rpc RevokeRolesFromAPIUser(RevokeRolesFromAPIUserRequest) returns (meshtrade.iam.api_user.v1.APIUser) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_WRITE
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_IAM_ADMIN,
         ROLE_IAM_API_USER_ADMIN
@@ -95,9 +98,10 @@ service ApiUserService {
      Returns all API users that belong to the current group,
      regardless of their active/inactive state.
   */
-  rpc ListApiUsers(ListApiUsersRequest) returns (ListApiUsersResponse) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
-    option (meshtrade.iam.role.v1.roles) = {
+  rpc ListAPIUsers(ListAPIUsersRequest) returns (ListAPIUsersResponse) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_IAM_ADMIN,
         ROLE_IAM_VIEWER,
@@ -113,9 +117,10 @@ service ApiUserService {
      Performs substring matching on API user display names
      within the authenticated group context.
   */
-  rpc SearchApiUsers(SearchApiUsersRequest) returns (SearchApiUsersResponse) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
-    option (meshtrade.iam.role.v1.roles) = {
+  rpc SearchAPIUsers(SearchAPIUsersRequest) returns (SearchAPIUsersResponse) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_IAM_ADMIN,
         ROLE_IAM_VIEWER,
@@ -131,9 +136,10 @@ service ApiUserService {
      Changes the API user state to active, allowing the associated
      API key to be used for authentication and authorization.
   */
-  rpc ActivateApiUser(ActivateApiUserRequest) returns (meshtrade.iam.api_user.v1.APIUser) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
-    option (meshtrade.iam.role.v1.roles) = {
+  rpc ActivateAPIUser(ActivateAPIUserRequest) returns (meshtrade.iam.api_user.v1.APIUser) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_WRITE
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_IAM_ADMIN,
         ROLE_IAM_API_USER_ADMIN
@@ -147,9 +153,10 @@ service ApiUserService {
      Changes the API user state to inactive, preventing the associated
      API key from being used for authentication.
   */
-  rpc DeactivateApiUser(DeactivateApiUserRequest) returns (meshtrade.iam.api_user.v1.APIUser) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
-    option (meshtrade.iam.role.v1.roles) = {
+  rpc DeactivateAPIUser(DeactivateAPIUserRequest) returns (meshtrade.iam.api_user.v1.APIUser) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_WRITE
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_IAM_ADMIN,
         ROLE_IAM_API_USER_ADMIN
@@ -163,9 +170,10 @@ service ApiUserService {
      This method is used for authentication flows to lookup
      an API user based on the hash of their API key.
   */
-  rpc GetApiUserByKeyHash(GetApiUserByKeyHashRequest) returns (meshtrade.iam.api_user.v1.APIUser) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
-    option (meshtrade.iam.role.v1.roles) = {
+  rpc GetAPIUserByKeyHash(GetAPIUserByKeyHashRequest) returns (meshtrade.iam.api_user.v1.APIUser) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_IAM_ADMIN,
         ROLE_IAM_VIEWER,
@@ -176,7 +184,7 @@ service ApiUserService {
   }
 }
 
-message GetApiUserRequest {
+message GetAPIUserRequest {
   /*
      Name of the API user to retrieve.
      Format: api_users/{ULIDv2}
@@ -190,7 +198,7 @@ message GetApiUserRequest {
   }];
 }
 
-message GetApiUserByKeyHashRequest {
+message GetAPIUserByKeyHashRequest {
   /*
      Key hash of the API user to get.
   */
@@ -203,7 +211,7 @@ message GetApiUserByKeyHashRequest {
   }];
 }
 
-message CreateApiUserRequest {
+message CreateAPIUserRequest {
   /*
      The API user resource to create.
      The name field will be ignored and assigned by the server.
@@ -271,24 +279,24 @@ message RevokeRolesFromAPIUserRequest {
   }];
 }
 
-message ListApiUsersRequest {}
+message ListAPIUsersRequest {}
 
-message ListApiUsersResponse {
+message ListAPIUsersResponse {
   repeated meshtrade.iam.api_user.v1.APIUser api_users = 1;
 }
 
-message SearchApiUsersRequest {
+message SearchAPIUsersRequest {
   /*
      Display name is a substring search for API users.
   */
   string display_name = 1;
 }
 
-message SearchApiUsersResponse {
+message SearchAPIUsersResponse {
   repeated meshtrade.iam.api_user.v1.APIUser api_users = 1;
 }
 
-message ActivateApiUserRequest {
+message ActivateAPIUserRequest {
   /*
      Name of the API user to activate.
      Format: api_users/{ULIDv2}
@@ -302,7 +310,7 @@ message ActivateApiUserRequest {
   }];
 }
 
-message DeactivateApiUserRequest {
+message DeactivateAPIUserRequest {
   /*
      Name of the API user to deactivate.
      Format: api_users/{ULIDv2}

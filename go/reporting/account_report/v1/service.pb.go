@@ -8,8 +8,7 @@ package account_report_v1
 
 import (
 	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
-	_ "github.com/meshtrade/api/go/iam/role/v1"
-	_ "github.com/meshtrade/api/go/option/v1"
+	_ "github.com/meshtrade/api/go/option/method_options/v1"
 	v1 "github.com/meshtrade/api/go/type/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -229,7 +228,7 @@ var File_meshtrade_reporting_account_report_v1_service_proto protoreflect.FileDe
 
 const file_meshtrade_reporting_account_report_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"3meshtrade/reporting/account_report/v1/service.proto\x12%meshtrade.reporting.account_report.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a meshtrade/iam/role/v1/role.proto\x1a%meshtrade/option/v1/method_type.proto\x1a:meshtrade/reporting/account_report/v1/account_report.proto\x1a\x1dmeshtrade/type/v1/token.proto\"\xa7\x03\n" +
+	"3meshtrade/reporting/account_report/v1/service.proto\x12%meshtrade.reporting.account_report.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a7meshtrade/option/method_options/v1/method_options.proto\x1a:meshtrade/reporting/account_report/v1/account_report.proto\x1a\x1dmeshtrade/type/v1/token.proto\"\xa7\x03\n" +
 	"\x17GetAccountReportRequest\x129\n" +
 	"\x0eaccount_number\x18\x01 \x01(\tB\x12\xbaH\x0fr\r2\v^1[0-9]{6}$R\raccountNumber\x12E\n" +
 	"\fperiod_start\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xbaH\x03\xc8\x01\x01R\vperiodStart\x12A\n" +
@@ -247,12 +246,8 @@ const file_meshtrade_reporting_account_report_v1_service_proto_rawDesc = "" +
 	"\x1dGetExcelAccountReportResponse\x12!\n" +
 	"\fexcel_base64\x18\x01 \x01(\tR\vexcelBase642\xee\x02\n" +
 	"\x14AccountReportService\x12\x9c\x01\n" +
-	"\x10GetAccountReport\x12>.meshtrade.reporting.account_report.v1.GetAccountReportRequest\x1a4.meshtrade.reporting.account_report.v1.AccountReport\"\x12\xa0\xb5\x18\x01\xaa\xb5\x18\n" +
-	"\n" +
-	"\b\x80\x9b\xee\x02\x81\x9b\xee\x02\x12\xb6\x01\n" +
-	"\x15GetExcelAccountReport\x12C.meshtrade.reporting.account_report.v1.GetExcelAccountReportRequest\x1aD.meshtrade.reporting.account_report.v1.GetExcelAccountReportResponse\"\x12\xa0\xb5\x18\x01\xaa\xb5\x18\n" +
-	"\n" +
-	"\b\x80\x9b\xee\x02\x81\x9b\xee\x02By\n" +
+	"\x10GetAccountReport\x12>.meshtrade.reporting.account_report.v1.GetAccountReportRequest\x1a4.meshtrade.reporting.account_report.v1.AccountReport\"\x12\xb2\xb5\x18\x0e\b\x01\x10\x02\x1a\b\x80\x9b\xee\x02\x81\x9b\xee\x02\x12\xb6\x01\n" +
+	"\x15GetExcelAccountReport\x12C.meshtrade.reporting.account_report.v1.GetExcelAccountReportRequest\x1aD.meshtrade.reporting.account_report.v1.GetExcelAccountReportResponse\"\x12\xb2\xb5\x18\x0e\b\x01\x10\x02\x1a\b\x80\x9b\xee\x02\x81\x9b\xee\x02By\n" +
 	",co.meshtrade.api.reporting.account_report.v1ZIgithub.com/meshtrade/api/go/reporting/account_report/v1;account_report_v1b\x06proto3"
 
 var (

@@ -13,24 +13,28 @@ import (
 	"go.opentelemetry.io/otel/trace/noop"
 )
 
-// TestApiUserServiceConfiguration_ComprehensiveSDKOptions tests all SDK configuration options
+// TestAPIUserServiceConfiguration_ComprehensiveSDKOptions tests all SDK configuration options
 // This tests client construction and configuration without making actual network calls
-func TestApiUserServiceConfiguration_ComprehensiveSDKOptions(t *testing.T) {
+func TestAPIUserServiceConfiguration_ComprehensiveSDKOptions(t *testing.T) {
 	// Valid request for testing validation behavior
-	validRequest := &GetApiUserRequest{
+	validRequest := &GetAPIUserRequest{
 		Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 	}
 
 	// Invalid request for testing validation
-	invalidRequest := &GetApiUserRequest{
+	invalidRequest := &GetAPIUserRequest{
 		Name: "invalid-format",
 	}
 
 	t.Run("DefaultConfiguration", func(t *testing.T) {
 		// Test service with completely default configuration
-		service, err := NewApiUserService()
+		service, err := NewAPIUserService()
 		require.NoError(t, err, "Default configuration should work")
-		defer service.Close()
+		defer func() {
+			if err := service.Close(); err != nil {
+				t.Logf("Failed to close service: %v", err)
+			}
+		}()
 
 		// Verify service is constructed properly
 		assert.NotNil(t, service)
@@ -89,7 +93,7 @@ func TestApiUserServiceConfiguration_ComprehensiveSDKOptions(t *testing.T) {
 
 		for _, tc := range testCases {
 			t.Run(tc.name, func(t *testing.T) {
-				service, err := NewApiUserService(
+				service, err := NewAPIUserService(
 					config.WithURL(tc.url),
 					config.WithAPIKey("test-key"),
 					config.WithGroup("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV"),
@@ -102,12 +106,16 @@ func TestApiUserServiceConfiguration_ComprehensiveSDKOptions(t *testing.T) {
 				}
 
 				require.NoError(t, err, tc.description)
-				defer service.Close()
+				defer func() {
+					if err := service.Close(); err != nil {
+						t.Logf("Failed to close service: %v", err)
+					}
+				}()
 
 				// Test that validation still works regardless of URL configuration
 				validator, err := protovalidate.New()
 				require.NoError(t, err)
-				
+
 				err = validator.Validate(validRequest)
 				assert.NoError(t, err, "Valid request should pass validation")
 
@@ -146,7 +154,7 @@ func TestApiUserServiceConfiguration_ComprehensiveSDKOptions(t *testing.T) {
 
 		for _, tc := range testCases {
 			t.Run(tc.name, func(t *testing.T) {
-				service, err := NewApiUserService(
+				service, err := NewAPIUserService(
 					config.WithURL("localhost"),
 					config.WithPort(tc.port),
 					config.WithAPIKey("test-key"),
@@ -160,12 +168,16 @@ func TestApiUserServiceConfiguration_ComprehensiveSDKOptions(t *testing.T) {
 				}
 
 				require.NoError(t, err, tc.description)
-				defer service.Close()
+				defer func() {
+					if err := service.Close(); err != nil {
+						t.Logf("Failed to close service: %v", err)
+					}
+				}()
 
 				// Test that validation works
 				validator, err := protovalidate.New()
 				require.NoError(t, err)
-				
+
 				err = validator.Validate(validRequest)
 				assert.NoError(t, err, "Valid request should pass validation")
 			})
@@ -195,7 +207,7 @@ func TestApiUserServiceConfiguration_ComprehensiveSDKOptions(t *testing.T) {
 
 		for _, tc := range testCases {
 			t.Run(tc.name, func(t *testing.T) {
-				service, err := NewApiUserService(
+				service, err := NewAPIUserService(
 					config.WithURL("localhost"),
 					config.WithAPIKey("test-key"),
 					config.WithGroup("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV"),
@@ -208,12 +220,16 @@ func TestApiUserServiceConfiguration_ComprehensiveSDKOptions(t *testing.T) {
 				}
 
 				require.NoError(t, err, tc.description)
-				defer service.Close()
+				defer func() {
+					if err := service.Close(); err != nil {
+						t.Logf("Failed to close service: %v", err)
+					}
+				}()
 
 				// Test validation works
 				validator, err := protovalidate.New()
 				require.NoError(t, err)
-				
+
 				err = validator.Validate(validRequest)
 				assert.NoError(t, err, "Valid request should pass validation")
 			})
@@ -222,7 +238,7 @@ func TestApiUserServiceConfiguration_ComprehensiveSDKOptions(t *testing.T) {
 
 	t.Run("TracingConfiguration", func(t *testing.T) {
 		// Test with custom tracer
-		service, err := NewApiUserService(
+		service, err := NewAPIUserService(
 			config.WithURL("localhost"),
 			config.WithAPIKey("test-key"),
 			config.WithGroup("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV"),
@@ -230,38 +246,45 @@ func TestApiUserServiceConfiguration_ComprehensiveSDKOptions(t *testing.T) {
 		)
 
 		require.NoError(t, err, "Service with custom tracer should work")
-		defer service.Close()
+		defer func() {
+			if err := service.Close(); err != nil {
+				t.Logf("Failed to close service: %v", err)
+			}
+		}()
 
 		// Test validation works
 		validator, err := protovalidate.New()
 		require.NoError(t, err)
-		
+
 		err = validator.Validate(validRequest)
 		assert.NoError(t, err, "Valid request should pass validation")
 	})
 
-
 	t.Run("ValidationConfiguration", func(t *testing.T) {
 		// Test that validation can be properly configured
-		service, err := NewApiUserService(
+		service, err := NewAPIUserService(
 			config.WithURL("localhost"),
 			config.WithAPIKey("test-key"),
 			config.WithGroup("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV"),
 		)
 
 		require.NoError(t, err, "Service should initialize")
-		defer service.Close()
+		defer func() {
+			if err := service.Close(); err != nil {
+				t.Logf("Failed to close service: %v", err)
+			}
+		}()
 
 		// Test different validation scenarios
 		testCases := []struct {
 			name        string
-			request     *GetApiUserRequest
+			request     *GetAPIUserRequest
 			expectError bool
 			description string
 		}{
 			{
 				name: "ValidRequest",
-				request: &GetApiUserRequest{
+				request: &GetAPIUserRequest{
 					Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				},
 				expectError: false,
@@ -269,7 +292,7 @@ func TestApiUserServiceConfiguration_ComprehensiveSDKOptions(t *testing.T) {
 			},
 			{
 				name: "InvalidFormat",
-				request: &GetApiUserRequest{
+				request: &GetAPIUserRequest{
 					Name: "invalid-format",
 				},
 				expectError: true,
@@ -277,7 +300,7 @@ func TestApiUserServiceConfiguration_ComprehensiveSDKOptions(t *testing.T) {
 			},
 			{
 				name: "EmptyName",
-				request: &GetApiUserRequest{
+				request: &GetAPIUserRequest{
 					Name: "",
 				},
 				expectError: true,
@@ -301,31 +324,35 @@ func TestApiUserServiceConfiguration_ComprehensiveSDKOptions(t *testing.T) {
 	})
 }
 
-// TestApiUserServiceCredentialFiles tests credential file handling
-func TestApiUserServiceCredentialFiles(t *testing.T) {
+// TestAPIUserServiceCredentialFiles tests credential file handling
+func TestAPIUserServiceCredentialFiles(t *testing.T) {
 	// Save original environment
 	originalCredentials := os.Getenv("MESH_API_CREDENTIALS")
 	defer func() {
 		if originalCredentials == "" {
-			os.Unsetenv("MESH_API_CREDENTIALS")
+			_ = os.Unsetenv("MESH_API_CREDENTIALS")
 		} else {
-			os.Setenv("MESH_API_CREDENTIALS", originalCredentials)
+			_ = os.Setenv("MESH_API_CREDENTIALS", originalCredentials)
 		}
 	}()
 
 	t.Run("ServiceCreationWithoutCredentials", func(t *testing.T) {
 		// Test that service can be created without credentials for unit testing
-		os.Unsetenv("MESH_API_CREDENTIALS")
-		
-		service, err := NewApiUserService()
+		_ = os.Unsetenv("MESH_API_CREDENTIALS")
+
+		service, err := NewAPIUserService()
 		require.NoError(t, err, "Service should work without credentials for unit testing")
-		defer service.Close()
-		
+		defer func() {
+			if err := service.Close(); err != nil {
+				t.Logf("Failed to close service: %v", err)
+			}
+		}()
+
 		// Test that validation works
 		validator, err := protovalidate.New()
 		require.NoError(t, err)
-		
-		validRequest := &GetApiUserRequest{
+
+		validRequest := &GetAPIUserRequest{
 			Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 		}
 		err = validator.Validate(validRequest)
@@ -340,21 +367,25 @@ func TestApiUserServiceCredentialFiles(t *testing.T) {
 			"api_key": "test-api-key-12345678901234567890123456789012",
 			"group": "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV"
 		}`
-		
+
 		err := os.WriteFile(credFile, []byte(content), 0600)
 		require.NoError(t, err)
-		
-		os.Setenv("MESH_API_CREDENTIALS", credFile)
-		
-		service, err := NewApiUserService()
+
+		_ = os.Setenv("MESH_API_CREDENTIALS", credFile)
+
+		service, err := NewAPIUserService()
 		require.NoError(t, err, "Service should work with valid credentials")
-		defer service.Close()
-		
+		defer func() {
+			if err := service.Close(); err != nil {
+				t.Logf("Failed to close service: %v", err)
+			}
+		}()
+
 		// Test validation works
 		validator, err := protovalidate.New()
 		require.NoError(t, err)
-		
-		validRequest := &GetApiUserRequest{
+
+		validRequest := &GetAPIUserRequest{
 			Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 		}
 		err = validator.Validate(validRequest)
@@ -362,26 +393,30 @@ func TestApiUserServiceCredentialFiles(t *testing.T) {
 	})
 }
 
-// TestApiUserServiceRequestValidation tests request validation functionality
-func TestApiUserServiceRequestValidation(t *testing.T) {
-	service, err := NewApiUserService(
+// TestAPIUserServiceRequestValidation tests request validation functionality
+func TestAPIUserServiceRequestValidation(t *testing.T) {
+	service, err := NewAPIUserService(
 		config.WithURL("localhost"),
 		config.WithAPIKey("test-key"),
 		config.WithGroup("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV"),
 	)
 	require.NoError(t, err)
-	defer service.Close()
+	defer func() {
+		if err := service.Close(); err != nil {
+			t.Logf("Failed to close service: %v", err)
+		}
+	}()
 
-	t.Run("GetApiUserRequestValidation", func(t *testing.T) {
+	t.Run("GetAPIUserRequestValidation", func(t *testing.T) {
 		testCases := []struct {
 			name        string
-			request     *GetApiUserRequest
+			request     *GetAPIUserRequest
 			expectError bool
 			description string
 		}{
 			{
 				name: "ValidRequest",
-				request: &GetApiUserRequest{
+				request: &GetAPIUserRequest{
 					Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				},
 				expectError: false,
@@ -389,7 +424,7 @@ func TestApiUserServiceRequestValidation(t *testing.T) {
 			},
 			{
 				name: "InvalidNameFormat",
-				request: &GetApiUserRequest{
+				request: &GetAPIUserRequest{
 					Name: "invalid-format",
 				},
 				expectError: true,
@@ -412,16 +447,16 @@ func TestApiUserServiceRequestValidation(t *testing.T) {
 		}
 	})
 
-	t.Run("CreateApiUserRequestValidation", func(t *testing.T) {
+	t.Run("CreateAPIUserRequestValidation", func(t *testing.T) {
 		testCases := []struct {
 			name        string
-			request     *CreateApiUserRequest
+			request     *CreateAPIUserRequest
 			expectError bool
 			description string
 		}{
 			{
 				name: "ValidRequest",
-				request: &CreateApiUserRequest{
+				request: &CreateAPIUserRequest{
 					ApiUser: &APIUser{
 						DisplayName: "Test User",
 						Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
@@ -432,8 +467,8 @@ func TestApiUserServiceRequestValidation(t *testing.T) {
 				description: "Valid request should pass",
 			},
 			{
-				name: "MissingApiUser",
-				request: &CreateApiUserRequest{
+				name: "MissingAPIUser",
+				request: &CreateAPIUserRequest{
 					ApiUser: nil,
 				},
 				expectError: true,

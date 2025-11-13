@@ -62,6 +62,11 @@ const config: Config = {
 
   themeConfig: {
       image: 'img/favicon.svg',
+      docs: {
+        sidebar: {
+          hideable: true,
+        },
+      },      
       navbar: {
         title: 'Mesh API',
         logo: {

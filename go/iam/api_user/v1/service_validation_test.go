@@ -9,26 +9,26 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestGetApiUserRequest_Validation(t *testing.T) {
+func TestGetAPIUserRequest_Validation(t *testing.T) {
 	validator, err := protovalidate.New()
 	require.NoError(t, err)
 
 	tests := []struct {
 		name      string
-		request   *GetApiUserRequest
+		request   *GetAPIUserRequest
 		wantValid bool
 		wantError string
 	}{
 		{
 			name: "valid request with correct name format",
-			request: &GetApiUserRequest{
+			request: &GetAPIUserRequest{
 				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 			},
 			wantValid: true,
 		},
 		{
 			name: "valid request with different ULIDv2",
-			request: &GetApiUserRequest{
+			request: &GetAPIUserRequest{
 				Name: "api_users/01BX5ZZKBKACTAV9WEVGEMMVRZ",
 			},
 			wantValid: true,
@@ -36,7 +36,7 @@ func TestGetApiUserRequest_Validation(t *testing.T) {
 		// name field tests
 		{
 			name: "empty name - should fail (required)",
-			request: &GetApiUserRequest{
+			request: &GetAPIUserRequest{
 				Name: "",
 			},
 			wantValid: false,
@@ -44,7 +44,7 @@ func TestGetApiUserRequest_Validation(t *testing.T) {
 		},
 		{
 			name: "invalid name format - wrong prefix",
-			request: &GetApiUserRequest{
+			request: &GetAPIUserRequest{
 				Name: "api_user/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Missing 's'
 			},
 			wantValid: false,
@@ -52,7 +52,7 @@ func TestGetApiUserRequest_Validation(t *testing.T) {
 		},
 		{
 			name: "invalid name format - wrong resource type",
-			request: &GetApiUserRequest{
+			request: &GetAPIUserRequest{
 				Name: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Wrong resource
 			},
 			wantValid: false,
@@ -60,7 +60,7 @@ func TestGetApiUserRequest_Validation(t *testing.T) {
 		},
 		{
 			name: "invalid name format - invalid ULIDv2 characters",
-			request: &GetApiUserRequest{
+			request: &GetAPIUserRequest{
 				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FIL", // Contains 'I' and 'L'
 			},
 			wantValid: false,
@@ -68,7 +68,7 @@ func TestGetApiUserRequest_Validation(t *testing.T) {
 		},
 		{
 			name: "invalid name format - lowercase ULIDv2",
-			request: &GetApiUserRequest{
+			request: &GetAPIUserRequest{
 				Name: "api_users/01arz3ndektsv4rrffq69g5fav", // Lowercase
 			},
 			wantValid: false,
@@ -76,7 +76,7 @@ func TestGetApiUserRequest_Validation(t *testing.T) {
 		},
 		{
 			name: "invalid name length - too short",
-			request: &GetApiUserRequest{
+			request: &GetAPIUserRequest{
 				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FA", // 35 chars instead of 36
 			},
 			wantValid: false,
@@ -84,7 +84,7 @@ func TestGetApiUserRequest_Validation(t *testing.T) {
 		},
 		{
 			name: "invalid name length - too long",
-			request: &GetApiUserRequest{
+			request: &GetAPIUserRequest{
 				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAVX", // 37 chars instead of 36
 			},
 			wantValid: false,
@@ -92,7 +92,7 @@ func TestGetApiUserRequest_Validation(t *testing.T) {
 		},
 		{
 			name: "invalid name format - forbidden characters",
-			request: &GetApiUserRequest{
+			request: &GetAPIUserRequest{
 				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAU", // Contains 'U'
 			},
 			wantValid: false,
@@ -100,7 +100,7 @@ func TestGetApiUserRequest_Validation(t *testing.T) {
 		},
 		{
 			name: "invalid name format - special characters in ULIDv2",
-			request: &GetApiUserRequest{
+			request: &GetAPIUserRequest{
 				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5F@V", // Contains @
 			},
 			wantValid: false,
@@ -124,26 +124,26 @@ func TestGetApiUserRequest_Validation(t *testing.T) {
 	}
 }
 
-func TestGetApiUserByKeyHashRequest_Validation(t *testing.T) {
+func TestGetAPIUserByKeyHashRequest_Validation(t *testing.T) {
 	validator, err := protovalidate.New()
 	require.NoError(t, err)
 
 	tests := []struct {
 		name      string
-		request   *GetApiUserByKeyHashRequest
+		request   *GetAPIUserByKeyHashRequest
 		wantValid bool
 		wantError string
 	}{
 		{
 			name: "valid request with 44-character key hash",
-			request: &GetApiUserByKeyHashRequest{
+			request: &GetAPIUserByKeyHashRequest{
 				KeyHash: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijk123456=",
 			},
 			wantValid: true,
 		},
 		{
 			name: "valid request with different 44-character hash",
-			request: &GetApiUserByKeyHashRequest{
+			request: &GetAPIUserByKeyHashRequest{
 				KeyHash: "0123456789abcdefghijklmnopqrstuvwxyzABCDEFG=",
 			},
 			wantValid: true,
@@ -151,7 +151,7 @@ func TestGetApiUserByKeyHashRequest_Validation(t *testing.T) {
 		// key_hash field tests
 		{
 			name: "empty key_hash - should fail (required)",
-			request: &GetApiUserByKeyHashRequest{
+			request: &GetAPIUserByKeyHashRequest{
 				KeyHash: "",
 			},
 			wantValid: false,
@@ -159,7 +159,7 @@ func TestGetApiUserByKeyHashRequest_Validation(t *testing.T) {
 		},
 		{
 			name: "key_hash too short - 43 characters",
-			request: &GetApiUserByKeyHashRequest{
+			request: &GetAPIUserByKeyHashRequest{
 				KeyHash: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijk12345", // 43 chars
 			},
 			wantValid: false,
@@ -167,7 +167,7 @@ func TestGetApiUserByKeyHashRequest_Validation(t *testing.T) {
 		},
 		{
 			name: "key_hash too long - 45 characters",
-			request: &GetApiUserByKeyHashRequest{
+			request: &GetAPIUserByKeyHashRequest{
 				KeyHash: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijk12345678", // 45 chars
 			},
 			wantValid: false,
@@ -175,7 +175,7 @@ func TestGetApiUserByKeyHashRequest_Validation(t *testing.T) {
 		},
 		{
 			name: "key_hash with base64 special characters - should be valid",
-			request: &GetApiUserByKeyHashRequest{
+			request: &GetAPIUserByKeyHashRequest{
 				KeyHash: "ABCDEFGHIJKLMNOPQRSTUVWXYZ+/abc012345678901=", // 44 chars with valid base64 chars
 			},
 			wantValid: true,
@@ -198,19 +198,19 @@ func TestGetApiUserByKeyHashRequest_Validation(t *testing.T) {
 	}
 }
 
-func TestCreateApiUserRequest_Validation(t *testing.T) {
+func TestCreateAPIUserRequest_Validation(t *testing.T) {
 	validator, err := protovalidate.New()
 	require.NoError(t, err)
 
 	tests := []struct {
 		name      string
-		request   *CreateApiUserRequest
+		request   *CreateAPIUserRequest
 		wantValid bool
 		wantError string
 	}{
 		{
 			name: "valid request with APIUser",
-			request: &CreateApiUserRequest{
+			request: &CreateAPIUserRequest{
 				ApiUser: &APIUser{
 					DisplayName: "Test API User",
 					Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
@@ -223,7 +223,7 @@ func TestCreateApiUserRequest_Validation(t *testing.T) {
 		// api_user field tests
 		{
 			name: "missing api_user - should fail (required)",
-			request: &CreateApiUserRequest{
+			request: &CreateAPIUserRequest{
 				ApiUser: nil,
 			},
 			wantValid: false,
@@ -231,7 +231,7 @@ func TestCreateApiUserRequest_Validation(t *testing.T) {
 		},
 		{
 			name: "valid request with minimal APIUser",
-			request: &CreateApiUserRequest{
+			request: &CreateAPIUserRequest{
 				ApiUser: &APIUser{
 					DisplayName: "Minimal User",
 					Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
@@ -258,34 +258,34 @@ func TestCreateApiUserRequest_Validation(t *testing.T) {
 	}
 }
 
-func TestActivateApiUserRequest_Validation(t *testing.T) {
+func TestActivateAPIUserRequest_Validation(t *testing.T) {
 	validator, err := protovalidate.New()
 	require.NoError(t, err)
 
 	tests := []struct {
 		name      string
-		request   *ActivateApiUserRequest
+		request   *ActivateAPIUserRequest
 		wantValid bool
 		wantError string
 	}{
 		{
 			name: "valid request with correct name format",
-			request: &ActivateApiUserRequest{
+			request: &ActivateAPIUserRequest{
 				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 			},
 			wantValid: true,
 		},
 		{
 			name: "valid request with different ULIDv2",
-			request: &ActivateApiUserRequest{
+			request: &ActivateAPIUserRequest{
 				Name: "api_users/01BX5ZZKBKACTAV9WEVGEMMVRZ",
 			},
 			wantValid: true,
 		},
-		// name field tests (same validation as GetApiUserRequest)
+		// name field tests (same validation as GetAPIUserRequest)
 		{
 			name: "empty name - should fail (required)",
-			request: &ActivateApiUserRequest{
+			request: &ActivateAPIUserRequest{
 				Name: "",
 			},
 			wantValid: false,
@@ -293,7 +293,7 @@ func TestActivateApiUserRequest_Validation(t *testing.T) {
 		},
 		{
 			name: "invalid name format - wrong prefix",
-			request: &ActivateApiUserRequest{
+			request: &ActivateAPIUserRequest{
 				Name: "api_user/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 			},
 			wantValid: false,
@@ -301,7 +301,7 @@ func TestActivateApiUserRequest_Validation(t *testing.T) {
 		},
 		{
 			name: "invalid name length - too short",
-			request: &ActivateApiUserRequest{
+			request: &ActivateAPIUserRequest{
 				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FA",
 			},
 			wantValid: false,
@@ -309,7 +309,7 @@ func TestActivateApiUserRequest_Validation(t *testing.T) {
 		},
 		{
 			name: "invalid name length - too long",
-			request: &ActivateApiUserRequest{
+			request: &ActivateAPIUserRequest{
 				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAVX",
 			},
 			wantValid: false,
@@ -317,7 +317,7 @@ func TestActivateApiUserRequest_Validation(t *testing.T) {
 		},
 		{
 			name: "invalid name format - invalid ULIDv2 characters",
-			request: &ActivateApiUserRequest{
+			request: &ActivateAPIUserRequest{
 				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FIL",
 			},
 			wantValid: false,
@@ -341,34 +341,34 @@ func TestActivateApiUserRequest_Validation(t *testing.T) {
 	}
 }
 
-func TestDeactivateApiUserRequest_Validation(t *testing.T) {
+func TestDeactivateAPIUserRequest_Validation(t *testing.T) {
 	validator, err := protovalidate.New()
 	require.NoError(t, err)
 
 	tests := []struct {
 		name      string
-		request   *DeactivateApiUserRequest
+		request   *DeactivateAPIUserRequest
 		wantValid bool
 		wantError string
 	}{
 		{
 			name: "valid request with correct name format",
-			request: &DeactivateApiUserRequest{
+			request: &DeactivateAPIUserRequest{
 				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 			},
 			wantValid: true,
 		},
 		{
 			name: "valid request with different ULIDv2",
-			request: &DeactivateApiUserRequest{
+			request: &DeactivateAPIUserRequest{
 				Name: "api_users/01BX5ZZKBKACTAV9WEVGEMMVRZ",
 			},
 			wantValid: true,
 		},
-		// name field tests (same validation as GetApiUserRequest)
+		// name field tests (same validation as GetAPIUserRequest)
 		{
 			name: "empty name - should fail (required)",
-			request: &DeactivateApiUserRequest{
+			request: &DeactivateAPIUserRequest{
 				Name: "",
 			},
 			wantValid: false,
@@ -376,7 +376,7 @@ func TestDeactivateApiUserRequest_Validation(t *testing.T) {
 		},
 		{
 			name: "invalid name format - wrong prefix",
-			request: &DeactivateApiUserRequest{
+			request: &DeactivateAPIUserRequest{
 				Name: "api_user/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 			},
 			wantValid: false,
@@ -384,7 +384,7 @@ func TestDeactivateApiUserRequest_Validation(t *testing.T) {
 		},
 		{
 			name: "invalid name length - too short",
-			request: &DeactivateApiUserRequest{
+			request: &DeactivateAPIUserRequest{
 				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FA",
 			},
 			wantValid: false,
@@ -392,7 +392,7 @@ func TestDeactivateApiUserRequest_Validation(t *testing.T) {
 		},
 		{
 			name: "invalid name length - too long",
-			request: &DeactivateApiUserRequest{
+			request: &DeactivateAPIUserRequest{
 				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAVX",
 			},
 			wantValid: false,
@@ -400,7 +400,7 @@ func TestDeactivateApiUserRequest_Validation(t *testing.T) {
 		},
 		{
 			name: "invalid name format - invalid ULIDv2 characters",
-			request: &DeactivateApiUserRequest{
+			request: &DeactivateAPIUserRequest{
 				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FIL",
 			},
 			wantValid: false,
@@ -429,22 +429,22 @@ func TestRequestTypesWithoutValidation(t *testing.T) {
 	validator, err := protovalidate.New()
 	require.NoError(t, err)
 
-	t.Run("ListApiUsersRequest - no validation rules", func(t *testing.T) {
-		request := &ListApiUsersRequest{}
+	t.Run("ListAPIUsersRequest - no validation rules", func(t *testing.T) {
+		request := &ListAPIUsersRequest{}
 		err := validator.Validate(request)
 		assert.NoError(t, err, "Empty message should always be valid")
 	})
 
-	t.Run("SearchApiUsersRequest - no validation rules on display_name", func(t *testing.T) {
+	t.Run("SearchAPIUsersRequest - no validation rules on display_name", func(t *testing.T) {
 		// Test with empty display_name
-		request1 := &SearchApiUsersRequest{
+		request1 := &SearchAPIUsersRequest{
 			DisplayName: "",
 		}
 		err := validator.Validate(request1)
 		assert.NoError(t, err, "Empty display_name should be valid (no validation rules)")
 
 		// Test with any display_name value
-		request2 := &SearchApiUsersRequest{
+		request2 := &SearchAPIUsersRequest{
 			DisplayName: "Any string value should work!",
 		}
 		err = validator.Validate(request2)
@@ -457,8 +457,8 @@ func TestResponseTypesValidation(t *testing.T) {
 	validator, err := protovalidate.New()
 	require.NoError(t, err)
 
-	t.Run("ListApiUsersResponse - no validation rules", func(t *testing.T) {
-		response := &ListApiUsersResponse{
+	t.Run("ListAPIUsersResponse - no validation rules", func(t *testing.T) {
+		response := &ListAPIUsersResponse{
 			ApiUsers: []*APIUser{}, // Empty list should be valid
 		}
 		err := validator.Validate(response)
@@ -477,8 +477,8 @@ func TestResponseTypesValidation(t *testing.T) {
 		assert.NoError(t, err, "Response with API users should be valid")
 	})
 
-	t.Run("SearchApiUsersResponse - no validation rules", func(t *testing.T) {
-		response := &SearchApiUsersResponse{
+	t.Run("SearchAPIUsersResponse - no validation rules", func(t *testing.T) {
+		response := &SearchAPIUsersResponse{
 			ApiUsers: []*APIUser{}, // Empty list should be valid
 		}
 		err := validator.Validate(response)
@@ -492,17 +492,17 @@ func TestNameFieldValidation_Comprehensive(t *testing.T) {
 
 	// Valid API user name formats (36 characters total)
 	validNames := []string{
-		"api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",   // Standard example
-		"api_users/01BX5ZZKBKACTAV9WEVGEMMVRZ",   // Another valid ULIDv2
-		"api_users/0123456789ABCDEFGHJKMNPQRS",   // All valid ULIDv2 characters
-		"api_users/ZZZZZZZZZZZZZZZZZZZZZZZZZZ",    // All Z's (valid ULIDv2 char)
+		"api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Standard example
+		"api_users/01BX5ZZKBKACTAV9WEVGEMMVRZ", // Another valid ULIDv2
+		"api_users/0123456789ABCDEFGHJKMNPQRS", // All valid ULIDv2 characters
+		"api_users/ZZZZZZZZZZZZZZZZZZZZZZZZZZ", // All Z's (valid ULIDv2 char)
 	}
 
 	// Invalid API user name formats
 	invalidNames := []string{
-		"",                                        // Empty (required)
-		"api_user/01ARZ3NDEKTSV4RRFFQ69G5FAV",    // Wrong prefix (missing 's')
-		"users/01ARZ3NDEKTSV4RRFFQ69G5FAV",       // Wrong resource type
+		"",                                      // Empty (required)
+		"api_user/01ARZ3NDEKTSV4RRFFQ69G5FAV",   // Wrong prefix (missing 's')
+		"users/01ARZ3NDEKTSV4RRFFQ69G5FAV",      // Wrong resource type
 		"api_users/01ARZ3NDEKTSV4RRFFQ69G5FIL",  // Contains forbidden 'I' and 'L'
 		"api_users/01ARZ3NDEKTSV4RRFFQ69G5FAU",  // Contains forbidden 'U'
 		"api_users/01ARZ3NDEKTSV4RRFFQ69G5FAO",  // Contains forbidden 'O'
@@ -516,10 +516,10 @@ func TestNameFieldValidation_Comprehensive(t *testing.T) {
 		"01ARZ3NDEKTSV4RRFFQ69G5FAV",            // Missing prefix entirely
 	}
 
-	// Test valid names using GetApiUserRequest
+	// Test valid names using GetAPIUserRequest
 	for i, name := range validNames {
 		t.Run("valid_name_"+string(rune(i+'0')), func(t *testing.T) {
-			request := &GetApiUserRequest{
+			request := &GetAPIUserRequest{
 				Name: name,
 			}
 
@@ -528,10 +528,10 @@ func TestNameFieldValidation_Comprehensive(t *testing.T) {
 		})
 	}
 
-	// Test invalid names using GetApiUserRequest
+	// Test invalid names using GetAPIUserRequest
 	for i, name := range invalidNames {
 		t.Run("invalid_name_"+string(rune(i+'0')), func(t *testing.T) {
-			request := &GetApiUserRequest{
+			request := &GetAPIUserRequest{
 				Name: name,
 			}
 

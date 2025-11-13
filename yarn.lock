@@ -1724,7 +1724,7 @@
     webpack "^5.95.0"
     webpackbar "^6.0.1"
 
-"@docusaurus/core@3.9.2", "@docusaurus/core@^3.9.1":
+"@docusaurus/core@3.9.2", "@docusaurus/core@^3.9.2":
   version "3.9.2"
   resolved "https://registry.yarnpkg.com/@docusaurus/core/-/core-3.9.2.tgz#cc970f29b85a8926d63c84f8cffdcda43ed266ff"
   integrity sha512-HbjwKeC+pHUFBfLMNzuSjqFE/58+rLVKmOU3lxQrpsxLBOGosYco/Q0GduBb0/jEMRiyEqjNT/01rRdOMWq5pw==
@@ -1820,7 +1820,7 @@
     vfile "^6.0.1"
     webpack "^5.88.1"
 
-"@docusaurus/module-type-aliases@3.9.2", "@docusaurus/module-type-aliases@^3.9.1":
+"@docusaurus/module-type-aliases@3.9.2", "@docusaurus/module-type-aliases@^3.9.2":
   version "3.9.2"
   resolved "https://registry.yarnpkg.com/@docusaurus/module-type-aliases/-/module-type-aliases-3.9.2.tgz#993c7cb0114363dea5ef6855e989b3ad4b843a34"
   integrity sha512-8qVe2QA9hVLzvnxP46ysuofJUIc/yYQ82tvA/rBTrnpXtCjNSFLxEZfd5U8cYZuJIVlkPxamsIgwd5tGZXfvew==
@@ -1978,7 +1978,7 @@
     tslib "^2.6.0"
     webpack "^5.88.1"
 
-"@docusaurus/preset-classic@^3.9.1":
+"@docusaurus/preset-classic@^3.9.2":
   version "3.9.2"
   resolved "https://registry.yarnpkg.com/@docusaurus/preset-classic/-/preset-classic-3.9.2.tgz#85cc4f91baf177f8146c9ce896dfa1f0fd377050"
   integrity sha512-IgyYO2Gvaigi21LuDIe+nvmN/dfGXAiMcV/murFqcpjnZc7jxFAxW+9LEjdPt61uZLxG4ByW/oUmX/DDK9t/8w==
@@ -2048,7 +2048,7 @@
     tslib "^2.6.0"
     utility-types "^3.10.0"
 
-"@docusaurus/theme-mermaid@^3.9.1":
+"@docusaurus/theme-mermaid@^3.9.2":
   version "3.9.2"
   resolved "https://registry.yarnpkg.com/@docusaurus/theme-mermaid/-/theme-mermaid-3.9.2.tgz#f065e4b4b319560ddd8c3be65ce9dd19ce1d5cc8"
   integrity sha512-5vhShRDq/ntLzdInsQkTdoKWSzw8d1jB17sNPYhA/KvYYFXfuVEGHLM6nrf8MFbV8TruAHDG21Fn3W4lO8GaDw==
@@ -2091,12 +2091,12 @@
     fs-extra "^11.1.1"
     tslib "^2.6.0"
 
-"@docusaurus/tsconfig@^3.9.1":
+"@docusaurus/tsconfig@^3.9.2":
   version "3.9.2"
   resolved "https://registry.yarnpkg.com/@docusaurus/tsconfig/-/tsconfig-3.9.2.tgz#7f440e0ae665b841e1d487749037f26a0275f9c1"
   integrity sha512-j6/Fp4Rlpxsc632cnRnl5HpOWeb6ZKssDj6/XzzAzVGXXfm9Eptx3rxCC+fDzySn9fHTS+CWJjPineCR1bB5WQ==
 
-"@docusaurus/types@3.9.2", "@docusaurus/types@^3.9.1":
+"@docusaurus/types@3.9.2", "@docusaurus/types@^3.9.2":
   version "3.9.2"
   resolved "https://registry.yarnpkg.com/@docusaurus/types/-/types-3.9.2.tgz#e482cf18faea0d1fa5ce0e3f1e28e0f32d2593eb"
   integrity sha512-Ux1JUNswg+EfUEmajJjyhIohKceitY/yzjRUpu04WXgvVz+fbhVC0p+R0JhvEu4ytw8zIAys2hrdpQPBHRIa8Q==
