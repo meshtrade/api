@@ -25,13 +25,14 @@ const (
 
 // Is a Price
 type Price struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// BaseToken
-	BaseToken *v1.Token `protobuf:"bytes,1,opt,name=base_token,json=baseToken,proto3" json:"base_token,omitempty"`
-	// Price of base given in quote
-	Price *v1.Amount `protobuf:"bytes,2,opt,name=price,proto3" json:"price,omitempty"`
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	BaseToken *v1.Token              `protobuf:"bytes,1,opt,name=base_token,json=baseToken,proto3" json:"base_token,omitempty"`
+	// QuoteToken
+	QuoteToken *v1.Token `protobuf:"bytes,2,opt,name=quote_token,json=quoteToken,proto3" json:"quote_token,omitempty"`
+	// Mid price in quote
+	MidPrice *v1.Decimal `protobuf:"bytes,3,opt,name=mid_price,json=midPrice,proto3" json:"mid_price,omitempty"`
 	// Time of Price
-	Time          *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=time,proto3" json:"time,omitempty"`
+	Time          *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=time,proto3" json:"time,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -73,9 +74,16 @@ func (x *Price) GetBaseToken() *v1.Token {
 	return nil
 }
 
-func (x *Price) GetPrice() *v1.Amount {
+func (x *Price) GetQuoteToken() *v1.Token {
 	if x != nil {
-		return x.Price
+		return x.QuoteToken
+	}
+	return nil
+}
+
+func (x *Price) GetMidPrice() *v1.Decimal {
+	if x != nil {
+		return x.MidPrice
 	}
 	return nil
 }
@@ -91,12 +99,14 @@ var File_meshtrade_market_data_price_v1_price_proto protoreflect.FileDescriptor
 
 const file_meshtrade_market_data_price_v1_price_proto_rawDesc = "" +
 	"\n" +
-	"*meshtrade/market_data/price/v1/price.proto\x12\x1emeshtrade.market_data.price.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1emeshtrade/type/v1/amount.proto\x1a\x1dmeshtrade/type/v1/token.proto\"\xa1\x01\n" +
+	"*meshtrade/market_data/price/v1/price.proto\x12\x1emeshtrade.market_data.price.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1fmeshtrade/type/v1/decimal.proto\x1a\x1dmeshtrade/type/v1/token.proto\"\xe4\x01\n" +
 	"\x05Price\x127\n" +
 	"\n" +
-	"base_token\x18\x01 \x01(\v2\x18.meshtrade.type.v1.TokenR\tbaseToken\x12/\n" +
-	"\x05price\x18\x02 \x01(\v2\x19.meshtrade.type.v1.AmountR\x05price\x12.\n" +
-	"\x04time\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\x04timeBb\n" +
+	"base_token\x18\x01 \x01(\v2\x18.meshtrade.type.v1.TokenR\tbaseToken\x129\n" +
+	"\vquote_token\x18\x02 \x01(\v2\x18.meshtrade.type.v1.TokenR\n" +
+	"quoteToken\x127\n" +
+	"\tmid_price\x18\x03 \x01(\v2\x1a.meshtrade.type.v1.DecimalR\bmidPrice\x12.\n" +
+	"\x04time\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\x04timeBb\n" +
 	"%co.meshtrade.api.market_data.price.v1Z9github.com/meshtrade/api/go/market_data/price/v1;price_v1b\x06proto3"
 
 var (
@@ -115,18 +125,19 @@ var file_meshtrade_market_data_price_v1_price_proto_msgTypes = make([]protoimpl.
 var file_meshtrade_market_data_price_v1_price_proto_goTypes = []any{
 	(*Price)(nil),                 // 0: meshtrade.market_data.price.v1.Price
 	(*v1.Token)(nil),              // 1: meshtrade.type.v1.Token
-	(*v1.Amount)(nil),             // 2: meshtrade.type.v1.Amount
+	(*v1.Decimal)(nil),            // 2: meshtrade.type.v1.Decimal
 	(*timestamppb.Timestamp)(nil), // 3: google.protobuf.Timestamp
 }
 var file_meshtrade_market_data_price_v1_price_proto_depIdxs = []int32{
 	1, // 0: meshtrade.market_data.price.v1.Price.base_token:type_name -> meshtrade.type.v1.Token
-	2, // 1: meshtrade.market_data.price.v1.Price.price:type_name -> meshtrade.type.v1.Amount
-	3, // 2: meshtrade.market_data.price.v1.Price.time:type_name -> google.protobuf.Timestamp
-	3, // [3:3] is the sub-list for method output_type
-	3, // [3:3] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	1, // 1: meshtrade.market_data.price.v1.Price.quote_token:type_name -> meshtrade.type.v1.Token
+	2, // 2: meshtrade.market_data.price.v1.Price.mid_price:type_name -> meshtrade.type.v1.Decimal
+	3, // 3: meshtrade.market_data.price.v1.Price.time:type_name -> google.protobuf.Timestamp
+	4, // [4:4] is the sub-list for method output_type
+	4, // [4:4] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_market_data_price_v1_price_proto_init() }
