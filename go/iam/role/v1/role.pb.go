@@ -7,12 +7,11 @@
 package role_v1
 
 import (
+	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
+	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
-
-	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
-	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 )
 
 const (
@@ -171,7 +170,7 @@ var File_meshtrade_iam_role_v1_role_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_role_v1_role_proto_rawDesc = "" +
 	"\n" +
-	" meshtrade/iam/role/v1/role.proto\x12\x15meshtrade.iam.role.v1*\xbd\a\n" +
+	" meshtrade/iam/role/v1/role.proto\x12\x15meshtrade.iam.role.v1*\x86\b\n" +
 	"\x04Role\x12\x14\n" +
 	"\x10ROLE_UNSPECIFIED\x10\x00\x12\x17\n" +
 	"\x11ROLE_WALLET_ADMIN\x10\xc0\x84=\x12\x18\n" +
@@ -203,7 +202,9 @@ const file_meshtrade_iam_role_v1_role_proto_rawDesc = "" +
 	"\x11ROLE_LEDGER_ADMIN\x10\xc0\x9f\xab\x03\x12\x19\n" +
 	"\x12ROLE_LEDGER_VIEWER\x10\xc1\x9f\xab\x03\x12$\n" +
 	"\x1dROLE_LEDGER_TRANSACTION_ADMIN\x10\u009f\xab\x03\x12%\n" +
-	"\x1eROLE_LEDGER_TRANSACTION_VIEWER\x10ß\xab\x03BO\n" +
+	"\x1eROLE_LEDGER_TRANSACTION_VIEWER\x10ß\xab\x03\x12\"\n" +
+	"\x1bROLE_LEDGER_TOKEN_TAP_ADMIN\x10ğ\xab\x03\x12#\n" +
+	"\x1cROLE_LEDGER_TOKEN_TAP_VIEWER\x10ş\xab\x03BO\n" +
 	"\x1cco.meshtrade.api.iam.role.v1Z/github.com/meshtrade/api/go/iam/role/v1;role_v1b\x06proto3"
 
 var (

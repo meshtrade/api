@@ -7,8 +7,9 @@
 package tap_v1
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	_ "github.com/meshtrade/api/go/iam/role/v1"
-	_ "github.com/meshtrade/api/go/option/v1"
+	_ "github.com/meshtrade/api/go/option/method_options/v1"
 	v1 "github.com/meshtrade/api/go/type/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -276,26 +277,21 @@ var File_meshtrade_ledger_tap_v1_service_proto protoreflect.FileDescriptor
 
 const file_meshtrade_ledger_tap_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"%meshtrade/ledger/tap/v1/service.proto\x12\x17meshtrade.ledger.tap.v1\x1a meshtrade/iam/role/v1/role.proto\x1a$meshtrade/ledger/tap/v1/option.proto\x1a%meshtrade/option/v1/method_type.proto\x1a\x1emeshtrade/type/v1/amount.proto\x1a\x1dmeshtrade/type/v1/token.proto\"\x1c\n" +
+	"%meshtrade/ledger/tap/v1/service.proto\x12\x17meshtrade.ledger.tap.v1\x1a\x1bbuf/validate/validate.proto\x1a meshtrade/iam/role/v1/role.proto\x1a$meshtrade/ledger/tap/v1/option.proto\x1a7meshtrade/option/method_options/v1/method_options.proto\x1a\x1emeshtrade/type/v1/amount.proto\x1a\x1dmeshtrade/type/v1/token.proto\"\x1c\n" +
 	"\x1aInitialiseTokenTapsRequest\"\x1d\n" +
 	"\x1bInitialiseTokenTapsResponse\"\x16\n" +
 	"\x14ListTokenTapsRequest\"I\n" +
 	"\x15ListTokenTapsResponse\x120\n" +
-	"\x06tokens\x18\x01 \x03(\v2\x18.meshtrade.type.v1.TokenR\x06tokens\"\xa4\x01\n" +
-	"\x10MintTokenRequest\x121\n" +
-	"\x06amount\x18\x01 \x01(\v2\x19.meshtrade.type.v1.AmountR\x06amount\x12\x18\n" +
-	"\aaddress\x18\x02 \x01(\tR\aaddress\x12C\n" +
+	"\x06tokens\x18\x01 \x03(\v2\x18.meshtrade.type.v1.TokenR\x06tokens\"\xb4\x01\n" +
+	"\x10MintTokenRequest\x129\n" +
+	"\x06amount\x18\x01 \x01(\v2\x19.meshtrade.type.v1.AmountB\x06\xbaH\x03\xc8\x01\x01R\x06amount\x12 \n" +
+	"\aaddress\x18\x02 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\aaddress\x12C\n" +
 	"\aoptions\x18\x03 \x01(\v2).meshtrade.ledger.tap.v1.MintTokenOptionsR\aoptions\"\x13\n" +
-	"\x11MintTokenResponse2\xad\x03\n" +
-	"\x0fTokenTapService\x12\x94\x01\n" +
-	"\x13InitialiseTokenTaps\x123.meshtrade.ledger.tap.v1.InitialiseTokenTapsRequest\x1a4.meshtrade.ledger.tap.v1.InitialiseTokenTapsResponse\"\x12\xa0\xb5\x18\x02\xaa\xb5\x18\n" +
-	"\n" +
-	"\b\xc0\x9f\xab\x03ğ\xab\x03\x12\x8a\x01\n" +
-	"\rListTokenTaps\x12-.meshtrade.ledger.tap.v1.ListTokenTapsRequest\x1a..meshtrade.ledger.tap.v1.ListTokenTapsResponse\"\x1a\xa0\xb5\x18\x01\xaa\xb5\x18\x12\n" +
-	"\x10\xc0\x9f\xab\x03\xc1\x9f\xab\x03ğ\xab\x03ş\xab\x03\x12v\n" +
-	"\tMintToken\x12).meshtrade.ledger.tap.v1.MintTokenRequest\x1a*.meshtrade.ledger.tap.v1.MintTokenResponse\"\x12\xa0\xb5\x18\x02\xaa\xb5\x18\n" +
-	"\n" +
-	"\b\xc0\x9f\xab\x03ğ\xab\x03BR\n" +
+	"\x11MintTokenResponse2\x86\x03\n" +
+	"\x0fTokenTapService\x12\x8a\x01\n" +
+	"\x13InitialiseTokenTaps\x123.meshtrade.ledger.tap.v1.InitialiseTokenTapsRequest\x1a4.meshtrade.ledger.tap.v1.InitialiseTokenTapsResponse\"\b\xb2\xb5\x18\x04\b\x02\x10\x01\x12x\n" +
+	"\rListTokenTaps\x12-.meshtrade.ledger.tap.v1.ListTokenTapsRequest\x1a..meshtrade.ledger.tap.v1.ListTokenTapsResponse\"\b\xb2\xb5\x18\x04\b\x01\x10\x01\x12l\n" +
+	"\tMintToken\x12).meshtrade.ledger.tap.v1.MintTokenRequest\x1a*.meshtrade.ledger.tap.v1.MintTokenResponse\"\b\xb2\xb5\x18\x04\b\x02\x10\x01BR\n" +
 	"\x1eco.meshtrade.api.ledger.tap.v1Z0github.com/meshtrade/api/go/ledger/tap/v1;tap_v1b\x06proto3"
 
 var (
