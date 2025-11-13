@@ -35,6 +35,11 @@
         "v1": "development"
       }
     },
+    "market_data": {
+      "price": {
+        "v1": "development"
+      }
+    },
     "studio": {
       "instrument": {
         "v1": "development"
