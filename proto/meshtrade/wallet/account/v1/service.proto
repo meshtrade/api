@@ -78,11 +78,27 @@ service AccountService {
   }
 
   /*
-     Adds the given user as a signatory to an account on the ledger.
+     Adds the given users as signatories to an account on the ledger.
 
      Returns a transaction reference for monitoring the ledger operation.
   */
-  rpc AddSignatoryToAccount(AddSignatoryToAccountRequest) returns (AddSignatoryToAccountResponse) {
+  rpc AddSignatoriesToAccount(AddSignatoriesToAccountRequest) returns (AddSignatoriesToAccountResponse) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_WRITE
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
+      roles: [
+        ROLE_WALLET_ADMIN,
+        ROLE_WALLET_ACCOUNT_ADMIN
+      ]
+    };
+  }
+
+  /*
+     Removes the given users as signatories from an account on the ledger.
+
+     Returns a transaction reference for monitoring the ledger operation.
+  */
+  rpc RemoveSignatoriesFromAccount(RemoveSignatoriesFromAccountRequest) returns (RemoveSignatoriesFromAccountResponse) {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_WRITE
       access_level: METHOD_ACCESS_LEVEL_AUTHORISED
@@ -221,11 +237,11 @@ message OpenAccountResponse {
 }
 
 /*
-   Request to add a signatory to an account on the ledger.
+   Request to add signatories to an account on the ledger.
 */
-message AddSignatoryToAccountRequest {
+message AddSignatoriesToAccountRequest {
   /*
-     The resource name of the account to which a signatory should be added.
+     The resource name of the account to which signatories should be added.
      Format: accounts/{ULIDv2}.
   */
   string name = 1 [(buf.validate.field) = {
@@ -236,26 +252,85 @@ message AddSignatoryToAccountRequest {
   }];
 
   /*
-     The resource name of the (api)user to add as a signatory on the identified account.
+     The resource names of the (api)users to add as signatories on the identified account.
      Format: api_users/{ULIDv2} or users/{ULIDv2}.
+     At least one user must be provided.
   */
-  string user = 2 [(buf.validate.field) = {
-    required: true
-    cel: {
-      id: "user.format"
-      message: "user must be api_users/{ULID}, users/{ULID}"
-      expression: "this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$') || this.matches('^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
+  repeated string users = 2 [(buf.validate.field) = {
+    repeated: {
+      min_items: 1
+      max_items: 100
+      items: {
+        string: {
+          pattern: "^(users|api_users)/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+        }
+        cel: {
+          id: "users.format"
+          message: "each user must be api_users/{ULID} or users/{ULID}"
+          expression: "this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$') || this.matches('^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
+        }
+      }
     }
   }];
 }
 
 /*
-   Response a transaction reference to monitor the ledger operation to open the account.
+   Response containing a transaction reference to monitor the ledger operation to add signatories.
 */
-message AddSignatoryToAccountResponse {
+message AddSignatoriesToAccountResponse {
   /*
-     Transaction reference for monitoring the ledger operation to add the given user as a signatory.
-     The signatory is added once this transaction has succeeded.
+     Transaction reference for monitoring the ledger operation to add the given users as signatories.
+     The signatories are added once this transaction has succeeded.
+     Format: transactions/{ULIDv2}.
+  */
+  string ledger_transaction = 1;
+}
+
+/*
+   Request to remove signatories from an account on the ledger.
+*/
+message RemoveSignatoriesFromAccountRequest {
+  /*
+     The resource name of the account from which signatories should be removed.
+     Format: accounts/{ULIDv2}.
+  */
+  string name = 1 [(buf.validate.field) = {
+    string: {
+      len: 35
+      pattern: "^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+    }
+  }];
+
+  /*
+     The resource names of the (api)users to remove as signatories from the identified account.
+     Format: api_users/{ULIDv2} or users/{ULIDv2}.
+     At least one user must be provided.
+  */
+  repeated string users = 2 [(buf.validate.field) = {
+    repeated: {
+      min_items: 1
+      max_items: 100
+      items: {
+        string: {
+          pattern: "^(users|api_users)/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+        }
+        cel: {
+          id: "users.format"
+          message: "each user must be api_users/{ULID} or users/{ULID}"
+          expression: "this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$') || this.matches('^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
+        }
+      }
+    }
+  }];
+}
+
+/*
+   Response containing a transaction reference to monitor the ledger operation to remove signatories.
+*/
+message RemoveSignatoriesFromAccountResponse {
+  /*
+     Transaction reference for monitoring the ledger operation to remove the given users as signatories.
+     The signatories are removed once this transaction has succeeded.
      Format: transactions/{ULIDv2}.
   */
   string ledger_transaction = 1;

@@ -1,6 +1,6 @@
 from meshtrade.wallet.account.v1 import (
     AccountService,
-    AddSignatoryToAccountRequest,
+    RemoveSignatoriesFromAccountRequest,
 )
 
 
@@ -12,15 +12,15 @@ def main():
 
     with service:
         # Create request with service-specific parameters
-        request = AddSignatoryToAccountRequest(
+        request = RemoveSignatoriesFromAccountRequest(
             # FIXME: Populate service-specific request fields
         )
 
-        # Call the AddSignatoryToAccount method
-        response = service.add_signatory_to_account(request)
+        # Call the RemoveSignatoriesFromAccount method
+        response = service.remove_signatories_from_account(request)
 
         # FIXME: Add relevant response object usage
-        print("AddSignatoryToAccount successful:", response)
+        print("RemoveSignatoriesFromAccount successful:", response)
 
 
 if __name__ == "__main__":

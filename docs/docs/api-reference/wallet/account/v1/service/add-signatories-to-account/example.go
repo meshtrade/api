@@ -24,27 +24,32 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create transaction service: %v", err)
 	}
-	defer accountService.Close()
+	defer transactionService.Close()
 
-	// Call the AddSignatoryToAccount method
-	response, err := accountService.AddSignatoryToAccount(
+	// Call the AddSignatoriesToAccount method
+	// You can add 1-100 signatories in a single request
+	response, err := accountService.AddSignatoriesToAccount(
 		ctx,
-		&account_v1.AddSignatoryToAccountRequest{
-			// Resource name of account to add identified (api)user as a signatory to
+		&account_v1.AddSignatoriesToAccountRequest{
+			// Resource name of account to add identified (api)users as signatories to
 			Name: "accounts/01HQ3K5M8XYZ2NFVJT9BKR7P4C",
-			// Resource name of (api)User to add as a signatory
-			User: "(api_)users/01HN2ZXQJ8K9M0L1N3P2Q4R5T6",
+			// Resource names of (api)Users to add as signatories (supports 1-100 users)
+			Users: []string{
+				"users/01HN2ZXQJ8K9M0L1N3P2Q4R5T6",
+				"api_users/01HN2ZXQJ8K9M0L1N3P2Q4R5T7",
+				"users/01HN2ZXQJ8K9M0L1N3P2Q4R5T8",
+			},
 		},
 	)
 	if err != nil {
-		log.Fatalf("AddSignatoryToAccount failed: %v", err)
+		log.Fatalf("AddSignatoriesToAccount failed: %v", err)
 	}
 	log.Printf(
-		"AddSignatoryToAccount completed successfully with ledger transaction %s submitted",
+		"AddSignatoriesToAccount completed successfully with ledger transaction %s submitted",
 		response.GetLedgerTransaction(),
 	)
 
-	// get a stream to monitor the state of the AddSignatoryToAccount transaction
+	// get a stream to monitor the state of the AddSignatoriesToAccount transaction
 	stream, err := transactionService.MonitorTransactionState(
 		ctx,
 		&transaction_v1.MonitorTransactionStateRequest{
@@ -54,12 +59,12 @@ func main() {
 	if err != nil {
 		log.Fatalf("MonitorTransactionState failed: %v", err)
 	}
-	log.Printf("Stream opened to monitor AddSignatoryToAccount transaction state")
+	log.Printf("Stream opened to monitor AddSignatoriesToAccount transaction state")
 
 	// read from the stream until completion
-monitorTransction:
+monitorTransaction:
 	for {
-		response, err := stream.Recv()
+		transactionResponse, err := stream.Recv()
 		if err == io.EOF {
 			break // Stream completed normally
 		}
@@ -72,25 +77,25 @@ monitorTransction:
 		}
 
 		// Process each response as it arrives
-		log.Printf("Received: %+v", response.GetState())
+		log.Printf("Received: %+v", transactionResponse.GetState())
 
 		// Check for transaction end state
-		switch response.GetState() {
+		switch transactionResponse.GetState() {
 		case transaction_v1.TransactionState_TRANSACTION_STATE_SIGNING_IN_PROGRESS,
 			transaction_v1.TransactionState_TRANSACTION_STATE_SUBMISSION_IN_PROGRESS,
 			transaction_v1.TransactionState_TRANSACTION_STATE_INDETERMINATE:
-			log.Printf("AddSignatoryToAccount transaction in state %s, keep waiting...", response.GetState())
+			log.Printf("AddSignatoriesToAccount transaction in state %s, keep waiting...", transactionResponse.GetState())
 
 		case transaction_v1.TransactionState_TRANSACTION_STATE_SUCCESSFUL:
-			log.Printf("AddSignatoryToAccount transaction successful")
-			break monitorTransction
+			log.Printf("AddSignatoriesToAccount transaction successful - signatories added to account")
+			break monitorTransaction
 
 		case transaction_v1.TransactionState_TRANSACTION_STATE_FAILED:
-			log.Printf("AddSignatoryToAccount transaction failed")
-			break monitorTransction
+			log.Printf("AddSignatoriesToAccount transaction failed")
+			break monitorTransaction
 
 		default:
-			log.Fatalf("Received unexpected transaction state: %v", response.GetState())
+			log.Fatalf("Received unexpected transaction state: %v", transactionResponse.GetState())
 		}
 	}
 }

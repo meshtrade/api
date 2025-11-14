@@ -13,24 +13,26 @@ var _ AccountService = &MockAccountService{}
 
 // MockAccountService is a mock implementation of the AccountService interface.
 type MockAccountService struct {
-	mutex                                sync.Mutex
-	T                                    *testing.T
-	CreateAccountFunc                    func(t *testing.T, m *MockAccountService, ctx context.Context, request *CreateAccountRequest) (*Account, error)
-	CreateAccountFuncInvocations         int
-	UpdateAccountFunc                    func(t *testing.T, m *MockAccountService, ctx context.Context, request *UpdateAccountRequest) (*Account, error)
-	UpdateAccountFuncInvocations         int
-	OpenAccountFunc                      func(t *testing.T, m *MockAccountService, ctx context.Context, request *OpenAccountRequest) (*OpenAccountResponse, error)
-	OpenAccountFuncInvocations           int
-	AddSignatoryToAccountFunc            func(t *testing.T, m *MockAccountService, ctx context.Context, request *AddSignatoryToAccountRequest) (*AddSignatoryToAccountResponse, error)
-	AddSignatoryToAccountFuncInvocations int
-	GetAccountFunc                       func(t *testing.T, m *MockAccountService, ctx context.Context, request *GetAccountRequest) (*Account, error)
-	GetAccountFuncInvocations            int
-	GetAccountByNumberFunc               func(t *testing.T, m *MockAccountService, ctx context.Context, request *GetAccountByNumberRequest) (*Account, error)
-	GetAccountByNumberFuncInvocations    int
-	ListAccountsFunc                     func(t *testing.T, m *MockAccountService, ctx context.Context, request *ListAccountsRequest) (*ListAccountsResponse, error)
-	ListAccountsFuncInvocations          int
-	SearchAccountsFunc                   func(t *testing.T, m *MockAccountService, ctx context.Context, request *SearchAccountsRequest) (*SearchAccountsResponse, error)
-	SearchAccountsFuncInvocations        int
+	mutex                                       sync.Mutex
+	T                                           *testing.T
+	CreateAccountFunc                           func(t *testing.T, m *MockAccountService, ctx context.Context, request *CreateAccountRequest) (*Account, error)
+	CreateAccountFuncInvocations                int
+	UpdateAccountFunc                           func(t *testing.T, m *MockAccountService, ctx context.Context, request *UpdateAccountRequest) (*Account, error)
+	UpdateAccountFuncInvocations                int
+	OpenAccountFunc                             func(t *testing.T, m *MockAccountService, ctx context.Context, request *OpenAccountRequest) (*OpenAccountResponse, error)
+	OpenAccountFuncInvocations                  int
+	AddSignatoriesToAccountFunc                 func(t *testing.T, m *MockAccountService, ctx context.Context, request *AddSignatoriesToAccountRequest) (*AddSignatoriesToAccountResponse, error)
+	AddSignatoriesToAccountFuncInvocations      int
+	RemoveSignatoriesFromAccountFunc            func(t *testing.T, m *MockAccountService, ctx context.Context, request *RemoveSignatoriesFromAccountRequest) (*RemoveSignatoriesFromAccountResponse, error)
+	RemoveSignatoriesFromAccountFuncInvocations int
+	GetAccountFunc                              func(t *testing.T, m *MockAccountService, ctx context.Context, request *GetAccountRequest) (*Account, error)
+	GetAccountFuncInvocations                   int
+	GetAccountByNumberFunc                      func(t *testing.T, m *MockAccountService, ctx context.Context, request *GetAccountByNumberRequest) (*Account, error)
+	GetAccountByNumberFuncInvocations           int
+	ListAccountsFunc                            func(t *testing.T, m *MockAccountService, ctx context.Context, request *ListAccountsRequest) (*ListAccountsResponse, error)
+	ListAccountsFuncInvocations                 int
+	SearchAccountsFunc                          func(t *testing.T, m *MockAccountService, ctx context.Context, request *SearchAccountsRequest) (*SearchAccountsResponse, error)
+	SearchAccountsFuncInvocations               int
 }
 
 func (m *MockAccountService) CreateAccount(ctx context.Context, request *CreateAccountRequest) (*Account, error) {
@@ -63,14 +65,24 @@ func (m *MockAccountService) OpenAccount(ctx context.Context, request *OpenAccou
 	return m.OpenAccountFunc(m.T, m, ctx, request)
 }
 
-func (m *MockAccountService) AddSignatoryToAccount(ctx context.Context, request *AddSignatoryToAccountRequest) (*AddSignatoryToAccountResponse, error) {
+func (m *MockAccountService) AddSignatoriesToAccount(ctx context.Context, request *AddSignatoriesToAccountRequest) (*AddSignatoriesToAccountResponse, error) {
 	m.mutex.Lock()
-	m.AddSignatoryToAccountFuncInvocations++
+	m.AddSignatoriesToAccountFuncInvocations++
 	m.mutex.Unlock()
-	if m.AddSignatoryToAccountFunc == nil {
+	if m.AddSignatoriesToAccountFunc == nil {
 		return nil, nil
 	}
-	return m.AddSignatoryToAccountFunc(m.T, m, ctx, request)
+	return m.AddSignatoriesToAccountFunc(m.T, m, ctx, request)
+}
+
+func (m *MockAccountService) RemoveSignatoriesFromAccount(ctx context.Context, request *RemoveSignatoriesFromAccountRequest) (*RemoveSignatoriesFromAccountResponse, error) {
+	m.mutex.Lock()
+	m.RemoveSignatoriesFromAccountFuncInvocations++
+	m.mutex.Unlock()
+	if m.RemoveSignatoriesFromAccountFunc == nil {
+		return nil, nil
+	}
+	return m.RemoveSignatoriesFromAccountFunc(m.T, m, ctx, request)
 }
 
 func (m *MockAccountService) GetAccount(ctx context.Context, request *GetAccountRequest) (*Account, error) {
