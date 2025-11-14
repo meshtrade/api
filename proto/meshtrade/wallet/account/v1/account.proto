@@ -16,7 +16,7 @@ option java_package = "co.meshtrade.api.wallet.account.v1";
    Account resource for holding and managing financial instruments on ledgers.
 
    Accounts provide the foundational wallet infrastructure for the Mesh platform, enabling
-   secure storage and management of digital assets across multiple ledger networks.
+   secure storage and management of digital assets across multiple ledgers.
    Each account is tied to a specific ledger (Stellar, Solana, Bitcoin, Ethereum etc.) and
    can hold multiple instrument balances within that network's ecosystem.
 */
@@ -63,7 +63,7 @@ message Account {
   }];
 
   /*
-     The account's ledger address on the specified ledger network.
+     The account's ledger address on the specified ledger.
      Format varies by ledger e.g. Ed25519 public key for Stellar/Solana,
      secp256k1 address for Bitcoin/Ethereum.
      This field is system-generated and immutable.
@@ -107,14 +107,14 @@ message Account {
   /*
      Current operational state of the account on the ledger.
      Reflects whether the account is active and able to transact.
-     NOTE: This is live ledger data - only populated when retrieved with populate_ledger_data=true.
+     NOTE: This is read only live ledger data that is only populated when retrieved with populate_ledger_data=true.
   */
   AccountState state = 10;
 
   /*
      Current instrument balances held in this account.
      Each balance represents a specific financial instrument and its quantity.
-     NOTE: This is live ledger data - only populated when retrieved with populate_ledger_data=true.
+     NOTE: This is read only live ledger data that is only populated when retrieved with populate_ledger_data=true.
   */
   repeated Balance balances = 11;
 
@@ -122,7 +122,7 @@ message Account {
      Current signatories authorized to sign transactions on this account.
      One or more of these signatories need to sign to authorize operations on the account.
      Implementation is dependent on the underlying ledger.
-     NOTE: This is live ledger data - only populated when retrieved with populate_ledger_data=true.
+     NOTE: This is read only live ledger data that is only populated when retrieved with populate_ledger_data=true.
   */
   repeated Signatory signatories = 12;
 }
@@ -209,4 +209,13 @@ message Signatory {
      Used for UI presentation and identification purposes.
   */
   string display_name = 1;
+
+  /*
+     The id of the signatory on the underlying ledger.
+     Format varies by ledger e.g. Ed25519 public key for Stellar/Solana,
+     secp256k1 address for Bitcoin/Ethereum.
+  */
+  string ledger_id = 2 [(buf.validate.field) = {
+    string: {max_len: 255}
+  }];
 }

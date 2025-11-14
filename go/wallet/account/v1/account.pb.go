@@ -84,7 +84,7 @@ func (AccountState) EnumDescriptor() ([]byte, []int) {
 // Account resource for holding and managing financial instruments on ledgers.
 //
 // Accounts provide the foundational wallet infrastructure for the Mesh platform, enabling
-// secure storage and management of digital assets across multiple ledger networks.
+// secure storage and management of digital assets across multiple ledgers.
 // Each account is tied to a specific ledger (Stellar, Solana, Bitcoin, Ethereum etc.) and
 // can hold multiple instrument balances within that network's ecosystem.
 type Account struct {
@@ -103,7 +103,7 @@ type Account struct {
 	// This field is system-generated and immutable.
 	// Any value provided on creation is ignored.
 	Number string `protobuf:"bytes,5,opt,name=number,proto3" json:"number,omitempty"`
-	// The account's ledger address on the specified ledger network.
+	// The account's ledger address on the specified ledger.
 	// Format varies by ledger e.g. Ed25519 public key for Stellar/Solana,
 	// secp256k1 address for Bitcoin/Ethereum.
 	// This field is system-generated and immutable.
@@ -121,16 +121,16 @@ type Account struct {
 	LiveDataRetrievedAt *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=live_data_retrieved_at,json=liveDataRetrievedAt,proto3" json:"live_data_retrieved_at,omitempty"`
 	// Current operational state of the account on the ledger.
 	// Reflects whether the account is active and able to transact.
-	// NOTE: This is live ledger data - only populated when retrieved with populate_ledger_data=true.
+	// NOTE: This is read only live ledger data that is only populated when retrieved with populate_ledger_data=true.
 	State AccountState `protobuf:"varint,10,opt,name=state,proto3,enum=meshtrade.wallet.account.v1.AccountState" json:"state,omitempty"`
 	// Current instrument balances held in this account.
 	// Each balance represents a specific financial instrument and its quantity.
-	// NOTE: This is live ledger data - only populated when retrieved with populate_ledger_data=true.
+	// NOTE: This is read only live ledger data that is only populated when retrieved with populate_ledger_data=true.
 	Balances []*Balance `protobuf:"bytes,11,rep,name=balances,proto3" json:"balances,omitempty"`
 	// Current signatories authorized to sign transactions on this account.
 	// One or more of these signatories need to sign to authorize operations on the account.
 	// Implementation is dependent on the underlying ledger.
-	// NOTE: This is live ledger data - only populated when retrieved with populate_ledger_data=true.
+	// NOTE: This is read only live ledger data that is only populated when retrieved with populate_ledger_data=true.
 	Signatories   []*Signatory `protobuf:"bytes,12,rep,name=signatories,proto3" json:"signatories,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -375,7 +375,11 @@ type Signatory struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Human-readable display name identifying the signatory.
 	// Used for UI presentation and identification purposes.
-	DisplayName   string `protobuf:"bytes,1,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
+	DisplayName string `protobuf:"bytes,1,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
+	// The id of the signatory on the underlying ledger.
+	// Format varies by ledger e.g. Ed25519 public key for Stellar/Solana,
+	// secp256k1 address for Bitcoin/Ethereum.
+	LedgerId      string `protobuf:"bytes,2,opt,name=ledger_id,json=ledgerId,proto3" json:"ledger_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -417,6 +421,13 @@ func (x *Signatory) GetDisplayName() string {
 	return ""
 }
 
+func (x *Signatory) GetLedgerId() string {
+	if x != nil {
+		return x.LedgerId
+	}
+	return ""
+}
+
 var File_meshtrade_wallet_account_v1_account_proto protoreflect.FileDescriptor
 
 const file_meshtrade_wallet_account_v1_account_proto_rawDesc = "" +
@@ -444,9 +455,10 @@ const file_meshtrade_wallet_account_v1_account_proto_rawDesc = "" +
 	"\x04unit\x18\x03 \x01(\x0e2$.meshtrade.studio.instrument.v1.UnitR\x04unit\"\x9e\x01\n" +
 	"\aBalance\x121\n" +
 	"\x06amount\x18\x01 \x01(\v2\x19.meshtrade.type.v1.AmountR\x06amount\x12`\n" +
-	"\x13instrument_metadata\x18\x02 \x01(\v2/.meshtrade.wallet.account.v1.InstrumentMetaDataR\x12instrumentMetadata\".\n" +
+	"\x13instrument_metadata\x18\x02 \x01(\v2/.meshtrade.wallet.account.v1.InstrumentMetaDataR\x12instrumentMetadata\"U\n" +
 	"\tSignatory\x12!\n" +
-	"\fdisplay_name\x18\x01 \x01(\tR\vdisplayName*_\n" +
+	"\fdisplay_name\x18\x01 \x01(\tR\vdisplayName\x12%\n" +
+	"\tledger_id\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R\bledgerId*_\n" +
 	"\fAccountState\x12\x1d\n" +
 	"\x19ACCOUNT_STATE_UNSPECIFIED\x10\x00\x12\x18\n" +
 	"\x14ACCOUNT_STATE_CLOSED\x10\x01\x12\x16\n" +
