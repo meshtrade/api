@@ -66,8 +66,7 @@ type AccountServiceClientInterface interface {
 	// reference for monitoring the ledger operation.
 	OpenAccount(ctx context.Context, request *OpenAccountRequest) (*OpenAccountResponse, error)
 	// Adds the given user as a signatory to an account on the ledger.
-	// Returns theaccount and a transaction
-	// reference for monitoring the ledger operation.
+	// Returns a transaction reference for monitoring the ledger operation.
 	AddSignatoryToAccount(ctx context.Context, request *AddSignatoryToAccountRequest) (*AddSignatoryToAccountResponse, error)
 	// Retrieves a specific account by its resource identifier.
 	// Provides access to account metadata and optionally fetches live

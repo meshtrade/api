@@ -64,8 +64,7 @@ type AccountServiceClient interface {
 	OpenAccount(ctx context.Context, in *OpenAccountRequest, opts ...grpc.CallOption) (*OpenAccountResponse, error)
 	// Adds the given user as a signatory to an account on the ledger.
 	//
-	// Returns theaccount and a transaction
-	// reference for monitoring the ledger operation.
+	// Returns a transaction reference for monitoring the ledger operation.
 	AddSignatoryToAccount(ctx context.Context, in *AddSignatoryToAccountRequest, opts ...grpc.CallOption) (*AddSignatoryToAccountResponse, error)
 	// Retrieves a specific account by its resource identifier.
 	//
@@ -212,8 +211,7 @@ type AccountServiceServer interface {
 	OpenAccount(context.Context, *OpenAccountRequest) (*OpenAccountResponse, error)
 	// Adds the given user as a signatory to an account on the ledger.
 	//
-	// Returns theaccount and a transaction
-	// reference for monitoring the ledger operation.
+	// Returns a transaction reference for monitoring the ledger operation.
 	AddSignatoryToAccount(context.Context, *AddSignatoryToAccountRequest) (*AddSignatoryToAccountResponse, error)
 	// Retrieves a specific account by its resource identifier.
 	//
