@@ -25,7 +25,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Operational state of an account on the blockchain ledger.
+// Operational state of an account on the ledger.
 type AccountState int32
 
 const (
@@ -81,10 +81,10 @@ func (AccountState) EnumDescriptor() ([]byte, []int) {
 	return file_meshtrade_wallet_account_v1_account_proto_rawDescGZIP(), []int{0}
 }
 
-// Account resource for holding and managing financial instruments on blockchain ledgers.
+// Account resource for holding and managing financial instruments on ledgers.
 //
 // Accounts provide the foundational wallet infrastructure for the Mesh platform, enabling
-// secure storage and management of digital assets across multiple blockchain networks.
+// secure storage and management of digital assets across multiple ledger networks.
 // Each account is tied to a specific ledger (Stellar, Solana, Bitcoin, Ethereum etc.) and
 // can hold multiple instrument balances within that network's ecosystem.
 type Account struct {
@@ -103,7 +103,7 @@ type Account struct {
 	// This field is system-generated and immutable.
 	// Any value provided on creation is ignored.
 	Number string `protobuf:"bytes,5,opt,name=number,proto3" json:"number,omitempty"`
-	// The account's blockchain address on the specified ledger network.
+	// The account's ledger address on the specified ledger network.
 	// Format varies by ledger e.g. Ed25519 public key for Stellar/Solana,
 	// secp256k1 address for Bitcoin/Ethereum.
 	// This field is system-generated and immutable.
@@ -117,15 +117,20 @@ type Account struct {
 	DisplayName string `protobuf:"bytes,8,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// Timestamp of the last live ledger data synchronization.
 	// Only populated when accounts are retrieved with populate_ledger_data=true.
-	// This timestamp indicates when balances and state were last fetched from the blockchain.
+	// This timestamp indicates when balances and state were last fetched from the ledger.
 	LiveDataRetrievedAt *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=live_data_retrieved_at,json=liveDataRetrievedAt,proto3" json:"live_data_retrieved_at,omitempty"`
-	// Current operational state of the account on the blockchain ledger.
+	// Current operational state of the account on the ledger.
 	// Reflects whether the account is active and able to transact.
 	State AccountState `protobuf:"varint,10,opt,name=state,proto3,enum=meshtrade.wallet.account.v1.AccountState" json:"state,omitempty"`
 	// Current instrument balances held in this account.
 	// Each balance represents a specific financial instrument and its quantity.
 	// NOTE: This is live ledger data - only populated when retrieved with populate_ledger_data=true.
-	Balances      []*Balance `protobuf:"bytes,11,rep,name=balances,proto3" json:"balances,omitempty"`
+	Balances []*Balance `protobuf:"bytes,11,rep,name=balances,proto3" json:"balances,omitempty"`
+	// Current signatories authorized to sign transactions on this account.
+	// One or more of these signatories need to sign to authorize operations on the account.
+	// Implementation is dependent on the underlying ledger.
+	// NOTE: This is live ledger data - only populated when retrieved with populate_ledger_data=true.
+	Signatories   []*Signatory `protobuf:"bytes,12,rep,name=signatories,proto3" json:"signatories,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -223,6 +228,13 @@ func (x *Account) GetBalances() []*Balance {
 	return nil
 }
 
+func (x *Account) GetSignatories() []*Signatory {
+	if x != nil {
+		return x.Signatories
+	}
+	return nil
+}
+
 // Metadata describing financial instruments held in account balances.
 //
 // Provides descriptive, non-quantifiable information about instruments to enable
@@ -301,7 +313,7 @@ type Balance struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Quantity of the instrument held, expressed as a high-precision decimal amount.
 	// Includes both available and locked funds (e.g., in open orders or other obligations).
-	// The amount's token field indicates the instrument's blockchain representation.
+	// The amount's token field indicates the instrument's ledger representation.
 	Amount *v1.Amount `protobuf:"bytes,1,opt,name=amount,proto3" json:"amount,omitempty"`
 	// Descriptive metadata identifying and classifying the instrument.
 	// Provides context for interpreting the balance quantity.
@@ -354,11 +366,61 @@ func (x *Balance) GetInstrumentMetadata() *InstrumentMetaData {
 	return nil
 }
 
+// Signatory authorized to sign transactions on an account.
+//
+// Represents an entity with signing authority for account operations.
+// The underlying implementation and signing mechanism is ledger-dependent.
+type Signatory struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Human-readable display name identifying the signatory.
+	// Used for UI presentation and identification purposes.
+	DisplayName   string `protobuf:"bytes,1,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Signatory) Reset() {
+	*x = Signatory{}
+	mi := &file_meshtrade_wallet_account_v1_account_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Signatory) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Signatory) ProtoMessage() {}
+
+func (x *Signatory) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_wallet_account_v1_account_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Signatory.ProtoReflect.Descriptor instead.
+func (*Signatory) Descriptor() ([]byte, []int) {
+	return file_meshtrade_wallet_account_v1_account_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *Signatory) GetDisplayName() string {
+	if x != nil {
+		return x.DisplayName
+	}
+	return ""
+}
+
 var File_meshtrade_wallet_account_v1_account_proto protoreflect.FileDescriptor
 
 const file_meshtrade_wallet_account_v1_account_proto_rawDesc = "" +
 	"\n" +
-	")meshtrade/wallet/account/v1/account.proto\x12\x1bmeshtrade.wallet.account.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1emeshtrade/type/v1/ledger.proto\x1a\x1emeshtrade/type/v1/amount.proto\x1a4meshtrade/studio/instrument/v1/instrument_type.proto\x1a)meshtrade/studio/instrument/v1/unit.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xbd\x06\n" +
+	")meshtrade/wallet/account/v1/account.proto\x12\x1bmeshtrade.wallet.account.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a4meshtrade/studio/instrument/v1/instrument_type.proto\x1a)meshtrade/studio/instrument/v1/unit.proto\x1a\x1emeshtrade/type/v1/amount.proto\x1a\x1emeshtrade/type/v1/ledger.proto\"\x87\a\n" +
 	"\aAccount\x12\xc0\x01\n" +
 	"\x04name\x18\x01 \x01(\tB\xab\x01\xbaH\xa7\x01\xba\x01\xa3\x01\n" +
 	"\x14name.format.optional\x125name must be empty or in the format accounts/{ULIDv2}\x1aTsize(this) == 0 || this.matches('^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12R\n" +
@@ -373,14 +435,17 @@ const file_meshtrade_wallet_account_v1_account_proto_rawDesc = "" +
 	"\x16live_data_retrieved_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\x13liveDataRetrievedAt\x12?\n" +
 	"\x05state\x18\n" +
 	" \x01(\x0e2).meshtrade.wallet.account.v1.AccountStateR\x05state\x12@\n" +
-	"\bbalances\x18\v \x03(\v2$.meshtrade.wallet.account.v1.BalanceR\bbalances\"\xa6\x01\n" +
+	"\bbalances\x18\v \x03(\v2$.meshtrade.wallet.account.v1.BalanceR\bbalances\x12H\n" +
+	"\vsignatories\x18\f \x03(\v2&.meshtrade.wallet.account.v1.SignatoryR\vsignatories\"\xa6\x01\n" +
 	"\x12InstrumentMetaData\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12B\n" +
 	"\x04type\x18\x02 \x01(\x0e2..meshtrade.studio.instrument.v1.InstrumentTypeR\x04type\x128\n" +
 	"\x04unit\x18\x03 \x01(\x0e2$.meshtrade.studio.instrument.v1.UnitR\x04unit\"\x9e\x01\n" +
 	"\aBalance\x121\n" +
 	"\x06amount\x18\x01 \x01(\v2\x19.meshtrade.type.v1.AmountR\x06amount\x12`\n" +
-	"\x13instrument_metadata\x18\x02 \x01(\v2/.meshtrade.wallet.account.v1.InstrumentMetaDataR\x12instrumentMetadata*_\n" +
+	"\x13instrument_metadata\x18\x02 \x01(\v2/.meshtrade.wallet.account.v1.InstrumentMetaDataR\x12instrumentMetadata\".\n" +
+	"\tSignatory\x12!\n" +
+	"\fdisplay_name\x18\x01 \x01(\tR\vdisplayName*_\n" +
 	"\fAccountState\x12\x1d\n" +
 	"\x19ACCOUNT_STATE_UNSPECIFIED\x10\x00\x12\x18\n" +
 	"\x14ACCOUNT_STATE_CLOSED\x10\x01\x12\x16\n" +
@@ -400,32 +465,34 @@ func file_meshtrade_wallet_account_v1_account_proto_rawDescGZIP() []byte {
 }
 
 var file_meshtrade_wallet_account_v1_account_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_meshtrade_wallet_account_v1_account_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_meshtrade_wallet_account_v1_account_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_meshtrade_wallet_account_v1_account_proto_goTypes = []any{
 	(AccountState)(0),             // 0: meshtrade.wallet.account.v1.AccountState
 	(*Account)(nil),               // 1: meshtrade.wallet.account.v1.Account
 	(*InstrumentMetaData)(nil),    // 2: meshtrade.wallet.account.v1.InstrumentMetaData
 	(*Balance)(nil),               // 3: meshtrade.wallet.account.v1.Balance
-	(v1.Ledger)(0),                // 4: meshtrade.type.v1.Ledger
-	(*timestamppb.Timestamp)(nil), // 5: google.protobuf.Timestamp
-	(v11.InstrumentType)(0),       // 6: meshtrade.studio.instrument.v1.InstrumentType
-	(v11.Unit)(0),                 // 7: meshtrade.studio.instrument.v1.Unit
-	(*v1.Amount)(nil),             // 8: meshtrade.type.v1.Amount
+	(*Signatory)(nil),             // 4: meshtrade.wallet.account.v1.Signatory
+	(v1.Ledger)(0),                // 5: meshtrade.type.v1.Ledger
+	(*timestamppb.Timestamp)(nil), // 6: google.protobuf.Timestamp
+	(v11.InstrumentType)(0),       // 7: meshtrade.studio.instrument.v1.InstrumentType
+	(v11.Unit)(0),                 // 8: meshtrade.studio.instrument.v1.Unit
+	(*v1.Amount)(nil),             // 9: meshtrade.type.v1.Amount
 }
 var file_meshtrade_wallet_account_v1_account_proto_depIdxs = []int32{
-	4, // 0: meshtrade.wallet.account.v1.Account.ledger:type_name -> meshtrade.type.v1.Ledger
-	5, // 1: meshtrade.wallet.account.v1.Account.live_data_retrieved_at:type_name -> google.protobuf.Timestamp
+	5, // 0: meshtrade.wallet.account.v1.Account.ledger:type_name -> meshtrade.type.v1.Ledger
+	6, // 1: meshtrade.wallet.account.v1.Account.live_data_retrieved_at:type_name -> google.protobuf.Timestamp
 	0, // 2: meshtrade.wallet.account.v1.Account.state:type_name -> meshtrade.wallet.account.v1.AccountState
 	3, // 3: meshtrade.wallet.account.v1.Account.balances:type_name -> meshtrade.wallet.account.v1.Balance
-	6, // 4: meshtrade.wallet.account.v1.InstrumentMetaData.type:type_name -> meshtrade.studio.instrument.v1.InstrumentType
-	7, // 5: meshtrade.wallet.account.v1.InstrumentMetaData.unit:type_name -> meshtrade.studio.instrument.v1.Unit
-	8, // 6: meshtrade.wallet.account.v1.Balance.amount:type_name -> meshtrade.type.v1.Amount
-	2, // 7: meshtrade.wallet.account.v1.Balance.instrument_metadata:type_name -> meshtrade.wallet.account.v1.InstrumentMetaData
-	8, // [8:8] is the sub-list for method output_type
-	8, // [8:8] is the sub-list for method input_type
-	8, // [8:8] is the sub-list for extension type_name
-	8, // [8:8] is the sub-list for extension extendee
-	0, // [0:8] is the sub-list for field type_name
+	4, // 4: meshtrade.wallet.account.v1.Account.signatories:type_name -> meshtrade.wallet.account.v1.Signatory
+	7, // 5: meshtrade.wallet.account.v1.InstrumentMetaData.type:type_name -> meshtrade.studio.instrument.v1.InstrumentType
+	8, // 6: meshtrade.wallet.account.v1.InstrumentMetaData.unit:type_name -> meshtrade.studio.instrument.v1.Unit
+	9, // 7: meshtrade.wallet.account.v1.Balance.amount:type_name -> meshtrade.type.v1.Amount
+	2, // 8: meshtrade.wallet.account.v1.Balance.instrument_metadata:type_name -> meshtrade.wallet.account.v1.InstrumentMetaData
+	9, // [9:9] is the sub-list for method output_type
+	9, // [9:9] is the sub-list for method input_type
+	9, // [9:9] is the sub-list for extension type_name
+	9, // [9:9] is the sub-list for extension extendee
+	0, // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_wallet_account_v1_account_proto_init() }
@@ -439,7 +506,7 @@ func file_meshtrade_wallet_account_v1_account_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_meshtrade_wallet_account_v1_account_proto_rawDesc), len(file_meshtrade_wallet_account_v1_account_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   3,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

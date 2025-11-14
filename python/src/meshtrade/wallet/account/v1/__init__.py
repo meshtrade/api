@@ -18,6 +18,7 @@ from .account_pb2 import (
     AccountState,
     Balance,
     InstrumentMetaData,
+    Signatory,
 )
 from .service_pb2 import (
     AddSignatoriesToAccountRequest,
@@ -83,5 +84,6 @@ __all__ = [
     "RemoveSignatoriesFromAccountResponse",
     "SearchAccountsRequest",
     "SearchAccountsResponse",
+    "Signatory",
     "UpdateAccountRequest",
 ]
