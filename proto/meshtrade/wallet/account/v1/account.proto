@@ -107,6 +107,7 @@ message Account {
   /*
      Current operational state of the account on the ledger.
      Reflects whether the account is active and able to transact.
+     NOTE: This is live ledger data - only populated when retrieved with populate_ledger_data=true.
   */
   AccountState state = 10;
 
