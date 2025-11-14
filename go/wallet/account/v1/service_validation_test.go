@@ -473,13 +473,6 @@ func TestOpenAccountResponse_Validation(t *testing.T) {
 		{
 			name: "valid open account response",
 			response: &OpenAccountResponse{
-				Account: &Account{
-					Name:        "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-					Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-					Ledger:      type_v1.Ledger_LEDGER_STELLAR,
-					DisplayName: "Opened Account",
-					State:       AccountState_ACCOUNT_STATE_OPEN,
-				},
 				LedgerTransaction: "transactions/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 			},
 			wantErr: false,

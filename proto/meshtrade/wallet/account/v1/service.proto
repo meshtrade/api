@@ -11,10 +11,10 @@ option go_package = "github.com/meshtrade/api/go/wallet/account/v1;account_v1";
 option java_package = "co.meshtrade.api.wallet.account.v1";
 
 /*
-   AccountService manages blockchain wallet accounts and their lifecycle operations (BETA).
+   AccountService manages ledger wallet accounts and their lifecycle operations (BETA).
 
    This service provides comprehensive account management capabilities across multiple
-   blockchain networks (Stellar, Solana, Bitcoin, Ethereum). Accounts serve as the
+   ledger networks (Stellar, Solana, Bitcoin, Ethereum). Accounts serve as the
    primary containers for holding and managing digital assets on the Mesh platform.
 
    Key capabilities include account creation, opening on-chain, balance queries,
@@ -28,7 +28,7 @@ service AccountService {
      Creates a new account record in the system (off-chain).
 
      The account is created in a pending state and must be explicitly opened
-     on the blockchain using OpenAccount before it can receive funds or execute
+     on the ledger using OpenAccount before it can receive funds or execute
      transactions. Account ownership must match the executing context.
   */
   rpc CreateAccount(CreateAccountRequest) returns (meshtrade.wallet.account.v1.Account) {
@@ -60,11 +60,11 @@ service AccountService {
   }
 
   /*
-     Opens an account on the blockchain ledger.
+     Opens an account on the ledger.
 
      Initializes the account on-chain, making it ready to receive deposits
      and execute transactions. Returns the opened account and a transaction
-     reference for monitoring the blockchain operation.
+     reference for monitoring the ledger operation.
   */
   rpc OpenAccount(OpenAccountRequest) returns (OpenAccountResponse) {
     option (meshtrade.option.method_options.v1.method_options) = {
@@ -78,10 +78,27 @@ service AccountService {
   }
 
   /*
+     Adds the given user as a signatory to an account on the ledger.
+
+     Returns theaccount and a transaction
+     reference for monitoring the ledger operation.
+  */
+  rpc AddSignatoryToAccount(AddSignatoryToAccountRequest) returns (AddSignatoryToAccountResponse) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_WRITE
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
+      roles: [
+        ROLE_WALLET_ADMIN,
+        ROLE_WALLET_ACCOUNT_ADMIN
+      ]
+    };
+  }  
+
+  /*
      Retrieves a specific account by its resource identifier.
 
      Provides access to account metadata and optionally fetches live
-     balance data from the blockchain when populate_ledger_data is true.
+     balance data from the ledger when populate_ledger_data is true.
   */
   rpc GetAccount(GetAccountRequest) returns (meshtrade.wallet.account.v1.Account) {
     option (meshtrade.option.method_options.v1.method_options) = {
@@ -177,7 +194,7 @@ message UpdateAccountRequest {
 }
 
 /*
-   Request to open an account on the blockchain.
+   Request to open an account on the ledger.
 */
 message OpenAccountRequest {
   /*
@@ -193,19 +210,56 @@ message OpenAccountRequest {
 }
 
 /*
-   Response containing the opened account and transaction details.
+   Response a transaction reference to monitor the ledger operation to open the account.
 */
 message OpenAccountResponse {
   /*
-     The account after successful opening on the blockchain.
-  */
-  meshtrade.wallet.account.v1.Account account = 1;
-
-  /*
-     Transaction reference for monitoring the blockchain operation.
+     Transaction reference for monitoring the ledger operation to open the account.
+     The Account is open once this transaction has succeeded.
      Format: transactions/{ULIDv2}.
   */
-  string ledger_transaction = 3;
+  string ledger_transaction = 1;
+}
+
+/*
+   Request to add a signatory to an account on the ledger.
+*/
+message AddSignatoryToAccountRequest {
+  /*
+     The resource name of the account to which a signatory should be added.
+     Format: accounts/{ULIDv2}.
+  */
+  string name = 1 [(buf.validate.field) = {
+    string: {
+      len: 35
+      pattern: "^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+    }
+  }];
+
+  /*
+     The resource name of the (api)user to add as a signatory on the identified account.
+     Format: api_users/{ULIDv2} or users/{ULIDv2}.
+  */
+  string user = 2 [(buf.validate.field) = {
+    required: true,
+    cel: {
+      id: "user.format",
+      message: "user must be api_users/{ULID}, users/{ULID}",
+      expression: "this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$') || this.matches('^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
+    }
+  }];  
+}
+
+/*
+   Response a transaction reference to monitor the ledger operation to open the account.
+*/
+message AddSignatoryToAccountResponse {
+  /*
+     Transaction reference for monitoring the ledger operation to add the given user as a signatory.
+     The signatory is added once this transaction has succeeded.
+     Format: transactions/{ULIDv2}.
+  */
+  string ledger_transaction = 1;
 }
 
 /*
@@ -224,7 +278,7 @@ message GetAccountRequest {
   }];
 
   /*
-     When true, fetches current balances and state from the blockchain.
+     When true, fetches current balances and state from the ledger.
      When false, returns only stored metadata without live data.
   */
   bool populate_ledger_data = 2;
@@ -243,7 +297,7 @@ message GetAccountByNumberRequest {
   }];
 
   /*
-     When true, fetches current balances and state from the blockchain.
+     When true, fetches current balances and state from the ledger.
      When false, returns only stored metadata without live data.
   */
   bool populate_ledger_data = 2;
@@ -287,7 +341,7 @@ message ListAccountsRequest {
   Sorting sorting = 1;
 
   /*
-     When true, fetches current balances and state from the blockchain.
+     When true, fetches current balances and state from the ledger.
      When false, returns only stored metadata without live data.
   */
   bool populate_ledger_data = 2;
@@ -354,7 +408,7 @@ message SearchAccountsRequest {
   }];
 
   /*
-     When true, fetches current balances and state from the blockchain.
+     When true, fetches current balances and state from the ledger.
      When false, returns only stored metadata without live data.
   */
   bool populate_ledger_data = 3;
