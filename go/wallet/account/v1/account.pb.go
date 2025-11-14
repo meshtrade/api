@@ -121,6 +121,7 @@ type Account struct {
 	LiveDataRetrievedAt *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=live_data_retrieved_at,json=liveDataRetrievedAt,proto3" json:"live_data_retrieved_at,omitempty"`
 	// Current operational state of the account on the ledger.
 	// Reflects whether the account is active and able to transact.
+	// NOTE: This is live ledger data - only populated when retrieved with populate_ledger_data=true.
 	State AccountState `protobuf:"varint,10,opt,name=state,proto3,enum=meshtrade.wallet.account.v1.AccountState" json:"state,omitempty"`
 	// Current instrument balances held in this account.
 	// Each balance represents a specific financial instrument and its quantity.
