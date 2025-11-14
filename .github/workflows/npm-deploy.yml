@@ -1,7 +1,8 @@
-name: Deploy TypeScript SDK to npm via Trusted Publisher
+name: Deploy TypeScript SDK to npm via OIDC Trusted Publishing
 
 # Triggers on tags like ts/v1.0.0, ts/v2.1.3, etc.
-# Uses npm Trusted Publishing (OIDC) - no tokens required!
+# Uses npm Trusted Publishing (OIDC) - no long-lived tokens required!
+# Requires npm CLI >= 11.5.1 and one-time trusted publisher config on npmjs.com
 on:
   push:
     tags:
@@ -16,13 +17,13 @@ on:
         type: string
 
 permissions:
-  contents: write  # Need write permission to commit version changes back
-  id-token: write  # Required for npm trusted publishing with OIDC
-  pull-requests: write  # Required for creating PR after successful deployment
+  contents: write  # For committing version changes back to repository
+  id-token: write  # CRITICAL: Required for OIDC authentication with npm
+  pull-requests: write  # For creating PR after successful deployment
 
 jobs:
   npm-deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Must use GitHub-hosted runner (self-hosted not supported for OIDC)
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -31,7 +32,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          # No registry-url specified - let OIDC trusted publishing handle authentication
+          registry-url: 'https://registry.npmjs.org'  # Required for OIDC authentication
+
+      - name: Upgrade npm to support OIDC
+        run: |
+          echo "Current npm version: $(npm --version)"
+          npm install -g npm@latest
+          echo "Updated npm version: $(npm --version)"
+          echo "Note: OIDC requires npm >= 11.5.1"
 
       - name: Enable Corepack
         run: corepack enable
@@ -67,7 +75,7 @@ jobs:
       - name: Run TypeScript linting (early validation)
         working-directory: ./ts
         run: |
-          echo "🚀 Linting TypeScript code..."
+          echo "🔍 Linting TypeScript code..."
           yarn lint
 
       - name: Extract version from tag or input
@@ -98,7 +106,7 @@ jobs:
       - name: Build TypeScript SDK
         working-directory: ./ts
         run: |
-          echo "🚀 Building TypeScript SDK..."
+          echo "🏗️ Building TypeScript SDK..."
           yarn build
 
       - name: Verify build artifacts
@@ -107,16 +115,13 @@ jobs:
           echo "✅ Verifying build artifacts..."
           ls -la dist/ | head -10
 
-      - name: Publish to npm via Trusted Publisher (OIDC)
+      - name: Publish to npm via OIDC Trusted Publishing
         working-directory: ./ts
-        env:
-          NODE_AUTH_TOKEN: ""  # Clear any auth token to force OIDC
         run: |
-          echo "🚀 Publishing to npm via Trusted Publisher..."
-          # Clear npm config to ensure clean OIDC authentication
-          npm config delete //registry.npmjs.org/:_authToken 2>/dev/null || true
-          echo "Using npm for trusted publishing (OIDC)..."
-          # Use npm directly for better OIDC support with first-time package publishing
+          echo "🚀 Publishing to npm via OIDC Trusted Publishing..."
+          echo "npm version: $(npm --version)"
+          # OIDC handles authentication automatically - no tokens needed!
+          # Provenance attestations are automatically generated with trusted publishing
           npm publish --access public
 
       - name: Success notification
@@ -125,10 +130,12 @@ jobs:
           echo ""
           echo "############################################################"
           echo "#                                                          #"
-          echo "#  🎉 TypeScript SDK v$VERSION published via Trusted Publisher! 📦 #"
+          echo "#  🎉 TypeScript SDK v$VERSION published via OIDC! 🔐     #"
           echo "#                                                          #"
           echo "#  Package: @meshtrade/api@$VERSION                       #"
           echo "#  Registry: https://www.npmjs.com/package/@meshtrade/api #"
+          echo "#  Provenance: ✅ Automatically generated                  #"
+          echo "#  Authentication: OIDC (no long-lived tokens!)           #"
           echo "#                                                          #"
           echo "############################################################"
 
@@ -154,12 +161,12 @@ jobs:
           
           # Commit the version change
           COMMIT_MSG="chore: update TypeScript SDK version to $VERSION
-          
-          After successful deployment to npm registry.
+
+          After successful deployment to npm registry via OIDC.
           Tag: ts/v$VERSION
-          
+
           🤖 Generated with [Claude Code](https://claude.ai/code)
-          
+
           Co-Authored-By: Claude <noreply@anthropic.com>"
           git commit -m "$COMMIT_MSG"
           
@@ -168,18 +175,26 @@ jobs:
           
           # Create PR using GitHub CLI
           PR_BODY="## Summary
-          Updates TypeScript SDK version to $VERSION after successful npm deployment.
-          
+          Updates TypeScript SDK version to $VERSION after successful npm deployment via OIDC.
+
           ## Details
-          - Package successfully published to npm registry
+          - Package successfully published to npm registry using OIDC Trusted Publishing
+          - Provenance attestations automatically generated
+          - No long-lived tokens used (secure OIDC authentication)
           - Version updated in \`ts/package.json\`
           - Triggered by tag: \`ts/v$VERSION\`
-          
+
+          ## Security
+          - ✅ Published via OIDC (no npm tokens)
+          - ✅ Provenance attestations included
+          - ✅ Short-lived, workflow-specific credentials
+
           ## Checklist
           - [x] Version updated to match published package
           - [x] Package successfully deployed to npm
+          - [x] OIDC authentication successful
           - [ ] Merged to main branch
-          
+
           🤖 Generated with [Claude Code](https://claude.ai/code)"
           
           gh pr create \
