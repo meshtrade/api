@@ -65,9 +65,12 @@ type AccountServiceClientInterface interface {
 	// and execute transactions. Returns the opened account and a transaction
 	// reference for monitoring the ledger operation.
 	OpenAccount(ctx context.Context, request *OpenAccountRequest) (*OpenAccountResponse, error)
-	// Adds the given user as a signatory to an account on the ledger.
+	// Adds the given users as signatories to an account on the ledger.
 	// Returns a transaction reference for monitoring the ledger operation.
-	AddSignatoryToAccount(ctx context.Context, request *AddSignatoryToAccountRequest) (*AddSignatoryToAccountResponse, error)
+	AddSignatoriesToAccount(ctx context.Context, request *AddSignatoriesToAccountRequest) (*AddSignatoriesToAccountResponse, error)
+	// Removes the given users as signatories from an account on the ledger.
+	// Returns a transaction reference for monitoring the ledger operation.
+	RemoveSignatoriesFromAccount(ctx context.Context, request *RemoveSignatoriesFromAccountRequest) (*RemoveSignatoriesFromAccountResponse, error)
 	// Retrieves a specific account by its resource identifier.
 	// Provides access to account metadata and optionally fetches live
 	// balance data from the ledger when populate_ledger_data is true.
@@ -219,11 +222,19 @@ func (s *accountService) OpenAccount(ctx context.Context, request *OpenAccountRe
 	})
 }
 
-// AddSignatoryToAccount executes the AddSignatoryToAccount RPC method with automatic
+// AddSignatoriesToAccount executes the AddSignatoriesToAccount RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
-func (s *accountService) AddSignatoryToAccount(ctx context.Context, request *AddSignatoryToAccountRequest) (*AddSignatoryToAccountResponse, error) {
-	return grpc.Execute(s.Executor(), ctx, "AddSignatoryToAccount", request, func(ctx context.Context) (*AddSignatoryToAccountResponse, error) {
-		return s.GrpcClient().AddSignatoryToAccount(ctx, request)
+func (s *accountService) AddSignatoriesToAccount(ctx context.Context, request *AddSignatoriesToAccountRequest) (*AddSignatoriesToAccountResponse, error) {
+	return grpc.Execute(s.Executor(), ctx, "AddSignatoriesToAccount", request, func(ctx context.Context) (*AddSignatoriesToAccountResponse, error) {
+		return s.GrpcClient().AddSignatoriesToAccount(ctx, request)
+	})
+}
+
+// RemoveSignatoriesFromAccount executes the RemoveSignatoriesFromAccount RPC method with automatic
+// client-side validation, timeout handling, distributed tracing, and authentication.
+func (s *accountService) RemoveSignatoriesFromAccount(ctx context.Context, request *RemoveSignatoriesFromAccountRequest) (*RemoveSignatoriesFromAccountResponse, error) {
+	return grpc.Execute(s.Executor(), ctx, "RemoveSignatoriesFromAccount", request, func(ctx context.Context) (*RemoveSignatoriesFromAccountResponse, error) {
+		return s.GrpcClient().RemoveSignatoriesFromAccount(ctx, request)
 	})
 }
 

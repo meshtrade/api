@@ -38,10 +38,15 @@ type AccountService interface {
 	// reference for monitoring the ledger operation.
 	OpenAccount(ctx context.Context, request *OpenAccountRequest) (*OpenAccountResponse, error)
 
-	// Adds the given user as a signatory to an account on the ledger.
+	// Adds the given users as signatories to an account on the ledger.
 	//
 	// Returns a transaction reference for monitoring the ledger operation.
-	AddSignatoryToAccount(ctx context.Context, request *AddSignatoryToAccountRequest) (*AddSignatoryToAccountResponse, error)
+	AddSignatoriesToAccount(ctx context.Context, request *AddSignatoriesToAccountRequest) (*AddSignatoriesToAccountResponse, error)
+
+	// Removes the given users as signatories from an account on the ledger.
+	//
+	// Returns a transaction reference for monitoring the ledger operation.
+	RemoveSignatoriesFromAccount(ctx context.Context, request *RemoveSignatoriesFromAccountRequest) (*RemoveSignatoriesFromAccountResponse, error)
 
 	// Retrieves a specific account by its resource identifier.
 	//

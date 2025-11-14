@@ -19,14 +19,15 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	AccountService_CreateAccount_FullMethodName         = "/meshtrade.wallet.account.v1.AccountService/CreateAccount"
-	AccountService_UpdateAccount_FullMethodName         = "/meshtrade.wallet.account.v1.AccountService/UpdateAccount"
-	AccountService_OpenAccount_FullMethodName           = "/meshtrade.wallet.account.v1.AccountService/OpenAccount"
-	AccountService_AddSignatoryToAccount_FullMethodName = "/meshtrade.wallet.account.v1.AccountService/AddSignatoryToAccount"
-	AccountService_GetAccount_FullMethodName            = "/meshtrade.wallet.account.v1.AccountService/GetAccount"
-	AccountService_GetAccountByNumber_FullMethodName    = "/meshtrade.wallet.account.v1.AccountService/GetAccountByNumber"
-	AccountService_ListAccounts_FullMethodName          = "/meshtrade.wallet.account.v1.AccountService/ListAccounts"
-	AccountService_SearchAccounts_FullMethodName        = "/meshtrade.wallet.account.v1.AccountService/SearchAccounts"
+	AccountService_CreateAccount_FullMethodName                = "/meshtrade.wallet.account.v1.AccountService/CreateAccount"
+	AccountService_UpdateAccount_FullMethodName                = "/meshtrade.wallet.account.v1.AccountService/UpdateAccount"
+	AccountService_OpenAccount_FullMethodName                  = "/meshtrade.wallet.account.v1.AccountService/OpenAccount"
+	AccountService_AddSignatoriesToAccount_FullMethodName      = "/meshtrade.wallet.account.v1.AccountService/AddSignatoriesToAccount"
+	AccountService_RemoveSignatoriesFromAccount_FullMethodName = "/meshtrade.wallet.account.v1.AccountService/RemoveSignatoriesFromAccount"
+	AccountService_GetAccount_FullMethodName                   = "/meshtrade.wallet.account.v1.AccountService/GetAccount"
+	AccountService_GetAccountByNumber_FullMethodName           = "/meshtrade.wallet.account.v1.AccountService/GetAccountByNumber"
+	AccountService_ListAccounts_FullMethodName                 = "/meshtrade.wallet.account.v1.AccountService/ListAccounts"
+	AccountService_SearchAccounts_FullMethodName               = "/meshtrade.wallet.account.v1.AccountService/SearchAccounts"
 )
 
 // AccountServiceClient is the client API for AccountService service.
@@ -62,10 +63,14 @@ type AccountServiceClient interface {
 	// and execute transactions. Returns the opened account and a transaction
 	// reference for monitoring the ledger operation.
 	OpenAccount(ctx context.Context, in *OpenAccountRequest, opts ...grpc.CallOption) (*OpenAccountResponse, error)
-	// Adds the given user as a signatory to an account on the ledger.
+	// Adds the given users as signatories to an account on the ledger.
 	//
 	// Returns a transaction reference for monitoring the ledger operation.
-	AddSignatoryToAccount(ctx context.Context, in *AddSignatoryToAccountRequest, opts ...grpc.CallOption) (*AddSignatoryToAccountResponse, error)
+	AddSignatoriesToAccount(ctx context.Context, in *AddSignatoriesToAccountRequest, opts ...grpc.CallOption) (*AddSignatoriesToAccountResponse, error)
+	// Removes the given users as signatories from an account on the ledger.
+	//
+	// Returns a transaction reference for monitoring the ledger operation.
+	RemoveSignatoriesFromAccount(ctx context.Context, in *RemoveSignatoriesFromAccountRequest, opts ...grpc.CallOption) (*RemoveSignatoriesFromAccountResponse, error)
 	// Retrieves a specific account by its resource identifier.
 	//
 	// Provides access to account metadata and optionally fetches live
@@ -126,10 +131,20 @@ func (c *accountServiceClient) OpenAccount(ctx context.Context, in *OpenAccountR
 	return out, nil
 }
 
-func (c *accountServiceClient) AddSignatoryToAccount(ctx context.Context, in *AddSignatoryToAccountRequest, opts ...grpc.CallOption) (*AddSignatoryToAccountResponse, error) {
+func (c *accountServiceClient) AddSignatoriesToAccount(ctx context.Context, in *AddSignatoriesToAccountRequest, opts ...grpc.CallOption) (*AddSignatoriesToAccountResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(AddSignatoryToAccountResponse)
-	err := c.cc.Invoke(ctx, AccountService_AddSignatoryToAccount_FullMethodName, in, out, cOpts...)
+	out := new(AddSignatoriesToAccountResponse)
+	err := c.cc.Invoke(ctx, AccountService_AddSignatoriesToAccount_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *accountServiceClient) RemoveSignatoriesFromAccount(ctx context.Context, in *RemoveSignatoriesFromAccountRequest, opts ...grpc.CallOption) (*RemoveSignatoriesFromAccountResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RemoveSignatoriesFromAccountResponse)
+	err := c.cc.Invoke(ctx, AccountService_RemoveSignatoriesFromAccount_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -209,10 +224,14 @@ type AccountServiceServer interface {
 	// and execute transactions. Returns the opened account and a transaction
 	// reference for monitoring the ledger operation.
 	OpenAccount(context.Context, *OpenAccountRequest) (*OpenAccountResponse, error)
-	// Adds the given user as a signatory to an account on the ledger.
+	// Adds the given users as signatories to an account on the ledger.
 	//
 	// Returns a transaction reference for monitoring the ledger operation.
-	AddSignatoryToAccount(context.Context, *AddSignatoryToAccountRequest) (*AddSignatoryToAccountResponse, error)
+	AddSignatoriesToAccount(context.Context, *AddSignatoriesToAccountRequest) (*AddSignatoriesToAccountResponse, error)
+	// Removes the given users as signatories from an account on the ledger.
+	//
+	// Returns a transaction reference for monitoring the ledger operation.
+	RemoveSignatoriesFromAccount(context.Context, *RemoveSignatoriesFromAccountRequest) (*RemoveSignatoriesFromAccountResponse, error)
 	// Retrieves a specific account by its resource identifier.
 	//
 	// Provides access to account metadata and optionally fetches live
@@ -252,8 +271,11 @@ func (UnimplementedAccountServiceServer) UpdateAccount(context.Context, *UpdateA
 func (UnimplementedAccountServiceServer) OpenAccount(context.Context, *OpenAccountRequest) (*OpenAccountResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method OpenAccount not implemented")
 }
-func (UnimplementedAccountServiceServer) AddSignatoryToAccount(context.Context, *AddSignatoryToAccountRequest) (*AddSignatoryToAccountResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddSignatoryToAccount not implemented")
+func (UnimplementedAccountServiceServer) AddSignatoriesToAccount(context.Context, *AddSignatoriesToAccountRequest) (*AddSignatoriesToAccountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddSignatoriesToAccount not implemented")
+}
+func (UnimplementedAccountServiceServer) RemoveSignatoriesFromAccount(context.Context, *RemoveSignatoriesFromAccountRequest) (*RemoveSignatoriesFromAccountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RemoveSignatoriesFromAccount not implemented")
 }
 func (UnimplementedAccountServiceServer) GetAccount(context.Context, *GetAccountRequest) (*Account, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAccount not implemented")
@@ -342,20 +364,38 @@ func _AccountService_OpenAccount_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AccountService_AddSignatoryToAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AddSignatoryToAccountRequest)
+func _AccountService_AddSignatoriesToAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddSignatoriesToAccountRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AccountServiceServer).AddSignatoryToAccount(ctx, in)
+		return srv.(AccountServiceServer).AddSignatoriesToAccount(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: AccountService_AddSignatoryToAccount_FullMethodName,
+		FullMethod: AccountService_AddSignatoriesToAccount_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServiceServer).AddSignatoryToAccount(ctx, req.(*AddSignatoryToAccountRequest))
+		return srv.(AccountServiceServer).AddSignatoriesToAccount(ctx, req.(*AddSignatoriesToAccountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AccountService_RemoveSignatoriesFromAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RemoveSignatoriesFromAccountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).RemoveSignatoriesFromAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AccountService_RemoveSignatoriesFromAccount_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).RemoveSignatoriesFromAccount(ctx, req.(*RemoveSignatoriesFromAccountRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -452,8 +492,12 @@ var AccountService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _AccountService_OpenAccount_Handler,
 		},
 		{
-			MethodName: "AddSignatoryToAccount",
-			Handler:    _AccountService_AddSignatoryToAccount_Handler,
+			MethodName: "AddSignatoriesToAccount",
+			Handler:    _AccountService_AddSignatoriesToAccount_Handler,
+		},
+		{
+			MethodName: "RemoveSignatoriesFromAccount",
+			Handler:    _AccountService_RemoveSignatoriesFromAccount_Handler,
 		},
 		{
 			MethodName: "GetAccount",
