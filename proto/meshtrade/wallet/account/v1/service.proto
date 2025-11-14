@@ -80,8 +80,7 @@ service AccountService {
   /*
      Adds the given user as a signatory to an account on the ledger.
 
-     Returns theaccount and a transaction
-     reference for monitoring the ledger operation.
+     Returns a transaction reference for monitoring the ledger operation.
   */
   rpc AddSignatoryToAccount(AddSignatoryToAccountRequest) returns (AddSignatoryToAccountResponse) {
     option (meshtrade.option.method_options.v1.method_options) = {
@@ -92,7 +91,7 @@ service AccountService {
         ROLE_WALLET_ACCOUNT_ADMIN
       ]
     };
-  }  
+  }
 
   /*
      Retrieves a specific account by its resource identifier.
@@ -241,13 +240,13 @@ message AddSignatoryToAccountRequest {
      Format: api_users/{ULIDv2} or users/{ULIDv2}.
   */
   string user = 2 [(buf.validate.field) = {
-    required: true,
+    required: true
     cel: {
-      id: "user.format",
-      message: "user must be api_users/{ULID}, users/{ULID}",
+      id: "user.format"
+      message: "user must be api_users/{ULID}, users/{ULID}"
       expression: "this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$') || this.matches('^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
     }
-  }];  
+  }];
 }
 
 /*
