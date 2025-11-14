@@ -13,22 +13,24 @@ var _ AccountService = &MockAccountService{}
 
 // MockAccountService is a mock implementation of the AccountService interface.
 type MockAccountService struct {
-	mutex                             sync.Mutex
-	T                                 *testing.T
-	CreateAccountFunc                 func(t *testing.T, m *MockAccountService, ctx context.Context, request *CreateAccountRequest) (*Account, error)
-	CreateAccountFuncInvocations      int
-	UpdateAccountFunc                 func(t *testing.T, m *MockAccountService, ctx context.Context, request *UpdateAccountRequest) (*Account, error)
-	UpdateAccountFuncInvocations      int
-	OpenAccountFunc                   func(t *testing.T, m *MockAccountService, ctx context.Context, request *OpenAccountRequest) (*OpenAccountResponse, error)
-	OpenAccountFuncInvocations        int
-	GetAccountFunc                    func(t *testing.T, m *MockAccountService, ctx context.Context, request *GetAccountRequest) (*Account, error)
-	GetAccountFuncInvocations         int
-	GetAccountByNumberFunc            func(t *testing.T, m *MockAccountService, ctx context.Context, request *GetAccountByNumberRequest) (*Account, error)
-	GetAccountByNumberFuncInvocations int
-	ListAccountsFunc                  func(t *testing.T, m *MockAccountService, ctx context.Context, request *ListAccountsRequest) (*ListAccountsResponse, error)
-	ListAccountsFuncInvocations       int
-	SearchAccountsFunc                func(t *testing.T, m *MockAccountService, ctx context.Context, request *SearchAccountsRequest) (*SearchAccountsResponse, error)
-	SearchAccountsFuncInvocations     int
+	mutex                                sync.Mutex
+	T                                    *testing.T
+	CreateAccountFunc                    func(t *testing.T, m *MockAccountService, ctx context.Context, request *CreateAccountRequest) (*Account, error)
+	CreateAccountFuncInvocations         int
+	UpdateAccountFunc                    func(t *testing.T, m *MockAccountService, ctx context.Context, request *UpdateAccountRequest) (*Account, error)
+	UpdateAccountFuncInvocations         int
+	OpenAccountFunc                      func(t *testing.T, m *MockAccountService, ctx context.Context, request *OpenAccountRequest) (*OpenAccountResponse, error)
+	OpenAccountFuncInvocations           int
+	AddSignatoryToAccountFunc            func(t *testing.T, m *MockAccountService, ctx context.Context, request *AddSignatoryToAccountRequest) (*AddSignatoryToAccountResponse, error)
+	AddSignatoryToAccountFuncInvocations int
+	GetAccountFunc                       func(t *testing.T, m *MockAccountService, ctx context.Context, request *GetAccountRequest) (*Account, error)
+	GetAccountFuncInvocations            int
+	GetAccountByNumberFunc               func(t *testing.T, m *MockAccountService, ctx context.Context, request *GetAccountByNumberRequest) (*Account, error)
+	GetAccountByNumberFuncInvocations    int
+	ListAccountsFunc                     func(t *testing.T, m *MockAccountService, ctx context.Context, request *ListAccountsRequest) (*ListAccountsResponse, error)
+	ListAccountsFuncInvocations          int
+	SearchAccountsFunc                   func(t *testing.T, m *MockAccountService, ctx context.Context, request *SearchAccountsRequest) (*SearchAccountsResponse, error)
+	SearchAccountsFuncInvocations        int
 }
 
 func (m *MockAccountService) CreateAccount(ctx context.Context, request *CreateAccountRequest) (*Account, error) {
@@ -59,6 +61,16 @@ func (m *MockAccountService) OpenAccount(ctx context.Context, request *OpenAccou
 		return nil, nil
 	}
 	return m.OpenAccountFunc(m.T, m, ctx, request)
+}
+
+func (m *MockAccountService) AddSignatoryToAccount(ctx context.Context, request *AddSignatoryToAccountRequest) (*AddSignatoryToAccountResponse, error) {
+	m.mutex.Lock()
+	m.AddSignatoryToAccountFuncInvocations++
+	m.mutex.Unlock()
+	if m.AddSignatoryToAccountFunc == nil {
+		return nil, nil
+	}
+	return m.AddSignatoryToAccountFunc(m.T, m, ctx, request)
 }
 
 func (m *MockAccountService) GetAccount(ctx context.Context, request *GetAccountRequest) (*Account, error) {

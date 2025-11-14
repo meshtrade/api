@@ -166,6 +166,108 @@ func TestOpenAccountRequest_Validation(t *testing.T) {
 	}
 }
 
+func TestAddSignatoryToAccountRequest_Validation(t *testing.T) {
+	v, err := protovalidate.New()
+	if err != nil {
+		t.Fatalf("failed to initialize validator: %v", err)
+	}
+
+	tests := []struct {
+		name    string
+		request *AddSignatoryToAccountRequest
+		wantErr bool
+		errMsg  string
+	}{
+		{
+			name: "valid add signatory request with users resource",
+			request: &AddSignatoryToAccountRequest{
+				Name: "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				User: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+			},
+			wantErr: false,
+		},
+		{
+			name: "valid add signatory request with api_users resource",
+			request: &AddSignatoryToAccountRequest{
+				Name: "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				User: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+			},
+			wantErr: false,
+		},
+		{
+			name: "missing user field",
+			request: &AddSignatoryToAccountRequest{
+				Name: "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				User: "", // Required field missing
+			},
+			wantErr: true,
+			errMsg:  "user",
+		},
+		{
+			name: "invalid name format - wrong length",
+			request: &AddSignatoryToAccountRequest{
+				Name: "accounts/01ARZ3NDEKTSV4RRFFQ69G5FA", // Too short by 1 char
+				User: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+			},
+			wantErr: true,
+			errMsg:  "name",
+		},
+		{
+			name: "invalid name format - wrong resource type",
+			request: &AddSignatoryToAccountRequest{
+				Name: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Wrong resource type
+				User: "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+			},
+			wantErr: true,
+			errMsg:  "name",
+		},
+		{
+			name: "invalid user format - wrong resource type",
+			request: &AddSignatoryToAccountRequest{
+				Name: "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				User: "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Wrong resource type
+			},
+			wantErr: true,
+			errMsg:  "user",
+		},
+		{
+			name: "invalid user format - wrong ULID length",
+			request: &AddSignatoryToAccountRequest{
+				Name: "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				User: "users/01ARZ3NDEKTSV4RRFFQ69G5FA", // ULID too short
+			},
+			wantErr: true,
+			errMsg:  "user",
+		},
+		{
+			name: "invalid user format - invalid ULID characters",
+			request: &AddSignatoryToAccountRequest{
+				Name: "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				User: "users/01arz3ndektsv4rrffq69g5fav", // Lowercase not allowed in ULID
+			},
+			wantErr: true,
+			errMsg:  "user",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			err := v.Validate(tt.request)
+			if tt.wantErr {
+				if err == nil {
+					t.Errorf("expected validation error but got none")
+				} else if tt.errMsg != "" && !containsError(err.Error(), tt.errMsg) {
+					t.Errorf("expected error containing %q, got %q", tt.errMsg, err.Error())
+				}
+			} else {
+				if err != nil {
+					t.Errorf("unexpected validation error: %v", err)
+				}
+			}
+		})
+	}
+}
+
 func TestGetAccountRequest_Validation(t *testing.T) {
 	v, err := protovalidate.New()
 	if err != nil {
@@ -473,13 +575,6 @@ func TestOpenAccountResponse_Validation(t *testing.T) {
 		{
 			name: "valid open account response",
 			response: &OpenAccountResponse{
-				Account: &Account{
-					Name:        "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-					Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-					Ledger:      type_v1.Ledger_LEDGER_STELLAR,
-					DisplayName: "Opened Account",
-					State:       AccountState_ACCOUNT_STATE_OPEN,
-				},
 				LedgerTransaction: "transactions/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 			},
 			wantErr: false,
@@ -487,6 +582,47 @@ func TestOpenAccountResponse_Validation(t *testing.T) {
 		{
 			name:     "empty open account response",
 			response: &OpenAccountResponse{},
+			wantErr:  false, // No validation constraints on response
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			err := v.Validate(tt.response)
+			if tt.wantErr {
+				if err == nil {
+					t.Errorf("expected validation error but got none")
+				}
+			} else {
+				if err != nil {
+					t.Errorf("unexpected validation error: %v", err)
+				}
+			}
+		})
+	}
+}
+
+func TestAddSignatoryToAccountResponse_Validation(t *testing.T) {
+	v, err := protovalidate.New()
+	if err != nil {
+		t.Fatalf("failed to initialize validator: %v", err)
+	}
+
+	tests := []struct {
+		name     string
+		response *AddSignatoryToAccountResponse
+		wantErr  bool
+	}{
+		{
+			name: "valid add signatory response",
+			response: &AddSignatoryToAccountResponse{
+				LedgerTransaction: "transactions/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+			},
+			wantErr: false,
+		},
+		{
+			name:     "empty add signatory response",
+			response: &AddSignatoryToAccountResponse{},
 			wantErr:  false, // No validation constraints on response
 		},
 	}

@@ -20,6 +20,8 @@ from .account_pb2 import (
     InstrumentMetaData,
 )
 from .service_pb2 import (
+    AddSignatoryToAccountRequest,
+    AddSignatoryToAccountResponse,
     CreateAccountRequest,
     GetAccountByNumberRequest,
     GetAccountRequest,
@@ -64,6 +66,8 @@ __all__ = [
     "AccountServiceGRPCClient",
     "AccountServiceGRPCClientInterface",
     "AccountState",
+    "AddSignatoryToAccountRequest",
+    "AddSignatoryToAccountResponse",
     "Balance",
     "CreateAccountRequest",
     "GetAccountByNumberRequest",

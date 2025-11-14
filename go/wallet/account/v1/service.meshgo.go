@@ -53,21 +53,24 @@ type AccountServiceClientInterface interface {
 
 	// Creates a new account record in the system (off-chain).
 	// The account is created in a pending state and must be explicitly opened
-	// on the blockchain using OpenAccount before it can receive funds or execute
+	// on the ledger using OpenAccount before it can receive funds or execute
 	// transactions. Account ownership must match the executing context.
 	CreateAccount(ctx context.Context, request *CreateAccountRequest) (*Account, error)
 	// Updates an existing account's mutable metadata.
 	// Only the display_name field can be modified. All other fields including
 	// ownership, ledger, and account number are immutable after creation.
 	UpdateAccount(ctx context.Context, request *UpdateAccountRequest) (*Account, error)
-	// Opens an account on the blockchain ledger.
+	// Opens an account on the ledger.
 	// Initializes the account on-chain, making it ready to receive deposits
 	// and execute transactions. Returns the opened account and a transaction
-	// reference for monitoring the blockchain operation.
+	// reference for monitoring the ledger operation.
 	OpenAccount(ctx context.Context, request *OpenAccountRequest) (*OpenAccountResponse, error)
+	// Adds the given user as a signatory to an account on the ledger.
+	// Returns a transaction reference for monitoring the ledger operation.
+	AddSignatoryToAccount(ctx context.Context, request *AddSignatoryToAccountRequest) (*AddSignatoryToAccountResponse, error)
 	// Retrieves a specific account by its resource identifier.
 	// Provides access to account metadata and optionally fetches live
-	// balance data from the blockchain when populate_ledger_data is true.
+	// balance data from the ledger when populate_ledger_data is true.
 	GetAccount(ctx context.Context, request *GetAccountRequest) (*Account, error)
 	// Retrieves an account using its Account Number.
 	// Provides a convenient lookup method using the 7-digit account number.
@@ -213,6 +216,14 @@ func (s *accountService) UpdateAccount(ctx context.Context, request *UpdateAccou
 func (s *accountService) OpenAccount(ctx context.Context, request *OpenAccountRequest) (*OpenAccountResponse, error) {
 	return grpc.Execute(s.Executor(), ctx, "OpenAccount", request, func(ctx context.Context) (*OpenAccountResponse, error) {
 		return s.GrpcClient().OpenAccount(ctx, request)
+	})
+}
+
+// AddSignatoryToAccount executes the AddSignatoryToAccount RPC method with automatic
+// client-side validation, timeout handling, distributed tracing, and authentication.
+func (s *accountService) AddSignatoryToAccount(ctx context.Context, request *AddSignatoryToAccountRequest) (*AddSignatoryToAccountResponse, error) {
+	return grpc.Execute(s.Executor(), ctx, "AddSignatoryToAccount", request, func(ctx context.Context) (*AddSignatoryToAccountResponse, error) {
+		return s.GrpcClient().AddSignatoryToAccount(ctx, request)
 	})
 }
 

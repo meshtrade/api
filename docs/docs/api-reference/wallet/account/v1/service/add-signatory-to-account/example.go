@@ -17,7 +17,7 @@ func main() {
 	// unless you want custom configuration.
 	accountService, err := account_v1.NewAccountService()
 	if err != nil {
-		log.Fatalf("Failed to create service: %v", err)
+		log.Fatalf("Failed to create account service: %v", err)
 	}
 	defer accountService.Close()
 	transactionService, err := transaction_v1.NewTransactionService()
@@ -26,23 +26,25 @@ func main() {
 	}
 	defer accountService.Close()
 
-	// Call the OpenAccount method
-	response, err := accountService.OpenAccount(
+	// Call the AddSignatoryToAccount method
+	response, err := accountService.AddSignatoryToAccount(
 		ctx,
-		&account_v1.OpenAccountRequest{
-			// Resource name of account to open
+		&account_v1.AddSignatoryToAccountRequest{
+			// Resource name of account to add identified (api)user as a signatory to
 			Name: "accounts/01HQ3K5M8XYZ2NFVJT9BKR7P4C",
+			// Resource name of (api)User to add as a signatory
+			User: "(api_)users/01HN2ZXQJ8K9M0L1N3P2Q4R5T6",
 		},
 	)
 	if err != nil {
-		log.Fatalf("OpenAccount failed: %v", err)
+		log.Fatalf("AddSignatoryToAccount failed: %v", err)
 	}
 	log.Printf(
-		"OpenAccount completed successfully with ledger transaction %s submitted",
+		"AddSignatoryToAccount completed successfully with ledger transaction %s submitted",
 		response.GetLedgerTransaction(),
 	)
 
-	// get a stream to monitor the state of the account opening transaction
+	// get a stream to monitor the state of the AddSignatoryToAccount transaction
 	stream, err := transactionService.MonitorTransactionState(
 		ctx,
 		&transaction_v1.MonitorTransactionStateRequest{
@@ -77,14 +79,14 @@ monitorTransction:
 		case transaction_v1.TransactionState_TRANSACTION_STATE_SIGNING_IN_PROGRESS,
 			transaction_v1.TransactionState_TRANSACTION_STATE_SUBMISSION_IN_PROGRESS,
 			transaction_v1.TransactionState_TRANSACTION_STATE_INDETERMINATE:
-			log.Printf("OpenAccount transaction in state %s, keep waiting...", response.GetState())
+			log.Printf("AddSignatoryToAccount transaction in state %s, keep waiting...", response.GetState())
 
 		case transaction_v1.TransactionState_TRANSACTION_STATE_SUCCESSFUL:
-			log.Printf("OpenAccount transaction successful")
+			log.Printf("AddSignatoryToAccount transaction successful")
 			break monitorTransction
 
 		case transaction_v1.TransactionState_TRANSACTION_STATE_FAILED:
-			log.Printf("OpenAccount transaction failed")
+			log.Printf("AddSignatoryToAccount transaction failed")
 			break monitorTransction
 
 		default:

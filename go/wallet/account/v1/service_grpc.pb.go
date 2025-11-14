@@ -19,23 +19,24 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	AccountService_CreateAccount_FullMethodName      = "/meshtrade.wallet.account.v1.AccountService/CreateAccount"
-	AccountService_UpdateAccount_FullMethodName      = "/meshtrade.wallet.account.v1.AccountService/UpdateAccount"
-	AccountService_OpenAccount_FullMethodName        = "/meshtrade.wallet.account.v1.AccountService/OpenAccount"
-	AccountService_GetAccount_FullMethodName         = "/meshtrade.wallet.account.v1.AccountService/GetAccount"
-	AccountService_GetAccountByNumber_FullMethodName = "/meshtrade.wallet.account.v1.AccountService/GetAccountByNumber"
-	AccountService_ListAccounts_FullMethodName       = "/meshtrade.wallet.account.v1.AccountService/ListAccounts"
-	AccountService_SearchAccounts_FullMethodName     = "/meshtrade.wallet.account.v1.AccountService/SearchAccounts"
+	AccountService_CreateAccount_FullMethodName         = "/meshtrade.wallet.account.v1.AccountService/CreateAccount"
+	AccountService_UpdateAccount_FullMethodName         = "/meshtrade.wallet.account.v1.AccountService/UpdateAccount"
+	AccountService_OpenAccount_FullMethodName           = "/meshtrade.wallet.account.v1.AccountService/OpenAccount"
+	AccountService_AddSignatoryToAccount_FullMethodName = "/meshtrade.wallet.account.v1.AccountService/AddSignatoryToAccount"
+	AccountService_GetAccount_FullMethodName            = "/meshtrade.wallet.account.v1.AccountService/GetAccount"
+	AccountService_GetAccountByNumber_FullMethodName    = "/meshtrade.wallet.account.v1.AccountService/GetAccountByNumber"
+	AccountService_ListAccounts_FullMethodName          = "/meshtrade.wallet.account.v1.AccountService/ListAccounts"
+	AccountService_SearchAccounts_FullMethodName        = "/meshtrade.wallet.account.v1.AccountService/SearchAccounts"
 )
 
 // AccountServiceClient is the client API for AccountService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
-// AccountService manages blockchain wallet accounts and their lifecycle operations (BETA).
+// AccountService manages ledger wallet accounts and their lifecycle operations (BETA).
 //
 // This service provides comprehensive account management capabilities across multiple
-// blockchain networks (Stellar, Solana, Bitcoin, Ethereum). Accounts serve as the
+// ledger networks (Stellar, Solana, Bitcoin, Ethereum). Accounts serve as the
 // primary containers for holding and managing digital assets on the Mesh platform.
 //
 // Key capabilities include account creation, opening on-chain, balance queries,
@@ -47,7 +48,7 @@ type AccountServiceClient interface {
 	// Creates a new account record in the system (off-chain).
 	//
 	// The account is created in a pending state and must be explicitly opened
-	// on the blockchain using OpenAccount before it can receive funds or execute
+	// on the ledger using OpenAccount before it can receive funds or execute
 	// transactions. Account ownership must match the executing context.
 	CreateAccount(ctx context.Context, in *CreateAccountRequest, opts ...grpc.CallOption) (*Account, error)
 	// Updates an existing account's mutable metadata.
@@ -55,16 +56,20 @@ type AccountServiceClient interface {
 	// Only the display_name field can be modified. All other fields including
 	// ownership, ledger, and account number are immutable after creation.
 	UpdateAccount(ctx context.Context, in *UpdateAccountRequest, opts ...grpc.CallOption) (*Account, error)
-	// Opens an account on the blockchain ledger.
+	// Opens an account on the ledger.
 	//
 	// Initializes the account on-chain, making it ready to receive deposits
 	// and execute transactions. Returns the opened account and a transaction
-	// reference for monitoring the blockchain operation.
+	// reference for monitoring the ledger operation.
 	OpenAccount(ctx context.Context, in *OpenAccountRequest, opts ...grpc.CallOption) (*OpenAccountResponse, error)
+	// Adds the given user as a signatory to an account on the ledger.
+	//
+	// Returns a transaction reference for monitoring the ledger operation.
+	AddSignatoryToAccount(ctx context.Context, in *AddSignatoryToAccountRequest, opts ...grpc.CallOption) (*AddSignatoryToAccountResponse, error)
 	// Retrieves a specific account by its resource identifier.
 	//
 	// Provides access to account metadata and optionally fetches live
-	// balance data from the blockchain when populate_ledger_data is true.
+	// balance data from the ledger when populate_ledger_data is true.
 	GetAccount(ctx context.Context, in *GetAccountRequest, opts ...grpc.CallOption) (*Account, error)
 	// Retrieves an account using its Account Number.
 	//
@@ -121,6 +126,16 @@ func (c *accountServiceClient) OpenAccount(ctx context.Context, in *OpenAccountR
 	return out, nil
 }
 
+func (c *accountServiceClient) AddSignatoryToAccount(ctx context.Context, in *AddSignatoryToAccountRequest, opts ...grpc.CallOption) (*AddSignatoryToAccountResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AddSignatoryToAccountResponse)
+	err := c.cc.Invoke(ctx, AccountService_AddSignatoryToAccount_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *accountServiceClient) GetAccount(ctx context.Context, in *GetAccountRequest, opts ...grpc.CallOption) (*Account, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(Account)
@@ -165,10 +180,10 @@ func (c *accountServiceClient) SearchAccounts(ctx context.Context, in *SearchAcc
 // All implementations must embed UnimplementedAccountServiceServer
 // for forward compatibility.
 //
-// AccountService manages blockchain wallet accounts and their lifecycle operations (BETA).
+// AccountService manages ledger wallet accounts and their lifecycle operations (BETA).
 //
 // This service provides comprehensive account management capabilities across multiple
-// blockchain networks (Stellar, Solana, Bitcoin, Ethereum). Accounts serve as the
+// ledger networks (Stellar, Solana, Bitcoin, Ethereum). Accounts serve as the
 // primary containers for holding and managing digital assets on the Mesh platform.
 //
 // Key capabilities include account creation, opening on-chain, balance queries,
@@ -180,7 +195,7 @@ type AccountServiceServer interface {
 	// Creates a new account record in the system (off-chain).
 	//
 	// The account is created in a pending state and must be explicitly opened
-	// on the blockchain using OpenAccount before it can receive funds or execute
+	// on the ledger using OpenAccount before it can receive funds or execute
 	// transactions. Account ownership must match the executing context.
 	CreateAccount(context.Context, *CreateAccountRequest) (*Account, error)
 	// Updates an existing account's mutable metadata.
@@ -188,16 +203,20 @@ type AccountServiceServer interface {
 	// Only the display_name field can be modified. All other fields including
 	// ownership, ledger, and account number are immutable after creation.
 	UpdateAccount(context.Context, *UpdateAccountRequest) (*Account, error)
-	// Opens an account on the blockchain ledger.
+	// Opens an account on the ledger.
 	//
 	// Initializes the account on-chain, making it ready to receive deposits
 	// and execute transactions. Returns the opened account and a transaction
-	// reference for monitoring the blockchain operation.
+	// reference for monitoring the ledger operation.
 	OpenAccount(context.Context, *OpenAccountRequest) (*OpenAccountResponse, error)
+	// Adds the given user as a signatory to an account on the ledger.
+	//
+	// Returns a transaction reference for monitoring the ledger operation.
+	AddSignatoryToAccount(context.Context, *AddSignatoryToAccountRequest) (*AddSignatoryToAccountResponse, error)
 	// Retrieves a specific account by its resource identifier.
 	//
 	// Provides access to account metadata and optionally fetches live
-	// balance data from the blockchain when populate_ledger_data is true.
+	// balance data from the ledger when populate_ledger_data is true.
 	GetAccount(context.Context, *GetAccountRequest) (*Account, error)
 	// Retrieves an account using its Account Number.
 	//
@@ -232,6 +251,9 @@ func (UnimplementedAccountServiceServer) UpdateAccount(context.Context, *UpdateA
 }
 func (UnimplementedAccountServiceServer) OpenAccount(context.Context, *OpenAccountRequest) (*OpenAccountResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method OpenAccount not implemented")
+}
+func (UnimplementedAccountServiceServer) AddSignatoryToAccount(context.Context, *AddSignatoryToAccountRequest) (*AddSignatoryToAccountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddSignatoryToAccount not implemented")
 }
 func (UnimplementedAccountServiceServer) GetAccount(context.Context, *GetAccountRequest) (*Account, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAccount not implemented")
@@ -316,6 +338,24 @@ func _AccountService_OpenAccount_Handler(srv interface{}, ctx context.Context, d
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AccountServiceServer).OpenAccount(ctx, req.(*OpenAccountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AccountService_AddSignatoryToAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddSignatoryToAccountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).AddSignatoryToAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AccountService_AddSignatoryToAccount_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).AddSignatoryToAccount(ctx, req.(*AddSignatoryToAccountRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -410,6 +450,10 @@ var AccountService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "OpenAccount",
 			Handler:    _AccountService_OpenAccount_Handler,
+		},
+		{
+			MethodName: "AddSignatoryToAccount",
+			Handler:    _AccountService_AddSignatoryToAccount_Handler,
 		},
 		{
 			MethodName: "GetAccount",

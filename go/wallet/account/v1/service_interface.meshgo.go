@@ -6,10 +6,10 @@ import (
 	context "context"
 )
 
-// AccountService manages blockchain wallet accounts and their lifecycle operations (BETA).
+// AccountService manages ledger wallet accounts and their lifecycle operations (BETA).
 //
 // This service provides comprehensive account management capabilities across multiple
-// blockchain networks (Stellar, Solana, Bitcoin, Ethereum). Accounts serve as the
+// ledger networks (Stellar, Solana, Bitcoin, Ethereum). Accounts serve as the
 // primary containers for holding and managing digital assets on the Mesh platform.
 //
 // Key capabilities include account creation, opening on-chain, balance queries,
@@ -21,7 +21,7 @@ type AccountService interface {
 	// Creates a new account record in the system (off-chain).
 	//
 	// The account is created in a pending state and must be explicitly opened
-	// on the blockchain using OpenAccount before it can receive funds or execute
+	// on the ledger using OpenAccount before it can receive funds or execute
 	// transactions. Account ownership must match the executing context.
 	CreateAccount(ctx context.Context, request *CreateAccountRequest) (*Account, error)
 
@@ -31,17 +31,22 @@ type AccountService interface {
 	// ownership, ledger, and account number are immutable after creation.
 	UpdateAccount(ctx context.Context, request *UpdateAccountRequest) (*Account, error)
 
-	// Opens an account on the blockchain ledger.
+	// Opens an account on the ledger.
 	//
 	// Initializes the account on-chain, making it ready to receive deposits
 	// and execute transactions. Returns the opened account and a transaction
-	// reference for monitoring the blockchain operation.
+	// reference for monitoring the ledger operation.
 	OpenAccount(ctx context.Context, request *OpenAccountRequest) (*OpenAccountResponse, error)
+
+	// Adds the given user as a signatory to an account on the ledger.
+	//
+	// Returns a transaction reference for monitoring the ledger operation.
+	AddSignatoryToAccount(ctx context.Context, request *AddSignatoryToAccountRequest) (*AddSignatoryToAccountResponse, error)
 
 	// Retrieves a specific account by its resource identifier.
 	//
 	// Provides access to account metadata and optionally fetches live
-	// balance data from the blockchain when populate_ledger_data is true.
+	// balance data from the ledger when populate_ledger_data is true.
 	GetAccount(ctx context.Context, request *GetAccountRequest) (*Account, error)
 
 	// Retrieves an account using its Account Number.

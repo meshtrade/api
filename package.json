@@ -38,5 +38,9 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.54.1"
+  },
+  "dependencies": {
+    "braces": "^3.0.3",
+    "micromatch": "^4.0.8"
   }
 }
