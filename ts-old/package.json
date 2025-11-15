@@ -1,0 +1,171 @@
+{
+  "name": "@meshtrade/api-old",
+  "version": "1.29.0",
+  "description": "Mesh Typescript SDK (Legacy)",
+  "author": "Bernard Bussy <bernard@meshtrade.co>",
+  "keywords": [
+    "api",
+    "meshtrade",
+    "sdk"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/meshtrade/api.git"
+  },
+  "homepage": "https://meshtrade.github.io/api",
+  "type": "commonjs",
+  "exports": {
+    "./iam/role/v1": {
+      "types": "./dist/meshtrade/iam/role/v1/index.d.ts",
+      "require": "./dist/meshtrade/iam/role/v1/index.js",
+      "import": "./dist/meshtrade/iam/role/v1/index.js"
+    },
+    "./iam/api_user/v1": {
+      "types": "./dist/meshtrade/iam/api_user/v1/index.d.ts",
+      "require": "./dist/meshtrade/iam/api_user/v1/index.js",
+      "import": "./dist/meshtrade/iam/api_user/v1/index.js"
+    },
+    "./iam/group/v1": {
+      "types": "./dist/meshtrade/iam/group/v1/index.d.ts",
+      "require": "./dist/meshtrade/iam/group/v1/index.js",
+      "import": "./dist/meshtrade/iam/group/v1/index.js"
+    },
+    "./iam/user/v1": {
+      "types": "./dist/meshtrade/iam/user/v1/index.d.ts",
+      "require": "./dist/meshtrade/iam/user/v1/index.js",
+      "import": "./dist/meshtrade/iam/user/v1/index.js"
+    },
+    "./type/v1": {
+      "types": "./dist/meshtrade/type/v1/index.d.ts",
+      "require": "./dist/meshtrade/type/v1/index.js",
+      "import": "./dist/meshtrade/type/v1/index.js"
+    },
+    "./ledger/transaction/v1": {
+      "types": "./dist/meshtrade/ledger/transaction/v1/index.d.ts",
+      "require": "./dist/meshtrade/ledger/transaction/v1/index.js",
+      "import": "./dist/meshtrade/ledger/transaction/v1/index.js"
+    },
+    "./compliance/client/v1": {
+      "types": "./dist/meshtrade/compliance/client/v1/index.d.ts",
+      "require": "./dist/meshtrade/compliance/client/v1/index.js",
+      "import": "./dist/meshtrade/compliance/client/v1/index.js"
+    },
+    "./trading/limit_order/v1": {
+      "types": "./dist/meshtrade/trading/limit_order/v1/index.d.ts",
+      "require": "./dist/meshtrade/trading/limit_order/v1/index.js",
+      "import": "./dist/meshtrade/trading/limit_order/v1/index.js"
+    },
+    "./trading/market_order/v1": {
+      "types": "./dist/meshtrade/trading/market_order/v1/index.d.ts",
+      "require": "./dist/meshtrade/trading/market_order/v1/index.js",
+      "import": "./dist/meshtrade/trading/market_order/v1/index.js"
+    },
+    "./wallet/account/v1": {
+      "types": "./dist/meshtrade/wallet/account/v1/index.d.ts",
+      "require": "./dist/meshtrade/wallet/account/v1/index.js",
+      "import": "./dist/meshtrade/wallet/account/v1/index.js"
+    },
+    "./reporting/account_report/v1": {
+      "types": "./dist/meshtrade/reporting/account_report/v1/index.d.ts",
+      "require": "./dist/meshtrade/reporting/account_report/v1/index.js",
+      "import": "./dist/meshtrade/reporting/account_report/v1/index.js"
+    },
+    "./studio/instrument/v1": {
+      "types": "./dist/meshtrade/studio/instrument/v1/index.d.ts",
+      "require": "./dist/meshtrade/studio/instrument/v1/index.js",
+      "import": "./dist/meshtrade/studio/instrument/v1/index.js"
+    },
+    "./option/v1": {
+      "types": "./dist/meshtrade/option/v1/index.d.ts",
+      "require": "./dist/meshtrade/option/v1/index.js",
+      "import": "./dist/meshtrade/option/v1/index.js"
+    },
+    "./*": {
+      "types": "./dist/meshtrade/*",
+      "require": "./dist/meshtrade/*",
+      "import": "./dist/meshtrade/*"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "iam/role/v1": [
+        "dist/meshtrade/iam/role/v1/index.d.ts"
+      ],
+      "iam/api_user/v1": [
+        "dist/meshtrade/iam/api_user/v1/index.d.ts"
+      ],
+      "iam/group/v1": [
+        "dist/meshtrade/iam/group/v1/index.d.ts"
+      ],
+      "iam/user/v1": [
+        "dist/meshtrade/iam/user/v1/index.d.ts"
+      ],
+      "type/v1": [
+        "dist/meshtrade/type/v1/index.d.ts"
+      ],
+      "ledger/transaction/v1": [
+        "dist/meshtrade/ledger/transaction/v1/index.d.ts"
+      ],
+      "compliance/client/v1": [
+        "dist/meshtrade/compliance/client/v1/index.d.ts"
+      ],
+      "trading/limit_order/v1": [
+        "dist/meshtrade/trading/limit_order/v1/index.d.ts"
+      ],
+      "trading/market_order/v1": [
+        "dist/meshtrade/trading/market_order/v1/index.d.ts"
+      ],
+      "wallet/account/v1": [
+        "dist/meshtrade/wallet/account/v1/index.d.ts"
+      ],
+      "reporting/account_report/v1": [
+        "dist/meshtrade/reporting/account_report/v1/index.d.ts"
+      ],
+      "studio/instrument/v1": [
+        "dist/meshtrade/studio/instrument/v1/index.d.ts"
+      ],
+      "option/v1": [
+        "dist/meshtrade/option/v1/index.d.ts"
+      ],
+      "*": [
+        "dist/meshtrade/*"
+      ]
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "bignumber.js": "^9.3.0",
+    "google-protobuf": "^3.21.4",
+    "grpc-web": "^1.5.0"
+  },
+  "devDependencies": {
+    "@types/google-protobuf": "^3.15.12",
+    "@types/jest": "^29",
+    "@typescript-eslint/eslint-plugin": "^8.35.0",
+    "@typescript-eslint/parser": "^8.35.0",
+    "copyfiles": "^2.4.1",
+    "eslint": "^9.29.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.5.1",
+    "jest": "^29",
+    "prettier": "^3.6.2",
+    "rimraf": "^6.0.1",
+    "ts-jest": "^29",
+    "typescript": "^5.2.2",
+    "typescript-eslint": "^8.35.0"
+  },
+  "scripts": {
+    "clean": "rimraf ./dist",
+    "copy-proto": "copyfiles -u 1 \"src/**/*.js\" \"src/**/*.d.ts\" dist",
+    "build:ts": "tsc",
+    "build": "yarn run clean && yarn run copy-proto && yarn run build:ts",
+    "lint": "eslint . --ext .ts",
+    "test": "jest"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+}

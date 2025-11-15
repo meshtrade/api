@@ -70,6 +70,7 @@ for target in "${TARGET_ARRAY[@]}"; do
     target=$(echo "$target" | xargs) # trim whitespace
     case "$target" in
         "ts") NORMALIZED_TARGETS+=("typescript") ;;
+        "ts-old") NORMALIZED_TARGETS+=("tsold") ;;
         "py") NORMALIZED_TARGETS+=("python") ;;
         *) NORMALIZED_TARGETS+=("$target") ;;
     esac
@@ -90,6 +91,8 @@ result_python=""
 duration_python=""
 result_typescript=""
 duration_typescript=""
+result_tsold=""
+duration_tsold=""
 result_java=""
 duration_java=""
 failed_targets=""
@@ -100,11 +103,12 @@ store_result() {
     local target="$1"
     local status="$2"
     local duration="$3"
-    
+
     case "$target" in
         "go") result_go="$status"; duration_go="$duration" ;;
         "python") result_python="$status"; duration_python="$duration" ;;
         "typescript") result_typescript="$status"; duration_typescript="$duration" ;;
+        "tsold") result_tsold="$status"; duration_tsold="$duration" ;;
         "java") result_java="$status"; duration_java="$duration" ;;
     esac
 }
@@ -115,6 +119,7 @@ get_result() {
         "go") echo "$result_go" ;;
         "python") echo "$result_python" ;;
         "typescript") echo "$result_typescript" ;;
+        "tsold") echo "$result_tsold" ;;
         "java") echo "$result_java" ;;
     esac
 }
@@ -125,6 +130,7 @@ get_duration() {
         "go") echo "$duration_go" ;;
         "python") echo "$duration_python" ;;
         "typescript") echo "$duration_typescript" ;;
+        "tsold") echo "$duration_tsold" ;;
         "java") echo "$duration_java" ;;
     esac
 }
@@ -204,7 +210,7 @@ overall_success=true
 
 for target in "${NORMALIZED_TARGETS[@]}"; do
     case "$target" in
-        "go"|"python"|"typescript"|"java")
+        "go"|"python"|"typescript"|"tsold"|"java")
             if ! run_target_tests "$target"; then
                 overall_success=false
                 if $FAIL_FAST; then
@@ -214,7 +220,7 @@ for target in "${NORMALIZED_TARGETS[@]}"; do
             ;;
         *)
             echo -e "${RED}❌ Unknown target: $target${NC}"
-            echo "   Available targets: go, python, typescript, java"
+            echo "   Available targets: go, python, typescript, tsold, java"
             overall_success=false
             ;;
     esac

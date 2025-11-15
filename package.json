@@ -7,8 +7,10 @@
   "workspaces": {
     "packages": [
       "ts",
+      "ts-old",
       "docs",
-      "tool/protoc-gen-meshts/cmd"
+      "tool/protoc-gen-meshts/cmd",
+      "tool/protoc-gen-meshtsold/cmd"
     ],
     "nohoist": [
       "**/raw-loader",
@@ -17,10 +19,14 @@
   },
   "scripts": {
     "build": "yarn workspace @meshtrade/api build",
+    "build:old": "yarn workspace @meshtrade/api-old build",
     "build:docs": "yarn workspace mesh-api-docs build",
     "test": "yarn workspace @meshtrade/api test",
+    "test:old": "yarn workspace @meshtrade/api-old test",
     "lint": "yarn workspace @meshtrade/api lint",
+    "lint:old": "yarn workspace @meshtrade/api-old lint",
     "clean": "yarn workspace @meshtrade/api clean",
+    "clean:old": "yarn workspace @meshtrade/api-old clean",
     "start:docs": "yarn workspace mesh-api-docs start",
     "serve:docs": "yarn workspace mesh-api-docs serve",
     "generate": "./dev/tool.sh all"

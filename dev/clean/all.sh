@@ -19,21 +19,24 @@ echo
 (
   "$SCRIPT_DIR/go.sh" &
   GO_PID=$!
-  
+
   "$SCRIPT_DIR/python.sh" &
   PYTHON_PID=$!
-  
+
   "$SCRIPT_DIR/typescript.sh" &
   TS_PID=$!
-  
+
+  "$SCRIPT_DIR/tsold.sh" &
+  TSOLD_PID=$!
+
   "$SCRIPT_DIR/java.sh" &
   JAVA_PID=$!
-  
+
   "$SCRIPT_DIR/docs.sh" &
   DOCS_PID=$!
-  
+
   # Wait for all processes
-  wait $GO_PID $PYTHON_PID $TS_PID $JAVA_PID $DOCS_PID
+  wait $GO_PID $PYTHON_PID $TS_PID $TSOLD_PID $JAVA_PID $DOCS_PID
 )
 
 echo

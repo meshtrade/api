@@ -36,7 +36,7 @@ COMMANDS:
 
 OPTIONS:
     -t, --targets=LIST     Comma-separated list of targets
-                          Available: go, python, typescript (or ts), java, docs
+                          Available: go, python, typescript (or ts), tsold (ts-old), java, docs
                           Default: all targets
     -v, --verbose         Enable verbose output
 
@@ -66,6 +66,7 @@ TARGETS:
     go         Go SDK (generation only, no build required)
     python     Python SDK with gRPC support
     typescript TypeScript/JavaScript SDK (alias: ts)
+    tsold      TypeScript/JavaScript SDK Legacy (alias: ts-old)
     java       Java SDK with gRPC support
     docs       API documentation (MDX format)
 
@@ -136,19 +137,22 @@ if [[ -n "$TARGETS" ]]; then
         # Normalize ts -> typescript
         if [[ "$target" == "ts" ]]; then
             NORMALIZED_TARGETS+=("typescript")
+        # Normalize ts-old -> tsold
+        elif [[ "$target" == "ts-old" ]]; then
+            NORMALIZED_TARGETS+=("tsold")
         else
             NORMALIZED_TARGETS+=("$target")
         fi
     done
 fi
 
-# If no targets specified, use all
+# If no targets specified, use all (excluding tsold by default)
 if [[ ${#NORMALIZED_TARGETS[@]} -eq 0 ]]; then
     NORMALIZED_TARGETS=("go" "python" "typescript" "java" "docs")
 fi
 
 # Validate targets
-VALID_TARGETS=("go" "python" "typescript" "java" "docs")
+VALID_TARGETS=("go" "python" "typescript" "tsold" "java" "docs")
 for target in "${NORMALIZED_TARGETS[@]}"; do
     if [[ ! " ${VALID_TARGETS[@]} " =~ " ${target} " ]]; then
         echo -e "${RED}❌ ERROR: Invalid target: $target${NC}"
@@ -221,6 +225,12 @@ case $COMMAND in
                                 break
                             fi
                             ;;
+                        tsold)
+                            if [[ ! -d "$ROOT_DIR/ts-old" ]] || [[ -z "$(find "$ROOT_DIR/ts-old" -name "*_pb.js" -type f -newer "$NEWEST_PROTO" 2>/dev/null)" ]]; then
+                                NEED_GENERATION=true
+                                break
+                            fi
+                            ;;
                         java)
                             if [[ ! -d "$ROOT_DIR/java" ]] || [[ -z "$(find "$ROOT_DIR/java" -name "*.java" -type f -newer "$NEWEST_PROTO" 2>/dev/null)" ]]; then
                                 NEED_GENERATION=true
@@ -280,11 +290,11 @@ case $COMMAND in
         echo -e "${GREEN}🧪 Starting test execution...${NC}"
         echo
         
-        # Filter targets for testing (only go, python, typescript, java)
+        # Filter targets for testing (only go, python, typescript, tsold, java)
         TEST_TARGETS=()
         for target in "${NORMALIZED_TARGETS[@]}"; do
             case $target in
-                go|python|typescript|java)
+                go|python|typescript|tsold|java)
                     TEST_TARGETS+=("$target")
                     ;;
                 docs)
@@ -295,10 +305,10 @@ case $COMMAND in
                     ;;
             esac
         done
-        
+
         if [[ ${#TEST_TARGETS[@]} -eq 0 ]]; then
             echo -e "${YELLOW}⚠️  No testable targets specified${NC}"
-            echo "Available test targets: go, python, typescript, java"
+            echo "Available test targets: go, python, typescript, tsold, java"
             exit 1
         fi
         

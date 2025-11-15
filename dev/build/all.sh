@@ -24,11 +24,12 @@ cd "$ROOT_DIR"
 # Track build results
 PYTHON_SUCCESS=false
 TYPESCRIPT_SUCCESS=false
+TSOLD_SUCCESS=false
 JAVA_SUCCESS=false
 
 # Build Python SDK
 echo "🐍 Starting Python SDK build..."
-if "$SCRIPT_DIR/build-python.sh"; then
+if "$SCRIPT_DIR/python.sh"; then
     PYTHON_SUCCESS=true
     echo "✅ Python SDK build successful"
 else
@@ -38,7 +39,7 @@ echo
 
 # Build TypeScript SDK
 echo "📦 Starting TypeScript SDK build..."
-if "$SCRIPT_DIR/build-typescript.sh"; then
+if "$SCRIPT_DIR/typescript.sh"; then
     TYPESCRIPT_SUCCESS=true
     echo "✅ TypeScript SDK build successful"
 else
@@ -46,9 +47,19 @@ else
 fi
 echo
 
+# Build TypeScript (Legacy) SDK
+echo "📦 Starting TypeScript (Legacy) SDK build..."
+if "$SCRIPT_DIR/tsold.sh"; then
+    TSOLD_SUCCESS=true
+    echo "✅ TypeScript (Legacy) SDK build successful"
+else
+    echo "❌ TypeScript (Legacy) SDK build failed"
+fi
+echo
+
 # Build Java SDK
 echo "☕ Starting Java SDK build..."
-if "$SCRIPT_DIR/build-java.sh"; then
+if "$SCRIPT_DIR/java.sh"; then
     JAVA_SUCCESS=true
     echo "✅ Java SDK build successful"
 else
@@ -75,6 +86,12 @@ else
     echo "❌ TypeScript SDK: FAILED"
 fi
 
+if [ "$TSOLD_SUCCESS" = true ]; then
+    echo "✅ TypeScript (Legacy) SDK: SUCCESS"
+else
+    echo "❌ TypeScript (Legacy) SDK: FAILED"
+fi
+
 if [ "$JAVA_SUCCESS" = true ]; then
     echo "✅ Java SDK:       SUCCESS"
 else
@@ -84,7 +101,7 @@ fi
 echo
 
 # Exit with error if any build failed
-if [ "$PYTHON_SUCCESS" = true ] && [ "$TYPESCRIPT_SUCCESS" = true ] && [ "$JAVA_SUCCESS" = true ]; then
+if [ "$PYTHON_SUCCESS" = true ] && [ "$TYPESCRIPT_SUCCESS" = true ] && [ "$TSOLD_SUCCESS" = true ] && [ "$JAVA_SUCCESS" = true ]; then
     echo "🎉 All SDK builds completed successfully!"
     exit 0
 else

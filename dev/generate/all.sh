@@ -21,6 +21,7 @@ GO_SUCCESS=false
 PYTHON_SUCCESS=false
 JAVA_SUCCESS=false
 TYPESCRIPT_SUCCESS=false
+TSOLD_SUCCESS=false
 DOCS_SUCCESS=false
 
 # Generate Go
@@ -56,6 +57,15 @@ if "$SCRIPT_DIR/typescript.sh"; then
     TYPESCRIPT_SUCCESS=true
 else
     echo "❌ TypeScript code generation failed"
+fi
+echo
+
+# Generate TypeScript (Legacy)
+echo "📦 Starting TypeScript (Legacy) code generation..."
+if "$SCRIPT_DIR/tsold.sh"; then
+    TSOLD_SUCCESS=true
+else
+    echo "❌ TypeScript (Legacy) code generation failed"
 fi
 echo
 
@@ -99,6 +109,12 @@ else
     echo "❌ TypeScript:   FAILED"
 fi
 
+if [ "$TSOLD_SUCCESS" = true ]; then
+    echo "✅ TypeScript (Legacy): SUCCESS"
+else
+    echo "❌ TypeScript (Legacy): FAILED"
+fi
+
 if [ "$DOCS_SUCCESS" = true ]; then
     echo "✅ Documentation: SUCCESS"
 else
@@ -108,7 +124,7 @@ fi
 echo
 
 # Exit with error if any generation failed
-if [ "$GO_SUCCESS" = true ] && [ "$PYTHON_SUCCESS" = true ] && [ "$JAVA_SUCCESS" = true ] && [ "$TYPESCRIPT_SUCCESS" = true ] && [ "$DOCS_SUCCESS" = true ]; then
+if [ "$GO_SUCCESS" = true ] && [ "$PYTHON_SUCCESS" = true ] && [ "$JAVA_SUCCESS" = true ] && [ "$TYPESCRIPT_SUCCESS" = true ] && [ "$TSOLD_SUCCESS" = true ] && [ "$DOCS_SUCCESS" = true ]; then
     echo "🎉 All code generation completed successfully!"
     exit 0
 else
