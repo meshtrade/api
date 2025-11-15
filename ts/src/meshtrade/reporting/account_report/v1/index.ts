@@ -15,8 +15,7 @@ export * from "./account_report_pb";
 export * from "./disclaimer_pb";
 export * from "./fee_entry_pb";
 export * from "./income_entry_pb";
-export * from "./service_grpc_web_client_meshts";
-export * from "./service_grpc_web_pb";
+export * from "./service_connect_client_meshts";
 export * from "./service_pb";
 export * from "./trading_statement_entry_pb";
 

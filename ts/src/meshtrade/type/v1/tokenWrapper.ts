@@ -1,15 +1,16 @@
 import { BigNumber } from "bignumber.js";
-import { Token } from "./token_pb";
+import { create } from "@bufbuild/protobuf";
+import { Token, TokenSchema } from "./token_pb";
 import { Decimal } from "./decimal_pb";
 import { Amount } from "./amount_pb";
 import { newAmountOfToken } from "./amount";
 import { Ledger } from "./ledger_pb";
 
 /**
- * Class representing a wrapper around a Amount.
+ * Class representing a wrapper around a Token.
  *
- * The AmountWrapper class provides convenience methods to manipulate and retrieve the
- * Amount instance it wraps, along with its associated Token and value.
+ * The TokenWrapper class provides convenience methods to manipulate and retrieve the
+ * Token instance it wraps, along with its associated properties.
  */
 export class TokenWrapper {
   private _token: Token;
@@ -24,14 +25,15 @@ export class TokenWrapper {
    * @param {Token} [token] - The token to be wrapped. Must be defined.
    */
   constructor(token?: Token) {
-    this._token = new Token()
-      .setCode(token?.getCode() ?? "")
-      .setIssuer(token?.getIssuer() ?? "")
-      .setLedger(token?.getLedger() ?? Ledger.LEDGER_UNSPECIFIED);
+    this._token = create(TokenSchema, {
+      code: token?.code ?? "",
+      issuer: token?.issuer ?? "",
+      ledger: token?.ledger ?? Ledger.UNSPECIFIED,
+    });
   }
 
   get code(): string {
-    return this._token.getCode();
+    return this._token.code;
   }
 
   getCode() {
@@ -39,7 +41,7 @@ export class TokenWrapper {
   }
 
   get issuer(): string {
-    return this._token.getIssuer();
+    return this._token.issuer;
   }
 
   getIssuer() {
@@ -47,7 +49,7 @@ export class TokenWrapper {
   }
 
   get ledger(): Ledger {
-    return this._token.getLedger();
+    return this._token.ledger;
   }
 
   getLedger() {
@@ -80,10 +82,25 @@ export class TokenWrapper {
   }
 
   isEqualTo(t2: Token | TokenWrapper): boolean {
+    let otherCode: string;
+    let otherIssuer: string;
+    let otherLedger: number;
+
+    if (t2 instanceof TokenWrapper) {
+      otherCode = t2.getCode();
+      otherIssuer = t2.getIssuer();
+      otherLedger = t2.getLedger();
+    } else {
+      // t2 is a Token (plain object)
+      otherCode = t2.code;
+      otherIssuer = t2.issuer;
+      otherLedger = t2.ledger;
+    }
+
     return (
-      this.code === t2.getCode() &&
-      this.issuer === t2.getIssuer() &&
-      this.ledger === t2.getLedger()
+      this.code === otherCode &&
+      this.issuer === otherIssuer &&
+      this.ledger === otherLedger
     );
   }
 }

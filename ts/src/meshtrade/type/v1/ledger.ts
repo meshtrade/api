@@ -9,14 +9,14 @@ export const allLedgers: Ledger[] = Object.values(Ledger).filter(
 const ledgerToStringMapping: {
   [key in Ledger]: string;
 } = {
-  [Ledger.LEDGER_UNSPECIFIED]: "-",
-  [Ledger.LEDGER_STELLAR]: "Stellar",
-  [Ledger.LEDGER_BITCOIN]: "Bitcoin",
-  [Ledger.LEDGER_LITECOIN]: "Litecoin",
-  [Ledger.LEDGER_ETHEREUM]: "Ethereum",
-  [Ledger.LEDGER_XRP]: "Ripple",
-  [Ledger.LEDGER_SA_STOCK_BROKERS]: "SA Stock Brokers",
-  [Ledger.LEDGER_NULL]: "NULL",
+  [Ledger.UNSPECIFIED]: "-",
+  [Ledger.STELLAR]: "Stellar",
+  [Ledger.BITCOIN]: "Bitcoin",
+  [Ledger.LITECOIN]: "Litecoin",
+  [Ledger.ETHEREUM]: "Ethereum",
+  [Ledger.XRP]: "Ripple",
+  [Ledger.SA_STOCK_BROKERS]: "SA Stock Brokers",
+  [Ledger.NULL]: "NULL",
 };
 
 // Reverse mapping from string to Ledger enum
@@ -75,14 +75,14 @@ export function stringToLedger(LedgerStr: string): Ledger {
 const ledgerDecimalPlaces: {
   [key in Ledger]: number;
 } = {
-  [Ledger.LEDGER_UNSPECIFIED]: 2,
-  [Ledger.LEDGER_STELLAR]: 7,
-  [Ledger.LEDGER_BITCOIN]: 8,
-  [Ledger.LEDGER_LITECOIN]: 7,
-  [Ledger.LEDGER_ETHEREUM]: 7,
-  [Ledger.LEDGER_XRP]: 7,
-  [Ledger.LEDGER_SA_STOCK_BROKERS]: 2,
-  [Ledger.LEDGER_NULL]: 2,
+  [Ledger.UNSPECIFIED]: 2,
+  [Ledger.STELLAR]: 7,
+  [Ledger.BITCOIN]: 8,
+  [Ledger.LITECOIN]: 7,
+  [Ledger.ETHEREUM]: 7,
+  [Ledger.XRP]: 7,
+  [Ledger.SA_STOCK_BROKERS]: 2,
+  [Ledger.NULL]: 2,
 };
 
 /**
@@ -103,14 +103,14 @@ export function getLedgerNoDecimalPlaces(ledger: Ledger): number {
 const ledgerToBEStringMapping: {
   [key in Ledger]: string;
 } = {
-  [Ledger.LEDGER_UNSPECIFIED]: "LEDGER_UNSPECIFIED",
-  [Ledger.LEDGER_STELLAR]: "LEDGER_STELLAR",
-  [Ledger.LEDGER_BITCOIN]: "LEDGER_BITCOIN",
-  [Ledger.LEDGER_LITECOIN]: "LEDGER_LITECOIN",
-  [Ledger.LEDGER_ETHEREUM]: "LEDGER_ETHEREUM",
-  [Ledger.LEDGER_XRP]: "LEDGER_XRP",
-  [Ledger.LEDGER_SA_STOCK_BROKERS]: "LEDGER_SA_STOCK_BROKERS",
-  [Ledger.LEDGER_NULL]: "LEDGER_NULL",
+  [Ledger.UNSPECIFIED]: "LEDGER_UNSPECIFIED",
+  [Ledger.STELLAR]: "LEDGER_STELLAR",
+  [Ledger.BITCOIN]: "LEDGER_BITCOIN",
+  [Ledger.LITECOIN]: "LEDGER_LITECOIN",
+  [Ledger.ETHEREUM]: "LEDGER_ETHEREUM",
+  [Ledger.XRP]: "LEDGER_XRP",
+  [Ledger.SA_STOCK_BROKERS]: "LEDGER_SA_STOCK_BROKERS",
+  [Ledger.NULL]: "LEDGER_NULL",
 };
 
 /**

@@ -105,9 +105,6 @@ echo "🧹 Cleaning TypeScript generated files..."
 echo "📦 Generating TypeScript code from protobuf definitions..."
 buf generate --template "$SCRIPT_DIR/buf/buf.gen.typescript.yaml"
 
-echo "🔍 Generating buf/validate TypeScript files..."
-buf generate buf.build/bufbuild/protovalidate --template "$ROOT_DIR/dev/generate/buf/buf.gen.validate.typescript.yaml"
-
 echo "📄 Generating TypeScript index.ts files..."
 cd "$ROOT_DIR/tool/protoc-gen-meshts/scripts"
 node generate-index-files.js

@@ -19,10 +19,8 @@ describe("Role path utilities", () => {
   describe("createRolePath", () => {
     describe("with valid inputs", () => {
       test("creates valid role path with 7-digit role ID", () => {
-        const result = createRolePath(validGroupULID, Role.ROLE_IAM_ADMIN);
-        expect(result).toBe(
-          `groups/${validGroupULID}/roles/${Role.ROLE_IAM_ADMIN}`
-        );
+        const result = createRolePath(validGroupULID, Role.IAM_ADMIN);
+        expect(result).toBe(`groups/${validGroupULID}/roles/${Role.IAM_ADMIN}`);
         expect(isValidRolePath(result)).toBe(true);
       });
 
@@ -34,19 +32,19 @@ describe("Role path utilities", () => {
       });
 
       test("works with different group ULIDs", () => {
-        const result = createRolePath(anotherValidULID, Role.ROLE_WALLET_ADMIN);
+        const result = createRolePath(anotherValidULID, Role.WALLET_ADMIN);
         expect(result).toBe(
-          `groups/${anotherValidULID}/roles/${Role.ROLE_WALLET_ADMIN}`
+          `groups/${anotherValidULID}/roles/${Role.WALLET_ADMIN}`
         );
       });
 
       test("works with all valid role enums", () => {
         const roleIds = [
-          Role.ROLE_IAM_ADMIN,
-          Role.ROLE_IAM_VIEWER,
-          Role.ROLE_WALLET_ADMIN,
-          Role.ROLE_COMPLIANCE_ADMIN,
-          Role.ROLE_TRADING_ADMIN,
+          Role.IAM_ADMIN,
+          Role.IAM_VIEWER,
+          Role.WALLET_ADMIN,
+          Role.COMPLIANCE_ADMIN,
+          Role.TRADING_ADMIN,
         ];
 
         roleIds.forEach((roleId) => {
@@ -59,25 +57,25 @@ describe("Role path utilities", () => {
     describe("with invalid inputs", () => {
       test("throws error for invalid group ULID - too short", () => {
         expect(() =>
-          createRolePath("01ARZ3NDEKTSV4YWVF8F5BH3Q", Role.ROLE_IAM_ADMIN)
+          createRolePath("01ARZ3NDEKTSV4YWVF8F5BH3Q", Role.IAM_ADMIN)
         ).toThrow("Invalid group ULID");
       });
 
       test("throws error for invalid group ULID - too long", () => {
         expect(() =>
-          createRolePath("01ARZ3NDEKTSV4YWVF8F5BH32QX", Role.ROLE_IAM_ADMIN)
+          createRolePath("01ARZ3NDEKTSV4YWVF8F5BH32QX", Role.IAM_ADMIN)
         ).toThrow("Invalid group ULID");
       });
 
       test("throws error for invalid group ULID - lowercase", () => {
         expect(() =>
-          createRolePath("01arz3ndektsv4ywvf8f5bh32q", Role.ROLE_IAM_ADMIN)
+          createRolePath("01arz3ndektsv4ywvf8f5bh32q", Role.IAM_ADMIN)
         ).toThrow("Invalid group ULID");
       });
 
       test("throws error for invalid group ULID - special characters", () => {
         expect(() =>
-          createRolePath("01ARZ3NDEKTSV4YWVF8F5BH3Q!", Role.ROLE_IAM_ADMIN)
+          createRolePath("01ARZ3NDEKTSV4YWVF8F5BH3Q!", Role.IAM_ADMIN)
         ).toThrow("Invalid group ULID");
       });
 
@@ -286,14 +284,14 @@ describe("Role path utilities", () => {
 
   describe("integration with existing role utilities", () => {
     test("createRolePath works with Role enum values", () => {
-      const path = createRolePath(validGroupULID, Role.ROLE_IAM_ADMIN);
+      const path = createRolePath(validGroupULID, Role.IAM_ADMIN);
       const extractedRoleId = extractRoleIdFromPath(path);
-      expect(extractedRoleId).toBe(Role.ROLE_IAM_ADMIN);
+      expect(extractedRoleId).toBe(Role.IAM_ADMIN);
     });
 
     test("round-trip conversion works correctly", () => {
       const originalGroupULID = validGroupULID;
-      const originalRoleId = Role.ROLE_WALLET_ADMIN;
+      const originalRoleId = Role.WALLET_ADMIN;
 
       const path = createRolePath(originalGroupULID, originalRoleId);
       const extractedGroup = extractGroupFromRolePath(path);
@@ -304,8 +302,8 @@ describe("Role path utilities", () => {
     });
 
     test("roleToString and stringToRole still work", () => {
-      expect(roleToString(Role.ROLE_IAM_ADMIN)).toBe("IAM Admin");
-      expect(stringToRole("IAM Admin")).toBe(Role.ROLE_IAM_ADMIN);
+      expect(roleToString(Role.IAM_ADMIN)).toBe("IAM Admin");
+      expect(stringToRole("IAM Admin")).toBe(Role.IAM_ADMIN);
     });
   });
 
@@ -326,14 +324,14 @@ describe("Role path utilities", () => {
 
     test("handles all zeros ULID", () => {
       const zeroULID = "00000000000000000000000000";
-      const path = createRolePath(zeroULID, Role.ROLE_IAM_ADMIN);
+      const path = createRolePath(zeroULID, Role.IAM_ADMIN);
       expect(isValidRolePath(path)).toBe(true);
       expect(extractGroupFromRolePath(path)).toBe(`groups/${zeroULID}`);
     });
 
     test("handles all Z ULID", () => {
       const zULID = "ZZZZZZZZZZZZZZZZZZZZZZZZZZ";
-      const path = createRolePath(zULID, Role.ROLE_IAM_ADMIN);
+      const path = createRolePath(zULID, Role.IAM_ADMIN);
       expect(isValidRolePath(path)).toBe(true);
       expect(extractGroupFromRolePath(path)).toBe(`groups/${zULID}`);
     });

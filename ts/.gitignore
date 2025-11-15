@@ -3,5 +3,4 @@ dist
 *.d.ts
 *pb.js
 *Pb.ts
-*_grpc_web_client_meshts.js
-*_grpc_web_client_meshts.d.ts
+*_meshts.ts

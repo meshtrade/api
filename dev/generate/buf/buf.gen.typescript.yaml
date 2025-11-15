@@ -2,15 +2,11 @@
 version: v2
 
 plugins:
-  - remote: buf.build/protocolbuffers/js:v3.21.4
+  - remote: buf.build/bufbuild/es:v2.10.1
     out: ./ts/src
     opt:
-      - import_style=commonjs,binary
-  - remote: buf.build/grpc/web:v1.5.0
-    out: ./ts/src
-    opt:
-      - import_style=commonjs+dts
-      - mode=grpcweb
+      - target=ts
+    include_imports: true
   - local: ["node", "./tool/protoc-gen-meshts/cmd/dist/index.js"]
     out: ./ts/src
     strategy: all

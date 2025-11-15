@@ -12,8 +12,7 @@
 
 // Generated exports
 export * from "./limit_order_pb";
-export * from "./service_grpc_web_client_meshts";
-export * from "./service_grpc_web_pb";
+export * from "./service_connect_client_meshts";
 export * from "./service_pb";
 
 // ===================================================================

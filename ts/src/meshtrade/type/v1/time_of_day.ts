@@ -1,4 +1,5 @@
-import { TimeOfDay } from "./time_of_day_pb";
+import { create } from "@bufbuild/protobuf";
+import { TimeOfDay, TimeOfDaySchema } from "./time_of_day_pb";
 import { Date as ProtoDate } from "./date_pb";
 import { isComplete as isDateComplete } from "./date";
 
@@ -20,11 +21,7 @@ export function newTimeOfDay(
   nanos: number = 0
 ): TimeOfDay {
   validateTimeOfDay(hours, minutes, seconds, nanos);
-  return new TimeOfDay()
-    .setHours(hours)
-    .setMinutes(minutes)
-    .setSeconds(seconds)
-    .setNanos(nanos);
+  return create(TimeOfDaySchema, { hours, minutes, seconds, nanos });
 }
 
 /**
@@ -35,11 +32,12 @@ export function newTimeOfDay(
  * @returns A TimeOfDay protobuf message
  */
 export function newTimeOfDayFromJsDate(jsDate: Date): TimeOfDay {
-  return new TimeOfDay()
-    .setHours(jsDate.getHours())
-    .setMinutes(jsDate.getMinutes())
-    .setSeconds(jsDate.getSeconds())
-    .setNanos(jsDate.getMilliseconds() * 1000000); // Convert milliseconds to nanoseconds
+  return create(TimeOfDaySchema, {
+    hours: jsDate.getHours(),
+    minutes: jsDate.getMinutes(),
+    seconds: jsDate.getSeconds(),
+    nanos: jsDate.getMilliseconds() * 1000000, // Convert milliseconds to nanoseconds
+  });
 }
 
 /**
@@ -65,11 +63,7 @@ export function newTimeOfDayFromMillis(millisSinceMidnight: number): TimeOfDay {
   const seconds = totalSeconds % 60;
   const nanos = (millisSinceMidnight % 1000) * 1000000; // Convert remaining milliseconds to nanoseconds
 
-  return new TimeOfDay()
-    .setHours(hours)
-    .setMinutes(minutes)
-    .setSeconds(seconds)
-    .setNanos(nanos);
+  return create(TimeOfDaySchema, { hours, minutes, seconds, nanos });
 }
 
 /**
@@ -84,10 +78,10 @@ export function timeOfDayToMillis(protoTime: TimeOfDay): number {
   }
 
   return (
-    protoTime.getHours() * 3600000 +
-    protoTime.getMinutes() * 60000 +
-    protoTime.getSeconds() * 1000 +
-    Math.floor(protoTime.getNanos() / 1000000)
+    protoTime.hours * 3600000 +
+    protoTime.minutes * 60000 +
+    protoTime.seconds * 1000 +
+    Math.floor(protoTime.nanos / 1000000)
   ); // Convert nanoseconds to milliseconds
 }
 
@@ -116,13 +110,13 @@ export function timeOfDayToJsDateWithDate(
 
   try {
     return new Date(
-      protoDate.getYear(),
-      protoDate.getMonth() - 1, // JS months are 0-indexed
-      protoDate.getDay(),
-      protoTime.getHours(),
-      protoTime.getMinutes(),
-      protoTime.getSeconds(),
-      Math.floor(protoTime.getNanos() / 1000000) // Convert nanoseconds to milliseconds
+      protoDate.year,
+      protoDate.month - 1, // JS months are 0-indexed
+      protoDate.day,
+      protoTime.hours,
+      protoTime.minutes,
+      protoTime.seconds,
+      Math.floor(protoTime.nanos / 1000000) // Convert nanoseconds to milliseconds
     );
   } catch (e) {
     throw new Error(`Invalid datetime values: ${e}`);
@@ -142,10 +136,10 @@ export function isValid(protoTime?: TimeOfDay): boolean {
 
   try {
     validateTimeOfDay(
-      protoTime.getHours(),
-      protoTime.getMinutes(),
-      protoTime.getSeconds(),
-      protoTime.getNanos()
+      protoTime.hours,
+      protoTime.minutes,
+      protoTime.seconds,
+      protoTime.nanos
     );
     return true;
   } catch {
@@ -164,10 +158,10 @@ export function isMidnight(protoTime?: TimeOfDay): boolean {
     return false;
   }
   return (
-    protoTime.getHours() === 0 &&
-    protoTime.getMinutes() === 0 &&
-    protoTime.getSeconds() === 0 &&
-    protoTime.getNanos() === 0
+    protoTime.hours === 0 &&
+    protoTime.minutes === 0 &&
+    protoTime.seconds === 0 &&
+    protoTime.nanos === 0
   );
 }
 
@@ -182,10 +176,10 @@ export function timeOfDayToString(protoTime?: TimeOfDay): string {
     return "<undefined>";
   }
 
-  if (protoTime.getNanos() === 0) {
-    return `${protoTime.getHours().toString().padStart(2, "0")}:${protoTime.getMinutes().toString().padStart(2, "0")}:${protoTime.getSeconds().toString().padStart(2, "0")}`;
+  if (protoTime.nanos === 0) {
+    return `${protoTime.hours.toString().padStart(2, "0")}:${protoTime.minutes.toString().padStart(2, "0")}:${protoTime.seconds.toString().padStart(2, "0")}`;
   } else {
-    return `${protoTime.getHours().toString().padStart(2, "0")}:${protoTime.getMinutes().toString().padStart(2, "0")}:${protoTime.getSeconds().toString().padStart(2, "0")}.${protoTime.getNanos().toString().padStart(9, "0")}`;
+    return `${protoTime.hours.toString().padStart(2, "0")}:${protoTime.minutes.toString().padStart(2, "0")}:${protoTime.seconds.toString().padStart(2, "0")}.${protoTime.nanos.toString().padStart(9, "0")}`;
   }
 }
 
@@ -201,10 +195,10 @@ export function totalSeconds(protoTime?: TimeOfDay): number {
   }
 
   return (
-    protoTime.getHours() * 3600 +
-    protoTime.getMinutes() * 60 +
-    protoTime.getSeconds() +
-    protoTime.getNanos() / 1e9
+    protoTime.hours * 3600 +
+    protoTime.minutes * 60 +
+    protoTime.seconds +
+    protoTime.nanos / 1e9
   );
 }
 

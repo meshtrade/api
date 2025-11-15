@@ -1215,6 +1215,11 @@
   resolved "https://registry.yarnpkg.com/@bufbuild/protobuf/-/protobuf-2.9.0.tgz#ff8827be3d8e56d74a03530cff8b0e1952aa115e"
   integrity sha512-rnJenoStJ8nvmt9Gzye8nkYd6V22xUAnu4086ER7h1zJ508vStko4pMvDeQ446ilDTFpV5wnoc5YS7XvMwwMqA==
 
+"@bufbuild/protobuf@^2.10.1":
+  version "2.10.1"
+  resolved "https://registry.yarnpkg.com/@bufbuild/protobuf/-/protobuf-2.10.1.tgz#012f6d7d110f8c45198c7e6a96cb217c45d0c696"
+  integrity sha512-ckS3+vyJb5qGpEYv/s1OebUHDi/xSNtfgw1wqKZo7MR9F2z+qXr0q5XagafAG/9O0QPVIUfST0smluYSTpYFkg==
+
 "@bufbuild/protoplugin@^2.2.1":
   version "2.9.0"
   resolved "https://registry.yarnpkg.com/@bufbuild/protoplugin/-/protoplugin-2.9.0.tgz#9cee42c572c5b91ffeb5a7e0caf68bae60e6bafe"
@@ -1260,6 +1265,16 @@
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/@colors/colors/-/colors-1.5.0.tgz#bb504579c1cae923e6576a4f5da43d25f97bdbd9"
   integrity sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==
+
+"@connectrpc/connect-web@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@connectrpc/connect-web/-/connect-web-2.1.0.tgz#9f95b216ca1c54d8e17237714efc5ca189ae535d"
+  integrity sha512-4IBFeMeXS1RVtmmFE/MwH+vWq/5vDRKys70va+DAaWDh83Rdy0iUQOJbITUDzvonlY5as3vwfs5yy9Yp2miHSw==
+
+"@connectrpc/connect@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@connectrpc/connect/-/connect-2.1.0.tgz#514e3643ba756cef435902a4b4ed3a861b66a305"
+  integrity sha512-xhiwnYlJNHzmFsRw+iSPIwXR/xweTvTw8x5HiwWp10sbVtd4OpOXbRgE7V58xs1EC17fzusF1f5uOAy24OkBuA==
 
 "@csstools/cascade-layer-name-parser@^2.0.5":
   version "2.0.5"
