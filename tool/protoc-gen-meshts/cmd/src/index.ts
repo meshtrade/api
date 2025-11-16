@@ -88,19 +88,18 @@ function generateConnectClientManually(schema: Schema, file: DescFile) {
     }
   }
 
-  content += `import { ConfigOpts, getConfigFromOpts } from "../../../common/config";\n`;
-  content += `import { validateRequest } from "../../../common/validation";\n`;
-  content += `import { createGroupInterceptor } from "../../../common/connectInterceptors";\n`;
+  // Generate imports for common utilities with dynamic relative paths
+  const outputFilePath = getOutputFilePath(file);
+  const relativePathToCommon = getRelativePathToCommon(outputFilePath);
+  content += `import { ConfigOpts, getConfigFromOpts } from "${relativePathToCommon}/config";\n`;
+  content += `import { validateRequest } from "${relativePathToCommon}/validation";\n`;
+  content += `import { createGroupInterceptor } from "${relativePathToCommon}/connectInterceptors";\n`;
   content += `\n`;
 
   // Generate client class for each service
   for (const service of file.services) {
     content += generateServiceClientString(service, file);
   }
-
-  // Write the content manually using Node.js file system operations
-  // Construct the output file path based on the protobuf file structure
-  const outputFilePath = getOutputFilePath(file);
 
   // Write the TypeScript content to the file
   writeTypescriptFile(outputFilePath, content);
@@ -113,6 +112,15 @@ function getOutputFilePath(file: DescFile): string {
   const outputDir = path.join("ts", "src", path.dirname(protoPath));
   const fileName = path.basename(protoPath) + "_connect_client_meshts.ts";
   return path.join(outputDir, fileName);
+}
+
+function getRelativePathToCommon(outputFilePath: string): string {
+  // Calculate the relative path from the generated file to the common directory
+  // Example: from "ts/src/meshtrade/iam/api_user/v1/service_connect_client_meshts.ts"
+  //          to "ts/src/meshtrade/common/" returns "../../../common"
+  const generatedFileDir = path.dirname(outputFilePath);
+  const commonDir = path.join("ts", "src", "meshtrade", "common");
+  return path.relative(generatedFileDir, commonDir);
 }
 
 function writeTypescriptFile(filePath: string, content: string): void {
