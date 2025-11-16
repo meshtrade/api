@@ -9,8 +9,8 @@
       "ts",
       "ts-old",
       "docs",
-      "tool/protoc-gen-meshts/cmd",
-      "tool/protoc-gen-meshtsold/cmd"
+      "tool/protoc-gen-mesh_ts_web",
+      "tool/protoc-gen-meshtsold"
     ],
     "nohoist": [
       "**/raw-loader",

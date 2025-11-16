@@ -88,10 +88,10 @@ if ! yarn build &> /dev/null; then
     exit 1
 fi
 
-# Check protoc-gen-meshts plugin
-PLUGIN_DIR="$ROOT_DIR/tool/protoc-gen-meshts"
+# Check protoc-gen-mesh_ts_web plugin
+PLUGIN_DIR="$ROOT_DIR/tool/protoc-gen-mesh_ts_web"
 if [[ ! -d "$PLUGIN_DIR/node_modules" ]]; then
-    echo "⚠️  WARNING: protoc-gen-meshts dependencies not found"
+    echo "⚠️  WARNING: protoc-gen-mesh_ts_web dependencies not found"
     echo "   This will be installed automatically during code generation"
 fi
 

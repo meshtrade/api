@@ -11,6 +11,6 @@ plugins:
     opt:
       - import_style=commonjs+dts
       - mode=grpcweb
-  - local: ["node", "./tool/protoc-gen-meshtsold/cmd/dist/index.js"]
+  - local: ["node", "./tool/protoc-gen-meshtsold/dist/index.js"]
     out: ./ts-old/src
     strategy: all

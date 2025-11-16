@@ -7,6 +7,6 @@ plugins:
     opt:
       - target=ts
     include_imports: true
-  - local: ["node", "./tool/protoc-gen-meshts/cmd/dist/index.js"]
+  - local: ["node", "./tool/protoc-gen-mesh_ts_web/dist/index.js"]
     out: ./ts/src
     strategy: all

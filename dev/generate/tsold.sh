@@ -67,7 +67,7 @@ fi
 
 # Check protoc-gen-meshtsold plugin
 echo "🛠 Checking protoc-gen-meshtsold plugin..."
-PLUGIN_DIR="$ROOT_DIR/tool/protoc-gen-meshtsold/cmd"
+PLUGIN_DIR="$ROOT_DIR/tool/protoc-gen-meshtsold"
 PLUGIN_DIST="$PLUGIN_DIR/dist/index.js"
 
 cd "$PLUGIN_DIR"
@@ -109,8 +109,6 @@ echo "🔍 Generating buf/validate TypeScript (Legacy) files..."
 buf generate buf.build/bufbuild/protovalidate --template "$ROOT_DIR/dev/generate/buf/buf.gen.validate.tsold.yaml"
 
 echo "📄 Generating TypeScript (Legacy) index.ts files..."
-cd "$ROOT_DIR/tool/protoc-gen-meshtsold/scripts"
-node generate-index-files.js
-cd "$ROOT_DIR"
+node tool/ts-import-scripts/generate-index-files.js
 
 echo "✅ TypeScript (Legacy) code generation complete!"

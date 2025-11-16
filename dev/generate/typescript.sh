@@ -65,9 +65,9 @@ if [[ ${#MISSING_DEPS[@]} -gt 0 ]]; then
     exit 1
 fi
 
-# Check protoc-gen-meshts plugin
-echo "🛠 Checking protoc-gen-meshts plugin..."
-PLUGIN_DIR="$ROOT_DIR/tool/protoc-gen-meshts/cmd"
+# Check protoc-gen-mesh_ts_web plugin
+echo "🛠 Checking protoc-gen-mesh_ts_web plugin..."
+PLUGIN_DIR="$ROOT_DIR/tool/protoc-gen-mesh_ts_web"
 PLUGIN_DIST="$PLUGIN_DIR/dist/index.js"
 
 cd "$PLUGIN_DIR"
@@ -89,7 +89,7 @@ else
 fi
 
 if [[ "$NEEDS_BUILD" == "true" ]]; then
-    echo "   Building protoc-gen-meshts..."
+    echo "   Building protoc-gen-mesh_ts_web..."
     yarn build
 fi
 
@@ -106,8 +106,6 @@ echo "📦 Generating TypeScript code from protobuf definitions..."
 buf generate --template "$SCRIPT_DIR/buf/buf.gen.typescript.yaml"
 
 echo "📄 Generating TypeScript index.ts files..."
-cd "$ROOT_DIR/tool/protoc-gen-meshts/scripts"
-node generate-index-files.js
-cd "$ROOT_DIR"
+node tool/ts-import-scripts/generate-index-files.js
 
 echo "✅ TypeScript code generation complete!"

@@ -1,5 +1,5 @@
 {
-  "name": "protoc-gen-meshts",
+  "name": "protoc-gen-mesh_ts_web",
   "version": "1.0.0",
   "license": "UNLICENSED",
   "description": "mesh typescript client code generator",
