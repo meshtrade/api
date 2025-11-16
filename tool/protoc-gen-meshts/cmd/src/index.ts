@@ -1,7 +1,6 @@
 import { DescFile, DescService, DescMethod } from "@bufbuild/protobuf";
 import {
   createEcmaScriptPlugin,
-  ImportSymbol,
   runNodeJs,
   type Schema,
 } from "@bufbuild/protoplugin";
@@ -134,7 +133,7 @@ function writeTypescriptFile(filePath: string, content: string): void {
 
 function generateServiceClientString(service: DescService, file: DescFile): string {
   const serviceName = service.name;
-  const clientClassName = `${serviceName}ConnectClientV1`;
+  const clientClassName = `${serviceName}Client`;
 
   // Extract resource name from the service (e.g., ApiUser from ApiUserService)
   const resourceName = serviceName.replace(/Service$/, '');
