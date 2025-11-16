@@ -11,7 +11,7 @@
 // ===================================================================
 
 // Generated exports
-export * from "./service_connect_client_meshts";
+export * from "./service_node_meshts";
 export * from "./service_pb";
 export * from "./user_pb";
 

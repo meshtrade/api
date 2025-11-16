@@ -158,8 +158,8 @@ function collectGeneratedExports(dirPath) {
     const baseName = file.replace(/\.ts$/, '');
 
     // Only include generated files (protobuf generated or custom clients)
-    // Patterns: *_pb.ts, *_connect_client_meshts.ts
-    if (baseName.endsWith('_pb') || baseName.endsWith('_connect_client_meshts')) {
+    // Patterns: *_pb.ts, *_web_meshts.ts, *_node_meshts.ts
+    if (baseName.endsWith('_pb') || baseName.endsWith('_web_meshts') || baseName.endsWith('_node_meshts')) {
       // Avoid duplicates
       if (!seenExports.has(baseName)) {
         exports.push(`export * from "./${baseName}";`);

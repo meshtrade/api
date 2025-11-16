@@ -11,8 +11,8 @@
 // ===================================================================
 
 // Generated exports
-export * from "./service_connect_client_meshts";
 export * from "./service_pb";
+export * from "./service_web_meshts";
 export * from "./transaction_action_pb";
 export * from "./transaction_state_pb";
 

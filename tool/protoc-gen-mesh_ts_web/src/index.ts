@@ -107,16 +107,16 @@ function generateConnectClientManually(schema: Schema, file: DescFile) {
 
 function getOutputFilePath(file: DescFile): string {
   // Convert protobuf file path to TypeScript output path
-  // Example: "meshtrade/iam/api_user/v1/service.proto" -> "ts/src/meshtrade/iam/api_user/v1/service_connect_client_meshts.ts"
+  // Example: "meshtrade/iam/api_user/v1/service.proto" -> "ts/src/meshtrade/iam/api_user/v1/service_web_meshts.ts"
   const protoPath = file.name; // e.g., "meshtrade/iam/api_user/v1/service"
   const outputDir = path.join("ts", "src", path.dirname(protoPath));
-  const fileName = path.basename(protoPath) + "_connect_client_meshts.ts";
+  const fileName = path.basename(protoPath) + "_web_meshts.ts";
   return path.join(outputDir, fileName);
 }
 
 function getRelativePathToCommon(outputFilePath: string): string {
   // Calculate the relative path from the generated file to the common directory
-  // Example: from "ts/src/meshtrade/iam/api_user/v1/service_connect_client_meshts.ts"
+  // Example: from "ts/src/meshtrade/iam/api_user/v1/service_web_meshts.ts"
   //          to "ts/src/meshtrade/common/" returns "../../../common"
   const generatedFileDir = path.dirname(outputFilePath);
   const commonDir = path.join("ts", "src", "meshtrade", "common");
@@ -141,7 +141,7 @@ function writeTypescriptFile(filePath: string, content: string): void {
 
 function generateServiceClientString(service: DescService, file: DescFile): string {
   const serviceName = service.name;
-  const clientClassName = `${serviceName}Client`;
+  const clientClassName = `${serviceName}Web`;
 
   // Extract resource name from the service (e.g., ApiUser from ApiUserService)
   const resourceName = serviceName.replace(/Service$/, '');
@@ -150,7 +150,7 @@ function generateServiceClientString(service: DescService, file: DescFile): stri
 
   // Generate class JSDoc
   content += "/**\n";
-  content += ` * Client for interacting with the ${file.proto.package} ${toReadableResourceName(resourceName)} v1 API resource service.\n`;
+  content += ` * Web client for interacting with the ${file.proto.package} ${toReadableResourceName(resourceName)} v1 API resource service.\n`;
   content += " * Uses Connect-ES with gRPC-Web transport for browser-compatible gRPC communication.\n";
   content += " */\n";
 

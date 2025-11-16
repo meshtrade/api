@@ -12,8 +12,8 @@
 
 // Generated exports
 export * from "./market_order_pb";
-export * from "./service_connect_client_meshts";
 export * from "./service_pb";
+export * from "./service_web_meshts";
 
 // ===================================================================
 // END OF AUTO-GENERATED SECTION

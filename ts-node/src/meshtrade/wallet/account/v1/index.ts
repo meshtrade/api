@@ -12,7 +12,7 @@
 
 // Generated exports
 export * from "./account_pb";
-export * from "./service_connect_client_meshts";
+export * from "./service_node_meshts";
 export * from "./service_pb";
 
 // ===================================================================
