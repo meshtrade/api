@@ -10,27 +10,47 @@
 const fs = require('fs');
 const path = require('path');
 
-// Find the API root directory (where ts/src lives)
+// Find the API root directory (where ts/src and ts-node/src live)
 // Script is in tool/ts-import-scripts/, so go up 2 directories to reach API root
 const API_ROOT = path.resolve(__dirname, '..', '..');
-const TS_SRC_DIR = path.join(API_ROOT, 'ts', 'src');
+
+// Support command-line argument for target directory (ts or ts-node)
+// Usage: node generate-index-files.js [ts|ts-node|all]
+const target = process.argv[2] || 'all';
+const TARGET_DIRS = {
+  'ts': [path.join(API_ROOT, 'ts', 'src')],
+  'ts-node': [path.join(API_ROOT, 'ts-node', 'src')],
+  'all': [
+    path.join(API_ROOT, 'ts', 'src'),
+    path.join(API_ROOT, 'ts-node', 'src'),
+  ],
+};
 
 function main() {
+  const dirsToProcess = TARGET_DIRS[target] || TARGET_DIRS['all'];
+
   // console.log('🔍 Scanning for TypeScript packages to generate index.ts files...');
 
-  // Find all packages that need index.ts files
-  const packages = findPackagesWithGeneratedFiles(TS_SRC_DIR);
-
-  // console.log(`📦 Found ${packages.length} packages with generated files`);
-
-  for (const packagePath of packages) {
-    // Skip external packages (buf, google)
-    if (packagePath.startsWith('buf') || packagePath.startsWith('google')) {
-      // console.log(`⏭️  Skipping external package: ${packagePath}`);
+  for (const srcDir of dirsToProcess) {
+    if (!fs.existsSync(srcDir)) {
+      // console.log(`⏭️  Skipping non-existent directory: ${srcDir}`);
       continue;
     }
 
-    generateIndexFile(packagePath);
+    // Find all packages that need index.ts files
+    const packages = findPackagesWithGeneratedFiles(srcDir);
+
+    // console.log(`📦 Found ${packages.length} packages with generated files in ${srcDir}`);
+
+    for (const packagePath of packages) {
+      // Skip external packages (buf, google)
+      if (packagePath.startsWith('buf') || packagePath.startsWith('google')) {
+        // console.log(`⏭️  Skipping external package: ${packagePath}`);
+        continue;
+      }
+
+      generateIndexFile(srcDir, packagePath);
+    }
   }
 
   // console.log('✅ Index.ts generation complete!');
@@ -84,8 +104,8 @@ function findPackagesWithGeneratedFiles(srcDir) {
 /**
  * Generate an index.ts file for a specific package.
  */
-function generateIndexFile(packagePath) {
-  const fullPath = path.join(TS_SRC_DIR, packagePath);
+function generateIndexFile(srcDir, packagePath) {
+  const fullPath = path.join(srcDir, packagePath);
   const indexPath = path.join(fullPath, 'index.ts');
 
   // console.log(`📝 Generating index.ts for: ${packagePath}`);

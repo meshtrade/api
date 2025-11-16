@@ -36,7 +36,7 @@ COMMANDS:
 
 OPTIONS:
     -t, --targets=LIST     Comma-separated list of targets
-                          Available: go, python, typescript (or ts), tsold (ts-old), java, docs
+                          Available: go, python, typescript (or ts), ts-node, tsold (ts-old), java, docs
                           Default: all targets
     -v, --verbose         Enable verbose output
 
@@ -65,7 +65,8 @@ EXAMPLES:
 TARGETS:
     go         Go SDK (generation only, no build required)
     python     Python SDK with gRPC support
-    typescript TypeScript/JavaScript SDK (alias: ts)
+    typescript TypeScript/JavaScript SDK for Web (alias: ts)
+    ts-node    TypeScript/JavaScript SDK for Node.js
     tsold      TypeScript/JavaScript SDK Legacy (alias: ts-old)
     java       Java SDK with gRPC support
     docs       API documentation (MDX format)
@@ -148,11 +149,11 @@ fi
 
 # If no targets specified, use all (excluding tsold by default)
 if [[ ${#NORMALIZED_TARGETS[@]} -eq 0 ]]; then
-    NORMALIZED_TARGETS=("go" "python" "typescript" "tsold" "java" "docs")
+    NORMALIZED_TARGETS=("go" "python" "typescript" "ts-node" "tsold" "java" "docs")
 fi
 
 # Validate targets
-VALID_TARGETS=("go" "python" "typescript" "tsold" "java" "docs")
+VALID_TARGETS=("go" "python" "typescript" "ts-node" "tsold" "java" "docs")
 for target in "${NORMALIZED_TARGETS[@]}"; do
     if [[ ! " ${VALID_TARGETS[@]} " =~ " ${target} " ]]; then
         echo -e "${RED}❌ ERROR: Invalid target: $target${NC}"
@@ -225,6 +226,12 @@ case $COMMAND in
                                 break
                             fi
                             ;;
+                        ts-node)
+                            if [[ ! -d "$ROOT_DIR/ts-node" ]] || [[ -z "$(find "$ROOT_DIR/ts-node" -name "*_pb.js" -type f -newer "$NEWEST_PROTO" 2>/dev/null)" ]]; then
+                                NEED_GENERATION=true
+                                break
+                            fi
+                            ;;
                         tsold)
                             if [[ ! -d "$ROOT_DIR/ts-old" ]] || [[ -z "$(find "$ROOT_DIR/ts-old" -name "*_pb.js" -type f -newer "$NEWEST_PROTO" 2>/dev/null)" ]]; then
                                 NEED_GENERATION=true
@@ -290,11 +297,11 @@ case $COMMAND in
         echo -e "${GREEN}🧪 Starting test execution...${NC}"
         echo
         
-        # Filter targets for testing (only go, python, typescript, tsold, java)
+        # Filter targets for testing (only go, python, typescript, ts-node, tsold, java)
         TEST_TARGETS=()
         for target in "${NORMALIZED_TARGETS[@]}"; do
             case $target in
-                go|python|typescript|tsold|java)
+                go|python|typescript|ts-node|tsold|java)
                     TEST_TARGETS+=("$target")
                     ;;
                 docs)
@@ -308,7 +315,7 @@ case $COMMAND in
 
         if [[ ${#TEST_TARGETS[@]} -eq 0 ]]; then
             echo -e "${YELLOW}⚠️  No testable targets specified${NC}"
-            echo "Available test targets: go, python, typescript, tsold, java"
+            echo "Available test targets: go, python, typescript, ts-node, tsold, java"
             exit 1
         fi
         
@@ -338,7 +345,7 @@ case $COMMAND in
         echo -e "${YELLOW}🧹 Starting cleanup process...${NC}"
         echo
 
-        if [[ ${#NORMALIZED_TARGETS[@]} -eq 6 ]]; then
+        if [[ ${#NORMALIZED_TARGETS[@]} -eq 7 ]]; then
             # All targets - use the all.sh script
             if "$SCRIPT_DIR/clean/all.sh"; then
                 echo -e "${GREEN}✅ All cleanup complete${NC}"

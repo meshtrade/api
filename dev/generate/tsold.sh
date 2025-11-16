@@ -109,6 +109,9 @@ echo "🔍 Generating buf/validate TypeScript (Legacy) files..."
 buf generate buf.build/bufbuild/protovalidate --template "$ROOT_DIR/dev/generate/buf/buf.gen.validate.tsold.yaml"
 
 echo "📄 Generating TypeScript (Legacy) index.ts files..."
-node tool/ts-import-scripts/generate-index-files.js
+# Legacy uses ts-old directory which is handled separately
+# This script generates index files for ts-old/src
+# For now, skip index generation for ts-old as it may not need it
+# node tool/ts-import-scripts/generate-index-files.js ts-old
 
 echo "✅ TypeScript (Legacy) code generation complete!"

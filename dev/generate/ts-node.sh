@@ -8,13 +8,13 @@ handle_error() {
   local exit_code=$?
   local line_number=$1
   echo
-  echo "❌ ERROR in $(basename "$0") on line $line_number: TypeScript generation failed!"
+  echo "❌ ERROR in $(basename "$0") on line $line_number: TypeScript Node generation failed!"
   exit "$exit_code"
 }
 
 cd "$ROOT_DIR"
 
-echo "📦 TypeScript Code Generation"
+echo "📦 TypeScript Node Code Generation"
 echo "============================="
 
 # Check if node is installed
@@ -65,9 +65,9 @@ if [[ ${#MISSING_DEPS[@]} -gt 0 ]]; then
     exit 1
 fi
 
-# Check protoc-gen-mesh_ts_web plugin
-echo "🛠 Checking protoc-gen-mesh_ts_web plugin..."
-PLUGIN_DIR="$ROOT_DIR/tool/protoc-gen-mesh_ts_web"
+# Check protoc-gen-mesh_ts_node plugin
+echo "🛠 Checking protoc-gen-mesh_ts_node plugin..."
+PLUGIN_DIR="$ROOT_DIR/tool/protoc-gen-mesh_ts_node"
 PLUGIN_DIST="$PLUGIN_DIR/dist/index.js"
 
 cd "$PLUGIN_DIR"
@@ -89,23 +89,23 @@ else
 fi
 
 if [[ "$NEEDS_BUILD" == "true" ]]; then
-    echo "   Building protoc-gen-mesh_ts_web..."
+    echo "   Building protoc-gen-mesh_ts_node..."
     yarn build
 fi
 
 cd "$ROOT_DIR"
 
-echo "✅ TypeScript environment validated"
+echo "✅ TypeScript Node environment validated"
 echo
 
-# Clean TypeScript generated files
-echo "🧹 Cleaning TypeScript generated files..."
-"$SCRIPT_DIR/../clean/typescript.sh"
+# Clean TypeScript Node generated files
+echo "🧹 Cleaning TypeScript Node generated files..."
+"$SCRIPT_DIR/../clean/ts-node.sh"
 
-echo "📦 Generating TypeScript code from protobuf definitions..."
-buf generate --template "$SCRIPT_DIR/buf/buf.gen.typescript.yaml"
+echo "📦 Generating TypeScript Node code from protobuf definitions..."
+buf generate --template "$SCRIPT_DIR/buf/buf.gen.ts-node.yaml"
 
-echo "📄 Generating TypeScript index.ts files..."
-node tool/ts-import-scripts/generate-index-files.js ts
+echo "📄 Generating TypeScript Node index.ts files..."
+node tool/ts-import-scripts/generate-index-files.js ts-node
 
-echo "✅ TypeScript code generation complete!"
+echo "✅ TypeScript Node code generation complete!"

@@ -7,8 +7,10 @@
   "workspaces": {
     "packages": [
       "ts",
+      "ts-node",
       "ts-old",
       "docs",
+      "tool/protoc-gen-mesh_ts_node",
       "tool/protoc-gen-mesh_ts_web",
       "tool/protoc-gen-meshtsold"
     ],
