@@ -77,6 +77,7 @@ yarn install
 │   ├── go.sh           # Go code generation
 │   ├── python.sh       # Python code generation
 │   ├── typescript.sh   # TypeScript code generation
+│   ├── tsold.sh        # TypeScript (Legacy) code generation
 │   ├── java.sh         # Java code generation
 │   ├── docs.sh         # Documentation generation
 │   ├── all.sh          # Generate all languages
@@ -89,12 +90,14 @@ yarn install
 ├── build/               # Build scripts
 │   ├── python.sh       # Python package build
 │   ├── typescript.sh   # TypeScript compilation
+│   ├── tsold.sh        # TypeScript (Legacy) compilation
 │   ├── java.sh         # Java compilation
 │   └── all.sh          # Build all SDKs
 ├── clean/               # Cleanup scripts
 │   ├── go.sh           # Clean Go generated files
 │   ├── python.sh       # Clean Python generated files
 │   ├── typescript.sh   # Clean TypeScript generated files
+│   ├── tsold.sh        # Clean TypeScript (Legacy) generated files
 │   ├── java.sh         # Clean Java generated files
 │   ├── docs.sh         # Clean documentation files
 │   └── all.sh          # Clean all generated files
@@ -102,6 +105,7 @@ yarn install
 │   ├── go.sh           # Go tests with coverage and linting
 │   ├── python.sh       # Python tests with pytest
 │   ├── typescript.sh   # TypeScript tests with Jest
+│   ├── tsold.sh        # TypeScript (Legacy) tests with Jest
 │   ├── java.sh         # Java tests with Maven
 │   └── all.sh          # Unified test orchestration
 ├── env/                 # Environment validation scripts
@@ -174,6 +178,7 @@ The `doctor` command and individual environment scripts ensure:
 | `go` | - | Go SDK (generation only) |
 | `python` | - | Python SDK with gRPC |
 | `typescript` | `ts` | TypeScript/JavaScript SDK |
+| `tsold` | `ts-old` | TypeScript/JavaScript SDK (Legacy) |
 | `java` | - | Java SDK with gRPC |
 | `docs` | - | API documentation |
 
@@ -214,6 +219,7 @@ Each generation script includes comprehensive error checking:
 ./dev/generate/python.sh     # Shows Python environment issues
 ./dev/generate/java.sh       # Shows Java/Maven configuration issues
 ./dev/generate/typescript.sh # Shows Node/Yarn dependency issues
+./dev/generate/tsold.sh      # Shows Node/Yarn dependency issues (Legacy)
 ```
 
 ## 🧪 Testing & Validation
@@ -237,6 +243,7 @@ The testing infrastructure supports both individual and unified testing:
 ./dev/test/java.sh      # Java tests with Maven
 ./dev/test/go.sh        # Go tests with coverage
 ./dev/test/typescript.sh # TypeScript tests with Jest
+./dev/test/tsold.sh     # TypeScript (Legacy) tests with Jest
 ```
 
 ### Environment Health Checks
@@ -277,7 +284,13 @@ Validate your development environment before testing:
 - **Module Hygiene**: Validates go.mod tidiness
 
 #### TypeScript Tests (`./dev/test/typescript.sh`)
-- **Jest**: Test framework with coverage reporting  
+- **Jest**: Test framework with coverage reporting
+- **Type Checking**: TypeScript compiler validation
+- **Linting**: ESLint style and error checking
+- **Build Verification**: Ensures TypeScript compilation succeeds
+
+#### TypeScript (Legacy) Tests (`./dev/test/tsold.sh`)
+- **Jest**: Test framework with coverage reporting
 - **Type Checking**: TypeScript compiler validation
 - **Linting**: ESLint style and error checking
 - **Build Verification**: Ensures TypeScript compilation succeeds

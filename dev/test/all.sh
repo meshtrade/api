@@ -13,7 +13,7 @@ NC='\033[0m' # No Color
 cd "$ROOT_DIR"
 
 # Parse command line arguments
-TARGETS="go,python,typescript,java"
+TARGETS="go,python,typescript,tsold,java"
 VERBOSE=false
 FAIL_FAST=false
 

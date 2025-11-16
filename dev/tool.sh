@@ -148,7 +148,7 @@ fi
 
 # If no targets specified, use all (excluding tsold by default)
 if [[ ${#NORMALIZED_TARGETS[@]} -eq 0 ]]; then
-    NORMALIZED_TARGETS=("go" "python" "typescript" "java" "docs")
+    NORMALIZED_TARGETS=("go" "python" "typescript" "tsold" "java" "docs")
 fi
 
 # Validate targets
@@ -337,8 +337,8 @@ case $COMMAND in
     clean)
         echo -e "${YELLOW}🧹 Starting cleanup process...${NC}"
         echo
-        
-        if [[ ${#NORMALIZED_TARGETS[@]} -eq 5 ]]; then
+
+        if [[ ${#NORMALIZED_TARGETS[@]} -eq 6 ]]; then
             # All targets - use the all.sh script
             if "$SCRIPT_DIR/clean/all.sh"; then
                 echo -e "${GREEN}✅ All cleanup complete${NC}"
