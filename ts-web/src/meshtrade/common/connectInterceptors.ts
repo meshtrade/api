@@ -1,8 +1,23 @@
 /**
- * Connect-ES interceptors for the Meshtrade API client.
+ * Connect-ES interceptors for the Meshtrade API client (Web/Browser).
  *
  * Provides interceptor utilities for use with @connectrpc/connect clients,
  * including group context injection for multi-tenant operations.
+ *
+ * ## Authentication in Browser Environments
+ *
+ * The Web SDK uses browser-native cookie-based authentication via the
+ * `credentials: 'include'` fetch option. This automatically sends HTTP-only
+ * cookies (like AccessToken) with each request, which is the standard and
+ * secure authentication pattern for browser applications.
+ *
+ * Unlike the Node.js SDK which supports explicit API key and JWT interceptors,
+ * the Web SDK relies on the browser's automatic cookie handling. This is why
+ * this module only provides group context and logging interceptors - authentication
+ * is handled implicitly by the browser's cookie mechanism.
+ *
+ * For backend/server-side authentication needs, use the Node.js SDK instead
+ * (@meshtrade/api-node), which provides explicit API key and JWT token support.
  */
 
 import { Interceptor } from "@connectrpc/connect";

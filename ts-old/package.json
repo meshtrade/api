@@ -3,6 +3,7 @@
   "version": "1.30.0",
   "description": "Mesh Typescript SDK (Legacy)",
   "author": "Bernard Bussy <bernard@meshtrade.co>",
+  "license": "UNLICENSED",
   "keywords": [
     "api",
     "meshtrade",
