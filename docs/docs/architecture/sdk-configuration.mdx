@@ -191,7 +191,6 @@ All generated clients include proper connection management:
 
 - **Go**: Use `defer client.Close()` to ensure cleanup
 - **Python**: Use `with client:` context manager for automatic cleanup
-- **TypeScript**: Call `await client.close()` when done
 
 ## Error Handling
 
@@ -199,7 +198,6 @@ All clients follow consistent error handling patterns:
 
 - **Go**: Return `error` as second value
 - **Python**: Raise exceptions for errors
-- **TypeScript**: Return Promise that may reject
 
 ## Service-Specific Examples
 
