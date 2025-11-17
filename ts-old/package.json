@@ -1,6 +1,6 @@
 {
   "name": "@meshtrade/api-old",
-  "version": "1.30.0",
+  "version": "1.30.2",
   "description": "Mesh Typescript SDK (Legacy)",
   "author": "Bernard Bussy <bernard@meshtrade.co>",
   "license": "UNLICENSED",
