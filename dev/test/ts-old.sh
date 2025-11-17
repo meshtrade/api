@@ -8,24 +8,24 @@ handle_error() {
   local exit_code=$?
   local line_number=$1
   echo
-  echo "❌ ERROR in $(basename "$0") on line $line_number: TypeScript (Legacy) tests failed!"
+  echo "❌ ERROR in $(basename "$0") on line $line_number: TypeScript Web (Legacy) tests failed!"
   exit "$exit_code"
 }
 
 cd "$ROOT_DIR/ts-old"
 
-echo "🔷 TypeScript (Legacy) Testing"
+echo "🔷 TypeScript Web (Legacy) Testing"
 echo "===================="
 
 # Check environment first
 echo "🔍 Checking TypeScript environment..."
-if ! "$SCRIPT_DIR/../env/typescript.sh"; then
+if ! "$SCRIPT_DIR/../env/ts-old.sh"; then
     echo "❌ TypeScript environment check failed. Please fix the issues above."
     exit 1
 fi
 
 echo
-echo "🧪 Running TypeScript (Legacy) tests..."
+echo "🧪 Running TypeScript Web (Legacy) tests..."
 
 # Ensure TypeScript compiles first
 echo "🔧 Verifying TypeScript compilation..."
@@ -57,7 +57,7 @@ if [[ -d "coverage" ]]; then
 fi
 
 echo
-echo "✅ TypeScript (Legacy) tests completed successfully!"
+echo "✅ TypeScript Web (Legacy) tests completed successfully!"
 
 # Show package info
 echo
@@ -70,6 +70,6 @@ echo "   Yarn: $(yarn --version)"
 echo
 echo "############################################################"
 echo "#                                                          #"
-echo "#  🎉 TypeScript (Legacy) testing complete!  🔷         #"
+echo "#  🎉 TypeScript Web (Legacy) testing complete!  🔷        #"
 echo "#                                                          #"
 echo "############################################################"

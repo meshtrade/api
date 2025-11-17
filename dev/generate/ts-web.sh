@@ -8,13 +8,13 @@ handle_error() {
   local exit_code=$?
   local line_number=$1
   echo
-  echo "❌ ERROR in $(basename "$0") on line $line_number: TypeScript (Legacy) generation failed!"
+  echo "❌ ERROR in $(basename "$0") on line $line_number: TypeScript (Web) generation failed!"
   exit "$exit_code"
 }
 
 cd "$ROOT_DIR"
 
-echo "📦 TypeScript (Legacy) Code Generation"
+echo "📦 TypeScript (Web) Code Generation"
 echo "============================="
 
 # Check if node is installed
@@ -41,7 +41,7 @@ if [[ "$NODE_MAJOR" -lt 18 ]]; then
 fi
 
 # Check if yarn install has been run
-echo "📦 Checking TypeScript dependencies..."
+echo "📦 Checking TypeScript (Web) dependencies..."
 if [[ ! -d "$ROOT_DIR/node_modules" ]]; then
     echo "❌ ERROR: node_modules directory not found!"
     echo "   Please run 'yarn install' from the repository root first"
@@ -65,9 +65,9 @@ if [[ ${#MISSING_DEPS[@]} -gt 0 ]]; then
     exit 1
 fi
 
-# Check protoc-gen-meshtsold plugin
-echo "🛠 Checking protoc-gen-meshtsold plugin..."
-PLUGIN_DIR="$ROOT_DIR/tool/protoc-gen-meshtsold"
+# Check protoc-gen-mesh_ts_web plugin
+echo "🛠 Checking protoc-gen-mesh_ts_web plugin..."
+PLUGIN_DIR="$ROOT_DIR/tool/protoc-gen-mesh_ts_web"
 PLUGIN_DIST="$PLUGIN_DIR/dist/index.js"
 
 cd "$PLUGIN_DIR"
@@ -89,29 +89,23 @@ else
 fi
 
 if [[ "$NEEDS_BUILD" == "true" ]]; then
-    echo "   Building protoc-gen-meshtsold..."
+    echo "   Building protoc-gen-mesh_ts_web..."
     yarn build
 fi
 
 cd "$ROOT_DIR"
 
-echo "✅ TypeScript (Legacy) environment validated"
+echo "✅ TypeScript (Web) environment validated"
 echo
 
-# Clean TypeScript (Legacy) generated files
-echo "🧹 Cleaning TypeScript (Legacy) generated files..."
-"$SCRIPT_DIR/../clean/tsold.sh"
+# Clean TypeScript (Web) generated files
+echo "🧹 Cleaning TypeScript (Web) generated files..."
+"$SCRIPT_DIR/../clean/ts-web.sh"
 
-echo "📦 Generating TypeScript (Legacy) code from protobuf definitions..."
-buf generate --template "$SCRIPT_DIR/buf/buf.gen.tsold.yaml"
+echo "📦 Generating TypeScript (Web) code from protobuf definitions..."
+buf generate --template "$SCRIPT_DIR/buf/buf.gen.ts-web.yaml"
 
-echo "🔍 Generating buf/validate TypeScript (Legacy) files..."
-buf generate buf.build/bufbuild/protovalidate --template "$ROOT_DIR/dev/generate/buf/buf.gen.validate.tsold.yaml"
+echo "📄 Generating TypeScript (Web) index.ts files..."
+node tool/ts-import-scripts/generate-index-files.js ts-web
 
-echo "📄 Generating TypeScript (Legacy) index.ts files..."
-# Legacy uses ts-old directory which is handled separately
-# This script generates index files for ts-old/src
-# For now, skip index generation for ts-old as it may not need it
-# node tool/ts-import-scripts/generate-index-files.js ts-old
-
-echo "✅ TypeScript (Legacy) code generation complete!"
+echo "✅ TypeScript (Web) code generation complete!"

@@ -1,12 +1,12 @@
-# TypeScript code generation configuration
+# TypeScript (Web) code generation configuration
 version: v2
 
 plugins:
   - remote: buf.build/bufbuild/es:v2.10.1
-    out: ./ts/src
+    out: ./ts-web/src
     opt:
       - target=ts
     include_imports: true
   - local: ["node", "./tool/protoc-gen-mesh_ts_web/dist/index.js"]
-    out: ./ts/src
+    out: ./ts-web/src
     strategy: all

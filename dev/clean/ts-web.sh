@@ -6,7 +6,7 @@ ROOT_DIR="$SCRIPT_DIR/../.."
 cd "$ROOT_DIR"
 
 echo "🧹 Cleaning TypeScript generated files..."
-find ./ts/src -type f \( -name '*_meshts.*' -o -name '*_web_meshts.*' -o -name '*_pb.ts' \) -print0 | xargs -0 -r -P 4 rm
-rm -rf ./ts/src/buf
-rm -rf ./ts/src/validate
+find ./ts-web/src -type f \( -name '*_meshts.*' -o -name '*_web_meshts.*' -o -name '*_pb.ts' \) -print0 | xargs -0 -r -P 4 rm
+rm -rf ./ts-web/src/buf
+rm -rf ./ts-web/src/validate
 echo "✅ TypeScript cleanup complete"

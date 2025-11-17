@@ -20,7 +20,7 @@ echo "=========================="
 # Check environment first
 echo "🔍 Checking TypeScript Node environment..."
 cd "$ROOT_DIR"
-if ! "$SCRIPT_DIR/../env/typescript.sh"; then
+if ! "$SCRIPT_DIR/../env/ts-web.sh"; then
     echo "❌ TypeScript Node environment check failed. Please fix the issues above."
     exit 1
 fi

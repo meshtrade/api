@@ -64,10 +64,10 @@ if [[ ! -d "$ROOT_DIR/node_modules" ]]; then
 fi
 
 # Check if TypeScript SDK directory exists
-if [[ ! -d "$ROOT_DIR/ts/src/meshtrade" ]]; then
-    echo "❌ ERROR: TypeScript source directory not found at ts/src/meshtrade/"
+if [[ ! -d "$ROOT_DIR/ts-web/src/meshtrade" ]]; then
+    echo "❌ ERROR: TypeScript source directory not found at ts-web/src/meshtrade/"
     echo "   Please run code generation first:"
-    echo "   ./dev/tool.sh generate --targets=typescript"
+    echo "   ./dev/tool.sh generate --targets=ts-web"
     exit 1
 fi
 
@@ -81,12 +81,14 @@ fi
 
 # Check if TypeScript can compile
 echo "🔧 Checking TypeScript compilation..."
+cd "$ROOT_DIR/ts-web"
 if ! yarn build &> /dev/null; then
     echo "❌ ERROR: TypeScript compilation failed"
     echo "   Run yarn build for details, or regenerate code:"
-    echo "   ./dev/tool.sh generate --targets=typescript"
+    echo "   ./dev/tool.sh generate --targets=ts-web"
     exit 1
 fi
+cd "$ROOT_DIR"
 
 # Check protoc-gen-mesh_ts_web plugin
 PLUGIN_DIR="$ROOT_DIR/tool/protoc-gen-mesh_ts_web"

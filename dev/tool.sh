@@ -36,13 +36,13 @@ COMMANDS:
 
 OPTIONS:
     -t, --targets=LIST     Comma-separated list of targets
-                          Available: go, python, typescript (or ts), ts-node, tsold (ts-old), java, docs
+                          Available: go, python, ts-web, ts-node, ts-old, java, docs
                           Default: all targets
     -v, --verbose         Enable verbose output
 
 EXAMPLES:
     # Generate code for TypeScript and Python
-    $0 generate --targets=typescript,python
+    $0 generate --targets=ts-web,python
 
     # Build Java SDK only
     $0 build --targets=java
@@ -59,15 +59,15 @@ EXAMPLES:
     # Clean, generate, build, and test everything
     $0 all
 
-    # Clean, generate, build, and test TypeScript only
-    $0 all --targets=ts
+    # Clean, generate, build, and test TypeScript (Web) only
+    $0 all --targets=ts-web
 
 TARGETS:
     go         Go SDK (generation only, no build required)
     python     Python SDK with gRPC support
-    typescript TypeScript/JavaScript SDK for Web (alias: ts)
-    ts-node    TypeScript/JavaScript SDK for Node.js
-    tsold      TypeScript/JavaScript SDK Legacy (alias: ts-old)
+    ts-web     TypeScript SDK for Web (browser)
+    ts-node    TypeScript SDK for Node.js (server)
+    ts-old     TypeScript SDK Legacy
     java       Java SDK with gRPC support
     docs       API documentation (MDX format)
 
@@ -135,25 +135,18 @@ if [[ -n "$TARGETS" ]]; then
     IFS=',' read -ra TARGET_ARRAY <<< "$TARGETS"
     
     for target in "${TARGET_ARRAY[@]}"; do
-        # Normalize ts -> typescript
-        if [[ "$target" == "ts" ]]; then
-            NORMALIZED_TARGETS+=("typescript")
-        # Normalize ts-old -> tsold
-        elif [[ "$target" == "ts-old" ]]; then
-            NORMALIZED_TARGETS+=("tsold")
-        else
-            NORMALIZED_TARGETS+=("$target")
-        fi
+        # Add target directly (no normalization needed)
+        NORMALIZED_TARGETS+=("$target")
     done
 fi
 
-# If no targets specified, use all (excluding tsold by default)
+# If no targets specified, use all (excluding ts-old by default)
 if [[ ${#NORMALIZED_TARGETS[@]} -eq 0 ]]; then
-    NORMALIZED_TARGETS=("go" "python" "typescript" "ts-node" "tsold" "java" "docs")
+    NORMALIZED_TARGETS=("go" "python" "ts-web" "ts-node" "ts-old" "java" "docs")
 fi
 
 # Validate targets
-VALID_TARGETS=("go" "python" "typescript" "ts-node" "tsold" "java" "docs")
+VALID_TARGETS=("go" "python" "ts-web" "ts-node" "ts-old" "java" "docs")
 for target in "${NORMALIZED_TARGETS[@]}"; do
     if [[ ! " ${VALID_TARGETS[@]} " =~ " ${target} " ]]; then
         echo -e "${RED}❌ ERROR: Invalid target: $target${NC}"
@@ -220,8 +213,8 @@ case $COMMAND in
                                 break
                             fi
                             ;;
-                        typescript)
-                            if [[ ! -d "$ROOT_DIR/ts" ]] || [[ -z "$(find "$ROOT_DIR/ts" -name "*_pb.js" -type f -newer "$NEWEST_PROTO" 2>/dev/null)" ]]; then
+                        ts-web)
+                            if [[ ! -d "$ROOT_DIR/ts-web" ]] || [[ -z "$(find "$ROOT_DIR/ts-web" -name "*_pb.js" -type f -newer "$NEWEST_PROTO" 2>/dev/null)" ]]; then
                                 NEED_GENERATION=true
                                 break
                             fi
@@ -232,7 +225,7 @@ case $COMMAND in
                                 break
                             fi
                             ;;
-                        tsold)
+                        ts-old)
                             if [[ ! -d "$ROOT_DIR/ts-old" ]] || [[ -z "$(find "$ROOT_DIR/ts-old" -name "*_pb.js" -type f -newer "$NEWEST_PROTO" 2>/dev/null)" ]]; then
                                 NEED_GENERATION=true
                                 break
@@ -297,11 +290,11 @@ case $COMMAND in
         echo -e "${GREEN}🧪 Starting test execution...${NC}"
         echo
         
-        # Filter targets for testing (only go, python, typescript, ts-node, tsold, java)
+        # Filter targets for testing (only go, python, ts-web, ts-node, ts-old, java)
         TEST_TARGETS=()
         for target in "${NORMALIZED_TARGETS[@]}"; do
             case $target in
-                go|python|typescript|ts-node|tsold|java)
+                go|python|ts-web|ts-node|ts-old|java)
                     TEST_TARGETS+=("$target")
                     ;;
                 docs)
@@ -315,7 +308,7 @@ case $COMMAND in
 
         if [[ ${#TEST_TARGETS[@]} -eq 0 ]]; then
             echo -e "${YELLOW}⚠️  No testable targets specified${NC}"
-            echo "Available test targets: go, python, typescript, ts-node, tsold, java"
+            echo "Available test targets: go, python, ts-web, ts-node, ts-old, java"
             exit 1
         fi
         

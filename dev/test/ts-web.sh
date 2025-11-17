@@ -8,34 +8,36 @@ handle_error() {
   local exit_code=$?
   local line_number=$1
   echo
-  echo "❌ ERROR in $(basename "$0") on line $line_number: TypeScript tests failed!"
+  echo "❌ ERROR in $(basename "$0") on line $line_number: TypeScript (Web) tests failed!"
   exit "$exit_code"
 }
 
 cd "$ROOT_DIR"
 
-echo "🔷 TypeScript Testing"
+echo "🔷 TypeScript (Web) Testing"
 echo "===================="
 
 # Check environment first
-echo "🔍 Checking TypeScript environment..."
-if ! "$SCRIPT_DIR/../env/typescript.sh"; then
-    echo "❌ TypeScript environment check failed. Please fix the issues above."
+echo "🔍 Checking TypeScript (Web) environment..."
+if ! "$SCRIPT_DIR/../env/ts-web.sh"; then
+    echo "❌ TypeScript (Web) environment check failed. Please fix the issues above."
     exit 1
 fi
 
 echo
-echo "🧪 Running TypeScript tests..."
+echo "🧪 Running TypeScript (Web) tests..."
 
-# Ensure TypeScript compiles first
-echo "🔧 Verifying TypeScript compilation..."
+cd "$ROOT_DIR/ts-web"
+
+# Ensure TypeScript (Web) compiles first
+echo "🔧 Verifying TypeScript (Web) compilation..."
 yarn build
 
-# Run TypeScript tests
+# Run TypeScript (Web) tests
 echo "📦 Running Jest tests..."
 yarn test
 
-# Run TypeScript linting
+# Run TypeScript (Web) linting
 echo
 echo "🎨 Running ESLint..."
 yarn lint
@@ -57,7 +59,7 @@ if [[ -d "coverage" ]]; then
 fi
 
 echo
-echo "✅ TypeScript tests completed successfully!"
+echo "✅ TypeScript (Web) tests completed successfully!"
 
 # Show package info
 echo
@@ -70,6 +72,6 @@ echo "   Yarn: $(yarn --version)"
 echo
 echo "############################################################"
 echo "#                                                          #"
-echo "#  🎉 TypeScript testing complete!  🔷                   #"
+echo "#  🎉 TypeScript (Web) testing complete!  🔷               #"
 echo "#                                                          #"
 echo "############################################################"

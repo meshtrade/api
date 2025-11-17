@@ -10,19 +10,21 @@
 const fs = require('fs');
 const path = require('path');
 
-// Find the API root directory (where ts/src and ts-node/src live)
+// Find the API root directory (where ts-web/src, ts-node/src, and ts-old/src live)
 // Script is in tool/ts-import-scripts/, so go up 2 directories to reach API root
 const API_ROOT = path.resolve(__dirname, '..', '..');
 
-// Support command-line argument for target directory (ts or ts-node)
-// Usage: node generate-index-files.js [ts|ts-node|all]
+// Support command-line argument for target directory (ts-web, ts-node, ts-old)
+// Usage: node generate-index-files.js [ts-web|ts-node|ts-old|all]
 const target = process.argv[2] || 'all';
 const TARGET_DIRS = {
-  'ts': [path.join(API_ROOT, 'ts', 'src')],
+  'ts-web': [path.join(API_ROOT, 'ts-web', 'src')],
   'ts-node': [path.join(API_ROOT, 'ts-node', 'src')],
+  'ts-old': [path.join(API_ROOT, 'ts-old', 'src')],
   'all': [
-    path.join(API_ROOT, 'ts', 'src'),
+    path.join(API_ROOT, 'ts-web', 'src'),
     path.join(API_ROOT, 'ts-node', 'src'),
+    path.join(API_ROOT, 'ts-old', 'src'),
   ],
 };
 
@@ -76,7 +78,10 @@ function findPackagesWithGeneratedFiles(srcDir) {
         const fileName = entry.name;
         // Look for generated protobuf files or custom client files
         if (fileName.endsWith('_pb.ts') ||
-            fileName.endsWith('_connect_client_meshts.ts')) {
+            fileName.endsWith('_connect_client_meshts.ts') ||
+            fileName.endsWith('_web_meshts.ts') ||
+            fileName.endsWith('_node_meshts.ts') ||
+            fileName.endsWith('_grpc_web_client_meshts.ts')) {
           hasGeneratedFiles = true;
           break;
         }
@@ -149,17 +154,21 @@ function collectGeneratedExports(dirPath) {
       continue;
     }
 
-    // Only process TypeScript files
+    // Only process TypeScript files (.ts or .d.ts)
     if (!file.endsWith('.ts')) {
       continue;
     }
 
-    // Get the base name without extension
-    const baseName = file.replace(/\.ts$/, '');
+    // Get the base name without extension (.ts or .d.ts)
+    const baseName = file.replace(/\.d\.ts$/, '').replace(/\.ts$/, '');
 
     // Only include generated files (protobuf generated or custom clients)
-    // Patterns: *_pb.ts, *_web_meshts.ts, *_node_meshts.ts
-    if (baseName.endsWith('_pb') || baseName.endsWith('_web_meshts') || baseName.endsWith('_node_meshts')) {
+    // Patterns: *_pb.ts, *_web_meshts.ts, *_node_meshts.ts, *_grpc_web_client_meshts.ts
+    if (baseName.endsWith('_pb') ||
+        baseName.endsWith('_web_meshts') ||
+        baseName.endsWith('_node_meshts') ||
+        baseName.endsWith('_grpc_web_client_meshts') ||
+        baseName.endsWith('_grpc_web_pb')) {
       // Avoid duplicates
       if (!seenExports.has(baseName)) {
         exports.push(`export * from "./${baseName}";`);
@@ -196,6 +205,10 @@ function readExistingManualSection(indexPath) {
         return trimmed.startsWith('export ') &&
                !trimmed.includes('_pb') &&
                !trimmed.includes('_connect_client_meshts') &&
+               !trimmed.includes('_web_meshts') &&
+               !trimmed.includes('_node_meshts') &&
+               !trimmed.includes('_grpc_web_client_meshts') &&
+               !trimmed.includes('_grpc_web_pb') &&
                !trimmed.includes('AUTO-GENERATED') &&
                !trimmed.includes('END OF AUTO-GENERATED');
       });

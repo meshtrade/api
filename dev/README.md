@@ -76,8 +76,8 @@ yarn install
 ├── generate/            # Code generation scripts
 │   ├── go.sh           # Go code generation
 │   ├── python.sh       # Python code generation
-│   ├── typescript.sh   # TypeScript code generation
-│   ├── tsold.sh        # TypeScript (Legacy) code generation
+│   ├── ts-web.sh   # TypeScript code generation
+│   ├── ts-old.sh        # TypeScript (Legacy) code generation
 │   ├── java.sh         # Java code generation
 │   ├── docs.sh         # Documentation generation
 │   ├── all.sh          # Generate all languages
@@ -89,30 +89,30 @@ yarn install
 │       └── buf.gen.docs.yaml
 ├── build/               # Build scripts
 │   ├── python.sh       # Python package build
-│   ├── typescript.sh   # TypeScript compilation
-│   ├── tsold.sh        # TypeScript (Legacy) compilation
+│   ├── ts-web.sh   # TypeScript compilation
+│   ├── ts-old.sh        # TypeScript (Legacy) compilation
 │   ├── java.sh         # Java compilation
 │   └── all.sh          # Build all SDKs
 ├── clean/               # Cleanup scripts
 │   ├── go.sh           # Clean Go generated files
 │   ├── python.sh       # Clean Python generated files
-│   ├── typescript.sh   # Clean TypeScript generated files
-│   ├── tsold.sh        # Clean TypeScript (Legacy) generated files
+│   ├── ts-web.sh   # Clean TypeScript generated files
+│   ├── ts-old.sh        # Clean TypeScript (Legacy) generated files
 │   ├── java.sh         # Clean Java generated files
 │   ├── docs.sh         # Clean documentation files
 │   └── all.sh          # Clean all generated files
 ├── test/                # Test execution scripts
 │   ├── go.sh           # Go tests with coverage and linting
 │   ├── python.sh       # Python tests with pytest
-│   ├── typescript.sh   # TypeScript tests with Jest
-│   ├── tsold.sh        # TypeScript (Legacy) tests with Jest
+│   ├── ts-web.sh   # TypeScript tests with Jest
+│   ├── ts-old.sh        # TypeScript (Legacy) tests with Jest
 │   ├── java.sh         # Java tests with Maven
 │   └── all.sh          # Unified test orchestration
 ├── env/                 # Environment validation scripts
 │   ├── general.sh      # General prerequisites check
 │   ├── go.sh           # Go environment validation
 │   ├── python.sh       # Python environment validation
-│   ├── typescript.sh   # TypeScript environment validation
+│   ├── ts-web.sh   # TypeScript environment validation
 │   ├── java.sh         # Java environment validation
 │   └── doctor.sh       # Comprehensive health check
 └── deploy/              # Deployment scripts (future)
@@ -218,8 +218,8 @@ Each generation script includes comprehensive error checking:
 # Run individual scripts for detailed error messages
 ./dev/generate/python.sh     # Shows Python environment issues
 ./dev/generate/java.sh       # Shows Java/Maven configuration issues
-./dev/generate/typescript.sh # Shows Node/Yarn dependency issues
-./dev/generate/tsold.sh      # Shows Node/Yarn dependency issues (Legacy)
+./dev/generate/ts-web.sh # Shows Node/Yarn dependency issues
+./dev/generate/ts-old.sh      # Shows Node/Yarn dependency issues (Legacy)
 ```
 
 ## 🧪 Testing & Validation
@@ -242,8 +242,8 @@ The testing infrastructure supports both individual and unified testing:
 ./dev/test/python.sh    # Python tests with pytest
 ./dev/test/java.sh      # Java tests with Maven
 ./dev/test/go.sh        # Go tests with coverage
-./dev/test/typescript.sh # TypeScript tests with Jest
-./dev/test/tsold.sh     # TypeScript (Legacy) tests with Jest
+./dev/test/ts-web.sh # TypeScript tests with Jest
+./dev/test/ts-old.sh     # TypeScript (Legacy) tests with Jest
 ```
 
 ### Environment Health Checks
@@ -258,7 +258,7 @@ Validate your development environment before testing:
 ./dev/env/python.sh      # Python virtual env, dependencies
 ./dev/env/java.sh        # Java version, Maven configuration
 ./dev/env/go.sh          # Go version, module setup
-./dev/env/typescript.sh  # Node.js, Yarn, dependencies
+./dev/env/ts-web.sh  # Node.js, Yarn, dependencies
 ./dev/env/general.sh     # General prerequisites (buf, git)
 ```
 
@@ -283,13 +283,13 @@ Validate your development environment before testing:
 - **Linting**: golangci-lint with security checks (gosec)
 - **Module Hygiene**: Validates go.mod tidiness
 
-#### TypeScript Tests (`./dev/test/typescript.sh`)
+#### TypeScript Tests (`./dev/test/ts-web.sh`)
 - **Jest**: Test framework with coverage reporting
 - **Type Checking**: TypeScript compiler validation
 - **Linting**: ESLint style and error checking
 - **Build Verification**: Ensures TypeScript compilation succeeds
 
-#### TypeScript (Legacy) Tests (`./dev/test/tsold.sh`)
+#### TypeScript (Legacy) Tests (`./dev/test/ts-old.sh`)
 - **Jest**: Test framework with coverage reporting
 - **Type Checking**: TypeScript compiler validation
 - **Linting**: ESLint style and error checking

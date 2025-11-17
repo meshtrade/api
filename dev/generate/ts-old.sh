@@ -8,13 +8,13 @@ handle_error() {
   local exit_code=$?
   local line_number=$1
   echo
-  echo "❌ ERROR in $(basename "$0") on line $line_number: TypeScript generation failed!"
+  echo "❌ ERROR in $(basename "$0") on line $line_number: TypeScript Web (Legacy) generation failed!"
   exit "$exit_code"
 }
 
 cd "$ROOT_DIR"
 
-echo "📦 TypeScript Code Generation"
+echo "📦 TypeScript Web (Legacy) Code Generation"
 echo "============================="
 
 # Check if node is installed
@@ -65,9 +65,9 @@ if [[ ${#MISSING_DEPS[@]} -gt 0 ]]; then
     exit 1
 fi
 
-# Check protoc-gen-mesh_ts_web plugin
-echo "🛠 Checking protoc-gen-mesh_ts_web plugin..."
-PLUGIN_DIR="$ROOT_DIR/tool/protoc-gen-mesh_ts_web"
+# Check protoc-gen-meshtsold plugin
+echo "🛠 Checking protoc-gen-meshtsold plugin..."
+PLUGIN_DIR="$ROOT_DIR/tool/protoc-gen-meshtsold"
 PLUGIN_DIST="$PLUGIN_DIR/dist/index.js"
 
 cd "$PLUGIN_DIR"
@@ -89,23 +89,26 @@ else
 fi
 
 if [[ "$NEEDS_BUILD" == "true" ]]; then
-    echo "   Building protoc-gen-mesh_ts_web..."
+    echo "   Building protoc-gen-meshtsold..."
     yarn build
 fi
 
 cd "$ROOT_DIR"
 
-echo "✅ TypeScript environment validated"
+echo "✅ TypeScript Web (Legacy) environment validated"
 echo
 
-# Clean TypeScript generated files
-echo "🧹 Cleaning TypeScript generated files..."
-"$SCRIPT_DIR/../clean/typescript.sh"
+# Clean TypeScript Web (Legacy) generated files
+echo "🧹 Cleaning TypeScript Web (Legacy) generated files..."
+"$SCRIPT_DIR/../clean/ts-old.sh"
 
-echo "📦 Generating TypeScript code from protobuf definitions..."
-buf generate --template "$SCRIPT_DIR/buf/buf.gen.typescript.yaml"
+echo "📦 Generating TypeScript Web (Legacy) code from protobuf definitions..."
+buf generate --template "$SCRIPT_DIR/buf/buf.gen.ts-old.yaml"
 
-echo "📄 Generating TypeScript index.ts files..."
-node tool/ts-import-scripts/generate-index-files.js ts
+echo "🔍 Generating buf/validate TypeScript Web (Legacy) files..."
+buf generate buf.build/bufbuild/protovalidate --template "$ROOT_DIR/dev/generate/buf/buf.gen.ts-old.validate.yaml"
 
-echo "✅ TypeScript code generation complete!"
+echo "📄 Generating TypeScript Web (Legacy) index.ts files..."
+node tool/ts-import-scripts/generate-index-files.js ts-old
+
+echo "✅ TypeScript Web (Legacy) code generation complete!"

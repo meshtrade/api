@@ -23,10 +23,13 @@ echo
   "$SCRIPT_DIR/python.sh" &
   PYTHON_PID=$!
 
-  "$SCRIPT_DIR/typescript.sh" &
-  TS_PID=$!
+  "$SCRIPT_DIR/ts-web.sh" &
+  TS_WEB_PID=$!
 
-  "$SCRIPT_DIR/tsold.sh" &
+  "$SCRIPT_DIR/ts-node.sh" &
+  TS_NODE_PID=$!
+
+  "$SCRIPT_DIR/ts-old.sh" &
   TSOLD_PID=$!
 
   "$SCRIPT_DIR/java.sh" &
@@ -36,7 +39,7 @@ echo
   DOCS_PID=$!
 
   # Wait for all processes
-  wait $GO_PID $PYTHON_PID $TS_PID $TSOLD_PID $JAVA_PID $DOCS_PID
+  wait $GO_PID $PYTHON_PID $TS_WEB_PID $TS_NODE_PID $TSOLD_PID $JAVA_PID $DOCS_PID
 )
 
 echo

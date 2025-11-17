@@ -106,20 +106,20 @@ function generateConnectClientManually(schema: Schema, file: DescFile) {
 }
 
 function getOutputFilePath(file: DescFile): string {
-  // Convert protobuf file path to TypeScript output path
-  // Example: "meshtrade/iam/api_user/v1/service.proto" -> "ts/src/meshtrade/iam/api_user/v1/service_web_meshts.ts"
+  // Convert protobuf file path to TypeScript Web output path
+  // Example: "meshtrade/iam/api_user/v1/service.proto" -> "ts-web/src/meshtrade/iam/api_user/v1/service_web_meshts.ts"
   const protoPath = file.name; // e.g., "meshtrade/iam/api_user/v1/service"
-  const outputDir = path.join("ts", "src", path.dirname(protoPath));
+  const outputDir = path.join("ts-web", "src", path.dirname(protoPath));
   const fileName = path.basename(protoPath) + "_web_meshts.ts";
   return path.join(outputDir, fileName);
 }
 
 function getRelativePathToCommon(outputFilePath: string): string {
   // Calculate the relative path from the generated file to the common directory
-  // Example: from "ts/src/meshtrade/iam/api_user/v1/service_web_meshts.ts"
-  //          to "ts/src/meshtrade/common/" returns "../../../common"
+  // Example: from "ts-web/src/meshtrade/iam/api_user/v1/service_web_meshts.ts"
+  //          to "ts-web/src/meshtrade/common/" returns "../../../common"
   const generatedFileDir = path.dirname(outputFilePath);
-  const commonDir = path.join("ts", "src", "meshtrade", "common");
+  const commonDir = path.join("ts-web", "src", "meshtrade", "common");
   return path.relative(generatedFileDir, commonDir);
 }
 

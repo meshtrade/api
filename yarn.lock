@@ -1266,6 +1266,11 @@
   resolved "https://registry.yarnpkg.com/@colors/colors/-/colors-1.5.0.tgz#bb504579c1cae923e6576a4f5da43d25f97bdbd9"
   integrity sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==
 
+"@connectrpc/connect-node@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@connectrpc/connect-node/-/connect-node-2.1.0.tgz#0ae8a618168d0dc97e81ca9cbb6a06bef500ea77"
+  integrity sha512-6akCXZSX5uWHLR654ne9Tnq7AnPUkLS65NvgsI5885xBkcuVy2APBd8sA4sLqaplUt84cVEr6LhjEFNx6W1KtQ==
+
 "@connectrpc/connect-web@^2.1.0":
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/@connectrpc/connect-web/-/connect-web-2.1.0.tgz#9f95b216ca1c54d8e17237714efc5ca189ae535d"

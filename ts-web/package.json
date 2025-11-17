@@ -1,5 +1,5 @@
 {
-  "name": "@meshtrade/api",
+  "name": "@meshtrade/api-web",
   "version": "1.29.0",
   "description": "Mesh Typescript SDK",
   "author": "Bernard Bussy <bernard@meshtrade.co>",
