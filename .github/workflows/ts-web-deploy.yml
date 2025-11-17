@@ -1,12 +1,12 @@
-name: Deploy TypeScript SDK to npm via OIDC Trusted Publishing
+name: Deploy TypeScript SDK (Web) to npm via OIDC Trusted Publishing
 
-# Triggers on tags like ts/v1.0.0, ts/v2.1.3, etc.
+# Triggers on tags like ts-web/v1.0.0, ts-web/v2.1.3, etc.
 # Uses npm Trusted Publishing (OIDC) - no long-lived tokens required!
 # Requires npm CLI >= 11.5.1 and one-time trusted publisher config on npmjs.com
 on:
   push:
     tags:
-      - 'ts/v*.*.*'
+      - 'ts-web/v*.*.*'
 
   # Allows manual workflow dispatch
   workflow_dispatch:
@@ -50,10 +50,10 @@ jobs:
           path: |
             node_modules
             .yarn/cache
-            ts/node_modules
-          key: ${{ runner.os }}-ts-deps-${{ hashFiles('yarn.lock', 'ts/yarn.lock') }}
+            ts-web/node_modules
+          key: ${{ runner.os }}-ts-web-deps-${{ hashFiles('yarn.lock', 'ts-web/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-ts-deps-
+            ${{ runner.os }}-ts-web-deps-
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
@@ -67,13 +67,13 @@ jobs:
         run: ./dev/tool.sh generate --targets=typescript
 
       - name: Run TypeScript tests (early validation)
-        working-directory: ./ts
+        working-directory: ./ts-web
         run: |
           echo "🧪 Running TypeScript tests..."
           yarn test
 
       - name: Run TypeScript linting (early validation)
-        working-directory: ./ts
+        working-directory: ./ts-web
         run: |
           echo "🔍 Linting TypeScript code..."
           yarn lint
@@ -82,8 +82,8 @@ jobs:
         id: version
         run: |
           if [[ "${{ github.event_name }}" == "push" ]]; then
-            # Extract version from ts/v*.*.* tag (e.g., ts/v1.2.3 -> 1.2.3)
-            VERSION=$(echo "${{ github.ref_name }}" | sed 's/^ts\/v//')
+            # Extract version from ts-web/v*.*.* tag (e.g., ts-web/v1.2.3 -> 1.2.3)
+            VERSION=$(echo "${{ github.ref_name }}" | sed 's/^ts-web\/v//')
             echo "version=$VERSION" >> $GITHUB_OUTPUT
             echo "Extracted version from tag: $VERSION"
           else
@@ -94,7 +94,7 @@ jobs:
           fi
 
       - name: Update package.json version
-        working-directory: ./ts
+        working-directory: ./ts-web
         run: |
           VERSION="${{ steps.version.outputs.version }}"
           echo "Setting TypeScript package version to: $VERSION"
@@ -104,19 +104,19 @@ jobs:
           grep '"version":' package.json
 
       - name: Build TypeScript SDK
-        working-directory: ./ts
+        working-directory: ./ts-web
         run: |
-          echo "🏗️ Building TypeScript SDK..."
+          echo "🏗️ Building TypeScript SDK (Web)..."
           yarn build
 
       - name: Verify build artifacts
-        working-directory: ./ts
+        working-directory: ./ts-web
         run: |
           echo "✅ Verifying build artifacts..."
           ls -la dist/ | head -10
 
       - name: Publish to npm via OIDC Trusted Publishing
-        working-directory: ./ts
+        working-directory: ./ts-web
         run: |
           echo "🚀 Publishing to npm via OIDC Trusted Publishing..."
           echo "npm version: $(npm --version)"
@@ -130,10 +130,10 @@ jobs:
           echo ""
           echo "############################################################"
           echo "#                                                          #"
-          echo "#  🎉 TypeScript SDK v$VERSION published via OIDC! 🔐     #"
+          echo "#  🎉 TypeScript SDK (Web) v$VERSION published! 🔐       #"
           echo "#                                                          #"
-          echo "#  Package: @meshtrade/api@$VERSION                       #"
-          echo "#  Registry: https://www.npmjs.com/package/@meshtrade/api #"
+          echo "#  Package: @meshtrade/api-web@$VERSION                   #"
+          echo "#  Registry: https://www.npmjs.com/package/@meshtrade/api-web #"
           echo "#  Provenance: ✅ Automatically generated                  #"
           echo "#  Authentication: OIDC (no long-lived tokens!)           #"
           echo "#                                                          #"
@@ -145,44 +145,44 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           VERSION="${{ steps.version.outputs.version }}"
-          BRANCH_NAME="chore/npm-version-update-$VERSION"
-          
+          BRANCH_NAME="chore/npm-ts-web-version-update-$VERSION"
+
           echo "📝 Creating PR to commit version $VERSION back to repository..."
-          
+
           # Configure git
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          
+
           # Create and checkout new branch
           git checkout -b "$BRANCH_NAME"
-          
+
           # Add only the version change
-          git add ts/package.json
-          
+          git add ts-web/package.json
+
           # Commit the version change
-          COMMIT_MSG="chore: update TypeScript SDK version to $VERSION
+          COMMIT_MSG="chore: update TypeScript SDK (Web) version to $VERSION
 
           After successful deployment to npm registry via OIDC.
-          Tag: ts/v$VERSION
+          Tag: ts-web/v$VERSION
 
           🤖 Generated with [Claude Code](https://claude.ai/code)
 
           Co-Authored-By: Claude <noreply@anthropic.com>"
           git commit -m "$COMMIT_MSG"
-          
+
           # Push the branch
           git push origin "$BRANCH_NAME"
-          
+
           # Create PR using GitHub CLI
           PR_BODY="## Summary
-          Updates TypeScript SDK version to $VERSION after successful npm deployment via OIDC.
+          Updates TypeScript SDK (Web) version to $VERSION after successful npm deployment via OIDC.
 
           ## Details
           - Package successfully published to npm registry using OIDC Trusted Publishing
           - Provenance attestations automatically generated
           - No long-lived tokens used (secure OIDC authentication)
-          - Version updated in \`ts/package.json\`
-          - Triggered by tag: \`ts/v$VERSION\`
+          - Version updated in \`ts-web/package.json\`
+          - Triggered by tag: \`ts-web/v$VERSION\`
 
           ## Security
           - ✅ Published via OIDC (no npm tokens)
@@ -196,11 +196,11 @@ jobs:
           - [ ] Merged to main branch
 
           🤖 Generated with [Claude Code](https://claude.ai/code)"
-          
+
           gh pr create \
-            --title "chore: update TypeScript SDK version to $VERSION" \
+            --title "chore: update TypeScript SDK (Web) version to $VERSION" \
             --body "$PR_BODY" \
             --base master \
             --head "$BRANCH_NAME"
-          
+
           echo "✅ PR created successfully!"

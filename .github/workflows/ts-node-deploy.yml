@@ -1,0 +1,206 @@
+name: Deploy TypeScript SDK (Node) to npm via OIDC Trusted Publishing
+
+# Triggers on tags like ts-node/v1.0.0, ts-node/v2.1.3, etc.
+# Uses npm Trusted Publishing (OIDC) - no long-lived tokens required!
+# Requires npm CLI >= 11.5.1 and one-time trusted publisher config on npmjs.com
+on:
+  push:
+    tags:
+      - 'ts-node/v*.*.*'
+
+  # Allows manual workflow dispatch
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to publish (e.g., 1.2.3)'
+        required: true
+        type: string
+
+permissions:
+  contents: write  # For committing version changes back to repository
+  id-token: write  # CRITICAL: Required for OIDC authentication with npm
+  pull-requests: write  # For creating PR after successful deployment
+
+jobs:
+  npm-deploy:
+    runs-on: ubuntu-latest  # Must use GitHub-hosted runner (self-hosted not supported for OIDC)
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'  # Required for OIDC authentication
+
+      - name: Upgrade npm to support OIDC
+        run: |
+          echo "Current npm version: $(npm --version)"
+          npm install -g npm@latest
+          echo "Updated npm version: $(npm --version)"
+          echo "Note: OIDC requires npm >= 11.5.1"
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            .yarn/cache
+            ts-node/node_modules
+          key: ${{ runner.os }}-ts-node-deps-${{ hashFiles('yarn.lock', 'ts-node/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-ts-node-deps-
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Setup buf CLI (required for protobuf generation)
+        uses: bufbuild/buf-setup-action@v1
+        with:
+          github_token: ${{ github.token }}
+
+      - name: Generate TypeScript code from protobuf
+        run: ./dev/tool.sh generate --targets=typescript
+
+      - name: Run TypeScript tests (early validation)
+        working-directory: ./ts-node
+        run: |
+          echo "🧪 Running TypeScript tests..."
+          yarn test
+
+      - name: Run TypeScript linting (early validation)
+        working-directory: ./ts-node
+        run: |
+          echo "🔍 Linting TypeScript code..."
+          yarn lint
+
+      - name: Extract version from tag or input
+        id: version
+        run: |
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            # Extract version from ts-node/v*.*.* tag (e.g., ts-node/v1.2.3 -> 1.2.3)
+            VERSION=$(echo "${{ github.ref_name }}" | sed 's/^ts-node\/v//')
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
+            echo "Extracted version from tag: $VERSION"
+          else
+            # Use version from manual workflow dispatch input
+            VERSION="${{ inputs.version }}"
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
+            echo "Using manual version input: $VERSION"
+          fi
+
+      - name: Update package.json version
+        working-directory: ./ts-node
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          echo "Setting TypeScript package version to: $VERSION"
+          # Use yarn version - the native and safe way to update package.json
+          yarn version --new-version "$VERSION" --no-git-tag-version
+          echo "Updated package.json version:"
+          grep '"version":' package.json
+
+      - name: Build TypeScript SDK
+        working-directory: ./ts-node
+        run: |
+          echo "🏗️ Building TypeScript SDK (Node)..."
+          yarn build
+
+      - name: Verify build artifacts
+        working-directory: ./ts-node
+        run: |
+          echo "✅ Verifying build artifacts..."
+          ls -la dist/ | head -10
+
+      - name: Publish to npm via OIDC Trusted Publishing
+        working-directory: ./ts-node
+        run: |
+          echo "🚀 Publishing to npm via OIDC Trusted Publishing..."
+          echo "npm version: $(npm --version)"
+          # OIDC handles authentication automatically - no tokens needed!
+          # Provenance attestations are automatically generated with trusted publishing
+          npm publish --access public
+
+      - name: Success notification
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          echo ""
+          echo "############################################################"
+          echo "#                                                          #"
+          echo "#  🎉 TypeScript SDK (Node) v$VERSION published! 🔐      #"
+          echo "#                                                          #"
+          echo "#  Package: @meshtrade/api-node@$VERSION                  #"
+          echo "#  Registry: https://www.npmjs.com/package/@meshtrade/api-node #"
+          echo "#  Provenance: ✅ Automatically generated                  #"
+          echo "#  Authentication: OIDC (no long-lived tokens!)           #"
+          echo "#                                                          #"
+          echo "############################################################"
+
+      - name: Create PR with version update
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          BRANCH_NAME="chore/npm-ts-node-version-update-$VERSION"
+
+          echo "📝 Creating PR to commit version $VERSION back to repository..."
+
+          # Configure git
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Create and checkout new branch
+          git checkout -b "$BRANCH_NAME"
+
+          # Add only the version change
+          git add ts-node/package.json
+
+          # Commit the version change
+          COMMIT_MSG="chore: update TypeScript SDK (Node) version to $VERSION
+
+          After successful deployment to npm registry via OIDC.
+          Tag: ts-node/v$VERSION
+
+          🤖 Generated with [Claude Code](https://claude.ai/code)
+
+          Co-Authored-By: Claude <noreply@anthropic.com>"
+          git commit -m "$COMMIT_MSG"
+
+          # Push the branch
+          git push origin "$BRANCH_NAME"
+
+          # Create PR using GitHub CLI
+          PR_BODY="## Summary
+          Updates TypeScript SDK (Node) version to $VERSION after successful npm deployment via OIDC.
+
+          ## Details
+          - Package successfully published to npm registry using OIDC Trusted Publishing
+          - Provenance attestations automatically generated
+          - No long-lived tokens used (secure OIDC authentication)
+          - Version updated in \`ts-node/package.json\`
+          - Triggered by tag: \`ts-node/v$VERSION\`
+
+          ## Security
+          - ✅ Published via OIDC (no npm tokens)
+          - ✅ Provenance attestations included
+          - ✅ Short-lived, workflow-specific credentials
+
+          ## Checklist
+          - [x] Version updated to match published package
+          - [x] Package successfully deployed to npm
+          - [x] OIDC authentication successful
+          - [ ] Merged to main branch
+
+          🤖 Generated with [Claude Code](https://claude.ai/code)"
+
+          gh pr create \
+            --title "chore: update TypeScript SDK (Node) version to $VERSION" \
+            --body "$PR_BODY" \
+            --base master \
+            --head "$BRANCH_NAME"
+
+          echo "✅ PR created successfully!"
