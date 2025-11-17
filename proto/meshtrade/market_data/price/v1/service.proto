@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package meshtrade.market_data.price.v1;
+
+import "buf/validate/validate.proto";
+import "meshtrade/market_data/price/v1/price.proto";
+import "meshtrade/option/method_options/v1/method_options.proto";
+import "meshtrade/type/v1/token.proto";
+
+option go_package = "github.com/meshtrade/api/go/market_data/price/v1;price_v1";
+option java_package = "co.meshtrade.api.market_data.price.v1";
+
+/*
+   PriceService provides prices.
+*/
+service PriceService {
+  rpc GetCurrentPriceByTokenPair(GetCurrentPriceByTokenPairRequest) returns (meshtrade.market_data.price.v1.Price) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
+      roles: [
+        ROLE_MARKET_DATA_ADMIN,
+        ROLE_MARKET_DATA_VIEWER,
+        ROLE_MARKET_DATA_PRICE_ADMIN,
+        ROLE_MARKET_DATA_PRICE_VIEWER
+      ]
+    };
+  }
+}
+
+message GetCurrentPriceByTokenPairRequest {
+  /*
+     BaseToken is the token for which a price is rquired.
+  */
+  meshtrade.type.v1.Token base_token = 1 [(buf.validate.field) = {required: true}];
+
+  /*
+     QuoteToken is the token in which price is to be quoted.
+  */
+  meshtrade.type.v1.Token quote_token = 2 [(buf.validate.field) = {required: true}];
+}

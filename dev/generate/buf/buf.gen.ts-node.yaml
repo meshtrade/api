@@ -1,0 +1,12 @@
+# TypeScript Node code generation configuration
+version: v2
+
+plugins:
+  - remote: buf.build/bufbuild/es:v2.10.1
+    out: ./ts-node/src
+    opt:
+      - target=ts
+    include_imports: true
+  - local: ["node", "./tool/protoc-gen-mesh_ts_node/dist/index.js"]
+    out: ./ts-node/src
+    strategy: all

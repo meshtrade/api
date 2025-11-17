@@ -13,7 +13,7 @@ func main() {
 	// Default configuration is used and credentials come from MESH_API_CREDENTIALS
 	// environment variable or default discovery methods. Zero config required
 	// unless you want custom configuration.
-	service, err := api_userv1.NewApiUserService()
+	service, err := api_userv1.NewAPIUserService()
 	if err != nil {
 		log.Fatalf("Failed to create service: %v", err)
 	}

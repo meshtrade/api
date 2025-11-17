@@ -29,11 +29,17 @@ type UserService interface {
 	// to perform operations that require the revoked role.
 	RevokeRolesFromUser(ctx context.Context, request *RevokeRolesFromUserRequest) (*User, error)
 
-	// Retrieves a single user by its unique identifier.
+	// Retrieves a single user by their unique identifier.
 	//
 	// Returns user details including name, email, ownership information,
 	// and assigned roles within the authenticated group's access scope.
 	GetUser(ctx context.Context, request *GetUserRequest) (*User, error)
+
+	// Retrieves a single user by their email address.
+	//
+	// Returns user details including name, email, ownership information,
+	// and assigned roles within the authenticated group's access scope.
+	GetUserByEmail(ctx context.Context, request *GetUserByEmailRequest) (*User, error)
 
 	// Returns all users accessible within the authenticated group's hierarchy.
 	//

@@ -78,11 +78,34 @@ type ServiceIndexData struct {
 type MethodDocData struct {
 	Name               string
 	Description        string
+	FQN                string // Fully qualified method name (package.Service.Method)
+
+	// Method Options (from method_options extension)
+	MethodType         string
+	AccessLevel        string
+	Roles              []string // Structured roles for iteration in template
+
+	// Legacy string formats (keep for backward compatibility during migration)
 	RolesStr           string
 	ParametersStr      string
+
+	// Request/Response Information
+	RequestType        string
+	ResponseType       string
 	Returns            string
-	MethodType         string
+	RequestMessage     string   // Fully qualified request message name
+	ResponseMessage    string   // Fully qualified response message name
+	Parameters         []FieldTemplateData // Structured parameters for table generation
+	ResponseFields     []FieldTemplateData // Structured response fields for table generation (when not a resource)
+
+	// Return Type Classification
+	IsResourceReturn   bool     // True if returns a domain resource
+	ReturnTypeURL      string   // Generated URL for resource type documentation
+
+	// Streaming
 	IsServerStreaming  bool
+
+	// Context for navigation
 	ProtoPath          string
 	Domain             string
 	DomainTitle        string
@@ -199,11 +222,12 @@ type TypeTemplateData struct {
 }
 
 type FieldTemplateData struct {
-	Name        string
-	Type        string
-	Description string
-	Required    bool
-	Validation  string
+	Name         string
+	Type         string
+	Description  string
+	Required     bool
+	Validation   string
+	NestedFields []FieldTemplateData // For inline message types, contains the nested field structure
 }
 
 type EnumValueTemplateData struct {

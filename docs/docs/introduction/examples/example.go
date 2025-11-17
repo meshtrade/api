@@ -9,21 +9,21 @@ import (
 
 func main() {
 	// 1. Construct API User Service
-	service, err := api_userv1.NewApiUserService()
+	service, err := api_userv1.NewAPIUserService()
 	if err != nil {
 		log.Fatalf("Failed to create service: %v", err)
 	}
 	defer service.Close()
 
 	// 2. Call Search API Users Method
-	response, err := service.SearchApiUsers(
+	response, err := service.SearchAPIUsers(
 		context.Background(),
-		&api_userv1.SearchApiUsersRequest{DisplayName: "New Key"},
+		&api_userv1.SearchAPIUsersRequest{DisplayName: "New Key"},
 	)
 	if err != nil {
-		log.Fatalf("SearchApiUsers failed: %v", err)
+		log.Fatalf("SearchAPIUsers failed: %v", err)
 	}
 
 	// 3. Use response
-	log.Printf("SearchApiUsers successful: %+v", response)
+	log.Printf("SearchAPIUsers successful: %+v", response)
 }

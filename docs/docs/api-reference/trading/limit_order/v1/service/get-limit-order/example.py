@@ -17,10 +17,10 @@ def main():
         )
 
         # Call the GetLimitOrder method
-        order = service.get_limit_order(request)
+        limit_order = service.get_limit_order(request)
 
         # FIXME: Add relevant response object usage
-        print("GetLimitOrder successful:", order)
+        print("GetLimitOrder successful:", limit_order)
 
 
 if __name__ == "__main__":

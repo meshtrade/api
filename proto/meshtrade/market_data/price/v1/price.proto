@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package meshtrade.market_data.price.v1;
+
+import "google/protobuf/timestamp.proto";
+import "meshtrade/type/v1/decimal.proto";
+import "meshtrade/type/v1/token.proto";
+
+option go_package = "github.com/meshtrade/api/go/market_data/price/v1;price_v1";
+option java_package = "co.meshtrade.api.market_data.price.v1";
+
+/*
+   Is a Price
+*/
+message Price {
+  /*
+     BaseToken
+  */
+  
+  meshtrade.type.v1.Token base_token = 1;
+  /*
+     QuoteToken
+  */
+  meshtrade.type.v1.Token quote_token = 2;
+
+  /*
+     Mid price in quote
+  */
+  meshtrade.type.v1.Decimal mid_price = 3;
+
+  /*
+     Time of Price
+  */
+  google.protobuf.Timestamp time = 4;
+}

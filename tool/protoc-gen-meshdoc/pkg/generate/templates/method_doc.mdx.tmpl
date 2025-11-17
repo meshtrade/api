@@ -13,7 +13,10 @@ import PythonExample from '!!raw-loader!./example.py';
 import JavaExample from '!!raw-loader!./example.java';
 import Proto from '!!raw-loader!../../../../../../../../proto/{{.ProtoPath}}';
 
+{/* Comment block from the method: `{{.FQN}}` */}
+{{escapeCurly .Description}}
 {{if .IsServerStreaming}}
+
 :::info Server-Side Streaming Method
 This method uses **server-side streaming**, meaning it returns multiple responses over time rather than a single response. The server sends a stream of responses to the client, and the client processes each response as it arrives.
 
@@ -27,33 +30,174 @@ See the code examples below for language-specific streaming consumption patterns
 :::
 {{end}}
 
-## Method Details
+<Tabs>
 
-**Description:** {{escapeCurly .Description}}
+{/* 'Nice' Human readable overview of `{{.FQN}}` method details */}
+<TabItem value="human-readable" label="Overview">
 
-**Required Roles:** {{.RolesStr}}
+## Method Options
+Authorisation specification of the `{{.Name}}` method.
 
-**Parameters:**
-{{.ParametersStr}}
+{/* Parsed from `{{.FQN}}.meshtrade.option.method_options.v1.method_options` */}
+<table>
+  <tbody>
+    <tr>
+      <th scope="row" style={{"{{"}}textAlign: "left"{{"}}"}}>Type</th>
+      <td>`{{.MethodType}}`</td>
+    </tr>
+    <tr>
+      <th scope="row" style={{"{{"}}textAlign: "left"{{"}}"}}>Access Level</th>
+      <td>`{{.AccessLevel}}`</td>
+    </tr>
+    <tr>
+      <th scope="row" style={{"{{"}}textAlign: "left"{{"}}"}}>Roles</th>
+      <td>
+        <ul>
+{{- range .Roles}}
+            <li>`{{.}}`</li>
+{{- end}}
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-**Returns:** {{if .IsServerStreaming}}Stream of {{.Returns}} (server-streaming){{else}}{{.Returns}}{{end}}
+## Parameters
+Request and response parameter message overview:
 
-**Method Type:** {{.MethodType}}
+### Input: `{{.RequestType}}` Message
+
+{/* Parsed from `{{.RequestMessage}}` */}
+{{- if .Parameters}}
+<table>
+  <thead>
+    <tr>
+      <th scope="col">Field</th>
+      <th scope="col">Type</th>
+      <th scope="col">Required</th>
+      <th scope="col">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+{{- range .Parameters}}
+    <tr>
+      <td>`{{.Name}}`</td>
+      <td>
+{{- if .NestedFields}}
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Field</th>
+              <th scope="col">Type</th>
+              <th scope="col">Required</th>
+              <th scope="col">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+{{- range .NestedFields}}
+            <tr>
+              <td>`{{.Name}}`</td>
+              <td>`{{.Type}}`</td>
+              <td>{{if .Required}}True{{else}}False{{end}}</td>
+              <td>{{escapeCurly .Description}}</td>
+            </tr>
+{{- end}}
+          </tbody>
+        </table>
+{{- else}}
+        `{{.Type}}`
+{{- end}}
+      </td>
+      <td>{{if .Required}}True{{else}}False{{end}}</td>
+      <td>
+     {{escapeCurly .Description}}
+      </td>
+    </tr>
+{{- end}}
+  </tbody>
+</table>
+{{- else}}
+No parameters required.
+{{- end}}
+
+{{- if .IsResourceReturn}}
+{/* Response is the {{.Returns}} 'resource' message - so just 1 line with link */}
+### Returns: [`{{.Returns}} Message`]({{.ReturnTypeURL}})
+{{- else}}
+### Returns: `{{.Returns}}` Message
+
+{/* Response is a response object - show full field table */}
+{{- if .ResponseFields}}
+<table>
+  <thead>
+    <tr>
+      <th scope="col">Field</th>
+      <th scope="col">Type</th>
+      <th scope="col">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+{{- range .ResponseFields}}
+    <tr>
+      <td>`{{.Name}}`</td>
+      <td>
+{{- if .NestedFields}}
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Field</th>
+              <th scope="col">Type</th>
+              <th scope="col">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+{{- range .NestedFields}}
+            <tr>
+              <td>`{{.Name}}`</td>
+              <td>`{{.Type}}`</td>
+              <td>{{escapeCurly .Description}}</td>
+            </tr>
+{{- end}}
+          </tbody>
+        </table>
+{{- else}}
+        `{{.Type}}`
+{{- end}}
+      </td>
+      <td>
+     {{escapeCurly .Description}}
+      </td>
+    </tr>
+{{- end}}
+  </tbody>
+</table>
+{{- else}}
+No response fields documented.
+{{- end}}
+{{- end}}
+
+</TabItem>
+
+{/* full raw {{.ProtoPath}} file containing the {{.FQN}} method */}
+<TabItem value="protobuf" label="Protobuf">
+  <CodeBlock language="protobuf">{Proto}</CodeBlock>
+</TabItem>
+
+</Tabs>
 
 ## Code Examples
 
+Select supported SDK in the language of your choice for a full example of how to invoke the this method:
+
 <Tabs>
 <TabItem value="go" label="Go">
-<CodeBlock language="go">{GoExample}</CodeBlock>
+  <CodeBlock language="go">{GoExample}</CodeBlock>
 </TabItem>
 <TabItem value="python" label="Python">
-<CodeBlock language="python">{PythonExample}</CodeBlock>
+  <CodeBlock language="python">{PythonExample}</CodeBlock>
 </TabItem>
 <TabItem value="java" label="Java">
-<CodeBlock language="java">{JavaExample}</CodeBlock>
-</TabItem>
-<TabItem value="protobuf" label="Protobuf">
-<CodeBlock language="protobuf">{Proto}</CodeBlock>
+  <CodeBlock language="java">{JavaExample}</CodeBlock>
 </TabItem>
 </Tabs>
 

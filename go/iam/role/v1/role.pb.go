@@ -9,7 +9,6 @@ package role_v1
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	descriptorpb "google.golang.org/protobuf/types/descriptorpb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -31,37 +30,41 @@ type Role int32
 const (
 	// The default value, indicating the role is unknown or not specified.
 	// This should be treated as an error and not be used explicitly.
-	Role_ROLE_UNSPECIFIED                    Role = 0
-	Role_ROLE_WALLET_ADMIN                   Role = 1000000
-	Role_ROLE_WALLET_VIEWER                  Role = 1000001
-	Role_ROLE_WALLET_ACCOUNT_ADMIN           Role = 1000002
-	Role_ROLE_WALLET_ACCOUNT_VIEWER          Role = 1000003
-	Role_ROLE_COMPLIANCE_ADMIN               Role = 2000000
-	Role_ROLE_COMPLIANCE_VIEWER              Role = 2000001
-	Role_ROLE_COMPLIANCE_CLIENT_ADMIN        Role = 2000002
-	Role_ROLE_COMPLIANCE_CLIENT_VIEWER       Role = 2000003
-	Role_ROLE_IAM_ADMIN                      Role = 3000000
-	Role_ROLE_IAM_VIEWER                     Role = 3000001
-	Role_ROLE_IAM_API_USER_ADMIN             Role = 3000002
-	Role_ROLE_IAM_API_USER_VIEWER            Role = 3000003
-	Role_ROLE_IAM_GROUP_ADMIN                Role = 3000004
-	Role_ROLE_IAM_GROUP_VIEWER               Role = 3000005
-	Role_ROLE_IAM_USER_ADMIN                 Role = 3000006
-	Role_ROLE_IAM_USER_VIEWER                Role = 3000007
-	Role_ROLE_STUDIO_ADMIN                   Role = 4000000
-	Role_ROLE_STUDIO_VIEWER                  Role = 4000001
-	Role_ROLE_STUDIO_INSTRUMENT_ADMIN        Role = 4000002
-	Role_ROLE_STUDIO_INSTRUMENT_VIEWER       Role = 4000003
-	Role_ROLE_TRADING_ADMIN                  Role = 5000000
-	Role_ROLE_TRADING_VIEWER                 Role = 5000001
-	Role_ROLE_REPORTING_ADMIN                Role = 6000000
-	Role_ROLE_REPORTING_VIEWER               Role = 6000001
-	Role_ROLE_LEDGER_ADMIN                   Role = 7000000
-	Role_ROLE_LEDGER_VIEWER                  Role = 7000001
-	Role_ROLE_LEDGER_TRANSACTION_ADMIN       Role = 7000002
-	Role_ROLE_LEDGER_TRANSACTION_VIEWER      Role = 7000003
-	Role_ROLE_MARKET_INDICATIVE_PRICE_ADMIN  Role = 8000000
-	Role_ROLE_MARKET_INDICATIVE_PRICE_VIEWER Role = 8000001
+	Role_ROLE_UNSPECIFIED                Role = 0
+	Role_ROLE_WALLET_ADMIN               Role = 1000000
+	Role_ROLE_WALLET_VIEWER              Role = 1000001
+	Role_ROLE_WALLET_ACCOUNT_ADMIN       Role = 1000002
+	Role_ROLE_WALLET_ACCOUNT_VIEWER      Role = 1000003
+	Role_ROLE_COMPLIANCE_ADMIN           Role = 2000000
+	Role_ROLE_COMPLIANCE_VIEWER          Role = 2000001
+	Role_ROLE_COMPLIANCE_CLIENT_ADMIN    Role = 2000002
+	Role_ROLE_COMPLIANCE_CLIENT_VIEWER   Role = 2000003
+	Role_ROLE_IAM_ADMIN                  Role = 3000000
+	Role_ROLE_IAM_VIEWER                 Role = 3000001
+	Role_ROLE_IAM_API_USER_ADMIN         Role = 3000002
+	Role_ROLE_IAM_API_USER_VIEWER        Role = 3000003
+	Role_ROLE_IAM_GROUP_ADMIN            Role = 3000004
+	Role_ROLE_IAM_GROUP_VIEWER           Role = 3000005
+	Role_ROLE_IAM_USER_ADMIN             Role = 3000006
+	Role_ROLE_IAM_USER_VIEWER            Role = 3000007
+	Role_ROLE_STUDIO_ADMIN               Role = 4000000
+	Role_ROLE_STUDIO_VIEWER              Role = 4000001
+	Role_ROLE_STUDIO_INSTRUMENT_ADMIN    Role = 4000002
+	Role_ROLE_STUDIO_INSTRUMENT_VIEWER   Role = 4000003
+	Role_ROLE_TRADING_ADMIN              Role = 5000000
+	Role_ROLE_TRADING_VIEWER             Role = 5000001
+	Role_ROLE_TRADING_LIMIT_ORDER_ADMIN  Role = 5000002
+	Role_ROLE_TRADING_LIMIT_ORDER_VIEWER Role = 5000003
+	Role_ROLE_REPORTING_ADMIN            Role = 6000000
+	Role_ROLE_REPORTING_VIEWER           Role = 6000001
+	Role_ROLE_LEDGER_ADMIN               Role = 7000000
+	Role_ROLE_LEDGER_VIEWER              Role = 7000001
+	Role_ROLE_LEDGER_TRANSACTION_ADMIN   Role = 7000002
+	Role_ROLE_LEDGER_TRANSACTION_VIEWER  Role = 7000003
+	Role_ROLE_MARKET_DATA_ADMIN          Role = 8000000
+	Role_ROLE_MARKET_DATA_VIEWER         Role = 8000001
+	Role_ROLE_MARKET_DATA_PRICE_ADMIN    Role = 8000002
+	Role_ROLE_MARKET_DATA_PRICE_VIEWER   Role = 8000003
 )
 
 // Enum value maps for Role.
@@ -90,47 +93,55 @@ var (
 		4000003: "ROLE_STUDIO_INSTRUMENT_VIEWER",
 		5000000: "ROLE_TRADING_ADMIN",
 		5000001: "ROLE_TRADING_VIEWER",
+		5000002: "ROLE_TRADING_LIMIT_ORDER_ADMIN",
+		5000003: "ROLE_TRADING_LIMIT_ORDER_VIEWER",
 		6000000: "ROLE_REPORTING_ADMIN",
 		6000001: "ROLE_REPORTING_VIEWER",
 		7000000: "ROLE_LEDGER_ADMIN",
 		7000001: "ROLE_LEDGER_VIEWER",
 		7000002: "ROLE_LEDGER_TRANSACTION_ADMIN",
 		7000003: "ROLE_LEDGER_TRANSACTION_VIEWER",
-		8000000: "ROLE_MARKET_INDICATIVE_PRICE_ADMIN",
-		8000001: "ROLE_MARKET_INDICATIVE_PRICE_VIEWER",
+		8000000: "ROLE_MARKET_DATA_ADMIN",
+		8000001: "ROLE_MARKET_DATA_VIEWER",
+		8000002: "ROLE_MARKET_DATA_PRICE_ADMIN",
+		8000003: "ROLE_MARKET_DATA_PRICE_VIEWER",
 	}
 	Role_value = map[string]int32{
-		"ROLE_UNSPECIFIED":                    0,
-		"ROLE_WALLET_ADMIN":                   1000000,
-		"ROLE_WALLET_VIEWER":                  1000001,
-		"ROLE_WALLET_ACCOUNT_ADMIN":           1000002,
-		"ROLE_WALLET_ACCOUNT_VIEWER":          1000003,
-		"ROLE_COMPLIANCE_ADMIN":               2000000,
-		"ROLE_COMPLIANCE_VIEWER":              2000001,
-		"ROLE_COMPLIANCE_CLIENT_ADMIN":        2000002,
-		"ROLE_COMPLIANCE_CLIENT_VIEWER":       2000003,
-		"ROLE_IAM_ADMIN":                      3000000,
-		"ROLE_IAM_VIEWER":                     3000001,
-		"ROLE_IAM_API_USER_ADMIN":             3000002,
-		"ROLE_IAM_API_USER_VIEWER":            3000003,
-		"ROLE_IAM_GROUP_ADMIN":                3000004,
-		"ROLE_IAM_GROUP_VIEWER":               3000005,
-		"ROLE_IAM_USER_ADMIN":                 3000006,
-		"ROLE_IAM_USER_VIEWER":                3000007,
-		"ROLE_STUDIO_ADMIN":                   4000000,
-		"ROLE_STUDIO_VIEWER":                  4000001,
-		"ROLE_STUDIO_INSTRUMENT_ADMIN":        4000002,
-		"ROLE_STUDIO_INSTRUMENT_VIEWER":       4000003,
-		"ROLE_TRADING_ADMIN":                  5000000,
-		"ROLE_TRADING_VIEWER":                 5000001,
-		"ROLE_REPORTING_ADMIN":                6000000,
-		"ROLE_REPORTING_VIEWER":               6000001,
-		"ROLE_LEDGER_ADMIN":                   7000000,
-		"ROLE_LEDGER_VIEWER":                  7000001,
-		"ROLE_LEDGER_TRANSACTION_ADMIN":       7000002,
-		"ROLE_LEDGER_TRANSACTION_VIEWER":      7000003,
-		"ROLE_MARKET_INDICATIVE_PRICE_ADMIN":  8000000,
-		"ROLE_MARKET_INDICATIVE_PRICE_VIEWER": 8000001,
+		"ROLE_UNSPECIFIED":                0,
+		"ROLE_WALLET_ADMIN":               1000000,
+		"ROLE_WALLET_VIEWER":              1000001,
+		"ROLE_WALLET_ACCOUNT_ADMIN":       1000002,
+		"ROLE_WALLET_ACCOUNT_VIEWER":      1000003,
+		"ROLE_COMPLIANCE_ADMIN":           2000000,
+		"ROLE_COMPLIANCE_VIEWER":          2000001,
+		"ROLE_COMPLIANCE_CLIENT_ADMIN":    2000002,
+		"ROLE_COMPLIANCE_CLIENT_VIEWER":   2000003,
+		"ROLE_IAM_ADMIN":                  3000000,
+		"ROLE_IAM_VIEWER":                 3000001,
+		"ROLE_IAM_API_USER_ADMIN":         3000002,
+		"ROLE_IAM_API_USER_VIEWER":        3000003,
+		"ROLE_IAM_GROUP_ADMIN":            3000004,
+		"ROLE_IAM_GROUP_VIEWER":           3000005,
+		"ROLE_IAM_USER_ADMIN":             3000006,
+		"ROLE_IAM_USER_VIEWER":            3000007,
+		"ROLE_STUDIO_ADMIN":               4000000,
+		"ROLE_STUDIO_VIEWER":              4000001,
+		"ROLE_STUDIO_INSTRUMENT_ADMIN":    4000002,
+		"ROLE_STUDIO_INSTRUMENT_VIEWER":   4000003,
+		"ROLE_TRADING_ADMIN":              5000000,
+		"ROLE_TRADING_VIEWER":             5000001,
+		"ROLE_TRADING_LIMIT_ORDER_ADMIN":  5000002,
+		"ROLE_TRADING_LIMIT_ORDER_VIEWER": 5000003,
+		"ROLE_REPORTING_ADMIN":            6000000,
+		"ROLE_REPORTING_VIEWER":           6000001,
+		"ROLE_LEDGER_ADMIN":               7000000,
+		"ROLE_LEDGER_VIEWER":              7000001,
+		"ROLE_LEDGER_TRANSACTION_ADMIN":   7000002,
+		"ROLE_LEDGER_TRANSACTION_VIEWER":  7000003,
+		"ROLE_MARKET_DATA_ADMIN":          8000000,
+		"ROLE_MARKET_DATA_VIEWER":         8000001,
+		"ROLE_MARKET_DATA_PRICE_ADMIN":    8000002,
+		"ROLE_MARKET_DATA_PRICE_VIEWER":   8000003,
 	}
 )
 
@@ -160,81 +171,6 @@ func (x Role) Number() protoreflect.EnumNumber {
 func (Role) EnumDescriptor() ([]byte, []int) {
 	return file_meshtrade_iam_role_v1_role_proto_rawDescGZIP(), []int{0}
 }
-
-type RoleList struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Roles         []Role                 `protobuf:"varint,1,rep,packed,name=roles,proto3,enum=meshtrade.iam.role.v1.Role" json:"roles,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *RoleList) Reset() {
-	*x = RoleList{}
-	mi := &file_meshtrade_iam_role_v1_role_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *RoleList) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*RoleList) ProtoMessage() {}
-
-func (x *RoleList) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_iam_role_v1_role_proto_msgTypes[0]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RoleList.ProtoReflect.Descriptor instead.
-func (*RoleList) Descriptor() ([]byte, []int) {
-	return file_meshtrade_iam_role_v1_role_proto_rawDescGZIP(), []int{0}
-}
-
-func (x *RoleList) GetRoles() []Role {
-	if x != nil {
-		return x.Roles
-	}
-	return nil
-}
-
-var file_meshtrade_iam_role_v1_role_proto_extTypes = []protoimpl.ExtensionInfo{
-	{
-		ExtendedType:  (*descriptorpb.MessageOptions)(nil),
-		ExtensionType: (*RoleList)(nil),
-		Field:         50006,
-		Name:          "meshtrade.iam.role.v1.message_roles",
-		Tag:           "bytes,50006,opt,name=message_roles",
-		Filename:      "meshtrade/iam/role/v1/role.proto",
-	},
-	{
-		ExtendedType:  (*descriptorpb.MethodOptions)(nil),
-		ExtensionType: (*RoleList)(nil),
-		Field:         50005,
-		Name:          "meshtrade.iam.role.v1.roles",
-		Tag:           "bytes,50005,opt,name=roles",
-		Filename:      "meshtrade/iam/role/v1/role.proto",
-	},
-}
-
-// Extension fields to descriptorpb.MessageOptions.
-var (
-	// optional meshtrade.iam.role.v1.RoleList message_roles = 50006;
-	E_MessageRoles = &file_meshtrade_iam_role_v1_role_proto_extTypes[0]
-)
-
-// Extension fields to descriptorpb.MethodOptions.
-var (
-	// optional meshtrade.iam.role.v1.RoleList roles = 50005;
-	E_Roles = &file_meshtrade_iam_role_v1_role_proto_extTypes[1]
-)
 
 var File_meshtrade_iam_role_v1_role_proto protoreflect.FileDescriptor
 
@@ -266,7 +202,9 @@ const file_meshtrade_iam_role_v1_role_proto_rawDesc = "" +
 	"\x1cROLE_STUDIO_INSTRUMENT_ADMIN\x10\x82\x92\xf4\x01\x12$\n" +
 	"\x1dROLE_STUDIO_INSTRUMENT_VIEWER\x10\x83\x92\xf4\x01\x12\x19\n" +
 	"\x12ROLE_TRADING_ADMIN\x10\xc0\x96\xb1\x02\x12\x1a\n" +
-	"\x13ROLE_TRADING_VIEWER\x10\xc1\x96\xb1\x02\x12\x1b\n" +
+	"\x13ROLE_TRADING_VIEWER\x10\xc1\x96\xb1\x02\x12%\n" +
+	"\x1eROLE_TRADING_LIMIT_ORDER_ADMIN\x10\u0096\xb1\x02\x12&\n" +
+	"\x1fROLE_TRADING_LIMIT_ORDER_VIEWER\x10Ö\xb1\x02\x12\x1b\n" +
 	"\x14ROLE_REPORTING_ADMIN\x10\x80\x9b\xee\x02\x12\x1c\n" +
 	"\x15ROLE_REPORTING_VIEWER\x10\x81\x9b\xee\x02\x12\x18\n" +
 	"\x11ROLE_LEDGER_ADMIN\x10\xc0\x9f\xab\x03\x12\x19\n" +
@@ -292,24 +230,15 @@ func file_meshtrade_iam_role_v1_role_proto_rawDescGZIP() []byte {
 }
 
 var file_meshtrade_iam_role_v1_role_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_meshtrade_iam_role_v1_role_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_meshtrade_iam_role_v1_role_proto_goTypes = []any{
-	(Role)(0),                           // 0: meshtrade.iam.role.v1.Role
-	(*RoleList)(nil),                    // 1: meshtrade.iam.role.v1.RoleList
-	(*descriptorpb.MessageOptions)(nil), // 2: google.protobuf.MessageOptions
-	(*descriptorpb.MethodOptions)(nil),  // 3: google.protobuf.MethodOptions
+	(Role)(0), // 0: meshtrade.iam.role.v1.Role
 }
 var file_meshtrade_iam_role_v1_role_proto_depIdxs = []int32{
-	0, // 0: meshtrade.iam.role.v1.RoleList.roles:type_name -> meshtrade.iam.role.v1.Role
-	2, // 1: meshtrade.iam.role.v1.message_roles:extendee -> google.protobuf.MessageOptions
-	3, // 2: meshtrade.iam.role.v1.roles:extendee -> google.protobuf.MethodOptions
-	1, // 3: meshtrade.iam.role.v1.message_roles:type_name -> meshtrade.iam.role.v1.RoleList
-	1, // 4: meshtrade.iam.role.v1.roles:type_name -> meshtrade.iam.role.v1.RoleList
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	3, // [3:5] is the sub-list for extension type_name
-	1, // [1:3] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	0, // [0:0] is the sub-list for method output_type
+	0, // [0:0] is the sub-list for method input_type
+	0, // [0:0] is the sub-list for extension type_name
+	0, // [0:0] is the sub-list for extension extendee
+	0, // [0:0] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_iam_role_v1_role_proto_init() }
@@ -323,15 +252,13 @@ func file_meshtrade_iam_role_v1_role_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_meshtrade_iam_role_v1_role_proto_rawDesc), len(file_meshtrade_iam_role_v1_role_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   1,
-			NumExtensions: 2,
+			NumMessages:   0,
+			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           file_meshtrade_iam_role_v1_role_proto_goTypes,
 		DependencyIndexes: file_meshtrade_iam_role_v1_role_proto_depIdxs,
 		EnumInfos:         file_meshtrade_iam_role_v1_role_proto_enumTypes,
-		MessageInfos:      file_meshtrade_iam_role_v1_role_proto_msgTypes,
-		ExtensionInfos:    file_meshtrade_iam_role_v1_role_proto_extTypes,
 	}.Build()
 	File_meshtrade_iam_role_v1_role_proto = out.File
 	file_meshtrade_iam_role_v1_role_proto_goTypes = nil

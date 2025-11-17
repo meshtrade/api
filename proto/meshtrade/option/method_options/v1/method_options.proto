@@ -1,0 +1,96 @@
+syntax = "proto3";
+
+package meshtrade.option.method_options.v1;
+
+import "google/protobuf/descriptor.proto";
+import "meshtrade/iam/role/v1/role.proto";
+
+option go_package = "github.com/meshtrade/api/go/option/method_options/v1;method_options_v1";
+option java_package = "co.meshtrade.api.option.method_options.v1";
+
+/*
+   MethodType classifies operations by their effect on system state.
+
+   READ: Safe, idempotent read operations.
+   Examples: Get, List, Search operations.
+
+   WRITE: Operations that modify state.
+   Examples: Create, Update, Delete, Activate, Deactivate operations.
+*/
+enum MethodType {
+  /*
+     Default value, should not be used. All methods must declare READ or WRITE.
+  */
+  METHOD_TYPE_UNSPECIFIED = 0;
+
+  /*
+     Safe, idempotent operation that does not change system state.
+     Typically granted to both *_ADMIN and *_VIEWER roles.
+  */
+  METHOD_TYPE_READ = 1;
+
+  /*
+     Operation that may change system state.
+     Typically granted only to *_ADMIN roles.
+  */
+  METHOD_TYPE_WRITE = 2;
+}
+
+/*
+   MethodAccessLevel defines authentication header requirements for API methods.
+
+   Specifies whether x-api-key and x-group headers are required and how executing
+   group context is determined. Controls anonymous access, authentication requirements,
+   and role authorization checks.
+*/
+enum MethodAccessLevel {
+  /*
+     Default value, should not be used.
+  */
+  METHOD_ACCESS_LEVEL_UNSPECIFIED = 0;
+
+  /*
+     x-api-key: optional (if provided must be valid and identify an active API user).
+     x-group: ignored
+
+     Allows unauthenticated access. If credentials provided, authentication and role checks enforced.
+  */
+  METHOD_ACCESS_LEVEL_PUBLIC = 1;
+
+  /*
+     x-api-key: required
+     x-group: required
+
+     Requires both valid API key and explicit group context. Most secure and explicit.
+  */
+  METHOD_ACCESS_LEVEL_AUTHORISED = 2;
+}
+
+/*
+   MethodOptions consolidates three authorization dimensions for RPC methods.
+*/
+message MethodOptions {
+  /*
+     Method type: READ for queries, WRITE for mutations.
+  */
+  MethodType type = 1;
+
+  /*
+     Access level: Defines authentication header requirements.
+     PUBLIC allows anonymous, AUTHORISED requires key + group.
+  */
+  MethodAccessLevel access_level = 2;
+
+  /*
+     Roles that grant access to this method.
+     Used for access control checking if group header is required and/or given.
+  */
+  repeated meshtrade.iam.role.v1.Role roles = 3;
+}
+
+/*
+   Extension for attaching MethodOptions to RPC methods.
+*/
+extend google.protobuf.MethodOptions {
+  MethodOptions method_options = 50006;
+}

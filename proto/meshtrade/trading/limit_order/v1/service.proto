@@ -2,25 +2,297 @@ syntax = "proto3";
 
 package meshtrade.trading.limit_order.v1;
 
-import "meshtrade/iam/role/v1/role.proto";
-import "meshtrade/option/v1/method_type.proto";
+import "buf/validate/validate.proto";
+import "meshtrade/option/method_options/v1/method_options.proto";
 import "meshtrade/trading/limit_order/v1/limit_order.proto";
 
 option go_package = "github.com/meshtrade/api/go/trading/limit_order/v1;limit_order_v1";
 option java_package = "co.meshtrade.api.trading.limit_order.v1";
 
+/*
+   LimitOrderService manages limit orders for trading operations (BETA).
+
+   This service provides comprehensive limit order management capabilities including
+   order creation, cancellation, querying, and real-time monitoring. All operations
+   are scoped to the authenticated group's hierarchy and require appropriate trading
+   domain permissions.
+
+   Note: This service is currently in BETA. Interface and functionality may change.
+*/
 service LimitOrderService {
-  rpc GetLimitOrder(GetLimitOrderRequest) returns (meshtrade.trading.limit_order.v1.LimitOrder) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
-    option (meshtrade.iam.role.v1.roles) = {
+  /*
+     Creates a new limit order.
+
+     Submits a limit order to the trading system. The order is validated and
+     submitted to the appropriate ledger for execution.
+  */
+  rpc CreateLimitOrder(CreateLimitOrderRequest) returns (LimitOrder) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_WRITE
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_TRADING_ADMIN,
-        ROLE_TRADING_VIEWER
+        ROLE_TRADING_LIMIT_ORDER_ADMIN
+      ]
+    };
+  }
+
+  /*
+     Cancels an existing limit order.
+
+     Initiates cancellation of a limit order on the ledger.
+  */
+  rpc CancelLimitOrder(CancelLimitOrderRequest) returns (LimitOrder) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_WRITE
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
+      roles: [
+        ROLE_TRADING_ADMIN,
+        ROLE_TRADING_LIMIT_ORDER_ADMIN
+      ]
+    };
+  }
+
+  /*
+     Retrieves a specific limit order by its resource name.
+
+     Provides access to limit order metadata and optionally fetches live
+     ledger data when populate_ledger_data is true.
+  */
+  rpc GetLimitOrder(GetLimitOrderRequest) returns (LimitOrder) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
+      roles: [
+        ROLE_TRADING_ADMIN,
+        ROLE_TRADING_VIEWER,
+        ROLE_TRADING_LIMIT_ORDER_ADMIN,
+        ROLE_TRADING_LIMIT_ORDER_VIEWER
+      ]
+    };
+  }
+
+  /*
+     Retrieves a limit order by its external reference.
+
+     Convenient lookup using client-provided external reference identifier.
+  */
+  rpc GetLimitOrderByExternalReference(GetLimitOrderByExternalReferenceRequest) returns (LimitOrder) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
+      roles: [
+        ROLE_TRADING_ADMIN,
+        ROLE_TRADING_VIEWER,
+        ROLE_TRADING_LIMIT_ORDER_ADMIN,
+        ROLE_TRADING_LIMIT_ORDER_VIEWER
+      ]
+    };
+  }
+
+  /*
+     Lists all limit orders within the authenticated group's scope.
+
+     Returns the complete set of limit orders accessible to the executing context.
+  */
+  rpc ListLimitOrders(ListLimitOrdersRequest) returns (ListLimitOrdersResponse) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
+      roles: [
+        ROLE_TRADING_ADMIN,
+        ROLE_TRADING_VIEWER,
+        ROLE_TRADING_LIMIT_ORDER_ADMIN,
+        ROLE_TRADING_LIMIT_ORDER_VIEWER
+      ]
+    };
+  }
+
+  /*
+     Searches limit orders using flexible filtering criteria.
+
+     Supports filtering by token, account, and populating live ledger data.
+  */
+  rpc SearchLimitOrders(SearchLimitOrdersRequest) returns (SearchLimitOrdersResponse) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
+      roles: [
+        ROLE_TRADING_ADMIN,
+        ROLE_TRADING_VIEWER,
+        ROLE_TRADING_LIMIT_ORDER_ADMIN,
+        ROLE_TRADING_LIMIT_ORDER_VIEWER
+      ]
+    };
+  }
+
+  /*
+     Monitors a limit order for real-time updates.
+
+     Supports lookup by either resource name or external reference using
+     the identifier oneof field in the request. Returns a stream of limit
+     order states as they change.
+  */
+  rpc MonitorLimitOrder(MonitorLimitOrderRequest) returns (stream LimitOrder) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
+      roles: [
+        ROLE_TRADING_ADMIN,
+        ROLE_TRADING_VIEWER,
+        ROLE_TRADING_LIMIT_ORDER_ADMIN,
+        ROLE_TRADING_LIMIT_ORDER_VIEWER
       ]
     };
   }
 }
 
+/*
+   Request to create a new limit order.
+*/
+message CreateLimitOrderRequest {
+  /*
+     The limit order configuration for creation.
+     The name field will be ignored and assigned by the system.
+  */
+  LimitOrder limit_order = 1 [(buf.validate.field) = {required: true}];
+}
+
+/*
+   Request to cancel a limit order.
+*/
+message CancelLimitOrderRequest {
+  /*
+     The resource name of the limit order to cancel.
+     Format: limit_orders/{ULIDv2}.
+  */
+  string name = 1 [(buf.validate.field) = {
+    required: true
+    string: {
+      len: 38
+      pattern: "^limit_orders/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+    }
+  }];
+}
+
+/*
+   Request to retrieve a limit order by name.
+*/
 message GetLimitOrderRequest {
-  string number = 1;
+  /*
+     The resource name of the limit order to retrieve.
+     Format: limit_orders/{ULIDv2}.
+  */
+  string name = 1 [(buf.validate.field) = {
+    required: true
+    string: {
+      len: 38
+      pattern: "^limit_orders/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+    }
+  }];
+
+  /*
+     When true, fetches live ledger data including fill status.
+     When false, returns only stored metadata.
+  */
+  bool live_ledger_data = 2;
+}
+
+/*
+   Request to retrieve a limit order by external reference.
+*/
+message GetLimitOrderByExternalReferenceRequest {
+  /*
+     The external reference identifier.
+  */
+  string external_reference = 1 [(buf.validate.field) = {required: true}];
+
+  /*
+     When true, fetches live ledger data including fill status.
+     When false, returns only stored metadata.
+  */
+  bool live_ledger_data = 2;
+}
+
+/*
+   Request to list all limit orders.
+*/
+message ListLimitOrdersRequest {
+  /*
+     When true, fetches live ledger data for all orders.
+     When false, returns only stored metadata.
+  */
+  bool live_ledger_data = 1;
+}
+
+/*
+   Response containing a list of limit orders.
+*/
+message ListLimitOrdersResponse {
+  /*
+     Collection of limit orders in the hierarchy.
+  */
+  repeated LimitOrder limit_orders = 1;
+}
+
+/*
+   Request to search limit orders with filtering criteria.
+*/
+message SearchLimitOrdersRequest {
+  /*
+     Filter by token (optional).
+  */
+  string token = 1;
+
+  /*
+     Filter by account (optional).
+     Format: accounts/{ULIDv2}.
+  */
+  string account = 2 [(buf.validate.field) = {
+    string: {pattern: "^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"}
+  }];
+
+  /*
+     When true, fetches live ledger data for matching orders.
+     When false, returns only stored metadata.
+  */
+  bool live_ledger_data = 3;
+}
+
+/*
+   Response containing search results.
+*/
+message SearchLimitOrdersResponse {
+  /*
+     Collection of limit orders matching the search criteria.
+  */
+  repeated LimitOrder limit_orders = 1;
+}
+
+/*
+   Request to monitor a limit order.
+   Supports lookup by either resource name or external reference.
+*/
+message MonitorLimitOrderRequest {
+  /*
+     Identifier for the limit order to monitor.
+     Exactly one field must be specified.
+  */
+  oneof identifier {
+    /*
+       The resource name of the limit order to monitor.
+       Format: limit_orders/{ULIDv2}.
+    */
+    string name = 1 [(buf.validate.field) = {
+      string: {
+        len: 38
+        pattern: "^limit_orders/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+      }
+    }];
+
+    /*
+       The external reference identifier.
+    */
+    string external_reference = 2;
+  }
 }

@@ -3,8 +3,7 @@ syntax = "proto3";
 package meshtrade.wallet.account.v1;
 
 import "buf/validate/validate.proto";
-import "meshtrade/iam/role/v1/role.proto";
-import "meshtrade/option/v1/method_type.proto";
+import "meshtrade/option/method_options/v1/method_options.proto";
 import "meshtrade/type/v1/sorting.proto";
 import "meshtrade/wallet/account/v1/account.proto";
 
@@ -12,12 +11,12 @@ option go_package = "github.com/meshtrade/api/go/wallet/account/v1;account_v1";
 option java_package = "co.meshtrade.api.wallet.account.v1";
 
 /*
-   AccountService manages blockchain wallet accounts and their lifecycle operations (BETA).
+   AccountService manages ledger wallet accounts and their lifecycle operations (BETA).
 
    This service provides comprehensive account management capabilities across multiple
-   blockchain networks (Stellar, Solana, Bitcoin, Ethereum). Accounts serve as the 
+   ledger networks (Stellar, Solana, Bitcoin, Ethereum). Accounts serve as the
    primary containers for holding and managing digital assets on the Mesh platform.
-   
+
    Key capabilities include account creation, opening on-chain, balance queries,
    and account lifecycle management. All operations are scoped to the authenticated
    group's hierarchy and require appropriate wallet domain permissions.
@@ -29,12 +28,13 @@ service AccountService {
      Creates a new account record in the system (off-chain).
 
      The account is created in a pending state and must be explicitly opened
-     on the blockchain using OpenAccount before it can receive funds or execute
+     on the ledger using OpenAccount before it can receive funds or execute
      transactions. Account ownership must match the executing context.
   */
   rpc CreateAccount(CreateAccountRequest) returns (meshtrade.wallet.account.v1.Account) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_WRITE
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_WALLET_ADMIN,
         ROLE_WALLET_ACCOUNT_ADMIN
@@ -49,8 +49,9 @@ service AccountService {
      ownership, ledger, and account number are immutable after creation.
   */
   rpc UpdateAccount(UpdateAccountRequest) returns (meshtrade.wallet.account.v1.Account) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_WRITE
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_WALLET_ADMIN,
         ROLE_WALLET_ACCOUNT_ADMIN
@@ -59,15 +60,48 @@ service AccountService {
   }
 
   /*
-     Opens an account on the blockchain ledger.
+     Opens an account on the ledger.
 
      Initializes the account on-chain, making it ready to receive deposits
      and execute transactions. Returns the opened account and a transaction
-     reference for monitoring the blockchain operation.
+     reference for monitoring the ledger operation.
   */
   rpc OpenAccount(OpenAccountRequest) returns (OpenAccountResponse) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_WRITE;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_WRITE
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
+      roles: [
+        ROLE_WALLET_ADMIN,
+        ROLE_WALLET_ACCOUNT_ADMIN
+      ]
+    };
+  }
+
+  /*
+     Adds the given users as signatories to an account on the ledger.
+
+     Returns a transaction reference for monitoring the ledger operation.
+  */
+  rpc AddSignatoriesToAccount(AddSignatoriesToAccountRequest) returns (AddSignatoriesToAccountResponse) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_WRITE
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
+      roles: [
+        ROLE_WALLET_ADMIN,
+        ROLE_WALLET_ACCOUNT_ADMIN
+      ]
+    };
+  }
+
+  /*
+     Removes the given users as signatories from an account on the ledger.
+
+     Returns a transaction reference for monitoring the ledger operation.
+  */
+  rpc RemoveSignatoriesFromAccount(RemoveSignatoriesFromAccountRequest) returns (RemoveSignatoriesFromAccountResponse) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_WRITE
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_WALLET_ADMIN,
         ROLE_WALLET_ACCOUNT_ADMIN
@@ -79,11 +113,12 @@ service AccountService {
      Retrieves a specific account by its resource identifier.
 
      Provides access to account metadata and optionally fetches live
-     balance data from the blockchain when populate_ledger_data is true.
+     balance data from the ledger when populate_ledger_data is true.
   */
   rpc GetAccount(GetAccountRequest) returns (meshtrade.wallet.account.v1.Account) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_WALLET_ADMIN,
         ROLE_WALLET_VIEWER,
@@ -100,8 +135,9 @@ service AccountService {
      Optionally fetches live balance data when populate_ledger_data is true.
   */
   rpc GetAccountByNumber(GetAccountByNumberRequest) returns (meshtrade.wallet.account.v1.Account) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_WALLET_ADMIN,
         ROLE_WALLET_VIEWER,
@@ -118,8 +154,9 @@ service AccountService {
      including accounts owned by the group and all descendant groups.
   */
   rpc ListAccounts(ListAccountsRequest) returns (ListAccountsResponse) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_WALLET_ADMIN,
         ROLE_WALLET_VIEWER,
@@ -129,7 +166,6 @@ service AccountService {
     };
   }
 
-
   /*
      Searches accounts using flexible text criteria within the hierarchy.
 
@@ -137,13 +173,14 @@ service AccountService {
      returning accounts that match the search criteria.
   */
   rpc SearchAccounts(SearchAccountsRequest) returns (SearchAccountsResponse) {
-    option (meshtrade.option.v1.method_type) = METHOD_TYPE_READ;
-    option (meshtrade.iam.role.v1.roles) = {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_WALLET_ADMIN,
         ROLE_WALLET_VIEWER,
         ROLE_WALLET_ACCOUNT_ADMIN,
-        ROLE_WALLET_ACCOUNT_VIEWER        
+        ROLE_WALLET_ACCOUNT_VIEWER
       ]
     };
   }
@@ -157,7 +194,7 @@ message CreateAccountRequest {
      The account configuration for creation.
      The name, number, ledger_id, and owners fields will be ignored and assigned by the system.
   */
-  meshtrade.wallet.account.v1.Account account = 1  [(buf.validate.field) = {required: true}];
+  meshtrade.wallet.account.v1.Account account = 1 [(buf.validate.field) = {required: true}];
 }
 
 /*
@@ -168,11 +205,11 @@ message UpdateAccountRequest {
      Complete account resource with updated fields.
      Only display_name can be modified.
   */
-  meshtrade.wallet.account.v1.Account account = 1  [(buf.validate.field) = {required: true}];
+  meshtrade.wallet.account.v1.Account account = 1 [(buf.validate.field) = {required: true}];
 }
 
 /*
-   Request to open an account on the blockchain.
+   Request to open an account on the ledger.
 */
 message OpenAccountRequest {
   /*
@@ -181,26 +218,122 @@ message OpenAccountRequest {
   */
   string name = 1 [(buf.validate.field) = {
     string: {
-      len: 35,
+      len: 35
       pattern: "^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
 }
 
 /*
-   Response containing the opened account and transaction details.
+   Response a transaction reference to monitor the ledger operation to open the account.
 */
 message OpenAccountResponse {
   /*
-     The account after successful opening on the blockchain.
-  */
-  meshtrade.wallet.account.v1.Account account = 1;
-
-  /*
-     Transaction reference for monitoring the blockchain operation.
+     Transaction reference for monitoring the ledger operation to open the account.
+     The Account is open once this transaction has succeeded.
      Format: transactions/{ULIDv2}.
   */
-  string ledger_transaction = 3;
+  string ledger_transaction = 1;
+}
+
+/*
+   Request to add signatories to an account on the ledger.
+*/
+message AddSignatoriesToAccountRequest {
+  /*
+     The resource name of the account to which signatories should be added.
+     Format: accounts/{ULIDv2}.
+  */
+  string name = 1 [(buf.validate.field) = {
+    string: {
+      len: 35
+      pattern: "^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+    }
+  }];
+
+  /*
+     The resource names of the (api)users to add as signatories on the identified account.
+     Format: api_users/{ULIDv2} or users/{ULIDv2}.
+     At least one user must be provided.
+  */
+  repeated string users = 2 [(buf.validate.field) = {
+    repeated: {
+      min_items: 1
+      max_items: 100
+      items: {
+        string: {
+          pattern: "^(users|api_users)/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+        }
+        cel: {
+          id: "users.format"
+          message: "each user must be api_users/{ULID} or users/{ULID}"
+          expression: "this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$') || this.matches('^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
+        }
+      }
+    }
+  }];
+}
+
+/*
+   Response containing a transaction reference to monitor the ledger operation to add signatories.
+*/
+message AddSignatoriesToAccountResponse {
+  /*
+     Transaction reference for monitoring the ledger operation to add the given users as signatories.
+     The signatories are added once this transaction has succeeded.
+     Format: transactions/{ULIDv2}.
+  */
+  string ledger_transaction = 1;
+}
+
+/*
+   Request to remove signatories from an account on the ledger.
+*/
+message RemoveSignatoriesFromAccountRequest {
+  /*
+     The resource name of the account from which signatories should be removed.
+     Format: accounts/{ULIDv2}.
+  */
+  string name = 1 [(buf.validate.field) = {
+    string: {
+      len: 35
+      pattern: "^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+    }
+  }];
+
+  /*
+     The resource names of the (api)users to remove as signatories from the identified account.
+     Format: api_users/{ULIDv2} or users/{ULIDv2}.
+     At least one user must be provided.
+  */
+  repeated string users = 2 [(buf.validate.field) = {
+    repeated: {
+      min_items: 1
+      max_items: 100
+      items: {
+        string: {
+          pattern: "^(users|api_users)/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+        }
+        cel: {
+          id: "users.format"
+          message: "each user must be api_users/{ULID} or users/{ULID}"
+          expression: "this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$') || this.matches('^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
+        }
+      }
+    }
+  }];
+}
+
+/*
+   Response containing a transaction reference to monitor the ledger operation to remove signatories.
+*/
+message RemoveSignatoriesFromAccountResponse {
+  /*
+     Transaction reference for monitoring the ledger operation to remove the given users as signatories.
+     The signatories are removed once this transaction has succeeded.
+     Format: transactions/{ULIDv2}.
+  */
+  string ledger_transaction = 1;
 }
 
 /*
@@ -213,13 +346,13 @@ message GetAccountRequest {
   */
   string name = 1 [(buf.validate.field) = {
     string: {
-      len: 35,
+      len: 35
       pattern: "^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
-  
+
   /*
-     When true, fetches current balances and state from the blockchain.
+     When true, fetches current balances and state from the ledger.
      When false, returns only stored metadata without live data.
   */
   bool populate_ledger_data = 2;
@@ -234,13 +367,11 @@ message GetAccountByNumberRequest {
      Must be a 7-digit number starting with '1'.
   */
   string account_number = 1 [(buf.validate.field) = {
-    string: {
-      pattern: "^1[0-9]{6}$"
-    }
+    string: {pattern: "^1[0-9]{6}$"}
   }];
 
   /*
-     When true, fetches current balances and state from the blockchain.
+     When true, fetches current balances and state from the ledger.
      When false, returns only stored metadata without live data.
   */
   bool populate_ledger_data = 2;
@@ -284,7 +415,7 @@ message ListAccountsRequest {
   Sorting sorting = 1;
 
   /*
-     When true, fetches current balances and state from the blockchain.
+     When true, fetches current balances and state from the ledger.
      When false, returns only stored metadata without live data.
   */
   bool populate_ledger_data = 2;
@@ -351,7 +482,7 @@ message SearchAccountsRequest {
   }];
 
   /*
-     When true, fetches current balances and state from the blockchain.
+     When true, fetches current balances and state from the ledger.
      When false, returns only stored metadata without live data.
   */
   bool populate_ledger_data = 3;
