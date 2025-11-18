@@ -3,7 +3,6 @@ syntax = "proto3";
 package meshtrade.ledger.tap.v1;
 
 import "buf/validate/validate.proto";
-import "meshtrade/iam/role/v1/role.proto";
 import "meshtrade/ledger/tap/v1/option.proto";
 import "meshtrade/option/method_options/v1/method_options.proto";
 import "meshtrade/type/v1/amount.proto";
