@@ -2,6 +2,7 @@ from meshtrade.trading.limit_order.v1 import (
     CancelLimitOrderRequest,
     LimitOrderService,
     LimitOrderStatus,
+    MonitorLimitOrderRequest,
 )
 
 
@@ -14,7 +15,7 @@ def main():
     with service:
         # Cancel an active limit order by its resource name
         # Replace with an actual limit order resource name from your system
-        order_name = "groups/12345/accounts/67890/limitOrders/abc123"
+        order_name = "limit_orders/01HQVBZ9F8X2T3K4M5N6P7Q8R9"
 
         request = CancelLimitOrderRequest(
             name=order_name,
@@ -28,13 +29,23 @@ def main():
         print(f"  Order name: {order_name}")
         print(f"  Status: {response.status}")
 
-        # Terminal cancellation states:
-        # - LIMIT_ORDER_STATUS_CANCELLATION_IN_PROGRESS: Cancel submitted to ledger
-        # - LIMIT_ORDER_STATUS_CANCELLED: Cancel confirmed on ledger
-        if response.status == LimitOrderStatus.LIMIT_ORDER_STATUS_CANCELLED:
-            print("  ✓ Order successfully cancelled on ledger")
-        elif response.status == LimitOrderStatus.LIMIT_ORDER_STATUS_CANCELLATION_IN_PROGRESS:
-            print("  ⏳ Cancellation in progress, check status later")
+        # Monitor the order until cancellation is complete
+        print("\n📡 Monitoring order until cancellation is complete...")
+        monitor_request = MonitorLimitOrderRequest(
+            name=order_name,
+        )
+
+        stream = service.monitor_limit_order(monitor_request)
+
+        for update in stream:
+            print(f"  Status: {update.status}")
+
+            if update.status == LimitOrderStatus.LIMIT_ORDER_STATUS_CANCELLATION_IN_PROGRESS:
+                print("  ⏳ Order cancellation in progress...")
+
+            elif update.status == LimitOrderStatus.LIMIT_ORDER_STATUS_CANCELLED:
+                print("  ✓ Order successfully cancelled on ledger!")
+                break
 
 
 if __name__ == "__main__":

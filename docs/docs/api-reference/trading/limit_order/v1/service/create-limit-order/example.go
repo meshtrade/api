@@ -5,6 +5,7 @@ import (
 	"log"
 
 	limit_orderv1 "github.com/meshtrade/api/go/trading/limit_order/v1"
+	type_v1 "github.com/meshtrade/api/go/type/v1"
 )
 
 func main() {
@@ -23,8 +24,10 @@ func main() {
 	// Note: You need a valid account resource name from the Wallet Account service
 	request := &limit_orderv1.CreateLimitOrderRequest{
 		LimitOrder: &limit_orderv1.LimitOrder{
+			// Owner must be a valid group resource name
+			Owner: "groups/01HQVBZ9F8X2T3K4M5N6P7Q8R9",
 			// Account must be a valid Stellar account owned by your group
-			Account: "groups/12345/accounts/67890",
+			Account: "accounts/01HQVBZ9F8X2T3K4M5N6P7Q8R9",
 			// Optional: External reference for tracking in your system
 			ExternalReference: "my-trading-system-order-123",
 			// Buy side - use LIMIT_ORDER_SIDE_SELL for selling
@@ -68,4 +71,39 @@ func main() {
 	log.Printf("  Side: %s", limitOrder.Side)
 	log.Printf("  Limit price: %s %s", limitOrder.LimitPrice.Value.Value, limitOrder.LimitPrice.Token.Code)
 	log.Printf("  Quantity: %s %s", limitOrder.Quantity.Value.Value, limitOrder.Quantity.Token.Code)
+
+	// Monitor the order until it opens on the ledger
+	log.Printf("\n📡 Monitoring order until it opens on the ledger...")
+	monitorRequest := &limit_orderv1.MonitorLimitOrderRequest{
+		Identifier: &limit_orderv1.MonitorLimitOrderRequest_Name{
+			Name: limitOrder.Name,
+		},
+	}
+
+	stream, err := service.MonitorLimitOrder(ctx, monitorRequest)
+	if err != nil {
+		log.Fatalf("MonitorLimitOrder failed: %v", err)
+	}
+
+monitorOrder:
+	for {
+		update, err := stream.Recv()
+		if err != nil {
+			log.Fatalf("Stream error: %v", err)
+		}
+
+		log.Printf("  Status: %s", update.Status)
+
+		switch update.Status {
+		case limit_orderv1.LimitOrderStatus_LIMIT_ORDER_STATUS_SUBMISSION_IN_PROGRESS:
+			log.Printf("  ⏳ Order submission in progress...")
+
+		case limit_orderv1.LimitOrderStatus_LIMIT_ORDER_STATUS_SUBMISSION_FAILED:
+			log.Fatalf("  ❌ Order submission failed")
+
+		case limit_orderv1.LimitOrderStatus_LIMIT_ORDER_STATUS_OPEN:
+			log.Printf("  ✓ Order is now open on the ledger and available for matching!")
+			break monitorOrder
+		}
+	}
 }

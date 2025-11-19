@@ -1,12 +1,15 @@
 import co.meshtrade.api.trading.limit_order.v1.LimitOrderOuterClass.LimitOrder;
 import co.meshtrade.api.trading.limit_order.v1.LimitOrderOuterClass.LimitOrderSide;
+import co.meshtrade.api.trading.limit_order.v1.LimitOrderOuterClass.LimitOrderStatus;
 import co.meshtrade.api.trading.limit_order.v1.LimitOrderService;
 import co.meshtrade.api.trading.limit_order.v1.Service.CreateLimitOrderRequest;
+import co.meshtrade.api.trading.limit_order.v1.Service.MonitorLimitOrderRequest;
 import co.meshtrade.api.type.v1.AmountOuterClass.Amount;
 import co.meshtrade.api.type.v1.DecimalOuterClass.Decimal;
 import co.meshtrade.api.type.v1.LedgerOuterClass.Ledger;
 import co.meshtrade.api.type.v1.TokenOuterClass.Token;
 
+import java.util.Iterator;
 import java.util.Optional;
 
 public class CreateLimitOrderExample {
@@ -44,8 +47,10 @@ public class CreateLimitOrderExample {
 
             // Build the limit order
             LimitOrder limitOrderToCreate = LimitOrder.newBuilder()
+                // Owner must be a valid group resource name
+                .setOwner("groups/01HQVBZ9F8X2T3K4M5N6P7Q8R9")
                 // Account must be a valid Stellar account owned by your group
-                .setAccount("groups/12345/accounts/67890")
+                .setAccount("accounts/01HQVBZ9F8X2T3K4M5N6P7Q8R9")
                 // Optional: External reference for tracking in your system
                 .setExternalReference("my-trading-system-order-123")
                 // Buy side - use LIMIT_ORDER_SIDE_SELL for selling
@@ -72,6 +77,37 @@ public class CreateLimitOrderExample {
                              " " + limitOrder.getLimitPrice().getToken().getCode());
             System.out.println("  Quantity: " + limitOrder.getQuantity().getValue().getValue() +
                              " " + limitOrder.getQuantity().getToken().getCode());
+
+            // Monitor the order until it opens on the ledger
+            System.out.println("\n📡 Monitoring order until it opens on the ledger...");
+            MonitorLimitOrderRequest monitorRequest = MonitorLimitOrderRequest.newBuilder()
+                .setName(limitOrder.getName())
+                .build();
+
+            Iterator<LimitOrder> stream = service.monitorLimitOrder(monitorRequest, Optional.empty());
+
+            monitorOrder:
+            while (stream.hasNext()) {
+                LimitOrder update = stream.next();
+                System.out.println("  Status: " + update.getStatus());
+
+                switch (update.getStatus()) {
+                    case LIMIT_ORDER_STATUS_SUBMISSION_IN_PROGRESS:
+                        System.out.println("  ⏳ Order submission in progress...");
+                        break;
+
+                    case LIMIT_ORDER_STATUS_SUBMISSION_FAILED:
+                        System.err.println("  ❌ Order submission failed");
+                        throw new RuntimeException("Order submission failed");
+
+                    case LIMIT_ORDER_STATUS_OPEN:
+                        System.out.println("  ✓ Order is now open on the ledger and available for matching!");
+                        break monitorOrder;
+
+                    default:
+                        break;
+                }
+            }
         } catch (Exception e) {
             System.err.println("CreateLimitOrder failed: " + e.getMessage());
             e.printStackTrace();

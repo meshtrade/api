@@ -13,7 +13,7 @@ def main():
     with service:
         # Get a limit order by its resource name
         # Replace with an actual limit order resource name from your system
-        order_name = "groups/12345/accounts/67890/limitOrders/abc123"
+        order_name = "limit_orders/01HQVBZ9F8X2T3K4M5N6P7Q8R9"
 
         # Example 1: Get without live ledger data (faster, but status will be UNSPECIFIED)
         request = GetLimitOrderRequest(

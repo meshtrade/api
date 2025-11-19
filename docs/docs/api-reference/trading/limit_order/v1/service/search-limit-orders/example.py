@@ -13,19 +13,15 @@ def main():
     with service:
         # Search limit orders with optional filters
         # Replace with an actual account resource name from your system
-        account_name = "groups/12345/accounts/67890"
+        account_name = "accounts/01HQVBZ9F8X2T3K4M5N6P7Q8R9"
 
         request = SearchLimitOrdersRequest(
+            # Optional: Filter by token code
+            token="USDC",
             # Optional: Filter by account (returns only orders for this account)
             account=account_name,
-            # Optional: Filter by external reference
-            # external_reference="my-trading-system-order-123",
             # Optional: Set to true to enrich with live ledger status
             live_ledger_data=True,
-            # Optional: Page size for pagination (default: 50, max: 1000)
-            page_size=100,
-            # Optional: Page token from previous response for next page
-            # page_token="previous-page-token",
         )
 
         # Call the SearchLimitOrders method
@@ -42,11 +38,6 @@ def main():
             print(f"    Status: {order.status}")
             print(f"    Limit price: {order.limit_price.value.value} {order.limit_price.token.code}")
             print(f"    Quantity: {order.quantity.value.value} {order.quantity.token.code}")
-
-        # Check if there are more pages
-        if response.next_page_token:
-            print(f"\n  Next page token: {response.next_page_token}")
-            print("  Use this token in the next request to fetch more orders")
 
 
 if __name__ == "__main__":

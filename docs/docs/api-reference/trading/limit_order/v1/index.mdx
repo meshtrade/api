@@ -40,7 +40,7 @@ Note: This service is currently in BETA. Interface and functionality may change.
 ### Live Ledger Data
 Many read operations support an optional `live_ledger_data` flag that enriches responses with real-time ledger state:
 - When `false` (default): Returns persisted order metadata with `LIMIT_ORDER_STATUS_UNSPECIFIED`
-- When `true`: Queries the underlying ledger and populates current order status (e.g., `LIMIT_ORDER_STATUS_OPEN`, `LIMIT_ORDER_STATUS_FILLED`)
+- When `true`: Queries the underlying ledger and populates current order status (e.g., `LIMIT_ORDER_STATUS_OPEN`, `LIMIT_ORDER_STATUS_COMPLETE`)
 
 ### External References
 Each limit order can be tagged with a unique `external_reference` string, enabling:
@@ -48,11 +48,12 @@ Each limit order can be tagged with a unique `external_reference` string, enabli
 - Order tracking across multiple systems
 - Quick lookup via `GetLimitOrderByExternalReference`
 
-### Resource Hierarchy
-Limit orders belong to accounts, which belong to groups:
+### Resource Naming
+Limit orders use a flat resource name format:
 ```
-groups/{group_id}/accounts/{account_id}/limitOrders/{order_id}
+limit_orders/{order_id}
 ```
+Where `{order_id}` is a system-generated ULIDv2 identifier (26 characters).
 
 ## Quick Start
 
@@ -67,28 +68,34 @@ groups/{group_id}/accounts/{account_id}/limitOrders/{order_id}
 ```
 1. Ensure you have a Stellar account (via Wallet Account service)
 2. Call CreateLimitOrder with:
-   - account: Your account resource name
+   - owner: Your group resource name (groups/{group_id})
+   - account: Your account resource name (accounts/{account_id})
    - side: LIMIT_ORDER_SIDE_BUY
    - limit_price: Maximum price willing to pay (e.g., 100.50 USDC)
    - quantity: Amount to purchase (e.g., 10 USDC)
    - external_reference: Optional unique identifier for your system
 3. Receive LimitOrder response with system-generated resource name
+4. Monitor order status until LIMIT_ORDER_STATUS_OPEN
 ```
 
 ### Checking Order Status
 ```
 1. Call GetLimitOrder with live_ledger_data: true
 2. Inspect the status field:
+   - LIMIT_ORDER_STATUS_SUBMISSION_IN_PROGRESS: Order submitting to ledger
+   - LIMIT_ORDER_STATUS_SUBMISSION_FAILED: Order submission failed
    - LIMIT_ORDER_STATUS_OPEN: Order is active on the ledger
-   - LIMIT_ORDER_STATUS_FILLED: Order has been completely filled
-   - LIMIT_ORDER_STATUS_PARTIALLY_FILLED: Order is partially executed
+   - LIMIT_ORDER_STATUS_COMPLETE_IN_PROGRESS: Order completing
+   - LIMIT_ORDER_STATUS_COMPLETE: Order has been completely filled
+   - LIMIT_ORDER_STATUS_CANCELLATION_IN_PROGRESS: Cancellation in progress
    - LIMIT_ORDER_STATUS_CANCELLED: Order was successfully cancelled
 ```
 
 ### Cancelling an Order
 ```
 1. Call CancelLimitOrder with the order's resource name
-2. Receive response with terminal cancellation status:
+2. Receive LimitOrder response with initial status
+3. Monitor status transitions:
    - LIMIT_ORDER_STATUS_CANCELLATION_IN_PROGRESS: Cancel submitted to ledger
    - LIMIT_ORDER_STATUS_CANCELLED: Cancel confirmed on ledger
 ```
@@ -96,19 +103,18 @@ groups/{group_id}/accounts/{account_id}/limitOrders/{order_id}
 ### Monitoring Orders in Real-Time
 ```
 1. Call MonitorLimitOrder (server-streaming RPC)
-2. Specify optional filters (account, external_reference, etc.)
+2. Specify order by name OR external_reference (one required)
 3. Receive continuous stream of order updates as ledger state changes
 4. React to status changes, fills, or cancellations in real-time
 ```
 
-### Searching Historical Orders
+### Searching Orders
 ```
 1. Call SearchLimitOrders with optional filters:
-   - account: Filter by specific account
-   - external_reference: Filter by your system's ID
-   - live_ledger_data: Enrich with current status
-2. Iterate through paginated results
-3. Use page_token for next page of results
+   - token: Filter by token code (e.g., "USDC")
+   - account: Filter by specific account resource name
+   - live_ledger_data: Enrich with current ledger status
+2. Returns all matching limit orders in response
 ```
 
 ## Authentication & Authorization

@@ -21,7 +21,7 @@ func main() {
 
 	// Cancel an active limit order by its resource name
 	// Replace with an actual limit order resource name from your system
-	orderName := "groups/12345/accounts/67890/limitOrders/abc123"
+	orderName := "limit_orders/01HQVBZ9F8X2T3K4M5N6P7Q8R9"
 
 	request := &limit_orderv1.CancelLimitOrderRequest{
 		Name: orderName,
@@ -38,12 +38,35 @@ func main() {
 	log.Printf("  Order name: %s", orderName)
 	log.Printf("  Status: %s", response.Status)
 
-	// Terminal cancellation states:
-	// - LIMIT_ORDER_STATUS_CANCELLATION_IN_PROGRESS: Cancel submitted to ledger
-	// - LIMIT_ORDER_STATUS_CANCELLED: Cancel confirmed on ledger
-	if response.Status == limit_orderv1.LimitOrderStatus_LIMIT_ORDER_STATUS_CANCELLED {
-		log.Printf("  ✓ Order successfully cancelled on ledger")
-	} else if response.Status == limit_orderv1.LimitOrderStatus_LIMIT_ORDER_STATUS_CANCELLATION_IN_PROGRESS {
-		log.Printf("  ⏳ Cancellation in progress, check status later")
+	// Monitor the order until cancellation is complete
+	log.Printf("\n📡 Monitoring order until cancellation is complete...")
+	monitorRequest := &limit_orderv1.MonitorLimitOrderRequest{
+		Identifier: &limit_orderv1.MonitorLimitOrderRequest_Name{
+			Name: orderName,
+		},
+	}
+
+	stream, err := service.MonitorLimitOrder(ctx, monitorRequest)
+	if err != nil {
+		log.Fatalf("MonitorLimitOrder failed: %v", err)
+	}
+
+monitorOrder:
+	for {
+		update, err := stream.Recv()
+		if err != nil {
+			log.Fatalf("Stream error: %v", err)
+		}
+
+		log.Printf("  Status: %s", update.Status)
+
+		switch update.Status {
+		case limit_orderv1.LimitOrderStatus_LIMIT_ORDER_STATUS_CANCELLATION_IN_PROGRESS:
+			log.Printf("  ⏳ Order cancellation in progress...")
+
+		case limit_orderv1.LimitOrderStatus_LIMIT_ORDER_STATUS_CANCELLED:
+			log.Printf("  ✓ Order successfully cancelled on ledger!")
+			break monitorOrder
+		}
 	}
 }

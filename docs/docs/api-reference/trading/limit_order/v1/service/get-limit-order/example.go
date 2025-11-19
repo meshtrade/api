@@ -21,7 +21,7 @@ func main() {
 
 	// Get a limit order by its resource name
 	// Replace with an actual limit order resource name from your system
-	orderName := "groups/12345/accounts/67890/limitOrders/abc123"
+	orderName := "limit_orders/01HQVBZ9F8X2T3K4M5N6P7Q8R9"
 
 	// Example 1: Get without live ledger data (faster, but status will be UNSPECIFIED)
 	request := &limit_orderv1.GetLimitOrderRequest{

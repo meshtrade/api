@@ -13,19 +13,15 @@ public class SearchLimitOrdersExample {
         try (LimitOrderService service = new LimitOrderService()) {
             // Search limit orders with optional filters
             // Replace with an actual account resource name from your system
-            String accountName = "groups/12345/accounts/67890";
+            String accountName = "accounts/01HQVBZ9F8X2T3K4M5N6P7Q8R9";
 
             SearchLimitOrdersRequest request = SearchLimitOrdersRequest.newBuilder()
+                // Optional: Filter by token code
+                .setToken("USDC")
                 // Optional: Filter by account (returns only orders for this account)
                 .setAccount(accountName)
-                // Optional: Filter by external reference
-                // .setExternalReference("my-trading-system-order-123")
                 // Optional: Set to true to enrich with live ledger status
                 .setLiveLedgerData(true)
-                // Optional: Page size for pagination (default: 50, max: 1000)
-                .setPageSize(100)
-                // Optional: Page token from previous response for next page
-                // .setPageToken("previous-page-token")
                 .build();
 
             // Call the SearchLimitOrders method
@@ -46,12 +42,6 @@ public class SearchLimitOrdersExample {
                 System.out.println("    Quantity: " + order.getQuantity().getValue().getValue() +
                                  " " + order.getQuantity().getToken().getCode());
                 i++;
-            }
-
-            // Check if there are more pages
-            if (!response.getNextPageToken().isEmpty()) {
-                System.out.println("\n  Next page token: " + response.getNextPageToken());
-                System.out.println("  Use this token in the next request to fetch more orders");
             }
         } catch (Exception e) {
             System.err.println("SearchLimitOrders failed: " + e.getMessage());

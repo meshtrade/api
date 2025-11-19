@@ -21,19 +21,15 @@ func main() {
 
 	// Search limit orders with optional filters
 	// Replace with an actual account resource name from your system
-	accountName := "groups/12345/accounts/67890"
+	accountName := "accounts/01HQVBZ9F8X2T3K4M5N6P7Q8R9"
 
 	request := &limit_orderv1.SearchLimitOrdersRequest{
+		// Optional: Filter by token code
+		Token: "USDC",
 		// Optional: Filter by account (returns only orders for this account)
 		Account: accountName,
-		// Optional: Filter by external reference
-		// ExternalReference: "my-trading-system-order-123",
 		// Optional: Set to true to enrich with live ledger status
 		LiveLedgerData: true,
-		// Optional: Page size for pagination (default: 50, max: 1000)
-		PageSize: 100,
-		// Optional: Page token from previous response for next page
-		// PageToken: "previous-page-token",
 	}
 
 	// Call the SearchLimitOrders method
@@ -53,11 +49,5 @@ func main() {
 		log.Printf("    Status: %s", order.Status)
 		log.Printf("    Limit price: %s %s", order.LimitPrice.Value.Value, order.LimitPrice.Token.Code)
 		log.Printf("    Quantity: %s %s", order.Quantity.Value.Value, order.Quantity.Token.Code)
-	}
-
-	// Check if there are more pages
-	if response.NextPageToken != "" {
-		log.Printf("\n  Next page token: %s", response.NextPageToken)
-		log.Printf("  Use this token in the next request to fetch more orders")
 	}
 }

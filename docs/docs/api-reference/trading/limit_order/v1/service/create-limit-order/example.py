@@ -3,6 +3,8 @@ from meshtrade.trading.limit_order.v1 import (
     LimitOrder,
     LimitOrderService,
     LimitOrderSide,
+    LimitOrderStatus,
+    MonitorLimitOrderRequest,
 )
 from meshtrade.type.v1 import Amount, Decimal, Ledger, Token
 
@@ -18,8 +20,10 @@ def main():
         # Note: You need a valid account resource name from the Wallet Account service
         request = CreateLimitOrderRequest(
             limit_order=LimitOrder(
+                # Owner must be a valid group resource name
+                owner="groups/01HQVBZ9F8X2T3K4M5N6P7Q8R9",
                 # Account must be a valid Stellar account owned by your group
-                account="groups/12345/accounts/67890",
+                account="accounts/01HQVBZ9F8X2T3K4M5N6P7Q8R9",
                 # Optional: External reference for tracking in your system
                 external_reference="my-trading-system-order-123",
                 # Buy side - use LIMIT_ORDER_SIDE_SELL for selling
@@ -56,6 +60,28 @@ def main():
         print(f"  Side: {limit_order.side}")
         print(f"  Limit price: {limit_order.limit_price.value.value} {limit_order.limit_price.token.code}")
         print(f"  Quantity: {limit_order.quantity.value.value} {limit_order.quantity.token.code}")
+
+        # Monitor the order until it opens on the ledger
+        print("\n📡 Monitoring order until it opens on the ledger...")
+        monitor_request = MonitorLimitOrderRequest(
+            name=limit_order.name,
+        )
+
+        stream = service.monitor_limit_order(monitor_request)
+
+        for update in stream:
+            print(f"  Status: {update.status}")
+
+            if update.status == LimitOrderStatus.LIMIT_ORDER_STATUS_SUBMISSION_IN_PROGRESS:
+                print("  ⏳ Order submission in progress...")
+
+            elif update.status == LimitOrderStatus.LIMIT_ORDER_STATUS_SUBMISSION_FAILED:
+                print("  ❌ Order submission failed")
+                raise RuntimeError("Order submission failed")
+
+            elif update.status == LimitOrderStatus.LIMIT_ORDER_STATUS_OPEN:
+                print("  ✓ Order is now open on the ledger and available for matching!")
+                break
 
 
 if __name__ == "__main__":
