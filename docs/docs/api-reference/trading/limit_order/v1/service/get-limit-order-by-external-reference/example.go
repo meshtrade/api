@@ -19,9 +19,12 @@ func main() {
 	}
 	defer service.Close()
 
-	// Create request with service-specific parameters
+	// Get a limit order by its external reference identifier
+	// This is useful when you track orders in your own system using custom IDs
+	externalRef := "my-trading-system-order-123"
+
 	request := &limit_orderv1.GetLimitOrderByExternalReferenceRequest{
-		// FIXME: Populate service-specific request fields
+		ExternalReference: externalRef,
 	}
 
 	// Call the GetLimitOrderByExternalReference method
@@ -30,6 +33,13 @@ func main() {
 		log.Fatalf("GetLimitOrderByExternalReference failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("GetLimitOrderByExternalReference successful: %+v", limitOrder)
+	// Response contains the limit order matching the external reference
+	log.Printf("✓ Limit order found by external reference:")
+	log.Printf("  External reference: %s", limitOrder.ExternalReference)
+	log.Printf("  Resource name: %s", limitOrder.Name)
+	log.Printf("  Account: %s", limitOrder.Account)
+	log.Printf("  Side: %s", limitOrder.Side)
+	log.Printf("  Limit price: %s %s", limitOrder.LimitPrice.Value.Value, limitOrder.LimitPrice.Token.Code)
+	log.Printf("  Quantity: %s %s", limitOrder.Quantity.Value.Value, limitOrder.Quantity.Token.Code)
+	log.Printf("\nNote: External references must be unique within your group hierarchy")
 }
