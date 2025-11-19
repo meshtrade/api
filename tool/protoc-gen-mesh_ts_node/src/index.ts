@@ -47,27 +47,39 @@ function generateConnectClientManually(schema: Schema, file: DescFile) {
   // Import request/response types
   // Collect types defined in service_pb
   const serviceTypes = new Set<string>();
+  const requestTypes = new Set<string>(); // Track request types separately for schema imports
 
   for (const service of file.services) {
     for (const method of service.methods) {
       // Request types defined in this service file
       if (method.input.file === file) {
         serviceTypes.add(method.input.name);
+        requestTypes.add(method.input.name); // Track for schema import
       }
 
       // Response types defined in this service file
       if (method.output.file === file) {
         serviceTypes.add(method.output.name);
+        // Note: Response types don't need schemas - we only validate requests
       }
     }
   }
 
   // Import types from service_pb (request/response messages defined in the service file)
+  // Also import the Schema types for request types only (used for validation)
   if (serviceTypes.size > 0) {
     const sortedServiceTypes = Array.from(serviceTypes).sort();
+    const importsWithSchemas: string[] = [];
+    for (const type of sortedServiceTypes) {
+      importsWithSchemas.push(type);
+      // Only import Schema for request types, not response types
+      if (requestTypes.has(type)) {
+        importsWithSchemas.push(`${type}Schema`);
+      }
+    }
     content += `import {\n`;
-    for (let i = 0; i < sortedServiceTypes.length; i++) {
-      content += `  ${sortedServiceTypes[i]}${i < sortedServiceTypes.length - 1 ? "," : ""}\n`;
+    for (let i = 0; i < importsWithSchemas.length; i++) {
+      content += `  ${importsWithSchemas[i]}${i < importsWithSchemas.length - 1 ? "," : ""}\n`;
     }
     content += `} from "./service_pb";\n`;
   }
@@ -113,7 +125,7 @@ function generateConnectClientManually(schema: Schema, file: DescFile) {
   const outputFilePath = getOutputFilePath(file);
   const relativePathToMeshtrade = getRelativePathToMeshtrade(outputFilePath);
   content += `import { ClientOption, ClientConfig, buildConfigFromOptions, WithAPIKey, WithJWTAccessToken, WithGroup, WithServerUrl } from "${relativePathToMeshtrade}/config";\n`;
-  content += `import { validateRequest } from "${relativePathToMeshtrade}/validation";\n`;
+  content += `import { createValidator } from "@bufbuild/protovalidate";\n`;
   content += `import { createGroupInterceptor, createApiKeyInterceptor, createJwtInterceptor, createLoggingInterceptor } from "${relativePathToMeshtrade}/interceptors";\n`;
   content += `\n`;
 
@@ -261,6 +273,7 @@ function generateServiceClientString(
   content += `  private _client: ConnectClient<typeof ${serviceName}>;\n`;
   content += `  private readonly _config: ClientConfig;\n`;
   content += `  private readonly _interceptors: Interceptor[];\n`;
+  content += `  private readonly _validator: ReturnType<typeof createValidator>;\n`;
   content += "\n";
 
   // Generate constructor
@@ -280,6 +293,9 @@ function generateServiceClientString(
   content += "  constructor(...opts: ClientOption[]) {\n";
   content += "    // Build configuration from options\n";
   content += "    this._config = buildConfigFromOptions(...opts);\n";
+  content += "\n";
+  content += "    // Initialize validator for request validation\n";
+  content += "    this._validator = createValidator();\n";
   content += "\n";
   content += "    this._interceptors = [];\n";
   content += "\n";
@@ -401,7 +417,13 @@ function generateStreamingMethodString(
   // Generate method signature and implementation with validation
   content += `  ${methodName}(request: ${requestType}): AsyncIterable<${responseType}> {\n`;
   content += "    // Validate request before initiating stream\n";
-  content += "    validateRequest(request);\n";
+  content += `    const result = this._validator.validate(${requestType}Schema, request);\n`;
+  content += "    if (result.kind === \"invalid\") {\n";
+  content += "      const violations = result.violations.map(v => `${v.field.toString()}: ${v.message}`).join(\"; \");\n";
+  content += "      throw new Error(`Validation failed: ${violations}`);\n";
+  content += "    } else if (result.kind === \"error\") {\n";
+  content += "      throw result.error;\n";
+  content += "    }\n";
   content += "\n";
   content += `    return this._client.${methodName}(request);\n`;
   content += "  }\n";
@@ -444,7 +466,13 @@ function generateServiceMethodString(
   // Generate method signature and implementation
   content += `  ${methodName}(request: ${requestType}): Promise<${responseType}> {\n`;
   content += "    // Validate request\n";
-  content += "    validateRequest(request);\n";
+  content += `    const result = this._validator.validate(${requestType}Schema, request);\n`;
+  content += "    if (result.kind === \"invalid\") {\n";
+  content += "      const violations = result.violations.map(v => `${v.field.toString()}: ${v.message}`).join(\"; \");\n";
+  content += "      throw new Error(`Validation failed: ${violations}`);\n";
+  content += "    } else if (result.kind === \"error\") {\n";
+  content += "      throw result.error;\n";
+  content += "    }\n";
   content += "\n";
   content += `    return this._client.${methodName}(request);\n`;
   content += "  }\n";
