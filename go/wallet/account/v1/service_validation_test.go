@@ -166,6 +166,310 @@ func TestOpenAccountRequest_Validation(t *testing.T) {
 	}
 }
 
+func TestAddSignatoriesToAccountRequest_Validation(t *testing.T) {
+	v, err := protovalidate.New()
+	if err != nil {
+		t.Fatalf("failed to initialize validator: %v", err)
+	}
+
+	tests := []struct {
+		name    string
+		request *AddSignatoriesToAccountRequest
+		wantErr bool
+		errMsg  string
+	}{
+		{
+			name: "valid add signatories request with single user",
+			request: &AddSignatoriesToAccountRequest{
+				Name:  "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Users: []string{"users/01ARZ3NDEKTSV4RRFFQ69G5FAV"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "valid add signatories request with single api_user",
+			request: &AddSignatoriesToAccountRequest{
+				Name:  "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Users: []string{"api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "valid add signatories request with multiple users",
+			request: &AddSignatoriesToAccountRequest{
+				Name: "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Users: []string{
+					"users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+					"users/01BRZ3NDEKTSV4RRFFQ69G5FAW",
+					"api_users/01CRZ3NDEKTSV4RRFFQ69G5FAX",
+				},
+			},
+			wantErr: false,
+		},
+		{
+			name: "valid add signatories request with max users (100)",
+			request: &AddSignatoriesToAccountRequest{
+				Name:  "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Users: generateValidUsers(100),
+			},
+			wantErr: false,
+		},
+		{
+			name: "empty users list",
+			request: &AddSignatoriesToAccountRequest{
+				Name:  "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Users: []string{}, // Required to have at least 1
+			},
+			wantErr: true,
+			errMsg:  "users",
+		},
+		{
+			name: "too many users (exceeds max of 100)",
+			request: &AddSignatoriesToAccountRequest{
+				Name:  "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Users: generateValidUsers(101),
+			},
+			wantErr: true,
+			errMsg:  "users",
+		},
+		{
+			name: "invalid name format - wrong length",
+			request: &AddSignatoriesToAccountRequest{
+				Name:  "accounts/01ARZ3NDEKTSV4RRFFQ69G5FA", // Too short by 1 char
+				Users: []string{"users/01ARZ3NDEKTSV4RRFFQ69G5FAV"},
+			},
+			wantErr: true,
+			errMsg:  "name",
+		},
+		{
+			name: "invalid name format - wrong resource type",
+			request: &AddSignatoriesToAccountRequest{
+				Name:  "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Wrong resource type
+				Users: []string{"users/01ARZ3NDEKTSV4RRFFQ69G5FAV"},
+			},
+			wantErr: true,
+			errMsg:  "name",
+		},
+		{
+			name: "invalid user format - wrong resource type",
+			request: &AddSignatoriesToAccountRequest{
+				Name: "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Users: []string{
+					"users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+					"groups/01BRZ3NDEKTSV4RRFFQ69G5FAW", // Wrong resource type
+				},
+			},
+			wantErr: true,
+			errMsg:  "users",
+		},
+		{
+			name: "invalid user format - wrong ULID length",
+			request: &AddSignatoriesToAccountRequest{
+				Name: "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Users: []string{
+					"users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+					"users/01ARZ3NDEKTSV4RRFFQ69G5FA", // ULID too short
+				},
+			},
+			wantErr: true,
+			errMsg:  "users",
+		},
+		{
+			name: "invalid user format - invalid ULID characters",
+			request: &AddSignatoriesToAccountRequest{
+				Name: "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Users: []string{
+					"users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+					"users/01arz3ndektsv4rrffq69g5fav", // Lowercase not allowed in ULID
+				},
+			},
+			wantErr: true,
+			errMsg:  "users",
+		},
+		{
+			name: "all users invalid",
+			request: &AddSignatoriesToAccountRequest{
+				Name: "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Users: []string{
+					"invalid/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+					"groups/01BRZ3NDEKTSV4RRFFQ69G5FAW",
+				},
+			},
+			wantErr: true,
+			errMsg:  "users",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			err := v.Validate(tt.request)
+			if tt.wantErr {
+				if err == nil {
+					t.Errorf("expected validation error but got none")
+				} else if tt.errMsg != "" && !containsError(err.Error(), tt.errMsg) {
+					t.Errorf("expected error containing %q, got %q", tt.errMsg, err.Error())
+				}
+			} else {
+				if err != nil {
+					t.Errorf("unexpected validation error: %v", err)
+				}
+			}
+		})
+	}
+}
+
+func TestRemoveSignatoriesFromAccountRequest_Validation(t *testing.T) {
+	v, err := protovalidate.New()
+	if err != nil {
+		t.Fatalf("failed to initialize validator: %v", err)
+	}
+
+	tests := []struct {
+		name    string
+		request *RemoveSignatoriesFromAccountRequest
+		wantErr bool
+		errMsg  string
+	}{
+		{
+			name: "valid remove signatories request with single user",
+			request: &RemoveSignatoriesFromAccountRequest{
+				Name:  "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Users: []string{"users/01ARZ3NDEKTSV4RRFFQ69G5FAV"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "valid remove signatories request with single api_user",
+			request: &RemoveSignatoriesFromAccountRequest{
+				Name:  "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Users: []string{"api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "valid remove signatories request with multiple users",
+			request: &RemoveSignatoriesFromAccountRequest{
+				Name: "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Users: []string{
+					"users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+					"users/01BRZ3NDEKTSV4RRFFQ69G5FAW",
+					"api_users/01CRZ3NDEKTSV4RRFFQ69G5FAX",
+				},
+			},
+			wantErr: false,
+		},
+		{
+			name: "valid remove signatories request with max users (100)",
+			request: &RemoveSignatoriesFromAccountRequest{
+				Name:  "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Users: generateValidUsers(100),
+			},
+			wantErr: false,
+		},
+		{
+			name: "empty users list",
+			request: &RemoveSignatoriesFromAccountRequest{
+				Name:  "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Users: []string{}, // Required to have at least 1
+			},
+			wantErr: true,
+			errMsg:  "users",
+		},
+		{
+			name: "too many users (exceeds max of 100)",
+			request: &RemoveSignatoriesFromAccountRequest{
+				Name:  "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Users: generateValidUsers(101),
+			},
+			wantErr: true,
+			errMsg:  "users",
+		},
+		{
+			name: "invalid name format - wrong length",
+			request: &RemoveSignatoriesFromAccountRequest{
+				Name:  "accounts/01ARZ3NDEKTSV4RRFFQ69G5FA", // Too short by 1 char
+				Users: []string{"users/01ARZ3NDEKTSV4RRFFQ69G5FAV"},
+			},
+			wantErr: true,
+			errMsg:  "name",
+		},
+		{
+			name: "invalid name format - wrong resource type",
+			request: &RemoveSignatoriesFromAccountRequest{
+				Name:  "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Wrong resource type
+				Users: []string{"users/01ARZ3NDEKTSV4RRFFQ69G5FAV"},
+			},
+			wantErr: true,
+			errMsg:  "name",
+		},
+		{
+			name: "invalid user format - wrong resource type",
+			request: &RemoveSignatoriesFromAccountRequest{
+				Name: "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Users: []string{
+					"users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+					"groups/01BRZ3NDEKTSV4RRFFQ69G5FAW", // Wrong resource type
+				},
+			},
+			wantErr: true,
+			errMsg:  "users",
+		},
+		{
+			name: "invalid user format - wrong ULID length",
+			request: &RemoveSignatoriesFromAccountRequest{
+				Name: "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Users: []string{
+					"users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+					"users/01ARZ3NDEKTSV4RRFFQ69G5FA", // ULID too short
+				},
+			},
+			wantErr: true,
+			errMsg:  "users",
+		},
+		{
+			name: "invalid user format - invalid ULID characters",
+			request: &RemoveSignatoriesFromAccountRequest{
+				Name: "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Users: []string{
+					"users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+					"users/01arz3ndektsv4rrffq69g5fav", // Lowercase not allowed in ULID
+				},
+			},
+			wantErr: true,
+			errMsg:  "users",
+		},
+		{
+			name: "all users invalid",
+			request: &RemoveSignatoriesFromAccountRequest{
+				Name: "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Users: []string{
+					"invalid/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+					"groups/01BRZ3NDEKTSV4RRFFQ69G5FAW",
+				},
+			},
+			wantErr: true,
+			errMsg:  "users",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			err := v.Validate(tt.request)
+			if tt.wantErr {
+				if err == nil {
+					t.Errorf("expected validation error but got none")
+				} else if tt.errMsg != "" && !containsError(err.Error(), tt.errMsg) {
+					t.Errorf("expected error containing %q, got %q", tt.errMsg, err.Error())
+				}
+			} else {
+				if err != nil {
+					t.Errorf("unexpected validation error: %v", err)
+				}
+			}
+		})
+	}
+}
+
 func TestGetAccountRequest_Validation(t *testing.T) {
 	v, err := protovalidate.New()
 	if err != nil {
@@ -473,13 +777,6 @@ func TestOpenAccountResponse_Validation(t *testing.T) {
 		{
 			name: "valid open account response",
 			response: &OpenAccountResponse{
-				Account: &Account{
-					Name:        "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-					Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-					Ledger:      type_v1.Ledger_LEDGER_STELLAR,
-					DisplayName: "Opened Account",
-					State:       AccountState_ACCOUNT_STATE_OPEN,
-				},
 				LedgerTransaction: "transactions/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 			},
 			wantErr: false,
@@ -487,6 +784,88 @@ func TestOpenAccountResponse_Validation(t *testing.T) {
 		{
 			name:     "empty open account response",
 			response: &OpenAccountResponse{},
+			wantErr:  false, // No validation constraints on response
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			err := v.Validate(tt.response)
+			if tt.wantErr {
+				if err == nil {
+					t.Errorf("expected validation error but got none")
+				}
+			} else {
+				if err != nil {
+					t.Errorf("unexpected validation error: %v", err)
+				}
+			}
+		})
+	}
+}
+
+func TestAddSignatoriesToAccountResponse_Validation(t *testing.T) {
+	v, err := protovalidate.New()
+	if err != nil {
+		t.Fatalf("failed to initialize validator: %v", err)
+	}
+
+	tests := []struct {
+		name     string
+		response *AddSignatoriesToAccountResponse
+		wantErr  bool
+	}{
+		{
+			name: "valid add signatories response",
+			response: &AddSignatoriesToAccountResponse{
+				LedgerTransaction: "transactions/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+			},
+			wantErr: false,
+		},
+		{
+			name:     "empty add signatories response",
+			response: &AddSignatoriesToAccountResponse{},
+			wantErr:  false, // No validation constraints on response
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			err := v.Validate(tt.response)
+			if tt.wantErr {
+				if err == nil {
+					t.Errorf("expected validation error but got none")
+				}
+			} else {
+				if err != nil {
+					t.Errorf("unexpected validation error: %v", err)
+				}
+			}
+		})
+	}
+}
+
+func TestRemoveSignatoriesFromAccountResponse_Validation(t *testing.T) {
+	v, err := protovalidate.New()
+	if err != nil {
+		t.Fatalf("failed to initialize validator: %v", err)
+	}
+
+	tests := []struct {
+		name     string
+		response *RemoveSignatoriesFromAccountResponse
+		wantErr  bool
+	}{
+		{
+			name: "valid remove signatories response",
+			response: &RemoveSignatoriesFromAccountResponse{
+				LedgerTransaction: "transactions/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+			},
+			wantErr: false,
+		},
+		{
+			name:     "empty remove signatories response",
+			response: &RemoveSignatoriesFromAccountResponse{},
 			wantErr:  false, // No validation constraints on response
 		},
 	}
@@ -605,4 +984,30 @@ func TestSearchAccountsResponse_Validation(t *testing.T) {
 			}
 		})
 	}
+}
+
+// Helper function to generate valid user resource names for testing
+func generateValidUsers(count int) []string {
+	users := make([]string, count)
+	// Pre-generated valid ULIDs for testing
+	ulids := []string{
+		"01ARZ3NDEKTSV4RRFFQ69G5FAV",
+		"01BRZ3NDEKTSV4RRFFQ69G5FAW",
+		"01CRZ3NDEKTSV4RRFFQ69G5FAX",
+		"01DRZ3NDEKTSV4RRFFQ69G5FAY",
+		"01ERZ3NDEKTSV4RRFFQ69G5FAZ",
+	}
+
+	for i := 0; i < count; i++ {
+		// Alternate between users and api_users
+		resourceType := "users"
+		if i%2 == 0 {
+			resourceType = "api_users"
+		}
+		// Cycle through the ULID list
+		ulid := ulids[i%len(ulids)]
+		users[i] = resourceType + "/" + ulid
+	}
+
+	return users
 }

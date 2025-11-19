@@ -9,8 +9,8 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 import co.meshtrade.api.iam.api_user.v1.ApiUserStateMachine;
-import co.meshtrade.api.iam.api_user.v1.ApiUser.APIUserAction;
-import co.meshtrade.api.iam.api_user.v1.ApiUser.APIUserState;
+import co.meshtrade.api.iam.api_user.v1.ApiUserOuterClass.APIUserAction;
+import co.meshtrade.api.iam.api_user.v1.ApiUserOuterClass.APIUserState;
 
 /**
  * Comprehensive tests for ApiUserStateMachine utility methods.

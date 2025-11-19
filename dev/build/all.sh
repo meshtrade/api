@@ -23,12 +23,14 @@ cd "$ROOT_DIR"
 
 # Track build results
 PYTHON_SUCCESS=false
-TYPESCRIPT_SUCCESS=false
+TS_WEB_SUCCESS=false
+TS_NODE_SUCCESS=false
+TSOLD_SUCCESS=false
 JAVA_SUCCESS=false
 
 # Build Python SDK
 echo "🐍 Starting Python SDK build..."
-if "$SCRIPT_DIR/build-python.sh"; then
+if "$SCRIPT_DIR/python.sh"; then
     PYTHON_SUCCESS=true
     echo "✅ Python SDK build successful"
 else
@@ -36,19 +38,39 @@ else
 fi
 echo
 
-# Build TypeScript SDK
-echo "📦 Starting TypeScript SDK build..."
-if "$SCRIPT_DIR/build-typescript.sh"; then
-    TYPESCRIPT_SUCCESS=true
-    echo "✅ TypeScript SDK build successful"
+# Build TypeScript (Web) SDK
+echo "📦 Starting TypeScript (Web) SDK build..."
+if "$SCRIPT_DIR/ts-web.sh"; then
+    TS_WEB_SUCCESS=true
+    echo "✅ TypeScript (Web) SDK build successful"
 else
-    echo "❌ TypeScript SDK build failed"
+    echo "❌ TypeScript (Web) SDK build failed"
+fi
+echo
+
+# Build TypeScript (Node.js) SDK
+echo "📦 Starting TypeScript (Node.js) SDK build..."
+if "$SCRIPT_DIR/ts-node.sh"; then
+    TS_NODE_SUCCESS=true
+    echo "✅ TypeScript (Node.js) SDK build successful"
+else
+    echo "❌ TypeScript (Node.js) SDK build failed"
+fi
+echo
+
+# Build TypeScript (Web) (Legacy) SDK
+echo "📦 Starting TypeScript (Web) (Legacy) SDK build..."
+if "$SCRIPT_DIR/ts-old.sh"; then
+    TSOLD_SUCCESS=true
+    echo "✅ TypeScript (Web) (Legacy) SDK build successful"
+else
+    echo "❌ TypeScript (Web) (Legacy) SDK build failed"
 fi
 echo
 
 # Build Java SDK
 echo "☕ Starting Java SDK build..."
-if "$SCRIPT_DIR/build-java.sh"; then
+if "$SCRIPT_DIR/java.sh"; then
     JAVA_SUCCESS=true
     echo "✅ Java SDK build successful"
 else
@@ -69,10 +91,22 @@ else
     echo "❌ Python SDK:     FAILED"
 fi
 
-if [ "$TYPESCRIPT_SUCCESS" = true ]; then
-    echo "✅ TypeScript SDK: SUCCESS"
+if [ "$TS_WEB_SUCCESS" = true ]; then
+    echo "✅ TypeScript (Web) SDK: SUCCESS"
 else
-    echo "❌ TypeScript SDK: FAILED"
+    echo "❌ TypeScript (Web) SDK: FAILED"
+fi
+
+if [ "$TS_NODE_SUCCESS" = true ]; then
+    echo "✅ TypeScript (Node) SDK: SUCCESS"
+else
+    echo "❌ TypeScript (Node) SDK: FAILED"
+fi
+
+if [ "$TSOLD_SUCCESS" = true ]; then
+    echo "✅ TypeScript (Legacy) SDK: SUCCESS"
+else
+    echo "❌ TypeScript (Legacy) SDK: FAILED"
 fi
 
 if [ "$JAVA_SUCCESS" = true ]; then
@@ -84,7 +118,7 @@ fi
 echo
 
 # Exit with error if any build failed
-if [ "$PYTHON_SUCCESS" = true ] && [ "$TYPESCRIPT_SUCCESS" = true ] && [ "$JAVA_SUCCESS" = true ]; then
+if [ "$PYTHON_SUCCESS" = true ] && [ "$TS_WEB_SUCCESS" = true ] && [ "$TS_NODE_SUCCESS" = true ] && [ "$TSOLD_SUCCESS" = true ] && [ "$JAVA_SUCCESS" = true ]; then
     echo "🎉 All SDK builds completed successfully!"
     exit 0
 else

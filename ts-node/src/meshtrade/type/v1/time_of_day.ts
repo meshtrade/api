@@ -1,0 +1,239 @@
+import { create } from "@bufbuild/protobuf";
+import { TimeOfDay, TimeOfDaySchema } from "./time_of_day_pb";
+import { Date as ProtoDate } from "./date_pb";
+import { isComplete as isDateComplete } from "./date";
+
+/**
+ * Creates a new TimeOfDay protobuf message from hours, minutes, seconds, and nanos values.
+ * Validates the input values according to the TimeOfDay message constraints.
+ *
+ * @param hours - Hours value (0-23, default 0)
+ * @param minutes - Minutes value (0-59, default 0)
+ * @param seconds - Seconds value (0-59, default 0)
+ * @param nanos - Nanoseconds value (0-999999999, default 0)
+ * @returns A TimeOfDay protobuf message
+ * @throws Error if the time values are invalid
+ */
+export function newTimeOfDay(
+  hours: number = 0,
+  minutes: number = 0,
+  seconds: number = 0,
+  nanos: number = 0
+): TimeOfDay {
+  validateTimeOfDay(hours, minutes, seconds, nanos);
+  return create(TimeOfDaySchema, { hours, minutes, seconds, nanos });
+}
+
+/**
+ * Creates a TimeOfDay protobuf message from a JavaScript Date object.
+ * Only extracts the time components, ignoring the date.
+ *
+ * @param jsDate - A JavaScript Date object
+ * @returns A TimeOfDay protobuf message
+ */
+export function newTimeOfDayFromJsDate(jsDate: Date): TimeOfDay {
+  return create(TimeOfDaySchema, {
+    hours: jsDate.getHours(),
+    minutes: jsDate.getMinutes(),
+    seconds: jsDate.getSeconds(),
+    nanos: jsDate.getMilliseconds() * 1000000, // Convert milliseconds to nanoseconds
+  });
+}
+
+/**
+ * Creates a TimeOfDay protobuf message from milliseconds since midnight.
+ *
+ * @param millisSinceMidnight - Milliseconds elapsed since midnight
+ * @returns A TimeOfDay protobuf message
+ * @throws Error if the value is negative or >= 24 hours
+ */
+export function newTimeOfDayFromMillis(millisSinceMidnight: number): TimeOfDay {
+  if (millisSinceMidnight < 0) {
+    throw new Error(`Milliseconds cannot be negative: ${millisSinceMidnight}`);
+  }
+  if (millisSinceMidnight >= 24 * 60 * 60 * 1000) {
+    throw new Error(
+      `Milliseconds cannot be 24 hours or more: ${millisSinceMidnight}`
+    );
+  }
+
+  const totalSeconds = Math.floor(millisSinceMidnight / 1000);
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+  const nanos = (millisSinceMidnight % 1000) * 1000000; // Convert remaining milliseconds to nanoseconds
+
+  return create(TimeOfDaySchema, { hours, minutes, seconds, nanos });
+}
+
+/**
+ * Converts a TimeOfDay protobuf message to milliseconds since midnight.
+ *
+ * @param protoTime - A TimeOfDay protobuf message
+ * @returns Milliseconds elapsed since midnight
+ */
+export function timeOfDayToMillis(protoTime: TimeOfDay): number {
+  if (!protoTime) {
+    return 0;
+  }
+
+  return (
+    protoTime.hours * 3600000 +
+    protoTime.minutes * 60000 +
+    protoTime.seconds * 1000 +
+    Math.floor(protoTime.nanos / 1000000)
+  ); // Convert nanoseconds to milliseconds
+}
+
+/**
+ * Combines a TimeOfDay with a Date to create a JavaScript Date object.
+ *
+ * @param protoTime - A TimeOfDay protobuf message
+ * @param protoDate - A Date protobuf message
+ * @returns A JavaScript Date object
+ * @throws Error if either object is invalid or if date is incomplete
+ */
+export function timeOfDayToJsDateWithDate(
+  protoTime: TimeOfDay,
+  protoDate: ProtoDate
+): Date {
+  if (!protoTime) {
+    throw new Error("TimeOfDay object is null or undefined");
+  }
+  if (!protoDate) {
+    throw new Error("Date object is null or undefined");
+  }
+
+  if (!isDateComplete(protoDate)) {
+    throw new Error("Date must be complete");
+  }
+
+  try {
+    return new Date(
+      protoDate.year,
+      protoDate.month - 1, // JS months are 0-indexed
+      protoDate.day,
+      protoTime.hours,
+      protoTime.minutes,
+      protoTime.seconds,
+      Math.floor(protoTime.nanos / 1000000) // Convert nanoseconds to milliseconds
+    );
+  } catch (e) {
+    throw new Error(`Invalid datetime values: ${e}`);
+  }
+}
+
+/**
+ * Checks if a TimeOfDay has valid values according to the protobuf constraints.
+ *
+ * @param protoTime - A TimeOfDay protobuf message or undefined
+ * @returns True if the time is valid, false otherwise
+ */
+export function isValid(protoTime?: TimeOfDay): boolean {
+  if (!protoTime) {
+    return false;
+  }
+
+  try {
+    validateTimeOfDay(
+      protoTime.hours,
+      protoTime.minutes,
+      protoTime.seconds,
+      protoTime.nanos
+    );
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Returns true if the time represents midnight (00:00:00.000000000).
+ *
+ * @param protoTime - A TimeOfDay protobuf message or undefined
+ * @returns True if the time is midnight, false otherwise
+ */
+export function isMidnight(protoTime?: TimeOfDay): boolean {
+  if (!protoTime) {
+    return false;
+  }
+  return (
+    protoTime.hours === 0 &&
+    protoTime.minutes === 0 &&
+    protoTime.seconds === 0 &&
+    protoTime.nanos === 0
+  );
+}
+
+/**
+ * Returns a string representation of the time in HH:MM:SS.nnnnnnnnn format.
+ *
+ * @param protoTime - A TimeOfDay protobuf message or undefined
+ * @returns String representation of the time
+ */
+export function timeOfDayToString(protoTime?: TimeOfDay): string {
+  if (!protoTime) {
+    return "<undefined>";
+  }
+
+  if (protoTime.nanos === 0) {
+    return `${protoTime.hours.toString().padStart(2, "0")}:${protoTime.minutes.toString().padStart(2, "0")}:${protoTime.seconds.toString().padStart(2, "0")}`;
+  } else {
+    return `${protoTime.hours.toString().padStart(2, "0")}:${protoTime.minutes.toString().padStart(2, "0")}:${protoTime.seconds.toString().padStart(2, "0")}.${protoTime.nanos.toString().padStart(9, "0")}`;
+  }
+}
+
+/**
+ * Returns the total number of seconds since midnight as a number.
+ *
+ * @param protoTime - A TimeOfDay protobuf message or undefined
+ * @returns Total seconds since midnight
+ */
+export function totalSeconds(protoTime?: TimeOfDay): number {
+  if (!protoTime) {
+    return 0;
+  }
+
+  return (
+    protoTime.hours * 3600 +
+    protoTime.minutes * 60 +
+    protoTime.seconds +
+    protoTime.nanos / 1e9
+  );
+}
+
+/**
+ * Validates the hours, minutes, seconds, and nanos values according to TimeOfDay constraints.
+ *
+ * @param hours - Hours value
+ * @param minutes - Minutes value
+ * @param seconds - Seconds value
+ * @param nanos - Nanoseconds value
+ * @throws Error if the time values are invalid
+ */
+function validateTimeOfDay(
+  hours: number,
+  minutes: number,
+  seconds: number,
+  nanos: number
+): void {
+  // Hours validation
+  if (hours < 0 || hours > 23) {
+    throw new Error(`Hours must be between 0 and 23, got ${hours}`);
+  }
+
+  // Minutes validation
+  if (minutes < 0 || minutes > 59) {
+    throw new Error(`Minutes must be between 0 and 59, got ${minutes}`);
+  }
+
+  // Seconds validation
+  if (seconds < 0 || seconds > 59) {
+    throw new Error(`Seconds must be between 0 and 59, got ${seconds}`);
+  }
+
+  // Nanos validation
+  if (nanos < 0 || nanos > 999999999) {
+    throw new Error(`Nanos must be between 0 and 999,999,999, got ${nanos}`);
+  }
+}

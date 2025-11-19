@@ -13,7 +13,7 @@ NC='\033[0m' # No Color
 cd "$ROOT_DIR"
 
 # Parse command line arguments
-TARGETS="go,python,typescript,java"
+TARGETS="go,python,ts-web,ts-node,ts-old,java"
 VERBOSE=false
 FAIL_FAST=false
 
@@ -40,7 +40,7 @@ while [[ $# -gt 0 ]]; do
             echo
             echo "Options:"
             echo "  -t, --targets=LIST    Comma-separated list of targets to test"
-            echo "                        Available: go, python, typescript, java"
+            echo "                        Available: go, python, ts-web, ts-node, ts-old, java"
             echo "                        Default: all targets"
             echo "  -v, --verbose         Enable verbose output"
             echo "      --fail-fast       Stop on first test failure"
@@ -49,7 +49,7 @@ while [[ $# -gt 0 ]]; do
             echo "Examples:"
             echo "  $0                                    # Test all languages"
             echo "  $0 --targets=python,java             # Test only Python and Java"
-            echo "  $0 --targets=typescript --verbose    # Test TypeScript with verbose output"
+            echo "  $0 --targets=ts-web --verbose        # Test TypeScript (Web) with verbose output"
             echo "  $0 --fail-fast                       # Stop on first failure"
             exit 0
             ;;
@@ -69,7 +69,7 @@ declare -a NORMALIZED_TARGETS
 for target in "${TARGET_ARRAY[@]}"; do
     target=$(echo "$target" | xargs) # trim whitespace
     case "$target" in
-        "ts") NORMALIZED_TARGETS+=("typescript") ;;
+        "ts") NORMALIZED_TARGETS+=("ts-web") ;;
         "py") NORMALIZED_TARGETS+=("python") ;;
         *) NORMALIZED_TARGETS+=("$target") ;;
     esac
@@ -88,8 +88,12 @@ result_go=""
 duration_go=""
 result_python=""
 duration_python=""
-result_typescript=""
-duration_typescript=""
+result_ts_web=""
+duration_ts_web=""
+result_ts_node=""
+duration_ts_node=""
+result_ts_old=""
+duration_ts_old=""
 result_java=""
 duration_java=""
 failed_targets=""
@@ -100,11 +104,13 @@ store_result() {
     local target="$1"
     local status="$2"
     local duration="$3"
-    
+
     case "$target" in
         "go") result_go="$status"; duration_go="$duration" ;;
         "python") result_python="$status"; duration_python="$duration" ;;
-        "typescript") result_typescript="$status"; duration_typescript="$duration" ;;
+        "ts-web") result_ts_web="$status"; duration_ts_web="$duration" ;;
+        "ts-node") result_ts_node="$status"; duration_ts_node="$duration" ;;
+        "ts-old") result_ts_old="$status"; duration_ts_old="$duration" ;;
         "java") result_java="$status"; duration_java="$duration" ;;
     esac
 }
@@ -114,7 +120,9 @@ get_result() {
     case "$target" in
         "go") echo "$result_go" ;;
         "python") echo "$result_python" ;;
-        "typescript") echo "$result_typescript" ;;
+        "ts-web") echo "$result_ts_web" ;;
+        "ts-node") echo "$result_ts_node" ;;
+        "ts-old") echo "$result_ts_old" ;;
         "java") echo "$result_java" ;;
     esac
 }
@@ -124,7 +132,9 @@ get_duration() {
     case "$target" in
         "go") echo "$duration_go" ;;
         "python") echo "$duration_python" ;;
-        "typescript") echo "$duration_typescript" ;;
+        "ts-web") echo "$duration_ts_web" ;;
+        "ts-node") echo "$duration_ts_node" ;;
+        "ts-old") echo "$duration_ts_old" ;;
         "java") echo "$duration_java" ;;
     esac
 }
@@ -204,7 +214,7 @@ overall_success=true
 
 for target in "${NORMALIZED_TARGETS[@]}"; do
     case "$target" in
-        "go"|"python"|"typescript"|"java")
+        "go"|"python"|"ts-web"|"ts-node"|"ts-old"|"java")
             if ! run_target_tests "$target"; then
                 overall_success=false
                 if $FAIL_FAST; then
@@ -214,7 +224,7 @@ for target in "${NORMALIZED_TARGETS[@]}"; do
             ;;
         *)
             echo -e "${RED}❌ Unknown target: $target${NC}"
-            echo "   Available targets: go, python, typescript, java"
+            echo "   Available targets: go, python, ts-web, ts-node, ts-old, java"
             overall_success=false
             ;;
     esac

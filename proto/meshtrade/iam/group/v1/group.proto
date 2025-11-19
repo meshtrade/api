@@ -44,6 +44,21 @@ message Group {
   }];
 
   /*
+     Ownership hiearchy of groups that have access to this resource in the format groups/{group_id}.
+     System set on creation.
+  */
+  repeated string owners = 3 [(buf.validate.field) = {
+    repeated: {
+      items: {
+        string: {
+          len: 33
+          pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+        }
+      }
+    }
+  }];
+
+  /*
      Human-readable name for organizational identification and display.
      User-configurable and non-unique across the system.
   */
