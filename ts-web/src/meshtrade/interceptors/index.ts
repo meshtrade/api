@@ -1,27 +1,31 @@
 /**
- * Connect-ES interceptors for the Meshtrade API client (Web/Browser).
+ * Connect-ES interceptors for the Meshtrade API client.
  *
  * Provides interceptor utilities for use with @connectrpc/connect clients,
- * including group context injection for multi-tenant operations.
- *
- * ## Authentication in Browser Environments
- *
- * The Web SDK uses browser-native cookie-based authentication via the
- * `credentials: 'include'` fetch option. This automatically sends HTTP-only
- * cookies (like AccessToken) with each request, which is the standard and
- * secure authentication pattern for browser applications.
- *
- * Unlike the Node.js SDK which supports explicit API key and JWT interceptors,
- * the Web SDK relies on the browser's automatic cookie handling. This is why
- * this module only provides group context and logging interceptors - authentication
- * is handled implicitly by the browser's cookie mechanism.
- *
- * For backend/server-side authentication needs, use the Node.js SDK instead
- * (@meshtrade/api-node), which provides explicit API key and JWT token support.
+ * including authentication (API key, JWT) and group context injection for
+ * multi-tenant operations.
  */
 
 import { Interceptor } from "@connectrpc/connect";
-import { isValidGroupResourceName } from "./validation";
+
+/**
+ * HTTP header names for authentication.
+ * Must match the server-side header constants.
+ */
+const API_KEY_HEADER = "x-api-key";
+const GROUP_HEADER = "x-group";
+const COOKIE_HEADER = "cookie";
+const ACCESS_TOKEN_COOKIE_NAME = "AccessToken";
+
+/**
+ * Validates if a resource name follows the groups/{ulid} format.
+ *
+ * @param resourceName - The resource name string to validate
+ * @returns true if the resource name is a valid group resource name, false otherwise
+ */
+function isValidGroupResourceName(resourceName: string): boolean {
+  return /^groups\/[0-9A-Z]{26}$/.test(resourceName);
+}
 
 /**
  * Creates a Connect-ES interceptor that injects operating group context
@@ -67,16 +71,58 @@ export function createGroupInterceptor(
 
   // Create the interceptor function
   const interceptor: Interceptor = (next) => async (req) => {
-    // Add the x-group header to the request
-    req.header.set("x-group", group);
-
-    // Call the next interceptor in the chain
+    req.header.set(GROUP_HEADER, group);
     return await next(req);
   };
 
   // Add a marker property so we can identify group interceptors
   // This is used in the withGroup method to prevent double-setting
   return Object.assign(interceptor, { groupContext: group });
+}
+
+/**
+ * Creates a Connect-ES interceptor that injects API key authentication.
+ *
+ * @param apiKey - The API key for authentication
+ * @returns An interceptor that adds x-api-key header
+ * @throws {Error} If apiKey is empty
+ */
+export function createApiKeyInterceptor(
+  apiKey: string
+): Interceptor & { apiKeyAuth: true } {
+  if (!apiKey || apiKey.trim() === "") {
+    throw new Error("API key cannot be empty");
+  }
+
+  const interceptor: Interceptor = (next) => async (req) => {
+    req.header.set(API_KEY_HEADER, apiKey);
+    return await next(req);
+  };
+
+  return Object.assign(interceptor, { apiKeyAuth: true as const });
+}
+
+/**
+ * Creates a Connect-ES interceptor that injects JWT token authentication.
+ *
+ * @param jwtToken - The JWT token from the user's session
+ * @returns An interceptor that adds AccessToken cookie
+ * @throws {Error} If jwtToken is empty
+ */
+export function createJwtInterceptor(
+  jwtToken: string
+): Interceptor & { jwtAuth: true } {
+  if (!jwtToken || jwtToken.trim() === "") {
+    throw new Error("JWT token cannot be empty");
+  }
+
+  const interceptor: Interceptor = (next) => async (req) => {
+    const cookieValue = `${ACCESS_TOKEN_COOKIE_NAME}=${jwtToken}`;
+    req.header.set(COOKIE_HEADER, cookieValue);
+    return await next(req);
+  };
+
+  return Object.assign(interceptor, { jwtAuth: true as const });
 }
 
 /**
@@ -104,7 +150,7 @@ export function createLoggingInterceptor(): Interceptor {
     });
 
     // Log the request
-    console.log(`[Connect] ${req.method.name} request:`, {
+    console.debug(`[Connect] ${req.method.name} request:`, {
       service: req.service.typeName,
       method: req.method.name,
       headers,
@@ -115,7 +161,7 @@ export function createLoggingInterceptor(): Interceptor {
       const response = await next(req);
 
       // Log successful response
-      console.log(`[Connect] ${req.method.name} response:`, {
+      console.debug(`[Connect] ${req.method.name} response:`, {
         service: req.service.typeName,
         method: req.method.name,
         status: "success",

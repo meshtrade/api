@@ -10,6 +10,8 @@
       "ES2020",
       "DOM"
     ],
+    // Include Jest types for test file type checking in editors
+    "types": ["jest"],
     // --- Library Build Settings ---
     // Generates .d.ts files so other TypeScript projects can use your library. ESSENTIAL.
     "declaration": true,
@@ -32,10 +34,9 @@
   "include": [
     "src/**/*.ts"
   ],
-  // Tells TypeScript to ignore its own output directory and test files.
+  // Tells TypeScript to ignore its own output directory.
+  // Note: Test files are included for editor type checking but excluded from build via separate config.
   "exclude": [
-    "dist",
-    "**/*.test.ts",
-    "**/*.spec.ts"
+    "dist"
   ]
 }

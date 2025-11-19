@@ -1210,6 +1210,18 @@
   resolved "https://registry.yarnpkg.com/@braintree/sanitize-url/-/sanitize-url-7.1.1.tgz#15e19737d946559289b915e5dad3b4c28407735e"
   integrity sha512-i1L7noDNxtFyL5DmZafWy1wRVhGehQmzZaz1HiN5e7iylJMSZR7ekOV7NsIqa5qBldlLrsKv4HbgFUVlQrz8Mw==
 
+"@bufbuild/cel-spec@0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@bufbuild/cel-spec/-/cel-spec-0.3.0.tgz#05fa54cb6c8d1f6053aca40687ff976ba40e2f2f"
+  integrity sha512-mN669LGlXkYNco6NzSTpFoW52UwGb0h5UJNct43nkOjk9YrgUtzcBn9PfjrwbyAe3OlUtasvXAFf1Tjs3NQLOg==
+
+"@bufbuild/cel@0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@bufbuild/cel/-/cel-0.3.0.tgz#0ebb8f4fdc03449de79b25767f45779e1586eec5"
+  integrity sha512-vIdcn0Ot6XDKakcDqEQvvlCtMlYwLlxc++SrVjjCmYIiZRH+tlr1GRYpe5R9kguSiTS3BLh7C+I7ZoektVPICQ==
+  dependencies:
+    "@bufbuild/cel-spec" "0.3.0"
+
 "@bufbuild/protobuf@2.9.0":
   version "2.9.0"
   resolved "https://registry.yarnpkg.com/@bufbuild/protobuf/-/protobuf-2.9.0.tgz#ff8827be3d8e56d74a03530cff8b0e1952aa115e"
@@ -1228,6 +1240,13 @@
     "@bufbuild/protobuf" "2.9.0"
     "@typescript/vfs" "^1.5.2"
     typescript "5.4.5"
+
+"@bufbuild/protovalidate@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@bufbuild/protovalidate/-/protovalidate-1.0.0.tgz#6d8660829b4f9c4f7127741f76a6a52423224910"
+  integrity sha512-ICGANMQXaPKdR5BJ+6/L3nySHOZQQEZQvvivSZCFb799138obPLjNk32rSIKOMrA/YHc4Y2W738e+SL3CbZXSg==
+  dependencies:
+    "@bufbuild/cel" "0.3.0"
 
 "@chevrotain/cst-dts-gen@11.0.3":
   version "11.0.3"

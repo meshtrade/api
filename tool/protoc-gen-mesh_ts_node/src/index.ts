@@ -45,55 +45,88 @@ function generateConnectClientManually(schema: Schema, file: DescFile) {
   }
 
   // Import request/response types
-  // Separate types defined in service_pb from those in other files
+  // Collect types defined in service_pb
   const serviceTypes = new Set<string>();
-  const externalTypes = new Set<string>();
+  const requestTypes = new Set<string>(); // Track request types separately for schema imports
 
   for (const service of file.services) {
     for (const method of service.methods) {
-      // Request types are typically defined in service.proto
+      // Request types defined in this service file
       if (method.input.file === file) {
         serviceTypes.add(method.input.name);
-      } else {
-        externalTypes.add(method.input.name);
+        requestTypes.add(method.input.name); // Track for schema import
       }
 
-      // Response types may be defined in different files
+      // Response types defined in this service file
       if (method.output.file === file) {
         serviceTypes.add(method.output.name);
-      } else {
-        externalTypes.add(method.output.name);
+        // Note: Response types don't need schemas - we only validate requests
       }
     }
   }
 
   // Import types from service_pb (request/response messages defined in the service file)
+  // Also import the Schema types for request types only (used for validation)
   if (serviceTypes.size > 0) {
     const sortedServiceTypes = Array.from(serviceTypes).sort();
+    const importsWithSchemas: string[] = [];
+    for (const type of sortedServiceTypes) {
+      importsWithSchemas.push(type);
+      // Only import Schema for request types, not response types
+      if (requestTypes.has(type)) {
+        importsWithSchemas.push(`${type}Schema`);
+      }
+    }
     content += `import {\n`;
-    for (let i = 0; i < sortedServiceTypes.length; i++) {
-      content += `  ${sortedServiceTypes[i]}${i < sortedServiceTypes.length - 1 ? ',' : ''}\n`;
+    for (let i = 0; i < importsWithSchemas.length; i++) {
+      content += `  ${importsWithSchemas[i]}${i < importsWithSchemas.length - 1 ? "," : ""}\n`;
     }
     content += `} from "./service_pb";\n`;
   }
 
-  // Import types from their respective files (e.g., APIUser from api_user_pb)
-  if (externalTypes.size > 0) {
-    const sortedExternalTypes = Array.from(externalTypes).sort();
-    for (const typeName of sortedExternalTypes) {
-      // Generate import based on the file naming pattern
-      // Convert "APIUser" -> "api_user_pb"
-      const importPath = `./${convertToSnakeCase(typeName)}_pb`;
-      content += `import { ${typeName} } from "${importPath}";\n`;
+  // Import types from their respective files
+  // Group by source file to avoid duplicate imports
+  const externalTypesByFile = new Map<string, Set<string>>();
+
+  for (const service of file.services) {
+    for (const method of service.methods) {
+      // Check input type
+      if (method.input.file !== file && !serviceTypes.has(method.input.name)) {
+        const fileName = method.input.file.name;
+        if (!externalTypesByFile.has(fileName)) {
+          externalTypesByFile.set(fileName, new Set());
+        }
+        externalTypesByFile.get(fileName)!.add(method.input.name);
+      }
+
+      // Check output type
+      if (
+        method.output.file !== file &&
+        !serviceTypes.has(method.output.name)
+      ) {
+        const fileName = method.output.file.name;
+        if (!externalTypesByFile.has(fileName)) {
+          externalTypesByFile.set(fileName, new Set());
+        }
+        externalTypesByFile.get(fileName)!.add(method.output.name);
+      }
     }
   }
 
-  // Generate imports for common utilities with dynamic relative paths
+  // Generate imports for external types
+  for (const [sourceFileName, types] of externalTypesByFile) {
+    const sortedTypes = Array.from(types).sort();
+    // Calculate relative path from current file to the external file
+    const relativePath = calculateRelativeImportPath(file.name, sourceFileName);
+    content += `import { ${sortedTypes.join(", ")} } from "${relativePath}";\n`;
+  }
+
+  // Generate imports for utilities with dynamic relative paths
   const outputFilePath = getOutputFilePath(file);
-  const relativePathToCommon = getRelativePathToCommon(outputFilePath);
-  content += `import { ConfigOpts, getConfigFromOpts } from "${relativePathToCommon}/config";\n`;
-  content += `import { validateRequest } from "${relativePathToCommon}/validation";\n`;
-  content += `import { createGroupInterceptor, createApiKeyInterceptor, createJwtInterceptor } from "${relativePathToCommon}/connectInterceptors";\n`;
+  const relativePathToMeshtrade = getRelativePathToMeshtrade(outputFilePath);
+  content += `import { ClientOption, ClientConfig, buildConfigFromOptions, WithAPIKey, WithJWTAccessToken, WithGroup, WithServerUrl } from "${relativePathToMeshtrade}/config";\n`;
+  content += `import { createValidator } from "@bufbuild/protovalidate";\n`;
+  content += `import { createGroupInterceptor, createApiKeyInterceptor, createJwtInterceptor, createLoggingInterceptor } from "${relativePathToMeshtrade}/interceptors";\n`;
   content += `\n`;
 
   // Generate client class for each service
@@ -105,6 +138,33 @@ function generateConnectClientManually(schema: Schema, file: DescFile) {
   writeTypescriptFile(outputFilePath, content);
 }
 
+/**
+ * Calculate the relative import path from one proto file to another.
+ *
+ * Example:
+ * - From: "meshtrade/iam/api_user/v1/service"
+ *   To: "meshtrade/iam/api_user/v1/api_user"
+ *   -> Result: "./api_user_pb"
+ */
+function calculateRelativeImportPath(fromFile: string, toFile: string): string {
+  const fromDir = path.dirname(fromFile);
+  const toDir = path.dirname(toFile);
+  const toBasename = path.basename(toFile);
+
+  // Calculate relative path from fromDir to toDir
+  const relativePath = path.relative(fromDir, toDir);
+
+  // Construct the import path with _pb suffix
+  const importPath = path.join(relativePath, toBasename + "_pb");
+
+  // Ensure it starts with ./ or ../
+  if (!importPath.startsWith(".")) {
+    return "./" + importPath;
+  }
+
+  return importPath;
+}
+
 function getOutputFilePath(file: DescFile): string {
   // Convert protobuf file path to TypeScript Node output path
   // Example: "meshtrade/iam/api_user/v1/service.proto" -> "ts-node/src/meshtrade/iam/api_user/v1/service_node_meshts.ts"
@@ -114,13 +174,13 @@ function getOutputFilePath(file: DescFile): string {
   return path.join(outputDir, fileName);
 }
 
-function getRelativePathToCommon(outputFilePath: string): string {
-  // Calculate the relative path from the generated file to the common directory
+function getRelativePathToMeshtrade(outputFilePath: string): string {
+  // Calculate the relative path from the generated file to the ts-node/src/meshtrade root
   // Example: from "ts-node/src/meshtrade/iam/api_user/v1/service_node_meshts.ts"
-  //          to "ts-node/src/meshtrade/common/" returns "../../../common"
+  //          to "ts-node/src/meshtrade/" returns "../../../"
   const generatedFileDir = path.dirname(outputFilePath);
-  const commonDir = path.join("ts-node", "src", "meshtrade", "common");
-  return path.relative(generatedFileDir, commonDir);
+  const meshtradeDir = path.join("ts-node", "src", "meshtrade");
+  return path.relative(generatedFileDir, meshtradeDir);
 }
 
 function writeTypescriptFile(filePath: string, content: string): void {
@@ -130,7 +190,7 @@ function writeTypescriptFile(filePath: string, content: string): void {
     fs.mkdirSync(dir, { recursive: true });
 
     // Write the TypeScript content to the file
-    fs.writeFileSync(filePath, content, 'utf8');
+    fs.writeFileSync(filePath, content, "utf8");
 
     console.error(`Generated TypeScript Connect client: ${filePath}`);
   } catch (error) {
@@ -139,81 +199,121 @@ function writeTypescriptFile(filePath: string, content: string): void {
   }
 }
 
-function generateServiceClientString(service: DescService, file: DescFile): string {
+function generateServiceClientString(
+  service: DescService,
+  file: DescFile,
+): string {
   const serviceName = service.name;
   const clientClassName = `${serviceName}Node`;
 
   // Extract resource name from the service (e.g., ApiUser from ApiUserService)
-  const resourceName = serviceName.replace(/Service$/, '');
+  const resourceName = serviceName.replace(/Service$/, "");
 
   let content = "";
 
   // Generate class JSDoc
   content += "/**\n";
   content += ` * Node.js client for interacting with the ${file.proto.package} ${toReadableResourceName(resourceName)} v1 API resource service.\n`;
-  content += " * Uses Connect-ES with gRPC transport for Node.js gRPC communication.\n";
+  content +=
+    " * Uses Connect-ES with gRPC transport for Node.js gRPC communication.\n";
   content += " *\n";
-  content += " * Supports three authentication modes:\n";
+  content +=
+    " * Supports flexible authentication modes using functional options pattern:\n";
   content += " *\n";
   content += " * 1. **No Authentication** (public APIs):\n";
   content += " *    ```typescript\n";
-  content += ` *    const client = new ${clientClassName}({ apiServerURL: \"http://localhost:10000\" });\n`;
+  content += ` *    const client = new ${clientClassName}(\n`;
+  content += ' *      WithServerUrl("http://localhost:10000")\n';
+  content += " *    );\n";
   content += " *    ```\n";
   content += " *\n";
   content += " * 2. **API Key Authentication** (backend services):\n";
   content += " *    ```typescript\n";
-  content += ` *    const client = new ${clientClassName}({\n`;
-  content += " *      apiServerURL: \"https://api.example.com\",\n";
-  content += " *      apiKey: \"your-api-key\",\n";
-  content += " *      group: \"groups/01ARZ3NDEKTSV4YWVF8F5BH32\"\n";
-  content += " *    });\n";
+  content += ` *    const client = new ${clientClassName}(\n`;
+  content += ' *      WithAPIKey("your-api-key"),\n';
+  content += ' *      WithGroup("groups/01ARZ3NDEKTSV4YWVF8F5BH32"),\n';
+  content += ' *      WithServerUrl("https://api.example.com")\n';
+  content += " *    );\n";
   content += " *    ```\n";
   content += " *\n";
-  content += " * 3. **JWT Token Authentication** (Next.js backend with user session):\n";
+  content +=
+    " * 3. **JWT Token Authentication** (Next.js backend with user session):\n";
   content += " *    ```typescript\n";
-  content += ` *    const client = new ${clientClassName}({\n`;
-  content += " *      apiServerURL: \"https://api.example.com\",\n";
-  content += " *      jwtToken: \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\"\n";
-  content += " *    });\n";
+  content += ` *    const client = new ${clientClassName}(\n`;
+  content +=
+    ' *      WithJWTAccessToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."),\n';
+  content += ' *      WithServerUrl("https://api.example.com")\n';
+  content += " *    );\n";
   content += " *    ```\n";
+  content += " *\n";
+  content +=
+    " * 4. **JWT with Group Context** (user session with specific group):\n";
+  content += " *    ```typescript\n";
+  content += ` *    const client = new ${clientClassName}(\n`;
+  content +=
+    ' *      WithJWTAccessToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."),\n';
+  content += ' *      WithGroup("groups/01ARZ3NDEKTSV4YWVF8F5BH32"),\n';
+  content += ' *      WithServerUrl("https://api.example.com")\n';
+  content += " *    );\n";
+  content += " *    ```\n";
+  content += " *\n";
+  content += " * Available options:\n";
+  content +=
+    " * - `WithAPIKey(key)` - API key authentication (mutually exclusive with JWT)\n";
+  content +=
+    " * - `WithJWTAccessToken(token)` - JWT authentication (mutually exclusive with API key)\n";
+  content +=
+    " * - `WithGroup(group)` - Group context (optional, works with both auth modes)\n";
+  content +=
+    " * - `WithServerUrl(url)` - Custom server URL (optional, defaults to production)\n";
   content += " */\n";
 
   // Generate class declaration
   content += `export class ${clientClassName} {\n`;
   content += `  private _client: ConnectClient<typeof ${serviceName}>;\n`;
-  content += `  private readonly _config: ReturnType<typeof getConfigFromOpts>;\n`;
+  content += `  private readonly _config: ClientConfig;\n`;
   content += `  private readonly _interceptors: Interceptor[];\n`;
+  content += `  private readonly _validator: ReturnType<typeof createValidator>;\n`;
   content += "\n";
 
   // Generate constructor
   content += "  /**\n";
   content += `   * Constructs an instance of ${clientClassName}.\n`;
-  content += "   * @param {ConfigOpts} [config] - Optional configuration for the client.\n";
-  content += "   * @param {Interceptor[]} [interceptors] - For internal use by \`withGroup\`.\n";
+  content += "   *\n";
+  content +=
+    "   * Uses functional options pattern for flexible configuration:\n";
+  content += "   * - `WithAPIKey(key)` - API key authentication\n";
+  content += "   * - `WithJWTAccessToken(token)` - JWT authentication\n";
+  content += "   * - `WithGroup(group)` - Group context (optional)\n";
+  content += "   * - `WithServerUrl(url)` - Custom server URL (optional)\n";
+  content += "   *\n";
+  content +=
+    "   * @param {...ClientOption} opts - Variable number of configuration options\n";
   content += "   */\n";
-  content += "  constructor(config?: ConfigOpts, interceptors?: Interceptor[]) {\n";
-  content += "    this._config = getConfigFromOpts(config);\n";
+  content += "  constructor(...opts: ClientOption[]) {\n";
+  content += "    // Build configuration from options\n";
+  content += "    this._config = buildConfigFromOptions(...opts);\n";
   content += "\n";
-  content += "    // If interceptors are provided (from withGroup), use them\n";
-  content += "    // Otherwise, create auth interceptors based on config\n";
-  content += "    if (interceptors) {\n";
-  content += "      this._interceptors = interceptors;\n";
-  content += "    } else {\n";
-  content += "      this._interceptors = [];\n";
+  content += "    // Initialize validator for request validation\n";
+  content += "    this._validator = createValidator();\n";
   content += "\n";
-  content += "      // Add authentication interceptor based on configuration\n";
-  content += "      if (this._config.apiKey && this._config.group) {\n";
-  content += "        // API Key authentication mode\n";
-  content += "        this._interceptors.push(\n";
-  content += "          createApiKeyInterceptor(this._config.apiKey, this._config.group)\n";
-  content += "        );\n";
-  content += "      } else if (this._config.jwtToken) {\n";
-  content += "        // JWT authentication mode\n";
-  content += "        this._interceptors.push(\n";
-  content += "          createJwtInterceptor(this._config.jwtToken)\n";
-  content += "        );\n";
-  content += "      }\n";
-  content += "      // If neither is configured, no authentication (public API mode)\n";
+  content += "    this._interceptors = [];\n";
+  content += "\n";
+  content += "    this._interceptors.push(createLoggingInterceptor());\n";
+  content += "\n";
+  content += "    if (this._config.apiKey) {\n";
+  content +=
+    "      this._interceptors.push(createApiKeyInterceptor(this._config.apiKey));\n";
+  content += "    }\n";
+  content += "\n";
+  content += "    if (this._config.jwtToken) {\n";
+  content +=
+    "      this._interceptors.push(createJwtInterceptor(this._config.jwtToken));\n";
+  content += "    }\n";
+  content += "\n";
+  content += "    if (this._config.group) {\n";
+  content +=
+    "      this._interceptors.push(createGroupInterceptor(this._config.group));\n";
   content += "    }\n";
   content += "\n";
   content += "    // Create the gRPC transport for Node.js with interceptors\n";
@@ -230,48 +330,52 @@ function generateServiceClientString(service: DescService, file: DescFile): stri
 
   // Generate withGroup method
   content += "  /**\n";
-  content += "   * Returns a new client instance configured to send the specified group\n";
-  content += "   * resource name in the request headers for subsequent API calls.\n";
+  content +=
+    "   * Returns a new client instance configured to send the specified group\n";
+  content +=
+    "   * resource name in the request headers for subsequent API calls.\n";
   content += "   *\n";
-  content += "   * **Important**: This method only works with API key authentication.\n";
-  content += "   * - For **API key auth**: Creates a new client with updated group context\n";
-  content += "   * - For **JWT auth**: Throws error (group comes from JWT token claims)\n";
-  content += "   * - For **no auth**: Throws error (group requires authentication)\n";
+  content +=
+    "   * This method creates a new client with the same authentication configuration\n";
+  content +=
+    "   * but with the group context updated to the specified value.\n";
+  content += "   *\n";
+  content += "   * **Compatibility**: Works with all authentication modes:\n";
+  content +=
+    "   * - **API key auth**: Creates new client with API key + new group\n";
+  content += "   * - **JWT auth**: Creates new client with JWT + new group\n";
+  content +=
+    "   * - **No auth**: Creates new client with standalone group interceptor\n";
   content += "   * \n";
-  content += "   * @param {string} group - The operating group context to inject into the request\n";
-  content += "   *                         in the format \`groups/{ulid}\` where {ulid} is a 26-character ULID.\n";
-  content += "   *                         Example: 'groups/01ARZ3NDEKTSV4YWVF8F5BH32'\n";
+  content +=
+    "   * @param {string} group - The operating group context to inject into the request\n";
+  content +=
+    "   *                         in the format `groups/{ulid}` where {ulid} is a 26-character ULID.\n";
+  content +=
+    "   *                         Example: 'groups/01ARZ3NDEKTSV4YWVF8F5BH32'\n";
   content += `   * @returns {${clientClassName}} A new, configured instance of the client.\n`;
-  content += "   * @throws {Error} If used with JWT authentication or no authentication\n";
   content += "   * @throws {Error} If the group format is invalid\n";
   content += "   */\n";
   content += `  withGroup(group: string): ${clientClassName} {\n`;
-  content += "    // Check authentication mode\n";
-  content += "    if (this._config.jwtToken) {\n";
-  content += "      throw new Error(\n";
-  content += '        "Cannot use withGroup() with JWT authentication. " +\n';
-  content += '        "The group context is determined by the JWT token claims."\n';
-  content += "      );\n";
+  content +=
+    "    // Build new options array with existing auth and updated group\n";
+  content += "    const newOpts: ClientOption[] = [];\n";
+  content += "\n";
+  content += "    // Add server URL\n";
+  content += "    newOpts.push(WithServerUrl(this._config.apiServerURL));\n";
+  content += "\n";
+  content += "    // Add authentication (preserve existing mode)\n";
+  content += "    if (this._config.apiKey) {\n";
+  content += "      newOpts.push(WithAPIKey(this._config.apiKey));\n";
+  content += "    } else if (this._config.jwtToken) {\n";
+  content += "      newOpts.push(WithJWTAccessToken(this._config.jwtToken));\n";
   content += "    }\n";
   content += "\n";
-  content += "    if (!this._config.apiKey) {\n";
-  content += "      throw new Error(\n";
-  content += '        "Cannot use withGroup() without authentication. " +\n';
-  content += '        "Please configure API key authentication to use group context."\n';
-  content += "      );\n";
-  content += "    }\n";
+  content += "    // Add the new group\n";
+  content += "    newOpts.push(WithGroup(group));\n";
   content += "\n";
-  content += "    // For API key authentication, create new client with updated group\n";
-  content += "    // Replace the existing API key interceptor with one that has the new group\n";
-  content += "    const newInterceptors = [\n";
-  content += "      createApiKeyInterceptor(this._config.apiKey, group)\n";
-  content += "    ];\n";
-  content += "\n";
-  content += "    // Return a new client instance with updated group context\n";
-  content += `    return new ${clientClassName}(\n`;
-  content += "      this._config,\n";
-  content += "      newInterceptors,\n";
-  content += "    );\n";
+  content += "    // Return a new client instance with updated configuration\n";
+  content += `    return new ${clientClassName}(...newOpts);\n`;
   content += "  }\n";
   content += "\n";
 
@@ -290,7 +394,7 @@ function generateStreamingMethodString(
   methodName: string,
   requestType: string,
   responseType: string,
-  resourceName: string
+  resourceName: string,
 ): string {
   let content = "";
 
@@ -313,7 +417,13 @@ function generateStreamingMethodString(
   // Generate method signature and implementation with validation
   content += `  ${methodName}(request: ${requestType}): AsyncIterable<${responseType}> {\n`;
   content += "    // Validate request before initiating stream\n";
-  content += "    validateRequest(request);\n";
+  content += `    const result = this._validator.validate(${requestType}Schema, request);\n`;
+  content += "    if (result.kind === \"invalid\") {\n";
+  content += "      const violations = result.violations.map(v => `${v.field.toString()}: ${v.message}`).join(\"; \");\n";
+  content += "      throw new Error(`Validation failed: ${violations}`);\n";
+  content += "    } else if (result.kind === \"error\") {\n";
+  content += "      throw result.error;\n";
+  content += "    }\n";
   content += "\n";
   content += `    return this._client.${methodName}(request);\n`;
   content += "  }\n";
@@ -322,7 +432,11 @@ function generateStreamingMethodString(
   return content;
 }
 
-function generateServiceMethodString(method: DescMethod, service: DescService, resourceName: string): string {
+function generateServiceMethodString(
+  method: DescMethod,
+  service: DescService,
+  resourceName: string,
+): string {
   const methodName = camelCase(method.name);
   const requestType = method.input.name;
   const responseType = method.output.name;
@@ -333,7 +447,13 @@ function generateServiceMethodString(method: DescMethod, service: DescService, r
   let content = "";
 
   if (isServerStreaming) {
-    return generateStreamingMethodString(method, methodName, requestType, responseType, resourceName);
+    return generateStreamingMethodString(
+      method,
+      methodName,
+      requestType,
+      responseType,
+      resourceName,
+    );
   }
 
   // Generate method JSDoc
@@ -346,7 +466,13 @@ function generateServiceMethodString(method: DescMethod, service: DescService, r
   // Generate method signature and implementation
   content += `  ${methodName}(request: ${requestType}): Promise<${responseType}> {\n`;
   content += "    // Validate request\n";
-  content += "    validateRequest(request);\n";
+  content += `    const result = this._validator.validate(${requestType}Schema, request);\n`;
+  content += "    if (result.kind === \"invalid\") {\n";
+  content += "      const violations = result.violations.map(v => `${v.field.toString()}: ${v.message}`).join(\"; \");\n";
+  content += "      throw new Error(`Validation failed: ${violations}`);\n";
+  content += "    } else if (result.kind === \"error\") {\n";
+  content += "      throw result.error;\n";
+  content += "    }\n";
   content += "\n";
   content += `    return this._client.${methodName}(request);\n`;
   content += "  }\n";
@@ -359,39 +485,45 @@ function camelCase(str: string): string {
   return str.charAt(0).toLowerCase() + str.slice(1);
 }
 
-function getMethodDescription(methodName: string, resourceName: string): string {
+function getMethodDescription(
+  methodName: string,
+  resourceName: string,
+): string {
   const method = methodName.toLowerCase();
   const resource = toReadableResourceName(resourceName);
 
-  if (method.startsWith('get')) {
+  if (method.startsWith("get")) {
     return `Retrieves ${getArticle(resource)} ${resource}.`;
-  } else if (method.startsWith('create')) {
+  } else if (method.startsWith("create")) {
     return `Creates a new ${resource}.`;
-  } else if (method.startsWith('update')) {
+  } else if (method.startsWith("update")) {
     return `Updates an existing ${resource}.`;
-  } else if (method.startsWith('delete')) {
+  } else if (method.startsWith("delete")) {
     return `Deletes ${getArticle(resource)} ${resource}.`;
-  } else if (method.startsWith('list')) {
+  } else if (method.startsWith("list")) {
     return `Retrieves a list of ${resource}s.`;
-  } else if (method.startsWith('search')) {
+  } else if (method.startsWith("search")) {
     return `Searches for ${resource}s.`;
-  } else if (method.startsWith('activate')) {
+  } else if (method.startsWith("activate")) {
     return `Activates ${getArticle(resource)} ${resource}.`;
-  } else if (method.startsWith('deactivate')) {
+  } else if (method.startsWith("deactivate")) {
     return `Deactivates ${getArticle(resource)} ${resource}.`;
   } else {
     return `Performs ${method} operation on ${resource}.`;
   }
 }
 
-function getMethodReturnDescription(methodName: string, resourceName: string): string {
+function getMethodReturnDescription(
+  methodName: string,
+  resourceName: string,
+): string {
   const method = methodName.toLowerCase();
   const resource = toReadableResourceName(resourceName);
 
-  if (method.startsWith('list')) {
+  if (method.startsWith("list")) {
     return `list of ${resource}s`;
-  } else if (method.startsWith('search')) {
-    return 'search results';
+  } else if (method.startsWith("search")) {
+    return "search results";
   } else {
     return resource;
   }
@@ -400,21 +532,13 @@ function getMethodReturnDescription(methodName: string, resourceName: string): s
 function toReadableResourceName(resourceName: string): string {
   // Convert PascalCase to readable format, e.g., "ApiUser" -> "API user"
   return resourceName
-    .replace(/([A-Z])([a-z])/g, '$1$2')  // Add space before capital followed by lowercase
-    .replace(/([a-z])([A-Z])/g, '$1 $2') // Add space between lowercase and capital
+    .replace(/([A-Z])([a-z])/g, "$1$2") // Add space before capital followed by lowercase
+    .replace(/([a-z])([A-Z])/g, "$1 $2") // Add space between lowercase and capital
     .toLowerCase();
 }
 
 function getArticle(word: string): string {
   // Return appropriate article (a/an) based on first letter
   const firstLetter = word.charAt(0).toLowerCase();
-  return ['a', 'e', 'i', 'o', 'u'].includes(firstLetter) ? 'an' : 'a';
-}
-
-function convertToSnakeCase(str: string): string {
-  // Convert PascalCase to snake_case: "APIUser" -> "api_user"
-  return str
-    .replace(/([A-Z]+)([A-Z][a-z])/g, '$1_$2')  // Handle sequences like "API" -> "API_"
-    .replace(/([a-z\d])([A-Z])/g, '$1_$2')      // Handle transitions like "aB" -> "a_B"
-    .toLowerCase();
+  return ["a", "e", "i", "o", "u"].includes(firstLetter) ? "an" : "a";
 }

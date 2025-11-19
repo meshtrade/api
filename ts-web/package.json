@@ -81,6 +81,16 @@
       "require": "./dist/meshtrade/option/v1/index.js",
       "import": "./dist/meshtrade/option/v1/index.js"
     },
+    "./config": {
+      "types": "./dist/meshtrade/config/index.d.ts",
+      "require": "./dist/meshtrade/config/index.js",
+      "import": "./dist/meshtrade/config/index.js"
+    },
+    "./interceptors": {
+      "types": "./dist/meshtrade/interceptors/index.d.ts",
+      "require": "./dist/meshtrade/interceptors/index.js",
+      "import": "./dist/meshtrade/interceptors/index.js"
+    },
     "./*": {
       "types": "./dist/meshtrade/*",
       "require": "./dist/meshtrade/*",
@@ -128,6 +138,12 @@
       "option/v1": [
         "dist/meshtrade/option/v1/index.d.ts"
       ],
+      "config": [
+        "dist/meshtrade/config/index.d.ts"
+      ],
+      "interceptors": [
+        "dist/meshtrade/interceptors/index.d.ts"
+      ],
       "*": [
         "dist/meshtrade/*"
       ]
@@ -138,6 +154,7 @@
   ],
   "dependencies": {
     "@bufbuild/protobuf": "^2.10.1",
+    "@bufbuild/protovalidate": "^1.0.0",
     "@connectrpc/connect": "^2.1.0",
     "@connectrpc/connect-web": "^2.1.0",
     "bignumber.js": "^9.3.0"
@@ -159,7 +176,7 @@
   },
   "scripts": {
     "clean": "rimraf ./dist",
-    "build:ts": "tsc",
+    "build:ts": "tsc --project tsconfig.build.json",
     "build": "yarn run clean && yarn run build:ts",
     "lint": "eslint . --ext .ts",
     "test": "jest"
