@@ -21,30 +21,103 @@ This warning will be removed once complete and ready for use.
 
 ## Overview
 
-LimitOrderService manages limit orders for trading operations (BETA).
+LimitOrderService manages limit orders for trading operations on supported ledgers (currently Stellar).
 
-This service provides comprehensive limit order management capabilities including
-order creation, cancellation, querying, and real-time monitoring. All operations
-are scoped to the authenticated group's hierarchy and require appropriate trading
-domain permissions.
+This service provides comprehensive limit order management capabilities including:
+- **Order creation** with flexible pricing and quantity specifications
+- **Order cancellation** for active orders
+- **Order querying** by resource name or external reference
+- **Order listing and searching** with optional filters
+- **Real-time monitoring** via server-side streaming
+- **Live ledger data** integration for up-to-date order status
+
+All operations are scoped to the authenticated group's hierarchy and require appropriate trading domain permissions.
 
 Note: This service is currently in BETA. Interface and functionality may change.
 
-Add your custom documentation for the Trading Limit Order v1 service here.
-This file is generated once and can be manually edited to provide
-service-specific information, examples, and usage guidance.
+## Key Features
+
+### Live Ledger Data
+Many read operations support an optional `live_ledger_data` flag that enriches responses with real-time ledger state:
+- When `false` (default): Returns persisted order metadata with `LIMIT_ORDER_STATUS_UNSPECIFIED`
+- When `true`: Queries the underlying ledger and populates current order status (e.g., `LIMIT_ORDER_STATUS_OPEN`, `LIMIT_ORDER_STATUS_FILLED`)
+
+### External References
+Each limit order can be tagged with a unique `external_reference` string, enabling:
+- Integration with external trading systems
+- Order tracking across multiple systems
+- Quick lookup via `GetLimitOrderByExternalReference`
+
+### Resource Hierarchy
+Limit orders belong to accounts, which belong to groups:
+```
+groups/{group_id}/accounts/{account_id}/limitOrders/{order_id}
+```
 
 ## Quick Start
 
-1. **Configure your client** with the appropriate credentials
-2. **Choose your operations** from the available service methods
-3. **Review the types** to understand request/response structures
+1. **Obtain credentials** with `ROLE_TRADING_LIMIT_ORDER_ADMIN` or `ROLE_TRADING_LIMIT_ORDER_VIEWER`
+2. **Create an account** on your desired ledger (e.g., Stellar) using the Wallet Account service
+3. **Create a limit order** specifying price, quantity, and order side (buy/sell)
+4. **Monitor your order** using `GetLimitOrder` with `live_ledger_data: true` or stream updates via `MonitorLimitOrder`
 
 ## Common Workflows
 
-Add common workflow documentation here specific to this service.
+### Creating a Buy Order
+```
+1. Ensure you have a Stellar account (via Wallet Account service)
+2. Call CreateLimitOrder with:
+   - account: Your account resource name
+   - side: LIMIT_ORDER_SIDE_BUY
+   - limit_price: Maximum price willing to pay (e.g., 100.50 USDC)
+   - quantity: Amount to purchase (e.g., 10 USDC)
+   - external_reference: Optional unique identifier for your system
+3. Receive LimitOrder response with system-generated resource name
+```
+
+### Checking Order Status
+```
+1. Call GetLimitOrder with live_ledger_data: true
+2. Inspect the status field:
+   - LIMIT_ORDER_STATUS_OPEN: Order is active on the ledger
+   - LIMIT_ORDER_STATUS_FILLED: Order has been completely filled
+   - LIMIT_ORDER_STATUS_PARTIALLY_FILLED: Order is partially executed
+   - LIMIT_ORDER_STATUS_CANCELLED: Order was successfully cancelled
+```
+
+### Cancelling an Order
+```
+1. Call CancelLimitOrder with the order's resource name
+2. Receive response with terminal cancellation status:
+   - LIMIT_ORDER_STATUS_CANCELLATION_IN_PROGRESS: Cancel submitted to ledger
+   - LIMIT_ORDER_STATUS_CANCELLED: Cancel confirmed on ledger
+```
+
+### Monitoring Orders in Real-Time
+```
+1. Call MonitorLimitOrder (server-streaming RPC)
+2. Specify optional filters (account, external_reference, etc.)
+3. Receive continuous stream of order updates as ledger state changes
+4. React to status changes, fills, or cancellations in real-time
+```
+
+### Searching Historical Orders
+```
+1. Call SearchLimitOrders with optional filters:
+   - account: Filter by specific account
+   - external_reference: Filter by your system's ID
+   - live_ledger_data: Enrich with current status
+2. Iterate through paginated results
+3. Use page_token for next page of results
+```
 
 ## Authentication & Authorization
 
-This service requires appropriate role-based permissions. 
-See the individual method documentation for specific role requirements.
+This service requires role-based permissions from the trading domain:
+
+| Role | Permissions |
+|------|-------------|
+| `ROLE_TRADING_LIMIT_ORDER_ADMIN` | Full access: create, cancel, read all orders in group hierarchy |
+| `ROLE_TRADING_LIMIT_ORDER_VIEWER` | Read-only access: get, list, search, monitor orders in group hierarchy |
+
+All RPCs validate that the caller's group matches or is an ancestor of the requested resource's owner group.

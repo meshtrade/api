@@ -19,9 +19,39 @@ func main() {
 	}
 	defer service.Close()
 
-	// Create request with service-specific parameters
+	// Create a buy limit order for 10 USDC at a limit price of 100.50 USDC
+	// Note: You need a valid account resource name from the Wallet Account service
 	request := &limit_orderv1.CreateLimitOrderRequest{
-		// FIXME: Populate service-specific request fields
+		LimitOrder: &limit_orderv1.LimitOrder{
+			// Account must be a valid Stellar account owned by your group
+			Account: "groups/12345/accounts/67890",
+			// Optional: External reference for tracking in your system
+			ExternalReference: "my-trading-system-order-123",
+			// Buy side - use LIMIT_ORDER_SIDE_SELL for selling
+			Side: limit_orderv1.LimitOrderSide_LIMIT_ORDER_SIDE_BUY,
+			// Limit price: maximum price you're willing to pay (100.50 USDC)
+			LimitPrice: &type_v1.Amount{
+				Value: &type_v1.Decimal{
+					Value: "100.50",
+				},
+				Token: &type_v1.Token{
+					Code:   "USDC",
+					Issuer: "GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN",
+					Ledger: type_v1.Ledger_LEDGER_STELLAR,
+				},
+			},
+			// Quantity: amount you want to buy (10 USDC)
+			Quantity: &type_v1.Amount{
+				Value: &type_v1.Decimal{
+					Value: "10",
+				},
+				Token: &type_v1.Token{
+					Code:   "USDC",
+					Issuer: "GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN",
+					Ledger: type_v1.Ledger_LEDGER_STELLAR,
+				},
+			},
+		},
 	}
 
 	// Call the CreateLimitOrder method
@@ -30,6 +60,12 @@ func main() {
 		log.Fatalf("CreateLimitOrder failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("CreateLimitOrder successful: %+v", limitOrder)
+	// Response contains the created order with system-generated resource name
+	log.Printf("✓ Limit order created successfully!")
+	log.Printf("  Resource name: %s", limitOrder.Name)
+	log.Printf("  External reference: %s", limitOrder.ExternalReference)
+	log.Printf("  Account: %s", limitOrder.Account)
+	log.Printf("  Side: %s", limitOrder.Side)
+	log.Printf("  Limit price: %s %s", limitOrder.LimitPrice.Value.Value, limitOrder.LimitPrice.Token.Code)
+	log.Printf("  Quantity: %s %s", limitOrder.Quantity.Value.Value, limitOrder.Quantity.Token.Code)
 }

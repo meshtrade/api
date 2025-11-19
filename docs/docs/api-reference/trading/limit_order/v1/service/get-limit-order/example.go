@@ -19,17 +19,42 @@ func main() {
 	}
 	defer service.Close()
 
-	// Create request with service-specific parameters
+	// Get a limit order by its resource name
+	// Replace with an actual limit order resource name from your system
+	orderName := "groups/12345/accounts/67890/limitOrders/abc123"
+
+	// Example 1: Get without live ledger data (faster, but status will be UNSPECIFIED)
 	request := &limit_orderv1.GetLimitOrderRequest{
-		// FIXME: Populate service-specific request fields
+		Name:           orderName,
+		LiveLedgerData: false,
 	}
 
-	// Call the GetLimitOrder method
 	limitOrder, err := service.GetLimitOrder(ctx, request)
 	if err != nil {
 		log.Fatalf("GetLimitOrder failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("GetLimitOrder successful: %+v", limitOrder)
+	log.Printf("✓ Limit order retrieved (cached data):")
+	log.Printf("  Resource name: %s", limitOrder.Name)
+	log.Printf("  Account: %s", limitOrder.Account)
+	log.Printf("  External reference: %s", limitOrder.ExternalReference)
+	log.Printf("  Side: %s", limitOrder.Side)
+	log.Printf("  Status: %s (UNSPECIFIED when live_ledger_data=false)", limitOrder.Status)
+
+	// Example 2: Get with live ledger data (queries the ledger for current status)
+	requestWithLiveData := &limit_orderv1.GetLimitOrderRequest{
+		Name:           orderName,
+		LiveLedgerData: true,
+	}
+
+	limitOrderWithStatus, err := service.GetLimitOrder(ctx, requestWithLiveData)
+	if err != nil {
+		log.Fatalf("GetLimitOrder with live data failed: %v", err)
+	}
+
+	log.Printf("\n✓ Limit order retrieved (with live ledger data):")
+	log.Printf("  Resource name: %s", limitOrderWithStatus.Name)
+	log.Printf("  Status: %s", limitOrderWithStatus.Status)
+	log.Printf("  Limit price: %s %s", limitOrderWithStatus.LimitPrice.Value.Value, limitOrderWithStatus.LimitPrice.Token.Code)
+	log.Printf("  Quantity: %s %s", limitOrderWithStatus.Quantity.Value.Value, limitOrderWithStatus.Quantity.Token.Code)
 }
