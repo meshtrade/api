@@ -6,6 +6,7 @@ import "buf/validate/validate.proto";
 
 option go_package = "github.com/meshtrade/api/go/iam/api_user/v1;api_user_v1";
 option java_package = "co.meshtrade.api.iam.api_user.v1";
+option java_outer_classname = "ApiUserOuterClass";
 
 /*
    Represents an API user for automated authentication and authorization.

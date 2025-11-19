@@ -230,13 +230,7 @@ public class MethodModel {
         
         // Convert proto file name to PascalCase
         String pascalCaseFileName = snakeCaseToPascalCase(protoFileName);
-        
-        // Special case: api_user proto generates ApiUser.java (not ApiUserOuterClass.java)
-        // This happens when the proto file name closely matches the main message name
-        if ("api_user".equals(protoFileName) && ("APIUser".equals(typeName) || "ApiCredentials".equals(typeName))) {
-            return pascalCaseFileName;
-        }
-        
+
         // Default case: use OuterClass pattern
         return pascalCaseFileName + "OuterClass";
     }

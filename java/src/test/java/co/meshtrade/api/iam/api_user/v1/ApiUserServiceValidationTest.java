@@ -8,8 +8,8 @@ import build.buf.protovalidate.ValidatorFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import co.meshtrade.api.iam.api_user.v1.ApiUser.APIUser;
-import co.meshtrade.api.iam.api_user.v1.ApiUser.APIUserState;
+import co.meshtrade.api.iam.api_user.v1.ApiUserOuterClass.APIUser;
+import co.meshtrade.api.iam.api_user.v1.ApiUserOuterClass.APIUserState;
 import co.meshtrade.api.iam.api_user.v1.Service.CreateAPIUserRequest;
 
 /**
