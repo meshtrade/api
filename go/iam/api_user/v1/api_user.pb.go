@@ -277,8 +277,8 @@ const file_meshtrade_iam_api_user_v1_api_user_proto_rawDesc = "" +
 	"\x18API_USER_ACTION_ACTIVATE\x10\x01\x12\x1e\n" +
 	"\x1aAPI_USER_ACTION_DEACTIVATE\x10\x02\x12\x1a\n" +
 	"\x16API_USER_ACTION_CREATE\x10\x03\x12\x1a\n" +
-	"\x16API_USER_ACTION_UPDATE\x10\x04B[\n" +
-	" co.meshtrade.api.iam.api_user.v1Z7github.com/meshtrade/api/go/iam/api_user/v1;api_user_v1b\x06proto3"
+	"\x16API_USER_ACTION_UPDATE\x10\x04Bn\n" +
+	" co.meshtrade.api.iam.api_user.v1B\x11ApiUserOuterClassZ7github.com/meshtrade/api/go/iam/api_user/v1;api_user_v1b\x06proto3"
 
 var (
 	file_meshtrade_iam_api_user_v1_api_user_proto_rawDescOnce sync.Once
