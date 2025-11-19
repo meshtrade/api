@@ -7,7 +7,6 @@
  */
 
 import { Interceptor } from "@connectrpc/connect";
-import { isValidGroupResourceName } from "../validation";
 
 /**
  * HTTP header names for authentication.
@@ -17,6 +16,16 @@ const API_KEY_HEADER = "x-api-key";
 const GROUP_HEADER = "x-group";
 const COOKIE_HEADER = "cookie";
 const ACCESS_TOKEN_COOKIE_NAME = "AccessToken";
+
+/**
+ * Validates if a resource name follows the groups/{ulid} format.
+ *
+ * @param resourceName - The resource name string to validate
+ * @returns true if the resource name is a valid group resource name, false otherwise
+ */
+function isValidGroupResourceName(resourceName: string): boolean {
+  return /^groups\/[0-9A-Z]{26}$/.test(resourceName);
+}
 
 /**
  * Creates a Connect-ES interceptor that injects operating group context

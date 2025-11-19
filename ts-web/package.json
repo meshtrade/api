@@ -91,11 +91,6 @@
       "require": "./dist/meshtrade/interceptors/index.js",
       "import": "./dist/meshtrade/interceptors/index.js"
     },
-    "./validation": {
-      "types": "./dist/meshtrade/validation/index.d.ts",
-      "require": "./dist/meshtrade/validation/index.js",
-      "import": "./dist/meshtrade/validation/index.js"
-    },
     "./*": {
       "types": "./dist/meshtrade/*",
       "require": "./dist/meshtrade/*",
@@ -149,9 +144,6 @@
       "interceptors": [
         "dist/meshtrade/interceptors/index.d.ts"
       ],
-      "validation": [
-        "dist/meshtrade/validation/index.d.ts"
-      ],
       "*": [
         "dist/meshtrade/*"
       ]
@@ -162,6 +154,7 @@
   ],
   "dependencies": {
     "@bufbuild/protobuf": "^2.10.1",
+    "@bufbuild/protovalidate": "^1.0.0",
     "@connectrpc/connect": "^2.1.0",
     "@connectrpc/connect-web": "^2.1.0",
     "bignumber.js": "^9.3.0"
