@@ -81,6 +81,21 @@
       "require": "./dist/meshtrade/option/v1/index.js",
       "import": "./dist/meshtrade/option/v1/index.js"
     },
+    "./config": {
+      "types": "./dist/meshtrade/config/index.d.ts",
+      "require": "./dist/meshtrade/config/index.js",
+      "import": "./dist/meshtrade/config/index.js"
+    },
+    "./interceptors": {
+      "types": "./dist/meshtrade/interceptors/index.d.ts",
+      "require": "./dist/meshtrade/interceptors/index.js",
+      "import": "./dist/meshtrade/interceptors/index.js"
+    },
+    "./validation": {
+      "types": "./dist/meshtrade/validation/index.d.ts",
+      "require": "./dist/meshtrade/validation/index.js",
+      "import": "./dist/meshtrade/validation/index.js"
+    },
     "./*": {
       "types": "./dist/meshtrade/*",
       "require": "./dist/meshtrade/*",
@@ -127,6 +142,15 @@
       ],
       "option/v1": [
         "dist/meshtrade/option/v1/index.d.ts"
+      ],
+      "config": [
+        "dist/meshtrade/config/index.d.ts"
+      ],
+      "interceptors": [
+        "dist/meshtrade/interceptors/index.d.ts"
+      ],
+      "validation": [
+        "dist/meshtrade/validation/index.d.ts"
       ],
       "*": [
         "dist/meshtrade/*"
