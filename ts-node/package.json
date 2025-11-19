@@ -183,7 +183,7 @@
   },
   "scripts": {
     "clean": "rimraf ./dist",
-    "build:ts": "tsc",
+    "build:ts": "tsc --project tsconfig.build.json",
     "build": "yarn run clean && yarn run build:ts",
     "lint": "eslint . --ext .ts",
     "test": "jest"
