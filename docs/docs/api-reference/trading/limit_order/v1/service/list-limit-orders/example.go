@@ -19,9 +19,10 @@ func main() {
 	}
 	defer service.Close()
 
-	// Create request with service-specific parameters
+	// List all limit orders in your group hierarchy
 	request := &limit_orderv1.ListLimitOrdersRequest{
-		// FIXME: Populate service-specific request fields
+		// Optional: Set to true to enrich with live ledger status (slower)
+		LiveLedgerData: false,
 	}
 
 	// Call the ListLimitOrders method
@@ -30,6 +31,16 @@ func main() {
 		log.Fatalf("ListLimitOrders failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("ListLimitOrders successful: %+v", response)
+	// Response contains list of limit orders
+	log.Printf("✓ Listed %d limit orders:", len(response.LimitOrders))
+	for i, order := range response.LimitOrders {
+		log.Printf("\n  Order #%d:", i+1)
+		log.Printf("    Resource name: %s", order.Name)
+		log.Printf("    Account: %s", order.Account)
+		log.Printf("    External ref: %s", order.ExternalReference)
+		log.Printf("    Side: %s", order.Side)
+		log.Printf("    Limit price: %s %s", order.LimitPrice.Value.Value, order.LimitPrice.Token.Code)
+		log.Printf("    Quantity: %s %s", order.Quantity.Value.Value, order.Quantity.Token.Code)
+		log.Printf("    Status: %s", order.Status)
+	}
 }

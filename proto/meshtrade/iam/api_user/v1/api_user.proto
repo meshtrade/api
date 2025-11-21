@@ -6,6 +6,7 @@ import "buf/validate/validate.proto";
 
 option go_package = "github.com/meshtrade/api/go/iam/api_user/v1;api_user_v1";
 option java_package = "co.meshtrade.api.iam.api_user.v1";
+option java_outer_classname = "ApiUserOuterClass";
 
 /*
    Represents an API user for automated authentication and authorization.
@@ -43,10 +44,25 @@ message APIUser {
   }];
 
   /*
+     Ownership hiearchy of groups that have access to this resource in the format groups/{group_id}.
+     System set on creation.
+  */
+  repeated string owners = 3 [(buf.validate.field) = {
+    repeated: {
+      items: {
+        string: {
+          len: 33
+          pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+        }
+      }
+    }
+  }];
+
+  /*
      A non-unique, user-provided name for the API user, used for display purposes.
      Required on creation.
   */
-  string display_name = 3 [(buf.validate.field) = {
+  string display_name = 4 [(buf.validate.field) = {
     required: true
     string: {
       min_len: 1
@@ -63,7 +79,7 @@ message APIUser {
      The current state of the API user (active or inactive).
      System set on creation to default value of inactive.
   */
-  meshtrade.iam.api_user.v1.APIUserState state = 4 [(buf.validate.field) = {
+  meshtrade.iam.api_user.v1.APIUserState state = 5 [(buf.validate.field) = {
     enum: {defined_only: true}
     cel: {
       id: "state.valid"
@@ -77,7 +93,7 @@ message APIUser {
      prepended by the name of the group in which they have been assigned that role.
      e.g. groups/{ULIDv2}/roles/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
   */
-  repeated string roles = 5 [(buf.validate.field) = {
+  repeated string roles = 6 [(buf.validate.field) = {
     repeated: {
       items: {
         string: {
@@ -94,7 +110,7 @@ message APIUser {
      This field is only populated on the entity the first time it is returned after creation - it is NOT stored.
      Populated once by system on creation.
   */
-  string api_key = 6;
+  string api_key = 7;
 }
 
 enum APIUserState {

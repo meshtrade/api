@@ -11,16 +11,26 @@ def main():
     service = LimitOrderService()
 
     with service:
-        # Create request with service-specific parameters
+        # List all limit orders in your group hierarchy
         request = ListLimitOrdersRequest(
-            # FIXME: Populate service-specific request fields
+            # Optional: Set to true to enrich with live ledger status (slower)
+            live_ledger_data=False,
         )
 
         # Call the ListLimitOrders method
         response = service.list_limit_orders(request)
 
-        # FIXME: Add relevant response object usage
-        print("ListLimitOrders successful:", response)
+        # Response contains list of limit orders
+        print(f"✓ Listed {len(response.limit_orders)} limit orders:")
+        for i, order in enumerate(response.limit_orders, 1):
+            print(f"\n  Order #{i}:")
+            print(f"    Resource name: {order.name}")
+            print(f"    Account: {order.account}")
+            print(f"    External ref: {order.external_reference}")
+            print(f"    Side: {order.side}")
+            print(f"    Limit price: {order.limit_price.value.value} {order.limit_price.token.code}")
+            print(f"    Quantity: {order.quantity.value.value} {order.quantity.token.code}")
+            print(f"    Status: {order.status}")
 
 
 if __name__ == "__main__":

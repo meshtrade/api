@@ -1,6 +1,6 @@
 {
   "name": "@meshtrade/api-old",
-  "version": "1.30.0",
+  "version": "1.32.0",
   "description": "Mesh Typescript SDK (Legacy)",
   "author": "Bernard Bussy <bernard@meshtrade.co>",
   "license": "UNLICENSED",
@@ -160,7 +160,7 @@
   "scripts": {
     "clean": "rimraf ./dist",
     "copy-proto": "copyfiles -u 1 \"src/**/*.js\" \"src/**/*.d.ts\" dist",
-    "build:ts": "tsc",
+    "build:ts": "tsc --project tsconfig.build.json",
     "build": "yarn run clean && yarn run copy-proto && yarn run build:ts",
     "lint": "eslint . --ext .ts",
     "test": "jest"
