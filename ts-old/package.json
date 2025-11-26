@@ -76,10 +76,10 @@
       "require": "./dist/meshtrade/studio/instrument/v1/index.js",
       "import": "./dist/meshtrade/studio/instrument/v1/index.js"
     },
-    "./option/v1": {
-      "types": "./dist/meshtrade/option/v1/index.d.ts",
-      "require": "./dist/meshtrade/option/v1/index.js",
-      "import": "./dist/meshtrade/option/v1/index.js"
+    "./option/method_options/v1": {
+      "types": "./dist/meshtrade/option/method_options/v1/index.d.ts",
+      "require": "./dist/meshtrade/option/method_options/v1/index.js",
+      "import": "./dist/meshtrade/option/method_options/v1/index.js"
     },
     "./*": {
       "types": "./dist/meshtrade/*",
@@ -125,8 +125,8 @@
       "studio/instrument/v1": [
         "dist/meshtrade/studio/instrument/v1/index.d.ts"
       ],
-      "option/v1": [
-        "dist/meshtrade/option/v1/index.d.ts"
+      "option/method_options/v1": [
+        "dist/meshtrade/option/method_options/v1/index.d.ts"
       ],
       "*": [
         "dist/meshtrade/*"
