@@ -449,7 +449,7 @@ type MonitorLimitOrderRequest struct {
 	Identifier isMonitorLimitOrderRequest_Identifier `protobuf_oneof:"identifier"`
 	// When true, fetches live ledger data for order.
 	// When false, returns only stored metadata.
-	// Note: The streaming does not steam based on ledger events such as fill amount changes,
+	// Note: The streaming does not stream based on ledger events such as fill amount changes,
 	// only limit order state changes triggers a stream update. If this is set to true
 	// then live ledger data will populated with the updated limit order state.
 	LiveLedgerData bool `protobuf:"varint,3,opt,name=live_ledger_data,json=liveLedgerData,proto3" json:"live_ledger_data,omitempty"`
@@ -565,7 +565,7 @@ const file_meshtrade_trading_limit_order_v1_service_proto_rawDesc = "" +
 	"\x19SearchLimitOrdersResponse\x12O\n" +
 	"\flimit_orders\x18\x01 \x03(\v2,.meshtrade.trading.limit_order.v1.LimitOrderR\vlimitOrders\"\xda\x01\n" +
 	"\x18MonitorLimitOrderRequest\x12U\n" +
-	"\x04name\x18\x01 \x01(\tB?\xbaH<r:25^limit_orders/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01&H\x00R\x04name\x12/\n" +
+	"\x04name\x18\x01 \x01(\tB?\xbaH<r:25^limit_orders/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01'H\x00R\x04name\x12/\n" +
 	"\x12external_reference\x18\x02 \x01(\tH\x00R\x11externalReference\x12(\n" +
 	"\x10live_ledger_data\x18\x03 \x01(\bR\x0eliveLedgerDataB\f\n" +
 	"\n" +

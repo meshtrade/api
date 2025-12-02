@@ -201,9 +201,9 @@ type LimitOrder struct {
 	// when the order is marked complete.
 	//
 	// Only populated when live_ledger_data=true in request.
-	FilledQuantity *v1.Amount `protobuf:"bytes,10,opt,name=filled_quantity,json=filledQuantity,proto3" json:"filled_quantity,omitempty"`
+	FilledQuantity *v1.Amount `protobuf:"bytes,11,opt,name=filled_quantity,json=filledQuantity,proto3" json:"filled_quantity,omitempty"`
 	// Limit Order life cycle state.
-	State         LimitOrderState `protobuf:"varint,11,opt,name=state,proto3,enum=meshtrade.trading.limit_order.v1.LimitOrderState" json:"state,omitempty"`
+	State         LimitOrderState `protobuf:"varint,12,opt,name=state,proto3,enum=meshtrade.trading.limit_order.v1.LimitOrderState" json:"state,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -319,7 +319,7 @@ var File_meshtrade_trading_limit_order_v1_limit_order_proto protoreflect.FileDes
 
 const file_meshtrade_trading_limit_order_v1_limit_order_proto_rawDesc = "" +
 	"\n" +
-	"2meshtrade/trading/limit_order/v1/limit_order.proto\x12 meshtrade.trading.limit_order.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1emeshtrade/type/v1/amount.proto\"\xee\x06\n" +
+	"2meshtrade/trading/limit_order/v1/limit_order.proto\x12 meshtrade.trading.limit_order.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1emeshtrade/type/v1/amount.proto\"\xc6\a\n" +
 	"\n" +
 	"LimitOrder\x12\xc8\x01\n" +
 	"\x04name\x18\x01 \x01(\tB\xb3\x01\xbaH\xaf\x01\xba\x01\xab\x01\n" +
@@ -334,10 +334,10 @@ const file_meshtrade_trading_limit_order_v1_limit_order_proto_rawDesc = "" +
 	"limitPrice\x12=\n" +
 	"\bquantity\x18\t \x01(\v2\x19.meshtrade.type.v1.AmountB\x06\xbaH\x03\xc8\x01\x01R\bquantity\x128\n" +
 	"\n" +
-	"fill_price\x18\t \x01(\v2\x19.meshtrade.type.v1.AmountR\tfillPrice\x12B\n" +
-	"\x0ffilled_quantity\x18\n" +
-	" \x01(\v2\x19.meshtrade.type.v1.AmountR\x0efilledQuantity\x12G\n" +
-	"\x05state\x18\v \x01(\x0e21.meshtrade.trading.limit_order.v1.LimitOrderStateR\x05stateJ\x04\b\x04\x10\x05R\fdisplay_name*g\n" +
+	"fill_price\x18\n" +
+	" \x01(\v2\x19.meshtrade.type.v1.AmountR\tfillPrice\x12B\n" +
+	"\x0ffilled_quantity\x18\v \x01(\v2\x19.meshtrade.type.v1.AmountR\x0efilledQuantity\x12G\n" +
+	"\x05state\x18\f \x01(\x0e21.meshtrade.trading.limit_order.v1.LimitOrderStateR\x05stateJ\x04\b\x04\x10\x05R\fdisplay_name*g\n" +
 	"\x0eLimitOrderSide\x12 \n" +
 	"\x1cLIMIT_ORDER_SIDE_UNSPECIFIED\x10\x00\x12\x18\n" +
 	"\x14LIMIT_ORDER_SIDE_BUY\x10\x01\x12\x19\n" +
