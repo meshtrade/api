@@ -1,3 +1,4 @@
+import co.meshtrade.api.trading.limit_order.v1.LimitOrderOuterClass.LimitOrder;
 import co.meshtrade.api.trading.limit_order.v1.LimitOrderService;
 import co.meshtrade.api.trading.limit_order.v1.Service.ListLimitOrdersRequest;
 import co.meshtrade.api.trading.limit_order.v1.Service.ListLimitOrdersResponse;
@@ -10,16 +11,31 @@ public class ListLimitOrdersExample {
         // environment variable or default discovery methods. Zero config required
         // unless you want custom configuration.
         try (LimitOrderService service = new LimitOrderService()) {
-            // Create request with service-specific parameters
+            // List all limit orders in your group hierarchy
             ListLimitOrdersRequest request = ListLimitOrdersRequest.newBuilder()
-                // FIXME: Populate service-specific request fields
+                // Optional: Set to true to enrich with live ledger status (slower)
+                .setLiveLedgerData(false)
                 .build();
 
             // Call the ListLimitOrders method
             ListLimitOrdersResponse response = service.listLimitOrders(request, Optional.empty());
 
-            // FIXME: Add relevant response object usage
-            System.out.println("ListLimitOrders successful: " + response);
+            // Response contains list of limit orders
+            System.out.println("✓ Listed " + response.getLimitOrdersCount() + " limit orders:");
+            int i = 1;
+            for (LimitOrder order : response.getLimitOrdersList()) {
+                System.out.println("\n  Order #" + i + ":");
+                System.out.println("    Resource name: " + order.getName());
+                System.out.println("    Account: " + order.getAccount());
+                System.out.println("    External ref: " + order.getExternalReference());
+                System.out.println("    Side: " + order.getSide());
+                System.out.println("    Limit price: " + order.getLimitPrice().getValue().getValue() +
+                                 " " + order.getLimitPrice().getToken().getCode());
+                System.out.println("    Quantity: " + order.getQuantity().getValue().getValue() +
+                                 " " + order.getQuantity().getToken().getCode());
+                System.out.println("    Status: " + order.getStatus());
+                i++;
+            }
         } catch (Exception e) {
             System.err.println("ListLimitOrders failed: " + e.getMessage());
             e.printStackTrace();

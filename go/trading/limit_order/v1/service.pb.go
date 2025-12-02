@@ -547,9 +547,9 @@ const file_meshtrade_trading_limit_order_v1_service_proto_rawDesc = "" +
 	"\vlimit_order\x18\x01 \x01(\v2,.meshtrade.trading.limit_order.v1.LimitOrderB\x06\xbaH\x03\xc8\x01\x01R\n" +
 	"limitOrder\"q\n" +
 	"\x17CancelLimitOrderRequest\x12V\n" +
-	"\x04name\x18\x01 \x01(\tBB\xbaH?\xc8\x01\x01r:25^limit_orders/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01&R\x04name\"\x98\x01\n" +
+	"\x04name\x18\x01 \x01(\tBB\xbaH?\xc8\x01\x01r:25^limit_orders/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01'R\x04name\"\x98\x01\n" +
 	"\x14GetLimitOrderRequest\x12V\n" +
-	"\x04name\x18\x01 \x01(\tBB\xbaH?\xc8\x01\x01r:25^limit_orders/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01&R\x04name\x12(\n" +
+	"\x04name\x18\x01 \x01(\tBB\xbaH?\xc8\x01\x01r:25^limit_orders/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01'R\x04name\x12(\n" +
 	"\x10live_ledger_data\x18\x02 \x01(\bR\x0eliveLedgerData\"\x8a\x01\n" +
 	"'GetLimitOrderByExternalReferenceRequest\x125\n" +
 	"\x12external_reference\x18\x01 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\x11externalReference\x12(\n" +

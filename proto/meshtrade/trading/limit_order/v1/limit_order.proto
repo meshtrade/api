@@ -48,11 +48,26 @@ message LimitOrder {
   }];
 
   /*
+     Ownership hiearchy of groups that have access to this resource in the format groups/{group_id}.
+     System set on creation.
+  */
+  repeated string owners = 3 [(buf.validate.field) = {
+    repeated: {
+      items: {
+        string: {
+          len: 33
+          pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+        }
+      }
+    }
+  }];
+
+  /*
      The account associated with this limit order.
      Format: accounts/{ULIDv2}.
      This field is required on creation.
   */
-  string account = 3 [(buf.validate.field) = {
+  string account = 5 [(buf.validate.field) = {
     required: true
     string: {
       len: 35
@@ -68,7 +83,7 @@ message LimitOrder {
      this owner. The Mesh system enforces this constraint to ensure reliable
      lookups via GetLimitOrderByExternalReference.
   */
-  string external_reference = 5 [(buf.validate.field) = {
+  string external_reference = 6 [(buf.validate.field) = {
     string: {max_len: 200}
   }];
 
@@ -76,7 +91,7 @@ message LimitOrder {
      Order side indicating buy or sell.
      This field is required on creation.
   */
-  LimitOrderSide side = 6 [(buf.validate.field) = {
+  LimitOrderSide side = 7 [(buf.validate.field) = {
     enum: {
       defined_only: true
       not_in: [0]
@@ -87,13 +102,13 @@ message LimitOrder {
      Limit price for the order.
      This field is required on creation.
   */
-  meshtrade.type.v1.Amount limit_price = 7 [(buf.validate.field) = {required: true}];
+  meshtrade.type.v1.Amount limit_price = 8 [(buf.validate.field) = {required: true}];
 
   /*
      Order quantity.
      This field is required on creation.
   */
-  meshtrade.type.v1.Amount quantity = 8 [(buf.validate.field) = {required: true}];
+  meshtrade.type.v1.Amount quantity = 9 [(buf.validate.field) = {required: true}];
 
   /*
      Fill price from live ledger data.
@@ -103,7 +118,7 @@ message LimitOrder {
 
      Only populated when live_ledger_data=true in request.
   */
-  meshtrade.type.v1.Amount fill_price = 9;
+  meshtrade.type.v1.Amount fill_price = 10;
 
   /*
      Filled quantity from live ledger data.
@@ -113,7 +128,7 @@ message LimitOrder {
 
      Only populated when live_ledger_data=true in request.
   */
-  meshtrade.type.v1.Amount filled_quantity = 10;
+  meshtrade.type.v1.Amount filled_quantity = 11;
 
   /*
      Limit Order life cycle state.

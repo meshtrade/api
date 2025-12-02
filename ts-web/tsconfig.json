@@ -1,0 +1,42 @@
+{
+  "compilerOptions": {
+    // --- Target Environment and Module System ---
+    // Sets the output JavaScript syntax to a modern, widely-supported version.
+    "target": "ES2020",
+    // Compiles to the CommonJS module system (require/module.exports) for Node.js compatibility.
+    "module": "CommonJS",
+    // Manually specifies the available built-in types. We need "DOM" for grpc-web.
+    "lib": [
+      "ES2020",
+      "DOM"
+    ],
+    // Include Jest types for test file type checking in editors
+    "types": ["jest"],
+    // --- Library Build Settings ---
+    // Generates .d.ts files so other TypeScript projects can use your library. ESSENTIAL.
+    "declaration": true,
+    // The output directory for all compiled files.
+    "outDir": "./dist",
+    // The root directory of your source files, ensuring dist mirrors the src structure.
+    "rootDir": "./src",
+    // --- Strictness and Best Practices ---
+    // Enables all strict type-checking options. Catches bugs early.
+    "strict": true,
+    // Improves compatibility between CommonJS and ES Modules.
+    "esModuleInterop": true,
+    // Speeds up compilation by not re-checking your dependencies' types.
+    "skipLibCheck": true,
+    // Prevents hard-to-find bugs related to file name casing between different OSs.
+    "forceConsistentCasingInFileNames": true
+  },
+  // --- File Inclusion ---
+  // Tells TypeScript to only compile .ts files within the src directory.
+  "include": [
+    "src/**/*.ts"
+  ],
+  // Tells TypeScript to ignore its own output directory.
+  // Note: Test files are included for editor type checking but excluded from build via separate config.
+  "exclude": [
+    "dist"
+  ]
+}

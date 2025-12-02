@@ -169,7 +169,7 @@ message CancelLimitOrderRequest {
   string name = 1 [(buf.validate.field) = {
     required: true
     string: {
-      len: 38
+      len: 39
       pattern: "^limit_orders/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
@@ -186,7 +186,7 @@ message GetLimitOrderRequest {
   string name = 1 [(buf.validate.field) = {
     required: true
     string: {
-      len: 38
+      len: 39
       pattern: "^limit_orders/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
@@ -285,7 +285,7 @@ message MonitorLimitOrderRequest {
     */
     string name = 1 [(buf.validate.field) = {
       string: {
-        len: 38
+        len: 39
         pattern: "^limit_orders/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
       }
     }];

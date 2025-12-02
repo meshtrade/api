@@ -165,33 +165,36 @@ type LimitOrder struct {
 	// This field is required on creation and establishes the direct ownership link.
 	// Format: groups/{ULIDv2}.
 	Owner string `protobuf:"bytes,2,opt,name=owner,proto3" json:"owner,omitempty"`
+	// Ownership hiearchy of groups that have access to this resource in the format groups/{group_id}.
+	// System set on creation.
+	Owners []string `protobuf:"bytes,3,rep,name=owners,proto3" json:"owners,omitempty"`
 	// The account associated with this limit order.
 	// Format: accounts/{ULIDv2}.
 	// This field is required on creation.
-	Account string `protobuf:"bytes,3,opt,name=account,proto3" json:"account,omitempty"`
+	Account string `protobuf:"bytes,5,opt,name=account,proto3" json:"account,omitempty"`
 	// External reference for client-side tracking and correlation.
 	// This field allows clients to associate orders with their own identifiers.
 	//
 	// If specified, must be unique within the scope of limit orders owned by
 	// this owner. The Mesh system enforces this constraint to ensure reliable
 	// lookups via GetLimitOrderByExternalReference.
-	ExternalReference string `protobuf:"bytes,5,opt,name=external_reference,json=externalReference,proto3" json:"external_reference,omitempty"`
+	ExternalReference string `protobuf:"bytes,6,opt,name=external_reference,json=externalReference,proto3" json:"external_reference,omitempty"`
 	// Order side indicating buy or sell.
 	// This field is required on creation.
-	Side LimitOrderSide `protobuf:"varint,6,opt,name=side,proto3,enum=meshtrade.trading.limit_order.v1.LimitOrderSide" json:"side,omitempty"`
+	Side LimitOrderSide `protobuf:"varint,7,opt,name=side,proto3,enum=meshtrade.trading.limit_order.v1.LimitOrderSide" json:"side,omitempty"`
 	// Limit price for the order.
 	// This field is required on creation.
-	LimitPrice *v1.Amount `protobuf:"bytes,7,opt,name=limit_price,json=limitPrice,proto3" json:"limit_price,omitempty"`
+	LimitPrice *v1.Amount `protobuf:"bytes,8,opt,name=limit_price,json=limitPrice,proto3" json:"limit_price,omitempty"`
 	// Order quantity.
 	// This field is required on creation.
-	Quantity *v1.Amount `protobuf:"bytes,8,opt,name=quantity,proto3" json:"quantity,omitempty"`
+	Quantity *v1.Amount `protobuf:"bytes,9,opt,name=quantity,proto3" json:"quantity,omitempty"`
 	// Fill price from live ledger data.
 	// Calculated as the volume weighted average price (VWAP) of all trades
 	// that filled this order. This value is computed in real-time from ledger
 	// data and becomes final when the order is marked complete.
 	//
 	// Only populated when live_ledger_data=true in request.
-	FillPrice *v1.Amount `protobuf:"bytes,9,opt,name=fill_price,json=fillPrice,proto3" json:"fill_price,omitempty"`
+	FillPrice *v1.Amount `protobuf:"bytes,10,opt,name=fill_price,json=fillPrice,proto3" json:"fill_price,omitempty"`
 	// Filled quantity from live ledger data.
 	// Represents the total amount of the order that has been filled on the ledger.
 	// This value is computed in real-time from ledger data and becomes final
@@ -247,6 +250,13 @@ func (x *LimitOrder) GetOwner() string {
 		return x.Owner
 	}
 	return ""
+}
+
+func (x *LimitOrder) GetOwners() []string {
+	if x != nil {
+		return x.Owners
+	}
+	return nil
 }
 
 func (x *LimitOrder) GetAccount() string {
@@ -314,14 +324,15 @@ const file_meshtrade_trading_limit_order_v1_limit_order_proto_rawDesc = "" +
 	"LimitOrder\x12\xc8\x01\n" +
 	"\x04name\x18\x01 \x01(\tB\xb3\x01\xbaH\xaf\x01\xba\x01\xab\x01\n" +
 	"\x14name.format.optional\x129name must be empty or in the format limit_orders/{ULIDv2}\x1aXsize(this) == 0 || this.matches('^limit_orders/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12R\n" +
-	"\x05owner\x18\x02 \x01(\tB<\xbaH9\xc8\x01\x01r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05owner\x12X\n" +
-	"\aaccount\x18\x03 \x01(\tB>\xbaH;\xc8\x01\x01r621^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01#R\aaccount\x127\n" +
-	"\x12external_reference\x18\x05 \x01(\tB\b\xbaH\x05r\x03\x18\xc8\x01R\x11externalReference\x12P\n" +
-	"\x04side\x18\x06 \x01(\x0e20.meshtrade.trading.limit_order.v1.LimitOrderSideB\n" +
+	"\x05owner\x18\x02 \x01(\tB<\xbaH9\xc8\x01\x01r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05owner\x12V\n" +
+	"\x06owners\x18\x03 \x03(\tB>\xbaH;\x92\x018\"6r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x06owners\x12X\n" +
+	"\aaccount\x18\x05 \x01(\tB>\xbaH;\xc8\x01\x01r621^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01#R\aaccount\x127\n" +
+	"\x12external_reference\x18\x06 \x01(\tB\b\xbaH\x05r\x03\x18\xc8\x01R\x11externalReference\x12P\n" +
+	"\x04side\x18\a \x01(\x0e20.meshtrade.trading.limit_order.v1.LimitOrderSideB\n" +
 	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\x04side\x12B\n" +
-	"\vlimit_price\x18\a \x01(\v2\x19.meshtrade.type.v1.AmountB\x06\xbaH\x03\xc8\x01\x01R\n" +
+	"\vlimit_price\x18\b \x01(\v2\x19.meshtrade.type.v1.AmountB\x06\xbaH\x03\xc8\x01\x01R\n" +
 	"limitPrice\x12=\n" +
-	"\bquantity\x18\b \x01(\v2\x19.meshtrade.type.v1.AmountB\x06\xbaH\x03\xc8\x01\x01R\bquantity\x128\n" +
+	"\bquantity\x18\t \x01(\v2\x19.meshtrade.type.v1.AmountB\x06\xbaH\x03\xc8\x01\x01R\bquantity\x128\n" +
 	"\n" +
 	"fill_price\x18\t \x01(\v2\x19.meshtrade.type.v1.AmountR\tfillPrice\x12B\n" +
 	"\x0ffilled_quantity\x18\n" +
