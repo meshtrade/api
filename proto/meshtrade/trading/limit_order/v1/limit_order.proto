@@ -119,7 +119,7 @@ message LimitOrder {
      Order status from live ledger data.
      Only populated when live_ledger_data=true in request.
   */
-  LimitOrderStatus status = 11;
+  LimitOrderState state = 11;
 }
 
 /*
@@ -137,10 +137,10 @@ enum LimitOrderSide {
 }
 
 /*
-   LimitOrderStatus represents the current state of a limit order.
+   LimitOrderState represents the current state of a limit order.
    Populated only when live_ledger_data=true in requests.
 */
-enum LimitOrderStatus {
+enum LimitOrderState {
   // Unspecified status.
   LIMIT_ORDER_STATUS_UNSPECIFIED = 0;
 
