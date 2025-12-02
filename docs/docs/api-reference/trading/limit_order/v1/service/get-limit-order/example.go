@@ -39,7 +39,7 @@ func main() {
 	log.Printf("  Account: %s", limitOrder.Account)
 	log.Printf("  External reference: %s", limitOrder.ExternalReference)
 	log.Printf("  Side: %s", limitOrder.Side)
-	log.Printf("  Status: %s (UNSPECIFIED when live_ledger_data=false)", limitOrder.Status)
+	log.Printf("  State: %s (UNSPECIFIED when live_ledger_data=false)", limitOrder.State)
 
 	// Example 2: Get with live ledger data (queries the ledger for current status)
 	requestWithLiveData := &limit_orderv1.GetLimitOrderRequest{
@@ -54,7 +54,7 @@ func main() {
 
 	log.Printf("\n✓ Limit order retrieved (with live ledger data):")
 	log.Printf("  Resource name: %s", limitOrderWithStatus.Name)
-	log.Printf("  Status: %s", limitOrderWithStatus.Status)
+	log.Printf("  State: %s", limitOrderWithStatus.State)
 	log.Printf("  Limit price: %s %s", limitOrderWithStatus.LimitPrice.Value.Value, limitOrderWithStatus.LimitPrice.Token.Code)
 	log.Printf("  Quantity: %s %s", limitOrderWithStatus.Quantity.Value.Value, limitOrderWithStatus.Quantity.Token.Code)
 }
