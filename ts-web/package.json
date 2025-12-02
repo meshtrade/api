@@ -1,6 +1,6 @@
 {
   "name": "@meshtrade/api-web",
-  "version": "1.32.2",
+  "version": "1.33.0",
   "description": "Mesh Typescript SDK",
   "author": "Bernard Bussy <bernard@meshtrade.co>",
   "license": "UNLICENSED",
