@@ -133,7 +133,7 @@ message LimitOrder {
   /*
      Limit Order life cycle state.
   */
-  LimitOrderState state = 11;
+  LimitOrderState state = 12;
 }
 
 /*
