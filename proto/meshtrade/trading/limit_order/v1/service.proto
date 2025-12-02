@@ -295,4 +295,13 @@ message MonitorLimitOrderRequest {
     */
     string external_reference = 2;
   }
+
+  /*
+     When true, fetches live ledger data for order.
+     When false, returns only stored metadata.
+     Note: The streaming does not steam based on ledger events such as fill amount changes,
+     only limit order state changes triggers a stream update. If this is set to true
+     then live ledger data will populated with the updated limit order state.
+  */
+  bool live_ledger_data = 3;
 }

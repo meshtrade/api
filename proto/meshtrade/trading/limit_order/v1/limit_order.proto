@@ -116,10 +116,9 @@ message LimitOrder {
   meshtrade.type.v1.Amount filled_quantity = 10;
 
   /*
-     Order status from live ledger data.
-     Only populated when live_ledger_data=true in request.
+     Limit Order life cycle state.
   */
-  LimitOrderStatus status = 11;
+  LimitOrderState state = 11;
 }
 
 /*
@@ -137,10 +136,9 @@ enum LimitOrderSide {
 }
 
 /*
-   LimitOrderStatus represents the current state of a limit order.
-   Populated only when live_ledger_data=true in requests.
+   LimitOrderState represents the current life-cycle state of a limit order.
 */
-enum LimitOrderStatus {
+enum LimitOrderState {
   // Unspecified status.
   LIMIT_ORDER_STATUS_UNSPECIFIED = 0;
 
