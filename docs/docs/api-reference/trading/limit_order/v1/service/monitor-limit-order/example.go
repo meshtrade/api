@@ -60,7 +60,7 @@ monitorOrder:
 		}
 
 		// Process each order update as it arrives
-		log.Printf("\n📡 Status update received: %s", limitOrder.Status)
+		log.Printf("\n📡 State update received: %s", limitOrder.State)
 		log.Printf("  Resource name: %s", limitOrder.Name)
 		log.Printf("  Account: %s", limitOrder.Account)
 		log.Printf("  External ref: %s", limitOrder.ExternalReference)
@@ -69,34 +69,34 @@ monitorOrder:
 		log.Printf("  Quantity: %s %s", limitOrder.Quantity.Value.Value, limitOrder.Quantity.Token.Code)
 
 		// Handle order state transitions
-		switch limitOrder.Status {
-		case limit_orderv1.LimitOrderStatus_LIMIT_ORDER_STATUS_SUBMISSION_IN_PROGRESS:
+		switch limitOrder.State {
+		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATUS_SUBMISSION_IN_PROGRESS:
 			log.Printf("  ⏳ Order submission in progress...")
 
-		case limit_orderv1.LimitOrderStatus_LIMIT_ORDER_STATUS_SUBMISSION_FAILED:
+		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATUS_SUBMISSION_FAILED:
 			log.Printf("  ❌ Order submission failed")
 			break monitorOrder
 
-		case limit_orderv1.LimitOrderStatus_LIMIT_ORDER_STATUS_OPEN:
+		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATUS_OPEN:
 			log.Printf("  ✓ Order open on ledger and available for matching")
 			// Order is active - continue monitoring for fills
 
-		case limit_orderv1.LimitOrderStatus_LIMIT_ORDER_STATUS_COMPLETE_IN_PROGRESS:
+		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATUS_COMPLETE_IN_PROGRESS:
 			log.Printf("  ⏳ Order completion in progress...")
 
-		case limit_orderv1.LimitOrderStatus_LIMIT_ORDER_STATUS_COMPLETE:
+		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATUS_COMPLETE:
 			log.Printf("  🎉 Order completed (fully filled)!")
 			break monitorOrder
 
-		case limit_orderv1.LimitOrderStatus_LIMIT_ORDER_STATUS_CANCELLATION_IN_PROGRESS:
+		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATUS_CANCELLATION_IN_PROGRESS:
 			log.Printf("  ⏳ Order cancellation in progress...")
 
-		case limit_orderv1.LimitOrderStatus_LIMIT_ORDER_STATUS_CANCELLED:
+		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATUS_CANCELLED:
 			log.Printf("  ❌ Order cancelled")
 			break monitorOrder
 
 		default:
-			log.Printf("  ⚠️  Unexpected order status: %v", limitOrder.Status)
+			log.Printf("  ⚠️  Unexpected order state: %v", limitOrder.State)
 		}
 	}
 

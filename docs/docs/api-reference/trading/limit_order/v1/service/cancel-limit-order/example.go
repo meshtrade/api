@@ -36,7 +36,7 @@ func main() {
 	// Response contains the cancellation status
 	log.Printf("✓ Limit order cancellation initiated:")
 	log.Printf("  Order name: %s", orderName)
-	log.Printf("  Status: %s", response.Status)
+	log.Printf("  State: %s", response.State)
 
 	// Monitor the order until cancellation is complete
 	log.Printf("\n📡 Monitoring order until cancellation is complete...")
@@ -58,13 +58,13 @@ monitorOrder:
 			log.Fatalf("Stream error: %v", err)
 		}
 
-		log.Printf("  Status: %s", update.Status)
+		log.Printf("  State: %s", update.State)
 
-		switch update.Status {
-		case limit_orderv1.LimitOrderStatus_LIMIT_ORDER_STATUS_CANCELLATION_IN_PROGRESS:
+		switch update.State {
+		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATUS_CANCELLATION_IN_PROGRESS:
 			log.Printf("  ⏳ Order cancellation in progress...")
 
-		case limit_orderv1.LimitOrderStatus_LIMIT_ORDER_STATUS_CANCELLED:
+		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATUS_CANCELLED:
 			log.Printf("  ✓ Order successfully cancelled on ledger!")
 			break monitorOrder
 		}

@@ -41,6 +41,6 @@ func main() {
 		log.Printf("    Side: %s", order.Side)
 		log.Printf("    Limit price: %s %s", order.LimitPrice.Value.Value, order.LimitPrice.Token.Code)
 		log.Printf("    Quantity: %s %s", order.Quantity.Value.Value, order.Quantity.Token.Code)
-		log.Printf("    Status: %s", order.Status)
+		log.Printf("    State: %s", order.State)
 	}
 }
