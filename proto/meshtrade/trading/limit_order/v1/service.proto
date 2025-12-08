@@ -169,7 +169,7 @@ message CancelLimitOrderRequest {
   string name = 1 [(buf.validate.field) = {
     required: true
     string: {
-      len: 38
+      len: 39
       pattern: "^limit_orders/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
@@ -186,7 +186,7 @@ message GetLimitOrderRequest {
   string name = 1 [(buf.validate.field) = {
     required: true
     string: {
-      len: 38
+      len: 39
       pattern: "^limit_orders/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
@@ -285,7 +285,7 @@ message MonitorLimitOrderRequest {
     */
     string name = 1 [(buf.validate.field) = {
       string: {
-        len: 38
+        len: 39
         pattern: "^limit_orders/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
       }
     }];
@@ -295,4 +295,13 @@ message MonitorLimitOrderRequest {
     */
     string external_reference = 2;
   }
+
+  /*
+     When true, fetches live ledger data for order.
+     When false, returns only stored metadata.
+     Note: The streaming does not stream based on ledger events such as fill amount changes,
+     only limit order state changes triggers a stream update. If this is set to true
+     then live ledger data will populated with the updated limit order state.
+  */
+  bool live_ledger_data = 3;
 }

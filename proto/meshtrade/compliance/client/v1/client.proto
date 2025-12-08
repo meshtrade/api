@@ -48,11 +48,26 @@ message Client {
   }];
 
   /*
+     Ownership hiearchy of groups that have access to this resource in the format groups/{group_id}.
+     System set on creation.
+  */
+  repeated string owners = 3 [(buf.validate.field) = {
+    repeated: {
+      items: {
+        string: {
+          len: 33
+          pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+        }
+      }
+    }
+  }];
+
+  /*
      A non-unique, user-provided name for the client, used for display purposes
      in user interfaces and reports.
      Required on creation.
   */
-  string display_name = 3 [(buf.validate.field) = {
+  string display_name = 4 [(buf.validate.field) = {
     required: true
     string: {
       min_len: 1
@@ -68,29 +83,29 @@ message Client {
     /*
        Set when the legal entity is an individual human being.
     */
-    meshtrade.compliance.client.v1.NaturalPerson natural_person = 4;
+    meshtrade.compliance.client.v1.NaturalPerson natural_person = 5;
 
     /*
        Set when the legal entity is a company or corporation.
     */
-    meshtrade.compliance.client.v1.Company company = 5;
+    meshtrade.compliance.client.v1.Company company = 6;
 
     /*
        Set when the legal entity is an investment fund.
     */
-    meshtrade.compliance.client.v1.Fund fund = 6;
+    meshtrade.compliance.client.v1.Fund fund = 7;
 
     /*
        Set when the legal entity is a trust.
     */
-    meshtrade.compliance.client.v1.Trust trust = 7;
+    meshtrade.compliance.client.v1.Trust trust = 8;
   }
 
   /*
      The definitive, most recent compliance status of the client (e.g., VERIFICATION_STATUS_VERIFIED, VERIFICATION_STATUS_FAILED).
      Must always be a valid field
   */
-  meshtrade.compliance.client.v1.VerificationStatus verification_status = 8 [(buf.validate.field) = {
+  meshtrade.compliance.client.v1.VerificationStatus verification_status = 9 [(buf.validate.field) = {
     required: true
     enum: {defined_only: true}
   }];
@@ -100,7 +115,7 @@ message Client {
      `verification_status`. This provides an audit trail for status changes.
      System set when verification_status changes.
   */
-  string verification_authority = 9 [(buf.validate.field) = {
+  string verification_authority = 10 [(buf.validate.field) = {
     cel: {
       id: "verification_authority.format.optional"
       message: "verification_authority must be empty or in the format clients/{ULIDv2}"
@@ -113,12 +128,12 @@ message Client {
      state, specifically `VERIFICATION_STATUS_VERIFIED`.
      System set when verification_status changes to VERIFICATION_STATUS_VERIFIED.
   */
-  google.protobuf.Timestamp verification_date = 10;
+  google.protobuf.Timestamp verification_date = 11;
 
   /*
      The timestamp indicating when the client's next periodic compliance review
      is due. This field drives re-verification workflows.
      Optional for Verification.
   */
-  google.protobuf.Timestamp next_verification_date = 11;
+  google.protobuf.Timestamp next_verification_date = 12;
 }

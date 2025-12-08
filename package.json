@@ -6,9 +6,13 @@
   "packageManager": "yarn@1.22.22",
   "workspaces": {
     "packages": [
-      "ts",
+      "ts-web",
+      "ts-node",
+      "ts-old",
       "docs",
-      "tool/protoc-gen-meshts/cmd"
+      "tool/protoc-gen-mesh_ts_node",
+      "tool/protoc-gen-mesh_ts_web",
+      "tool/protoc-gen-meshtsold"
     ],
     "nohoist": [
       "**/raw-loader",
@@ -16,11 +20,23 @@
     ]
   },
   "scripts": {
-    "build": "yarn workspace @meshtrade/api build",
+    "build": "yarn build:web && yarn build:node && yarn build:old",
+    "build:web": "yarn workspace @meshtrade/api-web build",
+    "build:node": "yarn workspace @meshtrade/api-node build",
+    "build:old": "yarn workspace @meshtrade/api-old build",
     "build:docs": "yarn workspace mesh-api-docs build",
-    "test": "yarn workspace @meshtrade/api test",
-    "lint": "yarn workspace @meshtrade/api lint",
-    "clean": "yarn workspace @meshtrade/api clean",
+    "test": "yarn test:web && yarn test:node && yarn test:old",
+    "test:web": "yarn workspace @meshtrade/api-web test",
+    "test:node": "yarn workspace @meshtrade/api-node test",
+    "test:old": "yarn workspace @meshtrade/api-old test",
+    "lint": "yarn lint:web && yarn lint:node && yarn lint:old",
+    "lint:web": "yarn workspace @meshtrade/api-web lint",
+    "lint:node": "yarn workspace @meshtrade/api-node lint",
+    "lint:old": "yarn workspace @meshtrade/api-old lint",
+    "clean": "yarn clean:web && yarn clean:node && yarn clean:old",
+    "clean:web": "yarn workspace @meshtrade/api-web clean",
+    "clean:node": "yarn workspace @meshtrade/api-node clean",
+    "clean:old": "yarn workspace @meshtrade/api-old clean",
     "start:docs": "yarn workspace mesh-api-docs start",
     "serve:docs": "yarn workspace mesh-api-docs serve",
     "generate": "./dev/tool.sh all"
@@ -38,5 +54,9 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.54.1"
+  },
+  "dependencies": {
+    "braces": "^3.0.3",
+    "micromatch": "^4.0.8"
   }
 }

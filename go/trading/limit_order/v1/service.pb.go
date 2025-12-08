@@ -446,9 +446,15 @@ type MonitorLimitOrderRequest struct {
 	//
 	//	*MonitorLimitOrderRequest_Name
 	//	*MonitorLimitOrderRequest_ExternalReference
-	Identifier    isMonitorLimitOrderRequest_Identifier `protobuf_oneof:"identifier"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Identifier isMonitorLimitOrderRequest_Identifier `protobuf_oneof:"identifier"`
+	// When true, fetches live ledger data for order.
+	// When false, returns only stored metadata.
+	// Note: The streaming does not stream based on ledger events such as fill amount changes,
+	// only limit order state changes triggers a stream update. If this is set to true
+	// then live ledger data will populated with the updated limit order state.
+	LiveLedgerData bool `protobuf:"varint,3,opt,name=live_ledger_data,json=liveLedgerData,proto3" json:"live_ledger_data,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *MonitorLimitOrderRequest) Reset() {
@@ -506,6 +512,13 @@ func (x *MonitorLimitOrderRequest) GetExternalReference() string {
 	return ""
 }
 
+func (x *MonitorLimitOrderRequest) GetLiveLedgerData() bool {
+	if x != nil {
+		return x.LiveLedgerData
+	}
+	return false
+}
+
 type isMonitorLimitOrderRequest_Identifier interface {
 	isMonitorLimitOrderRequest_Identifier()
 }
@@ -534,9 +547,9 @@ const file_meshtrade_trading_limit_order_v1_service_proto_rawDesc = "" +
 	"\vlimit_order\x18\x01 \x01(\v2,.meshtrade.trading.limit_order.v1.LimitOrderB\x06\xbaH\x03\xc8\x01\x01R\n" +
 	"limitOrder\"q\n" +
 	"\x17CancelLimitOrderRequest\x12V\n" +
-	"\x04name\x18\x01 \x01(\tBB\xbaH?\xc8\x01\x01r:25^limit_orders/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01&R\x04name\"\x98\x01\n" +
+	"\x04name\x18\x01 \x01(\tBB\xbaH?\xc8\x01\x01r:25^limit_orders/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01'R\x04name\"\x98\x01\n" +
 	"\x14GetLimitOrderRequest\x12V\n" +
-	"\x04name\x18\x01 \x01(\tBB\xbaH?\xc8\x01\x01r:25^limit_orders/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01&R\x04name\x12(\n" +
+	"\x04name\x18\x01 \x01(\tBB\xbaH?\xc8\x01\x01r:25^limit_orders/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01'R\x04name\x12(\n" +
 	"\x10live_ledger_data\x18\x02 \x01(\bR\x0eliveLedgerData\"\x8a\x01\n" +
 	"'GetLimitOrderByExternalReferenceRequest\x125\n" +
 	"\x12external_reference\x18\x01 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\x11externalReference\x12(\n" +
@@ -550,10 +563,11 @@ const file_meshtrade_trading_limit_order_v1_service_proto_rawDesc = "" +
 	"\aaccount\x18\x02 \x01(\tB8\xbaH5r321^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$R\aaccount\x12(\n" +
 	"\x10live_ledger_data\x18\x03 \x01(\bR\x0eliveLedgerData\"l\n" +
 	"\x19SearchLimitOrdersResponse\x12O\n" +
-	"\flimit_orders\x18\x01 \x03(\v2,.meshtrade.trading.limit_order.v1.LimitOrderR\vlimitOrders\"\xb0\x01\n" +
+	"\flimit_orders\x18\x01 \x03(\v2,.meshtrade.trading.limit_order.v1.LimitOrderR\vlimitOrders\"\xda\x01\n" +
 	"\x18MonitorLimitOrderRequest\x12U\n" +
-	"\x04name\x18\x01 \x01(\tB?\xbaH<r:25^limit_orders/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01&H\x00R\x04name\x12/\n" +
-	"\x12external_reference\x18\x02 \x01(\tH\x00R\x11externalReferenceB\f\n" +
+	"\x04name\x18\x01 \x01(\tB?\xbaH<r:25^limit_orders/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01'H\x00R\x04name\x12/\n" +
+	"\x12external_reference\x18\x02 \x01(\tH\x00R\x11externalReference\x12(\n" +
+	"\x10live_ledger_data\x18\x03 \x01(\bR\x0eliveLedgerDataB\f\n" +
 	"\n" +
 	"identifier2\xf3\b\n" +
 	"\x11LimitOrderService\x12\x8f\x01\n" +
