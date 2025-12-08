@@ -48,9 +48,14 @@ The service supports pricing for several categories of instruments:
 
 | Category | Examples | Quote Currencies |
 |----------|----------|------------------|
+| **Cryptocurrencies** | BTC, ETH, XLM, USDC, USDT, SOL, DOGE, ADA, DOT | USD, ZAR, other fiat |
 | **Precious Metals** | XAU (Gold), XAG (Silver), XPT (Platinum), XPD (Palladium) | USD, ZAR |
 | **Fiat Currencies** | USD, EUR, GBP, JPY, ZAR, CHF, CAD, AUD, NZD, CNY, INR, BRL | Any supported fiat |
 | **JSE Equities** | STX40, STXRAF, STXWDM, STXEMG, STX500, BRNDZ, TITANS | ZAR |
+
+:::note
+Certain pair combinations are not supported, such as precious metal to precious metal (e.g., XAU/XAG) or equity to equity (e.g., STX40/STXRAF). If needed, calculate these manually using a common currency.
+:::
 
 :::note
 When both base and quote tokens are the same (e.g., USD/USD), the service returns a price of 1.
@@ -102,6 +107,14 @@ To convert between fiat currencies:
 1. Call `GetCurrentPriceByTokenPair` with the source currency as base and target currency as quote
 2. Multiply the amount by the returned price
 3. Example: Convert 100 USD to ZAR - get USD/ZAR price, multiply by 100
+
+### Cryptocurrency Pricing
+
+To get cryptocurrency prices:
+
+1. Call `GetCurrentPriceByTokenPair` with the crypto code (BTC, ETH, XLM, etc.) as base
+2. Use USD, ZAR, or another fiat currency as the quote token
+3. Crypto-to-crypto pairs (e.g., XLM/USDC) are also supported
 
 ### Precious Metal Valuation
 
