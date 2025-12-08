@@ -19,9 +19,9 @@ func main() {
 	}
 	defer service.Close()
 
-	// Create request with service-specific parameters
+	// Create request to get a specific user profile by name (resource identifier)
 	request := &user_profilev1.GetUserProfileRequest{
-		Name: "user_profiles/{id_}",
+		Name: "user_profiles/01JCXYZ1234567890ABCDEFGHJK", // User profile ULIDv2 identifier
 	}
 
 	// Call the GetUserProfile method
@@ -30,6 +30,22 @@ func main() {
 		log.Fatalf("GetUserProfile failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("GetUserProfile successful: %+v", response)
+	// Access user profile details
+	userProfile := response.UserProfile
+	log.Printf("User profile retrieved successfully:")
+	log.Printf("  Name: %s", userProfile.Name)
+	log.Printf("  Display Name: %s", userProfile.DisplayName)
+	log.Printf("  User: %s", userProfile.UserName)
+	log.Printf("  Owner: %s", userProfile.Owner)
+	if userProfile.ContactDetails != nil {
+		if userProfile.ContactDetails.EmailAddress != "" {
+			log.Printf("  Email: %s", userProfile.ContactDetails.EmailAddress)
+		}
+		if userProfile.ContactDetails.MobileNumber != "" {
+			log.Printf("  Mobile: %s", userProfile.ContactDetails.MobileNumber)
+		}
+	}
+
+	// Use user profile information for display
+	log.Printf("User profile for %s loaded successfully", userProfile.DisplayName)
 }

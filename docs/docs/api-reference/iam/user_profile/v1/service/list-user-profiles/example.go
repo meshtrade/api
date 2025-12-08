@@ -19,10 +19,8 @@ func main() {
 	}
 	defer service.Close()
 
-	// Create request with service-specific parameters
-	request := &user_profilev1.ListUserProfilesRequest{
-		// FIXME: Populate service-specific request fields
-	}
+	// Create request - no parameters needed for simple list
+	request := &user_profilev1.ListUserProfilesRequest{}
 
 	// Call the ListUserProfiles method
 	response, err := service.ListUserProfiles(ctx, request)
@@ -30,6 +28,17 @@ func main() {
 		log.Fatalf("ListUserProfiles failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("ListUserProfiles successful: %+v", response)
+	// Process the user profile directory
+	log.Printf("Found %d user profiles in the accessible hierarchy:", len(response.UserProfiles))
+	for i, profile := range response.UserProfiles {
+		log.Printf("User Profile %d:", i+1)
+		log.Printf("  Name: %s", profile.Name)
+		log.Printf("  Display Name: %s", profile.DisplayName)
+		log.Printf("  User: %s", profile.GetFirstName())
+		log.Printf("  Owner: %s", profile.Owner)
+		if profile.ContactDetails != nil && profile.ContactDetails.EmailAddress != "" {
+			log.Printf("  Email: %s", profile.ContactDetails.EmailAddress)
+		}
+		log.Println()
+	}
 }

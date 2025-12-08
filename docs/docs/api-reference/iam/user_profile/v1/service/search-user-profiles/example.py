@@ -1,7 +1,5 @@
-from meshtrade.iam.user_profile.v1 import (
-    SearchUserProfilesRequest,
-    UserProfileService,
-)
+from meshtrade.iam.user_profile.v1 import SearchUserProfilesRequest, UserProfileService
+from meshtrade.type.v1 import SortingOrder
 
 
 def main():
@@ -11,16 +9,29 @@ def main():
     service = UserProfileService()
 
     with service:
-        # Create request with service-specific parameters
+        # Create search request with filters and sorting
         request = SearchUserProfilesRequest(
-            # FIXME: Populate service-specific request fields
+            display_name="Sarah",  # Search by display name (case-insensitive partial match)
+            email="company.com",  # Search by email domain (case-insensitive partial match)
+            sorting=SearchUserProfilesRequest.Sorting(
+                field="display_name",  # Sort by display name
+                order=SortingOrder.SORTING_ORDER_ASC,
+            ),
         )
 
         # Call the SearchUserProfiles method
         response = service.search_user_profiles(request)
 
-        # FIXME: Add relevant response object usage
-        print("SearchUserProfiles successful:", response)
+        # Process the search results
+        print(f"Found {len(response.user_profiles)} matching user profiles:")
+        for i, profile in enumerate(response.user_profiles):
+            print(f"User Profile {i + 1}:")
+            print(f"  Name: {profile.name}")
+            print(f"  Display Name: {profile.display_name}")
+            print(f"  User: {profile.user_name}")
+            if profile.contact_details.email_address:
+                print(f"  Email: {profile.contact_details.email_address}")
+            print()
 
 
 if __name__ == "__main__":

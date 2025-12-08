@@ -11,16 +11,23 @@ def main():
     service = UserProfileService()
 
     with service:
-        # Create request with service-specific parameters
-        request = ListUserProfilesRequest(
-            # FIXME: Populate service-specific request fields
-        )
+        # Create request - no parameters needed for simple list
+        request = ListUserProfilesRequest()
 
         # Call the ListUserProfiles method
         response = service.list_user_profiles(request)
 
-        # FIXME: Add relevant response object usage
-        print("ListUserProfiles successful:", response)
+        # Process the user profile directory
+        print(f"Found {len(response.user_profiles)} user profiles in the accessible hierarchy:")
+        for i, profile in enumerate(response.user_profiles):
+            print(f"User Profile {i + 1}:")
+            print(f"  Name: {profile.name}")
+            print(f"  Display Name: {profile.display_name}")
+            print(f"  User: {profile.user_name}")
+            print(f"  Owner: {profile.owner}")
+            if profile.contact_details.email_address:
+                print(f"  Email: {profile.contact_details.email_address}")
+            print()
 
 
 if __name__ == "__main__":

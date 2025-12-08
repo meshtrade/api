@@ -41,12 +41,13 @@ type UserProfile struct {
 	// Ownership hiearchy of groups that have access to this resource in the format groups/{group_id}.
 	// System set on creation.
 	Owners            []string           `protobuf:"bytes,3,rep,name=owners,proto3" json:"owners,omitempty"`
-	ProfilePictureUrl string             `protobuf:"bytes,4,opt,name=profile_picture_url,json=profilePictureUrl,proto3" json:"profile_picture_url,omitempty"`
-	DisplayName       string             `protobuf:"bytes,5,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
-	FirstName         string             `protobuf:"bytes,6,opt,name=first_name,json=firstName,proto3" json:"first_name,omitempty"`
-	LastName          string             `protobuf:"bytes,7,opt,name=last_name,json=lastName,proto3" json:"last_name,omitempty"`
-	RegisteredAddress *v1.Address        `protobuf:"bytes,8,opt,name=registered_address,json=registeredAddress,proto3" json:"registered_address,omitempty"`
-	ContactDetails    *v1.ContactDetails `protobuf:"bytes,9,opt,name=contact_details,json=contactDetails,proto3" json:"contact_details,omitempty"`
+	UserName          string             `protobuf:"bytes,4,opt,name=user_name,json=userName,proto3" json:"user_name,omitempty"`
+	ProfilePictureUrl string             `protobuf:"bytes,5,opt,name=profile_picture_url,json=profilePictureUrl,proto3" json:"profile_picture_url,omitempty"`
+	DisplayName       string             `protobuf:"bytes,6,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
+	FirstName         string             `protobuf:"bytes,7,opt,name=first_name,json=firstName,proto3" json:"first_name,omitempty"`
+	LastName          string             `protobuf:"bytes,8,opt,name=last_name,json=lastName,proto3" json:"last_name,omitempty"`
+	Address           *v1.Address        `protobuf:"bytes,9,opt,name=address,proto3" json:"address,omitempty"`
+	ContactDetails    *v1.ContactDetails `protobuf:"bytes,10,opt,name=contact_details,json=contactDetails,proto3" json:"contact_details,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -102,6 +103,13 @@ func (x *UserProfile) GetOwners() []string {
 	return nil
 }
 
+func (x *UserProfile) GetUserName() string {
+	if x != nil {
+		return x.UserName
+	}
+	return ""
+}
+
 func (x *UserProfile) GetProfilePictureUrl() string {
 	if x != nil {
 		return x.ProfilePictureUrl
@@ -130,9 +138,9 @@ func (x *UserProfile) GetLastName() string {
 	return ""
 }
 
-func (x *UserProfile) GetRegisteredAddress() *v1.Address {
+func (x *UserProfile) GetAddress() *v1.Address {
 	if x != nil {
-		return x.RegisteredAddress
+		return x.Address
 	}
 	return nil
 }
@@ -148,19 +156,21 @@ var File_meshtrade_iam_user_profile_v1_user_profile_proto protoreflect.FileDescr
 
 const file_meshtrade_iam_user_profile_v1_user_profile_proto_rawDesc = "" +
 	"\n" +
-	"0meshtrade/iam/user_profile/v1/user_profile.proto\x12\x1dmeshtrade.iam.user_profile.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fmeshtrade/type/v1/address.proto\x1a'meshtrade/type/v1/contact_details.proto\"\x9c\x05\n" +
+	"0meshtrade/iam/user_profile/v1/user_profile.proto\x12\x1dmeshtrade.iam.user_profile.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fmeshtrade/type/v1/address.proto\x1a'meshtrade/type/v1/contact_details.proto\"\xe9\x05\n" +
 	"\vUserProfile\x12\xba\x01\n" +
 	"\x04name\x18\x01 \x01(\tB\xa5\x01\xbaH\xa1\x01\xba\x01\x9d\x01\n" +
 	"\x14name.format.optional\x122name must be empty or in the format users/{ULIDv2}\x1aQsize(this) == 0 || this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12R\n" +
 	"\x05owner\x18\x02 \x01(\tB<\xbaH9\xc8\x01\x01r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05owner\x12V\n" +
-	"\x06owners\x18\x03 \x03(\tB>\xbaH;\x92\x018\"6r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x06owners\x12.\n" +
-	"\x13profile_picture_url\x18\x04 \x01(\tR\x11profilePictureUrl\x12!\n" +
-	"\fdisplay_name\x18\x05 \x01(\tR\vdisplayName\x12\x1d\n" +
+	"\x06owners\x18\x03 \x03(\tB>\xbaH;\x92\x018\"6r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x06owners\x12X\n" +
+	"\tuser_name\x18\x04 \x01(\tB;\xbaH8\xc8\x01\x01r32.^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\buserName\x12.\n" +
+	"\x13profile_picture_url\x18\x05 \x01(\tR\x11profilePictureUrl\x12)\n" +
+	"\fdisplay_name\x18\x06 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\vdisplayName\x12\x1d\n" +
 	"\n" +
-	"first_name\x18\x06 \x01(\tR\tfirstName\x12\x1b\n" +
-	"\tlast_name\x18\a \x01(\tR\blastName\x12I\n" +
-	"\x12registered_address\x18\b \x01(\v2\x1a.meshtrade.type.v1.AddressR\x11registeredAddress\x12J\n" +
-	"\x0fcontact_details\x18\t \x01(\v2!.meshtrade.type.v1.ContactDetailsR\x0econtactDetailsBg\n" +
+	"first_name\x18\a \x01(\tR\tfirstName\x12\x1b\n" +
+	"\tlast_name\x18\b \x01(\tR\blastName\x124\n" +
+	"\aaddress\x18\t \x01(\v2\x1a.meshtrade.type.v1.AddressR\aaddress\x12J\n" +
+	"\x0fcontact_details\x18\n" +
+	" \x01(\v2!.meshtrade.type.v1.ContactDetailsR\x0econtactDetailsBg\n" +
 	"$co.meshtrade.api.iam.user_profile.v1Z?github.com/meshtrade/api/go/iam/user_profile/v1;user_profile_v1b\x06proto3"
 
 var (
@@ -182,7 +192,7 @@ var file_meshtrade_iam_user_profile_v1_user_profile_proto_goTypes = []any{
 	(*v1.ContactDetails)(nil), // 2: meshtrade.type.v1.ContactDetails
 }
 var file_meshtrade_iam_user_profile_v1_user_profile_proto_depIdxs = []int32{
-	1, // 0: meshtrade.iam.user_profile.v1.UserProfile.registered_address:type_name -> meshtrade.type.v1.Address
+	1, // 0: meshtrade.iam.user_profile.v1.UserProfile.address:type_name -> meshtrade.type.v1.Address
 	2, // 1: meshtrade.iam.user_profile.v1.UserProfile.contact_details:type_name -> meshtrade.type.v1.ContactDetails
 	2, // [2:2] is the sub-list for method output_type
 	2, // [2:2] is the sub-list for method input_type

@@ -20,32 +20,28 @@ func main() {
 	}
 	defer service.Close()
 
-	// Create request with service-specific parameters
+	// Create request with user profile configuration
 	request := &user_profilev1.CreateUserProfileRequest{
 		UserProfile: &user_profilev1.UserProfile{
-			Owner: service.Group(),
-			Owners:            []string{},
-			DisplayName:       "",
-			FirstName:         "",
-			LastName:          "",
-			RegisteredAddress: &type_v1.Address{
-				AddressLines: []string{},
-				Suburb:       "",
-				City:         "",
-				Province:     "",
-				CountryCode:  "",
-				PostalCode:   "",
+			Owner:              service.Group(), // Current authenticated group becomes the owner
+			Name:               "users/01JCXYZ1234567890ABCDEFGHJK", // Associated user resource
+			DisplayName:        "Sarah Thompson", // Required display name
+			FirstName:          "Sarah",
+			LastName:           "Thompson",
+			ProfilePictureUrl:  "https://cdn.example.com/profiles/sarah.jpg",
+			Address: &type_v1.Address{
+				AddressLines: []string{"456 Oak Avenue", "Apartment 3B"},
+				City:         "San Francisco",
+				Province:     "California",
+				CountryCode:  "US",
+				PostalCode:   "94102",
 			},
-			ContactDetails:    &type_v1.ContactDetails{
-				EmailAddress: "",
-				PhoneNumber:  "",
-				MobileNumber: "",
-				Website:      "",
-				Linkedin:     "",
-				Facebook:     "",
-				Instagram:    "",
-				XTwitter:     "",
-				Youtube:      "",
+			ContactDetails: &type_v1.ContactDetails{
+				EmailAddress: "sarah.thompson@company.com",
+				MobileNumber: "+14155551234",
+				PhoneNumber:  "+14155559876",
+				Linkedin:     "in/sarah-thompson",
+				XTwitter:     "sarahthompson",
 			},
 		},
 	}
@@ -56,6 +52,15 @@ func main() {
 		log.Fatalf("CreateUserProfile failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("CreateUserProfile successful: %+v", response)
+	// Use the newly created user profile
+	userProfile := response.UserProfile
+	log.Printf("User profile created successfully:")
+	log.Printf("  Name: %s", userProfile.Name)
+	log.Printf("  Display Name: %s", userProfile.DisplayName)
+	log.Printf("  User: %s", userProfile.UserName)
+	log.Printf("  Owner: %s", userProfile.Owner)
+	log.Printf("  Email: %s", userProfile.ContactDetails.EmailAddress)
+
+	// The user profile is ready with complete information
+	log.Printf("User profile is ready with complete contact and address information")
 }
