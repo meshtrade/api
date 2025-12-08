@@ -1,0 +1,174 @@
+syntax = "proto3";
+
+package meshtrade.iam.user_profile.v1;
+
+import "buf/validate/validate.proto";
+import "meshtrade/iam/user_profile/v1/user_profile.proto";
+import "meshtrade/option/method_options/v1/method_options.proto";
+import "meshtrade/type/v1/sorting.proto";
+
+option go_package = "github.com/meshtrade/api/go/iam/user_profile/v1;user_profile_v1";
+option java_package = "co.meshtrade.api.iam.user_profile.v1";
+
+service UserProfileService {
+  rpc CreateUserProfile(CreateUserProfileRequest) returns (CreateUserProfileResponse) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_WRITE
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_USER_PROFILE_ADMIN
+      ]
+    };
+  };
+  rpc UpdateUserProfile(UpdateUserProfileRequest) returns (UpdateUserProfileResponse) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_WRITE
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_USER_PROFILE_ADMIN
+      ]
+    };
+  };
+  rpc GetUserProfile(GetUserProfileRequest) returns (GetUserProfileResponse) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_USER_PROFILE_ADMIN,
+        ROLE_IAM_USER_PROFILE_VIEWER
+      ]
+    };
+  };
+  rpc ListUserProfiles(ListUserProfilesRequest) returns (ListUserProfilesResponse) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_USER_PROFILE_ADMIN,
+        ROLE_IAM_USER_PROFILE_VIEWER
+      ]
+    };
+  };
+  rpc SearchUserProfiles(SearchUserProfilesRequest) returns (SearchUserProfilesResponse) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_USER_PROFILE_ADMIN,
+        ROLE_IAM_USER_PROFILE_VIEWER
+      ]
+    };
+  };
+}
+
+message CreateUserProfileRequest {
+  UserProfile user_profile = 1 [(buf.validate.field) = {required: true}];
+}
+message CreateUserProfileResponse {
+  UserProfile user_profile = 1; 
+}
+
+message UpdateUserProfileRequest {
+  UserProfile user_profile = 1 [(buf.validate.field) = {required: true}];
+}
+message UpdateUserProfileResponse {
+  UserProfile user_profile = 1; 
+}
+
+message GetUserProfileRequest {
+  /*
+     The resource name of the group to retrieve in format user_profiles/{user_profile_id}.
+  */
+  string name = 1 [(buf.validate.field) = {
+    required: true
+    string: {
+      min_len: 1
+      pattern: "^user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+    }
+    cel: {
+      id: "name.required"
+      message: "name is required and must be in format user_profiles/{ULIDv2}"
+      expression: "size(this) > 0"
+    }
+    cel: {
+      id: "name.format"
+      message: "name must be in format user_profiles/{ULIDv2} where ulidv2 is exactly 26 uppercase alphanumeric characters"
+      expression: "this.matches('^user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
+    }
+  }];
+}
+message GetUserProfileResponse {
+  UserProfile user_profile = 1 [(buf.validate.field) = {required: true}];
+}
+
+message ListUserProfilesRequest {}
+message ListUserProfilesResponse {
+  repeated UserProfile user_profiles = 1;
+}
+
+message SearchUserProfilesRequest {
+  message Sorting {
+    /*
+       Field to sort by ("name" or "display_name").
+    */
+    string field = 1 [(buf.validate.field) = {
+      string: {
+        in: [
+          "",
+          "name",
+          "display_name"
+        ]
+      }
+      cel: {
+        id: "field.valid"
+        message: "field must be one of: name, display_name, or empty"
+        expression: "this in ['', 'name', 'display_name']"
+      }
+    }];
+
+    /*
+       Sort order for results.
+    */
+    meshtrade.type.v1.SortingOrder order = 2;
+  }
+
+  /*
+     Optional substring to search for in group display names.
+     Case-insensitive partial matching.
+  */
+  string display_name = 1 [(buf.validate.field) = {
+    string: {max_len: 255}
+    cel: {
+      id: "display_name.max_length"
+      message: "display_name search term must not exceed 255 characters"
+      expression: "size(this) <= 255"
+    }
+  }];
+
+  /*
+     Optional substring to search for in group descriptions.
+     Case-insensitive partial matching.
+  */
+  string email = 2 [(buf.validate.field) = {
+    string: {max_len: 255}
+    cel: {
+      id: "description.max_length"
+      message: "description search term must not exceed 255 characters"
+      expression: "size(this) <= 255"
+    }
+  }];
+
+  /*
+     Optional sorting configuration.
+  */
+  Sorting sorting = 3;
+}
+
+message SearchUserProfilesResponse {
+  repeated UserProfile user_profiles = 1;
+}

@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package meshtrade.iam.user_profile.v1;
+
+import "buf/validate/validate.proto";
+import "meshtrade/type/v1/address.proto";
+import "meshtrade/type/v1/contact_details.proto";
+
+option go_package = "github.com/meshtrade/api/go/iam/user_profile/v1;user_profile_v1";
+option java_package = "co.meshtrade.api.iam.user_profile.v1";
+
+/*
+   A user in the IAM service.
+
+   Each User belongs to a specific group and has
+   defined roles that determine their permissions within that group.
+*/
+message UserProfile {
+  /*
+     The unique resource name for the user.
+     Format: users/{ULIDv2}.
+     This field is system-generated and immutable upon creation.
+     Any value provided on creation is ignored.
+  */
+  string name = 1 [(buf.validate.field) = {
+    cel: {
+      id: "name.format.optional"
+      message: "name must be empty or in the format users/{ULIDv2}"
+      expression: "size(this) == 0 || this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
+    }
+  }];
+
+
+  /*
+     The resource name of the parent group that owns this user.
+     This field is required on creation and establishes the direct ownership link.
+     Format: groups/{ULIDv2}.
+  */
+  string owner = 2 [(buf.validate.field) = {
+    required: true
+    string: {
+      len: 33
+      pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+    }
+  }];
+
+  /*
+     Ownership hiearchy of groups that have access to this resource in the format groups/{group_id}.
+     System set on creation.
+  */
+  repeated string owners = 3 [(buf.validate.field) = {
+    repeated: {
+      items: {
+        string: {
+          len: 33
+          pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+        }
+      }
+    }
+  }];
+
+  string user_name = 4 [(buf.validate.field) = {
+    required: true
+    string: {
+     len: 33
+     pattern: "^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+    }
+  }];
+
+  string profile_picture_url = 5;
+  string display_name = 6 [(buf.validate.field) = {
+    required: true
+  }];
+  string first_name = 7;
+  string last_name = 8;
+  meshtrade.type.v1.Address address = 9;
+  meshtrade.type.v1.ContactDetails contact_details = 10;
+}
