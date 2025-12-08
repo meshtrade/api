@@ -8,7 +8,6 @@ package tap_v1
 
 import (
 	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
-	_ "github.com/meshtrade/api/go/iam/role/v1"
 	_ "github.com/meshtrade/api/go/option/method_options/v1"
 	v1 "github.com/meshtrade/api/go/type/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -277,7 +276,7 @@ var File_meshtrade_ledger_tap_v1_service_proto protoreflect.FileDescriptor
 
 const file_meshtrade_ledger_tap_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"%meshtrade/ledger/tap/v1/service.proto\x12\x17meshtrade.ledger.tap.v1\x1a\x1bbuf/validate/validate.proto\x1a meshtrade/iam/role/v1/role.proto\x1a$meshtrade/ledger/tap/v1/option.proto\x1a7meshtrade/option/method_options/v1/method_options.proto\x1a\x1emeshtrade/type/v1/amount.proto\x1a\x1dmeshtrade/type/v1/token.proto\"\x1c\n" +
+	"%meshtrade/ledger/tap/v1/service.proto\x12\x17meshtrade.ledger.tap.v1\x1a\x1bbuf/validate/validate.proto\x1a$meshtrade/ledger/tap/v1/option.proto\x1a7meshtrade/option/method_options/v1/method_options.proto\x1a\x1emeshtrade/type/v1/amount.proto\x1a\x1dmeshtrade/type/v1/token.proto\"\x1c\n" +
 	"\x1aInitialiseTokenTapsRequest\"\x1d\n" +
 	"\x1bInitialiseTokenTapsResponse\"\x16\n" +
 	"\x14ListTokenTapsRequest\"I\n" +
