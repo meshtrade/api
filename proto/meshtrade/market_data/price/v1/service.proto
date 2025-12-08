@@ -11,9 +11,17 @@ option go_package = "github.com/meshtrade/api/go/market_data/price/v1;price_v1";
 option java_package = "co.meshtrade.api.market_data.price.v1";
 
 /*
-   PriceService provides prices.
+   PriceService provides market data pricing information.
+
+   This service enables retrieval of current market prices for token pairs,
+   supporting trading decisions and portfolio valuation.
 */
 service PriceService {
+  /*
+     Retrieves the current price for a specified token pair.
+
+     Returns the mid-market price for the base token denominated in the quote token.
+  */
   rpc GetCurrentPriceByTokenPair(GetCurrentPriceByTokenPairRequest) returns (meshtrade.market_data.price.v1.Price) {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_READ
@@ -28,14 +36,19 @@ service PriceService {
   }
 }
 
+/*
+   Request to retrieve the current price for a token pair.
+*/
 message GetCurrentPriceByTokenPairRequest {
   /*
-     BaseToken is the token for which a price is rquired.
+     The base token for which a price is required.
+     This is the token being priced (e.g., BTC in a BTC/USD pair).
   */
   meshtrade.type.v1.Token base_token = 1 [(buf.validate.field) = {required: true}];
 
   /*
-     QuoteToken is the token in which price is to be quoted.
+     The quote token in which the price should be denominated.
+     This is the unit of measurement for the price (e.g., USD in a BTC/USD pair).
   */
   meshtrade.type.v1.Token quote_token = 2 [(buf.validate.field) = {required: true}];
 }

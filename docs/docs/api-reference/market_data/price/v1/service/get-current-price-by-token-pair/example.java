@@ -1,6 +1,7 @@
 import co.meshtrade.api.market_data.price.v1.PriceService;
 import co.meshtrade.api.market_data.price.v1.Service.GetCurrentPriceByTokenPairRequest;
 import co.meshtrade.api.market_data.price.v1.Price.Price;
+import co.meshtrade.api.type.v1.Token.Token;
 
 import java.util.Optional;
 
@@ -10,16 +11,25 @@ public class GetCurrentPriceByTokenPairExample {
         // environment variable or default discovery methods. Zero config required
         // unless you want custom configuration.
         try (PriceService service = new PriceService()) {
-            // Create request with service-specific parameters
+            // Create request to get gold (XAU) price in ZAR
             GetCurrentPriceByTokenPairRequest request = GetCurrentPriceByTokenPairRequest.newBuilder()
-                // FIXME: Populate service-specific request fields
+                .setBaseToken(Token.newBuilder()
+                    .setCode("XAU")  // Gold - the token to price
+                    .build())
+                .setQuoteToken(Token.newBuilder()
+                    .setCode("ZAR")  // South African Rand - the currency to price it in
+                    .build())
                 .build();
 
             // Call the GetCurrentPriceByTokenPair method
             Price price = service.getCurrentPriceByTokenPair(request, Optional.empty());
 
-            // FIXME: Add relevant response object usage
-            System.out.println("GetCurrentPriceByTokenPair successful: " + price);
+            // Display the price information
+            System.out.println("Price retrieved successfully:");
+            System.out.println("  Base Token: " + price.getBaseToken().getCode());
+            System.out.println("  Quote Token: " + price.getQuoteToken().getCode());
+            System.out.println("  Mid Price: " + price.getMidPrice().getValue());
+            System.out.println("  Timestamp: " + price.getTime());
         } catch (Exception e) {
             System.err.println("GetCurrentPriceByTokenPair failed: " + e.getMessage());
             e.printStackTrace();
