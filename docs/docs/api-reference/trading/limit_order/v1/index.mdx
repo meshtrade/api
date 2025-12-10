@@ -39,8 +39,8 @@ Note: This service is currently in BETA. Interface and functionality may change.
 
 ### Live Ledger Data
 Many read operations support an optional `live_ledger_data` flag that enriches responses with real-time ledger state:
-- When `false` (default): Returns persisted order metadata with `LIMIT_ORDER_STATUS_UNSPECIFIED`
-- When `true`: Queries the underlying ledger and populates current order status (e.g., `LIMIT_ORDER_STATUS_OPEN`, `LIMIT_ORDER_STATUS_COMPLETE`)
+- When `false` (default): Returns persisted order metadata with `LIMIT_ORDER_STATE_UNSPECIFIED`
+- When `true`: Queries the underlying ledger and populates current order status (e.g., `LIMIT_ORDER_STATE_OPEN`, `LIMIT_ORDER_STATE_COMPLETE`)
 
 ### External References
 Each limit order can be tagged with a unique `external_reference` string, enabling:
@@ -75,20 +75,20 @@ Where `{order_id}` is a system-generated ULIDv2 identifier (26 characters).
    - quantity: Amount to purchase (e.g., 10 USDC)
    - external_reference: Optional unique identifier for your system
 3. Receive LimitOrder response with system-generated resource name
-4. Monitor order status until LIMIT_ORDER_STATUS_OPEN
+4. Monitor order status until LIMIT_ORDER_STATE_OPEN
 ```
 
 ### Checking Order Status
 ```
 1. Call GetLimitOrder with live_ledger_data: true
 2. Inspect the status field:
-   - LIMIT_ORDER_STATUS_SUBMISSION_IN_PROGRESS: Order submitting to ledger
-   - LIMIT_ORDER_STATUS_SUBMISSION_FAILED: Order submission failed
-   - LIMIT_ORDER_STATUS_OPEN: Order is active on the ledger
-   - LIMIT_ORDER_STATUS_COMPLETE_IN_PROGRESS: Order completing
-   - LIMIT_ORDER_STATUS_COMPLETE: Order has been completely filled
-   - LIMIT_ORDER_STATUS_CANCELLATION_IN_PROGRESS: Cancellation in progress
-   - LIMIT_ORDER_STATUS_CANCELLED: Order was successfully cancelled
+   - LIMIT_ORDER_STATE_SUBMISSION_IN_PROGRESS: Order submitting to ledger
+   - LIMIT_ORDER_STATE_SUBMISSION_FAILED: Order submission failed
+   - LIMIT_ORDER_STATE_OPEN: Order is active on the ledger
+   - LIMIT_ORDER_STATE_COMPLETE_IN_PROGRESS: Order completing
+   - LIMIT_ORDER_STATE_COMPLETE: Order has been completely filled
+   - LIMIT_ORDER_STATE_CANCELLATION_IN_PROGRESS: Cancellation in progress
+   - LIMIT_ORDER_STATE_CANCELLED: Order was successfully cancelled
 ```
 
 ### Cancelling an Order
@@ -96,8 +96,8 @@ Where `{order_id}` is a system-generated ULIDv2 identifier (26 characters).
 1. Call CancelLimitOrder with the order's resource name
 2. Receive LimitOrder response with initial status
 3. Monitor status transitions:
-   - LIMIT_ORDER_STATUS_CANCELLATION_IN_PROGRESS: Cancel submitted to ledger
-   - LIMIT_ORDER_STATUS_CANCELLED: Cancel confirmed on ledger
+   - LIMIT_ORDER_STATE_CANCELLATION_IN_PROGRESS: Cancel submitted to ledger
+   - LIMIT_ORDER_STATE_CANCELLED: Cancel confirmed on ledger
 ```
 
 ### Monitoring Orders in Real-Time

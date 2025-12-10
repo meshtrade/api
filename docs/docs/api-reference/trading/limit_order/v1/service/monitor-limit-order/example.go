@@ -70,28 +70,28 @@ monitorOrder:
 
 		// Handle order state transitions
 		switch limitOrder.State {
-		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATUS_SUBMISSION_IN_PROGRESS:
+		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATE_SUBMISSION_IN_PROGRESS:
 			log.Printf("  ⏳ Order submission in progress...")
 
-		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATUS_SUBMISSION_FAILED:
+		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATE_SUBMISSION_FAILED:
 			log.Printf("  ❌ Order submission failed")
 			break monitorOrder
 
-		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATUS_OPEN:
+		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATE_OPEN:
 			log.Printf("  ✓ Order open on ledger and available for matching")
 			// Order is active - continue monitoring for fills
 
-		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATUS_COMPLETE_IN_PROGRESS:
+		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATE_COMPLETE_IN_PROGRESS:
 			log.Printf("  ⏳ Order completion in progress...")
 
-		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATUS_COMPLETE:
+		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATE_COMPLETE:
 			log.Printf("  🎉 Order completed (fully filled)!")
 			break monitorOrder
 
-		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATUS_CANCELLATION_IN_PROGRESS:
+		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATE_CANCELLATION_IN_PROGRESS:
 			log.Printf("  ⏳ Order cancellation in progress...")
 
-		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATUS_CANCELLED:
+		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATE_CANCELLED:
 			log.Printf("  ❌ Order cancelled")
 			break monitorOrder
 

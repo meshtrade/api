@@ -24,6 +24,7 @@ public class GetLimitOrderExample {
 
             System.out.println("✓ Limit order retrieved (cached data):");
             System.out.println("  Resource name: " + limitOrder.getName());
+            System.out.println("  Number: " + limitOrder.getNumber());
             System.out.println("  Account: " + limitOrder.getAccount());
             System.out.println("  External reference: " + limitOrder.getExternalReference());
             System.out.println("  Side: " + limitOrder.getSide());

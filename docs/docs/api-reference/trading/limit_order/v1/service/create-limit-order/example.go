@@ -63,9 +63,10 @@ func main() {
 		log.Fatalf("CreateLimitOrder failed: %v", err)
 	}
 
-	// Response contains the created order with system-generated resource name
+	// Response contains the created order with system-generated resource name and number
 	log.Printf("✓ Limit order created successfully!")
 	log.Printf("  Resource name: %s", limitOrder.Name)
+	log.Printf("  Number: %s", limitOrder.Number)
 	log.Printf("  External reference: %s", limitOrder.ExternalReference)
 	log.Printf("  Account: %s", limitOrder.Account)
 	log.Printf("  Side: %s", limitOrder.Side)
@@ -95,13 +96,13 @@ monitorOrder:
 		log.Printf("  State: %s", update.State)
 
 		switch update.State {
-		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATUS_SUBMISSION_IN_PROGRESS:
+		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATE_SUBMISSION_IN_PROGRESS:
 			log.Printf("  ⏳ Order submission in progress...")
 
-		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATUS_SUBMISSION_FAILED:
+		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATE_SUBMISSION_FAILED:
 			log.Fatalf("  ❌ Order submission failed")
 
-		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATUS_OPEN:
+		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATE_OPEN:
 			log.Printf("  ✓ Order is now open on the ledger and available for matching!")
 			break monitorOrder
 		}
