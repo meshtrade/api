@@ -1,6 +1,6 @@
 {
   "name": "@meshtrade/api-node",
-  "version": "1.33.0",
+  "version": "1.34.0",
   "description": "Mesh Typescript Node SDK",
   "author": "Bernard Bussy <bernard@meshtrade.co>",
   "license": "UNLICENSED",
