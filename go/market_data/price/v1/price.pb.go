@@ -23,15 +23,22 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Is a Price
+// Price represents a market price quote for a token pair.
+//
+// Provides the mid-market price for a base token denominated in a quote token,
+// along with the timestamp when the price was observed.
 type Price struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
-	BaseToken *v1.Token              `protobuf:"bytes,1,opt,name=base_token,json=baseToken,proto3" json:"base_token,omitempty"`
-	// QuoteToken
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The base token for which the price is quoted.
+	// This is the token being priced (e.g., BTC in a BTC/USD pair).
+	BaseToken *v1.Token `protobuf:"bytes,1,opt,name=base_token,json=baseToken,proto3" json:"base_token,omitempty"`
+	// The quote token in which the price is denominated.
+	// This is the unit of measurement for the price (e.g., USD in a BTC/USD pair).
 	QuoteToken *v1.Token `protobuf:"bytes,2,opt,name=quote_token,json=quoteToken,proto3" json:"quote_token,omitempty"`
-	// Mid price in quote
+	// The mid-market price of the base token in quote token units.
+	// Represents the midpoint between the best bid and best ask prices.
 	MidPrice *v1.Decimal `protobuf:"bytes,3,opt,name=mid_price,json=midPrice,proto3" json:"mid_price,omitempty"`
-	// Time of Price
+	// Timestamp when this price was observed or calculated.
 	Time          *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=time,proto3" json:"time,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache

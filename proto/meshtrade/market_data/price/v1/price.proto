@@ -10,26 +10,32 @@ option go_package = "github.com/meshtrade/api/go/market_data/price/v1;price_v1";
 option java_package = "co.meshtrade.api.market_data.price.v1";
 
 /*
-   Is a Price
+   Price represents a market price quote for a token pair.
+
+   Provides the mid-market price for a base token denominated in a quote token,
+   along with the timestamp when the price was observed.
 */
 message Price {
   /*
-     BaseToken
+     The base token for which the price is quoted.
+     This is the token being priced (e.g., BTC in a BTC/USD pair).
   */
-  
   meshtrade.type.v1.Token base_token = 1;
+
   /*
-     QuoteToken
+     The quote token in which the price is denominated.
+     This is the unit of measurement for the price (e.g., USD in a BTC/USD pair).
   */
   meshtrade.type.v1.Token quote_token = 2;
 
   /*
-     Mid price in quote
+     The mid-market price of the base token in quote token units.
+     Represents the midpoint between the best bid and best ask prices.
   */
   meshtrade.type.v1.Decimal mid_price = 3;
 
   /*
-     Time of Price
+     Timestamp when this price was observed or calculated.
   */
   google.protobuf.Timestamp time = 4;
 }

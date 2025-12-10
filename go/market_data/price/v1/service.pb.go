@@ -24,11 +24,14 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// Request to retrieve the current price for a token pair.
 type GetCurrentPriceByTokenPairRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// BaseToken is the token for which a price is rquired.
+	// The base token for which a price is required.
+	// This is the token being priced (e.g., BTC in a BTC/USD pair).
 	BaseToken *v1.Token `protobuf:"bytes,1,opt,name=base_token,json=baseToken,proto3" json:"base_token,omitempty"`
-	// QuoteToken is the token in which price is to be quoted.
+	// The quote token in which the price should be denominated.
+	// This is the unit of measurement for the price (e.g., USD in a BTC/USD pair).
 	QuoteToken    *v1.Token `protobuf:"bytes,2,opt,name=quote_token,json=quoteToken,proto3" json:"quote_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
