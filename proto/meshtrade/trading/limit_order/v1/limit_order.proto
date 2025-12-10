@@ -134,6 +134,12 @@ message LimitOrder {
      Limit Order life cycle state.
   */
   LimitOrderState state = 12;
+
+  /*
+     Number is an incrementing unique identifier that users use to identify an order.
+     This is a system-generated value, not the native exchange order number.
+  */
+  string number = 13;
 }
 
 /*

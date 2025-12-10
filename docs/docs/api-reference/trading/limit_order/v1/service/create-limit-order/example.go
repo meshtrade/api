@@ -63,9 +63,10 @@ func main() {
 		log.Fatalf("CreateLimitOrder failed: %v", err)
 	}
 
-	// Response contains the created order with system-generated resource name
+	// Response contains the created order with system-generated resource name and number
 	log.Printf("✓ Limit order created successfully!")
 	log.Printf("  Resource name: %s", limitOrder.Name)
+	log.Printf("  Number: %s", limitOrder.Number)
 	log.Printf("  External reference: %s", limitOrder.ExternalReference)
 	log.Printf("  Account: %s", limitOrder.Account)
 	log.Printf("  Side: %s", limitOrder.Side)

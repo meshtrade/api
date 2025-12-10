@@ -52,9 +52,10 @@ def main():
         # Call the CreateLimitOrder method
         limit_order = service.create_limit_order(request)
 
-        # Response contains the created order with system-generated resource name
+        # Response contains the created order with system-generated resource name and number
         print("✓ Limit order created successfully!")
         print(f"  Resource name: {limit_order.name}")
+        print(f"  Number: {limit_order.number}")
         print(f"  External reference: {limit_order.external_reference}")
         print(f"  Account: {limit_order.account}")
         print(f"  Side: {limit_order.side}")

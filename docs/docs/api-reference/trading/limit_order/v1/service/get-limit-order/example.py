@@ -25,6 +25,7 @@ def main():
 
         print("✓ Limit order retrieved (cached data):")
         print(f"  Resource name: {limit_order.name}")
+        print(f"  Number: {limit_order.number}")
         print(f"  Account: {limit_order.account}")
         print(f"  External reference: {limit_order.external_reference}")
         print(f"  Side: {limit_order.side}")

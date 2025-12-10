@@ -67,9 +67,10 @@ public class CreateLimitOrderExample {
             // Call the CreateLimitOrder method
             LimitOrder limitOrder = service.createLimitOrder(request, Optional.empty());
 
-            // Response contains the created order with system-generated resource name
+            // Response contains the created order with system-generated resource name and number
             System.out.println("✓ Limit order created successfully!");
             System.out.println("  Resource name: " + limitOrder.getName());
+            System.out.println("  Number: " + limitOrder.getNumber());
             System.out.println("  External reference: " + limitOrder.getExternalReference());
             System.out.println("  Account: " + limitOrder.getAccount());
             System.out.println("  Side: " + limitOrder.getSide());
