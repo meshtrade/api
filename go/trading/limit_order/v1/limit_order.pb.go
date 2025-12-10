@@ -81,44 +81,44 @@ type LimitOrderState int32
 
 const (
 	// Unspecified status.
-	LimitOrderState_LIMIT_ORDER_STATUS_UNSPECIFIED LimitOrderState = 0
+	LimitOrderState_LIMIT_ORDER_STATE_UNSPECIFIED LimitOrderState = 0
 	// Submission transaction in progress.
-	LimitOrderState_LIMIT_ORDER_STATUS_SUBMISSION_IN_PROGRESS LimitOrderState = 1
+	LimitOrderState_LIMIT_ORDER_STATE_SUBMISSION_IN_PROGRESS LimitOrderState = 1
 	// Submission failed.
-	LimitOrderState_LIMIT_ORDER_STATUS_SUBMISSION_FAILED LimitOrderState = 2
+	LimitOrderState_LIMIT_ORDER_STATE_SUBMISSION_FAILED LimitOrderState = 2
 	// Order is open on the ledger.
-	LimitOrderState_LIMIT_ORDER_STATUS_OPEN LimitOrderState = 3
+	LimitOrderState_LIMIT_ORDER_STATE_OPEN LimitOrderState = 3
 	// Completion in progress.
-	LimitOrderState_LIMIT_ORDER_STATUS_COMPLETE_IN_PROGRESS LimitOrderState = 4
+	LimitOrderState_LIMIT_ORDER_STATE_COMPLETE_IN_PROGRESS LimitOrderState = 4
 	// Order completed (fully filled).
-	LimitOrderState_LIMIT_ORDER_STATUS_COMPLETE LimitOrderState = 5
+	LimitOrderState_LIMIT_ORDER_STATE_COMPLETE LimitOrderState = 5
 	// Cancellation in progress.
-	LimitOrderState_LIMIT_ORDER_STATUS_CANCELLATION_IN_PROGRESS LimitOrderState = 6
+	LimitOrderState_LIMIT_ORDER_STATE_CANCELLATION_IN_PROGRESS LimitOrderState = 6
 	// Order cancelled.
-	LimitOrderState_LIMIT_ORDER_STATUS_CANCELLED LimitOrderState = 7
+	LimitOrderState_LIMIT_ORDER_STATE_CANCELLED LimitOrderState = 7
 )
 
 // Enum value maps for LimitOrderState.
 var (
 	LimitOrderState_name = map[int32]string{
-		0: "LIMIT_ORDER_STATUS_UNSPECIFIED",
-		1: "LIMIT_ORDER_STATUS_SUBMISSION_IN_PROGRESS",
-		2: "LIMIT_ORDER_STATUS_SUBMISSION_FAILED",
-		3: "LIMIT_ORDER_STATUS_OPEN",
-		4: "LIMIT_ORDER_STATUS_COMPLETE_IN_PROGRESS",
-		5: "LIMIT_ORDER_STATUS_COMPLETE",
-		6: "LIMIT_ORDER_STATUS_CANCELLATION_IN_PROGRESS",
-		7: "LIMIT_ORDER_STATUS_CANCELLED",
+		0: "LIMIT_ORDER_STATE_UNSPECIFIED",
+		1: "LIMIT_ORDER_STATE_SUBMISSION_IN_PROGRESS",
+		2: "LIMIT_ORDER_STATE_SUBMISSION_FAILED",
+		3: "LIMIT_ORDER_STATE_OPEN",
+		4: "LIMIT_ORDER_STATE_COMPLETE_IN_PROGRESS",
+		5: "LIMIT_ORDER_STATE_COMPLETE",
+		6: "LIMIT_ORDER_STATE_CANCELLATION_IN_PROGRESS",
+		7: "LIMIT_ORDER_STATE_CANCELLED",
 	}
 	LimitOrderState_value = map[string]int32{
-		"LIMIT_ORDER_STATUS_UNSPECIFIED":              0,
-		"LIMIT_ORDER_STATUS_SUBMISSION_IN_PROGRESS":   1,
-		"LIMIT_ORDER_STATUS_SUBMISSION_FAILED":        2,
-		"LIMIT_ORDER_STATUS_OPEN":                     3,
-		"LIMIT_ORDER_STATUS_COMPLETE_IN_PROGRESS":     4,
-		"LIMIT_ORDER_STATUS_COMPLETE":                 5,
-		"LIMIT_ORDER_STATUS_CANCELLATION_IN_PROGRESS": 6,
-		"LIMIT_ORDER_STATUS_CANCELLED":                7,
+		"LIMIT_ORDER_STATE_UNSPECIFIED":              0,
+		"LIMIT_ORDER_STATE_SUBMISSION_IN_PROGRESS":   1,
+		"LIMIT_ORDER_STATE_SUBMISSION_FAILED":        2,
+		"LIMIT_ORDER_STATE_OPEN":                     3,
+		"LIMIT_ORDER_STATE_COMPLETE_IN_PROGRESS":     4,
+		"LIMIT_ORDER_STATE_COMPLETE":                 5,
+		"LIMIT_ORDER_STATE_CANCELLATION_IN_PROGRESS": 6,
+		"LIMIT_ORDER_STATE_CANCELLED":                7,
 	}
 )
 
@@ -315,7 +315,7 @@ func (x *LimitOrder) GetState() LimitOrderState {
 	if x != nil {
 		return x.State
 	}
-	return LimitOrderState_LIMIT_ORDER_STATUS_UNSPECIFIED
+	return LimitOrderState_LIMIT_ORDER_STATE_UNSPECIFIED
 }
 
 func (x *LimitOrder) GetNumber() string {
@@ -352,16 +352,16 @@ const file_meshtrade_trading_limit_order_v1_limit_order_proto_rawDesc = "" +
 	"\x0eLimitOrderSide\x12 \n" +
 	"\x1cLIMIT_ORDER_SIDE_UNSPECIFIED\x10\x00\x12\x18\n" +
 	"\x14LIMIT_ORDER_SIDE_BUY\x10\x01\x12\x19\n" +
-	"\x15LIMIT_ORDER_SIDE_SELL\x10\x02*\xcc\x02\n" +
-	"\x0fLimitOrderState\x12\"\n" +
-	"\x1eLIMIT_ORDER_STATUS_UNSPECIFIED\x10\x00\x12-\n" +
-	")LIMIT_ORDER_STATUS_SUBMISSION_IN_PROGRESS\x10\x01\x12(\n" +
-	"$LIMIT_ORDER_STATUS_SUBMISSION_FAILED\x10\x02\x12\x1b\n" +
-	"\x17LIMIT_ORDER_STATUS_OPEN\x10\x03\x12+\n" +
-	"'LIMIT_ORDER_STATUS_COMPLETE_IN_PROGRESS\x10\x04\x12\x1f\n" +
-	"\x1bLIMIT_ORDER_STATUS_COMPLETE\x10\x05\x12/\n" +
-	"+LIMIT_ORDER_STATUS_CANCELLATION_IN_PROGRESS\x10\x06\x12 \n" +
-	"\x1cLIMIT_ORDER_STATUS_CANCELLED\x10\aBl\n" +
+	"\x15LIMIT_ORDER_SIDE_SELL\x10\x02*\xc4\x02\n" +
+	"\x0fLimitOrderState\x12!\n" +
+	"\x1dLIMIT_ORDER_STATE_UNSPECIFIED\x10\x00\x12,\n" +
+	"(LIMIT_ORDER_STATE_SUBMISSION_IN_PROGRESS\x10\x01\x12'\n" +
+	"#LIMIT_ORDER_STATE_SUBMISSION_FAILED\x10\x02\x12\x1a\n" +
+	"\x16LIMIT_ORDER_STATE_OPEN\x10\x03\x12*\n" +
+	"&LIMIT_ORDER_STATE_COMPLETE_IN_PROGRESS\x10\x04\x12\x1e\n" +
+	"\x1aLIMIT_ORDER_STATE_COMPLETE\x10\x05\x12.\n" +
+	"*LIMIT_ORDER_STATE_CANCELLATION_IN_PROGRESS\x10\x06\x12\x1f\n" +
+	"\x1bLIMIT_ORDER_STATE_CANCELLED\x10\aBl\n" +
 	"'co.meshtrade.api.trading.limit_order.v1ZAgithub.com/meshtrade/api/go/trading/limit_order/v1;limit_order_v1b\x06proto3"
 
 var (

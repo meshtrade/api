@@ -61,10 +61,10 @@ monitorOrder:
 		log.Printf("  State: %s", update.State)
 
 		switch update.State {
-		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATUS_CANCELLATION_IN_PROGRESS:
+		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATE_CANCELLATION_IN_PROGRESS:
 			log.Printf("  ⏳ Order cancellation in progress...")
 
-		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATUS_CANCELLED:
+		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATE_CANCELLED:
 			log.Printf("  ✓ Order successfully cancelled on ledger!")
 			break monitorOrder
 		}

@@ -96,13 +96,13 @@ monitorOrder:
 		log.Printf("  State: %s", update.State)
 
 		switch update.State {
-		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATUS_SUBMISSION_IN_PROGRESS:
+		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATE_SUBMISSION_IN_PROGRESS:
 			log.Printf("  ⏳ Order submission in progress...")
 
-		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATUS_SUBMISSION_FAILED:
+		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATE_SUBMISSION_FAILED:
 			log.Fatalf("  ❌ Order submission failed")
 
-		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATUS_OPEN:
+		case limit_orderv1.LimitOrderState_LIMIT_ORDER_STATE_OPEN:
 			log.Printf("  ✓ Order is now open on the ledger and available for matching!")
 			break monitorOrder
 		}
