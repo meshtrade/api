@@ -36,6 +36,7 @@ func main() {
 
 	log.Printf("✓ Limit order retrieved (cached data):")
 	log.Printf("  Resource name: %s", limitOrder.Name)
+	log.Printf("  Number: %s", limitOrder.Number)
 	log.Printf("  Account: %s", limitOrder.Account)
 	log.Printf("  External reference: %s", limitOrder.ExternalReference)
 	log.Printf("  Side: %s", limitOrder.Side)
