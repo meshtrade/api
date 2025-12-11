@@ -48,9 +48,11 @@ const (
 	Ledger_LEDGER_XRP Ledger = 11
 	// The proprietary ledger for the SA Stockbrokers platform.
 	Ledger_LEDGER_SA_STOCK_BROKERS Ledger = 15
+	// The Solana ledger network
+	Ledger_LEDGER_SOLANA Ledger = 16
 	// A null ledger, used as a placeholder for assets that do not have
 	// an external or on-chain accounting ledger.
-	Ledger_LEDGER_NULL Ledger = 16
+	Ledger_LEDGER_NULL Ledger = 17
 )
 
 // Enum value maps for Ledger.
@@ -63,7 +65,8 @@ var (
 		9:  "LEDGER_ETHEREUM",
 		11: "LEDGER_XRP",
 		15: "LEDGER_SA_STOCK_BROKERS",
-		16: "LEDGER_NULL",
+		16: "LEDGER_SOLANA",
+		17: "LEDGER_NULL",
 	}
 	Ledger_value = map[string]int32{
 		"LEDGER_UNSPECIFIED":      0,
@@ -73,7 +76,8 @@ var (
 		"LEDGER_ETHEREUM":         9,
 		"LEDGER_XRP":              11,
 		"LEDGER_SA_STOCK_BROKERS": 15,
-		"LEDGER_NULL":             16,
+		"LEDGER_SOLANA":           16,
+		"LEDGER_NULL":             17,
 	}
 )
 
@@ -108,7 +112,7 @@ var File_meshtrade_type_v1_ledger_proto protoreflect.FileDescriptor
 
 const file_meshtrade_type_v1_ledger_proto_rawDesc = "" +
 	"\n" +
-	"\x1emeshtrade/type/v1/ledger.proto\x12\x11meshtrade.type.v1*\xb0\x01\n" +
+	"\x1emeshtrade/type/v1/ledger.proto\x12\x11meshtrade.type.v1*\xc3\x01\n" +
 	"\x06Ledger\x12\x16\n" +
 	"\x12LEDGER_UNSPECIFIED\x10\x00\x12\x12\n" +
 	"\x0eLEDGER_STELLAR\x10\x03\x12\x12\n" +
@@ -117,8 +121,9 @@ const file_meshtrade_type_v1_ledger_proto_rawDesc = "" +
 	"\x0fLEDGER_ETHEREUM\x10\t\x12\x0e\n" +
 	"\n" +
 	"LEDGER_XRP\x10\v\x12\x1b\n" +
-	"\x17LEDGER_SA_STOCK_BROKERS\x10\x0f\x12\x0f\n" +
-	"\vLEDGER_NULL\x10\x10BG\n" +
+	"\x17LEDGER_SA_STOCK_BROKERS\x10\x0f\x12\x11\n" +
+	"\rLEDGER_SOLANA\x10\x10\x12\x0f\n" +
+	"\vLEDGER_NULL\x10\x11BG\n" +
 	"\x18co.meshtrade.api.type.v1Z+github.com/meshtrade/api/go/type/v1;type_v1b\x06proto3"
 
 var (

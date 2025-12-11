@@ -1,4 +1,3 @@
-import co.meshtrade.api.type.v1.Ledger;
 import co.meshtrade.api.wallet.account.v1.AccountService;
 import co.meshtrade.api.wallet.account.v1.Service.CreateAccountRequest;
 import co.meshtrade.api.wallet.account.v1.Account.Account;
@@ -23,7 +22,6 @@ public class CreateAccountExample {
             // Call the CreateAccount method
             Account account = service.createAccount(request, Optional.empty());
 
-            // The account is created but not yet open on-chain
             System.out.println("Account created successfully:");
             System.out.println("  Name: " + account.getName());
             System.out.println("  Number: " + account.getNumber());

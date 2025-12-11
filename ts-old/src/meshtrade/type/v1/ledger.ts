@@ -16,6 +16,7 @@ const ledgerToStringMapping: {
   [Ledger.LEDGER_ETHEREUM]: "Ethereum",
   [Ledger.LEDGER_XRP]: "Ripple",
   [Ledger.LEDGER_SA_STOCK_BROKERS]: "SA Stock Brokers",
+  [Ledger.LEDGER_SOLANA]: "Solana",
   [Ledger.LEDGER_NULL]: "NULL",
 };
 
@@ -81,6 +82,7 @@ const ledgerDecimalPlaces: {
   [Ledger.LEDGER_LITECOIN]: 7,
   [Ledger.LEDGER_ETHEREUM]: 7,
   [Ledger.LEDGER_XRP]: 7,
+  [Ledger.LEDGER_SOLANA]: 9,
   [Ledger.LEDGER_SA_STOCK_BROKERS]: 2,
   [Ledger.LEDGER_NULL]: 2,
 };
@@ -110,6 +112,7 @@ const ledgerToBEStringMapping: {
   [Ledger.LEDGER_ETHEREUM]: "LEDGER_ETHEREUM",
   [Ledger.LEDGER_XRP]: "LEDGER_XRP",
   [Ledger.LEDGER_SA_STOCK_BROKERS]: "LEDGER_SA_STOCK_BROKERS",
+  [Ledger.LEDGER_SOLANA]: "LEDGER_SOLANA",
   [Ledger.LEDGER_NULL]: "LEDGER_NULL",
 };
 
