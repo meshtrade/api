@@ -1,7 +1,7 @@
 version: v2
 modules:
   - path: proto
-    name: buf.build/meshtrade/api
+    name: buf.build/meshtrade/api:b5c04e3dd0e24849ad6f165afe55bdd8
 
 deps:
   - buf.build/googleapis/googleapis
@@ -17,7 +17,6 @@ lint:
 breaking:
   use:
     - FILE
-  except:
   ignore_only:
     ENUM_VALUE_NO_DELETE:
       - proto/meshtrade/iam/role/v1/role.proto
