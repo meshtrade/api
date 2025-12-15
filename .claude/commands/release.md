@@ -38,11 +38,16 @@ git tag ts-old/v$1
 git tag docs/v$1
 ```
 
+**IMPORTANT**: Do NOT push tags yet! They will be pushed automatically when creating releases in Step 3.
+
 ### Step 3: Create All 8 GitHub Releases
 
 Create releases with `gh release create` using HEREDOC for notes. Write good release notes based on the changes you found in Step 1.
 
-**IMPORTANT**: Creating releases with `gh release create <tag>` will automatically push the tag AND trigger the workflow via push event.
+**CRITICAL RELEASE FLAGS**:
+- Do NOT use `--draft` flag - releases must be published immediately
+- The `gh release create <tag>` command will automatically push the tag AND trigger the workflow via push event
+- If tags were already pushed before creating releases, workflows will NOT trigger and you must re-push tags in Step 4
 
 **Release patterns:**
 - `proto/v$1` - "Protobuf v$1" - List proto changes, breaking changes, "aligns with SDK releases v$1"
