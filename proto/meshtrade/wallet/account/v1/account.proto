@@ -183,10 +183,18 @@ message Balance {
   meshtrade.type.v1.Amount amount = 1;
 
   /*
+     Quantity of the instrument available for immediate use, expressed as a high-precision decimal amount.
+     This excludes any funds locked in open orders, pending transactions, or other obligations.
+     Calculated as total amount minus reserved amounts.
+     The amount's token field indicates the instrument's ledger representation.
+  */
+  meshtrade.type.v1.Amount available_amount = 2;
+
+  /*
      Descriptive metadata identifying and classifying the instrument.
      Provides context for interpreting the balance quantity.
   */
-  InstrumentMetaData instrument_metadata = 2;
+  InstrumentMetaData instrument_metadata = 3;
 }
 
 /*
@@ -226,11 +234,17 @@ message Signatory {
   string display_name = 1;
 
   /*
+     Resource name of entity with which the signatory is associated.
+     Format: users/{ULID}, api_users/{ULID} or blank (if not applicable or unknown).
+  */
+  string resource_name = 2;
+
+  /*
      The id of the signatory on the underlying ledger.
      Format varies by ledger e.g. Ed25519 public key for Stellar/Solana,
      secp256k1 address for Bitcoin/Ethereum.
   */
-  string ledger_id = 2 [(buf.validate.field) = {
+  string ledger_id = 3 [(buf.validate.field) = {
     string: {max_len: 255}
   }];
 }

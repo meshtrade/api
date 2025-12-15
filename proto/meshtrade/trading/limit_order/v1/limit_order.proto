@@ -3,6 +3,7 @@ syntax = "proto3";
 package meshtrade.trading.limit_order.v1;
 
 import "buf/validate/validate.proto";
+import "google/protobuf/timestamp.proto";
 import "meshtrade/type/v1/amount.proto";
 
 option go_package = "github.com/meshtrade/api/go/trading/limit_order/v1;limit_order_v1";
@@ -140,6 +141,12 @@ message LimitOrder {
      This is a system-generated value, not the native exchange order number.
   */
   string number = 13;
+
+  /*
+     The timestamp when the limit order was submitted.
+     This field is system-generated and immutable upon creation.
+  */
+  google.protobuf.Timestamp submitted_at = 14;
 }
 
 /*

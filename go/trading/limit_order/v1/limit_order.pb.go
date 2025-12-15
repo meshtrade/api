@@ -11,6 +11,7 @@ import (
 	v1 "github.com/meshtrade/api/go/type/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -206,7 +207,10 @@ type LimitOrder struct {
 	State LimitOrderState `protobuf:"varint,12,opt,name=state,proto3,enum=meshtrade.trading.limit_order.v1.LimitOrderState" json:"state,omitempty"`
 	// Number is an incrementing unique identifier that users use to identify an order.
 	// This is a system-generated value, not the native exchange order number.
-	Number        string `protobuf:"bytes,13,opt,name=number,proto3" json:"number,omitempty"`
+	Number string `protobuf:"bytes,13,opt,name=number,proto3" json:"number,omitempty"`
+	// The timestamp when the limit order was submitted.
+	// This field is system-generated and immutable upon creation.
+	SubmittedAt   *timestamppb.Timestamp `protobuf:"bytes,14,opt,name=submitted_at,json=submittedAt,proto3" json:"submitted_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -325,11 +329,18 @@ func (x *LimitOrder) GetNumber() string {
 	return ""
 }
 
+func (x *LimitOrder) GetSubmittedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.SubmittedAt
+	}
+	return nil
+}
+
 var File_meshtrade_trading_limit_order_v1_limit_order_proto protoreflect.FileDescriptor
 
 const file_meshtrade_trading_limit_order_v1_limit_order_proto_rawDesc = "" +
 	"\n" +
-	"2meshtrade/trading/limit_order/v1/limit_order.proto\x12 meshtrade.trading.limit_order.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1emeshtrade/type/v1/amount.proto\"\xde\a\n" +
+	"2meshtrade/trading/limit_order/v1/limit_order.proto\x12 meshtrade.trading.limit_order.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1emeshtrade/type/v1/amount.proto\"\x9d\b\n" +
 	"\n" +
 	"LimitOrder\x12\xc8\x01\n" +
 	"\x04name\x18\x01 \x01(\tB\xb3\x01\xbaH\xaf\x01\xba\x01\xab\x01\n" +
@@ -348,7 +359,8 @@ const file_meshtrade_trading_limit_order_v1_limit_order_proto_rawDesc = "" +
 	" \x01(\v2\x19.meshtrade.type.v1.AmountR\tfillPrice\x12B\n" +
 	"\x0ffilled_quantity\x18\v \x01(\v2\x19.meshtrade.type.v1.AmountR\x0efilledQuantity\x12G\n" +
 	"\x05state\x18\f \x01(\x0e21.meshtrade.trading.limit_order.v1.LimitOrderStateR\x05state\x12\x16\n" +
-	"\x06number\x18\r \x01(\tR\x06numberJ\x04\b\x04\x10\x05R\fdisplay_name*g\n" +
+	"\x06number\x18\r \x01(\tR\x06number\x12=\n" +
+	"\fsubmitted_at\x18\x0e \x01(\v2\x1a.google.protobuf.TimestampR\vsubmittedAtJ\x04\b\x04\x10\x05R\fdisplay_name*g\n" +
 	"\x0eLimitOrderSide\x12 \n" +
 	"\x1cLIMIT_ORDER_SIDE_UNSPECIFIED\x10\x00\x12\x18\n" +
 	"\x14LIMIT_ORDER_SIDE_BUY\x10\x01\x12\x19\n" +
@@ -379,10 +391,11 @@ func file_meshtrade_trading_limit_order_v1_limit_order_proto_rawDescGZIP() []byt
 var file_meshtrade_trading_limit_order_v1_limit_order_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_meshtrade_trading_limit_order_v1_limit_order_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_meshtrade_trading_limit_order_v1_limit_order_proto_goTypes = []any{
-	(LimitOrderSide)(0),  // 0: meshtrade.trading.limit_order.v1.LimitOrderSide
-	(LimitOrderState)(0), // 1: meshtrade.trading.limit_order.v1.LimitOrderState
-	(*LimitOrder)(nil),   // 2: meshtrade.trading.limit_order.v1.LimitOrder
-	(*v1.Amount)(nil),    // 3: meshtrade.type.v1.Amount
+	(LimitOrderSide)(0),           // 0: meshtrade.trading.limit_order.v1.LimitOrderSide
+	(LimitOrderState)(0),          // 1: meshtrade.trading.limit_order.v1.LimitOrderState
+	(*LimitOrder)(nil),            // 2: meshtrade.trading.limit_order.v1.LimitOrder
+	(*v1.Amount)(nil),             // 3: meshtrade.type.v1.Amount
+	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
 }
 var file_meshtrade_trading_limit_order_v1_limit_order_proto_depIdxs = []int32{
 	0, // 0: meshtrade.trading.limit_order.v1.LimitOrder.side:type_name -> meshtrade.trading.limit_order.v1.LimitOrderSide
@@ -391,11 +404,12 @@ var file_meshtrade_trading_limit_order_v1_limit_order_proto_depIdxs = []int32{
 	3, // 3: meshtrade.trading.limit_order.v1.LimitOrder.fill_price:type_name -> meshtrade.type.v1.Amount
 	3, // 4: meshtrade.trading.limit_order.v1.LimitOrder.filled_quantity:type_name -> meshtrade.type.v1.Amount
 	1, // 5: meshtrade.trading.limit_order.v1.LimitOrder.state:type_name -> meshtrade.trading.limit_order.v1.LimitOrderState
-	6, // [6:6] is the sub-list for method output_type
-	6, // [6:6] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	4, // 6: meshtrade.trading.limit_order.v1.LimitOrder.submitted_at:type_name -> google.protobuf.Timestamp
+	7, // [7:7] is the sub-list for method output_type
+	7, // [7:7] is the sub-list for method input_type
+	7, // [7:7] is the sub-list for extension type_name
+	7, // [7:7] is the sub-list for extension extendee
+	0, // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_trading_limit_order_v1_limit_order_proto_init() }
