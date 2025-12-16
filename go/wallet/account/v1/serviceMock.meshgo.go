@@ -33,6 +33,10 @@ type MockAccountService struct {
 	ListAccountsFuncInvocations                 int
 	SearchAccountsFunc                          func(t *testing.T, m *MockAccountService, ctx context.Context, request *SearchAccountsRequest) (*SearchAccountsResponse, error)
 	SearchAccountsFuncInvocations               int
+	RegisterTokensToAccountFunc                 func(t *testing.T, m *MockAccountService, ctx context.Context, request *RegisterTokensToAccountRequest) (*RegisterTokensToAccountResponse, error)
+	RegisterTokensToAccountFuncInvocations      int
+	DeregisterTokensFromAccountFunc             func(t *testing.T, m *MockAccountService, ctx context.Context, request *DeregisterTokensFromAccountRequest) (*DeregisterTokensFromAccountResponse, error)
+	DeregisterTokensFromAccountFuncInvocations  int
 }
 
 func (m *MockAccountService) CreateAccount(ctx context.Context, request *CreateAccountRequest) (*Account, error) {
@@ -123,4 +127,24 @@ func (m *MockAccountService) SearchAccounts(ctx context.Context, request *Search
 		return nil, nil
 	}
 	return m.SearchAccountsFunc(m.T, m, ctx, request)
+}
+
+func (m *MockAccountService) RegisterTokensToAccount(ctx context.Context, request *RegisterTokensToAccountRequest) (*RegisterTokensToAccountResponse, error) {
+	m.mutex.Lock()
+	m.RegisterTokensToAccountFuncInvocations++
+	m.mutex.Unlock()
+	if m.RegisterTokensToAccountFunc == nil {
+		return nil, nil
+	}
+	return m.RegisterTokensToAccountFunc(m.T, m, ctx, request)
+}
+
+func (m *MockAccountService) DeregisterTokensFromAccount(ctx context.Context, request *DeregisterTokensFromAccountRequest) (*DeregisterTokensFromAccountResponse, error) {
+	m.mutex.Lock()
+	m.DeregisterTokensFromAccountFuncInvocations++
+	m.mutex.Unlock()
+	if m.DeregisterTokensFromAccountFunc == nil {
+		return nil, nil
+	}
+	return m.DeregisterTokensFromAccountFunc(m.T, m, ctx, request)
 }

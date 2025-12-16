@@ -71,6 +71,21 @@ type AccountService interface {
 	// Performs case-insensitive substring matching on display names,
 	// returning accounts that match the search criteria.
 	SearchAccounts(ctx context.Context, request *SearchAccountsRequest) (*SearchAccountsResponse, error)
+
+	// Registers tokens to an account on the ledger.
+	//
+	// Performs the necessary operations to configure the account to receive
+	// and hold the specified tokens. Returns a transaction reference for
+	// monitoring the ledger operation.
+	RegisterTokensToAccount(ctx context.Context, request *RegisterTokensToAccountRequest) (*RegisterTokensToAccountResponse, error)
+
+	// Deregisters tokens from an account on the ledger.
+	//
+	// Performs the necessary operations to configure the account such that it
+	// can no longer receive or hold the specified tokens. The balance of each
+	// specified token must be zero before this method will succeed. Returns a
+	// transaction reference for monitoring the ledger operation.
+	DeregisterTokensFromAccount(ctx context.Context, request *DeregisterTokensFromAccountRequest) (*DeregisterTokensFromAccountResponse, error)
 }
 
 const AccountServiceServiceProviderName = "meshtrade-wallet-account-v1-AccountService"
