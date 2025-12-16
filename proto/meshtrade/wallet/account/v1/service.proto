@@ -187,13 +187,13 @@ service AccountService {
   }
 
   /*
-     Registers tokens to an account on the ledger.
+     Registers tokens on an account on the ledger.
 
      Performs the necessary operations to configure the account to receive
      and hold the specified tokens. Returns a transaction reference for
      monitoring the ledger operation.
   */
-  rpc RegisterTokensToAccount(RegisterTokensToAccountRequest) returns (RegisterTokensToAccountResponse) {
+  rpc RegisterTokensOnAccount(RegisterTokensOnAccountRequest) returns (RegisterTokensOnAccountResponse) {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_WRITE
       access_level: METHOD_ACCESS_LEVEL_AUTHORISED
@@ -533,11 +533,11 @@ message SearchAccountsResponse {
 }
 
 /*
-   Request to register tokens to an account on the ledger.
+   Request to register tokens on an account on the ledger.
 */
-message RegisterTokensToAccountRequest {
+message RegisterTokensOnAccountRequest {
   /*
-     The resource name of the account to which tokens should be registered.
+     The resource name of the account on which tokens should be registered.
      Format: accounts/{ULIDv2}.
   */
   string name = 1 [(buf.validate.field) = {
@@ -562,7 +562,7 @@ message RegisterTokensToAccountRequest {
 /*
    Response containing a transaction reference to monitor the ledger operation to register tokens.
 */
-message RegisterTokensToAccountResponse {
+message RegisterTokensOnAccountResponse {
   /*
      Transaction reference for monitoring the ledger operation to register the tokens on the account.
      The account is configured to hold/receive the given tokens once this transaction has succeeded.

@@ -33,8 +33,8 @@ type MockAccountService struct {
 	ListAccountsFuncInvocations                 int
 	SearchAccountsFunc                          func(t *testing.T, m *MockAccountService, ctx context.Context, request *SearchAccountsRequest) (*SearchAccountsResponse, error)
 	SearchAccountsFuncInvocations               int
-	RegisterTokensToAccountFunc                 func(t *testing.T, m *MockAccountService, ctx context.Context, request *RegisterTokensToAccountRequest) (*RegisterTokensToAccountResponse, error)
-	RegisterTokensToAccountFuncInvocations      int
+	RegisterTokensOnAccountFunc                 func(t *testing.T, m *MockAccountService, ctx context.Context, request *RegisterTokensOnAccountRequest) (*RegisterTokensOnAccountResponse, error)
+	RegisterTokensOnAccountFuncInvocations      int
 	DeregisterTokensFromAccountFunc             func(t *testing.T, m *MockAccountService, ctx context.Context, request *DeregisterTokensFromAccountRequest) (*DeregisterTokensFromAccountResponse, error)
 	DeregisterTokensFromAccountFuncInvocations  int
 }
@@ -129,14 +129,14 @@ func (m *MockAccountService) SearchAccounts(ctx context.Context, request *Search
 	return m.SearchAccountsFunc(m.T, m, ctx, request)
 }
 
-func (m *MockAccountService) RegisterTokensToAccount(ctx context.Context, request *RegisterTokensToAccountRequest) (*RegisterTokensToAccountResponse, error) {
+func (m *MockAccountService) RegisterTokensOnAccount(ctx context.Context, request *RegisterTokensOnAccountRequest) (*RegisterTokensOnAccountResponse, error) {
 	m.mutex.Lock()
-	m.RegisterTokensToAccountFuncInvocations++
+	m.RegisterTokensOnAccountFuncInvocations++
 	m.mutex.Unlock()
-	if m.RegisterTokensToAccountFunc == nil {
+	if m.RegisterTokensOnAccountFunc == nil {
 		return nil, nil
 	}
-	return m.RegisterTokensToAccountFunc(m.T, m, ctx, request)
+	return m.RegisterTokensOnAccountFunc(m.T, m, ctx, request)
 }
 
 func (m *MockAccountService) DeregisterTokensFromAccount(ctx context.Context, request *DeregisterTokensFromAccountRequest) (*DeregisterTokensFromAccountResponse, error) {

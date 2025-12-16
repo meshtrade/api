@@ -87,11 +87,11 @@ type AccountServiceClientInterface interface {
 	// Performs case-insensitive substring matching on display names,
 	// returning accounts that match the search criteria.
 	SearchAccounts(ctx context.Context, request *SearchAccountsRequest) (*SearchAccountsResponse, error)
-	// Registers tokens to an account on the ledger.
+	// Registers tokens on an account on the ledger.
 	// Performs the necessary operations to configure the account to receive
 	// and hold the specified tokens. Returns a transaction reference for
 	// monitoring the ledger operation.
-	RegisterTokensToAccount(ctx context.Context, request *RegisterTokensToAccountRequest) (*RegisterTokensToAccountResponse, error)
+	RegisterTokensOnAccount(ctx context.Context, request *RegisterTokensOnAccountRequest) (*RegisterTokensOnAccountResponse, error)
 	// Deregisters tokens from an account on the ledger.
 	// Performs the necessary operations to configure the account such that it
 	// can no longer receive or hold the specified tokens. The balance of each
@@ -281,11 +281,11 @@ func (s *accountService) SearchAccounts(ctx context.Context, request *SearchAcco
 	})
 }
 
-// RegisterTokensToAccount executes the RegisterTokensToAccount RPC method with automatic
+// RegisterTokensOnAccount executes the RegisterTokensOnAccount RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
-func (s *accountService) RegisterTokensToAccount(ctx context.Context, request *RegisterTokensToAccountRequest) (*RegisterTokensToAccountResponse, error) {
-	return grpc.Execute(s.Executor(), ctx, "RegisterTokensToAccount", request, func(ctx context.Context) (*RegisterTokensToAccountResponse, error) {
-		return s.GrpcClient().RegisterTokensToAccount(ctx, request)
+func (s *accountService) RegisterTokensOnAccount(ctx context.Context, request *RegisterTokensOnAccountRequest) (*RegisterTokensOnAccountResponse, error) {
+	return grpc.Execute(s.Executor(), ctx, "RegisterTokensOnAccount", request, func(ctx context.Context) (*RegisterTokensOnAccountResponse, error) {
+		return s.GrpcClient().RegisterTokensOnAccount(ctx, request)
 	})
 }
 

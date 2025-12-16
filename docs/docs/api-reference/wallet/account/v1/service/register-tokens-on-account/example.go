@@ -27,11 +27,11 @@ func main() {
 	}
 	defer transactionService.Close()
 
-	// Call the RegisterTokensToAccount method
+	// Call the RegisterTokensOnAccount method
 	// You can register 1-10 tokens in a single request
-	response, err := accountService.RegisterTokensToAccount(
+	response, err := accountService.RegisterTokensOnAccount(
 		ctx,
-		&account_v1.RegisterTokensToAccountRequest{
+		&account_v1.RegisterTokensOnAccountRequest{
 			// Resource name of account to register tokens on
 			Name: "accounts/01HQ3K5M8XYZ2NFVJT9BKR7P4C",
 			// Tokens to register on the account (supports 1-10 tokens)
@@ -50,14 +50,14 @@ func main() {
 		},
 	)
 	if err != nil {
-		log.Fatalf("RegisterTokensToAccount failed: %v", err)
+		log.Fatalf("RegisterTokensOnAccount failed: %v", err)
 	}
 	log.Printf(
-		"RegisterTokensToAccount completed successfully with ledger transaction %s submitted",
+		"RegisterTokensOnAccount completed successfully with ledger transaction %s submitted",
 		response.GetLedgerTransaction(),
 	)
 
-	// get a stream to monitor the state of the RegisterTokensToAccount transaction
+	// get a stream to monitor the state of the RegisterTokensOnAccount transaction
 	stream, err := transactionService.MonitorTransactionState(
 		ctx,
 		&transaction_v1.MonitorTransactionStateRequest{
@@ -67,7 +67,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("MonitorTransactionState failed: %v", err)
 	}
-	log.Printf("Stream opened to monitor RegisterTokensToAccount transaction state")
+	log.Printf("Stream opened to monitor RegisterTokensOnAccount transaction state")
 
 	// read from the stream until completion
 monitorTransaction:
@@ -92,14 +92,14 @@ monitorTransaction:
 		case transaction_v1.TransactionState_TRANSACTION_STATE_SIGNING_IN_PROGRESS,
 			transaction_v1.TransactionState_TRANSACTION_STATE_SUBMISSION_IN_PROGRESS,
 			transaction_v1.TransactionState_TRANSACTION_STATE_INDETERMINATE:
-			log.Printf("RegisterTokensToAccount transaction in state %s, keep waiting...", transactionResponse.GetState())
+			log.Printf("RegisterTokensOnAccount transaction in state %s, keep waiting...", transactionResponse.GetState())
 
 		case transaction_v1.TransactionState_TRANSACTION_STATE_SUCCESSFUL:
-			log.Printf("RegisterTokensToAccount transaction successful - tokens registered on account")
+			log.Printf("RegisterTokensOnAccount transaction successful - tokens registered on account")
 			break monitorTransaction
 
 		case transaction_v1.TransactionState_TRANSACTION_STATE_FAILED:
-			log.Printf("RegisterTokensToAccount transaction failed")
+			log.Printf("RegisterTokensOnAccount transaction failed")
 			break monitorTransaction
 
 		default:

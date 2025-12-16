@@ -1,7 +1,7 @@
 from meshtrade.type.v1 import Ledger, Token
 from meshtrade.wallet.account.v1 import (
     AccountService,
-    RegisterTokensToAccountRequest,
+    RegisterTokensOnAccountRequest,
 )
 
 
@@ -14,7 +14,7 @@ def main():
     with service:
         # Create request with tokens to register
         # You can register 1-10 tokens in a single request
-        request = RegisterTokensToAccountRequest(
+        request = RegisterTokensOnAccountRequest(
             # Resource name of account to register tokens on
             name="accounts/01HQ3K5M8XYZ2NFVJT9BKR7P4C",
             # Tokens to register on the account
@@ -32,11 +32,11 @@ def main():
             ],
         )
 
-        # Call the RegisterTokensToAccount method
-        response = service.register_tokens_to_account(request)
+        # Call the RegisterTokensOnAccount method
+        response = service.register_tokens_on_account(request)
 
         # The response contains a ledger transaction reference to monitor
-        print(f"RegisterTokensToAccount submitted: {response.ledger_transaction}")
+        print(f"RegisterTokensOnAccount submitted: {response.ledger_transaction}")
         print("Monitor the transaction state to confirm completion")
 
 

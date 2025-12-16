@@ -72,12 +72,12 @@ type AccountService interface {
 	// returning accounts that match the search criteria.
 	SearchAccounts(ctx context.Context, request *SearchAccountsRequest) (*SearchAccountsResponse, error)
 
-	// Registers tokens to an account on the ledger.
+	// Registers tokens on an account on the ledger.
 	//
 	// Performs the necessary operations to configure the account to receive
 	// and hold the specified tokens. Returns a transaction reference for
 	// monitoring the ledger operation.
-	RegisterTokensToAccount(ctx context.Context, request *RegisterTokensToAccountRequest) (*RegisterTokensToAccountResponse, error)
+	RegisterTokensOnAccount(ctx context.Context, request *RegisterTokensOnAccountRequest) (*RegisterTokensOnAccountResponse, error)
 
 	// Deregisters tokens from an account on the ledger.
 	//

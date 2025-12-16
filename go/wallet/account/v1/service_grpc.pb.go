@@ -28,7 +28,7 @@ const (
 	AccountService_GetAccountByNumber_FullMethodName           = "/meshtrade.wallet.account.v1.AccountService/GetAccountByNumber"
 	AccountService_ListAccounts_FullMethodName                 = "/meshtrade.wallet.account.v1.AccountService/ListAccounts"
 	AccountService_SearchAccounts_FullMethodName               = "/meshtrade.wallet.account.v1.AccountService/SearchAccounts"
-	AccountService_RegisterTokensToAccount_FullMethodName      = "/meshtrade.wallet.account.v1.AccountService/RegisterTokensToAccount"
+	AccountService_RegisterTokensOnAccount_FullMethodName      = "/meshtrade.wallet.account.v1.AccountService/RegisterTokensOnAccount"
 	AccountService_DeregisterTokensFromAccount_FullMethodName  = "/meshtrade.wallet.account.v1.AccountService/DeregisterTokensFromAccount"
 )
 
@@ -93,12 +93,12 @@ type AccountServiceClient interface {
 	// Performs case-insensitive substring matching on display names,
 	// returning accounts that match the search criteria.
 	SearchAccounts(ctx context.Context, in *SearchAccountsRequest, opts ...grpc.CallOption) (*SearchAccountsResponse, error)
-	// Registers tokens to an account on the ledger.
+	// Registers tokens on an account on the ledger.
 	//
 	// Performs the necessary operations to configure the account to receive
 	// and hold the specified tokens. Returns a transaction reference for
 	// monitoring the ledger operation.
-	RegisterTokensToAccount(ctx context.Context, in *RegisterTokensToAccountRequest, opts ...grpc.CallOption) (*RegisterTokensToAccountResponse, error)
+	RegisterTokensOnAccount(ctx context.Context, in *RegisterTokensOnAccountRequest, opts ...grpc.CallOption) (*RegisterTokensOnAccountResponse, error)
 	// Deregisters tokens from an account on the ledger.
 	//
 	// Performs the necessary operations to configure the account such that it
@@ -206,10 +206,10 @@ func (c *accountServiceClient) SearchAccounts(ctx context.Context, in *SearchAcc
 	return out, nil
 }
 
-func (c *accountServiceClient) RegisterTokensToAccount(ctx context.Context, in *RegisterTokensToAccountRequest, opts ...grpc.CallOption) (*RegisterTokensToAccountResponse, error) {
+func (c *accountServiceClient) RegisterTokensOnAccount(ctx context.Context, in *RegisterTokensOnAccountRequest, opts ...grpc.CallOption) (*RegisterTokensOnAccountResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(RegisterTokensToAccountResponse)
-	err := c.cc.Invoke(ctx, AccountService_RegisterTokensToAccount_FullMethodName, in, out, cOpts...)
+	out := new(RegisterTokensOnAccountResponse)
+	err := c.cc.Invoke(ctx, AccountService_RegisterTokensOnAccount_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -287,12 +287,12 @@ type AccountServiceServer interface {
 	// Performs case-insensitive substring matching on display names,
 	// returning accounts that match the search criteria.
 	SearchAccounts(context.Context, *SearchAccountsRequest) (*SearchAccountsResponse, error)
-	// Registers tokens to an account on the ledger.
+	// Registers tokens on an account on the ledger.
 	//
 	// Performs the necessary operations to configure the account to receive
 	// and hold the specified tokens. Returns a transaction reference for
 	// monitoring the ledger operation.
-	RegisterTokensToAccount(context.Context, *RegisterTokensToAccountRequest) (*RegisterTokensToAccountResponse, error)
+	RegisterTokensOnAccount(context.Context, *RegisterTokensOnAccountRequest) (*RegisterTokensOnAccountResponse, error)
 	// Deregisters tokens from an account on the ledger.
 	//
 	// Performs the necessary operations to configure the account such that it
@@ -337,8 +337,8 @@ func (UnimplementedAccountServiceServer) ListAccounts(context.Context, *ListAcco
 func (UnimplementedAccountServiceServer) SearchAccounts(context.Context, *SearchAccountsRequest) (*SearchAccountsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SearchAccounts not implemented")
 }
-func (UnimplementedAccountServiceServer) RegisterTokensToAccount(context.Context, *RegisterTokensToAccountRequest) (*RegisterTokensToAccountResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RegisterTokensToAccount not implemented")
+func (UnimplementedAccountServiceServer) RegisterTokensOnAccount(context.Context, *RegisterTokensOnAccountRequest) (*RegisterTokensOnAccountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RegisterTokensOnAccount not implemented")
 }
 func (UnimplementedAccountServiceServer) DeregisterTokensFromAccount(context.Context, *DeregisterTokensFromAccountRequest) (*DeregisterTokensFromAccountResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeregisterTokensFromAccount not implemented")
@@ -526,20 +526,20 @@ func _AccountService_SearchAccounts_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AccountService_RegisterTokensToAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RegisterTokensToAccountRequest)
+func _AccountService_RegisterTokensOnAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RegisterTokensOnAccountRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AccountServiceServer).RegisterTokensToAccount(ctx, in)
+		return srv.(AccountServiceServer).RegisterTokensOnAccount(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: AccountService_RegisterTokensToAccount_FullMethodName,
+		FullMethod: AccountService_RegisterTokensOnAccount_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServiceServer).RegisterTokensToAccount(ctx, req.(*RegisterTokensToAccountRequest))
+		return srv.(AccountServiceServer).RegisterTokensOnAccount(ctx, req.(*RegisterTokensOnAccountRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -606,8 +606,8 @@ var AccountService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _AccountService_SearchAccounts_Handler,
 		},
 		{
-			MethodName: "RegisterTokensToAccount",
-			Handler:    _AccountService_RegisterTokensToAccount_Handler,
+			MethodName: "RegisterTokensOnAccount",
+			Handler:    _AccountService_RegisterTokensOnAccount_Handler,
 		},
 		{
 			MethodName: "DeregisterTokensFromAccount",
