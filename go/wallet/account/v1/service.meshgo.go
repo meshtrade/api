@@ -87,6 +87,17 @@ type AccountServiceClientInterface interface {
 	// Performs case-insensitive substring matching on display names,
 	// returning accounts that match the search criteria.
 	SearchAccounts(ctx context.Context, request *SearchAccountsRequest) (*SearchAccountsResponse, error)
+	// Registers tokens to an account on the ledger.
+	// Performs the necessary operations to configure the account to receive
+	// and hold the specified tokens. Returns a transaction reference for
+	// monitoring the ledger operation.
+	RegisterTokensToAccount(ctx context.Context, request *RegisterTokensToAccountRequest) (*RegisterTokensToAccountResponse, error)
+	// Deregisters tokens from an account on the ledger.
+	// Performs the necessary operations to configure the account such that it
+	// can no longer receive or hold the specified tokens. The balance of each
+	// specified token must be zero before this method will succeed. Returns a
+	// transaction reference for monitoring the ledger operation.
+	DeregisterTokensFromAccount(ctx context.Context, request *DeregisterTokensFromAccountRequest) (*DeregisterTokensFromAccountResponse, error)
 
 	// WithGroup returns a new client instance with a different group context
 	WithGroup(group string) AccountServiceClientInterface
@@ -267,5 +278,21 @@ func (s *accountService) ListAccounts(ctx context.Context, request *ListAccounts
 func (s *accountService) SearchAccounts(ctx context.Context, request *SearchAccountsRequest) (*SearchAccountsResponse, error) {
 	return grpc.Execute(s.Executor(), ctx, "SearchAccounts", request, func(ctx context.Context) (*SearchAccountsResponse, error) {
 		return s.GrpcClient().SearchAccounts(ctx, request)
+	})
+}
+
+// RegisterTokensToAccount executes the RegisterTokensToAccount RPC method with automatic
+// client-side validation, timeout handling, distributed tracing, and authentication.
+func (s *accountService) RegisterTokensToAccount(ctx context.Context, request *RegisterTokensToAccountRequest) (*RegisterTokensToAccountResponse, error) {
+	return grpc.Execute(s.Executor(), ctx, "RegisterTokensToAccount", request, func(ctx context.Context) (*RegisterTokensToAccountResponse, error) {
+		return s.GrpcClient().RegisterTokensToAccount(ctx, request)
+	})
+}
+
+// DeregisterTokensFromAccount executes the DeregisterTokensFromAccount RPC method with automatic
+// client-side validation, timeout handling, distributed tracing, and authentication.
+func (s *accountService) DeregisterTokensFromAccount(ctx context.Context, request *DeregisterTokensFromAccountRequest) (*DeregisterTokensFromAccountResponse, error) {
+	return grpc.Execute(s.Executor(), ctx, "DeregisterTokensFromAccount", request, func(ctx context.Context) (*DeregisterTokensFromAccountResponse, error) {
+		return s.GrpcClient().DeregisterTokensFromAccount(ctx, request)
 	})
 }

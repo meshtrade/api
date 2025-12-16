@@ -32,9 +32,18 @@ Accounts serve as the primary containers for holding and managing digital assets
 
 1. **Create Account** - Register account in system (off-chain)
 2. **Open Account** - Initialize on blockchain (on-chain)
-3. **Use Account** - Receive deposits, execute trades
-4. **Query Balances** - Monitor holdings with live data
-5. **Close Account** - Deactivate when no longer needed
+3. **Register Tokens** - Configure account to hold specific assets
+4. **Use Account** - Receive deposits, execute trades
+5. **Query Balances** - Monitor holdings with live data
+6. **Deregister Tokens** - Remove asset support (requires zero balance)
+7. **Close Account** - Deactivate when no longer needed
+
+### Token Registration
+
+Before an account can hold a specific token (asset), the token must be registered on the account. This is a ledger-level operation that configures the account to receive and hold the token.
+
+- **RegisterTokensToAccount** - Configure account to hold specified tokens (1-10 tokens per request)
+- **DeregisterTokensFromAccount** - Remove token support from account (requires zero balance)
 
 ## Key Concepts
 
@@ -80,9 +89,12 @@ The AccountService uses role-based access control:
 ### Write Operations
 Require `ROLE_WALLET_ADMIN` or `ROLE_WALLET_ACCOUNT_ADMIN`:
 - CreateAccount
-- UpdateAccount  
+- UpdateAccount
 - OpenAccount
-- CloseAccount
+- AddSignatoriesToAccount
+- RemoveSignatoriesFromAccount
+- RegisterTokensToAccount
+- DeregisterTokensFromAccount
 
 ### Read Operations
 Require any wallet role (`ADMIN` or `VIEWER` variants):
@@ -98,6 +110,8 @@ You can only operate on accounts in your executing group.
 
 1. **Account Creation**: Always specify a descriptive `display_name` for easy identification
 2. **Ledger Selection**: Choose the appropriate ledger based on your trading needs
-3. **Balance Queries**: Use `populate_ledger_data=false` for listing, `true` for trading decisions
-4. **Error Handling**: Check account state before operations - closed accounts cannot transact
-5. **Monitoring**: Track the `ledger_transaction` reference when opening/closing accounts
+3. **Token Registration**: Register tokens before attempting to receive deposits of that asset
+4. **Balance Queries**: Use `populate_ledger_data=false` for listing, `true` for trading decisions
+5. **Error Handling**: Check account state before operations - closed accounts cannot transact
+6. **Token Deregistration**: Ensure token balance is zero before deregistering
+7. **Monitoring**: Track the `ledger_transaction` reference when performing ledger operations
