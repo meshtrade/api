@@ -29,7 +29,7 @@ func main() {
 			FirstName:          "Sarah",
 			LastName:           "Thompson",
 			ProfilePictureUrl:  "https://cdn.example.com/profiles/sarah.jpg",
-			Address: &type_v1.Address{
+			RegisteredAddress: &type_v1.Address{
 				AddressLines: []string{"456 Oak Avenue", "Apartment 3B"},
 				City:         "San Francisco",
 				Province:     "California",
