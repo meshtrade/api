@@ -326,9 +326,14 @@ type Balance struct {
 	// Includes both available and locked funds (e.g., in open orders or other obligations).
 	// The amount's token field indicates the instrument's ledger representation.
 	Amount *v1.Amount `protobuf:"bytes,1,opt,name=amount,proto3" json:"amount,omitempty"`
+	// Quantity of the instrument available for immediate use, expressed as a high-precision decimal amount.
+	// This excludes any funds locked in open orders, pending transactions, or other obligations.
+	// Calculated as total amount minus reserved amounts.
+	// The amount's token field indicates the instrument's ledger representation.
+	AvailableAmount *v1.Amount `protobuf:"bytes,2,opt,name=available_amount,json=availableAmount,proto3" json:"available_amount,omitempty"`
 	// Descriptive metadata identifying and classifying the instrument.
 	// Provides context for interpreting the balance quantity.
-	InstrumentMetadata *InstrumentMetaData `protobuf:"bytes,2,opt,name=instrument_metadata,json=instrumentMetadata,proto3" json:"instrument_metadata,omitempty"`
+	InstrumentMetadata *InstrumentMetaData `protobuf:"bytes,3,opt,name=instrument_metadata,json=instrumentMetadata,proto3" json:"instrument_metadata,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -370,6 +375,13 @@ func (x *Balance) GetAmount() *v1.Amount {
 	return nil
 }
 
+func (x *Balance) GetAvailableAmount() *v1.Amount {
+	if x != nil {
+		return x.AvailableAmount
+	}
+	return nil
+}
+
 func (x *Balance) GetInstrumentMetadata() *InstrumentMetaData {
 	if x != nil {
 		return x.InstrumentMetadata
@@ -386,10 +398,13 @@ type Signatory struct {
 	// Human-readable display name identifying the signatory.
 	// Used for UI presentation and identification purposes.
 	DisplayName string `protobuf:"bytes,1,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
+	// Resource name of entity with which the signatory is associated.
+	// Format: users/{ULID}, api_users/{ULID} or blank (if not applicable or unknown).
+	ResourceName string `protobuf:"bytes,2,opt,name=resource_name,json=resourceName,proto3" json:"resource_name,omitempty"`
 	// The id of the signatory on the underlying ledger.
 	// Format varies by ledger e.g. Ed25519 public key for Stellar/Solana,
 	// secp256k1 address for Bitcoin/Ethereum.
-	LedgerId      string `protobuf:"bytes,2,opt,name=ledger_id,json=ledgerId,proto3" json:"ledger_id,omitempty"`
+	LedgerId      string `protobuf:"bytes,3,opt,name=ledger_id,json=ledgerId,proto3" json:"ledger_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -431,6 +446,13 @@ func (x *Signatory) GetDisplayName() string {
 	return ""
 }
 
+func (x *Signatory) GetResourceName() string {
+	if x != nil {
+		return x.ResourceName
+	}
+	return ""
+}
+
 func (x *Signatory) GetLedgerId() string {
 	if x != nil {
 		return x.LedgerId
@@ -463,13 +485,15 @@ const file_meshtrade_wallet_account_v1_account_proto_rawDesc = "" +
 	"\x12InstrumentMetaData\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12B\n" +
 	"\x04type\x18\x02 \x01(\x0e2..meshtrade.studio.instrument.v1.InstrumentTypeR\x04type\x128\n" +
-	"\x04unit\x18\x03 \x01(\x0e2$.meshtrade.studio.instrument.v1.UnitR\x04unit\"\x9e\x01\n" +
+	"\x04unit\x18\x03 \x01(\x0e2$.meshtrade.studio.instrument.v1.UnitR\x04unit\"\xe4\x01\n" +
 	"\aBalance\x121\n" +
-	"\x06amount\x18\x01 \x01(\v2\x19.meshtrade.type.v1.AmountR\x06amount\x12`\n" +
-	"\x13instrument_metadata\x18\x02 \x01(\v2/.meshtrade.wallet.account.v1.InstrumentMetaDataR\x12instrumentMetadata\"U\n" +
+	"\x06amount\x18\x01 \x01(\v2\x19.meshtrade.type.v1.AmountR\x06amount\x12D\n" +
+	"\x10available_amount\x18\x02 \x01(\v2\x19.meshtrade.type.v1.AmountR\x0favailableAmount\x12`\n" +
+	"\x13instrument_metadata\x18\x03 \x01(\v2/.meshtrade.wallet.account.v1.InstrumentMetaDataR\x12instrumentMetadata\"z\n" +
 	"\tSignatory\x12!\n" +
-	"\fdisplay_name\x18\x01 \x01(\tR\vdisplayName\x12%\n" +
-	"\tledger_id\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R\bledgerId*_\n" +
+	"\fdisplay_name\x18\x01 \x01(\tR\vdisplayName\x12#\n" +
+	"\rresource_name\x18\x02 \x01(\tR\fresourceName\x12%\n" +
+	"\tledger_id\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R\bledgerId*_\n" +
 	"\fAccountState\x12\x1d\n" +
 	"\x19ACCOUNT_STATE_UNSPECIFIED\x10\x00\x12\x18\n" +
 	"\x14ACCOUNT_STATE_CLOSED\x10\x01\x12\x16\n" +
@@ -503,20 +527,21 @@ var file_meshtrade_wallet_account_v1_account_proto_goTypes = []any{
 	(*v1.Amount)(nil),             // 9: meshtrade.type.v1.Amount
 }
 var file_meshtrade_wallet_account_v1_account_proto_depIdxs = []int32{
-	5, // 0: meshtrade.wallet.account.v1.Account.ledger:type_name -> meshtrade.type.v1.Ledger
-	6, // 1: meshtrade.wallet.account.v1.Account.live_data_retrieved_at:type_name -> google.protobuf.Timestamp
-	0, // 2: meshtrade.wallet.account.v1.Account.state:type_name -> meshtrade.wallet.account.v1.AccountState
-	3, // 3: meshtrade.wallet.account.v1.Account.balances:type_name -> meshtrade.wallet.account.v1.Balance
-	4, // 4: meshtrade.wallet.account.v1.Account.signatories:type_name -> meshtrade.wallet.account.v1.Signatory
-	7, // 5: meshtrade.wallet.account.v1.InstrumentMetaData.type:type_name -> meshtrade.studio.instrument.v1.InstrumentType
-	8, // 6: meshtrade.wallet.account.v1.InstrumentMetaData.unit:type_name -> meshtrade.studio.instrument.v1.Unit
-	9, // 7: meshtrade.wallet.account.v1.Balance.amount:type_name -> meshtrade.type.v1.Amount
-	2, // 8: meshtrade.wallet.account.v1.Balance.instrument_metadata:type_name -> meshtrade.wallet.account.v1.InstrumentMetaData
-	9, // [9:9] is the sub-list for method output_type
-	9, // [9:9] is the sub-list for method input_type
-	9, // [9:9] is the sub-list for extension type_name
-	9, // [9:9] is the sub-list for extension extendee
-	0, // [0:9] is the sub-list for field type_name
+	5,  // 0: meshtrade.wallet.account.v1.Account.ledger:type_name -> meshtrade.type.v1.Ledger
+	6,  // 1: meshtrade.wallet.account.v1.Account.live_data_retrieved_at:type_name -> google.protobuf.Timestamp
+	0,  // 2: meshtrade.wallet.account.v1.Account.state:type_name -> meshtrade.wallet.account.v1.AccountState
+	3,  // 3: meshtrade.wallet.account.v1.Account.balances:type_name -> meshtrade.wallet.account.v1.Balance
+	4,  // 4: meshtrade.wallet.account.v1.Account.signatories:type_name -> meshtrade.wallet.account.v1.Signatory
+	7,  // 5: meshtrade.wallet.account.v1.InstrumentMetaData.type:type_name -> meshtrade.studio.instrument.v1.InstrumentType
+	8,  // 6: meshtrade.wallet.account.v1.InstrumentMetaData.unit:type_name -> meshtrade.studio.instrument.v1.Unit
+	9,  // 7: meshtrade.wallet.account.v1.Balance.amount:type_name -> meshtrade.type.v1.Amount
+	9,  // 8: meshtrade.wallet.account.v1.Balance.available_amount:type_name -> meshtrade.type.v1.Amount
+	2,  // 9: meshtrade.wallet.account.v1.Balance.instrument_metadata:type_name -> meshtrade.wallet.account.v1.InstrumentMetaData
+	10, // [10:10] is the sub-list for method output_type
+	10, // [10:10] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_wallet_account_v1_account_proto_init() }

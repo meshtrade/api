@@ -10,8 +10,6 @@
 *.nuget.props
 *.nuget.targets
 
-.claude
-
 *.pid
 
 # Packages #

@@ -5,6 +5,7 @@ import (
 	"log"
 
 	pricev1 "github.com/meshtrade/api/go/market_data/price/v1"
+	type_v1 "github.com/meshtrade/api/go/type/v1"
 )
 
 func main() {
@@ -19,9 +20,14 @@ func main() {
 	}
 	defer service.Close()
 
-	// Create request with service-specific parameters
+	// Create request to get gold (XAU) price in ZAR
 	request := &pricev1.GetCurrentPriceByTokenPairRequest{
-		// FIXME: Populate service-specific request fields
+		BaseToken: &type_v1.Token{
+			Code: "XAU", // Gold - the token to price
+		},
+		QuoteToken: &type_v1.Token{
+			Code: "ZAR", // South African Rand - the currency to price it in
+		},
 	}
 
 	// Call the GetCurrentPriceByTokenPair method
@@ -30,6 +36,10 @@ func main() {
 		log.Fatalf("GetCurrentPriceByTokenPair failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("GetCurrentPriceByTokenPair successful: %+v", price)
+	// Display the price information
+	log.Printf("Price retrieved successfully:")
+	log.Printf("  Base Token: %s", price.BaseToken.Code)
+	log.Printf("  Quote Token: %s", price.QuoteToken.Code)
+	log.Printf("  Mid Price: %s", price.MidPrice.Value)
+	log.Printf("  Timestamp: %s", price.Time.AsTime())
 }

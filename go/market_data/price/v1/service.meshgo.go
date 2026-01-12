@@ -51,6 +51,8 @@ import (
 type PriceServiceClientInterface interface {
 	grpc.GRPCClient
 
+	// Retrieves the current price for a specified token pair.
+	// Returns the mid-market price for the base token denominated in the quote token.
 	GetCurrentPriceByTokenPair(ctx context.Context, request *GetCurrentPriceByTokenPairRequest) (*Price, error)
 
 	// WithGroup returns a new client instance with a different group context

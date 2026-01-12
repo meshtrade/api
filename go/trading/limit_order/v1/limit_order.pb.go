@@ -11,6 +11,7 @@ import (
 	v1 "github.com/meshtrade/api/go/type/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -81,44 +82,44 @@ type LimitOrderState int32
 
 const (
 	// Unspecified status.
-	LimitOrderState_LIMIT_ORDER_STATUS_UNSPECIFIED LimitOrderState = 0
+	LimitOrderState_LIMIT_ORDER_STATE_UNSPECIFIED LimitOrderState = 0
 	// Submission transaction in progress.
-	LimitOrderState_LIMIT_ORDER_STATUS_SUBMISSION_IN_PROGRESS LimitOrderState = 1
+	LimitOrderState_LIMIT_ORDER_STATE_SUBMISSION_IN_PROGRESS LimitOrderState = 1
 	// Submission failed.
-	LimitOrderState_LIMIT_ORDER_STATUS_SUBMISSION_FAILED LimitOrderState = 2
+	LimitOrderState_LIMIT_ORDER_STATE_SUBMISSION_FAILED LimitOrderState = 2
 	// Order is open on the ledger.
-	LimitOrderState_LIMIT_ORDER_STATUS_OPEN LimitOrderState = 3
+	LimitOrderState_LIMIT_ORDER_STATE_OPEN LimitOrderState = 3
 	// Completion in progress.
-	LimitOrderState_LIMIT_ORDER_STATUS_COMPLETE_IN_PROGRESS LimitOrderState = 4
+	LimitOrderState_LIMIT_ORDER_STATE_COMPLETE_IN_PROGRESS LimitOrderState = 4
 	// Order completed (fully filled).
-	LimitOrderState_LIMIT_ORDER_STATUS_COMPLETE LimitOrderState = 5
+	LimitOrderState_LIMIT_ORDER_STATE_COMPLETE LimitOrderState = 5
 	// Cancellation in progress.
-	LimitOrderState_LIMIT_ORDER_STATUS_CANCELLATION_IN_PROGRESS LimitOrderState = 6
+	LimitOrderState_LIMIT_ORDER_STATE_CANCELLATION_IN_PROGRESS LimitOrderState = 6
 	// Order cancelled.
-	LimitOrderState_LIMIT_ORDER_STATUS_CANCELLED LimitOrderState = 7
+	LimitOrderState_LIMIT_ORDER_STATE_CANCELLED LimitOrderState = 7
 )
 
 // Enum value maps for LimitOrderState.
 var (
 	LimitOrderState_name = map[int32]string{
-		0: "LIMIT_ORDER_STATUS_UNSPECIFIED",
-		1: "LIMIT_ORDER_STATUS_SUBMISSION_IN_PROGRESS",
-		2: "LIMIT_ORDER_STATUS_SUBMISSION_FAILED",
-		3: "LIMIT_ORDER_STATUS_OPEN",
-		4: "LIMIT_ORDER_STATUS_COMPLETE_IN_PROGRESS",
-		5: "LIMIT_ORDER_STATUS_COMPLETE",
-		6: "LIMIT_ORDER_STATUS_CANCELLATION_IN_PROGRESS",
-		7: "LIMIT_ORDER_STATUS_CANCELLED",
+		0: "LIMIT_ORDER_STATE_UNSPECIFIED",
+		1: "LIMIT_ORDER_STATE_SUBMISSION_IN_PROGRESS",
+		2: "LIMIT_ORDER_STATE_SUBMISSION_FAILED",
+		3: "LIMIT_ORDER_STATE_OPEN",
+		4: "LIMIT_ORDER_STATE_COMPLETE_IN_PROGRESS",
+		5: "LIMIT_ORDER_STATE_COMPLETE",
+		6: "LIMIT_ORDER_STATE_CANCELLATION_IN_PROGRESS",
+		7: "LIMIT_ORDER_STATE_CANCELLED",
 	}
 	LimitOrderState_value = map[string]int32{
-		"LIMIT_ORDER_STATUS_UNSPECIFIED":              0,
-		"LIMIT_ORDER_STATUS_SUBMISSION_IN_PROGRESS":   1,
-		"LIMIT_ORDER_STATUS_SUBMISSION_FAILED":        2,
-		"LIMIT_ORDER_STATUS_OPEN":                     3,
-		"LIMIT_ORDER_STATUS_COMPLETE_IN_PROGRESS":     4,
-		"LIMIT_ORDER_STATUS_COMPLETE":                 5,
-		"LIMIT_ORDER_STATUS_CANCELLATION_IN_PROGRESS": 6,
-		"LIMIT_ORDER_STATUS_CANCELLED":                7,
+		"LIMIT_ORDER_STATE_UNSPECIFIED":              0,
+		"LIMIT_ORDER_STATE_SUBMISSION_IN_PROGRESS":   1,
+		"LIMIT_ORDER_STATE_SUBMISSION_FAILED":        2,
+		"LIMIT_ORDER_STATE_OPEN":                     3,
+		"LIMIT_ORDER_STATE_COMPLETE_IN_PROGRESS":     4,
+		"LIMIT_ORDER_STATE_COMPLETE":                 5,
+		"LIMIT_ORDER_STATE_CANCELLATION_IN_PROGRESS": 6,
+		"LIMIT_ORDER_STATE_CANCELLED":                7,
 	}
 )
 
@@ -203,7 +204,13 @@ type LimitOrder struct {
 	// Only populated when live_ledger_data=true in request.
 	FilledQuantity *v1.Amount `protobuf:"bytes,11,opt,name=filled_quantity,json=filledQuantity,proto3" json:"filled_quantity,omitempty"`
 	// Limit Order life cycle state.
-	State         LimitOrderState `protobuf:"varint,12,opt,name=state,proto3,enum=meshtrade.trading.limit_order.v1.LimitOrderState" json:"state,omitempty"`
+	State LimitOrderState `protobuf:"varint,12,opt,name=state,proto3,enum=meshtrade.trading.limit_order.v1.LimitOrderState" json:"state,omitempty"`
+	// Number is an incrementing unique identifier that users use to identify an order.
+	// This is a system-generated value, not the native exchange order number.
+	Number string `protobuf:"bytes,13,opt,name=number,proto3" json:"number,omitempty"`
+	// The timestamp when the limit order was submitted.
+	// This field is system-generated and immutable upon creation.
+	SubmittedAt   *timestamppb.Timestamp `protobuf:"bytes,14,opt,name=submitted_at,json=submittedAt,proto3" json:"submitted_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -312,14 +319,28 @@ func (x *LimitOrder) GetState() LimitOrderState {
 	if x != nil {
 		return x.State
 	}
-	return LimitOrderState_LIMIT_ORDER_STATUS_UNSPECIFIED
+	return LimitOrderState_LIMIT_ORDER_STATE_UNSPECIFIED
+}
+
+func (x *LimitOrder) GetNumber() string {
+	if x != nil {
+		return x.Number
+	}
+	return ""
+}
+
+func (x *LimitOrder) GetSubmittedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.SubmittedAt
+	}
+	return nil
 }
 
 var File_meshtrade_trading_limit_order_v1_limit_order_proto protoreflect.FileDescriptor
 
 const file_meshtrade_trading_limit_order_v1_limit_order_proto_rawDesc = "" +
 	"\n" +
-	"2meshtrade/trading/limit_order/v1/limit_order.proto\x12 meshtrade.trading.limit_order.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1emeshtrade/type/v1/amount.proto\"\xc6\a\n" +
+	"2meshtrade/trading/limit_order/v1/limit_order.proto\x12 meshtrade.trading.limit_order.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1emeshtrade/type/v1/amount.proto\"\x9d\b\n" +
 	"\n" +
 	"LimitOrder\x12\xc8\x01\n" +
 	"\x04name\x18\x01 \x01(\tB\xb3\x01\xbaH\xaf\x01\xba\x01\xab\x01\n" +
@@ -337,20 +358,22 @@ const file_meshtrade_trading_limit_order_v1_limit_order_proto_rawDesc = "" +
 	"fill_price\x18\n" +
 	" \x01(\v2\x19.meshtrade.type.v1.AmountR\tfillPrice\x12B\n" +
 	"\x0ffilled_quantity\x18\v \x01(\v2\x19.meshtrade.type.v1.AmountR\x0efilledQuantity\x12G\n" +
-	"\x05state\x18\f \x01(\x0e21.meshtrade.trading.limit_order.v1.LimitOrderStateR\x05stateJ\x04\b\x04\x10\x05R\fdisplay_name*g\n" +
+	"\x05state\x18\f \x01(\x0e21.meshtrade.trading.limit_order.v1.LimitOrderStateR\x05state\x12\x16\n" +
+	"\x06number\x18\r \x01(\tR\x06number\x12=\n" +
+	"\fsubmitted_at\x18\x0e \x01(\v2\x1a.google.protobuf.TimestampR\vsubmittedAtJ\x04\b\x04\x10\x05R\fdisplay_name*g\n" +
 	"\x0eLimitOrderSide\x12 \n" +
 	"\x1cLIMIT_ORDER_SIDE_UNSPECIFIED\x10\x00\x12\x18\n" +
 	"\x14LIMIT_ORDER_SIDE_BUY\x10\x01\x12\x19\n" +
-	"\x15LIMIT_ORDER_SIDE_SELL\x10\x02*\xcc\x02\n" +
-	"\x0fLimitOrderState\x12\"\n" +
-	"\x1eLIMIT_ORDER_STATUS_UNSPECIFIED\x10\x00\x12-\n" +
-	")LIMIT_ORDER_STATUS_SUBMISSION_IN_PROGRESS\x10\x01\x12(\n" +
-	"$LIMIT_ORDER_STATUS_SUBMISSION_FAILED\x10\x02\x12\x1b\n" +
-	"\x17LIMIT_ORDER_STATUS_OPEN\x10\x03\x12+\n" +
-	"'LIMIT_ORDER_STATUS_COMPLETE_IN_PROGRESS\x10\x04\x12\x1f\n" +
-	"\x1bLIMIT_ORDER_STATUS_COMPLETE\x10\x05\x12/\n" +
-	"+LIMIT_ORDER_STATUS_CANCELLATION_IN_PROGRESS\x10\x06\x12 \n" +
-	"\x1cLIMIT_ORDER_STATUS_CANCELLED\x10\aBl\n" +
+	"\x15LIMIT_ORDER_SIDE_SELL\x10\x02*\xc4\x02\n" +
+	"\x0fLimitOrderState\x12!\n" +
+	"\x1dLIMIT_ORDER_STATE_UNSPECIFIED\x10\x00\x12,\n" +
+	"(LIMIT_ORDER_STATE_SUBMISSION_IN_PROGRESS\x10\x01\x12'\n" +
+	"#LIMIT_ORDER_STATE_SUBMISSION_FAILED\x10\x02\x12\x1a\n" +
+	"\x16LIMIT_ORDER_STATE_OPEN\x10\x03\x12*\n" +
+	"&LIMIT_ORDER_STATE_COMPLETE_IN_PROGRESS\x10\x04\x12\x1e\n" +
+	"\x1aLIMIT_ORDER_STATE_COMPLETE\x10\x05\x12.\n" +
+	"*LIMIT_ORDER_STATE_CANCELLATION_IN_PROGRESS\x10\x06\x12\x1f\n" +
+	"\x1bLIMIT_ORDER_STATE_CANCELLED\x10\aBl\n" +
 	"'co.meshtrade.api.trading.limit_order.v1ZAgithub.com/meshtrade/api/go/trading/limit_order/v1;limit_order_v1b\x06proto3"
 
 var (
@@ -368,10 +391,11 @@ func file_meshtrade_trading_limit_order_v1_limit_order_proto_rawDescGZIP() []byt
 var file_meshtrade_trading_limit_order_v1_limit_order_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_meshtrade_trading_limit_order_v1_limit_order_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_meshtrade_trading_limit_order_v1_limit_order_proto_goTypes = []any{
-	(LimitOrderSide)(0),  // 0: meshtrade.trading.limit_order.v1.LimitOrderSide
-	(LimitOrderState)(0), // 1: meshtrade.trading.limit_order.v1.LimitOrderState
-	(*LimitOrder)(nil),   // 2: meshtrade.trading.limit_order.v1.LimitOrder
-	(*v1.Amount)(nil),    // 3: meshtrade.type.v1.Amount
+	(LimitOrderSide)(0),           // 0: meshtrade.trading.limit_order.v1.LimitOrderSide
+	(LimitOrderState)(0),          // 1: meshtrade.trading.limit_order.v1.LimitOrderState
+	(*LimitOrder)(nil),            // 2: meshtrade.trading.limit_order.v1.LimitOrder
+	(*v1.Amount)(nil),             // 3: meshtrade.type.v1.Amount
+	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
 }
 var file_meshtrade_trading_limit_order_v1_limit_order_proto_depIdxs = []int32{
 	0, // 0: meshtrade.trading.limit_order.v1.LimitOrder.side:type_name -> meshtrade.trading.limit_order.v1.LimitOrderSide
@@ -380,11 +404,12 @@ var file_meshtrade_trading_limit_order_v1_limit_order_proto_depIdxs = []int32{
 	3, // 3: meshtrade.trading.limit_order.v1.LimitOrder.fill_price:type_name -> meshtrade.type.v1.Amount
 	3, // 4: meshtrade.trading.limit_order.v1.LimitOrder.filled_quantity:type_name -> meshtrade.type.v1.Amount
 	1, // 5: meshtrade.trading.limit_order.v1.LimitOrder.state:type_name -> meshtrade.trading.limit_order.v1.LimitOrderState
-	6, // [6:6] is the sub-list for method output_type
-	6, // [6:6] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	4, // 6: meshtrade.trading.limit_order.v1.LimitOrder.submitted_at:type_name -> google.protobuf.Timestamp
+	7, // [7:7] is the sub-list for method output_type
+	7, // [7:7] is the sub-list for method input_type
+	7, // [7:7] is the sub-list for extension type_name
+	7, // [7:7] is the sub-list for extension extendee
+	0, // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_trading_limit_order_v1_limit_order_proto_init() }

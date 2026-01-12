@@ -6,8 +6,14 @@ import (
 	context "context"
 )
 
-// PriceService provides prices.
+// PriceService provides market data pricing information.
+//
+// This service enables retrieval of current market prices for token pairs,
+// supporting trading decisions and portfolio valuation.
 type PriceService interface {
+	// Retrieves the current price for a specified token pair.
+	//
+	// Returns the mid-market price for the base token denominated in the quote token.
 	GetCurrentPriceByTokenPair(ctx context.Context, request *GetCurrentPriceByTokenPairRequest) (*Price, error)
 }
 
