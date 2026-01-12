@@ -11,7 +11,6 @@
 // ===================================================================
 
 // Generated exports
-export * from "./service_node_meshts";
 export * from "./service_pb";
 export * from "./transaction_action_pb";
 export * from "./transaction_state_pb";

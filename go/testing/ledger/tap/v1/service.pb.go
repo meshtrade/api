@@ -8,7 +8,6 @@ package tap_v1
 
 import (
 	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
-	v11 "github.com/meshtrade/api/go/ledger/tap/v1"
 	_ "github.com/meshtrade/api/go/option/method_options/v1"
 	v1 "github.com/meshtrade/api/go/type/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -181,7 +180,7 @@ type MintTokenRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Amount        *v1.Amount             `protobuf:"bytes,1,opt,name=amount,proto3" json:"amount,omitempty"`
 	Address       string                 `protobuf:"bytes,2,opt,name=address,proto3" json:"address,omitempty"`
-	Options       *v11.MintTokenOptions  `protobuf:"bytes,3,opt,name=options,proto3" json:"options,omitempty"`
+	Options       *MintTokenOptions      `protobuf:"bytes,3,opt,name=options,proto3" json:"options,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -230,7 +229,7 @@ func (x *MintTokenRequest) GetAddress() string {
 	return ""
 }
 
-func (x *MintTokenRequest) GetOptions() *v11.MintTokenOptions {
+func (x *MintTokenRequest) GetOptions() *MintTokenOptions {
 	if x != nil {
 		return x.Options
 	}
@@ -277,16 +276,16 @@ var File_meshtrade_testing_ledger_tap_v1_service_proto protoreflect.FileDescript
 
 const file_meshtrade_testing_ledger_tap_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"-meshtrade/testing/ledger/tap/v1/service.proto\x12\x1fmeshtrade.testing.ledger.tap.v1\x1a\x1bbuf/validate/validate.proto\x1a$meshtrade/ledger/tap/v1/option.proto\x1a7meshtrade/option/method_options/v1/method_options.proto\x1a\x1emeshtrade/type/v1/amount.proto\x1a\x1dmeshtrade/type/v1/token.proto\"\x1c\n" +
+	"-meshtrade/testing/ledger/tap/v1/service.proto\x12\x1fmeshtrade.testing.ledger.tap.v1\x1a\x1bbuf/validate/validate.proto\x1a7meshtrade/option/method_options/v1/method_options.proto\x1a,meshtrade/testing/ledger/tap/v1/option.proto\x1a\x1emeshtrade/type/v1/amount.proto\x1a\x1dmeshtrade/type/v1/token.proto\"\x1c\n" +
 	"\x1aInitialiseTokenTapsRequest\"\x1d\n" +
 	"\x1bInitialiseTokenTapsResponse\"\x16\n" +
 	"\x14ListTokenTapsRequest\"I\n" +
 	"\x15ListTokenTapsResponse\x120\n" +
-	"\x06tokens\x18\x01 \x03(\v2\x18.meshtrade.type.v1.TokenR\x06tokens\"\xb4\x01\n" +
+	"\x06tokens\x18\x01 \x03(\v2\x18.meshtrade.type.v1.TokenR\x06tokens\"\xbc\x01\n" +
 	"\x10MintTokenRequest\x129\n" +
 	"\x06amount\x18\x01 \x01(\v2\x19.meshtrade.type.v1.AmountB\x06\xbaH\x03\xc8\x01\x01R\x06amount\x12 \n" +
-	"\aaddress\x18\x02 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\aaddress\x12C\n" +
-	"\aoptions\x18\x03 \x01(\v2).meshtrade.ledger.tap.v1.MintTokenOptionsR\aoptions\"\x13\n" +
+	"\aaddress\x18\x02 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\aaddress\x12K\n" +
+	"\aoptions\x18\x03 \x01(\v21.meshtrade.testing.ledger.tap.v1.MintTokenOptionsR\aoptions\"\x13\n" +
 	"\x11MintTokenResponse2\xb7\x03\n" +
 	"\x0fTokenTapService\x12\x9a\x01\n" +
 	"\x13InitialiseTokenTaps\x12;.meshtrade.testing.ledger.tap.v1.InitialiseTokenTapsRequest\x1a<.meshtrade.testing.ledger.tap.v1.InitialiseTokenTapsResponse\"\b\xb2\xb5\x18\x04\b\x02\x10\x01\x12\x88\x01\n" +
@@ -316,12 +315,12 @@ var file_meshtrade_testing_ledger_tap_v1_service_proto_goTypes = []any{
 	(*MintTokenResponse)(nil),           // 5: meshtrade.testing.ledger.tap.v1.MintTokenResponse
 	(*v1.Token)(nil),                    // 6: meshtrade.type.v1.Token
 	(*v1.Amount)(nil),                   // 7: meshtrade.type.v1.Amount
-	(*v11.MintTokenOptions)(nil),        // 8: meshtrade.ledger.tap.v1.MintTokenOptions
+	(*MintTokenOptions)(nil),            // 8: meshtrade.testing.ledger.tap.v1.MintTokenOptions
 }
 var file_meshtrade_testing_ledger_tap_v1_service_proto_depIdxs = []int32{
 	6, // 0: meshtrade.testing.ledger.tap.v1.ListTokenTapsResponse.tokens:type_name -> meshtrade.type.v1.Token
 	7, // 1: meshtrade.testing.ledger.tap.v1.MintTokenRequest.amount:type_name -> meshtrade.type.v1.Amount
-	8, // 2: meshtrade.testing.ledger.tap.v1.MintTokenRequest.options:type_name -> meshtrade.ledger.tap.v1.MintTokenOptions
+	8, // 2: meshtrade.testing.ledger.tap.v1.MintTokenRequest.options:type_name -> meshtrade.testing.ledger.tap.v1.MintTokenOptions
 	0, // 3: meshtrade.testing.ledger.tap.v1.TokenTapService.InitialiseTokenTaps:input_type -> meshtrade.testing.ledger.tap.v1.InitialiseTokenTapsRequest
 	2, // 4: meshtrade.testing.ledger.tap.v1.TokenTapService.ListTokenTaps:input_type -> meshtrade.testing.ledger.tap.v1.ListTokenTapsRequest
 	4, // 5: meshtrade.testing.ledger.tap.v1.TokenTapService.MintToken:input_type -> meshtrade.testing.ledger.tap.v1.MintTokenRequest
@@ -340,6 +339,7 @@ func file_meshtrade_testing_ledger_tap_v1_service_proto_init() {
 	if File_meshtrade_testing_ledger_tap_v1_service_proto != nil {
 		return
 	}
+	file_meshtrade_testing_ledger_tap_v1_option_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
