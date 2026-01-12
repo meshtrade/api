@@ -3,8 +3,8 @@ syntax = "proto3";
 package meshtrade.testing.ledger.tap.v1;
 
 import "buf/validate/validate.proto";
-import "meshtrade/ledger/tap/v1/option.proto";
 import "meshtrade/option/method_options/v1/method_options.proto";
+import "meshtrade/testing/ledger/tap/v1/option.proto";
 import "meshtrade/type/v1/amount.proto";
 import "meshtrade/type/v1/token.proto";
 
@@ -47,7 +47,7 @@ message ListTokenTapsResponse {
 message MintTokenRequest {
   type.v1.Amount amount = 1 [(buf.validate.field) = {required: true}];
   string address = 2 [(buf.validate.field) = {required: true}];
-  meshtrade.ledger.tap.v1.MintTokenOptions options = 3;
+  meshtrade.testing.ledger.tap.v1.MintTokenOptions options = 3;
 }
 
 message MintTokenResponse {}
