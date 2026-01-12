@@ -3,6 +3,7 @@ package generate
 import (
 	"fmt"
 	"os"
+	"slices"
 	"strings"
 
 	validate "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
@@ -39,9 +40,9 @@ const (
 	methodOptionsExtension = 50006
 
 	// Field numbers within MethodOptions message
-	methodTypeFieldNumber   = 1 // type field (MethodType enum)
-	accessLevelFieldNumber  = 2 // access_level field (MethodAccessLevel enum)
-	rolesFieldNumber        = 3 // roles field (repeated Role enum)
+	methodTypeFieldNumber  = 1 // type field (MethodType enum)
+	accessLevelFieldNumber = 2 // access_level field (MethodAccessLevel enum)
+	rolesFieldNumber       = 3 // roles field (repeated Role enum)
 )
 
 // ServiceInfo holds parsed information about a protobuf service
@@ -59,13 +60,13 @@ type MethodInfo struct {
 	Description       string
 	Roles             []string
 	MethodType        string
-	AccessLevel       string        // NEW: Access level from method_options (e.g., METHOD_ACCESS_LEVEL_AUTHENTICATED)
+	AccessLevel       string // NEW: Access level from method_options (e.g., METHOD_ACCESS_LEVEL_AUTHENTICATED)
 	Parameters        []FieldInfo
 	Returns           string
 	RequestType       string
-	ResponseType      string        // NEW: Fully qualified response type name
+	ResponseType      string            // NEW: Fully qualified response type name
 	OutputMessage     *protogen.Message // Reference to response message for field parsing
-	IsServerStreaming bool          // Indicates if this method uses server-side streaming
+	IsServerStreaming bool              // Indicates if this method uses server-side streaming
 }
 
 // FieldInfo holds information about message fields
@@ -110,7 +111,7 @@ func parseMethod(method *protogen.Method) (*MethodInfo, error) {
 		RequestType:   method.Input.GoIdent.GoName,
 		Returns:       method.Output.GoIdent.GoName,
 		ResponseType:  string(method.Output.Desc.FullName()), // Fully qualified type name
-		OutputMessage: method.Output, // Store response message reference for field parsing
+		OutputMessage: method.Output,                         // Store response message reference for field parsing
 	}
 
 	// Extract method options from protobuf extension (type, access_level, roles)
@@ -346,7 +347,7 @@ func extractMethodOptions(method *protogen.Method) (methodType, accessLevel stri
 		for j := 0; j < exts.Len(); j++ {
 			ext := exts.Get(j)
 			if ext.Number() == methodOptionsExtension &&
-			   string(ext.FullName()) == "meshtrade.option.method_options.v1.method_options" {
+				string(ext.FullName()) == "meshtrade.option.method_options.v1.method_options" {
 				extensionField = ext
 				debugLog("[%s] Found extension descriptor in %s\n", method.GoName, fileDesc.Path())
 				break
@@ -363,7 +364,7 @@ func extractMethodOptions(method *protogen.Method) (methodType, accessLevel stri
 		for i := 0; i < exts.Len(); i++ {
 			ext := exts.Get(i)
 			if ext.Number() == methodOptionsExtension &&
-			   string(ext.FullName()) == "meshtrade.option.method_options.v1.method_options" {
+				string(ext.FullName()) == "meshtrade.option.method_options.v1.method_options" {
 				extensionField = ext
 				debugLog("[%s] Found extension in method's own file\n", method.GoName)
 				break
@@ -635,6 +636,10 @@ func extractComment(comments protogen.Comments) string {
 // getServiceDomain extracts domain from package name (e.g., "meshtrade.iam.api_user.v1" -> "iam")
 func getServiceDomain(packageName string) string {
 	parts := strings.Split(packageName, ".")
+	fmt.Fprintf(os.Stderr, "%v", parts)
+	if slices.Contains(parts, "testing") {
+		return fmt.Sprintf("%s/%s", parts[1], parts[2])
+	}
 	if len(parts) >= 2 {
 		return parts[1] // meshtrade.iam.api_user.v1 -> iam
 	}
@@ -644,6 +649,9 @@ func getServiceDomain(packageName string) string {
 // getServiceName extracts service name from package (e.g., "meshtrade.iam.api_user.v1" -> "api_user")
 func getServiceName(packageName string) string {
 	parts := strings.Split(packageName, ".")
+	if slices.Contains(parts, "testing") {
+		return parts[3]
+	}
 	if len(parts) >= 3 {
 		return parts[2] // meshtrade.iam.api_user.v1 -> api_user
 	}
@@ -653,6 +661,9 @@ func getServiceName(packageName string) string {
 // getServiceVersion extracts version from package (e.g., "meshtrade.iam.api_user.v1" -> "v1")
 func getServiceVersion(packageName string) string {
 	parts := strings.Split(packageName, ".")
+	if slices.Contains(parts, "testing") {
+		return parts[4]
+	}
 	if len(parts) >= 4 {
 		return parts[3] // meshtrade.iam.api_user.v1 -> v1
 	}
