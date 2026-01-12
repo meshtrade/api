@@ -12,6 +12,7 @@
 
 // Generated exports
 export * from "./option_pb";
+export * from "./service_node_meshts";
 export * from "./service_pb";
 
 // ===================================================================

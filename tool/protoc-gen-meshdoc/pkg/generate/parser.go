@@ -636,6 +636,7 @@ func extractComment(comments protogen.Comments) string {
 // getServiceDomain extracts domain from package name (e.g., "meshtrade.iam.api_user.v1" -> "iam")
 func getServiceDomain(packageName string) string {
 	parts := strings.Split(packageName, ".")
+	fmt.Fprintf(os.Stderr, "%v", parts)
 	if slices.Contains(parts, "testing") {
 		return fmt.Sprintf("%s/%s", parts[1], parts[2])
 	}

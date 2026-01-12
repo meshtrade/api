@@ -1,6 +1,6 @@
 from meshtrade.testing.ledger.tap.v1 import (
-    InitialiseTokenTapsRequest,
     TapService,
+    InitialiseTokenTapsRequest,
 )
 
 

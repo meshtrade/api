@@ -1,12 +1,12 @@
 from meshtrade.testing.ledger.tap.v1 import (
-    MintTokenRequest,
     TokenTapService,
+    MintTokenRequest,
 )
 from meshtrade.type.v1 import (
     Amount,
     Decimal,
-    Ledger,
     Token,
+    Ledger,
 )
 
 

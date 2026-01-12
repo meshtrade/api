@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package meshtrade.testing.ledger.tap.v1;
+package meshtrade.ledger.tap.v1;
 
 import "buf/validate/validate.proto";
 import "meshtrade/ledger/tap/v1/option.proto";
@@ -8,8 +8,8 @@ import "meshtrade/option/method_options/v1/method_options.proto";
 import "meshtrade/type/v1/amount.proto";
 import "meshtrade/type/v1/token.proto";
 
-option go_package = "github.com/meshtrade/api/go/testing/ledger/tap/v1;tap_v1";
-option java_package = "co.meshtrade.api.testing.ledger.tap.v1";
+option go_package = "github.com/meshtrade/api/go/ledger/tap/v1;tap_v1";
+option java_package = "co.meshtrade.api.ledger.tap.v1";
 
 service TokenTapService {
   rpc InitialiseTokenTaps(InitialiseTokenTapsRequest) returns (InitialiseTokenTapsResponse) {

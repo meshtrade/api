@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package meshtrade.ledger.transaction.v1;
+
+option go_package = "github.com/meshtrade/api/go/ledger/transaction/v1;transaction_v1";
+option java_package = "co.meshtrade.api.ledger.transaction.v1";
+
+enum TransactionAction {
+  /*
+     Unknown or not specified.
+     This is a default value to prevent accidental assignment and should not be used.
+  */
+  TRANSACTION_ACTION_UNSPECIFIED = 0;
+  TRANSACTION_ACTION_DO_NOTHING = 1;
+  TRANSACTION_ACTION_BUILD = 2;
+  TRANSACTION_ACTION_COMMIT = 3;
+  TRANSACTION_ACTION_SIGN = 4;
+  TRANSACTION_ACTION_MARK_PENDING = 5;
+  TRANSACTION_ACTION_SUBMIT = 6;
+}

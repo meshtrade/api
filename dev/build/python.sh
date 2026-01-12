@@ -41,8 +41,7 @@ echo "🔧 Activating virtual environment..."
 source .venv/bin/activate
 
 echo "📦 Installing Python dependencies..."
-# pip install -e .[dev] --quiet
-uv sync --all-extras
+pip install -e .[dev] --quiet
 
 # Version bumping logic
 if [ "$BUMP_VERSION" = true ]; then
