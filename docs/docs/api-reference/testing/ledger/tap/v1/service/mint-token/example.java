@@ -1,6 +1,10 @@
 import co.meshtrade.api.testing.ledger.tap.v1.TokenTapService;
 import co.meshtrade.api.testing.ledger.tap.v1.Service.MintTokenRequest;
 import co.meshtrade.api.testing.ledger.tap.v1.Service.MintTokenResponse;
+import co.meshtrade.api.testing.ledger.tap.v1.Option.MintTokenOptions;
+import co.meshtrade.api.testing.ledger.tap.v1.Option.StellarMintOptions;
+import co.meshtrade.api.testing.ledger.tap.v1.Option.StellarMintOption;
+import co.meshtrade.api.testing.ledger.tap.v1.Option.StellarMintTokenWithMemo;
 import co.meshtrade.api.type.v1.Amount;
 import co.meshtrade.api.type.v1.Decimal;
 import co.meshtrade.api.type.v1.Token;
@@ -21,7 +25,24 @@ public class MintTokenExample {
                 .setLedger(Ledger.LEDGER_STELLAR)
                 .build();
 
-            // Mint tokens to a test address
+            // Create Stellar memo option
+            StellarMintTokenWithMemo memo = StellarMintTokenWithMemo.newBuilder()
+                .setMemo("test-mint-001")
+                .build();
+
+            StellarMintOption stellarOption = StellarMintOption.newBuilder()
+                .setStellarMintTokenWithMemo(memo)
+                .build();
+
+            StellarMintOptions stellarOptions = StellarMintOptions.newBuilder()
+                .addStellarMintOptions(stellarOption)
+                .build();
+
+            MintTokenOptions options = MintTokenOptions.newBuilder()
+                .setStellarMintOptions(stellarOptions)
+                .build();
+
+            // Mint tokens to a test address with optional network-specific options
             MintTokenRequest request = MintTokenRequest.newBuilder()
                 // Specify the amount to mint (required)
                 .setAmount(
@@ -36,6 +57,8 @@ public class MintTokenExample {
                 )
                 // Specify the recipient address (required)
                 .setAddress("GDQXVHH7QVVQSHCXU7ZDM4C2DAQF7UEQWPX3JHG7LJ2YS6FLXJY5E2SZ")
+                // Set optional Stellar options
+                .setOptions(options)
                 .build();
 
             // Call the MintToken method

@@ -1,5 +1,9 @@
 from meshtrade.testing.ledger.tap.v1 import (
     MintTokenRequest,
+    MintTokenOptions,
+    StellarMintOptions,
+    StellarMintOption,
+    StellarMintTokenWithMemo,
     TokenTapService,
 )
 from meshtrade.type.v1 import (
@@ -24,7 +28,7 @@ def main():
             ledger=Ledger.LEDGER_STELLAR,
         )
 
-        # Mint tokens to a test address
+        # Mint tokens to a test address with optional network-specific options
         request = MintTokenRequest(
             # Specify the amount to mint (required)
             amount=Amount(
@@ -34,7 +38,17 @@ def main():
             # Specify the recipient address (required)
             address="GDQXVHH7QVVQSHCXU7ZDM4C2DAQF7UEQWPX3JHG7LJ2YS6FLXJY5E2SZ",
             # Optional: Network-specific options (Stellar or Solana)
-            # For this example, we omit options for a basic mint
+            options=MintTokenOptions(
+                stellar_mint_options=StellarMintOptions(
+                    stellar_mint_options=[
+                        StellarMintOption(
+                            stellar_mint_token_with_memo=StellarMintTokenWithMemo(
+                                memo="test-mint-001",
+                            )
+                        )
+                    ]
+                )
+            ),
         )
 
         # Call the MintToken method

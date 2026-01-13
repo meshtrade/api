@@ -27,7 +27,7 @@ func main() {
 		Ledger: typev1.Ledger_LEDGER_STELLAR,
 	}
 
-	// Mint tokens to a test address
+	// Mint tokens to a test address with optional network-specific options
 	request := &tapv1.MintTokenRequest{
 		// Specify the amount to mint (required)
 		Amount: &typev1.Amount{
@@ -39,7 +39,21 @@ func main() {
 		// Specify the recipient address (required)
 		Address: "GDQXVHH7QVVQSHCXU7ZDM4C2DAQF7UEQWPX3JHG7LJ2YS6FLXJY5E2SZ",
 		// Optional: Network-specific options (Stellar or Solana)
-		// For this example, we omit options for a basic mint
+		Options: &tapv1.MintTokenOptions{
+			MintTokenOptions: &tapv1.MintTokenOptions_StellarMintOptions{
+				StellarMintOptions: &tapv1.StellarMintOptions{
+					StellarMintOptions: []*tapv1.StellarMintOption{
+						{
+							StellarMintOption: &tapv1.StellarMintOption_StellarMintTokenWithMemo{
+								StellarMintTokenWithMemo: &tapv1.StellarMintTokenWithMemo{
+									Memo: "test-mint-001",
+								},
+							},
+						},
+					},
+				},
+			},
+		},
 	}
 
 	// Call the MintToken method
