@@ -6,11 +6,17 @@ import (
 	context "context"
 )
 
+// TokenTapService provides token distribution and minting functionality for testing
+// and development purposes. It enables initialization of token taps, querying
+// available tokens, and minting tokens to specified addresses.
 type TokenTapService interface {
+	// InitialiseTokenTaps initialises the available token taps.
 	InitialiseTokenTaps(ctx context.Context, request *InitialiseTokenTapsRequest) (*InitialiseTokenTapsResponse, error)
 
+	// ListTokenTaps retrieves the list of available tokens for minting.
 	ListTokenTaps(ctx context.Context, request *ListTokenTapsRequest) (*ListTokenTapsResponse, error)
 
+	// MintToken creates and distributes tokens to the specified address.
 	MintToken(ctx context.Context, request *MintTokenRequest) (*MintTokenResponse, error)
 }
 

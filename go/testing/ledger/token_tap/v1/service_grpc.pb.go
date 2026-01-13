@@ -27,9 +27,16 @@ const (
 // TokenTapServiceClient is the client API for TokenTapService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// TokenTapService provides token distribution and minting functionality for testing
+// and development purposes. It enables initialization of token taps, querying
+// available tokens, and minting tokens to specified addresses.
 type TokenTapServiceClient interface {
+	// InitialiseTokenTaps initialises the available token taps.
 	InitialiseTokenTaps(ctx context.Context, in *InitialiseTokenTapsRequest, opts ...grpc.CallOption) (*InitialiseTokenTapsResponse, error)
+	// ListTokenTaps retrieves the list of available tokens for minting.
 	ListTokenTaps(ctx context.Context, in *ListTokenTapsRequest, opts ...grpc.CallOption) (*ListTokenTapsResponse, error)
+	// MintToken creates and distributes tokens to the specified address.
 	MintToken(ctx context.Context, in *MintTokenRequest, opts ...grpc.CallOption) (*MintTokenResponse, error)
 }
 
@@ -74,9 +81,16 @@ func (c *tokenTapServiceClient) MintToken(ctx context.Context, in *MintTokenRequ
 // TokenTapServiceServer is the server API for TokenTapService service.
 // All implementations must embed UnimplementedTokenTapServiceServer
 // for forward compatibility.
+//
+// TokenTapService provides token distribution and minting functionality for testing
+// and development purposes. It enables initialization of token taps, querying
+// available tokens, and minting tokens to specified addresses.
 type TokenTapServiceServer interface {
+	// InitialiseTokenTaps initialises the available token taps.
 	InitialiseTokenTaps(context.Context, *InitialiseTokenTapsRequest) (*InitialiseTokenTapsResponse, error)
+	// ListTokenTaps retrieves the list of available tokens for minting.
 	ListTokenTaps(context.Context, *ListTokenTapsRequest) (*ListTokenTapsResponse, error)
+	// MintToken creates and distributes tokens to the specified address.
 	MintToken(context.Context, *MintTokenRequest) (*MintTokenResponse, error)
 	mustEmbedUnimplementedTokenTapServiceServer()
 }

@@ -51,8 +51,11 @@ import (
 type TokenTapServiceClientInterface interface {
 	grpc.GRPCClient
 
+	// InitialiseTokenTaps initialises the available token taps.
 	InitialiseTokenTaps(ctx context.Context, request *InitialiseTokenTapsRequest) (*InitialiseTokenTapsResponse, error)
+	// ListTokenTaps retrieves the list of available tokens for minting.
 	ListTokenTaps(ctx context.Context, request *ListTokenTapsRequest) (*ListTokenTapsResponse, error)
+	// MintToken creates and distributes tokens to the specified address.
 	MintToken(ctx context.Context, request *MintTokenRequest) (*MintTokenResponse, error)
 
 	// WithGroup returns a new client instance with a different group context

@@ -24,6 +24,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// InitialiseTokenTapsRequest is the message used to initialize token taps.
 type InitialiseTokenTapsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -60,6 +61,7 @@ func (*InitialiseTokenTapsRequest) Descriptor() ([]byte, []int) {
 	return file_meshtrade_testing_ledger_token_tap_v1_service_proto_rawDescGZIP(), []int{0}
 }
 
+// InitialiseTokenTapsResponse is the response message from initializing token taps.
 type InitialiseTokenTapsResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -96,6 +98,7 @@ func (*InitialiseTokenTapsResponse) Descriptor() ([]byte, []int) {
 	return file_meshtrade_testing_ledger_token_tap_v1_service_proto_rawDescGZIP(), []int{1}
 }
 
+// ListTokenTapsRequest is the message used to retrieve available tokens.
 type ListTokenTapsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -132,9 +135,11 @@ func (*ListTokenTapsRequest) Descriptor() ([]byte, []int) {
 	return file_meshtrade_testing_ledger_token_tap_v1_service_proto_rawDescGZIP(), []int{2}
 }
 
+// ListTokenTapsResponse contains a list of available tokens for minting.
 type ListTokenTapsResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Tokens        []*v1.Token            `protobuf:"bytes,1,rep,name=tokens,proto3" json:"tokens,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Available tokens that can be minted.
+	Tokens        []*v1.Token `protobuf:"bytes,1,rep,name=tokens,proto3" json:"tokens,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -176,11 +181,15 @@ func (x *ListTokenTapsResponse) GetTokens() []*v1.Token {
 	return nil
 }
 
+// MintTokenRequest is the message used to mint tokens to an address.
 type MintTokenRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Amount        *v1.Amount             `protobuf:"bytes,1,opt,name=amount,proto3" json:"amount,omitempty"`
-	Address       string                 `protobuf:"bytes,2,opt,name=address,proto3" json:"address,omitempty"`
-	Options       *MintTokenOptions      `protobuf:"bytes,3,opt,name=options,proto3" json:"options,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The amount of tokens to mint. Must be specified.
+	Amount *v1.Amount `protobuf:"bytes,1,opt,name=amount,proto3" json:"amount,omitempty"`
+	// The blockchain address to mint tokens to. Must be specified.
+	Address string `protobuf:"bytes,2,opt,name=address,proto3" json:"address,omitempty"`
+	// Optional parameters for customizing the mint operation.
+	Options       *MintTokenOptions `protobuf:"bytes,3,opt,name=options,proto3" json:"options,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -236,6 +245,7 @@ func (x *MintTokenRequest) GetOptions() *MintTokenOptions {
 	return nil
 }
 
+// MintTokenResponse is the response message from minting tokens.
 type MintTokenResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
