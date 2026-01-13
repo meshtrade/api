@@ -19,7 +19,6 @@ message StellarMintOptions {
 message StellarMintOption {
   oneof stellar_mint_option {
     StellarMintTokenWithMemo stellar_mint_token_with_memo = 1;
-    // Add more stellar mint options here
   }
 }
 
@@ -34,7 +33,6 @@ message SolanaMintOptions {
 message SolanaMintOption {
   oneof solana_mint_option {
     SolanaMintTokenOption solana_mint_token_option = 1;
-    // Add more solana mint options here
   }
 }
 
