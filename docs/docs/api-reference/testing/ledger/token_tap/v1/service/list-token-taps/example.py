@@ -20,7 +20,7 @@ def main():
 
         # Process the list of available tokens
         print(f"Available tokens: {len(response.tokens)}")
-        for i, token in enumerate(response.tokens, 1):
+        for i, token in enumerate(response.tokens):
             print(f"Token {i}: {token}")
 
 
