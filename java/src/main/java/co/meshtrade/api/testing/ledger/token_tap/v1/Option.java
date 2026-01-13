@@ -1782,28 +1782,16 @@ public final class Option extends com.google.protobuf.GeneratedFile {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <pre>
-     * Add more stellar mint options here
-     * </pre>
-     *
      * <code>.meshtrade.testing.ledger.token_tap.v1.StellarMintTokenWithMemo stellar_mint_token_with_memo = 1 [json_name = "stellarMintTokenWithMemo"];</code>
      * @return Whether the stellarMintTokenWithMemo field is set.
      */
     boolean hasStellarMintTokenWithMemo();
     /**
-     * <pre>
-     * Add more stellar mint options here
-     * </pre>
-     *
      * <code>.meshtrade.testing.ledger.token_tap.v1.StellarMintTokenWithMemo stellar_mint_token_with_memo = 1 [json_name = "stellarMintTokenWithMemo"];</code>
      * @return The stellarMintTokenWithMemo.
      */
     co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintTokenWithMemo getStellarMintTokenWithMemo();
     /**
-     * <pre>
-     * Add more stellar mint options here
-     * </pre>
-     *
      * <code>.meshtrade.testing.ledger.token_tap.v1.StellarMintTokenWithMemo stellar_mint_token_with_memo = 1 [json_name = "stellarMintTokenWithMemo"];</code>
      */
     co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintTokenWithMemoOrBuilder getStellarMintTokenWithMemoOrBuilder();
@@ -1889,10 +1877,6 @@ public final class Option extends com.google.protobuf.GeneratedFile {
 
     public static final int STELLAR_MINT_TOKEN_WITH_MEMO_FIELD_NUMBER = 1;
     /**
-     * <pre>
-     * Add more stellar mint options here
-     * </pre>
-     *
      * <code>.meshtrade.testing.ledger.token_tap.v1.StellarMintTokenWithMemo stellar_mint_token_with_memo = 1 [json_name = "stellarMintTokenWithMemo"];</code>
      * @return Whether the stellarMintTokenWithMemo field is set.
      */
@@ -1901,10 +1885,6 @@ public final class Option extends com.google.protobuf.GeneratedFile {
       return stellarMintOptionCase_ == 1;
     }
     /**
-     * <pre>
-     * Add more stellar mint options here
-     * </pre>
-     *
      * <code>.meshtrade.testing.ledger.token_tap.v1.StellarMintTokenWithMemo stellar_mint_token_with_memo = 1 [json_name = "stellarMintTokenWithMemo"];</code>
      * @return The stellarMintTokenWithMemo.
      */
@@ -1916,10 +1896,6 @@ public final class Option extends com.google.protobuf.GeneratedFile {
       return co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintTokenWithMemo.getDefaultInstance();
     }
     /**
-     * <pre>
-     * Add more stellar mint options here
-     * </pre>
-     *
      * <code>.meshtrade.testing.ledger.token_tap.v1.StellarMintTokenWithMemo stellar_mint_token_with_memo = 1 [json_name = "stellarMintTokenWithMemo"];</code>
      */
     @java.lang.Override
@@ -2273,10 +2249,6 @@ public final class Option extends com.google.protobuf.GeneratedFile {
       private com.google.protobuf.SingleFieldBuilder<
           co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintTokenWithMemo, co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintTokenWithMemo.Builder, co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintTokenWithMemoOrBuilder> stellarMintTokenWithMemoBuilder_;
       /**
-       * <pre>
-       * Add more stellar mint options here
-       * </pre>
-       *
        * <code>.meshtrade.testing.ledger.token_tap.v1.StellarMintTokenWithMemo stellar_mint_token_with_memo = 1 [json_name = "stellarMintTokenWithMemo"];</code>
        * @return Whether the stellarMintTokenWithMemo field is set.
        */
@@ -2285,10 +2257,6 @@ public final class Option extends com.google.protobuf.GeneratedFile {
         return stellarMintOptionCase_ == 1;
       }
       /**
-       * <pre>
-       * Add more stellar mint options here
-       * </pre>
-       *
        * <code>.meshtrade.testing.ledger.token_tap.v1.StellarMintTokenWithMemo stellar_mint_token_with_memo = 1 [json_name = "stellarMintTokenWithMemo"];</code>
        * @return The stellarMintTokenWithMemo.
        */
@@ -2307,10 +2275,6 @@ public final class Option extends com.google.protobuf.GeneratedFile {
         }
       }
       /**
-       * <pre>
-       * Add more stellar mint options here
-       * </pre>
-       *
        * <code>.meshtrade.testing.ledger.token_tap.v1.StellarMintTokenWithMemo stellar_mint_token_with_memo = 1 [json_name = "stellarMintTokenWithMemo"];</code>
        */
       public Builder setStellarMintTokenWithMemo(co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintTokenWithMemo value) {
@@ -2327,10 +2291,6 @@ public final class Option extends com.google.protobuf.GeneratedFile {
         return this;
       }
       /**
-       * <pre>
-       * Add more stellar mint options here
-       * </pre>
-       *
        * <code>.meshtrade.testing.ledger.token_tap.v1.StellarMintTokenWithMemo stellar_mint_token_with_memo = 1 [json_name = "stellarMintTokenWithMemo"];</code>
        */
       public Builder setStellarMintTokenWithMemo(
@@ -2345,10 +2305,6 @@ public final class Option extends com.google.protobuf.GeneratedFile {
         return this;
       }
       /**
-       * <pre>
-       * Add more stellar mint options here
-       * </pre>
-       *
        * <code>.meshtrade.testing.ledger.token_tap.v1.StellarMintTokenWithMemo stellar_mint_token_with_memo = 1 [json_name = "stellarMintTokenWithMemo"];</code>
        */
       public Builder mergeStellarMintTokenWithMemo(co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintTokenWithMemo value) {
@@ -2372,10 +2328,6 @@ public final class Option extends com.google.protobuf.GeneratedFile {
         return this;
       }
       /**
-       * <pre>
-       * Add more stellar mint options here
-       * </pre>
-       *
        * <code>.meshtrade.testing.ledger.token_tap.v1.StellarMintTokenWithMemo stellar_mint_token_with_memo = 1 [json_name = "stellarMintTokenWithMemo"];</code>
        */
       public Builder clearStellarMintTokenWithMemo() {
@@ -2395,20 +2347,12 @@ public final class Option extends com.google.protobuf.GeneratedFile {
         return this;
       }
       /**
-       * <pre>
-       * Add more stellar mint options here
-       * </pre>
-       *
        * <code>.meshtrade.testing.ledger.token_tap.v1.StellarMintTokenWithMemo stellar_mint_token_with_memo = 1 [json_name = "stellarMintTokenWithMemo"];</code>
        */
       public co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintTokenWithMemo.Builder getStellarMintTokenWithMemoBuilder() {
         return internalGetStellarMintTokenWithMemoFieldBuilder().getBuilder();
       }
       /**
-       * <pre>
-       * Add more stellar mint options here
-       * </pre>
-       *
        * <code>.meshtrade.testing.ledger.token_tap.v1.StellarMintTokenWithMemo stellar_mint_token_with_memo = 1 [json_name = "stellarMintTokenWithMemo"];</code>
        */
       @java.lang.Override
@@ -2423,10 +2367,6 @@ public final class Option extends com.google.protobuf.GeneratedFile {
         }
       }
       /**
-       * <pre>
-       * Add more stellar mint options here
-       * </pre>
-       *
        * <code>.meshtrade.testing.ledger.token_tap.v1.StellarMintTokenWithMemo stellar_mint_token_with_memo = 1 [json_name = "stellarMintTokenWithMemo"];</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
@@ -3754,28 +3694,16 @@ public final class Option extends com.google.protobuf.GeneratedFile {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <pre>
-     * Add more solana mint options here
-     * </pre>
-     *
      * <code>.meshtrade.testing.ledger.token_tap.v1.SolanaMintTokenOption solana_mint_token_option = 1 [json_name = "solanaMintTokenOption"];</code>
      * @return Whether the solanaMintTokenOption field is set.
      */
     boolean hasSolanaMintTokenOption();
     /**
-     * <pre>
-     * Add more solana mint options here
-     * </pre>
-     *
      * <code>.meshtrade.testing.ledger.token_tap.v1.SolanaMintTokenOption solana_mint_token_option = 1 [json_name = "solanaMintTokenOption"];</code>
      * @return The solanaMintTokenOption.
      */
     co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintTokenOption getSolanaMintTokenOption();
     /**
-     * <pre>
-     * Add more solana mint options here
-     * </pre>
-     *
      * <code>.meshtrade.testing.ledger.token_tap.v1.SolanaMintTokenOption solana_mint_token_option = 1 [json_name = "solanaMintTokenOption"];</code>
      */
     co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintTokenOptionOrBuilder getSolanaMintTokenOptionOrBuilder();
@@ -3861,10 +3789,6 @@ public final class Option extends com.google.protobuf.GeneratedFile {
 
     public static final int SOLANA_MINT_TOKEN_OPTION_FIELD_NUMBER = 1;
     /**
-     * <pre>
-     * Add more solana mint options here
-     * </pre>
-     *
      * <code>.meshtrade.testing.ledger.token_tap.v1.SolanaMintTokenOption solana_mint_token_option = 1 [json_name = "solanaMintTokenOption"];</code>
      * @return Whether the solanaMintTokenOption field is set.
      */
@@ -3873,10 +3797,6 @@ public final class Option extends com.google.protobuf.GeneratedFile {
       return solanaMintOptionCase_ == 1;
     }
     /**
-     * <pre>
-     * Add more solana mint options here
-     * </pre>
-     *
      * <code>.meshtrade.testing.ledger.token_tap.v1.SolanaMintTokenOption solana_mint_token_option = 1 [json_name = "solanaMintTokenOption"];</code>
      * @return The solanaMintTokenOption.
      */
@@ -3888,10 +3808,6 @@ public final class Option extends com.google.protobuf.GeneratedFile {
       return co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintTokenOption.getDefaultInstance();
     }
     /**
-     * <pre>
-     * Add more solana mint options here
-     * </pre>
-     *
      * <code>.meshtrade.testing.ledger.token_tap.v1.SolanaMintTokenOption solana_mint_token_option = 1 [json_name = "solanaMintTokenOption"];</code>
      */
     @java.lang.Override
@@ -4245,10 +4161,6 @@ public final class Option extends com.google.protobuf.GeneratedFile {
       private com.google.protobuf.SingleFieldBuilder<
           co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintTokenOption, co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintTokenOption.Builder, co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintTokenOptionOrBuilder> solanaMintTokenOptionBuilder_;
       /**
-       * <pre>
-       * Add more solana mint options here
-       * </pre>
-       *
        * <code>.meshtrade.testing.ledger.token_tap.v1.SolanaMintTokenOption solana_mint_token_option = 1 [json_name = "solanaMintTokenOption"];</code>
        * @return Whether the solanaMintTokenOption field is set.
        */
@@ -4257,10 +4169,6 @@ public final class Option extends com.google.protobuf.GeneratedFile {
         return solanaMintOptionCase_ == 1;
       }
       /**
-       * <pre>
-       * Add more solana mint options here
-       * </pre>
-       *
        * <code>.meshtrade.testing.ledger.token_tap.v1.SolanaMintTokenOption solana_mint_token_option = 1 [json_name = "solanaMintTokenOption"];</code>
        * @return The solanaMintTokenOption.
        */
@@ -4279,10 +4187,6 @@ public final class Option extends com.google.protobuf.GeneratedFile {
         }
       }
       /**
-       * <pre>
-       * Add more solana mint options here
-       * </pre>
-       *
        * <code>.meshtrade.testing.ledger.token_tap.v1.SolanaMintTokenOption solana_mint_token_option = 1 [json_name = "solanaMintTokenOption"];</code>
        */
       public Builder setSolanaMintTokenOption(co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintTokenOption value) {
@@ -4299,10 +4203,6 @@ public final class Option extends com.google.protobuf.GeneratedFile {
         return this;
       }
       /**
-       * <pre>
-       * Add more solana mint options here
-       * </pre>
-       *
        * <code>.meshtrade.testing.ledger.token_tap.v1.SolanaMintTokenOption solana_mint_token_option = 1 [json_name = "solanaMintTokenOption"];</code>
        */
       public Builder setSolanaMintTokenOption(
@@ -4317,10 +4217,6 @@ public final class Option extends com.google.protobuf.GeneratedFile {
         return this;
       }
       /**
-       * <pre>
-       * Add more solana mint options here
-       * </pre>
-       *
        * <code>.meshtrade.testing.ledger.token_tap.v1.SolanaMintTokenOption solana_mint_token_option = 1 [json_name = "solanaMintTokenOption"];</code>
        */
       public Builder mergeSolanaMintTokenOption(co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintTokenOption value) {
@@ -4344,10 +4240,6 @@ public final class Option extends com.google.protobuf.GeneratedFile {
         return this;
       }
       /**
-       * <pre>
-       * Add more solana mint options here
-       * </pre>
-       *
        * <code>.meshtrade.testing.ledger.token_tap.v1.SolanaMintTokenOption solana_mint_token_option = 1 [json_name = "solanaMintTokenOption"];</code>
        */
       public Builder clearSolanaMintTokenOption() {
@@ -4367,20 +4259,12 @@ public final class Option extends com.google.protobuf.GeneratedFile {
         return this;
       }
       /**
-       * <pre>
-       * Add more solana mint options here
-       * </pre>
-       *
        * <code>.meshtrade.testing.ledger.token_tap.v1.SolanaMintTokenOption solana_mint_token_option = 1 [json_name = "solanaMintTokenOption"];</code>
        */
       public co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintTokenOption.Builder getSolanaMintTokenOptionBuilder() {
         return internalGetSolanaMintTokenOptionFieldBuilder().getBuilder();
       }
       /**
-       * <pre>
-       * Add more solana mint options here
-       * </pre>
-       *
        * <code>.meshtrade.testing.ledger.token_tap.v1.SolanaMintTokenOption solana_mint_token_option = 1 [json_name = "solanaMintTokenOption"];</code>
        */
       @java.lang.Override
@@ -4395,10 +4279,6 @@ public final class Option extends com.google.protobuf.GeneratedFile {
         }
       }
       /**
-       * <pre>
-       * Add more solana mint options here
-       * </pre>
-       *
        * <code>.meshtrade.testing.ledger.token_tap.v1.SolanaMintTokenOption solana_mint_token_option = 1 [json_name = "solanaMintTokenOption"];</code>
        */
       private com.google.protobuf.SingleFieldBuilder<

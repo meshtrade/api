@@ -257,7 +257,7 @@ type isStellarMintOption_StellarMintOption interface {
 }
 
 type StellarMintOption_StellarMintTokenWithMemo struct {
-	StellarMintTokenWithMemo *StellarMintTokenWithMemo `protobuf:"bytes,1,opt,name=stellar_mint_token_with_memo,json=stellarMintTokenWithMemo,proto3,oneof"` // Add more stellar mint options here
+	StellarMintTokenWithMemo *StellarMintTokenWithMemo `protobuf:"bytes,1,opt,name=stellar_mint_token_with_memo,json=stellarMintTokenWithMemo,proto3,oneof"`
 }
 
 func (*StellarMintOption_StellarMintTokenWithMemo) isStellarMintOption_StellarMintOption() {}
@@ -411,7 +411,7 @@ type isSolanaMintOption_SolanaMintOption interface {
 }
 
 type SolanaMintOption_SolanaMintTokenOption struct {
-	SolanaMintTokenOption *SolanaMintTokenOption `protobuf:"bytes,1,opt,name=solana_mint_token_option,json=solanaMintTokenOption,proto3,oneof"` // Add more solana mint options here
+	SolanaMintTokenOption *SolanaMintTokenOption `protobuf:"bytes,1,opt,name=solana_mint_token_option,json=solanaMintTokenOption,proto3,oneof"`
 }
 
 func (*SolanaMintOption_SolanaMintTokenOption) isSolanaMintOption_SolanaMintOption() {}
