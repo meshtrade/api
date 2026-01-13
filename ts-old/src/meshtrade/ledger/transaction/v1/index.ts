@@ -30,3 +30,5 @@ export * from "./transaction_state_pb";
 //   export * from "./my_custom_module";
 //   export { MyCustomClass } from "./another_module";
 // ===================================================================
+
+export * from "./transaction_state";
