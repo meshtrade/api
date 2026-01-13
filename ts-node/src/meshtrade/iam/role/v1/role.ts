@@ -41,16 +41,12 @@ const roleToStringMapping: { [key in Role]: string } = {
   [Role.REPORTING_ADMIN]: "Reporting Admin",
   [Role.REPORTING_VIEWER]: "Reporting Viewer",
 
-  [Role.ROLE_LEDGER_ADMIN]: "Ledger Admin",
-  [Role.ROLE_LEDGER_VIEWER]: "Ledger Viewer",
-  [Role.ROLE_LEDGER_TRANSACTION_ADMIN]: "Ledger Transaction Admin",
-  [Role.ROLE_LEDGER_TRANSACTION_VIEWER]: "Ledger Transaction Viewer",
-  [Role.ROLE_LEDGER_TOKEN_TAP_ADMIN]: "Ledger Token Tap Admin",
-  [Role.ROLE_LEDGER_TOKEN_TAP_VIEWER]: "Ledger Token Tap Viewer",
   [Role.LEDGER_ADMIN]: "Ledger Admin",
   [Role.LEDGER_VIEWER]: "Ledger Viewer",
   [Role.LEDGER_TRANSACTION_ADMIN]: "Ledger Transaction Admin",
   [Role.LEDGER_TRANSACTION_VIEWER]: "Ledger Transaction Viewer",
+  [Role.LEDGER_TOKEN_TAP_ADMIN]: "Ledger Token Tap Admin",
+  [Role.LEDGER_TOKEN_TAP_VIEWER]: "Ledger Token Tap Viewer",
 
   [Role.MARKET_DATA_ADMIN]: "Market Data Admin",
   [Role.MARKET_DATA_VIEWER]: "Market Data Viewer",

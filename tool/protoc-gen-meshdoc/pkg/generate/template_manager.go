@@ -71,6 +71,7 @@ type ServiceIndexData struct {
 	ServiceDisplayName string
 	Version            string
 	ProtoPath          string
+	ProtoPathPrefix    string
 	Methods            []MethodTemplateData
 }
 
@@ -107,6 +108,7 @@ type MethodDocData struct {
 
 	// Context for navigation
 	ProtoPath          string
+	ProtoPathPrefix    string
 	Domain             string
 	DomainTitle        string
 	ServiceName        string
@@ -129,18 +131,20 @@ type TypeIndexData struct {
 
 // MessageDocData contains data for message documentation template
 type MessageDocData struct {
-	Name        string
-	Description string
-	ProtoPath   string
-	Fields      []FieldTemplateData
+	Name           string
+	Description    string
+	ProtoPath      string
+	ProtoPathPrefix string
+	Fields         []FieldTemplateData
 }
 
 // EnumDocData contains data for enum documentation template
 type EnumDocData struct {
-	Name        string
-	Description string
-	ProtoPath   string
-	EnumValues  []EnumValueTemplateData
+	Name            string
+	Description     string
+	ProtoPath       string
+	ProtoPathPrefix string
+	EnumValues      []EnumValueTemplateData
 }
 
 // ExampleGoData contains data for Go example template

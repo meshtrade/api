@@ -42,6 +42,28 @@ func convertFieldInfoToTemplateData(field FieldInfo) FieldTemplateData {
 	return templateData
 }
 
+// calculateProtoPathPrefix calculates the relative path to proto files based on domain and depth
+// domain: directory path like "iam" or "testing/ledger"
+// depth: 1 for service/index.mdx or type/index.mdx, 2 for service/{method}/index.mdx or type/{typename}/index.mdx
+func calculateProtoPathPrefix(domain string, depth int) string {
+	// Count the "/" in domain to determine extra directory levels
+	// "iam" = 0 slashes = 1 component
+	// "testing/ledger" = 1 slash = 2 components
+	extraLevels := strings.Count(domain, "/")
+
+	// Total directory levels from file to repo root:
+	// - docs/docs/api-reference = 3 levels (always)
+	// - domain components = 1 + extraLevels
+	// - service_name = 1 level
+	// - version = 1 level
+	// - file subdir (service, type, etc) = depth
+	// Total = 3 + (1 + extraLevels) + 1 + 1 + depth = 6 + extraLevels + depth
+	totalLevels := 6 + extraLevels + depth
+
+	// Generate the appropriate number of "../"
+	return strings.Repeat("../", totalLevels)
+}
+
 // GenerateServiceDocs generates all documentation files for a service
 func GenerateServiceDocs(plugin *protogen.Plugin, serviceInfo *ServiceInfo) error {
 	domain := getServiceDomain(serviceInfo.Package)
@@ -126,6 +148,7 @@ func generateServiceIndex(plugin *protogen.Plugin, serviceInfo *ServiceInfo, dom
 		ServiceDisplayName: titleCase(serviceName),
 		Version:            version,
 		ProtoPath:          serviceInfo.ProtoPath,
+		ProtoPathPrefix:    calculateProtoPathPrefix(domain, 1), // depth=1 for service/
 		Methods:            methods,
 	}
 
@@ -191,13 +214,26 @@ func generateMethodDoc(plugin *protogen.Plugin, serviceInfo *ServiceInfo, method
 	var returnTypeURL string
 	if isResourceReturn {
 		// Extract domain/resource/version from response type
-		// ResponseType format: meshtrade.domain.resource.version.TypeName
+		// ResponseType format: meshtrade.domain.resource.version.TypeName (regular)
+		// or meshtrade.testing.domain.resource.version.TypeName (testing)
 		typeParts := strings.Split(responseMessage, ".")
 		if len(typeParts) >= 5 && typeParts[0] == "meshtrade" {
-			typeDomain := typeParts[1]
-			typeResource := typeParts[2]
-			typeVersion := typeParts[3]
-			typeName := typeParts[len(typeParts)-1]
+			var typeDomain, typeResource, typeVersion, typeName string
+
+			// Check if this is a testing service (has "testing" as second part)
+			if len(typeParts) >= 6 && typeParts[1] == "testing" {
+				// Testing service: meshtrade.testing.domain.resource.version.TypeName
+				typeDomain = fmt.Sprintf("%s/%s", typeParts[1], typeParts[2]) // "testing/domain"
+				typeResource = typeParts[3]
+				typeVersion = typeParts[4]
+				typeName = typeParts[len(typeParts)-1]
+			} else {
+				// Regular service: meshtrade.domain.resource.version.TypeName
+				typeDomain = typeParts[1]
+				typeResource = typeParts[2]
+				typeVersion = typeParts[3]
+				typeName = typeParts[len(typeParts)-1]
+			}
 
 			// Generate kebab-case type name
 			kebabTypeName := properKebabCase(typeName)
@@ -240,6 +276,7 @@ func generateMethodDoc(plugin *protogen.Plugin, serviceInfo *ServiceInfo, method
 		ReturnTypeURL:      returnTypeURL,
 		IsServerStreaming:  method.IsServerStreaming,
 		ProtoPath:          serviceInfo.ProtoPath,
+		ProtoPathPrefix:    calculateProtoPathPrefix(domain, 2), // depth=2 for service/{method}/
 		Domain:             domain,
 		DomainTitle:        titleCase(domain),
 		ServiceName:        serviceName,
@@ -548,9 +585,9 @@ func generateTypeDoc(plugin *protogen.Plugin, packageInfo *PackageTypeInfo, type
 
 	var content string
 	if typeInfo.IsEnum {
-		content = generateEnumDocContent(typeInfo)
+		content = generateEnumDocContent(packageInfo, typeInfo)
 	} else {
-		content = generateMessageDocContent(typeInfo)
+		content = generateMessageDocContent(packageInfo, typeInfo)
 	}
 
 	file.Write([]byte(content))
@@ -558,7 +595,7 @@ func generateTypeDoc(plugin *protogen.Plugin, packageInfo *PackageTypeInfo, type
 }
 
 // generateMessageDocContent generates content for a message type
-func generateMessageDocContent(typeInfo *TypeInfo) string {
+func generateMessageDocContent(packageInfo *PackageTypeInfo, typeInfo *TypeInfo) string {
 	// Prepare field data
 	var fields []FieldTemplateData
 	for _, field := range typeInfo.Fields {
@@ -567,10 +604,11 @@ func generateMessageDocContent(typeInfo *TypeInfo) string {
 
 	// Prepare template data
 	data := MessageDocData{
-		Name:        typeInfo.Name,
-		Description: typeInfo.Description,
-		ProtoPath:   typeInfo.ProtoPath,
-		Fields:      fields,
+		Name:            typeInfo.Name,
+		Description:     typeInfo.Description,
+		ProtoPath:       typeInfo.ProtoPath,
+		ProtoPathPrefix: calculateProtoPathPrefix(packageInfo.Domain, 2), // depth=2 for type/{typename}/
+		Fields:          fields,
 	}
 
 	// Execute template
@@ -584,7 +622,7 @@ func generateMessageDocContent(typeInfo *TypeInfo) string {
 }
 
 // generateEnumDocContent generates content for an enum type
-func generateEnumDocContent(typeInfo *TypeInfo) string {
+func generateEnumDocContent(packageInfo *PackageTypeInfo, typeInfo *TypeInfo) string {
 	// Prepare enum value data
 	var enumValues []EnumValueTemplateData
 	for _, value := range typeInfo.EnumValues {
@@ -596,10 +634,11 @@ func generateEnumDocContent(typeInfo *TypeInfo) string {
 
 	// Prepare template data
 	data := EnumDocData{
-		Name:        typeInfo.Name,
-		Description: typeInfo.Description,
-		ProtoPath:   typeInfo.ProtoPath,
-		EnumValues:  enumValues,
+		Name:            typeInfo.Name,
+		Description:     typeInfo.Description,
+		ProtoPath:       typeInfo.ProtoPath,
+		ProtoPathPrefix: calculateProtoPathPrefix(packageInfo.Domain, 2), // depth=2 for type/{typename}/
+		EnumValues:      enumValues,
 	}
 
 	// Execute template
