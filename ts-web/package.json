@@ -76,6 +76,11 @@
       "require": "./dist/meshtrade/studio/instrument/v1/index.js",
       "import": "./dist/meshtrade/studio/instrument/v1/index.js"
     },
+    "./testing/ledger/token_tap/v1": {
+      "types": "./dist/meshtrade/testing/ledger/token_tap/v1/index.d.ts",
+      "require": "./dist/meshtrade/testing/ledger/token_tap/v1/index.js",
+      "import": "./dist/meshtrade/testing/ledger/token_tap/v1/index.js"
+    },
     "./option/method_options/v1": {
       "types": "./dist/meshtrade/option/method_options/v1/index.d.ts",
       "require": "./dist/meshtrade/option/method_options/v1/index.js",
@@ -134,6 +139,9 @@
       ],
       "studio/instrument/v1": [
         "dist/meshtrade/studio/instrument/v1/index.d.ts"
+      ],
+      "testing/ledger/token_tap/v1": [
+        "dist/meshtrade/testing/ledger/token_tap/v1/index.d.ts"
       ],
       "option/method_options/v1": [
         "dist/meshtrade/option/method_options/v1/index.d.ts"
