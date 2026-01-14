@@ -21,6 +21,8 @@ type MockUserProfileService struct {
 	UpdateUserProfileFuncInvocations  int
 	GetUserProfileFunc                func(t *testing.T, m *MockUserProfileService, ctx context.Context, request *GetUserProfileRequest) (*GetUserProfileResponse, error)
 	GetUserProfileFuncInvocations     int
+	GetMyUserProfileFunc              func(t *testing.T, m *MockUserProfileService, ctx context.Context, request *GetMyUserProfileRequest) (*GetMyUserProfileResponse, error)
+	GetMyUserProfileFuncInvocations   int
 	ListUserProfilesFunc              func(t *testing.T, m *MockUserProfileService, ctx context.Context, request *ListUserProfilesRequest) (*ListUserProfilesResponse, error)
 	ListUserProfilesFuncInvocations   int
 	SearchUserProfilesFunc            func(t *testing.T, m *MockUserProfileService, ctx context.Context, request *SearchUserProfilesRequest) (*SearchUserProfilesResponse, error)
@@ -55,6 +57,16 @@ func (m *MockUserProfileService) GetUserProfile(ctx context.Context, request *Ge
 		return nil, nil
 	}
 	return m.GetUserProfileFunc(m.T, m, ctx, request)
+}
+
+func (m *MockUserProfileService) GetMyUserProfile(ctx context.Context, request *GetMyUserProfileRequest) (*GetMyUserProfileResponse, error) {
+	m.mutex.Lock()
+	m.GetMyUserProfileFuncInvocations++
+	m.mutex.Unlock()
+	if m.GetMyUserProfileFunc == nil {
+		return nil, nil
+	}
+	return m.GetMyUserProfileFunc(m.T, m, ctx, request)
 }
 
 func (m *MockUserProfileService) ListUserProfiles(ctx context.Context, request *ListUserProfilesRequest) (*ListUserProfilesResponse, error) {

@@ -15,33 +15,30 @@ service UserProfileService {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_WRITE
       access_level: METHOD_ACCESS_LEVEL_AUTHORISED
-      roles: [
-        ROLE_IAM_ADMIN,
-        ROLE_IAM_USER_PROFILE_ADMIN
-      ]
+      roles: [ROLE_IAM_USER_PROFILE_ADMIN]
     };
-  };
+  }
   rpc UpdateUserProfile(UpdateUserProfileRequest) returns (UpdateUserProfileResponse) {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_WRITE
       access_level: METHOD_ACCESS_LEVEL_AUTHORISED
-      roles: [
-        ROLE_IAM_ADMIN,
-        ROLE_IAM_USER_PROFILE_ADMIN
-      ]
+      roles: [ROLE_IAM_USER_PROFILE_ADMIN]
     };
-  };
+  }
   rpc GetUserProfile(GetUserProfileRequest) returns (GetUserProfileResponse) {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_READ
       access_level: METHOD_ACCESS_LEVEL_AUTHORISED
-      roles: [
-        ROLE_IAM_ADMIN,
-        ROLE_IAM_USER_PROFILE_ADMIN,
-        ROLE_IAM_USER_PROFILE_VIEWER
-      ]
+      roles: [ROLE_IAM_USER_PROFILE_VIEWER]
     };
-  };
+  }
+  rpc GetMyUserProfile(GetMyUserProfileRequest) returns (GetMyUserProfileResponse) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
+      roles: [ROLE_IAM_USER_PROFILE_VIEWER]
+    };
+  }
   rpc ListUserProfiles(ListUserProfilesRequest) returns (ListUserProfilesResponse) {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_READ
@@ -52,7 +49,7 @@ service UserProfileService {
         ROLE_IAM_USER_PROFILE_VIEWER
       ]
     };
-  };
+  }
   rpc SearchUserProfiles(SearchUserProfilesRequest) returns (SearchUserProfilesResponse) {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_READ
@@ -63,21 +60,26 @@ service UserProfileService {
         ROLE_IAM_USER_PROFILE_VIEWER
       ]
     };
-  };
+  }
+}
+
+message GetMyUserProfileRequest {}
+message GetMyUserProfileResponse {
+  UserProfile user_profile = 1;
 }
 
 message CreateUserProfileRequest {
   UserProfile user_profile = 1 [(buf.validate.field) = {required: true}];
 }
 message CreateUserProfileResponse {
-  UserProfile user_profile = 1; 
+  UserProfile user_profile = 1;
 }
 
 message UpdateUserProfileRequest {
   UserProfile user_profile = 1 [(buf.validate.field) = {required: true}];
 }
 message UpdateUserProfileResponse {
-  UserProfile user_profile = 1; 
+  UserProfile user_profile = 1;
 }
 
 message GetUserProfileRequest {

@@ -17,6 +17,8 @@ from .user_profile_pb2 import UserProfile
 from .service_pb2 import (
     CreateUserProfileRequest,
     CreateUserProfileResponse,
+    GetMyUserProfileRequest,
+    GetMyUserProfileResponse,
     GetUserProfileRequest,
     GetUserProfileResponse,
     ListUserProfilesRequest,
@@ -56,6 +58,8 @@ __all__ = [
     # Generated exports
     "CreateUserProfileRequest",
     "CreateUserProfileResponse",
+    "GetMyUserProfileRequest",
+    "GetMyUserProfileResponse",
     "GetUserProfileRequest",
     "GetUserProfileResponse",
     "ListUserProfilesRequest",

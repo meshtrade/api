@@ -29,13 +29,6 @@ func main() {
 			FirstName:          "Sarah",
 			LastName:           "Thompson",
 			ProfilePictureUrl:  "https://cdn.example.com/profiles/sarah.jpg",
-			RegisteredAddress: &type_v1.Address{
-				AddressLines: []string{"456 Oak Avenue", "Apartment 3B"},
-				City:         "San Francisco",
-				Province:     "California",
-				CountryCode:  "US",
-				PostalCode:   "94102",
-			},
 			ContactDetails: &type_v1.ContactDetails{
 				EmailAddress: "sarah.thompson@company.com",
 				MobileNumber: "+14155551234",

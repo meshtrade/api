@@ -13,6 +13,8 @@ type UserProfileService interface {
 
 	GetUserProfile(ctx context.Context, request *GetUserProfileRequest) (*GetUserProfileResponse, error)
 
+	GetMyUserProfile(ctx context.Context, request *GetMyUserProfileRequest) (*GetMyUserProfileResponse, error)
+
 	ListUserProfiles(ctx context.Context, request *ListUserProfilesRequest) (*ListUserProfilesResponse, error)
 
 	SearchUserProfiles(ctx context.Context, request *SearchUserProfilesRequest) (*SearchUserProfilesResponse, error)
