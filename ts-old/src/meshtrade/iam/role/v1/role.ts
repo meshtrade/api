@@ -50,6 +50,10 @@ const roleToStringMapping: { [key in Role]: string } = {
   [Role.ROLE_MARKET_DATA_VIEWER]: "Market Data Viewer",
   [Role.ROLE_MARKET_DATA_PRICE_ADMIN]: "Market Data Price Admin",
   [Role.ROLE_MARKET_DATA_PRICE_VIEWER]: "Market Data Price Viewer",
+
+  [Role.ROLE_TESTING_LEDGER_TOKEN_TAP_ADMIN]: "Testing Ledger Token Tap Admin",
+  [Role.ROLE_TESTING_LEDGER_TOKEN_TAP_VIEWER]:
+    "Testing Ledger Token Tap Viewer",
 };
 
 // Reverse mapping from string to Role enum

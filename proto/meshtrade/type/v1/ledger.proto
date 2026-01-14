@@ -54,8 +54,13 @@ enum Ledger {
   LEDGER_SA_STOCK_BROKERS = 15;
 
   /*
+     The Solana ledger network
+  */
+  LEDGER_SOLANA = 16;
+
+  /*
      A null ledger, used as a placeholder for assets that do not have
      an external or on-chain accounting ledger.
   */
-  LEDGER_NULL = 16;
+  LEDGER_NULL = 17;
 }

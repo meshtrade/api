@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package meshtrade.testing.ledger.token_tap.v1;
+
+import "buf/validate/validate.proto";
+import "meshtrade/option/method_options/v1/method_options.proto";
+import "meshtrade/testing/ledger/token_tap/v1/option.proto";
+import "meshtrade/type/v1/amount.proto";
+import "meshtrade/type/v1/token.proto";
+
+option go_package = "github.com/meshtrade/api/go/testing/ledger/token_tap/v1;token_tap_v1";
+option java_package = "co.meshtrade.api.testing.ledger.token_tap.v1";
+
+/*
+   TokenTapService provides token distribution and minting functionality for testing
+   and development purposes. It enables initialization of token taps, querying
+   available tokens, and minting tokens to specified addresses.
+*/
+service TokenTapService {
+  // InitialiseTokenTaps initialises the available token taps.
+  rpc InitialiseTokenTaps(InitialiseTokenTapsRequest) returns (InitialiseTokenTapsResponse) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_WRITE
+      access_level: METHOD_ACCESS_LEVEL_PUBLIC
+    };
+  }
+
+  // ListTokenTaps retrieves the list of available tokens for minting.
+  rpc ListTokenTaps(ListTokenTapsRequest) returns (ListTokenTapsResponse) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_PUBLIC
+    };
+  }
+
+  // MintToken creates and distributes tokens to the specified address.
+  rpc MintToken(MintTokenRequest) returns (MintTokenResponse) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_WRITE
+      access_level: METHOD_ACCESS_LEVEL_PUBLIC
+    };
+  }
+}
+
+// InitialiseTokenTapsRequest is the message used to initialize token taps.
+message InitialiseTokenTapsRequest {}
+
+// InitialiseTokenTapsResponse is the response message from initializing token taps.
+message InitialiseTokenTapsResponse {}
+
+// ListTokenTapsRequest is the message used to retrieve available tokens.
+message ListTokenTapsRequest {}
+
+// ListTokenTapsResponse contains a list of available tokens for minting.
+message ListTokenTapsResponse {
+  // Available tokens that can be minted.
+  repeated type.v1.Token tokens = 1;
+}
+
+// MintTokenRequest is the message used to mint tokens to an address.
+message MintTokenRequest {
+  // The amount of tokens to mint. Must be specified.
+  type.v1.Amount amount = 1 [(buf.validate.field) = {required: true}];
+  // The blockchain address to mint tokens to. Must be specified.
+  string address = 2 [(buf.validate.field) = {required: true}];
+  // Optional parameters for customizing the mint operation.
+  meshtrade.testing.ledger.token_tap.v1.MintTokenOptions options = 3;
+}
+
+// MintTokenResponse is the response message from minting tokens.
+message MintTokenResponse {}
