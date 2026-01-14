@@ -13,7 +13,7 @@ message MintTokenOptions {
 }
 
 message StellarMintOptions {
-  repeated StellarMintOption stellar_mint_options = 1;
+  repeated StellarMintOption options = 1;
 }
 
 message StellarMintOption {
@@ -27,7 +27,7 @@ message StellarMintTokenWithMemo {
 }
 
 message SolanaMintOptions {
-  repeated SolanaMintOption solana_mint_options = 1;
+  repeated SolanaMintOption options = 1;
 }
 
 message SolanaMintOption {
