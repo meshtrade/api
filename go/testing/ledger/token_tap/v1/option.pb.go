@@ -153,10 +153,10 @@ func (*MintTokenOptions_StellarMintOptions) isMintTokenOptions_MintTokenOptions(
 func (*MintTokenOptions_SolanaMintOptions) isMintTokenOptions_MintTokenOptions() {}
 
 type StellarMintOptions struct {
-	state              protoimpl.MessageState `protogen:"open.v1"`
-	StellarMintOptions []*StellarMintOption   `protobuf:"bytes,1,rep,name=stellar_mint_options,json=stellarMintOptions,proto3" json:"stellar_mint_options,omitempty"`
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Options       []*StellarMintOption   `protobuf:"bytes,1,rep,name=options,proto3" json:"options,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *StellarMintOptions) Reset() {
@@ -189,9 +189,9 @@ func (*StellarMintOptions) Descriptor() ([]byte, []int) {
 	return file_meshtrade_testing_ledger_token_tap_v1_option_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *StellarMintOptions) GetStellarMintOptions() []*StellarMintOption {
+func (x *StellarMintOptions) GetOptions() []*StellarMintOption {
 	if x != nil {
-		return x.StellarMintOptions
+		return x.Options
 	}
 	return nil
 }
@@ -307,10 +307,10 @@ func (x *StellarMintTokenWithMemo) GetMemo() string {
 }
 
 type SolanaMintOptions struct {
-	state             protoimpl.MessageState `protogen:"open.v1"`
-	SolanaMintOptions []*SolanaMintOption    `protobuf:"bytes,1,rep,name=solana_mint_options,json=solanaMintOptions,proto3" json:"solana_mint_options,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Options       []*SolanaMintOption    `protobuf:"bytes,1,rep,name=options,proto3" json:"options,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *SolanaMintOptions) Reset() {
@@ -343,9 +343,9 @@ func (*SolanaMintOptions) Descriptor() ([]byte, []int) {
 	return file_meshtrade_testing_ledger_token_tap_v1_option_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *SolanaMintOptions) GetSolanaMintOptions() []*SolanaMintOption {
+func (x *SolanaMintOptions) GetOptions() []*SolanaMintOption {
 	if x != nil {
-		return x.SolanaMintOptions
+		return x.Options
 	}
 	return nil
 }
@@ -468,16 +468,16 @@ const file_meshtrade_testing_ledger_token_tap_v1_option_proto_rawDesc = "" +
 	"\x10MintTokenOptions\x12m\n" +
 	"\x14stellar_mint_options\x18\x01 \x01(\v29.meshtrade.testing.ledger.token_tap.v1.StellarMintOptionsH\x00R\x12stellarMintOptions\x12j\n" +
 	"\x13solana_mint_options\x18\x02 \x01(\v28.meshtrade.testing.ledger.token_tap.v1.SolanaMintOptionsH\x00R\x11solanaMintOptionsB\x14\n" +
-	"\x12mint_token_options\"\x80\x01\n" +
-	"\x12StellarMintOptions\x12j\n" +
-	"\x14stellar_mint_options\x18\x01 \x03(\v28.meshtrade.testing.ledger.token_tap.v1.StellarMintOptionR\x12stellarMintOptions\"\xae\x01\n" +
+	"\x12mint_token_options\"h\n" +
+	"\x12StellarMintOptions\x12R\n" +
+	"\aoptions\x18\x01 \x03(\v28.meshtrade.testing.ledger.token_tap.v1.StellarMintOptionR\aoptions\"\xae\x01\n" +
 	"\x11StellarMintOption\x12\x81\x01\n" +
 	"\x1cstellar_mint_token_with_memo\x18\x01 \x01(\v2?.meshtrade.testing.ledger.token_tap.v1.StellarMintTokenWithMemoH\x00R\x18stellarMintTokenWithMemoB\x15\n" +
 	"\x13stellar_mint_option\".\n" +
 	"\x18StellarMintTokenWithMemo\x12\x12\n" +
-	"\x04memo\x18\x01 \x01(\tR\x04memo\"|\n" +
-	"\x11SolanaMintOptions\x12g\n" +
-	"\x13solana_mint_options\x18\x01 \x03(\v27.meshtrade.testing.ledger.token_tap.v1.SolanaMintOptionR\x11solanaMintOptions\"\xa1\x01\n" +
+	"\x04memo\x18\x01 \x01(\tR\x04memo\"f\n" +
+	"\x11SolanaMintOptions\x12Q\n" +
+	"\aoptions\x18\x01 \x03(\v27.meshtrade.testing.ledger.token_tap.v1.SolanaMintOptionR\aoptions\"\xa1\x01\n" +
 	"\x10SolanaMintOption\x12w\n" +
 	"\x18solana_mint_token_option\x18\x01 \x01(\v2<.meshtrade.testing.ledger.token_tap.v1.SolanaMintTokenOptionH\x00R\x15solanaMintTokenOptionB\x14\n" +
 	"\x12solana_mint_option\"e\n" +
@@ -516,9 +516,9 @@ var file_meshtrade_testing_ledger_token_tap_v1_option_proto_goTypes = []any{
 var file_meshtrade_testing_ledger_token_tap_v1_option_proto_depIdxs = []int32{
 	2, // 0: meshtrade.testing.ledger.token_tap.v1.MintTokenOptions.stellar_mint_options:type_name -> meshtrade.testing.ledger.token_tap.v1.StellarMintOptions
 	5, // 1: meshtrade.testing.ledger.token_tap.v1.MintTokenOptions.solana_mint_options:type_name -> meshtrade.testing.ledger.token_tap.v1.SolanaMintOptions
-	3, // 2: meshtrade.testing.ledger.token_tap.v1.StellarMintOptions.stellar_mint_options:type_name -> meshtrade.testing.ledger.token_tap.v1.StellarMintOption
+	3, // 2: meshtrade.testing.ledger.token_tap.v1.StellarMintOptions.options:type_name -> meshtrade.testing.ledger.token_tap.v1.StellarMintOption
 	4, // 3: meshtrade.testing.ledger.token_tap.v1.StellarMintOption.stellar_mint_token_with_memo:type_name -> meshtrade.testing.ledger.token_tap.v1.StellarMintTokenWithMemo
-	6, // 4: meshtrade.testing.ledger.token_tap.v1.SolanaMintOptions.solana_mint_options:type_name -> meshtrade.testing.ledger.token_tap.v1.SolanaMintOption
+	6, // 4: meshtrade.testing.ledger.token_tap.v1.SolanaMintOptions.options:type_name -> meshtrade.testing.ledger.token_tap.v1.SolanaMintOption
 	7, // 5: meshtrade.testing.ledger.token_tap.v1.SolanaMintOption.solana_mint_token_option:type_name -> meshtrade.testing.ledger.token_tap.v1.SolanaMintTokenOption
 	0, // 6: meshtrade.testing.ledger.token_tap.v1.SolanaMintTokenOption.token:type_name -> meshtrade.testing.ledger.token_tap.v1.SolanaMintToken
 	7, // [7:7] is the sub-list for method output_type

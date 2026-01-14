@@ -1042,27 +1042,27 @@ public final class Option extends com.google.protobuf.GeneratedFile {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption stellar_mint_options = 1 [json_name = "stellarMintOptions"];</code>
+     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption options = 1 [json_name = "options"];</code>
      */
     java.util.List<co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption> 
-        getStellarMintOptionsList();
+        getOptionsList();
     /**
-     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption stellar_mint_options = 1 [json_name = "stellarMintOptions"];</code>
+     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption options = 1 [json_name = "options"];</code>
      */
-    co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption getStellarMintOptions(int index);
+    co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption getOptions(int index);
     /**
-     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption stellar_mint_options = 1 [json_name = "stellarMintOptions"];</code>
+     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption options = 1 [json_name = "options"];</code>
      */
-    int getStellarMintOptionsCount();
+    int getOptionsCount();
     /**
-     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption stellar_mint_options = 1 [json_name = "stellarMintOptions"];</code>
+     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption options = 1 [json_name = "options"];</code>
      */
     java.util.List<? extends co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOptionOrBuilder> 
-        getStellarMintOptionsOrBuilderList();
+        getOptionsOrBuilderList();
     /**
-     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption stellar_mint_options = 1 [json_name = "stellarMintOptions"];</code>
+     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption options = 1 [json_name = "options"];</code>
      */
-    co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOptionOrBuilder getStellarMintOptionsOrBuilder(
+    co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOptionOrBuilder getOptionsOrBuilder(
         int index);
   }
   /**
@@ -1087,7 +1087,7 @@ public final class Option extends com.google.protobuf.GeneratedFile {
       super(builder);
     }
     private StellarMintOptions() {
-      stellarMintOptions_ = java.util.Collections.emptyList();
+      options_ = java.util.Collections.emptyList();
     }
 
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -1103,45 +1103,45 @@ public final class Option extends com.google.protobuf.GeneratedFile {
               co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOptions.class, co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOptions.Builder.class);
     }
 
-    public static final int STELLAR_MINT_OPTIONS_FIELD_NUMBER = 1;
+    public static final int OPTIONS_FIELD_NUMBER = 1;
     @SuppressWarnings("serial")
-    private java.util.List<co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption> stellarMintOptions_;
+    private java.util.List<co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption> options_;
     /**
-     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption stellar_mint_options = 1 [json_name = "stellarMintOptions"];</code>
+     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption options = 1 [json_name = "options"];</code>
      */
     @java.lang.Override
-    public java.util.List<co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption> getStellarMintOptionsList() {
-      return stellarMintOptions_;
+    public java.util.List<co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption> getOptionsList() {
+      return options_;
     }
     /**
-     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption stellar_mint_options = 1 [json_name = "stellarMintOptions"];</code>
+     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption options = 1 [json_name = "options"];</code>
      */
     @java.lang.Override
     public java.util.List<? extends co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOptionOrBuilder> 
-        getStellarMintOptionsOrBuilderList() {
-      return stellarMintOptions_;
+        getOptionsOrBuilderList() {
+      return options_;
     }
     /**
-     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption stellar_mint_options = 1 [json_name = "stellarMintOptions"];</code>
+     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption options = 1 [json_name = "options"];</code>
      */
     @java.lang.Override
-    public int getStellarMintOptionsCount() {
-      return stellarMintOptions_.size();
+    public int getOptionsCount() {
+      return options_.size();
     }
     /**
-     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption stellar_mint_options = 1 [json_name = "stellarMintOptions"];</code>
+     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption options = 1 [json_name = "options"];</code>
      */
     @java.lang.Override
-    public co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption getStellarMintOptions(int index) {
-      return stellarMintOptions_.get(index);
+    public co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption getOptions(int index) {
+      return options_.get(index);
     }
     /**
-     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption stellar_mint_options = 1 [json_name = "stellarMintOptions"];</code>
+     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption options = 1 [json_name = "options"];</code>
      */
     @java.lang.Override
-    public co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOptionOrBuilder getStellarMintOptionsOrBuilder(
+    public co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOptionOrBuilder getOptionsOrBuilder(
         int index) {
-      return stellarMintOptions_.get(index);
+      return options_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
@@ -1158,8 +1158,8 @@ public final class Option extends com.google.protobuf.GeneratedFile {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      for (int i = 0; i < stellarMintOptions_.size(); i++) {
-        output.writeMessage(1, stellarMintOptions_.get(i));
+      for (int i = 0; i < options_.size(); i++) {
+        output.writeMessage(1, options_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -1170,9 +1170,9 @@ public final class Option extends com.google.protobuf.GeneratedFile {
       if (size != -1) return size;
 
       size = 0;
-      for (int i = 0; i < stellarMintOptions_.size(); i++) {
+      for (int i = 0; i < options_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, stellarMintOptions_.get(i));
+          .computeMessageSize(1, options_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -1189,8 +1189,8 @@ public final class Option extends com.google.protobuf.GeneratedFile {
       }
       co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOptions other = (co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOptions) obj;
 
-      if (!getStellarMintOptionsList()
-          .equals(other.getStellarMintOptionsList())) return false;
+      if (!getOptionsList()
+          .equals(other.getOptionsList())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -1202,9 +1202,9 @@ public final class Option extends com.google.protobuf.GeneratedFile {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      if (getStellarMintOptionsCount() > 0) {
-        hash = (37 * hash) + STELLAR_MINT_OPTIONS_FIELD_NUMBER;
-        hash = (53 * hash) + getStellarMintOptionsList().hashCode();
+      if (getOptionsCount() > 0) {
+        hash = (37 * hash) + OPTIONS_FIELD_NUMBER;
+        hash = (53 * hash) + getOptionsList().hashCode();
       }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
@@ -1337,11 +1337,11 @@ public final class Option extends com.google.protobuf.GeneratedFile {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        if (stellarMintOptionsBuilder_ == null) {
-          stellarMintOptions_ = java.util.Collections.emptyList();
+        if (optionsBuilder_ == null) {
+          options_ = java.util.Collections.emptyList();
         } else {
-          stellarMintOptions_ = null;
-          stellarMintOptionsBuilder_.clear();
+          options_ = null;
+          optionsBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000001);
         return this;
@@ -1377,14 +1377,14 @@ public final class Option extends com.google.protobuf.GeneratedFile {
       }
 
       private void buildPartialRepeatedFields(co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOptions result) {
-        if (stellarMintOptionsBuilder_ == null) {
+        if (optionsBuilder_ == null) {
           if (((bitField0_ & 0x00000001) != 0)) {
-            stellarMintOptions_ = java.util.Collections.unmodifiableList(stellarMintOptions_);
+            options_ = java.util.Collections.unmodifiableList(options_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
-          result.stellarMintOptions_ = stellarMintOptions_;
+          result.options_ = options_;
         } else {
-          result.stellarMintOptions_ = stellarMintOptionsBuilder_.build();
+          result.options_ = optionsBuilder_.build();
         }
       }
 
@@ -1404,29 +1404,29 @@ public final class Option extends com.google.protobuf.GeneratedFile {
 
       public Builder mergeFrom(co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOptions other) {
         if (other == co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOptions.getDefaultInstance()) return this;
-        if (stellarMintOptionsBuilder_ == null) {
-          if (!other.stellarMintOptions_.isEmpty()) {
-            if (stellarMintOptions_.isEmpty()) {
-              stellarMintOptions_ = other.stellarMintOptions_;
+        if (optionsBuilder_ == null) {
+          if (!other.options_.isEmpty()) {
+            if (options_.isEmpty()) {
+              options_ = other.options_;
               bitField0_ = (bitField0_ & ~0x00000001);
             } else {
-              ensureStellarMintOptionsIsMutable();
-              stellarMintOptions_.addAll(other.stellarMintOptions_);
+              ensureOptionsIsMutable();
+              options_.addAll(other.options_);
             }
             onChanged();
           }
         } else {
-          if (!other.stellarMintOptions_.isEmpty()) {
-            if (stellarMintOptionsBuilder_.isEmpty()) {
-              stellarMintOptionsBuilder_.dispose();
-              stellarMintOptionsBuilder_ = null;
-              stellarMintOptions_ = other.stellarMintOptions_;
+          if (!other.options_.isEmpty()) {
+            if (optionsBuilder_.isEmpty()) {
+              optionsBuilder_.dispose();
+              optionsBuilder_ = null;
+              options_ = other.options_;
               bitField0_ = (bitField0_ & ~0x00000001);
-              stellarMintOptionsBuilder_ = 
+              optionsBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   internalGetStellarMintOptionsFieldBuilder() : null;
+                   internalGetOptionsFieldBuilder() : null;
             } else {
-              stellarMintOptionsBuilder_.addAllMessages(other.stellarMintOptions_);
+              optionsBuilder_.addAllMessages(other.options_);
             }
           }
         }
@@ -1461,11 +1461,11 @@ public final class Option extends com.google.protobuf.GeneratedFile {
                     input.readMessage(
                         co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption.parser(),
                         extensionRegistry);
-                if (stellarMintOptionsBuilder_ == null) {
-                  ensureStellarMintOptionsIsMutable();
-                  stellarMintOptions_.add(m);
+                if (optionsBuilder_ == null) {
+                  ensureOptionsIsMutable();
+                  options_.add(m);
                 } else {
-                  stellarMintOptionsBuilder_.addMessage(m);
+                  optionsBuilder_.addMessage(m);
                 }
                 break;
               } // case 10
@@ -1486,244 +1486,244 @@ public final class Option extends com.google.protobuf.GeneratedFile {
       }
       private int bitField0_;
 
-      private java.util.List<co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption> stellarMintOptions_ =
+      private java.util.List<co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption> options_ =
         java.util.Collections.emptyList();
-      private void ensureStellarMintOptionsIsMutable() {
+      private void ensureOptionsIsMutable() {
         if (!((bitField0_ & 0x00000001) != 0)) {
-          stellarMintOptions_ = new java.util.ArrayList<co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption>(stellarMintOptions_);
+          options_ = new java.util.ArrayList<co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption>(options_);
           bitField0_ |= 0x00000001;
          }
       }
 
       private com.google.protobuf.RepeatedFieldBuilder<
-          co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption, co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption.Builder, co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOptionOrBuilder> stellarMintOptionsBuilder_;
+          co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption, co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption.Builder, co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOptionOrBuilder> optionsBuilder_;
 
       /**
-       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption stellar_mint_options = 1 [json_name = "stellarMintOptions"];</code>
+       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption options = 1 [json_name = "options"];</code>
        */
-      public java.util.List<co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption> getStellarMintOptionsList() {
-        if (stellarMintOptionsBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(stellarMintOptions_);
+      public java.util.List<co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption> getOptionsList() {
+        if (optionsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(options_);
         } else {
-          return stellarMintOptionsBuilder_.getMessageList();
+          return optionsBuilder_.getMessageList();
         }
       }
       /**
-       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption stellar_mint_options = 1 [json_name = "stellarMintOptions"];</code>
+       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption options = 1 [json_name = "options"];</code>
        */
-      public int getStellarMintOptionsCount() {
-        if (stellarMintOptionsBuilder_ == null) {
-          return stellarMintOptions_.size();
+      public int getOptionsCount() {
+        if (optionsBuilder_ == null) {
+          return options_.size();
         } else {
-          return stellarMintOptionsBuilder_.getCount();
+          return optionsBuilder_.getCount();
         }
       }
       /**
-       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption stellar_mint_options = 1 [json_name = "stellarMintOptions"];</code>
+       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption options = 1 [json_name = "options"];</code>
        */
-      public co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption getStellarMintOptions(int index) {
-        if (stellarMintOptionsBuilder_ == null) {
-          return stellarMintOptions_.get(index);
+      public co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption getOptions(int index) {
+        if (optionsBuilder_ == null) {
+          return options_.get(index);
         } else {
-          return stellarMintOptionsBuilder_.getMessage(index);
+          return optionsBuilder_.getMessage(index);
         }
       }
       /**
-       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption stellar_mint_options = 1 [json_name = "stellarMintOptions"];</code>
+       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption options = 1 [json_name = "options"];</code>
        */
-      public Builder setStellarMintOptions(
+      public Builder setOptions(
           int index, co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption value) {
-        if (stellarMintOptionsBuilder_ == null) {
+        if (optionsBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensureStellarMintOptionsIsMutable();
-          stellarMintOptions_.set(index, value);
+          ensureOptionsIsMutable();
+          options_.set(index, value);
           onChanged();
         } else {
-          stellarMintOptionsBuilder_.setMessage(index, value);
+          optionsBuilder_.setMessage(index, value);
         }
         return this;
       }
       /**
-       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption stellar_mint_options = 1 [json_name = "stellarMintOptions"];</code>
+       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption options = 1 [json_name = "options"];</code>
        */
-      public Builder setStellarMintOptions(
+      public Builder setOptions(
           int index, co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption.Builder builderForValue) {
-        if (stellarMintOptionsBuilder_ == null) {
-          ensureStellarMintOptionsIsMutable();
-          stellarMintOptions_.set(index, builderForValue.build());
+        if (optionsBuilder_ == null) {
+          ensureOptionsIsMutable();
+          options_.set(index, builderForValue.build());
           onChanged();
         } else {
-          stellarMintOptionsBuilder_.setMessage(index, builderForValue.build());
+          optionsBuilder_.setMessage(index, builderForValue.build());
         }
         return this;
       }
       /**
-       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption stellar_mint_options = 1 [json_name = "stellarMintOptions"];</code>
+       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption options = 1 [json_name = "options"];</code>
        */
-      public Builder addStellarMintOptions(co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption value) {
-        if (stellarMintOptionsBuilder_ == null) {
+      public Builder addOptions(co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption value) {
+        if (optionsBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensureStellarMintOptionsIsMutable();
-          stellarMintOptions_.add(value);
+          ensureOptionsIsMutable();
+          options_.add(value);
           onChanged();
         } else {
-          stellarMintOptionsBuilder_.addMessage(value);
+          optionsBuilder_.addMessage(value);
         }
         return this;
       }
       /**
-       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption stellar_mint_options = 1 [json_name = "stellarMintOptions"];</code>
+       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption options = 1 [json_name = "options"];</code>
        */
-      public Builder addStellarMintOptions(
+      public Builder addOptions(
           int index, co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption value) {
-        if (stellarMintOptionsBuilder_ == null) {
+        if (optionsBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensureStellarMintOptionsIsMutable();
-          stellarMintOptions_.add(index, value);
+          ensureOptionsIsMutable();
+          options_.add(index, value);
           onChanged();
         } else {
-          stellarMintOptionsBuilder_.addMessage(index, value);
+          optionsBuilder_.addMessage(index, value);
         }
         return this;
       }
       /**
-       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption stellar_mint_options = 1 [json_name = "stellarMintOptions"];</code>
+       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption options = 1 [json_name = "options"];</code>
        */
-      public Builder addStellarMintOptions(
+      public Builder addOptions(
           co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption.Builder builderForValue) {
-        if (stellarMintOptionsBuilder_ == null) {
-          ensureStellarMintOptionsIsMutable();
-          stellarMintOptions_.add(builderForValue.build());
+        if (optionsBuilder_ == null) {
+          ensureOptionsIsMutable();
+          options_.add(builderForValue.build());
           onChanged();
         } else {
-          stellarMintOptionsBuilder_.addMessage(builderForValue.build());
+          optionsBuilder_.addMessage(builderForValue.build());
         }
         return this;
       }
       /**
-       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption stellar_mint_options = 1 [json_name = "stellarMintOptions"];</code>
+       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption options = 1 [json_name = "options"];</code>
        */
-      public Builder addStellarMintOptions(
+      public Builder addOptions(
           int index, co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption.Builder builderForValue) {
-        if (stellarMintOptionsBuilder_ == null) {
-          ensureStellarMintOptionsIsMutable();
-          stellarMintOptions_.add(index, builderForValue.build());
+        if (optionsBuilder_ == null) {
+          ensureOptionsIsMutable();
+          options_.add(index, builderForValue.build());
           onChanged();
         } else {
-          stellarMintOptionsBuilder_.addMessage(index, builderForValue.build());
+          optionsBuilder_.addMessage(index, builderForValue.build());
         }
         return this;
       }
       /**
-       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption stellar_mint_options = 1 [json_name = "stellarMintOptions"];</code>
+       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption options = 1 [json_name = "options"];</code>
        */
-      public Builder addAllStellarMintOptions(
+      public Builder addAllOptions(
           java.lang.Iterable<? extends co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption> values) {
-        if (stellarMintOptionsBuilder_ == null) {
-          ensureStellarMintOptionsIsMutable();
+        if (optionsBuilder_ == null) {
+          ensureOptionsIsMutable();
           com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, stellarMintOptions_);
+              values, options_);
           onChanged();
         } else {
-          stellarMintOptionsBuilder_.addAllMessages(values);
+          optionsBuilder_.addAllMessages(values);
         }
         return this;
       }
       /**
-       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption stellar_mint_options = 1 [json_name = "stellarMintOptions"];</code>
+       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption options = 1 [json_name = "options"];</code>
        */
-      public Builder clearStellarMintOptions() {
-        if (stellarMintOptionsBuilder_ == null) {
-          stellarMintOptions_ = java.util.Collections.emptyList();
+      public Builder clearOptions() {
+        if (optionsBuilder_ == null) {
+          options_ = java.util.Collections.emptyList();
           bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
-          stellarMintOptionsBuilder_.clear();
+          optionsBuilder_.clear();
         }
         return this;
       }
       /**
-       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption stellar_mint_options = 1 [json_name = "stellarMintOptions"];</code>
+       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption options = 1 [json_name = "options"];</code>
        */
-      public Builder removeStellarMintOptions(int index) {
-        if (stellarMintOptionsBuilder_ == null) {
-          ensureStellarMintOptionsIsMutable();
-          stellarMintOptions_.remove(index);
+      public Builder removeOptions(int index) {
+        if (optionsBuilder_ == null) {
+          ensureOptionsIsMutable();
+          options_.remove(index);
           onChanged();
         } else {
-          stellarMintOptionsBuilder_.remove(index);
+          optionsBuilder_.remove(index);
         }
         return this;
       }
       /**
-       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption stellar_mint_options = 1 [json_name = "stellarMintOptions"];</code>
+       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption options = 1 [json_name = "options"];</code>
        */
-      public co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption.Builder getStellarMintOptionsBuilder(
+      public co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption.Builder getOptionsBuilder(
           int index) {
-        return internalGetStellarMintOptionsFieldBuilder().getBuilder(index);
+        return internalGetOptionsFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption stellar_mint_options = 1 [json_name = "stellarMintOptions"];</code>
+       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption options = 1 [json_name = "options"];</code>
        */
-      public co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOptionOrBuilder getStellarMintOptionsOrBuilder(
+      public co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOptionOrBuilder getOptionsOrBuilder(
           int index) {
-        if (stellarMintOptionsBuilder_ == null) {
-          return stellarMintOptions_.get(index);  } else {
-          return stellarMintOptionsBuilder_.getMessageOrBuilder(index);
+        if (optionsBuilder_ == null) {
+          return options_.get(index);  } else {
+          return optionsBuilder_.getMessageOrBuilder(index);
         }
       }
       /**
-       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption stellar_mint_options = 1 [json_name = "stellarMintOptions"];</code>
+       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption options = 1 [json_name = "options"];</code>
        */
       public java.util.List<? extends co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOptionOrBuilder> 
-           getStellarMintOptionsOrBuilderList() {
-        if (stellarMintOptionsBuilder_ != null) {
-          return stellarMintOptionsBuilder_.getMessageOrBuilderList();
+           getOptionsOrBuilderList() {
+        if (optionsBuilder_ != null) {
+          return optionsBuilder_.getMessageOrBuilderList();
         } else {
-          return java.util.Collections.unmodifiableList(stellarMintOptions_);
+          return java.util.Collections.unmodifiableList(options_);
         }
       }
       /**
-       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption stellar_mint_options = 1 [json_name = "stellarMintOptions"];</code>
+       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption options = 1 [json_name = "options"];</code>
        */
-      public co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption.Builder addStellarMintOptionsBuilder() {
-        return internalGetStellarMintOptionsFieldBuilder().addBuilder(
+      public co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption.Builder addOptionsBuilder() {
+        return internalGetOptionsFieldBuilder().addBuilder(
             co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption.getDefaultInstance());
       }
       /**
-       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption stellar_mint_options = 1 [json_name = "stellarMintOptions"];</code>
+       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption options = 1 [json_name = "options"];</code>
        */
-      public co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption.Builder addStellarMintOptionsBuilder(
+      public co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption.Builder addOptionsBuilder(
           int index) {
-        return internalGetStellarMintOptionsFieldBuilder().addBuilder(
+        return internalGetOptionsFieldBuilder().addBuilder(
             index, co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption.getDefaultInstance());
       }
       /**
-       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption stellar_mint_options = 1 [json_name = "stellarMintOptions"];</code>
+       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.StellarMintOption options = 1 [json_name = "options"];</code>
        */
       public java.util.List<co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption.Builder> 
-           getStellarMintOptionsBuilderList() {
-        return internalGetStellarMintOptionsFieldBuilder().getBuilderList();
+           getOptionsBuilderList() {
+        return internalGetOptionsFieldBuilder().getBuilderList();
       }
       private com.google.protobuf.RepeatedFieldBuilder<
           co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption, co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption.Builder, co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOptionOrBuilder> 
-          internalGetStellarMintOptionsFieldBuilder() {
-        if (stellarMintOptionsBuilder_ == null) {
-          stellarMintOptionsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+          internalGetOptionsFieldBuilder() {
+        if (optionsBuilder_ == null) {
+          optionsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption, co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOption.Builder, co.meshtrade.api.testing.ledger.token_tap.v1.Option.StellarMintOptionOrBuilder>(
-                  stellarMintOptions_,
+                  options_,
                   ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
-          stellarMintOptions_ = null;
+          options_ = null;
         }
-        return stellarMintOptionsBuilder_;
+        return optionsBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:meshtrade.testing.ledger.token_tap.v1.StellarMintOptions)
@@ -2954,27 +2954,27 @@ public final class Option extends com.google.protobuf.GeneratedFile {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption solana_mint_options = 1 [json_name = "solanaMintOptions"];</code>
+     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption options = 1 [json_name = "options"];</code>
      */
     java.util.List<co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption> 
-        getSolanaMintOptionsList();
+        getOptionsList();
     /**
-     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption solana_mint_options = 1 [json_name = "solanaMintOptions"];</code>
+     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption options = 1 [json_name = "options"];</code>
      */
-    co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption getSolanaMintOptions(int index);
+    co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption getOptions(int index);
     /**
-     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption solana_mint_options = 1 [json_name = "solanaMintOptions"];</code>
+     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption options = 1 [json_name = "options"];</code>
      */
-    int getSolanaMintOptionsCount();
+    int getOptionsCount();
     /**
-     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption solana_mint_options = 1 [json_name = "solanaMintOptions"];</code>
+     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption options = 1 [json_name = "options"];</code>
      */
     java.util.List<? extends co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOptionOrBuilder> 
-        getSolanaMintOptionsOrBuilderList();
+        getOptionsOrBuilderList();
     /**
-     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption solana_mint_options = 1 [json_name = "solanaMintOptions"];</code>
+     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption options = 1 [json_name = "options"];</code>
      */
-    co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOptionOrBuilder getSolanaMintOptionsOrBuilder(
+    co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOptionOrBuilder getOptionsOrBuilder(
         int index);
   }
   /**
@@ -2999,7 +2999,7 @@ public final class Option extends com.google.protobuf.GeneratedFile {
       super(builder);
     }
     private SolanaMintOptions() {
-      solanaMintOptions_ = java.util.Collections.emptyList();
+      options_ = java.util.Collections.emptyList();
     }
 
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -3015,45 +3015,45 @@ public final class Option extends com.google.protobuf.GeneratedFile {
               co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOptions.class, co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOptions.Builder.class);
     }
 
-    public static final int SOLANA_MINT_OPTIONS_FIELD_NUMBER = 1;
+    public static final int OPTIONS_FIELD_NUMBER = 1;
     @SuppressWarnings("serial")
-    private java.util.List<co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption> solanaMintOptions_;
+    private java.util.List<co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption> options_;
     /**
-     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption solana_mint_options = 1 [json_name = "solanaMintOptions"];</code>
+     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption options = 1 [json_name = "options"];</code>
      */
     @java.lang.Override
-    public java.util.List<co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption> getSolanaMintOptionsList() {
-      return solanaMintOptions_;
+    public java.util.List<co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption> getOptionsList() {
+      return options_;
     }
     /**
-     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption solana_mint_options = 1 [json_name = "solanaMintOptions"];</code>
+     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption options = 1 [json_name = "options"];</code>
      */
     @java.lang.Override
     public java.util.List<? extends co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOptionOrBuilder> 
-        getSolanaMintOptionsOrBuilderList() {
-      return solanaMintOptions_;
+        getOptionsOrBuilderList() {
+      return options_;
     }
     /**
-     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption solana_mint_options = 1 [json_name = "solanaMintOptions"];</code>
+     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption options = 1 [json_name = "options"];</code>
      */
     @java.lang.Override
-    public int getSolanaMintOptionsCount() {
-      return solanaMintOptions_.size();
+    public int getOptionsCount() {
+      return options_.size();
     }
     /**
-     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption solana_mint_options = 1 [json_name = "solanaMintOptions"];</code>
+     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption options = 1 [json_name = "options"];</code>
      */
     @java.lang.Override
-    public co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption getSolanaMintOptions(int index) {
-      return solanaMintOptions_.get(index);
+    public co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption getOptions(int index) {
+      return options_.get(index);
     }
     /**
-     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption solana_mint_options = 1 [json_name = "solanaMintOptions"];</code>
+     * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption options = 1 [json_name = "options"];</code>
      */
     @java.lang.Override
-    public co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOptionOrBuilder getSolanaMintOptionsOrBuilder(
+    public co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOptionOrBuilder getOptionsOrBuilder(
         int index) {
-      return solanaMintOptions_.get(index);
+      return options_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
@@ -3070,8 +3070,8 @@ public final class Option extends com.google.protobuf.GeneratedFile {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      for (int i = 0; i < solanaMintOptions_.size(); i++) {
-        output.writeMessage(1, solanaMintOptions_.get(i));
+      for (int i = 0; i < options_.size(); i++) {
+        output.writeMessage(1, options_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -3082,9 +3082,9 @@ public final class Option extends com.google.protobuf.GeneratedFile {
       if (size != -1) return size;
 
       size = 0;
-      for (int i = 0; i < solanaMintOptions_.size(); i++) {
+      for (int i = 0; i < options_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, solanaMintOptions_.get(i));
+          .computeMessageSize(1, options_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -3101,8 +3101,8 @@ public final class Option extends com.google.protobuf.GeneratedFile {
       }
       co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOptions other = (co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOptions) obj;
 
-      if (!getSolanaMintOptionsList()
-          .equals(other.getSolanaMintOptionsList())) return false;
+      if (!getOptionsList()
+          .equals(other.getOptionsList())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -3114,9 +3114,9 @@ public final class Option extends com.google.protobuf.GeneratedFile {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      if (getSolanaMintOptionsCount() > 0) {
-        hash = (37 * hash) + SOLANA_MINT_OPTIONS_FIELD_NUMBER;
-        hash = (53 * hash) + getSolanaMintOptionsList().hashCode();
+      if (getOptionsCount() > 0) {
+        hash = (37 * hash) + OPTIONS_FIELD_NUMBER;
+        hash = (53 * hash) + getOptionsList().hashCode();
       }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
@@ -3249,11 +3249,11 @@ public final class Option extends com.google.protobuf.GeneratedFile {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        if (solanaMintOptionsBuilder_ == null) {
-          solanaMintOptions_ = java.util.Collections.emptyList();
+        if (optionsBuilder_ == null) {
+          options_ = java.util.Collections.emptyList();
         } else {
-          solanaMintOptions_ = null;
-          solanaMintOptionsBuilder_.clear();
+          options_ = null;
+          optionsBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000001);
         return this;
@@ -3289,14 +3289,14 @@ public final class Option extends com.google.protobuf.GeneratedFile {
       }
 
       private void buildPartialRepeatedFields(co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOptions result) {
-        if (solanaMintOptionsBuilder_ == null) {
+        if (optionsBuilder_ == null) {
           if (((bitField0_ & 0x00000001) != 0)) {
-            solanaMintOptions_ = java.util.Collections.unmodifiableList(solanaMintOptions_);
+            options_ = java.util.Collections.unmodifiableList(options_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
-          result.solanaMintOptions_ = solanaMintOptions_;
+          result.options_ = options_;
         } else {
-          result.solanaMintOptions_ = solanaMintOptionsBuilder_.build();
+          result.options_ = optionsBuilder_.build();
         }
       }
 
@@ -3316,29 +3316,29 @@ public final class Option extends com.google.protobuf.GeneratedFile {
 
       public Builder mergeFrom(co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOptions other) {
         if (other == co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOptions.getDefaultInstance()) return this;
-        if (solanaMintOptionsBuilder_ == null) {
-          if (!other.solanaMintOptions_.isEmpty()) {
-            if (solanaMintOptions_.isEmpty()) {
-              solanaMintOptions_ = other.solanaMintOptions_;
+        if (optionsBuilder_ == null) {
+          if (!other.options_.isEmpty()) {
+            if (options_.isEmpty()) {
+              options_ = other.options_;
               bitField0_ = (bitField0_ & ~0x00000001);
             } else {
-              ensureSolanaMintOptionsIsMutable();
-              solanaMintOptions_.addAll(other.solanaMintOptions_);
+              ensureOptionsIsMutable();
+              options_.addAll(other.options_);
             }
             onChanged();
           }
         } else {
-          if (!other.solanaMintOptions_.isEmpty()) {
-            if (solanaMintOptionsBuilder_.isEmpty()) {
-              solanaMintOptionsBuilder_.dispose();
-              solanaMintOptionsBuilder_ = null;
-              solanaMintOptions_ = other.solanaMintOptions_;
+          if (!other.options_.isEmpty()) {
+            if (optionsBuilder_.isEmpty()) {
+              optionsBuilder_.dispose();
+              optionsBuilder_ = null;
+              options_ = other.options_;
               bitField0_ = (bitField0_ & ~0x00000001);
-              solanaMintOptionsBuilder_ = 
+              optionsBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   internalGetSolanaMintOptionsFieldBuilder() : null;
+                   internalGetOptionsFieldBuilder() : null;
             } else {
-              solanaMintOptionsBuilder_.addAllMessages(other.solanaMintOptions_);
+              optionsBuilder_.addAllMessages(other.options_);
             }
           }
         }
@@ -3373,11 +3373,11 @@ public final class Option extends com.google.protobuf.GeneratedFile {
                     input.readMessage(
                         co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption.parser(),
                         extensionRegistry);
-                if (solanaMintOptionsBuilder_ == null) {
-                  ensureSolanaMintOptionsIsMutable();
-                  solanaMintOptions_.add(m);
+                if (optionsBuilder_ == null) {
+                  ensureOptionsIsMutable();
+                  options_.add(m);
                 } else {
-                  solanaMintOptionsBuilder_.addMessage(m);
+                  optionsBuilder_.addMessage(m);
                 }
                 break;
               } // case 10
@@ -3398,244 +3398,244 @@ public final class Option extends com.google.protobuf.GeneratedFile {
       }
       private int bitField0_;
 
-      private java.util.List<co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption> solanaMintOptions_ =
+      private java.util.List<co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption> options_ =
         java.util.Collections.emptyList();
-      private void ensureSolanaMintOptionsIsMutable() {
+      private void ensureOptionsIsMutable() {
         if (!((bitField0_ & 0x00000001) != 0)) {
-          solanaMintOptions_ = new java.util.ArrayList<co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption>(solanaMintOptions_);
+          options_ = new java.util.ArrayList<co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption>(options_);
           bitField0_ |= 0x00000001;
          }
       }
 
       private com.google.protobuf.RepeatedFieldBuilder<
-          co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption, co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption.Builder, co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOptionOrBuilder> solanaMintOptionsBuilder_;
+          co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption, co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption.Builder, co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOptionOrBuilder> optionsBuilder_;
 
       /**
-       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption solana_mint_options = 1 [json_name = "solanaMintOptions"];</code>
+       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption options = 1 [json_name = "options"];</code>
        */
-      public java.util.List<co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption> getSolanaMintOptionsList() {
-        if (solanaMintOptionsBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(solanaMintOptions_);
+      public java.util.List<co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption> getOptionsList() {
+        if (optionsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(options_);
         } else {
-          return solanaMintOptionsBuilder_.getMessageList();
+          return optionsBuilder_.getMessageList();
         }
       }
       /**
-       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption solana_mint_options = 1 [json_name = "solanaMintOptions"];</code>
+       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption options = 1 [json_name = "options"];</code>
        */
-      public int getSolanaMintOptionsCount() {
-        if (solanaMintOptionsBuilder_ == null) {
-          return solanaMintOptions_.size();
+      public int getOptionsCount() {
+        if (optionsBuilder_ == null) {
+          return options_.size();
         } else {
-          return solanaMintOptionsBuilder_.getCount();
+          return optionsBuilder_.getCount();
         }
       }
       /**
-       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption solana_mint_options = 1 [json_name = "solanaMintOptions"];</code>
+       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption options = 1 [json_name = "options"];</code>
        */
-      public co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption getSolanaMintOptions(int index) {
-        if (solanaMintOptionsBuilder_ == null) {
-          return solanaMintOptions_.get(index);
+      public co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption getOptions(int index) {
+        if (optionsBuilder_ == null) {
+          return options_.get(index);
         } else {
-          return solanaMintOptionsBuilder_.getMessage(index);
+          return optionsBuilder_.getMessage(index);
         }
       }
       /**
-       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption solana_mint_options = 1 [json_name = "solanaMintOptions"];</code>
+       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption options = 1 [json_name = "options"];</code>
        */
-      public Builder setSolanaMintOptions(
+      public Builder setOptions(
           int index, co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption value) {
-        if (solanaMintOptionsBuilder_ == null) {
+        if (optionsBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensureSolanaMintOptionsIsMutable();
-          solanaMintOptions_.set(index, value);
+          ensureOptionsIsMutable();
+          options_.set(index, value);
           onChanged();
         } else {
-          solanaMintOptionsBuilder_.setMessage(index, value);
+          optionsBuilder_.setMessage(index, value);
         }
         return this;
       }
       /**
-       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption solana_mint_options = 1 [json_name = "solanaMintOptions"];</code>
+       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption options = 1 [json_name = "options"];</code>
        */
-      public Builder setSolanaMintOptions(
+      public Builder setOptions(
           int index, co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption.Builder builderForValue) {
-        if (solanaMintOptionsBuilder_ == null) {
-          ensureSolanaMintOptionsIsMutable();
-          solanaMintOptions_.set(index, builderForValue.build());
+        if (optionsBuilder_ == null) {
+          ensureOptionsIsMutable();
+          options_.set(index, builderForValue.build());
           onChanged();
         } else {
-          solanaMintOptionsBuilder_.setMessage(index, builderForValue.build());
+          optionsBuilder_.setMessage(index, builderForValue.build());
         }
         return this;
       }
       /**
-       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption solana_mint_options = 1 [json_name = "solanaMintOptions"];</code>
+       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption options = 1 [json_name = "options"];</code>
        */
-      public Builder addSolanaMintOptions(co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption value) {
-        if (solanaMintOptionsBuilder_ == null) {
+      public Builder addOptions(co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption value) {
+        if (optionsBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensureSolanaMintOptionsIsMutable();
-          solanaMintOptions_.add(value);
+          ensureOptionsIsMutable();
+          options_.add(value);
           onChanged();
         } else {
-          solanaMintOptionsBuilder_.addMessage(value);
+          optionsBuilder_.addMessage(value);
         }
         return this;
       }
       /**
-       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption solana_mint_options = 1 [json_name = "solanaMintOptions"];</code>
+       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption options = 1 [json_name = "options"];</code>
        */
-      public Builder addSolanaMintOptions(
+      public Builder addOptions(
           int index, co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption value) {
-        if (solanaMintOptionsBuilder_ == null) {
+        if (optionsBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensureSolanaMintOptionsIsMutable();
-          solanaMintOptions_.add(index, value);
+          ensureOptionsIsMutable();
+          options_.add(index, value);
           onChanged();
         } else {
-          solanaMintOptionsBuilder_.addMessage(index, value);
+          optionsBuilder_.addMessage(index, value);
         }
         return this;
       }
       /**
-       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption solana_mint_options = 1 [json_name = "solanaMintOptions"];</code>
+       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption options = 1 [json_name = "options"];</code>
        */
-      public Builder addSolanaMintOptions(
+      public Builder addOptions(
           co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption.Builder builderForValue) {
-        if (solanaMintOptionsBuilder_ == null) {
-          ensureSolanaMintOptionsIsMutable();
-          solanaMintOptions_.add(builderForValue.build());
+        if (optionsBuilder_ == null) {
+          ensureOptionsIsMutable();
+          options_.add(builderForValue.build());
           onChanged();
         } else {
-          solanaMintOptionsBuilder_.addMessage(builderForValue.build());
+          optionsBuilder_.addMessage(builderForValue.build());
         }
         return this;
       }
       /**
-       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption solana_mint_options = 1 [json_name = "solanaMintOptions"];</code>
+       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption options = 1 [json_name = "options"];</code>
        */
-      public Builder addSolanaMintOptions(
+      public Builder addOptions(
           int index, co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption.Builder builderForValue) {
-        if (solanaMintOptionsBuilder_ == null) {
-          ensureSolanaMintOptionsIsMutable();
-          solanaMintOptions_.add(index, builderForValue.build());
+        if (optionsBuilder_ == null) {
+          ensureOptionsIsMutable();
+          options_.add(index, builderForValue.build());
           onChanged();
         } else {
-          solanaMintOptionsBuilder_.addMessage(index, builderForValue.build());
+          optionsBuilder_.addMessage(index, builderForValue.build());
         }
         return this;
       }
       /**
-       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption solana_mint_options = 1 [json_name = "solanaMintOptions"];</code>
+       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption options = 1 [json_name = "options"];</code>
        */
-      public Builder addAllSolanaMintOptions(
+      public Builder addAllOptions(
           java.lang.Iterable<? extends co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption> values) {
-        if (solanaMintOptionsBuilder_ == null) {
-          ensureSolanaMintOptionsIsMutable();
+        if (optionsBuilder_ == null) {
+          ensureOptionsIsMutable();
           com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, solanaMintOptions_);
+              values, options_);
           onChanged();
         } else {
-          solanaMintOptionsBuilder_.addAllMessages(values);
+          optionsBuilder_.addAllMessages(values);
         }
         return this;
       }
       /**
-       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption solana_mint_options = 1 [json_name = "solanaMintOptions"];</code>
+       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption options = 1 [json_name = "options"];</code>
        */
-      public Builder clearSolanaMintOptions() {
-        if (solanaMintOptionsBuilder_ == null) {
-          solanaMintOptions_ = java.util.Collections.emptyList();
+      public Builder clearOptions() {
+        if (optionsBuilder_ == null) {
+          options_ = java.util.Collections.emptyList();
           bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
-          solanaMintOptionsBuilder_.clear();
+          optionsBuilder_.clear();
         }
         return this;
       }
       /**
-       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption solana_mint_options = 1 [json_name = "solanaMintOptions"];</code>
+       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption options = 1 [json_name = "options"];</code>
        */
-      public Builder removeSolanaMintOptions(int index) {
-        if (solanaMintOptionsBuilder_ == null) {
-          ensureSolanaMintOptionsIsMutable();
-          solanaMintOptions_.remove(index);
+      public Builder removeOptions(int index) {
+        if (optionsBuilder_ == null) {
+          ensureOptionsIsMutable();
+          options_.remove(index);
           onChanged();
         } else {
-          solanaMintOptionsBuilder_.remove(index);
+          optionsBuilder_.remove(index);
         }
         return this;
       }
       /**
-       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption solana_mint_options = 1 [json_name = "solanaMintOptions"];</code>
+       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption options = 1 [json_name = "options"];</code>
        */
-      public co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption.Builder getSolanaMintOptionsBuilder(
+      public co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption.Builder getOptionsBuilder(
           int index) {
-        return internalGetSolanaMintOptionsFieldBuilder().getBuilder(index);
+        return internalGetOptionsFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption solana_mint_options = 1 [json_name = "solanaMintOptions"];</code>
+       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption options = 1 [json_name = "options"];</code>
        */
-      public co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOptionOrBuilder getSolanaMintOptionsOrBuilder(
+      public co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOptionOrBuilder getOptionsOrBuilder(
           int index) {
-        if (solanaMintOptionsBuilder_ == null) {
-          return solanaMintOptions_.get(index);  } else {
-          return solanaMintOptionsBuilder_.getMessageOrBuilder(index);
+        if (optionsBuilder_ == null) {
+          return options_.get(index);  } else {
+          return optionsBuilder_.getMessageOrBuilder(index);
         }
       }
       /**
-       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption solana_mint_options = 1 [json_name = "solanaMintOptions"];</code>
+       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption options = 1 [json_name = "options"];</code>
        */
       public java.util.List<? extends co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOptionOrBuilder> 
-           getSolanaMintOptionsOrBuilderList() {
-        if (solanaMintOptionsBuilder_ != null) {
-          return solanaMintOptionsBuilder_.getMessageOrBuilderList();
+           getOptionsOrBuilderList() {
+        if (optionsBuilder_ != null) {
+          return optionsBuilder_.getMessageOrBuilderList();
         } else {
-          return java.util.Collections.unmodifiableList(solanaMintOptions_);
+          return java.util.Collections.unmodifiableList(options_);
         }
       }
       /**
-       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption solana_mint_options = 1 [json_name = "solanaMintOptions"];</code>
+       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption options = 1 [json_name = "options"];</code>
        */
-      public co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption.Builder addSolanaMintOptionsBuilder() {
-        return internalGetSolanaMintOptionsFieldBuilder().addBuilder(
+      public co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption.Builder addOptionsBuilder() {
+        return internalGetOptionsFieldBuilder().addBuilder(
             co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption.getDefaultInstance());
       }
       /**
-       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption solana_mint_options = 1 [json_name = "solanaMintOptions"];</code>
+       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption options = 1 [json_name = "options"];</code>
        */
-      public co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption.Builder addSolanaMintOptionsBuilder(
+      public co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption.Builder addOptionsBuilder(
           int index) {
-        return internalGetSolanaMintOptionsFieldBuilder().addBuilder(
+        return internalGetOptionsFieldBuilder().addBuilder(
             index, co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption.getDefaultInstance());
       }
       /**
-       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption solana_mint_options = 1 [json_name = "solanaMintOptions"];</code>
+       * <code>repeated .meshtrade.testing.ledger.token_tap.v1.SolanaMintOption options = 1 [json_name = "options"];</code>
        */
       public java.util.List<co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption.Builder> 
-           getSolanaMintOptionsBuilderList() {
-        return internalGetSolanaMintOptionsFieldBuilder().getBuilderList();
+           getOptionsBuilderList() {
+        return internalGetOptionsFieldBuilder().getBuilderList();
       }
       private com.google.protobuf.RepeatedFieldBuilder<
           co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption, co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption.Builder, co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOptionOrBuilder> 
-          internalGetSolanaMintOptionsFieldBuilder() {
-        if (solanaMintOptionsBuilder_ == null) {
-          solanaMintOptionsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+          internalGetOptionsFieldBuilder() {
+        if (optionsBuilder_ == null) {
+          optionsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption, co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOption.Builder, co.meshtrade.api.testing.ledger.token_tap.v1.Option.SolanaMintOptionOrBuilder>(
-                  solanaMintOptions_,
+                  options_,
                   ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
-          solanaMintOptions_ = null;
+          options_ = null;
         }
-        return solanaMintOptionsBuilder_;
+        return optionsBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:meshtrade.testing.ledger.token_tap.v1.SolanaMintOptions)
@@ -4868,32 +4868,31 @@ public final class Option extends com.google.protobuf.GeneratedFile {
       "sH\000R\022stellarMintOptions\022j\n\023solana_mint_o" +
       "ptions\030\002 \001(\01328.meshtrade.testing.ledger." +
       "token_tap.v1.SolanaMintOptionsH\000R\021solana" +
-      "MintOptionsB\024\n\022mint_token_options\"\200\001\n\022St" +
-      "ellarMintOptions\022j\n\024stellar_mint_options" +
-      "\030\001 \003(\01328.meshtrade.testing.ledger.token_" +
-      "tap.v1.StellarMintOptionR\022stellarMintOpt" +
-      "ions\"\256\001\n\021StellarMintOption\022\201\001\n\034stellar_m" +
-      "int_token_with_memo\030\001 \001(\0132?.meshtrade.te" +
-      "sting.ledger.token_tap.v1.StellarMintTok" +
-      "enWithMemoH\000R\030stellarMintTokenWithMemoB\025" +
-      "\n\023stellar_mint_option\".\n\030StellarMintToke" +
-      "nWithMemo\022\022\n\004memo\030\001 \001(\tR\004memo\"|\n\021SolanaM" +
-      "intOptions\022g\n\023solana_mint_options\030\001 \003(\0132" +
-      "7.meshtrade.testing.ledger.token_tap.v1." +
-      "SolanaMintOptionR\021solanaMintOptions\"\241\001\n\020" +
-      "SolanaMintOption\022w\n\030solana_mint_token_op" +
-      "tion\030\001 \001(\0132<.meshtrade.testing.ledger.to" +
-      "ken_tap.v1.SolanaMintTokenOptionH\000R\025sola" +
-      "naMintTokenOptionB\024\n\022solana_mint_option\"" +
-      "e\n\025SolanaMintTokenOption\022L\n\005token\030\001 \001(\0162" +
-      "6.meshtrade.testing.ledger.token_tap.v1." +
-      "SolanaMintTokenR\005token*n\n\017SolanaMintToke" +
-      "n\022!\n\035SOLANA_MINT_TOKEN_UNSPECIFIED\020\000\022\034\n\030" +
-      "SOLANA_MINT_TOKEN_LEGACY\020\001\022\032\n\026SOLANA_MIN" +
-      "T_TOKEN_2022\020\002Bt\n,co.meshtrade.api.testi" +
-      "ng.ledger.token_tap.v1ZDgithub.com/mesht" +
-      "rade/api/go/testing/ledger/token_tap/v1;" +
-      "token_tap_v1b\006proto3"
+      "MintOptionsB\024\n\022mint_token_options\"h\n\022Ste" +
+      "llarMintOptions\022R\n\007options\030\001 \003(\01328.mesht" +
+      "rade.testing.ledger.token_tap.v1.Stellar" +
+      "MintOptionR\007options\"\256\001\n\021StellarMintOptio" +
+      "n\022\201\001\n\034stellar_mint_token_with_memo\030\001 \001(\013" +
+      "2?.meshtrade.testing.ledger.token_tap.v1" +
+      ".StellarMintTokenWithMemoH\000R\030stellarMint" +
+      "TokenWithMemoB\025\n\023stellar_mint_option\".\n\030" +
+      "StellarMintTokenWithMemo\022\022\n\004memo\030\001 \001(\tR\004" +
+      "memo\"f\n\021SolanaMintOptions\022Q\n\007options\030\001 \003" +
+      "(\01327.meshtrade.testing.ledger.token_tap." +
+      "v1.SolanaMintOptionR\007options\"\241\001\n\020SolanaM" +
+      "intOption\022w\n\030solana_mint_token_option\030\001 " +
+      "\001(\0132<.meshtrade.testing.ledger.token_tap" +
+      ".v1.SolanaMintTokenOptionH\000R\025solanaMintT" +
+      "okenOptionB\024\n\022solana_mint_option\"e\n\025Sola" +
+      "naMintTokenOption\022L\n\005token\030\001 \001(\01626.mesht" +
+      "rade.testing.ledger.token_tap.v1.SolanaM" +
+      "intTokenR\005token*n\n\017SolanaMintToken\022!\n\035SO" +
+      "LANA_MINT_TOKEN_UNSPECIFIED\020\000\022\034\n\030SOLANA_" +
+      "MINT_TOKEN_LEGACY\020\001\022\032\n\026SOLANA_MINT_TOKEN" +
+      "_2022\020\002Bt\n,co.meshtrade.api.testing.ledg" +
+      "er.token_tap.v1ZDgithub.com/meshtrade/ap" +
+      "i/go/testing/ledger/token_tap/v1;token_t" +
+      "ap_v1b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -4910,7 +4909,7 @@ public final class Option extends com.google.protobuf.GeneratedFile {
     internal_static_meshtrade_testing_ledger_token_tap_v1_StellarMintOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_meshtrade_testing_ledger_token_tap_v1_StellarMintOptions_descriptor,
-        new java.lang.String[] { "StellarMintOptions", });
+        new java.lang.String[] { "Options", });
     internal_static_meshtrade_testing_ledger_token_tap_v1_StellarMintOption_descriptor =
       getDescriptor().getMessageType(2);
     internal_static_meshtrade_testing_ledger_token_tap_v1_StellarMintOption_fieldAccessorTable = new
@@ -4928,7 +4927,7 @@ public final class Option extends com.google.protobuf.GeneratedFile {
     internal_static_meshtrade_testing_ledger_token_tap_v1_SolanaMintOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_meshtrade_testing_ledger_token_tap_v1_SolanaMintOptions_descriptor,
-        new java.lang.String[] { "SolanaMintOptions", });
+        new java.lang.String[] { "Options", });
     internal_static_meshtrade_testing_ledger_token_tap_v1_SolanaMintOption_descriptor =
       getDescriptor().getMessageType(5);
     internal_static_meshtrade_testing_ledger_token_tap_v1_SolanaMintOption_fieldAccessorTable = new

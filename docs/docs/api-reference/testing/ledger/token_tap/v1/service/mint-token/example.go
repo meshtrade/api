@@ -4,8 +4,8 @@ import (
 	"context"
 	"log"
 
-	typev1 "github.com/meshtrade/api/go/type/v1"
 	token_tapv1 "github.com/meshtrade/api/go/testing/ledger/token_tap/v1"
+	typev1 "github.com/meshtrade/api/go/type/v1"
 )
 
 func main() {
@@ -42,7 +42,7 @@ func main() {
 		Options: &token_tapv1.MintTokenOptions{
 			MintTokenOptions: &token_tapv1.MintTokenOptions_StellarMintOptions{
 				StellarMintOptions: &token_tapv1.StellarMintOptions{
-					StellarMintOptions: []*token_tapv1.StellarMintOption{
+					Options: []*token_tapv1.StellarMintOption{
 						{
 							StellarMintOption: &token_tapv1.StellarMintOption_StellarMintTokenWithMemo{
 								StellarMintTokenWithMemo: &token_tapv1.StellarMintTokenWithMemo{
