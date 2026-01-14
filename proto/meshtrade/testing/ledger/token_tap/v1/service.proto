@@ -69,4 +69,3 @@ message MintTokenRequest {
 
 // MintTokenResponse is the response message from minting tokens.
 message MintTokenResponse {}
-;
