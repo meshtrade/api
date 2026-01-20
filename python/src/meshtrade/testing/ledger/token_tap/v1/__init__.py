@@ -15,10 +15,6 @@
 # Generated protobuf imports
 from .option_pb2 import (
     MintTokenOptions,
-    SolanaMintOption,
-    SolanaMintOptions,
-    SolanaMintToken,
-    SolanaMintTokenOption,
     StellarMintOption,
     StellarMintOptions,
     StellarMintTokenWithMemo,
@@ -66,10 +62,6 @@ __all__ = [
     "MintTokenOptions",
     "MintTokenRequest",
     "MintTokenResponse",
-    "SolanaMintOption",
-    "SolanaMintOptions",
-    "SolanaMintToken",
-    "SolanaMintTokenOption",
     "StellarMintOption",
     "StellarMintOptions",
     "StellarMintTokenWithMemo",
