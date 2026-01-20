@@ -45,9 +45,12 @@ type UserProfile struct {
 	ProfilePictureUrl string             `protobuf:"bytes,5,opt,name=profile_picture_url,json=profilePictureUrl,proto3" json:"profile_picture_url,omitempty"`
 	DisplayName       string             `protobuf:"bytes,6,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	FirstName         string             `protobuf:"bytes,7,opt,name=first_name,json=firstName,proto3" json:"first_name,omitempty"`
-	LastName          string             `protobuf:"bytes,8,opt,name=last_name,json=lastName,proto3" json:"last_name,omitempty"`
-	Address           *v1.Address        `protobuf:"bytes,9,opt,name=address,proto3" json:"address,omitempty"`
-	ContactDetails    *v1.ContactDetails `protobuf:"bytes,10,opt,name=contact_details,json=contactDetails,proto3" json:"contact_details,omitempty"`
+	MiddleNames       string             `protobuf:"bytes,8,opt,name=middle_names,json=middleNames,proto3" json:"middle_names,omitempty"`
+	LastName          string             `protobuf:"bytes,9,opt,name=last_name,json=lastName,proto3" json:"last_name,omitempty"`
+	DateOfBirth       string             `protobuf:"bytes,10,opt,name=date_of_birth,json=dateOfBirth,proto3" json:"date_of_birth,omitempty"`
+	Address           *v1.Address        `protobuf:"bytes,11,opt,name=address,proto3" json:"address,omitempty"`
+	Nationality       string             `protobuf:"bytes,12,opt,name=nationality,proto3" json:"nationality,omitempty"`
+	ContactDetails    *v1.ContactDetails `protobuf:"bytes,13,opt,name=contact_details,json=contactDetails,proto3" json:"contact_details,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -131,9 +134,23 @@ func (x *UserProfile) GetFirstName() string {
 	return ""
 }
 
+func (x *UserProfile) GetMiddleNames() string {
+	if x != nil {
+		return x.MiddleNames
+	}
+	return ""
+}
+
 func (x *UserProfile) GetLastName() string {
 	if x != nil {
 		return x.LastName
+	}
+	return ""
+}
+
+func (x *UserProfile) GetDateOfBirth() string {
+	if x != nil {
+		return x.DateOfBirth
 	}
 	return ""
 }
@@ -143,6 +160,13 @@ func (x *UserProfile) GetAddress() *v1.Address {
 		return x.Address
 	}
 	return nil
+}
+
+func (x *UserProfile) GetNationality() string {
+	if x != nil {
+		return x.Nationality
+	}
+	return ""
 }
 
 func (x *UserProfile) GetContactDetails() *v1.ContactDetails {
@@ -156,7 +180,7 @@ var File_meshtrade_iam_user_profile_v1_user_profile_proto protoreflect.FileDescr
 
 const file_meshtrade_iam_user_profile_v1_user_profile_proto_rawDesc = "" +
 	"\n" +
-	"0meshtrade/iam/user_profile/v1/user_profile.proto\x12\x1dmeshtrade.iam.user_profile.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fmeshtrade/type/v1/address.proto\x1a'meshtrade/type/v1/contact_details.proto\"\xe9\x05\n" +
+	"0meshtrade/iam/user_profile/v1/user_profile.proto\x12\x1dmeshtrade.iam.user_profile.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fmeshtrade/type/v1/address.proto\x1a'meshtrade/type/v1/contact_details.proto\"\xd2\x06\n" +
 	"\vUserProfile\x12\xba\x01\n" +
 	"\x04name\x18\x01 \x01(\tB\xa5\x01\xbaH\xa1\x01\xba\x01\x9d\x01\n" +
 	"\x14name.format.optional\x122name must be empty or in the format users/{ULIDv2}\x1aQsize(this) == 0 || this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12R\n" +
@@ -166,11 +190,14 @@ const file_meshtrade_iam_user_profile_v1_user_profile_proto_rawDesc = "" +
 	"\x13profile_picture_url\x18\x05 \x01(\tR\x11profilePictureUrl\x12)\n" +
 	"\fdisplay_name\x18\x06 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\vdisplayName\x12\x1d\n" +
 	"\n" +
-	"first_name\x18\a \x01(\tR\tfirstName\x12\x1b\n" +
-	"\tlast_name\x18\b \x01(\tR\blastName\x124\n" +
-	"\aaddress\x18\t \x01(\v2\x1a.meshtrade.type.v1.AddressR\aaddress\x12J\n" +
-	"\x0fcontact_details\x18\n" +
-	" \x01(\v2!.meshtrade.type.v1.ContactDetailsR\x0econtactDetailsBg\n" +
+	"first_name\x18\a \x01(\tR\tfirstName\x12!\n" +
+	"\fmiddle_names\x18\b \x01(\tR\vmiddleNames\x12\x1b\n" +
+	"\tlast_name\x18\t \x01(\tR\blastName\x12\"\n" +
+	"\rdate_of_birth\x18\n" +
+	" \x01(\tR\vdateOfBirth\x124\n" +
+	"\aaddress\x18\v \x01(\v2\x1a.meshtrade.type.v1.AddressR\aaddress\x12 \n" +
+	"\vnationality\x18\f \x01(\tR\vnationality\x12J\n" +
+	"\x0fcontact_details\x18\r \x01(\v2!.meshtrade.type.v1.ContactDetailsR\x0econtactDetailsBg\n" +
 	"$co.meshtrade.api.iam.user_profile.v1Z?github.com/meshtrade/api/go/iam/user_profile/v1;user_profile_v1b\x06proto3"
 
 var (
