@@ -35,7 +35,8 @@ service UserProfileService {
   rpc GetMyUserProfile(GetMyUserProfileRequest) returns (GetMyUserProfileResponse) {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_READ
-      access_level: METHOD_ACCESS_LEVEL_AUTHENTICATED
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
+      roles: [ROLE_IAM_USER_PROFILE_VIEWER]
     };
   }
   rpc ListUserProfiles(ListUserProfilesRequest) returns (ListUserProfilesResponse) {
