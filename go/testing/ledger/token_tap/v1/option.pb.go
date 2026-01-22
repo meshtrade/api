@@ -21,61 +21,11 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type SolanaMintToken int32
-
-const (
-	SolanaMintToken_SOLANA_MINT_TOKEN_UNSPECIFIED SolanaMintToken = 0
-	SolanaMintToken_SOLANA_MINT_TOKEN_LEGACY      SolanaMintToken = 1
-	SolanaMintToken_SOLANA_MINT_TOKEN_2022        SolanaMintToken = 2
-)
-
-// Enum value maps for SolanaMintToken.
-var (
-	SolanaMintToken_name = map[int32]string{
-		0: "SOLANA_MINT_TOKEN_UNSPECIFIED",
-		1: "SOLANA_MINT_TOKEN_LEGACY",
-		2: "SOLANA_MINT_TOKEN_2022",
-	}
-	SolanaMintToken_value = map[string]int32{
-		"SOLANA_MINT_TOKEN_UNSPECIFIED": 0,
-		"SOLANA_MINT_TOKEN_LEGACY":      1,
-		"SOLANA_MINT_TOKEN_2022":        2,
-	}
-)
-
-func (x SolanaMintToken) Enum() *SolanaMintToken {
-	p := new(SolanaMintToken)
-	*p = x
-	return p
-}
-
-func (x SolanaMintToken) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (SolanaMintToken) Descriptor() protoreflect.EnumDescriptor {
-	return file_meshtrade_testing_ledger_token_tap_v1_option_proto_enumTypes[0].Descriptor()
-}
-
-func (SolanaMintToken) Type() protoreflect.EnumType {
-	return &file_meshtrade_testing_ledger_token_tap_v1_option_proto_enumTypes[0]
-}
-
-func (x SolanaMintToken) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use SolanaMintToken.Descriptor instead.
-func (SolanaMintToken) EnumDescriptor() ([]byte, []int) {
-	return file_meshtrade_testing_ledger_token_tap_v1_option_proto_rawDescGZIP(), []int{0}
-}
-
 type MintTokenOptions struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Types that are valid to be assigned to MintTokenOptions:
 	//
 	//	*MintTokenOptions_StellarMintOptions
-	//	*MintTokenOptions_SolanaMintOptions
 	MintTokenOptions isMintTokenOptions_MintTokenOptions `protobuf_oneof:"mint_token_options"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
@@ -127,15 +77,6 @@ func (x *MintTokenOptions) GetStellarMintOptions() *StellarMintOptions {
 	return nil
 }
 
-func (x *MintTokenOptions) GetSolanaMintOptions() *SolanaMintOptions {
-	if x != nil {
-		if x, ok := x.MintTokenOptions.(*MintTokenOptions_SolanaMintOptions); ok {
-			return x.SolanaMintOptions
-		}
-	}
-	return nil
-}
-
 type isMintTokenOptions_MintTokenOptions interface {
 	isMintTokenOptions_MintTokenOptions()
 }
@@ -144,13 +85,7 @@ type MintTokenOptions_StellarMintOptions struct {
 	StellarMintOptions *StellarMintOptions `protobuf:"bytes,1,opt,name=stellar_mint_options,json=stellarMintOptions,proto3,oneof"`
 }
 
-type MintTokenOptions_SolanaMintOptions struct {
-	SolanaMintOptions *SolanaMintOptions `protobuf:"bytes,2,opt,name=solana_mint_options,json=solanaMintOptions,proto3,oneof"`
-}
-
 func (*MintTokenOptions_StellarMintOptions) isMintTokenOptions_MintTokenOptions() {}
-
-func (*MintTokenOptions_SolanaMintOptions) isMintTokenOptions_MintTokenOptions() {}
 
 type StellarMintOptions struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -306,168 +241,13 @@ func (x *StellarMintTokenWithMemo) GetMemo() string {
 	return ""
 }
 
-type SolanaMintOptions struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Options       []*SolanaMintOption    `protobuf:"bytes,1,rep,name=options,proto3" json:"options,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *SolanaMintOptions) Reset() {
-	*x = SolanaMintOptions{}
-	mi := &file_meshtrade_testing_ledger_token_tap_v1_option_proto_msgTypes[4]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *SolanaMintOptions) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*SolanaMintOptions) ProtoMessage() {}
-
-func (x *SolanaMintOptions) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_testing_ledger_token_tap_v1_option_proto_msgTypes[4]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use SolanaMintOptions.ProtoReflect.Descriptor instead.
-func (*SolanaMintOptions) Descriptor() ([]byte, []int) {
-	return file_meshtrade_testing_ledger_token_tap_v1_option_proto_rawDescGZIP(), []int{4}
-}
-
-func (x *SolanaMintOptions) GetOptions() []*SolanaMintOption {
-	if x != nil {
-		return x.Options
-	}
-	return nil
-}
-
-type SolanaMintOption struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Types that are valid to be assigned to SolanaMintOption:
-	//
-	//	*SolanaMintOption_SolanaMintTokenOption
-	SolanaMintOption isSolanaMintOption_SolanaMintOption `protobuf_oneof:"solana_mint_option"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
-}
-
-func (x *SolanaMintOption) Reset() {
-	*x = SolanaMintOption{}
-	mi := &file_meshtrade_testing_ledger_token_tap_v1_option_proto_msgTypes[5]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *SolanaMintOption) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*SolanaMintOption) ProtoMessage() {}
-
-func (x *SolanaMintOption) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_testing_ledger_token_tap_v1_option_proto_msgTypes[5]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use SolanaMintOption.ProtoReflect.Descriptor instead.
-func (*SolanaMintOption) Descriptor() ([]byte, []int) {
-	return file_meshtrade_testing_ledger_token_tap_v1_option_proto_rawDescGZIP(), []int{5}
-}
-
-func (x *SolanaMintOption) GetSolanaMintOption() isSolanaMintOption_SolanaMintOption {
-	if x != nil {
-		return x.SolanaMintOption
-	}
-	return nil
-}
-
-func (x *SolanaMintOption) GetSolanaMintTokenOption() *SolanaMintTokenOption {
-	if x != nil {
-		if x, ok := x.SolanaMintOption.(*SolanaMintOption_SolanaMintTokenOption); ok {
-			return x.SolanaMintTokenOption
-		}
-	}
-	return nil
-}
-
-type isSolanaMintOption_SolanaMintOption interface {
-	isSolanaMintOption_SolanaMintOption()
-}
-
-type SolanaMintOption_SolanaMintTokenOption struct {
-	SolanaMintTokenOption *SolanaMintTokenOption `protobuf:"bytes,1,opt,name=solana_mint_token_option,json=solanaMintTokenOption,proto3,oneof"`
-}
-
-func (*SolanaMintOption_SolanaMintTokenOption) isSolanaMintOption_SolanaMintOption() {}
-
-type SolanaMintTokenOption struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Token         SolanaMintToken        `protobuf:"varint,1,opt,name=token,proto3,enum=meshtrade.testing.ledger.token_tap.v1.SolanaMintToken" json:"token,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *SolanaMintTokenOption) Reset() {
-	*x = SolanaMintTokenOption{}
-	mi := &file_meshtrade_testing_ledger_token_tap_v1_option_proto_msgTypes[6]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *SolanaMintTokenOption) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*SolanaMintTokenOption) ProtoMessage() {}
-
-func (x *SolanaMintTokenOption) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_testing_ledger_token_tap_v1_option_proto_msgTypes[6]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use SolanaMintTokenOption.ProtoReflect.Descriptor instead.
-func (*SolanaMintTokenOption) Descriptor() ([]byte, []int) {
-	return file_meshtrade_testing_ledger_token_tap_v1_option_proto_rawDescGZIP(), []int{6}
-}
-
-func (x *SolanaMintTokenOption) GetToken() SolanaMintToken {
-	if x != nil {
-		return x.Token
-	}
-	return SolanaMintToken_SOLANA_MINT_TOKEN_UNSPECIFIED
-}
-
 var File_meshtrade_testing_ledger_token_tap_v1_option_proto protoreflect.FileDescriptor
 
 const file_meshtrade_testing_ledger_token_tap_v1_option_proto_rawDesc = "" +
 	"\n" +
-	"2meshtrade/testing/ledger/token_tap/v1/option.proto\x12%meshtrade.testing.ledger.token_tap.v1\"\x83\x02\n" +
+	"2meshtrade/testing/ledger/token_tap/v1/option.proto\x12%meshtrade.testing.ledger.token_tap.v1\"\x97\x01\n" +
 	"\x10MintTokenOptions\x12m\n" +
-	"\x14stellar_mint_options\x18\x01 \x01(\v29.meshtrade.testing.ledger.token_tap.v1.StellarMintOptionsH\x00R\x12stellarMintOptions\x12j\n" +
-	"\x13solana_mint_options\x18\x02 \x01(\v28.meshtrade.testing.ledger.token_tap.v1.SolanaMintOptionsH\x00R\x11solanaMintOptionsB\x14\n" +
+	"\x14stellar_mint_options\x18\x01 \x01(\v29.meshtrade.testing.ledger.token_tap.v1.StellarMintOptionsH\x00R\x12stellarMintOptionsB\x14\n" +
 	"\x12mint_token_options\"h\n" +
 	"\x12StellarMintOptions\x12R\n" +
 	"\aoptions\x18\x01 \x03(\v28.meshtrade.testing.ledger.token_tap.v1.StellarMintOptionR\aoptions\"\xae\x01\n" +
@@ -475,18 +255,7 @@ const file_meshtrade_testing_ledger_token_tap_v1_option_proto_rawDesc = "" +
 	"\x1cstellar_mint_token_with_memo\x18\x01 \x01(\v2?.meshtrade.testing.ledger.token_tap.v1.StellarMintTokenWithMemoH\x00R\x18stellarMintTokenWithMemoB\x15\n" +
 	"\x13stellar_mint_option\".\n" +
 	"\x18StellarMintTokenWithMemo\x12\x12\n" +
-	"\x04memo\x18\x01 \x01(\tR\x04memo\"f\n" +
-	"\x11SolanaMintOptions\x12Q\n" +
-	"\aoptions\x18\x01 \x03(\v27.meshtrade.testing.ledger.token_tap.v1.SolanaMintOptionR\aoptions\"\xa1\x01\n" +
-	"\x10SolanaMintOption\x12w\n" +
-	"\x18solana_mint_token_option\x18\x01 \x01(\v2<.meshtrade.testing.ledger.token_tap.v1.SolanaMintTokenOptionH\x00R\x15solanaMintTokenOptionB\x14\n" +
-	"\x12solana_mint_option\"e\n" +
-	"\x15SolanaMintTokenOption\x12L\n" +
-	"\x05token\x18\x01 \x01(\x0e26.meshtrade.testing.ledger.token_tap.v1.SolanaMintTokenR\x05token*n\n" +
-	"\x0fSolanaMintToken\x12!\n" +
-	"\x1dSOLANA_MINT_TOKEN_UNSPECIFIED\x10\x00\x12\x1c\n" +
-	"\x18SOLANA_MINT_TOKEN_LEGACY\x10\x01\x12\x1a\n" +
-	"\x16SOLANA_MINT_TOKEN_2022\x10\x02Bt\n" +
+	"\x04memo\x18\x01 \x01(\tR\x04memoBt\n" +
 	",co.meshtrade.api.testing.ledger.token_tap.v1ZDgithub.com/meshtrade/api/go/testing/ledger/token_tap/v1;token_tap_v1b\x06proto3"
 
 var (
@@ -501,31 +270,22 @@ func file_meshtrade_testing_ledger_token_tap_v1_option_proto_rawDescGZIP() []byt
 	return file_meshtrade_testing_ledger_token_tap_v1_option_proto_rawDescData
 }
 
-var file_meshtrade_testing_ledger_token_tap_v1_option_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_meshtrade_testing_ledger_token_tap_v1_option_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_meshtrade_testing_ledger_token_tap_v1_option_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_meshtrade_testing_ledger_token_tap_v1_option_proto_goTypes = []any{
-	(SolanaMintToken)(0),             // 0: meshtrade.testing.ledger.token_tap.v1.SolanaMintToken
-	(*MintTokenOptions)(nil),         // 1: meshtrade.testing.ledger.token_tap.v1.MintTokenOptions
-	(*StellarMintOptions)(nil),       // 2: meshtrade.testing.ledger.token_tap.v1.StellarMintOptions
-	(*StellarMintOption)(nil),        // 3: meshtrade.testing.ledger.token_tap.v1.StellarMintOption
-	(*StellarMintTokenWithMemo)(nil), // 4: meshtrade.testing.ledger.token_tap.v1.StellarMintTokenWithMemo
-	(*SolanaMintOptions)(nil),        // 5: meshtrade.testing.ledger.token_tap.v1.SolanaMintOptions
-	(*SolanaMintOption)(nil),         // 6: meshtrade.testing.ledger.token_tap.v1.SolanaMintOption
-	(*SolanaMintTokenOption)(nil),    // 7: meshtrade.testing.ledger.token_tap.v1.SolanaMintTokenOption
+	(*MintTokenOptions)(nil),         // 0: meshtrade.testing.ledger.token_tap.v1.MintTokenOptions
+	(*StellarMintOptions)(nil),       // 1: meshtrade.testing.ledger.token_tap.v1.StellarMintOptions
+	(*StellarMintOption)(nil),        // 2: meshtrade.testing.ledger.token_tap.v1.StellarMintOption
+	(*StellarMintTokenWithMemo)(nil), // 3: meshtrade.testing.ledger.token_tap.v1.StellarMintTokenWithMemo
 }
 var file_meshtrade_testing_ledger_token_tap_v1_option_proto_depIdxs = []int32{
-	2, // 0: meshtrade.testing.ledger.token_tap.v1.MintTokenOptions.stellar_mint_options:type_name -> meshtrade.testing.ledger.token_tap.v1.StellarMintOptions
-	5, // 1: meshtrade.testing.ledger.token_tap.v1.MintTokenOptions.solana_mint_options:type_name -> meshtrade.testing.ledger.token_tap.v1.SolanaMintOptions
-	3, // 2: meshtrade.testing.ledger.token_tap.v1.StellarMintOptions.options:type_name -> meshtrade.testing.ledger.token_tap.v1.StellarMintOption
-	4, // 3: meshtrade.testing.ledger.token_tap.v1.StellarMintOption.stellar_mint_token_with_memo:type_name -> meshtrade.testing.ledger.token_tap.v1.StellarMintTokenWithMemo
-	6, // 4: meshtrade.testing.ledger.token_tap.v1.SolanaMintOptions.options:type_name -> meshtrade.testing.ledger.token_tap.v1.SolanaMintOption
-	7, // 5: meshtrade.testing.ledger.token_tap.v1.SolanaMintOption.solana_mint_token_option:type_name -> meshtrade.testing.ledger.token_tap.v1.SolanaMintTokenOption
-	0, // 6: meshtrade.testing.ledger.token_tap.v1.SolanaMintTokenOption.token:type_name -> meshtrade.testing.ledger.token_tap.v1.SolanaMintToken
-	7, // [7:7] is the sub-list for method output_type
-	7, // [7:7] is the sub-list for method input_type
-	7, // [7:7] is the sub-list for extension type_name
-	7, // [7:7] is the sub-list for extension extendee
-	0, // [0:7] is the sub-list for field type_name
+	1, // 0: meshtrade.testing.ledger.token_tap.v1.MintTokenOptions.stellar_mint_options:type_name -> meshtrade.testing.ledger.token_tap.v1.StellarMintOptions
+	2, // 1: meshtrade.testing.ledger.token_tap.v1.StellarMintOptions.options:type_name -> meshtrade.testing.ledger.token_tap.v1.StellarMintOption
+	3, // 2: meshtrade.testing.ledger.token_tap.v1.StellarMintOption.stellar_mint_token_with_memo:type_name -> meshtrade.testing.ledger.token_tap.v1.StellarMintTokenWithMemo
+	3, // [3:3] is the sub-list for method output_type
+	3, // [3:3] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_testing_ledger_token_tap_v1_option_proto_init() }
@@ -535,27 +295,22 @@ func file_meshtrade_testing_ledger_token_tap_v1_option_proto_init() {
 	}
 	file_meshtrade_testing_ledger_token_tap_v1_option_proto_msgTypes[0].OneofWrappers = []any{
 		(*MintTokenOptions_StellarMintOptions)(nil),
-		(*MintTokenOptions_SolanaMintOptions)(nil),
 	}
 	file_meshtrade_testing_ledger_token_tap_v1_option_proto_msgTypes[2].OneofWrappers = []any{
 		(*StellarMintOption_StellarMintTokenWithMemo)(nil),
-	}
-	file_meshtrade_testing_ledger_token_tap_v1_option_proto_msgTypes[5].OneofWrappers = []any{
-		(*SolanaMintOption_SolanaMintTokenOption)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_meshtrade_testing_ledger_token_tap_v1_option_proto_rawDesc), len(file_meshtrade_testing_ledger_token_tap_v1_option_proto_rawDesc)),
-			NumEnums:      1,
-			NumMessages:   7,
+			NumEnums:      0,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           file_meshtrade_testing_ledger_token_tap_v1_option_proto_goTypes,
 		DependencyIndexes: file_meshtrade_testing_ledger_token_tap_v1_option_proto_depIdxs,
-		EnumInfos:         file_meshtrade_testing_ledger_token_tap_v1_option_proto_enumTypes,
 		MessageInfos:      file_meshtrade_testing_ledger_token_tap_v1_option_proto_msgTypes,
 	}.Build()
 	File_meshtrade_testing_ledger_token_tap_v1_option_proto = out.File
