@@ -3,8 +3,7 @@ syntax = "proto3";
 package meshtrade.iam.user_profile.v1;
 
 import "buf/validate/validate.proto";
-import "meshtrade/type/v1/address.proto";
-import "meshtrade/type/v1/contact_details.proto";
+import "meshtrade/type/v1/token.proto";
 
 option go_package = "github.com/meshtrade/api/go/iam/user_profile/v1;user_profile_v1";
 option java_package = "co.meshtrade.api.iam.user_profile.v1";
@@ -25,8 +24,8 @@ message UserProfile {
   string name = 1 [(buf.validate.field) = {
     cel: {
       id: "name.format.optional"
-      message: "name must be empty or in the format users/{ULIDv2}"
-      expression: "size(this) == 0 || this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
+      message: "name must be empty or in the format user_profiles/{ULIDv2}"
+      expression: "size(this) == 0 || this.matches('^user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
     }
   }];
 
@@ -59,23 +58,18 @@ message UserProfile {
     }
   }];
 
-  string user_name = 4 [(buf.validate.field) = {
-    required: true
+  string user = 4 [(buf.validate.field) = {
     string: {
      len: 33
      pattern: "^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
 
-  string profile_picture_url = 5;
-  string display_name = 6 [(buf.validate.field) = {
+  string local = 5;
+  string profile_picture_url = 6;
+  string display_name = 7 [(buf.validate.field) = {
     required: true
   }];
-  string first_name = 7;
-  string middle_names = 8;
-  string last_name = 9;
-  string date_of_birth = 10;
-  meshtrade.type.v1.Address address = 11;
-  string nationality = 12;
-  meshtrade.type.v1.ContactDetails contact_details = 13;
+  meshtrade.type.v1.Token display_currency = 8;
+  meshtrade.type.v1.Token reporting_currency = 9;
 }

@@ -34,11 +34,8 @@ func main() {
 		log.Printf("User Profile %d:", i+1)
 		log.Printf("  Name: %s", profile.Name)
 		log.Printf("  Display Name: %s", profile.DisplayName)
-		log.Printf("  User: %s", profile.GetFirstName())
+		log.Printf("  User: %s", profile.GetUser())
 		log.Printf("  Owner: %s", profile.Owner)
-		if profile.ContactDetails != nil && profile.ContactDetails.EmailAddress != "" {
-			log.Printf("  Email: %s", profile.ContactDetails.EmailAddress)
-		}
 		log.Println()
 	}
 }

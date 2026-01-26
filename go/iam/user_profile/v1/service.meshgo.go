@@ -51,10 +51,10 @@ import (
 type UserProfileServiceClientInterface interface {
 	grpc.GRPCClient
 
-	CreateUserProfile(ctx context.Context, request *CreateUserProfileRequest) (*CreateUserProfileResponse, error)
-	UpdateUserProfile(ctx context.Context, request *UpdateUserProfileRequest) (*UpdateUserProfileResponse, error)
-	GetUserProfile(ctx context.Context, request *GetUserProfileRequest) (*GetUserProfileResponse, error)
-	GetMyUserProfile(ctx context.Context, request *GetMyUserProfileRequest) (*GetMyUserProfileResponse, error)
+	CreateUserProfile(ctx context.Context, request *CreateUserProfileRequest) (*UserProfile, error)
+	UpdateUserProfile(ctx context.Context, request *UpdateUserProfileRequest) (*UserProfile, error)
+	GetUserProfile(ctx context.Context, request *GetUserProfileRequest) (*UserProfile, error)
+	GetUserProfileByUser(ctx context.Context, request *GetUserProfileByUserRequest) (*UserProfile, error)
 	ListUserProfiles(ctx context.Context, request *ListUserProfilesRequest) (*ListUserProfilesResponse, error)
 	SearchUserProfiles(ctx context.Context, request *SearchUserProfilesRequest) (*SearchUserProfilesResponse, error)
 
@@ -170,33 +170,33 @@ func (s *userProfileService) WithGroup(group string) UserProfileServiceClientInt
 
 // CreateUserProfile executes the CreateUserProfile RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
-func (s *userProfileService) CreateUserProfile(ctx context.Context, request *CreateUserProfileRequest) (*CreateUserProfileResponse, error) {
-	return grpc.Execute(s.Executor(), ctx, "CreateUserProfile", request, func(ctx context.Context) (*CreateUserProfileResponse, error) {
+func (s *userProfileService) CreateUserProfile(ctx context.Context, request *CreateUserProfileRequest) (*UserProfile, error) {
+	return grpc.Execute(s.Executor(), ctx, "CreateUserProfile", request, func(ctx context.Context) (*UserProfile, error) {
 		return s.GrpcClient().CreateUserProfile(ctx, request)
 	})
 }
 
 // UpdateUserProfile executes the UpdateUserProfile RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
-func (s *userProfileService) UpdateUserProfile(ctx context.Context, request *UpdateUserProfileRequest) (*UpdateUserProfileResponse, error) {
-	return grpc.Execute(s.Executor(), ctx, "UpdateUserProfile", request, func(ctx context.Context) (*UpdateUserProfileResponse, error) {
+func (s *userProfileService) UpdateUserProfile(ctx context.Context, request *UpdateUserProfileRequest) (*UserProfile, error) {
+	return grpc.Execute(s.Executor(), ctx, "UpdateUserProfile", request, func(ctx context.Context) (*UserProfile, error) {
 		return s.GrpcClient().UpdateUserProfile(ctx, request)
 	})
 }
 
 // GetUserProfile executes the GetUserProfile RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
-func (s *userProfileService) GetUserProfile(ctx context.Context, request *GetUserProfileRequest) (*GetUserProfileResponse, error) {
-	return grpc.Execute(s.Executor(), ctx, "GetUserProfile", request, func(ctx context.Context) (*GetUserProfileResponse, error) {
+func (s *userProfileService) GetUserProfile(ctx context.Context, request *GetUserProfileRequest) (*UserProfile, error) {
+	return grpc.Execute(s.Executor(), ctx, "GetUserProfile", request, func(ctx context.Context) (*UserProfile, error) {
 		return s.GrpcClient().GetUserProfile(ctx, request)
 	})
 }
 
-// GetMyUserProfile executes the GetMyUserProfile RPC method with automatic
+// GetUserProfileByUser executes the GetUserProfileByUser RPC method with automatic
 // client-side validation, timeout handling, distributed tracing, and authentication.
-func (s *userProfileService) GetMyUserProfile(ctx context.Context, request *GetMyUserProfileRequest) (*GetMyUserProfileResponse, error) {
-	return grpc.Execute(s.Executor(), ctx, "GetMyUserProfile", request, func(ctx context.Context) (*GetMyUserProfileResponse, error) {
-		return s.GrpcClient().GetMyUserProfile(ctx, request)
+func (s *userProfileService) GetUserProfileByUser(ctx context.Context, request *GetUserProfileByUserRequest) (*UserProfile, error) {
+	return grpc.Execute(s.Executor(), ctx, "GetUserProfileByUser", request, func(ctx context.Context) (*UserProfile, error) {
+		return s.GrpcClient().GetUserProfileByUser(ctx, request)
 	})
 }
 

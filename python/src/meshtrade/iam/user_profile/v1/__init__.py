@@ -17,16 +17,13 @@ from .user_profile_pb2 import UserProfile
 from .service_pb2 import (
     CreateUserProfileRequest,
     CreateUserProfileResponse,
-    GetMyUserProfileRequest,
-    GetMyUserProfileResponse,
+    GetUserProfileByUserRequest,
     GetUserProfileRequest,
-    GetUserProfileResponse,
     ListUserProfilesRequest,
     ListUserProfilesResponse,
     SearchUserProfilesRequest,
     SearchUserProfilesResponse,
     UpdateUserProfileRequest,
-    UpdateUserProfileResponse,
 )
 
 # Generated service imports
@@ -58,16 +55,13 @@ __all__ = [
     # Generated exports
     "CreateUserProfileRequest",
     "CreateUserProfileResponse",
-    "GetMyUserProfileRequest",
-    "GetMyUserProfileResponse",
+    "GetUserProfileByUserRequest",
     "GetUserProfileRequest",
-    "GetUserProfileResponse",
     "ListUserProfilesRequest",
     "ListUserProfilesResponse",
     "SearchUserProfilesRequest",
     "SearchUserProfilesResponse",
     "UpdateUserProfileRequest",
-    "UpdateUserProfileResponse",
     "UserProfile",
     "UserProfileService",
     "UserProfileServiceGRPCClient",

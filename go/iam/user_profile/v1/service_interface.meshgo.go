@@ -7,13 +7,13 @@ import (
 )
 
 type UserProfileService interface {
-	CreateUserProfile(ctx context.Context, request *CreateUserProfileRequest) (*CreateUserProfileResponse, error)
+	CreateUserProfile(ctx context.Context, request *CreateUserProfileRequest) (*UserProfile, error)
 
-	UpdateUserProfile(ctx context.Context, request *UpdateUserProfileRequest) (*UpdateUserProfileResponse, error)
+	UpdateUserProfile(ctx context.Context, request *UpdateUserProfileRequest) (*UserProfile, error)
 
-	GetUserProfile(ctx context.Context, request *GetUserProfileRequest) (*GetUserProfileResponse, error)
+	GetUserProfile(ctx context.Context, request *GetUserProfileRequest) (*UserProfile, error)
 
-	GetMyUserProfile(ctx context.Context, request *GetMyUserProfileRequest) (*GetMyUserProfileResponse, error)
+	GetUserProfileByUser(ctx context.Context, request *GetUserProfileByUserRequest) (*UserProfile, error)
 
 	ListUserProfiles(ctx context.Context, request *ListUserProfilesRequest) (*ListUserProfilesResponse, error)
 

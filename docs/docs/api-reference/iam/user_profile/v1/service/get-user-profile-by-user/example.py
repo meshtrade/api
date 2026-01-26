@@ -1,5 +1,5 @@
 from meshtrade.iam.user_profile.v1 import (
-    GetMyUserProfileRequest,
+    GetUserProfileByUserRequest,
     UserProfileService,
 )
 
@@ -12,15 +12,15 @@ def main():
 
     with service:
         # Create request with service-specific parameters
-        request = GetMyUserProfileRequest(
+        request = GetUserProfileByUserRequest(
             # FIXME: Populate service-specific request fields
         )
 
-        # Call the GetMyUserProfile method
-        response = service.get_my_user_profile(request)
+        # Call the GetUserProfileByUser method
+        user_profile = service.get_user_profile_by_user(request)
 
         # FIXME: Add relevant response object usage
-        print("GetMyUserProfile successful:", response)
+        print("GetUserProfileByUser successful:", user_profile)
 
 
 if __name__ == "__main__":

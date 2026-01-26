@@ -20,16 +20,16 @@ func main() {
 	defer service.Close()
 
 	// Create request with service-specific parameters
-	request := &user_profilev1.GetMyUserProfileRequest{
+	request := &user_profilev1.GetUserProfileByUserRequest{
 		// FIXME: Populate service-specific request fields
 	}
 
-	// Call the GetMyUserProfile method
-	response, err := service.GetMyUserProfile(ctx, request)
+	// Call the GetUserProfileByUser method
+	userProfile, err := service.GetUserProfileByUser(ctx, request)
 	if err != nil {
-		log.Fatalf("GetMyUserProfile failed: %v", err)
+		log.Fatalf("GetUserProfileByUser failed: %v", err)
 	}
 
 	// FIXME: Add relevant response object usage
-	log.Printf("GetMyUserProfile successful: %+v", response)
+	log.Printf("GetUserProfileByUser successful: %+v", userProfile)
 }

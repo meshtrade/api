@@ -25,7 +25,7 @@ func main() {
 		DisplayName: "Sarah",       // Search by display name (case-insensitive partial match)
 		Email:       "company.com", // Search by email domain (case-insensitive partial match)
 		Sorting: &user_profilev1.SearchUserProfilesRequest_Sorting{
-			Field: "display_name",                 // Sort by display name
+			Name: "display_name",                 // Sort by display name
 			Order: typev1.SortingOrder_SORTING_ORDER_ASC,
 		},
 	}
@@ -42,10 +42,7 @@ func main() {
 		log.Printf("User Profile %d:", i+1)
 		log.Printf("  Name: %s", profile.Name)
 		log.Printf("  Display Name: %s", profile.DisplayName)
-		log.Printf("  User: %s", profile.FirstName)
-		if profile.ContactDetails != nil && profile.ContactDetails.EmailAddress != "" {
-			log.Printf("  Email: %s", profile.ContactDetails.EmailAddress)
-		}
+		log.Printf("  User: %s", profile.GetUser())
 		log.Println()
 	}
 }
