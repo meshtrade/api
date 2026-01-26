@@ -26,6 +26,7 @@ const (
 
 type GetUserProfileByUserRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	User          string                 `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -58,6 +59,13 @@ func (x *GetUserProfileByUserRequest) ProtoReflect() protoreflect.Message {
 // Deprecated: Use GetUserProfileByUserRequest.ProtoReflect.Descriptor instead.
 func (*GetUserProfileByUserRequest) Descriptor() ([]byte, []int) {
 	return file_meshtrade_iam_user_profile_v1_service_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *GetUserProfileByUserRequest) GetUser() string {
+	if x != nil {
+		return x.User
+	}
+	return ""
 }
 
 type CreateUserProfileRequest struct {
@@ -492,8 +500,11 @@ var File_meshtrade_iam_user_profile_v1_service_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_user_profile_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"+meshtrade/iam/user_profile/v1/service.proto\x12\x1dmeshtrade.iam.user_profile.v1\x1a\x1bbuf/validate/validate.proto\x1a0meshtrade/iam/user_profile/v1/user_profile.proto\x1a7meshtrade/option/method_options/v1/method_options.proto\x1a\x1fmeshtrade/type/v1/sorting.proto\"\x1d\n" +
-	"\x1bGetUserProfileByUserRequest\"q\n" +
+	"+meshtrade/iam/user_profile/v1/service.proto\x12\x1dmeshtrade.iam.user_profile.v1\x1a\x1bbuf/validate/validate.proto\x1a0meshtrade/iam/user_profile/v1/user_profile.proto\x1a7meshtrade/option/method_options/v1/method_options.proto\x1a\x1fmeshtrade/type/v1/sorting.proto\"\x86\x03\n" +
+	"\x1bGetUserProfileByUserRequest\x12\xe6\x02\n" +
+	"\x04user\x18\x01 \x01(\tB\xd1\x02\xbaH\xcd\x02\xba\x01V\n" +
+	"\rname.required\x125name is required and must be in format users/{ULIDv2}\x1a\x0esize(this) > 0\xba\x01\xb1\x01\n" +
+	"\vname.format\x12bname must be in format users/{ULIDv2} where ulidv2 is exactly 26 uppercase alphanumeric characters\x1a>this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')\xc8\x01\x01r:\x10\x0126^user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$R\x04user\"q\n" +
 	"\x18CreateUserProfileRequest\x12U\n" +
 	"\fuser_profile\x18\x01 \x01(\v2*.meshtrade.iam.user_profile.v1.UserProfileB\x06\xbaH\x03\xc8\x01\x01R\vuserProfile\"j\n" +
 	"\x19CreateUserProfileResponse\x12M\n" +
@@ -519,16 +530,12 @@ const file_meshtrade_iam_user_profile_v1_service_proto_rawDesc = "" +
 	"\x05owner\x18\x02 \x01(\tB9\xbaH6r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05owner\x125\n" +
 	"\x05order\x18\x03 \x01(\x0e2\x1f.meshtrade.type.v1.SortingOrderR\x05order\"m\n" +
 	"\x1aSearchUserProfilesResponse\x12O\n" +
-	"\ruser_profiles\x18\x01 \x03(\v2*.meshtrade.iam.user_profile.v1.UserProfileR\fuserProfiles2\x82\a\n" +
-	"\x12UserProfileService\x12\x88\x01\n" +
-	"\x11CreateUserProfile\x127.meshtrade.iam.user_profile.v1.CreateUserProfileRequest\x1a*.meshtrade.iam.user_profile.v1.UserProfile\"\x0e\xb2\xb5\x18\n" +
-	"\b\x02\x10\x02\x1a\x04ȍ\xb7\x01\x12\x88\x01\n" +
-	"\x11UpdateUserProfile\x127.meshtrade.iam.user_profile.v1.UpdateUserProfileRequest\x1a*.meshtrade.iam.user_profile.v1.UserProfile\"\x0e\xb2\xb5\x18\n" +
-	"\b\x02\x10\x02\x1a\x04ȍ\xb7\x01\x12\x82\x01\n" +
-	"\x0eGetUserProfile\x124.meshtrade.iam.user_profile.v1.GetUserProfileRequest\x1a*.meshtrade.iam.user_profile.v1.UserProfile\"\x0e\xb2\xb5\x18\n" +
-	"\b\x01\x10\x02\x1a\x04ɍ\xb7\x01\x12\x8e\x01\n" +
-	"\x14GetUserProfileByUser\x12:.meshtrade.iam.user_profile.v1.GetUserProfileByUserRequest\x1a*.meshtrade.iam.user_profile.v1.UserProfile\"\x0e\xb2\xb5\x18\n" +
-	"\b\x01\x10\x02\x1a\x04ɍ\xb7\x01\x12\x9b\x01\n" +
+	"\ruser_profiles\x18\x01 \x03(\v2*.meshtrade.iam.user_profile.v1.UserProfileR\fuserProfiles2\xa2\a\n" +
+	"\x12UserProfileService\x12\x90\x01\n" +
+	"\x11CreateUserProfile\x127.meshtrade.iam.user_profile.v1.CreateUserProfileRequest\x1a*.meshtrade.iam.user_profile.v1.UserProfile\"\x16\xb2\xb5\x18\x12\b\x02\x10\x02\x1a\f\xc0\x8d\xb7\x01ȍ\xb7\x01ɍ\xb7\x01\x12\x90\x01\n" +
+	"\x11UpdateUserProfile\x127.meshtrade.iam.user_profile.v1.UpdateUserProfileRequest\x1a*.meshtrade.iam.user_profile.v1.UserProfile\"\x16\xb2\xb5\x18\x12\b\x02\x10\x02\x1a\f\xc0\x8d\xb7\x01ȍ\xb7\x01ɍ\xb7\x01\x12\x8a\x01\n" +
+	"\x0eGetUserProfile\x124.meshtrade.iam.user_profile.v1.GetUserProfileRequest\x1a*.meshtrade.iam.user_profile.v1.UserProfile\"\x16\xb2\xb5\x18\x12\b\x01\x10\x02\x1a\f\xc0\x8d\xb7\x01ȍ\xb7\x01ɍ\xb7\x01\x12\x96\x01\n" +
+	"\x14GetUserProfileByUser\x12:.meshtrade.iam.user_profile.v1.GetUserProfileByUserRequest\x1a*.meshtrade.iam.user_profile.v1.UserProfile\"\x16\xb2\xb5\x18\x12\b\x01\x10\x02\x1a\f\xc0\x8d\xb7\x01ȍ\xb7\x01ɍ\xb7\x01\x12\x9b\x01\n" +
 	"\x10ListUserProfiles\x126.meshtrade.iam.user_profile.v1.ListUserProfilesRequest\x1a7.meshtrade.iam.user_profile.v1.ListUserProfilesResponse\"\x16\xb2\xb5\x18\x12\b\x01\x10\x02\x1a\f\xc0\x8d\xb7\x01ȍ\xb7\x01ɍ\xb7\x01\x12\xa1\x01\n" +
 	"\x12SearchUserProfiles\x128.meshtrade.iam.user_profile.v1.SearchUserProfilesRequest\x1a9.meshtrade.iam.user_profile.v1.SearchUserProfilesResponse\"\x16\xb2\xb5\x18\x12\b\x01\x10\x02\x1a\f\xc0\x8d\xb7\x01ȍ\xb7\x01ɍ\xb7\x01Bg\n" +
 	"$co.meshtrade.api.iam.user_profile.v1Z?github.com/meshtrade/api/go/iam/user_profile/v1;user_profile_v1b\x06proto3"

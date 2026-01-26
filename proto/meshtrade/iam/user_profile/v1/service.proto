@@ -18,7 +18,7 @@ service UserProfileService {
       roles: [
         ROLE_IAM_ADMIN,
         ROLE_IAM_USER_PROFILE_ADMIN,
-        ROLE_IAM_USER_PROFILE_ADMIN,
+        ROLE_IAM_USER_PROFILE_VIEWER
       ]
     };
   }
@@ -29,7 +29,7 @@ service UserProfileService {
       roles: [
         ROLE_IAM_ADMIN,
         ROLE_IAM_USER_PROFILE_ADMIN,
-        ROLE_IAM_USER_PROFILE_ADMIN,
+        ROLE_IAM_USER_PROFILE_VIEWER
       ]
     };
   }
@@ -37,14 +37,22 @@ service UserProfileService {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_READ
       access_level: METHOD_ACCESS_LEVEL_AUTHORISED
-      roles: [ROLE_IAM_USER_PROFILE_VIEWER]
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_USER_PROFILE_ADMIN,
+        ROLE_IAM_USER_PROFILE_VIEWER
+      ]
     };
   }
   rpc GetUserProfileByUser(GetUserProfileByUserRequest) returns (UserProfile) {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_READ
       access_level: METHOD_ACCESS_LEVEL_AUTHORISED 
-      roles: [ROLE_IAM_USER_PROFILE_VIEWER]
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_USER_PROFILE_ADMIN,
+        ROLE_IAM_USER_PROFILE_VIEWER
+      ]
     };
   }
   rpc ListUserProfiles(ListUserProfilesRequest) returns (ListUserProfilesResponse) {
@@ -88,7 +96,7 @@ message GetUserProfileByUserRequest {
       message: "name must be in format users/{ULIDv2} where ulidv2 is exactly 26 uppercase alphanumeric characters"
       expression: "this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
     }
-  }]
+  }];
 }
 message CreateUserProfileRequest {
   UserProfile user_profile = 1 [(buf.validate.field) = {required: true}];
