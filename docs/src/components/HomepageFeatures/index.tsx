@@ -15,7 +15,7 @@ const FeatureList: FeatureItem[] = [
     imageSrc: require('@site/static/img/multilingual_support.png').default,
     description: (
       <>
-        Native SDKs for Go, Python, and Java. Handle authentication, retries, and type safety automatically.
+        Native SDKs for Go, Python, Java and Typescript. Handle authentication, retries, and type safety automatically.
       </>
     ),
   },
