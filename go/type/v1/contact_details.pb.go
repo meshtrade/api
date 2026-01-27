@@ -155,6 +155,66 @@ func (x *ContactDetails) GetYoutube() string {
 	return ""
 }
 
+type MobileNumber struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Value         string                 `protobuf:"bytes,1,opt,name=value,proto3" json:"value,omitempty"`
+	Verfied       bool                   `protobuf:"varint,2,opt,name=verfied,proto3" json:"verfied,omitempty"`
+	ResetReason   string                 `protobuf:"bytes,3,opt,name=reset_reason,json=resetReason,proto3" json:"reset_reason,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *MobileNumber) Reset() {
+	*x = MobileNumber{}
+	mi := &file_meshtrade_type_v1_contact_details_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MobileNumber) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MobileNumber) ProtoMessage() {}
+
+func (x *MobileNumber) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_type_v1_contact_details_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MobileNumber.ProtoReflect.Descriptor instead.
+func (*MobileNumber) Descriptor() ([]byte, []int) {
+	return file_meshtrade_type_v1_contact_details_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *MobileNumber) GetValue() string {
+	if x != nil {
+		return x.Value
+	}
+	return ""
+}
+
+func (x *MobileNumber) GetVerfied() bool {
+	if x != nil {
+		return x.Verfied
+	}
+	return false
+}
+
+func (x *MobileNumber) GetResetReason() string {
+	if x != nil {
+		return x.ResetReason
+	}
+	return ""
+}
+
 var File_meshtrade_type_v1_contact_details_proto protoreflect.FileDescriptor
 
 const file_meshtrade_type_v1_contact_details_proto_rawDesc = "" +
@@ -170,7 +230,11 @@ const file_meshtrade_type_v1_contact_details_proto_rawDesc = "" +
 	"\tinstagram\x18\t \x01(\tR\tinstagram\x12\x1b\n" +
 	"\tx_twitter\x18\n" +
 	" \x01(\tR\bxTwitter\x12\x18\n" +
-	"\ayoutube\x18\v \x01(\tR\ayoutubeBG\n" +
+	"\ayoutube\x18\v \x01(\tR\ayoutube\"a\n" +
+	"\fMobileNumber\x12\x14\n" +
+	"\x05value\x18\x01 \x01(\tR\x05value\x12\x18\n" +
+	"\averfied\x18\x02 \x01(\bR\averfied\x12!\n" +
+	"\freset_reason\x18\x03 \x01(\tR\vresetReasonBG\n" +
 	"\x18co.meshtrade.api.type.v1Z+github.com/meshtrade/api/go/type/v1;type_v1b\x06proto3"
 
 var (
@@ -185,9 +249,10 @@ func file_meshtrade_type_v1_contact_details_proto_rawDescGZIP() []byte {
 	return file_meshtrade_type_v1_contact_details_proto_rawDescData
 }
 
-var file_meshtrade_type_v1_contact_details_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_meshtrade_type_v1_contact_details_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_meshtrade_type_v1_contact_details_proto_goTypes = []any{
 	(*ContactDetails)(nil), // 0: meshtrade.type.v1.ContactDetails
+	(*MobileNumber)(nil),   // 1: meshtrade.type.v1.MobileNumber
 }
 var file_meshtrade_type_v1_contact_details_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -208,7 +273,7 @@ func file_meshtrade_type_v1_contact_details_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_meshtrade_type_v1_contact_details_proto_rawDesc), len(file_meshtrade_type_v1_contact_details_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   1,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

@@ -3,6 +3,7 @@ syntax = "proto3";
 package meshtrade.iam.user.v1;
 
 import "buf/validate/validate.proto";
+import "meshtrade/type/v1/contact_details.proto";
 
 option go_package = "github.com/meshtrade/api/go/iam/user/v1;user_v1";
 option java_package = "co.meshtrade.api.iam.user.v1";
@@ -65,7 +66,7 @@ message User {
     string: {email: true}
   }];
 
-  string mobile_number = 5;
+  meshtrade.type.v1.MobileNumber mobile_number = 5;
 
   /*
      Roles is a list of standard roles assigned to this user,

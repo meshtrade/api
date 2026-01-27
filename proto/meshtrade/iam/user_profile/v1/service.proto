@@ -61,8 +61,7 @@ service UserProfileService {
       access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_IAM_ADMIN,
-        ROLE_IAM_USER_PROFILE_ADMIN,
-        ROLE_IAM_USER_PROFILE_VIEWER
+        ROLE_IAM_USER_PROFILE_ADMIN
       ]
     };
   }
@@ -72,8 +71,7 @@ service UserProfileService {
       access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_IAM_ADMIN,
-        ROLE_IAM_USER_PROFILE_ADMIN,
-        ROLE_IAM_USER_PROFILE_VIEWER
+        ROLE_IAM_USER_PROFILE_ADMIN
       ]
     };
   }
