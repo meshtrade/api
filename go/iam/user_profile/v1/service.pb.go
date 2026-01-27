@@ -530,14 +530,14 @@ const file_meshtrade_iam_user_profile_v1_service_proto_rawDesc = "" +
 	"\x05owner\x18\x02 \x01(\tB9\xbaH6r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05owner\x125\n" +
 	"\x05order\x18\x03 \x01(\x0e2\x1f.meshtrade.type.v1.SortingOrderR\x05order\"m\n" +
 	"\x1aSearchUserProfilesResponse\x12O\n" +
-	"\ruser_profiles\x18\x01 \x03(\v2*.meshtrade.iam.user_profile.v1.UserProfileR\fuserProfiles2\xa2\a\n" +
+	"\ruser_profiles\x18\x01 \x03(\v2*.meshtrade.iam.user_profile.v1.UserProfileR\fuserProfiles2\x9a\a\n" +
 	"\x12UserProfileService\x12\x90\x01\n" +
 	"\x11CreateUserProfile\x127.meshtrade.iam.user_profile.v1.CreateUserProfileRequest\x1a*.meshtrade.iam.user_profile.v1.UserProfile\"\x16\xb2\xb5\x18\x12\b\x02\x10\x02\x1a\f\xc0\x8d\xb7\x01ȍ\xb7\x01ɍ\xb7\x01\x12\x90\x01\n" +
 	"\x11UpdateUserProfile\x127.meshtrade.iam.user_profile.v1.UpdateUserProfileRequest\x1a*.meshtrade.iam.user_profile.v1.UserProfile\"\x16\xb2\xb5\x18\x12\b\x02\x10\x02\x1a\f\xc0\x8d\xb7\x01ȍ\xb7\x01ɍ\xb7\x01\x12\x8a\x01\n" +
 	"\x0eGetUserProfile\x124.meshtrade.iam.user_profile.v1.GetUserProfileRequest\x1a*.meshtrade.iam.user_profile.v1.UserProfile\"\x16\xb2\xb5\x18\x12\b\x01\x10\x02\x1a\f\xc0\x8d\xb7\x01ȍ\xb7\x01ɍ\xb7\x01\x12\x96\x01\n" +
-	"\x14GetUserProfileByUser\x12:.meshtrade.iam.user_profile.v1.GetUserProfileByUserRequest\x1a*.meshtrade.iam.user_profile.v1.UserProfile\"\x16\xb2\xb5\x18\x12\b\x01\x10\x02\x1a\f\xc0\x8d\xb7\x01ȍ\xb7\x01ɍ\xb7\x01\x12\x9b\x01\n" +
-	"\x10ListUserProfiles\x126.meshtrade.iam.user_profile.v1.ListUserProfilesRequest\x1a7.meshtrade.iam.user_profile.v1.ListUserProfilesResponse\"\x16\xb2\xb5\x18\x12\b\x01\x10\x02\x1a\f\xc0\x8d\xb7\x01ȍ\xb7\x01ɍ\xb7\x01\x12\xa1\x01\n" +
-	"\x12SearchUserProfiles\x128.meshtrade.iam.user_profile.v1.SearchUserProfilesRequest\x1a9.meshtrade.iam.user_profile.v1.SearchUserProfilesResponse\"\x16\xb2\xb5\x18\x12\b\x01\x10\x02\x1a\f\xc0\x8d\xb7\x01ȍ\xb7\x01ɍ\xb7\x01Bg\n" +
+	"\x14GetUserProfileByUser\x12:.meshtrade.iam.user_profile.v1.GetUserProfileByUserRequest\x1a*.meshtrade.iam.user_profile.v1.UserProfile\"\x16\xb2\xb5\x18\x12\b\x01\x10\x02\x1a\f\xc0\x8d\xb7\x01ȍ\xb7\x01ɍ\xb7\x01\x12\x97\x01\n" +
+	"\x10ListUserProfiles\x126.meshtrade.iam.user_profile.v1.ListUserProfilesRequest\x1a7.meshtrade.iam.user_profile.v1.ListUserProfilesResponse\"\x12\xb2\xb5\x18\x0e\b\x01\x10\x02\x1a\b\xc0\x8d\xb7\x01ȍ\xb7\x01\x12\x9d\x01\n" +
+	"\x12SearchUserProfiles\x128.meshtrade.iam.user_profile.v1.SearchUserProfilesRequest\x1a9.meshtrade.iam.user_profile.v1.SearchUserProfilesResponse\"\x12\xb2\xb5\x18\x0e\b\x01\x10\x02\x1a\b\xc0\x8d\xb7\x01ȍ\xb7\x01Bg\n" +
 	"$co.meshtrade.api.iam.user_profile.v1Z?github.com/meshtrade/api/go/iam/user_profile/v1;user_profile_v1b\x06proto3"
 
 var (

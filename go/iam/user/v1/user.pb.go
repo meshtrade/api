@@ -8,6 +8,7 @@ package user_v1
 
 import (
 	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
+	v1 "github.com/meshtrade/api/go/type/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -42,8 +43,8 @@ type User struct {
 	Owners []string `protobuf:"bytes,3,rep,name=owners,proto3" json:"owners,omitempty"`
 	// The unique email address of this user.
 	// This field is required on creation and must be a valid email format.
-	Email        string `protobuf:"bytes,4,opt,name=email,proto3" json:"email,omitempty"`
-	MobileNumber string `protobuf:"bytes,5,opt,name=mobile_number,json=mobileNumber,proto3" json:"mobile_number,omitempty"`
+	Email        string           `protobuf:"bytes,4,opt,name=email,proto3" json:"email,omitempty"`
+	MobileNumber *v1.MobileNumber `protobuf:"bytes,5,opt,name=mobile_number,json=mobileNumber,proto3" json:"mobile_number,omitempty"`
 	// Roles is a list of standard roles assigned to this user,
 	// prepended by the name of the group in which they have been assigned that role.
 	// e.g. groups/{ULIDv2}/roles/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
@@ -110,11 +111,11 @@ func (x *User) GetEmail() string {
 	return ""
 }
 
-func (x *User) GetMobileNumber() string {
+func (x *User) GetMobileNumber() *v1.MobileNumber {
 	if x != nil {
 		return x.MobileNumber
 	}
-	return ""
+	return nil
 }
 
 func (x *User) GetRoles() []string {
@@ -128,15 +129,15 @@ var File_meshtrade_iam_user_v1_user_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_user_v1_user_proto_rawDesc = "" +
 	"\n" +
-	" meshtrade/iam/user/v1/user.proto\x12\x15meshtrade.iam.user.v1\x1a\x1bbuf/validate/validate.proto\"\xa3\x04\n" +
+	" meshtrade/iam/user/v1/user.proto\x12\x15meshtrade.iam.user.v1\x1a\x1bbuf/validate/validate.proto\x1a'meshtrade/type/v1/contact_details.proto\"\xc4\x04\n" +
 	"\x04User\x12\xba\x01\n" +
 	"\x04name\x18\x01 \x01(\tB\xa5\x01\xbaH\xa1\x01\xba\x01\x9d\x01\n" +
 	"\x14name.format.optional\x122name must be empty or in the format users/{ULIDv2}\x1aQsize(this) == 0 || this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12R\n" +
 	"\x05owner\x18\x02 \x01(\tB<\xbaH9\xc8\x01\x01r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05owner\x12V\n" +
 	"\x06owners\x18\x03 \x03(\tB>\xbaH;\x92\x018\"6r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x06owners\x12 \n" +
 	"\x05email\x18\x04 \x01(\tB\n" +
-	"\xbaH\a\xc8\x01\x01r\x02`\x01R\x05email\x12#\n" +
-	"\rmobile_number\x18\x05 \x01(\tR\fmobileNumber\x12k\n" +
+	"\xbaH\a\xc8\x01\x01r\x02`\x01R\x05email\x12D\n" +
+	"\rmobile_number\x18\x05 \x01(\v2\x1f.meshtrade.type.v1.MobileNumberR\fmobileNumber\x12k\n" +
 	"\x05roles\x18\x06 \x03(\tBU\xbaHR\x92\x01O\"MrK\x10/\x1802E^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/roles/[1-9][0-9]{6,7}$R\x05rolesBO\n" +
 	"\x1cco.meshtrade.api.iam.user.v1Z/github.com/meshtrade/api/go/iam/user/v1;user_v1b\x06proto3"
 
@@ -154,14 +155,16 @@ func file_meshtrade_iam_user_v1_user_proto_rawDescGZIP() []byte {
 
 var file_meshtrade_iam_user_v1_user_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_meshtrade_iam_user_v1_user_proto_goTypes = []any{
-	(*User)(nil), // 0: meshtrade.iam.user.v1.User
+	(*User)(nil),            // 0: meshtrade.iam.user.v1.User
+	(*v1.MobileNumber)(nil), // 1: meshtrade.type.v1.MobileNumber
 }
 var file_meshtrade_iam_user_v1_user_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	1, // 0: meshtrade.iam.user.v1.User.mobile_number:type_name -> meshtrade.type.v1.MobileNumber
+	1, // [1:1] is the sub-list for method output_type
+	1, // [1:1] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_iam_user_v1_user_proto_init() }
