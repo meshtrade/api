@@ -77,11 +77,12 @@ func NewBaseGRPCClient[T any](
 ) (*BaseGRPCClient[T], error) {
 	// Create configuration with default values
 	cfg := &config.BaseConfig{
-		URL:     config.DefaultGRPCURL,
-		Port:    config.DefaultGRPCPort,
-		TLS:     config.DefaultTLS,
-		Tracer:  noop.NewTracerProvider().Tracer(""),
-		Timeout: 30 * time.Second, // default 30 second timeout
+		URL:            config.DefaultGRPCURL,
+		Port:           config.DefaultGRPCPort,
+		TLS:            config.DefaultTLS,
+		Tracer:         noop.NewTracerProvider().Tracer(""),
+		Timeout:        30 * time.Second, // default 30 second timeout
+		GRPCConnection: nil,
 	}
 
 	// Attempt to load credentials using discovery hierarchy
@@ -130,26 +131,32 @@ func NewBaseGRPCClient[T any](
 		client.streamAuthInterceptor(),
 	}
 
-	// Prepare dial options
-	dialOpts := make([]grpc.DialOption, 0)
+	// setup grpc connection
+	var conn *grpc.ClientConn
+	if cfg.GRPCConnection == nil {
+		// Prepare dial options
+		dialOpts := make([]grpc.DialOption, 0)
 
-	// Set transport credentials
-	if client.tls {
-		dialOpts = append(dialOpts, grpc.WithTransportCredentials(credentials.NewClientTLSFromCert(nil, "")))
+		// Set transport credentials
+		if client.tls {
+			dialOpts = append(dialOpts, grpc.WithTransportCredentials(credentials.NewClientTLSFromCert(nil, "")))
+		} else {
+			dialOpts = append(dialOpts, grpc.WithTransportCredentials(insecure.NewCredentials()))
+		}
+
+		dialOpts = append(dialOpts, grpc.WithChainUnaryInterceptor(client.unaryClientInterceptors...))
+		dialOpts = append(dialOpts, grpc.WithChainStreamInterceptor(client.streamClientInterceptors...))
+
+		// Construct gRPC client connection
+		conn, err = grpc.NewClient(
+			fmt.Sprintf("%s:%d", client.url, client.port),
+			dialOpts...,
+		)
+		if err != nil {
+			return nil, fmt.Errorf("error constructing grpc service connection: %w", err)
+		}
 	} else {
-		dialOpts = append(dialOpts, grpc.WithTransportCredentials(insecure.NewCredentials()))
-	}
-
-	dialOpts = append(dialOpts, grpc.WithChainUnaryInterceptor(client.unaryClientInterceptors...))
-	dialOpts = append(dialOpts, grpc.WithChainStreamInterceptor(client.streamClientInterceptors...))
-
-	// Construct gRPC client connection
-	conn, err := grpc.NewClient(
-		fmt.Sprintf("%s:%d", client.url, client.port),
-		dialOpts...,
-	)
-	if err != nil {
-		return nil, fmt.Errorf("error constructing grpc service connection: %w", err)
+		conn = cfg.GRPCConnection
 	}
 
 	// Set connection and create service-specific gRPC client
