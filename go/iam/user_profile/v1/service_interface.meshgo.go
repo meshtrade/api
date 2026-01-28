@@ -7,8 +7,6 @@ import (
 )
 
 type UserProfileService interface {
-	CreateUserProfile(ctx context.Context, request *CreateUserProfileRequest) (*UserProfile, error)
-
 	UpdateUserProfile(ctx context.Context, request *UpdateUserProfileRequest) (*UserProfile, error)
 
 	GetUserProfile(ctx context.Context, request *GetUserProfileRequest) (*UserProfile, error)

@@ -51,7 +51,6 @@ import (
 type UserProfileServiceClientInterface interface {
 	grpc.GRPCClient
 
-	CreateUserProfile(ctx context.Context, request *CreateUserProfileRequest) (*UserProfile, error)
 	UpdateUserProfile(ctx context.Context, request *UpdateUserProfileRequest) (*UserProfile, error)
 	GetUserProfile(ctx context.Context, request *GetUserProfileRequest) (*UserProfile, error)
 	GetUserProfileByUser(ctx context.Context, request *GetUserProfileByUserRequest) (*UserProfile, error)
@@ -166,14 +165,6 @@ func (s *userProfileService) WithGroup(group string) UserProfileServiceClientInt
 
 	// Return new service instance wrapping the new base client
 	return &userProfileService{BaseGRPCClient: newBase}
-}
-
-// CreateUserProfile executes the CreateUserProfile RPC method with automatic
-// client-side validation, timeout handling, distributed tracing, and authentication.
-func (s *userProfileService) CreateUserProfile(ctx context.Context, request *CreateUserProfileRequest) (*UserProfile, error) {
-	return grpc.Execute(s.Executor(), ctx, "CreateUserProfile", request, func(ctx context.Context) (*UserProfile, error) {
-		return s.GrpcClient().CreateUserProfile(ctx, request)
-	})
 }
 
 // UpdateUserProfile executes the UpdateUserProfile RPC method with automatic

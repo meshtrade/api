@@ -15,8 +15,6 @@ var _ UserProfileService = &MockUserProfileService{}
 type MockUserProfileService struct {
 	mutex                               sync.Mutex
 	T                                   *testing.T
-	CreateUserProfileFunc               func(t *testing.T, m *MockUserProfileService, ctx context.Context, request *CreateUserProfileRequest) (*UserProfile, error)
-	CreateUserProfileFuncInvocations    int
 	UpdateUserProfileFunc               func(t *testing.T, m *MockUserProfileService, ctx context.Context, request *UpdateUserProfileRequest) (*UserProfile, error)
 	UpdateUserProfileFuncInvocations    int
 	GetUserProfileFunc                  func(t *testing.T, m *MockUserProfileService, ctx context.Context, request *GetUserProfileRequest) (*UserProfile, error)
@@ -27,16 +25,6 @@ type MockUserProfileService struct {
 	ListUserProfilesFuncInvocations     int
 	SearchUserProfilesFunc              func(t *testing.T, m *MockUserProfileService, ctx context.Context, request *SearchUserProfilesRequest) (*SearchUserProfilesResponse, error)
 	SearchUserProfilesFuncInvocations   int
-}
-
-func (m *MockUserProfileService) CreateUserProfile(ctx context.Context, request *CreateUserProfileRequest) (*UserProfile, error) {
-	m.mutex.Lock()
-	m.CreateUserProfileFuncInvocations++
-	m.mutex.Unlock()
-	if m.CreateUserProfileFunc == nil {
-		return nil, nil
-	}
-	return m.CreateUserProfileFunc(m.T, m, ctx, request)
 }
 
 func (m *MockUserProfileService) UpdateUserProfile(ctx context.Context, request *UpdateUserProfileRequest) (*UserProfile, error) {

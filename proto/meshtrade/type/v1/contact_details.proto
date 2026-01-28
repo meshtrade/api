@@ -70,9 +70,3 @@ message ContactDetails {
   */
   string youtube = 11;
 }
-
-message MobileNumber {
-  string value = 1;
-  bool verfied = 2;
-  string reset_reason = 3;
-}

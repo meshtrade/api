@@ -112,50 +112,6 @@ func (x *CreateUserProfileRequest) GetUserProfile() *UserProfile {
 	return nil
 }
 
-type CreateUserProfileResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserProfile   *UserProfile           `protobuf:"bytes,1,opt,name=user_profile,json=userProfile,proto3" json:"user_profile,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *CreateUserProfileResponse) Reset() {
-	*x = CreateUserProfileResponse{}
-	mi := &file_meshtrade_iam_user_profile_v1_service_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CreateUserProfileResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateUserProfileResponse) ProtoMessage() {}
-
-func (x *CreateUserProfileResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_iam_user_profile_v1_service_proto_msgTypes[2]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateUserProfileResponse.ProtoReflect.Descriptor instead.
-func (*CreateUserProfileResponse) Descriptor() ([]byte, []int) {
-	return file_meshtrade_iam_user_profile_v1_service_proto_rawDescGZIP(), []int{2}
-}
-
-func (x *CreateUserProfileResponse) GetUserProfile() *UserProfile {
-	if x != nil {
-		return x.UserProfile
-	}
-	return nil
-}
-
 type UpdateUserProfileRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserProfile   *UserProfile           `protobuf:"bytes,1,opt,name=user_profile,json=userProfile,proto3" json:"user_profile,omitempty"`
@@ -165,7 +121,7 @@ type UpdateUserProfileRequest struct {
 
 func (x *UpdateUserProfileRequest) Reset() {
 	*x = UpdateUserProfileRequest{}
-	mi := &file_meshtrade_iam_user_profile_v1_service_proto_msgTypes[3]
+	mi := &file_meshtrade_iam_user_profile_v1_service_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -177,7 +133,7 @@ func (x *UpdateUserProfileRequest) String() string {
 func (*UpdateUserProfileRequest) ProtoMessage() {}
 
 func (x *UpdateUserProfileRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_iam_user_profile_v1_service_proto_msgTypes[3]
+	mi := &file_meshtrade_iam_user_profile_v1_service_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -190,7 +146,7 @@ func (x *UpdateUserProfileRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateUserProfileRequest.ProtoReflect.Descriptor instead.
 func (*UpdateUserProfileRequest) Descriptor() ([]byte, []int) {
-	return file_meshtrade_iam_user_profile_v1_service_proto_rawDescGZIP(), []int{3}
+	return file_meshtrade_iam_user_profile_v1_service_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *UpdateUserProfileRequest) GetUserProfile() *UserProfile {
@@ -210,7 +166,7 @@ type GetUserProfileRequest struct {
 
 func (x *GetUserProfileRequest) Reset() {
 	*x = GetUserProfileRequest{}
-	mi := &file_meshtrade_iam_user_profile_v1_service_proto_msgTypes[4]
+	mi := &file_meshtrade_iam_user_profile_v1_service_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -222,7 +178,7 @@ func (x *GetUserProfileRequest) String() string {
 func (*GetUserProfileRequest) ProtoMessage() {}
 
 func (x *GetUserProfileRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_iam_user_profile_v1_service_proto_msgTypes[4]
+	mi := &file_meshtrade_iam_user_profile_v1_service_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -235,7 +191,7 @@ func (x *GetUserProfileRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserProfileRequest.ProtoReflect.Descriptor instead.
 func (*GetUserProfileRequest) Descriptor() ([]byte, []int) {
-	return file_meshtrade_iam_user_profile_v1_service_proto_rawDescGZIP(), []int{4}
+	return file_meshtrade_iam_user_profile_v1_service_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *GetUserProfileRequest) GetName() string {
@@ -253,7 +209,7 @@ type ListUserProfilesRequest struct {
 
 func (x *ListUserProfilesRequest) Reset() {
 	*x = ListUserProfilesRequest{}
-	mi := &file_meshtrade_iam_user_profile_v1_service_proto_msgTypes[5]
+	mi := &file_meshtrade_iam_user_profile_v1_service_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -265,7 +221,7 @@ func (x *ListUserProfilesRequest) String() string {
 func (*ListUserProfilesRequest) ProtoMessage() {}
 
 func (x *ListUserProfilesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_iam_user_profile_v1_service_proto_msgTypes[5]
+	mi := &file_meshtrade_iam_user_profile_v1_service_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -278,7 +234,7 @@ func (x *ListUserProfilesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListUserProfilesRequest.ProtoReflect.Descriptor instead.
 func (*ListUserProfilesRequest) Descriptor() ([]byte, []int) {
-	return file_meshtrade_iam_user_profile_v1_service_proto_rawDescGZIP(), []int{5}
+	return file_meshtrade_iam_user_profile_v1_service_proto_rawDescGZIP(), []int{4}
 }
 
 type ListUserProfilesResponse struct {
@@ -290,7 +246,7 @@ type ListUserProfilesResponse struct {
 
 func (x *ListUserProfilesResponse) Reset() {
 	*x = ListUserProfilesResponse{}
-	mi := &file_meshtrade_iam_user_profile_v1_service_proto_msgTypes[6]
+	mi := &file_meshtrade_iam_user_profile_v1_service_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -302,7 +258,7 @@ func (x *ListUserProfilesResponse) String() string {
 func (*ListUserProfilesResponse) ProtoMessage() {}
 
 func (x *ListUserProfilesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_iam_user_profile_v1_service_proto_msgTypes[6]
+	mi := &file_meshtrade_iam_user_profile_v1_service_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -315,7 +271,7 @@ func (x *ListUserProfilesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListUserProfilesResponse.ProtoReflect.Descriptor instead.
 func (*ListUserProfilesResponse) Descriptor() ([]byte, []int) {
-	return file_meshtrade_iam_user_profile_v1_service_proto_rawDescGZIP(), []int{6}
+	return file_meshtrade_iam_user_profile_v1_service_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *ListUserProfilesResponse) GetUserProfiles() []*UserProfile {
@@ -341,7 +297,7 @@ type SearchUserProfilesRequest struct {
 
 func (x *SearchUserProfilesRequest) Reset() {
 	*x = SearchUserProfilesRequest{}
-	mi := &file_meshtrade_iam_user_profile_v1_service_proto_msgTypes[7]
+	mi := &file_meshtrade_iam_user_profile_v1_service_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -353,7 +309,7 @@ func (x *SearchUserProfilesRequest) String() string {
 func (*SearchUserProfilesRequest) ProtoMessage() {}
 
 func (x *SearchUserProfilesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_iam_user_profile_v1_service_proto_msgTypes[7]
+	mi := &file_meshtrade_iam_user_profile_v1_service_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -366,7 +322,7 @@ func (x *SearchUserProfilesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SearchUserProfilesRequest.ProtoReflect.Descriptor instead.
 func (*SearchUserProfilesRequest) Descriptor() ([]byte, []int) {
-	return file_meshtrade_iam_user_profile_v1_service_proto_rawDescGZIP(), []int{7}
+	return file_meshtrade_iam_user_profile_v1_service_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *SearchUserProfilesRequest) GetDisplayName() string {
@@ -399,7 +355,7 @@ type SearchUserProfilesResponse struct {
 
 func (x *SearchUserProfilesResponse) Reset() {
 	*x = SearchUserProfilesResponse{}
-	mi := &file_meshtrade_iam_user_profile_v1_service_proto_msgTypes[8]
+	mi := &file_meshtrade_iam_user_profile_v1_service_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -411,7 +367,7 @@ func (x *SearchUserProfilesResponse) String() string {
 func (*SearchUserProfilesResponse) ProtoMessage() {}
 
 func (x *SearchUserProfilesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_iam_user_profile_v1_service_proto_msgTypes[8]
+	mi := &file_meshtrade_iam_user_profile_v1_service_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -424,7 +380,7 @@ func (x *SearchUserProfilesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SearchUserProfilesResponse.ProtoReflect.Descriptor instead.
 func (*SearchUserProfilesResponse) Descriptor() ([]byte, []int) {
-	return file_meshtrade_iam_user_profile_v1_service_proto_rawDescGZIP(), []int{8}
+	return file_meshtrade_iam_user_profile_v1_service_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *SearchUserProfilesResponse) GetUserProfiles() []*UserProfile {
@@ -447,7 +403,7 @@ type SearchUserProfilesRequest_Sorting struct {
 
 func (x *SearchUserProfilesRequest_Sorting) Reset() {
 	*x = SearchUserProfilesRequest_Sorting{}
-	mi := &file_meshtrade_iam_user_profile_v1_service_proto_msgTypes[9]
+	mi := &file_meshtrade_iam_user_profile_v1_service_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -459,7 +415,7 @@ func (x *SearchUserProfilesRequest_Sorting) String() string {
 func (*SearchUserProfilesRequest_Sorting) ProtoMessage() {}
 
 func (x *SearchUserProfilesRequest_Sorting) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_iam_user_profile_v1_service_proto_msgTypes[9]
+	mi := &file_meshtrade_iam_user_profile_v1_service_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -472,7 +428,7 @@ func (x *SearchUserProfilesRequest_Sorting) ProtoReflect() protoreflect.Message 
 
 // Deprecated: Use SearchUserProfilesRequest_Sorting.ProtoReflect.Descriptor instead.
 func (*SearchUserProfilesRequest_Sorting) Descriptor() ([]byte, []int) {
-	return file_meshtrade_iam_user_profile_v1_service_proto_rawDescGZIP(), []int{7, 0}
+	return file_meshtrade_iam_user_profile_v1_service_proto_rawDescGZIP(), []int{6, 0}
 }
 
 func (x *SearchUserProfilesRequest_Sorting) GetName() string {
@@ -506,9 +462,7 @@ const file_meshtrade_iam_user_profile_v1_service_proto_rawDesc = "" +
 	"\rname.required\x125name is required and must be in format users/{ULIDv2}\x1a\x0esize(this) > 0\xba\x01\xb1\x01\n" +
 	"\vname.format\x12bname must be in format users/{ULIDv2} where ulidv2 is exactly 26 uppercase alphanumeric characters\x1a>this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')\xc8\x01\x01r:\x10\x0126^user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$R\x04user\"q\n" +
 	"\x18CreateUserProfileRequest\x12U\n" +
-	"\fuser_profile\x18\x01 \x01(\v2*.meshtrade.iam.user_profile.v1.UserProfileB\x06\xbaH\x03\xc8\x01\x01R\vuserProfile\"j\n" +
-	"\x19CreateUserProfileResponse\x12M\n" +
-	"\fuser_profile\x18\x01 \x01(\v2*.meshtrade.iam.user_profile.v1.UserProfileR\vuserProfile\"q\n" +
+	"\fuser_profile\x18\x01 \x01(\v2*.meshtrade.iam.user_profile.v1.UserProfileB\x06\xbaH\x03\xc8\x01\x01R\vuserProfile\"q\n" +
 	"\x18UpdateUserProfileRequest\x12U\n" +
 	"\fuser_profile\x18\x01 \x01(\v2*.meshtrade.iam.user_profile.v1.UserProfileB\x06\xbaH\x03\xc8\x01\x01R\vuserProfile\"\x98\x03\n" +
 	"\x15GetUserProfileRequest\x12\xfe\x02\n" +
@@ -530,14 +484,13 @@ const file_meshtrade_iam_user_profile_v1_service_proto_rawDesc = "" +
 	"\x05owner\x18\x02 \x01(\tB9\xbaH6r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05owner\x125\n" +
 	"\x05order\x18\x03 \x01(\x0e2\x1f.meshtrade.type.v1.SortingOrderR\x05order\"m\n" +
 	"\x1aSearchUserProfilesResponse\x12O\n" +
-	"\ruser_profiles\x18\x01 \x03(\v2*.meshtrade.iam.user_profile.v1.UserProfileR\fuserProfiles2\x9a\a\n" +
-	"\x12UserProfileService\x12\x90\x01\n" +
-	"\x11CreateUserProfile\x127.meshtrade.iam.user_profile.v1.CreateUserProfileRequest\x1a*.meshtrade.iam.user_profile.v1.UserProfile\"\x16\xb2\xb5\x18\x12\b\x02\x10\x02\x1a\f\xc0\x8d\xb7\x01ȍ\xb7\x01ɍ\xb7\x01\x12\x90\x01\n" +
-	"\x11UpdateUserProfile\x127.meshtrade.iam.user_profile.v1.UpdateUserProfileRequest\x1a*.meshtrade.iam.user_profile.v1.UserProfile\"\x16\xb2\xb5\x18\x12\b\x02\x10\x02\x1a\f\xc0\x8d\xb7\x01ȍ\xb7\x01ɍ\xb7\x01\x12\x8a\x01\n" +
-	"\x0eGetUserProfile\x124.meshtrade.iam.user_profile.v1.GetUserProfileRequest\x1a*.meshtrade.iam.user_profile.v1.UserProfile\"\x16\xb2\xb5\x18\x12\b\x01\x10\x02\x1a\f\xc0\x8d\xb7\x01ȍ\xb7\x01ɍ\xb7\x01\x12\x96\x01\n" +
-	"\x14GetUserProfileByUser\x12:.meshtrade.iam.user_profile.v1.GetUserProfileByUserRequest\x1a*.meshtrade.iam.user_profile.v1.UserProfile\"\x16\xb2\xb5\x18\x12\b\x01\x10\x02\x1a\f\xc0\x8d\xb7\x01ȍ\xb7\x01ɍ\xb7\x01\x12\x97\x01\n" +
-	"\x10ListUserProfiles\x126.meshtrade.iam.user_profile.v1.ListUserProfilesRequest\x1a7.meshtrade.iam.user_profile.v1.ListUserProfilesResponse\"\x12\xb2\xb5\x18\x0e\b\x01\x10\x02\x1a\b\xc0\x8d\xb7\x01ȍ\xb7\x01\x12\x9d\x01\n" +
-	"\x12SearchUserProfiles\x128.meshtrade.iam.user_profile.v1.SearchUserProfilesRequest\x1a9.meshtrade.iam.user_profile.v1.SearchUserProfilesResponse\"\x12\xb2\xb5\x18\x0e\b\x01\x10\x02\x1a\b\xc0\x8d\xb7\x01ȍ\xb7\x01Bg\n" +
+	"\ruser_profiles\x18\x01 \x03(\v2*.meshtrade.iam.user_profile.v1.UserProfileR\fuserProfiles2\xfb\x05\n" +
+	"\x12UserProfileService\x12\x8c\x01\n" +
+	"\x11UpdateUserProfile\x127.meshtrade.iam.user_profile.v1.UpdateUserProfileRequest\x1a*.meshtrade.iam.user_profile.v1.UserProfile\"\x12\xb2\xb5\x18\x0e\b\x02\x10\x02\x1a\b\xc0\x8d\xb7\x01ȍ\xb7\x01\x12\x86\x01\n" +
+	"\x0eGetUserProfile\x124.meshtrade.iam.user_profile.v1.GetUserProfileRequest\x1a*.meshtrade.iam.user_profile.v1.UserProfile\"\x12\xb2\xb5\x18\x0e\b\x01\x10\x02\x1a\bȍ\xb7\x01ɍ\xb7\x01\x12\x92\x01\n" +
+	"\x14GetUserProfileByUser\x12:.meshtrade.iam.user_profile.v1.GetUserProfileByUserRequest\x1a*.meshtrade.iam.user_profile.v1.UserProfile\"\x12\xb2\xb5\x18\x0e\b\x01\x10\x02\x1a\bȍ\xb7\x01ɍ\xb7\x01\x12\x97\x01\n" +
+	"\x10ListUserProfiles\x126.meshtrade.iam.user_profile.v1.ListUserProfilesRequest\x1a7.meshtrade.iam.user_profile.v1.ListUserProfilesResponse\"\x12\xb2\xb5\x18\x0e\b\x01\x10\x02\x1a\bȍ\xb7\x01ɍ\xb7\x01\x12\x9d\x01\n" +
+	"\x12SearchUserProfiles\x128.meshtrade.iam.user_profile.v1.SearchUserProfilesRequest\x1a9.meshtrade.iam.user_profile.v1.SearchUserProfilesResponse\"\x12\xb2\xb5\x18\x0e\b\x01\x10\x02\x1a\bȍ\xb7\x01ɍ\xb7\x01Bg\n" +
 	"$co.meshtrade.api.iam.user_profile.v1Z?github.com/meshtrade/api/go/iam/user_profile/v1;user_profile_v1b\x06proto3"
 
 var (
@@ -552,46 +505,42 @@ func file_meshtrade_iam_user_profile_v1_service_proto_rawDescGZIP() []byte {
 	return file_meshtrade_iam_user_profile_v1_service_proto_rawDescData
 }
 
-var file_meshtrade_iam_user_profile_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_meshtrade_iam_user_profile_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_meshtrade_iam_user_profile_v1_service_proto_goTypes = []any{
 	(*GetUserProfileByUserRequest)(nil),       // 0: meshtrade.iam.user_profile.v1.GetUserProfileByUserRequest
 	(*CreateUserProfileRequest)(nil),          // 1: meshtrade.iam.user_profile.v1.CreateUserProfileRequest
-	(*CreateUserProfileResponse)(nil),         // 2: meshtrade.iam.user_profile.v1.CreateUserProfileResponse
-	(*UpdateUserProfileRequest)(nil),          // 3: meshtrade.iam.user_profile.v1.UpdateUserProfileRequest
-	(*GetUserProfileRequest)(nil),             // 4: meshtrade.iam.user_profile.v1.GetUserProfileRequest
-	(*ListUserProfilesRequest)(nil),           // 5: meshtrade.iam.user_profile.v1.ListUserProfilesRequest
-	(*ListUserProfilesResponse)(nil),          // 6: meshtrade.iam.user_profile.v1.ListUserProfilesResponse
-	(*SearchUserProfilesRequest)(nil),         // 7: meshtrade.iam.user_profile.v1.SearchUserProfilesRequest
-	(*SearchUserProfilesResponse)(nil),        // 8: meshtrade.iam.user_profile.v1.SearchUserProfilesResponse
-	(*SearchUserProfilesRequest_Sorting)(nil), // 9: meshtrade.iam.user_profile.v1.SearchUserProfilesRequest.Sorting
-	(*UserProfile)(nil),                       // 10: meshtrade.iam.user_profile.v1.UserProfile
-	(v1.SortingOrder)(0),                      // 11: meshtrade.type.v1.SortingOrder
+	(*UpdateUserProfileRequest)(nil),          // 2: meshtrade.iam.user_profile.v1.UpdateUserProfileRequest
+	(*GetUserProfileRequest)(nil),             // 3: meshtrade.iam.user_profile.v1.GetUserProfileRequest
+	(*ListUserProfilesRequest)(nil),           // 4: meshtrade.iam.user_profile.v1.ListUserProfilesRequest
+	(*ListUserProfilesResponse)(nil),          // 5: meshtrade.iam.user_profile.v1.ListUserProfilesResponse
+	(*SearchUserProfilesRequest)(nil),         // 6: meshtrade.iam.user_profile.v1.SearchUserProfilesRequest
+	(*SearchUserProfilesResponse)(nil),        // 7: meshtrade.iam.user_profile.v1.SearchUserProfilesResponse
+	(*SearchUserProfilesRequest_Sorting)(nil), // 8: meshtrade.iam.user_profile.v1.SearchUserProfilesRequest.Sorting
+	(*UserProfile)(nil),                       // 9: meshtrade.iam.user_profile.v1.UserProfile
+	(v1.SortingOrder)(0),                      // 10: meshtrade.type.v1.SortingOrder
 }
 var file_meshtrade_iam_user_profile_v1_service_proto_depIdxs = []int32{
-	10, // 0: meshtrade.iam.user_profile.v1.CreateUserProfileRequest.user_profile:type_name -> meshtrade.iam.user_profile.v1.UserProfile
-	10, // 1: meshtrade.iam.user_profile.v1.CreateUserProfileResponse.user_profile:type_name -> meshtrade.iam.user_profile.v1.UserProfile
-	10, // 2: meshtrade.iam.user_profile.v1.UpdateUserProfileRequest.user_profile:type_name -> meshtrade.iam.user_profile.v1.UserProfile
-	10, // 3: meshtrade.iam.user_profile.v1.ListUserProfilesResponse.user_profiles:type_name -> meshtrade.iam.user_profile.v1.UserProfile
-	9,  // 4: meshtrade.iam.user_profile.v1.SearchUserProfilesRequest.sorting:type_name -> meshtrade.iam.user_profile.v1.SearchUserProfilesRequest.Sorting
-	10, // 5: meshtrade.iam.user_profile.v1.SearchUserProfilesResponse.user_profiles:type_name -> meshtrade.iam.user_profile.v1.UserProfile
-	11, // 6: meshtrade.iam.user_profile.v1.SearchUserProfilesRequest.Sorting.order:type_name -> meshtrade.type.v1.SortingOrder
-	1,  // 7: meshtrade.iam.user_profile.v1.UserProfileService.CreateUserProfile:input_type -> meshtrade.iam.user_profile.v1.CreateUserProfileRequest
-	3,  // 8: meshtrade.iam.user_profile.v1.UserProfileService.UpdateUserProfile:input_type -> meshtrade.iam.user_profile.v1.UpdateUserProfileRequest
-	4,  // 9: meshtrade.iam.user_profile.v1.UserProfileService.GetUserProfile:input_type -> meshtrade.iam.user_profile.v1.GetUserProfileRequest
-	0,  // 10: meshtrade.iam.user_profile.v1.UserProfileService.GetUserProfileByUser:input_type -> meshtrade.iam.user_profile.v1.GetUserProfileByUserRequest
-	5,  // 11: meshtrade.iam.user_profile.v1.UserProfileService.ListUserProfiles:input_type -> meshtrade.iam.user_profile.v1.ListUserProfilesRequest
-	7,  // 12: meshtrade.iam.user_profile.v1.UserProfileService.SearchUserProfiles:input_type -> meshtrade.iam.user_profile.v1.SearchUserProfilesRequest
-	10, // 13: meshtrade.iam.user_profile.v1.UserProfileService.CreateUserProfile:output_type -> meshtrade.iam.user_profile.v1.UserProfile
-	10, // 14: meshtrade.iam.user_profile.v1.UserProfileService.UpdateUserProfile:output_type -> meshtrade.iam.user_profile.v1.UserProfile
-	10, // 15: meshtrade.iam.user_profile.v1.UserProfileService.GetUserProfile:output_type -> meshtrade.iam.user_profile.v1.UserProfile
-	10, // 16: meshtrade.iam.user_profile.v1.UserProfileService.GetUserProfileByUser:output_type -> meshtrade.iam.user_profile.v1.UserProfile
-	6,  // 17: meshtrade.iam.user_profile.v1.UserProfileService.ListUserProfiles:output_type -> meshtrade.iam.user_profile.v1.ListUserProfilesResponse
-	8,  // 18: meshtrade.iam.user_profile.v1.UserProfileService.SearchUserProfiles:output_type -> meshtrade.iam.user_profile.v1.SearchUserProfilesResponse
-	13, // [13:19] is the sub-list for method output_type
-	7,  // [7:13] is the sub-list for method input_type
-	7,  // [7:7] is the sub-list for extension type_name
-	7,  // [7:7] is the sub-list for extension extendee
-	0,  // [0:7] is the sub-list for field type_name
+	9,  // 0: meshtrade.iam.user_profile.v1.CreateUserProfileRequest.user_profile:type_name -> meshtrade.iam.user_profile.v1.UserProfile
+	9,  // 1: meshtrade.iam.user_profile.v1.UpdateUserProfileRequest.user_profile:type_name -> meshtrade.iam.user_profile.v1.UserProfile
+	9,  // 2: meshtrade.iam.user_profile.v1.ListUserProfilesResponse.user_profiles:type_name -> meshtrade.iam.user_profile.v1.UserProfile
+	8,  // 3: meshtrade.iam.user_profile.v1.SearchUserProfilesRequest.sorting:type_name -> meshtrade.iam.user_profile.v1.SearchUserProfilesRequest.Sorting
+	9,  // 4: meshtrade.iam.user_profile.v1.SearchUserProfilesResponse.user_profiles:type_name -> meshtrade.iam.user_profile.v1.UserProfile
+	10, // 5: meshtrade.iam.user_profile.v1.SearchUserProfilesRequest.Sorting.order:type_name -> meshtrade.type.v1.SortingOrder
+	2,  // 6: meshtrade.iam.user_profile.v1.UserProfileService.UpdateUserProfile:input_type -> meshtrade.iam.user_profile.v1.UpdateUserProfileRequest
+	3,  // 7: meshtrade.iam.user_profile.v1.UserProfileService.GetUserProfile:input_type -> meshtrade.iam.user_profile.v1.GetUserProfileRequest
+	0,  // 8: meshtrade.iam.user_profile.v1.UserProfileService.GetUserProfileByUser:input_type -> meshtrade.iam.user_profile.v1.GetUserProfileByUserRequest
+	4,  // 9: meshtrade.iam.user_profile.v1.UserProfileService.ListUserProfiles:input_type -> meshtrade.iam.user_profile.v1.ListUserProfilesRequest
+	6,  // 10: meshtrade.iam.user_profile.v1.UserProfileService.SearchUserProfiles:input_type -> meshtrade.iam.user_profile.v1.SearchUserProfilesRequest
+	9,  // 11: meshtrade.iam.user_profile.v1.UserProfileService.UpdateUserProfile:output_type -> meshtrade.iam.user_profile.v1.UserProfile
+	9,  // 12: meshtrade.iam.user_profile.v1.UserProfileService.GetUserProfile:output_type -> meshtrade.iam.user_profile.v1.UserProfile
+	9,  // 13: meshtrade.iam.user_profile.v1.UserProfileService.GetUserProfileByUser:output_type -> meshtrade.iam.user_profile.v1.UserProfile
+	5,  // 14: meshtrade.iam.user_profile.v1.UserProfileService.ListUserProfiles:output_type -> meshtrade.iam.user_profile.v1.ListUserProfilesResponse
+	7,  // 15: meshtrade.iam.user_profile.v1.UserProfileService.SearchUserProfiles:output_type -> meshtrade.iam.user_profile.v1.SearchUserProfilesResponse
+	11, // [11:16] is the sub-list for method output_type
+	6,  // [6:11] is the sub-list for method input_type
+	6,  // [6:6] is the sub-list for extension type_name
+	6,  // [6:6] is the sub-list for extension extendee
+	0,  // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_iam_user_profile_v1_service_proto_init() }
@@ -606,7 +555,7 @@ func file_meshtrade_iam_user_profile_v1_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_meshtrade_iam_user_profile_v1_service_proto_rawDesc), len(file_meshtrade_iam_user_profile_v1_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

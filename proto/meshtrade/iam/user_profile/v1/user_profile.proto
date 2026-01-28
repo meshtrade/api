@@ -9,15 +9,15 @@ option go_package = "github.com/meshtrade/api/go/iam/user_profile/v1;user_profil
 option java_package = "co.meshtrade.api.iam.user_profile.v1";
 
 /*
-   A user in the IAM service.
+   A user_profile in the IAM user_profile service.
 
    Each User belongs to a specific group and has
    defined roles that determine their permissions within that group.
 */
 message UserProfile {
   /*
-     The unique resource name for the user.
-     Format: users/{ULIDv2}.
+     The unique resource name for the user_profiles.
+     Format: user_profiles/{ULIDv2}.
      This field is system-generated and immutable upon creation.
      Any value provided on creation is ignored.
   */
@@ -31,7 +31,7 @@ message UserProfile {
 
 
   /*
-     The resource name of the parent group that owns this user.
+     The resource name of the parent group that owns this user_profile.
      This field is required on creation and establishes the direct ownership link.
      Format: groups/{ULIDv2}.
   */
@@ -58,6 +58,11 @@ message UserProfile {
     }
   }];
 
+/*
+     The resource name of the user associated with this profile.
+     Format: users/{ULIDv2}.
+     This field links the user profile to a specific user resource.
+  */
   string user = 4 [(buf.validate.field) = {
     string: {
      len: 33
@@ -65,11 +70,40 @@ message UserProfile {
     }
   }];
 
-  string local = 5;
+  /*
+     The locale/language preference for this user profile.
+     Format: IETF BCP 47 language tag (e.g., "en-US", "fr-FR", "ja-JP").
+     Used for internationalization and localization of the user interface.
+  */
+  string locale = 5;
+
+  /*
+     URL to the user's profile picture or avatar image.
+     Should be a valid HTTPS URL pointing to an accessible image resource.
+     Used for displaying user identity in the application interface.
+  */
   string profile_picture_url = 6;
+
+  /*
+     The display name shown for this user in the application.
+     This field is required and represents how the user is identified to others.
+     May be the user's full name, nickname, or preferred identifier.
+  */
   string display_name = 7 [(buf.validate.field) = {
     required: true
   }];
+
+  /*
+     The preferred currency token for displaying monetary values to this user.
+     Used as the default currency for presenting prices, balances, and trading values.
+     References a token from the meshtrade.type.v1.Token definition.
+  */
   meshtrade.type.v1.Token display_currency = 8;
+
+  /*
+     The currency token used for financial reporting and accounting purposes.
+     This may differ from display_currency and is used for official records and statements.
+     References a token from the meshtrade.type.v1.Token definition.
+  */
   meshtrade.type.v1.Token reporting_currency = 9;
 }

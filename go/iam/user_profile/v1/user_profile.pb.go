@@ -23,29 +23,47 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// A user in the IAM service.
+// A user_profile in the IAM user_profile service.
 //
 // Each User belongs to a specific group and has
 // defined roles that determine their permissions within that group.
 type UserProfile struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// The unique resource name for the user.
-	// Format: users/{ULIDv2}.
+	// The unique resource name for the user_profiles.
+	// Format: user_profiles/{ULIDv2}.
 	// This field is system-generated and immutable upon creation.
 	// Any value provided on creation is ignored.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	// The resource name of the parent group that owns this user.
+	// The resource name of the parent group that owns this user_profile.
 	// This field is required on creation and establishes the direct ownership link.
 	// Format: groups/{ULIDv2}.
 	Owner string `protobuf:"bytes,2,opt,name=owner,proto3" json:"owner,omitempty"`
 	// Ownership hiearchy of groups that have access to this resource in the format groups/{group_id}.
 	// System set on creation.
-	Owners            []string  `protobuf:"bytes,3,rep,name=owners,proto3" json:"owners,omitempty"`
-	User              string    `protobuf:"bytes,4,opt,name=user,proto3" json:"user,omitempty"`
-	Local             string    `protobuf:"bytes,5,opt,name=local,proto3" json:"local,omitempty"`
-	ProfilePictureUrl string    `protobuf:"bytes,6,opt,name=profile_picture_url,json=profilePictureUrl,proto3" json:"profile_picture_url,omitempty"`
-	DisplayName       string    `protobuf:"bytes,7,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
-	DisplayCurrency   *v1.Token `protobuf:"bytes,8,opt,name=display_currency,json=displayCurrency,proto3" json:"display_currency,omitempty"`
+	Owners []string `protobuf:"bytes,3,rep,name=owners,proto3" json:"owners,omitempty"`
+	// The resource name of the user associated with this profile.
+	// Format: users/{ULIDv2}.
+	// This field links the user profile to a specific user resource.
+	User string `protobuf:"bytes,4,opt,name=user,proto3" json:"user,omitempty"`
+	// The locale/language preference for this user profile.
+	// Format: IETF BCP 47 language tag (e.g., "en-US", "fr-FR", "ja-JP").
+	// Used for internationalization and localization of the user interface.
+	Locale string `protobuf:"bytes,5,opt,name=locale,proto3" json:"locale,omitempty"`
+	// URL to the user's profile picture or avatar image.
+	// Should be a valid HTTPS URL pointing to an accessible image resource.
+	// Used for displaying user identity in the application interface.
+	ProfilePictureUrl string `protobuf:"bytes,6,opt,name=profile_picture_url,json=profilePictureUrl,proto3" json:"profile_picture_url,omitempty"`
+	// The display name shown for this user in the application.
+	// This field is required and represents how the user is identified to others.
+	// May be the user's full name, nickname, or preferred identifier.
+	DisplayName string `protobuf:"bytes,7,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
+	// The preferred currency token for displaying monetary values to this user.
+	// Used as the default currency for presenting prices, balances, and trading values.
+	// References a token from the meshtrade.type.v1.Token definition.
+	DisplayCurrency *v1.Token `protobuf:"bytes,8,opt,name=display_currency,json=displayCurrency,proto3" json:"display_currency,omitempty"`
+	// The currency token used for financial reporting and accounting purposes.
+	// This may differ from display_currency and is used for official records and statements.
+	// References a token from the meshtrade.type.v1.Token definition.
 	ReportingCurrency *v1.Token `protobuf:"bytes,9,opt,name=reporting_currency,json=reportingCurrency,proto3" json:"reporting_currency,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
@@ -109,9 +127,9 @@ func (x *UserProfile) GetUser() string {
 	return ""
 }
 
-func (x *UserProfile) GetLocal() string {
+func (x *UserProfile) GetLocale() string {
 	if x != nil {
-		return x.Local
+		return x.Locale
 	}
 	return ""
 }
@@ -148,14 +166,14 @@ var File_meshtrade_iam_user_profile_v1_user_profile_proto protoreflect.FileDescr
 
 const file_meshtrade_iam_user_profile_v1_user_profile_proto_rawDesc = "" +
 	"\n" +
-	"0meshtrade/iam/user_profile/v1/user_profile.proto\x12\x1dmeshtrade.iam.user_profile.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1dmeshtrade/type/v1/token.proto\"\xd3\x05\n" +
+	"0meshtrade/iam/user_profile/v1/user_profile.proto\x12\x1dmeshtrade.iam.user_profile.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1dmeshtrade/type/v1/token.proto\"\xd5\x05\n" +
 	"\vUserProfile\x12\xca\x01\n" +
 	"\x04name\x18\x01 \x01(\tB\xb5\x01\xbaH\xb1\x01\xba\x01\xad\x01\n" +
 	"\x14name.format.optional\x12:name must be empty or in the format user_profiles/{ULIDv2}\x1aYsize(this) == 0 || this.matches('^user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12R\n" +
 	"\x05owner\x18\x02 \x01(\tB<\xbaH9\xc8\x01\x01r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05owner\x12V\n" +
 	"\x06owners\x18\x03 \x03(\tB>\xbaH;\x92\x018\"6r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x06owners\x12L\n" +
-	"\x04user\x18\x04 \x01(\tB8\xbaH5r32.^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x04user\x12\x14\n" +
-	"\x05local\x18\x05 \x01(\tR\x05local\x12.\n" +
+	"\x04user\x18\x04 \x01(\tB8\xbaH5r32.^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x04user\x12\x16\n" +
+	"\x06locale\x18\x05 \x01(\tR\x06locale\x12.\n" +
 	"\x13profile_picture_url\x18\x06 \x01(\tR\x11profilePictureUrl\x12)\n" +
 	"\fdisplay_name\x18\a \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\vdisplayName\x12C\n" +
 	"\x10display_currency\x18\b \x01(\v2\x18.meshtrade.type.v1.TokenR\x0fdisplayCurrency\x12G\n" +

@@ -1,5 +1,5 @@
 import { create } from "@bufbuild/protobuf";
-import { Date as MeshDate, DateSchema } from "./date_pb";
+import { Date as ProtoDate, DateSchema } from "./date_pb";
 
 /**
  * Creates a new Date protobuf message from year, month, and day values.
@@ -11,7 +11,7 @@ import { Date as MeshDate, DateSchema } from "./date_pb";
  * @returns A Date protobuf message
  * @throws Error if the date values are invalid
  */
-export function newDate(year: number, month: number, day: number): MeshDate {
+export function newDate(year: number, month: number, day: number): ProtoDate {
   validateDate(year, month, day);
   return create(DateSchema, { year, month, day });
 }
@@ -22,7 +22,7 @@ export function newDate(year: number, month: number, day: number): MeshDate {
  * @param jsDate - A JavaScript Date object
  * @returns A Date protobuf message
  */
-export function newDateFromJsDate(jsDate: Date): MeshDate {
+export function newDateFromJsDate(jsDate: Date): ProtoDate {
   return create(DateSchema, {
     year: jsDate.getFullYear(),
     month: jsDate.getMonth() + 1, // JS months are 0-indexed
@@ -37,7 +37,7 @@ export function newDateFromJsDate(jsDate: Date): MeshDate {
  * @returns A JavaScript Date object
  * @throws Error if the date is invalid
  */
-export function dateToJsDate(protoDate: MeshDate): Date {
+export function dateToJsDate(protoDate: ProtoDate): Date {
   if (!protoDate) {
     throw new Error("Date object is null or undefined");
   }
@@ -61,7 +61,7 @@ export function dateToJsDate(protoDate: MeshDate): Date {
  * @param protoDate - A Date protobuf message or undefined
  * @returns True if the date is valid, false otherwise
  */
-export function isValid(protoDate?: MeshDate): boolean {
+export function isValid(protoDate?: ProtoDate): boolean {
   if (!protoDate) {
     return false;
   }
@@ -81,7 +81,7 @@ export function isValid(protoDate?: MeshDate): boolean {
  * @param protoDate - A Date protobuf message or undefined
  * @returns True if the date is complete, false otherwise
  */
-export function isComplete(protoDate?: MeshDate): boolean {
+export function isComplete(protoDate?: ProtoDate): boolean {
   if (!protoDate) {
     return false;
   }
@@ -94,7 +94,7 @@ export function isComplete(protoDate?: MeshDate): boolean {
  * @param protoDate - A Date protobuf message or undefined
  * @returns String representation of the date
  */
-export function dateToString(protoDate?: MeshDate): string {
+export function dateToString(protoDate?: ProtoDate): string {
   if (!protoDate) {
     return "<undefined>";
   }

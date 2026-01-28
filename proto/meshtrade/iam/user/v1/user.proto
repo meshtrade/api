@@ -3,7 +3,6 @@ syntax = "proto3";
 package meshtrade.iam.user.v1;
 
 import "buf/validate/validate.proto";
-import "meshtrade/type/v1/contact_details.proto";
 
 option go_package = "github.com/meshtrade/api/go/iam/user/v1;user_v1";
 option java_package = "co.meshtrade.api.iam.user.v1";
@@ -66,7 +65,12 @@ message User {
     string: {email: true}
   }];
 
-  meshtrade.type.v1.MobileNumber mobile_number = 5;
+  /*
+     The mobile phone number of this user.
+     Used for multi-factor authentication, notifications, and contact purposes.
+     Format and validation defined by meshtrade.type.v1.MobileNumber.
+  */
+  MobileNumber mobile_number = 5;
 
   /*
      Roles is a list of standard roles assigned to this user,
@@ -84,4 +88,27 @@ message User {
       }
     }
   }];
+}
+
+
+/*
+   The mobile phone number of this user.
+   Used for multi-factor authentication, notifications, and contact purposes.
+*/
+message MobileNumber {
+
+  /*
+   * This is the actual Mobile Number that has been verified by the user
+  */
+  string value = 1;
+
+  /*
+   * This is set to true when the user has verified their number through the use of an OTP
+  */
+  bool verfied = 2;
+
+  /*
+   * This is the reason a number for a user was reset
+  */
+  string reset_reason = 3;
 }

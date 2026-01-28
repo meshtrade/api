@@ -14,7 +14,7 @@
 
 # Generated protobuf imports
 from .address_pb2 import Address
-from .contact_details_pb2 import ContactDetails, MobileNumber
+from .contact_details_pb2 import ContactDetails
 from .decimal_pb2 import Decimal
 from .sorting_pb2 import SortingOrder
 from .ledger_pb2 import Ledger
@@ -126,7 +126,6 @@ __all__ = [
     "Date",
     "Decimal",
     "Ledger",
-    "MobileNumber",
     "SortingOrder",
     "TimeOfDay",
     "Token",

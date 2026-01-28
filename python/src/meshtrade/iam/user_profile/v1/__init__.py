@@ -16,7 +16,6 @@
 from .user_profile_pb2 import UserProfile
 from .service_pb2 import (
     CreateUserProfileRequest,
-    CreateUserProfileResponse,
     GetUserProfileByUserRequest,
     GetUserProfileRequest,
     ListUserProfilesRequest,
@@ -54,7 +53,6 @@ from .service_meshpy import (
 __all__ = [
     # Generated exports
     "CreateUserProfileRequest",
-    "CreateUserProfileResponse",
     "GetUserProfileByUserRequest",
     "GetUserProfileRequest",
     "ListUserProfilesRequest",
