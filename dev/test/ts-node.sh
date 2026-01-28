@@ -73,6 +73,6 @@ echo "   Yarn: $(yarn --version)"
 echo
 echo "############################################################"
 echo "#                                                          #"
-echo "#  🎉 TypeScript Node testing complete!  🔷              #"
+echo "#  🎉 TypeScript Node testing complete!  🔷                #"
 echo "#                                                          #"
 echo "############################################################"

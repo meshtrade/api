@@ -133,6 +133,6 @@ fi
 echo
 echo "############################################################"
 echo "#                                                          #"
-echo "#  🎉 Maven Central deployment complete!  📦             #"
+echo "#  🎉 Maven Central deployment complete!  📦               #"
 echo "#                                                          #"
 echo "############################################################"

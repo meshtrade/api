@@ -1,4 +1,4 @@
-"""User v1 package."""
+"""User Profile v1 package."""
 
 # ===================================================================
 # AUTO-GENERATED SECTION - ONLY EDIT BELOW THE CLOSING COMMENT BLOCK
@@ -13,25 +13,23 @@
 # ===================================================================
 
 # Generated protobuf imports
-from .user_pb2 import MobileNumber, User
+from .user_profile_pb2 import UserProfile
 from .service_pb2 import (
-    AssignRolesToUserRequest,
-    CreateUserRequest,
-    GetUserByEmailRequest,
-    GetUserRequest,
-    ListUsersRequest,
-    ListUsersResponse,
-    RevokeRolesFromUserRequest,
-    SearchUsersRequest,
-    SearchUsersResponse,
-    UpdateUserRequest,
+    CreateUserProfileRequest,
+    GetUserProfileByUserRequest,
+    GetUserProfileRequest,
+    ListUserProfilesRequest,
+    ListUserProfilesResponse,
+    SearchUserProfilesRequest,
+    SearchUserProfilesResponse,
+    UpdateUserProfileRequest,
 )
 
 # Generated service imports
 from .service_meshpy import (
-    UserService,
-    UserServiceGRPCClient,
-    UserServiceGRPCClientInterface,
+    UserProfileService,
+    UserProfileServiceGRPCClient,
+    UserProfileServiceGRPCClientInterface,
 )
 
 # ===================================================================
@@ -54,19 +52,16 @@ from .service_meshpy import (
 # Combined auto-generated and manual exports
 __all__ = [
     # Generated exports
-    "AssignRolesToUserRequest",
-    "CreateUserRequest",
-    "GetUserByEmailRequest",
-    "GetUserRequest",
-    "ListUsersRequest",
-    "ListUsersResponse",
-    "MobileNumber",
-    "RevokeRolesFromUserRequest",
-    "SearchUsersRequest",
-    "SearchUsersResponse",
-    "UpdateUserRequest",
-    "User",
-    "UserService",
-    "UserServiceGRPCClient",
-    "UserServiceGRPCClientInterface",
+    "CreateUserProfileRequest",
+    "GetUserProfileByUserRequest",
+    "GetUserProfileRequest",
+    "ListUserProfilesRequest",
+    "ListUserProfilesResponse",
+    "SearchUserProfilesRequest",
+    "SearchUserProfilesResponse",
+    "UpdateUserProfileRequest",
+    "UserProfile",
+    "UserProfileService",
+    "UserProfileServiceGRPCClient",
+    "UserProfileServiceGRPCClientInterface",
 ]
