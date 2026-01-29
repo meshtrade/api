@@ -29,11 +29,52 @@ const (
 // UserProfileServiceClient is the client API for UserProfileService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// UserProfileService manages user profile information and preferences.
+//
+// User profiles contain display preferences, localization settings, and
+// personalization data for authenticated users in the IAM system.
+// Each profile is linked to a specific user and owned by a group.
 type UserProfileServiceClient interface {
+	// Updates an existing user profile.
+	//
+	// Allows modification of profile information including display name,
+	// profile picture, locale preferences, and currency settings.
+	// Only the fields provided in the request will be updated.
+	//
+	// Returns the updated UserProfile resource.
 	UpdateUserProfile(ctx context.Context, in *UpdateUserProfileRequest, opts ...grpc.CallOption) (*UserProfile, error)
+	// Retrieves a user profile by its resource name.
+	//
+	// Fetches the complete user profile information including all
+	// preferences and settings for the specified user profile ID.
+	//
+	// Returns the requested UserProfile resource.
 	GetUserProfile(ctx context.Context, in *GetUserProfileRequest, opts ...grpc.CallOption) (*UserProfile, error)
+	// Retrieves a user profile by the associated user resource name.
+	//
+	// Looks up and returns the user profile linked to a specific user ID.
+	// This is useful when you have a user resource and need to find
+	// their associated profile information.
+	//
+	// Returns the UserProfile resource associated with the specified user.
 	GetUserProfileByUser(ctx context.Context, in *GetUserProfileByUserRequest, opts ...grpc.CallOption) (*UserProfile, error)
+	// Lists all user_profiles accessible to the caller.
+	//
+	// Returns a collection of all user_profiles within the caller's
+	// access scope based on group ownership and role permissions.
+	//
+	// Returns a ListUserProfilesResponse containing all accessible user_profiles.
 	ListUserProfiles(ctx context.Context, in *ListUserProfilesRequest, opts ...grpc.CallOption) (*ListUserProfilesResponse, error)
+	// Searches for user profiles matching specified criteria.
+	//
+	// Performs filtered search across user profiles with support for:
+	// - Display name substring matching (case-insensitive)
+	// - Email substring matching (case-insensitive)
+	// - Custom sorting by name or display_name
+	// - Owner-based filtering
+	//
+	// Returns a SearchUserProfilesResponse with matching user profiles.
 	SearchUserProfiles(ctx context.Context, in *SearchUserProfilesRequest, opts ...grpc.CallOption) (*SearchUserProfilesResponse, error)
 }
 
@@ -98,11 +139,52 @@ func (c *userProfileServiceClient) SearchUserProfiles(ctx context.Context, in *S
 // UserProfileServiceServer is the server API for UserProfileService service.
 // All implementations must embed UnimplementedUserProfileServiceServer
 // for forward compatibility.
+//
+// UserProfileService manages user profile information and preferences.
+//
+// User profiles contain display preferences, localization settings, and
+// personalization data for authenticated users in the IAM system.
+// Each profile is linked to a specific user and owned by a group.
 type UserProfileServiceServer interface {
+	// Updates an existing user profile.
+	//
+	// Allows modification of profile information including display name,
+	// profile picture, locale preferences, and currency settings.
+	// Only the fields provided in the request will be updated.
+	//
+	// Returns the updated UserProfile resource.
 	UpdateUserProfile(context.Context, *UpdateUserProfileRequest) (*UserProfile, error)
+	// Retrieves a user profile by its resource name.
+	//
+	// Fetches the complete user profile information including all
+	// preferences and settings for the specified user profile ID.
+	//
+	// Returns the requested UserProfile resource.
 	GetUserProfile(context.Context, *GetUserProfileRequest) (*UserProfile, error)
+	// Retrieves a user profile by the associated user resource name.
+	//
+	// Looks up and returns the user profile linked to a specific user ID.
+	// This is useful when you have a user resource and need to find
+	// their associated profile information.
+	//
+	// Returns the UserProfile resource associated with the specified user.
 	GetUserProfileByUser(context.Context, *GetUserProfileByUserRequest) (*UserProfile, error)
+	// Lists all user_profiles accessible to the caller.
+	//
+	// Returns a collection of all user_profiles within the caller's
+	// access scope based on group ownership and role permissions.
+	//
+	// Returns a ListUserProfilesResponse containing all accessible user_profiles.
 	ListUserProfiles(context.Context, *ListUserProfilesRequest) (*ListUserProfilesResponse, error)
+	// Searches for user profiles matching specified criteria.
+	//
+	// Performs filtered search across user profiles with support for:
+	// - Display name substring matching (case-insensitive)
+	// - Email substring matching (case-insensitive)
+	// - Custom sorting by name or display_name
+	// - Owner-based filtering
+	//
+	// Returns a SearchUserProfilesResponse with matching user profiles.
 	SearchUserProfiles(context.Context, *SearchUserProfilesRequest) (*SearchUserProfilesResponse, error)
 	mustEmbedUnimplementedUserProfileServiceServer()
 }

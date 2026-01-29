@@ -10,7 +10,23 @@ import "meshtrade/type/v1/sorting.proto";
 option go_package = "github.com/meshtrade/api/go/iam/user_profile/v1;user_profile_v1";
 option java_package = "co.meshtrade.api.iam.user_profile.v1";
 
+/*
+   UserProfileService manages user profile information and preferences.
+
+   User profiles contain display preferences, localization settings, and
+   personalization data for authenticated users in the IAM system.
+   Each profile is linked to a specific user and owned by a group.
+*/
 service UserProfileService {
+  /*
+     Updates an existing user profile.
+
+     Allows modification of profile information including display name,
+     profile picture, locale preferences, and currency settings.
+     Only the fields provided in the request will be updated.
+
+     Returns the updated UserProfile resource.
+  */
   rpc UpdateUserProfile(UpdateUserProfileRequest) returns (UserProfile) {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_WRITE
@@ -22,44 +38,88 @@ service UserProfileService {
     };
   }
 
+  /*
+     Retrieves a user profile by its resource name.
+
+     Fetches the complete user profile information including all
+     preferences and settings for the specified user profile ID.
+
+     Returns the requested UserProfile resource.
+  */
   rpc GetUserProfile(GetUserProfileRequest) returns (UserProfile) {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_READ
       access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_VIEWER,
         ROLE_IAM_USER_PROFILE_ADMIN,
         ROLE_IAM_USER_PROFILE_VIEWER
       ]
     };
   }
 
+  /*
+     Retrieves a user profile by the associated user resource name.
+
+     Looks up and returns the user profile linked to a specific user ID.
+     This is useful when you have a user resource and need to find
+     their associated profile information.
+
+     Returns the UserProfile resource associated with the specified user.
+  */
   rpc GetUserProfileByUser(GetUserProfileByUserRequest) returns (UserProfile) {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_READ
       access_level: METHOD_ACCESS_LEVEL_AUTHORISED 
       roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_VIEWER,
         ROLE_IAM_USER_PROFILE_ADMIN,
         ROLE_IAM_USER_PROFILE_VIEWER
       ]
     };
   }
 
+  /*
+     Lists all user_profiles accessible to the caller.
+
+     Returns a collection of all user_profiles within the caller's
+     access scope based on group ownership and role permissions.
+
+     Returns a ListUserProfilesResponse containing all accessible user_profiles.
+  */
   rpc ListUserProfiles(ListUserProfilesRequest) returns (ListUserProfilesResponse) {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_READ
       access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_VIEWER,
         ROLE_IAM_USER_PROFILE_ADMIN,
         ROLE_IAM_USER_PROFILE_VIEWER
       ]
     };
   }
 
+  /*
+     Searches for user profiles matching specified criteria.
+
+     Performs filtered search across user profiles with support for:
+     - Display name substring matching (case-insensitive)
+     - Email substring matching (case-insensitive)
+     - Custom sorting by name or display_name
+     - Owner-based filtering
+
+     Returns a SearchUserProfilesResponse with matching user profiles.
+  */
   rpc SearchUserProfiles(SearchUserProfilesRequest) returns (SearchUserProfilesResponse) {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_READ
       access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_VIEWER,
         ROLE_IAM_USER_PROFILE_ADMIN,
         ROLE_IAM_USER_PROFILE_VIEWER
       ]
@@ -67,36 +127,76 @@ service UserProfileService {
   }
 }
 
+/*
+   Request message for GetUserProfileByUser.
+
+   Retrieves a user profile by specifying the associated user resource name.
+*/
 message GetUserProfileByUserRequest {
+  /*
+     The resource name of the user whose profile should be retrieved.
+     Format: users/{ULIDv2}.
+     This field is required.
+  */
   string user = 1 [(buf.validate.field) = {
     required: true
     string: {
       min_len: 1
-      pattern: "^user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+      pattern: "^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
     cel: {
-      id: "name.required"
-      message: "name is required and must be in format users/{ULIDv2}"
+      id: "user.required"
+      message: "user is required and must be in format users/{ULIDv2}"
       expression: "size(this) > 0"
     }
     cel: {
-      id: "name.format"
+      id: "user.format"
       message: "name must be in format users/{ULIDv2} where ulidv2 is exactly 26 uppercase alphanumeric characters"
       expression: "this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
     }
   }];
 }
+
+/*
+   Request message for CreateUserProfile.
+
+   Creates a new user profile with the specified information.
+*/
 message CreateUserProfileRequest {
+  /*
+     The user profile to create.
+     The name field will be auto-generated if not provided.
+     Owner and display_name are required fields.
+  */
   UserProfile user_profile = 1 [(buf.validate.field) = {required: true}];
 }
 
+/*
+   Request message for UpdateUserProfile.
+
+   Updates an existing user profile. Only the fields provided
+   in the user_profile will be updated; omitted fields remain unchanged.
+*/
 message UpdateUserProfileRequest {
+  /*
+     The user profile with updated values.
+     The name field must be set to identify which profile to update.
+     Only provided fields will be modified.
+  */
   UserProfile user_profile = 1 [(buf.validate.field) = {required: true}];
 }
 
+/*
+ *
+   Request message for GetUserProfile.
+
+   Retrieves a specific user profile by its resource name.
+*/
 message GetUserProfileRequest {
   /*
-     The resource name of the group to retrieve in format user_profiles/{user_profile_id}.
+     The resource name of the user profile to retrieve.
+     Format: user_profiles/{ULIDv2}.
+     This field is required.
   */
   string name = 1 [(buf.validate.field) = {
     required: true
@@ -117,15 +217,45 @@ message GetUserProfileRequest {
   }];
 }
 
+/*
+   Request message for ListUserProfiles.
+
+   Lists all user profiles accessible to the caller based on
+   their role permissions and group ownership.
+*/
 message ListUserProfilesRequest {}
+
+/*
+   Response message for ListUserProfiles.
+
+   Contains the collection of user profiles accessible to the caller.
+*/
 message ListUserProfilesResponse {
+  /*
+     The list of user profiles.
+     Ordered by creation time, with most recent first.
+  */
   repeated UserProfile user_profiles = 1;
 }
 
+/*
+   Request message for SearchUserProfiles.
+
+   Searches for user profiles matching specified criteria with support
+   for filtering, sorting, and pagination.
+*/
 message SearchUserProfilesRequest {
+  /*
+     Sorting configuration for search results.
+
+     Allows sorting by user profile name or display name in
+     ascending or descending order.
+  */
   message Sorting {
     /*
-       Field to sort by ("name" or "display_name").
+       The field name to sort by.
+       Valid values: "name", "display_name", or empty for default sorting.
+       When empty, results are sorted by creation time (most recent first).
     */
     string name = 1 [(buf.validate.field) = {
       string: {
@@ -142,6 +272,11 @@ message SearchUserProfilesRequest {
       }
     }];
 
+    /*
+       Filter results to user profiles owned by a specific group.
+       Format: groups/{ULIDv2}.
+       When specified, only user profiles belonging to this group are returned.
+    */
     string owner = 2 [(buf.validate.field) = {
       string: {
         len: 33
@@ -150,14 +285,17 @@ message SearchUserProfilesRequest {
     }];
 
     /*
-       Sort order for results.
+       The sort order for results.
+       Can be ASCENDING or DESCENDING.
+       Defaults to ASCENDING if not specified.
     */
     meshtrade.type.v1.SortingOrder order = 3;
   }
 
   /*
-     Optional substring to search for in group display names.
-     Case-insensitive partial matching.
+     Optional substring to search for in user profile display names.
+     Case-insensitive partial matching is performed.
+     Maximum length: 255 characters.
   */
   string display_name = 1 [(buf.validate.field) = {
     string: {max_len: 255}
@@ -169,24 +307,22 @@ message SearchUserProfilesRequest {
   }];
 
   /*
-     Optional substring to search for in group descriptions.
-     Case-insensitive partial matching.
+     Optional sorting configuration for the search results.
+     If not specified, results are returned in default order (by creation time).
   */
-  string email = 2 [(buf.validate.field) = {
-    string: {max_len: 255}
-    cel: {
-      id: "description.max_length"
-      message: "description search term must not exceed 255 characters"
-      expression: "size(this) <= 255"
-    }
-  }];
-
-  /*
-     Optional sorting configuration.
-  */
-  Sorting sorting = 3;
+  Sorting sorting = 2;
 }
 
+/*
+   Response message for SearchUserProfiles.
+
+   Contains user profiles that match the search criteria.
+*/
 message SearchUserProfilesResponse {
+  /*
+     The list of user profiles matching the search criteria.
+     Results are ordered according to the sorting configuration in the request,
+     or by creation time if no sorting was specified.
+  */
   repeated UserProfile user_profiles = 1;
 }

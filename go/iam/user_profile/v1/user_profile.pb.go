@@ -25,8 +25,7 @@ const (
 
 // A user_profile in the IAM user_profile service.
 //
-// Each User belongs to a specific group and has
-// defined roles that determine their permissions within that group.
+// Each User Profile belongs to a specific user
 type UserProfile struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The unique resource name for the user_profiles.

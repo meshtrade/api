@@ -24,9 +24,15 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// Request message for GetUserProfileByUser.
+//
+// Retrieves a user profile by specifying the associated user resource name.
 type GetUserProfileByUserRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	User          string                 `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The resource name of the user whose profile should be retrieved.
+	// Format: users/{ULIDv2}.
+	// This field is required.
+	User          string `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -68,9 +74,15 @@ func (x *GetUserProfileByUserRequest) GetUser() string {
 	return ""
 }
 
+// Request message for CreateUserProfile.
+//
+// Creates a new user profile with the specified information.
 type CreateUserProfileRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserProfile   *UserProfile           `protobuf:"bytes,1,opt,name=user_profile,json=userProfile,proto3" json:"user_profile,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The user profile to create.
+	// The name field will be auto-generated if not provided.
+	// Owner and display_name are required fields.
+	UserProfile   *UserProfile `protobuf:"bytes,1,opt,name=user_profile,json=userProfile,proto3" json:"user_profile,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -112,9 +124,16 @@ func (x *CreateUserProfileRequest) GetUserProfile() *UserProfile {
 	return nil
 }
 
+// Request message for UpdateUserProfile.
+//
+// Updates an existing user profile. Only the fields provided
+// in the user_profile will be updated; omitted fields remain unchanged.
 type UpdateUserProfileRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserProfile   *UserProfile           `protobuf:"bytes,1,opt,name=user_profile,json=userProfile,proto3" json:"user_profile,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The user profile with updated values.
+	// The name field must be set to identify which profile to update.
+	// Only provided fields will be modified.
+	UserProfile   *UserProfile `protobuf:"bytes,1,opt,name=user_profile,json=userProfile,proto3" json:"user_profile,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -156,9 +175,14 @@ func (x *UpdateUserProfileRequest) GetUserProfile() *UserProfile {
 	return nil
 }
 
+// Request message for GetUserProfile.
+//
+// Retrieves a specific user profile by its resource name.
 type GetUserProfileRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// The resource name of the group to retrieve in format user_profiles/{user_profile_id}.
+	// The resource name of the user profile to retrieve.
+	// Format: user_profiles/{ULIDv2}.
+	// This field is required.
 	Name          string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -201,6 +225,10 @@ func (x *GetUserProfileRequest) GetName() string {
 	return ""
 }
 
+// Request message for ListUserProfiles.
+//
+// Lists all user profiles accessible to the caller based on
+// their role permissions and group ownership.
 type ListUserProfilesRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -237,9 +265,14 @@ func (*ListUserProfilesRequest) Descriptor() ([]byte, []int) {
 	return file_meshtrade_iam_user_profile_v1_service_proto_rawDescGZIP(), []int{4}
 }
 
+// Response message for ListUserProfiles.
+//
+// Contains the collection of user profiles accessible to the caller.
 type ListUserProfilesResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserProfiles  []*UserProfile         `protobuf:"bytes,1,rep,name=user_profiles,json=userProfiles,proto3" json:"user_profiles,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The list of user profiles.
+	// Ordered by creation time, with most recent first.
+	UserProfiles  []*UserProfile `protobuf:"bytes,1,rep,name=user_profiles,json=userProfiles,proto3" json:"user_profiles,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -281,16 +314,19 @@ func (x *ListUserProfilesResponse) GetUserProfiles() []*UserProfile {
 	return nil
 }
 
+// Request message for SearchUserProfiles.
+//
+// Searches for user profiles matching specified criteria with support
+// for filtering, sorting, and pagination.
 type SearchUserProfilesRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Optional substring to search for in group display names.
-	// Case-insensitive partial matching.
+	// Optional substring to search for in user profile display names.
+	// Case-insensitive partial matching is performed.
+	// Maximum length: 255 characters.
 	DisplayName string `protobuf:"bytes,1,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
-	// Optional substring to search for in group descriptions.
-	// Case-insensitive partial matching.
-	Email string `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
-	// Optional sorting configuration.
-	Sorting       *SearchUserProfilesRequest_Sorting `protobuf:"bytes,3,opt,name=sorting,proto3" json:"sorting,omitempty"`
+	// Optional sorting configuration for the search results.
+	// If not specified, results are returned in default order (by creation time).
+	Sorting       *SearchUserProfilesRequest_Sorting `protobuf:"bytes,2,opt,name=sorting,proto3" json:"sorting,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -332,13 +368,6 @@ func (x *SearchUserProfilesRequest) GetDisplayName() string {
 	return ""
 }
 
-func (x *SearchUserProfilesRequest) GetEmail() string {
-	if x != nil {
-		return x.Email
-	}
-	return ""
-}
-
 func (x *SearchUserProfilesRequest) GetSorting() *SearchUserProfilesRequest_Sorting {
 	if x != nil {
 		return x.Sorting
@@ -346,9 +375,15 @@ func (x *SearchUserProfilesRequest) GetSorting() *SearchUserProfilesRequest_Sort
 	return nil
 }
 
+// Response message for SearchUserProfiles.
+//
+// Contains user profiles that match the search criteria.
 type SearchUserProfilesResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserProfiles  []*UserProfile         `protobuf:"bytes,1,rep,name=user_profiles,json=userProfiles,proto3" json:"user_profiles,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The list of user profiles matching the search criteria.
+	// Results are ordered according to the sorting configuration in the request,
+	// or by creation time if no sorting was specified.
+	UserProfiles  []*UserProfile `protobuf:"bytes,1,rep,name=user_profiles,json=userProfiles,proto3" json:"user_profiles,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -390,12 +425,23 @@ func (x *SearchUserProfilesResponse) GetUserProfiles() []*UserProfile {
 	return nil
 }
 
+// Sorting configuration for search results.
+//
+// Allows sorting by user profile name or display name in
+// ascending or descending order.
 type SearchUserProfilesRequest_Sorting struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Field to sort by ("name" or "display_name").
-	Name  string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	// The field name to sort by.
+	// Valid values: "name", "display_name", or empty for default sorting.
+	// When empty, results are sorted by creation time (most recent first).
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	// Filter results to user profiles owned by a specific group.
+	// Format: groups/{ULIDv2}.
+	// When specified, only user profiles belonging to this group are returned.
 	Owner string `protobuf:"bytes,2,opt,name=owner,proto3" json:"owner,omitempty"`
-	// Sort order for results.
+	// The sort order for results.
+	// Can be ASCENDING or DESCENDING.
+	// Defaults to ASCENDING if not specified.
 	Order         v1.SortingOrder `protobuf:"varint,3,opt,name=order,proto3,enum=meshtrade.type.v1.SortingOrder" json:"order,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -456,11 +502,11 @@ var File_meshtrade_iam_user_profile_v1_service_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_user_profile_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"+meshtrade/iam/user_profile/v1/service.proto\x12\x1dmeshtrade.iam.user_profile.v1\x1a\x1bbuf/validate/validate.proto\x1a0meshtrade/iam/user_profile/v1/user_profile.proto\x1a7meshtrade/option/method_options/v1/method_options.proto\x1a\x1fmeshtrade/type/v1/sorting.proto\"\x86\x03\n" +
-	"\x1bGetUserProfileByUserRequest\x12\xe6\x02\n" +
-	"\x04user\x18\x01 \x01(\tB\xd1\x02\xbaH\xcd\x02\xba\x01V\n" +
-	"\rname.required\x125name is required and must be in format users/{ULIDv2}\x1a\x0esize(this) > 0\xba\x01\xb1\x01\n" +
-	"\vname.format\x12bname must be in format users/{ULIDv2} where ulidv2 is exactly 26 uppercase alphanumeric characters\x1a>this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')\xc8\x01\x01r:\x10\x0126^user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$R\x04user\"q\n" +
+	"+meshtrade/iam/user_profile/v1/service.proto\x12\x1dmeshtrade.iam.user_profile.v1\x1a\x1bbuf/validate/validate.proto\x1a0meshtrade/iam/user_profile/v1/user_profile.proto\x1a7meshtrade/option/method_options/v1/method_options.proto\x1a\x1fmeshtrade/type/v1/sorting.proto\"\xfe\x02\n" +
+	"\x1bGetUserProfileByUserRequest\x12\xde\x02\n" +
+	"\x04user\x18\x01 \x01(\tB\xc9\x02\xbaH\xc5\x02\xba\x01V\n" +
+	"\ruser.required\x125user is required and must be in format users/{ULIDv2}\x1a\x0esize(this) > 0\xba\x01\xb1\x01\n" +
+	"\vuser.format\x12bname must be in format users/{ULIDv2} where ulidv2 is exactly 26 uppercase alphanumeric characters\x1a>this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')\xc8\x01\x01r2\x10\x012.^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$R\x04user\"q\n" +
 	"\x18CreateUserProfileRequest\x12U\n" +
 	"\fuser_profile\x18\x01 \x01(\v2*.meshtrade.iam.user_profile.v1.UserProfileB\x06\xbaH\x03\xc8\x01\x01R\vuserProfile\"q\n" +
 	"\x18UpdateUserProfileRequest\x12U\n" +
@@ -471,26 +517,24 @@ const file_meshtrade_iam_user_profile_v1_service_proto_rawDesc = "" +
 	"\vname.format\x12jname must be in format user_profiles/{ULIDv2} where ulidv2 is exactly 26 uppercase alphanumeric characters\x1aFthis.matches('^user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')\xc8\x01\x01r:\x10\x0126^user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$R\x04name\"\x19\n" +
 	"\x17ListUserProfilesRequest\"k\n" +
 	"\x18ListUserProfilesResponse\x12O\n" +
-	"\ruser_profiles\x18\x01 \x03(\v2*.meshtrade.iam.user_profile.v1.UserProfileR\fuserProfiles\"\xc6\x05\n" +
+	"\ruser_profiles\x18\x01 \x03(\v2*.meshtrade.iam.user_profile.v1.UserProfileR\fuserProfiles\"\xbf\x04\n" +
 	"\x19SearchUserProfilesRequest\x12\x93\x01\n" +
 	"\fdisplay_name\x18\x01 \x01(\tBp\xbaHm\xba\x01e\n" +
-	"\x17display_name.max_length\x127display_name search term must not exceed 255 characters\x1a\x11size(this) <= 255r\x03\x18\xff\x01R\vdisplayName\x12\x84\x01\n" +
-	"\x05email\x18\x02 \x01(\tBn\xbaHk\xba\x01c\n" +
-	"\x16description.max_length\x126description search term must not exceed 255 characters\x1a\x11size(this) <= 255r\x03\x18\xff\x01R\x05email\x12Z\n" +
-	"\asorting\x18\x03 \x01(\v2@.meshtrade.iam.user_profile.v1.SearchUserProfilesRequest.SortingR\asorting\x1a\xaf\x02\n" +
+	"\x17display_name.max_length\x127display_name search term must not exceed 255 characters\x1a\x11size(this) <= 255r\x03\x18\xff\x01R\vdisplayName\x12Z\n" +
+	"\asorting\x18\x02 \x01(\v2@.meshtrade.iam.user_profile.v1.SearchUserProfilesRequest.SortingR\asorting\x1a\xaf\x02\n" +
 	"\aSorting\x12\x9b\x01\n" +
 	"\x04name\x18\x01 \x01(\tB\x86\x01\xbaH\x82\x01\xba\x01g\n" +
 	"\vfield.valid\x122field must be one of: name, display_name, or empty\x1a$this in ['', 'name', 'display_name']r\x16R\x00R\x04nameR\fdisplay_nameR\x04name\x12O\n" +
 	"\x05owner\x18\x02 \x01(\tB9\xbaH6r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05owner\x125\n" +
 	"\x05order\x18\x03 \x01(\x0e2\x1f.meshtrade.type.v1.SortingOrderR\x05order\"m\n" +
 	"\x1aSearchUserProfilesResponse\x12O\n" +
-	"\ruser_profiles\x18\x01 \x03(\v2*.meshtrade.iam.user_profile.v1.UserProfileR\fuserProfiles2\xfb\x05\n" +
+	"\ruser_profiles\x18\x01 \x03(\v2*.meshtrade.iam.user_profile.v1.UserProfileR\fuserProfiles2\x9b\x06\n" +
 	"\x12UserProfileService\x12\x8c\x01\n" +
-	"\x11UpdateUserProfile\x127.meshtrade.iam.user_profile.v1.UpdateUserProfileRequest\x1a*.meshtrade.iam.user_profile.v1.UserProfile\"\x12\xb2\xb5\x18\x0e\b\x02\x10\x02\x1a\b\xc0\x8d\xb7\x01ȍ\xb7\x01\x12\x86\x01\n" +
-	"\x0eGetUserProfile\x124.meshtrade.iam.user_profile.v1.GetUserProfileRequest\x1a*.meshtrade.iam.user_profile.v1.UserProfile\"\x12\xb2\xb5\x18\x0e\b\x01\x10\x02\x1a\bȍ\xb7\x01ɍ\xb7\x01\x12\x92\x01\n" +
-	"\x14GetUserProfileByUser\x12:.meshtrade.iam.user_profile.v1.GetUserProfileByUserRequest\x1a*.meshtrade.iam.user_profile.v1.UserProfile\"\x12\xb2\xb5\x18\x0e\b\x01\x10\x02\x1a\bȍ\xb7\x01ɍ\xb7\x01\x12\x97\x01\n" +
-	"\x10ListUserProfiles\x126.meshtrade.iam.user_profile.v1.ListUserProfilesRequest\x1a7.meshtrade.iam.user_profile.v1.ListUserProfilesResponse\"\x12\xb2\xb5\x18\x0e\b\x01\x10\x02\x1a\bȍ\xb7\x01ɍ\xb7\x01\x12\x9d\x01\n" +
-	"\x12SearchUserProfiles\x128.meshtrade.iam.user_profile.v1.SearchUserProfilesRequest\x1a9.meshtrade.iam.user_profile.v1.SearchUserProfilesResponse\"\x12\xb2\xb5\x18\x0e\b\x01\x10\x02\x1a\bȍ\xb7\x01ɍ\xb7\x01Bg\n" +
+	"\x11UpdateUserProfile\x127.meshtrade.iam.user_profile.v1.UpdateUserProfileRequest\x1a*.meshtrade.iam.user_profile.v1.UserProfile\"\x12\xb2\xb5\x18\x0e\b\x02\x10\x02\x1a\b\xc0\x8d\xb7\x01ȍ\xb7\x01\x12\x8e\x01\n" +
+	"\x0eGetUserProfile\x124.meshtrade.iam.user_profile.v1.GetUserProfileRequest\x1a*.meshtrade.iam.user_profile.v1.UserProfile\"\x1a\xb2\xb5\x18\x16\b\x01\x10\x02\x1a\x10\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01ȍ\xb7\x01ɍ\xb7\x01\x12\x9a\x01\n" +
+	"\x14GetUserProfileByUser\x12:.meshtrade.iam.user_profile.v1.GetUserProfileByUserRequest\x1a*.meshtrade.iam.user_profile.v1.UserProfile\"\x1a\xb2\xb5\x18\x16\b\x01\x10\x02\x1a\x10\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01ȍ\xb7\x01ɍ\xb7\x01\x12\x9f\x01\n" +
+	"\x10ListUserProfiles\x126.meshtrade.iam.user_profile.v1.ListUserProfilesRequest\x1a7.meshtrade.iam.user_profile.v1.ListUserProfilesResponse\"\x1a\xb2\xb5\x18\x16\b\x01\x10\x02\x1a\x10\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01ȍ\xb7\x01ɍ\xb7\x01\x12\xa5\x01\n" +
+	"\x12SearchUserProfiles\x128.meshtrade.iam.user_profile.v1.SearchUserProfilesRequest\x1a9.meshtrade.iam.user_profile.v1.SearchUserProfilesResponse\"\x1a\xb2\xb5\x18\x16\b\x01\x10\x02\x1a\x10\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01ȍ\xb7\x01ɍ\xb7\x01Bg\n" +
 	"$co.meshtrade.api.iam.user_profile.v1Z?github.com/meshtrade/api/go/iam/user_profile/v1;user_profile_v1b\x06proto3"
 
 var (
