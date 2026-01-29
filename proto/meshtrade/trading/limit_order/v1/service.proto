@@ -253,10 +253,15 @@ message SearchLimitOrdersRequest {
   }];
 
   /*
+     Filter by states (optional).
+  */
+  repeated LimitOrderState states = 3;
+
+  /*
      When true, fetches live ledger data for matching orders.
      When false, returns only stored metadata.
   */
-  bool live_ledger_data = 3;
+  bool live_ledger_data = 4;
 }
 
 /*
