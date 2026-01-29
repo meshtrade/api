@@ -23,7 +23,6 @@ func main() {
 	// Create search request with filters and sorting
 	request := &user_profilev1.SearchUserProfilesRequest{
 		DisplayName: "Sarah",       // Search by display name (case-insensitive partial match)
-		Email:       "company.com", // Search by email domain (case-insensitive partial match)
 		Sorting: &user_profilev1.SearchUserProfilesRequest_Sorting{
 			Name: "display_name",                 // Sort by display name
 			Order: typev1.SortingOrder_SORTING_ORDER_ASC,

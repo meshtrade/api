@@ -21,11 +21,17 @@ This warning will be removed once complete and ready for use.
 
 ## Overview
 
+The **UserProfileService** manages user profile information and preferences within the Mesh IAM system.
 
+User profiles contain display preferences, localization settings, and personalization data for authenticated users. Each profile is linked to a specific user and owned by a group, enabling organizations to manage user presentation and experience settings across the platform.
 
-Add your custom documentation for the Iam User Profile v1 service here.
-This file is generated once and can be manually edited to provide
-service-specific information, examples, and usage guidance.
+### Key Features
+
+- **Profile Management**: Create, update, and retrieve user profile information
+- **User Lookup**: Find profiles by user ID or profile ID
+- **Search & Filter**: Search profiles by display name, email, or owner group
+- **Personalization**: Manage display preferences including locale, currency, and profile pictures
+- **Multi-tenancy**: Group-based ownership with hierarchical access control
 
 ## Quick Start
 
@@ -35,7 +41,25 @@ service-specific information, examples, and usage guidance.
 
 ## Common Workflows
 
-Add common workflow documentation here specific to this service.
+### Creating a User Profile
+
+1. Create a user in the IAM system
+2. Call `CreateUserProfile` with the user reference and required fields (owner, display_name)
+3. Optionally set locale, currencies, and profile picture
+
+### Retrieving Profile Information
+
+- **By Profile ID**: Use `GetUserProfile` with the profile resource name
+- **By User ID**: Use `GetUserProfileByUser` with the user resource name
+
+### Searching Profiles
+
+Use `SearchUserProfiles` to find profiles by:
+- Display name (case-insensitive partial matching)
+- Email address (case-insensitive partial matching)
+- Owner group (exact match)
+
+Results can be sorted by name or display_name in ascending or descending order.
 
 ## Authentication & Authorization
 
