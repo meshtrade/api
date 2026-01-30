@@ -66,11 +66,18 @@ message User {
   }];
 
   /*
+     The mobile phone number of this user.
+     Used for multi-factor authentication, notifications, and contact purposes.
+     Format and validation defined by meshtrade.type.v1.MobileNumber.
+  */
+  MobileNumber mobile_number = 5;
+
+  /*
      Roles is a list of standard roles assigned to this user,
      prepended by the name of the group in which they have been assigned that role.
      e.g. groups/{ULIDv2}/roles/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
   */
-  repeated string roles = 5 [(buf.validate.field) = {
+  repeated string roles = 6 [(buf.validate.field) = {
     repeated: {
       items: {
         string: {
@@ -81,4 +88,25 @@ message User {
       }
     }
   }];
+}
+
+/*
+   The mobile phone number of this user.
+   Used for multi-factor authentication, notifications, and contact purposes.
+*/
+message MobileNumber {
+  /*
+     This is the actual Mobile Number that has been verified by the user
+  */
+  string value = 1;
+
+  /*
+     This is set to true when the user has verified their number through the use of an OTP
+  */
+  bool verified = 2;
+
+  /*
+     This is the reason a number for a user was reset
+  */
+  string reset_reason = 3;
 }

@@ -115,26 +115,6 @@ service UserService {
   }
 
   /*
-     Searches for users by email address using substring matching.
-
-     Returns users whose email addresses contain the provided search term,
-     filtered by the authenticated group's access permissions and optionally
-     sorted by email address.
-  */
-  rpc SearchUsers(SearchUsersRequest) returns (SearchUsersResponse) {
-    option (meshtrade.option.method_options.v1.method_options) = {
-      type: METHOD_TYPE_READ
-      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
-      roles: [
-        ROLE_IAM_ADMIN,
-        ROLE_IAM_VIEWER,
-        ROLE_IAM_USER_ADMIN,
-        ROLE_IAM_USER_VIEWER
-      ]
-    };
-  }
-
-  /*
      Creates a new user within the authenticated group context.
 
      The user will be created with the provided email and group ownership,
@@ -286,44 +266,6 @@ message ListUsersRequest {
 }
 
 message ListUsersResponse {
-  repeated meshtrade.iam.user.v1.User users = 1;
-}
-
-message SearchUsersRequest {
-  /*
-     Email is a substring search for users.
-  */
-  string email = 1;
-
-  message Sorting {
-    /*
-       Field to sort by (e.g., "email").
-    */
-    string field = 1 [(buf.validate.field) = {
-      string: {
-        in: [
-          "",
-          "email"
-        ]
-      }
-      cel: {
-        id: "field.valid"
-        message: "field must be one of: email, or empty"
-        expression: "this in ['', 'email']"
-      }
-    }];
-    /*
-       Sort order for results.
-    */
-    meshtrade.type.v1.SortingOrder order = 2;
-  }
-  /*
-     Optional sorting configuration.
-  */
-  Sorting sorting = 2;
-}
-
-message SearchUsersResponse {
   repeated meshtrade.iam.user.v1.User users = 1;
 }
 

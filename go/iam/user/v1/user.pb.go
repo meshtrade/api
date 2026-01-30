@@ -43,10 +43,14 @@ type User struct {
 	// The unique email address of this user.
 	// This field is required on creation and must be a valid email format.
 	Email string `protobuf:"bytes,4,opt,name=email,proto3" json:"email,omitempty"`
+	// The mobile phone number of this user.
+	// Used for multi-factor authentication, notifications, and contact purposes.
+	// Format and validation defined by meshtrade.type.v1.MobileNumber.
+	MobileNumber *MobileNumber `protobuf:"bytes,5,opt,name=mobile_number,json=mobileNumber,proto3" json:"mobile_number,omitempty"`
 	// Roles is a list of standard roles assigned to this user,
 	// prepended by the name of the group in which they have been assigned that role.
 	// e.g. groups/{ULIDv2}/roles/{role}, where role is a value of the meshtrade.iam.role.v1.Role enum.
-	Roles         []string `protobuf:"bytes,5,rep,name=roles,proto3" json:"roles,omitempty"`
+	Roles         []string `protobuf:"bytes,6,rep,name=roles,proto3" json:"roles,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -109,6 +113,13 @@ func (x *User) GetEmail() string {
 	return ""
 }
 
+func (x *User) GetMobileNumber() *MobileNumber {
+	if x != nil {
+		return x.MobileNumber
+	}
+	return nil
+}
+
 func (x *User) GetRoles() []string {
 	if x != nil {
 		return x.Roles
@@ -116,19 +127,89 @@ func (x *User) GetRoles() []string {
 	return nil
 }
 
+// The mobile phone number of this user.
+// Used for multi-factor authentication, notifications, and contact purposes.
+type MobileNumber struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// This is the actual Mobile Number that has been verified by the user
+	Value string `protobuf:"bytes,1,opt,name=value,proto3" json:"value,omitempty"`
+	// This is set to true when the user has verified their number through the use of an OTP
+	Verified bool `protobuf:"varint,2,opt,name=verified,proto3" json:"verified,omitempty"`
+	// This is the reason a number for a user was reset
+	ResetReason   string `protobuf:"bytes,3,opt,name=reset_reason,json=resetReason,proto3" json:"reset_reason,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *MobileNumber) Reset() {
+	*x = MobileNumber{}
+	mi := &file_meshtrade_iam_user_v1_user_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MobileNumber) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MobileNumber) ProtoMessage() {}
+
+func (x *MobileNumber) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_iam_user_v1_user_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MobileNumber.ProtoReflect.Descriptor instead.
+func (*MobileNumber) Descriptor() ([]byte, []int) {
+	return file_meshtrade_iam_user_v1_user_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *MobileNumber) GetValue() string {
+	if x != nil {
+		return x.Value
+	}
+	return ""
+}
+
+func (x *MobileNumber) GetVerified() bool {
+	if x != nil {
+		return x.Verified
+	}
+	return false
+}
+
+func (x *MobileNumber) GetResetReason() string {
+	if x != nil {
+		return x.ResetReason
+	}
+	return ""
+}
+
 var File_meshtrade_iam_user_v1_user_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_user_v1_user_proto_rawDesc = "" +
 	"\n" +
-	" meshtrade/iam/user/v1/user.proto\x12\x15meshtrade.iam.user.v1\x1a\x1bbuf/validate/validate.proto\"\xfe\x03\n" +
+	" meshtrade/iam/user/v1/user.proto\x12\x15meshtrade.iam.user.v1\x1a\x1bbuf/validate/validate.proto\"\xc8\x04\n" +
 	"\x04User\x12\xba\x01\n" +
 	"\x04name\x18\x01 \x01(\tB\xa5\x01\xbaH\xa1\x01\xba\x01\x9d\x01\n" +
 	"\x14name.format.optional\x122name must be empty or in the format users/{ULIDv2}\x1aQsize(this) == 0 || this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12R\n" +
 	"\x05owner\x18\x02 \x01(\tB<\xbaH9\xc8\x01\x01r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05owner\x12V\n" +
 	"\x06owners\x18\x03 \x03(\tB>\xbaH;\x92\x018\"6r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x06owners\x12 \n" +
 	"\x05email\x18\x04 \x01(\tB\n" +
-	"\xbaH\a\xc8\x01\x01r\x02`\x01R\x05email\x12k\n" +
-	"\x05roles\x18\x05 \x03(\tBU\xbaHR\x92\x01O\"MrK\x10/\x1802E^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/roles/[1-9][0-9]{6,7}$R\x05rolesBO\n" +
+	"\xbaH\a\xc8\x01\x01r\x02`\x01R\x05email\x12H\n" +
+	"\rmobile_number\x18\x05 \x01(\v2#.meshtrade.iam.user.v1.MobileNumberR\fmobileNumber\x12k\n" +
+	"\x05roles\x18\x06 \x03(\tBU\xbaHR\x92\x01O\"MrK\x10/\x1802E^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/roles/[1-9][0-9]{6,7}$R\x05roles\"c\n" +
+	"\fMobileNumber\x12\x14\n" +
+	"\x05value\x18\x01 \x01(\tR\x05value\x12\x1a\n" +
+	"\bverified\x18\x02 \x01(\bR\bverified\x12!\n" +
+	"\freset_reason\x18\x03 \x01(\tR\vresetReasonBO\n" +
 	"\x1cco.meshtrade.api.iam.user.v1Z/github.com/meshtrade/api/go/iam/user/v1;user_v1b\x06proto3"
 
 var (
@@ -143,16 +224,18 @@ func file_meshtrade_iam_user_v1_user_proto_rawDescGZIP() []byte {
 	return file_meshtrade_iam_user_v1_user_proto_rawDescData
 }
 
-var file_meshtrade_iam_user_v1_user_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_meshtrade_iam_user_v1_user_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_meshtrade_iam_user_v1_user_proto_goTypes = []any{
-	(*User)(nil), // 0: meshtrade.iam.user.v1.User
+	(*User)(nil),         // 0: meshtrade.iam.user.v1.User
+	(*MobileNumber)(nil), // 1: meshtrade.iam.user.v1.MobileNumber
 }
 var file_meshtrade_iam_user_v1_user_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	1, // 0: meshtrade.iam.user.v1.User.mobile_number:type_name -> meshtrade.iam.user.v1.MobileNumber
+	1, // [1:1] is the sub-list for method output_type
+	1, // [1:1] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_iam_user_v1_user_proto_init() }
@@ -166,7 +249,7 @@ func file_meshtrade_iam_user_v1_user_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_meshtrade_iam_user_v1_user_proto_rawDesc), len(file_meshtrade_iam_user_v1_user_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   1,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

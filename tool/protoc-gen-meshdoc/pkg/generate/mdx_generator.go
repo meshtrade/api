@@ -324,7 +324,7 @@ func generateExampleFiles(plugin *protogen.Plugin, method *MethodInfo, domain, s
 			Domain:             domain,
 			ServiceName:        serviceName,
 			ServiceVariable:    serviceName,
-			ServiceConstructor: "New" + strings.ReplaceAll(titleCase(serviceName), " ", "") + "Service",
+			ServiceConstructor: "New" + goPascalCase(serviceName) + "Service",
 			Version:            version,
 			MethodName:         method.Name,
 			RequestType:        method.RequestType,
@@ -451,35 +451,102 @@ func parseRequestFields(parameters []FieldInfo) []ExampleFieldData {
 	return fields
 }
 
-// kebabCase converts CamelCase to kebab-case
+// kebabCase converts CamelCase to kebab-case with proper acronym handling.
+// Handles cases like "CreateAPIUser" -> "create-api-user" (not "create-a-p-i-user")
+// and "GetHTTPResponse" -> "get-http-response".
 func kebabCase(s string) string {
+	if len(s) == 0 {
+		return s
+	}
+
 	var result strings.Builder
-	for i, r := range s {
-		if i > 0 && r >= 'A' && r <= 'Z' {
-			result.WriteRune('-')
+	runes := []rune(s)
+
+	for i := 0; i < len(runes); i++ {
+		r := runes[i]
+		isUpper := r >= 'A' && r <= 'Z'
+
+		if i == 0 {
+			// First character - just lowercase it
+			if isUpper {
+				result.WriteRune(r + ('a' - 'A'))
+			} else {
+				result.WriteRune(r)
+			}
+			continue
 		}
-		if r >= 'A' && r <= 'Z' {
+
+		prevUpper := runes[i-1] >= 'A' && runes[i-1] <= 'Z'
+		nextLower := i+1 < len(runes) && runes[i+1] >= 'a' && runes[i+1] <= 'z'
+
+		if isUpper {
+			// Current is uppercase
+			if !prevUpper {
+				// Transition from lowercase to uppercase: start new word
+				// e.g., "create" + "A" in "createAPI"
+				result.WriteRune('-')
+			} else if nextLower {
+				// In acronym but next is lowercase: this uppercase starts a new word
+				// e.g., "API" + "U" + "ser" - the "U" starts "User"
+				result.WriteRune('-')
+			}
+			// else: continuing an acronym (e.g., "AP" in "API"), no hyphen needed
+
 			result.WriteRune(r + ('a' - 'A'))
 		} else {
+			// Current is lowercase - just add it
 			result.WriteRune(r)
 		}
 	}
+
 	return result.String()
 }
 
-// snakeCase converts CamelCase to snake_case
+// snakeCase converts CamelCase to snake_case with proper acronym handling.
+// Handles cases like "CreateAPIUser" -> "create_api_user" (not "create_a_p_i_user")
+// and "GetHTTPResponse" -> "get_http_response".
 func snakeCase(s string) string {
+	if len(s) == 0 {
+		return s
+	}
+
 	var result strings.Builder
-	for i, r := range s {
-		if i > 0 && r >= 'A' && r <= 'Z' {
-			result.WriteRune('_')
+	runes := []rune(s)
+
+	for i := 0; i < len(runes); i++ {
+		r := runes[i]
+		isUpper := r >= 'A' && r <= 'Z'
+
+		if i == 0 {
+			// First character - just lowercase it
+			if isUpper {
+				result.WriteRune(r + ('a' - 'A'))
+			} else {
+				result.WriteRune(r)
+			}
+			continue
 		}
-		if r >= 'A' && r <= 'Z' {
+
+		prevUpper := runes[i-1] >= 'A' && runes[i-1] <= 'Z'
+		nextLower := i+1 < len(runes) && runes[i+1] >= 'a' && runes[i+1] <= 'z'
+
+		if isUpper {
+			// Current is uppercase
+			if !prevUpper {
+				// Transition from lowercase to uppercase: start new word
+				result.WriteRune('_')
+			} else if nextLower {
+				// In acronym but next is lowercase: this uppercase starts a new word
+				result.WriteRune('_')
+			}
+
 			result.WriteRune(r + ('a' - 'A'))
 		} else {
+			// Current is lowercase - just add it
 			result.WriteRune(r)
 		}
 	}
+
 	return result.String()
 }
 

@@ -36,6 +36,11 @@
       "require": "./dist/meshtrade/iam/user/v1/index.js",
       "import": "./dist/meshtrade/iam/user/v1/index.js"
     },
+    "./iam/user_profile/v1": {
+      "types": "./dist/meshtrade/iam/user_profile/v1/index.d.ts",
+      "require": "./dist/meshtrade/iam/user_profile/v1/index.js",
+      "import": "./dist/meshtrade/iam/user_profile/v1/index.js"
+    },
     "./type/v1": {
       "types": "./dist/meshtrade/type/v1/index.d.ts",
       "require": "./dist/meshtrade/type/v1/index.js",
@@ -45,6 +50,11 @@
       "types": "./dist/meshtrade/ledger/transaction/v1/index.d.ts",
       "require": "./dist/meshtrade/ledger/transaction/v1/index.js",
       "import": "./dist/meshtrade/ledger/transaction/v1/index.js"
+    },
+    "./market_data/price/v1": {
+      "types": "./dist/meshtrade/market_data/price/v1/index.d.ts",
+      "require": "./dist/meshtrade/market_data/price/v1/index.js",
+      "import": "./dist/meshtrade/market_data/price/v1/index.js"
     },
     "./compliance/client/v1": {
       "types": "./dist/meshtrade/compliance/client/v1/index.d.ts",
@@ -116,11 +126,17 @@
       "iam/user/v1": [
         "dist/meshtrade/iam/user/v1/index.d.ts"
       ],
+      "iam/user_profile/v1": [
+        "dist/meshtrade/iam/user_profile/v1/index.d.ts"
+      ],
       "type/v1": [
         "dist/meshtrade/type/v1/index.d.ts"
       ],
       "ledger/transaction/v1": [
         "dist/meshtrade/ledger/transaction/v1/index.d.ts"
+      ],
+      "market_data/price/v1": [
+        "dist/meshtrade/market_data/price/v1/index.d.ts"
       ],
       "compliance/client/v1": [
         "dist/meshtrade/compliance/client/v1/index.d.ts"

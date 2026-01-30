@@ -72,11 +72,6 @@ type UserServiceClientInterface interface {
 	// Results include users directly owned and those accessible through the
 	// group's hierarchical permissions, optionally sorted by email address.
 	ListUsers(ctx context.Context, request *ListUsersRequest) (*ListUsersResponse, error)
-	// Searches for users by email address using substring matching.
-	// Returns users whose email addresses contain the provided search term,
-	// filtered by the authenticated group's access permissions and optionally
-	// sorted by email address.
-	SearchUsers(ctx context.Context, request *SearchUsersRequest) (*SearchUsersResponse, error)
 	// Creates a new user within the authenticated group context.
 	// The user will be created with the provided email and group ownership,
 	// with system-generated unique identifier and ownership hierarchy.
@@ -235,14 +230,6 @@ func (s *userService) GetUserByEmail(ctx context.Context, request *GetUserByEmai
 func (s *userService) ListUsers(ctx context.Context, request *ListUsersRequest) (*ListUsersResponse, error) {
 	return grpc.Execute(s.Executor(), ctx, "ListUsers", request, func(ctx context.Context) (*ListUsersResponse, error) {
 		return s.GrpcClient().ListUsers(ctx, request)
-	})
-}
-
-// SearchUsers executes the SearchUsers RPC method with automatic
-// client-side validation, timeout handling, distributed tracing, and authentication.
-func (s *userService) SearchUsers(ctx context.Context, request *SearchUsersRequest) (*SearchUsersResponse, error) {
-	return grpc.Execute(s.Executor(), ctx, "SearchUsers", request, func(ctx context.Context) (*SearchUsersResponse, error) {
-		return s.GrpcClient().SearchUsers(ctx, request)
 	})
 }
 

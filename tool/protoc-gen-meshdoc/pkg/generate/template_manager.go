@@ -266,6 +266,55 @@ func titleCase(s string) string {
 	return strings.Title(strings.ReplaceAll(s, "_", " "))
 }
 
+// commonAcronyms is a list of common acronyms that should be kept uppercase in Go identifiers
+var commonAcronyms = map[string]bool{
+	"api":   true,
+	"url":   true,
+	"http":  true,
+	"https": true,
+	"id":    true,
+	"uuid":  true,
+	"json":  true,
+	"xml":   true,
+	"html":  true,
+	"css":   true,
+	"sql":   true,
+	"tcp":   true,
+	"udp":   true,
+	"ip":    true,
+	"grpc":  true,
+	"rpc":   true,
+}
+
+// goPascalCase converts snake_case to PascalCase following Go conventions.
+// Acronyms like "api", "url", "http" are preserved as uppercase (API, URL, HTTP).
+// For example: "api_user" -> "APIUser", "http_request" -> "HTTPRequest"
+func goPascalCase(s string) string {
+	if len(s) == 0 {
+		return s
+	}
+
+	parts := strings.Split(s, "_")
+	var result strings.Builder
+
+	for _, part := range parts {
+		if part == "" {
+			continue
+		}
+		lower := strings.ToLower(part)
+		if commonAcronyms[lower] {
+			// Known acronym - use all uppercase
+			result.WriteString(strings.ToUpper(part))
+		} else {
+			// Regular word - capitalize first letter
+			result.WriteString(strings.ToUpper(part[:1]))
+			result.WriteString(strings.ToLower(part[1:]))
+		}
+	}
+
+	return result.String()
+}
+
 // camelCase converts PascalCase to camelCase (first letter lowercase)
 func camelCase(s string) string {
 	if len(s) == 0 {
