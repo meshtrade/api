@@ -22,8 +22,6 @@ from .service_pb2 import (
     ListUsersRequest,
     ListUsersResponse,
     RevokeRolesFromUserRequest,
-    SearchUsersRequest,
-    SearchUsersResponse,
     UpdateUserRequest,
 )
 
@@ -62,8 +60,6 @@ __all__ = [
     "ListUsersResponse",
     "MobileNumber",
     "RevokeRolesFromUserRequest",
-    "SearchUsersRequest",
-    "SearchUsersResponse",
     "UpdateUserRequest",
     "User",
     "UserService",

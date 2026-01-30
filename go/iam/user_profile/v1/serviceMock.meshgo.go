@@ -23,8 +23,6 @@ type MockUserProfileService struct {
 	GetUserProfileByUserFuncInvocations int
 	ListUserProfilesFunc                func(t *testing.T, m *MockUserProfileService, ctx context.Context, request *ListUserProfilesRequest) (*ListUserProfilesResponse, error)
 	ListUserProfilesFuncInvocations     int
-	SearchUserProfilesFunc              func(t *testing.T, m *MockUserProfileService, ctx context.Context, request *SearchUserProfilesRequest) (*SearchUserProfilesResponse, error)
-	SearchUserProfilesFuncInvocations   int
 }
 
 func (m *MockUserProfileService) UpdateUserProfile(ctx context.Context, request *UpdateUserProfileRequest) (*UserProfile, error) {
@@ -65,14 +63,4 @@ func (m *MockUserProfileService) ListUserProfiles(ctx context.Context, request *
 		return nil, nil
 	}
 	return m.ListUserProfilesFunc(m.T, m, ctx, request)
-}
-
-func (m *MockUserProfileService) SearchUserProfiles(ctx context.Context, request *SearchUserProfilesRequest) (*SearchUserProfilesResponse, error) {
-	m.mutex.Lock()
-	m.SearchUserProfilesFuncInvocations++
-	m.mutex.Unlock()
-	if m.SearchUserProfilesFunc == nil {
-		return nil, nil
-	}
-	return m.SearchUserProfilesFunc(m.T, m, ctx, request)
 }

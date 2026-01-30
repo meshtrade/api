@@ -24,7 +24,6 @@ const (
 	UserService_GetUser_FullMethodName             = "/meshtrade.iam.user.v1.UserService/GetUser"
 	UserService_GetUserByEmail_FullMethodName      = "/meshtrade.iam.user.v1.UserService/GetUserByEmail"
 	UserService_ListUsers_FullMethodName           = "/meshtrade.iam.user.v1.UserService/ListUsers"
-	UserService_SearchUsers_FullMethodName         = "/meshtrade.iam.user.v1.UserService/SearchUsers"
 	UserService_CreateUser_FullMethodName          = "/meshtrade.iam.user.v1.UserService/CreateUser"
 	UserService_UpdateUser_FullMethodName          = "/meshtrade.iam.user.v1.UserService/UpdateUser"
 )
@@ -69,12 +68,6 @@ type UserServiceClient interface {
 	// Results include users directly owned and those accessible through the
 	// group's hierarchical permissions, optionally sorted by email address.
 	ListUsers(ctx context.Context, in *ListUsersRequest, opts ...grpc.CallOption) (*ListUsersResponse, error)
-	// Searches for users by email address using substring matching.
-	//
-	// Returns users whose email addresses contain the provided search term,
-	// filtered by the authenticated group's access permissions and optionally
-	// sorted by email address.
-	SearchUsers(ctx context.Context, in *SearchUsersRequest, opts ...grpc.CallOption) (*SearchUsersResponse, error)
 	// Creates a new user within the authenticated group context.
 	//
 	// The user will be created with the provided email and group ownership,
@@ -147,16 +140,6 @@ func (c *userServiceClient) ListUsers(ctx context.Context, in *ListUsersRequest,
 	return out, nil
 }
 
-func (c *userServiceClient) SearchUsers(ctx context.Context, in *SearchUsersRequest, opts ...grpc.CallOption) (*SearchUsersResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SearchUsersResponse)
-	err := c.cc.Invoke(ctx, UserService_SearchUsers_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *userServiceClient) CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*User, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(User)
@@ -217,12 +200,6 @@ type UserServiceServer interface {
 	// Results include users directly owned and those accessible through the
 	// group's hierarchical permissions, optionally sorted by email address.
 	ListUsers(context.Context, *ListUsersRequest) (*ListUsersResponse, error)
-	// Searches for users by email address using substring matching.
-	//
-	// Returns users whose email addresses contain the provided search term,
-	// filtered by the authenticated group's access permissions and optionally
-	// sorted by email address.
-	SearchUsers(context.Context, *SearchUsersRequest) (*SearchUsersResponse, error)
 	// Creates a new user within the authenticated group context.
 	//
 	// The user will be created with the provided email and group ownership,
@@ -259,9 +236,6 @@ func (UnimplementedUserServiceServer) GetUserByEmail(context.Context, *GetUserBy
 }
 func (UnimplementedUserServiceServer) ListUsers(context.Context, *ListUsersRequest) (*ListUsersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListUsers not implemented")
-}
-func (UnimplementedUserServiceServer) SearchUsers(context.Context, *SearchUsersRequest) (*SearchUsersResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SearchUsers not implemented")
 }
 func (UnimplementedUserServiceServer) CreateUser(context.Context, *CreateUserRequest) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
@@ -380,24 +354,6 @@ func _UserService_ListUsers_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserService_SearchUsers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SearchUsersRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServiceServer).SearchUsers(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserService_SearchUsers_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).SearchUsers(ctx, req.(*SearchUsersRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _UserService_CreateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateUserRequest)
 	if err := dec(in); err != nil {
@@ -460,10 +416,6 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListUsers",
 			Handler:    _UserService_ListUsers_Handler,
-		},
-		{
-			MethodName: "SearchUsers",
-			Handler:    _UserService_SearchUsers_Handler,
 		},
 		{
 			MethodName: "CreateUser",

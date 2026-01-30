@@ -71,7 +71,7 @@ service UserProfileService {
   rpc GetUserProfileByUser(GetUserProfileByUserRequest) returns (UserProfile) {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_READ
-      access_level: METHOD_ACCESS_LEVEL_AUTHORISED 
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
       roles: [
         ROLE_IAM_ADMIN,
         ROLE_IAM_VIEWER,
@@ -90,30 +90,6 @@ service UserProfileService {
      Returns a ListUserProfilesResponse containing all accessible user_profiles.
   */
   rpc ListUserProfiles(ListUserProfilesRequest) returns (ListUserProfilesResponse) {
-    option (meshtrade.option.method_options.v1.method_options) = {
-      type: METHOD_TYPE_READ
-      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
-      roles: [
-        ROLE_IAM_ADMIN,
-        ROLE_IAM_VIEWER,
-        ROLE_IAM_USER_PROFILE_ADMIN,
-        ROLE_IAM_USER_PROFILE_VIEWER
-      ]
-    };
-  }
-
-  /*
-     Searches for user profiles matching specified criteria.
-
-     Performs filtered search across user profiles with support for:
-     - Display name substring matching (case-insensitive)
-     - Email substring matching (case-insensitive)
-     - Custom sorting by name or display_name
-     - Owner-based filtering
-
-     Returns a SearchUserProfilesResponse with matching user profiles.
-  */
-  rpc SearchUserProfiles(SearchUserProfilesRequest) returns (SearchUserProfilesResponse) {
     option (meshtrade.option.method_options.v1.method_options) = {
       type: METHOD_TYPE_READ
       access_level: METHOD_ACCESS_LEVEL_AUTHORISED
@@ -187,10 +163,10 @@ message UpdateUserProfileRequest {
 }
 
 /*
- *
-   Request message for GetUserProfile.
+   *
+     Request message for GetUserProfile.
 
-   Retrieves a specific user profile by its resource name.
+     Retrieves a specific user profile by its resource name.
 */
 message GetUserProfileRequest {
   /*
@@ -234,95 +210,6 @@ message ListUserProfilesResponse {
   /*
      The list of user profiles.
      Ordered by creation time, with most recent first.
-  */
-  repeated UserProfile user_profiles = 1;
-}
-
-/*
-   Request message for SearchUserProfiles.
-
-   Searches for user profiles matching specified criteria with support
-   for filtering, sorting, and pagination.
-*/
-message SearchUserProfilesRequest {
-  /*
-     Sorting configuration for search results.
-
-     Allows sorting by user profile name or display name in
-     ascending or descending order.
-  */
-  message Sorting {
-    /*
-       The field name to sort by.
-       Valid values: "name", "display_name", or empty for default sorting.
-       When empty, results are sorted by creation time (most recent first).
-    */
-    string name = 1 [(buf.validate.field) = {
-      string: {
-        in: [
-          "",
-          "name",
-          "display_name"
-        ]
-      }
-      cel: {
-        id: "field.valid"
-        message: "field must be one of: name, display_name, or empty"
-        expression: "this in ['', 'name', 'display_name']"
-      }
-    }];
-
-    /*
-       Filter results to user profiles owned by a specific group.
-       Format: groups/{ULIDv2}.
-       When specified, only user profiles belonging to this group are returned.
-    */
-    string owner = 2 [(buf.validate.field) = {
-      string: {
-        len: 33
-        pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
-      }
-    }];
-
-    /*
-       The sort order for results.
-       Can be ASCENDING or DESCENDING.
-       Defaults to ASCENDING if not specified.
-    */
-    meshtrade.type.v1.SortingOrder order = 3;
-  }
-
-  /*
-     Optional substring to search for in user profile display names.
-     Case-insensitive partial matching is performed.
-     Maximum length: 255 characters.
-  */
-  string display_name = 1 [(buf.validate.field) = {
-    string: {max_len: 255}
-    cel: {
-      id: "display_name.max_length"
-      message: "display_name search term must not exceed 255 characters"
-      expression: "size(this) <= 255"
-    }
-  }];
-
-  /*
-     Optional sorting configuration for the search results.
-     If not specified, results are returned in default order (by creation time).
-  */
-  Sorting sorting = 2;
-}
-
-/*
-   Response message for SearchUserProfiles.
-
-   Contains user profiles that match the search criteria.
-*/
-message SearchUserProfilesResponse {
-  /*
-     The list of user profiles matching the search criteria.
-     Results are ordered according to the sorting configuration in the request,
-     or by creation time if no sorting was specified.
   */
   repeated UserProfile user_profiles = 1;
 }

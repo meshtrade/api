@@ -90,25 +90,23 @@ message User {
   }];
 }
 
-
 /*
    The mobile phone number of this user.
    Used for multi-factor authentication, notifications, and contact purposes.
 */
 message MobileNumber {
-
   /*
-   * This is the actual Mobile Number that has been verified by the user
+     This is the actual Mobile Number that has been verified by the user
   */
   string value = 1;
 
   /*
-   * This is set to true when the user has verified their number through the use of an OTP
+     This is set to true when the user has verified their number through the use of an OTP
   */
   bool verfied = 2;
 
   /*
-   * This is the reason a number for a user was reset
+     This is the reason a number for a user was reset
   */
   string reset_reason = 3;
 }

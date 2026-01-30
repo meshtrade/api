@@ -23,7 +23,6 @@ const (
 	UserProfileService_GetUserProfile_FullMethodName       = "/meshtrade.iam.user_profile.v1.UserProfileService/GetUserProfile"
 	UserProfileService_GetUserProfileByUser_FullMethodName = "/meshtrade.iam.user_profile.v1.UserProfileService/GetUserProfileByUser"
 	UserProfileService_ListUserProfiles_FullMethodName     = "/meshtrade.iam.user_profile.v1.UserProfileService/ListUserProfiles"
-	UserProfileService_SearchUserProfiles_FullMethodName   = "/meshtrade.iam.user_profile.v1.UserProfileService/SearchUserProfiles"
 )
 
 // UserProfileServiceClient is the client API for UserProfileService service.
@@ -66,16 +65,6 @@ type UserProfileServiceClient interface {
 	//
 	// Returns a ListUserProfilesResponse containing all accessible user_profiles.
 	ListUserProfiles(ctx context.Context, in *ListUserProfilesRequest, opts ...grpc.CallOption) (*ListUserProfilesResponse, error)
-	// Searches for user profiles matching specified criteria.
-	//
-	// Performs filtered search across user profiles with support for:
-	// - Display name substring matching (case-insensitive)
-	// - Email substring matching (case-insensitive)
-	// - Custom sorting by name or display_name
-	// - Owner-based filtering
-	//
-	// Returns a SearchUserProfilesResponse with matching user profiles.
-	SearchUserProfiles(ctx context.Context, in *SearchUserProfilesRequest, opts ...grpc.CallOption) (*SearchUserProfilesResponse, error)
 }
 
 type userProfileServiceClient struct {
@@ -126,16 +115,6 @@ func (c *userProfileServiceClient) ListUserProfiles(ctx context.Context, in *Lis
 	return out, nil
 }
 
-func (c *userProfileServiceClient) SearchUserProfiles(ctx context.Context, in *SearchUserProfilesRequest, opts ...grpc.CallOption) (*SearchUserProfilesResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SearchUserProfilesResponse)
-	err := c.cc.Invoke(ctx, UserProfileService_SearchUserProfiles_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // UserProfileServiceServer is the server API for UserProfileService service.
 // All implementations must embed UnimplementedUserProfileServiceServer
 // for forward compatibility.
@@ -176,16 +155,6 @@ type UserProfileServiceServer interface {
 	//
 	// Returns a ListUserProfilesResponse containing all accessible user_profiles.
 	ListUserProfiles(context.Context, *ListUserProfilesRequest) (*ListUserProfilesResponse, error)
-	// Searches for user profiles matching specified criteria.
-	//
-	// Performs filtered search across user profiles with support for:
-	// - Display name substring matching (case-insensitive)
-	// - Email substring matching (case-insensitive)
-	// - Custom sorting by name or display_name
-	// - Owner-based filtering
-	//
-	// Returns a SearchUserProfilesResponse with matching user profiles.
-	SearchUserProfiles(context.Context, *SearchUserProfilesRequest) (*SearchUserProfilesResponse, error)
 	mustEmbedUnimplementedUserProfileServiceServer()
 }
 
@@ -207,9 +176,6 @@ func (UnimplementedUserProfileServiceServer) GetUserProfileByUser(context.Contex
 }
 func (UnimplementedUserProfileServiceServer) ListUserProfiles(context.Context, *ListUserProfilesRequest) (*ListUserProfilesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListUserProfiles not implemented")
-}
-func (UnimplementedUserProfileServiceServer) SearchUserProfiles(context.Context, *SearchUserProfilesRequest) (*SearchUserProfilesResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SearchUserProfiles not implemented")
 }
 func (UnimplementedUserProfileServiceServer) mustEmbedUnimplementedUserProfileServiceServer() {}
 func (UnimplementedUserProfileServiceServer) testEmbeddedByValue()                            {}
@@ -304,24 +270,6 @@ func _UserProfileService_ListUserProfiles_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserProfileService_SearchUserProfiles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SearchUserProfilesRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserProfileServiceServer).SearchUserProfiles(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserProfileService_SearchUserProfiles_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserProfileServiceServer).SearchUserProfiles(ctx, req.(*SearchUserProfilesRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // UserProfileService_ServiceDesc is the grpc.ServiceDesc for UserProfileService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -344,10 +292,6 @@ var UserProfileService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListUserProfiles",
 			Handler:    _UserProfileService_ListUserProfiles_Handler,
-		},
-		{
-			MethodName: "SearchUserProfiles",
-			Handler:    _UserProfileService_SearchUserProfiles_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

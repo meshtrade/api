@@ -25,8 +25,6 @@ type MockUserService struct {
 	GetUserByEmailFuncInvocations      int
 	ListUsersFunc                      func(t *testing.T, m *MockUserService, ctx context.Context, request *ListUsersRequest) (*ListUsersResponse, error)
 	ListUsersFuncInvocations           int
-	SearchUsersFunc                    func(t *testing.T, m *MockUserService, ctx context.Context, request *SearchUsersRequest) (*SearchUsersResponse, error)
-	SearchUsersFuncInvocations         int
 	CreateUserFunc                     func(t *testing.T, m *MockUserService, ctx context.Context, request *CreateUserRequest) (*User, error)
 	CreateUserFuncInvocations          int
 	UpdateUserFunc                     func(t *testing.T, m *MockUserService, ctx context.Context, request *UpdateUserRequest) (*User, error)
@@ -81,16 +79,6 @@ func (m *MockUserService) ListUsers(ctx context.Context, request *ListUsersReque
 		return nil, nil
 	}
 	return m.ListUsersFunc(m.T, m, ctx, request)
-}
-
-func (m *MockUserService) SearchUsers(ctx context.Context, request *SearchUsersRequest) (*SearchUsersResponse, error) {
-	m.mutex.Lock()
-	m.SearchUsersFuncInvocations++
-	m.mutex.Unlock()
-	if m.SearchUsersFunc == nil {
-		return nil, nil
-	}
-	return m.SearchUsersFunc(m.T, m, ctx, request)
 }
 
 func (m *MockUserService) CreateUser(ctx context.Context, request *CreateUserRequest) (*User, error) {

@@ -45,17 +45,6 @@ type UserProfileService interface {
 	//
 	// Returns a ListUserProfilesResponse containing all accessible user_profiles.
 	ListUserProfiles(ctx context.Context, request *ListUserProfilesRequest) (*ListUserProfilesResponse, error)
-
-	// Searches for user profiles matching specified criteria.
-	//
-	// Performs filtered search across user profiles with support for:
-	// - Display name substring matching (case-insensitive)
-	// - Email substring matching (case-insensitive)
-	// - Custom sorting by name or display_name
-	// - Owner-based filtering
-	//
-	// Returns a SearchUserProfilesResponse with matching user profiles.
-	SearchUserProfiles(ctx context.Context, request *SearchUserProfilesRequest) (*SearchUserProfilesResponse, error)
 }
 
 const UserProfileServiceServiceProviderName = "meshtrade-iam-user_profile-v1-UserProfileService"

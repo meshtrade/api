@@ -73,14 +73,6 @@ type UserProfileServiceClientInterface interface {
 	// access scope based on group ownership and role permissions.
 	// Returns a ListUserProfilesResponse containing all accessible user_profiles.
 	ListUserProfiles(ctx context.Context, request *ListUserProfilesRequest) (*ListUserProfilesResponse, error)
-	// Searches for user profiles matching specified criteria.
-	// Performs filtered search across user profiles with support for:
-	// - Display name substring matching (case-insensitive)
-	// - Email substring matching (case-insensitive)
-	// - Custom sorting by name or display_name
-	// - Owner-based filtering
-	// Returns a SearchUserProfilesResponse with matching user profiles.
-	SearchUserProfiles(ctx context.Context, request *SearchUserProfilesRequest) (*SearchUserProfilesResponse, error)
 
 	// WithGroup returns a new client instance with a different group context
 	WithGroup(group string) UserProfileServiceClientInterface
@@ -221,13 +213,5 @@ func (s *userProfileService) GetUserProfileByUser(ctx context.Context, request *
 func (s *userProfileService) ListUserProfiles(ctx context.Context, request *ListUserProfilesRequest) (*ListUserProfilesResponse, error) {
 	return grpc.Execute(s.Executor(), ctx, "ListUserProfiles", request, func(ctx context.Context) (*ListUserProfilesResponse, error) {
 		return s.GrpcClient().ListUserProfiles(ctx, request)
-	})
-}
-
-// SearchUserProfiles executes the SearchUserProfiles RPC method with automatic
-// client-side validation, timeout handling, distributed tracing, and authentication.
-func (s *userProfileService) SearchUserProfiles(ctx context.Context, request *SearchUserProfilesRequest) (*SearchUserProfilesResponse, error) {
-	return grpc.Execute(s.Executor(), ctx, "SearchUserProfiles", request, func(ctx context.Context) (*SearchUserProfilesResponse, error) {
-		return s.GrpcClient().SearchUserProfiles(ctx, request)
 	})
 }
