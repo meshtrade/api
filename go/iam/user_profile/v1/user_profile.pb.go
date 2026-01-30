@@ -43,14 +43,17 @@ type UserProfile struct {
 	// The resource name of the user associated with this profile.
 	// Format: users/{ULIDv2}.
 	// This field links the user profile to a specific user resource.
+	// This field is required.
 	User string `protobuf:"bytes,4,opt,name=user,proto3" json:"user,omitempty"`
 	// The locale/language preference for this user profile.
-	// Format: IETF BCP 47 language tag (e.g., "en-US", "fr-FR", "ja-JP").
+	// Format: IETF BCP 47 language tag (e.g., "en", "en-US", "fr-FR", "zh-Hans-CN").
 	// Used for internationalization and localization of the user interface.
+	// This field is optional but must be a valid BCP 47 tag when provided.
 	Locale string `protobuf:"bytes,5,opt,name=locale,proto3" json:"locale,omitempty"`
 	// URL to the user's profile picture or avatar image.
 	// Should be a valid HTTPS URL pointing to an accessible image resource.
 	// Used for displaying user identity in the application interface.
+	// This field is optional but must be a valid URI when provided.
 	ProfilePictureUrl string `protobuf:"bytes,6,opt,name=profile_picture_url,json=profilePictureUrl,proto3" json:"profile_picture_url,omitempty"`
 	// The display name shown for this user in the application.
 	// This field is required and represents how the user is identified to others.
@@ -165,15 +168,20 @@ var File_meshtrade_iam_user_profile_v1_user_profile_proto protoreflect.FileDescr
 
 const file_meshtrade_iam_user_profile_v1_user_profile_proto_rawDesc = "" +
 	"\n" +
-	"0meshtrade/iam/user_profile/v1/user_profile.proto\x12\x1dmeshtrade.iam.user_profile.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1dmeshtrade/type/v1/token.proto\"\xd5\x05\n" +
+	"0meshtrade/iam/user_profile/v1/user_profile.proto\x12\x1dmeshtrade.iam.user_profile.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1dmeshtrade/type/v1/token.proto\"\xa7\n" +
+	"\n" +
 	"\vUserProfile\x12\xca\x01\n" +
 	"\x04name\x18\x01 \x01(\tB\xb5\x01\xbaH\xb1\x01\xba\x01\xad\x01\n" +
 	"\x14name.format.optional\x12:name must be empty or in the format user_profiles/{ULIDv2}\x1aYsize(this) == 0 || this.matches('^user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12R\n" +
 	"\x05owner\x18\x02 \x01(\tB<\xbaH9\xc8\x01\x01r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05owner\x12V\n" +
-	"\x06owners\x18\x03 \x03(\tB>\xbaH;\x92\x018\"6r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x06owners\x12L\n" +
-	"\x04user\x18\x04 \x01(\tB8\xbaH5r32.^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x04user\x12\x16\n" +
-	"\x06locale\x18\x05 \x01(\tR\x06locale\x12.\n" +
-	"\x13profile_picture_url\x18\x06 \x01(\tR\x11profilePictureUrl\x12)\n" +
+	"\x06owners\x18\x03 \x03(\tB>\xbaH;\x92\x018\"6r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x06owners\x12\xdf\x02\n" +
+	"\x04user\x18\x04 \x01(\tB\xca\x02\xbaH\xc6\x02\xba\x01V\n" +
+	"\ruser.required\x125user is required and must be in format users/{ULIDv2}\x1a\x0esize(this) > 0\xba\x01\xb1\x01\n" +
+	"\vuser.format\x12buser must be in format users/{ULIDv2} where ULIDv2 is exactly 26 uppercase alphanumeric characters\x1a>this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')\xc8\x01\x01r32.^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01 R\x04user\x12\xdb\x01\n" +
+	"\x06locale\x18\x05 \x01(\tB\xc2\x01\xbaH\xbe\x01\xba\x01\xba\x01\n" +
+	"\rlocale.format\x12Rlocale must be empty or a valid BCP 47 language tag (e.g., 'en', 'en-US', 'fr-FR')\x1aUsize(this) == 0 || this.matches('^[a-z]{2,3}(-[A-Za-z]{4})?(-([A-Z]{2}|[0-9]{3}))?$')R\x06locale\x12\xa5\x01\n" +
+	"\x13profile_picture_url\x18\x06 \x01(\tBu\xbaHr\xba\x01o\n" +
+	"\x1aprofile_picture_url.format\x120profile_picture_url must be empty or a valid URI\x1a\x1fsize(this) == 0 || this.isUri()R\x11profilePictureUrl\x12)\n" +
 	"\fdisplay_name\x18\a \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\vdisplayName\x12C\n" +
 	"\x10display_currency\x18\b \x01(\v2\x18.meshtrade.type.v1.TokenR\x0fdisplayCurrency\x12G\n" +
 	"\x12reporting_currency\x18\t \x01(\v2\x18.meshtrade.type.v1.TokenR\x11reportingCurrencyBg\n" +

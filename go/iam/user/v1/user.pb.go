@@ -134,7 +134,7 @@ type MobileNumber struct {
 	// This is the actual Mobile Number that has been verified by the user
 	Value string `protobuf:"bytes,1,opt,name=value,proto3" json:"value,omitempty"`
 	// This is set to true when the user has verified their number through the use of an OTP
-	Verfied bool `protobuf:"varint,2,opt,name=verfied,proto3" json:"verfied,omitempty"`
+	Verified bool `protobuf:"varint,2,opt,name=verified,proto3" json:"verified,omitempty"`
 	// This is the reason a number for a user was reset
 	ResetReason   string `protobuf:"bytes,3,opt,name=reset_reason,json=resetReason,proto3" json:"reset_reason,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -178,9 +178,9 @@ func (x *MobileNumber) GetValue() string {
 	return ""
 }
 
-func (x *MobileNumber) GetVerfied() bool {
+func (x *MobileNumber) GetVerified() bool {
 	if x != nil {
-		return x.Verfied
+		return x.Verified
 	}
 	return false
 }
@@ -205,10 +205,10 @@ const file_meshtrade_iam_user_v1_user_proto_rawDesc = "" +
 	"\x05email\x18\x04 \x01(\tB\n" +
 	"\xbaH\a\xc8\x01\x01r\x02`\x01R\x05email\x12H\n" +
 	"\rmobile_number\x18\x05 \x01(\v2#.meshtrade.iam.user.v1.MobileNumberR\fmobileNumber\x12k\n" +
-	"\x05roles\x18\x06 \x03(\tBU\xbaHR\x92\x01O\"MrK\x10/\x1802E^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/roles/[1-9][0-9]{6,7}$R\x05roles\"a\n" +
+	"\x05roles\x18\x06 \x03(\tBU\xbaHR\x92\x01O\"MrK\x10/\x1802E^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}/roles/[1-9][0-9]{6,7}$R\x05roles\"c\n" +
 	"\fMobileNumber\x12\x14\n" +
-	"\x05value\x18\x01 \x01(\tR\x05value\x12\x18\n" +
-	"\averfied\x18\x02 \x01(\bR\averfied\x12!\n" +
+	"\x05value\x18\x01 \x01(\tR\x05value\x12\x1a\n" +
+	"\bverified\x18\x02 \x01(\bR\bverified\x12!\n" +
 	"\freset_reason\x18\x03 \x01(\tR\vresetReasonBO\n" +
 	"\x1cco.meshtrade.api.iam.user.v1Z/github.com/meshtrade/api/go/iam/user/v1;user_v1b\x06proto3"
 

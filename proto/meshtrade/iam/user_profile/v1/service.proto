@@ -5,7 +5,6 @@ package meshtrade.iam.user_profile.v1;
 import "buf/validate/validate.proto";
 import "meshtrade/iam/user_profile/v1/user_profile.proto";
 import "meshtrade/option/method_options/v1/method_options.proto";
-import "meshtrade/type/v1/sorting.proto";
 
 option go_package = "github.com/meshtrade/api/go/iam/user_profile/v1;user_profile_v1";
 option java_package = "co.meshtrade.api.iam.user_profile.v1";
@@ -131,20 +130,6 @@ message GetUserProfileByUserRequest {
       expression: "this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
     }
   }];
-}
-
-/*
-   Request message for CreateUserProfile.
-
-   Creates a new user profile with the specified information.
-*/
-message CreateUserProfileRequest {
-  /*
-     The user profile to create.
-     The name field will be auto-generated if not provided.
-     Owner and display_name are required fields.
-  */
-  UserProfile user_profile = 1 [(buf.validate.field) = {required: true}];
 }
 
 /*

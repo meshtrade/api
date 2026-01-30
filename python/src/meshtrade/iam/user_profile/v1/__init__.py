@@ -15,7 +15,6 @@
 # Generated protobuf imports
 from .user_profile_pb2 import UserProfile
 from .service_pb2 import (
-    CreateUserProfileRequest,
     GetUserProfileByUserRequest,
     GetUserProfileRequest,
     ListUserProfilesRequest,
@@ -50,7 +49,6 @@ from .service_meshpy import (
 # Combined auto-generated and manual exports
 __all__ = [
     # Generated exports
-    "CreateUserProfileRequest",
     "GetUserProfileByUserRequest",
     "GetUserProfileRequest",
     "ListUserProfilesRequest",

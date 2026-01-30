@@ -61,27 +61,53 @@ message UserProfile {
      The resource name of the user associated with this profile.
      Format: users/{ULIDv2}.
      This field links the user profile to a specific user resource.
+     This field is required.
   */
   string user = 4 [(buf.validate.field) = {
+    required: true
     string: {
-     len: 33
-     pattern: "^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+      len: 32
+      pattern: "^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+    }
+    cel: {
+      id: "user.required"
+      message: "user is required and must be in format users/{ULIDv2}"
+      expression: "size(this) > 0"
+    }
+    cel: {
+      id: "user.format"
+      message: "user must be in format users/{ULIDv2} where ULIDv2 is exactly 26 uppercase alphanumeric characters"
+      expression: "this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
     }
   }];
 
   /*
      The locale/language preference for this user profile.
-     Format: IETF BCP 47 language tag (e.g., "en-US", "fr-FR", "ja-JP").
+     Format: IETF BCP 47 language tag (e.g., "en", "en-US", "fr-FR", "zh-Hans-CN").
      Used for internationalization and localization of the user interface.
+     This field is optional but must be a valid BCP 47 tag when provided.
   */
-  string locale = 5;
+  string locale = 5 [(buf.validate.field) = {
+    cel: {
+      id: "locale.format"
+      message: "locale must be empty or a valid BCP 47 language tag (e.g., 'en', 'en-US', 'fr-FR')"
+      expression: "size(this) == 0 || this.matches('^[a-z]{2,3}(-[A-Za-z]{4})?(-([A-Z]{2}|[0-9]{3}))?$')"
+    }
+  }];
 
   /*
      URL to the user's profile picture or avatar image.
      Should be a valid HTTPS URL pointing to an accessible image resource.
      Used for displaying user identity in the application interface.
+     This field is optional but must be a valid URI when provided.
   */
-  string profile_picture_url = 6;
+  string profile_picture_url = 6 [(buf.validate.field) = {
+    cel: {
+      id: "profile_picture_url.format"
+      message: "profile_picture_url must be empty or a valid URI"
+      expression: "size(this) == 0 || this.isUri()"
+    }
+  }];
 
   /*
      The display name shown for this user in the application.

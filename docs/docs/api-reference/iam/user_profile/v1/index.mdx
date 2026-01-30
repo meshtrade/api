@@ -27,9 +27,9 @@ User profiles contain display preferences, localization settings, and personaliz
 
 ### Key Features
 
-- **Profile Management**: Create, update, and retrieve user profile information
+- **Profile Management**: Update and retrieve user profile information
 - **User Lookup**: Find profiles by user ID or profile ID
-- **Search & Filter**: Search profiles by display name, email, or owner group
+- **List Profiles**: Retrieve all profiles accessible to the caller
 - **Personalization**: Manage display preferences including locale, currency, and profile pictures
 - **Multi-tenancy**: Group-based ownership with hierarchical access control
 
@@ -45,15 +45,7 @@ User profiles contain display preferences, localization settings, and personaliz
 
 - **By Profile ID**: Use `GetUserProfile` with the profile resource name
 - **By User ID**: Use `GetUserProfileByUser` with the user resource name
-
-### Searching Profiles
-
-Use `SearchUserProfiles` to find profiles by:
-- Display name (case-insensitive partial matching)
-- Email address (case-insensitive partial matching)
-- Owner group (exact match)
-
-Results can be sorted by name or display_name in ascending or descending order.
+- **List All**: Use `ListUserProfiles` to retrieve all accessible profiles
 
 ## Authentication & Authorization
 

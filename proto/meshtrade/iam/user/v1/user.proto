@@ -103,7 +103,7 @@ message MobileNumber {
   /*
      This is set to true when the user has verified their number through the use of an OTP
   */
-  bool verfied = 2;
+  bool verified = 2;
 
   /*
      This is the reason a number for a user was reset
