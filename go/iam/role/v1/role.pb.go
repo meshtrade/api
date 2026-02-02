@@ -47,6 +47,8 @@ const (
 	Role_ROLE_IAM_GROUP_VIEWER                Role = 3000005
 	Role_ROLE_IAM_USER_ADMIN                  Role = 3000006
 	Role_ROLE_IAM_USER_VIEWER                 Role = 3000007
+	Role_ROLE_IAM_USER_PROFILE_ADMIN          Role = 3000008
+	Role_ROLE_IAM_USER_PROFILE_VIEWER         Role = 3000009
 	Role_ROLE_STUDIO_ADMIN                    Role = 4000000
 	Role_ROLE_STUDIO_VIEWER                   Role = 4000001
 	Role_ROLE_STUDIO_INSTRUMENT_ADMIN         Role = 4000002
@@ -89,6 +91,8 @@ var (
 		3000005: "ROLE_IAM_GROUP_VIEWER",
 		3000006: "ROLE_IAM_USER_ADMIN",
 		3000007: "ROLE_IAM_USER_VIEWER",
+		3000008: "ROLE_IAM_USER_PROFILE_ADMIN",
+		3000009: "ROLE_IAM_USER_PROFILE_VIEWER",
 		4000000: "ROLE_STUDIO_ADMIN",
 		4000001: "ROLE_STUDIO_VIEWER",
 		4000002: "ROLE_STUDIO_INSTRUMENT_ADMIN",
@@ -128,6 +132,8 @@ var (
 		"ROLE_IAM_GROUP_VIEWER":                3000005,
 		"ROLE_IAM_USER_ADMIN":                  3000006,
 		"ROLE_IAM_USER_VIEWER":                 3000007,
+		"ROLE_IAM_USER_PROFILE_ADMIN":          3000008,
+		"ROLE_IAM_USER_PROFILE_VIEWER":         3000009,
 		"ROLE_STUDIO_ADMIN":                    4000000,
 		"ROLE_STUDIO_VIEWER":                   4000001,
 		"ROLE_STUDIO_INSTRUMENT_ADMIN":         4000002,
@@ -182,7 +188,7 @@ var File_meshtrade_iam_role_v1_role_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_role_v1_role_proto_rawDesc = "" +
 	"\n" +
-	" meshtrade/iam/role/v1/role.proto\x12\x15meshtrade.iam.role.v1*\xa0\t\n" +
+	" meshtrade/iam/role/v1/role.proto\x12\x15meshtrade.iam.role.v1*\xe9\t\n" +
 	"\x04Role\x12\x14\n" +
 	"\x10ROLE_UNSPECIFIED\x10\x00\x12\x17\n" +
 	"\x11ROLE_WALLET_ADMIN\x10\xc0\x84=\x12\x18\n" +
@@ -200,7 +206,9 @@ const file_meshtrade_iam_role_v1_role_proto_rawDesc = "" +
 	"\x14ROLE_IAM_GROUP_ADMIN\x10č\xb7\x01\x12\x1c\n" +
 	"\x15ROLE_IAM_GROUP_VIEWER\x10ō\xb7\x01\x12\x1a\n" +
 	"\x13ROLE_IAM_USER_ADMIN\x10ƍ\xb7\x01\x12\x1b\n" +
-	"\x14ROLE_IAM_USER_VIEWER\x10Ǎ\xb7\x01\x12\x18\n" +
+	"\x14ROLE_IAM_USER_VIEWER\x10Ǎ\xb7\x01\x12\"\n" +
+	"\x1bROLE_IAM_USER_PROFILE_ADMIN\x10ȍ\xb7\x01\x12#\n" +
+	"\x1cROLE_IAM_USER_PROFILE_VIEWER\x10ɍ\xb7\x01\x12\x18\n" +
 	"\x11ROLE_STUDIO_ADMIN\x10\x80\x92\xf4\x01\x12\x19\n" +
 	"\x12ROLE_STUDIO_VIEWER\x10\x81\x92\xf4\x01\x12#\n" +
 	"\x1cROLE_STUDIO_INSTRUMENT_ADMIN\x10\x82\x92\xf4\x01\x12$\n" +

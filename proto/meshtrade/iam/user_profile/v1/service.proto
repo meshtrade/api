@@ -1,0 +1,200 @@
+syntax = "proto3";
+
+package meshtrade.iam.user_profile.v1;
+
+import "buf/validate/validate.proto";
+import "meshtrade/iam/user_profile/v1/user_profile.proto";
+import "meshtrade/option/method_options/v1/method_options.proto";
+
+option go_package = "github.com/meshtrade/api/go/iam/user_profile/v1;user_profile_v1";
+option java_package = "co.meshtrade.api.iam.user_profile.v1";
+
+/*
+   UserProfileService manages user profile information and preferences.
+
+   User profiles contain display preferences, localization settings, and
+   personalization data for authenticated users in the IAM system.
+   Each profile is linked to a specific user and owned by a group.
+*/
+service UserProfileService {
+  /*
+     Updates an existing user profile.
+
+     Allows modification of profile information including display name,
+     profile picture, locale preferences, and currency settings.
+     Only the fields provided in the request will be updated.
+
+     Returns the updated UserProfile resource.
+  */
+  rpc UpdateUserProfile(UpdateUserProfileRequest) returns (UserProfile) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_WRITE
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_USER_PROFILE_ADMIN
+      ]
+    };
+  }
+
+  /*
+     Retrieves a user profile by its resource name.
+
+     Fetches the complete user profile information including all
+     preferences and settings for the specified user profile ID.
+
+     Returns the requested UserProfile resource.
+  */
+  rpc GetUserProfile(GetUserProfileRequest) returns (UserProfile) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_VIEWER,
+        ROLE_IAM_USER_PROFILE_ADMIN,
+        ROLE_IAM_USER_PROFILE_VIEWER
+      ]
+    };
+  }
+
+  /*
+     Retrieves a user profile by the associated user resource name.
+
+     Looks up and returns the user profile linked to a specific user ID.
+     This is useful when you have a user resource and need to find
+     their associated profile information.
+
+     Returns the UserProfile resource associated with the specified user.
+  */
+  rpc GetUserProfileByUser(GetUserProfileByUserRequest) returns (UserProfile) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_VIEWER,
+        ROLE_IAM_USER_PROFILE_ADMIN,
+        ROLE_IAM_USER_PROFILE_VIEWER
+      ]
+    };
+  }
+
+  /*
+     Lists all user_profiles accessible to the caller.
+
+     Returns a collection of all user_profiles within the caller's
+     access scope based on group ownership and role permissions.
+
+     Returns a ListUserProfilesResponse containing all accessible user_profiles.
+  */
+  rpc ListUserProfiles(ListUserProfilesRequest) returns (ListUserProfilesResponse) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_VIEWER,
+        ROLE_IAM_USER_PROFILE_ADMIN,
+        ROLE_IAM_USER_PROFILE_VIEWER
+      ]
+    };
+  }
+}
+
+/*
+   Request message for GetUserProfileByUser.
+
+   Retrieves a user profile by specifying the associated user resource name.
+*/
+message GetUserProfileByUserRequest {
+  /*
+     The resource name of the user whose profile should be retrieved.
+     Format: users/{ULIDv2}.
+     This field is required.
+  */
+  string user = 1 [(buf.validate.field) = {
+    required: true
+    string: {
+      min_len: 1
+      pattern: "^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+    }
+    cel: {
+      id: "user.required"
+      message: "user is required and must be in format users/{ULIDv2}"
+      expression: "size(this) > 0"
+    }
+    cel: {
+      id: "user.format"
+      message: "name must be in format users/{ULIDv2} where ulidv2 is exactly 26 uppercase alphanumeric characters"
+      expression: "this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
+    }
+  }];
+}
+
+/*
+   Request message for UpdateUserProfile.
+
+   Updates an existing user profile. Only the fields provided
+   in the user_profile will be updated; omitted fields remain unchanged.
+*/
+message UpdateUserProfileRequest {
+  /*
+     The user profile with updated values.
+     The name field must be set to identify which profile to update.
+     Only provided fields will be modified.
+  */
+  UserProfile user_profile = 1 [(buf.validate.field) = {required: true}];
+}
+
+/*
+   *
+     Request message for GetUserProfile.
+
+     Retrieves a specific user profile by its resource name.
+*/
+message GetUserProfileRequest {
+  /*
+     The resource name of the user profile to retrieve.
+     Format: user_profiles/{ULIDv2}.
+     This field is required.
+  */
+  string name = 1 [(buf.validate.field) = {
+    required: true
+    string: {
+      min_len: 1
+      pattern: "^user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+    }
+    cel: {
+      id: "name.required"
+      message: "name is required and must be in format user_profiles/{ULIDv2}"
+      expression: "size(this) > 0"
+    }
+    cel: {
+      id: "name.format"
+      message: "name must be in format user_profiles/{ULIDv2} where ulidv2 is exactly 26 uppercase alphanumeric characters"
+      expression: "this.matches('^user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
+    }
+  }];
+}
+
+/*
+   Request message for ListUserProfiles.
+
+   Lists all user profiles accessible to the caller based on
+   their role permissions and group ownership.
+*/
+message ListUserProfilesRequest {}
+
+/*
+   Response message for ListUserProfiles.
+
+   Contains the collection of user profiles accessible to the caller.
+*/
+message ListUserProfilesResponse {
+  /*
+     The list of user profiles.
+     Ordered by creation time, with most recent first.
+  */
+  repeated UserProfile user_profiles = 1;
+}

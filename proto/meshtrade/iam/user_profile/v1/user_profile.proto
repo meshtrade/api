@@ -1,0 +1,134 @@
+syntax = "proto3";
+
+package meshtrade.iam.user_profile.v1;
+
+import "buf/validate/validate.proto";
+import "meshtrade/type/v1/token.proto";
+
+option go_package = "github.com/meshtrade/api/go/iam/user_profile/v1;user_profile_v1";
+option java_package = "co.meshtrade.api.iam.user_profile.v1";
+
+/*
+   A user_profile in the IAM user_profile service.
+
+   Each User Profile belongs to a specific user
+*/
+message UserProfile {
+  /*
+     The unique resource name for the user_profiles.
+     Format: user_profiles/{ULIDv2}.
+     This field is system-generated and immutable upon creation.
+     Any value provided on creation is ignored.
+  */
+  string name = 1 [(buf.validate.field) = {
+    cel: {
+      id: "name.format.optional"
+      message: "name must be empty or in the format user_profiles/{ULIDv2}"
+      expression: "size(this) == 0 || this.matches('^user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
+    }
+  }];
+
+
+  /*
+     The resource name of the parent group that owns this user_profile.
+     This field is required on creation and establishes the direct ownership link.
+     Format: groups/{ULIDv2}.
+  */
+  string owner = 2 [(buf.validate.field) = {
+    required: true
+    string: {
+      len: 33
+      pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+    }
+  }];
+
+  /*
+     Ownership hiearchy of groups that have access to this resource in the format groups/{group_id}.
+     System set on creation.
+  */
+  repeated string owners = 3 [(buf.validate.field) = {
+    repeated: {
+      items: {
+        string: {
+          len: 33
+          pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+        }
+      }
+    }
+  }];
+
+/*
+     The resource name of the user associated with this profile.
+     Format: users/{ULIDv2}.
+     This field links the user profile to a specific user resource.
+     This field is required.
+  */
+  string user = 4 [(buf.validate.field) = {
+    required: true
+    string: {
+      len: 32
+      pattern: "^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+    }
+    cel: {
+      id: "user.required"
+      message: "user is required and must be in format users/{ULIDv2}"
+      expression: "size(this) > 0"
+    }
+    cel: {
+      id: "user.format"
+      message: "user must be in format users/{ULIDv2} where ULIDv2 is exactly 26 uppercase alphanumeric characters"
+      expression: "this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
+    }
+  }];
+
+  /*
+     The locale/language preference for this user profile.
+     Format: IETF BCP 47 language tag (e.g., "en", "en-US", "fr-FR", "zh-Hans-CN").
+     Used for internationalization and localization of the user interface.
+     This field is optional but must be a valid BCP 47 tag when provided.
+  */
+  string locale = 5 [(buf.validate.field) = {
+    cel: {
+      id: "locale.format"
+      message: "locale must be empty or a valid BCP 47 language tag (e.g., 'en', 'en-US', 'fr-FR')"
+      expression: "size(this) == 0 || this.matches('^[a-z]{2,3}(-[A-Za-z]{4})?(-([A-Z]{2}|[0-9]{3}))?$')"
+    }
+  }];
+
+  /*
+     URL to the user's profile picture or avatar image.
+     Should be a valid HTTPS URL pointing to an accessible image resource.
+     Used for displaying user identity in the application interface.
+     This field is optional but must be a valid URI when provided.
+  */
+  string profile_picture_url = 6 [(buf.validate.field) = {
+    cel: {
+      id: "profile_picture_url.format"
+      message: "profile_picture_url must be empty or a valid URI"
+      expression: "size(this) == 0 || this.isUri()"
+    }
+  }];
+
+  /*
+     The display name shown for this user in the application.
+     This field is required and represents how the user is identified to others.
+     May be the user's full name, nickname, or preferred identifier.
+  */
+  string display_name = 7 [(buf.validate.field) = {
+    required: true
+  }];
+
+  /*
+     The preferred currency token for displaying monetary values to this user.
+     Used as the default currency for presenting prices, balances, and trading values.
+     References a token from the meshtrade.type.v1.Token definition.
+  */
+  meshtrade.type.v1.Token display_currency = 8;
+
+  /*
+     The currency token used for financial reporting and accounting purposes.
+     This may differ from display_currency and is used for official records and statements.
+     References a token from the meshtrade.type.v1.Token definition.
+  */
+  meshtrade.type.v1.Token reporting_currency = 9;
+}

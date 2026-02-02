@@ -4,19 +4,21 @@ import (
 	"time"
 
 	"go.opentelemetry.io/otel/trace"
+	"google.golang.org/grpc"
 )
 
 // BaseConfig represents the configuration that can be applied to any BaseGRPCClient.
 // This internal type is used by ServiceOption functions to modify client settings
 // before the client is fully constructed.
 type BaseConfig struct {
-	URL     string
-	Port    int
-	TLS     bool
-	Tracer  trace.Tracer
-	ApiKey  string
-	Group   string
-	Timeout time.Duration
+	URL            string
+	Port           int
+	TLS            bool
+	Tracer         trace.Tracer
+	ApiKey         string
+	Group          string
+	Timeout        time.Duration
+	GRPCConnection *grpc.ClientConn
 }
 
 // ServiceOption is a functional option for configuring any gRPC service client.
@@ -189,5 +191,27 @@ func WithTracer(tracer trace.Tracer) ServiceOption {
 func WithTimeout(timeout time.Duration) ServiceOption {
 	return func(config *BaseConfig) {
 		config.Timeout = timeout
+	}
+}
+
+// WithConnection overrides the connection used for all gRPC method calls.
+// This will override the WithURL(), WithPort() options
+// Parameter:
+//   - grpcConnection: The grpc client connection that will be used
+//
+// Default: nil
+//
+// Example:
+//
+//	grpcClientConnection := grpc.NewClient(
+//		fmt.Sprintf("%s:%d", url, port),
+//	)
+//
+//	service, err := NewApiUserService(
+//	    config.WithConnection(grpcClientConnection),
+//	)
+func WithConnection(grpcConnection *grpc.ClientConn) ServiceOption {
+	return func(config *BaseConfig) {
+		config.GRPCConnection = grpcConnection
 	}
 }
