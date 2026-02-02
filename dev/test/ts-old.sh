@@ -19,7 +19,7 @@ echo "===================="
 
 # Check environment first
 echo "🔍 Checking TypeScript environment..."
-if ! "$SCRIPT_DIR/../env/ts-old.sh"; then
+if ! "$SCRIPT_DIR/../env/ts-web.sh"; then
     echo "❌ TypeScript environment check failed. Please fix the issues above."
     exit 1
 fi

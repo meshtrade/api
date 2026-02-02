@@ -96,6 +96,6 @@ echo "   Go directive: $(grep 'go [0-9]' go.mod | cut -d' ' -f2)"
 echo
 echo "############################################################"
 echo "#                                                          #"
-echo "#  🎉 Go testing complete!  🐹                           #"
+echo "#  🎉 Go testing complete!  🐹                             #"
 echo "#                                                          #"
 echo "############################################################"
