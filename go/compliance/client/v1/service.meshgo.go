@@ -58,6 +58,10 @@ type ClientServiceClientInterface interface {
 	// including all associated information like identification documents, tax residencies,
 	// and company structures.
 	GetClient(ctx context.Context, request *GetClientRequest) (*Client, error)
+	// GetGroupClient retrieves the client compliance profile associated with a specific group.
+	// This allows fetching the compliance details of the client that is owned by
+	// the specified group, using the group's resource name as the lookup key.
+	GetGroupClient(ctx context.Context, request *GetGroupClientRequest) (*Client, error)
 	// ListClients retrieves a collection of client compliance profiles.
 	// This method is useful for fetching multiple client records at once.
 	// Note: This endpoint does not currently support pagination or filtering.
@@ -186,6 +190,14 @@ func (s *clientService) CreateClient(ctx context.Context, request *CreateClientR
 func (s *clientService) GetClient(ctx context.Context, request *GetClientRequest) (*Client, error) {
 	return grpc.Execute(s.Executor(), ctx, "GetClient", request, func(ctx context.Context) (*Client, error) {
 		return s.GrpcClient().GetClient(ctx, request)
+	})
+}
+
+// GetGroupClient executes the GetGroupClient RPC method with automatic
+// client-side validation, timeout handling, distributed tracing, and authentication.
+func (s *clientService) GetGroupClient(ctx context.Context, request *GetGroupClientRequest) (*Client, error) {
+	return grpc.Execute(s.Executor(), ctx, "GetGroupClient", request, func(ctx context.Context) (*Client, error) {
+		return s.GrpcClient().GetGroupClient(ctx, request)
 	})
 }
 

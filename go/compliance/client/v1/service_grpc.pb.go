@@ -19,9 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ClientService_CreateClient_FullMethodName = "/meshtrade.compliance.client.v1.ClientService/CreateClient"
-	ClientService_GetClient_FullMethodName    = "/meshtrade.compliance.client.v1.ClientService/GetClient"
-	ClientService_ListClients_FullMethodName  = "/meshtrade.compliance.client.v1.ClientService/ListClients"
+	ClientService_CreateClient_FullMethodName   = "/meshtrade.compliance.client.v1.ClientService/CreateClient"
+	ClientService_GetClient_FullMethodName      = "/meshtrade.compliance.client.v1.ClientService/GetClient"
+	ClientService_GetGroupClient_FullMethodName = "/meshtrade.compliance.client.v1.ClientService/GetGroupClient"
+	ClientService_ListClients_FullMethodName    = "/meshtrade.compliance.client.v1.ClientService/ListClients"
 )
 
 // ClientServiceClient is the client API for ClientService service.
@@ -43,6 +44,11 @@ type ClientServiceClient interface {
 	// including all associated information like identification documents, tax residencies,
 	// and company structures.
 	GetClient(ctx context.Context, in *GetClientRequest, opts ...grpc.CallOption) (*Client, error)
+	// GetGroupClient retrieves the client compliance profile associated with a specific group.
+	//
+	// This allows fetching the compliance details of the client that is owned by
+	// the specified group, using the group's resource name as the lookup key.
+	GetGroupClient(ctx context.Context, in *GetGroupClientRequest, opts ...grpc.CallOption) (*Client, error)
 	// ListClients retrieves a collection of client compliance profiles.
 	//
 	// This method is useful for fetching multiple client records at once.
@@ -78,6 +84,16 @@ func (c *clientServiceClient) GetClient(ctx context.Context, in *GetClientReques
 	return out, nil
 }
 
+func (c *clientServiceClient) GetGroupClient(ctx context.Context, in *GetGroupClientRequest, opts ...grpc.CallOption) (*Client, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Client)
+	err := c.cc.Invoke(ctx, ClientService_GetGroupClient_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *clientServiceClient) ListClients(ctx context.Context, in *ListClientsRequest, opts ...grpc.CallOption) (*ListClientsResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListClientsResponse)
@@ -107,6 +123,11 @@ type ClientServiceServer interface {
 	// including all associated information like identification documents, tax residencies,
 	// and company structures.
 	GetClient(context.Context, *GetClientRequest) (*Client, error)
+	// GetGroupClient retrieves the client compliance profile associated with a specific group.
+	//
+	// This allows fetching the compliance details of the client that is owned by
+	// the specified group, using the group's resource name as the lookup key.
+	GetGroupClient(context.Context, *GetGroupClientRequest) (*Client, error)
 	// ListClients retrieves a collection of client compliance profiles.
 	//
 	// This method is useful for fetching multiple client records at once.
@@ -127,6 +148,9 @@ func (UnimplementedClientServiceServer) CreateClient(context.Context, *CreateCli
 }
 func (UnimplementedClientServiceServer) GetClient(context.Context, *GetClientRequest) (*Client, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetClient not implemented")
+}
+func (UnimplementedClientServiceServer) GetGroupClient(context.Context, *GetGroupClientRequest) (*Client, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetGroupClient not implemented")
 }
 func (UnimplementedClientServiceServer) ListClients(context.Context, *ListClientsRequest) (*ListClientsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListClients not implemented")
@@ -188,6 +212,24 @@ func _ClientService_GetClient_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ClientService_GetGroupClient_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetGroupClientRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ClientServiceServer).GetGroupClient(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ClientService_GetGroupClient_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ClientServiceServer).GetGroupClient(ctx, req.(*GetGroupClientRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ClientService_ListClients_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListClientsRequest)
 	if err := dec(in); err != nil {
@@ -220,6 +262,10 @@ var ClientService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetClient",
 			Handler:    _ClientService_GetClient_Handler,
+		},
+		{
+			MethodName: "GetGroupClient",
+			Handler:    _ClientService_GetGroupClient_Handler,
 		},
 		{
 			MethodName: "ListClients",
