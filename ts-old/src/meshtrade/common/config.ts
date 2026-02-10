@@ -7,7 +7,9 @@ export type Config = {
 };
 
 export function getConfigFromOpts(config?: ConfigOpts): Config {
-  const apiServerURL = config?.apiServerURL ?? "https://production-service-mesh-api-gateway-lb-frontend.mesh.trade";
+  const apiServerURL =
+    config?.apiServerURL ??
+    "https://production-service-mesh-api-gateway-lb-frontend.mesh.trade";
 
   return {
     apiServerURL,

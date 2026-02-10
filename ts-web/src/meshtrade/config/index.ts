@@ -42,7 +42,8 @@
  */
 export class ClientConfig {
   /** API server URL (default: production) */
-  apiServerURL: string = "https://production-service-mesh-api-gateway-lb-frontend.mesh.trade";
+  apiServerURL: string =
+    "https://production-service-mesh-api-gateway-lb-frontend.mesh.trade";
 
   /** API key for service-to-service authentication */
   apiKey?: string;
