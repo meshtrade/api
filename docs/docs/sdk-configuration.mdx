@@ -72,7 +72,7 @@ func main() {
 
 | Option | Default | Description |
 |--------|---------|-------------|
-| `WithAddress(host, port)` | Production endpoint, `443` | Custom host and port |
+| `WithAddress(host, port)` | `production-service-mesh-api-gateway-lb-frontend.mesh.trade`, `443` | Custom host and port |
 | `WithTLS(enabled)` | `true` | Enable/disable TLS |
 | `WithAPIKey(key)` | Auto-discovered | API key for authentication |
 | `WithGroup(groupID)` | Auto-discovered | Group context (`groups/{id}`) |
@@ -122,7 +122,7 @@ if __name__ == "__main__":
 
 | Option | Default | Description |
 |--------|---------|-------------|
-| `url` | Production endpoint | Host/endpoint |
+| `url` | `production-service-mesh-api-gateway-lb-frontend.mesh.trade` | Host/endpoint |
 | `port` | `443` | Port number |
 | `tls` | `True` | Enable/disable TLS |
 | `api_key` | Auto-discovered | API key for authentication |
@@ -180,12 +180,12 @@ public class ClientConfig {
 <TabItem value="ts-node" label="TypeScript (Node)">
 
 ```typescript title="client-config.ts"
-import { ApiUserServiceNode } from "@meshtrade/api/iam/api_user/v1";
+import { ApiUserServiceNode } from "@meshtrade/api-node/iam/api_user/v1";
 import {
   WithAPIKey,
   WithGroup,
   WithServerUrl,
-} from "@meshtrade/api/config";
+} from "@meshtrade/api-node/config";
 
 // Option 1: Minimal client with explicit credentials
 const client1 = new ApiUserServiceNode(
@@ -225,7 +225,7 @@ The TypeScript Node SDK does **not** support automatic credential discovery. Cre
 <TabItem value="ts-web" label="TypeScript (Web)">
 
 ```typescript title="client-config-web.ts"
-import { ApiUserServiceGrpcWebClientV1 } from "@meshtrade/api/iam/api_user/v1";
+import { ApiUserServiceGrpcWebClientV1 } from "@meshtrade/api-old/iam/api_user/v1";
 
 // Option 1: Default localhost connection
 const client1 = new ApiUserServiceGrpcWebClientV1();
