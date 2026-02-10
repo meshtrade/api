@@ -16,7 +16,7 @@ import co.meshtrade.api.auth.CredentialsDiscovery;
  * 
  * <h2>Default Values</h2>
  * <ul>
- * <li><strong>URL:</strong> {@code api.mesh.dev}</li>
+ * <li><strong>URL:</strong> {@code production-service-mesh-api-gateway-lb-frontend.mesh.trade}</li>
  * <li><strong>Port:</strong> {@code 443}</li>
  * <li><strong>TLS:</strong> {@code true}</li>
  * <li><strong>Timeout:</strong> {@code 30 seconds}</li>
@@ -75,7 +75,7 @@ public final class ServiceOptions {
     /**
      * Gets the gRPC server URL.
      *
-     * @return the gRPC server URL (default: "api.mesh.dev")
+     * @return the gRPC server URL (default: "production-service-mesh-api-gateway-lb-frontend.mesh.trade")
      */
     public String getUrl() {
         return url;
@@ -176,7 +176,7 @@ public final class ServiceOptions {
      * attempt to discover them automatically when {@link #build()} is called.
      */
     public static final class Builder {
-        private String url = "api.mesh.dev";
+        private String url = "production-service-mesh-api-gateway-lb-frontend.mesh.trade";
         private int port = 443;
         private boolean tls = true;
         private Duration timeout = Duration.ofSeconds(30);
@@ -188,7 +188,7 @@ public final class ServiceOptions {
         /**
          * Sets the gRPC server URL.
          *
-         * @param serverUrl the server URL (default: "api.mesh.dev")
+         * @param serverUrl the server URL (default: "production-service-mesh-api-gateway-lb-frontend.mesh.trade")
          * @return this builder for method chaining
          * @throws NullPointerException if serverUrl is null
          * @throws IllegalArgumentException if serverUrl is empty

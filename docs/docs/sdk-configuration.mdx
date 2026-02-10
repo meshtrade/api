@@ -72,7 +72,7 @@ func main() {
 
 | Option | Default | Description |
 |--------|---------|-------------|
-| `WithAddress(host, port)` | `production-service-mesh-api-gateway-lb-frontend.mesh.trade`, `443` | Custom host and port |
+| `WithAddress(host, port)` | `Mesh API endpoint`, `443` | Custom host and port |
 | `WithTLS(enabled)` | `true` | Enable/disable TLS |
 | `WithAPIKey(key)` | Auto-discovered | API key for authentication |
 | `WithGroup(groupID)` | Auto-discovered | Group context (`groups/{id}`) |
@@ -122,7 +122,7 @@ if __name__ == "__main__":
 
 | Option | Default | Description |
 |--------|---------|-------------|
-| `url` | `production-service-mesh-api-gateway-lb-frontend.mesh.trade` | Host/endpoint |
+| `url` | `Mesh API endpoint` | Host/endpoint |
 | `port` | `443` | Port number |
 | `tls` | `True` | Enable/disable TLS |
 | `api_key` | Auto-discovered | API key for authentication |
@@ -168,7 +168,7 @@ public class ClientConfig {
 
 | Option | Default | Description |
 |--------|---------|-------------|
-| `.url(String)` | `api.mesh.dev` | gRPC server URL |
+| `.url(String)` | Mesh API endpoint | gRPC server URL |
 | `.port(int)` | `443` | gRPC server port |
 | `.tls(boolean)` | `true` | Enable/disable TLS |
 | `.timeout(Duration)` | `30s` | Request timeout |
@@ -193,16 +193,16 @@ const client1 = new ApiUserServiceNode(
   WithGroup("groups/your-group-id"),
 );
 
-// Option 2: Full custom configuration
+// Option 2: Custom server URL
 const client2 = new ApiUserServiceNode(
-  WithServerUrl("https://api.mesh.dev"),
+  WithServerUrl("https://custom-endpoint.example.com"),
   WithAPIKey("your-api-key-here"),
   WithGroup("groups/your-group-id"),
 );
 
 // Option 3: JWT authentication
 const client3 = new ApiUserServiceNode(
-  WithServerUrl("https://api.mesh.dev"),
+  WithServerUrl("https://custom-endpoint.example.com"),
   WithJWTAccessToken("your-jwt-token"),
   WithGroup("groups/your-group-id"),
 );
@@ -212,7 +212,7 @@ const client3 = new ApiUserServiceNode(
 
 | Option | Default | Description |
 |--------|---------|-------------|
-| `WithServerUrl(url)` | `http://localhost:10000` | Server URL (include protocol) |
+| `WithServerUrl(url)` | Mesh API endpoint | Server URL (include protocol) |
 | `WithAPIKey(key)` | None | API key authentication |
 | `WithJWTAccessToken(token)` | None | JWT authentication (mutually exclusive with API key) |
 | `WithGroup(group)` | None | Group context (`groups/{id}`) |
@@ -227,12 +227,12 @@ The TypeScript Node SDK does **not** support automatic credential discovery. Cre
 ```typescript title="client-config-web.ts"
 import { ApiUserServiceGrpcWebClientV1 } from "@meshtrade/api-old/iam/api_user/v1";
 
-// Option 1: Default localhost connection
+// Option 1: Default connection (uses Mesh API endpoint)
 const client1 = new ApiUserServiceGrpcWebClientV1();
 
 // Option 2: Custom server URL
 const client2 = new ApiUserServiceGrpcWebClientV1({
-  apiServerURL: "https://api.mesh.dev",
+  apiServerURL: "https://custom-endpoint.example.com",
 });
 
 // Option 3: With group context
@@ -243,7 +243,7 @@ const client3 = client2.withGroup("groups/your-group-id");
 
 | Option | Default | Description |
 |--------|---------|-------------|
-| `apiServerURL` | `http://localhost:10000` | API server URL |
+| `apiServerURL` | Mesh API endpoint | API server URL |
 | `.withGroup(group)` | None | Returns a new client with group context |
 
 :::note
