@@ -7,7 +7,7 @@ How authentication, authorisation, and resource access scoping work together in 
 Four concepts form the access control model of the Mesh API:
 
 1. **Method Options** — protobuf annotations on each RPC method declaring its type, access level, roles, and verification requirements
-2. **Executing Entity** — the User or API User performing the API call
+2. **Executing Entity** — the API User performing the API call
 3. **Executing Group** — the group context in which the call is executed
 4. **Resource Ownership** — the `owner` and `owners` fields on every resource
 
@@ -20,7 +20,7 @@ x-api-key: {api_key}
 x-group: groups/{group_ulid}
 ```
 
-- **`x-api-key`** — authenticates the executing entity (API User via API key, or User via access token)
+- **`x-api-key`** — authenticates the executing entity (API User via API key)
 - **`x-group`** — specifies the group context for the operation
 
 Public methods (`METHOD_ACCESS_LEVEL_PUBLIC`) can be called without credentials. If credentials are provided on a public method they are validated but not required.
@@ -95,11 +95,11 @@ Roles are enum values following the naming convention `ROLE_{DOMAIN}_{SCOPE}_{LE
 - **Scope** — optional specific resource type (ACCOUNT, USER, GROUP, API_USER)
 - **Level** — ADMIN (read + write) or VIEWER (read only)
 
-Admin roles at a domain level include all sub-domain admin and viewer roles. For example, `ROLE_IAM_ADMIN` includes `ROLE_IAM_GROUP_ADMIN`, `ROLE_IAM_USER_VIEWER`, etc.
+The `roles` list on each method is the **exhaustive source of truth** for access. Only the roles explicitly listed on a method grant access to it.
 
 ### Verification Status (Optional)
 
-When set to `VERIFICATION_STATUS_VERIFIED`, the method is only accessible if the compliance client associated with the executing user has been verified (KYC/KYB complete). If omitted, the method is accessible regardless of verification status.
+When set to `VERIFICATION_STATUS_VERIFIED`, the method is only accessible if the compliance client associated with the executing API user has been verified (KYC/KYB complete). If omitted, the method is accessible regardless of verification status.
 
 This is used to gate sensitive operations like trading and wallet management behind completed compliance verification.
 
@@ -119,7 +119,7 @@ message Account {
 
 ### Groups and Hierarchy
 
-Groups are the fundamental organisational unit. They form tree structures through ownership — each group has exactly one parent group (except the root). Every resource (users, accounts, orders, instruments) belongs to exactly one group.
+Groups are the fundamental organisational unit. They form tree structures through ownership — each group has exactly one parent group. Every resource (users, accounts, orders, instruments) belongs to exactly one group.
 
 ```mermaid
 graph TD
@@ -190,7 +190,7 @@ graph TD
 
 ## Executing Entity
 
-Both **Users** (human, via web/mobile) and **API Users** (programmatic, via API key) follow the same authorisation model. Each has a list of role strings indicating which roles they hold and in which group:
+API Users have a list of role strings indicating which roles they hold and in which group:
 
 ```
 groups/{group_ulid}/roles/{role_enum}
@@ -198,86 +198,69 @@ groups/{group_ulid}/roles/{role_enum}
 
 For example, an API User with `groups/01ABC.../roles/3000000` has `ROLE_TRADING_ADMIN` in group `01ABC...`. When a method labelled with that role is called, the executing group must be that group or any group below it in the hierarchy.
 
+:::note
+Regular Users (human, via web/mobile) follow the same authorisation model as API Users — the only difference is the authentication method.
+:::
+
 ## Clients and Legal Entities
 
-Clients represent compliance-verified legal entities (natural person, company, fund, or trust) within the group hierarchy. Each client is owned by a group and defines the **role boundary** for users within that organisational structure.
-
-The client's `roles` field determines which role types can be assigned to users in groups under that client. Role inheritance simplifies this:
-
-- A domain **viewer** role (e.g. `ROLE_IAM_VIEWER`) automatically allows all sub-domain viewer roles
-- A domain **admin** role (e.g. `ROLE_IAM_ADMIN`) automatically allows all sub-domain admin and viewer roles
+Clients represent compliance-verified legal entities (natural person, company, fund, or trust) within the group hierarchy. Each client is owned by a group. A client's verification status (`VERIFIED`, `PENDING`, etc.) is what methods with `verification_status: VERIFICATION_STATUS_VERIFIED` check against.
 
 ```mermaid
 graph TD
-    subgraph "Legal Entity Boundaries"
-        Broker["Broker Corporation<br/>groups/BROKER"]
-        BrokerClient["Broker Client Entity<br/>Type: Company<br/>Status: Verified"]
-        Fund["Investment Fund<br/>groups/FUND"]
-        FundClient["Fund Client Entity<br/>Type: Fund<br/>Status: Verified"]
-        Individual["Individual<br/>groups/INDIVIDUAL"]
-        IndividualClient["Individual Client Entity<br/>Type: Natural Person<br/>Status: Verified"]
-        RegUser["Portfolio Manager<br/>(Regular User)"]
-        APIUser["Risk System<br/>(API User)"]
-
-        Broker --> BrokerClient
-        Broker --> Fund
-        Fund --> FundClient
-        Fund --> Individual
-        Individual --> IndividualClient
-        Fund --> RegUser
-        Fund --> APIUser
+    subgraph "Client Types"
+        Company["Company Client<br/>Type: Company<br/>Status: Verified"]
+        Fund["Fund Client<br/>Type: Fund<br/>Status: Verified"]
+        NaturalPerson["Individual Client<br/>Type: Natural Person<br/>Status: Verified"]
+        Trust["Trust Client<br/>Type: Trust<br/>Status: Pending"]
     end
 
-    style BrokerClient fill:#e1f5fe
-    style FundClient fill:#f3e5f5
-    style IndividualClient fill:#fff3e0
+    style Company fill:#e1f5fe
+    style Fund fill:#f3e5f5
+    style NaturalPerson fill:#fff3e0
+    style Trust fill:#ffcdd2
 ```
 
-## End-to-End Authorisation Flow
+## Authorisation Checks
 
-The following sequence shows the complete lifecycle of an authorised API request:
+When an API request is made with `x-api-key` and `x-group` headers, the following checks are performed:
+
+1. **Method lookup** — retrieve method options (type, access level, roles, verification status) for the called method
+2. **Group resolution** — fetch the executing group specified in `x-group`
+3. **Entity identification** — hash the API key and retrieve the corresponding API User
+4. **Role check** — verify the API User has at least one of the method's required roles, assigned in any group in the executing group's ownership hierarchy
+5. **Verification check** — if the method requires `VERIFICATION_STATUS_VERIFIED`, confirm the API User's associated compliance client is verified
+6. **Resource scoping** — filter resources based on method type:
+   - **READ**: resources where the executing group appears anywhere in the `owners` hierarchy
+   - **WRITE**: only resources where `owner` equals the executing group
+
+## Example Scenarios
+
+### Basic: Individual Trader
+
+A single individual with one group, one client, one API User, and one account:
 
 ```mermaid
-sequenceDiagram
-    participant Client as API Client
-    participant Gateway as API Gateway
-    participant Auth as Auth Service
-    participant Service as Resource Service
-    participant DB as Database
+graph TD
+    subgraph "Individual Setup"
+        Group["My Group<br/>groups/MY_GROUP"]
+        Client["My Client<br/>Type: Natural Person<br/>Status: Verified"]
+        APIUser["My API User<br/>Roles: TRADING_ADMIN, WALLET_VIEWER"]
+        Account["Trading Account<br/>owner: MY_GROUP"]
 
-    Client->>Gateway: Request + x-api-key + x-group
+        Group --> Client
+        Group --> APIUser
+        Group --> Account
+    end
 
-    Gateway->>Auth: Validate credentials
-
-    Note over Auth: 1. Look up method options<br/>(type, access_level, roles, verification_status)
-    Note over Auth: 2. Fetch executing group
-    Note over Auth: 3. Identify executing entity<br/>(User via JWT or API User via key hash)
-    Note over Auth: 4. Check entity has required role<br/>in executing group's ownership hierarchy
-    Note over Auth: 5. Check verification status<br/>(if required by method)
-
-    Auth->>Gateway: Authorisation passed + signed context
-
-    Gateway->>Service: Forward with execution context
-
-    Note over Service: Validate signed context
-
-    Service->>DB: Query with ownership scoping
-    Note over DB: READ: filter by owners contains group<br/>WRITE: filter by owner equals group
-
-    DB->>Service: Filtered results
-    Service->>Gateway: Response
-    Gateway->>Client: Response
+    style Client fill:#e1f5fe
+    style APIUser fill:#c8e6c9
+    style Account fill:#fff3e0
 ```
 
-**The five checks performed by the auth service:**
+The API User authenticates with `x-api-key` and `x-group: groups/MY_GROUP`. Since it has `TRADING_ADMIN` and `WALLET_VIEWER` roles in `MY_GROUP`, it can call any method that lists those roles, and can read and write resources owned by `MY_GROUP`.
 
-1. **Method lookup** — retrieve method options (type, access level, roles, verification status) from the global method registry
-2. **Group resolution** — fetch the executing group specified in `x-group`
-3. **Entity identification** — authenticate the executing entity via JWT (User) or API key hash (API User)
-4. **Role check** — verify the entity has at least one of the method's required roles, assigned in any group in the executing group's ownership hierarchy
-5. **Verification check** — if the method requires `VERIFICATION_STATUS_VERIFIED`, confirm the entity's associated compliance client is verified
-
-## Example Scenario
+### Brokerage: Multi-Tenant Hierarchy
 
 A brokerage platform with a broker, a corporate client, and an individual client:
 
@@ -288,35 +271,31 @@ graph TD
         Corp["Corporate Client<br/>groups/CORP_CLIENT"]
         Individual["Individual Trader<br/>groups/INDIVIDUAL"]
 
-        CorpManager["Portfolio Manager<br/>(Regular User)<br/>Roles: TRADING_ADMIN"]
+        BrokerBot["Broker API User<br/>Roles: TRADING_ADMIN"]
         CorpBot["Risk Monitor<br/>(API User)<br/>Roles: TRADING_VIEWER"]
-        IndTrader["John Smith<br/>(Regular User)<br/>Roles: TRADING_ADMIN"]
+        IndBot["Trading Bot<br/>(API User)<br/>Roles: TRADING_ADMIN"]
 
         CorpAccount["Corporate Account<br/>owner: CORP_CLIENT"]
         IndAccount["Personal Account<br/>owner: INDIVIDUAL"]
-        Order1["Buy Order<br/>owner: CORP_CLIENT"]
 
         Broker --> Corp
         Broker --> Individual
-        Corp --> CorpManager
+        Broker --> BrokerBot
         Corp --> CorpBot
-        Individual --> IndTrader
+        Individual --> IndBot
         Corp --> CorpAccount
         Individual --> IndAccount
-        Corp --> Order1
     end
 ```
 
 **Access scenarios:**
 
-| Who | Method | Can access | Cannot access | Why |
-|-----|--------|-----------|--------------|-----|
-| Broker Admin | ListAccounts (READ) | Corporate Account, Personal Account | — | Descendant group resources visible on READ |
-| Portfolio Manager | CreateOrder (WRITE) | Create in CORP_CLIENT | Create in INDIVIDUAL | WRITE limited to direct owner group |
-| Risk Monitor (API) | GetAccount (READ) | Corporate Account | Personal Account | READ scoped to own group + descendants only |
-| John Smith | CreateOrder (WRITE) | Create in INDIVIDUAL | Create in CORP_CLIENT | WRITE limited to direct owner group |
-
-Both regular users and API users follow identical authorisation rules — the only difference is the authentication method (credentials vs API key).
+| API User | Method | Can access | Cannot access | Why |
+|----------|--------|-----------|--------------|-----|
+| Broker API User | ListAccounts (READ) | Corporate Account, Personal Account | — | Descendant group resources visible on READ |
+| Broker API User | UpdateAccount (WRITE) | — | Corporate Account, Personal Account | WRITE limited to direct owner group |
+| Risk Monitor | GetAccount (READ) | Corporate Account | Personal Account | READ scoped to own group + descendants only |
+| Trading Bot | CreateOrder (WRITE) | Create in INDIVIDUAL | Create in CORP_CLIENT | WRITE limited to direct owner group |
 
 ## Related Documentation
 
