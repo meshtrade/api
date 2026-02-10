@@ -23,6 +23,12 @@ type ClientService interface {
 	// and company structures.
 	GetClient(ctx context.Context, request *GetClientRequest) (*Client, error)
 
+	// GetGroupClient retrieves the client compliance profile associated with a specific group.
+	//
+	// This allows fetching the compliance details of the client that is owned by
+	// the specified group, using the group's resource name as the lookup key.
+	GetGroupClient(ctx context.Context, request *GetGroupClientRequest) (*Client, error)
+
 	// ListClients retrieves a collection of client compliance profiles.
 	//
 	// This method is useful for fetching multiple client records at once.
