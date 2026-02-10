@@ -4,7 +4,7 @@ This page covers advanced configuration options for Meshtrade SDK clients. All g
 
 ## Client Configuration Patterns
 
-All Meshtrade SDK clients are generated from the same template and provide consistent configuration options across Go and Python implementations. You can configure:
+All Meshtrade SDK clients are generated from the same template and provide consistent configuration options across Go, Python, and Java implementations. You can configure:
 
 - **Connection settings** - URL, port, TLS/SSL options
 - **Authentication** - API key, group ID, or environment-based credentials
@@ -205,7 +205,8 @@ This configuration approach works identically across all Meshtrade services:
 
 - IAM services (`iam/*`)
 - Trading services (`trading/*`)
-- Core services (`core/*`)
+- Wallet services (`wallet/*`)
+- Compliance services (`compliance/*`)
 - And any future service additions
 
 Simply replace the import path and service name while keeping the same configuration patterns.
