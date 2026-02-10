@@ -7,7 +7,7 @@ This page covers configuration options for Mesh SDK clients. All generated SDK c
 All Mesh SDK clients are generated from the same template per language and provide consistent configuration options across Go, Python, Java, and TypeScript implementations. You can configure:
 
 - **Connection settings** - URL, port, TLS/SSL options
-- **Authentication** - API key, group ID, JWT token, or environment-based credentials
+- **Authentication** - API key, group ID, or environment-based credentials
 - **Timeouts** - Request and connection timeouts
 
 import Tabs from '@theme/Tabs';
@@ -28,7 +28,7 @@ import (
 )
 
 func main() {
-	// Option 1: Minimal client (auto-discovers credentials)
+	// Option 1: Zero configuration (auto-discovers credentials, connects to Mesh API)
 	client1, err := api_userv1.NewApiUserServiceGRPCClient()
 	if err != nil {
 		log.Fatalf("Failed to create client: %v", err)
@@ -47,7 +47,7 @@ func main() {
 
 	// Option 3: Full custom configuration
 	client3, err := api_userv1.NewApiUserServiceGRPCClient(
-		api_userv1.WithAddress("api.mesh.dev", 443),
+		api_userv1.WithAddress("custom-endpoint.example.com", 443),
 		api_userv1.WithTLS(true),
 		api_userv1.WithTimeout(30*time.Second),
 		api_userv1.WithAPIKey("your-api-key-here"),
@@ -90,7 +90,7 @@ from meshtrade.iam.api_user.v1 import (
 )
 
 def main():
-    # Option 1: Minimal client (auto-discovers credentials)
+    # Option 1: Zero configuration (auto-discovers credentials, connects to Mesh API)
     client1 = ApiUserServiceGRPCClient(ClientOptions())
 
     # Option 2: Direct API key and group configuration
@@ -101,7 +101,7 @@ def main():
 
     # Option 3: Full custom configuration
     client3 = ApiUserServiceGRPCClient(ClientOptions(
-        url="api.mesh.dev",
+        url="custom-endpoint.example.com",
         port=443,
         tls=True,
         timeout=30.0,
@@ -139,27 +139,30 @@ import java.time.Duration;
 
 public class ClientConfig {
     public static void main(String[] args) {
-        // Option 1: Minimal client (auto-discovers credentials)
-        ServiceOptions options1 = ServiceOptions.builder().build();
-        ApiUserServiceGRPCClient client1 = new ApiUserServiceGRPCClient(options1);
+        // Option 1: Zero configuration (auto-discovers credentials, connects to Mesh API)
+        ApiUserServiceGRPCClient client1 = new ApiUserServiceGRPCClient(
+            ServiceOptions.builder().build()
+        );
 
         // Option 2: Direct API key and group configuration
-        ServiceOptions options2 = ServiceOptions.builder()
-            .apiKey("your-api-key-here")
-            .group("groups/your-group-id")
-            .build();
-        ApiUserServiceGRPCClient client2 = new ApiUserServiceGRPCClient(options2);
+        ApiUserServiceGRPCClient client2 = new ApiUserServiceGRPCClient(
+            ServiceOptions.builder()
+                .apiKey("your-api-key-here")
+                .group("groups/your-group-id")
+                .build()
+        );
 
         // Option 3: Full custom configuration
-        ServiceOptions options3 = ServiceOptions.builder()
-            .url("api.mesh.dev")
-            .port(443)
-            .tls(true)
-            .timeout(Duration.ofSeconds(60))
-            .apiKey("your-api-key-here")
-            .group("groups/your-group-id")
-            .build();
-        ApiUserServiceGRPCClient client3 = new ApiUserServiceGRPCClient(options3);
+        ApiUserServiceGRPCClient client3 = new ApiUserServiceGRPCClient(
+            ServiceOptions.builder()
+                .url("custom-endpoint.example.com")
+                .port(443)
+                .tls(true)
+                .timeout(Duration.ofSeconds(60))
+                .apiKey("your-api-key-here")
+                .group("groups/your-group-id")
+                .build()
+        );
     }
 }
 ```
@@ -187,7 +190,7 @@ import {
   WithServerUrl,
 } from "@meshtrade/api-node/config";
 
-// Option 1: Minimal client with explicit credentials
+// Option 1: Minimal client (defaults to Mesh API endpoint)
 const client1 = new ApiUserServiceNode(
   WithAPIKey("your-api-key-here"),
   WithGroup("groups/your-group-id"),
@@ -199,13 +202,6 @@ const client2 = new ApiUserServiceNode(
   WithAPIKey("your-api-key-here"),
   WithGroup("groups/your-group-id"),
 );
-
-// Option 3: JWT authentication
-const client3 = new ApiUserServiceNode(
-  WithServerUrl("https://custom-endpoint.example.com"),
-  WithJWTAccessToken("your-jwt-token"),
-  WithGroup("groups/your-group-id"),
-);
 ```
 
 **TypeScript Node Configuration Options:**
@@ -214,7 +210,6 @@ const client3 = new ApiUserServiceNode(
 |--------|---------|-------------|
 | `WithServerUrl(url)` | Mesh API endpoint | Server URL (include protocol) |
 | `WithAPIKey(key)` | None | API key authentication |
-| `WithJWTAccessToken(token)` | None | JWT authentication (mutually exclusive with API key) |
 | `WithGroup(group)` | None | Group context (`groups/{id}`) |
 
 :::note
@@ -282,10 +277,6 @@ For programmatic control, set credentials directly in the client options:
 
 - **API Key** - Your authentication token
 - **Group ID** - The group context (format: `groups/your-group-id`)
-
-### JWT Authentication (TypeScript Node)
-
-The TypeScript Node SDK also supports JWT access tokens for browser-initiated authentication flows using `WithJWTAccessToken`. This is mutually exclusive with API key authentication.
 
 ## Connection Management
 
