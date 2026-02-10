@@ -8,14 +8,13 @@ import (
 	testing "testing"
 )
 
-// Ensure that MockAccountService implements the AccountService interface
-var _ AccountService = &MockAccountService{}
-
 // Ensure that MockAccountService implements the AccountServiceClientInterface interface
 var _ AccountServiceClientInterface = &MockAccountService{}
 
-// MockAccountService is a mock implementation of the AccountService interface.
-// It also implements AccountServiceClientInterface for use in tests that depend on the client interface.
+// Ensure that MockAccountService implements the AccountService interface
+var _ AccountService = &MockAccountService{}
+
+// MockAccountService is a mock implementation of the AccountServiceClientInterface interface.
 type MockAccountService struct {
 	mutex                                       sync.Mutex
 	T                                           *testing.T

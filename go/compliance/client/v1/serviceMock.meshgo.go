@@ -8,14 +8,13 @@ import (
 	testing "testing"
 )
 
-// Ensure that MockClientService implements the ClientService interface
-var _ ClientService = &MockClientService{}
-
 // Ensure that MockClientService implements the ClientServiceClientInterface interface
 var _ ClientServiceClientInterface = &MockClientService{}
 
-// MockClientService is a mock implementation of the ClientService interface.
-// It also implements ClientServiceClientInterface for use in tests that depend on the client interface.
+// Ensure that MockClientService implements the ClientService interface
+var _ ClientService = &MockClientService{}
+
+// MockClientService is a mock implementation of the ClientServiceClientInterface interface.
 type MockClientService struct {
 	mutex                         sync.Mutex
 	T                             *testing.T

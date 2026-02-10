@@ -8,14 +8,13 @@ import (
 	testing "testing"
 )
 
-// Ensure that MockMarketOrderService implements the MarketOrderService interface
-var _ MarketOrderService = &MockMarketOrderService{}
-
 // Ensure that MockMarketOrderService implements the MarketOrderServiceClientInterface interface
 var _ MarketOrderServiceClientInterface = &MockMarketOrderService{}
 
-// MockMarketOrderService is a mock implementation of the MarketOrderService interface.
-// It also implements MarketOrderServiceClientInterface for use in tests that depend on the client interface.
+// Ensure that MockMarketOrderService implements the MarketOrderService interface
+var _ MarketOrderService = &MockMarketOrderService{}
+
+// MockMarketOrderService is a mock implementation of the MarketOrderServiceClientInterface interface.
 type MockMarketOrderService struct {
 	mutex                         sync.Mutex
 	T                             *testing.T

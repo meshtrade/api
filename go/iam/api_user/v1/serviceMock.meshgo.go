@@ -8,14 +8,13 @@ import (
 	testing "testing"
 )
 
-// Ensure that MockAPIUserService implements the APIUserService interface
-var _ APIUserService = &MockAPIUserService{}
-
 // Ensure that MockAPIUserService implements the APIUserServiceClientInterface interface
 var _ APIUserServiceClientInterface = &MockAPIUserService{}
 
-// MockAPIUserService is a mock implementation of the APIUserService interface.
-// It also implements APIUserServiceClientInterface for use in tests that depend on the client interface.
+// Ensure that MockAPIUserService implements the APIUserService interface
+var _ APIUserService = &MockAPIUserService{}
+
+// MockAPIUserService is a mock implementation of the APIUserServiceClientInterface interface.
 type MockAPIUserService struct {
 	mutex                                 sync.Mutex
 	T                                     *testing.T

@@ -8,14 +8,13 @@ import (
 	testing "testing"
 )
 
-// Ensure that MockPriceService implements the PriceService interface
-var _ PriceService = &MockPriceService{}
-
 // Ensure that MockPriceService implements the PriceServiceClientInterface interface
 var _ PriceServiceClientInterface = &MockPriceService{}
 
-// MockPriceService is a mock implementation of the PriceService interface.
-// It also implements PriceServiceClientInterface for use in tests that depend on the client interface.
+// Ensure that MockPriceService implements the PriceService interface
+var _ PriceService = &MockPriceService{}
+
+// MockPriceService is a mock implementation of the PriceServiceClientInterface interface.
 type MockPriceService struct {
 	mutex                                     sync.Mutex
 	T                                         *testing.T

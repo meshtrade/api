@@ -8,14 +8,13 @@ import (
 	testing "testing"
 )
 
-// Ensure that MockUserProfileService implements the UserProfileService interface
-var _ UserProfileService = &MockUserProfileService{}
-
 // Ensure that MockUserProfileService implements the UserProfileServiceClientInterface interface
 var _ UserProfileServiceClientInterface = &MockUserProfileService{}
 
-// MockUserProfileService is a mock implementation of the UserProfileService interface.
-// It also implements UserProfileServiceClientInterface for use in tests that depend on the client interface.
+// Ensure that MockUserProfileService implements the UserProfileService interface
+var _ UserProfileService = &MockUserProfileService{}
+
+// MockUserProfileService is a mock implementation of the UserProfileServiceClientInterface interface.
 type MockUserProfileService struct {
 	mutex                               sync.Mutex
 	T                                   *testing.T

@@ -8,14 +8,13 @@ import (
 	testing "testing"
 )
 
-// Ensure that MockGroupService implements the GroupService interface
-var _ GroupService = &MockGroupService{}
-
 // Ensure that MockGroupService implements the GroupServiceClientInterface interface
 var _ GroupServiceClientInterface = &MockGroupService{}
 
-// MockGroupService is a mock implementation of the GroupService interface.
-// It also implements GroupServiceClientInterface for use in tests that depend on the client interface.
+// Ensure that MockGroupService implements the GroupService interface
+var _ GroupService = &MockGroupService{}
+
+// MockGroupService is a mock implementation of the GroupServiceClientInterface interface.
 type MockGroupService struct {
 	mutex                       sync.Mutex
 	T                           *testing.T

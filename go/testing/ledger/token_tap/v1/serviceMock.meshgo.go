@@ -8,14 +8,13 @@ import (
 	testing "testing"
 )
 
-// Ensure that MockTokenTapService implements the TokenTapService interface
-var _ TokenTapService = &MockTokenTapService{}
-
 // Ensure that MockTokenTapService implements the TokenTapServiceClientInterface interface
 var _ TokenTapServiceClientInterface = &MockTokenTapService{}
 
-// MockTokenTapService is a mock implementation of the TokenTapService interface.
-// It also implements TokenTapServiceClientInterface for use in tests that depend on the client interface.
+// Ensure that MockTokenTapService implements the TokenTapService interface
+var _ TokenTapService = &MockTokenTapService{}
+
+// MockTokenTapService is a mock implementation of the TokenTapServiceClientInterface interface.
 type MockTokenTapService struct {
 	mutex                              sync.Mutex
 	T                                  *testing.T
