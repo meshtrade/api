@@ -11,10 +11,15 @@ import (
 // Ensure that MockAPIUserService implements the APIUserService interface
 var _ APIUserService = &MockAPIUserService{}
 
+// Ensure that MockAPIUserService implements the APIUserServiceClientInterface interface
+var _ APIUserServiceClientInterface = &MockAPIUserService{}
+
 // MockAPIUserService is a mock implementation of the APIUserService interface.
+// It also implements APIUserServiceClientInterface for use in tests that depend on the client interface.
 type MockAPIUserService struct {
 	mutex                                 sync.Mutex
 	T                                     *testing.T
+	GroupValue                            string
 	GetAPIUserFunc                        func(t *testing.T, m *MockAPIUserService, ctx context.Context, request *GetAPIUserRequest) (*APIUser, error)
 	GetAPIUserFuncInvocations             int
 	CreateAPIUserFunc                     func(t *testing.T, m *MockAPIUserService, ctx context.Context, request *CreateAPIUserRequest) (*APIUser, error)
@@ -33,6 +38,33 @@ type MockAPIUserService struct {
 	DeactivateAPIUserFuncInvocations      int
 	GetAPIUserByKeyHashFunc               func(t *testing.T, m *MockAPIUserService, ctx context.Context, request *GetAPIUserByKeyHashRequest) (*APIUser, error)
 	GetAPIUserByKeyHashFuncInvocations    int
+}
+
+// Close is a no-op for the mock implementation.
+func (m *MockAPIUserService) Close() error {
+	return nil
+}
+
+// Group returns the mock's configured group value.
+func (m *MockAPIUserService) Group() string {
+	return m.GroupValue
+}
+
+// WithGroup returns a shallow copy of the mock with the given group value.
+func (m *MockAPIUserService) WithGroup(group string) APIUserServiceClientInterface {
+	return &MockAPIUserService{
+		T:                          m.T,
+		GroupValue:                 group,
+		GetAPIUserFunc:             m.GetAPIUserFunc,
+		CreateAPIUserFunc:          m.CreateAPIUserFunc,
+		AssignRolesToAPIUserFunc:   m.AssignRolesToAPIUserFunc,
+		RevokeRolesFromAPIUserFunc: m.RevokeRolesFromAPIUserFunc,
+		ListAPIUsersFunc:           m.ListAPIUsersFunc,
+		SearchAPIUsersFunc:         m.SearchAPIUsersFunc,
+		ActivateAPIUserFunc:        m.ActivateAPIUserFunc,
+		DeactivateAPIUserFunc:      m.DeactivateAPIUserFunc,
+		GetAPIUserByKeyHashFunc:    m.GetAPIUserByKeyHashFunc,
+	}
 }
 
 func (m *MockAPIUserService) GetAPIUser(ctx context.Context, request *GetAPIUserRequest) (*APIUser, error) {

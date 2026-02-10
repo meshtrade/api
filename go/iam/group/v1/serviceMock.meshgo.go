@@ -11,10 +11,15 @@ import (
 // Ensure that MockGroupService implements the GroupService interface
 var _ GroupService = &MockGroupService{}
 
+// Ensure that MockGroupService implements the GroupServiceClientInterface interface
+var _ GroupServiceClientInterface = &MockGroupService{}
+
 // MockGroupService is a mock implementation of the GroupService interface.
+// It also implements GroupServiceClientInterface for use in tests that depend on the client interface.
 type MockGroupService struct {
 	mutex                       sync.Mutex
 	T                           *testing.T
+	GroupValue                  string
 	CreateGroupFunc             func(t *testing.T, m *MockGroupService, ctx context.Context, request *CreateGroupRequest) (*Group, error)
 	CreateGroupFuncInvocations  int
 	UpdateGroupFunc             func(t *testing.T, m *MockGroupService, ctx context.Context, request *UpdateGroupRequest) (*Group, error)
@@ -25,6 +30,29 @@ type MockGroupService struct {
 	SearchGroupsFuncInvocations int
 	GetGroupFunc                func(t *testing.T, m *MockGroupService, ctx context.Context, request *GetGroupRequest) (*Group, error)
 	GetGroupFuncInvocations     int
+}
+
+// Close is a no-op for the mock implementation.
+func (m *MockGroupService) Close() error {
+	return nil
+}
+
+// Group returns the mock's configured group value.
+func (m *MockGroupService) Group() string {
+	return m.GroupValue
+}
+
+// WithGroup returns a shallow copy of the mock with the given group value.
+func (m *MockGroupService) WithGroup(group string) GroupServiceClientInterface {
+	return &MockGroupService{
+		T:                m.T,
+		GroupValue:       group,
+		CreateGroupFunc:  m.CreateGroupFunc,
+		UpdateGroupFunc:  m.UpdateGroupFunc,
+		ListGroupsFunc:   m.ListGroupsFunc,
+		SearchGroupsFunc: m.SearchGroupsFunc,
+		GetGroupFunc:     m.GetGroupFunc,
+	}
 }
 
 func (m *MockGroupService) CreateGroup(ctx context.Context, request *CreateGroupRequest) (*Group, error) {

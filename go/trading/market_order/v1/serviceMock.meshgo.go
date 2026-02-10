@@ -11,12 +11,36 @@ import (
 // Ensure that MockMarketOrderService implements the MarketOrderService interface
 var _ MarketOrderService = &MockMarketOrderService{}
 
+// Ensure that MockMarketOrderService implements the MarketOrderServiceClientInterface interface
+var _ MarketOrderServiceClientInterface = &MockMarketOrderService{}
+
 // MockMarketOrderService is a mock implementation of the MarketOrderService interface.
+// It also implements MarketOrderServiceClientInterface for use in tests that depend on the client interface.
 type MockMarketOrderService struct {
 	mutex                         sync.Mutex
 	T                             *testing.T
+	GroupValue                    string
 	GetMarketOrderFunc            func(t *testing.T, m *MockMarketOrderService, ctx context.Context, request *GetMarketOrderRequest) (*MarketOrder, error)
 	GetMarketOrderFuncInvocations int
+}
+
+// Close is a no-op for the mock implementation.
+func (m *MockMarketOrderService) Close() error {
+	return nil
+}
+
+// Group returns the mock's configured group value.
+func (m *MockMarketOrderService) Group() string {
+	return m.GroupValue
+}
+
+// WithGroup returns a shallow copy of the mock with the given group value.
+func (m *MockMarketOrderService) WithGroup(group string) MarketOrderServiceClientInterface {
+	return &MockMarketOrderService{
+		T:                  m.T,
+		GroupValue:         group,
+		GetMarketOrderFunc: m.GetMarketOrderFunc,
+	}
 }
 
 func (m *MockMarketOrderService) GetMarketOrder(ctx context.Context, request *GetMarketOrderRequest) (*MarketOrder, error) {

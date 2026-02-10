@@ -11,12 +11,36 @@ import (
 // Ensure that MockPriceService implements the PriceService interface
 var _ PriceService = &MockPriceService{}
 
+// Ensure that MockPriceService implements the PriceServiceClientInterface interface
+var _ PriceServiceClientInterface = &MockPriceService{}
+
 // MockPriceService is a mock implementation of the PriceService interface.
+// It also implements PriceServiceClientInterface for use in tests that depend on the client interface.
 type MockPriceService struct {
 	mutex                                     sync.Mutex
 	T                                         *testing.T
+	GroupValue                                string
 	GetCurrentPriceByTokenPairFunc            func(t *testing.T, m *MockPriceService, ctx context.Context, request *GetCurrentPriceByTokenPairRequest) (*Price, error)
 	GetCurrentPriceByTokenPairFuncInvocations int
+}
+
+// Close is a no-op for the mock implementation.
+func (m *MockPriceService) Close() error {
+	return nil
+}
+
+// Group returns the mock's configured group value.
+func (m *MockPriceService) Group() string {
+	return m.GroupValue
+}
+
+// WithGroup returns a shallow copy of the mock with the given group value.
+func (m *MockPriceService) WithGroup(group string) PriceServiceClientInterface {
+	return &MockPriceService{
+		T:                              m.T,
+		GroupValue:                     group,
+		GetCurrentPriceByTokenPairFunc: m.GetCurrentPriceByTokenPairFunc,
+	}
 }
 
 func (m *MockPriceService) GetCurrentPriceByTokenPair(ctx context.Context, request *GetCurrentPriceByTokenPairRequest) (*Price, error) {

@@ -11,16 +11,42 @@ import (
 // Ensure that MockTokenTapService implements the TokenTapService interface
 var _ TokenTapService = &MockTokenTapService{}
 
+// Ensure that MockTokenTapService implements the TokenTapServiceClientInterface interface
+var _ TokenTapServiceClientInterface = &MockTokenTapService{}
+
 // MockTokenTapService is a mock implementation of the TokenTapService interface.
+// It also implements TokenTapServiceClientInterface for use in tests that depend on the client interface.
 type MockTokenTapService struct {
 	mutex                              sync.Mutex
 	T                                  *testing.T
+	GroupValue                         string
 	InitialiseTokenTapsFunc            func(t *testing.T, m *MockTokenTapService, ctx context.Context, request *InitialiseTokenTapsRequest) (*InitialiseTokenTapsResponse, error)
 	InitialiseTokenTapsFuncInvocations int
 	ListTokenTapsFunc                  func(t *testing.T, m *MockTokenTapService, ctx context.Context, request *ListTokenTapsRequest) (*ListTokenTapsResponse, error)
 	ListTokenTapsFuncInvocations       int
 	MintTokenFunc                      func(t *testing.T, m *MockTokenTapService, ctx context.Context, request *MintTokenRequest) (*MintTokenResponse, error)
 	MintTokenFuncInvocations           int
+}
+
+// Close is a no-op for the mock implementation.
+func (m *MockTokenTapService) Close() error {
+	return nil
+}
+
+// Group returns the mock's configured group value.
+func (m *MockTokenTapService) Group() string {
+	return m.GroupValue
+}
+
+// WithGroup returns a shallow copy of the mock with the given group value.
+func (m *MockTokenTapService) WithGroup(group string) TokenTapServiceClientInterface {
+	return &MockTokenTapService{
+		T:                       m.T,
+		GroupValue:              group,
+		InitialiseTokenTapsFunc: m.InitialiseTokenTapsFunc,
+		ListTokenTapsFunc:       m.ListTokenTapsFunc,
+		MintTokenFunc:           m.MintTokenFunc,
+	}
 }
 
 func (m *MockTokenTapService) InitialiseTokenTaps(ctx context.Context, request *InitialiseTokenTapsRequest) (*InitialiseTokenTapsResponse, error) {

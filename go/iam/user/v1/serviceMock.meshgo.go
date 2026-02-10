@@ -11,10 +11,15 @@ import (
 // Ensure that MockUserService implements the UserService interface
 var _ UserService = &MockUserService{}
 
+// Ensure that MockUserService implements the UserServiceClientInterface interface
+var _ UserServiceClientInterface = &MockUserService{}
+
 // MockUserService is a mock implementation of the UserService interface.
+// It also implements UserServiceClientInterface for use in tests that depend on the client interface.
 type MockUserService struct {
 	mutex                              sync.Mutex
 	T                                  *testing.T
+	GroupValue                         string
 	AssignRolesToUserFunc              func(t *testing.T, m *MockUserService, ctx context.Context, request *AssignRolesToUserRequest) (*User, error)
 	AssignRolesToUserFuncInvocations   int
 	RevokeRolesFromUserFunc            func(t *testing.T, m *MockUserService, ctx context.Context, request *RevokeRolesFromUserRequest) (*User, error)
@@ -29,6 +34,31 @@ type MockUserService struct {
 	CreateUserFuncInvocations          int
 	UpdateUserFunc                     func(t *testing.T, m *MockUserService, ctx context.Context, request *UpdateUserRequest) (*User, error)
 	UpdateUserFuncInvocations          int
+}
+
+// Close is a no-op for the mock implementation.
+func (m *MockUserService) Close() error {
+	return nil
+}
+
+// Group returns the mock's configured group value.
+func (m *MockUserService) Group() string {
+	return m.GroupValue
+}
+
+// WithGroup returns a shallow copy of the mock with the given group value.
+func (m *MockUserService) WithGroup(group string) UserServiceClientInterface {
+	return &MockUserService{
+		T:                       m.T,
+		GroupValue:              group,
+		AssignRolesToUserFunc:   m.AssignRolesToUserFunc,
+		RevokeRolesFromUserFunc: m.RevokeRolesFromUserFunc,
+		GetUserFunc:             m.GetUserFunc,
+		GetUserByEmailFunc:      m.GetUserByEmailFunc,
+		ListUsersFunc:           m.ListUsersFunc,
+		CreateUserFunc:          m.CreateUserFunc,
+		UpdateUserFunc:          m.UpdateUserFunc,
+	}
 }
 
 func (m *MockUserService) AssignRolesToUser(ctx context.Context, request *AssignRolesToUserRequest) (*User, error) {

@@ -11,10 +11,15 @@ import (
 // Ensure that MockAccountService implements the AccountService interface
 var _ AccountService = &MockAccountService{}
 
+// Ensure that MockAccountService implements the AccountServiceClientInterface interface
+var _ AccountServiceClientInterface = &MockAccountService{}
+
 // MockAccountService is a mock implementation of the AccountService interface.
+// It also implements AccountServiceClientInterface for use in tests that depend on the client interface.
 type MockAccountService struct {
 	mutex                                       sync.Mutex
 	T                                           *testing.T
+	GroupValue                                  string
 	CreateAccountFunc                           func(t *testing.T, m *MockAccountService, ctx context.Context, request *CreateAccountRequest) (*Account, error)
 	CreateAccountFuncInvocations                int
 	UpdateAccountFunc                           func(t *testing.T, m *MockAccountService, ctx context.Context, request *UpdateAccountRequest) (*Account, error)
@@ -37,6 +42,35 @@ type MockAccountService struct {
 	RegisterTokensToAccountFuncInvocations      int
 	DeregisterTokensFromAccountFunc             func(t *testing.T, m *MockAccountService, ctx context.Context, request *DeregisterTokensFromAccountRequest) (*DeregisterTokensFromAccountResponse, error)
 	DeregisterTokensFromAccountFuncInvocations  int
+}
+
+// Close is a no-op for the mock implementation.
+func (m *MockAccountService) Close() error {
+	return nil
+}
+
+// Group returns the mock's configured group value.
+func (m *MockAccountService) Group() string {
+	return m.GroupValue
+}
+
+// WithGroup returns a shallow copy of the mock with the given group value.
+func (m *MockAccountService) WithGroup(group string) AccountServiceClientInterface {
+	return &MockAccountService{
+		T:                                m.T,
+		GroupValue:                       group,
+		CreateAccountFunc:                m.CreateAccountFunc,
+		UpdateAccountFunc:                m.UpdateAccountFunc,
+		OpenAccountFunc:                  m.OpenAccountFunc,
+		AddSignatoriesToAccountFunc:      m.AddSignatoriesToAccountFunc,
+		RemoveSignatoriesFromAccountFunc: m.RemoveSignatoriesFromAccountFunc,
+		GetAccountFunc:                   m.GetAccountFunc,
+		GetAccountByNumberFunc:           m.GetAccountByNumberFunc,
+		ListAccountsFunc:                 m.ListAccountsFunc,
+		SearchAccountsFunc:               m.SearchAccountsFunc,
+		RegisterTokensToAccountFunc:      m.RegisterTokensToAccountFunc,
+		DeregisterTokensFromAccountFunc:  m.DeregisterTokensFromAccountFunc,
+	}
 }
 
 func (m *MockAccountService) CreateAccount(ctx context.Context, request *CreateAccountRequest) (*Account, error) {
