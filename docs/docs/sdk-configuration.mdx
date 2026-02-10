@@ -1,15 +1,14 @@
 # SDK Configuration
 
-This page covers advanced configuration options for Meshtrade SDK clients. All generated SDK clients follow the same patterns and support the same configuration options regardless of the specific service.
+This page covers configuration options for Mesh SDK clients. All generated SDK clients follow the same patterns and provide consistent configuration options regardless of the specific service.
 
 ## Client Configuration Patterns
 
-All Meshtrade SDK clients are generated from the same template and provide consistent configuration options across Go, Python, and Java implementations. You can configure:
+All Mesh SDK clients are generated from the same template per language and provide consistent configuration options across Go, Python, Java, and TypeScript implementations. You can configure:
 
 - **Connection settings** - URL, port, TLS/SSL options
-- **Authentication** - API key, group ID, or environment-based credentials
+- **Authentication** - API key, group ID, JWT token, or environment-based credentials
 - **Timeouts** - Request and connection timeouts
-- **Advanced options** - Custom headers, retry policies, etc.
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -17,7 +16,7 @@ import TabItem from '@theme/TabItem';
 <Tabs>
 <TabItem value="go" label="Go">
 
-```go title="advanced-client-config.go"
+```go title="client-config.go"
 package main
 
 import (
@@ -29,27 +28,28 @@ import (
 )
 
 func main() {
-	// Option 1: Minimal client (uses MESH_API_CREDENTIALS environment variable)
+	// Option 1: Minimal client (auto-discovers credentials)
 	client1, err := api_userv1.NewApiUserServiceGRPCClient()
 	if err != nil {
 		log.Fatalf("Failed to create client: %v", err)
 	}
 	defer client1.Close()
 
-	// Option 2: Custom address and TLS settings
+	// Option 2: Direct API key and group configuration
 	client2, err := api_userv1.NewApiUserServiceGRPCClient(
-		api_userv1.WithAddress("api.mesh.dev", 443),
-		api_userv1.WithTLS(true),
+		api_userv1.WithAPIKey("your-api-key-here"),
+		api_userv1.WithGroup("groups/your-group-id"),
 	)
 	if err != nil {
 		log.Fatalf("Failed to create client: %v", err)
 	}
 	defer client2.Close()
 
-	// Option 3: Direct API key and group configuration
+	// Option 3: Full custom configuration
 	client3, err := api_userv1.NewApiUserServiceGRPCClient(
-		api_userv1.WithAddress("localhost", 10000),
-		api_userv1.WithTLS(false),
+		api_userv1.WithAddress("api.mesh.dev", 443),
+		api_userv1.WithTLS(true),
+		api_userv1.WithTimeout(30*time.Second),
 		api_userv1.WithAPIKey("your-api-key-here"),
 		api_userv1.WithGroup("groups/your-group-id"),
 	)
@@ -58,42 +58,31 @@ func main() {
 	}
 	defer client3.Close()
 
-	// Option 4: Custom timeout settings
-	client4, err := api_userv1.NewApiUserServiceGRPCClient(
-		api_userv1.WithTimeout(30*time.Second),
-		api_userv1.WithAddress("api.mesh.dev", 443),
-		api_userv1.WithTLS(true),
-	)
-	if err != nil {
-		log.Fatalf("Failed to create client: %v", err)
-	}
-	defer client4.Close()
-
-	// All clients have the same interface and can be used identically
+	// All clients have the same interface
 	ctx := context.Background()
-	
-	// Example: List API users with any configured client
 	response, err := client1.ListApiUsers(ctx, &api_userv1.ListApiUsersRequest{})
 	if err != nil {
 		log.Fatalf("Failed to list users: %v", err)
 	}
-	
 	log.Printf("Found %d API users", len(response.ApiUsers))
 }
 ```
 
 **Go Configuration Options:**
-- `WithAddress(host, port)` - Custom endpoint
-- `WithTLS(enabled)` - Enable/disable TLS
-- `WithAPIKey(key)` - Direct API key
-- `WithGroup(groupID)` - Direct group ID
-- `WithTimeout(duration)` - Request timeout
-- `WithTracer(tracer)` - Configure OpenTelemetry tracing
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `WithAddress(host, port)` | Production endpoint, `443` | Custom host and port |
+| `WithTLS(enabled)` | `true` | Enable/disable TLS |
+| `WithAPIKey(key)` | Auto-discovered | API key for authentication |
+| `WithGroup(groupID)` | Auto-discovered | Group context (`groups/{id}`) |
+| `WithTimeout(duration)` | `30s` | Request timeout |
+| `WithTracer(tracer)` | None | OpenTelemetry tracer |
 
 </TabItem>
 <TabItem value="python" label="Python">
 
-```python title="advanced-client-config.py"
+```python title="client-config.py"
 from meshtrade.iam.api_user.v1 import (
     ApiUserServiceGRPCClient,
     ClientOptions,
@@ -101,39 +90,26 @@ from meshtrade.iam.api_user.v1 import (
 )
 
 def main():
-    # Option 1: Minimal client (uses MESH_API_CREDENTIALS environment variable)
-    options1 = ClientOptions()
-    client1 = ApiUserServiceGRPCClient(options1)
+    # Option 1: Minimal client (auto-discovers credentials)
+    client1 = ApiUserServiceGRPCClient(ClientOptions())
 
-    # Option 2: Custom address and TLS settings
-    options2 = ClientOptions(
-        url="api.mesh.dev",
-        port=443,
-        tls=True,
-    )
-    client2 = ApiUserServiceGRPCClient(options2)
-
-    # Option 3: Direct API key and group configuration
-    options3 = ClientOptions(
-        url="localhost",
-        port=10000,
-        tls=False,
+    # Option 2: Direct API key and group configuration
+    client2 = ApiUserServiceGRPCClient(ClientOptions(
         api_key="your-api-key-here",
         group="groups/your-group-id",
-    )
-    client3 = ApiUserServiceGRPCClient(options3)
+    ))
 
-    # Option 4: Custom timeout settings
-    options4 = ClientOptions(
+    # Option 3: Full custom configuration
+    client3 = ApiUserServiceGRPCClient(ClientOptions(
         url="api.mesh.dev",
         port=443,
         tls=True,
-        timeout=30.0,  # 30 seconds
-    )
-    client4 = ApiUserServiceGRPCClient(options4)
+        timeout=30.0,
+        api_key="your-api-key-here",
+        group="groups/your-group-id",
+    ))
 
-    # All clients have the same interface and can be used identically
-    # Example: List API users with any configured client
+    # All clients have the same interface
     with client1:
         response = client1.list_api_users(ListApiUsersRequest())
         print(f"Found {len(response.api_users)} API users")
@@ -143,21 +119,155 @@ if __name__ == "__main__":
 ```
 
 **Python Configuration Options:**
-- `url` - Host/endpoint
-- `port` - Port number
-- `tls` - Enable/disable TLS (boolean)
-- `api_key` - Direct API key
-- `group` - Direct group ID
-- `timeout` - Request timeout in seconds
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `url` | Production endpoint | Host/endpoint |
+| `port` | `443` | Port number |
+| `tls` | `True` | Enable/disable TLS |
+| `api_key` | Auto-discovered | API key for authentication |
+| `group` | Auto-discovered | Group context (`groups/{id}`) |
+| `timeout` | `30.0` | Request timeout in seconds |
+
+</TabItem>
+<TabItem value="java" label="Java">
+
+```java title="ClientConfig.java"
+import co.meshtrade.api.config.ServiceOptions;
+import co.meshtrade.api.iam.api_user.v1.ApiUserServiceGRPCClient;
+import java.time.Duration;
+
+public class ClientConfig {
+    public static void main(String[] args) {
+        // Option 1: Minimal client (auto-discovers credentials)
+        ServiceOptions options1 = ServiceOptions.builder().build();
+        ApiUserServiceGRPCClient client1 = new ApiUserServiceGRPCClient(options1);
+
+        // Option 2: Direct API key and group configuration
+        ServiceOptions options2 = ServiceOptions.builder()
+            .apiKey("your-api-key-here")
+            .group("groups/your-group-id")
+            .build();
+        ApiUserServiceGRPCClient client2 = new ApiUserServiceGRPCClient(options2);
+
+        // Option 3: Full custom configuration
+        ServiceOptions options3 = ServiceOptions.builder()
+            .url("api.mesh.dev")
+            .port(443)
+            .tls(true)
+            .timeout(Duration.ofSeconds(60))
+            .apiKey("your-api-key-here")
+            .group("groups/your-group-id")
+            .build();
+        ApiUserServiceGRPCClient client3 = new ApiUserServiceGRPCClient(options3);
+    }
+}
+```
+
+**Java Configuration Options:**
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `.url(String)` | `api.mesh.dev` | gRPC server URL |
+| `.port(int)` | `443` | gRPC server port |
+| `.tls(boolean)` | `true` | Enable/disable TLS |
+| `.timeout(Duration)` | `30s` | Request timeout |
+| `.apiKey(String)` | Auto-discovered | API key for authentication |
+| `.group(String)` | Auto-discovered | Group context (`groups/{id}`) |
+| `.groupId(String)` | - | Convenience method (auto-adds `groups/` prefix) |
+
+</TabItem>
+<TabItem value="ts-node" label="TypeScript (Node)">
+
+```typescript title="client-config.ts"
+import { ApiUserServiceNode } from "@meshtrade/api/iam/api_user/v1";
+import {
+  WithAPIKey,
+  WithGroup,
+  WithServerUrl,
+} from "@meshtrade/api/config";
+
+// Option 1: Minimal client with explicit credentials
+const client1 = new ApiUserServiceNode(
+  WithAPIKey("your-api-key-here"),
+  WithGroup("groups/your-group-id"),
+);
+
+// Option 2: Full custom configuration
+const client2 = new ApiUserServiceNode(
+  WithServerUrl("https://api.mesh.dev"),
+  WithAPIKey("your-api-key-here"),
+  WithGroup("groups/your-group-id"),
+);
+
+// Option 3: JWT authentication
+const client3 = new ApiUserServiceNode(
+  WithServerUrl("https://api.mesh.dev"),
+  WithJWTAccessToken("your-jwt-token"),
+  WithGroup("groups/your-group-id"),
+);
+```
+
+**TypeScript Node Configuration Options:**
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `WithServerUrl(url)` | `http://localhost:10000` | Server URL (include protocol) |
+| `WithAPIKey(key)` | None | API key authentication |
+| `WithJWTAccessToken(token)` | None | JWT authentication (mutually exclusive with API key) |
+| `WithGroup(group)` | None | Group context (`groups/{id}`) |
+
+:::note
+The TypeScript Node SDK does **not** support automatic credential discovery. Credentials must be provided explicitly.
+:::
+
+</TabItem>
+<TabItem value="ts-web" label="TypeScript (Web)">
+
+```typescript title="client-config-web.ts"
+import { ApiUserServiceGrpcWebClientV1 } from "@meshtrade/api/iam/api_user/v1";
+
+// Option 1: Default localhost connection
+const client1 = new ApiUserServiceGrpcWebClientV1();
+
+// Option 2: Custom server URL
+const client2 = new ApiUserServiceGrpcWebClientV1({
+  apiServerURL: "https://api.mesh.dev",
+});
+
+// Option 3: With group context
+const client3 = client2.withGroup("groups/your-group-id");
+```
+
+**TypeScript Web Configuration Options:**
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `apiServerURL` | `http://localhost:10000` | API server URL |
+| `.withGroup(group)` | None | Returns a new client with group context |
+
+:::note
+The TypeScript Web SDK uses gRPC-Web and is designed for browser environments. Authentication is typically handled via browser cookies (`withCredentials: true`).
+:::
 
 </TabItem>
 </Tabs>
 
 ## Authentication Methods
 
-### Environment-Based (Recommended)
+### Automatic Credential Discovery (Go, Python, Java)
 
-The simplest approach is to use the `MESH_API_CREDENTIALS` environment variable pointing to a JSON file:
+The Go, Python, and Java SDKs automatically discover credentials from the filesystem. Place your `credentials.json` in the platform-specific directory:
+
+- **Linux**: `~/.config/mesh/credentials.json`
+- **macOS**: `~/Library/Application Support/mesh/credentials.json`
+- **Windows**: `C:\Users\<user>\AppData\Roaming\mesh\credentials.json`
+
+Or set the `MESH_API_CREDENTIALS` environment variable:
+
+```bash
+export MESH_API_CREDENTIALS=/path/to/your/credentials.json
+```
 
 ```json title="credentials.json"
 {
@@ -168,22 +278,14 @@ The simplest approach is to use the `MESH_API_CREDENTIALS` environment variable 
 
 ### Direct Configuration
 
-For programmatic control, you can set credentials directly in the client options:
+For programmatic control, set credentials directly in the client options:
 
-- **API Key**: Your authentication token
-- **Group ID**: The group context (format: `groups/your-group-id`)
+- **API Key** - Your authentication token
+- **Group ID** - The group context (format: `groups/your-group-id`)
 
-### TLS/SSL Configuration
+### JWT Authentication (TypeScript Node)
 
-- Always use `tls: true`
-
-## Timeout Configuration
-
-Configure timeouts based on your use case:
-
-- **Interactive applications**: 5-10 seconds
-- **Batch processing**: 30-60 seconds
-- **Long-running operations**: 2-5 minutes
+The TypeScript Node SDK also supports JWT access tokens for browser-initiated authentication flows using `WithJWTAccessToken`. This is mutually exclusive with API key authentication.
 
 ## Connection Management
 
@@ -191,31 +293,23 @@ All generated clients include proper connection management:
 
 - **Go**: Use `defer client.Close()` to ensure cleanup
 - **Python**: Use `with client:` context manager for automatic cleanup
+- **Java**: Use try-with-resources or explicit close
+- **TypeScript**: No explicit cleanup required
 
 ## Error Handling
 
 All clients follow consistent error handling patterns:
 
-- **Go**: Return `error` as second value
-- **Python**: Raise exceptions for errors
-
-## Service-Specific Examples
-
-This configuration approach works identically across all Meshtrade services:
-
-- IAM services (`iam/*`)
-- Trading services (`trading/*`)
-- Wallet services (`wallet/*`)
-- Compliance services (`compliance/*`)
-- And any future service additions
-
-Simply replace the import path and service name while keeping the same configuration patterns.
+- **Go**: Returns `error` as second value
+- **Python**: Raises exceptions
+- **Java**: Throws exceptions
+- **TypeScript**: Returns promises (use `async/await` with try/catch)
 
 ## Advanced Features
 
 ### OpenTelemetry Tracing (Go SDK)
 
-The Go SDK includes automatic distributed tracing support:
+The Go SDK supports distributed tracing:
 
 ```go
 import (
@@ -223,77 +317,19 @@ import (
     api_userv1 "github.com/meshtrade/api/go/iam/api_user/v1"
 )
 
-// Configure with custom tracer
 tracer := otel.Tracer("my-application")
 client, err := api_userv1.NewApiUserServiceGRPCClient(
     api_userv1.WithTracer(tracer),
-    // ... other options
 )
 ```
 
-**Features:**
-- Creates spans for each method call
-- Integrates with existing tracing infrastructure  
-- Provides observability into API call performance
+### Context Timeouts (Go SDK)
 
-### TLS Support
-
-Configure transport security for production environments:
-
-<Tabs>
-<TabItem value="go" label="Go">
+The Go SDK respects context deadlines, allowing per-request timeout control:
 
 ```go
-// Enable TLS
-client, err := api_userv1.NewApiUserServiceGRPCClient(
-    api_userv1.WithTLS(true),
-    api_userv1.WithAddress("api.mesh.dev", 443),
-)
-
-// For mTLS, additional certificate configuration required
-```
-
-</TabItem>
-<TabItem value="python" label="Python">
-
-```python
-# Enable TLS
-options = ClientOptions(
-    url="api.mesh.dev",
-    port=443,
-    tls=True,
-)
-client = ApiUserServiceGRPCClient(options)
-```
-
-</TabItem>
-</Tabs>
-
-### Smart Timeout Handling
-
-Both SDKs respect context deadlines and provide intelligent timeout behavior:
-
-<Tabs>
-<TabItem value="go" label="Go">
-
-```go
-// Use context with custom timeout
 ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 defer cancel()
 
 response, err := client.GetApiUser(ctx, request)
 ```
-
-</TabItem>
-<TabItem value="python" label="Python">
-
-```python
-# Configure timeout in client options
-options = ClientOptions(
-    timeout=timedelta(seconds=30)  # 30 seconds
-)
-client = ApiUserServiceGRPCClient(options)
-```
-
-</TabItem>
-</Tabs>
