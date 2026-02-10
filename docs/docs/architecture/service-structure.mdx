@@ -87,14 +87,18 @@ Each service method declares its authorization requirements using role-based acc
 
 ```protobuf
 rpc CreateApiUser(CreateApiUserRequest) returns (APIUser) {
-  option (meshtrade.option.v1.roles) = {
-    roles: [ROLE_IAM_ADMIN] // Only IAM admins can create API users
+  option (meshtrade.option.method_options.v1.method_options) = {
+    type: METHOD_TYPE_WRITE
+    access_level: METHOD_ACCESS_LEVEL_AUTHORISED
+    roles: [ROLE_IAM_ADMIN, ROLE_IAM_API_USER_ADMIN]
   };
 }
 
 rpc GetApiUser(GetApiUserRequest) returns (APIUser) {
-  option (meshtrade.option.v1.roles) = {
-    roles: [ROLE_IAM_ADMIN, ROLE_IAM_VIEWER] // Admins and viewers can read
+  option (meshtrade.option.method_options.v1.method_options) = {
+    type: METHOD_TYPE_READ
+    access_level: METHOD_ACCESS_LEVEL_AUTHORISED
+    roles: [ROLE_IAM_ADMIN, ROLE_IAM_VIEWER, ROLE_IAM_API_USER_ADMIN, ROLE_IAM_API_USER_VIEWER]
   };
 }
 ```
@@ -111,4 +115,4 @@ All services are defined using Protocol Buffers, ensuring:
 - **Documentation**: Service definitions serve as the authoritative documentation
 - **Evolution**: Backward-compatible versioning and changes
 
-See **[Method Permissions](./method-permissions)** for details on the authorization system that governs all service operations.
+See **[Access Control](../access-control/)** for details on the authorization system that governs all service operations.
