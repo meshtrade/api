@@ -19,14 +19,8 @@ const sidebars: SidebarsConfig = {
   tutorialSidebar: [
     'introduction/index',
     'access-control/index',
-    {
-      type: 'category',
-      label: 'Architecture',
-      items: [
-        'architecture/service-structure',
-        'architecture/sdk-configuration'
-      ],
-    },
+    'service-structure',
+    'sdk-configuration',
     {
       type: 'category',
       label: 'API Reference',

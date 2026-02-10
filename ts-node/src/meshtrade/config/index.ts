@@ -42,7 +42,7 @@
  */
 export class ClientConfig {
   /** API server URL (default: production) */
-  apiServerURL: string = "http://localhost:10000";
+  apiServerURL: string = "https://production-service-mesh-api-gateway-lb-frontend.mesh.trade";
 
   /** API key for service-to-service authentication */
   apiKey?: string;
@@ -176,7 +176,7 @@ export function WithGroup(group: string): ClientOption {
 /**
  * Configures the client with a custom server URL.
  *
- * **Optional**: If not provided, defaults to localhost:10000.
+ * **Optional**: If not provided, defaults to the Mesh API production endpoint.
  *
  * @param url - The API server URL
  * @returns A client option function

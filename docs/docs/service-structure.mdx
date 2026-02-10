@@ -2,9 +2,16 @@
 
 Understanding how Mesh APIs are organized and the common patterns used across all services.
 
-## Service-Oriented Design
+## Resource-Oriented Design
 
-Mesh APIs follow a service-oriented design pattern where each service manages a specific type of entity and exposes a consistent set of operations. For example, the API User Service manages API users and their authentication credentials.
+Mesh APIs follow a **resource-oriented design** methodology inspired by [Google's API Improvement Proposals (AIP)](https://google.aip.dev/121). Each API service is centered around a primary **resource** - a domain entity that the service manages through its lifecycle.
+
+Key principles:
+
+- **Resources are first-class citizens** - Each service manages a specific resource type (e.g. `APIUser`, `LimitOrder`, `Account`)
+- **Standard operations** - Resources are manipulated through a consistent set of verbs: `Create`, `Get`, `List`, `Search`, `Update`, `Delete`
+- **Resource names** - Resources are identified by structured names (e.g. `api_users/{id}`, `accounts/{id}`)
+- **Direct resource returns** - Wherever possible, methods return the resource directly rather than wrapping it in a response object. For example, `GetApiUser` returns an `APIUser`, not a `GetApiUserResponse`
 
 ## Standard Verbs vs Custom Verbs
 
@@ -77,35 +84,39 @@ message ActivateApiUserRequest {
 }
 ```
 
+**Return types:** `Get` and `Create` methods return the resource directly (e.g. `returns (APIUser)`), while `List` and `Search` methods return a response wrapper containing a repeated field of resources.
+
 ### Group Context
 
 All operations operate within an authenticated group context, providing multi-tenancy and resource isolation.
 
-### Authentication & Authorization
+### Method Options
 
-Each service method declares its authorization requirements using role-based access control:
+Every RPC method declares its access requirements through `method_options`. These options are defined in protobuf and are visible in the API reference documentation for each method:
 
 ```protobuf
-rpc CreateApiUser(CreateApiUserRequest) returns (APIUser) {
+rpc CreateLimitOrder(CreateLimitOrderRequest) returns (LimitOrder) {
   option (meshtrade.option.method_options.v1.method_options) = {
     type: METHOD_TYPE_WRITE
     access_level: METHOD_ACCESS_LEVEL_AUTHORISED
-    roles: [ROLE_IAM_ADMIN, ROLE_IAM_API_USER_ADMIN]
-  };
-}
-
-rpc GetApiUser(GetApiUserRequest) returns (APIUser) {
-  option (meshtrade.option.method_options.v1.method_options) = {
-    type: METHOD_TYPE_READ
-    access_level: METHOD_ACCESS_LEVEL_AUTHORISED
-    roles: [ROLE_IAM_ADMIN, ROLE_IAM_VIEWER, ROLE_IAM_API_USER_ADMIN, ROLE_IAM_API_USER_VIEWER]
+    roles: [ROLE_TRADING_ADMIN, ROLE_TRADING_LIMIT_ORDER_ADMIN]
+    verification_status: VERIFICATION_STATUS_VERIFIED
   };
 }
 ```
 
+| Field | Description |
+|-------|-------------|
+| `type` | `METHOD_TYPE_READ` or `METHOD_TYPE_WRITE` - determines resource scoping rules |
+| `access_level` | `METHOD_ACCESS_LEVEL_AUTHORISED` or `METHOD_ACCESS_LEVEL_PUBLIC` |
+| `roles` | Exhaustive list of roles that may call this method |
+| `verification_status` | Required verification level (e.g. `VERIFICATION_STATUS_VERIFIED`) |
+
+For full details on how these options govern authentication, role-based access, and resource scoping, see the **[Access Control](./access-control/)** documentation.
+
 ## Available Services
 
-For a complete list of all services, their versions, and current availability status, see the **[Services Reference](../api-reference/)**.
+For a complete list of all services, their versions, and current availability status, see the **[Services Reference](./api-reference/)**.
 
 ## Schema-Driven Development
 
@@ -115,4 +126,4 @@ All services are defined using Protocol Buffers, ensuring:
 - **Documentation**: Service definitions serve as the authoritative documentation
 - **Evolution**: Backward-compatible versioning and changes
 
-See **[Access Control](../access-control/)** for details on the authorization system that governs all service operations.
+See **[Access Control](./access-control/)** for details on the authorization system that governs all service operations.

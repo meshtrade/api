@@ -144,49 +144,11 @@ graph TD
 
 **Write** (METHOD_TYPE_WRITE): the executing group can only access resources it **directly owns**.
 
-```mermaid
-graph TD
-    subgraph "Read Access — Broker A as executing group"
-        RA_Broker["Broker A<br/>(executing group)"]
-        RA_ClientX["Client X"]
-        RA_ClientY["Client Y"]
-        RA_Res1["Resource 1<br/>owner: Broker A<br/>&#10003; accessible"]
-        RA_Res2["Resource 2<br/>owner: Client X<br/>&#10003; accessible"]
-        RA_Res3["Resource 3<br/>owner: Client Y<br/>&#10003; accessible"]
-
-        RA_Broker --> RA_ClientX
-        RA_Broker --> RA_ClientY
-        RA_Broker -.-> RA_Res1
-        RA_ClientX -.-> RA_Res2
-        RA_ClientY -.-> RA_Res3
-    end
-
-    style RA_Res1 fill:#c8e6c9
-    style RA_Res2 fill:#c8e6c9
-    style RA_Res3 fill:#c8e6c9
-```
-
-```mermaid
-graph TD
-    subgraph "Write Access — Broker A as executing group"
-        WA_Broker["Broker A<br/>(executing group)"]
-        WA_ClientX["Client X"]
-        WA_ClientY["Client Y"]
-        WA_Res1["Resource 1<br/>owner: Broker A<br/>&#10003; accessible"]
-        WA_Res2["Resource 2<br/>owner: Client X<br/>&#10007; not accessible"]
-        WA_Res3["Resource 3<br/>owner: Client Y<br/>&#10007; not accessible"]
-
-        WA_Broker --> WA_ClientX
-        WA_Broker --> WA_ClientY
-        WA_Broker -.-> WA_Res1
-        WA_ClientX -.-> WA_Res2
-        WA_ClientY -.-> WA_Res3
-    end
-
-    style WA_Res1 fill:#c8e6c9
-    style WA_Res2 fill:#ffcdd2
-    style WA_Res3 fill:#ffcdd2
-```
+| Executing Group | Resource Owner | READ | WRITE |
+|----------------|---------------|------|-------|
+| Broker A | Broker A (self) | Accessible | Accessible |
+| Broker A | Client X (descendant) | Accessible | Not accessible |
+| Broker A | Client Y (descendant) | Accessible | Not accessible |
 
 ## Executing Entity
 
@@ -204,22 +166,14 @@ Regular Users (human, via web/mobile) follow the same authorisation model as API
 
 ## Clients and Legal Entities
 
-Clients represent compliance-verified legal entities (natural person, company, fund, or trust) within the group hierarchy. Each client is owned by a group. A client's verification status (`VERIFIED`, `PENDING`, etc.) is what methods with `verification_status: VERIFICATION_STATUS_VERIFIED` check against.
+Clients represent compliance-verified legal entities within the group hierarchy. Each client is owned by a group and starts a new **legal entity boundary** in the tree. A client's verification status (`VERIFIED`, `PENDING`, etc.) is what methods with `verification_status: VERIFICATION_STATUS_VERIFIED` check against.
 
-```mermaid
-graph TD
-    subgraph "Client Types"
-        Company["Company Client<br/>Type: Company<br/>Status: Verified"]
-        Fund["Fund Client<br/>Type: Fund<br/>Status: Verified"]
-        NaturalPerson["Individual Client<br/>Type: Natural Person<br/>Status: Verified"]
-        Trust["Trust Client<br/>Type: Trust<br/>Status: Pending"]
-    end
+Supported client types:
 
-    style Company fill:#e1f5fe
-    style Fund fill:#f3e5f5
-    style NaturalPerson fill:#fff3e0
-    style Trust fill:#ffcdd2
-```
+- **Natural Person** — an individual
+- **Company** — a registered company
+- **Fund** — an investment fund
+- **Trust** — a trust structure
 
 ## Authorisation Checks
 
@@ -227,7 +181,7 @@ When an API request is made with `x-api-key` and `x-group` headers, the followin
 
 1. **Method lookup** — retrieve method options (type, access level, roles, verification status) for the called method
 2. **Group resolution** — fetch the executing group specified in `x-group`
-3. **Entity identification** — hash the API key and retrieve the corresponding API User
+3. **Entity identification** — the API key is used to retrieve the associated API User
 4. **Role check** — verify the API User has at least one of the method's required roles, assigned in any group in the executing group's ownership hierarchy
 5. **Verification check** — if the method requires `VERIFICATION_STATUS_VERIFIED`, confirm the API User's associated compliance client is verified
 6. **Resource scoping** — filter resources based on method type:
@@ -262,31 +216,43 @@ The API User authenticates with `x-api-key` and `x-group: groups/MY_GROUP`. Sinc
 
 ### Brokerage: Multi-Tenant Hierarchy
 
-A brokerage platform with a broker, a corporate client, and an individual client:
+A brokerage platform with a broker, a corporate client, and an individual client. Each top-level group has a client entity that defines a **legal entity boundary**:
 
 ```mermaid
 graph TD
     subgraph "Brokerage Platform"
         Broker["Broker Corp<br/>groups/BROKER"]
-        Corp["Corporate Client<br/>groups/CORP_CLIENT"]
-        Individual["Individual Trader<br/>groups/INDIVIDUAL"]
-
+        BrokerClient["Broker Client<br/>Type: Company<br/>Status: Verified"]
         BrokerBot["Broker API User<br/>Roles: TRADING_ADMIN"]
-        CorpBot["Risk Monitor<br/>(API User)<br/>Roles: TRADING_VIEWER"]
-        IndBot["Trading Bot<br/>(API User)<br/>Roles: TRADING_ADMIN"]
 
+        Corp["Corporate Client<br/>groups/CORP_CLIENT"]
+        CorpClient["Corp Client<br/>Type: Company<br/>Status: Verified"]
+        CorpBot["Risk Monitor<br/>(API User)<br/>Roles: TRADING_VIEWER"]
         CorpAccount["Corporate Account<br/>owner: CORP_CLIENT"]
+
+        Individual["Individual Trader<br/>groups/INDIVIDUAL"]
+        IndClient["Individual Client<br/>Type: Natural Person<br/>Status: Verified"]
+        IndBot["Trading Bot<br/>(API User)<br/>Roles: TRADING_ADMIN"]
         IndAccount["Personal Account<br/>owner: INDIVIDUAL"]
 
+        Broker --> BrokerClient
+        Broker --> BrokerBot
         Broker --> Corp
         Broker --> Individual
-        Broker --> BrokerBot
+        Corp --> CorpClient
         Corp --> CorpBot
-        Individual --> IndBot
         Corp --> CorpAccount
+        Individual --> IndClient
+        Individual --> IndBot
         Individual --> IndAccount
     end
+
+    style BrokerClient fill:#e1f5fe
+    style CorpClient fill:#e1f5fe
+    style IndClient fill:#e1f5fe
 ```
+
+Each client entity starts a new legal entity boundary. The Corporate Client and Individual Client entities are both ultimately owned by the Broker Corp group hierarchy, but each defines its own compliance boundary.
 
 **Access scenarios:**
 
@@ -299,6 +265,6 @@ graph TD
 
 ## Related Documentation
 
-- **[Service Structure](../architecture/service-structure)** — how Mesh APIs are organised and common method patterns
-- **[SDK Configuration](../architecture/sdk-configuration)** — configuring SDK clients for authentication and connectivity
+- **[Service Structure](../service-structure)** — how Mesh APIs are organised and common method patterns
+- **[SDK Configuration](../sdk-configuration)** — configuring SDK clients for authentication and connectivity
 - **[API Reference](/docs/api-reference/)** — complete API documentation for all services

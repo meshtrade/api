@@ -113,11 +113,11 @@ const config: Config = {
               },
               {
                 label: 'Service Structure',
-                to: '/docs/architecture/service-structure',
+                to: '/docs/service-structure',
               },
               {
                 label: 'SDK Configuration',
-                to: '/docs/architecture/sdk-configuration',
+                to: '/docs/sdk-configuration',
               },
             ],
           },
