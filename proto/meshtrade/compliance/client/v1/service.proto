@@ -46,6 +46,23 @@ service ClientService {
     };
   }
 
+  // GetGroupClient retrieves the client compliance profile associated with a specific group.
+  //
+  // This allows fetching the compliance details of the client that is owned by
+  // the specified group, using the group's resource name as the lookup key.
+  rpc GetGroupClient(GetGroupClientRequest) returns (meshtrade.compliance.client.v1.Client) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
+      roles: [
+        ROLE_COMPLIANCE_ADMIN,
+        ROLE_COMPLIANCE_VIEWER,
+        ROLE_COMPLIANCE_CLIENT_ADMIN,
+        ROLE_COMPLIANCE_CLIENT_VIEWER
+      ]
+    };
+  }
+
   // ListClients retrieves a collection of client compliance profiles.
   //
   // This method is useful for fetching multiple client records at once.
@@ -64,7 +81,7 @@ service ClientService {
   }
 }
 
-// CreateClientRequest is the message used to create a single client resource.
+// GetClientRequest is the message used to request a single client resource.
 message GetClientRequest {
   // The unique resource name of the client to be retrieved.
   // The name serves as the primary identifier for the client resource.
@@ -78,10 +95,23 @@ message GetClientRequest {
   }];
 }
 
-// GetClientRequest is the message used to request a single client resource.
+// CreateClientRequest is the message used to create a single client resource.
 message CreateClientRequest {
   // Client is the client resource to create.
   meshtrade.compliance.client.v1.Client client = 1 [(buf.validate.field) = {required: true}];
+}
+
+// GetGroupClientRequest is the message used to request a client resource by its owning group.
+message GetGroupClientRequest {
+  // The resource name of the group whose client is to be retrieved.
+  // Format: "groups/{group_id}"
+  string group = 1 [(buf.validate.field) = {
+    required: true
+    string: {
+      len: 33
+      pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+    }
+  }];
 }
 
 // ListClientsRequest is the message used to request a list of client resources.

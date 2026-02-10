@@ -67,6 +67,22 @@ enum MethodAccessLevel {
 }
 
 /*
+   VerificationStatus defines what client verification status is required for access to a method.
+*/
+enum VerificationStatus {
+  /*
+     Default value, should not be used.
+  */
+  VERIFICATION_STATUS_UNSPECIFIED = 0;
+
+  /*
+     Service only accessible if the verification status of the client to which the executing (API)User
+     is Verified.
+  */
+  VERIFICATION_STATUS_VERIFIED = 1;
+}
+
+/*
    MethodOptions consolidates three authorization dimensions for RPC methods.
 */
 message MethodOptions {
@@ -84,8 +100,15 @@ message MethodOptions {
   /*
      Roles that grant access to this method.
      Used for access control checking if group header is required and/or given.
+     Optional: Only required when access level is AUTHORISED.
   */
   repeated meshtrade.iam.role.v1.Role roles = 3;
+
+  /*
+     Verification status defines what client verification status is required for access to a method.
+     Optional: If not specified on a method then the method is accessible with any verification status.
+  */
+  VerificationStatus verification_status = 4;
 }
 
 /*
