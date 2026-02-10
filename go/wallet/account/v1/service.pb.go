@@ -1141,20 +1141,20 @@ const file_meshtrade_wallet_account_v1_service_proto_rawDesc = "" +
 	"\xbaH\a\x92\x01\x04\b\x01\x10\n" +
 	"R\x06tokens\"T\n" +
 	"#DeregisterTokensFromAccountResponse\x12-\n" +
-	"\x12ledger_transaction\x18\x01 \x01(\tR\x11ledgerTransaction2\xf7\f\n" +
-	"\x0eAccountService\x12z\n" +
-	"\rCreateAccount\x121.meshtrade.wallet.account.v1.CreateAccountRequest\x1a$.meshtrade.wallet.account.v1.Account\"\x10\xb2\xb5\x18\f\b\x02\x10\x02\x1a\x06\xc0\x84=\u0084=\x12z\n" +
-	"\rUpdateAccount\x121.meshtrade.wallet.account.v1.UpdateAccountRequest\x1a$.meshtrade.wallet.account.v1.Account\"\x10\xb2\xb5\x18\f\b\x02\x10\x02\x1a\x06\xc0\x84=\u0084=\x12\x82\x01\n" +
-	"\vOpenAccount\x12/.meshtrade.wallet.account.v1.OpenAccountRequest\x1a0.meshtrade.wallet.account.v1.OpenAccountResponse\"\x10\xb2\xb5\x18\f\b\x02\x10\x02\x1a\x06\xc0\x84=\u0084=\x12\xa6\x01\n" +
-	"\x17AddSignatoriesToAccount\x12;.meshtrade.wallet.account.v1.AddSignatoriesToAccountRequest\x1a<.meshtrade.wallet.account.v1.AddSignatoriesToAccountResponse\"\x10\xb2\xb5\x18\f\b\x02\x10\x02\x1a\x06\xc0\x84=\u0084=\x12\xb5\x01\n" +
-	"\x1cRemoveSignatoriesFromAccount\x12@.meshtrade.wallet.account.v1.RemoveSignatoriesFromAccountRequest\x1aA.meshtrade.wallet.account.v1.RemoveSignatoriesFromAccountResponse\"\x10\xb2\xb5\x18\f\b\x02\x10\x02\x1a\x06\xc0\x84=\u0084=\x12z\n" +
+	"\x12ledger_transaction\x18\x01 \x01(\tR\x11ledgerTransaction2\x8d\r\n" +
+	"\x0eAccountService\x12|\n" +
+	"\rCreateAccount\x121.meshtrade.wallet.account.v1.CreateAccountRequest\x1a$.meshtrade.wallet.account.v1.Account\"\x12\xb2\xb5\x18\x0e\b\x02\x10\x02\x1a\x06\xc0\x84=\u0084= \x01\x12|\n" +
+	"\rUpdateAccount\x121.meshtrade.wallet.account.v1.UpdateAccountRequest\x1a$.meshtrade.wallet.account.v1.Account\"\x12\xb2\xb5\x18\x0e\b\x02\x10\x02\x1a\x06\xc0\x84=\u0084= \x01\x12\x84\x01\n" +
+	"\vOpenAccount\x12/.meshtrade.wallet.account.v1.OpenAccountRequest\x1a0.meshtrade.wallet.account.v1.OpenAccountResponse\"\x12\xb2\xb5\x18\x0e\b\x02\x10\x02\x1a\x06\xc0\x84=\u0084= \x01\x12\xa8\x01\n" +
+	"\x17AddSignatoriesToAccount\x12;.meshtrade.wallet.account.v1.AddSignatoriesToAccountRequest\x1a<.meshtrade.wallet.account.v1.AddSignatoriesToAccountResponse\"\x12\xb2\xb5\x18\x0e\b\x02\x10\x02\x1a\x06\xc0\x84=\u0084= \x01\x12\xb7\x01\n" +
+	"\x1cRemoveSignatoriesFromAccount\x12@.meshtrade.wallet.account.v1.RemoveSignatoriesFromAccountRequest\x1aA.meshtrade.wallet.account.v1.RemoveSignatoriesFromAccountResponse\"\x12\xb2\xb5\x18\x0e\b\x02\x10\x02\x1a\x06\xc0\x84=\u0084= \x01\x12|\n" +
 	"\n" +
-	"GetAccount\x12..meshtrade.wallet.account.v1.GetAccountRequest\x1a$.meshtrade.wallet.account.v1.Account\"\x16\xb2\xb5\x18\x12\b\x01\x10\x02\x1a\f\xc0\x84=\xc1\x84=\u0084=Ä=\x12\x8a\x01\n" +
-	"\x12GetAccountByNumber\x126.meshtrade.wallet.account.v1.GetAccountByNumberRequest\x1a$.meshtrade.wallet.account.v1.Account\"\x16\xb2\xb5\x18\x12\b\x01\x10\x02\x1a\f\xc0\x84=\xc1\x84=\u0084=Ä=\x12\x8b\x01\n" +
-	"\fListAccounts\x120.meshtrade.wallet.account.v1.ListAccountsRequest\x1a1.meshtrade.wallet.account.v1.ListAccountsResponse\"\x16\xb2\xb5\x18\x12\b\x01\x10\x02\x1a\f\xc0\x84=\xc1\x84=\u0084=Ä=\x12\x91\x01\n" +
-	"\x0eSearchAccounts\x122.meshtrade.wallet.account.v1.SearchAccountsRequest\x1a3.meshtrade.wallet.account.v1.SearchAccountsResponse\"\x16\xb2\xb5\x18\x12\b\x01\x10\x02\x1a\f\xc0\x84=\xc1\x84=\u0084=Ä=\x12\xa6\x01\n" +
-	"\x17RegisterTokensToAccount\x12;.meshtrade.wallet.account.v1.RegisterTokensToAccountRequest\x1a<.meshtrade.wallet.account.v1.RegisterTokensToAccountResponse\"\x10\xb2\xb5\x18\f\b\x02\x10\x02\x1a\x06\xc0\x84=\u0084=\x12\xb2\x01\n" +
-	"\x1bDeregisterTokensFromAccount\x12?.meshtrade.wallet.account.v1.DeregisterTokensFromAccountRequest\x1a@.meshtrade.wallet.account.v1.DeregisterTokensFromAccountResponse\"\x10\xb2\xb5\x18\f\b\x02\x10\x02\x1a\x06\xc0\x84=\u0084=B^\n" +
+	"GetAccount\x12..meshtrade.wallet.account.v1.GetAccountRequest\x1a$.meshtrade.wallet.account.v1.Account\"\x18\xb2\xb5\x18\x14\b\x01\x10\x02\x1a\f\xc0\x84=\xc1\x84=\u0084=Ä= \x01\x12\x8c\x01\n" +
+	"\x12GetAccountByNumber\x126.meshtrade.wallet.account.v1.GetAccountByNumberRequest\x1a$.meshtrade.wallet.account.v1.Account\"\x18\xb2\xb5\x18\x14\b\x01\x10\x02\x1a\f\xc0\x84=\xc1\x84=\u0084=Ä= \x01\x12\x8d\x01\n" +
+	"\fListAccounts\x120.meshtrade.wallet.account.v1.ListAccountsRequest\x1a1.meshtrade.wallet.account.v1.ListAccountsResponse\"\x18\xb2\xb5\x18\x14\b\x01\x10\x02\x1a\f\xc0\x84=\xc1\x84=\u0084=Ä= \x01\x12\x93\x01\n" +
+	"\x0eSearchAccounts\x122.meshtrade.wallet.account.v1.SearchAccountsRequest\x1a3.meshtrade.wallet.account.v1.SearchAccountsResponse\"\x18\xb2\xb5\x18\x14\b\x01\x10\x02\x1a\f\xc0\x84=\xc1\x84=\u0084=Ä= \x01\x12\xa8\x01\n" +
+	"\x17RegisterTokensToAccount\x12;.meshtrade.wallet.account.v1.RegisterTokensToAccountRequest\x1a<.meshtrade.wallet.account.v1.RegisterTokensToAccountResponse\"\x12\xb2\xb5\x18\x0e\b\x02\x10\x02\x1a\x06\xc0\x84=\u0084= \x01\x12\xb4\x01\n" +
+	"\x1bDeregisterTokensFromAccount\x12?.meshtrade.wallet.account.v1.DeregisterTokensFromAccountRequest\x1a@.meshtrade.wallet.account.v1.DeregisterTokensFromAccountResponse\"\x12\xb2\xb5\x18\x0e\b\x02\x10\x02\x1a\x06\xc0\x84=\u0084= \x01B^\n" +
 	"\"co.meshtrade.api.wallet.account.v1Z8github.com/meshtrade/api/go/wallet/account/v1;account_v1b\x06proto3"
 
 var (

@@ -13,7 +13,12 @@
 # ===================================================================
 
 # Generated protobuf imports
-from .method_options_pb2 import MethodAccessLevel, MethodOptions, MethodType
+from .method_options_pb2 import (
+    MethodAccessLevel,
+    MethodOptions,
+    MethodType,
+    VerificationStatus,
+)
 
 # ===================================================================
 # END OF AUTO-GENERATED SECTION
@@ -38,4 +43,5 @@ __all__ = [
     "MethodAccessLevel",
     "MethodOptions",
     "MethodType",
+    "VerificationStatus",
 ]
