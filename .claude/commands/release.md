@@ -107,13 +107,13 @@ After all workflows complete successfully, 5 auto-generated PRs will exist that 
 1. List PRs to confirm they all exist: `gh pr list --limit 10`
 2. Merge each PR and delete its branch:
 ```bash
-gh pr merge chore/pypi-version-update-$1 --merge --delete-branch --admin
-gh pr merge chore/maven-version-update-$1 --merge --delete-branch --admin
-gh pr merge chore/npm-ts-node-version-update-$1 --merge --delete-branch --admin
-gh pr merge chore/npm-ts-web-version-update-$1 --merge --delete-branch --admin
-gh pr merge chore/npm-ts-old-version-update-$1 --merge --delete-branch --admin
+gh pr merge chore/pypi-version-update-$1 --squash --delete-branch --admin
+gh pr merge chore/maven-version-update-$1 --squash --delete-branch --admin
+gh pr merge chore/npm-ts-node-version-update-$1 --squash --delete-branch --admin
+gh pr merge chore/npm-ts-web-version-update-$1 --squash --delete-branch --admin
+gh pr merge chore/npm-ts-old-version-update-$1 --squash --delete-branch --admin
 ```
-**Note:** `--admin` is required to bypass branch protection rules on master.
+**Note:** `--admin` is required to bypass branch protection rules on master. Always use `--squash` for a clean commit history.
 3. If any PR is missing, the corresponding workflow may still be running or may have failed — check `gh run list --limit 15`
 
 ### Step 7: Report Results
