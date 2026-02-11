@@ -8,17 +8,38 @@ import (
 	testing "testing"
 )
 
-// Ensure that MockTransactionService implements the TransactionService interface
-var _ TransactionService = &MockTransactionService{}
+// Ensure that MockTransactionService implements the TransactionServiceClientInterface interface
+var _ TransactionServiceClientInterface = &MockTransactionService{}
 
-// MockTransactionService is a mock implementation of the TransactionService interface.
+// MockTransactionService is a mock implementation of the TransactionServiceClientInterface interface.
 type MockTransactionService struct {
 	mutex                                  sync.Mutex
 	T                                      *testing.T
+	GroupValue                             string
 	GetTransactionStateFunc                func(t *testing.T, m *MockTransactionService, ctx context.Context, request *GetTransactionStateRequest) (*GetTransactionStateResponse, error)
 	GetTransactionStateFuncInvocations     int
-	MonitorTransactionStateFunc            func(t *testing.T, m *MockTransactionService, ctx context.Context, request *MonitorTransactionStateRequest, stream TransactionService_MonitorTransactionStateStream) error
+	MonitorTransactionStateFunc            func(t *testing.T, m *MockTransactionService, ctx context.Context, request *MonitorTransactionStateRequest) (TransactionService_MonitorTransactionStateClient, error)
 	MonitorTransactionStateFuncInvocations int
+}
+
+// Close is a no-op for the mock implementation.
+func (m *MockTransactionService) Close() error {
+	return nil
+}
+
+// Group returns the mock's configured group value.
+func (m *MockTransactionService) Group() string {
+	return m.GroupValue
+}
+
+// WithGroup returns a shallow copy of the mock with the given group value.
+func (m *MockTransactionService) WithGroup(group string) TransactionServiceClientInterface {
+	return &MockTransactionService{
+		T:                           m.T,
+		GroupValue:                  group,
+		GetTransactionStateFunc:     m.GetTransactionStateFunc,
+		MonitorTransactionStateFunc: m.MonitorTransactionStateFunc,
+	}
 }
 
 func (m *MockTransactionService) GetTransactionState(ctx context.Context, request *GetTransactionStateRequest) (*GetTransactionStateResponse, error) {
@@ -31,12 +52,12 @@ func (m *MockTransactionService) GetTransactionState(ctx context.Context, reques
 	return m.GetTransactionStateFunc(m.T, m, ctx, request)
 }
 
-func (m *MockTransactionService) MonitorTransactionState(ctx context.Context, request *MonitorTransactionStateRequest, stream TransactionService_MonitorTransactionStateStream) error {
+func (m *MockTransactionService) MonitorTransactionState(ctx context.Context, request *MonitorTransactionStateRequest) (TransactionService_MonitorTransactionStateClient, error) {
 	m.mutex.Lock()
 	m.MonitorTransactionStateFuncInvocations++
 	m.mutex.Unlock()
 	if m.MonitorTransactionStateFunc == nil {
-		return nil
+		return nil, nil
 	}
-	return m.MonitorTransactionStateFunc(m.T, m, ctx, request, stream)
+	return m.MonitorTransactionStateFunc(m.T, m, ctx, request)
 }

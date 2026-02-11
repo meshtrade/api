@@ -27,9 +27,10 @@ import { isValidGroupResourceName } from "./validation";
  * });
  * ```
  */
-export class GroupHeaderInterceptor<TReq extends Message, TResp extends Message>
-  implements UnaryInterceptor<TReq, TResp>
-{
+export class GroupHeaderInterceptor<
+  TReq extends Message,
+  TResp extends Message,
+> implements UnaryInterceptor<TReq, TResp> {
   /**
    * Creates a new GroupHeaderInterceptor instance.
    *

@@ -8,13 +8,17 @@ import (
 	testing "testing"
 )
 
+// Ensure that MockUserProfileService implements the UserProfileServiceClientInterface interface
+var _ UserProfileServiceClientInterface = &MockUserProfileService{}
+
 // Ensure that MockUserProfileService implements the UserProfileService interface
 var _ UserProfileService = &MockUserProfileService{}
 
-// MockUserProfileService is a mock implementation of the UserProfileService interface.
+// MockUserProfileService is a mock implementation of the UserProfileServiceClientInterface interface.
 type MockUserProfileService struct {
 	mutex                               sync.Mutex
 	T                                   *testing.T
+	GroupValue                          string
 	UpdateUserProfileFunc               func(t *testing.T, m *MockUserProfileService, ctx context.Context, request *UpdateUserProfileRequest) (*UserProfile, error)
 	UpdateUserProfileFuncInvocations    int
 	GetUserProfileFunc                  func(t *testing.T, m *MockUserProfileService, ctx context.Context, request *GetUserProfileRequest) (*UserProfile, error)
@@ -23,6 +27,28 @@ type MockUserProfileService struct {
 	GetUserProfileByUserFuncInvocations int
 	ListUserProfilesFunc                func(t *testing.T, m *MockUserProfileService, ctx context.Context, request *ListUserProfilesRequest) (*ListUserProfilesResponse, error)
 	ListUserProfilesFuncInvocations     int
+}
+
+// Close is a no-op for the mock implementation.
+func (m *MockUserProfileService) Close() error {
+	return nil
+}
+
+// Group returns the mock's configured group value.
+func (m *MockUserProfileService) Group() string {
+	return m.GroupValue
+}
+
+// WithGroup returns a shallow copy of the mock with the given group value.
+func (m *MockUserProfileService) WithGroup(group string) UserProfileServiceClientInterface {
+	return &MockUserProfileService{
+		T:                        m.T,
+		GroupValue:               group,
+		UpdateUserProfileFunc:    m.UpdateUserProfileFunc,
+		GetUserProfileFunc:       m.GetUserProfileFunc,
+		GetUserProfileByUserFunc: m.GetUserProfileByUserFunc,
+		ListUserProfilesFunc:     m.ListUserProfilesFunc,
+	}
 }
 
 func (m *MockUserProfileService) UpdateUserProfile(ctx context.Context, request *UpdateUserProfileRequest) (*UserProfile, error) {

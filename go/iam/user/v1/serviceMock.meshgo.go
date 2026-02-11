@@ -8,13 +8,17 @@ import (
 	testing "testing"
 )
 
+// Ensure that MockUserService implements the UserServiceClientInterface interface
+var _ UserServiceClientInterface = &MockUserService{}
+
 // Ensure that MockUserService implements the UserService interface
 var _ UserService = &MockUserService{}
 
-// MockUserService is a mock implementation of the UserService interface.
+// MockUserService is a mock implementation of the UserServiceClientInterface interface.
 type MockUserService struct {
 	mutex                              sync.Mutex
 	T                                  *testing.T
+	GroupValue                         string
 	AssignRolesToUserFunc              func(t *testing.T, m *MockUserService, ctx context.Context, request *AssignRolesToUserRequest) (*User, error)
 	AssignRolesToUserFuncInvocations   int
 	RevokeRolesFromUserFunc            func(t *testing.T, m *MockUserService, ctx context.Context, request *RevokeRolesFromUserRequest) (*User, error)
@@ -25,10 +29,38 @@ type MockUserService struct {
 	GetUserByEmailFuncInvocations      int
 	ListUsersFunc                      func(t *testing.T, m *MockUserService, ctx context.Context, request *ListUsersRequest) (*ListUsersResponse, error)
 	ListUsersFuncInvocations           int
+	SearchUsersFunc                    func(t *testing.T, m *MockUserService, ctx context.Context, request *SearchUsersRequest) (*SearchUsersResponse, error)
+	SearchUsersFuncInvocations         int
 	CreateUserFunc                     func(t *testing.T, m *MockUserService, ctx context.Context, request *CreateUserRequest) (*User, error)
 	CreateUserFuncInvocations          int
 	UpdateUserFunc                     func(t *testing.T, m *MockUserService, ctx context.Context, request *UpdateUserRequest) (*User, error)
 	UpdateUserFuncInvocations          int
+}
+
+// Close is a no-op for the mock implementation.
+func (m *MockUserService) Close() error {
+	return nil
+}
+
+// Group returns the mock's configured group value.
+func (m *MockUserService) Group() string {
+	return m.GroupValue
+}
+
+// WithGroup returns a shallow copy of the mock with the given group value.
+func (m *MockUserService) WithGroup(group string) UserServiceClientInterface {
+	return &MockUserService{
+		T:                       m.T,
+		GroupValue:              group,
+		AssignRolesToUserFunc:   m.AssignRolesToUserFunc,
+		RevokeRolesFromUserFunc: m.RevokeRolesFromUserFunc,
+		GetUserFunc:             m.GetUserFunc,
+		GetUserByEmailFunc:      m.GetUserByEmailFunc,
+		ListUsersFunc:           m.ListUsersFunc,
+		SearchUsersFunc:         m.SearchUsersFunc,
+		CreateUserFunc:          m.CreateUserFunc,
+		UpdateUserFunc:          m.UpdateUserFunc,
+	}
 }
 
 func (m *MockUserService) AssignRolesToUser(ctx context.Context, request *AssignRolesToUserRequest) (*User, error) {
@@ -79,6 +111,16 @@ func (m *MockUserService) ListUsers(ctx context.Context, request *ListUsersReque
 		return nil, nil
 	}
 	return m.ListUsersFunc(m.T, m, ctx, request)
+}
+
+func (m *MockUserService) SearchUsers(ctx context.Context, request *SearchUsersRequest) (*SearchUsersResponse, error) {
+	m.mutex.Lock()
+	m.SearchUsersFuncInvocations++
+	m.mutex.Unlock()
+	if m.SearchUsersFunc == nil {
+		return nil, nil
+	}
+	return m.SearchUsersFunc(m.T, m, ctx, request)
 }
 
 func (m *MockUserService) CreateUser(ctx context.Context, request *CreateUserRequest) (*User, error) {
