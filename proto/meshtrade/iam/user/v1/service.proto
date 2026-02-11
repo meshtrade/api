@@ -115,6 +115,25 @@ service UserService {
   }
 
   /*
+     Searches for users by email substring within the authenticated group's hierarchy.
+
+     Returns users whose email addresses contain the provided search string,
+     useful for type-ahead and fuzzy-matching use cases.
+  */
+  rpc SearchUsers(SearchUsersRequest) returns (SearchUsersResponse) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_VIEWER,
+        ROLE_IAM_USER_ADMIN,
+        ROLE_IAM_USER_VIEWER
+      ]
+    };
+  }
+
+  /*
      Creates a new user within the authenticated group context.
 
      The user will be created with the provided email and group ownership,
@@ -266,6 +285,20 @@ message ListUsersRequest {
 }
 
 message ListUsersResponse {
+  repeated meshtrade.iam.user.v1.User users = 1;
+}
+
+message SearchUsersRequest {
+  /*
+     Optional Substring to match against user email addresses.
+     The search is case-insensitive.
+  */
+  string email = 1 [(buf.validate.field) = {
+    string: {max_len: 100}
+  }];
+}
+
+message SearchUsersResponse {
   repeated meshtrade.iam.user.v1.User users = 1;
 }
 

@@ -315,6 +315,96 @@ func (x *ListUsersResponse) GetUsers() []*User {
 	return nil
 }
 
+type SearchUsersRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Substring to match against user email addresses.
+	// The search is case-insensitive.
+	Email         string `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SearchUsersRequest) Reset() {
+	*x = SearchUsersRequest{}
+	mi := &file_meshtrade_iam_user_v1_service_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SearchUsersRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SearchUsersRequest) ProtoMessage() {}
+
+func (x *SearchUsersRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_iam_user_v1_service_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SearchUsersRequest.ProtoReflect.Descriptor instead.
+func (*SearchUsersRequest) Descriptor() ([]byte, []int) {
+	return file_meshtrade_iam_user_v1_service_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *SearchUsersRequest) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+type SearchUsersResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Users         []*User                `protobuf:"bytes,1,rep,name=users,proto3" json:"users,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SearchUsersResponse) Reset() {
+	*x = SearchUsersResponse{}
+	mi := &file_meshtrade_iam_user_v1_service_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SearchUsersResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SearchUsersResponse) ProtoMessage() {}
+
+func (x *SearchUsersResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_iam_user_v1_service_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SearchUsersResponse.ProtoReflect.Descriptor instead.
+func (*SearchUsersResponse) Descriptor() ([]byte, []int) {
+	return file_meshtrade_iam_user_v1_service_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *SearchUsersResponse) GetUsers() []*User {
+	if x != nil {
+		return x.Users
+	}
+	return nil
+}
+
 type CreateUserRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The user resource to create.
@@ -326,7 +416,7 @@ type CreateUserRequest struct {
 
 func (x *CreateUserRequest) Reset() {
 	*x = CreateUserRequest{}
-	mi := &file_meshtrade_iam_user_v1_service_proto_msgTypes[6]
+	mi := &file_meshtrade_iam_user_v1_service_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -338,7 +428,7 @@ func (x *CreateUserRequest) String() string {
 func (*CreateUserRequest) ProtoMessage() {}
 
 func (x *CreateUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_iam_user_v1_service_proto_msgTypes[6]
+	mi := &file_meshtrade_iam_user_v1_service_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -351,7 +441,7 @@ func (x *CreateUserRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateUserRequest.ProtoReflect.Descriptor instead.
 func (*CreateUserRequest) Descriptor() ([]byte, []int) {
-	return file_meshtrade_iam_user_v1_service_proto_rawDescGZIP(), []int{6}
+	return file_meshtrade_iam_user_v1_service_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *CreateUserRequest) GetUser() *User {
@@ -372,7 +462,7 @@ type UpdateUserRequest struct {
 
 func (x *UpdateUserRequest) Reset() {
 	*x = UpdateUserRequest{}
-	mi := &file_meshtrade_iam_user_v1_service_proto_msgTypes[7]
+	mi := &file_meshtrade_iam_user_v1_service_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -384,7 +474,7 @@ func (x *UpdateUserRequest) String() string {
 func (*UpdateUserRequest) ProtoMessage() {}
 
 func (x *UpdateUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_iam_user_v1_service_proto_msgTypes[7]
+	mi := &file_meshtrade_iam_user_v1_service_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -397,7 +487,7 @@ func (x *UpdateUserRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateUserRequest.ProtoReflect.Descriptor instead.
 func (*UpdateUserRequest) Descriptor() ([]byte, []int) {
-	return file_meshtrade_iam_user_v1_service_proto_rawDescGZIP(), []int{7}
+	return file_meshtrade_iam_user_v1_service_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *UpdateUserRequest) GetUser() *User {
@@ -419,7 +509,7 @@ type ListUsersRequest_Sorting struct {
 
 func (x *ListUsersRequest_Sorting) Reset() {
 	*x = ListUsersRequest_Sorting{}
-	mi := &file_meshtrade_iam_user_v1_service_proto_msgTypes[8]
+	mi := &file_meshtrade_iam_user_v1_service_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -431,7 +521,7 @@ func (x *ListUsersRequest_Sorting) String() string {
 func (*ListUsersRequest_Sorting) ProtoMessage() {}
 
 func (x *ListUsersRequest_Sorting) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_iam_user_v1_service_proto_msgTypes[8]
+	mi := &file_meshtrade_iam_user_v1_service_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -484,17 +574,23 @@ const file_meshtrade_iam_user_v1_service_proto_rawDesc = "" +
 	"\vfield.valid\x12%field must be one of: email, or empty\x1a\x15this in ['', 'email']r\tR\x00R\x05emailR\x05field\x125\n" +
 	"\x05order\x18\x02 \x01(\x0e2\x1f.meshtrade.type.v1.SortingOrderR\x05order\"F\n" +
 	"\x11ListUsersResponse\x121\n" +
+	"\x05users\x18\x01 \x03(\v2\x1b.meshtrade.iam.user.v1.UserR\x05users\"6\n" +
+	"\x12SearchUsersRequest\x12 \n" +
+	"\x05email\x18\x01 \x01(\tB\n" +
+	"\xbaH\a\xc8\x01\x01r\x02\x10\x01R\x05email\"H\n" +
+	"\x13SearchUsersResponse\x121\n" +
 	"\x05users\x18\x01 \x03(\v2\x1b.meshtrade.iam.user.v1.UserR\x05users\"L\n" +
 	"\x11CreateUserRequest\x127\n" +
 	"\x04user\x18\x01 \x01(\v2\x1b.meshtrade.iam.user.v1.UserB\x06\xbaH\x03\xc8\x01\x01R\x04user\"L\n" +
 	"\x11UpdateUserRequest\x127\n" +
-	"\x04user\x18\x01 \x01(\v2\x1b.meshtrade.iam.user.v1.UserB\x06\xbaH\x03\xc8\x01\x01R\x04user2\xb1\x06\n" +
+	"\x04user\x18\x01 \x01(\v2\x1b.meshtrade.iam.user.v1.UserB\x06\xbaH\x03\xc8\x01\x01R\x04user2\xb4\a\n" +
 	"\vUserService\x12u\n" +
 	"\x11AssignRolesToUser\x12/.meshtrade.iam.user.v1.AssignRolesToUserRequest\x1a\x1b.meshtrade.iam.user.v1.User\"\x12\xb2\xb5\x18\x0e\b\x02\x10\x02\x1a\b\xc0\x8d\xb7\x01ƍ\xb7\x01\x12y\n" +
 	"\x13RevokeRolesFromUser\x121.meshtrade.iam.user.v1.RevokeRolesFromUserRequest\x1a\x1b.meshtrade.iam.user.v1.User\"\x12\xb2\xb5\x18\x0e\b\x02\x10\x02\x1a\b\xc0\x8d\xb7\x01ƍ\xb7\x01\x12i\n" +
 	"\aGetUser\x12%.meshtrade.iam.user.v1.GetUserRequest\x1a\x1b.meshtrade.iam.user.v1.User\"\x1a\xb2\xb5\x18\x16\b\x01\x10\x02\x1a\x10\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01ƍ\xb7\x01Ǎ\xb7\x01\x12w\n" +
 	"\x0eGetUserByEmail\x12,.meshtrade.iam.user.v1.GetUserByEmailRequest\x1a\x1b.meshtrade.iam.user.v1.User\"\x1a\xb2\xb5\x18\x16\b\x01\x10\x02\x1a\x10\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01ƍ\xb7\x01Ǎ\xb7\x01\x12z\n" +
-	"\tListUsers\x12'.meshtrade.iam.user.v1.ListUsersRequest\x1a(.meshtrade.iam.user.v1.ListUsersResponse\"\x1a\xb2\xb5\x18\x16\b\x01\x10\x02\x1a\x10\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01ƍ\xb7\x01Ǎ\xb7\x01\x12g\n" +
+	"\tListUsers\x12'.meshtrade.iam.user.v1.ListUsersRequest\x1a(.meshtrade.iam.user.v1.ListUsersResponse\"\x1a\xb2\xb5\x18\x16\b\x01\x10\x02\x1a\x10\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01ƍ\xb7\x01Ǎ\xb7\x01\x12\x80\x01\n" +
+	"\vSearchUsers\x12).meshtrade.iam.user.v1.SearchUsersRequest\x1a*.meshtrade.iam.user.v1.SearchUsersResponse\"\x1a\xb2\xb5\x18\x16\b\x01\x10\x02\x1a\x10\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01ƍ\xb7\x01Ǎ\xb7\x01\x12g\n" +
 	"\n" +
 	"CreateUser\x12(.meshtrade.iam.user.v1.CreateUserRequest\x1a\x1b.meshtrade.iam.user.v1.User\"\x12\xb2\xb5\x18\x0e\b\x02\x10\x02\x1a\b\xc0\x8d\xb7\x01ƍ\xb7\x01\x12g\n" +
 	"\n" +
@@ -513,7 +609,7 @@ func file_meshtrade_iam_user_v1_service_proto_rawDescGZIP() []byte {
 	return file_meshtrade_iam_user_v1_service_proto_rawDescData
 }
 
-var file_meshtrade_iam_user_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_meshtrade_iam_user_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_meshtrade_iam_user_v1_service_proto_goTypes = []any{
 	(*AssignRolesToUserRequest)(nil),   // 0: meshtrade.iam.user.v1.AssignRolesToUserRequest
 	(*RevokeRolesFromUserRequest)(nil), // 1: meshtrade.iam.user.v1.RevokeRolesFromUserRequest
@@ -521,37 +617,42 @@ var file_meshtrade_iam_user_v1_service_proto_goTypes = []any{
 	(*GetUserByEmailRequest)(nil),      // 3: meshtrade.iam.user.v1.GetUserByEmailRequest
 	(*ListUsersRequest)(nil),           // 4: meshtrade.iam.user.v1.ListUsersRequest
 	(*ListUsersResponse)(nil),          // 5: meshtrade.iam.user.v1.ListUsersResponse
-	(*CreateUserRequest)(nil),          // 6: meshtrade.iam.user.v1.CreateUserRequest
-	(*UpdateUserRequest)(nil),          // 7: meshtrade.iam.user.v1.UpdateUserRequest
-	(*ListUsersRequest_Sorting)(nil),   // 8: meshtrade.iam.user.v1.ListUsersRequest.Sorting
-	(*User)(nil),                       // 9: meshtrade.iam.user.v1.User
-	(v1.SortingOrder)(0),               // 10: meshtrade.type.v1.SortingOrder
+	(*SearchUsersRequest)(nil),         // 6: meshtrade.iam.user.v1.SearchUsersRequest
+	(*SearchUsersResponse)(nil),        // 7: meshtrade.iam.user.v1.SearchUsersResponse
+	(*CreateUserRequest)(nil),          // 8: meshtrade.iam.user.v1.CreateUserRequest
+	(*UpdateUserRequest)(nil),          // 9: meshtrade.iam.user.v1.UpdateUserRequest
+	(*ListUsersRequest_Sorting)(nil),   // 10: meshtrade.iam.user.v1.ListUsersRequest.Sorting
+	(*User)(nil),                       // 11: meshtrade.iam.user.v1.User
+	(v1.SortingOrder)(0),               // 12: meshtrade.type.v1.SortingOrder
 }
 var file_meshtrade_iam_user_v1_service_proto_depIdxs = []int32{
-	8,  // 0: meshtrade.iam.user.v1.ListUsersRequest.sorting:type_name -> meshtrade.iam.user.v1.ListUsersRequest.Sorting
-	9,  // 1: meshtrade.iam.user.v1.ListUsersResponse.users:type_name -> meshtrade.iam.user.v1.User
-	9,  // 2: meshtrade.iam.user.v1.CreateUserRequest.user:type_name -> meshtrade.iam.user.v1.User
-	9,  // 3: meshtrade.iam.user.v1.UpdateUserRequest.user:type_name -> meshtrade.iam.user.v1.User
-	10, // 4: meshtrade.iam.user.v1.ListUsersRequest.Sorting.order:type_name -> meshtrade.type.v1.SortingOrder
-	0,  // 5: meshtrade.iam.user.v1.UserService.AssignRolesToUser:input_type -> meshtrade.iam.user.v1.AssignRolesToUserRequest
-	1,  // 6: meshtrade.iam.user.v1.UserService.RevokeRolesFromUser:input_type -> meshtrade.iam.user.v1.RevokeRolesFromUserRequest
-	2,  // 7: meshtrade.iam.user.v1.UserService.GetUser:input_type -> meshtrade.iam.user.v1.GetUserRequest
-	3,  // 8: meshtrade.iam.user.v1.UserService.GetUserByEmail:input_type -> meshtrade.iam.user.v1.GetUserByEmailRequest
-	4,  // 9: meshtrade.iam.user.v1.UserService.ListUsers:input_type -> meshtrade.iam.user.v1.ListUsersRequest
-	6,  // 10: meshtrade.iam.user.v1.UserService.CreateUser:input_type -> meshtrade.iam.user.v1.CreateUserRequest
-	7,  // 11: meshtrade.iam.user.v1.UserService.UpdateUser:input_type -> meshtrade.iam.user.v1.UpdateUserRequest
-	9,  // 12: meshtrade.iam.user.v1.UserService.AssignRolesToUser:output_type -> meshtrade.iam.user.v1.User
-	9,  // 13: meshtrade.iam.user.v1.UserService.RevokeRolesFromUser:output_type -> meshtrade.iam.user.v1.User
-	9,  // 14: meshtrade.iam.user.v1.UserService.GetUser:output_type -> meshtrade.iam.user.v1.User
-	9,  // 15: meshtrade.iam.user.v1.UserService.GetUserByEmail:output_type -> meshtrade.iam.user.v1.User
-	5,  // 16: meshtrade.iam.user.v1.UserService.ListUsers:output_type -> meshtrade.iam.user.v1.ListUsersResponse
-	9,  // 17: meshtrade.iam.user.v1.UserService.CreateUser:output_type -> meshtrade.iam.user.v1.User
-	9,  // 18: meshtrade.iam.user.v1.UserService.UpdateUser:output_type -> meshtrade.iam.user.v1.User
-	12, // [12:19] is the sub-list for method output_type
-	5,  // [5:12] is the sub-list for method input_type
-	5,  // [5:5] is the sub-list for extension type_name
-	5,  // [5:5] is the sub-list for extension extendee
-	0,  // [0:5] is the sub-list for field type_name
+	10, // 0: meshtrade.iam.user.v1.ListUsersRequest.sorting:type_name -> meshtrade.iam.user.v1.ListUsersRequest.Sorting
+	11, // 1: meshtrade.iam.user.v1.ListUsersResponse.users:type_name -> meshtrade.iam.user.v1.User
+	11, // 2: meshtrade.iam.user.v1.SearchUsersResponse.users:type_name -> meshtrade.iam.user.v1.User
+	11, // 3: meshtrade.iam.user.v1.CreateUserRequest.user:type_name -> meshtrade.iam.user.v1.User
+	11, // 4: meshtrade.iam.user.v1.UpdateUserRequest.user:type_name -> meshtrade.iam.user.v1.User
+	12, // 5: meshtrade.iam.user.v1.ListUsersRequest.Sorting.order:type_name -> meshtrade.type.v1.SortingOrder
+	0,  // 6: meshtrade.iam.user.v1.UserService.AssignRolesToUser:input_type -> meshtrade.iam.user.v1.AssignRolesToUserRequest
+	1,  // 7: meshtrade.iam.user.v1.UserService.RevokeRolesFromUser:input_type -> meshtrade.iam.user.v1.RevokeRolesFromUserRequest
+	2,  // 8: meshtrade.iam.user.v1.UserService.GetUser:input_type -> meshtrade.iam.user.v1.GetUserRequest
+	3,  // 9: meshtrade.iam.user.v1.UserService.GetUserByEmail:input_type -> meshtrade.iam.user.v1.GetUserByEmailRequest
+	4,  // 10: meshtrade.iam.user.v1.UserService.ListUsers:input_type -> meshtrade.iam.user.v1.ListUsersRequest
+	6,  // 11: meshtrade.iam.user.v1.UserService.SearchUsers:input_type -> meshtrade.iam.user.v1.SearchUsersRequest
+	8,  // 12: meshtrade.iam.user.v1.UserService.CreateUser:input_type -> meshtrade.iam.user.v1.CreateUserRequest
+	9,  // 13: meshtrade.iam.user.v1.UserService.UpdateUser:input_type -> meshtrade.iam.user.v1.UpdateUserRequest
+	11, // 14: meshtrade.iam.user.v1.UserService.AssignRolesToUser:output_type -> meshtrade.iam.user.v1.User
+	11, // 15: meshtrade.iam.user.v1.UserService.RevokeRolesFromUser:output_type -> meshtrade.iam.user.v1.User
+	11, // 16: meshtrade.iam.user.v1.UserService.GetUser:output_type -> meshtrade.iam.user.v1.User
+	11, // 17: meshtrade.iam.user.v1.UserService.GetUserByEmail:output_type -> meshtrade.iam.user.v1.User
+	5,  // 18: meshtrade.iam.user.v1.UserService.ListUsers:output_type -> meshtrade.iam.user.v1.ListUsersResponse
+	7,  // 19: meshtrade.iam.user.v1.UserService.SearchUsers:output_type -> meshtrade.iam.user.v1.SearchUsersResponse
+	11, // 20: meshtrade.iam.user.v1.UserService.CreateUser:output_type -> meshtrade.iam.user.v1.User
+	11, // 21: meshtrade.iam.user.v1.UserService.UpdateUser:output_type -> meshtrade.iam.user.v1.User
+	14, // [14:22] is the sub-list for method output_type
+	6,  // [6:14] is the sub-list for method input_type
+	6,  // [6:6] is the sub-list for extension type_name
+	6,  // [6:6] is the sub-list for extension extendee
+	0,  // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_iam_user_v1_service_proto_init() }
@@ -566,7 +667,7 @@ func file_meshtrade_iam_user_v1_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_meshtrade_iam_user_v1_service_proto_rawDesc), len(file_meshtrade_iam_user_v1_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   9,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
