@@ -317,7 +317,7 @@ func (x *ListUsersResponse) GetUsers() []*User {
 
 type SearchUsersRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Substring to match against user email addresses.
+	// Optional Substring to match against user email addresses.
 	// The search is case-insensitive.
 	Email         string `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -574,10 +574,9 @@ const file_meshtrade_iam_user_v1_service_proto_rawDesc = "" +
 	"\vfield.valid\x12%field must be one of: email, or empty\x1a\x15this in ['', 'email']r\tR\x00R\x05emailR\x05field\x125\n" +
 	"\x05order\x18\x02 \x01(\x0e2\x1f.meshtrade.type.v1.SortingOrderR\x05order\"F\n" +
 	"\x11ListUsersResponse\x121\n" +
-	"\x05users\x18\x01 \x03(\v2\x1b.meshtrade.iam.user.v1.UserR\x05users\"6\n" +
-	"\x12SearchUsersRequest\x12 \n" +
-	"\x05email\x18\x01 \x01(\tB\n" +
-	"\xbaH\a\xc8\x01\x01r\x02\x10\x01R\x05email\"H\n" +
+	"\x05users\x18\x01 \x03(\v2\x1b.meshtrade.iam.user.v1.UserR\x05users\"3\n" +
+	"\x12SearchUsersRequest\x12\x1d\n" +
+	"\x05email\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x18dR\x05email\"H\n" +
 	"\x13SearchUsersResponse\x121\n" +
 	"\x05users\x18\x01 \x03(\v2\x1b.meshtrade.iam.user.v1.UserR\x05users\"L\n" +
 	"\x11CreateUserRequest\x127\n" +
