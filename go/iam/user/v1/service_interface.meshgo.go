@@ -47,11 +47,10 @@ type UserService interface {
 	// group's hierarchical permissions, optionally sorted by email address.
 	ListUsers(ctx context.Context, request *ListUsersRequest) (*ListUsersResponse, error)
 
-	// Searches for users by email address using substring matching.
+	// Searches for users by email substring within the authenticated group's hierarchy.
 	//
-	// Returns users whose email addresses contain the provided search term,
-	// filtered by the authenticated group's access permissions and optionally
-	// sorted by email address.
+	// Returns users whose email addresses contain the provided search string,
+	// useful for type-ahead and fuzzy-matching use cases.
 	SearchUsers(ctx context.Context, request *SearchUsersRequest) (*SearchUsersResponse, error)
 
 	// Creates a new user within the authenticated group context.

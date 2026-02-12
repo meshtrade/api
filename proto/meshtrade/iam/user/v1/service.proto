@@ -115,11 +115,10 @@ service UserService {
   }
 
   /*
-     Searches for users by email address using substring matching.
+     Searches for users by email substring within the authenticated group's hierarchy.
 
-     Returns users whose email addresses contain the provided search term,
-     filtered by the authenticated group's access permissions and optionally
-     sorted by email address.
+     Returns users whose email addresses contain the provided search string,
+     useful for type-ahead and fuzzy-matching use cases.
   */
   rpc SearchUsers(SearchUsersRequest) returns (SearchUsersResponse) {
     option (meshtrade.option.method_options.v1.method_options) = {
@@ -291,36 +290,12 @@ message ListUsersResponse {
 
 message SearchUsersRequest {
   /*
-     Email is a substring search for users.
+     Optional Substring to match against user email addresses.
+     The search is case-insensitive.
   */
-  string email = 1;
-
-  message Sorting {
-    /*
-       Field to sort by (e.g., "email").
-    */
-    string field = 1 [(buf.validate.field) = {
-      string: {
-        in: [
-          "",
-          "email"
-        ]
-      }
-      cel: {
-        id: "field.valid"
-        message: "field must be one of: email, or empty"
-        expression: "this in ['', 'email']"
-      }
-    }];
-    /*
-       Sort order for results.
-    */
-    meshtrade.type.v1.SortingOrder order = 2;
-  }
-  /*
-     Optional sorting configuration.
-  */
-  Sorting sorting = 2;
+  string email = 1 [(buf.validate.field) = {
+    string: {max_len: 100}
+  }];
 }
 
 message SearchUsersResponse {

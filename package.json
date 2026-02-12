@@ -56,7 +56,11 @@
     "@playwright/test": "^1.54.1"
   },
   "dependencies": {
+    "@bufbuild/protobuf": "^2.11.0",
     "braces": "^3.0.3",
     "micromatch": "^4.0.8"
+  },
+  "resolutions": {
+    "baseline-browser-mapping": "^2.9.19"
   }
 }

@@ -28,7 +28,7 @@ class ServiceOptionsTest {
             .group(group)
             .build();
         
-        assertEquals("api.mesh.dev", options.getUrl());
+        assertEquals("production-service-mesh-api-gateway-lb-frontend.mesh.trade", options.getUrl());
         assertEquals(443, options.getPort());
         assertTrue(options.isTls());
         assertEquals(Duration.ofSeconds(30), options.getTimeout());

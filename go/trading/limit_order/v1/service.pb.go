@@ -331,9 +331,11 @@ type SearchLimitOrdersRequest struct {
 	// Filter by account (optional).
 	// Format: accounts/{ULIDv2}.
 	Account string `protobuf:"bytes,2,opt,name=account,proto3" json:"account,omitempty"`
+	// Filter by states (optional).
+	States []LimitOrderState `protobuf:"varint,3,rep,packed,name=states,proto3,enum=meshtrade.trading.limit_order.v1.LimitOrderState" json:"states,omitempty"`
 	// When true, fetches live ledger data for matching orders.
 	// When false, returns only stored metadata.
-	LiveLedgerData bool `protobuf:"varint,3,opt,name=live_ledger_data,json=liveLedgerData,proto3" json:"live_ledger_data,omitempty"`
+	LiveLedgerData bool `protobuf:"varint,4,opt,name=live_ledger_data,json=liveLedgerData,proto3" json:"live_ledger_data,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -380,6 +382,13 @@ func (x *SearchLimitOrdersRequest) GetAccount() string {
 		return x.Account
 	}
 	return ""
+}
+
+func (x *SearchLimitOrdersRequest) GetStates() []LimitOrderState {
+	if x != nil {
+		return x.States
+	}
+	return nil
 }
 
 func (x *SearchLimitOrdersRequest) GetLiveLedgerData() bool {
@@ -557,11 +566,12 @@ const file_meshtrade_trading_limit_order_v1_service_proto_rawDesc = "" +
 	"\x16ListLimitOrdersRequest\x12(\n" +
 	"\x10live_ledger_data\x18\x01 \x01(\bR\x0eliveLedgerData\"j\n" +
 	"\x17ListLimitOrdersResponse\x12O\n" +
-	"\flimit_orders\x18\x01 \x03(\v2,.meshtrade.trading.limit_order.v1.LimitOrderR\vlimitOrders\"\xae\x01\n" +
+	"\flimit_orders\x18\x01 \x03(\v2,.meshtrade.trading.limit_order.v1.LimitOrderR\vlimitOrders\"\xf9\x01\n" +
 	"\x18SearchLimitOrdersRequest\x12\x14\n" +
 	"\x05token\x18\x01 \x01(\tR\x05token\x12R\n" +
-	"\aaccount\x18\x02 \x01(\tB8\xbaH5r321^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$R\aaccount\x12(\n" +
-	"\x10live_ledger_data\x18\x03 \x01(\bR\x0eliveLedgerData\"l\n" +
+	"\aaccount\x18\x02 \x01(\tB8\xbaH5r321^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$R\aaccount\x12I\n" +
+	"\x06states\x18\x03 \x03(\x0e21.meshtrade.trading.limit_order.v1.LimitOrderStateR\x06states\x12(\n" +
+	"\x10live_ledger_data\x18\x04 \x01(\bR\x0eliveLedgerData\"l\n" +
 	"\x19SearchLimitOrdersResponse\x12O\n" +
 	"\flimit_orders\x18\x01 \x03(\v2,.meshtrade.trading.limit_order.v1.LimitOrderR\vlimitOrders\"\xda\x01\n" +
 	"\x18MonitorLimitOrderRequest\x12U\n" +
@@ -569,9 +579,9 @@ const file_meshtrade_trading_limit_order_v1_service_proto_rawDesc = "" +
 	"\x12external_reference\x18\x02 \x01(\tH\x00R\x11externalReference\x12(\n" +
 	"\x10live_ledger_data\x18\x03 \x01(\bR\x0eliveLedgerDataB\f\n" +
 	"\n" +
-	"identifier2\xf3\b\n" +
-	"\x11LimitOrderService\x12\x8f\x01\n" +
-	"\x10CreateLimitOrder\x129.meshtrade.trading.limit_order.v1.CreateLimitOrderRequest\x1a,.meshtrade.trading.limit_order.v1.LimitOrder\"\x12\xb2\xb5\x18\x0e\b\x02\x10\x02\x1a\b\xc0\x96\xb1\x02\u0096\xb1\x02\x12\x8f\x01\n" +
+	"identifier2\xf5\b\n" +
+	"\x11LimitOrderService\x12\x91\x01\n" +
+	"\x10CreateLimitOrder\x129.meshtrade.trading.limit_order.v1.CreateLimitOrderRequest\x1a,.meshtrade.trading.limit_order.v1.LimitOrder\"\x14\xb2\xb5\x18\x10\b\x02\x10\x02\x1a\b\xc0\x96\xb1\x02\u0096\xb1\x02 \x01\x12\x8f\x01\n" +
 	"\x10CancelLimitOrder\x129.meshtrade.trading.limit_order.v1.CancelLimitOrderRequest\x1a,.meshtrade.trading.limit_order.v1.LimitOrder\"\x12\xb2\xb5\x18\x0e\b\x02\x10\x02\x1a\b\xc0\x96\xb1\x02\u0096\xb1\x02\x12\x91\x01\n" +
 	"\rGetLimitOrder\x126.meshtrade.trading.limit_order.v1.GetLimitOrderRequest\x1a,.meshtrade.trading.limit_order.v1.LimitOrder\"\x1a\xb2\xb5\x18\x16\b\x01\x10\x02\x1a\x10\xc0\x96\xb1\x02\xc1\x96\xb1\x02\u0096\xb1\x02Ö\xb1\x02\x12\xb7\x01\n" +
 	" GetLimitOrderByExternalReference\x12I.meshtrade.trading.limit_order.v1.GetLimitOrderByExternalReferenceRequest\x1a,.meshtrade.trading.limit_order.v1.LimitOrder\"\x1a\xb2\xb5\x18\x16\b\x01\x10\x02\x1a\x10\xc0\x96\xb1\x02\xc1\x96\xb1\x02\u0096\xb1\x02Ö\xb1\x02\x12\xa2\x01\n" +
@@ -604,30 +614,32 @@ var file_meshtrade_trading_limit_order_v1_service_proto_goTypes = []any{
 	(*SearchLimitOrdersResponse)(nil),               // 7: meshtrade.trading.limit_order.v1.SearchLimitOrdersResponse
 	(*MonitorLimitOrderRequest)(nil),                // 8: meshtrade.trading.limit_order.v1.MonitorLimitOrderRequest
 	(*LimitOrder)(nil),                              // 9: meshtrade.trading.limit_order.v1.LimitOrder
+	(LimitOrderState)(0),                            // 10: meshtrade.trading.limit_order.v1.LimitOrderState
 }
 var file_meshtrade_trading_limit_order_v1_service_proto_depIdxs = []int32{
 	9,  // 0: meshtrade.trading.limit_order.v1.CreateLimitOrderRequest.limit_order:type_name -> meshtrade.trading.limit_order.v1.LimitOrder
 	9,  // 1: meshtrade.trading.limit_order.v1.ListLimitOrdersResponse.limit_orders:type_name -> meshtrade.trading.limit_order.v1.LimitOrder
-	9,  // 2: meshtrade.trading.limit_order.v1.SearchLimitOrdersResponse.limit_orders:type_name -> meshtrade.trading.limit_order.v1.LimitOrder
-	0,  // 3: meshtrade.trading.limit_order.v1.LimitOrderService.CreateLimitOrder:input_type -> meshtrade.trading.limit_order.v1.CreateLimitOrderRequest
-	1,  // 4: meshtrade.trading.limit_order.v1.LimitOrderService.CancelLimitOrder:input_type -> meshtrade.trading.limit_order.v1.CancelLimitOrderRequest
-	2,  // 5: meshtrade.trading.limit_order.v1.LimitOrderService.GetLimitOrder:input_type -> meshtrade.trading.limit_order.v1.GetLimitOrderRequest
-	3,  // 6: meshtrade.trading.limit_order.v1.LimitOrderService.GetLimitOrderByExternalReference:input_type -> meshtrade.trading.limit_order.v1.GetLimitOrderByExternalReferenceRequest
-	4,  // 7: meshtrade.trading.limit_order.v1.LimitOrderService.ListLimitOrders:input_type -> meshtrade.trading.limit_order.v1.ListLimitOrdersRequest
-	6,  // 8: meshtrade.trading.limit_order.v1.LimitOrderService.SearchLimitOrders:input_type -> meshtrade.trading.limit_order.v1.SearchLimitOrdersRequest
-	8,  // 9: meshtrade.trading.limit_order.v1.LimitOrderService.MonitorLimitOrder:input_type -> meshtrade.trading.limit_order.v1.MonitorLimitOrderRequest
-	9,  // 10: meshtrade.trading.limit_order.v1.LimitOrderService.CreateLimitOrder:output_type -> meshtrade.trading.limit_order.v1.LimitOrder
-	9,  // 11: meshtrade.trading.limit_order.v1.LimitOrderService.CancelLimitOrder:output_type -> meshtrade.trading.limit_order.v1.LimitOrder
-	9,  // 12: meshtrade.trading.limit_order.v1.LimitOrderService.GetLimitOrder:output_type -> meshtrade.trading.limit_order.v1.LimitOrder
-	9,  // 13: meshtrade.trading.limit_order.v1.LimitOrderService.GetLimitOrderByExternalReference:output_type -> meshtrade.trading.limit_order.v1.LimitOrder
-	5,  // 14: meshtrade.trading.limit_order.v1.LimitOrderService.ListLimitOrders:output_type -> meshtrade.trading.limit_order.v1.ListLimitOrdersResponse
-	7,  // 15: meshtrade.trading.limit_order.v1.LimitOrderService.SearchLimitOrders:output_type -> meshtrade.trading.limit_order.v1.SearchLimitOrdersResponse
-	9,  // 16: meshtrade.trading.limit_order.v1.LimitOrderService.MonitorLimitOrder:output_type -> meshtrade.trading.limit_order.v1.LimitOrder
-	10, // [10:17] is the sub-list for method output_type
-	3,  // [3:10] is the sub-list for method input_type
-	3,  // [3:3] is the sub-list for extension type_name
-	3,  // [3:3] is the sub-list for extension extendee
-	0,  // [0:3] is the sub-list for field type_name
+	10, // 2: meshtrade.trading.limit_order.v1.SearchLimitOrdersRequest.states:type_name -> meshtrade.trading.limit_order.v1.LimitOrderState
+	9,  // 3: meshtrade.trading.limit_order.v1.SearchLimitOrdersResponse.limit_orders:type_name -> meshtrade.trading.limit_order.v1.LimitOrder
+	0,  // 4: meshtrade.trading.limit_order.v1.LimitOrderService.CreateLimitOrder:input_type -> meshtrade.trading.limit_order.v1.CreateLimitOrderRequest
+	1,  // 5: meshtrade.trading.limit_order.v1.LimitOrderService.CancelLimitOrder:input_type -> meshtrade.trading.limit_order.v1.CancelLimitOrderRequest
+	2,  // 6: meshtrade.trading.limit_order.v1.LimitOrderService.GetLimitOrder:input_type -> meshtrade.trading.limit_order.v1.GetLimitOrderRequest
+	3,  // 7: meshtrade.trading.limit_order.v1.LimitOrderService.GetLimitOrderByExternalReference:input_type -> meshtrade.trading.limit_order.v1.GetLimitOrderByExternalReferenceRequest
+	4,  // 8: meshtrade.trading.limit_order.v1.LimitOrderService.ListLimitOrders:input_type -> meshtrade.trading.limit_order.v1.ListLimitOrdersRequest
+	6,  // 9: meshtrade.trading.limit_order.v1.LimitOrderService.SearchLimitOrders:input_type -> meshtrade.trading.limit_order.v1.SearchLimitOrdersRequest
+	8,  // 10: meshtrade.trading.limit_order.v1.LimitOrderService.MonitorLimitOrder:input_type -> meshtrade.trading.limit_order.v1.MonitorLimitOrderRequest
+	9,  // 11: meshtrade.trading.limit_order.v1.LimitOrderService.CreateLimitOrder:output_type -> meshtrade.trading.limit_order.v1.LimitOrder
+	9,  // 12: meshtrade.trading.limit_order.v1.LimitOrderService.CancelLimitOrder:output_type -> meshtrade.trading.limit_order.v1.LimitOrder
+	9,  // 13: meshtrade.trading.limit_order.v1.LimitOrderService.GetLimitOrder:output_type -> meshtrade.trading.limit_order.v1.LimitOrder
+	9,  // 14: meshtrade.trading.limit_order.v1.LimitOrderService.GetLimitOrderByExternalReference:output_type -> meshtrade.trading.limit_order.v1.LimitOrder
+	5,  // 15: meshtrade.trading.limit_order.v1.LimitOrderService.ListLimitOrders:output_type -> meshtrade.trading.limit_order.v1.ListLimitOrdersResponse
+	7,  // 16: meshtrade.trading.limit_order.v1.LimitOrderService.SearchLimitOrders:output_type -> meshtrade.trading.limit_order.v1.SearchLimitOrdersResponse
+	9,  // 17: meshtrade.trading.limit_order.v1.LimitOrderService.MonitorLimitOrder:output_type -> meshtrade.trading.limit_order.v1.LimitOrder
+	11, // [11:18] is the sub-list for method output_type
+	4,  // [4:11] is the sub-list for method input_type
+	4,  // [4:4] is the sub-list for extension type_name
+	4,  // [4:4] is the sub-list for extension extendee
+	0,  // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_trading_limit_order_v1_service_proto_init() }

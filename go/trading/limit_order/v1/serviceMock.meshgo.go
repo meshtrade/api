@@ -8,13 +8,14 @@ import (
 	testing "testing"
 )
 
-// Ensure that MockLimitOrderService implements the LimitOrderService interface
-var _ LimitOrderService = &MockLimitOrderService{}
+// Ensure that MockLimitOrderService implements the LimitOrderServiceClientInterface interface
+var _ LimitOrderServiceClientInterface = &MockLimitOrderService{}
 
-// MockLimitOrderService is a mock implementation of the LimitOrderService interface.
+// MockLimitOrderService is a mock implementation of the LimitOrderServiceClientInterface interface.
 type MockLimitOrderService struct {
 	mutex                                           sync.Mutex
 	T                                               *testing.T
+	GroupValue                                      string
 	CreateLimitOrderFunc                            func(t *testing.T, m *MockLimitOrderService, ctx context.Context, request *CreateLimitOrderRequest) (*LimitOrder, error)
 	CreateLimitOrderFuncInvocations                 int
 	CancelLimitOrderFunc                            func(t *testing.T, m *MockLimitOrderService, ctx context.Context, request *CancelLimitOrderRequest) (*LimitOrder, error)
@@ -27,8 +28,33 @@ type MockLimitOrderService struct {
 	ListLimitOrdersFuncInvocations                  int
 	SearchLimitOrdersFunc                           func(t *testing.T, m *MockLimitOrderService, ctx context.Context, request *SearchLimitOrdersRequest) (*SearchLimitOrdersResponse, error)
 	SearchLimitOrdersFuncInvocations                int
-	MonitorLimitOrderFunc                           func(t *testing.T, m *MockLimitOrderService, ctx context.Context, request *MonitorLimitOrderRequest, stream LimitOrderService_MonitorLimitOrderStream) error
+	MonitorLimitOrderFunc                           func(t *testing.T, m *MockLimitOrderService, ctx context.Context, request *MonitorLimitOrderRequest) (LimitOrderService_MonitorLimitOrderClient, error)
 	MonitorLimitOrderFuncInvocations                int
+}
+
+// Close is a no-op for the mock implementation.
+func (m *MockLimitOrderService) Close() error {
+	return nil
+}
+
+// Group returns the mock's configured group value.
+func (m *MockLimitOrderService) Group() string {
+	return m.GroupValue
+}
+
+// WithGroup returns a shallow copy of the mock with the given group value.
+func (m *MockLimitOrderService) WithGroup(group string) LimitOrderServiceClientInterface {
+	return &MockLimitOrderService{
+		T:                                    m.T,
+		GroupValue:                           group,
+		CreateLimitOrderFunc:                 m.CreateLimitOrderFunc,
+		CancelLimitOrderFunc:                 m.CancelLimitOrderFunc,
+		GetLimitOrderFunc:                    m.GetLimitOrderFunc,
+		GetLimitOrderByExternalReferenceFunc: m.GetLimitOrderByExternalReferenceFunc,
+		ListLimitOrdersFunc:                  m.ListLimitOrdersFunc,
+		SearchLimitOrdersFunc:                m.SearchLimitOrdersFunc,
+		MonitorLimitOrderFunc:                m.MonitorLimitOrderFunc,
+	}
 }
 
 func (m *MockLimitOrderService) CreateLimitOrder(ctx context.Context, request *CreateLimitOrderRequest) (*LimitOrder, error) {
@@ -91,12 +117,12 @@ func (m *MockLimitOrderService) SearchLimitOrders(ctx context.Context, request *
 	return m.SearchLimitOrdersFunc(m.T, m, ctx, request)
 }
 
-func (m *MockLimitOrderService) MonitorLimitOrder(ctx context.Context, request *MonitorLimitOrderRequest, stream LimitOrderService_MonitorLimitOrderStream) error {
+func (m *MockLimitOrderService) MonitorLimitOrder(ctx context.Context, request *MonitorLimitOrderRequest) (LimitOrderService_MonitorLimitOrderClient, error) {
 	m.mutex.Lock()
 	m.MonitorLimitOrderFuncInvocations++
 	m.mutex.Unlock()
 	if m.MonitorLimitOrderFunc == nil {
-		return nil
+		return nil, nil
 	}
-	return m.MonitorLimitOrderFunc(m.T, m, ctx, request, stream)
+	return m.MonitorLimitOrderFunc(m.T, m, ctx, request)
 }

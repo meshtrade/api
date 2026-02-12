@@ -30,6 +30,7 @@ from .natural_person_connection_type_pb2 import NaturalPersonConnectionType
 from .service_pb2 import (
     CreateClientRequest,
     GetClientRequest,
+    GetGroupClientRequest,
     ListClientsRequest,
     ListClientsResponse,
 )
@@ -72,6 +73,7 @@ __all__ = [
     "CreateClientRequest",
     "Fund",
     "GetClientRequest",
+    "GetGroupClientRequest",
     "IdentificationDocumentType",
     "IndustryClassification",
     "LegalPersonConnectionType",

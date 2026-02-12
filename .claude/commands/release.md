@@ -93,12 +93,35 @@ Expected completion times:
 
 If any workflow fails, check logs with `gh run view <run-id> --log-failed` and fix.
 
-### Step 6: Report Results
+### Step 6: Merge Auto-Generated Version PRs
+
+After all workflows complete successfully, 5 auto-generated PRs will exist that bump version files back into master. Merge all of them:
+
+**Expected PRs (by branch name):**
+- `chore/pypi-version-update-$1` — updates `pyproject.toml`
+- `chore/maven-version-update-$1` — updates `java/pom.xml`
+- `chore/npm-ts-node-version-update-$1` — updates `ts-node/package.json`
+- `chore/npm-ts-web-version-update-$1` — updates `ts-web/package.json`
+- `chore/npm-ts-old-version-update-$1` — updates `ts-old/package.json`
+
+1. List PRs to confirm they all exist: `gh pr list --limit 10`
+2. Merge each PR and delete its branch:
+```bash
+gh pr merge chore/pypi-version-update-$1 --squash --delete-branch --admin
+gh pr merge chore/maven-version-update-$1 --squash --delete-branch --admin
+gh pr merge chore/npm-ts-node-version-update-$1 --squash --delete-branch --admin
+gh pr merge chore/npm-ts-web-version-update-$1 --squash --delete-branch --admin
+gh pr merge chore/npm-ts-old-version-update-$1 --squash --delete-branch --admin
+```
+**Note:** `--admin` is required to bypass branch protection rules on master. Always use `--squash` for a clean commit history.
+3. If any PR is missing, the corresponding workflow may still be running or may have failed — check `gh run list --limit 15`
+
+### Step 7: Report Results
 
 Show the user:
 1. All 8 releases created with links
 2. All workflow statuses (success/failure) - verify all triggered via `push` event
-3. List of auto-generated PRs to merge: `gh pr list --limit 10`
+3. All 5 version-bump PRs merged successfully
 
 ---
 

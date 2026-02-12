@@ -108,24 +108,16 @@ const config: Config = {
             title: 'Architecture',
             items: [
               {
+                label: 'Access Control',
+                to: '/docs/access-control',
+              },
+              {
                 label: 'Service Structure',
-                to: '/docs/architecture/service-structure',
+                to: '/docs/service-structure',
               },
               {
-                label: 'Group Ownership',
-                to: '/docs/architecture/resource-hierarchy',
-              },
-              {
-                label: 'Role-Based Access',
-                to: '/docs/architecture/method-permissions',
-              },
-              {
-                label: 'Client Structuring',
-                to: '/docs/architecture/legal-entities',
-              },
-              {
-                label: 'Authentication',
-                to: '/docs/architecture/api-access',
+                label: 'SDK Configuration',
+                to: '/docs/sdk-configuration',
               },
             ],
           },

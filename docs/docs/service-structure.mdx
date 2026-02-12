@@ -1,0 +1,129 @@
+# Service Structure
+
+Understanding how Mesh APIs are organized and the common patterns used across all services.
+
+## Resource-Oriented Design
+
+Mesh APIs follow a **resource-oriented design** methodology inspired by [Google's API Improvement Proposals (AIP)](https://google.aip.dev/121). Each API service is centered around a primary **resource** - a domain entity that the service manages through its lifecycle.
+
+Key principles:
+
+- **Resources are first-class citizens** - Each service manages a specific resource type (e.g. `APIUser`, `LimitOrder`, `Account`)
+- **Standard operations** - Resources are manipulated through a consistent set of verbs: `Create`, `Get`, `List`, `Search`, `Update`, `Delete`
+- **Resource names** - Resources are identified by structured names (e.g. `api_users/{id}`, `accounts/{id}`)
+- **Direct resource returns** - Wherever possible, methods return the resource directly rather than wrapping it in a response object. For example, `GetApiUser` returns an `APIUser`, not a `GetApiUserResponse`
+
+## Standard Verbs vs Custom Verbs
+
+Mesh services use two types of operations:
+
+### Standard Verbs
+
+Standard verbs provide common CRUD operations that most services implement:
+
+```protobuf
+service ApiUserService {
+  // Create a new API user
+  rpc CreateApiUser(CreateApiUserRequest) returns (APIUser);
+  
+  // Get a single API user by ID
+  rpc GetApiUser(GetApiUserRequest) returns (APIUser);
+  
+  // List multiple API users with filtering
+  rpc ListApiUsers(ListApiUsersRequest) returns (ListApiUsersResponse);
+  
+  // Search API users by criteria
+  rpc SearchApiUsers(SearchApiUsersRequest) returns (SearchApiUsersResponse);
+}
+```
+
+### Custom Verbs
+
+Custom verbs handle domain-specific operations that don't fit standard CRUD patterns:
+
+```protobuf
+service ApiUserService {
+  // Activate an API user (enable authentication)
+  rpc ActivateApiUser(ActivateApiUserRequest) returns (APIUser);
+  
+  // Deactivate an API user (disable authentication) 
+  rpc DeactivateApiUser(DeactivateApiUserRequest) returns (APIUser);
+  
+  // Get API user by key hash (for authentication flows)
+  rpc GetApiUserByKeyHash(GetApiUserByKeyHashRequest) returns (APIUser);
+}
+```
+
+**Standard verbs** handle basic lifecycle operations while **custom verbs** implement business logic specific to the domain.
+
+## Common Patterns
+
+### Request/Response Structure
+
+All service methods follow consistent request/response patterns:
+
+```protobuf
+// Get requests include the resource name
+message GetApiUserRequest {
+  string name = 1; // "api_users/{api_user_id}"
+}
+
+// List requests support basic filtering
+message ListApiUsersRequest {
+  // No parameters - returns all API users in group context
+}
+
+// Search requests include filter criteria
+message SearchApiUsersRequest {
+  string display_name = 1; // Substring search on display name
+}
+
+// Custom verb requests include the target and any parameters
+message ActivateApiUserRequest {
+  string name = 1; // "api_users/{api_user_id}"
+}
+```
+
+**Return types:** `Get` and `Create` methods return the resource directly (e.g. `returns (APIUser)`), while `List` and `Search` methods return a response wrapper containing a repeated field of resources.
+
+### Group Context
+
+All operations operate within an authenticated group context, providing multi-tenancy and resource isolation.
+
+### Method Options
+
+Every RPC method declares its access requirements through `method_options`. These options are defined in protobuf and are visible in the API reference documentation for each method:
+
+```protobuf
+rpc CreateLimitOrder(CreateLimitOrderRequest) returns (LimitOrder) {
+  option (meshtrade.option.method_options.v1.method_options) = {
+    type: METHOD_TYPE_WRITE
+    access_level: METHOD_ACCESS_LEVEL_AUTHORISED
+    roles: [ROLE_TRADING_ADMIN, ROLE_TRADING_LIMIT_ORDER_ADMIN]
+    verification_status: VERIFICATION_STATUS_VERIFIED
+  };
+}
+```
+
+| Field | Description |
+|-------|-------------|
+| `type` | `METHOD_TYPE_READ` or `METHOD_TYPE_WRITE` - determines resource scoping rules |
+| `access_level` | `METHOD_ACCESS_LEVEL_AUTHORISED` or `METHOD_ACCESS_LEVEL_PUBLIC` |
+| `roles` | Exhaustive list of roles that may call this method |
+| `verification_status` | Required verification level (e.g. `VERIFICATION_STATUS_VERIFIED`) |
+
+For full details on how these options govern authentication, role-based access, and resource scoping, see the **[Access Control](./access-control/)** documentation.
+
+## Available Services
+
+For a complete list of all services, their versions, and current availability status, see the **[Services Reference](./api-reference/)**.
+
+## Schema-Driven Development
+
+All services are defined using Protocol Buffers, ensuring:
+- **Type Safety**: Strong typing across all supported languages
+- **Consistency**: Identical APIs in Go, Python, and other SDKs  
+- **Documentation**: Service definitions serve as the authoritative documentation
+- **Evolution**: Backward-compatible versioning and changes
+
+See **[Access Control](./access-control/)** for details on the authorization system that governs all service operations.

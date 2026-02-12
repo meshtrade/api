@@ -38,7 +38,7 @@ class BaseGRPCClientTest {
     void testServiceOptionsValidation() {
         // Test that ServiceOptions validation works correctly
         assertNotNull(validOptions);
-        assertEquals("api.mesh.dev", validOptions.getUrl());
+        assertEquals("production-service-mesh-api-gateway-lb-frontend.mesh.trade", validOptions.getUrl());
         assertEquals(443, validOptions.getPort());
         assertTrue(validOptions.isTls());
         

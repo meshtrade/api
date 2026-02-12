@@ -8,17 +8,41 @@ import (
 	testing "testing"
 )
 
+// Ensure that MockAccountReportService implements the AccountReportServiceClientInterface interface
+var _ AccountReportServiceClientInterface = &MockAccountReportService{}
+
 // Ensure that MockAccountReportService implements the AccountReportService interface
 var _ AccountReportService = &MockAccountReportService{}
 
-// MockAccountReportService is a mock implementation of the AccountReportService interface.
+// MockAccountReportService is a mock implementation of the AccountReportServiceClientInterface interface.
 type MockAccountReportService struct {
 	mutex                                sync.Mutex
 	T                                    *testing.T
+	GroupValue                           string
 	GetAccountReportFunc                 func(t *testing.T, m *MockAccountReportService, ctx context.Context, request *GetAccountReportRequest) (*AccountReport, error)
 	GetAccountReportFuncInvocations      int
 	GetExcelAccountReportFunc            func(t *testing.T, m *MockAccountReportService, ctx context.Context, request *GetExcelAccountReportRequest) (*GetExcelAccountReportResponse, error)
 	GetExcelAccountReportFuncInvocations int
+}
+
+// Close is a no-op for the mock implementation.
+func (m *MockAccountReportService) Close() error {
+	return nil
+}
+
+// Group returns the mock's configured group value.
+func (m *MockAccountReportService) Group() string {
+	return m.GroupValue
+}
+
+// WithGroup returns a shallow copy of the mock with the given group value.
+func (m *MockAccountReportService) WithGroup(group string) AccountReportServiceClientInterface {
+	return &MockAccountReportService{
+		T:                         m.T,
+		GroupValue:                group,
+		GetAccountReportFunc:      m.GetAccountReportFunc,
+		GetExcelAccountReportFunc: m.GetExcelAccountReportFunc,
+	}
 }
 
 func (m *MockAccountReportService) GetAccountReport(ctx context.Context, request *GetAccountReportRequest) (*AccountReport, error) {

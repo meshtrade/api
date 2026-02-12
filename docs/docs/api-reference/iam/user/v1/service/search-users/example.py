@@ -2,7 +2,6 @@ from meshtrade.iam.user.v1 import (
     SearchUsersRequest,
     UserService,
 )
-from meshtrade.type.v1 import SortingOrder
 
 
 def main():
@@ -12,30 +11,16 @@ def main():
     service = UserService()
 
     with service:
-        # Search for users by email substring
+        # Create request with service-specific parameters
         request = SearchUsersRequest(
-            email="thompson",  # Substring to search for in email addresses
-            sorting=SearchUsersRequest.Sorting(
-                field="email",  # Sort results by email address
-                order=SortingOrder.SORTING_ORDER_ASC,
-            ),
+            # FIXME: Populate service-specific request fields
         )
 
         # Call the SearchUsers method
         response = service.search_users(request)
 
-        # Process search results
-        if not response.users:
-            print(f"No users found matching email pattern: {request.email}")
-        else:
-            print(f"Found {len(response.users)} users matching '{request.email}':")
-            for i, user in enumerate(response.users):
-                print(f"User {i + 1}:")
-                print(f"  Name: {user.name}")
-                print(f"  Email: {user.email}")
-                print(f"  Owner: {user.owner}")
-                print(f"  Roles: {len(user.roles)} assigned")
-                print()
+        # FIXME: Add relevant response object usage
+        print("SearchUsers successful:", response)
 
 
 if __name__ == "__main__":

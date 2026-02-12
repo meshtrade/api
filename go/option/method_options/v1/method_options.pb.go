@@ -147,6 +147,56 @@ func (MethodAccessLevel) EnumDescriptor() ([]byte, []int) {
 	return file_meshtrade_option_method_options_v1_method_options_proto_rawDescGZIP(), []int{1}
 }
 
+// VerificationStatus defines what client verification status is required for access to a method.
+type VerificationStatus int32
+
+const (
+	// Default value, should not be used.
+	VerificationStatus_VERIFICATION_STATUS_UNSPECIFIED VerificationStatus = 0
+	// Service only accessible if the verification status of the client to which the executing (API)User
+	// is Verified.
+	VerificationStatus_VERIFICATION_STATUS_VERIFIED VerificationStatus = 1
+)
+
+// Enum value maps for VerificationStatus.
+var (
+	VerificationStatus_name = map[int32]string{
+		0: "VERIFICATION_STATUS_UNSPECIFIED",
+		1: "VERIFICATION_STATUS_VERIFIED",
+	}
+	VerificationStatus_value = map[string]int32{
+		"VERIFICATION_STATUS_UNSPECIFIED": 0,
+		"VERIFICATION_STATUS_VERIFIED":    1,
+	}
+)
+
+func (x VerificationStatus) Enum() *VerificationStatus {
+	p := new(VerificationStatus)
+	*p = x
+	return p
+}
+
+func (x VerificationStatus) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (VerificationStatus) Descriptor() protoreflect.EnumDescriptor {
+	return file_meshtrade_option_method_options_v1_method_options_proto_enumTypes[2].Descriptor()
+}
+
+func (VerificationStatus) Type() protoreflect.EnumType {
+	return &file_meshtrade_option_method_options_v1_method_options_proto_enumTypes[2]
+}
+
+func (x VerificationStatus) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use VerificationStatus.Descriptor instead.
+func (VerificationStatus) EnumDescriptor() ([]byte, []int) {
+	return file_meshtrade_option_method_options_v1_method_options_proto_rawDescGZIP(), []int{2}
+}
+
 // MethodOptions consolidates three authorization dimensions for RPC methods.
 type MethodOptions struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -157,9 +207,13 @@ type MethodOptions struct {
 	AccessLevel MethodAccessLevel `protobuf:"varint,2,opt,name=access_level,json=accessLevel,proto3,enum=meshtrade.option.method_options.v1.MethodAccessLevel" json:"access_level,omitempty"`
 	// Roles that grant access to this method.
 	// Used for access control checking if group header is required and/or given.
-	Roles         []v1.Role `protobuf:"varint,3,rep,packed,name=roles,proto3,enum=meshtrade.iam.role.v1.Role" json:"roles,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	// Optional: Only required when access level is AUTHORISED.
+	Roles []v1.Role `protobuf:"varint,3,rep,packed,name=roles,proto3,enum=meshtrade.iam.role.v1.Role" json:"roles,omitempty"`
+	// Verification status defines what client verification status is required for access to a method.
+	// Optional: If not specified on a method then the method is accessible with any verification status.
+	VerificationStatus VerificationStatus `protobuf:"varint,4,opt,name=verification_status,json=verificationStatus,proto3,enum=meshtrade.option.method_options.v1.VerificationStatus" json:"verification_status,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
 }
 
 func (x *MethodOptions) Reset() {
@@ -213,6 +267,13 @@ func (x *MethodOptions) GetRoles() []v1.Role {
 	return nil
 }
 
+func (x *MethodOptions) GetVerificationStatus() VerificationStatus {
+	if x != nil {
+		return x.VerificationStatus
+	}
+	return VerificationStatus_VERIFICATION_STATUS_UNSPECIFIED
+}
+
 var file_meshtrade_option_method_options_v1_method_options_proto_extTypes = []protoimpl.ExtensionInfo{
 	{
 		ExtendedType:  (*descriptorpb.MethodOptions)(nil),
@@ -234,11 +295,12 @@ var File_meshtrade_option_method_options_v1_method_options_proto protoreflect.Fi
 
 const file_meshtrade_option_method_options_v1_method_options_proto_rawDesc = "" +
 	"\n" +
-	"7meshtrade/option/method_options/v1/method_options.proto\x12\"meshtrade.option.method_options.v1\x1a google/protobuf/descriptor.proto\x1a meshtrade/iam/role/v1/role.proto\"\xe0\x01\n" +
+	"7meshtrade/option/method_options/v1/method_options.proto\x12\"meshtrade.option.method_options.v1\x1a google/protobuf/descriptor.proto\x1a meshtrade/iam/role/v1/role.proto\"\xc9\x02\n" +
 	"\rMethodOptions\x12B\n" +
 	"\x04type\x18\x01 \x01(\x0e2..meshtrade.option.method_options.v1.MethodTypeR\x04type\x12X\n" +
 	"\faccess_level\x18\x02 \x01(\x0e25.meshtrade.option.method_options.v1.MethodAccessLevelR\vaccessLevel\x121\n" +
-	"\x05roles\x18\x03 \x03(\x0e2\x1b.meshtrade.iam.role.v1.RoleR\x05roles*V\n" +
+	"\x05roles\x18\x03 \x03(\x0e2\x1b.meshtrade.iam.role.v1.RoleR\x05roles\x12g\n" +
+	"\x13verification_status\x18\x04 \x01(\x0e26.meshtrade.option.method_options.v1.VerificationStatusR\x12verificationStatus*V\n" +
 	"\n" +
 	"MethodType\x12\x1b\n" +
 	"\x17METHOD_TYPE_UNSPECIFIED\x10\x00\x12\x14\n" +
@@ -247,7 +309,10 @@ const file_meshtrade_option_method_options_v1_method_options_proto_rawDesc = "" 
 	"\x11MethodAccessLevel\x12#\n" +
 	"\x1fMETHOD_ACCESS_LEVEL_UNSPECIFIED\x10\x00\x12\x1e\n" +
 	"\x1aMETHOD_ACCESS_LEVEL_PUBLIC\x10\x01\x12\"\n" +
-	"\x1eMETHOD_ACCESS_LEVEL_AUTHORISED\x10\x02:z\n" +
+	"\x1eMETHOD_ACCESS_LEVEL_AUTHORISED\x10\x02*[\n" +
+	"\x12VerificationStatus\x12#\n" +
+	"\x1fVERIFICATION_STATUS_UNSPECIFIED\x10\x00\x12 \n" +
+	"\x1cVERIFICATION_STATUS_VERIFIED\x10\x01:z\n" +
 	"\x0emethod_options\x12\x1e.google.protobuf.MethodOptions\x18ֆ\x03 \x01(\v21.meshtrade.option.method_options.v1.MethodOptionsR\rmethodOptionsBs\n" +
 	")co.meshtrade.api.option.method_options.v1ZFgithub.com/meshtrade/api/go/option/method_options/v1;method_options_v1b\x06proto3"
 
@@ -263,26 +328,28 @@ func file_meshtrade_option_method_options_v1_method_options_proto_rawDescGZIP() 
 	return file_meshtrade_option_method_options_v1_method_options_proto_rawDescData
 }
 
-var file_meshtrade_option_method_options_v1_method_options_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_meshtrade_option_method_options_v1_method_options_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
 var file_meshtrade_option_method_options_v1_method_options_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_meshtrade_option_method_options_v1_method_options_proto_goTypes = []any{
 	(MethodType)(0),                    // 0: meshtrade.option.method_options.v1.MethodType
 	(MethodAccessLevel)(0),             // 1: meshtrade.option.method_options.v1.MethodAccessLevel
-	(*MethodOptions)(nil),              // 2: meshtrade.option.method_options.v1.MethodOptions
-	(v1.Role)(0),                       // 3: meshtrade.iam.role.v1.Role
-	(*descriptorpb.MethodOptions)(nil), // 4: google.protobuf.MethodOptions
+	(VerificationStatus)(0),            // 2: meshtrade.option.method_options.v1.VerificationStatus
+	(*MethodOptions)(nil),              // 3: meshtrade.option.method_options.v1.MethodOptions
+	(v1.Role)(0),                       // 4: meshtrade.iam.role.v1.Role
+	(*descriptorpb.MethodOptions)(nil), // 5: google.protobuf.MethodOptions
 }
 var file_meshtrade_option_method_options_v1_method_options_proto_depIdxs = []int32{
 	0, // 0: meshtrade.option.method_options.v1.MethodOptions.type:type_name -> meshtrade.option.method_options.v1.MethodType
 	1, // 1: meshtrade.option.method_options.v1.MethodOptions.access_level:type_name -> meshtrade.option.method_options.v1.MethodAccessLevel
-	3, // 2: meshtrade.option.method_options.v1.MethodOptions.roles:type_name -> meshtrade.iam.role.v1.Role
-	4, // 3: meshtrade.option.method_options.v1.method_options:extendee -> google.protobuf.MethodOptions
-	2, // 4: meshtrade.option.method_options.v1.method_options:type_name -> meshtrade.option.method_options.v1.MethodOptions
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	4, // [4:5] is the sub-list for extension type_name
-	3, // [3:4] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	4, // 2: meshtrade.option.method_options.v1.MethodOptions.roles:type_name -> meshtrade.iam.role.v1.Role
+	2, // 3: meshtrade.option.method_options.v1.MethodOptions.verification_status:type_name -> meshtrade.option.method_options.v1.VerificationStatus
+	5, // 4: meshtrade.option.method_options.v1.method_options:extendee -> google.protobuf.MethodOptions
+	3, // 5: meshtrade.option.method_options.v1.method_options:type_name -> meshtrade.option.method_options.v1.MethodOptions
+	6, // [6:6] is the sub-list for method output_type
+	6, // [6:6] is the sub-list for method input_type
+	5, // [5:6] is the sub-list for extension type_name
+	4, // [4:5] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_option_method_options_v1_method_options_proto_init() }
@@ -295,7 +362,7 @@ func file_meshtrade_option_method_options_v1_method_options_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_meshtrade_option_method_options_v1_method_options_proto_rawDesc), len(file_meshtrade_option_method_options_v1_method_options_proto_rawDesc)),
-			NumEnums:      2,
+			NumEnums:      3,
 			NumMessages:   1,
 			NumExtensions: 1,
 			NumServices:   0,

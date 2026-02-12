@@ -18,18 +18,9 @@ import {api_reference_sidebar } from "./docs/api-reference/sidebar_meshdoc";
 const sidebars: SidebarsConfig = {
   tutorialSidebar: [
     'introduction/index',
-    {
-      type: 'category',
-      label: 'Architecture',
-      items: [
-        'architecture/resource-hierarchy',
-        'architecture/legal-entities',
-        'architecture/method-permissions',
-        'architecture/api-access',
-        'architecture/service-structure',
-        'architecture/sdk-configuration'
-      ],
-    },
+    'access-control/index',
+    'service-structure',
+    'sdk-configuration',
     {
       type: 'category',
       label: 'API Reference',

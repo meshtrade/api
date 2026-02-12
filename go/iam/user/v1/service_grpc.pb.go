@@ -69,11 +69,10 @@ type UserServiceClient interface {
 	// Results include users directly owned and those accessible through the
 	// group's hierarchical permissions, optionally sorted by email address.
 	ListUsers(ctx context.Context, in *ListUsersRequest, opts ...grpc.CallOption) (*ListUsersResponse, error)
-	// Searches for users by email address using substring matching.
+	// Searches for users by email substring within the authenticated group's hierarchy.
 	//
-	// Returns users whose email addresses contain the provided search term,
-	// filtered by the authenticated group's access permissions and optionally
-	// sorted by email address.
+	// Returns users whose email addresses contain the provided search string,
+	// useful for type-ahead and fuzzy-matching use cases.
 	SearchUsers(ctx context.Context, in *SearchUsersRequest, opts ...grpc.CallOption) (*SearchUsersResponse, error)
 	// Creates a new user within the authenticated group context.
 	//
@@ -217,11 +216,10 @@ type UserServiceServer interface {
 	// Results include users directly owned and those accessible through the
 	// group's hierarchical permissions, optionally sorted by email address.
 	ListUsers(context.Context, *ListUsersRequest) (*ListUsersResponse, error)
-	// Searches for users by email address using substring matching.
+	// Searches for users by email substring within the authenticated group's hierarchy.
 	//
-	// Returns users whose email addresses contain the provided search term,
-	// filtered by the authenticated group's access permissions and optionally
-	// sorted by email address.
+	// Returns users whose email addresses contain the provided search string,
+	// useful for type-ahead and fuzzy-matching use cases.
 	SearchUsers(context.Context, *SearchUsersRequest) (*SearchUsersResponse, error)
 	// Creates a new user within the authenticated group context.
 	//

@@ -8,19 +8,47 @@ import (
 	testing "testing"
 )
 
+// Ensure that MockClientService implements the ClientServiceClientInterface interface
+var _ ClientServiceClientInterface = &MockClientService{}
+
 // Ensure that MockClientService implements the ClientService interface
 var _ ClientService = &MockClientService{}
 
-// MockClientService is a mock implementation of the ClientService interface.
+// MockClientService is a mock implementation of the ClientServiceClientInterface interface.
 type MockClientService struct {
-	mutex                       sync.Mutex
-	T                           *testing.T
-	CreateClientFunc            func(t *testing.T, m *MockClientService, ctx context.Context, request *CreateClientRequest) (*Client, error)
-	CreateClientFuncInvocations int
-	GetClientFunc               func(t *testing.T, m *MockClientService, ctx context.Context, request *GetClientRequest) (*Client, error)
-	GetClientFuncInvocations    int
-	ListClientsFunc             func(t *testing.T, m *MockClientService, ctx context.Context, request *ListClientsRequest) (*ListClientsResponse, error)
-	ListClientsFuncInvocations  int
+	mutex                         sync.Mutex
+	T                             *testing.T
+	GroupValue                    string
+	CreateClientFunc              func(t *testing.T, m *MockClientService, ctx context.Context, request *CreateClientRequest) (*Client, error)
+	CreateClientFuncInvocations   int
+	GetClientFunc                 func(t *testing.T, m *MockClientService, ctx context.Context, request *GetClientRequest) (*Client, error)
+	GetClientFuncInvocations      int
+	GetGroupClientFunc            func(t *testing.T, m *MockClientService, ctx context.Context, request *GetGroupClientRequest) (*Client, error)
+	GetGroupClientFuncInvocations int
+	ListClientsFunc               func(t *testing.T, m *MockClientService, ctx context.Context, request *ListClientsRequest) (*ListClientsResponse, error)
+	ListClientsFuncInvocations    int
+}
+
+// Close is a no-op for the mock implementation.
+func (m *MockClientService) Close() error {
+	return nil
+}
+
+// Group returns the mock's configured group value.
+func (m *MockClientService) Group() string {
+	return m.GroupValue
+}
+
+// WithGroup returns a shallow copy of the mock with the given group value.
+func (m *MockClientService) WithGroup(group string) ClientServiceClientInterface {
+	return &MockClientService{
+		T:                  m.T,
+		GroupValue:         group,
+		CreateClientFunc:   m.CreateClientFunc,
+		GetClientFunc:      m.GetClientFunc,
+		GetGroupClientFunc: m.GetGroupClientFunc,
+		ListClientsFunc:    m.ListClientsFunc,
+	}
 }
 
 func (m *MockClientService) CreateClient(ctx context.Context, request *CreateClientRequest) (*Client, error) {
@@ -41,6 +69,16 @@ func (m *MockClientService) GetClient(ctx context.Context, request *GetClientReq
 		return nil, nil
 	}
 	return m.GetClientFunc(m.T, m, ctx, request)
+}
+
+func (m *MockClientService) GetGroupClient(ctx context.Context, request *GetGroupClientRequest) (*Client, error) {
+	m.mutex.Lock()
+	m.GetGroupClientFuncInvocations++
+	m.mutex.Unlock()
+	if m.GetGroupClientFunc == nil {
+		return nil, nil
+	}
+	return m.GetGroupClientFunc(m.T, m, ctx, request)
 }
 
 func (m *MockClientService) ListClients(ctx context.Context, request *ListClientsRequest) (*ListClientsResponse, error) {

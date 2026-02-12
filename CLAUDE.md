@@ -380,31 +380,6 @@ Before testing, validate your development environment:
 - **Extension Tag Management**: Be careful with protobuf extension tag conflicts across option files
 - **Response Message Cleanup**: Remove unused response messages when methods return resources directly
 
-### TypeScript Hand-Written Code Maintenance
-- **Post-Generation Updates**: After running `./dev/tool.sh generate` or `./dev/tool.sh all`, hand-written TypeScript client wrappers may need updates:
-  - Method name changes: `get()` → `getResource()`, `create()` → `createResource()`
-  - Return type changes: Get/Create methods return resources directly, not response wrappers
-  - Import statement updates: Remove imports for deleted response message types
-  - Add imports for resource types (e.g., `import { Client } from "./client_pb"`)
-  - **Missing Method Detection**: Compare wrapper methods to generated service interface to ensure all RPC methods are exposed
-- **Breaking Change Detection**: TypeScript compilation errors after generation indicate needed updates:
-  - Missing exported members = removed response types that need import cleanup
-  - Missing properties on service clients = method name changes
-  - Use `yarn build` and `yarn lint` in `/ts` to validate all changes
-- **Hand-Written Client Pattern**: Client wrapper classes in `*_grpc_web.ts` files should:
-  - Mirror the generated gRPC service interface exactly
-  - Use consistent method naming with resource names included
-  - Return the same types as the generated service (resources directly for Get/Create)
-  - Maintain proper JSDoc documentation with updated parameter and return types
-  - Include ALL methods from the corresponding protobuf service definition
-- **Client Wrapper Validation Process**:
-  1. After protobuf changes, run `./dev/tool.sh all` to regenerate code
-  2. Check each `*_grpc_web.ts` file to ensure all service methods are wrapped
-  3. Update imports to include all required request/response types
-  4. Run `yarn build` and `yarn lint` in `/ts` to verify compilation
-  5. Look for methods in `service_grpc_web_pb.d.ts` that aren't in the wrapper client
-- **Orphaned File Cleanup**: Remove hand-written files when their corresponding proto services are deleted
-
 ## Protobuf Refactoring Best Practices
 
 ### Role and Method Type Management
@@ -419,8 +394,7 @@ Before testing, validate your development environment:
 1. Modify protobuf files in `/proto/` directory
 2. Run `buf lint` to validate changes
 3. Run `./dev/tool.sh all` to regenerate all client libraries
-4. Check TypeScript client wrappers for missing methods or imports
-5. Run language-specific tests and linting to verify correctness
+4. Run language-specific tests and linting to verify correctness
 
 ### Protobuf Syntax for Options
 
@@ -429,4 +403,3 @@ When adding options to protobuf files, keep the following in mind:
 - **Option Syntax:** Custom options for services or methods should be declared directly. The correct syntax is `option (custom.option) = VALUE;` and not `option (custom.option) = { key: VALUE };`.
 - **Enum Scopes:** When referencing enums from an imported `.proto` file (like `method_type.proto` or `role.proto`), you should use the enum value directly (e.g., `METHOD_TYPE_READ`) without the fully qualified package path, as long as the necessary import statement is present.
 - **Option Scopes (`FileOptions` vs. `ServiceOptions`):** It's critical to apply options at the correct level. For example, `standard_roles` is a `FileOption` and must be declared at the top level of the file, not within a `service` definition, which uses `ServiceOptions`.
-- **TypeScript Wrapper Dependencies:** When adding new RPC methods, you must manually update any hand-written client wrappers. This includes not only adding the new client method but also importing the newly generated request/response message types (e.g., `GetApiUserByKeyHashRequest` from `service_pb.ts`).

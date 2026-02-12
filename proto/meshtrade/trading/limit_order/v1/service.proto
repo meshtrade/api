@@ -34,6 +34,7 @@ service LimitOrderService {
         ROLE_TRADING_ADMIN,
         ROLE_TRADING_LIMIT_ORDER_ADMIN
       ]
+      verification_status: VERIFICATION_STATUS_VERIFIED
     };
   }
 
@@ -253,10 +254,15 @@ message SearchLimitOrdersRequest {
   }];
 
   /*
+     Filter by states (optional).
+  */
+  repeated LimitOrderState states = 3;
+
+  /*
      When true, fetches live ledger data for matching orders.
      When false, returns only stored metadata.
   */
-  bool live_ledger_data = 3;
+  bool live_ledger_data = 4;
 }
 
 /*
