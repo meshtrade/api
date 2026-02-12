@@ -117,7 +117,7 @@ func NewBaseGRPCClient[T any](
 	}
 
 	// Validate authentication credentials
-	if err := client.validateAuth(); err != nil {
+	if err := client.validateAuth(cfg); err != nil {
 		return nil, err
 	}
 
@@ -534,7 +534,10 @@ func (b *BaseGRPCClient[T]) Validator() protovalidate.Validator {
 
 // validateAuth ensures that authentication credentials and group ID are properly configured.
 // This method is called during service initialization to prevent runtime authentication failures.
-func (b *BaseGRPCClient[T]) validateAuth() error {
+func (b *BaseGRPCClient[T]) validateAuth(cfg *config.BaseConfig) error {
+	if cfg.GRPCConnection != nil { // if the grpc connection was specified in config, we don't validate the credentials
+		return nil
+	}
 	if b.apiKey == "" {
 		return errors.New("api key not set. set credentials via MESH_API_CREDENTIALS file, or use config.WithAPIKey option")
 	}
