@@ -154,7 +154,7 @@ func TestValidateAuth(t *testing.T) {
 				group:  tt.group,
 			}
 
-			err := client.validateAuth()
+			err := client.validateAuth(&config.BaseConfig{})
 			if (err != nil) != tt.wantErr {
 				t.Errorf("validateAuth() error = %v, wantErr %v", err, tt.wantErr)
 			}
