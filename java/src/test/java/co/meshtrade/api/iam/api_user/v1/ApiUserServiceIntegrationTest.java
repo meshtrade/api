@@ -37,7 +37,7 @@ import co.meshtrade.api.iam.api_user.v1.Service.SearchAPIUsersRequest;
 
 /**
  * Integration tests for Java API User service SDK client configuration.
- * 
+ *
  * <p>These tests verify that the SDK client configuration works correctly and that
  * validation is properly integrated without making any network calls.
  */
@@ -46,12 +46,12 @@ import co.meshtrade.api.iam.api_user.v1.Service.SearchAPIUsersRequest;
 class APIUserServiceIntegrationTest {
 
     private APIUser mockAPIUser;
-    
+
     @BeforeEach
     void setUp() {
         // Create mock API user for test data
         mockAPIUser = APIUser.newBuilder()
-            .setName("api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV")
+            .setName("iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV")
             .setOwner("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
             .setDisplayName("Test API User")
             .setState(APIUserState.API_USER_STATE_ACTIVE)
@@ -70,13 +70,13 @@ class APIUserServiceIntegrationTest {
             .tls(true)
             .timeout(Duration.ofSeconds(30))
             .build();
-            
+
         // Verify service can be created with all configuration options
         assertThatCode(() -> {
             try (APIUserService service = new APIUserService(options)) {
                 // Verify service is properly initialized
                 assertThat(service).isNotNull();
-                
+
                 // Verify validator is properly initialized
                 assertThat(service.getValidator()).isNotNull();
                 assertThat(service.getValidator()).isInstanceOf(Validator.class);
@@ -94,11 +94,11 @@ class APIUserServiceIntegrationTest {
             .apiKey("dGVzdC1rZXktZm9yLWphdmEtc2RrLXRlc3RpbmctcHU")
             .group("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
             .build();
-            
+
         assertThatCode(() -> {
             try (APIUserService service = new APIUserService(options)) {
                 assertThat(service).isNotNull();
-                
+
                 // Verify default configurations are applied
                 assertThat(service.getValidator()).isNotNull();
             } catch (InterruptedException ignored) {
@@ -111,7 +111,7 @@ class APIUserServiceIntegrationTest {
     @DisplayName("Service creation with default constructor")
     void serviceCreationDefaultConstructorUsesCredentialDiscovery() {
         // Test that default constructor uses credential discovery without network calls
-        
+
         // We can't easily mock the credential discovery in the constructor without
         // complex bytecode manipulation, so we test that the service can be created
         // and verify it has proper validation capabilities
@@ -136,17 +136,17 @@ class APIUserServiceIntegrationTest {
     @DisplayName("Service configuration with custom timeout")
     void serviceConfigurationCustomTimeoutConfiguresCorrectly() {
         Duration customTimeout = Duration.ofMinutes(5);
-        
+
         ServiceOptions options = ServiceOptions.builder()
             .apiKey("dGVzdC1rZXktZm9yLWphdmEtc2RrLXRlc3RpbmctcHU")
             .group("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
             .timeout(customTimeout)
             .build();
-            
+
         assertThatCode(() -> {
             try (APIUserService service = new APIUserService(options)) {
                 assertThat(service).isNotNull();
-                
+
                 // Service should be created with custom timeout
                 // We can't directly test the timeout value without accessing private fields
                 // but we can verify the service was created successfully with this configuration
@@ -167,11 +167,11 @@ class APIUserServiceIntegrationTest {
             .port(8080)
             .tls(false)
             .build();
-            
+
         assertThatCode(() -> {
             try (APIUserService service = new APIUserService(options)) {
                 assertThat(service).isNotNull();
-                
+
                 // Verify service was created with TLS disabled configuration
                 assertThat(service.getValidator()).isNotNull();
             } catch (InterruptedException ignored) {
@@ -184,7 +184,7 @@ class APIUserServiceIntegrationTest {
     @DisplayName("Service configuration with invalid API key format")
     void serviceConfigurationInvalidApiKeyFormatFailsAtCreation() {
         // Test that service properly validates API key format at creation time
-        
+
         // Service creation should fail with invalid API key format
         assertThatThrownBy(() -> {
             ServiceOptions options = ServiceOptions.builder()
@@ -201,7 +201,7 @@ class APIUserServiceIntegrationTest {
     @DisplayName("Service configuration with invalid group format")
     void serviceConfigurationInvalidGroupFormatFailsAtCreation() {
         // Test that service properly validates group format at creation time
-        
+
         // Service creation should fail with invalid group format
         assertThatThrownBy(() -> {
             ServiceOptions options = ServiceOptions.builder()
@@ -222,16 +222,16 @@ class APIUserServiceIntegrationTest {
             .apiKey("dGVzdC1rZXktZm9yLWphdmEtc2RrLXRlc3RpbmctcHU")
             .group("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
             .build();
-            
+
         try (APIUserService service = new APIUserService(options)) {
             // Verify service extends BaseGRPCClient and inherits validation
             assertThat(service).isInstanceOf(BaseGRPCClient.class);
-            
+
             // Verify validator is available and properly initialized
             Validator validator = service.getValidator();
             assertThat(validator).isNotNull();
             assertThat(validator).isInstanceOf(Validator.class);
-            
+
             // Test that validator can validate a simple request
             CreateAPIUserRequest request = CreateAPIUserRequest.newBuilder()
                 .setApiUser(APIUser.newBuilder()
@@ -240,10 +240,10 @@ class APIUserServiceIntegrationTest {
                     .setState(APIUserState.API_USER_STATE_ACTIVE)
                     .build())
                 .build();
-            
+
             // This should not throw validation errors
             assertThatCode(() -> validator.validate(request)).doesNotThrowAnyException();
-            
+
         } catch (InterruptedException ignored) {
             // Ignore cleanup errors in test
         }
@@ -257,22 +257,22 @@ class APIUserServiceIntegrationTest {
             .group("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
             .timeout(Duration.ofSeconds(10)) // Default timeout
             .build();
-            
+
         try (APIUserService service = new APIUserService(options)) {
             // Verify that service accepts method-level timeouts
             assertThat(service).isNotNull();
-            
+
             // Verify methods accept timeout parameters (we don't call them to avoid network)
             // This tests the API structure
             assertThatCode(() -> {
                 // These would normally make network calls, but we're just testing the API
                 Duration customTimeout = Duration.ofSeconds(30);
-                
+
                 // Verify all methods have the correct signature with timeout parameter
                 // We can't call them without making network requests, but we can verify the API
                 assertThat(service).isNotNull(); // Service has all required methods
             }).doesNotThrowAnyException();
-            
+
         } catch (InterruptedException ignored) {
             // Ignore cleanup errors in test
         }
@@ -286,14 +286,14 @@ class APIUserServiceIntegrationTest {
             .apiKey("dGVzdC1rZXktZm9yLWphdmEtc2RrLXRlc3RpbmctcHU")
             .group("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
             .build();
-            
+
         try (APIUserService service = new APIUserService(options)) {
             // Verify service implements the interface
             assertThat(service).isInstanceOf(APIUserServiceInterface.class);
-            
+
             // Verify service extends BaseGRPCClient
             assertThat(service).isInstanceOf(BaseGRPCClient.class);
-            
+
             // Verify all required methods are available (without calling them)
             // This tests that the service has the correct API structure
             assertThat(service.getClass().getMethod("getAPIUser", GetAPIUserRequest.class, Optional.class))
@@ -318,7 +318,7 @@ class APIUserServiceIntegrationTest {
             assertThat(service.getClass().getMethod("getAPIUserByKeyHash",
                     GetAPIUserByKeyHashRequest.class, Optional.class))
                 .isNotNull();
-                
+
         } catch (InterruptedException | NoSuchMethodException ignored) {
             fail("Service should implement all required methods");
         }
@@ -328,43 +328,43 @@ class APIUserServiceIntegrationTest {
     @DisplayName("SDK architecture consistency documentation")
     void sdkArchitectureConsistencyIsDocumented() {
         // This test documents the SDK architecture and validation flow without network calls
-        
+
         // Verify that BaseGRPCClient provides consistent validation
         Validator validator = ValidatorFactory.newBuilder().build();
         assertThat(validator).isNotNull();
-        
+
         ServiceOptions options = ServiceOptions.builder()
             .apiKey("dGVzdC1rZXktZm9yLWphdmEtc2RrLXRlc3RpbmctcHU")
             .group("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
             .build();
-        
+
         try (APIUserService testService = new APIUserService(options)) {
             // Verify architectural consistency
             assertThat(testService).isInstanceOf(BaseGRPCClient.class)
                 .as("Service extends BaseGRPCClient for consistency");
-            
+
             assertThat(testService.getValidator()).isNotNull()
                 .as("Validator is properly initialized");
-            
+
             assertThat(testService.getValidator()).isInstanceOf(Validator.class)
                 .as("Uses build.buf.protovalidate.Validator like other SDKs");
         } catch (InterruptedException ignored) {
             // Ignore cleanup errors in test
         }
-        
+
         // Document cross-language consistency without making network calls:
         assertThat(true)
             .as("Go SDK: Uses grpc.Execute() with validation before network calls")
             .isTrue();
-        
+
         assertThat(true)
             .as("Python SDK: Uses BaseGRPCClient._execute_method() with validation")
             .isTrue();
-        
+
         assertThat(true)
             .as("Java SDK: Uses BaseGRPCClient.execute() with validation")
             .isTrue();
-        
+
         assertThat(true)
             .as("All SDKs provide consistent client-side validation without network dependencies")
             .isTrue();
@@ -403,7 +403,7 @@ class APIUserServiceCredentialFilesTest {
                 "api_key": "test-api-key-from-file",
                 "group": "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV"
             }""";
-        
+
         Path credentialsPath = tempDir.resolve("valid_credentials.json");
         Files.writeString(credentialsPath, validCredentials);
 
@@ -418,11 +418,11 @@ class APIUserServiceCredentialFilesTest {
             .port(9999)
             .timeout(Duration.ofMillis(100))
             .build();
-        
+
         try (APIUserService service = new APIUserService(options)) {
             // Test that validation works with loaded credentials
             GetAPIUserRequest validRequest = GetAPIUserRequest.newBuilder()
-                .setName("api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV")
+                .setName("iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV")
                 .build();
 
             // Should get network error, not validation error
@@ -438,19 +438,19 @@ class APIUserServiceCredentialFilesTest {
         String[] invalidCredentials = {
             // Invalid JSON
             "{\"api_key\": \"test\", invalid json}",
-            
+
             // Missing api_key
             "{\"group\": \"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV\"}",
-            
+
             // Missing group
             "{\"api_key\": \"dGVzdC1rZXktZm9yLWphdmEtc2RrLXRlc3RpbmctcHU\"}",
-            
+
             // Empty api_key
             "{\"api_key\": \"\", \"group\": \"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV\"}",
-            
+
             // Empty group
             "{\"api_key\": \"dGVzdC1rZXktZm9yLWphdmEtc2RrLXRlc3RpbmctcHU\", \"group\": \"\"}",
-            
+
             // Invalid group format
             "{\"api_key\": \"dGVzdC1rZXktZm9yLWphdmEtc2RrLXRlc3RpbmctcHU\", \"group\": \"invalid-group-format\"}"
         };
@@ -460,7 +460,7 @@ class APIUserServiceCredentialFilesTest {
         // Test that invalid credential formats cause service creation issues
         // Most invalid credentials will cause IllegalStateException at service creation time
         assertThat(invalidCredentials.length).isGreaterThan(0);
-        
+
         // Service creation should fail with invalid credentials
         assertThatThrownBy(() -> {
             ServiceOptions invalidOptions = ServiceOptions.builder()
@@ -481,7 +481,7 @@ class APIUserServiceCredentialFilesTest {
         // Test that extra fields in JSON are ignored gracefully
         // Test that extra fields don't break service creation
         // (can't test private parseCredentialsJson directly)
-        
+
         // Test that service works with credentials that would come from file with extra fields
         ServiceOptions options = ServiceOptions.builder()
             .apiKey("dGVzdC1hcGkta2V5LWZvci1qYXZhLXNkay10ZXN0aW5n")  // From the JSON above
@@ -490,10 +490,10 @@ class APIUserServiceCredentialFilesTest {
             .port(9999)
             .timeout(Duration.ofMillis(100))
             .build();
-        
+
         try (APIUserService service = new APIUserService(options)) {
             GetAPIUserRequest validRequest = GetAPIUserRequest.newBuilder()
-                .setName("api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV")
+                .setName("iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV")
                 .build();
 
             assertThatThrownBy(() -> service.getAPIUser(validRequest, Optional.empty()))
@@ -513,11 +513,11 @@ class APIUserServiceCredentialFilesTest {
             .port(9999)
             .timeout(Duration.ofMillis(100))
             .build();
-        
+
         try (APIUserService service = new APIUserService(options)) {
             // Test that validation works with explicit credentials
             GetAPIUserRequest validRequest = GetAPIUserRequest.newBuilder()
-                .setName("api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV")
+                .setName("iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV")
                 .build();
 
             assertThatThrownBy(() -> service.getAPIUser(validRequest, Optional.empty()))
@@ -542,7 +542,7 @@ class APIUserServiceCredentialFilesTest {
 
             // If we get here, credentials were found - test that service works
             GetAPIUserRequest validRequest = GetAPIUserRequest.newBuilder()
-                .setName("api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV")
+                .setName("iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV")
                 .build();
 
             // Should get network error, not validation error
@@ -568,15 +568,15 @@ class APIUserServiceCredentialFilesTest {
     void credentialDiscoveryHierarchyDocumentation() {
         // Test documents the credential discovery hierarchy
         String searchInfo = CredentialsDiscovery.getCredentialSearchInfo();
-        
+
         assertThat(searchInfo).isNotNull();
         assertThat(searchInfo).contains("MESH_API_CREDENTIALS");
         assertThat(searchInfo).contains("Platform-specific files");
-        
+
         // Verify the hierarchy is documented correctly
         assertThat(searchInfo).contains("1. Environment Variable: MESH_API_CREDENTIALS");
         assertThat(searchInfo).contains("2. Platform-specific files:");
-        
+
         System.out.println("Credential Discovery Hierarchy:");
         System.out.println(searchInfo);
     }
@@ -586,16 +586,16 @@ class APIUserServiceCredentialFilesTest {
     void platformSpecificCredentialPaths() {
         // Test platform-specific credential path detection indirectly
         // (can't test private getPlatformCredentialPaths directly)
-        
+
         // Test that credential search info contains expected platform paths
         String searchInfo = CredentialsDiscovery.getCredentialSearchInfo();
-        
+
         assertThat(searchInfo).isNotNull();
         assertThat(searchInfo).contains("credentials.json");
-        
+
         // Paths should be platform-appropriate
         String osName = System.getProperty("os.name").toLowerCase();
-        
+
         if (osName.contains("mac")) {
             assertThat(searchInfo).contains("Library/Application Support/mesh");
         } else if (osName.contains("win")) {
@@ -604,7 +604,7 @@ class APIUserServiceCredentialFilesTest {
             // Linux/Unix
             assertThat(searchInfo).contains("mesh");
         }
-        
+
         System.out.println("Platform-specific credential paths for " + osName + ":");
         System.out.println(searchInfo);
     }
@@ -614,7 +614,7 @@ class APIUserServiceCredentialFilesTest {
     void jsonParsingEdgeCases() throws IOException, InterruptedException {
         // Test JSON parsing indirectly through service behavior
         // (can't test private parseCredentialsJson directly)
-        
+
         // Test that services work with various credential formats
         String[] validCredentials = {
             "{\"api_key\":\"a2V5LWZvci1qYXZhLXNkay10ZXN0aW5nLXB1cnBvc3M\","
@@ -622,13 +622,13 @@ class APIUserServiceCredentialFilesTest {
             """
             {
                 "api_key"  :  "a2V5LWZvci1qYXZhLXNkay10ZXN0aW5nLXB1cnBvc3M"  ,
-                "group"    :  "groups/01BRZ3NDEKTSV4RRFFQ69G5FAV"  
+                "group"    :  "groups/01BRZ3NDEKTSV4RRFFQ69G5FAV"
             }"""  // With whitespace
         };
-        
+
         // Test that valid credential formats work in service creation
         assertThat(validCredentials.length).isGreaterThan(0);
-        
+
         // Test one example of valid credentials derived from JSON parsing
         ServiceOptions options = ServiceOptions.builder()
             .apiKey("a2V5LWZvci1qYXZhLXNkay10ZXN0aW5nLXB1cnBvc3M")           // From JSON above
@@ -637,7 +637,7 @@ class APIUserServiceCredentialFilesTest {
             .port(9999)
             .timeout(Duration.ofMillis(100))
             .build();
-        
+
         try (APIUserService service = new APIUserService(options)) {
             // Service created successfully with these credentials
             assertThat(service).isNotNull();
@@ -648,24 +648,24 @@ class APIUserServiceCredentialFilesTest {
     @DisplayName("Service resource management works correctly")
     void serviceResourceManagementCleanupWorksCorrectly() {
         // Test that service resource management works without network calls
-        
+
         ServiceOptions options = ServiceOptions.builder()
             .apiKey("dGVzdC1rZXktZm9yLWphdmEtc2RrLXRlc3RpbmctcHU")
             .group("groups/01ARZ3NDEKTSV4RRFFQ69G5FAV")
             .build();
-            
+
         // Test manual resource management
         APIUserService service = new APIUserService(options);
         try {
             // Test service creation
             assertThat(service).isNotNull();
-            
+
             // Verify service implements AutoCloseable
             assertThat(service).isInstanceOf(AutoCloseable.class);
-            
+
             // Verify validator is available
             assertThat(service.getValidator()).isNotNull();
-            
+
         } finally {
             // Test cleanup
             assertThatCode(() -> {
@@ -677,7 +677,7 @@ class APIUserServiceCredentialFilesTest {
                 }
             }).doesNotThrowAnyException();
         }
-        
+
         // Test try-with-resources usage
         assertThatCode(() -> {
             try (APIUserService autoService = new APIUserService(options)) {
@@ -693,16 +693,16 @@ class APIUserServiceCredentialFilesTest {
     @DisplayName("Environment variable name constant verification")
     void environmentVariableNameConstantVerification() {
         // Verify the environment variable name is correct and consistent
-        // Note: We can't easily test the actual environment variable functionality 
+        // Note: We can't easily test the actual environment variable functionality
         // without additional test libraries, but we can verify the constant
-        
+
         // This would be the expected environment variable name
         String expectedEnvVarName = "MESH_API_CREDENTIALS";
-        
+
         // Verify the discovery class uses the correct name
         String searchInfo = CredentialsDiscovery.getCredentialSearchInfo();
         assertThat(searchInfo).contains(expectedEnvVarName);
-        
+
         System.out.println("Environment variable name: " + expectedEnvVarName);
         System.out.println("Current value: " + System.getenv(expectedEnvVarName));
     }

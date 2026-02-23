@@ -190,7 +190,7 @@ func TestAddSignatoriesToAccountRequest_Validation(t *testing.T) {
 			name: "valid add signatories request with single api_user",
 			request: &AddSignatoriesToAccountRequest{
 				Name:  "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				Users: []string{"api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV"},
+				Users: []string{"iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV"},
 			},
 			wantErr: false,
 		},
@@ -201,7 +201,7 @@ func TestAddSignatoriesToAccountRequest_Validation(t *testing.T) {
 				Users: []string{
 					"users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 					"users/01BRZ3NDEKTSV4RRFFQ69G5FAW",
-					"api_users/01CRZ3NDEKTSV4RRFFQ69G5FAX",
+					"iam/api_users/01CRZ3NDEKTSV4RRFFQ69G5FAX",
 				},
 			},
 			wantErr: false,
@@ -342,7 +342,7 @@ func TestRemoveSignatoriesFromAccountRequest_Validation(t *testing.T) {
 			name: "valid remove signatories request with single api_user",
 			request: &RemoveSignatoriesFromAccountRequest{
 				Name:  "accounts/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				Users: []string{"api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV"},
+				Users: []string{"iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV"},
 			},
 			wantErr: false,
 		},
@@ -353,7 +353,7 @@ func TestRemoveSignatoriesFromAccountRequest_Validation(t *testing.T) {
 				Users: []string{
 					"users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 					"users/01BRZ3NDEKTSV4RRFFQ69G5FAW",
-					"api_users/01CRZ3NDEKTSV4RRFFQ69G5FAX",
+					"iam/api_users/01CRZ3NDEKTSV4RRFFQ69G5FAX",
 				},
 			},
 			wantErr: false,
