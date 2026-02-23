@@ -1087,11 +1087,11 @@ const file_meshtrade_wallet_account_v1_service_proto_rawDesc = "" +
 	"\x12OpenAccountRequest\x12O\n" +
 	"\x04name\x18\x01 \x01(\tB;\xbaH8r621^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01#R\x04name\"D\n" +
 	"\x13OpenAccountResponse\x12-\n" +
-	"\x12ledger_transaction\x18\x01 \x01(\tR\x11ledgerTransaction\"\xad\x03\n" +
+	"\x12ledger_transaction\x18\x01 \x01(\tR\x11ledgerTransaction\"\xef\x02\n" +
 	"\x1eAddSignatoriesToAccountRequest\x12O\n" +
-	"\x04name\x18\x01 \x01(\tB;\xbaH8r621^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01#R\x04name\x12\xb9\x02\n" +
-	"\x05users\x18\x02 \x03(\tB\xa2\x02\xbaH\x9e\x02\x92\x01\x9a\x02\b\x01\x10d\"\x93\x02\xba\x01\xd1\x01\n" +
-	"\fusers.format\x126each user must be iam/api_users/{ULID} or users/{ULID}\x1a\x88\x01this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$') || this.matches('^iam/api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')r<2:^(users|api_users)/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$R\x05users\"P\n" +
+	"\x04name\x18\x01 \x01(\tB;\xbaH8r621^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01#R\x04name\x12\xfb\x01\n" +
+	"\x05users\x18\x02 \x03(\tB\xe4\x01\xbaH\xe0\x01\x92\x01\xdc\x01\b\x01\x10d\"\xd5\x01\xba\x01\xd1\x01\n" +
+	"\fusers.format\x126each user must be iam/api_users/{ULID} or users/{ULID}\x1a\x88\x01this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$') || this.matches('^iam/api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x05users\"P\n" +
 	"\x1fAddSignatoriesToAccountResponse\x12-\n" +
 	"\x12ledger_transaction\x18\x01 \x01(\tR\x11ledgerTransaction\"\xb2\x03\n" +
 	"#RemoveSignatoriesFromAccountRequest\x12O\n" +
