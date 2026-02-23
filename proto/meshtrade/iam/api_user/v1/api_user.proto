@@ -18,14 +18,14 @@ option java_package = "co.meshtrade.api.iam.api_user.v1";
 message APIUser {
   /*
      The unique resource name for the API user.
-     Format: api_users/{ULIDv2}.
+     Format: iam/api_users/{ULIDv2}.
      This field is system-generated and immutable upon creation.
      Any value provided on creation is ignored.
   */
   string name = 1 [(buf.validate.field) = {
     cel: {
       id: "name.format.optional"
-      message: "name must be empty or in the format api_users/{ULIDv2}"
+      message: "name must be empty or in the format iam/api_users/{ULIDv2}"
       expression: "size(this) == 0 || this.matches('^iam/api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
     }
   }];

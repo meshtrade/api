@@ -235,7 +235,7 @@ message Signatory {
 
   /*
      Resource name of entity with which the signatory is associated.
-     Format: users/{ULID}, api_users/{ULID} or blank (if not applicable or unknown).
+     Format: users/{ULID}, iam/api_users/{ULID} or blank (if not applicable or unknown).
   */
   string resource_name = 2;
 
