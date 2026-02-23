@@ -10,7 +10,7 @@ Key principles:
 
 - **Resources are first-class citizens** - Each service manages a specific resource type (e.g. `APIUser`, `LimitOrder`, `Account`)
 - **Standard operations** - Resources are manipulated through a consistent set of verbs: `Create`, `Get`, `List`, `Search`, `Update`, `Delete`
-- **Resource names** - Resources are identified by structured names (e.g. `api_users/{id}`, `accounts/{id}`)
+- **Resource names** - Resources are identified by structured names (e.g. `iam/api_users/{id}`, `accounts/{id}`)
 - **Direct resource returns** - Wherever possible, methods return the resource directly rather than wrapping it in a response object. For example, `GetApiUser` returns an `APIUser`, not a `GetApiUserResponse`
 
 ## Standard Verbs vs Custom Verbs
@@ -65,7 +65,7 @@ All service methods follow consistent request/response patterns:
 ```protobuf
 // Get requests include the resource name
 message GetApiUserRequest {
-  string name = 1; // "api_users/{api_user_id}"
+  string name = 1; // "iam/api_users/{api_user_id}"
 }
 
 // List requests support basic filtering
@@ -80,7 +80,7 @@ message SearchApiUsersRequest {
 
 // Custom verb requests include the target and any parameters
 message ActivateApiUserRequest {
-  string name = 1; // "api_users/{api_user_id}"
+  string name = 1; // "iam/api_users/{api_user_id}"
 }
 ```
 
