@@ -23,7 +23,7 @@ describe("APIUserServiceNode - Request validation (before network call)", () => 
   describe("GetAPIUserRequest validation", () => {
     it("should pass validation with valid request and fail at network layer", async () => {
       const request = create(GetAPIUserRequestSchema, {
-        name: "api_users/01ARZ3NDEKTSV4YWVF8F5BH3AB",
+        name: "iam/api_users/01ARZ3NDEKTSV4YWVF8F5BH3AB",
       });
 
       try {
@@ -52,7 +52,7 @@ describe("APIUserServiceNode - Request validation (before network call)", () => 
 
     it("should throw validation error for invalid ULID format", async () => {
       const request = create(GetAPIUserRequestSchema, {
-        name: "api_users/invalid",
+        name: "iam/api_users/invalid",
       });
 
       try {
@@ -66,7 +66,7 @@ describe("APIUserServiceNode - Request validation (before network call)", () => 
 
     it("should throw validation error for lowercase ULID", async () => {
       const request = create(GetAPIUserRequestSchema, {
-        name: "api_users/01arz3ndektsv4ywvf8f5bh3ab",
+        name: "iam/api_users/01arz3ndektsv4ywvf8f5bh3ab",
       });
 
       try {
@@ -128,7 +128,7 @@ describe("APIUserServiceNode - Request validation (before network call)", () => 
   describe("AssignRolesToAPIUserRequest validation", () => {
     it("should pass validation with valid inputs and fail at network layer", async () => {
       const request = create(AssignRolesToAPIUserRequestSchema, {
-        name: "api_users/01ARZ3NDEKTSV4YWVF8F5BH3AB",
+        name: "iam/api_users/01ARZ3NDEKTSV4YWVF8F5BH3AB",
         roles: [
           "groups/01ARZ3NDEKTSV4YWVF8F5BH3AB/roles/1234567",
           "groups/01ARZ3NDEKTSV4YWVF8F5BH3AB/roles/12345678",
@@ -147,7 +147,7 @@ describe("APIUserServiceNode - Request validation (before network call)", () => 
 
     it("should throw validation error for invalid role format", async () => {
       const request = create(AssignRolesToAPIUserRequestSchema, {
-        name: "api_users/01ARZ3NDEKTSV4YWVF8F5BH3AB",
+        name: "iam/api_users/01ARZ3NDEKTSV4YWVF8F5BH3AB",
         roles: ["invalid-role-format"],
       });
 
@@ -162,7 +162,7 @@ describe("APIUserServiceNode - Request validation (before network call)", () => 
 
     it("should throw validation error for empty roles array", async () => {
       const request = create(AssignRolesToAPIUserRequestSchema, {
-        name: "api_users/01ARZ3NDEKTSV4YWVF8F5BH3AB",
+        name: "iam/api_users/01ARZ3NDEKTSV4YWVF8F5BH3AB",
         roles: [],
       });
 

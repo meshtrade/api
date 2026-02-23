@@ -79,7 +79,7 @@ describe("UserServiceWeb - Request validation (before network call)", () => {
 
     it("should throw validation error for wrong resource type", async () => {
       const request = create(GetUserRequestSchema, {
-        name: "api_users/01ARZ3NDEKTSV4YWVF8F5BH3AB",
+        name: "iam/api_users/01ARZ3NDEKTSV4YWVF8F5BH3AB",
       });
 
       try {

@@ -52,7 +52,7 @@ function createGroupResourceName(ulid: string): string | null {
  * @example
  * ```typescript
  * isValidResourceName('groups/01ARZ3NDEKTSV4YWVF8F5BH32', 'groups'); // true
- * isValidResourceName('api_users/01ARZ3NDEKTSV4YWVF8F5BH32', 'api_users'); // true
+ * isValidResourceName('iam/api_users/01ARZ3NDEKTSV4YWVF8F5BH32', 'api_users'); // true
  * isValidResourceName('groups/invalid', 'groups'); // false
  * ```
  */
@@ -187,9 +187,9 @@ describe("validation utilities", () => {
 
     test("should validate api_users resource names", () => {
       validULIDs.forEach((ulid) => {
-        expect(isValidResourceName(`api_users/${ulid}`, "api_users")).toBe(
-          true
-        );
+        expect(
+          isValidResourceName(`iam/api_users/${ulid}`, "iam/api_users")
+        ).toBe(true);
       });
     });
 
@@ -202,14 +202,16 @@ describe("validation utilities", () => {
     test("should return false for mismatched resource types", () => {
       const ulid = "01ARZ3NDEKTSV4YWVF8F5BH32Q";
       expect(isValidResourceName(`groups/${ulid}`, "users")).toBe(false);
-      expect(isValidResourceName(`api_users/${ulid}`, "groups")).toBe(false);
+      expect(isValidResourceName(`iam/api_users/${ulid}`, "groups")).toBe(
+        false
+      );
       expect(isValidResourceName(`roles/${ulid}`, "api_users")).toBe(false);
     });
 
     test("should return false for invalid ULIDs", () => {
       invalidULIDs.forEach((ulid) => {
         expect(isValidResourceName(`groups/${ulid}`, "groups")).toBe(false);
-        expect(isValidResourceName(`api_users/${ulid}`, "api_users")).toBe(
+        expect(isValidResourceName(`iam/api_users/${ulid}`, "api_users")).toBe(
           false
         );
       });
@@ -218,7 +220,9 @@ describe("validation utilities", () => {
     test("should handle special characters in resource type", () => {
       const ulid = "01ARZ3NDEKTSV4YWVF8F5BH32Q";
       // Test with resource types that contain underscores
-      expect(isValidResourceName(`api_users/${ulid}`, "api_users")).toBe(true);
+      expect(
+        isValidResourceName(`iam/api_users/${ulid}`, "iam/api_users")
+      ).toBe(true);
       expect(
         isValidResourceName(`some_resource/${ulid}`, "some_resource")
       ).toBe(true);
