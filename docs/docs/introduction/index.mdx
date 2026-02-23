@@ -27,28 +27,40 @@ Get started with the Mesh API using the API User Service.
 
 ### 1. Create an API User and Credentials
 
-1. Log into Mesh as an administrator and go to the API Users tab on the **[administration page](https://app.mesh.trade/administration/manage/api-users)**.
-Then click the **Create API User** button on the table header.
+- Log in to Mesh and select [API Users](https://app.mesh.trade/api-users) from the user drop down menu on the main task bar to get to the [API User Management Screen](https://app.mesh.trade/api-users).
 
-![Administration API Keys Create](./administration-api-keys-create.png)
+![Navigate to API Users](./navigate-to-api-users.png)
 
-2. Enter a display name for the API User and select one or more roles (for the coming example to work select *at least* the **IAM Viewer** Role).
-These roles will be assigned to the API User **in the group** that will own it - the top level group of the client that you are logged in as.
-Select **Create API user** to complete the creation.
+- Select the 'Create API User' button in the top right of the table to open the API User Creation dialog.
+
+![Select to create API User](./select-to-create-api-user.png)
+
+- Enter a display name for the API User and select one or more groups in which roles are to be granted to the new API User.
 
 <div style={{display: 'flex', gap: '8px', flexDirection: 'row', marginTop: '15px', justifyContent: 'center'}}>
 
-![Create API User Dialog](./create-api-user-dialog.png)
+![Create API User Dialog 1](./create-api-user-dialog-1.png)
 
-![Create API User Dialog Add Roles](./create-api-user-dialog-add-roles.png)
+![Create API User Dialog 2](./create-api-user-dialog-2.png)
+
+</div>
+
+- Then select roles to Assign to the API User in the selected group(s) (for the coming example to work select *at least* the **IAM Viewer** Role).
+- Select **Create API user** to complete the creation.
+
+<div style={{display: 'flex', gap: '8px', flexDirection: 'row', marginTop: '15px', justifyContent: 'center'}}>
+
+![Create API User Dialog 3](./create-api-user-dialog-3.png)
+
+![Create API User Dialog 4](./create-api-user-dialog-4.png)
 
 </div>
 
 :::info
-See **[Access Control](/docs/access-control/)** for more information on group structures in Mesh.
+See **[Access Control](/docs/access-control/)** for more information on group, roles access control in Mesh.
 :::
 
-3. On successful creation a dialog opens with the new API User's credentials.
+- On successful creation a dialog opens with the new API User's credentials.
 Download or copy them.
 They are required to authenticate SDKs to use the Mesh API.
 
@@ -58,7 +70,7 @@ They are required to authenticate SDKs to use the Mesh API.
 Keep your API credentials file **secure**! Never commit this credentials file to version control!
 :::
 
-3. The new API User is inactive on creation. Select its row in the table and click on the Activate button in the
+- The new API User is inactive on creation. Select its row in the table and click on the Activate button in the
 table header to activate it so that it is ready for use.
 
 ![Create API User Dialog](./activate-api-user.png)
