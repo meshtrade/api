@@ -310,7 +310,6 @@ message AddSignatoriesToAccountRequest {
       min_items: 1
       max_items: 100
       items: {
-        string: {pattern: "^(users|api_users)/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"}
         cel: {
           id: "users.format"
           message: "each user must be iam/api_users/{ULID} or users/{ULID}"
@@ -358,7 +357,6 @@ message RemoveSignatoriesFromAccountRequest {
       min_items: 1
       max_items: 100
       items: {
-        string: {pattern: "^(users|api_users)/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"}
         cel: {
           id: "users.format"
           message: "each user must be iam/api_users/{ULID} or users/{ULID}"
