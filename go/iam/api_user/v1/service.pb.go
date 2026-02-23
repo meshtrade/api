@@ -162,7 +162,7 @@ func (x *CreateAPIUserRequest) GetApiUser() *APIUser {
 
 type AssignRolesToAPIUserRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Name of the API user to assign roles to in the format api_users/{ULIDv2}.
+	// Name of the API user to assign roles to in the format iam/api_users/{ULIDv2}.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// Roles to assign to the API user in the format groups/{ULIDv2}/roles/{role_id}.
 	// The role_id corresponds to a value from the meshtrade.iam.role.v1.Role enum.
@@ -217,7 +217,7 @@ func (x *AssignRolesToAPIUserRequest) GetRoles() []string {
 
 type RevokeRolesFromAPIUserRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Name of the API user to revoke roles from in the format api_users/{ULIDv2}.
+	// Name of the API user to revoke roles from in the format iam/api_users/{ULIDv2}.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// Roles to revoke from the API user in the format groups/{ULIDv2}/roles/{role_id}.
 	// The role_id corresponds to a value from the meshtrade.iam.role.v1.Role enum.
@@ -488,7 +488,7 @@ func (x *ActivateAPIUserRequest) GetName() string {
 type DeactivateAPIUserRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Name of the API user to deactivate.
-	// Format: api_users/{ULIDv2}
+	// Format: iam/api_users/{ULIDv2}
 	Name          string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
