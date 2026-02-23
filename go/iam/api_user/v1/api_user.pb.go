@@ -144,7 +144,7 @@ func (APIUserAction) EnumDescriptor() ([]byte, []int) {
 type APIUser struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The unique resource name for the API user.
-	// Format: api_users/{ULIDv2}.
+	// Format: iam/api_users/{ULIDv2}.
 	// This field is system-generated and immutable upon creation.
 	// Any value provided on creation is ignored.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
@@ -256,10 +256,10 @@ var File_meshtrade_iam_api_user_v1_api_user_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_api_user_v1_api_user_proto_rawDesc = "" +
 	"\n" +
-	"(meshtrade/iam/api_user/v1/api_user.proto\x12\x19meshtrade.iam.api_user.v1\x1a\x1bbuf/validate/validate.proto\"\xfc\x06\n" +
-	"\aAPIUser\x12\xc6\x01\n" +
-	"\x04name\x18\x01 \x01(\tB\xb1\x01\xbaH\xad\x01\xba\x01\xa9\x01\n" +
-	"\x14name.format.optional\x126name must be empty or in the format api_users/{ULIDv2}\x1aYsize(this) == 0 || this.matches('^iam/api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12R\n" +
+	"(meshtrade/iam/api_user/v1/api_user.proto\x12\x19meshtrade.iam.api_user.v1\x1a\x1bbuf/validate/validate.proto\"\x80\a\n" +
+	"\aAPIUser\x12\xca\x01\n" +
+	"\x04name\x18\x01 \x01(\tB\xb5\x01\xbaH\xb1\x01\xba\x01\xad\x01\n" +
+	"\x14name.format.optional\x12:name must be empty or in the format iam/api_users/{ULIDv2}\x1aYsize(this) == 0 || this.matches('^iam/api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12R\n" +
 	"\x05owner\x18\x02 \x01(\tB<\xbaH9\xc8\x01\x01r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05owner\x12V\n" +
 	"\x06owners\x18\x03 \x03(\tB>\xbaH;\x92\x018\"6r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x06owners\x12\xb4\x01\n" +
 	"\fdisplay_name\x18\x04 \x01(\tB\x90\x01\xbaH\x8c\x01\xba\x01\x7f\n" +
