@@ -5,8 +5,8 @@ package meshtrade.iam.api_user.v1;
 import "buf/validate/validate.proto";
 
 option go_package = "github.com/meshtrade/api/go/iam/api_user/v1;api_user_v1";
-option java_package = "co.meshtrade.api.iam.api_user.v1";
 option java_outer_classname = "ApiUserOuterClass";
+option java_package = "co.meshtrade.api.iam.api_user.v1";
 
 /*
    Represents an API user for automated authentication and authorization.
@@ -18,7 +18,7 @@ option java_outer_classname = "ApiUserOuterClass";
 message APIUser {
   /*
      The unique resource name for the API user.
-     Format: api_users/{ULIDv2}.
+     Format: iam/api_users/{ULIDv2}.
      This field is system-generated and immutable upon creation.
      Any value provided on creation is ignored.
   */
@@ -26,7 +26,7 @@ message APIUser {
     cel: {
       id: "name.format.optional"
       message: "name must be empty or in the format api_users/{ULIDv2}"
-      expression: "size(this) == 0 || this.matches('^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
+      expression: "size(this) == 0 || this.matches('^iam/api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
     }
   }];
 
