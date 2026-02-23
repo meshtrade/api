@@ -20,14 +20,14 @@ Architecture follows Google's API Improvement Proposals (AIPs) with resource-ori
 Our APIs follow Google's [API Improvement Proposals (AIPs)](https://google.aip.dev/), specifically:
 
 #### Core Resource Patterns
-- **Resources** have unique names like `api_users/{api_user_id}` or `groups/{group_id}`
+- **Resources** have unique names like `iam/api_users/{api_user_id}` or `groups/{group_id}`
 - **Collections** contain resources: `ListApiUsers()`, `SearchApiUsers()`
 - **Standard methods** follow consistent patterns: `GetX()`, `CreateX()`, `ListX()`, `SearchX()`
 - **Custom methods** for business operations: `ActivateApiUser()`, `DeactivateApiUser()`
 
 #### Example: API User Service Structure
 ```protobuf
-// Resource name pattern: api_users/{api_user_id}
+// Resource name pattern: iam/api_users/{api_user_id}
 service ApiUserService {
   // Standard Methods (AIP-131, AIP-132, AIP-133)
   rpc GetApiUser(GetApiUserRequest) returns (APIUser);
@@ -89,7 +89,7 @@ message ActivateApiUserRequest {
   string name = 1 [(buf.validate.field) = {
     string: {
       min_len: 1
-      pattern: "^api_users/[0-9A-HJKMNP-TV-Z]{26}$"  // ULID format
+      pattern: "^iam/api_users/[0-9A-HJKMNP-TV-Z]{26}$"  // ULID format
     }
     cel: {
       id: "name.required"
@@ -504,7 +504,7 @@ ServiceOptions options = ServiceOptions.builder()
 ```java
 try (ApiUserServiceClient client = new ApiUserServiceClient()) {
     GetApiUserRequest request = GetApiUserRequest.newBuilder()
-        .setName("api_users/01HQXH5S8NPQR0QVMJ3NV9KWX8")
+        .setName("iam/api_users/01HQXH5S8NPQR0QVMJ3NV9KWX8")
         .build();
     APIUser user = client.getApiUser(request, Optional.empty());
 }
@@ -740,4 +740,3 @@ yarn serve:docs
 
 **Problem**: Yarn workspace dependency issues
 **Solution**: Run `yarn install` from repository root, not from individual package directories
-
