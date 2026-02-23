@@ -399,7 +399,7 @@ type Signatory struct {
 	// Used for UI presentation and identification purposes.
 	DisplayName string `protobuf:"bytes,1,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// Resource name of entity with which the signatory is associated.
-	// Format: users/{ULID}, api_users/{ULID} or blank (if not applicable or unknown).
+	// Format: users/{ULID}, iam/api_users/{ULID} or blank (if not applicable or unknown).
 	ResourceName string `protobuf:"bytes,2,opt,name=resource_name,json=resourceName,proto3" json:"resource_name,omitempty"`
 	// The id of the signatory on the underlying ledger.
 	// Format varies by ledger e.g. Ed25519 public key for Stellar/Solana,

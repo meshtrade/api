@@ -302,7 +302,7 @@ message AddSignatoriesToAccountRequest {
 
   /*
      The resource names of the (api)users to add as signatories on the identified account.
-     Format: api_users/{ULIDv2} or users/{ULIDv2}.
+     Format: iam/api_users/{ULIDv2} or users/{ULIDv2}.
      At least one user must be provided.
   */
   repeated string users = 2 [(buf.validate.field) = {
@@ -313,8 +313,8 @@ message AddSignatoriesToAccountRequest {
         string: {pattern: "^(users|api_users)/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"}
         cel: {
           id: "users.format"
-          message: "each user must be api_users/{ULID} or users/{ULID}"
-          expression: "this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$') || this.matches('^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
+          message: "each user must be iam/api_users/{ULID} or users/{ULID}"
+          expression: "this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$') || this.matches('^iam/api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
         }
       }
     }
@@ -361,8 +361,8 @@ message RemoveSignatoriesFromAccountRequest {
         string: {pattern: "^(users|api_users)/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"}
         cel: {
           id: "users.format"
-          message: "each user must be api_users/{ULID} or users/{ULID}"
-          expression: "this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$') || this.matches('^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
+          message: "each user must be iam/api_users/{ULID} or users/{ULID}"
+          expression: "this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$') || this.matches('^iam/api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
         }
       }
     }

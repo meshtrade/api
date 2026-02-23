@@ -220,7 +220,7 @@ type AddSignatoriesToAccountRequest struct {
 	// Format: accounts/{ULIDv2}.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// The resource names of the (api)users to add as signatories on the identified account.
-	// Format: api_users/{ULIDv2} or users/{ULIDv2}.
+	// Format: iam/api_users/{ULIDv2} or users/{ULIDv2}.
 	// At least one user must be provided.
 	Users         []string `protobuf:"bytes,2,rep,name=users,proto3" json:"users,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1087,17 +1087,17 @@ const file_meshtrade_wallet_account_v1_service_proto_rawDesc = "" +
 	"\x12OpenAccountRequest\x12O\n" +
 	"\x04name\x18\x01 \x01(\tB;\xbaH8r621^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01#R\x04name\"D\n" +
 	"\x13OpenAccountResponse\x12-\n" +
-	"\x12ledger_transaction\x18\x01 \x01(\tR\x11ledgerTransaction\"\xa5\x03\n" +
+	"\x12ledger_transaction\x18\x01 \x01(\tR\x11ledgerTransaction\"\xad\x03\n" +
 	"\x1eAddSignatoriesToAccountRequest\x12O\n" +
-	"\x04name\x18\x01 \x01(\tB;\xbaH8r621^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01#R\x04name\x12\xb1\x02\n" +
-	"\x05users\x18\x02 \x03(\tB\x9a\x02\xbaH\x96\x02\x92\x01\x92\x02\b\x01\x10d\"\x8b\x02\xba\x01\xc9\x01\n" +
-	"\fusers.format\x122each user must be api_users/{ULID} or users/{ULID}\x1a\x84\x01this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$') || this.matches('^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')r<2:^(users|api_users)/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$R\x05users\"P\n" +
+	"\x04name\x18\x01 \x01(\tB;\xbaH8r621^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01#R\x04name\x12\xb9\x02\n" +
+	"\x05users\x18\x02 \x03(\tB\xa2\x02\xbaH\x9e\x02\x92\x01\x9a\x02\b\x01\x10d\"\x93\x02\xba\x01\xd1\x01\n" +
+	"\fusers.format\x126each user must be iam/api_users/{ULID} or users/{ULID}\x1a\x88\x01this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$') || this.matches('^iam/api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')r<2:^(users|api_users)/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$R\x05users\"P\n" +
 	"\x1fAddSignatoriesToAccountResponse\x12-\n" +
-	"\x12ledger_transaction\x18\x01 \x01(\tR\x11ledgerTransaction\"\xaa\x03\n" +
+	"\x12ledger_transaction\x18\x01 \x01(\tR\x11ledgerTransaction\"\xb2\x03\n" +
 	"#RemoveSignatoriesFromAccountRequest\x12O\n" +
-	"\x04name\x18\x01 \x01(\tB;\xbaH8r621^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01#R\x04name\x12\xb1\x02\n" +
-	"\x05users\x18\x02 \x03(\tB\x9a\x02\xbaH\x96\x02\x92\x01\x92\x02\b\x01\x10d\"\x8b\x02\xba\x01\xc9\x01\n" +
-	"\fusers.format\x122each user must be api_users/{ULID} or users/{ULID}\x1a\x84\x01this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$') || this.matches('^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')r<2:^(users|api_users)/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$R\x05users\"U\n" +
+	"\x04name\x18\x01 \x01(\tB;\xbaH8r621^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01#R\x04name\x12\xb9\x02\n" +
+	"\x05users\x18\x02 \x03(\tB\xa2\x02\xbaH\x9e\x02\x92\x01\x9a\x02\b\x01\x10d\"\x93\x02\xba\x01\xd1\x01\n" +
+	"\fusers.format\x126each user must be iam/api_users/{ULID} or users/{ULID}\x1a\x88\x01this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$') || this.matches('^iam/api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')r<2:^(users|api_users)/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$R\x05users\"U\n" +
 	"$RemoveSignatoriesFromAccountResponse\x12-\n" +
 	"\x12ledger_transaction\x18\x01 \x01(\tR\x11ledgerTransaction\"\x96\x01\n" +
 	"\x11GetAccountRequest\x12O\n" +

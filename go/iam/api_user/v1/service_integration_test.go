@@ -18,7 +18,7 @@ import (
 func TestAPIUserServiceConfiguration_ComprehensiveSDKOptions(t *testing.T) {
 	// Valid request for testing validation behavior
 	validRequest := &GetAPIUserRequest{
-		Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+		Name: "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 	}
 
 	// Invalid request for testing validation
@@ -285,7 +285,7 @@ func TestAPIUserServiceConfiguration_ComprehensiveSDKOptions(t *testing.T) {
 			{
 				name: "ValidRequest",
 				request: &GetAPIUserRequest{
-					Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+					Name: "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				},
 				expectError: false,
 				description: "Valid request should pass",
@@ -353,7 +353,7 @@ func TestAPIUserServiceCredentialFiles(t *testing.T) {
 		require.NoError(t, err)
 
 		validRequest := &GetAPIUserRequest{
-			Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+			Name: "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 		}
 		err = validator.Validate(validRequest)
 		assert.NoError(t, err, "Validation should work")
@@ -386,7 +386,7 @@ func TestAPIUserServiceCredentialFiles(t *testing.T) {
 		require.NoError(t, err)
 
 		validRequest := &GetAPIUserRequest{
-			Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+			Name: "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 		}
 		err = validator.Validate(validRequest)
 		assert.NoError(t, err, "Validation should work")
@@ -417,7 +417,7 @@ func TestAPIUserServiceRequestValidation(t *testing.T) {
 			{
 				name: "ValidRequest",
 				request: &GetAPIUserRequest{
-					Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+					Name: "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				},
 				expectError: false,
 				description: "Valid request should pass",

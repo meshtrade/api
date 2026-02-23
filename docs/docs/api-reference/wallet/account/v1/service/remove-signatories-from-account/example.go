@@ -36,7 +36,7 @@ func main() {
 			// Resource names of (api)Users to remove as signatories (supports 1-100 users)
 			Users: []string{
 				"users/01HN2ZXQJ8K9M0L1N3P2Q4R5T6",
-				"api_users/01HN2ZXQJ8K9M0L1N3P2Q4R5T7",
+				"iam/api_users/01HN2ZXQJ8K9M0L1N3P2Q4R5T7",
 				"users/01HN2ZXQJ8K9M0L1N3P2Q4R5T8",
 			},
 		},

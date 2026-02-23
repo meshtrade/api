@@ -22,14 +22,14 @@ func TestGetAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "valid request with correct name format",
 			request: &GetAPIUserRequest{
-				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Name: "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 			},
 			wantValid: true,
 		},
 		{
 			name: "valid request with different ULIDv2",
 			request: &GetAPIUserRequest{
-				Name: "api_users/01BX5ZZKBKACTAV9WEVGEMMVRZ",
+				Name: "iam/api_users/01BX5ZZKBKACTAV9WEVGEMMVRZ",
 			},
 			wantValid: true,
 		},
@@ -45,7 +45,7 @@ func TestGetAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "invalid name format - wrong prefix",
 			request: &GetAPIUserRequest{
-				Name: "api_user/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Missing 's'
+				Name: "iam/api_user/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Missing 's'
 			},
 			wantValid: false,
 			wantError: "pattern",
@@ -61,7 +61,7 @@ func TestGetAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "invalid name format - invalid ULIDv2 characters",
 			request: &GetAPIUserRequest{
-				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FIL", // Contains 'I' and 'L'
+				Name: "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FIL", // Contains 'I' and 'L'
 			},
 			wantValid: false,
 			wantError: "pattern",
@@ -69,7 +69,7 @@ func TestGetAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "invalid name format - lowercase ULIDv2",
 			request: &GetAPIUserRequest{
-				Name: "api_users/01arz3ndektsv4rrffq69g5fav", // Lowercase
+				Name: "iam/api_users/01arz3ndektsv4rrffq69g5fav", // Lowercase
 			},
 			wantValid: false,
 			wantError: "pattern",
@@ -77,7 +77,7 @@ func TestGetAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "invalid name length - too short",
 			request: &GetAPIUserRequest{
-				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FA", // 35 chars instead of 36
+				Name: "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FA", // 35 chars instead of 36
 			},
 			wantValid: false,
 			wantError: "length",
@@ -85,7 +85,7 @@ func TestGetAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "invalid name length - too long",
 			request: &GetAPIUserRequest{
-				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAVX", // 37 chars instead of 36
+				Name: "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAVX", // 37 chars instead of 36
 			},
 			wantValid: false,
 			wantError: "length",
@@ -93,7 +93,7 @@ func TestGetAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "invalid name format - forbidden characters",
 			request: &GetAPIUserRequest{
-				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAU", // Contains 'U'
+				Name: "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAU", // Contains 'U'
 			},
 			wantValid: false,
 			wantError: "pattern",
@@ -101,7 +101,7 @@ func TestGetAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "invalid name format - special characters in ULIDv2",
 			request: &GetAPIUserRequest{
-				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5F@V", // Contains @
+				Name: "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5F@V", // Contains @
 			},
 			wantValid: false,
 			wantError: "pattern",
@@ -271,14 +271,14 @@ func TestActivateAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "valid request with correct name format",
 			request: &ActivateAPIUserRequest{
-				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Name: "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 			},
 			wantValid: true,
 		},
 		{
 			name: "valid request with different ULIDv2",
 			request: &ActivateAPIUserRequest{
-				Name: "api_users/01BX5ZZKBKACTAV9WEVGEMMVRZ",
+				Name: "iam/api_users/01BX5ZZKBKACTAV9WEVGEMMVRZ",
 			},
 			wantValid: true,
 		},
@@ -302,7 +302,7 @@ func TestActivateAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "invalid name length - too short",
 			request: &ActivateAPIUserRequest{
-				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FA",
+				Name: "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FA",
 			},
 			wantValid: false,
 			wantError: "length",
@@ -310,7 +310,7 @@ func TestActivateAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "invalid name length - too long",
 			request: &ActivateAPIUserRequest{
-				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAVX",
+				Name: "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAVX",
 			},
 			wantValid: false,
 			wantError: "length",
@@ -318,7 +318,7 @@ func TestActivateAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "invalid name format - invalid ULIDv2 characters",
 			request: &ActivateAPIUserRequest{
-				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FIL",
+				Name: "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FIL",
 			},
 			wantValid: false,
 			wantError: "pattern",
@@ -354,14 +354,14 @@ func TestDeactivateAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "valid request with correct name format",
 			request: &DeactivateAPIUserRequest{
-				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Name: "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 			},
 			wantValid: true,
 		},
 		{
 			name: "valid request with different ULIDv2",
 			request: &DeactivateAPIUserRequest{
-				Name: "api_users/01BX5ZZKBKACTAV9WEVGEMMVRZ",
+				Name: "iam/api_users/01BX5ZZKBKACTAV9WEVGEMMVRZ",
 			},
 			wantValid: true,
 		},
@@ -385,7 +385,7 @@ func TestDeactivateAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "invalid name length - too short",
 			request: &DeactivateAPIUserRequest{
-				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FA",
+				Name: "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FA",
 			},
 			wantValid: false,
 			wantError: "length",
@@ -393,7 +393,7 @@ func TestDeactivateAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "invalid name length - too long",
 			request: &DeactivateAPIUserRequest{
-				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAVX",
+				Name: "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAVX",
 			},
 			wantValid: false,
 			wantError: "length",
@@ -401,7 +401,7 @@ func TestDeactivateAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "invalid name format - invalid ULIDv2 characters",
 			request: &DeactivateAPIUserRequest{
-				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FIL",
+				Name: "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FIL",
 			},
 			wantValid: false,
 			wantError: "pattern",
@@ -467,7 +467,7 @@ func TestResponseTypesValidation(t *testing.T) {
 		// Test with API users (the APIUser validation is tested elsewhere)
 		response.ApiUsers = []*APIUser{
 			{
-				Name:        "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Name:        "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				DisplayName: "Test User",
 				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				State:       APIUserState_API_USER_STATE_ACTIVE,
@@ -492,28 +492,28 @@ func TestNameFieldValidation_Comprehensive(t *testing.T) {
 
 	// Valid API user name formats (36 characters total)
 	validNames := []string{
-		"api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Standard example
-		"api_users/01BX5ZZKBKACTAV9WEVGEMMVRZ", // Another valid ULIDv2
-		"api_users/0123456789ABCDEFGHJKMNPQRS", // All valid ULIDv2 characters
-		"api_users/ZZZZZZZZZZZZZZZZZZZZZZZZZZ", // All Z's (valid ULIDv2 char)
+		"iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Standard example
+		"iam/api_users/01BX5ZZKBKACTAV9WEVGEMMVRZ", // Another valid ULIDv2
+		"iam/api_users/0123456789ABCDEFGHJKMNPQRS", // All valid ULIDv2 characters
+		"iam/api_users/ZZZZZZZZZZZZZZZZZZZZZZZZZZ", // All Z's (valid ULIDv2 char)
 	}
 
 	// Invalid API user name formats
 	invalidNames := []string{
-		"",                                      // Empty (required)
-		"api_user/01ARZ3NDEKTSV4RRFFQ69G5FAV",   // Wrong prefix (missing 's')
-		"users/01ARZ3NDEKTSV4RRFFQ69G5FAV",      // Wrong resource type
-		"api_users/01ARZ3NDEKTSV4RRFFQ69G5FIL",  // Contains forbidden 'I' and 'L'
-		"api_users/01ARZ3NDEKTSV4RRFFQ69G5FAU",  // Contains forbidden 'U'
-		"api_users/01ARZ3NDEKTSV4RRFFQ69G5FAO",  // Contains forbidden 'O'
-		"api_users/01arz3ndektsv4rrffq69g5fav",  // Lowercase not allowed
-		"api_users/01ARZ3NDEKTSV4RRFFQ69G5FA",   // Too short (35 chars)
-		"api_users/01ARZ3NDEKTSV4RRFFQ69G5FAVX", // Too long (37 chars)
-		"api_users/01ARZ3NDEKTSV4RRFFQ69G5F@V",  // Contains @ symbol
-		"api_users/01ARZ3NDEKTSV4RRFFQ69G5F V",  // Contains space
-		"api_users/01ARZ3NDEKTSV4RRFFQ69G5F-V",  // Contains hyphen (not in ULIDv2 alphabet)
-		"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",     // Wrong prefix entirely
-		"01ARZ3NDEKTSV4RRFFQ69G5FAV",            // Missing prefix entirely
+		"",                                    // Empty (required)
+		"api_user/01ARZ3NDEKTSV4RRFFQ69G5FAV", // Wrong prefix (missing 's')
+		"users/01ARZ3NDEKTSV4RRFFQ69G5FAV",    // Wrong resource type
+		"iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FIL",  // Contains forbidden 'I' and 'L'
+		"iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAU",  // Contains forbidden 'U'
+		"iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAO",  // Contains forbidden 'O'
+		"iam/api_users/01arz3ndektsv4rrffq69g5fav",  // Lowercase not allowed
+		"iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FA",   // Too short (35 chars)
+		"iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAVX", // Too long (37 chars)
+		"iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5F@V",  // Contains @ symbol
+		"iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5F V",  // Contains space
+		"iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5F-V",  // Contains hyphen (not in ULIDv2 alphabet)
+		"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",         // Wrong prefix entirely
+		"01ARZ3NDEKTSV4RRFFQ69G5FAV",                // Missing prefix entirely
 	}
 
 	// Test valid names using GetAPIUserRequest
@@ -553,7 +553,7 @@ func TestAssignRolesToAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "valid request with correct formats",
 			request: &AssignRolesToAPIUserRequest{
-				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV", // 36 chars - correct format after proto fix
+				Name:  "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV", // 36 chars - correct format after proto fix
 				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567"},
 			},
 			wantValid: true,
@@ -561,7 +561,7 @@ func TestAssignRolesToAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "valid request with different ULIDv2 values",
 			request: &AssignRolesToAPIUserRequest{
-				Name:  "api_users/01BX5ZZKBKACTAV9WEVGEMMVRZ", // 36 chars - correct format after proto fix
+				Name:  "iam/api_users/01BX5ZZKBKACTAV9WEVGEMMVRZ", // 36 chars - correct format after proto fix
 				Roles: []string{"groups/01BX5ZZKBKACTAV9WEVGEMMVRZ/roles/1000001"},
 			},
 			wantValid: true,
@@ -588,7 +588,7 @@ func TestAssignRolesToAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "invalid name format - wrong length (too short)",
 			request: &AssignRolesToAPIUserRequest{
-				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FA", // 35 chars instead of 36
+				Name:  "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FA", // 35 chars instead of 36
 				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567"},
 			},
 			wantValid: false,
@@ -597,7 +597,7 @@ func TestAssignRolesToAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "invalid name format - wrong length (too long)",
 			request: &AssignRolesToAPIUserRequest{
-				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAVX", // 37 chars instead of 36
+				Name:  "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAVX", // 37 chars instead of 36
 				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567"},
 			},
 			wantValid: false,
@@ -606,7 +606,7 @@ func TestAssignRolesToAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "invalid name format - lowercase chars",
 			request: &AssignRolesToAPIUserRequest{
-				Name:  "api_users/01arz3ndektsv4rrffq69g5fav", // Lowercase not allowed in ULIDv2
+				Name:  "iam/api_users/01arz3ndektsv4rrffq69g5fav", // Lowercase not allowed in ULIDv2
 				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567"},
 			},
 			wantValid: false,
@@ -616,7 +616,7 @@ func TestAssignRolesToAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "empty roles - should fail (required)",
 			request: &AssignRolesToAPIUserRequest{
-				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Name:  "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				Roles: []string{},
 			},
 			wantValid: false,
@@ -625,7 +625,7 @@ func TestAssignRolesToAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "invalid role format - wrong prefix (missing /roles/ segment)",
 			request: &AssignRolesToAPIUserRequest{
-				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Name:  "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				Roles: []string{"group/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567"}, // Missing 's' in groups
 			},
 			wantValid: false,
@@ -634,7 +634,7 @@ func TestAssignRolesToAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "invalid role format - missing /roles/ segment",
 			request: &AssignRolesToAPIUserRequest{
-				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Name:  "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567"}, // Missing /roles/ segment
 			},
 			wantValid: false,
@@ -643,7 +643,7 @@ func TestAssignRolesToAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "invalid role format - role_id too long (8 digits allowed max)",
 			request: &AssignRolesToAPIUserRequest{
-				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Name:  "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/123456789"}, // 9 digits
 			},
 			wantValid: false,
@@ -652,7 +652,7 @@ func TestAssignRolesToAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "valid role format - 7-digit role_id",
 			request: &AssignRolesToAPIUserRequest{
-				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Name:  "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/2234567"}, // Valid [1-9][0-9]{6}
 			},
 			wantValid: true,
@@ -660,7 +660,7 @@ func TestAssignRolesToAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "valid role format - 8-digit role_id",
 			request: &AssignRolesToAPIUserRequest{
-				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Name:  "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/12345678"}, // Valid [1-9][0-9]{7}
 			},
 			wantValid: true,
@@ -668,7 +668,7 @@ func TestAssignRolesToAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "invalid role format - role_id contains letters",
 			request: &AssignRolesToAPIUserRequest{
-				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Name:  "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/123456A"}, // Must be digits only
 			},
 			wantValid: false,
@@ -677,7 +677,7 @@ func TestAssignRolesToAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "invalid role format - ULIDv2 group part too short",
 			request: &AssignRolesToAPIUserRequest{
-				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Name:  "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FA/roles/1234567"}, // Missing one char in group ULID
 			},
 			wantValid: false,
@@ -686,7 +686,7 @@ func TestAssignRolesToAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "invalid role format - lowercase chars in group ULID",
 			request: &AssignRolesToAPIUserRequest{
-				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Name:  "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				Roles: []string{"groups/01arz3ndektsv4rrffq69g5fav/roles/1234567"}, // Lowercase not allowed
 			},
 			wantValid: false,
@@ -695,7 +695,7 @@ func TestAssignRolesToAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "valid request - multiple roles",
 			request: &AssignRolesToAPIUserRequest{
-				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Name: "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				Roles: []string{
 					"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567",
 					"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/7654321",
@@ -733,7 +733,7 @@ func TestRevokeRolesFromAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "valid request with correct formats",
 			request: &RevokeRolesFromAPIUserRequest{
-				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Name:  "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567"},
 			},
 			wantValid: true,
@@ -741,7 +741,7 @@ func TestRevokeRolesFromAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "valid request with multiple roles",
 			request: &RevokeRolesFromAPIUserRequest{
-				Name: "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Name: "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				Roles: []string{
 					"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567",
 					"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/7654321",
@@ -752,7 +752,7 @@ func TestRevokeRolesFromAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "valid request with 8-digit role_id",
 			request: &RevokeRolesFromAPIUserRequest{
-				Name:  "api_users/01BX5ZZKBKACTAV9WEVGEMMVRZ",
+				Name:  "iam/api_users/01BX5ZZKBKACTAV9WEVGEMMVRZ",
 				Roles: []string{"groups/01BX5ZZKBKACTAV9WEVGEMMVRZ/roles/12345678"},
 			},
 			wantValid: true,
@@ -770,7 +770,7 @@ func TestRevokeRolesFromAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "invalid name format - wrong length",
 			request: &RevokeRolesFromAPIUserRequest{
-				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FA",
+				Name:  "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FA",
 				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567"},
 			},
 			wantValid: false,
@@ -789,7 +789,7 @@ func TestRevokeRolesFromAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "empty roles - should fail (required)",
 			request: &RevokeRolesFromAPIUserRequest{
-				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Name:  "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				Roles: []string{},
 			},
 			wantValid: false,
@@ -798,7 +798,7 @@ func TestRevokeRolesFromAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "invalid role format - missing /roles/ segment",
 			request: &RevokeRolesFromAPIUserRequest{
-				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Name:  "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/1234567"},
 			},
 			wantValid: false,
@@ -807,7 +807,7 @@ func TestRevokeRolesFromAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "invalid role format - wrong prefix",
 			request: &RevokeRolesFromAPIUserRequest{
-				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Name:  "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				Roles: []string{"group/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/1234567"},
 			},
 			wantValid: false,
@@ -816,7 +816,7 @@ func TestRevokeRolesFromAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "invalid role format - role_id contains letters",
 			request: &RevokeRolesFromAPIUserRequest{
-				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Name:  "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/123456A"},
 			},
 			wantValid: false,
@@ -825,7 +825,7 @@ func TestRevokeRolesFromAPIUserRequest_Validation(t *testing.T) {
 		{
 			name: "invalid role format - role_id too long (9 digits)",
 			request: &RevokeRolesFromAPIUserRequest{
-				Name:  "api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Name:  "iam/api_users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				Roles: []string{"groups/01ARZ3NDEKTSV4RRFFQ69G5FAV/roles/123456789"},
 			},
 			wantValid: false,

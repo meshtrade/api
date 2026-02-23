@@ -25,7 +25,7 @@ message APIUser {
   string name = 1 [(buf.validate.field) = {
     cel: {
       id: "name.format.optional"
-      message: "name must be empty or in the format api_users/{ULIDv2}"
+      message: "name must be empty or in the format iam/api_users/{ULIDv2}"
       expression: "size(this) == 0 || this.matches('^iam/api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
     }
   }];

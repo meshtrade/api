@@ -187,14 +187,11 @@ service APIUserService {
 message GetAPIUserRequest {
   /*
      Name of the API user to retrieve.
-     Format: api_users/{ULIDv2}
+     Format: iam/api_users/{ULIDv2}
   */
   string name = 1 [(buf.validate.field) = {
     required: true
-    string: {
-      len: 36
-      pattern: "^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
-    }
+    string: {pattern: "^iam/api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"}
   }];
 }
 
@@ -221,14 +218,11 @@ message CreateAPIUserRequest {
 
 message AssignRolesToAPIUserRequest {
   /*
-     Name of the API user to assign roles to in the format api_users/{ULIDv2}.
+     Name of the API user to assign roles to in the format iam/api_users/{ULIDv2}.
   */
   string name = 1 [(buf.validate.field) = {
     required: true
-    string: {
-      len: 36
-      pattern: "^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
-    }
+    string: {pattern: "^iam/api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"}
   }];
 
   /*
@@ -251,14 +245,11 @@ message AssignRolesToAPIUserRequest {
 
 message RevokeRolesFromAPIUserRequest {
   /*
-     Name of the API user to revoke roles from in the format api_users/{ULIDv2}.
+     Name of the API user to revoke roles from in the format iam/api_users/{ULIDv2}.
   */
   string name = 1 [(buf.validate.field) = {
     required: true
-    string: {
-      len: 36
-      pattern: "^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
-    }
+    string: {pattern: "^iam/api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"}
   }];
 
   /*
@@ -299,27 +290,21 @@ message SearchAPIUsersResponse {
 message ActivateAPIUserRequest {
   /*
      Name of the API user to activate.
-     Format: api_users/{ULIDv2}
+     Format: iam/api_users/{ULIDv2}
   */
   string name = 1 [(buf.validate.field) = {
     required: true
-    string: {
-      len: 36
-      pattern: "^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
-    }
+    string: {pattern: "^iam/api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"}
   }];
 }
 
 message DeactivateAPIUserRequest {
   /*
      Name of the API user to deactivate.
-     Format: api_users/{ULIDv2}
+     Format: iam/api_users/{ULIDv2}
   */
   string name = 1 [(buf.validate.field) = {
     required: true
-    string: {
-      len: 36
-      pattern: "^api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
-    }
+    string: {pattern: "^iam/api_users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"}
   }];
 }

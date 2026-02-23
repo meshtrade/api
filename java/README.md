@@ -85,14 +85,14 @@ public class Example {
     public static void main(String[] args) {
         // Using default configuration (auto-discovers credentials)
         try (ApiUserServiceClient client = new ApiUserServiceClient()) {
-            
+
             GetApiUserRequest request = GetApiUserRequest.newBuilder()
-                .setName("api_users/01ABCDEFG123456789ABCDEFGH")
+                .setName("iam/api_users/01ABCDEFG123456789ABCDEFGH")
                 .build();
-                
+
             APIUser user = client.getApiUser(request);
             System.out.println("User: " + user.getDisplayName());
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -118,13 +118,13 @@ public class CustomConfigExample {
             .timeout(Duration.ofSeconds(60))
             .tls(true)
             .build();
-            
+
         try (ApiUserServiceClient client = new ApiUserServiceClient(options)) {
             // Use configured client
             GetApiUserRequest request = GetApiUserRequest.newBuilder()
-                .setName("api_users/01ABCDEFG123456789ABCDEFGH")
+                .setName("iam/api_users/01ABCDEFG123456789ABCDEFGH")
                 .build();
-                
+
             APIUser user = client.getApiUser(request);
             System.out.println("User: " + user.getDisplayName());
         } catch (Exception e) {
@@ -174,7 +174,7 @@ try (ApiUserServiceClient client = new ApiUserServiceClient()) {
 } catch (StatusRuntimeException e) {
     Status.Code code = e.getStatus().getCode();
     String message = e.getStatus().getDescription();
-    
+
     switch (code) {
         case NOT_FOUND:
             System.err.println("Resource not found: " + message);
@@ -314,10 +314,10 @@ We welcome contributions! Please see our [Contributing Guide](https://github.com
    ```bash
    git clone https://github.com/meshtrade/api.git
    cd api
-   
+
    # Check your development environment
    ./dev/tool.sh doctor
-   
+
    mvn clean compile
    ```
 
@@ -325,7 +325,7 @@ We welcome contributions! Please see our [Contributing Guide](https://github.com
    ```bash
    # Comprehensive testing (recommended)
    ./dev/test/java.sh
-   
+
    # Or basic tests
    mvn test
    ```
@@ -347,6 +347,6 @@ This project is licensed under a custom license. See the [LICENSE](https://githu
 
 ---
 
-**Artifact Coordinates**: `co.meshtrade:api:0.0.8`  
-**Minimum Java Version**: 17  
+**Artifact Coordinates**: `co.meshtrade:api:0.0.8`
+**Minimum Java Version**: 17
 **Documentation**: [https://meshtrade.github.io/api/](https://meshtrade.github.io/api/)
