@@ -25,7 +25,9 @@ You must EXECUTE the following release process, not just describe it. Create all
    - For each feature/fix commit, get PR details with `gh pr view <number> --json title,body`
    - Check proto changes: `git diff <previous-proto-tag>..HEAD -- proto/`
 
-### Step 2: Create All Git Tags Locally
+### Step 2: Create and Push All Git Tags
+
+Create all 8 tags locally, then push them all at once:
 
 ```bash
 git tag proto/v$1
@@ -36,51 +38,44 @@ git tag ts-node/v$1
 git tag ts-web/v$1
 git tag ts-old/v$1
 git tag docs/v$1
+
+git push origin proto/v$1 go/v$1 py/v$1 java/v$1 ts-node/v$1 ts-web/v$1 ts-old/v$1 docs/v$1
 ```
 
-**IMPORTANT**: Do NOT push tags yet! They will be pushed automatically when creating releases in Step 3.
+### Step 3: Create the Go Release
 
-### Step 3: Create All 8 GitHub Releases
+Go has no deploy workflow, so create its release now. It won't be overwritten.
 
-Create releases with `gh release create` using HEREDOC for notes. Write good release notes based on the changes you found in Step 1.
+```bash
+gh release create go/v$1 --title "Go SDK v$1" --notes "..."
+```
 
-**CRITICAL RELEASE FLAGS**:
-- Do NOT use `--draft` flag - releases must be published immediately
-- The `gh release create <tag>` command will automatically push the tag AND trigger the workflow via push event
-- If tags were already pushed before creating releases, workflows will NOT trigger and you must re-push tags in Step 4
+Use good release notes based on the changes found in Step 1.
 
-**Release patterns:**
-- `proto/v$1` - "Protobuf v$1" - List proto changes, breaking changes, "aligns with SDK releases v$1"
-- `go/v$1` - "Go SDK v$1" - What's Changed, Migration example, Full Changelog link
-- `py/v$1` - "Python SDK v$1" - What's Changed, Migration, `pip install meshtrade==$1`
-- `java/v$1` - "Java SDK v$1" - What's Changed, Migration, Maven dependency XML
-- `ts-node/v$1` - "TypeScript SDK (Node) v$1" - What's Changed, Migration, `npm install @meshtrade/api-node@$1`
-- `ts-web/v$1` - "TypeScript SDK (Web) v$1" - Same but `@meshtrade/api-web@$1`
-- `ts-old/v$1` - "TypeScript SDK (Legacy) v$1" - Same but `@meshtrade/api@$1`
-- `docs/v$1` - "Documentation v$1" - Doc updates, link to https://meshtrade.github.io/api/
+### Step 4: Trigger All Deploy Workflows via Tag Re-push
 
-### Step 4: Verify Workflows Triggered
+Re-push each tag (except Go) to trigger the deploy workflows. Each re-push MUST be done individually to ensure GitHub fires a push event for each:
 
-After creating releases, check `gh run list --limit 15` to verify workflows were triggered.
+```bash
+git push origin :refs/tags/proto/v$1 && git push origin proto/v$1
+git push origin :refs/tags/py/v$1 && git push origin py/v$1
+git push origin :refs/tags/java/v$1 && git push origin java/v$1
+git push origin :refs/tags/ts-node/v$1 && git push origin ts-node/v$1
+git push origin :refs/tags/ts-web/v$1 && git push origin ts-web/v$1
+git push origin :refs/tags/ts-old/v$1 && git push origin ts-old/v$1
+git push origin :refs/tags/docs/v$1 && git push origin docs/v$1
+```
 
-**Expected workflows (all should show the tag and `push` event type):**
+Run these in parallel (all at once).
+
+Then verify all 7 workflows appear with `gh run list --limit 15`. All should show the tag and `push` event type:
 - Push Protobuf to Buf Registry (proto/v$1)
 - Deploy Python SDK to PyPI (py/v$1)
 - Deploy Java SDK to Maven Central (java/v$1)
 - Deploy TypeScript SDK Node/Web/Legacy (ts-*/v$1)
 - Deploy Docs Site (docs/v$1)
 
-**If any workflow did NOT trigger**, you must delete and re-push the tag to trigger it:
-```bash
-git push origin :refs/tags/<tag> && git push origin <tag>
-```
-
-For example, if proto workflow didn't trigger:
-```bash
-git push origin :refs/tags/proto/v$1 && git push origin proto/v$1
-```
-
-### Step 5: Monitor Until Complete
+### Step 5: Monitor Until All Workflows Complete
 
 Run `gh run list --limit 15` periodically until all v$1 workflows show `completed success`.
 
@@ -93,7 +88,40 @@ Expected completion times:
 
 If any workflow fails, check logs with `gh run view <run-id> --log-failed` and fix.
 
-### Step 6: Merge Auto-Generated Version PRs
+### Step 6: Publish All Releases (CRITICAL)
+
+**WHY**: The deploy workflows create/update releases as **drafts**, overwriting any previously published release. This step is MANDATORY — without it, releases will remain as drafts.
+
+Edit each release (except Go, which is already published) with proper release notes and publish:
+
+```bash
+gh release edit proto/v$1 --draft=false --title "Protobuf v$1" --notes "..."
+gh release edit py/v$1 --draft=false --title "Python SDK v$1" --notes "..."
+gh release edit java/v$1 --draft=false --title "Java SDK v$1" --notes "..."
+gh release edit ts-node/v$1 --draft=false --title "TypeScript SDK (Node) v$1" --notes "..."
+gh release edit ts-web/v$1 --draft=false --title "TypeScript SDK (Web) v$1" --notes "..."
+gh release edit ts-old/v$1 --draft=false --title "TypeScript SDK (Legacy) v$1" --notes "..."
+gh release edit docs/v$1 --draft=false --title "Documentation v$1" --notes "..."
+```
+
+Use HEREDOC for notes. Write good release notes based on changes from Step 1.
+
+**Release note patterns:**
+- `proto/v$1` - List proto changes, breaking changes, "aligns with SDK releases v$1"
+- `py/v$1` - What's Changed, Migration, `pip install meshtrade==$1`
+- `java/v$1` - What's Changed, Migration, Maven dependency XML
+- `ts-node/v$1` - What's Changed, Migration, `npm install @meshtrade/api-node@$1`
+- `ts-web/v$1` - Same but `@meshtrade/api-web@$1`
+- `ts-old/v$1` - Same but `@meshtrade/api@$1`
+- `docs/v$1` - Doc updates, link to https://meshtrade.github.io/api/
+
+**After editing, immediately verify zero drafts remain:**
+```bash
+gh release list --limit 10 | grep -i draft
+```
+If ANY drafts exist, re-run `gh release edit <tag> --draft=false` for each.
+
+### Step 7: Merge Auto-Generated Version PRs
 
 After all workflows complete successfully, 5 auto-generated PRs will exist that bump version files back into master. Merge all of them:
 
@@ -116,11 +144,14 @@ gh pr merge chore/npm-ts-old-version-update-$1 --squash --delete-branch --admin
 **Note:** `--admin` is required to bypass branch protection rules on master. Always use `--squash` for a clean commit history.
 3. If any PR is missing, the corresponding workflow may still be running or may have failed — check `gh run list --limit 15`
 
-### Step 7: Report Results
+### Step 8: Final Verification and Report
+
+1. Run `gh release list --limit 10 | grep -i draft` — must return NOTHING
+2. Run `git pull origin master` to sync version-bump merges
 
 Show the user:
-1. All 8 releases created with links
-2. All workflow statuses (success/failure) - verify all triggered via `push` event
+1. All 8 releases with links — confirm NONE are drafts
+2. All workflow statuses (success/failure) — verify all triggered via `push` event
 3. All 5 version-bump PRs merged successfully
 
 ---
@@ -140,3 +171,11 @@ Show the user:
 5. **Docs**: Can work with manual dispatch, but tag push is preferred for consistency.
 
 **The ONLY way to trigger workflows is via tag push. Period.**
+
+## WHY RELEASES MUST BE PUBLISHED AFTER WORKFLOWS
+
+Deploy workflows use GitHub Actions that create/update releases as **drafts**. This means:
+- Any tag push that triggers a workflow will overwrite the release status to draft
+- Even if you create a published release first, the workflow will convert it back to draft
+- The ONLY safe time to publish is AFTER all workflows have completed
+- Go is the exception — it has no deploy workflow, so its release is created once and stays published
