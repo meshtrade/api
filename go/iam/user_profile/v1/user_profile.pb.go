@@ -29,7 +29,7 @@ const (
 type UserProfile struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The unique resource name for the user_profiles.
-	// Format: user_profiles/{ULIDv2}.
+	// Format: iam/user_profiles/{ULIDv2}.
 	// This field is system-generated and immutable upon creation.
 	// Any value provided on creation is ignored.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
@@ -168,11 +168,11 @@ var File_meshtrade_iam_user_profile_v1_user_profile_proto protoreflect.FileDescr
 
 const file_meshtrade_iam_user_profile_v1_user_profile_proto_rawDesc = "" +
 	"\n" +
-	"0meshtrade/iam/user_profile/v1/user_profile.proto\x12\x1dmeshtrade.iam.user_profile.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1dmeshtrade/type/v1/token.proto\"\xa7\n" +
+	"0meshtrade/iam/user_profile/v1/user_profile.proto\x12\x1dmeshtrade.iam.user_profile.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1dmeshtrade/type/v1/token.proto\"\xaf\n" +
 	"\n" +
-	"\vUserProfile\x12\xca\x01\n" +
-	"\x04name\x18\x01 \x01(\tB\xb5\x01\xbaH\xb1\x01\xba\x01\xad\x01\n" +
-	"\x14name.format.optional\x12:name must be empty or in the format user_profiles/{ULIDv2}\x1aYsize(this) == 0 || this.matches('^user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12R\n" +
+	"\vUserProfile\x12\xd2\x01\n" +
+	"\x04name\x18\x01 \x01(\tB\xbd\x01\xbaH\xb9\x01\xba\x01\xb5\x01\n" +
+	"\x14name.format.optional\x12>name must be empty or in the format iam/user_profiles/{ULIDv2}\x1a]size(this) == 0 || this.matches('^iam/user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12R\n" +
 	"\x05owner\x18\x02 \x01(\tB<\xbaH9\xc8\x01\x01r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05owner\x12V\n" +
 	"\x06owners\x18\x03 \x03(\tB>\xbaH;\x92\x018\"6r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x06owners\x12\xdf\x02\n" +
 	"\x04user\x18\x04 \x01(\tB\xca\x02\xbaH\xc6\x02\xba\x01V\n" +

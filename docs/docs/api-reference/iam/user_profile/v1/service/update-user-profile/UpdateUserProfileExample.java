@@ -16,7 +16,7 @@ public class UpdateUserProfileExample {
             // Update user profile with modified information
             UpdateUserProfileRequest request = UpdateUserProfileRequest.newBuilder()
                 .setUserProfile(UserProfile.newBuilder()
-                    .setName("user_profiles/01JCXYZ1234567890ABCDEFGHJK")  // Existing profile identifier
+                    .setName("iam/user_profiles/01JCXYZ1234567890ABCDEFGHJK")  // Existing profile identifier
                     .setOwner(service.getGroup())  // Owner must match current ownership
                     .setUserName("users/01JCXYZ1234567890ABCDEFGHJK")  // Associated user resource
                     .setDisplayName("Sarah Thompson-Johnson")  // Updated display name

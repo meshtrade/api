@@ -23,10 +23,7 @@ def main():
             print(f"User Profile {i + 1}:")
             print(f"  Name: {profile.name}")
             print(f"  Display Name: {profile.display_name}")
-            print(f"  User: {profile.user_name}")
             print(f"  Owner: {profile.owner}")
-            if profile.contact_details.email_address:
-                print(f"  Email: {profile.contact_details.email_address}")
             print()
 
 

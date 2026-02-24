@@ -22,10 +22,10 @@ func main() {
 	// Update user profile with modified information
 	request := &user_profilev1.UpdateUserProfileRequest{
 		UserProfile: &user_profilev1.UserProfile{
-			Name:               "user_profiles/${_id}",  // Existing profile identifier
-			Owner:              service.Group(), // Owner must match current ownership
-			DisplayName:        "Sarah Thompson-Johnson", // Updated display name
-			ProfilePictureUrl:  "https://cdn.example.com/profiles/sarah-new.jpg", // New photo
+			Name:              "iam/user_profiles/${_id}",                       // Existing profile identifier
+			Owner:             service.Group(),                                  // Owner must match current ownership
+			DisplayName:       "Sarah Thompson-Johnson",                         // Updated display name
+			ProfilePictureUrl: "https://cdn.example.com/profiles/sarah-new.jpg", // New photo
 		},
 	}
 
