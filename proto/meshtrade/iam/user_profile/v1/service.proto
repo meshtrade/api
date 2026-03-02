@@ -3,6 +3,7 @@ syntax = "proto3";
 package meshtrade.iam.user_profile.v1;
 
 import "buf/validate/validate.proto";
+import "google/protobuf/timestamp.proto";
 import "meshtrade/iam/user_profile/v1/user_profile.proto";
 import "meshtrade/option/method_options/v1/method_options.proto";
 
@@ -100,6 +101,26 @@ service UserProfileService {
       ]
     };
   }
+
+  /*
+     Retrieves a presigned upload URL for a user profile picture.
+
+     Generates a temporary upload URL that can be used to upload
+     a profile picture image. The URL expires after a short duration
+     and should be used immediately for uploading the image file.
+
+     Returns upload URL and expiration timestamp.
+  */
+  rpc GetUserProfilePictureUploadUrl(GetUserProfilePictureUploadUrlRequest) returns (GetUserProfilePictureUploadUrlResponse) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_USER_PROFILE_ADMIN
+      ]
+    };
+  }
 }
 
 /*
@@ -156,24 +177,24 @@ message UpdateUserProfileRequest {
 message GetUserProfileRequest {
   /*
      The resource name of the user profile to retrieve.
-     Format: user_profiles/{ULIDv2}.
+     Format: iam/user_profiles/{ULIDv2}.
      This field is required.
   */
   string name = 1 [(buf.validate.field) = {
     required: true
     string: {
       min_len: 1
-      pattern: "^user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+      pattern: "^iam/user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
     cel: {
       id: "name.required"
-      message: "name is required and must be in format user_profiles/{ULIDv2}"
+      message: "name is required and must be in format iam/user_profiles/{ULIDv2}"
       expression: "size(this) > 0"
     }
     cel: {
       id: "name.format"
-      message: "name must be in format user_profiles/{ULIDv2} where ulidv2 is exactly 26 uppercase alphanumeric characters"
-      expression: "this.matches('^user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
+      message: "name must be in format iam/user_profiles/{ULIDv2} where ulidv2 is exactly 26 uppercase alphanumeric characters"
+      expression: "this.matches('^iam/user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
     }
   }];
 }
@@ -197,4 +218,54 @@ message ListUserProfilesResponse {
      Ordered by creation time, with most recent first.
   */
   repeated UserProfile user_profiles = 1;
+}
+
+/*
+   Request message for GetUserProfilePictureUploadUrl.
+
+   Requests a presigned URL for uploading a profile picture for
+   the specified user profile.
+*/
+message GetUserProfilePictureUploadUrlRequest {
+  /*
+     The resource name of the user profile to upload a picture for.
+     Format: iam/user_profiles/{ULIDv2}.
+     This field is required.
+  */
+  string name = 1 [(buf.validate.field) = {
+    required: true
+    string: {
+      len: 1
+      pattern: "^iam/user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+    }
+    cel: {
+      id: "name.required"
+      message: "name is required and must be in format iam/user_profiles/{ULIDv2}"
+      expression: "size(this) > 0"
+    }
+    cel: {
+      id: "name.format"
+      message: "name must be in format iam/user_profiles/{ULIDv2} where ulidv2 is exactly 26 uppercase alphanumeric characters"
+      expression: "this.matches('^iam/user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
+    }
+  }];
+}
+
+/*
+   Response message for GetUserProfilePictureUploadUrl.
+
+   Contains the presigned upload URL and its expiration time.
+*/
+message GetUserProfilePictureUploadUrlResponse {
+  /*
+     The presigned URL for uploading the profile picture.
+     This URL should be used immediately with a PUT request to upload the image.
+  */
+  string upload_url = 1;
+
+  /*
+     The timestamp when the upload URL expires.
+     After this time, the URL will no longer be valid for uploading.
+  */
+  google.protobuf.Timestamp expires_at = 2;
 }

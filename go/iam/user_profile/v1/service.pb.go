@@ -11,6 +11,7 @@ import (
 	_ "github.com/meshtrade/api/go/option/method_options/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -130,7 +131,7 @@ func (x *UpdateUserProfileRequest) GetUserProfile() *UserProfile {
 type GetUserProfileRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The resource name of the user profile to retrieve.
-	// Format: user_profiles/{ULIDv2}.
+	// Format: iam/user_profiles/{ULIDv2}.
 	// This field is required.
 	Name          string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -263,29 +264,149 @@ func (x *ListUserProfilesResponse) GetUserProfiles() []*UserProfile {
 	return nil
 }
 
+// Request message for GetUserProfilePictureUploadUrl.
+//
+// Requests a presigned URL for uploading a profile picture for
+// the specified user profile.
+type GetUserProfilePictureUploadUrlRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The resource name of the user profile to upload a picture for.
+	// Format: iam/user_profiles/{ULIDv2}.
+	// This field is required.
+	Name          string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserProfilePictureUploadUrlRequest) Reset() {
+	*x = GetUserProfilePictureUploadUrlRequest{}
+	mi := &file_meshtrade_iam_user_profile_v1_service_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserProfilePictureUploadUrlRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserProfilePictureUploadUrlRequest) ProtoMessage() {}
+
+func (x *GetUserProfilePictureUploadUrlRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_iam_user_profile_v1_service_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserProfilePictureUploadUrlRequest.ProtoReflect.Descriptor instead.
+func (*GetUserProfilePictureUploadUrlRequest) Descriptor() ([]byte, []int) {
+	return file_meshtrade_iam_user_profile_v1_service_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *GetUserProfilePictureUploadUrlRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+// Response message for GetUserProfilePictureUploadUrl.
+//
+// Contains the presigned upload URL and its expiration time.
+type GetUserProfilePictureUploadUrlResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The presigned URL for uploading the profile picture.
+	// This URL should be used immediately with a PUT request to upload the image.
+	UploadUrl string `protobuf:"bytes,1,opt,name=upload_url,json=uploadUrl,proto3" json:"upload_url,omitempty"`
+	// The timestamp when the upload URL expires.
+	// After this time, the URL will no longer be valid for uploading.
+	ExpiresAt     *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserProfilePictureUploadUrlResponse) Reset() {
+	*x = GetUserProfilePictureUploadUrlResponse{}
+	mi := &file_meshtrade_iam_user_profile_v1_service_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserProfilePictureUploadUrlResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserProfilePictureUploadUrlResponse) ProtoMessage() {}
+
+func (x *GetUserProfilePictureUploadUrlResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_iam_user_profile_v1_service_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserProfilePictureUploadUrlResponse.ProtoReflect.Descriptor instead.
+func (*GetUserProfilePictureUploadUrlResponse) Descriptor() ([]byte, []int) {
+	return file_meshtrade_iam_user_profile_v1_service_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *GetUserProfilePictureUploadUrlResponse) GetUploadUrl() string {
+	if x != nil {
+		return x.UploadUrl
+	}
+	return ""
+}
+
+func (x *GetUserProfilePictureUploadUrlResponse) GetExpiresAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.ExpiresAt
+	}
+	return nil
+}
+
 var File_meshtrade_iam_user_profile_v1_service_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_user_profile_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"+meshtrade/iam/user_profile/v1/service.proto\x12\x1dmeshtrade.iam.user_profile.v1\x1a\x1bbuf/validate/validate.proto\x1a0meshtrade/iam/user_profile/v1/user_profile.proto\x1a7meshtrade/option/method_options/v1/method_options.proto\"\xfe\x02\n" +
+	"+meshtrade/iam/user_profile/v1/service.proto\x12\x1dmeshtrade.iam.user_profile.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a0meshtrade/iam/user_profile/v1/user_profile.proto\x1a7meshtrade/option/method_options/v1/method_options.proto\"\xfe\x02\n" +
 	"\x1bGetUserProfileByUserRequest\x12\xde\x02\n" +
 	"\x04user\x18\x01 \x01(\tB\xc9\x02\xbaH\xc5\x02\xba\x01V\n" +
 	"\ruser.required\x125user is required and must be in format users/{ULIDv2}\x1a\x0esize(this) > 0\xba\x01\xb1\x01\n" +
 	"\vuser.format\x12bname must be in format users/{ULIDv2} where ulidv2 is exactly 26 uppercase alphanumeric characters\x1a>this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')\xc8\x01\x01r2\x10\x012.^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$R\x04user\"q\n" +
 	"\x18UpdateUserProfileRequest\x12U\n" +
-	"\fuser_profile\x18\x01 \x01(\v2*.meshtrade.iam.user_profile.v1.UserProfileB\x06\xbaH\x03\xc8\x01\x01R\vuserProfile\"\x98\x03\n" +
-	"\x15GetUserProfileRequest\x12\xfe\x02\n" +
-	"\x04name\x18\x01 \x01(\tB\xe9\x02\xbaH\xe5\x02\xba\x01^\n" +
-	"\rname.required\x12=name is required and must be in format user_profiles/{ULIDv2}\x1a\x0esize(this) > 0\xba\x01\xc1\x01\n" +
-	"\vname.format\x12jname must be in format user_profiles/{ULIDv2} where ulidv2 is exactly 26 uppercase alphanumeric characters\x1aFthis.matches('^user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')\xc8\x01\x01r:\x10\x0126^user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$R\x04name\"\x19\n" +
+	"\fuser_profile\x18\x01 \x01(\v2*.meshtrade.iam.user_profile.v1.UserProfileB\x06\xbaH\x03\xc8\x01\x01R\vuserProfile\"\xa8\x03\n" +
+	"\x15GetUserProfileRequest\x12\x8e\x03\n" +
+	"\x04name\x18\x01 \x01(\tB\xf9\x02\xbaH\xf5\x02\xba\x01b\n" +
+	"\rname.required\x12Aname is required and must be in format iam/user_profiles/{ULIDv2}\x1a\x0esize(this) > 0\xba\x01\xc9\x01\n" +
+	"\vname.format\x12nname must be in format iam/user_profiles/{ULIDv2} where ulidv2 is exactly 26 uppercase alphanumeric characters\x1aJthis.matches('^iam/user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')\xc8\x01\x01r>\x10\x012:^iam/user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$R\x04name\"\x19\n" +
 	"\x17ListUserProfilesRequest\"k\n" +
 	"\x18ListUserProfilesResponse\x12O\n" +
-	"\ruser_profiles\x18\x01 \x03(\v2*.meshtrade.iam.user_profile.v1.UserProfileR\fuserProfiles2\xf3\x04\n" +
+	"\ruser_profiles\x18\x01 \x03(\v2*.meshtrade.iam.user_profile.v1.UserProfileR\fuserProfiles\"\xb9\x03\n" +
+	"%GetUserProfilePictureUploadUrlRequest\x12\x8f\x03\n" +
+	"\x04name\x18\x01 \x01(\tB\xfa\x02\xbaH\xf6\x02\xba\x01b\n" +
+	"\rname.required\x12Aname is required and must be in format iam/user_profiles/{ULIDv2}\x1a\x0esize(this) > 0\xba\x01\xc9\x01\n" +
+	"\vname.format\x12nname must be in format iam/user_profiles/{ULIDv2} where ulidv2 is exactly 26 uppercase alphanumeric characters\x1aJthis.matches('^iam/user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')\xc8\x01\x01r?2:^iam/user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01\x01R\x04name\"\x82\x01\n" +
+	"&GetUserProfilePictureUploadUrlResponse\x12\x1d\n" +
+	"\n" +
+	"upload_url\x18\x01 \x01(\tR\tuploadUrl\x129\n" +
+	"\n" +
+	"expires_at\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\texpiresAt2\xb7\x06\n" +
 	"\x12UserProfileService\x12\x8c\x01\n" +
 	"\x11UpdateUserProfile\x127.meshtrade.iam.user_profile.v1.UpdateUserProfileRequest\x1a*.meshtrade.iam.user_profile.v1.UserProfile\"\x12\xb2\xb5\x18\x0e\b\x02\x10\x02\x1a\b\xc0\x8d\xb7\x01ȍ\xb7\x01\x12\x8e\x01\n" +
 	"\x0eGetUserProfile\x124.meshtrade.iam.user_profile.v1.GetUserProfileRequest\x1a*.meshtrade.iam.user_profile.v1.UserProfile\"\x1a\xb2\xb5\x18\x16\b\x01\x10\x02\x1a\x10\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01ȍ\xb7\x01ɍ\xb7\x01\x12\x9a\x01\n" +
 	"\x14GetUserProfileByUser\x12:.meshtrade.iam.user_profile.v1.GetUserProfileByUserRequest\x1a*.meshtrade.iam.user_profile.v1.UserProfile\"\x1a\xb2\xb5\x18\x16\b\x01\x10\x02\x1a\x10\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01ȍ\xb7\x01ɍ\xb7\x01\x12\x9f\x01\n" +
-	"\x10ListUserProfiles\x126.meshtrade.iam.user_profile.v1.ListUserProfilesRequest\x1a7.meshtrade.iam.user_profile.v1.ListUserProfilesResponse\"\x1a\xb2\xb5\x18\x16\b\x01\x10\x02\x1a\x10\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01ȍ\xb7\x01ɍ\xb7\x01Bg\n" +
+	"\x10ListUserProfiles\x126.meshtrade.iam.user_profile.v1.ListUserProfilesRequest\x1a7.meshtrade.iam.user_profile.v1.ListUserProfilesResponse\"\x1a\xb2\xb5\x18\x16\b\x01\x10\x02\x1a\x10\xc0\x8d\xb7\x01\xc1\x8d\xb7\x01ȍ\xb7\x01ɍ\xb7\x01\x12\xc1\x01\n" +
+	"\x1eGetUserProfilePictureUploadUrl\x12D.meshtrade.iam.user_profile.v1.GetUserProfilePictureUploadUrlRequest\x1aE.meshtrade.iam.user_profile.v1.GetUserProfilePictureUploadUrlResponse\"\x12\xb2\xb5\x18\x0e\b\x01\x10\x02\x1a\b\xc0\x8d\xb7\x01ȍ\xb7\x01Bg\n" +
 	"$co.meshtrade.api.iam.user_profile.v1Z?github.com/meshtrade/api/go/iam/user_profile/v1;user_profile_v1b\x06proto3"
 
 var (
@@ -300,31 +421,37 @@ func file_meshtrade_iam_user_profile_v1_service_proto_rawDescGZIP() []byte {
 	return file_meshtrade_iam_user_profile_v1_service_proto_rawDescData
 }
 
-var file_meshtrade_iam_user_profile_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_meshtrade_iam_user_profile_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_meshtrade_iam_user_profile_v1_service_proto_goTypes = []any{
-	(*GetUserProfileByUserRequest)(nil), // 0: meshtrade.iam.user_profile.v1.GetUserProfileByUserRequest
-	(*UpdateUserProfileRequest)(nil),    // 1: meshtrade.iam.user_profile.v1.UpdateUserProfileRequest
-	(*GetUserProfileRequest)(nil),       // 2: meshtrade.iam.user_profile.v1.GetUserProfileRequest
-	(*ListUserProfilesRequest)(nil),     // 3: meshtrade.iam.user_profile.v1.ListUserProfilesRequest
-	(*ListUserProfilesResponse)(nil),    // 4: meshtrade.iam.user_profile.v1.ListUserProfilesResponse
-	(*UserProfile)(nil),                 // 5: meshtrade.iam.user_profile.v1.UserProfile
+	(*GetUserProfileByUserRequest)(nil),            // 0: meshtrade.iam.user_profile.v1.GetUserProfileByUserRequest
+	(*UpdateUserProfileRequest)(nil),               // 1: meshtrade.iam.user_profile.v1.UpdateUserProfileRequest
+	(*GetUserProfileRequest)(nil),                  // 2: meshtrade.iam.user_profile.v1.GetUserProfileRequest
+	(*ListUserProfilesRequest)(nil),                // 3: meshtrade.iam.user_profile.v1.ListUserProfilesRequest
+	(*ListUserProfilesResponse)(nil),               // 4: meshtrade.iam.user_profile.v1.ListUserProfilesResponse
+	(*GetUserProfilePictureUploadUrlRequest)(nil),  // 5: meshtrade.iam.user_profile.v1.GetUserProfilePictureUploadUrlRequest
+	(*GetUserProfilePictureUploadUrlResponse)(nil), // 6: meshtrade.iam.user_profile.v1.GetUserProfilePictureUploadUrlResponse
+	(*UserProfile)(nil),                            // 7: meshtrade.iam.user_profile.v1.UserProfile
+	(*timestamppb.Timestamp)(nil),                  // 8: google.protobuf.Timestamp
 }
 var file_meshtrade_iam_user_profile_v1_service_proto_depIdxs = []int32{
-	5, // 0: meshtrade.iam.user_profile.v1.UpdateUserProfileRequest.user_profile:type_name -> meshtrade.iam.user_profile.v1.UserProfile
-	5, // 1: meshtrade.iam.user_profile.v1.ListUserProfilesResponse.user_profiles:type_name -> meshtrade.iam.user_profile.v1.UserProfile
-	1, // 2: meshtrade.iam.user_profile.v1.UserProfileService.UpdateUserProfile:input_type -> meshtrade.iam.user_profile.v1.UpdateUserProfileRequest
-	2, // 3: meshtrade.iam.user_profile.v1.UserProfileService.GetUserProfile:input_type -> meshtrade.iam.user_profile.v1.GetUserProfileRequest
-	0, // 4: meshtrade.iam.user_profile.v1.UserProfileService.GetUserProfileByUser:input_type -> meshtrade.iam.user_profile.v1.GetUserProfileByUserRequest
-	3, // 5: meshtrade.iam.user_profile.v1.UserProfileService.ListUserProfiles:input_type -> meshtrade.iam.user_profile.v1.ListUserProfilesRequest
-	5, // 6: meshtrade.iam.user_profile.v1.UserProfileService.UpdateUserProfile:output_type -> meshtrade.iam.user_profile.v1.UserProfile
-	5, // 7: meshtrade.iam.user_profile.v1.UserProfileService.GetUserProfile:output_type -> meshtrade.iam.user_profile.v1.UserProfile
-	5, // 8: meshtrade.iam.user_profile.v1.UserProfileService.GetUserProfileByUser:output_type -> meshtrade.iam.user_profile.v1.UserProfile
-	4, // 9: meshtrade.iam.user_profile.v1.UserProfileService.ListUserProfiles:output_type -> meshtrade.iam.user_profile.v1.ListUserProfilesResponse
-	6, // [6:10] is the sub-list for method output_type
-	2, // [2:6] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	7, // 0: meshtrade.iam.user_profile.v1.UpdateUserProfileRequest.user_profile:type_name -> meshtrade.iam.user_profile.v1.UserProfile
+	7, // 1: meshtrade.iam.user_profile.v1.ListUserProfilesResponse.user_profiles:type_name -> meshtrade.iam.user_profile.v1.UserProfile
+	8, // 2: meshtrade.iam.user_profile.v1.GetUserProfilePictureUploadUrlResponse.expires_at:type_name -> google.protobuf.Timestamp
+	1, // 3: meshtrade.iam.user_profile.v1.UserProfileService.UpdateUserProfile:input_type -> meshtrade.iam.user_profile.v1.UpdateUserProfileRequest
+	2, // 4: meshtrade.iam.user_profile.v1.UserProfileService.GetUserProfile:input_type -> meshtrade.iam.user_profile.v1.GetUserProfileRequest
+	0, // 5: meshtrade.iam.user_profile.v1.UserProfileService.GetUserProfileByUser:input_type -> meshtrade.iam.user_profile.v1.GetUserProfileByUserRequest
+	3, // 6: meshtrade.iam.user_profile.v1.UserProfileService.ListUserProfiles:input_type -> meshtrade.iam.user_profile.v1.ListUserProfilesRequest
+	5, // 7: meshtrade.iam.user_profile.v1.UserProfileService.GetUserProfilePictureUploadUrl:input_type -> meshtrade.iam.user_profile.v1.GetUserProfilePictureUploadUrlRequest
+	7, // 8: meshtrade.iam.user_profile.v1.UserProfileService.UpdateUserProfile:output_type -> meshtrade.iam.user_profile.v1.UserProfile
+	7, // 9: meshtrade.iam.user_profile.v1.UserProfileService.GetUserProfile:output_type -> meshtrade.iam.user_profile.v1.UserProfile
+	7, // 10: meshtrade.iam.user_profile.v1.UserProfileService.GetUserProfileByUser:output_type -> meshtrade.iam.user_profile.v1.UserProfile
+	4, // 11: meshtrade.iam.user_profile.v1.UserProfileService.ListUserProfiles:output_type -> meshtrade.iam.user_profile.v1.ListUserProfilesResponse
+	6, // 12: meshtrade.iam.user_profile.v1.UserProfileService.GetUserProfilePictureUploadUrl:output_type -> meshtrade.iam.user_profile.v1.GetUserProfilePictureUploadUrlResponse
+	8, // [8:13] is the sub-list for method output_type
+	3, // [3:8] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_iam_user_profile_v1_service_proto_init() }
@@ -339,7 +466,7 @@ func file_meshtrade_iam_user_profile_v1_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_meshtrade_iam_user_profile_v1_service_proto_rawDesc), len(file_meshtrade_iam_user_profile_v1_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

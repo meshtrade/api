@@ -19,10 +19,11 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	UserProfileService_UpdateUserProfile_FullMethodName    = "/meshtrade.iam.user_profile.v1.UserProfileService/UpdateUserProfile"
-	UserProfileService_GetUserProfile_FullMethodName       = "/meshtrade.iam.user_profile.v1.UserProfileService/GetUserProfile"
-	UserProfileService_GetUserProfileByUser_FullMethodName = "/meshtrade.iam.user_profile.v1.UserProfileService/GetUserProfileByUser"
-	UserProfileService_ListUserProfiles_FullMethodName     = "/meshtrade.iam.user_profile.v1.UserProfileService/ListUserProfiles"
+	UserProfileService_UpdateUserProfile_FullMethodName              = "/meshtrade.iam.user_profile.v1.UserProfileService/UpdateUserProfile"
+	UserProfileService_GetUserProfile_FullMethodName                 = "/meshtrade.iam.user_profile.v1.UserProfileService/GetUserProfile"
+	UserProfileService_GetUserProfileByUser_FullMethodName           = "/meshtrade.iam.user_profile.v1.UserProfileService/GetUserProfileByUser"
+	UserProfileService_ListUserProfiles_FullMethodName               = "/meshtrade.iam.user_profile.v1.UserProfileService/ListUserProfiles"
+	UserProfileService_GetUserProfilePictureUploadUrl_FullMethodName = "/meshtrade.iam.user_profile.v1.UserProfileService/GetUserProfilePictureUploadUrl"
 )
 
 // UserProfileServiceClient is the client API for UserProfileService service.
@@ -65,6 +66,14 @@ type UserProfileServiceClient interface {
 	//
 	// Returns a ListUserProfilesResponse containing all accessible user_profiles.
 	ListUserProfiles(ctx context.Context, in *ListUserProfilesRequest, opts ...grpc.CallOption) (*ListUserProfilesResponse, error)
+	// Retrieves a presigned upload URL for a user profile picture.
+	//
+	// Generates a temporary upload URL that can be used to upload
+	// a profile picture image. The URL expires after a short duration
+	// and should be used immediately for uploading the image file.
+	//
+	// Returns upload URL and expiration timestamp.
+	GetUserProfilePictureUploadUrl(ctx context.Context, in *GetUserProfilePictureUploadUrlRequest, opts ...grpc.CallOption) (*GetUserProfilePictureUploadUrlResponse, error)
 }
 
 type userProfileServiceClient struct {
@@ -115,6 +124,16 @@ func (c *userProfileServiceClient) ListUserProfiles(ctx context.Context, in *Lis
 	return out, nil
 }
 
+func (c *userProfileServiceClient) GetUserProfilePictureUploadUrl(ctx context.Context, in *GetUserProfilePictureUploadUrlRequest, opts ...grpc.CallOption) (*GetUserProfilePictureUploadUrlResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetUserProfilePictureUploadUrlResponse)
+	err := c.cc.Invoke(ctx, UserProfileService_GetUserProfilePictureUploadUrl_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserProfileServiceServer is the server API for UserProfileService service.
 // All implementations must embed UnimplementedUserProfileServiceServer
 // for forward compatibility.
@@ -155,6 +174,14 @@ type UserProfileServiceServer interface {
 	//
 	// Returns a ListUserProfilesResponse containing all accessible user_profiles.
 	ListUserProfiles(context.Context, *ListUserProfilesRequest) (*ListUserProfilesResponse, error)
+	// Retrieves a presigned upload URL for a user profile picture.
+	//
+	// Generates a temporary upload URL that can be used to upload
+	// a profile picture image. The URL expires after a short duration
+	// and should be used immediately for uploading the image file.
+	//
+	// Returns upload URL and expiration timestamp.
+	GetUserProfilePictureUploadUrl(context.Context, *GetUserProfilePictureUploadUrlRequest) (*GetUserProfilePictureUploadUrlResponse, error)
 	mustEmbedUnimplementedUserProfileServiceServer()
 }
 
@@ -176,6 +203,9 @@ func (UnimplementedUserProfileServiceServer) GetUserProfileByUser(context.Contex
 }
 func (UnimplementedUserProfileServiceServer) ListUserProfiles(context.Context, *ListUserProfilesRequest) (*ListUserProfilesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListUserProfiles not implemented")
+}
+func (UnimplementedUserProfileServiceServer) GetUserProfilePictureUploadUrl(context.Context, *GetUserProfilePictureUploadUrlRequest) (*GetUserProfilePictureUploadUrlResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserProfilePictureUploadUrl not implemented")
 }
 func (UnimplementedUserProfileServiceServer) mustEmbedUnimplementedUserProfileServiceServer() {}
 func (UnimplementedUserProfileServiceServer) testEmbeddedByValue()                            {}
@@ -270,6 +300,24 @@ func _UserProfileService_ListUserProfiles_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserProfileService_GetUserProfilePictureUploadUrl_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserProfilePictureUploadUrlRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserProfileServiceServer).GetUserProfilePictureUploadUrl(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserProfileService_GetUserProfilePictureUploadUrl_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserProfileServiceServer).GetUserProfilePictureUploadUrl(ctx, req.(*GetUserProfilePictureUploadUrlRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserProfileService_ServiceDesc is the grpc.ServiceDesc for UserProfileService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -292,6 +340,10 @@ var UserProfileService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListUserProfiles",
 			Handler:    _UserProfileService_ListUserProfiles_Handler,
+		},
+		{
+			MethodName: "GetUserProfilePictureUploadUrl",
+			Handler:    _UserProfileService_GetUserProfilePictureUploadUrl_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

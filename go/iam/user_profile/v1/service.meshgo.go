@@ -73,6 +73,12 @@ type UserProfileServiceClientInterface interface {
 	// access scope based on group ownership and role permissions.
 	// Returns a ListUserProfilesResponse containing all accessible user_profiles.
 	ListUserProfiles(ctx context.Context, request *ListUserProfilesRequest) (*ListUserProfilesResponse, error)
+	// Retrieves a presigned upload URL for a user profile picture.
+	// Generates a temporary upload URL that can be used to upload
+	// a profile picture image. The URL expires after a short duration
+	// and should be used immediately for uploading the image file.
+	// Returns upload URL and expiration timestamp.
+	GetUserProfilePictureUploadUrl(ctx context.Context, request *GetUserProfilePictureUploadUrlRequest) (*GetUserProfilePictureUploadUrlResponse, error)
 
 	// WithGroup returns a new client instance with a different group context
 	WithGroup(group string) UserProfileServiceClientInterface
@@ -213,5 +219,13 @@ func (s *userProfileService) GetUserProfileByUser(ctx context.Context, request *
 func (s *userProfileService) ListUserProfiles(ctx context.Context, request *ListUserProfilesRequest) (*ListUserProfilesResponse, error) {
 	return grpc.Execute(s.Executor(), ctx, "ListUserProfiles", request, func(ctx context.Context) (*ListUserProfilesResponse, error) {
 		return s.GrpcClient().ListUserProfiles(ctx, request)
+	})
+}
+
+// GetUserProfilePictureUploadUrl executes the GetUserProfilePictureUploadUrl RPC method with automatic
+// client-side validation, timeout handling, distributed tracing, and authentication.
+func (s *userProfileService) GetUserProfilePictureUploadUrl(ctx context.Context, request *GetUserProfilePictureUploadUrlRequest) (*GetUserProfilePictureUploadUrlResponse, error) {
+	return grpc.Execute(s.Executor(), ctx, "GetUserProfilePictureUploadUrl", request, func(ctx context.Context) (*GetUserProfilePictureUploadUrlResponse, error) {
+		return s.GrpcClient().GetUserProfilePictureUploadUrl(ctx, request)
 	})
 }
