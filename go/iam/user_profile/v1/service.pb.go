@@ -131,7 +131,7 @@ func (x *UpdateUserProfileRequest) GetUserProfile() *UserProfile {
 type GetUserProfileRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The resource name of the user profile to retrieve.
-	// Format: user_profiles/{ULIDv2}.
+	// Format: iam/user_profiles/{ULIDv2}.
 	// This field is required.
 	Name          string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -271,7 +271,7 @@ func (x *ListUserProfilesResponse) GetUserProfiles() []*UserProfile {
 type GetUserProfilePictureUploadUrlRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The resource name of the user profile to upload a picture for.
-	// Format: user_profiles/{ULIDv2}.
+	// Format: iam/user_profiles/{ULIDv2}.
 	// This field is required.
 	Name          string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -384,18 +384,18 @@ const file_meshtrade_iam_user_profile_v1_service_proto_rawDesc = "" +
 	"\ruser.required\x125user is required and must be in format users/{ULIDv2}\x1a\x0esize(this) > 0\xba\x01\xb1\x01\n" +
 	"\vuser.format\x12bname must be in format users/{ULIDv2} where ulidv2 is exactly 26 uppercase alphanumeric characters\x1a>this.matches('^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')\xc8\x01\x01r2\x10\x012.^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$R\x04user\"q\n" +
 	"\x18UpdateUserProfileRequest\x12U\n" +
-	"\fuser_profile\x18\x01 \x01(\v2*.meshtrade.iam.user_profile.v1.UserProfileB\x06\xbaH\x03\xc8\x01\x01R\vuserProfile\"\x98\x03\n" +
-	"\x15GetUserProfileRequest\x12\xfe\x02\n" +
-	"\x04name\x18\x01 \x01(\tB\xe9\x02\xbaH\xe5\x02\xba\x01^\n" +
-	"\rname.required\x12=name is required and must be in format user_profiles/{ULIDv2}\x1a\x0esize(this) > 0\xba\x01\xc1\x01\n" +
-	"\vname.format\x12jname must be in format user_profiles/{ULIDv2} where ulidv2 is exactly 26 uppercase alphanumeric characters\x1aFthis.matches('^user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')\xc8\x01\x01r:\x10\x0126^user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$R\x04name\"\x19\n" +
+	"\fuser_profile\x18\x01 \x01(\v2*.meshtrade.iam.user_profile.v1.UserProfileB\x06\xbaH\x03\xc8\x01\x01R\vuserProfile\"\xa8\x03\n" +
+	"\x15GetUserProfileRequest\x12\x8e\x03\n" +
+	"\x04name\x18\x01 \x01(\tB\xf9\x02\xbaH\xf5\x02\xba\x01b\n" +
+	"\rname.required\x12Aname is required and must be in format iam/user_profiles/{ULIDv2}\x1a\x0esize(this) > 0\xba\x01\xc9\x01\n" +
+	"\vname.format\x12nname must be in format iam/user_profiles/{ULIDv2} where ulidv2 is exactly 26 uppercase alphanumeric characters\x1aJthis.matches('^iam/user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')\xc8\x01\x01r>\x10\x012:^iam/user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$R\x04name\"\x19\n" +
 	"\x17ListUserProfilesRequest\"k\n" +
 	"\x18ListUserProfilesResponse\x12O\n" +
-	"\ruser_profiles\x18\x01 \x03(\v2*.meshtrade.iam.user_profile.v1.UserProfileR\fuserProfiles\"\xa9\x03\n" +
-	"%GetUserProfilePictureUploadUrlRequest\x12\xff\x02\n" +
-	"\x04name\x18\x01 \x01(\tB\xea\x02\xbaH\xe6\x02\xba\x01^\n" +
-	"\rname.required\x12=name is required and must be in format user_profiles/{ULIDv2}\x1a\x0esize(this) > 0\xba\x01\xc1\x01\n" +
-	"\vname.format\x12jname must be in format user_profiles/{ULIDv2} where ulidv2 is exactly 26 uppercase alphanumeric characters\x1aFthis.matches('^user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')\xc8\x01\x01r;26^user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01\x01R\x04name\"\x82\x01\n" +
+	"\ruser_profiles\x18\x01 \x03(\v2*.meshtrade.iam.user_profile.v1.UserProfileR\fuserProfiles\"\xb9\x03\n" +
+	"%GetUserProfilePictureUploadUrlRequest\x12\x8f\x03\n" +
+	"\x04name\x18\x01 \x01(\tB\xfa\x02\xbaH\xf6\x02\xba\x01b\n" +
+	"\rname.required\x12Aname is required and must be in format iam/user_profiles/{ULIDv2}\x1a\x0esize(this) > 0\xba\x01\xc9\x01\n" +
+	"\vname.format\x12nname must be in format iam/user_profiles/{ULIDv2} where ulidv2 is exactly 26 uppercase alphanumeric characters\x1aJthis.matches('^iam/user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')\xc8\x01\x01r?2:^iam/user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01\x01R\x04name\"\x82\x01\n" +
 	"&GetUserProfilePictureUploadUrlResponse\x12\x1d\n" +
 	"\n" +
 	"upload_url\x18\x01 \x01(\tR\tuploadUrl\x129\n" +
