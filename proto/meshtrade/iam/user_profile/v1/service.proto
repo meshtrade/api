@@ -177,24 +177,24 @@ message UpdateUserProfileRequest {
 message GetUserProfileRequest {
   /*
      The resource name of the user profile to retrieve.
-     Format: user_profiles/{ULIDv2}.
+     Format: iam/user_profiles/{ULIDv2}.
      This field is required.
   */
   string name = 1 [(buf.validate.field) = {
     required: true
     string: {
       min_len: 1
-      pattern: "^user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+      pattern: "^iam/user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
     cel: {
       id: "name.required"
-      message: "name is required and must be in format user_profiles/{ULIDv2}"
+      message: "name is required and must be in format iam/user_profiles/{ULIDv2}"
       expression: "size(this) > 0"
     }
     cel: {
       id: "name.format"
-      message: "name must be in format user_profiles/{ULIDv2} where ulidv2 is exactly 26 uppercase alphanumeric characters"
-      expression: "this.matches('^user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
+      message: "name must be in format iam/user_profiles/{ULIDv2} where ulidv2 is exactly 26 uppercase alphanumeric characters"
+      expression: "this.matches('^iam/user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
     }
   }];
 }
@@ -229,24 +229,24 @@ message ListUserProfilesResponse {
 message GetUserProfilePictureUploadUrlRequest {
   /*
      The resource name of the user profile to upload a picture for.
-     Format: user_profiles/{ULIDv2}.
+     Format: iam/user_profiles/{ULIDv2}.
      This field is required.
   */
   string name = 1 [(buf.validate.field) = {
     required: true
     string: {
       len: 1
-      pattern: "^user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+      pattern: "^iam/user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
     cel: {
       id: "name.required"
-      message: "name is required and must be in format user_profiles/{ULIDv2}"
+      message: "name is required and must be in format iam/user_profiles/{ULIDv2}"
       expression: "size(this) > 0"
     }
     cel: {
       id: "name.format"
-      message: "name must be in format user_profiles/{ULIDv2} where ulidv2 is exactly 26 uppercase alphanumeric characters"
-      expression: "this.matches('^user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
+      message: "name must be in format iam/user_profiles/{ULIDv2} where ulidv2 is exactly 26 uppercase alphanumeric characters"
+      expression: "this.matches('^iam/user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
     }
   }];
 }

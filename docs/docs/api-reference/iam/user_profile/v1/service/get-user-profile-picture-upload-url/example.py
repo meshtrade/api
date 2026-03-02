@@ -14,7 +14,7 @@ def main():
         # Create request with the user profile resource name
         # Replace the ULIDv2 with your actual user profile ID
         request = GetUserProfilePictureUploadUrlRequest(
-            name="user_profiles/01HQZXYZ9ABCDEFGHIJKLMNPQR"
+            name="iam/user_profiles/01HQZXYZ9ABCDEFGHIJKLMNPQR"
         )
 
         # Call the GetUserProfilePictureUploadUrl method to get presigned upload URL

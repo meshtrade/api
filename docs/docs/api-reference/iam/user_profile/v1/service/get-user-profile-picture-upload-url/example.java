@@ -13,7 +13,7 @@ public class GetUserProfilePictureUploadUrlExample {
             // Create request with the user profile resource name
             // Replace the ULIDv2 with your actual user profile ID
             GetUserProfilePictureUploadUrlRequest request = GetUserProfilePictureUploadUrlRequest.newBuilder()
-                .setName("user_profiles/01HQZXYZ9ABCDEFGHIJKLMNPQR")
+                .setName("iam/user_profiles/01HQZXYZ9ABCDEFGHIJKLMNPQR")
                 .build();
 
             // Call the GetUserProfilePictureUploadUrl method to get presigned upload URL
