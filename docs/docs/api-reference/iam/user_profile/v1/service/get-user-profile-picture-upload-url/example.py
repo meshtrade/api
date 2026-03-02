@@ -11,16 +11,21 @@ def main():
     service = UserProfileService()
 
     with service:
-        # Create request with service-specific parameters
+        # Create request with the user profile resource name
+        # Replace the ULIDv2 with your actual user profile ID
         request = GetUserProfilePictureUploadUrlRequest(
-            # FIXME: Populate service-specific request fields
+            name="user_profiles/01HQZXYZ9ABCDEFGHIJKLMNPQR"
         )
 
-        # Call the GetUserProfilePictureUploadUrl method
+        # Call the GetUserProfilePictureUploadUrl method to get presigned upload URL
         response = service.get_user_profile_picture_upload_url(request)
 
-        # FIXME: Add relevant response object usage
-        print("GetUserProfilePictureUploadUrl successful:", response)
+        # Use the presigned URL to upload the profile picture
+        print(f"Upload URL: {response.upload_url}")
+        print(f"Expires at: {response.expires_at}")
+
+        # The URL can now be used with an HTTP PUT request to upload an image file
+        # Example: requests.put(response.upload_url, data=image_data)
 
 
 if __name__ == "__main__":

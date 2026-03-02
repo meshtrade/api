@@ -10,16 +10,21 @@ public class GetUserProfilePictureUploadUrlExample {
         // environment variable or default discovery methods. Zero config required
         // unless you want custom configuration.
         try (UserProfileService service = new UserProfileService()) {
-            // Create request with service-specific parameters
+            // Create request with the user profile resource name
+            // Replace the ULIDv2 with your actual user profile ID
             GetUserProfilePictureUploadUrlRequest request = GetUserProfilePictureUploadUrlRequest.newBuilder()
-                // FIXME: Populate service-specific request fields
+                .setName("user_profiles/01HQZXYZ9ABCDEFGHIJKLMNPQR")
                 .build();
 
-            // Call the GetUserProfilePictureUploadUrl method
+            // Call the GetUserProfilePictureUploadUrl method to get presigned upload URL
             GetUserProfilePictureUploadUrlResponse response = service.getUserProfilePictureUploadUrl(request, Optional.empty());
 
-            // FIXME: Add relevant response object usage
-            System.out.println("GetUserProfilePictureUploadUrl successful: " + response);
+            // Use the presigned URL to upload the profile picture
+            System.out.println("Upload URL: " + response.getUploadUrl());
+            System.out.println("Expires at: " + response.getExpiresAt());
+
+            // The URL can now be used with an HTTP PUT request to upload an image file
+            // Example: HttpClient.newHttpClient().send(HttpRequest.newBuilder().uri(URI.create(response.getUploadUrl())).PUT(...).build(), ...)
         } catch (Exception e) {
             System.err.println("GetUserProfilePictureUploadUrl failed: " + e.getMessage());
             e.printStackTrace();

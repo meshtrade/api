@@ -19,17 +19,22 @@ func main() {
 	}
 	defer service.Close()
 
-	// Create request with service-specific parameters
+	// Create request with the user profile resource name
+	// Replace the ULIDv2 with your actual user profile ID
 	request := &user_profilev1.GetUserProfilePictureUploadUrlRequest{
-		// FIXME: Populate service-specific request fields
+		Name: "user_profiles/01HQZXYZ9ABCDEFGHIJKLMNPQR",
 	}
 
-	// Call the GetUserProfilePictureUploadUrl method
+	// Call the GetUserProfilePictureUploadUrl method to get presigned upload URL
 	response, err := service.GetUserProfilePictureUploadUrl(ctx, request)
 	if err != nil {
 		log.Fatalf("GetUserProfilePictureUploadUrl failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("GetUserProfilePictureUploadUrl successful: %+v", response)
+	// Use the presigned URL to upload the profile picture
+	log.Printf("Upload URL: %s", response.UploadUrl)
+	log.Printf("Expires at: %s", response.ExpiresAt.AsTime())
+
+	// The URL can now be used with an HTTP PUT request to upload an image file
+	// Example: Use http.NewRequest("PUT", response.UploadUrl, imageReader)
 }
