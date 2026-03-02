@@ -16,17 +16,19 @@ var _ UserProfileService = &MockUserProfileService{}
 
 // MockUserProfileService is a mock implementation of the UserProfileServiceClientInterface interface.
 type MockUserProfileService struct {
-	mutex                               sync.Mutex
-	T                                   *testing.T
-	GroupValue                          string
-	UpdateUserProfileFunc               func(t *testing.T, m *MockUserProfileService, ctx context.Context, request *UpdateUserProfileRequest) (*UserProfile, error)
-	UpdateUserProfileFuncInvocations    int
-	GetUserProfileFunc                  func(t *testing.T, m *MockUserProfileService, ctx context.Context, request *GetUserProfileRequest) (*UserProfile, error)
-	GetUserProfileFuncInvocations       int
-	GetUserProfileByUserFunc            func(t *testing.T, m *MockUserProfileService, ctx context.Context, request *GetUserProfileByUserRequest) (*UserProfile, error)
-	GetUserProfileByUserFuncInvocations int
-	ListUserProfilesFunc                func(t *testing.T, m *MockUserProfileService, ctx context.Context, request *ListUserProfilesRequest) (*ListUserProfilesResponse, error)
-	ListUserProfilesFuncInvocations     int
+	mutex                                         sync.Mutex
+	T                                             *testing.T
+	GroupValue                                    string
+	UpdateUserProfileFunc                         func(t *testing.T, m *MockUserProfileService, ctx context.Context, request *UpdateUserProfileRequest) (*UserProfile, error)
+	UpdateUserProfileFuncInvocations              int
+	GetUserProfileFunc                            func(t *testing.T, m *MockUserProfileService, ctx context.Context, request *GetUserProfileRequest) (*UserProfile, error)
+	GetUserProfileFuncInvocations                 int
+	GetUserProfileByUserFunc                      func(t *testing.T, m *MockUserProfileService, ctx context.Context, request *GetUserProfileByUserRequest) (*UserProfile, error)
+	GetUserProfileByUserFuncInvocations           int
+	ListUserProfilesFunc                          func(t *testing.T, m *MockUserProfileService, ctx context.Context, request *ListUserProfilesRequest) (*ListUserProfilesResponse, error)
+	ListUserProfilesFuncInvocations               int
+	GetUserProfilePictureUploadUrlFunc            func(t *testing.T, m *MockUserProfileService, ctx context.Context, request *GetUserProfilePictureUploadUrlRequest) (*GetUserProfilePictureUploadUrlResponse, error)
+	GetUserProfilePictureUploadUrlFuncInvocations int
 }
 
 // Close is a no-op for the mock implementation.
@@ -42,12 +44,13 @@ func (m *MockUserProfileService) Group() string {
 // WithGroup returns a shallow copy of the mock with the given group value.
 func (m *MockUserProfileService) WithGroup(group string) UserProfileServiceClientInterface {
 	return &MockUserProfileService{
-		T:                        m.T,
-		GroupValue:               group,
-		UpdateUserProfileFunc:    m.UpdateUserProfileFunc,
-		GetUserProfileFunc:       m.GetUserProfileFunc,
-		GetUserProfileByUserFunc: m.GetUserProfileByUserFunc,
-		ListUserProfilesFunc:     m.ListUserProfilesFunc,
+		T:                                  m.T,
+		GroupValue:                         group,
+		UpdateUserProfileFunc:              m.UpdateUserProfileFunc,
+		GetUserProfileFunc:                 m.GetUserProfileFunc,
+		GetUserProfileByUserFunc:           m.GetUserProfileByUserFunc,
+		ListUserProfilesFunc:               m.ListUserProfilesFunc,
+		GetUserProfilePictureUploadUrlFunc: m.GetUserProfilePictureUploadUrlFunc,
 	}
 }
 
@@ -89,4 +92,14 @@ func (m *MockUserProfileService) ListUserProfiles(ctx context.Context, request *
 		return nil, nil
 	}
 	return m.ListUserProfilesFunc(m.T, m, ctx, request)
+}
+
+func (m *MockUserProfileService) GetUserProfilePictureUploadUrl(ctx context.Context, request *GetUserProfilePictureUploadUrlRequest) (*GetUserProfilePictureUploadUrlResponse, error) {
+	m.mutex.Lock()
+	m.GetUserProfilePictureUploadUrlFuncInvocations++
+	m.mutex.Unlock()
+	if m.GetUserProfilePictureUploadUrlFunc == nil {
+		return nil, nil
+	}
+	return m.GetUserProfilePictureUploadUrlFunc(m.T, m, ctx, request)
 }

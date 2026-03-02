@@ -45,6 +45,15 @@ type UserProfileService interface {
 	//
 	// Returns a ListUserProfilesResponse containing all accessible user_profiles.
 	ListUserProfiles(ctx context.Context, request *ListUserProfilesRequest) (*ListUserProfilesResponse, error)
+
+	// Retrieves a presigned upload URL for a user profile picture.
+	//
+	// Generates a temporary upload URL that can be used to upload
+	// a profile picture image. The URL expires after a short duration
+	// and should be used immediately for uploading the image file.
+	//
+	// Returns upload URL and expiration timestamp.
+	GetUserProfilePictureUploadUrl(ctx context.Context, request *GetUserProfilePictureUploadUrlRequest) (*GetUserProfilePictureUploadUrlResponse, error)
 }
 
 const UserProfileServiceServiceProviderName = "meshtrade-iam-user_profile-v1-UserProfileService"
