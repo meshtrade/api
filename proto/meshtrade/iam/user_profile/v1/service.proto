@@ -235,7 +235,7 @@ message GetUserProfilePictureUploadUrlRequest {
   string name = 1 [(buf.validate.field) = {
     required: true
     string: {
-      len: 1
+      min_len: 1
       pattern: "^iam/user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
     cel: {
