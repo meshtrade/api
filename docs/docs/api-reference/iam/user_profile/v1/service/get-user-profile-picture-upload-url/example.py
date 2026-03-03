@@ -13,9 +13,7 @@ def main():
     with service:
         # Create request with the user profile resource name
         # Replace the ULIDv2 with your actual user profile ID
-        request = GetUserProfilePictureUploadUrlRequest(
-            name="iam/user_profiles/01HQZXYZ9ABCDEFGHIJKLMNPQR"
-        )
+        request = GetUserProfilePictureUploadUrlRequest(name="iam/user_profiles/01HQZXYZ9ABCDEFGHIJKLMNPQR")
 
         # Call the GetUserProfilePictureUploadUrl method to get presigned upload URL
         response = service.get_user_profile_picture_upload_url(request)
