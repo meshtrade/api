@@ -28,7 +28,7 @@ const (
 // and verification status related to a single party.
 type Client struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// The unique, immutable, and canonical name of the client resource in the format clients/{client_id}.
+	// The unique, immutable, and canonical name of the client resource in the format compliance/clients/{client_id}.
 	// The {client_id} is a system-generated unique identifier (e.g., UUID) that will never change. This name field will never change and should be used as the permanent primary key for this resource in all systems.
 	// System set on creation.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
@@ -239,10 +239,11 @@ var File_meshtrade_compliance_client_v1_client_proto protoreflect.FileDescriptor
 
 const file_meshtrade_compliance_client_v1_client_proto_rawDesc = "" +
 	"\n" +
-	"+meshtrade/compliance/client/v1/client.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a,meshtrade/compliance/client/v1/company.proto\x1a)meshtrade/compliance/client/v1/fund.proto\x1a3meshtrade/compliance/client/v1/natural_person.proto\x1a*meshtrade/compliance/client/v1/trust.proto\x1a8meshtrade/compliance/client/v1/verification_status.proto\"\xe4\t\n" +
-	"\x06Client\x12\xbe\x01\n" +
-	"\x04name\x18\x01 \x01(\tB\xa9\x01\xbaH\xa5\x01\xba\x01\xa1\x01\n" +
-	"\x14name.format.optional\x124name must be empty or in the format clients/{ULIDv2}\x1aSsize(this) == 0 || this.matches('^clients/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12R\n" +
+	"+meshtrade/compliance/client/v1/client.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a,meshtrade/compliance/client/v1/company.proto\x1a)meshtrade/compliance/client/v1/fund.proto\x1a3meshtrade/compliance/client/v1/natural_person.proto\x1a*meshtrade/compliance/client/v1/trust.proto\x1a8meshtrade/compliance/client/v1/verification_status.proto\"\x90\n" +
+	"\n" +
+	"\x06Client\x12\xd4\x01\n" +
+	"\x04name\x18\x01 \x01(\tB\xbf\x01\xbaH\xbb\x01\xba\x01\xb7\x01\n" +
+	"\x14name.format.optional\x12?name must be empty or in the format compliance/clients/{ULIDv2}\x1a^size(this) == 0 || this.matches('^compliance/clients/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12R\n" +
 	"\x05owner\x18\x02 \x01(\tB<\xbaH9\xc8\x01\x01r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05owner\x12V\n" +
 	"\x06owners\x18\x03 \x03(\tB>\xbaH;\x92\x018\"6r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x06owners\x120\n" +
 	"\fdisplay_name\x18\x04 \x01(\tB\r\xbaH\n" +
@@ -251,10 +252,10 @@ const file_meshtrade_compliance_client_v1_client_proto_rawDesc = "" +
 	"\acompany\x18\x06 \x01(\v2'.meshtrade.compliance.client.v1.CompanyH\x00R\acompany\x12:\n" +
 	"\x04fund\x18\a \x01(\v2$.meshtrade.compliance.client.v1.FundH\x00R\x04fund\x12=\n" +
 	"\x05trust\x18\b \x01(\v2%.meshtrade.compliance.client.v1.TrustH\x00R\x05trust\x12p\n" +
-	"\x13verification_status\x18\t \x01(\x0e22.meshtrade.compliance.client.v1.VerificationStatusB\v\xbaH\b\xc8\x01\x01\x82\x01\x02\x10\x01R\x12verificationStatus\x12\x85\x02\n" +
+	"\x13verification_status\x18\t \x01(\x0e22.meshtrade.compliance.client.v1.VerificationStatusB\v\xbaH\b\xc8\x01\x01\x82\x01\x02\x10\x01R\x12verificationStatus\x12\x9b\x02\n" +
 	"\x16verification_authority\x18\n" +
-	" \x01(\tB\xcd\x01\xbaH\xc9\x01\xba\x01\xc5\x01\n" +
-	"&verification_authority.format.optional\x12Fverification_authority must be empty or in the format clients/{ULIDv2}\x1aSsize(this) == 0 || this.matches('^clients/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x15verificationAuthority\x12G\n" +
+	" \x01(\tB\xe3\x01\xbaH\xdf\x01\xba\x01\xdb\x01\n" +
+	"&verification_authority.format.optional\x12Qverification_authority must be empty or in the format compliance/clients/{ULIDv2}\x1a^size(this) == 0 || this.matches('^compliance/clients/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x15verificationAuthority\x12G\n" +
 	"\x11verification_date\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\x10verificationDate\x12P\n" +
 	"\x16next_verification_date\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\x14nextVerificationDateB\x0e\n" +
 	"\flegal_personBc\n" +
