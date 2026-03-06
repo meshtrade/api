@@ -85,12 +85,12 @@ service ClientService {
 message GetClientRequest {
   // The unique resource name of the client to be retrieved.
   // The name serves as the primary identifier for the client resource.
-  // Format: "clients/{client_id}"
+  // Format: "compliance/clients/{client_id}"
   string name = 1 [(buf.validate.field) = {
     required: true
     string: {
-      len: 33
-      pattern: "^clients/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+      len: 45
+      pattern: "^compliance/clients/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
     }
   }];
 }

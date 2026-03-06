@@ -28,7 +28,7 @@ type GetClientRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The unique resource name of the client to be retrieved.
 	// The name serves as the primary identifier for the client resource.
-	// Format: "clients/{client_id}"
+	// Format: "compliance/clients/{client_id}"
 	Name          string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -251,9 +251,9 @@ var File_meshtrade_compliance_client_v1_service_proto protoreflect.FileDescripto
 
 const file_meshtrade_compliance_client_v1_service_proto_rawDesc = "" +
 	"\n" +
-	",meshtrade/compliance/client/v1/service.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x1bbuf/validate/validate.proto\x1a+meshtrade/compliance/client/v1/client.proto\x1a7meshtrade/option/method_options/v1/method_options.proto\"e\n" +
-	"\x10GetClientRequest\x12Q\n" +
-	"\x04name\x18\x01 \x01(\tB=\xbaH:\xc8\x01\x01r520^clients/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x04name\"]\n" +
+	",meshtrade/compliance/client/v1/service.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x1bbuf/validate/validate.proto\x1a+meshtrade/compliance/client/v1/client.proto\x1a7meshtrade/option/method_options/v1/method_options.proto\"p\n" +
+	"\x10GetClientRequest\x12\\\n" +
+	"\x04name\x18\x01 \x01(\tBH\xbaHE\xc8\x01\x01r@2;^compliance/clients/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01-R\x04name\"]\n" +
 	"\x13CreateClientRequest\x12F\n" +
 	"\x06client\x18\x01 \x01(\v2&.meshtrade.compliance.client.v1.ClientB\x06\xbaH\x03\xc8\x01\x01R\x06client\"k\n" +
 	"\x15GetGroupClientRequest\x12R\n" +

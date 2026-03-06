@@ -20,15 +20,15 @@ option java_package = "co.meshtrade.api.compliance.client.v1";
 */
 message Client {
   /*
-     The unique, immutable, and canonical name of the client resource in the format clients/{client_id}.
+     The unique, immutable, and canonical name of the client resource in the format compliance/clients/{client_id}.
      The {client_id} is a system-generated unique identifier (e.g., UUID) that will never change. This name field will never change and should be used as the permanent primary key for this resource in all systems.
      System set on creation.
   */
   string name = 1 [(buf.validate.field) = {
     cel: {
       id: "name.format.optional"
-      message: "name must be empty or in the format clients/{ULIDv2}"
-      expression: "size(this) == 0 || this.matches('^clients/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
+      message: "name must be empty or in the format compliance/clients/{ULIDv2}"
+      expression: "size(this) == 0 || this.matches('^compliance/clients/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
     }
   }];
 
@@ -118,8 +118,8 @@ message Client {
   string verification_authority = 10 [(buf.validate.field) = {
     cel: {
       id: "verification_authority.format.optional"
-      message: "verification_authority must be empty or in the format clients/{ULIDv2}"
-      expression: "size(this) == 0 || this.matches('^clients/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
+      message: "verification_authority must be empty or in the format compliance/clients/{ULIDv2}"
+      expression: "size(this) == 0 || this.matches('^compliance/clients/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
     }
   }];
 
