@@ -125,11 +125,7 @@ message UserProfile {
      This field is required and is used for user identification and communication.
   */
   string last_name = 8 [(buf.validate.field) = {
-      required: true
-      string: {
-        min_len: 1
-        max_len: 255
-      }
+    string: {max_len: 255}
   }];
 
   /*

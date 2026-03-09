@@ -177,7 +177,7 @@ var File_meshtrade_iam_user_profile_v1_user_profile_proto protoreflect.FileDescr
 
 const file_meshtrade_iam_user_profile_v1_user_profile_proto_rawDesc = "" +
 	"\n" +
-	"0meshtrade/iam/user_profile/v1/user_profile.proto\x12\x1dmeshtrade.iam.user_profile.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1dmeshtrade/type/v1/token.proto\"\xde\n" +
+	"0meshtrade/iam/user_profile/v1/user_profile.proto\x12\x1dmeshtrade.iam.user_profile.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1dmeshtrade/type/v1/token.proto\"\xd9\n" +
 	"\n" +
 	"\vUserProfile\x12\xd2\x01\n" +
 	"\x04name\x18\x01 \x01(\tB\xbd\x01\xbaH\xb9\x01\xba\x01\xb5\x01\n" +
@@ -193,9 +193,8 @@ const file_meshtrade_iam_user_profile_v1_user_profile_proto_rawDesc = "" +
 	"\x1aprofile_picture_url.format\x120profile_picture_url must be empty or a valid URI\x1a\x1fsize(this) == 0 || this.isUri()R\x11profilePictureUrl\x12,\n" +
 	"\n" +
 	"first_name\x18\a \x01(\tB\r\xbaH\n" +
-	"\xc8\x01\x01r\x05\x10\x01\x18\xff\x01R\tfirstName\x12*\n" +
-	"\tlast_name\x18\b \x01(\tB\r\xbaH\n" +
-	"\xc8\x01\x01r\x05\x10\x01\x18\xff\x01R\blastName\x12C\n" +
+	"\xc8\x01\x01r\x05\x10\x01\x18\xff\x01R\tfirstName\x12%\n" +
+	"\tlast_name\x18\b \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R\blastName\x12C\n" +
 	"\x10display_currency\x18\t \x01(\v2\x18.meshtrade.type.v1.TokenR\x0fdisplayCurrency\x12G\n" +
 	"\x12reporting_currency\x18\n" +
 	" \x01(\v2\x18.meshtrade.type.v1.TokenR\x11reportingCurrencyBg\n" +
