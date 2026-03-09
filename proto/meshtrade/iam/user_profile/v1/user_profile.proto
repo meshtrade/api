@@ -112,13 +112,25 @@ message UserProfile {
      The user's first name (given name).
      This field is required and is used for user identification and communication.
   */
-  string first_name = 7 [(buf.validate.field) = {required: true}];
+  string first_name = 7 [(buf.validate.field) = {
+    required: true
+    string: {
+      min_len: 1
+      max_len: 255
+    }
+  }];
 
   /*
      The user's last name (family name/surname).
      This field is required and is used for user identification and communication.
   */
-  string last_name = 8 [(buf.validate.field) = {required: true}];
+  string last_name = 8 [(buf.validate.field) = {
+      required: true
+      string: {
+        min_len: 1
+        max_len: 255
+      }
+  }];
 
   /*
      The preferred currency token for displaying monetary values to this user.
