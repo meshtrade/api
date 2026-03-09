@@ -103,6 +103,45 @@ service UserProfileService {
   }
 
   /*
+     Searches user profiles using first name or last name filtering.
+
+     Performs substring matching on user profile first and last names
+     within the authenticated group context.
+  */
+  rpc SearchUserProfiles(SearchUserProfilesRequest) returns (SearchUserProfilesResponse) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_VIEWER,
+        ROLE_IAM_USER_PROFILE_ADMIN,
+        ROLE_IAM_USER_PROFILE_VIEWER
+      ]
+    };
+  }
+
+  /*
+     Retrieves a batch of user profiles by their associated user resource names.
+
+     Returns the user profiles linked to the specified user IDs.
+     This is useful when you have multiple user resources and need to find
+     their associated profile information in a single request.
+  */
+  rpc BatchGetUserProfilesByUser(BatchGetUserProfilesByUserRequest) returns (BatchGetUserProfilesByUserResponse) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_VIEWER,
+        ROLE_IAM_USER_PROFILE_ADMIN,
+        ROLE_IAM_USER_PROFILE_VIEWER
+      ]
+    };
+  }
+
+  /*
      Retrieves a presigned upload URL for a user profile picture.
 
      Generates a temporary upload URL that can be used to upload
@@ -268,4 +307,73 @@ message GetUserProfilePictureUploadUrlResponse {
      After this time, the URL will no longer be valid for uploading.
   */
   google.protobuf.Timestamp expires_at = 2;
+}
+
+/*
+   Request message for SearchUserProfiles.
+
+   Searches user profiles by first name or last name substring matching.
+*/
+message SearchUserProfilesRequest {
+  /*
+     Optional substring to match against user profile first names.
+     The search is case-insensitive.
+  */
+  string first_name = 1 [(buf.validate.field) = {
+    string: {max_len: 255}
+  }];
+
+  /*
+     Optional substring to match against user profile last names.
+     The search is case-insensitive.
+  */
+  string last_name = 2 [(buf.validate.field) = {
+    string: {max_len: 255}
+  }];
+}
+
+/*
+   Response message for SearchUserProfiles.
+
+   Contains the collection of user profiles matching the search criteria.
+*/
+message SearchUserProfilesResponse {
+  repeated UserProfile user_profiles = 1;
+}
+
+/*
+   Request message for BatchGetUserProfilesByUser.
+
+   Retrieves multiple user profiles by their associated user resource names.
+*/
+message BatchGetUserProfilesByUserRequest {
+  /*
+     The resource names of the users whose profiles should be retrieved.
+     Format: users/{ULIDv2}.
+     At least one user must be specified.
+  */
+  repeated string users = 1 [(buf.validate.field) = {
+    required: true
+    repeated: {
+      min_items: 1
+      max_items: 100
+      items: {
+        string: {
+          min_len: 1
+          pattern: "^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+        }
+      }
+    }
+  }];
+}
+
+/*
+   Response message for BatchGetUserProfilesByUser.
+
+   Contains the user profiles associated with the requested users.
+   Profiles are returned in no guaranteed order. If a user does not
+   have an associated profile, it will be omitted from the response.
+*/
+message BatchGetUserProfilesByUserResponse {
+  repeated UserProfile user_profiles = 1;
 }

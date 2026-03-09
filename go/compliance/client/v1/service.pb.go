@@ -11,6 +11,7 @@ import (
 	_ "github.com/meshtrade/api/go/option/method_options/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -117,6 +118,55 @@ func (x *CreateClientRequest) GetClient() *Client {
 	return nil
 }
 
+// UpdateClientRequest is the message used to update a single client resource.
+type UpdateClientRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The client resource with updated values.
+	// The name field must be set to identify which client to update.
+	// Only provided fields will be modified, subject to the state-based
+	// access restrictions documented on UpdateClient.
+	Client        *Client `protobuf:"bytes,1,opt,name=client,proto3" json:"client,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateClientRequest) Reset() {
+	*x = UpdateClientRequest{}
+	mi := &file_meshtrade_compliance_client_v1_service_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateClientRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateClientRequest) ProtoMessage() {}
+
+func (x *UpdateClientRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_compliance_client_v1_service_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateClientRequest.ProtoReflect.Descriptor instead.
+func (*UpdateClientRequest) Descriptor() ([]byte, []int) {
+	return file_meshtrade_compliance_client_v1_service_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *UpdateClientRequest) GetClient() *Client {
+	if x != nil {
+		return x.Client
+	}
+	return nil
+}
+
 // GetGroupClientRequest is the message used to request a client resource by its owning group.
 type GetGroupClientRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -129,7 +179,7 @@ type GetGroupClientRequest struct {
 
 func (x *GetGroupClientRequest) Reset() {
 	*x = GetGroupClientRequest{}
-	mi := &file_meshtrade_compliance_client_v1_service_proto_msgTypes[2]
+	mi := &file_meshtrade_compliance_client_v1_service_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -141,7 +191,7 @@ func (x *GetGroupClientRequest) String() string {
 func (*GetGroupClientRequest) ProtoMessage() {}
 
 func (x *GetGroupClientRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_compliance_client_v1_service_proto_msgTypes[2]
+	mi := &file_meshtrade_compliance_client_v1_service_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -154,7 +204,7 @@ func (x *GetGroupClientRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetGroupClientRequest.ProtoReflect.Descriptor instead.
 func (*GetGroupClientRequest) Descriptor() ([]byte, []int) {
-	return file_meshtrade_compliance_client_v1_service_proto_rawDescGZIP(), []int{2}
+	return file_meshtrade_compliance_client_v1_service_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *GetGroupClientRequest) GetGroup() string {
@@ -162,6 +212,169 @@ func (x *GetGroupClientRequest) GetGroup() string {
 		return x.Group
 	}
 	return ""
+}
+
+// StartClientVerificationRequest is the message used to start verification for a client.
+type StartClientVerificationRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The resource name of the client to start verification for.
+	// Format: "compliance/clients/{client_id}"
+	Client        string `protobuf:"bytes,1,opt,name=client,proto3" json:"client,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *StartClientVerificationRequest) Reset() {
+	*x = StartClientVerificationRequest{}
+	mi := &file_meshtrade_compliance_client_v1_service_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *StartClientVerificationRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StartClientVerificationRequest) ProtoMessage() {}
+
+func (x *StartClientVerificationRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_compliance_client_v1_service_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StartClientVerificationRequest.ProtoReflect.Descriptor instead.
+func (*StartClientVerificationRequest) Descriptor() ([]byte, []int) {
+	return file_meshtrade_compliance_client_v1_service_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *StartClientVerificationRequest) GetClient() string {
+	if x != nil {
+		return x.Client
+	}
+	return ""
+}
+
+// FailClientVerificationRequest is the message used to fail verification for a client.
+type FailClientVerificationRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The resource name of the client whose verification has failed.
+	// Format: "compliance/clients/{client_id}"
+	Client string `protobuf:"bytes,1,opt,name=client,proto3" json:"client,omitempty"`
+	// Comments explaining the reason for verification failure.
+	// At least one comment is required.
+	Comments      []string `protobuf:"bytes,2,rep,name=comments,proto3" json:"comments,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *FailClientVerificationRequest) Reset() {
+	*x = FailClientVerificationRequest{}
+	mi := &file_meshtrade_compliance_client_v1_service_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FailClientVerificationRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FailClientVerificationRequest) ProtoMessage() {}
+
+func (x *FailClientVerificationRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_compliance_client_v1_service_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FailClientVerificationRequest.ProtoReflect.Descriptor instead.
+func (*FailClientVerificationRequest) Descriptor() ([]byte, []int) {
+	return file_meshtrade_compliance_client_v1_service_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *FailClientVerificationRequest) GetClient() string {
+	if x != nil {
+		return x.Client
+	}
+	return ""
+}
+
+func (x *FailClientVerificationRequest) GetComments() []string {
+	if x != nil {
+		return x.Comments
+	}
+	return nil
+}
+
+// MarkClientVerifiedRequest is the message used to mark a client as verified.
+type MarkClientVerifiedRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The resource name of the client to mark as verified.
+	// Format: "compliance/clients/{client_id}"
+	Client string `protobuf:"bytes,1,opt,name=client,proto3" json:"client,omitempty"`
+	// The date when the next periodic compliance review is due.
+	// Optional. If not provided, defaults to a system-configured value.
+	// When provided, must be in the future and after the client's existing
+	// verification_date and next_verification_date (if those fields are set).
+	NextVerificationDate *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=next_verification_date,json=nextVerificationDate,proto3" json:"next_verification_date,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
+}
+
+func (x *MarkClientVerifiedRequest) Reset() {
+	*x = MarkClientVerifiedRequest{}
+	mi := &file_meshtrade_compliance_client_v1_service_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MarkClientVerifiedRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MarkClientVerifiedRequest) ProtoMessage() {}
+
+func (x *MarkClientVerifiedRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_compliance_client_v1_service_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MarkClientVerifiedRequest.ProtoReflect.Descriptor instead.
+func (*MarkClientVerifiedRequest) Descriptor() ([]byte, []int) {
+	return file_meshtrade_compliance_client_v1_service_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *MarkClientVerifiedRequest) GetClient() string {
+	if x != nil {
+		return x.Client
+	}
+	return ""
+}
+
+func (x *MarkClientVerifiedRequest) GetNextVerificationDate() *timestamppb.Timestamp {
+	if x != nil {
+		return x.NextVerificationDate
+	}
+	return nil
 }
 
 // ListClientsRequest is the message used to request a list of client resources.
@@ -173,7 +386,7 @@ type ListClientsRequest struct {
 
 func (x *ListClientsRequest) Reset() {
 	*x = ListClientsRequest{}
-	mi := &file_meshtrade_compliance_client_v1_service_proto_msgTypes[3]
+	mi := &file_meshtrade_compliance_client_v1_service_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -185,7 +398,7 @@ func (x *ListClientsRequest) String() string {
 func (*ListClientsRequest) ProtoMessage() {}
 
 func (x *ListClientsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_compliance_client_v1_service_proto_msgTypes[3]
+	mi := &file_meshtrade_compliance_client_v1_service_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -198,7 +411,7 @@ func (x *ListClientsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListClientsRequest.ProtoReflect.Descriptor instead.
 func (*ListClientsRequest) Descriptor() ([]byte, []int) {
-	return file_meshtrade_compliance_client_v1_service_proto_rawDescGZIP(), []int{3}
+	return file_meshtrade_compliance_client_v1_service_proto_rawDescGZIP(), []int{7}
 }
 
 // ListClientsResponse contains a list of client resources.
@@ -212,7 +425,7 @@ type ListClientsResponse struct {
 
 func (x *ListClientsResponse) Reset() {
 	*x = ListClientsResponse{}
-	mi := &file_meshtrade_compliance_client_v1_service_proto_msgTypes[4]
+	mi := &file_meshtrade_compliance_client_v1_service_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -224,7 +437,7 @@ func (x *ListClientsResponse) String() string {
 func (*ListClientsResponse) ProtoMessage() {}
 
 func (x *ListClientsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_compliance_client_v1_service_proto_msgTypes[4]
+	mi := &file_meshtrade_compliance_client_v1_service_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -237,7 +450,7 @@ func (x *ListClientsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListClientsResponse.ProtoReflect.Descriptor instead.
 func (*ListClientsResponse) Descriptor() ([]byte, []int) {
-	return file_meshtrade_compliance_client_v1_service_proto_rawDescGZIP(), []int{4}
+	return file_meshtrade_compliance_client_v1_service_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *ListClientsResponse) GetClients() []*Client {
@@ -251,20 +464,34 @@ var File_meshtrade_compliance_client_v1_service_proto protoreflect.FileDescripto
 
 const file_meshtrade_compliance_client_v1_service_proto_rawDesc = "" +
 	"\n" +
-	",meshtrade/compliance/client/v1/service.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x1bbuf/validate/validate.proto\x1a+meshtrade/compliance/client/v1/client.proto\x1a7meshtrade/option/method_options/v1/method_options.proto\"p\n" +
+	",meshtrade/compliance/client/v1/service.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a+meshtrade/compliance/client/v1/client.proto\x1a7meshtrade/option/method_options/v1/method_options.proto\"p\n" +
 	"\x10GetClientRequest\x12\\\n" +
 	"\x04name\x18\x01 \x01(\tBH\xbaHE\xc8\x01\x01r@2;^compliance/clients/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01-R\x04name\"]\n" +
 	"\x13CreateClientRequest\x12F\n" +
+	"\x06client\x18\x01 \x01(\v2&.meshtrade.compliance.client.v1.ClientB\x06\xbaH\x03\xc8\x01\x01R\x06client\"]\n" +
+	"\x13UpdateClientRequest\x12F\n" +
 	"\x06client\x18\x01 \x01(\v2&.meshtrade.compliance.client.v1.ClientB\x06\xbaH\x03\xc8\x01\x01R\x06client\"k\n" +
 	"\x15GetGroupClientRequest\x12R\n" +
-	"\x05group\x18\x01 \x01(\tB<\xbaH9\xc8\x01\x01r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05group\"\x14\n" +
+	"\x05group\x18\x01 \x01(\tB<\xbaH9\xc8\x01\x01r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05group\"\x82\x01\n" +
+	"\x1eStartClientVerificationRequest\x12`\n" +
+	"\x06client\x18\x01 \x01(\tBH\xbaHE\xc8\x01\x01r@2;^compliance/clients/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01-R\x06client\"\xb3\x01\n" +
+	"\x1dFailClientVerificationRequest\x12`\n" +
+	"\x06client\x18\x01 \x01(\tBH\xbaHE\xc8\x01\x01r@2;^compliance/clients/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01-R\x06client\x120\n" +
+	"\bcomments\x18\x02 \x03(\tB\x14\xbaH\x11\xc8\x01\x01\x92\x01\v\b\x01\"\ar\x05\x10\x01\x18\xe8\aR\bcomments\"\xd9\x01\n" +
+	"\x19MarkClientVerifiedRequest\x12`\n" +
+	"\x06client\x18\x01 \x01(\tBH\xbaHE\xc8\x01\x01r@2;^compliance/clients/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01-R\x06client\x12Z\n" +
+	"\x16next_verification_date\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampB\b\xbaH\x05\xb2\x01\x02@\x01R\x14nextVerificationDate\"\x14\n" +
 	"\x12ListClientsRequest\"W\n" +
 	"\x13ListClientsResponse\x12@\n" +
-	"\aclients\x18\x01 \x03(\v2&.meshtrade.compliance.client.v1.ClientR\aclients2\xa8\x04\n" +
+	"\aclients\x18\x01 \x03(\v2&.meshtrade.compliance.client.v1.ClientR\aclients2\xdd\b\n" +
 	"\rClientService\x12}\n" +
 	"\fCreateClient\x123.meshtrade.compliance.client.v1.CreateClientRequest\x1a&.meshtrade.compliance.client.v1.Client\"\x10\xb2\xb5\x18\f\b\x02\x10\x02\x1a\x06\x80\x89z\x82\x89z\x12}\n" +
 	"\tGetClient\x120.meshtrade.compliance.client.v1.GetClientRequest\x1a&.meshtrade.compliance.client.v1.Client\"\x16\xb2\xb5\x18\x12\b\x01\x10\x02\x1a\f\x80\x89z\x81\x89z\x82\x89z\x83\x89z\x12\x87\x01\n" +
-	"\x0eGetGroupClient\x125.meshtrade.compliance.client.v1.GetGroupClientRequest\x1a&.meshtrade.compliance.client.v1.Client\"\x16\xb2\xb5\x18\x12\b\x01\x10\x02\x1a\f\x80\x89z\x81\x89z\x82\x89z\x83\x89z\x12\x8e\x01\n" +
+	"\x0eGetGroupClient\x125.meshtrade.compliance.client.v1.GetGroupClientRequest\x1a&.meshtrade.compliance.client.v1.Client\"\x16\xb2\xb5\x18\x12\b\x01\x10\x02\x1a\f\x80\x89z\x81\x89z\x82\x89z\x83\x89z\x12}\n" +
+	"\fUpdateClient\x123.meshtrade.compliance.client.v1.UpdateClientRequest\x1a&.meshtrade.compliance.client.v1.Client\"\x10\xb2\xb5\x18\f\b\x02\x10\x02\x1a\x06\x80\x89z\x82\x89z\x12\x93\x01\n" +
+	"\x17StartClientVerification\x12>.meshtrade.compliance.client.v1.StartClientVerificationRequest\x1a&.meshtrade.compliance.client.v1.Client\"\x10\xb2\xb5\x18\f\b\x02\x10\x02\x1a\x06\x80\x89z\x82\x89z\x12\x91\x01\n" +
+	"\x16FailClientVerification\x12=.meshtrade.compliance.client.v1.FailClientVerificationRequest\x1a&.meshtrade.compliance.client.v1.Client\"\x10\xb2\xb5\x18\f\b\x02\x10\x02\x1a\x06\x80\x89z\x82\x89z\x12\x89\x01\n" +
+	"\x12MarkClientVerified\x129.meshtrade.compliance.client.v1.MarkClientVerifiedRequest\x1a&.meshtrade.compliance.client.v1.Client\"\x10\xb2\xb5\x18\f\b\x02\x10\x02\x1a\x06\x80\x89z\x82\x89z\x12\x8e\x01\n" +
 	"\vListClients\x122.meshtrade.compliance.client.v1.ListClientsRequest\x1a3.meshtrade.compliance.client.v1.ListClientsResponse\"\x16\xb2\xb5\x18\x12\b\x01\x10\x02\x1a\f\x80\x89z\x81\x89z\x82\x89z\x83\x89zBc\n" +
 	"%co.meshtrade.api.compliance.client.v1Z:github.com/meshtrade/api/go/compliance/client/v1;client_v1b\x06proto3"
 
@@ -280,31 +507,46 @@ func file_meshtrade_compliance_client_v1_service_proto_rawDescGZIP() []byte {
 	return file_meshtrade_compliance_client_v1_service_proto_rawDescData
 }
 
-var file_meshtrade_compliance_client_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_meshtrade_compliance_client_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_meshtrade_compliance_client_v1_service_proto_goTypes = []any{
-	(*GetClientRequest)(nil),      // 0: meshtrade.compliance.client.v1.GetClientRequest
-	(*CreateClientRequest)(nil),   // 1: meshtrade.compliance.client.v1.CreateClientRequest
-	(*GetGroupClientRequest)(nil), // 2: meshtrade.compliance.client.v1.GetGroupClientRequest
-	(*ListClientsRequest)(nil),    // 3: meshtrade.compliance.client.v1.ListClientsRequest
-	(*ListClientsResponse)(nil),   // 4: meshtrade.compliance.client.v1.ListClientsResponse
-	(*Client)(nil),                // 5: meshtrade.compliance.client.v1.Client
+	(*GetClientRequest)(nil),               // 0: meshtrade.compliance.client.v1.GetClientRequest
+	(*CreateClientRequest)(nil),            // 1: meshtrade.compliance.client.v1.CreateClientRequest
+	(*UpdateClientRequest)(nil),            // 2: meshtrade.compliance.client.v1.UpdateClientRequest
+	(*GetGroupClientRequest)(nil),          // 3: meshtrade.compliance.client.v1.GetGroupClientRequest
+	(*StartClientVerificationRequest)(nil), // 4: meshtrade.compliance.client.v1.StartClientVerificationRequest
+	(*FailClientVerificationRequest)(nil),  // 5: meshtrade.compliance.client.v1.FailClientVerificationRequest
+	(*MarkClientVerifiedRequest)(nil),      // 6: meshtrade.compliance.client.v1.MarkClientVerifiedRequest
+	(*ListClientsRequest)(nil),             // 7: meshtrade.compliance.client.v1.ListClientsRequest
+	(*ListClientsResponse)(nil),            // 8: meshtrade.compliance.client.v1.ListClientsResponse
+	(*Client)(nil),                         // 9: meshtrade.compliance.client.v1.Client
+	(*timestamppb.Timestamp)(nil),          // 10: google.protobuf.Timestamp
 }
 var file_meshtrade_compliance_client_v1_service_proto_depIdxs = []int32{
-	5, // 0: meshtrade.compliance.client.v1.CreateClientRequest.client:type_name -> meshtrade.compliance.client.v1.Client
-	5, // 1: meshtrade.compliance.client.v1.ListClientsResponse.clients:type_name -> meshtrade.compliance.client.v1.Client
-	1, // 2: meshtrade.compliance.client.v1.ClientService.CreateClient:input_type -> meshtrade.compliance.client.v1.CreateClientRequest
-	0, // 3: meshtrade.compliance.client.v1.ClientService.GetClient:input_type -> meshtrade.compliance.client.v1.GetClientRequest
-	2, // 4: meshtrade.compliance.client.v1.ClientService.GetGroupClient:input_type -> meshtrade.compliance.client.v1.GetGroupClientRequest
-	3, // 5: meshtrade.compliance.client.v1.ClientService.ListClients:input_type -> meshtrade.compliance.client.v1.ListClientsRequest
-	5, // 6: meshtrade.compliance.client.v1.ClientService.CreateClient:output_type -> meshtrade.compliance.client.v1.Client
-	5, // 7: meshtrade.compliance.client.v1.ClientService.GetClient:output_type -> meshtrade.compliance.client.v1.Client
-	5, // 8: meshtrade.compliance.client.v1.ClientService.GetGroupClient:output_type -> meshtrade.compliance.client.v1.Client
-	4, // 9: meshtrade.compliance.client.v1.ClientService.ListClients:output_type -> meshtrade.compliance.client.v1.ListClientsResponse
-	6, // [6:10] is the sub-list for method output_type
-	2, // [2:6] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	9,  // 0: meshtrade.compliance.client.v1.CreateClientRequest.client:type_name -> meshtrade.compliance.client.v1.Client
+	9,  // 1: meshtrade.compliance.client.v1.UpdateClientRequest.client:type_name -> meshtrade.compliance.client.v1.Client
+	10, // 2: meshtrade.compliance.client.v1.MarkClientVerifiedRequest.next_verification_date:type_name -> google.protobuf.Timestamp
+	9,  // 3: meshtrade.compliance.client.v1.ListClientsResponse.clients:type_name -> meshtrade.compliance.client.v1.Client
+	1,  // 4: meshtrade.compliance.client.v1.ClientService.CreateClient:input_type -> meshtrade.compliance.client.v1.CreateClientRequest
+	0,  // 5: meshtrade.compliance.client.v1.ClientService.GetClient:input_type -> meshtrade.compliance.client.v1.GetClientRequest
+	3,  // 6: meshtrade.compliance.client.v1.ClientService.GetGroupClient:input_type -> meshtrade.compliance.client.v1.GetGroupClientRequest
+	2,  // 7: meshtrade.compliance.client.v1.ClientService.UpdateClient:input_type -> meshtrade.compliance.client.v1.UpdateClientRequest
+	4,  // 8: meshtrade.compliance.client.v1.ClientService.StartClientVerification:input_type -> meshtrade.compliance.client.v1.StartClientVerificationRequest
+	5,  // 9: meshtrade.compliance.client.v1.ClientService.FailClientVerification:input_type -> meshtrade.compliance.client.v1.FailClientVerificationRequest
+	6,  // 10: meshtrade.compliance.client.v1.ClientService.MarkClientVerified:input_type -> meshtrade.compliance.client.v1.MarkClientVerifiedRequest
+	7,  // 11: meshtrade.compliance.client.v1.ClientService.ListClients:input_type -> meshtrade.compliance.client.v1.ListClientsRequest
+	9,  // 12: meshtrade.compliance.client.v1.ClientService.CreateClient:output_type -> meshtrade.compliance.client.v1.Client
+	9,  // 13: meshtrade.compliance.client.v1.ClientService.GetClient:output_type -> meshtrade.compliance.client.v1.Client
+	9,  // 14: meshtrade.compliance.client.v1.ClientService.GetGroupClient:output_type -> meshtrade.compliance.client.v1.Client
+	9,  // 15: meshtrade.compliance.client.v1.ClientService.UpdateClient:output_type -> meshtrade.compliance.client.v1.Client
+	9,  // 16: meshtrade.compliance.client.v1.ClientService.StartClientVerification:output_type -> meshtrade.compliance.client.v1.Client
+	9,  // 17: meshtrade.compliance.client.v1.ClientService.FailClientVerification:output_type -> meshtrade.compliance.client.v1.Client
+	9,  // 18: meshtrade.compliance.client.v1.ClientService.MarkClientVerified:output_type -> meshtrade.compliance.client.v1.Client
+	8,  // 19: meshtrade.compliance.client.v1.ClientService.ListClients:output_type -> meshtrade.compliance.client.v1.ListClientsResponse
+	12, // [12:20] is the sub-list for method output_type
+	4,  // [4:12] is the sub-list for method input_type
+	4,  // [4:4] is the sub-list for extension type_name
+	4,  // [4:4] is the sub-list for extension extendee
+	0,  // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_compliance_client_v1_service_proto_init() }
@@ -319,7 +561,7 @@ func file_meshtrade_compliance_client_v1_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_meshtrade_compliance_client_v1_service_proto_rawDesc), len(file_meshtrade_compliance_client_v1_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

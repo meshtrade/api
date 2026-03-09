@@ -76,6 +76,19 @@ message Client {
   }];
 
   /*
+     A short, abbreviated name for the client, used for compact display
+     in tables, lists, and other space-constrained UI contexts.
+     Must be 3-4 uppercase alphanumeric characters (e.g., "BTC", "MSFT") or blank.
+  */
+  string short_name = 13 [(buf.validate.field) = {
+    cel: {
+      id: "short_name.format.optional"
+      message: "short_name must be empty or 3-4 uppercase alphanumeric characters"
+      expression: "size(this) == 0 || this.matches('^[A-Z0-9]{3,4}$')"
+    }
+  }];
+
+  /*
      Contains the specific data for the legal entity type.
      Only one of these may be set at a time.
   */

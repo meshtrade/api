@@ -27,6 +27,10 @@ type MockUserProfileService struct {
 	GetUserProfileByUserFuncInvocations           int
 	ListUserProfilesFunc                          func(t *testing.T, m *MockUserProfileService, ctx context.Context, request *ListUserProfilesRequest) (*ListUserProfilesResponse, error)
 	ListUserProfilesFuncInvocations               int
+	SearchUserProfilesFunc                        func(t *testing.T, m *MockUserProfileService, ctx context.Context, request *SearchUserProfilesRequest) (*SearchUserProfilesResponse, error)
+	SearchUserProfilesFuncInvocations             int
+	BatchGetUserProfilesByUserFunc                func(t *testing.T, m *MockUserProfileService, ctx context.Context, request *BatchGetUserProfilesByUserRequest) (*BatchGetUserProfilesByUserResponse, error)
+	BatchGetUserProfilesByUserFuncInvocations     int
 	GetUserProfilePictureUploadUrlFunc            func(t *testing.T, m *MockUserProfileService, ctx context.Context, request *GetUserProfilePictureUploadUrlRequest) (*GetUserProfilePictureUploadUrlResponse, error)
 	GetUserProfilePictureUploadUrlFuncInvocations int
 }
@@ -50,6 +54,8 @@ func (m *MockUserProfileService) WithGroup(group string) UserProfileServiceClien
 		GetUserProfileFunc:                 m.GetUserProfileFunc,
 		GetUserProfileByUserFunc:           m.GetUserProfileByUserFunc,
 		ListUserProfilesFunc:               m.ListUserProfilesFunc,
+		SearchUserProfilesFunc:             m.SearchUserProfilesFunc,
+		BatchGetUserProfilesByUserFunc:     m.BatchGetUserProfilesByUserFunc,
 		GetUserProfilePictureUploadUrlFunc: m.GetUserProfilePictureUploadUrlFunc,
 	}
 }
@@ -92,6 +98,26 @@ func (m *MockUserProfileService) ListUserProfiles(ctx context.Context, request *
 		return nil, nil
 	}
 	return m.ListUserProfilesFunc(m.T, m, ctx, request)
+}
+
+func (m *MockUserProfileService) SearchUserProfiles(ctx context.Context, request *SearchUserProfilesRequest) (*SearchUserProfilesResponse, error) {
+	m.mutex.Lock()
+	m.SearchUserProfilesFuncInvocations++
+	m.mutex.Unlock()
+	if m.SearchUserProfilesFunc == nil {
+		return nil, nil
+	}
+	return m.SearchUserProfilesFunc(m.T, m, ctx, request)
+}
+
+func (m *MockUserProfileService) BatchGetUserProfilesByUser(ctx context.Context, request *BatchGetUserProfilesByUserRequest) (*BatchGetUserProfilesByUserResponse, error) {
+	m.mutex.Lock()
+	m.BatchGetUserProfilesByUserFuncInvocations++
+	m.mutex.Unlock()
+	if m.BatchGetUserProfilesByUserFunc == nil {
+		return nil, nil
+	}
+	return m.BatchGetUserProfilesByUserFunc(m.T, m, ctx, request)
 }
 
 func (m *MockUserProfileService) GetUserProfilePictureUploadUrl(ctx context.Context, request *GetUserProfilePictureUploadUrlRequest) (*GetUserProfilePictureUploadUrlResponse, error) {

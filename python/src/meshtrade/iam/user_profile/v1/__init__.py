@@ -15,12 +15,16 @@
 # Generated protobuf imports
 from .user_profile_pb2 import UserProfile
 from .service_pb2 import (
+    BatchGetUserProfilesByUserRequest,
+    BatchGetUserProfilesByUserResponse,
     GetUserProfileByUserRequest,
     GetUserProfilePictureUploadUrlRequest,
     GetUserProfilePictureUploadUrlResponse,
     GetUserProfileRequest,
     ListUserProfilesRequest,
     ListUserProfilesResponse,
+    SearchUserProfilesRequest,
+    SearchUserProfilesResponse,
     UpdateUserProfileRequest,
 )
 
@@ -51,12 +55,16 @@ from .service_meshpy import (
 # Combined auto-generated and manual exports
 __all__ = [
     # Generated exports
+    "BatchGetUserProfilesByUserRequest",
+    "BatchGetUserProfilesByUserResponse",
     "GetUserProfileByUserRequest",
     "GetUserProfilePictureUploadUrlRequest",
     "GetUserProfilePictureUploadUrlResponse",
     "GetUserProfileRequest",
     "ListUserProfilesRequest",
     "ListUserProfilesResponse",
+    "SearchUserProfilesRequest",
+    "SearchUserProfilesResponse",
     "UpdateUserProfileRequest",
     "UserProfile",
     "UserProfileService",

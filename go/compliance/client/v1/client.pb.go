@@ -45,6 +45,10 @@ type Client struct {
 	// in user interfaces and reports.
 	// Required on creation.
 	DisplayName string `protobuf:"bytes,4,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
+	// A short, abbreviated name for the client, used for compact display
+	// in tables, lists, and other space-constrained UI contexts.
+	// Must be 3-4 uppercase alphanumeric characters (e.g., "BTC", "MSFT") or blank.
+	ShortName string `protobuf:"bytes,13,opt,name=short_name,json=shortName,proto3" json:"short_name,omitempty"`
 	// Contains the specific data for the legal entity type.
 	// Only one of these may be set at a time.
 	//
@@ -128,6 +132,13 @@ func (x *Client) GetOwners() []string {
 func (x *Client) GetDisplayName() string {
 	if x != nil {
 		return x.DisplayName
+	}
+	return ""
+}
+
+func (x *Client) GetShortName() string {
+	if x != nil {
+		return x.ShortName
 	}
 	return ""
 }
@@ -239,15 +250,17 @@ var File_meshtrade_compliance_client_v1_client_proto protoreflect.FileDescriptor
 
 const file_meshtrade_compliance_client_v1_client_proto_rawDesc = "" +
 	"\n" +
-	"+meshtrade/compliance/client/v1/client.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a,meshtrade/compliance/client/v1/company.proto\x1a)meshtrade/compliance/client/v1/fund.proto\x1a3meshtrade/compliance/client/v1/natural_person.proto\x1a*meshtrade/compliance/client/v1/trust.proto\x1a8meshtrade/compliance/client/v1/verification_status.proto\"\x90\n" +
-	"\n" +
+	"+meshtrade/compliance/client/v1/client.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a,meshtrade/compliance/client/v1/company.proto\x1a)meshtrade/compliance/client/v1/fund.proto\x1a3meshtrade/compliance/client/v1/natural_person.proto\x1a*meshtrade/compliance/client/v1/trust.proto\x1a8meshtrade/compliance/client/v1/verification_status.proto\"\xce\v\n" +
 	"\x06Client\x12\xd4\x01\n" +
 	"\x04name\x18\x01 \x01(\tB\xbf\x01\xbaH\xbb\x01\xba\x01\xb7\x01\n" +
 	"\x14name.format.optional\x12?name must be empty or in the format compliance/clients/{ULIDv2}\x1a^size(this) == 0 || this.matches('^compliance/clients/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12R\n" +
 	"\x05owner\x18\x02 \x01(\tB<\xbaH9\xc8\x01\x01r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05owner\x12V\n" +
 	"\x06owners\x18\x03 \x03(\tB>\xbaH;\x92\x018\"6r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x06owners\x120\n" +
 	"\fdisplay_name\x18\x04 \x01(\tB\r\xbaH\n" +
-	"\xc8\x01\x01r\x05\x10\x01\x18\xff\x01R\vdisplayName\x12V\n" +
+	"\xc8\x01\x01r\x05\x10\x01\x18\xff\x01R\vdisplayName\x12\xbb\x01\n" +
+	"\n" +
+	"short_name\x18\r \x01(\tB\x9b\x01\xbaH\x97\x01\xba\x01\x93\x01\n" +
+	"\x1ashort_name.format.optional\x12Ashort_name must be empty or 3-4 uppercase alphanumeric characters\x1a2size(this) == 0 || this.matches('^[A-Z0-9]{3,4}$')R\tshortName\x12V\n" +
 	"\x0enatural_person\x18\x05 \x01(\v2-.meshtrade.compliance.client.v1.NaturalPersonH\x00R\rnaturalPerson\x12C\n" +
 	"\acompany\x18\x06 \x01(\v2'.meshtrade.compliance.client.v1.CompanyH\x00R\acompany\x12:\n" +
 	"\x04fund\x18\a \x01(\v2$.meshtrade.compliance.client.v1.FundH\x00R\x04fund\x12=\n" +

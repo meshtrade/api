@@ -29,10 +29,14 @@ from .client_pb2 import Client
 from .natural_person_connection_type_pb2 import NaturalPersonConnectionType
 from .service_pb2 import (
     CreateClientRequest,
+    FailClientVerificationRequest,
     GetClientRequest,
     GetGroupClientRequest,
     ListClientsRequest,
     ListClientsResponse,
+    MarkClientVerifiedRequest,
+    StartClientVerificationRequest,
+    UpdateClientRequest,
 )
 
 # Generated service imports
@@ -71,6 +75,7 @@ __all__ = [
     "CompanyRepresentativeRole",
     "ConnectedLegalPerson",
     "CreateClientRequest",
+    "FailClientVerificationRequest",
     "Fund",
     "GetClientRequest",
     "GetGroupClientRequest",
@@ -79,11 +84,14 @@ __all__ = [
     "LegalPersonConnectionType",
     "ListClientsRequest",
     "ListClientsResponse",
+    "MarkClientVerifiedRequest",
     "NaturalPerson",
     "NaturalPersonConnectionType",
     "PepStatus",
     "SourceOfIncomeAndWealth",
+    "StartClientVerificationRequest",
     "TaxResidency",
     "Trust",
+    "UpdateClientRequest",
     "VerificationStatus",
 ]
