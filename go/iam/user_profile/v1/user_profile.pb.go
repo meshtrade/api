@@ -55,11 +55,12 @@ type UserProfile struct {
 	// Used for displaying user identity in the application interface.
 	// This field is optional but must be a valid URI when provided.
 	ProfilePictureUrl string `protobuf:"bytes,6,opt,name=profile_picture_url,json=profilePictureUrl,proto3" json:"profile_picture_url,omitempty"`
-	// The display name shown for this user in the application.
-	// This field is required and represents how the user is identified to others.
-	// May be the user's full name, nickname, or preferred identifier.
+	// The user's first name (given name).
+	// This field is required and is used for user identification and communication.
 	FirstName string `protobuf:"bytes,7,opt,name=first_name,json=firstName,proto3" json:"first_name,omitempty"`
-	LastName  string `protobuf:"bytes,8,opt,name=last_name,json=lastName,proto3" json:"last_name,omitempty"`
+	// The user's last name (family name/surname).
+	// This field is required and is used for user identification and communication.
+	LastName string `protobuf:"bytes,8,opt,name=last_name,json=lastName,proto3" json:"last_name,omitempty"`
 	// The preferred currency token for displaying monetary values to this user.
 	// Used as the default currency for presenting prices, balances, and trading values.
 	// References a token from the meshtrade.type.v1.Token definition.
