@@ -42,5 +42,9 @@ export * from "./verification_status_pb";
 //   export { MyCustomClass } from "./another_module";
 // ===================================================================
 
-// TODO: Re-enable when custom grpc-web client generator is migrated to @bufbuild/es
-// export { ClientServiceGrpcWebClientV1 } from "./service_grpc_web_client_meshts";
+export * from "./company_representative_role";
+export * from "./identification_document_type";
+export * from "./natural_person_connection_type";
+export * from "./pep_status";
+export * from "./source_of_income_and_wealth";
+export * from "./verification_status";
