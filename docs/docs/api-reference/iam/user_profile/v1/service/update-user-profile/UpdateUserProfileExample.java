@@ -19,9 +19,8 @@ public class UpdateUserProfileExample {
                     .setName("iam/user_profiles/01JCXYZ1234567890ABCDEFGHJK")  // Existing profile identifier
                     .setOwner(service.getGroup())  // Owner must match current ownership
                     .setUserName("users/01JCXYZ1234567890ABCDEFGHJK")  // Associated user resource
-                    .setDisplayName("Sarah Thompson-Johnson")  // Updated display name
                     .setFirstName("Sarah")
-                    .setLastName("Thompson-Johnson")  // Updated last name
+                    .setLastName("Thompson-Johnson")
                     .setProfilePictureUrl("https://cdn.example.com/profiles/sarah-new.jpg")  // New photo
                     .setAddress(Address.newBuilder()
                         .addAddressLines("789 Maple Street")
@@ -48,7 +47,8 @@ public class UpdateUserProfileExample {
             UserProfile userProfile = response.getUserProfile();
             System.out.println("User profile updated successfully:");
             System.out.println("  Name: " + userProfile.getName());
-            System.out.println("  Display Name: " + userProfile.getDisplayName());
+            System.out.println("  First Name: " + userProfile.getFirstName());
+            System.out.println("  Last Name: " + userProfile.getLastName());
             System.out.println("  Email: " + userProfile.getContactDetails().getEmailAddress());
             System.out.println("  Mobile: " + userProfile.getContactDetails().getMobileNumber());
             System.out.println("  City: " + userProfile.getAddress().getCity());

@@ -55,18 +55,20 @@ type UserProfile struct {
 	// Used for displaying user identity in the application interface.
 	// This field is optional but must be a valid URI when provided.
 	ProfilePictureUrl string `protobuf:"bytes,6,opt,name=profile_picture_url,json=profilePictureUrl,proto3" json:"profile_picture_url,omitempty"`
-	// The display name shown for this user in the application.
-	// This field is required and represents how the user is identified to others.
-	// May be the user's full name, nickname, or preferred identifier.
-	DisplayName string `protobuf:"bytes,7,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
+	// The user's first name (given name).
+	// This field is required and is used for user identification and communication.
+	FirstName string `protobuf:"bytes,7,opt,name=first_name,json=firstName,proto3" json:"first_name,omitempty"`
+	// The user's last name (family name/surname).
+	// This field is required and is used for user identification and communication.
+	LastName string `protobuf:"bytes,8,opt,name=last_name,json=lastName,proto3" json:"last_name,omitempty"`
 	// The preferred currency token for displaying monetary values to this user.
 	// Used as the default currency for presenting prices, balances, and trading values.
 	// References a token from the meshtrade.type.v1.Token definition.
-	DisplayCurrency *v1.Token `protobuf:"bytes,8,opt,name=display_currency,json=displayCurrency,proto3" json:"display_currency,omitempty"`
+	DisplayCurrency *v1.Token `protobuf:"bytes,9,opt,name=display_currency,json=displayCurrency,proto3" json:"display_currency,omitempty"`
 	// The currency token used for financial reporting and accounting purposes.
 	// This may differ from display_currency and is used for official records and statements.
 	// References a token from the meshtrade.type.v1.Token definition.
-	ReportingCurrency *v1.Token `protobuf:"bytes,9,opt,name=reporting_currency,json=reportingCurrency,proto3" json:"reporting_currency,omitempty"`
+	ReportingCurrency *v1.Token `protobuf:"bytes,10,opt,name=reporting_currency,json=reportingCurrency,proto3" json:"reporting_currency,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -143,9 +145,16 @@ func (x *UserProfile) GetProfilePictureUrl() string {
 	return ""
 }
 
-func (x *UserProfile) GetDisplayName() string {
+func (x *UserProfile) GetFirstName() string {
 	if x != nil {
-		return x.DisplayName
+		return x.FirstName
+	}
+	return ""
+}
+
+func (x *UserProfile) GetLastName() string {
+	if x != nil {
+		return x.LastName
 	}
 	return ""
 }
@@ -168,7 +177,7 @@ var File_meshtrade_iam_user_profile_v1_user_profile_proto protoreflect.FileDescr
 
 const file_meshtrade_iam_user_profile_v1_user_profile_proto_rawDesc = "" +
 	"\n" +
-	"0meshtrade/iam/user_profile/v1/user_profile.proto\x12\x1dmeshtrade.iam.user_profile.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1dmeshtrade/type/v1/token.proto\"\xaf\n" +
+	"0meshtrade/iam/user_profile/v1/user_profile.proto\x12\x1dmeshtrade.iam.user_profile.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1dmeshtrade/type/v1/token.proto\"\xd9\n" +
 	"\n" +
 	"\vUserProfile\x12\xd2\x01\n" +
 	"\x04name\x18\x01 \x01(\tB\xbd\x01\xbaH\xb9\x01\xba\x01\xb5\x01\n" +
@@ -181,10 +190,14 @@ const file_meshtrade_iam_user_profile_v1_user_profile_proto_rawDesc = "" +
 	"\x06locale\x18\x05 \x01(\tB\xc2\x01\xbaH\xbe\x01\xba\x01\xba\x01\n" +
 	"\rlocale.format\x12Rlocale must be empty or a valid BCP 47 language tag (e.g., 'en', 'en-US', 'fr-FR')\x1aUsize(this) == 0 || this.matches('^[a-z]{2,3}(-[A-Za-z]{4})?(-([A-Z]{2}|[0-9]{3}))?$')R\x06locale\x12\xa5\x01\n" +
 	"\x13profile_picture_url\x18\x06 \x01(\tBu\xbaHr\xba\x01o\n" +
-	"\x1aprofile_picture_url.format\x120profile_picture_url must be empty or a valid URI\x1a\x1fsize(this) == 0 || this.isUri()R\x11profilePictureUrl\x12)\n" +
-	"\fdisplay_name\x18\a \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\vdisplayName\x12C\n" +
-	"\x10display_currency\x18\b \x01(\v2\x18.meshtrade.type.v1.TokenR\x0fdisplayCurrency\x12G\n" +
-	"\x12reporting_currency\x18\t \x01(\v2\x18.meshtrade.type.v1.TokenR\x11reportingCurrencyBg\n" +
+	"\x1aprofile_picture_url.format\x120profile_picture_url must be empty or a valid URI\x1a\x1fsize(this) == 0 || this.isUri()R\x11profilePictureUrl\x12,\n" +
+	"\n" +
+	"first_name\x18\a \x01(\tB\r\xbaH\n" +
+	"\xc8\x01\x01r\x05\x10\x01\x18\xff\x01R\tfirstName\x12%\n" +
+	"\tlast_name\x18\b \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R\blastName\x12C\n" +
+	"\x10display_currency\x18\t \x01(\v2\x18.meshtrade.type.v1.TokenR\x0fdisplayCurrency\x12G\n" +
+	"\x12reporting_currency\x18\n" +
+	" \x01(\v2\x18.meshtrade.type.v1.TokenR\x11reportingCurrencyBg\n" +
 	"$co.meshtrade.api.iam.user_profile.v1Z?github.com/meshtrade/api/go/iam/user_profile/v1;user_profile_v1b\x06proto3"
 
 var (

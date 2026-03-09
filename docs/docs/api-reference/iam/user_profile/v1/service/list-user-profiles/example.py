@@ -22,7 +22,8 @@ def main():
         for i, profile in enumerate(response.user_profiles):
             print(f"User Profile {i + 1}:")
             print(f"  Name: {profile.name}")
-            print(f"  Display Name: {profile.display_name}")
+            print(f"  First Name: {profile.first_name}")
+            print(f"  Last Name: {profile.last_name}")
             print(f"  Owner: {profile.owner}")
             print()
 

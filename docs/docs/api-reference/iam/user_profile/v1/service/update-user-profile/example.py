@@ -20,9 +20,8 @@ def main():
                 name="user_profiles/01JCXYZ1234567890ABCDEFGHJK",  # Existing profile identifier
                 owner=service.group(),  # Owner must match current ownership
                 user_name="users/01JCXYZ1234567890ABCDEFGHJK",  # Associated user resource
-                display_name="Sarah Thompson-Johnson",  # Updated display name
                 first_name="Sarah",
-                last_name="Thompson-Johnson",  # Updated last name
+                last_name="Thompson-Johnson",
                 profile_picture_url="https://cdn.example.com/profiles/sarah-new.jpg",  # New photo
                 address=Address(
                     address_lines=["789 Maple Street", "Suite 2A"],  # New address
@@ -48,7 +47,8 @@ def main():
         # Use the updated user profile
         print("User profile updated successfully:")
         print(f"  Name: {user_profile.name}")
-        print(f"  Display Name: {user_profile.display_name}")
+        print(f"  First Name: {user_profile.first_name}")
+        print(f"  Last Name: {user_profile.last_name}")
         print(f"  Email: {user_profile.contact_details.email_address}")
         print(f"  Mobile: {user_profile.contact_details.mobile_number}")
         print(f"  City: {user_profile.address.city}")

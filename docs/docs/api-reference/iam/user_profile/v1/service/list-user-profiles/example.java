@@ -24,7 +24,8 @@ public class ListUserProfilesExample {
             for (UserProfile profile : response.getUserProfilesList()) {
                 System.out.println("User Profile " + i + ":");
                 System.out.println("  Name: " + profile.getName());
-                System.out.println("  Display Name: " + profile.getDisplayName());
+                System.out.println("  First Name: " + profile.getFirstName());
+                System.out.println("  Last Name: " + profile.getLastName());
                 System.out.println("  User: " + profile.getUserName());
                 System.out.println("  Owner: " + profile.getOwner());
                 if (!profile.getContactDetails().getEmailAddress().isEmpty()) {

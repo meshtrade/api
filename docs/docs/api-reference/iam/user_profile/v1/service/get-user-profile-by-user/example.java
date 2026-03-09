@@ -10,16 +10,22 @@ public class GetUserProfileByUserExample {
         // environment variable or default discovery methods. Zero config required
         // unless you want custom configuration.
         try (UserProfileService service = new UserProfileService()) {
-            // Create request with service-specific parameters
+            // Create request with the user resource name
+            // Replace the ULIDv2 with your actual user ID
             GetUserProfileByUserRequest request = GetUserProfileByUserRequest.newBuilder()
-                // FIXME: Populate service-specific request fields
+                .setUser("users/01HQZXYZ9ABCDEFGHIJKLMNPQR")
                 .build();
 
             // Call the GetUserProfileByUser method
             UserProfile userProfile = service.getUserProfileByUser(request, Optional.empty());
 
-            // FIXME: Add relevant response object usage
-            System.out.println("GetUserProfileByUser successful: " + userProfile);
+            // Use the retrieved user profile
+            System.out.println("User Profile Retrieved:");
+            System.out.println("  Name: " + userProfile.getName());
+            System.out.println("  First Name: " + userProfile.getFirstName());
+            System.out.println("  Last Name: " + userProfile.getLastName());
+            System.out.println("  User: " + userProfile.getUserName());
+            System.out.println("  Locale: " + userProfile.getLocale());
         } catch (Exception e) {
             System.err.println("GetUserProfileByUser failed: " + e.getMessage());
             e.printStackTrace();
