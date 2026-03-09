@@ -109,11 +109,15 @@ message UserProfile {
   }];
 
   /*
-     The display name shown for this user in the application.
-     This field is required and represents how the user is identified to others.
-     May be the user's full name, nickname, or preferred identifier.
+     The user's first name (given name).
+     This field is required and is used for user identification and communication.
   */
   string first_name = 7 [(buf.validate.field) = {required: true}];
+
+  /*
+     The user's last name (family name/surname).
+     This field is required and is used for user identification and communication.
+  */
   string last_name = 8 [(buf.validate.field) = {required: true}];
 
   /*
