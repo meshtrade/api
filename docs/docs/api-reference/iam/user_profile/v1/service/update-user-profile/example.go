@@ -24,7 +24,8 @@ func main() {
 		UserProfile: &user_profilev1.UserProfile{
 			Name:              "iam/user_profiles/${_id}",                       // Existing profile identifier
 			Owner:             service.Group(),                                  // Owner must match current ownership
-			DisplayName:       "Sarah Thompson-Johnson",                         // Updated display name
+			FirstName:         "Sarah",
+			LastName:          "Thompson-Johnson",
 			ProfilePictureUrl: "https://cdn.example.com/profiles/sarah-new.jpg", // New photo
 		},
 	}
@@ -38,6 +39,7 @@ func main() {
 	// Use the updated user profile
 	log.Printf("User profile updated successfully:")
 	log.Printf("  Name: %s", userProfile.Name)
-	log.Printf("  Display Name: %s", userProfile.DisplayName)
+	log.Printf("  First Name: %s", userProfile.FirstName)
+	log.Printf("  Last Name: %s", userProfile.LastName)
 	log.Printf("User profile information updated with latest details")
 }

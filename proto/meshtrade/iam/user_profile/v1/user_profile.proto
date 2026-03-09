@@ -113,19 +113,20 @@ message UserProfile {
      This field is required and represents how the user is identified to others.
      May be the user's full name, nickname, or preferred identifier.
   */
-  string display_name = 7 [(buf.validate.field) = {required: true}];
+  string first_name = 7 [(buf.validate.field) = {required: true}];
+  string last_name = 8 [(buf.validate.field) = {required: true}];
 
   /*
      The preferred currency token for displaying monetary values to this user.
      Used as the default currency for presenting prices, balances, and trading values.
      References a token from the meshtrade.type.v1.Token definition.
   */
-  meshtrade.type.v1.Token display_currency = 8;
+  meshtrade.type.v1.Token display_currency = 9;
 
   /*
      The currency token used for financial reporting and accounting purposes.
      This may differ from display_currency and is used for official records and statements.
      References a token from the meshtrade.type.v1.Token definition.
   */
-  meshtrade.type.v1.Token reporting_currency = 9;
+  meshtrade.type.v1.Token reporting_currency = 10;
 }

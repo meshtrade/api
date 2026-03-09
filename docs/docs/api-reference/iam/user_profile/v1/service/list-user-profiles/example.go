@@ -33,7 +33,8 @@ func main() {
 	for i, profile := range response.UserProfiles {
 		log.Printf("User Profile %d:", i+1)
 		log.Printf("  Name: %s", profile.Name)
-		log.Printf("  Display Name: %s", profile.DisplayName)
+		log.Printf("  First Name: %s", profile.FirstName)
+		log.Printf("  Last Name: %s", profile.LastName)
 		log.Printf("  User: %s", profile.GetUser())
 		log.Printf("  Owner: %s", profile.Owner)
 		log.Println()
