@@ -19,9 +19,10 @@ func main() {
 	}
 	defer service.Close()
 
-	// Create request with service-specific parameters
+	// Create request with the user resource name
+	// Replace the ULIDv2 with your actual user ID
 	request := &user_profilev1.GetUserProfileByUserRequest{
-		// FIXME: Populate service-specific request fields
+		User: "users/01HQZXYZ9ABCDEFGHIJKLMNPQR",
 	}
 
 	// Call the GetUserProfileByUser method
@@ -30,6 +31,11 @@ func main() {
 		log.Fatalf("GetUserProfileByUser failed: %v", err)
 	}
 
-	// FIXME: Add relevant response object usage
-	log.Printf("GetUserProfileByUser successful: %+v", userProfile)
+	// Use the retrieved user profile
+	log.Printf("User Profile Retrieved:")
+	log.Printf("  Name: %s", userProfile.Name)
+	log.Printf("  First Name: %s", userProfile.FirstName)
+	log.Printf("  Last Name: %s", userProfile.LastName)
+	log.Printf("  User: %s", userProfile.User)
+	log.Printf("  Locale: %s", userProfile.Locale)
 }
