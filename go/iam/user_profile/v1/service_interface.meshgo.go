@@ -46,18 +46,11 @@ type UserProfileService interface {
 	// Returns a ListUserProfilesResponse containing all accessible user_profiles.
 	ListUserProfiles(ctx context.Context, request *ListUserProfilesRequest) (*ListUserProfilesResponse, error)
 
-	// Searches user profiles using first name or last name filtering.
+	// Searches user profiles using first name, last name, or user resource name filtering.
 	//
-	// Performs substring matching on user profile first and last names
-	// within the authenticated group context.
+	// Performs substring matching on user profile first and last names,
+	// or exact matching on user resource names within the authenticated group context.
 	SearchUserProfiles(ctx context.Context, request *SearchUserProfilesRequest) (*SearchUserProfilesResponse, error)
-
-	// Retrieves a batch of user profiles by their associated user resource names.
-	//
-	// Returns the user profiles linked to the specified user IDs.
-	// This is useful when you have multiple user resources and need to find
-	// their associated profile information in a single request.
-	BatchGetUserProfilesByUser(ctx context.Context, request *BatchGetUserProfilesByUserRequest) (*BatchGetUserProfilesByUserResponse, error)
 
 	// Retrieves a presigned upload URL for a user profile picture.
 	//

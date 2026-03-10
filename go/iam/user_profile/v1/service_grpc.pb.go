@@ -24,7 +24,6 @@ const (
 	UserProfileService_GetUserProfileByUser_FullMethodName           = "/meshtrade.iam.user_profile.v1.UserProfileService/GetUserProfileByUser"
 	UserProfileService_ListUserProfiles_FullMethodName               = "/meshtrade.iam.user_profile.v1.UserProfileService/ListUserProfiles"
 	UserProfileService_SearchUserProfiles_FullMethodName             = "/meshtrade.iam.user_profile.v1.UserProfileService/SearchUserProfiles"
-	UserProfileService_BatchGetUserProfilesByUser_FullMethodName     = "/meshtrade.iam.user_profile.v1.UserProfileService/BatchGetUserProfilesByUser"
 	UserProfileService_GetUserProfilePictureUploadUrl_FullMethodName = "/meshtrade.iam.user_profile.v1.UserProfileService/GetUserProfilePictureUploadUrl"
 )
 
@@ -68,17 +67,11 @@ type UserProfileServiceClient interface {
 	//
 	// Returns a ListUserProfilesResponse containing all accessible user_profiles.
 	ListUserProfiles(ctx context.Context, in *ListUserProfilesRequest, opts ...grpc.CallOption) (*ListUserProfilesResponse, error)
-	// Searches user profiles using first name or last name filtering.
+	// Searches user profiles using first name, last name, or user resource name filtering.
 	//
-	// Performs substring matching on user profile first and last names
-	// within the authenticated group context.
+	// Performs substring matching on user profile first and last names,
+	// or exact matching on user resource names within the authenticated group context.
 	SearchUserProfiles(ctx context.Context, in *SearchUserProfilesRequest, opts ...grpc.CallOption) (*SearchUserProfilesResponse, error)
-	// Retrieves a batch of user profiles by their associated user resource names.
-	//
-	// Returns the user profiles linked to the specified user IDs.
-	// This is useful when you have multiple user resources and need to find
-	// their associated profile information in a single request.
-	BatchGetUserProfilesByUser(ctx context.Context, in *BatchGetUserProfilesByUserRequest, opts ...grpc.CallOption) (*BatchGetUserProfilesByUserResponse, error)
 	// Retrieves a presigned upload URL for a user profile picture.
 	//
 	// Generates a temporary upload URL that can be used to upload
@@ -147,16 +140,6 @@ func (c *userProfileServiceClient) SearchUserProfiles(ctx context.Context, in *S
 	return out, nil
 }
 
-func (c *userProfileServiceClient) BatchGetUserProfilesByUser(ctx context.Context, in *BatchGetUserProfilesByUserRequest, opts ...grpc.CallOption) (*BatchGetUserProfilesByUserResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(BatchGetUserProfilesByUserResponse)
-	err := c.cc.Invoke(ctx, UserProfileService_BatchGetUserProfilesByUser_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *userProfileServiceClient) GetUserProfilePictureUploadUrl(ctx context.Context, in *GetUserProfilePictureUploadUrlRequest, opts ...grpc.CallOption) (*GetUserProfilePictureUploadUrlResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetUserProfilePictureUploadUrlResponse)
@@ -207,17 +190,11 @@ type UserProfileServiceServer interface {
 	//
 	// Returns a ListUserProfilesResponse containing all accessible user_profiles.
 	ListUserProfiles(context.Context, *ListUserProfilesRequest) (*ListUserProfilesResponse, error)
-	// Searches user profiles using first name or last name filtering.
+	// Searches user profiles using first name, last name, or user resource name filtering.
 	//
-	// Performs substring matching on user profile first and last names
-	// within the authenticated group context.
+	// Performs substring matching on user profile first and last names,
+	// or exact matching on user resource names within the authenticated group context.
 	SearchUserProfiles(context.Context, *SearchUserProfilesRequest) (*SearchUserProfilesResponse, error)
-	// Retrieves a batch of user profiles by their associated user resource names.
-	//
-	// Returns the user profiles linked to the specified user IDs.
-	// This is useful when you have multiple user resources and need to find
-	// their associated profile information in a single request.
-	BatchGetUserProfilesByUser(context.Context, *BatchGetUserProfilesByUserRequest) (*BatchGetUserProfilesByUserResponse, error)
 	// Retrieves a presigned upload URL for a user profile picture.
 	//
 	// Generates a temporary upload URL that can be used to upload
@@ -250,9 +227,6 @@ func (UnimplementedUserProfileServiceServer) ListUserProfiles(context.Context, *
 }
 func (UnimplementedUserProfileServiceServer) SearchUserProfiles(context.Context, *SearchUserProfilesRequest) (*SearchUserProfilesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SearchUserProfiles not implemented")
-}
-func (UnimplementedUserProfileServiceServer) BatchGetUserProfilesByUser(context.Context, *BatchGetUserProfilesByUserRequest) (*BatchGetUserProfilesByUserResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method BatchGetUserProfilesByUser not implemented")
 }
 func (UnimplementedUserProfileServiceServer) GetUserProfilePictureUploadUrl(context.Context, *GetUserProfilePictureUploadUrlRequest) (*GetUserProfilePictureUploadUrlResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserProfilePictureUploadUrl not implemented")
@@ -368,24 +342,6 @@ func _UserProfileService_SearchUserProfiles_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserProfileService_BatchGetUserProfilesByUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(BatchGetUserProfilesByUserRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserProfileServiceServer).BatchGetUserProfilesByUser(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserProfileService_BatchGetUserProfilesByUser_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserProfileServiceServer).BatchGetUserProfilesByUser(ctx, req.(*BatchGetUserProfilesByUserRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _UserProfileService_GetUserProfilePictureUploadUrl_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetUserProfilePictureUploadUrlRequest)
 	if err := dec(in); err != nil {
@@ -430,10 +386,6 @@ var UserProfileService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SearchUserProfiles",
 			Handler:    _UserProfileService_SearchUserProfiles_Handler,
-		},
-		{
-			MethodName: "BatchGetUserProfilesByUser",
-			Handler:    _UserProfileService_BatchGetUserProfilesByUser_Handler,
 		},
 		{
 			MethodName: "GetUserProfilePictureUploadUrl",
