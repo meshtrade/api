@@ -113,9 +113,10 @@ type Company struct {
 	// Examples: UK Companies House number, NL KVK-nummer, US EIN.
 	// Required for verification.
 	RegistrationNumber string `protobuf:"bytes,3,opt,name=registration_number,json=registrationNumber,proto3" json:"registration_number,omitempty"`
-	// The primary tax identifier for the company.
-	// Examples: VAT number in the EU, TIN in the US.
-	TaxIdentifier string `protobuf:"bytes,4,opt,name=tax_identifier,json=taxIdentifier,proto3" json:"tax_identifier,omitempty"`
+	// The company's tax residency information, required for CRS/FATCA reporting.
+	// A company can be a tax resident in multiple jurisdictions.
+	// Required for verification.
+	TaxResidencies []*TaxResidency `protobuf:"bytes,4,rep,name=tax_residencies,json=taxResidencies,proto3" json:"tax_residencies,omitempty"`
 	// The ISO 3166-1 alpha-2 country code where the company was incorporated (e.g., "ZA", "NL").
 	// The value must be the uppercase, two-letter code.
 	// See: https://www.iso.org/iso-3166-country-codes.html
@@ -200,11 +201,11 @@ func (x *Company) GetRegistrationNumber() string {
 	return ""
 }
 
-func (x *Company) GetTaxIdentifier() string {
+func (x *Company) GetTaxResidencies() []*TaxResidency {
 	if x != nil {
-		return x.TaxIdentifier
+		return x.TaxResidencies
 	}
-	return ""
+	return nil
 }
 
 func (x *Company) GetCountryOfIncorporation() string {
@@ -457,11 +458,11 @@ var File_meshtrade_compliance_client_v1_company_proto protoreflect.FileDescripto
 
 const file_meshtrade_compliance_client_v1_company_proto_rawDesc = "" +
 	"\n" +
-	",meshtrade/compliance/client/v1/company.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x1bbuf/validate/validate.proto\x1a\x16google/type/date.proto\x1a;meshtrade/compliance/client/v1/company_representative.proto\x1a)meshtrade/compliance/client/v1/fund.proto\x1a<meshtrade/compliance/client/v1/industry_classification.proto\x1a3meshtrade/compliance/client/v1/natural_person.proto\x1a*meshtrade/compliance/client/v1/trust.proto\x1a\x1fmeshtrade/type/v1/address.proto\x1a\x1fmeshtrade/type/v1/decimal.proto\"\xc7\t\n" +
+	",meshtrade/compliance/client/v1/company.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x1bbuf/validate/validate.proto\x1a\x16google/type/date.proto\x1a;meshtrade/compliance/client/v1/company_representative.proto\x1a)meshtrade/compliance/client/v1/fund.proto\x1a<meshtrade/compliance/client/v1/industry_classification.proto\x1a3meshtrade/compliance/client/v1/natural_person.proto\x1a2meshtrade/compliance/client/v1/tax_residency.proto\x1a*meshtrade/compliance/client/v1/trust.proto\x1a\x1fmeshtrade/type/v1/address.proto\x1a\x1fmeshtrade/type/v1/decimal.proto\"\xee\t\n" +
 	"\aCompany\x121\n" +
 	"\x0fregistered_name\x18\x01 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R\x0eregisteredName\x128\n" +
-	"\x13registration_number\x18\x03 \x01(\tB\a\xbaH\x04r\x02\x18dR\x12registrationNumber\x12.\n" +
-	"\x0etax_identifier\x18\x04 \x01(\tB\a\xbaH\x04r\x02\x182R\rtaxIdentifier\x12\xe3\x01\n" +
+	"\x13registration_number\x18\x03 \x01(\tB\a\xbaH\x04r\x02\x18dR\x12registrationNumber\x12U\n" +
+	"\x0ftax_residencies\x18\x04 \x03(\v2,.meshtrade.compliance.client.v1.TaxResidencyR\x0etaxResidencies\x12\xe3\x01\n" +
 	"\x18country_of_incorporation\x18\x05 \x01(\tB\xa8\x01\xbaH\xa4\x01\xba\x01\xa0\x01\n" +
 	"\x1ccountry_code.format.optional\x12Qcountry_of_incorporation must be empty or a valid ISO 3166-1 alpha-2 country code\x1a-size(this) == 0 || this.matches('^[A-Z]{2}$')R\x16countryOfIncorporation\x12E\n" +
 	"\x15date_of_incorporation\x18\x06 \x01(\v2\x11.google.type.DateR\x13dateOfIncorporation\x12I\n" +
@@ -514,36 +515,38 @@ var file_meshtrade_compliance_client_v1_company_proto_goTypes = []any{
 	(LegalPersonConnectionType)(0), // 0: meshtrade.compliance.client.v1.LegalPersonConnectionType
 	(*Company)(nil),                // 1: meshtrade.compliance.client.v1.Company
 	(*ConnectedLegalPerson)(nil),   // 2: meshtrade.compliance.client.v1.ConnectedLegalPerson
-	(*date.Date)(nil),              // 3: google.type.Date
-	(*v1.Address)(nil),             // 4: meshtrade.type.v1.Address
-	(*CompanyRepresentative)(nil),  // 5: meshtrade.compliance.client.v1.CompanyRepresentative
-	(*IndustryClassification)(nil), // 6: meshtrade.compliance.client.v1.IndustryClassification
-	(*NaturalPerson)(nil),          // 7: meshtrade.compliance.client.v1.NaturalPerson
-	(*Fund)(nil),                   // 8: meshtrade.compliance.client.v1.Fund
-	(*Trust)(nil),                  // 9: meshtrade.compliance.client.v1.Trust
-	(*v1.Decimal)(nil),             // 10: meshtrade.type.v1.Decimal
+	(*TaxResidency)(nil),           // 3: meshtrade.compliance.client.v1.TaxResidency
+	(*date.Date)(nil),              // 4: google.type.Date
+	(*v1.Address)(nil),             // 5: meshtrade.type.v1.Address
+	(*CompanyRepresentative)(nil),  // 6: meshtrade.compliance.client.v1.CompanyRepresentative
+	(*IndustryClassification)(nil), // 7: meshtrade.compliance.client.v1.IndustryClassification
+	(*NaturalPerson)(nil),          // 8: meshtrade.compliance.client.v1.NaturalPerson
+	(*Fund)(nil),                   // 9: meshtrade.compliance.client.v1.Fund
+	(*Trust)(nil),                  // 10: meshtrade.compliance.client.v1.Trust
+	(*v1.Decimal)(nil),             // 11: meshtrade.type.v1.Decimal
 }
 var file_meshtrade_compliance_client_v1_company_proto_depIdxs = []int32{
-	3,  // 0: meshtrade.compliance.client.v1.Company.date_of_incorporation:type_name -> google.type.Date
-	4,  // 1: meshtrade.compliance.client.v1.Company.registered_address:type_name -> meshtrade.type.v1.Address
-	4,  // 2: meshtrade.compliance.client.v1.Company.principal_physical_address:type_name -> meshtrade.type.v1.Address
-	4,  // 3: meshtrade.compliance.client.v1.Company.postal_address:type_name -> meshtrade.type.v1.Address
-	4,  // 4: meshtrade.compliance.client.v1.Company.head_office_address:type_name -> meshtrade.type.v1.Address
-	5,  // 5: meshtrade.compliance.client.v1.Company.company_representatives:type_name -> meshtrade.compliance.client.v1.CompanyRepresentative
-	2,  // 6: meshtrade.compliance.client.v1.Company.connected_legal_persons:type_name -> meshtrade.compliance.client.v1.ConnectedLegalPerson
-	6,  // 7: meshtrade.compliance.client.v1.Company.industry_classification:type_name -> meshtrade.compliance.client.v1.IndustryClassification
-	7,  // 8: meshtrade.compliance.client.v1.ConnectedLegalPerson.natural_person:type_name -> meshtrade.compliance.client.v1.NaturalPerson
-	1,  // 9: meshtrade.compliance.client.v1.ConnectedLegalPerson.company:type_name -> meshtrade.compliance.client.v1.Company
-	8,  // 10: meshtrade.compliance.client.v1.ConnectedLegalPerson.fund:type_name -> meshtrade.compliance.client.v1.Fund
-	9,  // 11: meshtrade.compliance.client.v1.ConnectedLegalPerson.trust:type_name -> meshtrade.compliance.client.v1.Trust
-	0,  // 12: meshtrade.compliance.client.v1.ConnectedLegalPerson.connection_types:type_name -> meshtrade.compliance.client.v1.LegalPersonConnectionType
-	10, // 13: meshtrade.compliance.client.v1.ConnectedLegalPerson.ownership_percentage:type_name -> meshtrade.type.v1.Decimal
-	10, // 14: meshtrade.compliance.client.v1.ConnectedLegalPerson.voting_rights_percentage:type_name -> meshtrade.type.v1.Decimal
-	15, // [15:15] is the sub-list for method output_type
-	15, // [15:15] is the sub-list for method input_type
-	15, // [15:15] is the sub-list for extension type_name
-	15, // [15:15] is the sub-list for extension extendee
-	0,  // [0:15] is the sub-list for field type_name
+	3,  // 0: meshtrade.compliance.client.v1.Company.tax_residencies:type_name -> meshtrade.compliance.client.v1.TaxResidency
+	4,  // 1: meshtrade.compliance.client.v1.Company.date_of_incorporation:type_name -> google.type.Date
+	5,  // 2: meshtrade.compliance.client.v1.Company.registered_address:type_name -> meshtrade.type.v1.Address
+	5,  // 3: meshtrade.compliance.client.v1.Company.principal_physical_address:type_name -> meshtrade.type.v1.Address
+	5,  // 4: meshtrade.compliance.client.v1.Company.postal_address:type_name -> meshtrade.type.v1.Address
+	5,  // 5: meshtrade.compliance.client.v1.Company.head_office_address:type_name -> meshtrade.type.v1.Address
+	6,  // 6: meshtrade.compliance.client.v1.Company.company_representatives:type_name -> meshtrade.compliance.client.v1.CompanyRepresentative
+	2,  // 7: meshtrade.compliance.client.v1.Company.connected_legal_persons:type_name -> meshtrade.compliance.client.v1.ConnectedLegalPerson
+	7,  // 8: meshtrade.compliance.client.v1.Company.industry_classification:type_name -> meshtrade.compliance.client.v1.IndustryClassification
+	8,  // 9: meshtrade.compliance.client.v1.ConnectedLegalPerson.natural_person:type_name -> meshtrade.compliance.client.v1.NaturalPerson
+	1,  // 10: meshtrade.compliance.client.v1.ConnectedLegalPerson.company:type_name -> meshtrade.compliance.client.v1.Company
+	9,  // 11: meshtrade.compliance.client.v1.ConnectedLegalPerson.fund:type_name -> meshtrade.compliance.client.v1.Fund
+	10, // 12: meshtrade.compliance.client.v1.ConnectedLegalPerson.trust:type_name -> meshtrade.compliance.client.v1.Trust
+	0,  // 13: meshtrade.compliance.client.v1.ConnectedLegalPerson.connection_types:type_name -> meshtrade.compliance.client.v1.LegalPersonConnectionType
+	11, // 14: meshtrade.compliance.client.v1.ConnectedLegalPerson.ownership_percentage:type_name -> meshtrade.type.v1.Decimal
+	11, // 15: meshtrade.compliance.client.v1.ConnectedLegalPerson.voting_rights_percentage:type_name -> meshtrade.type.v1.Decimal
+	16, // [16:16] is the sub-list for method output_type
+	16, // [16:16] is the sub-list for method input_type
+	16, // [16:16] is the sub-list for extension type_name
+	16, // [16:16] is the sub-list for extension extendee
+	0,  // [0:16] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_compliance_client_v1_company_proto_init() }
@@ -555,6 +558,7 @@ func file_meshtrade_compliance_client_v1_company_proto_init() {
 	file_meshtrade_compliance_client_v1_fund_proto_init()
 	file_meshtrade_compliance_client_v1_industry_classification_proto_init()
 	file_meshtrade_compliance_client_v1_natural_person_proto_init()
+	file_meshtrade_compliance_client_v1_tax_residency_proto_init()
 	file_meshtrade_compliance_client_v1_trust_proto_init()
 	file_meshtrade_compliance_client_v1_company_proto_msgTypes[1].OneofWrappers = []any{
 		(*ConnectedLegalPerson_NaturalPerson)(nil),

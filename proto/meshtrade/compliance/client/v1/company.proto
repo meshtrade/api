@@ -8,6 +8,7 @@ import "meshtrade/compliance/client/v1/company_representative.proto";
 import "meshtrade/compliance/client/v1/fund.proto";
 import "meshtrade/compliance/client/v1/industry_classification.proto";
 import "meshtrade/compliance/client/v1/natural_person.proto";
+import "meshtrade/compliance/client/v1/tax_residency.proto";
 import "meshtrade/compliance/client/v1/trust.proto";
 import "meshtrade/type/v1/address.proto";
 import "meshtrade/type/v1/decimal.proto";
@@ -43,14 +44,11 @@ message Company {
   }];
 
   /*
-     The primary tax identifier for the company.
-     Examples: VAT number in the EU, TIN in the US.
+     The company's tax residency information, required for CRS/FATCA reporting.
+     A company can be a tax resident in multiple jurisdictions.
+     Required for verification.
   */
-  string tax_identifier = 4 [(buf.validate.field) = {
-    string: {
-      max_len: 50
-    }
-  }];
+  repeated meshtrade.compliance.client.v1.TaxResidency tax_residencies = 4;
 
   /*
      The ISO 3166-1 alpha-2 country code where the company was incorporated (e.g., "ZA", "NL").

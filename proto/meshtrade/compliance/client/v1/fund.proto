@@ -4,6 +4,7 @@ package meshtrade.compliance.client.v1;
 
 import "buf/validate/validate.proto";
 import "google/type/date.proto";
+import "meshtrade/compliance/client/v1/tax_residency.proto";
 
 option go_package = "github.com/meshtrade/api/go/compliance/client/v1;client_v1";
 option java_package = "co.meshtrade.api.compliance.client.v1";
@@ -36,14 +37,11 @@ message Fund {
   }];
 
   /*
-     The primary tax identifier for the fund.
-     Example: TIN in the US.
+     The fund's tax residency information, required for CRS/FATCA reporting.
+     A fund can be a tax resident in multiple jurisdictions.
+     Required for verification.
   */
-  string tax_identifier = 3 [(buf.validate.field) = {
-    string: {
-      max_len: 50
-    }
-  }];
+  repeated meshtrade.compliance.client.v1.TaxResidency tax_residencies = 3;
 
   /*
      The ISO 3166-1 alpha-2 country code where the fund is domiciled (e.g., "KY" for Cayman Islands, "LU" for Luxembourg).
