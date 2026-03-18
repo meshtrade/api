@@ -22,14 +22,14 @@ func TestGetUserProfileRequest_Validation(t *testing.T) {
 		{
 			name: "valid request",
 			request: &GetUserProfileRequest{
-				Name: "user_profiles/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Name: "iam/user_profiles/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 			},
 			wantValid: true,
 		},
 		{
 			name: "valid request with different ULIDv2",
 			request: &GetUserProfileRequest{
-				Name: "user_profiles/01BX5ZZKBKACTAV9WEVGEMMVRZ",
+				Name: "iam/user_profiles/01BX5ZZKBKACTAV9WEVGEMMVRZ",
 			},
 			wantValid: true,
 		},
@@ -61,7 +61,7 @@ func TestGetUserProfileRequest_Validation(t *testing.T) {
 		{
 			name: "invalid name format - invalid ULIDv2 characters",
 			request: &GetUserProfileRequest{
-				Name: "user_profiles/01ARZ3NDEKTSV4RRFFQ69G5FIL",
+				Name: "iam/user_profiles/01ARZ3NDEKTSV4RRFFQ69G5FIL",
 			},
 			wantValid: false,
 			wantError: "name",
@@ -69,7 +69,7 @@ func TestGetUserProfileRequest_Validation(t *testing.T) {
 		{
 			name: "invalid name format - lowercase ULIDv2",
 			request: &GetUserProfileRequest{
-				Name: "user_profiles/01arz3ndektsv4rrffq69g5fav",
+				Name: "iam/user_profiles/01arz3ndektsv4rrffq69g5fav",
 			},
 			wantValid: false,
 			wantError: "name",
@@ -77,7 +77,7 @@ func TestGetUserProfileRequest_Validation(t *testing.T) {
 		{
 			name: "invalid name format - too short",
 			request: &GetUserProfileRequest{
-				Name: "user_profiles/01ARZ3NDEKTSV4RRFFQ69G5FA",
+				Name: "iam/user_profiles/01ARZ3NDEKTSV4RRFFQ69G5FA",
 			},
 			wantValid: false,
 			wantError: "name",
@@ -85,7 +85,7 @@ func TestGetUserProfileRequest_Validation(t *testing.T) {
 		{
 			name: "invalid name format - too long",
 			request: &GetUserProfileRequest{
-				Name: "user_profiles/01ARZ3NDEKTSV4RRFFQ69G5FAVX",
+				Name: "iam/user_profiles/01ARZ3NDEKTSV4RRFFQ69G5FAVX",
 			},
 			wantValid: false,
 			wantError: "name",
@@ -221,10 +221,10 @@ func TestUpdateUserProfileRequest_Validation(t *testing.T) {
 			name: "valid request with complete user profile",
 			request: &UpdateUserProfileRequest{
 				UserProfile: &UserProfile{
-					Name:        "user_profiles/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+					Name:        "iam/user_profiles/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 					Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 					User:        "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-					DisplayName: "John Doe",
+					FirstName: "John",
 				},
 			},
 			wantValid: true,
@@ -233,12 +233,12 @@ func TestUpdateUserProfileRequest_Validation(t *testing.T) {
 			name: "valid request with all fields",
 			request: &UpdateUserProfileRequest{
 				UserProfile: &UserProfile{
-					Name:              "user_profiles/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+					Name:              "iam/user_profiles/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 					Owner:             "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 					User:              "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 					Locale:            "en-US",
 					ProfilePictureUrl: "https://example.com/avatar.png",
-					DisplayName:       "John Doe",
+					FirstName:         "John",
 				},
 			},
 			wantValid: true,
@@ -259,7 +259,7 @@ func TestUpdateUserProfileRequest_Validation(t *testing.T) {
 				UserProfile: &UserProfile{
 					Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 					User:        "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-					DisplayName: "John Doe",
+					FirstName: "John",
 					Locale:      "invalid",
 				},
 			},
@@ -272,7 +272,7 @@ func TestUpdateUserProfileRequest_Validation(t *testing.T) {
 				UserProfile: &UserProfile{
 					Owner:             "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 					User:              "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-					DisplayName:       "John Doe",
+					FirstName:         "John",
 					ProfilePictureUrl: "not a url",
 				},
 			},
@@ -280,16 +280,16 @@ func TestUpdateUserProfileRequest_Validation(t *testing.T) {
 			wantError: "profile_picture_url",
 		},
 		{
-			name: "invalid - user_profile with missing display_name",
+			name: "invalid - user_profile with missing first_name",
 			request: &UpdateUserProfileRequest{
 				UserProfile: &UserProfile{
 					Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 					User:        "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-					DisplayName: "",
+					FirstName: "",
 				},
 			},
 			wantValid: false,
-			wantError: "display_name",
+			wantError: "first_name",
 		},
 		{
 			name: "invalid - user_profile with missing user",
@@ -297,7 +297,7 @@ func TestUpdateUserProfileRequest_Validation(t *testing.T) {
 				UserProfile: &UserProfile{
 					Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 					User:        "",
-					DisplayName: "John Doe",
+					FirstName: "John",
 				},
 			},
 			wantValid: false,
@@ -383,10 +383,10 @@ func TestListUserProfilesResponse_Validation(t *testing.T) {
 			response: &ListUserProfilesResponse{
 				UserProfiles: []*UserProfile{
 					{
-						Name:        "user_profiles/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+						Name:        "iam/user_profiles/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 						Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 						User:        "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-						DisplayName: "John Doe",
+						FirstName: "John",
 					},
 				},
 			},
@@ -397,16 +397,16 @@ func TestListUserProfilesResponse_Validation(t *testing.T) {
 			response: &ListUserProfilesResponse{
 				UserProfiles: []*UserProfile{
 					{
-						Name:        "user_profiles/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+						Name:        "iam/user_profiles/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 						Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 						User:        "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-						DisplayName: "John Doe",
+						FirstName: "John",
 					},
 					{
-						Name:        "user_profiles/01BX5ZZKBKACTAV9WEVGEMMVRZ",
+						Name:        "iam/user_profiles/01BX5ZZKBKACTAV9WEVGEMMVRZ",
 						Owner:       "groups/01BX5ZZKBKACTAV9WEVGEMMVRZ",
 						User:        "users/01BX5ZZKBKACTAV9WEVGEMMVRZ",
-						DisplayName: "Jane Doe",
+						FirstName: "Jane",
 					},
 				},
 			},

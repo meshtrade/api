@@ -91,16 +91,18 @@ func (n Ledger) ToPrettyString() string {
 	switch n {
 	case Ledger_LEDGER_STELLAR:
 		return "Stellar"
-	case Ledger_LEDGER_ETHEREUM:
-		return "Ethereum"
 	case Ledger_LEDGER_BITCOIN:
 		return "Bitcoin"
 	case Ledger_LEDGER_LITECOIN:
 		return "Litecoin"
+	case Ledger_LEDGER_ETHEREUM:
+		return "Ethereum"
 	case Ledger_LEDGER_XRP:
 		return "XRP"
 	case Ledger_LEDGER_SA_STOCK_BROKERS:
 		return "SA Stock Brokers"
+	case Ledger_LEDGER_SOLANA:
+		return "Solana"
 	case Ledger_LEDGER_NULL:
 		return "Null"
 	case Ledger_LEDGER_UNSPECIFIED:
