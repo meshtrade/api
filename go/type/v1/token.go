@@ -176,3 +176,9 @@ func (t *Token) PrettyString() string {
 
 	return fmt.Sprintf("%s by %s on %s", t.GetCode(), t.GetIssuer(), t.GetLedger().ToPrettyString())
 }
+
+
+// LedgerIssuer is for NATIVE assets on a ledger (e.g., ETH on Ethereum) where the issuer is the ledger itself.
+// As opposed to other issued assets.
+const LedgerIssuer = "__LEDGER__"
+
