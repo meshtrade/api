@@ -108,6 +108,7 @@ from .time_of_day import (
     time_of_day_total_seconds,
 )
 from .token import (
+    NATIVE_ASSET_ISSUER,
     new_undefined_token,
     token_is_equal_to,
     token_is_undefined,
@@ -181,6 +182,7 @@ __all__ = [
     "new_time_of_day_from_python_time",
     "new_time_of_day_from_timedelta",
     "new_undefined_amount",
+    "NATIVE_ASSET_ISSUER",
     "new_undefined_token",
     "time_of_day_is_midnight",
     "time_of_day_is_valid",
