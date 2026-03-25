@@ -29,26 +29,45 @@ type Unit int32
 const (
 	// Unknown or not specified.
 	// This is a default value to prevent accidental assignment and should not be used.
-	Unit_UNIT_UNSPECIFIED         Unit = 0
-	Unit_UNIT_NULL                Unit = 1
-	Unit_UNIT_NOTE                Unit = 2
-	Unit_UNIT_SHARE               Unit = 3
-	Unit_UNIT_PREFERENCE_SHARE    Unit = 4
-	Unit_UNIT_BOND                Unit = 5
-	Unit_UNIT_BILL                Unit = 6
-	Unit_UNIT_CONTRACT            Unit = 7
-	Unit_UNIT_OPTION              Unit = 8
-	Unit_UNIT_TOKEN               Unit = 9
-	Unit_UNIT_BARREL              Unit = 10
-	Unit_UNIT_GRAM                Unit = 11
-	Unit_UNIT_KILOGRAM            Unit = 12
-	Unit_UNIT_METRIC_TON          Unit = 13
-	Unit_UNIT_OUNCE               Unit = 14
-	Unit_UNIT_HALF_OUNCE          Unit = 15
-	Unit_UNIT_QUARTER_OUNCE       Unit = 16
-	Unit_UNIT_ONE_TENTH_OUNCE     Unit = 17
+	Unit_UNIT_UNSPECIFIED Unit = 0
+	// No unit.
+	Unit_UNIT_NULL Unit = 1
+	// Promissory note.
+	Unit_UNIT_NOTE Unit = 2
+	// Equity share.
+	Unit_UNIT_SHARE Unit = 3
+	// Preference share.
+	Unit_UNIT_PREFERENCE_SHARE Unit = 4
+	// Bond.
+	Unit_UNIT_BOND Unit = 5
+	// Treasury bill or similar short-term debt.
+	Unit_UNIT_BILL Unit = 6
+	// Derivative contract.
+	Unit_UNIT_CONTRACT Unit = 7
+	// Option contract.
+	Unit_UNIT_OPTION Unit = 8
+	// Digital token.
+	Unit_UNIT_TOKEN Unit = 9
+	// Barrel.
+	Unit_UNIT_BARREL Unit = 10
+	// Gram.
+	Unit_UNIT_GRAM Unit = 11
+	// Kilogram.
+	Unit_UNIT_KILOGRAM Unit = 12
+	// Metric ton (1 000 kg).
+	Unit_UNIT_METRIC_TON Unit = 13
+	// Troy ounce.
+	Unit_UNIT_OUNCE Unit = 14
+	// Half troy ounce.
+	Unit_UNIT_HALF_OUNCE Unit = 15
+	// Quarter troy ounce.
+	Unit_UNIT_QUARTER_OUNCE Unit = 16
+	// One-tenth troy ounce.
+	Unit_UNIT_ONE_TENTH_OUNCE Unit = 17
+	// One-hundredth troy ounce.
 	Unit_UNIT_ONE_HUNDREDTH_OUNCE Unit = 18
-	Unit_UNIT_TONNE               Unit = 19
+	// Tonne (1 000 kg).
+	Unit_UNIT_TONNE Unit = 19
 )
 
 // Enum value maps for Unit.

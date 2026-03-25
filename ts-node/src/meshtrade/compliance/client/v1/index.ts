@@ -12,7 +12,6 @@
 
 // Generated exports
 export * from "./client_pb";
-export * from "./client_status_pb";
 export * from "./company_pb";
 export * from "./company_representative_pb";
 export * from "./company_representative_role_pb";

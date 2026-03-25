@@ -29,37 +29,67 @@ type InstrumentType int32
 const (
 	// Unknown or not specified.
 	// This is a default value to prevent accidental assignment and should not be used.
-	InstrumentType_INSTRUMENT_TYPE_UNSPECIFIED                  InstrumentType = 0
-	InstrumentType_INSTRUMENT_TYPE_OTHER                        InstrumentType = 1
-	InstrumentType_INSTRUMENT_TYPE_SHARE                        InstrumentType = 2
-	InstrumentType_INSTRUMENT_TYPE_PREFERENCE_SHARE             InstrumentType = 3
-	InstrumentType_INSTRUMENT_TYPE_BOND                         InstrumentType = 4
-	InstrumentType_INSTRUMENT_TYPE_ETF                          InstrumentType = 5
-	InstrumentType_INSTRUMENT_TYPE_ETN                          InstrumentType = 6
-	InstrumentType_INSTRUMENT_TYPE_AMC                          InstrumentType = 7
-	InstrumentType_INSTRUMENT_TYPE_UNIT_TRUST                   InstrumentType = 8
-	InstrumentType_INSTRUMENT_TYPE_CRYPTO_CURRENCY              InstrumentType = 9
-	InstrumentType_INSTRUMENT_TYPE_FIAT_CURRENCY                InstrumentType = 10
-	InstrumentType_INSTRUMENT_TYPE_GOLD                         InstrumentType = 12
-	InstrumentType_INSTRUMENT_TYPE_SILVER                       InstrumentType = 13
-	InstrumentType_INSTRUMENT_TYPE_PLATINUM                     InstrumentType = 14
-	InstrumentType_INSTRUMENT_TYPE_PALLADIUM                    InstrumentType = 15
-	InstrumentType_INSTRUMENT_TYPE_CRUDE_OIL                    InstrumentType = 16
-	InstrumentType_INSTRUMENT_TYPE_NATURAL_GAS                  InstrumentType = 17
-	InstrumentType_INSTRUMENT_TYPE_COPPER                       InstrumentType = 18
-	InstrumentType_INSTRUMENT_TYPE_CORN                         InstrumentType = 19
-	InstrumentType_INSTRUMENT_TYPE_WHEAT                        InstrumentType = 20
-	InstrumentType_INSTRUMENT_TYPE_SOYBEANS                     InstrumentType = 21
-	InstrumentType_INSTRUMENT_TYPE_FIAT_STABLECOIN              InstrumentType = 22
-	InstrumentType_INSTRUMENT_TYPE_MONEY_MARKET_FUND            InstrumentType = 23
+	InstrumentType_INSTRUMENT_TYPE_UNSPECIFIED InstrumentType = 0
+	// Other or unlisted instrument type.
+	InstrumentType_INSTRUMENT_TYPE_OTHER InstrumentType = 1
+	// Equity share.
+	InstrumentType_INSTRUMENT_TYPE_SHARE InstrumentType = 2
+	// Preference share.
+	InstrumentType_INSTRUMENT_TYPE_PREFERENCE_SHARE InstrumentType = 3
+	// Bond.
+	InstrumentType_INSTRUMENT_TYPE_BOND InstrumentType = 4
+	// Exchange-traded fund.
+	InstrumentType_INSTRUMENT_TYPE_ETF InstrumentType = 5
+	// Exchange-traded note.
+	InstrumentType_INSTRUMENT_TYPE_ETN InstrumentType = 6
+	// Actively managed certificate.
+	InstrumentType_INSTRUMENT_TYPE_AMC InstrumentType = 7
+	// Unit trust.
+	InstrumentType_INSTRUMENT_TYPE_UNIT_TRUST InstrumentType = 8
+	// Cryptocurrency.
+	InstrumentType_INSTRUMENT_TYPE_CRYPTO_CURRENCY InstrumentType = 9
+	// Fiat currency.
+	InstrumentType_INSTRUMENT_TYPE_FIAT_CURRENCY InstrumentType = 10
+	// Gold.
+	InstrumentType_INSTRUMENT_TYPE_GOLD InstrumentType = 12
+	// Silver.
+	InstrumentType_INSTRUMENT_TYPE_SILVER InstrumentType = 13
+	// Platinum.
+	InstrumentType_INSTRUMENT_TYPE_PLATINUM InstrumentType = 14
+	// Palladium.
+	InstrumentType_INSTRUMENT_TYPE_PALLADIUM InstrumentType = 15
+	// Crude oil.
+	InstrumentType_INSTRUMENT_TYPE_CRUDE_OIL InstrumentType = 16
+	// Natural gas.
+	InstrumentType_INSTRUMENT_TYPE_NATURAL_GAS InstrumentType = 17
+	// Copper.
+	InstrumentType_INSTRUMENT_TYPE_COPPER InstrumentType = 18
+	// Corn.
+	InstrumentType_INSTRUMENT_TYPE_CORN InstrumentType = 19
+	// Wheat.
+	InstrumentType_INSTRUMENT_TYPE_WHEAT InstrumentType = 20
+	// Soybeans.
+	InstrumentType_INSTRUMENT_TYPE_SOYBEANS InstrumentType = 21
+	// Fiat-backed stablecoin.
+	InstrumentType_INSTRUMENT_TYPE_FIAT_STABLECOIN InstrumentType = 22
+	// Money market fund.
+	InstrumentType_INSTRUMENT_TYPE_MONEY_MARKET_FUND InstrumentType = 23
+	// Tokenised money market fund.
 	InstrumentType_INSTRUMENT_TYPE_MONEY_MARKET_FUND_STABLECOIN InstrumentType = 24
-	InstrumentType_INSTRUMENT_TYPE_ENDOWMENT_WRAPPER            InstrumentType = 25
-	InstrumentType_INSTRUMENT_TYPE_FUND                         InstrumentType = 26
-	InstrumentType_INSTRUMENT_TYPE_FUND_STABLECOIN              InstrumentType = 27
-	InstrumentType_INSTRUMENT_TYPE_AMC_STABLECOIN               InstrumentType = 28
-	InstrumentType_INSTRUMENT_TYPE_ETF_STABLECOIN               InstrumentType = 29
-	InstrumentType_INSTRUMENT_TYPE_ETN_STABLECOIN               InstrumentType = 30
-	InstrumentType_INSTRUMENT_TYPE_CRYPTO_CURRENCY_STABLECOIN   InstrumentType = 31
+	// Endowment wrapper.
+	InstrumentType_INSTRUMENT_TYPE_ENDOWMENT_WRAPPER InstrumentType = 25
+	// Fund.
+	InstrumentType_INSTRUMENT_TYPE_FUND InstrumentType = 26
+	// Tokenised fund.
+	InstrumentType_INSTRUMENT_TYPE_FUND_STABLECOIN InstrumentType = 27
+	// Tokenised actively managed certificate.
+	InstrumentType_INSTRUMENT_TYPE_AMC_STABLECOIN InstrumentType = 28
+	// Tokenised exchange-traded fund.
+	InstrumentType_INSTRUMENT_TYPE_ETF_STABLECOIN InstrumentType = 29
+	// Tokenised exchange-traded note.
+	InstrumentType_INSTRUMENT_TYPE_ETN_STABLECOIN InstrumentType = 30
+	// Tokenised cryptocurrency.
+	InstrumentType_INSTRUMENT_TYPE_CRYPTO_CURRENCY_STABLECOIN InstrumentType = 31
 )
 
 // Enum value maps for InstrumentType.
