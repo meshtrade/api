@@ -16,23 +16,42 @@ enum Unit {
      This is a default value to prevent accidental assignment and should not be used.
   */
   UNIT_UNSPECIFIED = 0;
+  // No unit.
   UNIT_NULL = 1;
+  // Promissory note.
   UNIT_NOTE = 2;
+  // Equity share.
   UNIT_SHARE = 3;
+  // Preference share.
   UNIT_PREFERENCE_SHARE = 4;
+  // Bond.
   UNIT_BOND = 5;
+  // Treasury bill or similar short-term debt.
   UNIT_BILL = 6;
+  // Derivative contract.
   UNIT_CONTRACT = 7;
+  // Option contract.
   UNIT_OPTION = 8;
+  // Digital token.
   UNIT_TOKEN = 9;
+  // Barrel.
   UNIT_BARREL = 10;
+  // Gram.
   UNIT_GRAM = 11;
+  // Kilogram.
   UNIT_KILOGRAM = 12;
+  // Metric ton (1 000 kg).
   UNIT_METRIC_TON = 13;
+  // Troy ounce.
   UNIT_OUNCE = 14;
+  // Half troy ounce.
   UNIT_HALF_OUNCE = 15;
+  // Quarter troy ounce.
   UNIT_QUARTER_OUNCE = 16;
+  // One-tenth troy ounce.
   UNIT_ONE_TENTH_OUNCE = 17;
+  // One-hundredth troy ounce.
   UNIT_ONE_HUNDREDTH_OUNCE = 18;
+  // Tonne (1 000 kg).
   UNIT_TONNE = 19;
 }
