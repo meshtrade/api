@@ -33,11 +33,14 @@ type Token struct {
 	// It is not unique without the `issuer` and `ledger`.
 	// Required field.
 	Code string `protobuf:"bytes,1,opt,name=code,proto3" json:"code,omitempty"`
-	// Issuer is a reference to issuing entity of the token.
-	// For NATIVE assets on a ledger (e.g., ETH on Ethereum), the issuer is the ledger itself,
-	// represented by the reserved string __LEDGER__.
-	// For ALL other issued assets (e.g., ERC-20 tokens), this is the unique identifier of the issuing entity,
-	// such as a smart contract address on Ethereum or an issuance account public key on Stellar.
+	// Issuer is a reference to the issuing entity of the token.
+	// For NATIVE assets on a ledger (e.g., ETH on Ethereum, SOL on Solana, XLM on Stellar),
+	// the issuer is the ledger itself, represented by the reserved string __LEDGER__.
+	// All Mesh SDKs expose a constant for this value (e.g., NativeAssetIssuer in Go and
+	// TypeScript, NATIVE_ASSET_ISSUER in Python and Java).
+	// For ALL other issued assets (e.g., ERC-20 tokens), this is the unique identifier of
+	// the issuing entity, such as a smart contract address on Ethereum or an issuance
+	// account public key on Stellar.
 	// Required field.
 	Issuer string `protobuf:"bytes,2,opt,name=issuer,proto3" json:"issuer,omitempty"`
 	// The ledger ledger on which the token exists. This field disambiguates

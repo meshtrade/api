@@ -131,6 +131,7 @@ __all__ = [
     "TimeOfDay",
     "Token",
     # Manual exports
+    "NATIVE_ASSET_ISSUER",
     "UnsupportedLedgerError",
     "amount_add",
     "amount_contains_fractions",
@@ -182,7 +183,6 @@ __all__ = [
     "new_time_of_day_from_python_time",
     "new_time_of_day_from_timedelta",
     "new_undefined_amount",
-    "NATIVE_ASSET_ISSUER",
     "new_undefined_token",
     "time_of_day_is_midnight",
     "time_of_day_is_valid",
