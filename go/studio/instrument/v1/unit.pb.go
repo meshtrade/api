@@ -27,59 +27,28 @@ const (
 type Unit int32
 
 const (
-	// The unit is not specified. This is the default value and should be
-	// treated as an error or an uninitialized state.
-	Unit_UNIT_UNSPECIFIED Unit = 0
-	// Indicates that the instrument's name or code itself represents a single
-	// unit. This is used for assets where a separate unit qualifier is redundant,
-	// such as "1 US Dollar" or "1 Bitcoin".
-	Unit_UNIT_NULL Unit = 1
-	// A single unit of a debt instrument, such as a promissory note, commercial
-	// paper, or an Exchange-Traded Note (ETN).
-	Unit_UNIT_NOTE Unit = 2
-	// A single unit of equity ownership in a corporation.
-	Unit_UNIT_SHARE Unit = 3
-	// A single unit of a special class of equity that has preferential rights
-	// over common shares.
-	Unit_UNIT_PREFERENCE_SHARE Unit = 4
-	// A single unit of a bond issuance, typically with a defined face value
-	// (e.g., $1,000).
-	Unit_UNIT_BOND Unit = 5
-	// A single unit of a short-term debt obligation, such as a Treasury Bill
-	// (T-Bill).
-	Unit_UNIT_BILL Unit = 6
-	// The standard unit for a derivative, such as a futures or forward
-	// agreement, representing a standardized quantity of the underlying asset.
-	Unit_UNIT_CONTRACT Unit = 7
-	// The standard unit for an options derivative, giving the right to buy or
-	// sell a specific amount of an underlying asset. One contract often
-	// represents 100 shares of stock.
-	Unit_UNIT_OPTION Unit = 8
-	// The smallest individual unit of a digital asset or cryptocurrency recorded
-	// on a blockchain.
-	Unit_UNIT_TOKEN Unit = 9
-	// A standard volumetric unit for crude oil and petroleum products,
-	// equivalent to 42 US gallons.
-	Unit_UNIT_BARREL Unit = 10
-	// A metric unit of mass, commonly used for quoting prices of precious
-	// metals.
-	Unit_UNIT_GRAM Unit = 11
-	// A metric unit of mass equal to 1,000 grams.
-	Unit_UNIT_KILOGRAM Unit = 12
-	// A metric unit of mass equal to 1,000 kilograms, often used for industrial
-	// metals and bulk agricultural products.
-	Unit_UNIT_METRIC_TON Unit = 13
-	// A troy ounce, the standard unit of mass for precious metals, equivalent to
-	// approximately 31.103 grams.
-	Unit_UNIT_OUNCE Unit = 14
-	// A fractional unit representing one-half of a troy ounce.
-	Unit_UNIT_HALF_OUNCE Unit = 15
-	// A fractional unit representing one-quarter of a troy ounce.
-	Unit_UNIT_QUARTER_OUNCE Unit = 16
-	// A fractional unit representing one-tenth of a troy ounce.
-	Unit_UNIT_ONE_TENTH_OUNCE Unit = 17
-	// A fractional unit representing one-hundredth of a troy ounce.
+	// Unknown or not specified.
+	// This is a default value to prevent accidental assignment and should not be used.
+	Unit_UNIT_UNSPECIFIED         Unit = 0
+	Unit_UNIT_NULL                Unit = 1
+	Unit_UNIT_NOTE                Unit = 2
+	Unit_UNIT_SHARE               Unit = 3
+	Unit_UNIT_PREFERENCE_SHARE    Unit = 4
+	Unit_UNIT_BOND                Unit = 5
+	Unit_UNIT_BILL                Unit = 6
+	Unit_UNIT_CONTRACT            Unit = 7
+	Unit_UNIT_OPTION              Unit = 8
+	Unit_UNIT_TOKEN               Unit = 9
+	Unit_UNIT_BARREL              Unit = 10
+	Unit_UNIT_GRAM                Unit = 11
+	Unit_UNIT_KILOGRAM            Unit = 12
+	Unit_UNIT_METRIC_TON          Unit = 13
+	Unit_UNIT_OUNCE               Unit = 14
+	Unit_UNIT_HALF_OUNCE          Unit = 15
+	Unit_UNIT_QUARTER_OUNCE       Unit = 16
+	Unit_UNIT_ONE_TENTH_OUNCE     Unit = 17
 	Unit_UNIT_ONE_HUNDREDTH_OUNCE Unit = 18
+	Unit_UNIT_TONNE               Unit = 19
 )
 
 // Enum value maps for Unit.
@@ -104,6 +73,7 @@ var (
 		16: "UNIT_QUARTER_OUNCE",
 		17: "UNIT_ONE_TENTH_OUNCE",
 		18: "UNIT_ONE_HUNDREDTH_OUNCE",
+		19: "UNIT_TONNE",
 	}
 	Unit_value = map[string]int32{
 		"UNIT_UNSPECIFIED":         0,
@@ -125,6 +95,7 @@ var (
 		"UNIT_QUARTER_OUNCE":       16,
 		"UNIT_ONE_TENTH_OUNCE":     17,
 		"UNIT_ONE_HUNDREDTH_OUNCE": 18,
+		"UNIT_TONNE":               19,
 	}
 )
 
@@ -159,7 +130,7 @@ var File_meshtrade_studio_instrument_v1_unit_proto protoreflect.FileDescriptor
 
 const file_meshtrade_studio_instrument_v1_unit_proto_rawDesc = "" +
 	"\n" +
-	")meshtrade/studio/instrument/v1/unit.proto\x12\x1emeshtrade.studio.instrument.v1*\xf4\x02\n" +
+	")meshtrade/studio/instrument/v1/unit.proto\x12\x1emeshtrade.studio.instrument.v1*\x84\x03\n" +
 	"\x04Unit\x12\x14\n" +
 	"\x10UNIT_UNSPECIFIED\x10\x00\x12\r\n" +
 	"\tUNIT_NULL\x10\x01\x12\r\n" +
@@ -183,7 +154,9 @@ const file_meshtrade_studio_instrument_v1_unit_proto_rawDesc = "" +
 	"\x0fUNIT_HALF_OUNCE\x10\x0f\x12\x16\n" +
 	"\x12UNIT_QUARTER_OUNCE\x10\x10\x12\x18\n" +
 	"\x14UNIT_ONE_TENTH_OUNCE\x10\x11\x12\x1c\n" +
-	"\x18UNIT_ONE_HUNDREDTH_OUNCE\x10\x12Bg\n" +
+	"\x18UNIT_ONE_HUNDREDTH_OUNCE\x10\x12\x12\x0e\n" +
+	"\n" +
+	"UNIT_TONNE\x10\x13Bg\n" +
 	"%co.meshtrade.api.studio.instrument.v1Z>github.com/meshtrade/api/go/studio/instrument/v1;instrument_v1b\x06proto3"
 
 var (
