@@ -18,6 +18,17 @@ import co.meshtrade.api.type.v1.TokenOuterClass.Token;
  */
 public final class TokenUtils {
 
+    /**
+     * The reserved issuer value for assets that are native to their ledger's protocol layer.
+     *
+     * <p>Each ledger typically has one native asset (e.g., ETH on Ethereum, SOL on Solana,
+     * XLM on Stellar, SUI on Sui) — a base-layer token which has no issuing contract or
+     * account. For all other assets (e.g., ERC-20 tokens, Stellar credit assets), the issuer
+     * field should contain the unique identifier of the issuing entity, such as a smart
+     * contract address or issuance account public key.
+     */
+    public static final String NATIVE_ASSET_ISSUER = "__LEDGER__";
+
     private TokenUtils() {
         throw new UnsupportedOperationException("Utility class - cannot be instantiated");
     }

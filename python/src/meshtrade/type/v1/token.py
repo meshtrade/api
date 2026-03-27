@@ -7,6 +7,14 @@ including helper functions for token creation, validation, and formatting.
 from .ledger_pb2 import Ledger
 from .token_pb2 import Token
 
+# NATIVE_ASSET_ISSUER is the reserved issuer value for assets that are native to their
+# ledger's protocol layer. Each ledger typically has one native asset (e.g., ETH on
+# Ethereum, SOL on Solana, XLM on Stellar, SUI on Sui) — a base-layer token which
+# has no issuing contract or account. For all other assets (e.g., ERC-20 tokens,
+# Stellar credit assets), the issuer field should contain the unique identifier of
+# the issuing entity, such as a smart contract address or issuance account public key.
+NATIVE_ASSET_ISSUER = "__LEDGER__"
+
 
 def new_undefined_token() -> Token:
     """Create a new Token representing an undefined or placeholder token.

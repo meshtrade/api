@@ -25,19 +25,19 @@ func TestUserProfile_Validation(t *testing.T) {
 			profile: &UserProfile{
 				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				User:        "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				DisplayName: "John Doe",
+				FirstName: "John",
 			},
 			wantValid: true,
 		},
 		{
 			name: "valid user profile with all fields",
 			profile: &UserProfile{
-				Name:              "user_profiles/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Name:              "iam/user_profiles/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				Owner:             "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				User:              "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				Locale:            "en-US",
 				ProfilePictureUrl: "https://example.com/avatar.png",
-				DisplayName:       "John Doe",
+				FirstName:         "John",
 			},
 			wantValid: true,
 		},
@@ -48,7 +48,7 @@ func TestUserProfile_Validation(t *testing.T) {
 				User:              "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				Locale:            "",
 				ProfilePictureUrl: "",
-				DisplayName:       "Jane Doe",
+				FirstName:         "Jane",
 			},
 			wantValid: true,
 		},
@@ -59,7 +59,7 @@ func TestUserProfile_Validation(t *testing.T) {
 			profile: &UserProfile{
 				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				User:        "",
-				DisplayName: "John Doe",
+				FirstName: "John",
 			},
 			wantValid: false,
 			wantError: "user",
@@ -69,7 +69,7 @@ func TestUserProfile_Validation(t *testing.T) {
 			profile: &UserProfile{
 				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				User:        "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				DisplayName: "John Doe",
+				FirstName: "John",
 			},
 			wantValid: false,
 			wantError: "user",
@@ -79,7 +79,7 @@ func TestUserProfile_Validation(t *testing.T) {
 			profile: &UserProfile{
 				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				User:        "users/01ARZ3NDEKTSV4RRFFQ69G5FIL",
-				DisplayName: "John Doe",
+				FirstName: "John",
 			},
 			wantValid: false,
 			wantError: "user",
@@ -89,7 +89,7 @@ func TestUserProfile_Validation(t *testing.T) {
 			profile: &UserProfile{
 				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				User:        "users/01arz3ndektsv4rrffq69g5fav",
-				DisplayName: "John Doe",
+				FirstName: "John",
 			},
 			wantValid: false,
 			wantError: "user",
@@ -99,7 +99,7 @@ func TestUserProfile_Validation(t *testing.T) {
 			profile: &UserProfile{
 				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				User:        "users/01ARZ3NDEKTSV4RRFFQ69G5FA",
-				DisplayName: "John Doe",
+				FirstName: "John",
 			},
 			wantValid: false,
 			wantError: "user",
@@ -109,7 +109,7 @@ func TestUserProfile_Validation(t *testing.T) {
 			profile: &UserProfile{
 				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				User:        "users/01ARZ3NDEKTSV4RRFFQ69G5FAVX",
-				DisplayName: "John Doe",
+				FirstName: "John",
 			},
 			wantValid: false,
 			wantError: "user",
@@ -121,7 +121,7 @@ func TestUserProfile_Validation(t *testing.T) {
 			profile: &UserProfile{
 				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				User:        "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				DisplayName: "John Doe",
+				FirstName: "John",
 				Locale:      "en",
 			},
 			wantValid: true,
@@ -131,7 +131,7 @@ func TestUserProfile_Validation(t *testing.T) {
 			profile: &UserProfile{
 				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				User:        "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				DisplayName: "John Doe",
+				FirstName: "John",
 				Locale:      "eng",
 			},
 			wantValid: true,
@@ -141,7 +141,7 @@ func TestUserProfile_Validation(t *testing.T) {
 			profile: &UserProfile{
 				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				User:        "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				DisplayName: "John Doe",
+				FirstName: "John",
 				Locale:      "en-US",
 			},
 			wantValid: true,
@@ -151,7 +151,7 @@ func TestUserProfile_Validation(t *testing.T) {
 			profile: &UserProfile{
 				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				User:        "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				DisplayName: "John Doe",
+				FirstName: "John",
 				Locale:      "zh-Hans",
 			},
 			wantValid: true,
@@ -161,7 +161,7 @@ func TestUserProfile_Validation(t *testing.T) {
 			profile: &UserProfile{
 				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				User:        "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				DisplayName: "John Doe",
+				FirstName: "John",
 				Locale:      "zh-Hans-CN",
 			},
 			wantValid: true,
@@ -171,7 +171,7 @@ func TestUserProfile_Validation(t *testing.T) {
 			profile: &UserProfile{
 				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				User:        "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				DisplayName: "John Doe",
+				FirstName: "John",
 				Locale:      "en-001",
 			},
 			wantValid: true,
@@ -181,7 +181,7 @@ func TestUserProfile_Validation(t *testing.T) {
 			profile: &UserProfile{
 				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				User:        "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				DisplayName: "John Doe",
+				FirstName: "John",
 				Locale:      "EN",
 			},
 			wantValid: false,
@@ -192,7 +192,7 @@ func TestUserProfile_Validation(t *testing.T) {
 			profile: &UserProfile{
 				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				User:        "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				DisplayName: "John Doe",
+				FirstName: "John",
 				Locale:      "e",
 			},
 			wantValid: false,
@@ -203,7 +203,7 @@ func TestUserProfile_Validation(t *testing.T) {
 			profile: &UserProfile{
 				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				User:        "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				DisplayName: "John Doe",
+				FirstName: "John",
 				Locale:      "english",
 			},
 			wantValid: false,
@@ -214,7 +214,7 @@ func TestUserProfile_Validation(t *testing.T) {
 			profile: &UserProfile{
 				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				User:        "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				DisplayName: "John Doe",
+				FirstName: "John",
 				Locale:      "en-us",
 			},
 			wantValid: false,
@@ -227,7 +227,7 @@ func TestUserProfile_Validation(t *testing.T) {
 			profile: &UserProfile{
 				Owner:             "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				User:              "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				DisplayName:       "John Doe",
+				FirstName:         "John",
 				ProfilePictureUrl: "https://example.com/avatar.png",
 			},
 			wantValid: true,
@@ -237,7 +237,7 @@ func TestUserProfile_Validation(t *testing.T) {
 			profile: &UserProfile{
 				Owner:             "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				User:              "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				DisplayName:       "John Doe",
+				FirstName:         "John",
 				ProfilePictureUrl: "http://example.com/avatar.png",
 			},
 			wantValid: true,
@@ -247,7 +247,7 @@ func TestUserProfile_Validation(t *testing.T) {
 			profile: &UserProfile{
 				Owner:             "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				User:              "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				DisplayName:       "John Doe",
+				FirstName:         "John",
 				ProfilePictureUrl: "https://cdn.example.com/images/user/123.jpg?size=large&format=webp",
 			},
 			wantValid: true,
@@ -257,7 +257,7 @@ func TestUserProfile_Validation(t *testing.T) {
 			profile: &UserProfile{
 				Owner:             "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				User:              "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				DisplayName:       "John Doe",
+				FirstName:         "John",
 				ProfilePictureUrl: "data:image/png;base64,iVBORw0KGgo=",
 			},
 			wantValid: true,
@@ -267,7 +267,7 @@ func TestUserProfile_Validation(t *testing.T) {
 			profile: &UserProfile{
 				Owner:             "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				User:              "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				DisplayName:       "John Doe",
+				FirstName:         "John",
 				ProfilePictureUrl: "not a valid url",
 			},
 			wantValid: false,
@@ -278,23 +278,23 @@ func TestUserProfile_Validation(t *testing.T) {
 			profile: &UserProfile{
 				Owner:             "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				User:              "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				DisplayName:       "John Doe",
+				FirstName:         "John",
 				ProfilePictureUrl: "example.com/avatar.png",
 			},
 			wantValid: false,
 			wantError: "profile_picture_url",
 		},
 
-		// display_name field tests (required)
+		// first_name field tests (required)
 		{
-			name: "invalid - missing display_name",
+			name: "invalid - missing first_name",
 			profile: &UserProfile{
 				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				User:        "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				DisplayName: "",
+				FirstName: "",
 			},
 			wantValid: false,
-			wantError: "display_name",
+			wantError: "first_name",
 		},
 
 		// owner field tests (required)
@@ -303,7 +303,7 @@ func TestUserProfile_Validation(t *testing.T) {
 			profile: &UserProfile{
 				Owner:       "",
 				User:        "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				DisplayName: "John Doe",
+				FirstName: "John",
 			},
 			wantValid: false,
 			wantError: "owner",
@@ -313,7 +313,7 @@ func TestUserProfile_Validation(t *testing.T) {
 			profile: &UserProfile{
 				Owner:       "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				User:        "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				DisplayName: "John Doe",
+				FirstName: "John",
 			},
 			wantValid: false,
 			wantError: "owner",
@@ -323,10 +323,10 @@ func TestUserProfile_Validation(t *testing.T) {
 		{
 			name: "valid name format",
 			profile: &UserProfile{
-				Name:        "user_profiles/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+				Name:        "iam/user_profiles/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				User:        "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				DisplayName: "John Doe",
+				FirstName: "John",
 			},
 			wantValid: true,
 		},
@@ -336,7 +336,7 @@ func TestUserProfile_Validation(t *testing.T) {
 				Name:        "profiles/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 				User:        "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-				DisplayName: "John Doe",
+				FirstName: "John",
 			},
 			wantValid: false,
 			wantError: "name",

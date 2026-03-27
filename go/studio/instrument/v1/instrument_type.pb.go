@@ -27,89 +27,69 @@ const (
 type InstrumentType int32
 
 const (
-	// The instrument type is not specified. This is the default value and
-	// should be treated as an error or an uninitialized state.
+	// Unknown or not specified.
+	// This is a default value to prevent accidental assignment and should not be used.
 	InstrumentType_INSTRUMENT_TYPE_UNSPECIFIED InstrumentType = 0
-	// A catch-all for any instrument type not explicitly listed in this enum.
-	// Use this for miscellaneous or newly introduced asset types.
+	// Other or unlisted instrument type.
 	InstrumentType_INSTRUMENT_TYPE_OTHER InstrumentType = 1
-	// Common equity in a corporation, also known as ordinary shares.
-	// Holders have ownership rights, including voting rights, and are entitled
-	// to a portion of profits through dividends and capital gains.
+	// Equity share.
 	InstrumentType_INSTRUMENT_TYPE_SHARE InstrumentType = 2
-	// A class of share ownership with a higher claim on assets and earnings
-	// than common shares. Preference shares generally have a fixed dividend that
-	// must be paid out before dividends to common shareholders.
+	// Preference share.
 	InstrumentType_INSTRUMENT_TYPE_PREFERENCE_SHARE InstrumentType = 3
-	// A fixed-income instrument representing a loan made by an investor to a
-	// borrower (typically corporate or governmental). The borrower pays interest
-	// (coupon) and repays the principal amount at a later date (maturity).
+	// Bond.
 	InstrumentType_INSTRUMENT_TYPE_BOND InstrumentType = 4
-	// Exchange-Traded Fund. A type of pooled investment security that operates
-	// much like a mutual fund but trades like a stock on an exchange. ETFs
-	// hold assets such as stocks, commodities, or bonds and are typically
-	// designed to track an underlying index.
+	// Exchange-traded fund.
 	InstrumentType_INSTRUMENT_TYPE_ETF InstrumentType = 5
-	// Exchange-Traded Note. A type of senior, unsecured debt security that
-	// tracks an underlying index of securities. ETNs do not own the underlying
-	// assets and are subject to the credit risk of the issuing institution.
+	// Exchange-traded note.
 	InstrumentType_INSTRUMENT_TYPE_ETN InstrumentType = 6
-	// Actively Managed Certificate. A structured product linked to an
-	// underlying portfolio or strategy. Unlike a typical index-tracking ETF,
-	// its portfolio is actively managed by an investment advisor.
+	// Actively managed certificate.
 	InstrumentType_INSTRUMENT_TYPE_AMC InstrumentType = 7
-	// An open-ended investment vehicle where funds from multiple investors are
-	// pooled to invest in a diversified portfolio of securities. Common in
-	// collective investment schemes.
+	// Unit trust.
 	InstrumentType_INSTRUMENT_TYPE_UNIT_TRUST InstrumentType = 8
-	// A digital or virtual currency secured by cryptography.
-	// Examples include Bitcoin (BTC) and Ethereum (ETH).
+	// Cryptocurrency.
 	InstrumentType_INSTRUMENT_TYPE_CRYPTO_CURRENCY InstrumentType = 9
-	// Government-issued currency that is not backed by a physical commodity
-	// but by the government that issued it. Examples include the US Dollar
-	// (USD) and the Euro (EUR).
+	// Fiat currency.
 	InstrumentType_INSTRUMENT_TYPE_FIAT_CURRENCY InstrumentType = 10
-	// Rights to the financial value of a linked underlying.
-	InstrumentType_INSTRUMENT_TYPE_RIGHTS InstrumentType = 11
-	// Gold as a commodity. Can be invested in via physical bullion, futures,
-	// or other financial products tracking its price.
+	// Gold.
 	InstrumentType_INSTRUMENT_TYPE_GOLD InstrumentType = 12
-	// Silver as a commodity.
+	// Silver.
 	InstrumentType_INSTRUMENT_TYPE_SILVER InstrumentType = 13
-	// Platinum as a commodity.
+	// Platinum.
 	InstrumentType_INSTRUMENT_TYPE_PLATINUM InstrumentType = 14
-	// Palladium as a commodity.
+	// Palladium.
 	InstrumentType_INSTRUMENT_TYPE_PALLADIUM InstrumentType = 15
-	// Crude oil, a key global energy commodity.
+	// Crude oil.
 	InstrumentType_INSTRUMENT_TYPE_CRUDE_OIL InstrumentType = 16
-	// Natural gas, a major energy commodity.
+	// Natural gas.
 	InstrumentType_INSTRUMENT_TYPE_NATURAL_GAS InstrumentType = 17
-	// Copper, an important industrial metal.
+	// Copper.
 	InstrumentType_INSTRUMENT_TYPE_COPPER InstrumentType = 18
-	// Corn, a major agricultural commodity.
+	// Corn.
 	InstrumentType_INSTRUMENT_TYPE_CORN InstrumentType = 19
-	// Wheat, a staple agricultural commodity.
+	// Wheat.
 	InstrumentType_INSTRUMENT_TYPE_WHEAT InstrumentType = 20
-	// Soybeans, a key agricultural commodity used for food and animal feed.
+	// Soybeans.
 	InstrumentType_INSTRUMENT_TYPE_SOYBEANS InstrumentType = 21
-	// A type of cryptocurrency designed to maintain a stable value by being
-	// pegged to a reference asset, such as a fiat currency (e.g., USD).
+	// Fiat-backed stablecoin.
 	InstrumentType_INSTRUMENT_TYPE_FIAT_STABLECOIN InstrumentType = 22
-	// A mutual fund investing in highly liquid, short-term debt securities,
-	// cash, and cash equivalents.
+	// Money market fund.
 	InstrumentType_INSTRUMENT_TYPE_MONEY_MARKET_FUND InstrumentType = 23
-	// A stablecoin collateralized by shares in a money market fund,
-	// representing a claim on the fund's underlying assets.
+	// Tokenised money market fund.
 	InstrumentType_INSTRUMENT_TYPE_MONEY_MARKET_FUND_STABLECOIN InstrumentType = 24
-	// A tax-efficient investment vehicle, structured as a life insurance policy,
-	// that combines investment components with a nominal life insurance benefit.
+	// Endowment wrapper.
 	InstrumentType_INSTRUMENT_TYPE_ENDOWMENT_WRAPPER InstrumentType = 25
-	// A collective investment scheme that pools capital from multiple investors
-	// to purchase a diversified portfolio of securities.
+	// Fund.
 	InstrumentType_INSTRUMENT_TYPE_FUND InstrumentType = 26
-	// A stablecoin collateralized by a portfolio of assets held within a fund,
-	// representing a claim on those assets.
+	// Tokenised fund.
 	InstrumentType_INSTRUMENT_TYPE_FUND_STABLECOIN InstrumentType = 27
+	// Tokenised actively managed certificate.
+	InstrumentType_INSTRUMENT_TYPE_AMC_STABLECOIN InstrumentType = 28
+	// Tokenised exchange-traded fund.
+	InstrumentType_INSTRUMENT_TYPE_ETF_STABLECOIN InstrumentType = 29
+	// Tokenised exchange-traded note.
+	InstrumentType_INSTRUMENT_TYPE_ETN_STABLECOIN InstrumentType = 30
+	// Tokenised cryptocurrency.
+	InstrumentType_INSTRUMENT_TYPE_CRYPTO_CURRENCY_STABLECOIN InstrumentType = 31
 )
 
 // Enum value maps for InstrumentType.
@@ -126,7 +106,6 @@ var (
 		8:  "INSTRUMENT_TYPE_UNIT_TRUST",
 		9:  "INSTRUMENT_TYPE_CRYPTO_CURRENCY",
 		10: "INSTRUMENT_TYPE_FIAT_CURRENCY",
-		11: "INSTRUMENT_TYPE_RIGHTS",
 		12: "INSTRUMENT_TYPE_GOLD",
 		13: "INSTRUMENT_TYPE_SILVER",
 		14: "INSTRUMENT_TYPE_PLATINUM",
@@ -143,6 +122,10 @@ var (
 		25: "INSTRUMENT_TYPE_ENDOWMENT_WRAPPER",
 		26: "INSTRUMENT_TYPE_FUND",
 		27: "INSTRUMENT_TYPE_FUND_STABLECOIN",
+		28: "INSTRUMENT_TYPE_AMC_STABLECOIN",
+		29: "INSTRUMENT_TYPE_ETF_STABLECOIN",
+		30: "INSTRUMENT_TYPE_ETN_STABLECOIN",
+		31: "INSTRUMENT_TYPE_CRYPTO_CURRENCY_STABLECOIN",
 	}
 	InstrumentType_value = map[string]int32{
 		"INSTRUMENT_TYPE_UNSPECIFIED":                  0,
@@ -156,7 +139,6 @@ var (
 		"INSTRUMENT_TYPE_UNIT_TRUST":                   8,
 		"INSTRUMENT_TYPE_CRYPTO_CURRENCY":              9,
 		"INSTRUMENT_TYPE_FIAT_CURRENCY":                10,
-		"INSTRUMENT_TYPE_RIGHTS":                       11,
 		"INSTRUMENT_TYPE_GOLD":                         12,
 		"INSTRUMENT_TYPE_SILVER":                       13,
 		"INSTRUMENT_TYPE_PLATINUM":                     14,
@@ -173,6 +155,10 @@ var (
 		"INSTRUMENT_TYPE_ENDOWMENT_WRAPPER":            25,
 		"INSTRUMENT_TYPE_FUND":                         26,
 		"INSTRUMENT_TYPE_FUND_STABLECOIN":              27,
+		"INSTRUMENT_TYPE_AMC_STABLECOIN":               28,
+		"INSTRUMENT_TYPE_ETF_STABLECOIN":               29,
+		"INSTRUMENT_TYPE_ETN_STABLECOIN":               30,
+		"INSTRUMENT_TYPE_CRYPTO_CURRENCY_STABLECOIN":   31,
 	}
 )
 
@@ -207,7 +193,7 @@ var File_meshtrade_studio_instrument_v1_instrument_type_proto protoreflect.FileD
 
 const file_meshtrade_studio_instrument_v1_instrument_type_proto_rawDesc = "" +
 	"\n" +
-	"4meshtrade/studio/instrument/v1/instrument_type.proto\x12\x1emeshtrade.studio.instrument.v1*\xfc\x06\n" +
+	"4meshtrade/studio/instrument/v1/instrument_type.proto\x12\x1emeshtrade.studio.instrument.v1*\xfc\a\n" +
 	"\x0eInstrumentType\x12\x1f\n" +
 	"\x1bINSTRUMENT_TYPE_UNSPECIFIED\x10\x00\x12\x19\n" +
 	"\x15INSTRUMENT_TYPE_OTHER\x10\x01\x12\x19\n" +
@@ -220,8 +206,7 @@ const file_meshtrade_studio_instrument_v1_instrument_type_proto_rawDesc = "" +
 	"\x1aINSTRUMENT_TYPE_UNIT_TRUST\x10\b\x12#\n" +
 	"\x1fINSTRUMENT_TYPE_CRYPTO_CURRENCY\x10\t\x12!\n" +
 	"\x1dINSTRUMENT_TYPE_FIAT_CURRENCY\x10\n" +
-	"\x12\x1a\n" +
-	"\x16INSTRUMENT_TYPE_RIGHTS\x10\v\x12\x18\n" +
+	"\x12\x18\n" +
 	"\x14INSTRUMENT_TYPE_GOLD\x10\f\x12\x1a\n" +
 	"\x16INSTRUMENT_TYPE_SILVER\x10\r\x12\x1c\n" +
 	"\x18INSTRUMENT_TYPE_PLATINUM\x10\x0e\x12\x1d\n" +
@@ -237,7 +222,11 @@ const file_meshtrade_studio_instrument_v1_instrument_type_proto_rawDesc = "" +
 	",INSTRUMENT_TYPE_MONEY_MARKET_FUND_STABLECOIN\x10\x18\x12%\n" +
 	"!INSTRUMENT_TYPE_ENDOWMENT_WRAPPER\x10\x19\x12\x18\n" +
 	"\x14INSTRUMENT_TYPE_FUND\x10\x1a\x12#\n" +
-	"\x1fINSTRUMENT_TYPE_FUND_STABLECOIN\x10\x1bBg\n" +
+	"\x1fINSTRUMENT_TYPE_FUND_STABLECOIN\x10\x1b\x12\"\n" +
+	"\x1eINSTRUMENT_TYPE_AMC_STABLECOIN\x10\x1c\x12\"\n" +
+	"\x1eINSTRUMENT_TYPE_ETF_STABLECOIN\x10\x1d\x12\"\n" +
+	"\x1eINSTRUMENT_TYPE_ETN_STABLECOIN\x10\x1e\x12.\n" +
+	"*INSTRUMENT_TYPE_CRYPTO_CURRENCY_STABLECOIN\x10\x1fBg\n" +
 	"%co.meshtrade.api.studio.instrument.v1Z>github.com/meshtrade/api/go/studio/instrument/v1;instrument_v1b\x06proto3"
 
 var (

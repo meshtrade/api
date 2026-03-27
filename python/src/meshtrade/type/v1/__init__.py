@@ -108,6 +108,7 @@ from .time_of_day import (
     time_of_day_total_seconds,
 )
 from .token import (
+    NATIVE_ASSET_ISSUER,
     new_undefined_token,
     token_is_equal_to,
     token_is_undefined,
@@ -130,6 +131,7 @@ __all__ = [
     "TimeOfDay",
     "Token",
     # Manual exports
+    "NATIVE_ASSET_ISSUER",
     "UnsupportedLedgerError",
     "amount_add",
     "amount_contains_fractions",
