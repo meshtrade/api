@@ -8,8 +8,10 @@ import "meshtrade/compliance/client/v1/company_representative.proto";
 import "meshtrade/compliance/client/v1/fund.proto";
 import "meshtrade/compliance/client/v1/industry_classification.proto";
 import "meshtrade/compliance/client/v1/natural_person.proto";
+import "meshtrade/compliance/client/v1/tax_residency.proto";
 import "meshtrade/compliance/client/v1/trust.proto";
 import "meshtrade/type/v1/address.proto";
+import "meshtrade/type/v1/contact_details.proto";
 import "meshtrade/type/v1/decimal.proto";
 
 option go_package = "github.com/meshtrade/api/go/compliance/client/v1;client_v1";
@@ -43,14 +45,11 @@ message Company {
   }];
 
   /*
-     The primary tax identifier for the company.
-     Examples: VAT number in the EU, TIN in the US.
+     The company's tax residency information, required for CRS/FATCA reporting.
+     A company can be a tax resident in multiple jurisdictions.
+     Required for verification.
   */
-  string tax_identifier = 4 [(buf.validate.field) = {
-    string: {
-      max_len: 50
-    }
-  }];
+  repeated meshtrade.compliance.client.v1.TaxResidency tax_residencies = 4;
 
   /*
      The ISO 3166-1 alpha-2 country code where the company was incorporated (e.g., "ZA", "NL").
@@ -132,6 +131,31 @@ message Company {
   string listing_reference = 15 [(buf.validate.field) = {
     string: {
       max_len: 20
+    }
+  }];
+
+  /*
+     The company's VAT registration number, distinct from the tax reference number (TIN).
+     Required for verification in applicable jurisdictions.
+  */
+  string vat_registration_number = 16 [(buf.validate.field) = {
+    string: {
+      max_len: 100
+    }
+  }];
+
+  /*
+     The company's public contact information (email, phone, etc.).
+  */
+  meshtrade.type.v1.ContactDetails contact_details = 17;
+
+  /*
+     The business or trading name, which may differ from the official registered name.
+     For example, a company registered as "Acme Corp (Pty) Ltd" may trade as "Acme".
+  */
+  string business_name = 18 [(buf.validate.field) = {
+    string: {
+      max_len: 255
     }
   }];
 }
@@ -254,4 +278,19 @@ enum LegalPersonConnectionType {
      indicating a significant financial connection.
   */
   LEGAL_PERSON_CONNECTION_TYPE_GUARANTOR = 6;
+
+  /*
+     The legal person holds a management role in the company.
+  */
+  LEGAL_PERSON_CONNECTION_TYPE_MANAGER = 7;
+
+  /*
+     The legal person acts as an agent on behalf of the company.
+  */
+  LEGAL_PERSON_CONNECTION_TYPE_AGENT = 8;
+
+  /*
+     The legal person is the sole proprietor of the business.
+  */
+  LEGAL_PERSON_CONNECTION_TYPE_SOLE_PROPRIETOR = 9;
 }

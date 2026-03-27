@@ -45,6 +45,10 @@ type Client struct {
 	// in user interfaces and reports.
 	// Required on creation.
 	DisplayName string `protobuf:"bytes,4,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
+	// A short, abbreviated name for the client, used for compact display
+	// in tables, lists, and other space-constrained UI contexts.
+	// Must be 3-4 uppercase alphanumeric characters (e.g., "BTC", "MSFT") or blank.
+	ShortName string `protobuf:"bytes,5,opt,name=short_name,json=shortName,proto3" json:"short_name,omitempty"`
 	// Contains the specific data for the legal entity type.
 	// Only one of these may be set at a time.
 	//
@@ -57,21 +61,40 @@ type Client struct {
 	LegalPerson isClient_LegalPerson `protobuf_oneof:"legal_person"`
 	// The definitive, most recent compliance status of the client (e.g., VERIFICATION_STATUS_VERIFIED, VERIFICATION_STATUS_FAILED).
 	// Must always be a valid field
-	VerificationStatus VerificationStatus `protobuf:"varint,9,opt,name=verification_status,json=verificationStatus,proto3,enum=meshtrade.compliance.client.v1.VerificationStatus" json:"verification_status,omitempty"`
+	VerificationStatus VerificationStatus `protobuf:"varint,10,opt,name=verification_status,json=verificationStatus,proto3,enum=meshtrade.compliance.client.v1.VerificationStatus" json:"verification_status,omitempty"`
 	// The resource name of the client (acting as a verifier) that last set the
 	// `verification_status`. This provides an audit trail for status changes.
-	// System set when verification_status changes.
-	VerificationAuthority string `protobuf:"bytes,10,opt,name=verification_authority,json=verificationAuthority,proto3" json:"verification_authority,omitempty"`
+	// System controlled.
+	VerificationAuthority string `protobuf:"bytes,11,opt,name=verification_authority,json=verificationAuthority,proto3" json:"verification_authority,omitempty"`
+	// The resource name of the client (acting as a verifier) that last set the
+	// `verification_status`. This provides an audit trail for status changes.
+	// System controlled.
+	VerificationAuthorityDisplayName string `protobuf:"bytes,12,opt,name=verification_authority_display_name,json=verificationAuthorityDisplayName,proto3" json:"verification_authority_display_name,omitempty"`
 	// The timestamp when the `verification_status` was last set to a conclusive
 	// state, specifically `VERIFICATION_STATUS_VERIFIED`.
 	// System set when verification_status changes to VERIFICATION_STATUS_VERIFIED.
-	VerificationDate *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=verification_date,json=verificationDate,proto3" json:"verification_date,omitempty"`
+	VerificationDate *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=verification_date,json=verificationDate,proto3" json:"verification_date,omitempty"`
 	// The timestamp indicating when the client's next periodic compliance review
 	// is due. This field drives re-verification workflows.
 	// Optional for Verification.
-	NextVerificationDate *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=next_verification_date,json=nextVerificationDate,proto3" json:"next_verification_date,omitempty"`
-	unknownFields        protoimpl.UnknownFields
-	sizeCache            protoimpl.SizeCache
+	NextVerificationDate *timestamppb.Timestamp `protobuf:"bytes,14,opt,name=next_verification_date,json=nextVerificationDate,proto3" json:"next_verification_date,omitempty"`
+	// The date when the client was first registered on the platform.
+	// System set on creation.
+	CreationDate *timestamppb.Timestamp `protobuf:"bytes,15,opt,name=creation_date,json=creationDate,proto3" json:"creation_date,omitempty"`
+	// The operational status of the client on the platform (e.g., active, inactive).
+	Status ClientStatus `protobuf:"varint,16,opt,name=status,proto3,enum=meshtrade.compliance.client.v1.ClientStatus" json:"status,omitempty"`
+	// A human-readable reason for the current verification status.
+	// For example, this may contain the reason why a verification attempt failed.
+	VerificationStatusReason string `protobuf:"bytes,17,opt,name=verification_status_reason,json=verificationStatusReason,proto3" json:"verification_status_reason,omitempty"`
+	// A free-text description of the client.
+	Description string `protobuf:"bytes,18,opt,name=description,proto3" json:"description,omitempty"`
+	// The version identifier of the Platform-as-a-Service agreement accepted by the client.
+	PaasAgreementVersion string `protobuf:"bytes,19,opt,name=paas_agreement_version,json=paasAgreementVersion,proto3" json:"paas_agreement_version,omitempty"`
+	// The role type identifiers that users within this client's group structure may be assigned.
+	// These are integer representations of the role enums.
+	Roles         []int32 `protobuf:"varint,20,rep,packed,name=roles,proto3" json:"roles,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Client) Reset() {
@@ -128,6 +151,13 @@ func (x *Client) GetOwners() []string {
 func (x *Client) GetDisplayName() string {
 	if x != nil {
 		return x.DisplayName
+	}
+	return ""
+}
+
+func (x *Client) GetShortName() string {
+	if x != nil {
+		return x.ShortName
 	}
 	return ""
 }
@@ -189,6 +219,13 @@ func (x *Client) GetVerificationAuthority() string {
 	return ""
 }
 
+func (x *Client) GetVerificationAuthorityDisplayName() string {
+	if x != nil {
+		return x.VerificationAuthorityDisplayName
+	}
+	return ""
+}
+
 func (x *Client) GetVerificationDate() *timestamppb.Timestamp {
 	if x != nil {
 		return x.VerificationDate
@@ -203,28 +240,70 @@ func (x *Client) GetNextVerificationDate() *timestamppb.Timestamp {
 	return nil
 }
 
+func (x *Client) GetCreationDate() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreationDate
+	}
+	return nil
+}
+
+func (x *Client) GetStatus() ClientStatus {
+	if x != nil {
+		return x.Status
+	}
+	return ClientStatus_CLIENT_STATUS_UNSPECIFIED
+}
+
+func (x *Client) GetVerificationStatusReason() string {
+	if x != nil {
+		return x.VerificationStatusReason
+	}
+	return ""
+}
+
+func (x *Client) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *Client) GetPaasAgreementVersion() string {
+	if x != nil {
+		return x.PaasAgreementVersion
+	}
+	return ""
+}
+
+func (x *Client) GetRoles() []int32 {
+	if x != nil {
+		return x.Roles
+	}
+	return nil
+}
+
 type isClient_LegalPerson interface {
 	isClient_LegalPerson()
 }
 
 type Client_NaturalPerson struct {
 	// Set when the legal entity is an individual human being.
-	NaturalPerson *NaturalPerson `protobuf:"bytes,5,opt,name=natural_person,json=naturalPerson,proto3,oneof"`
+	NaturalPerson *NaturalPerson `protobuf:"bytes,6,opt,name=natural_person,json=naturalPerson,proto3,oneof"`
 }
 
 type Client_Company struct {
 	// Set when the legal entity is a company or corporation.
-	Company *Company `protobuf:"bytes,6,opt,name=company,proto3,oneof"`
+	Company *Company `protobuf:"bytes,7,opt,name=company,proto3,oneof"`
 }
 
 type Client_Fund struct {
 	// Set when the legal entity is an investment fund.
-	Fund *Fund `protobuf:"bytes,7,opt,name=fund,proto3,oneof"`
+	Fund *Fund `protobuf:"bytes,8,opt,name=fund,proto3,oneof"`
 }
 
 type Client_Trust struct {
 	// Set when the legal entity is a trust.
-	Trust *Trust `protobuf:"bytes,8,opt,name=trust,proto3,oneof"`
+	Trust *Trust `protobuf:"bytes,9,opt,name=trust,proto3,oneof"`
 }
 
 func (*Client_NaturalPerson) isClient_LegalPerson() {}
@@ -239,25 +318,34 @@ var File_meshtrade_compliance_client_v1_client_proto protoreflect.FileDescriptor
 
 const file_meshtrade_compliance_client_v1_client_proto_rawDesc = "" +
 	"\n" +
-	"+meshtrade/compliance/client/v1/client.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a,meshtrade/compliance/client/v1/company.proto\x1a)meshtrade/compliance/client/v1/fund.proto\x1a3meshtrade/compliance/client/v1/natural_person.proto\x1a*meshtrade/compliance/client/v1/trust.proto\x1a8meshtrade/compliance/client/v1/verification_status.proto\"\x90\n" +
-	"\n" +
+	"+meshtrade/compliance/client/v1/client.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a,meshtrade/compliance/client/v1/company.proto\x1a)meshtrade/compliance/client/v1/fund.proto\x1a3meshtrade/compliance/client/v1/natural_person.proto\x1a*meshtrade/compliance/client/v1/trust.proto\x1a2meshtrade/compliance/client/v1/client_status.proto\x1a8meshtrade/compliance/client/v1/verification_status.proto\"\x81\x0f\n" +
 	"\x06Client\x12\xd4\x01\n" +
 	"\x04name\x18\x01 \x01(\tB\xbf\x01\xbaH\xbb\x01\xba\x01\xb7\x01\n" +
 	"\x14name.format.optional\x12?name must be empty or in the format compliance/clients/{ULIDv2}\x1a^size(this) == 0 || this.matches('^compliance/clients/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12R\n" +
 	"\x05owner\x18\x02 \x01(\tB<\xbaH9\xc8\x01\x01r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05owner\x12V\n" +
 	"\x06owners\x18\x03 \x03(\tB>\xbaH;\x92\x018\"6r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x06owners\x120\n" +
 	"\fdisplay_name\x18\x04 \x01(\tB\r\xbaH\n" +
-	"\xc8\x01\x01r\x05\x10\x01\x18\xff\x01R\vdisplayName\x12V\n" +
-	"\x0enatural_person\x18\x05 \x01(\v2-.meshtrade.compliance.client.v1.NaturalPersonH\x00R\rnaturalPerson\x12C\n" +
-	"\acompany\x18\x06 \x01(\v2'.meshtrade.compliance.client.v1.CompanyH\x00R\acompany\x12:\n" +
-	"\x04fund\x18\a \x01(\v2$.meshtrade.compliance.client.v1.FundH\x00R\x04fund\x12=\n" +
-	"\x05trust\x18\b \x01(\v2%.meshtrade.compliance.client.v1.TrustH\x00R\x05trust\x12p\n" +
-	"\x13verification_status\x18\t \x01(\x0e22.meshtrade.compliance.client.v1.VerificationStatusB\v\xbaH\b\xc8\x01\x01\x82\x01\x02\x10\x01R\x12verificationStatus\x12\x9b\x02\n" +
-	"\x16verification_authority\x18\n" +
-	" \x01(\tB\xe3\x01\xbaH\xdf\x01\xba\x01\xdb\x01\n" +
-	"&verification_authority.format.optional\x12Qverification_authority must be empty or in the format compliance/clients/{ULIDv2}\x1a^size(this) == 0 || this.matches('^compliance/clients/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x15verificationAuthority\x12G\n" +
-	"\x11verification_date\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\x10verificationDate\x12P\n" +
-	"\x16next_verification_date\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\x14nextVerificationDateB\x0e\n" +
+	"\xc8\x01\x01r\x05\x10\x01\x18\xff\x01R\vdisplayName\x12\xbb\x01\n" +
+	"\n" +
+	"short_name\x18\x05 \x01(\tB\x9b\x01\xbaH\x97\x01\xba\x01\x93\x01\n" +
+	"\x1ashort_name.format.optional\x12Ashort_name must be empty or 3-4 uppercase alphanumeric characters\x1a2size(this) == 0 || this.matches('^[A-Z0-9]{3,4}$')R\tshortName\x12V\n" +
+	"\x0enatural_person\x18\x06 \x01(\v2-.meshtrade.compliance.client.v1.NaturalPersonH\x00R\rnaturalPerson\x12C\n" +
+	"\acompany\x18\a \x01(\v2'.meshtrade.compliance.client.v1.CompanyH\x00R\acompany\x12:\n" +
+	"\x04fund\x18\b \x01(\v2$.meshtrade.compliance.client.v1.FundH\x00R\x04fund\x12=\n" +
+	"\x05trust\x18\t \x01(\v2%.meshtrade.compliance.client.v1.TrustH\x00R\x05trust\x12p\n" +
+	"\x13verification_status\x18\n" +
+	" \x01(\x0e22.meshtrade.compliance.client.v1.VerificationStatusB\v\xbaH\b\xc8\x01\x01\x82\x01\x02\x10\x01R\x12verificationStatus\x12\x9b\x02\n" +
+	"\x16verification_authority\x18\v \x01(\tB\xe3\x01\xbaH\xdf\x01\xba\x01\xdb\x01\n" +
+	"&verification_authority.format.optional\x12Qverification_authority must be empty or in the format compliance/clients/{ULIDv2}\x1a^size(this) == 0 || this.matches('^compliance/clients/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x15verificationAuthority\x12W\n" +
+	"#verification_authority_display_name\x18\f \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R verificationAuthorityDisplayName\x12G\n" +
+	"\x11verification_date\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\x10verificationDate\x12P\n" +
+	"\x16next_verification_date\x18\x0e \x01(\v2\x1a.google.protobuf.TimestampR\x14nextVerificationDate\x12?\n" +
+	"\rcreation_date\x18\x0f \x01(\v2\x1a.google.protobuf.TimestampR\fcreationDate\x12N\n" +
+	"\x06status\x18\x10 \x01(\x0e2,.meshtrade.compliance.client.v1.ClientStatusB\b\xbaH\x05\x82\x01\x02\x10\x01R\x06status\x12F\n" +
+	"\x1averification_status_reason\x18\x11 \x01(\tB\b\xbaH\x05r\x03\x18\xe8\aR\x18verificationStatusReason\x12*\n" +
+	"\vdescription\x18\x12 \x01(\tB\b\xbaH\x05r\x03\x18\xd0\x0fR\vdescription\x12=\n" +
+	"\x16paas_agreement_version\x18\x13 \x01(\tB\a\xbaH\x04r\x02\x18dR\x14paasAgreementVersion\x12\x14\n" +
+	"\x05roles\x18\x14 \x03(\x05R\x05rolesB\x0e\n" +
 	"\flegal_personBc\n" +
 	"%co.meshtrade.api.compliance.client.v1Z:github.com/meshtrade/api/go/compliance/client/v1;client_v1b\x06proto3"
 
@@ -282,6 +370,7 @@ var file_meshtrade_compliance_client_v1_client_proto_goTypes = []any{
 	(*Trust)(nil),                 // 4: meshtrade.compliance.client.v1.Trust
 	(VerificationStatus)(0),       // 5: meshtrade.compliance.client.v1.VerificationStatus
 	(*timestamppb.Timestamp)(nil), // 6: google.protobuf.Timestamp
+	(ClientStatus)(0),             // 7: meshtrade.compliance.client.v1.ClientStatus
 }
 var file_meshtrade_compliance_client_v1_client_proto_depIdxs = []int32{
 	1, // 0: meshtrade.compliance.client.v1.Client.natural_person:type_name -> meshtrade.compliance.client.v1.NaturalPerson
@@ -291,11 +380,13 @@ var file_meshtrade_compliance_client_v1_client_proto_depIdxs = []int32{
 	5, // 4: meshtrade.compliance.client.v1.Client.verification_status:type_name -> meshtrade.compliance.client.v1.VerificationStatus
 	6, // 5: meshtrade.compliance.client.v1.Client.verification_date:type_name -> google.protobuf.Timestamp
 	6, // 6: meshtrade.compliance.client.v1.Client.next_verification_date:type_name -> google.protobuf.Timestamp
-	7, // [7:7] is the sub-list for method output_type
-	7, // [7:7] is the sub-list for method input_type
-	7, // [7:7] is the sub-list for extension type_name
-	7, // [7:7] is the sub-list for extension extendee
-	0, // [0:7] is the sub-list for field type_name
+	6, // 7: meshtrade.compliance.client.v1.Client.creation_date:type_name -> google.protobuf.Timestamp
+	7, // 8: meshtrade.compliance.client.v1.Client.status:type_name -> meshtrade.compliance.client.v1.ClientStatus
+	9, // [9:9] is the sub-list for method output_type
+	9, // [9:9] is the sub-list for method input_type
+	9, // [9:9] is the sub-list for extension type_name
+	9, // [9:9] is the sub-list for extension extendee
+	0, // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_compliance_client_v1_client_proto_init() }
@@ -307,6 +398,7 @@ func file_meshtrade_compliance_client_v1_client_proto_init() {
 	file_meshtrade_compliance_client_v1_fund_proto_init()
 	file_meshtrade_compliance_client_v1_natural_person_proto_init()
 	file_meshtrade_compliance_client_v1_trust_proto_init()
+	file_meshtrade_compliance_client_v1_client_status_proto_init()
 	file_meshtrade_compliance_client_v1_verification_status_proto_init()
 	file_meshtrade_compliance_client_v1_client_proto_msgTypes[0].OneofWrappers = []any{
 		(*Client_NaturalPerson)(nil),

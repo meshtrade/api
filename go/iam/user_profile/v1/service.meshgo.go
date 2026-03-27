@@ -73,6 +73,10 @@ type UserProfileServiceClientInterface interface {
 	// access scope based on group ownership and role permissions.
 	// Returns a ListUserProfilesResponse containing all accessible user_profiles.
 	ListUserProfiles(ctx context.Context, request *ListUserProfilesRequest) (*ListUserProfilesResponse, error)
+	// Searches user profiles using first name, last name, or user resource name filtering.
+	// Performs substring matching on user profile first and last names,
+	// or exact matching on user resource names within the authenticated group context.
+	SearchUserProfiles(ctx context.Context, request *SearchUserProfilesRequest) (*SearchUserProfilesResponse, error)
 	// Retrieves a presigned upload URL for a user profile picture.
 	// Generates a temporary upload URL that can be used to upload
 	// a profile picture image. The URL expires after a short duration
@@ -219,6 +223,14 @@ func (s *userProfileService) GetUserProfileByUser(ctx context.Context, request *
 func (s *userProfileService) ListUserProfiles(ctx context.Context, request *ListUserProfilesRequest) (*ListUserProfilesResponse, error) {
 	return grpc.Execute(s.Executor(), ctx, "ListUserProfiles", request, func(ctx context.Context) (*ListUserProfilesResponse, error) {
 		return s.GrpcClient().ListUserProfiles(ctx, request)
+	})
+}
+
+// SearchUserProfiles executes the SearchUserProfiles RPC method with automatic
+// client-side validation, timeout handling, distributed tracing, and authentication.
+func (s *userProfileService) SearchUserProfiles(ctx context.Context, request *SearchUserProfilesRequest) (*SearchUserProfilesResponse, error) {
+	return grpc.Execute(s.Executor(), ctx, "SearchUserProfiles", request, func(ctx context.Context) (*SearchUserProfilesResponse, error) {
+		return s.GrpcClient().SearchUserProfiles(ctx, request)
 	})
 }
 

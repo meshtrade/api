@@ -46,6 +46,12 @@ type UserProfileService interface {
 	// Returns a ListUserProfilesResponse containing all accessible user_profiles.
 	ListUserProfiles(ctx context.Context, request *ListUserProfilesRequest) (*ListUserProfilesResponse, error)
 
+	// Searches user profiles using first name, last name, or user resource name filtering.
+	//
+	// Performs substring matching on user profile first and last names,
+	// or exact matching on user resource names within the authenticated group context.
+	SearchUserProfiles(ctx context.Context, request *SearchUserProfilesRequest) (*SearchUserProfilesResponse, error)
+
 	// Retrieves a presigned upload URL for a user profile picture.
 	//
 	// Generates a temporary upload URL that can be used to upload

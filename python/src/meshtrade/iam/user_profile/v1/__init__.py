@@ -21,6 +21,8 @@ from .service_pb2 import (
     GetUserProfileRequest,
     ListUserProfilesRequest,
     ListUserProfilesResponse,
+    SearchUserProfilesRequest,
+    SearchUserProfilesResponse,
     UpdateUserProfileRequest,
 )
 
@@ -57,6 +59,8 @@ __all__ = [
     "GetUserProfileRequest",
     "ListUserProfilesRequest",
     "ListUserProfilesResponse",
+    "SearchUserProfilesRequest",
+    "SearchUserProfilesResponse",
     "UpdateUserProfileRequest",
     "UserProfile",
     "UserProfileService",

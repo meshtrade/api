@@ -24,15 +24,20 @@ from .fund_pb2 import Fund
 from .industry_classification_pb2 import IndustryClassification
 from .trust_pb2 import Trust
 from .company_pb2 import Company, ConnectedLegalPerson, LegalPersonConnectionType
+from .client_status_pb2 import ClientStatus
 from .verification_status_pb2 import VerificationStatus
 from .client_pb2 import Client
 from .natural_person_connection_type_pb2 import NaturalPersonConnectionType
 from .service_pb2 import (
     CreateClientRequest,
+    FailClientVerificationRequest,
     GetClientRequest,
     GetGroupClientRequest,
     ListClientsRequest,
     ListClientsResponse,
+    MarkClientVerifiedRequest,
+    StartClientVerificationRequest,
+    UpdateClientRequest,
 )
 
 # Generated service imports
@@ -66,11 +71,13 @@ __all__ = [
     "ClientService",
     "ClientServiceGRPCClient",
     "ClientServiceGRPCClientInterface",
+    "ClientStatus",
     "Company",
     "CompanyRepresentative",
     "CompanyRepresentativeRole",
     "ConnectedLegalPerson",
     "CreateClientRequest",
+    "FailClientVerificationRequest",
     "Fund",
     "GetClientRequest",
     "GetGroupClientRequest",
@@ -79,11 +86,14 @@ __all__ = [
     "LegalPersonConnectionType",
     "ListClientsRequest",
     "ListClientsResponse",
+    "MarkClientVerifiedRequest",
     "NaturalPerson",
     "NaturalPersonConnectionType",
     "PepStatus",
     "SourceOfIncomeAndWealth",
+    "StartClientVerificationRequest",
     "TaxResidency",
     "Trust",
+    "UpdateClientRequest",
     "VerificationStatus",
 ]

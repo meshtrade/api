@@ -35,9 +35,10 @@ type Trust struct {
 	// Examples: SEC CIK number, LEI (Legal Entity Identifier).
 	// Required for verification.
 	RegistrationNumber string `protobuf:"bytes,2,opt,name=registration_number,json=registrationNumber,proto3" json:"registration_number,omitempty"`
-	// The primary tax identifier for the trust.
-	// Example: TIN in the US.
-	TaxIdentifier string `protobuf:"bytes,3,opt,name=tax_identifier,json=taxIdentifier,proto3" json:"tax_identifier,omitempty"`
+	// The trust's tax residency information, required for CRS/FATCA reporting.
+	// A trust can be a tax resident in multiple jurisdictions.
+	// Required for verification.
+	TaxResidencies []*TaxResidency `protobuf:"bytes,3,rep,name=tax_residencies,json=taxResidencies,proto3" json:"tax_residencies,omitempty"`
 	// The ISO 3166-1 alpha-2 country code where the trust is domiciled (e.g., "KY" for Cayman Islands, "LU" for Luxembourg).
 	// The value must be the uppercase, two-letter code.
 	// See: https://www.iso.org/iso-3166-country-codes.html
@@ -94,11 +95,11 @@ func (x *Trust) GetRegistrationNumber() string {
 	return ""
 }
 
-func (x *Trust) GetTaxIdentifier() string {
+func (x *Trust) GetTaxResidencies() []*TaxResidency {
 	if x != nil {
-		return x.TaxIdentifier
+		return x.TaxResidencies
 	}
-	return ""
+	return nil
 }
 
 func (x *Trust) GetCountryOfDomicile() string {
@@ -119,11 +120,11 @@ var File_meshtrade_compliance_client_v1_trust_proto protoreflect.FileDescriptor
 
 const file_meshtrade_compliance_client_v1_trust_proto_rawDesc = "" +
 	"\n" +
-	"*meshtrade/compliance/client/v1/trust.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x1bbuf/validate/validate.proto\x1a\x16google/type/date.proto\"\xba\x03\n" +
+	"*meshtrade/compliance/client/v1/trust.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x1bbuf/validate/validate.proto\x1a\x16google/type/date.proto\x1a2meshtrade/compliance/client/v1/tax_residency.proto\"\xe1\x03\n" +
 	"\x05Trust\x121\n" +
 	"\x0fregistered_name\x18\x01 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R\x0eregisteredName\x128\n" +
-	"\x13registration_number\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x18dR\x12registrationNumber\x12.\n" +
-	"\x0etax_identifier\x18\x03 \x01(\tB\a\xbaH\x04r\x02\x182R\rtaxIdentifier\x12\xd4\x01\n" +
+	"\x13registration_number\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x18dR\x12registrationNumber\x12U\n" +
+	"\x0ftax_residencies\x18\x03 \x03(\v2,.meshtrade.compliance.client.v1.TaxResidencyR\x0etaxResidencies\x12\xd4\x01\n" +
 	"\x13country_of_domicile\x18\x04 \x01(\tB\xa3\x01\xbaH\x9f\x01\xba\x01\x9b\x01\n" +
 	"\x1ccountry_code.format.optional\x12Lcountry_of_domicile must be empty or a valid ISO 3166-1 alpha-2 country code\x1a-size(this) == 0 || this.matches('^[A-Z]{2}$')R\x11countryOfDomicile\x12=\n" +
 	"\x11date_of_inception\x18\x05 \x01(\v2\x11.google.type.DateR\x0fdateOfInceptionBc\n" +
@@ -143,16 +144,18 @@ func file_meshtrade_compliance_client_v1_trust_proto_rawDescGZIP() []byte {
 
 var file_meshtrade_compliance_client_v1_trust_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_meshtrade_compliance_client_v1_trust_proto_goTypes = []any{
-	(*Trust)(nil),     // 0: meshtrade.compliance.client.v1.Trust
-	(*date.Date)(nil), // 1: google.type.Date
+	(*Trust)(nil),        // 0: meshtrade.compliance.client.v1.Trust
+	(*TaxResidency)(nil), // 1: meshtrade.compliance.client.v1.TaxResidency
+	(*date.Date)(nil),    // 2: google.type.Date
 }
 var file_meshtrade_compliance_client_v1_trust_proto_depIdxs = []int32{
-	1, // 0: meshtrade.compliance.client.v1.Trust.date_of_inception:type_name -> google.type.Date
-	1, // [1:1] is the sub-list for method output_type
-	1, // [1:1] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	1, // 0: meshtrade.compliance.client.v1.Trust.tax_residencies:type_name -> meshtrade.compliance.client.v1.TaxResidency
+	2, // 1: meshtrade.compliance.client.v1.Trust.date_of_inception:type_name -> google.type.Date
+	2, // [2:2] is the sub-list for method output_type
+	2, // [2:2] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_compliance_client_v1_trust_proto_init() }
@@ -160,6 +163,7 @@ func file_meshtrade_compliance_client_v1_trust_proto_init() {
 	if File_meshtrade_compliance_client_v1_trust_proto != nil {
 		return
 	}
+	file_meshtrade_compliance_client_v1_tax_residency_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
