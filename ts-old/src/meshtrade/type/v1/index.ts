@@ -40,4 +40,5 @@ export * from "./amountWrapper";
 export * from "./decimalConversions";
 export * from "./ledger";
 export * from "./token";
+export * from "./timezone";
 export * from "./tokenWrapper";
