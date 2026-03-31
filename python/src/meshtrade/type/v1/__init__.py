@@ -22,6 +22,7 @@ from .token_pb2 import Token
 from .amount_pb2 import Amount
 from .date_pb2 import Date
 from .time_of_day_pb2 import TimeOfDay
+from .timezone_pb2 import Timezone
 
 # ===================================================================
 # END OF AUTO-GENERATED SECTION
@@ -129,6 +130,7 @@ __all__ = [
     "Ledger",
     "SortingOrder",
     "TimeOfDay",
+    "Timezone",
     "Token",
     # Manual exports
     "NATIVE_ASSET_ISSUER",
