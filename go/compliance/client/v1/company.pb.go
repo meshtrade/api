@@ -121,6 +121,9 @@ type Company struct {
 	// The official, registered name of the company as it appears in its articles of incorporation.
 	// Required for verification.
 	RegisteredName string `protobuf:"bytes,1,opt,name=registered_name,json=registeredName,proto3" json:"registered_name,omitempty"`
+	// The business or trading name, which may differ from the official registered name.
+	// For example, a company registered as "Acme Corp (Pty) Ltd" may trade as "Acme".
+	BusinessName string `protobuf:"bytes,2,opt,name=business_name,json=businessName,proto3" json:"business_name,omitempty"`
 	// The unique number assigned by the relevant companies registry upon incorporation.
 	// Examples: UK Companies House number, NL KVK-nummer, US EIN.
 	// Required for verification.
@@ -170,11 +173,8 @@ type Company struct {
 	VatRegistrationNumber string `protobuf:"bytes,16,opt,name=vat_registration_number,json=vatRegistrationNumber,proto3" json:"vat_registration_number,omitempty"`
 	// The company's public contact information (email, phone, etc.).
 	ContactDetails *v1.ContactDetails `protobuf:"bytes,17,opt,name=contact_details,json=contactDetails,proto3" json:"contact_details,omitempty"`
-	// The business or trading name, which may differ from the official registered name.
-	// For example, a company registered as "Acme Corp (Pty) Ltd" may trade as "Acme".
-	BusinessName  string `protobuf:"bytes,18,opt,name=business_name,json=businessName,proto3" json:"business_name,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *Company) Reset() {
@@ -210,6 +210,13 @@ func (*Company) Descriptor() ([]byte, []int) {
 func (x *Company) GetRegisteredName() string {
 	if x != nil {
 		return x.RegisteredName
+	}
+	return ""
+}
+
+func (x *Company) GetBusinessName() string {
+	if x != nil {
+		return x.BusinessName
 	}
 	return ""
 }
@@ -317,13 +324,6 @@ func (x *Company) GetContactDetails() *v1.ContactDetails {
 		return x.ContactDetails
 	}
 	return nil
-}
-
-func (x *Company) GetBusinessName() string {
-	if x != nil {
-		return x.BusinessName
-	}
-	return ""
 }
 
 // ConnectedLegalPerson is a legal person and how they are connected to the company.
@@ -501,7 +501,8 @@ const file_meshtrade_compliance_client_v1_company_proto_rawDesc = "" +
 	"\n" +
 	",meshtrade/compliance/client/v1/company.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x1bbuf/validate/validate.proto\x1a\x16google/type/date.proto\x1a;meshtrade/compliance/client/v1/company_representative.proto\x1a)meshtrade/compliance/client/v1/fund.proto\x1a<meshtrade/compliance/client/v1/industry_classification.proto\x1a3meshtrade/compliance/client/v1/natural_person.proto\x1a2meshtrade/compliance/client/v1/tax_residency.proto\x1a*meshtrade/compliance/client/v1/trust.proto\x1a\x1fmeshtrade/type/v1/address.proto\x1a'meshtrade/type/v1/contact_details.proto\x1a\x1fmeshtrade/type/v1/decimal.proto\"\xaa\v\n" +
 	"\aCompany\x121\n" +
-	"\x0fregistered_name\x18\x01 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R\x0eregisteredName\x128\n" +
+	"\x0fregistered_name\x18\x01 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R\x0eregisteredName\x12-\n" +
+	"\rbusiness_name\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R\fbusinessName\x128\n" +
 	"\x13registration_number\x18\x03 \x01(\tB\a\xbaH\x04r\x02\x18dR\x12registrationNumber\x12U\n" +
 	"\x0ftax_residencies\x18\x04 \x03(\v2,.meshtrade.compliance.client.v1.TaxResidencyR\x0etaxResidencies\x12\xe3\x01\n" +
 	"\x18country_of_incorporation\x18\x05 \x01(\tB\xa8\x01\xbaH\xa4\x01\xba\x01\xa0\x01\n" +
@@ -518,8 +519,7 @@ const file_meshtrade_compliance_client_v1_company_proto_rawDesc = "" +
 	"\x14listed_exchange_code\x18\x0e \x01(\tB\a\xbaH\x04r\x02\x18\x14R\x12listedExchangeCode\x124\n" +
 	"\x11listing_reference\x18\x0f \x01(\tB\a\xbaH\x04r\x02\x18\x14R\x10listingReference\x12?\n" +
 	"\x17vat_registration_number\x18\x10 \x01(\tB\a\xbaH\x04r\x02\x18dR\x15vatRegistrationNumber\x12J\n" +
-	"\x0fcontact_details\x18\x11 \x01(\v2!.meshtrade.type.v1.ContactDetailsR\x0econtactDetails\x12-\n" +
-	"\rbusiness_name\x18\x12 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R\fbusinessName\"\x99\x05\n" +
+	"\x0fcontact_details\x18\x11 \x01(\v2!.meshtrade.type.v1.ContactDetailsR\x0econtactDetails\"\x99\x05\n" +
 	"\x14ConnectedLegalPerson\x12V\n" +
 	"\x0enatural_person\x18\x01 \x01(\v2-.meshtrade.compliance.client.v1.NaturalPersonH\x00R\rnaturalPerson\x12C\n" +
 	"\acompany\x18\x02 \x01(\v2'.meshtrade.compliance.client.v1.CompanyH\x00R\acompany\x12:\n" +
