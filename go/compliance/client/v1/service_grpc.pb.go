@@ -19,10 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ClientService_CreateClient_FullMethodName   = "/meshtrade.compliance.client.v1.ClientService/CreateClient"
-	ClientService_GetClient_FullMethodName      = "/meshtrade.compliance.client.v1.ClientService/GetClient"
-	ClientService_GetGroupClient_FullMethodName = "/meshtrade.compliance.client.v1.ClientService/GetGroupClient"
-	ClientService_ListClients_FullMethodName    = "/meshtrade.compliance.client.v1.ClientService/ListClients"
+	ClientService_CreateClient_FullMethodName            = "/meshtrade.compliance.client.v1.ClientService/CreateClient"
+	ClientService_GetClient_FullMethodName               = "/meshtrade.compliance.client.v1.ClientService/GetClient"
+	ClientService_GetGroupClient_FullMethodName          = "/meshtrade.compliance.client.v1.ClientService/GetGroupClient"
+	ClientService_UpdateClient_FullMethodName            = "/meshtrade.compliance.client.v1.ClientService/UpdateClient"
+	ClientService_StartClientVerification_FullMethodName = "/meshtrade.compliance.client.v1.ClientService/StartClientVerification"
+	ClientService_FailClientVerification_FullMethodName  = "/meshtrade.compliance.client.v1.ClientService/FailClientVerification"
+	ClientService_MarkClientVerified_FullMethodName      = "/meshtrade.compliance.client.v1.ClientService/MarkClientVerified"
+	ClientService_ListClients_FullMethodName             = "/meshtrade.compliance.client.v1.ClientService/ListClients"
 )
 
 // ClientServiceClient is the client API for ClientService service.
@@ -49,6 +53,39 @@ type ClientServiceClient interface {
 	// This allows fetching the compliance details of the client that is owned by
 	// the specified group, using the group's resource name as the lookup key.
 	GetGroupClient(ctx context.Context, in *GetGroupClientRequest, opts ...grpc.CallOption) (*Client, error)
+	// UpdateClient updates a single client's compliance profile.
+	//
+	// Update access is restricted based on the client's current verification status:
+	//
+	// When status is VERIFICATION_STATUS_NOT_STARTED or VERIFICATION_STATUS_FAILED:
+	//   - Full update access to all mutable fields.
+	//   - The following fields are never updatable: name, owner, owners,
+	//     verification_status, verification_date, next_verification_date.
+	//
+	// When status is VERIFICATION_STATUS_PENDING or VERIFICATION_STATUS_VERIFIED:
+	//   - Only the verification authority may update the client.
+	//   - The following fields remain non-updatable: name, owner, owners.
+	UpdateClient(ctx context.Context, in *UpdateClientRequest, opts ...grpc.CallOption) (*Client, error)
+	// StartClientVerification transitions a client to VERIFICATION_STATUS_PENDING.
+	//
+	// Valid only when the client's current status is VERIFICATION_STATUS_NOT_STARTED
+	// or VERIFICATION_STATUS_FAILED. Callable by either the verification authority
+	// or the client's owning group.
+	StartClientVerification(ctx context.Context, in *StartClientVerificationRequest, opts ...grpc.CallOption) (*Client, error)
+	// FailClientVerification transitions a client to VERIFICATION_STATUS_FAILED.
+	//
+	// Valid only when the client's current status is VERIFICATION_STATUS_PENDING.
+	// Only callable by the verification authority. Requires comments explaining
+	// the reason for failure.
+	FailClientVerification(ctx context.Context, in *FailClientVerificationRequest, opts ...grpc.CallOption) (*Client, error)
+	// MarkClientVerified transitions a client to VERIFICATION_STATUS_VERIFIED.
+	//
+	// Valid only when the client's current status is VERIFICATION_STATUS_PENDING.
+	// Only callable by the verification authority. Sets verification_date to now
+	// and next_verification_date to the provided value.
+	// The next_verification_date must be after the existing verification_date and
+	// next_verification_date (if set).
+	MarkClientVerified(ctx context.Context, in *MarkClientVerifiedRequest, opts ...grpc.CallOption) (*Client, error)
 	// ListClients retrieves a collection of client compliance profiles.
 	//
 	// This method is useful for fetching multiple client records at once.
@@ -94,6 +131,46 @@ func (c *clientServiceClient) GetGroupClient(ctx context.Context, in *GetGroupCl
 	return out, nil
 }
 
+func (c *clientServiceClient) UpdateClient(ctx context.Context, in *UpdateClientRequest, opts ...grpc.CallOption) (*Client, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Client)
+	err := c.cc.Invoke(ctx, ClientService_UpdateClient_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *clientServiceClient) StartClientVerification(ctx context.Context, in *StartClientVerificationRequest, opts ...grpc.CallOption) (*Client, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Client)
+	err := c.cc.Invoke(ctx, ClientService_StartClientVerification_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *clientServiceClient) FailClientVerification(ctx context.Context, in *FailClientVerificationRequest, opts ...grpc.CallOption) (*Client, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Client)
+	err := c.cc.Invoke(ctx, ClientService_FailClientVerification_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *clientServiceClient) MarkClientVerified(ctx context.Context, in *MarkClientVerifiedRequest, opts ...grpc.CallOption) (*Client, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Client)
+	err := c.cc.Invoke(ctx, ClientService_MarkClientVerified_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *clientServiceClient) ListClients(ctx context.Context, in *ListClientsRequest, opts ...grpc.CallOption) (*ListClientsResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListClientsResponse)
@@ -128,6 +205,39 @@ type ClientServiceServer interface {
 	// This allows fetching the compliance details of the client that is owned by
 	// the specified group, using the group's resource name as the lookup key.
 	GetGroupClient(context.Context, *GetGroupClientRequest) (*Client, error)
+	// UpdateClient updates a single client's compliance profile.
+	//
+	// Update access is restricted based on the client's current verification status:
+	//
+	// When status is VERIFICATION_STATUS_NOT_STARTED or VERIFICATION_STATUS_FAILED:
+	//   - Full update access to all mutable fields.
+	//   - The following fields are never updatable: name, owner, owners,
+	//     verification_status, verification_date, next_verification_date.
+	//
+	// When status is VERIFICATION_STATUS_PENDING or VERIFICATION_STATUS_VERIFIED:
+	//   - Only the verification authority may update the client.
+	//   - The following fields remain non-updatable: name, owner, owners.
+	UpdateClient(context.Context, *UpdateClientRequest) (*Client, error)
+	// StartClientVerification transitions a client to VERIFICATION_STATUS_PENDING.
+	//
+	// Valid only when the client's current status is VERIFICATION_STATUS_NOT_STARTED
+	// or VERIFICATION_STATUS_FAILED. Callable by either the verification authority
+	// or the client's owning group.
+	StartClientVerification(context.Context, *StartClientVerificationRequest) (*Client, error)
+	// FailClientVerification transitions a client to VERIFICATION_STATUS_FAILED.
+	//
+	// Valid only when the client's current status is VERIFICATION_STATUS_PENDING.
+	// Only callable by the verification authority. Requires comments explaining
+	// the reason for failure.
+	FailClientVerification(context.Context, *FailClientVerificationRequest) (*Client, error)
+	// MarkClientVerified transitions a client to VERIFICATION_STATUS_VERIFIED.
+	//
+	// Valid only when the client's current status is VERIFICATION_STATUS_PENDING.
+	// Only callable by the verification authority. Sets verification_date to now
+	// and next_verification_date to the provided value.
+	// The next_verification_date must be after the existing verification_date and
+	// next_verification_date (if set).
+	MarkClientVerified(context.Context, *MarkClientVerifiedRequest) (*Client, error)
 	// ListClients retrieves a collection of client compliance profiles.
 	//
 	// This method is useful for fetching multiple client records at once.
@@ -151,6 +261,18 @@ func (UnimplementedClientServiceServer) GetClient(context.Context, *GetClientReq
 }
 func (UnimplementedClientServiceServer) GetGroupClient(context.Context, *GetGroupClientRequest) (*Client, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetGroupClient not implemented")
+}
+func (UnimplementedClientServiceServer) UpdateClient(context.Context, *UpdateClientRequest) (*Client, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateClient not implemented")
+}
+func (UnimplementedClientServiceServer) StartClientVerification(context.Context, *StartClientVerificationRequest) (*Client, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method StartClientVerification not implemented")
+}
+func (UnimplementedClientServiceServer) FailClientVerification(context.Context, *FailClientVerificationRequest) (*Client, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FailClientVerification not implemented")
+}
+func (UnimplementedClientServiceServer) MarkClientVerified(context.Context, *MarkClientVerifiedRequest) (*Client, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MarkClientVerified not implemented")
 }
 func (UnimplementedClientServiceServer) ListClients(context.Context, *ListClientsRequest) (*ListClientsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListClients not implemented")
@@ -230,6 +352,78 @@ func _ClientService_GetGroupClient_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ClientService_UpdateClient_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateClientRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ClientServiceServer).UpdateClient(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ClientService_UpdateClient_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ClientServiceServer).UpdateClient(ctx, req.(*UpdateClientRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ClientService_StartClientVerification_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StartClientVerificationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ClientServiceServer).StartClientVerification(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ClientService_StartClientVerification_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ClientServiceServer).StartClientVerification(ctx, req.(*StartClientVerificationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ClientService_FailClientVerification_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FailClientVerificationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ClientServiceServer).FailClientVerification(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ClientService_FailClientVerification_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ClientServiceServer).FailClientVerification(ctx, req.(*FailClientVerificationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ClientService_MarkClientVerified_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MarkClientVerifiedRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ClientServiceServer).MarkClientVerified(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ClientService_MarkClientVerified_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ClientServiceServer).MarkClientVerified(ctx, req.(*MarkClientVerifiedRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ClientService_ListClients_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListClientsRequest)
 	if err := dec(in); err != nil {
@@ -266,6 +460,22 @@ var ClientService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetGroupClient",
 			Handler:    _ClientService_GetGroupClient_Handler,
+		},
+		{
+			MethodName: "UpdateClient",
+			Handler:    _ClientService_UpdateClient_Handler,
+		},
+		{
+			MethodName: "StartClientVerification",
+			Handler:    _ClientService_StartClientVerification_Handler,
+		},
+		{
+			MethodName: "FailClientVerification",
+			Handler:    _ClientService_FailClientVerification_Handler,
+		},
+		{
+			MethodName: "MarkClientVerified",
+			Handler:    _ClientService_MarkClientVerified_Handler,
 		},
 		{
 			MethodName: "ListClients",

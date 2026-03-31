@@ -8,6 +8,7 @@ import "meshtrade/compliance/client/v1/company.proto";
 import "meshtrade/compliance/client/v1/fund.proto";
 import "meshtrade/compliance/client/v1/natural_person.proto";
 import "meshtrade/compliance/client/v1/trust.proto";
+import "meshtrade/compliance/client/v1/client_status.proto";
 import "meshtrade/compliance/client/v1/verification_status.proto";
 
 option go_package = "github.com/meshtrade/api/go/compliance/client/v1;client_v1";
@@ -76,6 +77,19 @@ message Client {
   }];
 
   /*
+     A short, abbreviated name for the client, used for compact display
+     in tables, lists, and other space-constrained UI contexts.
+     Must be 3-4 uppercase alphanumeric characters (e.g., "BTC", "MSFT") or blank.
+  */
+  string short_name = 5 [(buf.validate.field) = {
+    cel: {
+      id: "short_name.format.optional"
+      message: "short_name must be empty or 3-4 uppercase alphanumeric characters"
+      expression: "size(this) == 0 || this.matches('^[A-Z0-9]{3,4}$')"
+    }
+  }];
+
+  /*
      Contains the specific data for the legal entity type.
      Only one of these may be set at a time.
   */
@@ -83,29 +97,29 @@ message Client {
     /*
        Set when the legal entity is an individual human being.
     */
-    meshtrade.compliance.client.v1.NaturalPerson natural_person = 5;
+    meshtrade.compliance.client.v1.NaturalPerson natural_person = 6;
 
     /*
        Set when the legal entity is a company or corporation.
     */
-    meshtrade.compliance.client.v1.Company company = 6;
+    meshtrade.compliance.client.v1.Company company = 7;
 
     /*
        Set when the legal entity is an investment fund.
     */
-    meshtrade.compliance.client.v1.Fund fund = 7;
+    meshtrade.compliance.client.v1.Fund fund = 8;
 
     /*
        Set when the legal entity is a trust.
     */
-    meshtrade.compliance.client.v1.Trust trust = 8;
+    meshtrade.compliance.client.v1.Trust trust = 9;
   }
 
   /*
      The definitive, most recent compliance status of the client (e.g., VERIFICATION_STATUS_VERIFIED, VERIFICATION_STATUS_FAILED).
      Must always be a valid field
   */
-  meshtrade.compliance.client.v1.VerificationStatus verification_status = 9 [(buf.validate.field) = {
+  meshtrade.compliance.client.v1.VerificationStatus verification_status = 10 [(buf.validate.field) = {
     required: true
     enum: {defined_only: true}
   }];
@@ -113,9 +127,9 @@ message Client {
   /*
      The resource name of the client (acting as a verifier) that last set the
      `verification_status`. This provides an audit trail for status changes.
-     System set when verification_status changes.
+     System controlled.
   */
-  string verification_authority = 10 [(buf.validate.field) = {
+  string verification_authority = 11 [(buf.validate.field) = {
     cel: {
       id: "verification_authority.format.optional"
       message: "verification_authority must be empty or in the format compliance/clients/{ULIDv2}"
@@ -124,16 +138,66 @@ message Client {
   }];
 
   /*
+     The resource name of the client (acting as a verifier) that last set the
+     `verification_status`. This provides an audit trail for status changes.
+     System controlled.
+  */
+  string verification_authority_display_name = 12 [(buf.validate.field) = {
+    string: {max_len: 255}
+  }];
+
+  /*
      The timestamp when the `verification_status` was last set to a conclusive
      state, specifically `VERIFICATION_STATUS_VERIFIED`.
      System set when verification_status changes to VERIFICATION_STATUS_VERIFIED.
   */
-  google.protobuf.Timestamp verification_date = 11;
+  google.protobuf.Timestamp verification_date = 13;
 
   /*
      The timestamp indicating when the client's next periodic compliance review
      is due. This field drives re-verification workflows.
      Optional for Verification.
   */
-  google.protobuf.Timestamp next_verification_date = 12;
+  google.protobuf.Timestamp next_verification_date = 14;
+
+  /*
+     The date when the client was first registered on the platform.
+     System set on creation.
+  */
+  google.protobuf.Timestamp creation_date = 15;
+
+  /*
+     The operational status of the client on the platform (e.g., active, inactive).
+  */
+  meshtrade.compliance.client.v1.ClientStatus status = 16 [(buf.validate.field) = {
+    enum: {defined_only: true}
+  }];
+
+  /*
+     A human-readable reason for the current verification status.
+     For example, this may contain the reason why a verification attempt failed.
+  */
+  string verification_status_reason = 17 [(buf.validate.field) = {
+    string: {max_len: 1000}
+  }];
+
+  /*
+     A free-text description of the client.
+  */
+  string description = 18 [(buf.validate.field) = {
+    string: {max_len: 2000}
+  }];
+
+  /*
+     The version identifier of the Platform-as-a-Service agreement accepted by the client.
+  */
+  string paas_agreement_version = 19 [(buf.validate.field) = {
+    string: {max_len: 100}
+  }];
+
+  /*
+     The role type identifiers that users within this client's group structure may be assigned.
+     These are integer representations of the role enums.
+  */
+  repeated int32 roles = 20;
 }

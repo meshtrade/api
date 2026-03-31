@@ -7,6 +7,7 @@
 package client_v1
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -23,33 +24,35 @@ const (
 
 // IndustryClassification holds the detailed industry classification for a business entity
 // using the GICS (Global Industry Classification Standard) hierarchy.
-// GICS is a four-tiered, hierarchical industry classification system. Capturing all
-// four levels provides a complete and precise profile for risk assessment.
+//
+// DESIGN NOTE: All codes are defined as 'string' rather than 'int' to preserve
+// leading zeros (e.g., "05") which would be truncated by integer types,
+// and to treat these values as unique identifiers rather than numeric quantities.
 type IndustryClassification struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// The 2-digit GICS Sector code, representing the highest level of the hierarchy.
-	// Example: "45" for the "Information Technology" sector.
+	// The 2-digit GICS Sector code.
+	// Validation: If set, must be exactly 2 digits.
 	SectorCode string `protobuf:"bytes,1,opt,name=sector_code,json=sectorCode,proto3" json:"sector_code,omitempty"`
 	// The human-readable name of the GICS Sector.
-	// Example: "Information Technology"
+	// Validation: Max 255 characters.
 	SectorName string `protobuf:"bytes,2,opt,name=sector_name,json=sectorName,proto3" json:"sector_name,omitempty"`
 	// The 4-digit GICS Industry Group code.
-	// Example: "4510" for the "Software & Services" industry group.
+	// Validation: If set, must be exactly 4 digits.
 	IndustryGroupCode string `protobuf:"bytes,3,opt,name=industry_group_code,json=industryGroupCode,proto3" json:"industry_group_code,omitempty"`
 	// The human-readable name of the GICS Industry Group.
-	// Example: "Software & Services"
+	// Validation: Max 255 characters.
 	IndustryGroupName string `protobuf:"bytes,4,opt,name=industry_group_name,json=industryGroupName,proto3" json:"industry_group_name,omitempty"`
 	// The 6-digit GICS Industry code.
-	// Example: "451020" for the "IT Services" industry.
+	// Validation: If set, must be exactly 6 digits.
 	IndustryCode string `protobuf:"bytes,5,opt,name=industry_code,json=industryCode,proto3" json:"industry_code,omitempty"`
 	// The human-readable name of the GICS Industry.
-	// Example: "IT Services"
+	// Validation: Max 255 characters.
 	IndustryName string `protobuf:"bytes,6,opt,name=industry_name,json=industryName,proto3" json:"industry_name,omitempty"`
-	// The 8-digit GICS Sub-Industry code, representing the most granular level.
-	// Example: "45102010" for the "IT Consulting & Other Services" sub-industry.
+	// The 8-digit GICS Sub-Industry code.
+	// Validation: If set, must be exactly 8 digits.
 	SubIndustryCode string `protobuf:"bytes,7,opt,name=sub_industry_code,json=subIndustryCode,proto3" json:"sub_industry_code,omitempty"`
 	// The human-readable name of the GICS Sub-Industry.
-	// Example: "IT Consulting & Other Services"
+	// Validation: Max 255 characters.
 	SubIndustryName string `protobuf:"bytes,8,opt,name=sub_industry_name,json=subIndustryName,proto3" json:"sub_industry_name,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
@@ -145,18 +148,22 @@ var File_meshtrade_compliance_client_v1_industry_classification_proto protorefle
 
 const file_meshtrade_compliance_client_v1_industry_classification_proto_rawDesc = "" +
 	"\n" +
-	"<meshtrade/compliance/client/v1/industry_classification.proto\x12\x1emeshtrade.compliance.client.v1\"\xdc\x02\n" +
-	"\x16IndustryClassification\x12\x1f\n" +
-	"\vsector_code\x18\x01 \x01(\tR\n" +
-	"sectorCode\x12\x1f\n" +
-	"\vsector_name\x18\x02 \x01(\tR\n" +
-	"sectorName\x12.\n" +
-	"\x13industry_group_code\x18\x03 \x01(\tR\x11industryGroupCode\x12.\n" +
-	"\x13industry_group_name\x18\x04 \x01(\tR\x11industryGroupName\x12#\n" +
-	"\rindustry_code\x18\x05 \x01(\tR\findustryCode\x12#\n" +
-	"\rindustry_name\x18\x06 \x01(\tR\findustryName\x12*\n" +
-	"\x11sub_industry_code\x18\a \x01(\tR\x0fsubIndustryCode\x12*\n" +
-	"\x11sub_industry_name\x18\b \x01(\tR\x0fsubIndustryNameBc\n" +
+	"<meshtrade/compliance/client/v1/industry_classification.proto\x12\x1emeshtrade.compliance.client.v1\x1a\x1bbuf/validate/validate.proto\"\x95\a\n" +
+	"\x16IndustryClassification\x12\x99\x01\n" +
+	"\vsector_code\x18\x01 \x01(\tBx\xbaHu\xba\x01r\n" +
+	"\x12sector_code.format\x12-sector_code must be empty or exactly 2 digits\x1a-size(this) == 0 || this.matches('^[0-9]{2}$')R\n" +
+	"sectorCode\x12)\n" +
+	"\vsector_name\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R\n" +
+	"sectorName\x12\xbb\x01\n" +
+	"\x13industry_group_code\x18\x03 \x01(\tB\x8a\x01\xbaH\x86\x01\xba\x01\x82\x01\n" +
+	"\x1aindustry_group_code.format\x125industry_group_code must be empty or exactly 4 digits\x1a-size(this) == 0 || this.matches('^[0-9]{4}$')R\x11industryGroupCode\x128\n" +
+	"\x13industry_group_name\x18\x04 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R\x11industryGroupName\x12\xa1\x01\n" +
+	"\rindustry_code\x18\x05 \x01(\tB|\xbaHy\xba\x01v\n" +
+	"\x14industry_code.format\x12/industry_code must be empty or exactly 6 digits\x1a-size(this) == 0 || this.matches('^[0-9]{6}$')R\findustryCode\x12-\n" +
+	"\rindustry_name\x18\x06 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R\findustryName\x12\xb2\x01\n" +
+	"\x11sub_industry_code\x18\a \x01(\tB\x85\x01\xbaH\x81\x01\xba\x01~\n" +
+	"\x18sub_industry_code.format\x123sub_industry_code must be empty or exactly 8 digits\x1a-size(this) == 0 || this.matches('^[0-9]{8}$')R\x0fsubIndustryCode\x124\n" +
+	"\x11sub_industry_name\x18\b \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R\x0fsubIndustryNameBc\n" +
 	"%co.meshtrade.api.compliance.client.v1Z:github.com/meshtrade/api/go/compliance/client/v1;client_v1b\x06proto3"
 
 var (

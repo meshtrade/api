@@ -2,61 +2,81 @@ syntax = "proto3";
 
 package meshtrade.compliance.client.v1;
 
+import "buf/validate/validate.proto";
+
 option go_package = "github.com/meshtrade/api/go/compliance/client/v1;client_v1";
 option java_package = "co.meshtrade.api.compliance.client.v1";
 
 /*
    IndustryClassification holds the detailed industry classification for a business entity
    using the GICS (Global Industry Classification Standard) hierarchy.
-   GICS is a four-tiered, hierarchical industry classification system. Capturing all
-   four levels provides a complete and precise profile for risk assessment.
+
+   DESIGN NOTE: All codes are defined as 'string' rather than 'int' to preserve
+   leading zeros (e.g., "05") which would be truncated by integer types,
+   and to treat these values as unique identifiers rather than numeric quantities.
 */
 message IndustryClassification {
   /*
-     The 2-digit GICS Sector code, representing the highest level of the hierarchy.
-     Example: "45" for the "Information Technology" sector.
+     The 2-digit GICS Sector code.
+     Validation: If set, must be exactly 2 digits.
   */
-  string sector_code = 1;
+  string sector_code = 1 [(buf.validate.field).cel = {
+    id: "sector_code.format"
+    message: "sector_code must be empty or exactly 2 digits"
+    expression: "size(this) == 0 || this.matches('^[0-9]{2}$')"
+  }];
 
   /*
      The human-readable name of the GICS Sector.
-     Example: "Information Technology"
+     Validation: Max 255 characters.
   */
-  string sector_name = 2;
+  string sector_name = 2 [(buf.validate.field).string = {max_len: 255}];
 
   /*
      The 4-digit GICS Industry Group code.
-     Example: "4510" for the "Software & Services" industry group.
+     Validation: If set, must be exactly 4 digits.
   */
-  string industry_group_code = 3;
+  string industry_group_code = 3 [(buf.validate.field).cel = {
+    id: "industry_group_code.format"
+    message: "industry_group_code must be empty or exactly 4 digits"
+    expression: "size(this) == 0 || this.matches('^[0-9]{4}$')"
+  }];
 
   /*
      The human-readable name of the GICS Industry Group.
-     Example: "Software & Services"
+     Validation: Max 255 characters.
   */
-  string industry_group_name = 4;
+  string industry_group_name = 4 [(buf.validate.field).string = {max_len: 255}];
 
   /*
      The 6-digit GICS Industry code.
-     Example: "451020" for the "IT Services" industry.
+     Validation: If set, must be exactly 6 digits.
   */
-  string industry_code = 5;
+  string industry_code = 5 [(buf.validate.field).cel = {
+    id: "industry_code.format"
+    message: "industry_code must be empty or exactly 6 digits"
+    expression: "size(this) == 0 || this.matches('^[0-9]{6}$')"
+  }];
 
   /*
      The human-readable name of the GICS Industry.
-     Example: "IT Services"
+     Validation: Max 255 characters.
   */
-  string industry_name = 6;
+  string industry_name = 6 [(buf.validate.field).string = {max_len: 255}];
 
   /*
-     The 8-digit GICS Sub-Industry code, representing the most granular level.
-     Example: "45102010" for the "IT Consulting & Other Services" sub-industry.
+     The 8-digit GICS Sub-Industry code.
+     Validation: If set, must be exactly 8 digits.
   */
-  string sub_industry_code = 7;
+  string sub_industry_code = 7 [(buf.validate.field).cel = {
+    id: "sub_industry_code.format"
+    message: "sub_industry_code must be empty or exactly 8 digits"
+    expression: "size(this) == 0 || this.matches('^[0-9]{8}$')"
+  }];
 
   /*
      The human-readable name of the GICS Sub-Industry.
-     Example: "IT Consulting & Other Services"
+     Validation: Max 255 characters.
   */
-  string sub_industry_name = 8;
+  string sub_industry_name = 8 [(buf.validate.field).string = {max_len: 255}];
 }

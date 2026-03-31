@@ -16,17 +16,25 @@ var _ ClientService = &MockClientService{}
 
 // MockClientService is a mock implementation of the ClientServiceClientInterface interface.
 type MockClientService struct {
-	mutex                         sync.Mutex
-	T                             *testing.T
-	GroupValue                    string
-	CreateClientFunc              func(t *testing.T, m *MockClientService, ctx context.Context, request *CreateClientRequest) (*Client, error)
-	CreateClientFuncInvocations   int
-	GetClientFunc                 func(t *testing.T, m *MockClientService, ctx context.Context, request *GetClientRequest) (*Client, error)
-	GetClientFuncInvocations      int
-	GetGroupClientFunc            func(t *testing.T, m *MockClientService, ctx context.Context, request *GetGroupClientRequest) (*Client, error)
-	GetGroupClientFuncInvocations int
-	ListClientsFunc               func(t *testing.T, m *MockClientService, ctx context.Context, request *ListClientsRequest) (*ListClientsResponse, error)
-	ListClientsFuncInvocations    int
+	mutex                                  sync.Mutex
+	T                                      *testing.T
+	GroupValue                             string
+	CreateClientFunc                       func(t *testing.T, m *MockClientService, ctx context.Context, request *CreateClientRequest) (*Client, error)
+	CreateClientFuncInvocations            int
+	GetClientFunc                          func(t *testing.T, m *MockClientService, ctx context.Context, request *GetClientRequest) (*Client, error)
+	GetClientFuncInvocations               int
+	GetGroupClientFunc                     func(t *testing.T, m *MockClientService, ctx context.Context, request *GetGroupClientRequest) (*Client, error)
+	GetGroupClientFuncInvocations          int
+	UpdateClientFunc                       func(t *testing.T, m *MockClientService, ctx context.Context, request *UpdateClientRequest) (*Client, error)
+	UpdateClientFuncInvocations            int
+	StartClientVerificationFunc            func(t *testing.T, m *MockClientService, ctx context.Context, request *StartClientVerificationRequest) (*Client, error)
+	StartClientVerificationFuncInvocations int
+	FailClientVerificationFunc             func(t *testing.T, m *MockClientService, ctx context.Context, request *FailClientVerificationRequest) (*Client, error)
+	FailClientVerificationFuncInvocations  int
+	MarkClientVerifiedFunc                 func(t *testing.T, m *MockClientService, ctx context.Context, request *MarkClientVerifiedRequest) (*Client, error)
+	MarkClientVerifiedFuncInvocations      int
+	ListClientsFunc                        func(t *testing.T, m *MockClientService, ctx context.Context, request *ListClientsRequest) (*ListClientsResponse, error)
+	ListClientsFuncInvocations             int
 }
 
 // Close is a no-op for the mock implementation.
@@ -42,12 +50,16 @@ func (m *MockClientService) Group() string {
 // WithGroup returns a shallow copy of the mock with the given group value.
 func (m *MockClientService) WithGroup(group string) ClientServiceClientInterface {
 	return &MockClientService{
-		T:                  m.T,
-		GroupValue:         group,
-		CreateClientFunc:   m.CreateClientFunc,
-		GetClientFunc:      m.GetClientFunc,
-		GetGroupClientFunc: m.GetGroupClientFunc,
-		ListClientsFunc:    m.ListClientsFunc,
+		T:                           m.T,
+		GroupValue:                  group,
+		CreateClientFunc:            m.CreateClientFunc,
+		GetClientFunc:               m.GetClientFunc,
+		GetGroupClientFunc:          m.GetGroupClientFunc,
+		UpdateClientFunc:            m.UpdateClientFunc,
+		StartClientVerificationFunc: m.StartClientVerificationFunc,
+		FailClientVerificationFunc:  m.FailClientVerificationFunc,
+		MarkClientVerifiedFunc:      m.MarkClientVerifiedFunc,
+		ListClientsFunc:             m.ListClientsFunc,
 	}
 }
 
@@ -79,6 +91,46 @@ func (m *MockClientService) GetGroupClient(ctx context.Context, request *GetGrou
 		return nil, nil
 	}
 	return m.GetGroupClientFunc(m.T, m, ctx, request)
+}
+
+func (m *MockClientService) UpdateClient(ctx context.Context, request *UpdateClientRequest) (*Client, error) {
+	m.mutex.Lock()
+	m.UpdateClientFuncInvocations++
+	m.mutex.Unlock()
+	if m.UpdateClientFunc == nil {
+		return nil, nil
+	}
+	return m.UpdateClientFunc(m.T, m, ctx, request)
+}
+
+func (m *MockClientService) StartClientVerification(ctx context.Context, request *StartClientVerificationRequest) (*Client, error) {
+	m.mutex.Lock()
+	m.StartClientVerificationFuncInvocations++
+	m.mutex.Unlock()
+	if m.StartClientVerificationFunc == nil {
+		return nil, nil
+	}
+	return m.StartClientVerificationFunc(m.T, m, ctx, request)
+}
+
+func (m *MockClientService) FailClientVerification(ctx context.Context, request *FailClientVerificationRequest) (*Client, error) {
+	m.mutex.Lock()
+	m.FailClientVerificationFuncInvocations++
+	m.mutex.Unlock()
+	if m.FailClientVerificationFunc == nil {
+		return nil, nil
+	}
+	return m.FailClientVerificationFunc(m.T, m, ctx, request)
+}
+
+func (m *MockClientService) MarkClientVerified(ctx context.Context, request *MarkClientVerifiedRequest) (*Client, error) {
+	m.mutex.Lock()
+	m.MarkClientVerifiedFuncInvocations++
+	m.mutex.Unlock()
+	if m.MarkClientVerifiedFunc == nil {
+		return nil, nil
+	}
+	return m.MarkClientVerifiedFunc(m.T, m, ctx, request)
 }
 
 func (m *MockClientService) ListClients(ctx context.Context, request *ListClientsRequest) (*ListClientsResponse, error) {

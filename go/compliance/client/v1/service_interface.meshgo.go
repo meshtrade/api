@@ -29,6 +29,43 @@ type ClientService interface {
 	// the specified group, using the group's resource name as the lookup key.
 	GetGroupClient(ctx context.Context, request *GetGroupClientRequest) (*Client, error)
 
+	// UpdateClient updates a single client's compliance profile.
+	//
+	// Update access is restricted based on the client's current verification status:
+	//
+	// When status is VERIFICATION_STATUS_NOT_STARTED or VERIFICATION_STATUS_FAILED:
+	//   - Full update access to all mutable fields.
+	//   - The following fields are never updatable: name, owner, owners,
+	//     verification_status, verification_date, next_verification_date.
+	//
+	// When status is VERIFICATION_STATUS_PENDING or VERIFICATION_STATUS_VERIFIED:
+	//   - Only the verification authority may update the client.
+	//   - The following fields remain non-updatable: name, owner, owners.
+	UpdateClient(ctx context.Context, request *UpdateClientRequest) (*Client, error)
+
+	// StartClientVerification transitions a client to VERIFICATION_STATUS_PENDING.
+	//
+	// Valid only when the client's current status is VERIFICATION_STATUS_NOT_STARTED
+	// or VERIFICATION_STATUS_FAILED. Callable by either the verification authority
+	// or the client's owning group.
+	StartClientVerification(ctx context.Context, request *StartClientVerificationRequest) (*Client, error)
+
+	// FailClientVerification transitions a client to VERIFICATION_STATUS_FAILED.
+	//
+	// Valid only when the client's current status is VERIFICATION_STATUS_PENDING.
+	// Only callable by the verification authority. Requires comments explaining
+	// the reason for failure.
+	FailClientVerification(ctx context.Context, request *FailClientVerificationRequest) (*Client, error)
+
+	// MarkClientVerified transitions a client to VERIFICATION_STATUS_VERIFIED.
+	//
+	// Valid only when the client's current status is VERIFICATION_STATUS_PENDING.
+	// Only callable by the verification authority. Sets verification_date to now
+	// and next_verification_date to the provided value.
+	// The next_verification_date must be after the existing verification_date and
+	// next_verification_date (if set).
+	MarkClientVerified(ctx context.Context, request *MarkClientVerifiedRequest) (*Client, error)
+
 	// ListClients retrieves a collection of client compliance profiles.
 	//
 	// This method is useful for fetching multiple client records at once.

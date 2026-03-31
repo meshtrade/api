@@ -103,6 +103,25 @@ service UserProfileService {
   }
 
   /*
+     Searches user profiles using first name, last name, or user resource name filtering.
+
+     Performs substring matching on user profile first and last names,
+     or exact matching on user resource names within the authenticated group context.
+  */
+  rpc SearchUserProfiles(SearchUserProfilesRequest) returns (SearchUserProfilesResponse) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
+      roles: [
+        ROLE_IAM_ADMIN,
+        ROLE_IAM_VIEWER,
+        ROLE_IAM_USER_PROFILE_ADMIN,
+        ROLE_IAM_USER_PROFILE_VIEWER
+      ]
+    };
+  }
+
+  /*
      Retrieves a presigned upload URL for a user profile picture.
 
      Generates a temporary upload URL that can be used to upload
@@ -269,3 +288,52 @@ message GetUserProfilePictureUploadUrlResponse {
   */
   google.protobuf.Timestamp expires_at = 2;
 }
+
+/*
+   Request message for SearchUserProfiles.
+
+   Searches user profiles by first name or last name substring matching.
+*/
+message SearchUserProfilesRequest {
+  /*
+     Optional substring to match against user profile first names.
+     The search is case-insensitive.
+  */
+  string first_name = 1 [(buf.validate.field) = {
+    string: {max_len: 255}
+  }];
+
+  /*
+     Optional substring to match against user profile last names.
+     The search is case-insensitive.
+  */
+  string last_name = 2 [(buf.validate.field) = {
+    string: {max_len: 255}
+  }];
+
+  /*
+     Optional list of user resource names to filter by.
+     Format: users/{ULIDv2}.
+     When provided, only profiles associated with the specified users are returned.
+  */
+  repeated string users = 3 [(buf.validate.field) = {
+    repeated: {
+      max_items: 100
+      items: {
+        string: {
+          pattern: "^users/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+        }
+      }
+    }
+  }];
+}
+
+/*
+   Response message for SearchUserProfiles.
+
+   Contains the collection of user profiles matching the search criteria.
+*/
+message SearchUserProfilesResponse {
+  repeated UserProfile user_profiles = 1;
+}
+

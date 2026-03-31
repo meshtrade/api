@@ -27,6 +27,8 @@ type MockUserProfileService struct {
 	GetUserProfileByUserFuncInvocations           int
 	ListUserProfilesFunc                          func(t *testing.T, m *MockUserProfileService, ctx context.Context, request *ListUserProfilesRequest) (*ListUserProfilesResponse, error)
 	ListUserProfilesFuncInvocations               int
+	SearchUserProfilesFunc                        func(t *testing.T, m *MockUserProfileService, ctx context.Context, request *SearchUserProfilesRequest) (*SearchUserProfilesResponse, error)
+	SearchUserProfilesFuncInvocations             int
 	GetUserProfilePictureUploadUrlFunc            func(t *testing.T, m *MockUserProfileService, ctx context.Context, request *GetUserProfilePictureUploadUrlRequest) (*GetUserProfilePictureUploadUrlResponse, error)
 	GetUserProfilePictureUploadUrlFuncInvocations int
 }
@@ -50,6 +52,7 @@ func (m *MockUserProfileService) WithGroup(group string) UserProfileServiceClien
 		GetUserProfileFunc:                 m.GetUserProfileFunc,
 		GetUserProfileByUserFunc:           m.GetUserProfileByUserFunc,
 		ListUserProfilesFunc:               m.ListUserProfilesFunc,
+		SearchUserProfilesFunc:             m.SearchUserProfilesFunc,
 		GetUserProfilePictureUploadUrlFunc: m.GetUserProfilePictureUploadUrlFunc,
 	}
 }
@@ -92,6 +95,16 @@ func (m *MockUserProfileService) ListUserProfiles(ctx context.Context, request *
 		return nil, nil
 	}
 	return m.ListUserProfilesFunc(m.T, m, ctx, request)
+}
+
+func (m *MockUserProfileService) SearchUserProfiles(ctx context.Context, request *SearchUserProfilesRequest) (*SearchUserProfilesResponse, error) {
+	m.mutex.Lock()
+	m.SearchUserProfilesFuncInvocations++
+	m.mutex.Unlock()
+	if m.SearchUserProfilesFunc == nil {
+		return nil, nil
+	}
+	return m.SearchUserProfilesFunc(m.T, m, ctx, request)
 }
 
 func (m *MockUserProfileService) GetUserProfilePictureUploadUrl(ctx context.Context, request *GetUserProfilePictureUploadUrlRequest) (*GetUserProfilePictureUploadUrlResponse, error) {

@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package meshtrade.compliance.client.v1;
+
+option go_package = "github.com/meshtrade/api/go/compliance/client/v1;client_v1";
+option java_package = "co.meshtrade.api.compliance.client.v1";
+
+/*
+   ClientStatus defines the operational status of a client on the platform.
+*/
+enum ClientStatus {
+  /*
+     Unknown or not specified.
+     This is a default value to prevent accidental assignment and should not be used.
+  */
+  CLIENT_STATUS_UNSPECIFIED = 0;
+
+  /*
+     The client is active and can operate on the platform.
+  */
+  CLIENT_STATUS_ACTIVE = 1;
+
+  /*
+     The client has been deactivated and cannot operate on the platform.
+  */
+  CLIENT_STATUS_INACTIVE = 2;
+
+  /*
+     The client's profile is still being completed and is not yet ready for verification.
+  */
+  CLIENT_STATUS_COMPLETE_PROFILE = 3;
+}
