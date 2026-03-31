@@ -19,6 +19,7 @@ export * from "./decimal_pb";
 export * from "./ledger_pb";
 export * from "./sorting_pb";
 export * from "./time_of_day_pb";
+export * from "./timezone_pb";
 export * from "./token_pb";
 
 // ===================================================================
@@ -40,4 +41,5 @@ export * from "./amountWrapper";
 export * from "./decimalConversions";
 export * from "./ledger";
 export * from "./token";
+export * from "./timezone";
 export * from "./tokenWrapper";

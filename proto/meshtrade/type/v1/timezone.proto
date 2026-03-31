@@ -1,0 +1,196 @@
+syntax = "proto3";
+
+package meshtrade.type.v1;
+
+option go_package = "github.com/meshtrade/api/go/type/v1;type_v1";
+option java_package = "co.meshtrade.api.type.v1";
+
+// Timezone represents IANA time zones.
+//
+// Each entry maps to a unique IANA zone with distinct UTC offset or
+// daylight-saving rules. No two entries share the same offset and DST behaviour.
+//
+// Values are ordered by UTC offset: UTC+0 through UTC+13, then UTC-1 through UTC-10.
+//
+// Values are based on the IANA Time Zone Database (tzdata).
+// See: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+enum Timezone {
+  // Default value, must not be used.
+  TIMEZONE_UNSPECIFIED = 0;
+
+  // --- UTC+0 ---
+
+  // UTC+0 — Coordinated Universal Time
+  TIMEZONE_UTC = 1;
+
+  // --- UTC+0/+1 ---
+
+  // UTC+0/+1 — Greenwich Mean Time / Western European Time (Europe/London)
+  TIMEZONE_EUROPE_LONDON = 2;
+
+  // UTC+0/+1 — Western European Time (Africa/Casablanca)
+  TIMEZONE_AFRICA_CASABLANCA = 3;
+
+  // --- UTC+1 ---
+
+  // UTC+1 — West Africa Time (Africa/Lagos)
+  TIMEZONE_AFRICA_LAGOS = 4;
+
+  // --- UTC+1/+2 ---
+
+  // UTC+1/+2 — Central European Time (Europe/Paris)
+  TIMEZONE_EUROPE_PARIS = 5;
+
+  // --- UTC+2 ---
+
+  // UTC+2 — South Africa Standard Time (Africa/Johannesburg)
+  TIMEZONE_AFRICA_JOHANNESBURG = 6;
+
+  // UTC+2 — Central Africa Time (Africa/Maputo)
+  TIMEZONE_AFRICA_MAPUTO = 7;
+
+  // --- UTC+2/+3 ---
+
+  // UTC+2/+3 — Eastern European Time (Europe/Athens)
+  TIMEZONE_EUROPE_ATHENS = 8;
+
+  // UTC+2/+3 — Eastern European Time (Africa/Cairo)
+  TIMEZONE_AFRICA_CAIRO = 9;
+
+  // UTC+2/+3 — Israel Standard Time (Asia/Jerusalem)
+  TIMEZONE_ASIA_JERUSALEM = 10;
+
+  // --- UTC+3 ---
+
+  // UTC+3 — Moscow Standard Time (Europe/Moscow)
+  TIMEZONE_EUROPE_MOSCOW = 11;
+
+  // UTC+3 — Turkey Time (Europe/Istanbul)
+  TIMEZONE_EUROPE_ISTANBUL = 12;
+
+  // UTC+3 — East Africa Time (Africa/Nairobi)
+  TIMEZONE_AFRICA_NAIROBI = 13;
+
+  // UTC+3 — Arabia Standard Time (Asia/Riyadh)
+  TIMEZONE_ASIA_RIYADH = 14;
+
+  // --- UTC+3:30 ---
+
+  // UTC+3:30/+4:30 — Iran Standard Time (Asia/Tehran)
+  TIMEZONE_ASIA_TEHRAN = 15;
+
+  // --- UTC+4 ---
+
+  // UTC+4 — Gulf Standard Time (Asia/Dubai)
+  TIMEZONE_ASIA_DUBAI = 16;
+
+  // --- UTC+5 ---
+
+  // UTC+5 — Pakistan Standard Time (Asia/Karachi)
+  TIMEZONE_ASIA_KARACHI = 17;
+
+  // --- UTC+5:30 ---
+
+  // UTC+5:30 — India Standard Time (Asia/Kolkata)
+  TIMEZONE_ASIA_KOLKATA = 18;
+
+  // --- UTC+6 ---
+
+  // UTC+6 — Bangladesh Standard Time (Asia/Dhaka)
+  TIMEZONE_ASIA_DHAKA = 19;
+
+  // --- UTC+7 ---
+
+  // UTC+7 — Indochina Time (Asia/Bangkok)
+  TIMEZONE_ASIA_BANGKOK = 20;
+
+  // --- UTC+8 ---
+
+  // UTC+8 — China Standard Time (Asia/Shanghai)
+  TIMEZONE_ASIA_SHANGHAI = 21;
+
+  // UTC+8 — Singapore Time (Asia/Singapore)
+  TIMEZONE_ASIA_SINGAPORE = 22;
+
+  // UTC+8 — Hong Kong Time (Asia/Hong_Kong)
+  TIMEZONE_ASIA_HONG_KONG = 23;
+
+  // UTC+8 — Australian Western Standard Time (Australia/Perth)
+  TIMEZONE_AUSTRALIA_PERTH = 24;
+
+  // --- UTC+9 ---
+
+  // UTC+9 — Japan Standard Time (Asia/Tokyo)
+  TIMEZONE_ASIA_TOKYO = 25;
+
+  // UTC+9 — Korea Standard Time (Asia/Seoul)
+  TIMEZONE_ASIA_SEOUL = 26;
+
+  // --- UTC+9:30/+10:30 ---
+
+  // UTC+9:30/+10:30 — Australian Central Time (Australia/Adelaide)
+  TIMEZONE_AUSTRALIA_ADELAIDE = 27;
+
+  // --- UTC+10 ---
+
+  // UTC+10 — Australian Eastern Standard Time, no DST (Australia/Brisbane)
+  TIMEZONE_AUSTRALIA_BRISBANE = 28;
+
+  // --- UTC+10/+11 ---
+
+  // UTC+10/+11 — Australian Eastern Time (Australia/Sydney)
+  TIMEZONE_AUSTRALIA_SYDNEY = 29;
+
+  // --- UTC+12/+13 ---
+
+  // UTC+12/+13 — New Zealand Time (Pacific/Auckland)
+  TIMEZONE_PACIFIC_AUCKLAND = 30;
+
+  // --- UTC-3 ---
+
+  // UTC-3 — Brasilia Time (America/Sao_Paulo)
+  TIMEZONE_AMERICA_SAO_PAULO = 31;
+
+  // UTC-3 — Argentina Time (America/Argentina/Buenos_Aires)
+  TIMEZONE_AMERICA_ARGENTINA_BUENOS_AIRES = 32;
+
+  // --- UTC-4 ---
+
+  // UTC-4 — Venezuela Time (America/Caracas)
+  TIMEZONE_AMERICA_CARACAS = 33;
+
+  // --- UTC-4/-3 ---
+
+  // UTC-4/-3 — Chile Time (America/Santiago)
+  TIMEZONE_AMERICA_SANTIAGO = 34;
+
+  // --- UTC-5/-4 ---
+
+  // UTC-5/-4 — Eastern Time (America/New_York)
+  TIMEZONE_AMERICA_NEW_YORK = 35;
+
+  // --- UTC-6/-5 ---
+
+  // UTC-6/-5 — Central Time (America/Chicago)
+  TIMEZONE_AMERICA_CHICAGO = 36;
+
+  // --- UTC-7/-6 ---
+
+  // UTC-7/-6 — Mountain Time (America/Denver)
+  TIMEZONE_AMERICA_DENVER = 37;
+
+  // --- UTC-8/-7 ---
+
+  // UTC-8/-7 — Pacific Time (America/Los_Angeles)
+  TIMEZONE_AMERICA_LOS_ANGELES = 38;
+
+  // --- UTC-9/-8 ---
+
+  // UTC-9/-8 — Alaska Time (America/Anchorage)
+  TIMEZONE_AMERICA_ANCHORAGE = 39;
+
+  // --- UTC-10 ---
+
+  // UTC-10 — Hawaii-Aleutian Standard Time (Pacific/Honolulu)
+  TIMEZONE_PACIFIC_HONOLULU = 40;
+}
