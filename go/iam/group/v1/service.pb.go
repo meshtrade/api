@@ -220,7 +220,11 @@ type SearchGroupsRequest struct {
 	// Case-insensitive partial matching.
 	Description string `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
 	// Optional sorting configuration.
-	Sorting       *SearchGroupsRequest_Sorting `protobuf:"bytes,3,opt,name=sorting,proto3" json:"sorting,omitempty"`
+	Sorting *SearchGroupsRequest_Sorting `protobuf:"bytes,3,opt,name=sorting,proto3" json:"sorting,omitempty"`
+	// Optional list of group resource names to filter by.
+	// Format: groups/{ULIDv2}.
+	// When provided, only groups matching the specified names are returned.
+	Names         []string `protobuf:"bytes,4,rep,name=names,proto3" json:"names,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -272,6 +276,13 @@ func (x *SearchGroupsRequest) GetDescription() string {
 func (x *SearchGroupsRequest) GetSorting() *SearchGroupsRequest_Sorting {
 	if x != nil {
 		return x.Sorting
+	}
+	return nil
+}
+
+func (x *SearchGroupsRequest) GetNames() []string {
+	if x != nil {
+		return x.Names
 	}
 	return nil
 }
@@ -494,13 +505,14 @@ const file_meshtrade_iam_group_v1_service_proto_rawDesc = "" +
 	"\vfield.valid\x122field must be one of: name, display_name, or empty\x1a$this in ['', 'name', 'display_name']r\x16R\x00R\x04nameR\fdisplay_nameR\x05field\x125\n" +
 	"\x05order\x18\x02 \x01(\x0e2\x1f.meshtrade.type.v1.SortingOrderR\x05order\"K\n" +
 	"\x12ListGroupsResponse\x125\n" +
-	"\x06groups\x18\x01 \x03(\v2\x1d.meshtrade.iam.group.v1.GroupR\x06groups\"\xf0\x04\n" +
+	"\x06groups\x18\x01 \x03(\v2\x1d.meshtrade.iam.group.v1.GroupR\x06groups\"\xc5\x05\n" +
 	"\x13SearchGroupsRequest\x12\x93\x01\n" +
 	"\fdisplay_name\x18\x01 \x01(\tBp\xbaHm\xba\x01e\n" +
 	"\x17display_name.max_length\x127display_name search term must not exceed 255 characters\x1a\x11size(this) <= 255r\x03\x18\xff\x01R\vdisplayName\x12\x90\x01\n" +
 	"\vdescription\x18\x02 \x01(\tBn\xbaHk\xba\x01c\n" +
 	"\x16description.max_length\x126description search term must not exceed 255 characters\x1a\x11size(this) <= 255r\x03\x18\xff\x01R\vdescription\x12M\n" +
-	"\asorting\x18\x03 \x01(\v23.meshtrade.iam.group.v1.SearchGroupsRequest.SortingR\asorting\x1a\xe0\x01\n" +
+	"\asorting\x18\x03 \x01(\v23.meshtrade.iam.group.v1.SearchGroupsRequest.SortingR\asorting\x12S\n" +
+	"\x05names\x18\x04 \x03(\tB=\xbaH:\x92\x017\x10d\"3r12/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$R\x05names\x1a\xe0\x01\n" +
 	"\aSorting\x12\x9d\x01\n" +
 	"\x05field\x18\x01 \x01(\tB\x86\x01\xbaH\x82\x01\xba\x01g\n" +
 	"\vfield.valid\x122field must be one of: name, display_name, or empty\x1a$this in ['', 'name', 'display_name']r\x16R\x00R\x04nameR\fdisplay_nameR\x05field\x125\n" +
