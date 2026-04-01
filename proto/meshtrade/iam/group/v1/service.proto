@@ -246,6 +246,22 @@ message SearchGroupsRequest {
      Optional sorting configuration.
   */
   Sorting sorting = 3;
+
+  /*
+     Optional list of group resource names to filter by.
+     Format: groups/{ULIDv2}.
+     When provided, only groups matching the specified names are returned.
+  */
+  repeated string names = 4 [(buf.validate.field) = {
+    repeated: {
+      max_items: 100
+      items: {
+        string: {
+          pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+        }
+      }
+    }
+  }];
 }
 
 /*
