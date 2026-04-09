@@ -30,7 +30,7 @@ message Transfer {
   }];
 
   /*
-     The resource name of the parent group that owns this account.
+     The resource name of the parent group that owns this transfer.
      This field is required on creation and establishes the direct ownership link.
      Format: groups/{ULIDv2}.
   */
@@ -58,7 +58,7 @@ message Transfer {
   }];
 
   /*
-     Number is a monotonic sequence number for the transfer and serves as a human readable identifier for the entity
+     Number is a monotonic increasing sequence number for the transfer and serves as a human readable identifier for the entity
      This is system generated and immutable.
   */
   string number = 4;
@@ -93,7 +93,7 @@ message Transfer {
   meshtrade.type.v1.Amount amount = 7 [(buf.validate.field) = {required: true}];
 
   /*
-     Corresponding ledger transaction identifier for the transaction that performed the transfer.
+     Corresponding ledger transaction resource name for the transaction that performed the transfer.
      Can be used to determine the state of the transfer.
   */
   string transaction = 8 [(buf.validate.field) = {required: true}];
