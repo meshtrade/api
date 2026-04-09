@@ -69,10 +69,10 @@ service TransferService {
   }
 
   /*
-     Lists all accounts within the authenticated group's hierarchical scope.
+     Lists all transfers within the authenticated group's hierarchical scope.
 
-     Returns the complete set of accounts accessible to the executing context,
-     including accounts owned by the group and all descendant groups.
+     Returns the complete set of transfers accessible to the executing context,
+     including transfers owned by the group and all descendant groups.
   */
   rpc ListTransfers(ListTransfersRequest) returns (ListTransfersResponse) {
     option (meshtrade.option.method_options.v1.method_options) = {
