@@ -1,0 +1,142 @@
+syntax = "proto3";
+
+package meshtrade.wallet.transfer.v1;
+
+import "buf/validate/validate.proto";
+import "meshtrade/type/v1/amount.proto";
+import "meshtrade/type/v1/decimal.proto";
+
+option go_package = "github.com/meshtrade/api/go/wallet/transfer/v1;transfer_v1";
+option java_package = "co.meshtrade.api.wallet.transfer.v1";
+
+/*
+   Transfer resource for transferring assets between accounts.
+
+   Transfers can be used to move assets between accounts, a transfer can currently only be done between two accounts on the SAME ledger.
+*/
+message Transfer {
+  /*
+     The unique resource name for the transfer.
+     Format: wallet/transfers/{ULIDv2}.
+     This field is system-generated and immutable upon creation.
+     Any value provided on creation is ignored.
+  */
+  string name = 1 [(buf.validate.field) = {
+    cel: {
+      id: "name.format.optional"
+      message: "name must be empty or in the format wallet/transfers/{ULIDv2}"
+      expression: "size(this) == 0 || this.matches('^wallet/transfers/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')"
+    }
+  }];
+
+  /*
+     The resource name of the parent group that owns this account.
+     This field is required on creation and establishes the direct ownership link.
+     Format: groups/{ULIDv2}.
+  */
+  string owner = 2 [(buf.validate.field) = {
+    required: true
+    string: {
+      len: 33
+      pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+    }
+  }];
+
+  /*
+     Ownership hiearchy of groups that have access to this resource in the format groups/{group_id}.
+     System set on creation.
+  */
+  repeated string owners = 3 [(buf.validate.field) = {
+    repeated: {
+      items: {
+        string: {
+          len: 33
+          pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+        }
+      }
+    }
+  }];
+
+  /*
+     Number is a monotonic sequence number for the transfer and serves as a human readable identifier for the entity
+     This is system generated and immutable.
+  */
+  string number = 4;
+
+  /*
+     The account's ledger address on the relevant ledger.
+     Format varies by ledger e.g. Ed25519 public key for Stellar/Solana,
+     secp256k1 address for Bitcoin/Ethereum.
+     The format is used to determine which ledger the transfer will be performed on.
+     Needs to have same format as the to adress field.
+  */
+  string from = 5 [(buf.validate.field) = {
+    required: true
+    string: {max_len: 255}
+  }];
+
+  /*
+     The account's ledger address on the relevant ledger.
+     Format varies by ledger e.g. Ed25519 public key for Stellar/Solana,
+     secp256k1 address for Bitcoin/Ethereum.
+     The format is used to determine which ledger the transfer will be performed on.
+     Needs to have same format as the to adress field.
+  */
+  string to = 6 [(buf.validate.field) = {
+    required: true
+    string: {max_len: 255}
+  }];
+
+  /*
+     Amount of asset being transferred
+  */
+  meshtrade.type.v1.Amount amount = 7 [(buf.validate.field) = {required: true}];
+
+  /*
+     Corresponding ledger transaction identifier for the transaction that performed the transfer.
+     Can be used to determine the state of the transfer.
+  */
+  string transaction = 8 [(buf.validate.field) = {required: true}];
+
+  /*
+     Calculated fee that was charged for the transfer
+  */
+  TransferFee fee = 9 [(buf.validate.field) = {required: true}];
+
+  /*
+     State of the transfer
+  */
+  TransferState state = 10 [(buf.validate.field) = {required: true}];
+}
+
+/*
+   TransferFee describes the calculated fee for the asset transfer
+*/
+message TransferFee {
+  /*
+     Calculated fee on the transfer
+  */
+  meshtrade.type.v1.Amount amount = 1 [(buf.validate.field) = {required: true}];
+
+  /*
+     VAT rate used for fee calculation
+  */
+  meshtrade.type.v1.Decimal vat_rate = 2 [(buf.validate.field) = {required: true}];
+}
+
+/*
+   TransferState describes the state of the transfer
+*/
+enum TransferState {
+  // Unspecified state
+  TRANSFER_STATE_UNSPECIFIED = 0;
+
+  // Transfer in progress
+  TRANSFER_STATE_IN_PROGRESS = 1;
+
+  // Transfer failed
+  TRANSFER_STATE_FAILED = 2;
+
+  // Transfer successful
+  TRANSFER_STATE_SUCCESSFUL = 3;
+}
