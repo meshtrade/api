@@ -58,7 +58,7 @@ message Transfer {
   }];
 
   /*
-     Number is a monotonic increasing sequence number for the transfer and serves as a human readable identifier for the entity
+     Number is a monotonically increasing number for the transfer and serves as a human readable identifier for the entity
      This is system generated and immutable.
   */
   string number = 4;
@@ -99,7 +99,8 @@ message Transfer {
   string transaction = 8 [(buf.validate.field) = {required: true}];
 
   /*
-     Calculated fee that was charged for the transfer
+     Calculated fee that was charged for the transfer.
+     This is set by the system when the transfer is created.
   */
   TransferFee fee = 9 [(buf.validate.field) = {required: true}];
 
