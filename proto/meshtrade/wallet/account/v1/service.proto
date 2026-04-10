@@ -529,6 +529,25 @@ message SearchAccountsRequest {
      When false, returns only stored metadata without live data.
   */
   bool populate_ledger_data = 3;
+
+  /*
+     Optional filter by direct owner group.
+     Filters on the account's 'owner' field (the immediate parent group),
+     not the 'owners' hierarchy. Only accounts whose direct owner matches
+     one of the provided groups are returned.
+     Format: groups/{ULIDv2}.
+  */
+  repeated string owner = 4 [(buf.validate.field) = {
+    repeated: {
+      max_items: 10
+      items: {
+        string: {
+          len: 33
+          pattern: "^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+        }
+      }
+    }
+  }];
 }
 
 /*
