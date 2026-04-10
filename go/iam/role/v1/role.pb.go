@@ -35,6 +35,8 @@ const (
 	Role_ROLE_WALLET_VIEWER                   Role = 1000001
 	Role_ROLE_WALLET_ACCOUNT_ADMIN            Role = 1000002
 	Role_ROLE_WALLET_ACCOUNT_VIEWER           Role = 1000003
+	Role_ROLE_WALLET_TRANSFER_ADMIN           Role = 1000004
+	Role_ROLE_WALLET_TRANSFER_VIEWER          Role = 1000005
 	Role_ROLE_COMPLIANCE_ADMIN                Role = 2000000
 	Role_ROLE_COMPLIANCE_VIEWER               Role = 2000001
 	Role_ROLE_COMPLIANCE_CLIENT_ADMIN         Role = 2000002
@@ -79,6 +81,8 @@ var (
 		1000001: "ROLE_WALLET_VIEWER",
 		1000002: "ROLE_WALLET_ACCOUNT_ADMIN",
 		1000003: "ROLE_WALLET_ACCOUNT_VIEWER",
+		1000004: "ROLE_WALLET_TRANSFER_ADMIN",
+		1000005: "ROLE_WALLET_TRANSFER_VIEWER",
 		2000000: "ROLE_COMPLIANCE_ADMIN",
 		2000001: "ROLE_COMPLIANCE_VIEWER",
 		2000002: "ROLE_COMPLIANCE_CLIENT_ADMIN",
@@ -120,6 +124,8 @@ var (
 		"ROLE_WALLET_VIEWER":                   1000001,
 		"ROLE_WALLET_ACCOUNT_ADMIN":            1000002,
 		"ROLE_WALLET_ACCOUNT_VIEWER":           1000003,
+		"ROLE_WALLET_TRANSFER_ADMIN":           1000004,
+		"ROLE_WALLET_TRANSFER_VIEWER":          1000005,
 		"ROLE_COMPLIANCE_ADMIN":                2000000,
 		"ROLE_COMPLIANCE_VIEWER":               2000001,
 		"ROLE_COMPLIANCE_CLIENT_ADMIN":         2000002,
@@ -188,13 +194,16 @@ var File_meshtrade_iam_role_v1_role_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_role_v1_role_proto_rawDesc = "" +
 	"\n" +
-	" meshtrade/iam/role/v1/role.proto\x12\x15meshtrade.iam.role.v1*\xe9\t\n" +
+	" meshtrade/iam/role/v1/role.proto\x12\x15meshtrade.iam.role.v1*\xae\n" +
+	"\n" +
 	"\x04Role\x12\x14\n" +
 	"\x10ROLE_UNSPECIFIED\x10\x00\x12\x17\n" +
 	"\x11ROLE_WALLET_ADMIN\x10\xc0\x84=\x12\x18\n" +
 	"\x12ROLE_WALLET_VIEWER\x10\xc1\x84=\x12\x1f\n" +
 	"\x19ROLE_WALLET_ACCOUNT_ADMIN\x10\u0084=\x12 \n" +
-	"\x1aROLE_WALLET_ACCOUNT_VIEWER\x10Ä=\x12\x1b\n" +
+	"\x1aROLE_WALLET_ACCOUNT_VIEWER\x10Ä=\x12 \n" +
+	"\x1aROLE_WALLET_TRANSFER_ADMIN\x10Ą=\x12!\n" +
+	"\x1bROLE_WALLET_TRANSFER_VIEWER\x10ń=\x12\x1b\n" +
 	"\x15ROLE_COMPLIANCE_ADMIN\x10\x80\x89z\x12\x1c\n" +
 	"\x16ROLE_COMPLIANCE_VIEWER\x10\x81\x89z\x12\"\n" +
 	"\x1cROLE_COMPLIANCE_CLIENT_ADMIN\x10\x82\x89z\x12#\n" +

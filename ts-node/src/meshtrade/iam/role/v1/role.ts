@@ -13,6 +13,8 @@ const roleToStringMapping: { [key in Role]: string } = {
   [Role.WALLET_VIEWER]: "Wallet Viewer",
   [Role.WALLET_ACCOUNT_ADMIN]: "Wallet Account Admin",
   [Role.WALLET_ACCOUNT_VIEWER]: "Wallet Account Viewer",
+  [Role.WALLET_TRANSFER_ADMIN]: "Wallet Transfer Admin",
+  [Role.WALLET_TRANSFER_VIEWER]: "Wallet Transfer Viewer",
 
   [Role.COMPLIANCE_ADMIN]: "Compliance Admin",
   [Role.COMPLIANCE_VIEWER]: "Compliance Viewer",
