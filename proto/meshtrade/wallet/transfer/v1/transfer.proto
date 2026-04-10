@@ -112,10 +112,12 @@ message Transfer {
   /*
      Optional description to describe the reason of the transfer
   */
-  string description = 11;
+  string description = 11 [(buf.validate.field) = {
+    string: {max_len: 255}
+  }];
 
   /*
-     Flag to indicate if description should be visible on the ledger transaction
+     Flag to indicate if description should be included in ledger and thus publically visible
   */
   bool include_in_ledger = 12;
 }
