@@ -1,0 +1,203 @@
+syntax = "proto3";
+
+package meshtrade.wallet.transfer.v1;
+
+import "buf/validate/validate.proto";
+import "meshtrade/option/method_options/v1/method_options.proto";
+import "meshtrade/type/v1/sorting.proto";
+import "meshtrade/wallet/transfer/v1/transfer.proto";
+
+option go_package = "github.com/meshtrade/api/go/wallet/transfer/v1;transfer_v1";
+option java_package = "co.meshtrade.api.wallet.transfer.v1";
+
+/*
+   TransferService manages asset transfers.
+
+   Service allows for the creation and retrieval of transfers. It can also be used
+   to monitor transfers to react to state changes.
+*/
+service TransferService {
+  /*
+     Transfer creates a transfer entity and executes a transfer on chain
+  */
+  rpc CreateTransfer(CreateTransferRequest) returns (meshtrade.wallet.transfer.v1.Transfer) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_WRITE
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
+      roles: [
+        ROLE_WALLET_ADMIN,
+        ROLE_WALLET_TRANSFER_ADMIN
+      ]
+      verification_status: VERIFICATION_STATUS_VERIFIED
+    };
+  }
+
+  /*
+     Retrieves a specific transfer by its resource identifier.
+  */
+  rpc GetTransfer(GetTransferRequest) returns (meshtrade.wallet.transfer.v1.Transfer) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
+      roles: [
+        ROLE_WALLET_ADMIN,
+        ROLE_WALLET_VIEWER,
+        ROLE_WALLET_TRANSFER_ADMIN,
+        ROLE_WALLET_TRANSFER_VIEWER
+      ]
+      verification_status: VERIFICATION_STATUS_VERIFIED
+    };
+  }
+
+  /*
+     Retrieves all transfers associated with a ledger account address.
+
+     Finds all transfers where the given ledger account address was either in the to or from field.
+  */
+  rpc SearchTransfersByAddress(SearchTransfersByAddressRequest) returns (SearchTransfersByAddressResponse) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
+      roles: [
+        ROLE_WALLET_ADMIN,
+        ROLE_WALLET_VIEWER,
+        ROLE_WALLET_TRANSFER_ADMIN,
+        ROLE_WALLET_TRANSFER_VIEWER
+      ]
+      verification_status: VERIFICATION_STATUS_VERIFIED
+    };
+  }
+
+  /*
+     Lists all transfers within the authenticated group's hierarchical scope.
+
+     Returns the complete set of transfers accessible to the executing context,
+     including transfers owned by the group and all descendant groups.
+  */
+  rpc ListTransfers(ListTransfersRequest) returns (ListTransfersResponse) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
+      roles: [
+        ROLE_WALLET_ADMIN,
+        ROLE_WALLET_VIEWER,
+        ROLE_WALLET_TRANSFER_ADMIN,
+        ROLE_WALLET_TRANSFER_VIEWER
+      ]
+      verification_status: VERIFICATION_STATUS_VERIFIED
+    };
+  }
+
+  /*
+     Monitors a transfer for real-time updates.
+
+     Supports lookup by either resource name.
+     Returns a stream of transfer states as they change.
+  */
+  rpc MonitorTransfer(MonitorTransferRequest) returns (stream Transfer) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
+      roles: [
+        ROLE_WALLET_ADMIN,
+        ROLE_WALLET_VIEWER,
+        ROLE_WALLET_TRANSFER_ADMIN,
+        ROLE_WALLET_TRANSFER_VIEWER
+      ]
+      verification_status: VERIFICATION_STATUS_VERIFIED
+    };
+  }
+}
+
+/*
+   Request to create a transfer.
+*/
+message CreateTransferRequest {
+  /*
+     The transfer configuration for creation.
+     The name, number, ledger_id, and owners fields will be ignored and assigned by the system.
+  */
+  meshtrade.wallet.transfer.v1.Transfer transfer = 1 [(buf.validate.field) = {required: true}];
+}
+
+message GetTransferRequest {
+  /*
+     The resource name of the transfer to retrieve.
+     Format: wallet/transfers/{ULIDv2}.
+  */
+  string name = 1 [(buf.validate.field) = {
+    string: {
+      len: 35
+      pattern: "^wallet/transfers/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+    }
+  }];
+}
+
+message SearchTransfersByAddressRequest {
+  /*
+     The ledger address of the account
+  */
+  string address = 1 [(buf.validate.field) = {
+    required: true
+    string: {max_len: 255}
+  }];
+}
+
+message SearchTransfersByAddressResponse {
+  repeated Transfer transfers = 1;
+}
+
+message ListTransfersRequest {
+  /*
+     Sorting configuration for organizing results.
+  */
+  message Sorting {
+    /*
+       Field to sort by.
+       Supported values: "number" or empty string for default ordering.
+    */
+    string field = 1 [(buf.validate.field) = {
+      string: {
+        in: [
+          "",
+          "number"
+        ]
+      }
+      cel: {
+        id: "field.valid"
+        message: "field must be one of: number, or empty"
+        expression: "this in ['', 'number']"
+      }
+    }];
+
+    /*
+       Sort order for results.
+    */
+    meshtrade.type.v1.SortingOrder order = 2;
+  }
+
+  /*
+     Optional sorting configuration.
+  */
+  Sorting sorting = 1;
+}
+
+message ListTransfersResponse {
+  repeated Transfer transfers = 1;
+}
+
+/*
+   Request to monitor a transfer.
+*/
+message MonitorTransferRequest {
+  /*
+     The resource name of the transfer to monitor.
+     Format: wallet/transfers/{ULIDv2}.
+  */
+  string name = 1 [(buf.validate.field) = {
+    string: {
+      len: 39
+      pattern: "^wallet/transfers/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
+    }
+  }];
+}
