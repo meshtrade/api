@@ -30,6 +30,8 @@ public class CreateTransferExample {
                             .setValue("100.50")
                             .build())
                         .build())
+                    .setDescription("Payment for invoice #1234")  // Optional reason for the transfer
+                    .setIncludeInLedger(true)  // Include description in on-chain transaction
                     .build())
                 .build();
 

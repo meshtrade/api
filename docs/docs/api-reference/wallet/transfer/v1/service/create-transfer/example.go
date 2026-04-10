@@ -34,6 +34,8 @@ func main() {
 				},
 				Value: &typev1.Decimal{Value: "100.50"},
 			},
+			Description:     "Payment for invoice #1234",  // Optional reason for the transfer
+			IncludeInLedger: true,                          // Include description in on-chain transaction
 		},
 	}
 

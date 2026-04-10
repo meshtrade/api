@@ -61,6 +61,10 @@ The `from` and `to` fields use ledger-native addresses. Both addresses must be o
 | **Stellar** | Ed25519 public key |
 | **Solana** | Ed25519 public key |
 
+### Transfer Description
+
+Transfers support an optional `description` field to record the reason for the transfer. When `include_in_ledger` is set to `true`, the description will be included in the on-chain ledger transaction, making it visible on the blockchain.
+
 ### Transfer Fees
 
 Each transfer includes a `TransferFee` containing:

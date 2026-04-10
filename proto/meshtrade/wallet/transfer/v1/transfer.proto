@@ -108,6 +108,16 @@ message Transfer {
      State of the transfer
   */
   TransferState state = 10 [(buf.validate.field) = {required: true}];
+
+  /*
+     Optional description to describe the reason of the transfer
+  */
+  string description = 11;
+
+  /*
+     Flag to indicate if description should be visible on the ledger transaction
+  */
+  bool include_in_ledger = 12;
 }
 
 /*

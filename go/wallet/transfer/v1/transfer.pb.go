@@ -97,7 +97,7 @@ type Transfer struct {
 	// Ownership hiearchy of groups that have access to this resource in the format groups/{group_id}.
 	// System set on creation.
 	Owners []string `protobuf:"bytes,3,rep,name=owners,proto3" json:"owners,omitempty"`
-	// Number is a monotonic increasing sequence number for the transfer and serves as a human readable identifier for the entity
+	// Number is a monotonically increasing number for the transfer and serves as a human readable identifier for the entity
 	// This is system generated and immutable.
 	Number string `protobuf:"bytes,4,opt,name=number,proto3" json:"number,omitempty"`
 	// The account's ledger address on the relevant ledger.
@@ -117,12 +117,17 @@ type Transfer struct {
 	// Corresponding ledger transaction resource name for the transaction that performed the transfer.
 	// Can be used to determine the state of the transfer.
 	Transaction string `protobuf:"bytes,8,opt,name=transaction,proto3" json:"transaction,omitempty"`
-	// Calculated fee that was charged for the transfer
+	// Calculated fee that was charged for the transfer.
+	// This is set by the system when the transfer is created.
 	Fee *TransferFee `protobuf:"bytes,9,opt,name=fee,proto3" json:"fee,omitempty"`
 	// State of the transfer
-	State         TransferState `protobuf:"varint,10,opt,name=state,proto3,enum=meshtrade.wallet.transfer.v1.TransferState" json:"state,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	State TransferState `protobuf:"varint,10,opt,name=state,proto3,enum=meshtrade.wallet.transfer.v1.TransferState" json:"state,omitempty"`
+	// Optional description to describe the reason of the transfer
+	Description string `protobuf:"bytes,11,opt,name=description,proto3" json:"description,omitempty"`
+	// Flag to indicate if description should be visible on the ledger transaction
+	IncludeInLedger bool `protobuf:"varint,12,opt,name=include_in_ledger,json=includeInLedger,proto3" json:"include_in_ledger,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *Transfer) Reset() {
@@ -225,6 +230,20 @@ func (x *Transfer) GetState() TransferState {
 	return TransferState_TRANSFER_STATE_UNSPECIFIED
 }
 
+func (x *Transfer) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *Transfer) GetIncludeInLedger() bool {
+	if x != nil {
+		return x.IncludeInLedger
+	}
+	return false
+}
+
 // TransferFee describes the calculated fee for the asset transfer
 type TransferFee struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -284,7 +303,7 @@ var File_meshtrade_wallet_transfer_v1_transfer_proto protoreflect.FileDescriptor
 
 const file_meshtrade_wallet_transfer_v1_transfer_proto_rawDesc = "" +
 	"\n" +
-	"+meshtrade/wallet/transfer/v1/transfer.proto\x12\x1cmeshtrade.wallet.transfer.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1emeshtrade/type/v1/amount.proto\x1a\x1fmeshtrade/type/v1/decimal.proto\"\xd4\x05\n" +
+	"+meshtrade/wallet/transfer/v1/transfer.proto\x12\x1cmeshtrade.wallet.transfer.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1emeshtrade/type/v1/amount.proto\x1a\x1fmeshtrade/type/v1/decimal.proto\"\xa2\x06\n" +
 	"\bTransfer\x12\xd0\x01\n" +
 	"\x04name\x18\x01 \x01(\tB\xbb\x01\xbaH\xb7\x01\xba\x01\xb3\x01\n" +
 	"\x14name.format.optional\x12=name must be empty or in the format wallet/transfers/{ULIDv2}\x1a\\size(this) == 0 || this.matches('^wallet/transfers/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12R\n" +
@@ -297,7 +316,9 @@ const file_meshtrade_wallet_transfer_v1_transfer_proto_rawDesc = "" +
 	"\vtransaction\x18\b \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\vtransaction\x12C\n" +
 	"\x03fee\x18\t \x01(\v2).meshtrade.wallet.transfer.v1.TransferFeeB\x06\xbaH\x03\xc8\x01\x01R\x03fee\x12I\n" +
 	"\x05state\x18\n" +
-	" \x01(\x0e2+.meshtrade.wallet.transfer.v1.TransferStateB\x06\xbaH\x03\xc8\x01\x01R\x05state\"\x87\x01\n" +
+	" \x01(\x0e2+.meshtrade.wallet.transfer.v1.TransferStateB\x06\xbaH\x03\xc8\x01\x01R\x05state\x12 \n" +
+	"\vdescription\x18\v \x01(\tR\vdescription\x12*\n" +
+	"\x11include_in_ledger\x18\f \x01(\bR\x0fincludeInLedger\"\x87\x01\n" +
 	"\vTransferFee\x129\n" +
 	"\x06amount\x18\x01 \x01(\v2\x19.meshtrade.type.v1.AmountB\x06\xbaH\x03\xc8\x01\x01R\x06amount\x12=\n" +
 	"\bvat_rate\x18\x02 \x01(\v2\x1a.meshtrade.type.v1.DecimalB\x06\xbaH\x03\xc8\x01\x01R\avatRate*\x89\x01\n" +
