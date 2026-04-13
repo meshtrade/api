@@ -126,10 +126,7 @@ message GetTransferRequest {
      Format: wallet/transfers/{ULIDv2}.
   */
   string name = 1 [(buf.validate.field) = {
-    string: {
-      len: 35
-      pattern: "^wallet/transfers/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
-    }
+    string: {pattern: "^wallet/transfers/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"}
   }];
 }
 
@@ -195,9 +192,6 @@ message MonitorTransferRequest {
      Format: wallet/transfers/{ULIDv2}.
   */
   string name = 1 [(buf.validate.field) = {
-    string: {
-      len: 39
-      pattern: "^wallet/transfers/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"
-    }
+    string: {pattern: "^wallet/transfers/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"}
   }];
 }
