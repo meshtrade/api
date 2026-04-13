@@ -96,18 +96,19 @@ message Transfer {
      Corresponding ledger transaction resource name for the transaction that performed the transfer.
      Can be used to determine the state of the transfer.
   */
-  string transaction = 8 [(buf.validate.field) = {required: true}];
+  string transaction = 8;
 
   /*
      Calculated fee that was charged for the transfer.
      This is set by the system when the transfer is created.
   */
-  TransferFee fee = 9 [(buf.validate.field) = {required: true}];
+  TransferFee fee = 9;
 
   /*
      State of the transfer
+     This is set by the system when the transfer is created
   */
-  TransferState state = 10 [(buf.validate.field) = {required: true}];
+  TransferState state = 10;
 
   /*
      Optional description to describe the reason of the transfer

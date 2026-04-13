@@ -121,10 +121,11 @@ type Transfer struct {
 	// This is set by the system when the transfer is created.
 	Fee *TransferFee `protobuf:"bytes,9,opt,name=fee,proto3" json:"fee,omitempty"`
 	// State of the transfer
+	// This is set by the system when the transfer is created
 	State TransferState `protobuf:"varint,10,opt,name=state,proto3,enum=meshtrade.wallet.transfer.v1.TransferState" json:"state,omitempty"`
 	// Optional description to describe the reason of the transfer
 	Description string `protobuf:"bytes,11,opt,name=description,proto3" json:"description,omitempty"`
-	// Flag to indicate if description should be visible on the ledger transaction
+	// Flag to indicate if description should be included in ledger and thus publically visible
 	IncludeInLedger bool `protobuf:"varint,12,opt,name=include_in_ledger,json=includeInLedger,proto3" json:"include_in_ledger,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
@@ -303,7 +304,7 @@ var File_meshtrade_wallet_transfer_v1_transfer_proto protoreflect.FileDescriptor
 
 const file_meshtrade_wallet_transfer_v1_transfer_proto_rawDesc = "" +
 	"\n" +
-	"+meshtrade/wallet/transfer/v1/transfer.proto\x12\x1cmeshtrade.wallet.transfer.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1emeshtrade/type/v1/amount.proto\x1a\x1fmeshtrade/type/v1/decimal.proto\"\xa2\x06\n" +
+	"+meshtrade/wallet/transfer/v1/transfer.proto\x12\x1cmeshtrade.wallet.transfer.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1emeshtrade/type/v1/amount.proto\x1a\x1fmeshtrade/type/v1/decimal.proto\"\x94\x06\n" +
 	"\bTransfer\x12\xd0\x01\n" +
 	"\x04name\x18\x01 \x01(\tB\xbb\x01\xbaH\xb7\x01\xba\x01\xb3\x01\n" +
 	"\x14name.format.optional\x12=name must be empty or in the format wallet/transfers/{ULIDv2}\x1a\\size(this) == 0 || this.matches('^wallet/transfers/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12R\n" +
@@ -312,12 +313,12 @@ const file_meshtrade_wallet_transfer_v1_transfer_proto_rawDesc = "" +
 	"\x06number\x18\x04 \x01(\tR\x06number\x12\x1f\n" +
 	"\x04from\x18\x05 \x01(\tB\v\xbaH\b\xc8\x01\x01r\x03\x18\xff\x01R\x04from\x12\x1b\n" +
 	"\x02to\x18\x06 \x01(\tB\v\xbaH\b\xc8\x01\x01r\x03\x18\xff\x01R\x02to\x129\n" +
-	"\x06amount\x18\a \x01(\v2\x19.meshtrade.type.v1.AmountB\x06\xbaH\x03\xc8\x01\x01R\x06amount\x12(\n" +
-	"\vtransaction\x18\b \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\vtransaction\x12C\n" +
-	"\x03fee\x18\t \x01(\v2).meshtrade.wallet.transfer.v1.TransferFeeB\x06\xbaH\x03\xc8\x01\x01R\x03fee\x12I\n" +
+	"\x06amount\x18\a \x01(\v2\x19.meshtrade.type.v1.AmountB\x06\xbaH\x03\xc8\x01\x01R\x06amount\x12 \n" +
+	"\vtransaction\x18\b \x01(\tR\vtransaction\x12;\n" +
+	"\x03fee\x18\t \x01(\v2).meshtrade.wallet.transfer.v1.TransferFeeR\x03fee\x12A\n" +
 	"\x05state\x18\n" +
-	" \x01(\x0e2+.meshtrade.wallet.transfer.v1.TransferStateB\x06\xbaH\x03\xc8\x01\x01R\x05state\x12 \n" +
-	"\vdescription\x18\v \x01(\tR\vdescription\x12*\n" +
+	" \x01(\x0e2+.meshtrade.wallet.transfer.v1.TransferStateR\x05state\x12*\n" +
+	"\vdescription\x18\v \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R\vdescription\x12*\n" +
 	"\x11include_in_ledger\x18\f \x01(\bR\x0fincludeInLedger\"\x87\x01\n" +
 	"\vTransferFee\x129\n" +
 	"\x06amount\x18\x01 \x01(\v2\x19.meshtrade.type.v1.AmountB\x06\xbaH\x03\xc8\x01\x01R\x06amount\x12=\n" +
