@@ -404,9 +404,9 @@ const file_meshtrade_wallet_transfer_v1_service_proto_rawDesc = "" +
 	"\n" +
 	"*meshtrade/wallet/transfer/v1/service.proto\x12\x1cmeshtrade.wallet.transfer.v1\x1a\x1bbuf/validate/validate.proto\x1a7meshtrade/option/method_options/v1/method_options.proto\x1a\x1fmeshtrade/type/v1/sorting.proto\x1a+meshtrade/wallet/transfer/v1/transfer.proto\"c\n" +
 	"\x15CreateTransferRequest\x12J\n" +
-	"\btransfer\x18\x01 \x01(\v2&.meshtrade.wallet.transfer.v1.TransferB\x06\xbaH\x03\xc8\x01\x01R\btransfer\"m\n" +
-	"\x12GetTransferRequest\x12W\n" +
-	"\x04name\x18\x01 \x01(\tBC\xbaH@r>29^wallet/transfers/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01#R\x04name\"H\n" +
+	"\btransfer\x18\x01 \x01(\v2&.meshtrade.wallet.transfer.v1.TransferB\x06\xbaH\x03\xc8\x01\x01R\btransfer\"j\n" +
+	"\x12GetTransferRequest\x12T\n" +
+	"\x04name\x18\x01 \x01(\tB@\xbaH=r;29^wallet/transfers/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$R\x04name\"H\n" +
 	"\x1fSearchTransfersByAddressRequest\x12%\n" +
 	"\aaddress\x18\x01 \x01(\tB\v\xbaH\b\xc8\x01\x01r\x03\x18\xff\x01R\aaddress\"h\n" +
 	" SearchTransfersByAddressResponse\x12D\n" +
@@ -419,9 +419,9 @@ const file_meshtrade_wallet_transfer_v1_service_proto_rawDesc = "" +
 	"R\x00R\x06numberR\x05field\x125\n" +
 	"\x05order\x18\x02 \x01(\x0e2\x1f.meshtrade.type.v1.SortingOrderR\x05order\"]\n" +
 	"\x15ListTransfersResponse\x12D\n" +
-	"\ttransfers\x18\x01 \x03(\v2&.meshtrade.wallet.transfer.v1.TransferR\ttransfers\"q\n" +
-	"\x16MonitorTransferRequest\x12W\n" +
-	"\x04name\x18\x01 \x01(\tBC\xbaH@r>29^wallet/transfers/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01'R\x04name2\xf2\x05\n" +
+	"\ttransfers\x18\x01 \x03(\v2&.meshtrade.wallet.transfer.v1.TransferR\ttransfers\"n\n" +
+	"\x16MonitorTransferRequest\x12T\n" +
+	"\x04name\x18\x01 \x01(\tB@\xbaH=r;29^wallet/transfers/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$R\x04name2\xf2\x05\n" +
 	"\x0fTransferService\x12\x81\x01\n" +
 	"\x0eCreateTransfer\x123.meshtrade.wallet.transfer.v1.CreateTransferRequest\x1a&.meshtrade.wallet.transfer.v1.Transfer\"\x12\xb2\xb5\x18\x0e\b\x02\x10\x02\x1a\x06\xc0\x84=Ą= \x01\x12\x81\x01\n" +
 	"\vGetTransfer\x120.meshtrade.wallet.transfer.v1.GetTransferRequest\x1a&.meshtrade.wallet.transfer.v1.Transfer\"\x18\xb2\xb5\x18\x14\b\x01\x10\x02\x1a\f\xc0\x84=\xc1\x84=Ą=ń= \x01\x12\xb3\x01\n" +
