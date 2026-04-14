@@ -30,26 +30,27 @@ const (
 	// Unknown or not specified.
 	// This is a default value to prevent accidental assignment and should not be used.
 	InstrumentType_INSTRUMENT_TYPE_UNSPECIFIED InstrumentType = 0
-	// Other or unlisted instrument type.
+	// Unknown/Uncategorised Instrument Type.
 	InstrumentType_INSTRUMENT_TYPE_OTHER InstrumentType = 1
-	// Equity share.
+	// Equity Share.
 	InstrumentType_INSTRUMENT_TYPE_SHARE InstrumentType = 2
-	// Preference share.
+	// Preference Share.
 	InstrumentType_INSTRUMENT_TYPE_PREFERENCE_SHARE InstrumentType = 3
 	// Bond.
 	InstrumentType_INSTRUMENT_TYPE_BOND InstrumentType = 4
-	// Exchange-traded fund.
+	// Exchange Traded Fund
 	InstrumentType_INSTRUMENT_TYPE_ETF InstrumentType = 5
-	// Exchange-traded note.
+	// Exchange Traded Note.
 	InstrumentType_INSTRUMENT_TYPE_ETN InstrumentType = 6
-	// Actively managed certificate.
+	// Actively Managed Certificate.
 	InstrumentType_INSTRUMENT_TYPE_AMC InstrumentType = 7
-	// Unit trust.
+	// Unit Trust.
 	InstrumentType_INSTRUMENT_TYPE_UNIT_TRUST InstrumentType = 8
-	// Cryptocurrency.
+	// Cryptocurrency
 	InstrumentType_INSTRUMENT_TYPE_CRYPTO_CURRENCY InstrumentType = 9
-	// Fiat currency.
+	// Fiat currency (non-blockchain ledgers)
 	InstrumentType_INSTRUMENT_TYPE_FIAT_CURRENCY InstrumentType = 10
+	// 11 no longer used
 	// Gold.
 	InstrumentType_INSTRUMENT_TYPE_GOLD InstrumentType = 12
 	// Silver.
@@ -70,26 +71,33 @@ const (
 	InstrumentType_INSTRUMENT_TYPE_WHEAT InstrumentType = 20
 	// Soybeans.
 	InstrumentType_INSTRUMENT_TYPE_SOYBEANS InstrumentType = 21
-	// Fiat-backed stablecoin.
-	InstrumentType_INSTRUMENT_TYPE_FIAT_STABLECOIN InstrumentType = 22
-	// Money market fund.
+	// 22 no longer used
+	// Blockchain Native Money market fund.
 	InstrumentType_INSTRUMENT_TYPE_MONEY_MARKET_FUND InstrumentType = 23
-	// Tokenised money market fund.
+	// Tokenised Money market fund.
 	InstrumentType_INSTRUMENT_TYPE_MONEY_MARKET_FUND_STABLECOIN InstrumentType = 24
 	// Endowment wrapper.
 	InstrumentType_INSTRUMENT_TYPE_ENDOWMENT_WRAPPER InstrumentType = 25
-	// Fund.
+	// Blockchain Native Fund.
 	InstrumentType_INSTRUMENT_TYPE_FUND InstrumentType = 26
-	// Tokenised fund.
+	// Tokenised Fund.
 	InstrumentType_INSTRUMENT_TYPE_FUND_STABLECOIN InstrumentType = 27
-	// Tokenised actively managed certificate.
+	// Tokenised AMC.
 	InstrumentType_INSTRUMENT_TYPE_AMC_STABLECOIN InstrumentType = 28
 	// Tokenised exchange-traded fund.
 	InstrumentType_INSTRUMENT_TYPE_ETF_STABLECOIN InstrumentType = 29
 	// Tokenised exchange-traded note.
 	InstrumentType_INSTRUMENT_TYPE_ETN_STABLECOIN InstrumentType = 30
-	// Tokenised cryptocurrency.
+	// Wrapped cryptocurrency.
 	InstrumentType_INSTRUMENT_TYPE_CRYPTO_CURRENCY_STABLECOIN InstrumentType = 31
+	// Stablecoin, i.e. tokenised fiat currency.
+	InstrumentType_INSTRUMENT_TYPE_FIAT_CURRENCY_STABLECOIN InstrumentType = 32
+	// Wrapped Cryptocurrency with yield.
+	InstrumentType_INSTRUMENT_TYPE_YIELD_BEARING_CRYPTO_CURRENCY_STABLECOIN InstrumentType = 33
+	// Fiat Currency Stablecoin with yield.
+	InstrumentType_INSTRUMENT_TYPE_YIELD_BEARING_FIAT_CURRENCY_STABLECOIN InstrumentType = 34
+	// Share in a liquidity pool share
+	InstrumentType_INSTRUMENT_TYPE_LIQUIDITY_POOL_SHARE InstrumentType = 35
 )
 
 // Enum value maps for InstrumentType.
@@ -116,7 +124,6 @@ var (
 		19: "INSTRUMENT_TYPE_CORN",
 		20: "INSTRUMENT_TYPE_WHEAT",
 		21: "INSTRUMENT_TYPE_SOYBEANS",
-		22: "INSTRUMENT_TYPE_FIAT_STABLECOIN",
 		23: "INSTRUMENT_TYPE_MONEY_MARKET_FUND",
 		24: "INSTRUMENT_TYPE_MONEY_MARKET_FUND_STABLECOIN",
 		25: "INSTRUMENT_TYPE_ENDOWMENT_WRAPPER",
@@ -126,39 +133,46 @@ var (
 		29: "INSTRUMENT_TYPE_ETF_STABLECOIN",
 		30: "INSTRUMENT_TYPE_ETN_STABLECOIN",
 		31: "INSTRUMENT_TYPE_CRYPTO_CURRENCY_STABLECOIN",
+		32: "INSTRUMENT_TYPE_FIAT_CURRENCY_STABLECOIN",
+		33: "INSTRUMENT_TYPE_YIELD_BEARING_CRYPTO_CURRENCY_STABLECOIN",
+		34: "INSTRUMENT_TYPE_YIELD_BEARING_FIAT_CURRENCY_STABLECOIN",
+		35: "INSTRUMENT_TYPE_LIQUIDITY_POOL_SHARE",
 	}
 	InstrumentType_value = map[string]int32{
-		"INSTRUMENT_TYPE_UNSPECIFIED":                  0,
-		"INSTRUMENT_TYPE_OTHER":                        1,
-		"INSTRUMENT_TYPE_SHARE":                        2,
-		"INSTRUMENT_TYPE_PREFERENCE_SHARE":             3,
-		"INSTRUMENT_TYPE_BOND":                         4,
-		"INSTRUMENT_TYPE_ETF":                          5,
-		"INSTRUMENT_TYPE_ETN":                          6,
-		"INSTRUMENT_TYPE_AMC":                          7,
-		"INSTRUMENT_TYPE_UNIT_TRUST":                   8,
-		"INSTRUMENT_TYPE_CRYPTO_CURRENCY":              9,
-		"INSTRUMENT_TYPE_FIAT_CURRENCY":                10,
-		"INSTRUMENT_TYPE_GOLD":                         12,
-		"INSTRUMENT_TYPE_SILVER":                       13,
-		"INSTRUMENT_TYPE_PLATINUM":                     14,
-		"INSTRUMENT_TYPE_PALLADIUM":                    15,
-		"INSTRUMENT_TYPE_CRUDE_OIL":                    16,
-		"INSTRUMENT_TYPE_NATURAL_GAS":                  17,
-		"INSTRUMENT_TYPE_COPPER":                       18,
-		"INSTRUMENT_TYPE_CORN":                         19,
-		"INSTRUMENT_TYPE_WHEAT":                        20,
-		"INSTRUMENT_TYPE_SOYBEANS":                     21,
-		"INSTRUMENT_TYPE_FIAT_STABLECOIN":              22,
-		"INSTRUMENT_TYPE_MONEY_MARKET_FUND":            23,
-		"INSTRUMENT_TYPE_MONEY_MARKET_FUND_STABLECOIN": 24,
-		"INSTRUMENT_TYPE_ENDOWMENT_WRAPPER":            25,
-		"INSTRUMENT_TYPE_FUND":                         26,
-		"INSTRUMENT_TYPE_FUND_STABLECOIN":              27,
-		"INSTRUMENT_TYPE_AMC_STABLECOIN":               28,
-		"INSTRUMENT_TYPE_ETF_STABLECOIN":               29,
-		"INSTRUMENT_TYPE_ETN_STABLECOIN":               30,
-		"INSTRUMENT_TYPE_CRYPTO_CURRENCY_STABLECOIN":   31,
+		"INSTRUMENT_TYPE_UNSPECIFIED":                              0,
+		"INSTRUMENT_TYPE_OTHER":                                    1,
+		"INSTRUMENT_TYPE_SHARE":                                    2,
+		"INSTRUMENT_TYPE_PREFERENCE_SHARE":                         3,
+		"INSTRUMENT_TYPE_BOND":                                     4,
+		"INSTRUMENT_TYPE_ETF":                                      5,
+		"INSTRUMENT_TYPE_ETN":                                      6,
+		"INSTRUMENT_TYPE_AMC":                                      7,
+		"INSTRUMENT_TYPE_UNIT_TRUST":                               8,
+		"INSTRUMENT_TYPE_CRYPTO_CURRENCY":                          9,
+		"INSTRUMENT_TYPE_FIAT_CURRENCY":                            10,
+		"INSTRUMENT_TYPE_GOLD":                                     12,
+		"INSTRUMENT_TYPE_SILVER":                                   13,
+		"INSTRUMENT_TYPE_PLATINUM":                                 14,
+		"INSTRUMENT_TYPE_PALLADIUM":                                15,
+		"INSTRUMENT_TYPE_CRUDE_OIL":                                16,
+		"INSTRUMENT_TYPE_NATURAL_GAS":                              17,
+		"INSTRUMENT_TYPE_COPPER":                                   18,
+		"INSTRUMENT_TYPE_CORN":                                     19,
+		"INSTRUMENT_TYPE_WHEAT":                                    20,
+		"INSTRUMENT_TYPE_SOYBEANS":                                 21,
+		"INSTRUMENT_TYPE_MONEY_MARKET_FUND":                        23,
+		"INSTRUMENT_TYPE_MONEY_MARKET_FUND_STABLECOIN":             24,
+		"INSTRUMENT_TYPE_ENDOWMENT_WRAPPER":                        25,
+		"INSTRUMENT_TYPE_FUND":                                     26,
+		"INSTRUMENT_TYPE_FUND_STABLECOIN":                          27,
+		"INSTRUMENT_TYPE_AMC_STABLECOIN":                           28,
+		"INSTRUMENT_TYPE_ETF_STABLECOIN":                           29,
+		"INSTRUMENT_TYPE_ETN_STABLECOIN":                           30,
+		"INSTRUMENT_TYPE_CRYPTO_CURRENCY_STABLECOIN":               31,
+		"INSTRUMENT_TYPE_FIAT_CURRENCY_STABLECOIN":                 32,
+		"INSTRUMENT_TYPE_YIELD_BEARING_CRYPTO_CURRENCY_STABLECOIN": 33,
+		"INSTRUMENT_TYPE_YIELD_BEARING_FIAT_CURRENCY_STABLECOIN":   34,
+		"INSTRUMENT_TYPE_LIQUIDITY_POOL_SHARE":                     35,
 	}
 )
 
@@ -193,7 +207,7 @@ var File_meshtrade_studio_instrument_v1_instrument_type_proto protoreflect.FileD
 
 const file_meshtrade_studio_instrument_v1_instrument_type_proto_rawDesc = "" +
 	"\n" +
-	"4meshtrade/studio/instrument/v1/instrument_type.proto\x12\x1emeshtrade.studio.instrument.v1*\xfc\a\n" +
+	"4meshtrade/studio/instrument/v1/instrument_type.proto\x12\x1emeshtrade.studio.instrument.v1*\xa9\t\n" +
 	"\x0eInstrumentType\x12\x1f\n" +
 	"\x1bINSTRUMENT_TYPE_UNSPECIFIED\x10\x00\x12\x19\n" +
 	"\x15INSTRUMENT_TYPE_OTHER\x10\x01\x12\x19\n" +
@@ -216,8 +230,7 @@ const file_meshtrade_studio_instrument_v1_instrument_type_proto_rawDesc = "" +
 	"\x16INSTRUMENT_TYPE_COPPER\x10\x12\x12\x18\n" +
 	"\x14INSTRUMENT_TYPE_CORN\x10\x13\x12\x19\n" +
 	"\x15INSTRUMENT_TYPE_WHEAT\x10\x14\x12\x1c\n" +
-	"\x18INSTRUMENT_TYPE_SOYBEANS\x10\x15\x12#\n" +
-	"\x1fINSTRUMENT_TYPE_FIAT_STABLECOIN\x10\x16\x12%\n" +
+	"\x18INSTRUMENT_TYPE_SOYBEANS\x10\x15\x12%\n" +
 	"!INSTRUMENT_TYPE_MONEY_MARKET_FUND\x10\x17\x120\n" +
 	",INSTRUMENT_TYPE_MONEY_MARKET_FUND_STABLECOIN\x10\x18\x12%\n" +
 	"!INSTRUMENT_TYPE_ENDOWMENT_WRAPPER\x10\x19\x12\x18\n" +
@@ -226,7 +239,11 @@ const file_meshtrade_studio_instrument_v1_instrument_type_proto_rawDesc = "" +
 	"\x1eINSTRUMENT_TYPE_AMC_STABLECOIN\x10\x1c\x12\"\n" +
 	"\x1eINSTRUMENT_TYPE_ETF_STABLECOIN\x10\x1d\x12\"\n" +
 	"\x1eINSTRUMENT_TYPE_ETN_STABLECOIN\x10\x1e\x12.\n" +
-	"*INSTRUMENT_TYPE_CRYPTO_CURRENCY_STABLECOIN\x10\x1fBg\n" +
+	"*INSTRUMENT_TYPE_CRYPTO_CURRENCY_STABLECOIN\x10\x1f\x12,\n" +
+	"(INSTRUMENT_TYPE_FIAT_CURRENCY_STABLECOIN\x10 \x12<\n" +
+	"8INSTRUMENT_TYPE_YIELD_BEARING_CRYPTO_CURRENCY_STABLECOIN\x10!\x12:\n" +
+	"6INSTRUMENT_TYPE_YIELD_BEARING_FIAT_CURRENCY_STABLECOIN\x10\"\x12(\n" +
+	"$INSTRUMENT_TYPE_LIQUIDITY_POOL_SHARE\x10#Bg\n" +
 	"%co.meshtrade.api.studio.instrument.v1Z>github.com/meshtrade/api/go/studio/instrument/v1;instrument_v1b\x06proto3"
 
 var (

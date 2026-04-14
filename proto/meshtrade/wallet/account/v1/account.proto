@@ -166,6 +166,11 @@ message InstrumentMetaData {
      Examples: SHARE for equities, OUNCE for precious metals, NOTE for bonds.
   */
   meshtrade.studio.instrument.v1.Unit unit = 3;
+
+  /*
+     Indicates if an ownership certifiate is avaialble for download for this asset balance.
+  */
+  bool ownership_certificate_available = 4;
 }
 
 /*
