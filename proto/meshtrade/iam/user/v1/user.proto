@@ -88,6 +88,8 @@ message User {
       }
     }
   }];
+
+  MFASettings mfa_settings = 7;
 }
 
 /*
@@ -109,4 +111,8 @@ message MobileNumber {
      This is the reason a number for a user was reset
   */
   string reset_reason = 3;
+}
+
+message MFASettings {
+  repeated string enabled_for_methods = 3;
 }
