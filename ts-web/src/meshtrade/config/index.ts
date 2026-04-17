@@ -52,8 +52,8 @@ export type MFACallback = (context: {
  * Internal configuration class used to build client configuration.
  */
 export class ClientConfig {
-  /** API server URL (default: production) */
-  apiServerURL: string = "http://localhost:10000";
+  apiServerURL: string =
+    "https://production-service-mesh-api-gateway-lb-frontend.mesh.trade";
 
   /** API key for service-to-service authentication */
   apiKey?: string;
@@ -63,9 +63,6 @@ export class ClientConfig {
 
   /** Group context in format "groups/{ulid}" */
   group?: string;
-
-  /** Simulated time for testing and simulation scenarios */
-  simulatedTime?: Timestamp;
 
   /** MFA callback for injecting MFA tokens into requests */
   performMFA?: MFACallback;
@@ -187,36 +184,6 @@ export function WithGroup(group: string): ClientOption {
       throw new Error("Group cannot be empty");
     }
     config.group = group;
-  };
-}
-
-/**
- * Configures the client with a simulated time for testing and simulation scenarios.
- *
- * When set, the simulated time is sent to the server in the `mesh-simulated-time`
- * header as an ISO 8601 formatted string. The server will process the request
- * as if it occurred at the specified time.
- *
- * @param timestamp - The protobuf Timestamp representing the simulated time
- * @returns A client option function
- *
- * @example
- * ```typescript
- * import { Timestamp } from "@bufbuild/protobuf/wkt";
- *
- * // Create a timestamp for January 1, 2024 00:00:00 UTC
- * const simulatedTime: Timestamp = { seconds: BigInt(1704067200), nanos: 0 };
- *
- * const client = new ServiceWeb(
- *   WithJWTAccessToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."),
- *   WithSimulatedTime(simulatedTime),
- *   WithServerUrl("https://api.example.com")
- * );
- * ```
- */
-export function WithSimulatedTime(timestamp: Timestamp): ClientOption {
-  return (config: ClientConfig) => {
-    config.simulatedTime = timestamp;
   };
 }
 
