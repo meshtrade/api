@@ -13,6 +13,7 @@ import { Interceptor } from "@connectrpc/connect";
  * Must match the server-side header constants.
  */
 const API_KEY_HEADER = "x-api-key";
+const MFA_TOKEN_HEADER = "x-mfa-token";
 const GROUP_HEADER = "x-group";
 const COOKIE_HEADER = "cookie";
 const ACCESS_TOKEN_COOKIE_NAME = "AccessToken";
@@ -141,6 +142,50 @@ export function createJwtInterceptor(
  * });
  * ```
  */
+/**
+ * Context passed to the performMFA callback, identifying the operation
+ * requiring MFA so callers can apply conditional logic.
+ */
+export interface MFARequestContext {
+  service: string;
+  method: string;
+}
+
+/**
+ * Creates a Connect-ES interceptor that injects an MFA token into API requests.
+ *
+ * Calls the provided `performMFA` callback before each request. If the callback
+ * returns a non-empty token, it is attached via the `x-mfa-token` header.
+ * If the callback throws, the error is propagated and the request is aborted.
+ *
+ * @param performMFA - An async function that resolves to an MFA token string.
+ *                     Receives the service and method name so callers can
+ *                     conditionally prompt for MFA. Return an empty string to
+ *                     skip adding the header for a given request.
+ * @returns An interceptor that adds the MFA token header before forwarding requests
+ */
+export function createMFAInterceptor(
+  performMFA: (context: MFARequestContext) => Promise<string>
+): Interceptor {
+  return (next) => async (req) => {
+    try {
+      const token = await performMFA({
+        service: req.service.typeName,
+        method: req.method.name,
+      });
+
+      if (token) {
+        req.header.set(MFA_TOKEN_HEADER, token);
+        console.debug("intercepted - mfa token added to header");
+      }
+    } catch (e) {
+      return Promise.reject(e);
+    }
+
+    return await next(req);
+  };
+}
+
 export function createLoggingInterceptor(): Interceptor {
   return (next) => async (req) => {
     // Convert headers to plain object for logging

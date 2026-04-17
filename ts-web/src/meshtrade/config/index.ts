@@ -1,3 +1,14 @@
+import type { Timestamp } from "@bufbuild/protobuf/wkt";
+
+/**
+ * MFA callback type for injecting MFA tokens into requests.
+ * Receives the service and method name so callers can conditionally prompt for MFA.
+ */
+export type MFACallback = (context: {
+  service: string;
+  method: string;
+}) => Promise<string>;
+
 /**
  * Configuration options for Meshtrade API clients using functional options pattern.
  *
@@ -42,8 +53,7 @@
  */
 export class ClientConfig {
   /** API server URL (default: production) */
-  apiServerURL: string =
-    "https://production-service-mesh-api-gateway-lb-frontend.mesh.trade";
+  apiServerURL: string = "http://localhost:10000";
 
   /** API key for service-to-service authentication */
   apiKey?: string;
@@ -53,6 +63,12 @@ export class ClientConfig {
 
   /** Group context in format "groups/{ulid}" */
   group?: string;
+
+  /** Simulated time for testing and simulation scenarios */
+  simulatedTime?: Timestamp;
+
+  /** MFA callback for injecting MFA tokens into requests */
+  performMFA?: MFACallback;
 
   /**
    * Validates the configuration.
@@ -175,9 +191,64 @@ export function WithGroup(group: string): ClientOption {
 }
 
 /**
+ * Configures the client with a simulated time for testing and simulation scenarios.
+ *
+ * When set, the simulated time is sent to the server in the `mesh-simulated-time`
+ * header as an ISO 8601 formatted string. The server will process the request
+ * as if it occurred at the specified time.
+ *
+ * @param timestamp - The protobuf Timestamp representing the simulated time
+ * @returns A client option function
+ *
+ * @example
+ * ```typescript
+ * import { Timestamp } from "@bufbuild/protobuf/wkt";
+ *
+ * // Create a timestamp for January 1, 2024 00:00:00 UTC
+ * const simulatedTime: Timestamp = { seconds: BigInt(1704067200), nanos: 0 };
+ *
+ * const client = new ServiceWeb(
+ *   WithJWTAccessToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."),
+ *   WithSimulatedTime(simulatedTime),
+ *   WithServerUrl("https://api.example.com")
+ * );
+ * ```
+ */
+export function WithSimulatedTime(timestamp: Timestamp): ClientOption {
+  return (config: ClientConfig) => {
+    config.simulatedTime = timestamp;
+  };
+}
+
+/**
+ * Configures the client with an MFA callback for injecting MFA tokens into requests.
+ *
+ * When set, the callback is invoked before each API request. The callback receives
+ * the service and method name so it can conditionally prompt the user for a token.
+ * Returning an empty string skips adding the MFA header for that request.
+ *
+ * @param performMFA - Async function that returns an MFA token string
+ * @returns A client option function
+ *
+ * @example
+ * ```typescript
+ * const client = new ServiceWeb(
+ *   WithJWTAccessToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."),
+ *   WithMFA(async ({ service, method }) => await promptUserForMFAToken()),
+ *   WithServerUrl("https://api.example.com")
+ * );
+ * ```
+ */
+export function WithMFA(performMFA: MFACallback): ClientOption {
+  return (config: ClientConfig) => {
+    config.performMFA = performMFA;
+  };
+}
+
+/**
  * Configures the client with a custom server URL.
  *
- * **Optional**: If not provided, defaults to the Mesh API production endpoint.
+ * **Optional**: If not provided, defaults to localhost:10000.
  *
  * @param url - The API server URL
  * @returns A client option function
