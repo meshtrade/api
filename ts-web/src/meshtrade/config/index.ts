@@ -215,7 +215,7 @@ export function WithMFA(performMFA: MFACallback): ClientOption {
 /**
  * Configures the client with a custom server URL.
  *
- * **Optional**: If not provided, defaults to localhost:10000.
+ * **Optional**: If not provided, defaults to the Mesh API production endpoint.
  *
  * @param url - The API server URL
  * @returns A client option function
