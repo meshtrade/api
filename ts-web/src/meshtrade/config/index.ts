@@ -1,5 +1,3 @@
-import type { Timestamp } from "@bufbuild/protobuf/wkt";
-
 /**
  * MFA callback type for injecting MFA tokens into requests.
  * Receives the service and method name so callers can conditionally prompt for MFA.
