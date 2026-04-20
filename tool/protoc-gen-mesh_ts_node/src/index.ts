@@ -124,9 +124,9 @@ function generateConnectClientManually(schema: Schema, file: DescFile) {
   // Generate imports for utilities with dynamic relative paths
   const outputFilePath = getOutputFilePath(file);
   const relativePathToMeshtrade = getRelativePathToMeshtrade(outputFilePath);
-  content += `import { ClientOption, ClientConfig, buildConfigFromOptions, WithAPIKey, WithJWTAccessToken, WithGroup, WithServerUrl } from "${relativePathToMeshtrade}/config";\n`;
+  content += `import { ClientOption, ClientConfig, MFACallback, buildConfigFromOptions, WithAPIKey, WithJWTAccessToken, WithGroup, WithMFA, WithServerUrl } from "${relativePathToMeshtrade}/config";\n`;
   content += `import { createValidator } from "@bufbuild/protovalidate";\n`;
-  content += `import { createGroupInterceptor, createApiKeyInterceptor, createJwtInterceptor, createLoggingInterceptor } from "${relativePathToMeshtrade}/interceptors";\n`;
+  content += `import { createGroupInterceptor, createApiKeyInterceptor, createJwtInterceptor, createLoggingInterceptor, createMFAInterceptor } from "${relativePathToMeshtrade}/interceptors";\n`;
   content += `\n`;
 
   // Generate client class for each service
@@ -316,6 +316,11 @@ function generateServiceClientString(
     "      this._interceptors.push(createGroupInterceptor(this._config.group));\n";
   content += "    }\n";
   content += "\n";
+  content += "    if (this._config.performMFA) {\n";
+  content +=
+    "      this._interceptors.push(createMFAInterceptor(this._config.performMFA));\n";
+  content += "    }\n";
+  content += "\n";
   content += "    // Create the gRPC transport for Node.js with interceptors\n";
   content += "    // Note: gRPC transport uses HTTP/2 by default\n";
   content += "    const transport = createGrpcTransport({\n";
@@ -374,7 +379,45 @@ function generateServiceClientString(
   content += "    // Add the new group\n";
   content += "    newOpts.push(WithGroup(group));\n";
   content += "\n";
+  content += "    // Preserve MFA configuration\n";
+  content += "    if (this._config.performMFA) {\n";
+  content += "      newOpts.push(WithMFA(this._config.performMFA));\n";
+  content += "    }\n";
+  content += "\n";
   content += "    // Return a new client instance with updated configuration\n";
+  content += `    return new ${clientClassName}(...newOpts);\n`;
+  content += "  }\n";
+  content += "\n";
+
+  // Generate withMFA method
+  content += "  /**\n";
+  content += "   * Returns a new client instance configured with an MFA callback.\n";
+  content += "   *\n";
+  content += "   * This method creates a new client with the same configuration\n";
+  content += "   * but with the MFA callback set to the specified value.\n";
+  content += "   *\n";
+  content += "   * @param {MFACallback} performMFA - Async callback that returns an MFA token string.\n";
+  content += "   *                                   Receives service and method name for conditional prompting.\n";
+  content += "   *                                   Return an empty string to skip MFA for a given request.\n";
+  content += `   * @returns {${clientClassName}} A new, configured instance of the client.\n`;
+  content += "   */\n";
+  content += `  withMFA(performMFA: MFACallback): ${clientClassName} {\n`;
+  content += "    const newOpts: ClientOption[] = [];\n";
+  content += "\n";
+  content += "    newOpts.push(WithServerUrl(this._config.apiServerURL));\n";
+  content += "\n";
+  content += "    if (this._config.apiKey) {\n";
+  content += "      newOpts.push(WithAPIKey(this._config.apiKey));\n";
+  content += "    } else if (this._config.jwtToken) {\n";
+  content += "      newOpts.push(WithJWTAccessToken(this._config.jwtToken));\n";
+  content += "    }\n";
+  content += "\n";
+  content += "    if (this._config.group) {\n";
+  content += "      newOpts.push(WithGroup(this._config.group));\n";
+  content += "    }\n";
+  content += "\n";
+  content += "    newOpts.push(WithMFA(performMFA));\n";
+  content += "\n";
   content += `    return new ${clientClassName}(...newOpts);\n`;
   content += "  }\n";
   content += "\n";

@@ -13,7 +13,7 @@
 # ===================================================================
 
 # Generated protobuf imports
-from .user_pb2 import MobileNumber, User
+from .user_pb2 import MFASettings, MobileNumber, User
 from .service_pb2 import (
     AssignRolesToUserRequest,
     CreateUserRequest,
@@ -60,6 +60,7 @@ __all__ = [
     "GetUserRequest",
     "ListUsersRequest",
     "ListUsersResponse",
+    "MFASettings",
     "MobileNumber",
     "RevokeRolesFromUserRequest",
     "SearchUsersRequest",

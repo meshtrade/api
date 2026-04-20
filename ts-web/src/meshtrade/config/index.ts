@@ -1,4 +1,13 @@
 /**
+ * MFA callback type for injecting MFA tokens into requests.
+ * Receives the service and method name so callers can conditionally prompt for MFA.
+ */
+export type MFACallback = (context: {
+  service: string;
+  method: string;
+}) => Promise<string>;
+
+/**
  * Configuration options for Meshtrade API clients using functional options pattern.
  *
  * Supports flexible authentication modes with optional group context:
@@ -41,7 +50,6 @@
  * Internal configuration class used to build client configuration.
  */
 export class ClientConfig {
-  /** API server URL (default: production) */
   apiServerURL: string =
     "https://production-service-mesh-api-gateway-lb-frontend.mesh.trade";
 
@@ -53,6 +61,9 @@ export class ClientConfig {
 
   /** Group context in format "groups/{ulid}" */
   group?: string;
+
+  /** MFA callback for injecting MFA tokens into requests */
+  performMFA?: MFACallback;
 
   /**
    * Validates the configuration.
@@ -171,6 +182,31 @@ export function WithGroup(group: string): ClientOption {
       throw new Error("Group cannot be empty");
     }
     config.group = group;
+  };
+}
+
+/**
+ * Configures the client with an MFA callback for injecting MFA tokens into requests.
+ *
+ * When set, the callback is invoked before each API request. The callback receives
+ * the service and method name so it can conditionally prompt the user for a token.
+ * Returning an empty string skips adding the MFA header for that request.
+ *
+ * @param performMFA - Async function that returns an MFA token string
+ * @returns A client option function
+ *
+ * @example
+ * ```typescript
+ * const client = new ServiceWeb(
+ *   WithJWTAccessToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."),
+ *   WithMFA(async ({ service, method }) => await promptUserForMFAToken()),
+ *   WithServerUrl("https://api.example.com")
+ * );
+ * ```
+ */
+export function WithMFA(performMFA: MFACallback): ClientOption {
+  return (config: ClientConfig) => {
+    config.performMFA = performMFA;
   };
 }
 

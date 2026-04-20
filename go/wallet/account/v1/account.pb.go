@@ -260,9 +260,11 @@ type InstrumentMetaData struct {
 	Type v11.InstrumentType `protobuf:"varint,2,opt,name=type,proto3,enum=meshtrade.studio.instrument.v1.InstrumentType" json:"type,omitempty"`
 	// Standard unit of measurement for quantifying the instrument.
 	// Examples: SHARE for equities, OUNCE for precious metals, NOTE for bonds.
-	Unit          v11.Unit `protobuf:"varint,3,opt,name=unit,proto3,enum=meshtrade.studio.instrument.v1.Unit" json:"unit,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Unit v11.Unit `protobuf:"varint,3,opt,name=unit,proto3,enum=meshtrade.studio.instrument.v1.Unit" json:"unit,omitempty"`
+	// Indicates if an ownership certifiate is avaialble for download for this asset balance.
+	OwnershipCertificateAvailable bool `protobuf:"varint,4,opt,name=ownership_certificate_available,json=ownershipCertificateAvailable,proto3" json:"ownership_certificate_available,omitempty"`
+	unknownFields                 protoimpl.UnknownFields
+	sizeCache                     protoimpl.SizeCache
 }
 
 func (x *InstrumentMetaData) Reset() {
@@ -314,6 +316,13 @@ func (x *InstrumentMetaData) GetUnit() v11.Unit {
 		return x.Unit
 	}
 	return v11.Unit(0)
+}
+
+func (x *InstrumentMetaData) GetOwnershipCertificateAvailable() bool {
+	if x != nil {
+		return x.OwnershipCertificateAvailable
+	}
+	return false
 }
 
 // Balance entry representing holdings of a specific financial instrument.
@@ -481,11 +490,12 @@ const file_meshtrade_wallet_account_v1_account_proto_rawDesc = "" +
 	"\x05state\x18\n" +
 	" \x01(\x0e2).meshtrade.wallet.account.v1.AccountStateR\x05state\x12@\n" +
 	"\bbalances\x18\v \x03(\v2$.meshtrade.wallet.account.v1.BalanceR\bbalances\x12H\n" +
-	"\vsignatories\x18\f \x03(\v2&.meshtrade.wallet.account.v1.SignatoryR\vsignatories\"\xa6\x01\n" +
+	"\vsignatories\x18\f \x03(\v2&.meshtrade.wallet.account.v1.SignatoryR\vsignatories\"\xee\x01\n" +
 	"\x12InstrumentMetaData\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12B\n" +
 	"\x04type\x18\x02 \x01(\x0e2..meshtrade.studio.instrument.v1.InstrumentTypeR\x04type\x128\n" +
-	"\x04unit\x18\x03 \x01(\x0e2$.meshtrade.studio.instrument.v1.UnitR\x04unit\"\xe4\x01\n" +
+	"\x04unit\x18\x03 \x01(\x0e2$.meshtrade.studio.instrument.v1.UnitR\x04unit\x12F\n" +
+	"\x1fownership_certificate_available\x18\x04 \x01(\bR\x1downershipCertificateAvailable\"\xe4\x01\n" +
 	"\aBalance\x121\n" +
 	"\x06amount\x18\x01 \x01(\v2\x19.meshtrade.type.v1.AmountR\x06amount\x12D\n" +
 	"\x10available_amount\x18\x02 \x01(\v2\x19.meshtrade.type.v1.AmountR\x0favailableAmount\x12`\n" +
