@@ -66,6 +66,11 @@
       "require": "./dist/meshtrade/wallet/account/v1/index.js",
       "import": "./dist/meshtrade/wallet/account/v1/index.js"
     },
+    "./wallet/transfer/v1": {
+      "types": "./dist/meshtrade/wallet/transfer/v1/index.d.ts",
+      "require": "./dist/meshtrade/wallet/transfer/v1/index.js",
+      "import": "./dist/meshtrade/wallet/transfer/v1/index.js"
+    },
     "./reporting/account_report/v1": {
       "types": "./dist/meshtrade/reporting/account_report/v1/index.d.ts",
       "require": "./dist/meshtrade/reporting/account_report/v1/index.js",
@@ -118,6 +123,9 @@
       ],
       "wallet/account/v1": [
         "dist/meshtrade/wallet/account/v1/index.d.ts"
+      ],
+      "wallet/transfer/v1": [
+        "dist/meshtrade/wallet/transfer/v1/index.d.ts"
       ],
       "reporting/account_report/v1": [
         "dist/meshtrade/reporting/account_report/v1/index.d.ts"
