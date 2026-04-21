@@ -69,8 +69,10 @@ type UserProfile struct {
 	// This may differ from display_currency and is used for official records and statements.
 	// References a token from the meshtrade.type.v1.Token definition.
 	ReportingCurrency *v1.Token `protobuf:"bytes,10,opt,name=reporting_currency,json=reportingCurrency,proto3" json:"reporting_currency,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	// Defines the notification type and channel for notifications sent to the user.
+	NotificationPreferences *NotificationPreferences `protobuf:"bytes,11,opt,name=notification_preferences,json=notificationPreferences,proto3" json:"notification_preferences,omitempty"`
+	unknownFields           protoimpl.UnknownFields
+	sizeCache               protoimpl.SizeCache
 }
 
 func (x *UserProfile) Reset() {
@@ -173,12 +175,18 @@ func (x *UserProfile) GetReportingCurrency() *v1.Token {
 	return nil
 }
 
+func (x *UserProfile) GetNotificationPreferences() *NotificationPreferences {
+	if x != nil {
+		return x.NotificationPreferences
+	}
+	return nil
+}
+
 var File_meshtrade_iam_user_profile_v1_user_profile_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_user_profile_v1_user_profile_proto_rawDesc = "" +
 	"\n" +
-	"0meshtrade/iam/user_profile/v1/user_profile.proto\x12\x1dmeshtrade.iam.user_profile.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1dmeshtrade/type/v1/token.proto\"\xd9\n" +
-	"\n" +
+	"0meshtrade/iam/user_profile/v1/user_profile.proto\x12\x1dmeshtrade.iam.user_profile.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1dmeshtrade/type/v1/token.proto\x1a<meshtrade/iam/user_profile/v1/notification_preferences.proto\"\xcc\v\n" +
 	"\vUserProfile\x12\xd2\x01\n" +
 	"\x04name\x18\x01 \x01(\tB\xbd\x01\xbaH\xb9\x01\xba\x01\xb5\x01\n" +
 	"\x14name.format.optional\x12>name must be empty or in the format iam/user_profiles/{ULIDv2}\x1a]size(this) == 0 || this.matches('^iam/user_profiles/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12R\n" +
@@ -197,7 +205,8 @@ const file_meshtrade_iam_user_profile_v1_user_profile_proto_rawDesc = "" +
 	"\tlast_name\x18\b \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R\blastName\x12C\n" +
 	"\x10display_currency\x18\t \x01(\v2\x18.meshtrade.type.v1.TokenR\x0fdisplayCurrency\x12G\n" +
 	"\x12reporting_currency\x18\n" +
-	" \x01(\v2\x18.meshtrade.type.v1.TokenR\x11reportingCurrencyBg\n" +
+	" \x01(\v2\x18.meshtrade.type.v1.TokenR\x11reportingCurrency\x12q\n" +
+	"\x18notification_preferences\x18\v \x01(\v26.meshtrade.iam.user_profile.v1.NotificationPreferencesR\x17notificationPreferencesBg\n" +
 	"$co.meshtrade.api.iam.user_profile.v1Z?github.com/meshtrade/api/go/iam/user_profile/v1;user_profile_v1b\x06proto3"
 
 var (
@@ -214,17 +223,19 @@ func file_meshtrade_iam_user_profile_v1_user_profile_proto_rawDescGZIP() []byte 
 
 var file_meshtrade_iam_user_profile_v1_user_profile_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_meshtrade_iam_user_profile_v1_user_profile_proto_goTypes = []any{
-	(*UserProfile)(nil), // 0: meshtrade.iam.user_profile.v1.UserProfile
-	(*v1.Token)(nil),    // 1: meshtrade.type.v1.Token
+	(*UserProfile)(nil),             // 0: meshtrade.iam.user_profile.v1.UserProfile
+	(*v1.Token)(nil),                // 1: meshtrade.type.v1.Token
+	(*NotificationPreferences)(nil), // 2: meshtrade.iam.user_profile.v1.NotificationPreferences
 }
 var file_meshtrade_iam_user_profile_v1_user_profile_proto_depIdxs = []int32{
 	1, // 0: meshtrade.iam.user_profile.v1.UserProfile.display_currency:type_name -> meshtrade.type.v1.Token
 	1, // 1: meshtrade.iam.user_profile.v1.UserProfile.reporting_currency:type_name -> meshtrade.type.v1.Token
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	2, // 2: meshtrade.iam.user_profile.v1.UserProfile.notification_preferences:type_name -> meshtrade.iam.user_profile.v1.NotificationPreferences
+	3, // [3:3] is the sub-list for method output_type
+	3, // [3:3] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_iam_user_profile_v1_user_profile_proto_init() }
@@ -232,6 +243,7 @@ func file_meshtrade_iam_user_profile_v1_user_profile_proto_init() {
 	if File_meshtrade_iam_user_profile_v1_user_profile_proto != nil {
 		return
 	}
+	file_meshtrade_iam_user_profile_v1_notification_preferences_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

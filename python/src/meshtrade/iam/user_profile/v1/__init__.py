@@ -13,6 +13,12 @@
 # ===================================================================
 
 # Generated protobuf imports
+from .notification_preferences_pb2 import (
+    NotificationCategory,
+    NotificationChannel,
+    NotificationPreference,
+    NotificationPreferences,
+)
 from .user_profile_pb2 import UserProfile
 from .service_pb2 import (
     GetUserProfileByUserRequest,
@@ -59,6 +65,10 @@ __all__ = [
     "GetUserProfileRequest",
     "ListUserProfilesRequest",
     "ListUserProfilesResponse",
+    "NotificationCategory",
+    "NotificationChannel",
+    "NotificationPreference",
+    "NotificationPreferences",
     "SearchUserProfilesRequest",
     "SearchUserProfilesResponse",
     "UpdateUserProfileRequest",

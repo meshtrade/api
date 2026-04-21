@@ -4,6 +4,7 @@ package meshtrade.iam.user_profile.v1;
 
 import "buf/validate/validate.proto";
 import "meshtrade/type/v1/token.proto";
+import "meshtrade/iam/user_profile/v1/notification_preferences.proto";
 
 option go_package = "github.com/meshtrade/api/go/iam/user_profile/v1;user_profile_v1";
 option java_package = "co.meshtrade.api.iam.user_profile.v1";
@@ -141,4 +142,9 @@ message UserProfile {
      References a token from the meshtrade.type.v1.Token definition.
   */
   meshtrade.type.v1.Token reporting_currency = 10;
+
+  /*
+   * Defines the notification type and channel for notifications sent to the user.
+   * */
+  NotificationPreferences notification_preferences = 11;
 }

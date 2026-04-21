@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package meshtrade.iam.user_profile.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/meshtrade/api/go/iam/user_profile/v1;user_profile_v1";
+option java_package = "co.meshtrade.api.iam.user_profile.v1";
+
+message NotificationPreferences {
+  repeated NotificationPreference preferences = 1;
+
+  google.protobuf.Timestamp updated_at = 2;
+}
+
+message NotificationPreference {
+  NotificationCategory category = 1;
+  NotificationChannel channel = 2;
+
+  bool enabled = 3;
+
+  google.protobuf.Timestamp updated_at = 4;
+  google.protobuf.Timestamp consented_at = 5;
+
+  string source = 6;
+}
+
+enum NotificationCategory {
+  NOTIFICATION_CATEGORY_UNSPECIFIED = 0;
+
+  NOTIFICATION_CATEGORY_TRANSACTIONAL = 1; // deposits, withdrawals, trades (non-optional)
+  NOTIFICATION_CATEGORY_SECURITY = 2; // login alerts, 2FA, suspicious activity (non-optional)
+
+  NOTIFICATION_CATEGORY_ACCOUNT = 3; // KYC status, limits, account changes
+
+  NOTIFICATION_CATEGORY_PLATFORM_UPDATES = 4; // features, listings, fee changes
+  NOTIFICATION_CATEGORY_MARKETING = 5; // promos, campaigns, newsletters
+}
+
+enum NotificationChannel {
+  NOTIFICATION_CHANNEL_UNSPECIFIED = 0;
+  NOTIFICATION_CHANNEL_EMAIL = 1;
+  NOTIFICATION_CHANNEL_SMS = 2;
+}
