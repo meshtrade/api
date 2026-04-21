@@ -140,6 +140,14 @@ message Account {
      NOTE: This is read only live ledger data that is only populated when retrieved with populate_ledger_data=true.
   */
   repeated Signatory signatories = 12;
+
+  /*
+     Flag set by system to indicate that the account
+     was created internally by the system and not
+     by a user or api user.
+     NOTE: Immutable and set by system
+  */
+  bool internally_created = 13;
 }
 
 /*
