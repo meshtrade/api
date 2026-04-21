@@ -134,9 +134,14 @@ type Account struct {
 	// One or more of these signatories need to sign to authorize operations on the account.
 	// Implementation is dependent on the underlying ledger.
 	// NOTE: This is read only live ledger data that is only populated when retrieved with populate_ledger_data=true.
-	Signatories   []*Signatory `protobuf:"bytes,12,rep,name=signatories,proto3" json:"signatories,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Signatories []*Signatory `protobuf:"bytes,12,rep,name=signatories,proto3" json:"signatories,omitempty"`
+	// Flag set by system to indicate that the account
+	// was created internally by the system and not
+	// by a user or api user.
+	// NOTE: Immutable and set by system
+	InternallyCreated bool `protobuf:"varint,13,opt,name=internally_created,json=internallyCreated,proto3" json:"internally_created,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *Account) Reset() {
@@ -244,6 +249,13 @@ func (x *Account) GetSignatories() []*Signatory {
 		return x.Signatories
 	}
 	return nil
+}
+
+func (x *Account) GetInternallyCreated() bool {
+	if x != nil {
+		return x.InternallyCreated
+	}
+	return false
 }
 
 // Metadata describing financial instruments held in account balances.
@@ -473,7 +485,7 @@ var File_meshtrade_wallet_account_v1_account_proto protoreflect.FileDescriptor
 
 const file_meshtrade_wallet_account_v1_account_proto_rawDesc = "" +
 	"\n" +
-	")meshtrade/wallet/account/v1/account.proto\x12\x1bmeshtrade.wallet.account.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a4meshtrade/studio/instrument/v1/instrument_type.proto\x1a)meshtrade/studio/instrument/v1/unit.proto\x1a\x1emeshtrade/type/v1/amount.proto\x1a\x1emeshtrade/type/v1/ledger.proto\"\xdf\a\n" +
+	")meshtrade/wallet/account/v1/account.proto\x12\x1bmeshtrade.wallet.account.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a4meshtrade/studio/instrument/v1/instrument_type.proto\x1a)meshtrade/studio/instrument/v1/unit.proto\x1a\x1emeshtrade/type/v1/amount.proto\x1a\x1emeshtrade/type/v1/ledger.proto\"\x8e\b\n" +
 	"\aAccount\x12\xc0\x01\n" +
 	"\x04name\x18\x01 \x01(\tB\xab\x01\xbaH\xa7\x01\xba\x01\xa3\x01\n" +
 	"\x14name.format.optional\x125name must be empty or in the format accounts/{ULIDv2}\x1aTsize(this) == 0 || this.matches('^accounts/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$')R\x04name\x12R\n" +
@@ -490,7 +502,8 @@ const file_meshtrade_wallet_account_v1_account_proto_rawDesc = "" +
 	"\x05state\x18\n" +
 	" \x01(\x0e2).meshtrade.wallet.account.v1.AccountStateR\x05state\x12@\n" +
 	"\bbalances\x18\v \x03(\v2$.meshtrade.wallet.account.v1.BalanceR\bbalances\x12H\n" +
-	"\vsignatories\x18\f \x03(\v2&.meshtrade.wallet.account.v1.SignatoryR\vsignatories\"\xee\x01\n" +
+	"\vsignatories\x18\f \x03(\v2&.meshtrade.wallet.account.v1.SignatoryR\vsignatories\x12-\n" +
+	"\x12internally_created\x18\r \x01(\bR\x11internallyCreated\"\xee\x01\n" +
 	"\x12InstrumentMetaData\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12B\n" +
 	"\x04type\x18\x02 \x01(\x0e2..meshtrade.studio.instrument.v1.InstrumentTypeR\x04type\x128\n" +
