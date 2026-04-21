@@ -14,7 +14,8 @@ const notificationCategoryToStringMapping: {
   [NotificationCategory.NOTIFICATION_CATEGORY_TRANSACTIONAL]: "Transactional",
   [NotificationCategory.NOTIFICATION_CATEGORY_SECURITY]: "Security",
   [NotificationCategory.NOTIFICATION_CATEGORY_ACCOUNT]: "Account",
-  [NotificationCategory.NOTIFICATION_CATEGORY_PLATFORM_UPDATES]: "Platform Updates",
+  [NotificationCategory.NOTIFICATION_CATEGORY_PLATFORM_UPDATES]:
+    "Platform Updates",
   [NotificationCategory.NOTIFICATION_CATEGORY_MARKETING]: "Marketing",
 };
 
