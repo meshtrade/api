@@ -19,9 +19,9 @@ message NotificationPreference {
 
   bool enabled = 3;
 
-  google.protobuf.Timestamp consented_at = 5;
+  google.protobuf.Timestamp consented_at = 4;
 
-  string source = 6;
+  string source = 5;
 }
 
 enum NotificationCategory {

@@ -186,8 +186,8 @@ type NotificationPreference struct {
 	Category      NotificationCategory   `protobuf:"varint,1,opt,name=category,proto3,enum=meshtrade.iam.user_profile.v1.NotificationCategory" json:"category,omitempty"`
 	Channel       NotificationChannel    `protobuf:"varint,2,opt,name=channel,proto3,enum=meshtrade.iam.user_profile.v1.NotificationChannel" json:"channel,omitempty"`
 	Enabled       bool                   `protobuf:"varint,3,opt,name=enabled,proto3" json:"enabled,omitempty"`
-	ConsentedAt   *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=consented_at,json=consentedAt,proto3" json:"consented_at,omitempty"`
-	Source        string                 `protobuf:"bytes,6,opt,name=source,proto3" json:"source,omitempty"`
+	ConsentedAt   *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=consented_at,json=consentedAt,proto3" json:"consented_at,omitempty"`
+	Source        string                 `protobuf:"bytes,5,opt,name=source,proto3" json:"source,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -270,8 +270,8 @@ const file_meshtrade_iam_user_profile_v1_notification_preferences_proto_rawDesc 
 	"\bcategory\x18\x01 \x01(\x0e23.meshtrade.iam.user_profile.v1.NotificationCategoryR\bcategory\x12L\n" +
 	"\achannel\x18\x02 \x01(\x0e22.meshtrade.iam.user_profile.v1.NotificationChannelR\achannel\x12\x18\n" +
 	"\aenabled\x18\x03 \x01(\bR\aenabled\x12=\n" +
-	"\fconsented_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\vconsentedAt\x12\x16\n" +
-	"\x06source\x18\x06 \x01(\tR\x06source*\xfe\x01\n" +
+	"\fconsented_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\vconsentedAt\x12\x16\n" +
+	"\x06source\x18\x05 \x01(\tR\x06source*\xfe\x01\n" +
 	"\x14NotificationCategory\x12%\n" +
 	"!NOTIFICATION_CATEGORY_UNSPECIFIED\x10\x00\x12'\n" +
 	"#NOTIFICATION_CATEGORY_TRANSACTIONAL\x10\x01\x12\"\n" +
