@@ -495,7 +495,7 @@ var File_meshtrade_iam_user_profile_v1_service_proto protoreflect.FileDescriptor
 
 const file_meshtrade_iam_user_profile_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"+meshtrade/iam/user_profile/v1/service.proto\x12\x1dmeshtrade.iam.user_profile.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a0meshtrade/iam/user_profile/v1/user_profile.proto\x1a7meshtrade/option/method_options/v1/method_options.proto\x1a<meshtrade/iam/user_profile/v1/notification_preferences.proto\"\xfe\x02\n" +
+	"+meshtrade/iam/user_profile/v1/service.proto\x12\x1dmeshtrade.iam.user_profile.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a0meshtrade/iam/user_profile/v1/user_profile.proto\x1a7meshtrade/option/method_options/v1/method_options.proto\"\xfe\x02\n" +
 	"\x1bGetUserProfileByUserRequest\x12\xde\x02\n" +
 	"\x04user\x18\x01 \x01(\tB\xc9\x02\xbaH\xc5\x02\xba\x01V\n" +
 	"\ruser.required\x125user is required and must be in format users/{ULIDv2}\x1a\x0esize(this) > 0\xba\x01\xb1\x01\n" +
@@ -590,7 +590,6 @@ func file_meshtrade_iam_user_profile_v1_service_proto_init() {
 		return
 	}
 	file_meshtrade_iam_user_profile_v1_user_profile_proto_init()
-	file_meshtrade_iam_user_profile_v1_notification_preferences_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

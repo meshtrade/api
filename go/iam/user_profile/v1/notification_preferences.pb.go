@@ -23,17 +23,35 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// NotificationPreferences represents the user's configurable routing choices
+// for various categories of system notifications.
 type NotificationPreferences struct {
-	state               protoimpl.MessageState `protogen:"open.v1"`
-	SecurityAlerts      *ChannelSettings       `protobuf:"bytes,1,opt,name=security_alerts,json=securityAlerts,proto3" json:"security_alerts,omitempty"`
-	TransactionalAlerts *ChannelSettings       `protobuf:"bytes,2,opt,name=transactional_alerts,json=transactionalAlerts,proto3" json:"transactional_alerts,omitempty"`
-	// OPTIONAL CATEGORIES: No validation rules, they can all be false
-	AccountUpdates  *ChannelSettings       `protobuf:"bytes,3,opt,name=account_updates,json=accountUpdates,proto3" json:"account_updates,omitempty"`
-	PlatformUpdates *ChannelSettings       `protobuf:"bytes,4,opt,name=platform_updates,json=platformUpdates,proto3" json:"platform_updates,omitempty"`
-	Marketing       *ChannelSettings       `protobuf:"bytes,5,opt,name=marketing,proto3" json:"marketing,omitempty"`
-	UpdatedAt       *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// security_alerts handles critical account security events.
+	// Examples: New device logins, password changes, and suspicious activity.
+	// MANDATORY: At least one channel (email or sms) must remain enabled at all times.
+	SecurityAlerts *ChannelSettings `protobuf:"bytes,1,opt,name=security_alerts,json=securityAlerts,proto3" json:"security_alerts,omitempty"`
+	// transactional_alerts handles notifications directly tied to user financial actions.
+	// Examples: Defund orders settled, spot trades settled, direct orders, fiat deposits/withdrawals.
+	// MANDATORY: At least one channel (email or sms) must remain enabled at all times.
+	TransactionalAlerts *ChannelSettings `protobuf:"bytes,2,opt,name=transactional_alerts,json=transactionalAlerts,proto3" json:"transactional_alerts,omitempty"`
+	// account_updates handles operational notifications regarding the user's account status.
+	// Examples: KYC verification outcomes.
+	// OPTIONAL: Defaults to email_enabled = true upon account creation
+	AccountUpdates *ChannelSettings `protobuf:"bytes,3,opt,name=account_updates,json=accountUpdates,proto3" json:"account_updates,omitempty"`
+	// platform_updates handles announcements regarding the Mesh platform.
+	// Examples: New feature releases, newly supported assets, fee schedule changes, or Terms of Service updates.
+	// OPTIONAL: Can be fully disabled by the user.
+	PlatformUpdates *ChannelSettings `protobuf:"bytes,4,opt,name=platform_updates,json=platformUpdates,proto3" json:"platform_updates,omitempty"`
+	// marketing handles all promotional and commercial communications.
+	// Examples: Trading campaigns, newsletters, promotional discounts, and partner offers.
+	// OPTIONAL: Requires explicit user opt-in (defaults to false for all channels).
+	Marketing *ChannelSettings `protobuf:"bytes,5,opt,name=marketing,proto3" json:"marketing,omitempty"`
+	// updated_at indicates the last time these preferences were modified.
+	// READ-ONLY: Set automatically by the server during updates. Any client-provided value is ignored.
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *NotificationPreferences) Reset() {
@@ -108,10 +126,13 @@ func (x *NotificationPreferences) GetUpdatedAt() *timestamppb.Timestamp {
 	return nil
 }
 
+// ChannelSettings represents the delivery methods available for a specific notification category.
 type ChannelSettings struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	EmailEnabled  bool                   `protobuf:"varint,1,opt,name=email_enabled,json=emailEnabled,proto3" json:"email_enabled,omitempty"`
-	SmsEnabled    bool                   `protobuf:"varint,2,opt,name=sms_enabled,json=smsEnabled,proto3" json:"sms_enabled,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// email_enabled indicates if the user wishes to receive alerts via their registered email address.
+	EmailEnabled bool `protobuf:"varint,1,opt,name=email_enabled,json=emailEnabled,proto3" json:"email_enabled,omitempty"`
+	// sms_enabled indicates if the user wishes to receive alerts via their registered phone number.
+	SmsEnabled    bool `protobuf:"varint,2,opt,name=sms_enabled,json=smsEnabled,proto3" json:"sms_enabled,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
