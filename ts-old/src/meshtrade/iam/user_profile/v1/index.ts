@@ -30,5 +30,3 @@ export * from "./user_profile_pb";
 //   export * from "./my_custom_module";
 //   export { MyCustomClass } from "./another_module";
 // ===================================================================
-
-export * from "./user_profile";
