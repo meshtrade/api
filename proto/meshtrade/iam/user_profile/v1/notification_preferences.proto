@@ -19,7 +19,6 @@ message NotificationPreference {
 
   bool enabled = 3;
 
-  google.protobuf.Timestamp updated_at = 4;
   google.protobuf.Timestamp consented_at = 5;
 
   string source = 6;

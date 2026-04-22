@@ -186,7 +186,6 @@ type NotificationPreference struct {
 	Category      NotificationCategory   `protobuf:"varint,1,opt,name=category,proto3,enum=meshtrade.iam.user_profile.v1.NotificationCategory" json:"category,omitempty"`
 	Channel       NotificationChannel    `protobuf:"varint,2,opt,name=channel,proto3,enum=meshtrade.iam.user_profile.v1.NotificationChannel" json:"channel,omitempty"`
 	Enabled       bool                   `protobuf:"varint,3,opt,name=enabled,proto3" json:"enabled,omitempty"`
-	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	ConsentedAt   *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=consented_at,json=consentedAt,proto3" json:"consented_at,omitempty"`
 	Source        string                 `protobuf:"bytes,6,opt,name=source,proto3" json:"source,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -244,13 +243,6 @@ func (x *NotificationPreference) GetEnabled() bool {
 	return false
 }
 
-func (x *NotificationPreference) GetUpdatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.UpdatedAt
-	}
-	return nil
-}
-
 func (x *NotificationPreference) GetConsentedAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.ConsentedAt
@@ -273,13 +265,11 @@ const file_meshtrade_iam_user_profile_v1_notification_preferences_proto_rawDesc 
 	"\x17NotificationPreferences\x12W\n" +
 	"\vpreferences\x18\x01 \x03(\v25.meshtrade.iam.user_profile.v1.NotificationPreferenceR\vpreferences\x129\n" +
 	"\n" +
-	"updated_at\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"\xe3\x02\n" +
+	"updated_at\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"\xa8\x02\n" +
 	"\x16NotificationPreference\x12O\n" +
 	"\bcategory\x18\x01 \x01(\x0e23.meshtrade.iam.user_profile.v1.NotificationCategoryR\bcategory\x12L\n" +
 	"\achannel\x18\x02 \x01(\x0e22.meshtrade.iam.user_profile.v1.NotificationChannelR\achannel\x12\x18\n" +
-	"\aenabled\x18\x03 \x01(\bR\aenabled\x129\n" +
-	"\n" +
-	"updated_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12=\n" +
+	"\aenabled\x18\x03 \x01(\bR\aenabled\x12=\n" +
 	"\fconsented_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\vconsentedAt\x12\x16\n" +
 	"\x06source\x18\x06 \x01(\tR\x06source*\xfe\x01\n" +
 	"\x14NotificationCategory\x12%\n" +
@@ -321,13 +311,12 @@ var file_meshtrade_iam_user_profile_v1_notification_preferences_proto_depIdxs = 
 	4, // 1: meshtrade.iam.user_profile.v1.NotificationPreferences.updated_at:type_name -> google.protobuf.Timestamp
 	0, // 2: meshtrade.iam.user_profile.v1.NotificationPreference.category:type_name -> meshtrade.iam.user_profile.v1.NotificationCategory
 	1, // 3: meshtrade.iam.user_profile.v1.NotificationPreference.channel:type_name -> meshtrade.iam.user_profile.v1.NotificationChannel
-	4, // 4: meshtrade.iam.user_profile.v1.NotificationPreference.updated_at:type_name -> google.protobuf.Timestamp
-	4, // 5: meshtrade.iam.user_profile.v1.NotificationPreference.consented_at:type_name -> google.protobuf.Timestamp
-	6, // [6:6] is the sub-list for method output_type
-	6, // [6:6] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	4, // 4: meshtrade.iam.user_profile.v1.NotificationPreference.consented_at:type_name -> google.protobuf.Timestamp
+	5, // [5:5] is the sub-list for method output_type
+	5, // [5:5] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_iam_user_profile_v1_notification_preferences_proto_init() }
