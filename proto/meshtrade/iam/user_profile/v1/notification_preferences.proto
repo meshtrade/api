@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package meshtrade.iam.user_profile.v1;
+
+import "buf/validate/validate.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/meshtrade/api/go/iam/user_profile/v1;user_profile_v1";
+option java_package = "co.meshtrade.api.iam.user_profile.v1";
+
+// NotificationPreferences represents the user's configurable routing choices 
+// for various categories of system notifications.
+message NotificationPreferences {
+
+  // security_alerts handles critical account security events.
+  // Examples: New device logins, password changes, and suspicious activity.
+  // MANDATORY: At least one channel (email or sms) must remain enabled at all times.
+  ChannelSettings security_alerts = 1 [(buf.validate.field).cel = {
+    id: "security_alerts_minimum_channel"
+    message: "You must keep at least one channel enabled for security alerts."
+    expression: "this.email_enabled || this.sms_enabled"
+  }];
+
+  // transactional_alerts handles notifications directly tied to user financial actions.
+  // Examples: Defund orders settled, spot trades settled, direct orders, fiat deposits/withdrawals.
+  // MANDATORY: At least one channel (email or sms) must remain enabled at all times.
+  ChannelSettings transactional_alerts = 2 [(buf.validate.field).cel = {
+    id: "transactional_alerts_minimum_channel"
+    message: "You must keep at least one channel enabled for transactional alerts."
+    expression: "this.email_enabled || this.sms_enabled"
+  }];
+
+  // account_updates handles operational notifications regarding the user's account status.
+  // Examples: KYC verification outcomes.
+  // OPTIONAL: Defaults to email_enabled = true upon account creation
+  ChannelSettings account_updates = 3;
+
+  // platform_updates handles announcements regarding the Mesh platform.
+  // Examples: New feature releases, newly supported assets, fee schedule changes, or Terms of Service updates.
+  // OPTIONAL: Can be fully disabled by the user.
+  ChannelSettings platform_updates = 4;
+
+  // marketing handles all promotional and commercial communications.
+  // Examples: Trading campaigns, newsletters, promotional discounts, and partner offers.
+  // OPTIONAL: Requires explicit user opt-in (defaults to false for all channels).
+  ChannelSettings marketing = 5;
+
+  // updated_at indicates the last time these preferences were modified.
+  // READ-ONLY: Set automatically by the server during updates. Any client-provided value is ignored.
+  google.protobuf.Timestamp updated_at = 6;
+}
+
+// ChannelSettings represents the delivery methods available for a specific notification category.
+message ChannelSettings {
+  // email_enabled indicates if the user wishes to receive alerts via their registered email address.
+  bool email_enabled = 1;
+  
+  // sms_enabled indicates if the user wishes to receive alerts via their registered phone number.
+  bool sms_enabled = 2;
+}

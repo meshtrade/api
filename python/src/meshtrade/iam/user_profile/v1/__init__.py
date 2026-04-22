@@ -13,6 +13,7 @@
 # ===================================================================
 
 # Generated protobuf imports
+from .notification_preferences_pb2 import ChannelSettings, NotificationPreferences
 from .user_profile_pb2 import UserProfile
 from .service_pb2 import (
     GetUserProfileByUserRequest,
@@ -53,12 +54,14 @@ from .service_meshpy import (
 # Combined auto-generated and manual exports
 __all__ = [
     # Generated exports
+    "ChannelSettings",
     "GetUserProfileByUserRequest",
     "GetUserProfilePictureUploadUrlRequest",
     "GetUserProfilePictureUploadUrlResponse",
     "GetUserProfileRequest",
     "ListUserProfilesRequest",
     "ListUserProfilesResponse",
+    "NotificationPreferences",
     "SearchUserProfilesRequest",
     "SearchUserProfilesResponse",
     "UpdateUserProfileRequest",

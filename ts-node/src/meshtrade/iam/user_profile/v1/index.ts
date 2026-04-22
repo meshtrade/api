@@ -11,6 +11,7 @@
 // ===================================================================
 
 // Generated exports
+export * from "./notification_preferences_pb";
 export * from "./service_node_meshts";
 export * from "./service_pb";
 export * from "./user_profile_pb";

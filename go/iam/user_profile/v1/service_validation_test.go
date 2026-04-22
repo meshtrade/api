@@ -221,9 +221,9 @@ func TestUpdateUserProfileRequest_Validation(t *testing.T) {
 			name: "valid request with complete user profile",
 			request: &UpdateUserProfileRequest{
 				UserProfile: &UserProfile{
-					Name:        "iam/user_profiles/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-					Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-					User:        "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+					Name:      "iam/user_profiles/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+					Owner:     "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+					User:      "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 					FirstName: "John",
 				},
 			},
@@ -257,10 +257,10 @@ func TestUpdateUserProfileRequest_Validation(t *testing.T) {
 			name: "invalid - user_profile with invalid locale",
 			request: &UpdateUserProfileRequest{
 				UserProfile: &UserProfile{
-					Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-					User:        "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+					Owner:     "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+					User:      "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 					FirstName: "John",
-					Locale:      "invalid",
+					Locale:    "invalid",
 				},
 			},
 			wantValid: false,
@@ -283,8 +283,8 @@ func TestUpdateUserProfileRequest_Validation(t *testing.T) {
 			name: "invalid - user_profile with missing first_name",
 			request: &UpdateUserProfileRequest{
 				UserProfile: &UserProfile{
-					Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-					User:        "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+					Owner:     "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+					User:      "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 					FirstName: "",
 				},
 			},
@@ -295,8 +295,8 @@ func TestUpdateUserProfileRequest_Validation(t *testing.T) {
 			name: "invalid - user_profile with missing user",
 			request: &UpdateUserProfileRequest{
 				UserProfile: &UserProfile{
-					Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-					User:        "",
+					Owner:     "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+					User:      "",
 					FirstName: "John",
 				},
 			},
@@ -354,6 +354,98 @@ func TestListUserProfilesRequest_Validation(t *testing.T) {
 	}
 }
 
+func TestNotificationPreferences_Validation(t *testing.T) {
+	validator, err := protovalidate.New()
+	require.NoError(t, err)
+
+	tests := []struct {
+		name      string
+		prefs     *NotificationPreferences
+		wantValid bool
+		wantError string
+	}{
+		{
+			name: "valid - both channels enabled for mandatory fields",
+			prefs: &NotificationPreferences{
+				SecurityAlerts:      &ChannelSettings{EmailEnabled: true, SmsEnabled: true},
+				TransactionalAlerts: &ChannelSettings{EmailEnabled: true, SmsEnabled: true},
+			},
+			wantValid: true,
+		},
+		{
+			name: "valid - email only for mandatory fields",
+			prefs: &NotificationPreferences{
+				SecurityAlerts:      &ChannelSettings{EmailEnabled: true, SmsEnabled: false},
+				TransactionalAlerts: &ChannelSettings{EmailEnabled: true, SmsEnabled: false},
+			},
+			wantValid: true,
+		},
+		{
+			name: "valid - sms only for mandatory fields",
+			prefs: &NotificationPreferences{
+				SecurityAlerts:      &ChannelSettings{EmailEnabled: false, SmsEnabled: true},
+				TransactionalAlerts: &ChannelSettings{EmailEnabled: false, SmsEnabled: true},
+			},
+			wantValid: true,
+		},
+		{
+			name: "valid - optional fields can be fully disabled",
+			prefs: &NotificationPreferences{
+				SecurityAlerts:      &ChannelSettings{EmailEnabled: true, SmsEnabled: false},
+				TransactionalAlerts: &ChannelSettings{EmailEnabled: true, SmsEnabled: false},
+				AccountUpdates:      &ChannelSettings{EmailEnabled: false, SmsEnabled: false},
+				PlatformUpdates:     &ChannelSettings{EmailEnabled: false, SmsEnabled: false},
+				Marketing:           &ChannelSettings{EmailEnabled: false, SmsEnabled: false},
+			},
+			wantValid: true,
+		},
+		// security_alerts mandatory channel tests
+		{
+			name: "invalid - security_alerts both channels disabled",
+			prefs: &NotificationPreferences{
+				SecurityAlerts:      &ChannelSettings{EmailEnabled: false, SmsEnabled: false},
+				TransactionalAlerts: &ChannelSettings{EmailEnabled: true, SmsEnabled: false},
+			},
+			wantValid: false,
+			wantError: "security_alerts",
+		},
+		// transactional_alerts mandatory channel tests
+		{
+			name: "invalid - transactional_alerts both channels disabled",
+			prefs: &NotificationPreferences{
+				SecurityAlerts:      &ChannelSettings{EmailEnabled: true, SmsEnabled: false},
+				TransactionalAlerts: &ChannelSettings{EmailEnabled: false, SmsEnabled: false},
+			},
+			wantValid: false,
+			wantError: "transactional_alerts",
+		},
+		{
+			name: "invalid - both mandatory fields have all channels disabled",
+			prefs: &NotificationPreferences{
+				SecurityAlerts:      &ChannelSettings{EmailEnabled: false, SmsEnabled: false},
+				TransactionalAlerts: &ChannelSettings{EmailEnabled: false, SmsEnabled: false},
+			},
+			wantValid: false,
+			wantError: "security_alerts",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			err := validator.Validate(tt.prefs)
+
+			if tt.wantValid {
+				assert.NoError(t, err, "Expected validation to pass for case: %s", tt.name)
+			} else {
+				assert.Error(t, err, "Expected validation to fail for case: %s", tt.name)
+				if tt.wantError != "" && err != nil {
+					assert.Contains(t, strings.ToLower(err.Error()), tt.wantError, "Error message should contain expected text for case: %s. Got error: %s", tt.name, err.Error())
+				}
+			}
+		})
+	}
+}
+
 func TestListUserProfilesResponse_Validation(t *testing.T) {
 	validator, err := protovalidate.New()
 	require.NoError(t, err)
@@ -383,9 +475,9 @@ func TestListUserProfilesResponse_Validation(t *testing.T) {
 			response: &ListUserProfilesResponse{
 				UserProfiles: []*UserProfile{
 					{
-						Name:        "iam/user_profiles/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-						Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-						User:        "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+						Name:      "iam/user_profiles/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+						Owner:     "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+						User:      "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 						FirstName: "John",
 					},
 				},
@@ -397,15 +489,15 @@ func TestListUserProfilesResponse_Validation(t *testing.T) {
 			response: &ListUserProfilesResponse{
 				UserProfiles: []*UserProfile{
 					{
-						Name:        "iam/user_profiles/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-						Owner:       "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
-						User:        "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+						Name:      "iam/user_profiles/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+						Owner:     "groups/01ARZ3NDEKTSV4RRFFQ69G5FAV",
+						User:      "users/01ARZ3NDEKTSV4RRFFQ69G5FAV",
 						FirstName: "John",
 					},
 					{
-						Name:        "iam/user_profiles/01BX5ZZKBKACTAV9WEVGEMMVRZ",
-						Owner:       "groups/01BX5ZZKBKACTAV9WEVGEMMVRZ",
-						User:        "users/01BX5ZZKBKACTAV9WEVGEMMVRZ",
+						Name:      "iam/user_profiles/01BX5ZZKBKACTAV9WEVGEMMVRZ",
+						Owner:     "groups/01BX5ZZKBKACTAV9WEVGEMMVRZ",
+						User:      "users/01BX5ZZKBKACTAV9WEVGEMMVRZ",
 						FirstName: "Jane",
 					},
 				},
