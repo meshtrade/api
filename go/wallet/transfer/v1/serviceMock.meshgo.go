@@ -26,6 +26,8 @@ type MockTransferService struct {
 	ListTransfersFuncInvocations            int
 	MonitorTransferFunc                     func(t *testing.T, m *MockTransferService, ctx context.Context, request *MonitorTransferRequest) (TransferService_MonitorTransferClient, error)
 	MonitorTransferFuncInvocations          int
+	CalculateTransferFeeFunc                func(t *testing.T, m *MockTransferService, ctx context.Context, request *CalculateTransferFeeRequest) (*CalculateTransferFeeResponse, error)
+	CalculateTransferFeeFuncInvocations     int
 }
 
 // Close is a no-op for the mock implementation.
@@ -48,6 +50,7 @@ func (m *MockTransferService) WithGroup(group string) TransferServiceClientInter
 		SearchTransfersByAddressFunc: m.SearchTransfersByAddressFunc,
 		ListTransfersFunc:            m.ListTransfersFunc,
 		MonitorTransferFunc:          m.MonitorTransferFunc,
+		CalculateTransferFeeFunc:     m.CalculateTransferFeeFunc,
 	}
 }
 
@@ -99,4 +102,14 @@ func (m *MockTransferService) MonitorTransfer(ctx context.Context, request *Moni
 		return nil, nil
 	}
 	return m.MonitorTransferFunc(m.T, m, ctx, request)
+}
+
+func (m *MockTransferService) CalculateTransferFee(ctx context.Context, request *CalculateTransferFeeRequest) (*CalculateTransferFeeResponse, error) {
+	m.mutex.Lock()
+	m.CalculateTransferFeeFuncInvocations++
+	m.mutex.Unlock()
+	if m.CalculateTransferFeeFunc == nil {
+		return nil, nil
+	}
+	return m.CalculateTransferFeeFunc(m.T, m, ctx, request)
 }

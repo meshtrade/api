@@ -4,6 +4,8 @@ package meshtrade.wallet.transfer.v1;
 
 import "buf/validate/validate.proto";
 import "meshtrade/option/method_options/v1/method_options.proto";
+import "meshtrade/type/v1/amount.proto";
+import "meshtrade/type/v1/decimal.proto";
 import "meshtrade/type/v1/sorting.proto";
 import "meshtrade/wallet/transfer/v1/transfer.proto";
 
@@ -107,6 +109,26 @@ service TransferService {
       verification_status: VERIFICATION_STATUS_VERIFIED
     };
   }
+
+  /*
+     Calculates the transfer fee for a given transfer amount.
+
+     Returns the calculated fee amount, VAT amount and VAT rate
+     that would be applied to a transfer of the specified amount.
+  */
+  rpc CalculateTransferFee(CalculateTransferFeeRequest) returns (CalculateTransferFeeResponse) {
+    option (meshtrade.option.method_options.v1.method_options) = {
+      type: METHOD_TYPE_READ
+      access_level: METHOD_ACCESS_LEVEL_AUTHORISED
+      roles: [
+        ROLE_WALLET_ADMIN,
+        ROLE_WALLET_VIEWER,
+        ROLE_WALLET_TRANSFER_ADMIN,
+        ROLE_WALLET_TRANSFER_VIEWER
+      ]
+      verification_status: VERIFICATION_STATUS_VERIFIED
+    };
+  }
 }
 
 /*
@@ -194,4 +216,34 @@ message MonitorTransferRequest {
   string name = 1 [(buf.validate.field) = {
     string: {pattern: "^wallet/transfers/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"}
   }];
+}
+
+/*
+   Request to calculate the transfer fee for a given amount.
+*/
+message CalculateTransferFeeRequest {
+  /*
+     The transfer amount to calculate fees for.
+  */
+  meshtrade.type.v1.Amount amount = 1 [(buf.validate.field) = {required: true}];
+}
+
+/*
+   Response containing the calculated transfer fee breakdown.
+*/
+message CalculateTransferFeeResponse {
+  /*
+     The calculated fee amount for the transfer.
+  */
+  meshtrade.type.v1.Amount fee_amount = 1;
+
+  /*
+     The VAT amount calculated on the fee.
+  */
+  meshtrade.type.v1.Amount vat_amount = 2;
+
+  /*
+     The VAT rate used for the fee calculation.
+  */
+  meshtrade.type.v1.Decimal vat_rate = 3;
 }

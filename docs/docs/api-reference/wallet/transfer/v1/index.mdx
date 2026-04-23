@@ -30,9 +30,10 @@ Transfers are the primary mechanism for moving assets between accounts on the Me
 
 ### Basic Transfer
 
-1. **Create Transfer** - Initiate a transfer specifying source address, destination address, and amount
-2. **Monitor Transfer** - Subscribe to real-time state updates via streaming
-3. **Verify Completion** - Confirm the transfer reached `TRANSFER_STATE_SUCCESSFUL`
+1. **Calculate Transfer Fee** - Preview the fee, VAT amount, and VAT rate for the intended transfer amount
+2. **Create Transfer** - Initiate a transfer specifying source address, destination address, and amount
+3. **Monitor Transfer** - Subscribe to real-time state updates via streaming
+4. **Verify Completion** - Confirm the transfer reached `TRANSFER_STATE_SUCCESSFUL`
 
 ### Transfer Auditing
 
@@ -71,7 +72,7 @@ Each transfer includes a `TransferFee` containing:
 - **amount** - The calculated fee charged for the transfer
 - **vat_rate** - The VAT rate applied to the fee calculation
 
-Fees are calculated automatically by the system during transfer creation.
+Fees are calculated automatically by the system during transfer creation. You can preview the fee breakdown before creating a transfer using the **CalculateTransferFee** method, which returns the fee amount, VAT amount, and VAT rate for a given transfer amount.
 
 ### Transfer Numbers
 
@@ -91,5 +92,6 @@ Require any wallet role (`ADMIN` or `VIEWER` variants):
 - ListTransfers
 - SearchTransfersByAddress
 - MonitorTransfer
+- CalculateTransferFee
 
 All operations are scoped to your group's hierarchy - you can only access transfers owned by your group or its descendants.

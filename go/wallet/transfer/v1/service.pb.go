@@ -342,6 +342,116 @@ func (x *MonitorTransferRequest) GetName() string {
 	return ""
 }
 
+// Request to calculate the transfer fee for a given amount.
+type CalculateTransferFeeRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The transfer amount to calculate fees for.
+	Amount        *v1.Amount `protobuf:"bytes,1,opt,name=amount,proto3" json:"amount,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CalculateTransferFeeRequest) Reset() {
+	*x = CalculateTransferFeeRequest{}
+	mi := &file_meshtrade_wallet_transfer_v1_service_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CalculateTransferFeeRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CalculateTransferFeeRequest) ProtoMessage() {}
+
+func (x *CalculateTransferFeeRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_wallet_transfer_v1_service_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CalculateTransferFeeRequest.ProtoReflect.Descriptor instead.
+func (*CalculateTransferFeeRequest) Descriptor() ([]byte, []int) {
+	return file_meshtrade_wallet_transfer_v1_service_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *CalculateTransferFeeRequest) GetAmount() *v1.Amount {
+	if x != nil {
+		return x.Amount
+	}
+	return nil
+}
+
+// Response containing the calculated transfer fee breakdown.
+type CalculateTransferFeeResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The calculated fee amount for the transfer.
+	FeeAmount *v1.Amount `protobuf:"bytes,1,opt,name=fee_amount,json=feeAmount,proto3" json:"fee_amount,omitempty"`
+	// The VAT amount calculated on the fee.
+	VatAmount *v1.Amount `protobuf:"bytes,2,opt,name=vat_amount,json=vatAmount,proto3" json:"vat_amount,omitempty"`
+	// The VAT rate used for the fee calculation.
+	VatRate       *v1.Decimal `protobuf:"bytes,3,opt,name=vat_rate,json=vatRate,proto3" json:"vat_rate,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CalculateTransferFeeResponse) Reset() {
+	*x = CalculateTransferFeeResponse{}
+	mi := &file_meshtrade_wallet_transfer_v1_service_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CalculateTransferFeeResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CalculateTransferFeeResponse) ProtoMessage() {}
+
+func (x *CalculateTransferFeeResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_meshtrade_wallet_transfer_v1_service_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CalculateTransferFeeResponse.ProtoReflect.Descriptor instead.
+func (*CalculateTransferFeeResponse) Descriptor() ([]byte, []int) {
+	return file_meshtrade_wallet_transfer_v1_service_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *CalculateTransferFeeResponse) GetFeeAmount() *v1.Amount {
+	if x != nil {
+		return x.FeeAmount
+	}
+	return nil
+}
+
+func (x *CalculateTransferFeeResponse) GetVatAmount() *v1.Amount {
+	if x != nil {
+		return x.VatAmount
+	}
+	return nil
+}
+
+func (x *CalculateTransferFeeResponse) GetVatRate() *v1.Decimal {
+	if x != nil {
+		return x.VatRate
+	}
+	return nil
+}
+
 // Sorting configuration for organizing results.
 type ListTransfersRequest_Sorting struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -356,7 +466,7 @@ type ListTransfersRequest_Sorting struct {
 
 func (x *ListTransfersRequest_Sorting) Reset() {
 	*x = ListTransfersRequest_Sorting{}
-	mi := &file_meshtrade_wallet_transfer_v1_service_proto_msgTypes[7]
+	mi := &file_meshtrade_wallet_transfer_v1_service_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -368,7 +478,7 @@ func (x *ListTransfersRequest_Sorting) String() string {
 func (*ListTransfersRequest_Sorting) ProtoMessage() {}
 
 func (x *ListTransfersRequest_Sorting) ProtoReflect() protoreflect.Message {
-	mi := &file_meshtrade_wallet_transfer_v1_service_proto_msgTypes[7]
+	mi := &file_meshtrade_wallet_transfer_v1_service_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -402,7 +512,7 @@ var File_meshtrade_wallet_transfer_v1_service_proto protoreflect.FileDescriptor
 
 const file_meshtrade_wallet_transfer_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"*meshtrade/wallet/transfer/v1/service.proto\x12\x1cmeshtrade.wallet.transfer.v1\x1a\x1bbuf/validate/validate.proto\x1a7meshtrade/option/method_options/v1/method_options.proto\x1a\x1fmeshtrade/type/v1/sorting.proto\x1a+meshtrade/wallet/transfer/v1/transfer.proto\"c\n" +
+	"*meshtrade/wallet/transfer/v1/service.proto\x12\x1cmeshtrade.wallet.transfer.v1\x1a\x1bbuf/validate/validate.proto\x1a7meshtrade/option/method_options/v1/method_options.proto\x1a\x1emeshtrade/type/v1/amount.proto\x1a\x1fmeshtrade/type/v1/decimal.proto\x1a\x1fmeshtrade/type/v1/sorting.proto\x1a+meshtrade/wallet/transfer/v1/transfer.proto\"c\n" +
 	"\x15CreateTransferRequest\x12J\n" +
 	"\btransfer\x18\x01 \x01(\v2&.meshtrade.wallet.transfer.v1.TransferB\x06\xbaH\x03\xc8\x01\x01R\btransfer\"j\n" +
 	"\x12GetTransferRequest\x12T\n" +
@@ -421,13 +531,22 @@ const file_meshtrade_wallet_transfer_v1_service_proto_rawDesc = "" +
 	"\x15ListTransfersResponse\x12D\n" +
 	"\ttransfers\x18\x01 \x03(\v2&.meshtrade.wallet.transfer.v1.TransferR\ttransfers\"n\n" +
 	"\x16MonitorTransferRequest\x12T\n" +
-	"\x04name\x18\x01 \x01(\tB@\xbaH=r;29^wallet/transfers/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$R\x04name2\xf2\x05\n" +
+	"\x04name\x18\x01 \x01(\tB@\xbaH=r;29^wallet/transfers/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$R\x04name\"X\n" +
+	"\x1bCalculateTransferFeeRequest\x129\n" +
+	"\x06amount\x18\x01 \x01(\v2\x19.meshtrade.type.v1.AmountB\x06\xbaH\x03\xc8\x01\x01R\x06amount\"\xc9\x01\n" +
+	"\x1cCalculateTransferFeeResponse\x128\n" +
+	"\n" +
+	"fee_amount\x18\x01 \x01(\v2\x19.meshtrade.type.v1.AmountR\tfeeAmount\x128\n" +
+	"\n" +
+	"vat_amount\x18\x02 \x01(\v2\x19.meshtrade.type.v1.AmountR\tvatAmount\x125\n" +
+	"\bvat_rate\x18\x03 \x01(\v2\x1a.meshtrade.type.v1.DecimalR\avatRate2\x9c\a\n" +
 	"\x0fTransferService\x12\x81\x01\n" +
 	"\x0eCreateTransfer\x123.meshtrade.wallet.transfer.v1.CreateTransferRequest\x1a&.meshtrade.wallet.transfer.v1.Transfer\"\x12\xb2\xb5\x18\x0e\b\x02\x10\x02\x1a\x06\xc0\x84=Ą= \x01\x12\x81\x01\n" +
 	"\vGetTransfer\x120.meshtrade.wallet.transfer.v1.GetTransferRequest\x1a&.meshtrade.wallet.transfer.v1.Transfer\"\x18\xb2\xb5\x18\x14\b\x01\x10\x02\x1a\f\xc0\x84=\xc1\x84=Ą=ń= \x01\x12\xb3\x01\n" +
 	"\x18SearchTransfersByAddress\x12=.meshtrade.wallet.transfer.v1.SearchTransfersByAddressRequest\x1a>.meshtrade.wallet.transfer.v1.SearchTransfersByAddressResponse\"\x18\xb2\xb5\x18\x14\b\x01\x10\x02\x1a\f\xc0\x84=\xc1\x84=Ą=ń= \x01\x12\x92\x01\n" +
 	"\rListTransfers\x122.meshtrade.wallet.transfer.v1.ListTransfersRequest\x1a3.meshtrade.wallet.transfer.v1.ListTransfersResponse\"\x18\xb2\xb5\x18\x14\b\x01\x10\x02\x1a\f\xc0\x84=\xc1\x84=Ą=ń= \x01\x12\x8b\x01\n" +
-	"\x0fMonitorTransfer\x124.meshtrade.wallet.transfer.v1.MonitorTransferRequest\x1a&.meshtrade.wallet.transfer.v1.Transfer\"\x18\xb2\xb5\x18\x14\b\x01\x10\x02\x1a\f\xc0\x84=\xc1\x84=Ą=ń= \x010\x01Ba\n" +
+	"\x0fMonitorTransfer\x124.meshtrade.wallet.transfer.v1.MonitorTransferRequest\x1a&.meshtrade.wallet.transfer.v1.Transfer\"\x18\xb2\xb5\x18\x14\b\x01\x10\x02\x1a\f\xc0\x84=\xc1\x84=Ą=ń= \x010\x01\x12\xa7\x01\n" +
+	"\x14CalculateTransferFee\x129.meshtrade.wallet.transfer.v1.CalculateTransferFeeRequest\x1a:.meshtrade.wallet.transfer.v1.CalculateTransferFeeResponse\"\x18\xb2\xb5\x18\x14\b\x01\x10\x02\x1a\f\xc0\x84=\xc1\x84=Ą=ń= \x01Ba\n" +
 	"#co.meshtrade.api.wallet.transfer.v1Z:github.com/meshtrade/api/go/wallet/transfer/v1;transfer_v1b\x06proto3"
 
 var (
@@ -442,7 +561,7 @@ func file_meshtrade_wallet_transfer_v1_service_proto_rawDescGZIP() []byte {
 	return file_meshtrade_wallet_transfer_v1_service_proto_rawDescData
 }
 
-var file_meshtrade_wallet_transfer_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_meshtrade_wallet_transfer_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_meshtrade_wallet_transfer_v1_service_proto_goTypes = []any{
 	(*CreateTransferRequest)(nil),            // 0: meshtrade.wallet.transfer.v1.CreateTransferRequest
 	(*GetTransferRequest)(nil),               // 1: meshtrade.wallet.transfer.v1.GetTransferRequest
@@ -451,31 +570,41 @@ var file_meshtrade_wallet_transfer_v1_service_proto_goTypes = []any{
 	(*ListTransfersRequest)(nil),             // 4: meshtrade.wallet.transfer.v1.ListTransfersRequest
 	(*ListTransfersResponse)(nil),            // 5: meshtrade.wallet.transfer.v1.ListTransfersResponse
 	(*MonitorTransferRequest)(nil),           // 6: meshtrade.wallet.transfer.v1.MonitorTransferRequest
-	(*ListTransfersRequest_Sorting)(nil),     // 7: meshtrade.wallet.transfer.v1.ListTransfersRequest.Sorting
-	(*Transfer)(nil),                         // 8: meshtrade.wallet.transfer.v1.Transfer
-	(v1.SortingOrder)(0),                     // 9: meshtrade.type.v1.SortingOrder
+	(*CalculateTransferFeeRequest)(nil),      // 7: meshtrade.wallet.transfer.v1.CalculateTransferFeeRequest
+	(*CalculateTransferFeeResponse)(nil),     // 8: meshtrade.wallet.transfer.v1.CalculateTransferFeeResponse
+	(*ListTransfersRequest_Sorting)(nil),     // 9: meshtrade.wallet.transfer.v1.ListTransfersRequest.Sorting
+	(*Transfer)(nil),                         // 10: meshtrade.wallet.transfer.v1.Transfer
+	(*v1.Amount)(nil),                        // 11: meshtrade.type.v1.Amount
+	(*v1.Decimal)(nil),                       // 12: meshtrade.type.v1.Decimal
+	(v1.SortingOrder)(0),                     // 13: meshtrade.type.v1.SortingOrder
 }
 var file_meshtrade_wallet_transfer_v1_service_proto_depIdxs = []int32{
-	8,  // 0: meshtrade.wallet.transfer.v1.CreateTransferRequest.transfer:type_name -> meshtrade.wallet.transfer.v1.Transfer
-	8,  // 1: meshtrade.wallet.transfer.v1.SearchTransfersByAddressResponse.transfers:type_name -> meshtrade.wallet.transfer.v1.Transfer
-	7,  // 2: meshtrade.wallet.transfer.v1.ListTransfersRequest.sorting:type_name -> meshtrade.wallet.transfer.v1.ListTransfersRequest.Sorting
-	8,  // 3: meshtrade.wallet.transfer.v1.ListTransfersResponse.transfers:type_name -> meshtrade.wallet.transfer.v1.Transfer
-	9,  // 4: meshtrade.wallet.transfer.v1.ListTransfersRequest.Sorting.order:type_name -> meshtrade.type.v1.SortingOrder
-	0,  // 5: meshtrade.wallet.transfer.v1.TransferService.CreateTransfer:input_type -> meshtrade.wallet.transfer.v1.CreateTransferRequest
-	1,  // 6: meshtrade.wallet.transfer.v1.TransferService.GetTransfer:input_type -> meshtrade.wallet.transfer.v1.GetTransferRequest
-	2,  // 7: meshtrade.wallet.transfer.v1.TransferService.SearchTransfersByAddress:input_type -> meshtrade.wallet.transfer.v1.SearchTransfersByAddressRequest
-	4,  // 8: meshtrade.wallet.transfer.v1.TransferService.ListTransfers:input_type -> meshtrade.wallet.transfer.v1.ListTransfersRequest
-	6,  // 9: meshtrade.wallet.transfer.v1.TransferService.MonitorTransfer:input_type -> meshtrade.wallet.transfer.v1.MonitorTransferRequest
-	8,  // 10: meshtrade.wallet.transfer.v1.TransferService.CreateTransfer:output_type -> meshtrade.wallet.transfer.v1.Transfer
-	8,  // 11: meshtrade.wallet.transfer.v1.TransferService.GetTransfer:output_type -> meshtrade.wallet.transfer.v1.Transfer
-	3,  // 12: meshtrade.wallet.transfer.v1.TransferService.SearchTransfersByAddress:output_type -> meshtrade.wallet.transfer.v1.SearchTransfersByAddressResponse
-	5,  // 13: meshtrade.wallet.transfer.v1.TransferService.ListTransfers:output_type -> meshtrade.wallet.transfer.v1.ListTransfersResponse
-	8,  // 14: meshtrade.wallet.transfer.v1.TransferService.MonitorTransfer:output_type -> meshtrade.wallet.transfer.v1.Transfer
-	10, // [10:15] is the sub-list for method output_type
-	5,  // [5:10] is the sub-list for method input_type
-	5,  // [5:5] is the sub-list for extension type_name
-	5,  // [5:5] is the sub-list for extension extendee
-	0,  // [0:5] is the sub-list for field type_name
+	10, // 0: meshtrade.wallet.transfer.v1.CreateTransferRequest.transfer:type_name -> meshtrade.wallet.transfer.v1.Transfer
+	10, // 1: meshtrade.wallet.transfer.v1.SearchTransfersByAddressResponse.transfers:type_name -> meshtrade.wallet.transfer.v1.Transfer
+	9,  // 2: meshtrade.wallet.transfer.v1.ListTransfersRequest.sorting:type_name -> meshtrade.wallet.transfer.v1.ListTransfersRequest.Sorting
+	10, // 3: meshtrade.wallet.transfer.v1.ListTransfersResponse.transfers:type_name -> meshtrade.wallet.transfer.v1.Transfer
+	11, // 4: meshtrade.wallet.transfer.v1.CalculateTransferFeeRequest.amount:type_name -> meshtrade.type.v1.Amount
+	11, // 5: meshtrade.wallet.transfer.v1.CalculateTransferFeeResponse.fee_amount:type_name -> meshtrade.type.v1.Amount
+	11, // 6: meshtrade.wallet.transfer.v1.CalculateTransferFeeResponse.vat_amount:type_name -> meshtrade.type.v1.Amount
+	12, // 7: meshtrade.wallet.transfer.v1.CalculateTransferFeeResponse.vat_rate:type_name -> meshtrade.type.v1.Decimal
+	13, // 8: meshtrade.wallet.transfer.v1.ListTransfersRequest.Sorting.order:type_name -> meshtrade.type.v1.SortingOrder
+	0,  // 9: meshtrade.wallet.transfer.v1.TransferService.CreateTransfer:input_type -> meshtrade.wallet.transfer.v1.CreateTransferRequest
+	1,  // 10: meshtrade.wallet.transfer.v1.TransferService.GetTransfer:input_type -> meshtrade.wallet.transfer.v1.GetTransferRequest
+	2,  // 11: meshtrade.wallet.transfer.v1.TransferService.SearchTransfersByAddress:input_type -> meshtrade.wallet.transfer.v1.SearchTransfersByAddressRequest
+	4,  // 12: meshtrade.wallet.transfer.v1.TransferService.ListTransfers:input_type -> meshtrade.wallet.transfer.v1.ListTransfersRequest
+	6,  // 13: meshtrade.wallet.transfer.v1.TransferService.MonitorTransfer:input_type -> meshtrade.wallet.transfer.v1.MonitorTransferRequest
+	7,  // 14: meshtrade.wallet.transfer.v1.TransferService.CalculateTransferFee:input_type -> meshtrade.wallet.transfer.v1.CalculateTransferFeeRequest
+	10, // 15: meshtrade.wallet.transfer.v1.TransferService.CreateTransfer:output_type -> meshtrade.wallet.transfer.v1.Transfer
+	10, // 16: meshtrade.wallet.transfer.v1.TransferService.GetTransfer:output_type -> meshtrade.wallet.transfer.v1.Transfer
+	3,  // 17: meshtrade.wallet.transfer.v1.TransferService.SearchTransfersByAddress:output_type -> meshtrade.wallet.transfer.v1.SearchTransfersByAddressResponse
+	5,  // 18: meshtrade.wallet.transfer.v1.TransferService.ListTransfers:output_type -> meshtrade.wallet.transfer.v1.ListTransfersResponse
+	10, // 19: meshtrade.wallet.transfer.v1.TransferService.MonitorTransfer:output_type -> meshtrade.wallet.transfer.v1.Transfer
+	8,  // 20: meshtrade.wallet.transfer.v1.TransferService.CalculateTransferFee:output_type -> meshtrade.wallet.transfer.v1.CalculateTransferFeeResponse
+	15, // [15:21] is the sub-list for method output_type
+	9,  // [9:15] is the sub-list for method input_type
+	9,  // [9:9] is the sub-list for extension type_name
+	9,  // [9:9] is the sub-list for extension extendee
+	0,  // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_meshtrade_wallet_transfer_v1_service_proto_init() }
@@ -490,7 +619,7 @@ func file_meshtrade_wallet_transfer_v1_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_meshtrade_wallet_transfer_v1_service_proto_rawDesc), len(file_meshtrade_wallet_transfer_v1_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   8,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
