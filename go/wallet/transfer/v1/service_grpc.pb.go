@@ -24,6 +24,7 @@ const (
 	TransferService_SearchTransfersByAddress_FullMethodName = "/meshtrade.wallet.transfer.v1.TransferService/SearchTransfersByAddress"
 	TransferService_ListTransfers_FullMethodName            = "/meshtrade.wallet.transfer.v1.TransferService/ListTransfers"
 	TransferService_MonitorTransfer_FullMethodName          = "/meshtrade.wallet.transfer.v1.TransferService/MonitorTransfer"
+	TransferService_CalculateTransferFee_FullMethodName     = "/meshtrade.wallet.transfer.v1.TransferService/CalculateTransferFee"
 )
 
 // TransferServiceClient is the client API for TransferService service.
@@ -53,6 +54,11 @@ type TransferServiceClient interface {
 	// Supports lookup by either resource name.
 	// Returns a stream of transfer states as they change.
 	MonitorTransfer(ctx context.Context, in *MonitorTransferRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[Transfer], error)
+	// Calculates the transfer fee for a given transfer amount.
+	//
+	// Returns the calculated fee amount, VAT amount and VAT rate
+	// that would be applied to a transfer of the specified amount.
+	CalculateTransferFee(ctx context.Context, in *CalculateTransferFeeRequest, opts ...grpc.CallOption) (*CalculateTransferFeeResponse, error)
 }
 
 type transferServiceClient struct {
@@ -122,6 +128,16 @@ func (c *transferServiceClient) MonitorTransfer(ctx context.Context, in *Monitor
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type TransferService_MonitorTransferClient = grpc.ServerStreamingClient[Transfer]
 
+func (c *transferServiceClient) CalculateTransferFee(ctx context.Context, in *CalculateTransferFeeRequest, opts ...grpc.CallOption) (*CalculateTransferFeeResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CalculateTransferFeeResponse)
+	err := c.cc.Invoke(ctx, TransferService_CalculateTransferFee_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TransferServiceServer is the server API for TransferService service.
 // All implementations must embed UnimplementedTransferServiceServer
 // for forward compatibility.
@@ -149,6 +165,11 @@ type TransferServiceServer interface {
 	// Supports lookup by either resource name.
 	// Returns a stream of transfer states as they change.
 	MonitorTransfer(*MonitorTransferRequest, grpc.ServerStreamingServer[Transfer]) error
+	// Calculates the transfer fee for a given transfer amount.
+	//
+	// Returns the calculated fee amount, VAT amount and VAT rate
+	// that would be applied to a transfer of the specified amount.
+	CalculateTransferFee(context.Context, *CalculateTransferFeeRequest) (*CalculateTransferFeeResponse, error)
 	mustEmbedUnimplementedTransferServiceServer()
 }
 
@@ -173,6 +194,9 @@ func (UnimplementedTransferServiceServer) ListTransfers(context.Context, *ListTr
 }
 func (UnimplementedTransferServiceServer) MonitorTransfer(*MonitorTransferRequest, grpc.ServerStreamingServer[Transfer]) error {
 	return status.Errorf(codes.Unimplemented, "method MonitorTransfer not implemented")
+}
+func (UnimplementedTransferServiceServer) CalculateTransferFee(context.Context, *CalculateTransferFeeRequest) (*CalculateTransferFeeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CalculateTransferFee not implemented")
 }
 func (UnimplementedTransferServiceServer) mustEmbedUnimplementedTransferServiceServer() {}
 func (UnimplementedTransferServiceServer) testEmbeddedByValue()                         {}
@@ -278,6 +302,24 @@ func _TransferService_MonitorTransfer_Handler(srv interface{}, stream grpc.Serve
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type TransferService_MonitorTransferServer = grpc.ServerStreamingServer[Transfer]
 
+func _TransferService_CalculateTransferFee_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CalculateTransferFeeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TransferServiceServer).CalculateTransferFee(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TransferService_CalculateTransferFee_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TransferServiceServer).CalculateTransferFee(ctx, req.(*CalculateTransferFeeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // TransferService_ServiceDesc is the grpc.ServiceDesc for TransferService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -300,6 +342,10 @@ var TransferService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListTransfers",
 			Handler:    _TransferService_ListTransfers_Handler,
+		},
+		{
+			MethodName: "CalculateTransferFee",
+			Handler:    _TransferService_CalculateTransferFee_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

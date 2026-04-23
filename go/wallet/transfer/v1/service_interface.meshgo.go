@@ -46,6 +46,12 @@ type TransferService interface {
 	// Supports lookup by either resource name.
 	// Returns a stream of transfer states as they change.
 	MonitorTransfer(ctx context.Context, request *MonitorTransferRequest, stream TransferService_MonitorTransferStream) error
+
+	// Calculates the transfer fee for a given transfer amount.
+	//
+	// Returns the calculated fee amount, VAT amount and VAT rate
+	// that would be applied to a transfer of the specified amount.
+	CalculateTransferFee(ctx context.Context, request *CalculateTransferFeeRequest) (*CalculateTransferFeeResponse, error)
 }
 
 const TransferServiceServiceProviderName = "meshtrade-wallet-transfer-v1-TransferService"

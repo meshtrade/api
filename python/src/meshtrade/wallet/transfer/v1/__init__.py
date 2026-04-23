@@ -15,6 +15,8 @@
 # Generated protobuf imports
 from .transfer_pb2 import Transfer, TransferFee, TransferState
 from .service_pb2 import (
+    CalculateTransferFeeRequest,
+    CalculateTransferFeeResponse,
     CreateTransferRequest,
     GetTransferRequest,
     ListTransfersRequest,
@@ -51,6 +53,8 @@ from .service_meshpy import (
 # Combined auto-generated and manual exports
 __all__ = [
     # Generated exports
+    "CalculateTransferFeeRequest",
+    "CalculateTransferFeeResponse",
     "CreateTransferRequest",
     "GetTransferRequest",
     "ListTransfersRequest",

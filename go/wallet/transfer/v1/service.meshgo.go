@@ -66,6 +66,10 @@ type TransferServiceClientInterface interface {
 	// Supports lookup by either resource name.
 	// Returns a stream of transfer states as they change.
 	MonitorTransfer(ctx context.Context, request *MonitorTransferRequest) (TransferService_MonitorTransferClient, error)
+	// Calculates the transfer fee for a given transfer amount.
+	// Returns the calculated fee amount, VAT amount and VAT rate
+	// that would be applied to a transfer of the specified amount.
+	CalculateTransferFee(ctx context.Context, request *CalculateTransferFeeRequest) (*CalculateTransferFeeResponse, error)
 
 	// WithGroup returns a new client instance with a different group context
 	WithGroup(group string) TransferServiceClientInterface
@@ -233,5 +237,13 @@ func (s *transferService) ListTransfers(ctx context.Context, request *ListTransf
 func (s *transferService) MonitorTransfer(ctx context.Context, request *MonitorTransferRequest) (TransferService_MonitorTransferClient, error) {
 	return grpc.ExecuteStream(s.Executor(), ctx, "MonitorTransfer", request, func(ctx context.Context) (TransferService_MonitorTransferClient, error) {
 		return s.GrpcClient().MonitorTransfer(ctx, request)
+	})
+}
+
+// CalculateTransferFee executes the CalculateTransferFee RPC method with automatic
+// client-side validation, timeout handling, distributed tracing, and authentication.
+func (s *transferService) CalculateTransferFee(ctx context.Context, request *CalculateTransferFeeRequest) (*CalculateTransferFeeResponse, error) {
+	return grpc.Execute(s.Executor(), ctx, "CalculateTransferFee", request, func(ctx context.Context) (*CalculateTransferFeeResponse, error) {
+		return s.GrpcClient().CalculateTransferFee(ctx, request)
 	})
 }
