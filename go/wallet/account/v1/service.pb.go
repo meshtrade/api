@@ -657,9 +657,12 @@ type SearchAccountsRequest struct {
 	// not the 'owners' hierarchy. Only accounts whose direct owner matches
 	// one of the provided groups are returned.
 	// Format: groups/{ULIDv2}.
-	Owner         []string `protobuf:"bytes,4,rep,name=owner,proto3" json:"owner,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Owner []string `protobuf:"bytes,4,rep,name=owner,proto3" json:"owner,omitempty"`
+	// Optional filter to show internally created accounts.
+	// False by default.
+	ShowInternallyCreated bool `protobuf:"varint,5,opt,name=show_internally_created,json=showInternallyCreated,proto3" json:"show_internally_created,omitempty"`
+	unknownFields         protoimpl.UnknownFields
+	sizeCache             protoimpl.SizeCache
 }
 
 func (x *SearchAccountsRequest) Reset() {
@@ -718,6 +721,13 @@ func (x *SearchAccountsRequest) GetOwner() []string {
 		return x.Owner
 	}
 	return nil
+}
+
+func (x *SearchAccountsRequest) GetShowInternallyCreated() bool {
+	if x != nil {
+		return x.ShowInternallyCreated
+	}
+	return false
 }
 
 // Response containing search results.
@@ -1128,14 +1138,15 @@ const file_meshtrade_wallet_account_v1_service_proto_rawDesc = "" +
 	"R\x00R\x06numberR\x05field\x125\n" +
 	"\x05order\x18\x02 \x01(\x0e2\x1f.meshtrade.type.v1.SortingOrderR\x05order\"X\n" +
 	"\x14ListAccountsResponse\x12@\n" +
-	"\baccounts\x18\x01 \x03(\v2$.meshtrade.wallet.account.v1.AccountR\baccounts\"\xc7\x04\n" +
+	"\baccounts\x18\x01 \x03(\v2$.meshtrade.wallet.account.v1.AccountR\baccounts\"\xff\x04\n" +
 	"\x15SearchAccountsRequest\x12T\n" +
 	"\asorting\x18\x01 \x01(\v2:.meshtrade.wallet.account.v1.SearchAccountsRequest.SortingR\asorting\x12\x93\x01\n" +
 	"\fdisplay_name\x18\x02 \x01(\tBp\xbaHm\xba\x01e\n" +
 	"\x17display_name.max_length\x127display_name search term must not exceed 255 characters\x1a\x11size(this) <= 255r\x03\x18\xff\x01R\vdisplayName\x120\n" +
 	"\x14populate_ledger_data\x18\x03 \x01(\bR\x12populateLedgerData\x12V\n" +
 	"\x05owner\x18\x04 \x03(\tB@\xbaH=\x92\x01:\x10\n" +
-	"\"6r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05owner\x1a\xb7\x01\n" +
+	"\"6r42/^groups/[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$\x98\x01!R\x05owner\x126\n" +
+	"\x17show_internally_created\x18\x05 \x01(\bR\x15showInternallyCreated\x1a\xb7\x01\n" +
 	"\aSorting\x12u\n" +
 	"\x05field\x18\x01 \x01(\tB_\xbaH\\\xba\x01M\n" +
 	"\vfield.valid\x12&field must be one of: number, or empty\x1a\x16this in ['', 'number']r\n" +
