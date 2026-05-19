@@ -548,6 +548,12 @@ message SearchAccountsRequest {
       }
     }
   }];
+
+  /*
+     Optional filter to show internally created accounts.
+     False by default.
+  */
+  bool show_internally_created = 5;
 }
 
 /*
