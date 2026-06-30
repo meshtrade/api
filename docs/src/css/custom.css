@@ -43,6 +43,18 @@
   --ifm-navbar-background-color: #231F40 !important;
 }
 
+[data-theme='dark'] .theme-code-block,
+[data-theme='dark'] pre.prism-code {
+  --prism-background-color: #231F40 !important;
+  background-color: #231F40 !important;
+}
+
+[data-theme='light'] .theme-code-block,
+[data-theme='light'] pre.prism-code {
+  --prism-background-color: #f5f5f7 !important;
+  background-color: #f5f5f7 !important;
+}
+
 /* Custom styles for API documentation */
 .api-method {
   display: inline-block;
