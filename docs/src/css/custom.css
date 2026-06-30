@@ -9,6 +9,9 @@
 :root {
   --ifm-font-color-primary: #0c0c0c;
 
+  --ifm-font-family-base: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --ifm-heading-font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
   --ifm-color-primary: #43398d;          
   --ifm-color-primary-dark: #3a317d;      
   --ifm-color-primary-darker: #30286a;    
