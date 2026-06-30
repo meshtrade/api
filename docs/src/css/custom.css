@@ -41,14 +41,14 @@
   --ifm-color-primary-lightest: #d7caff;
   --docusaurus-highlighted-code-line-bg: rgba(255, 0, 0, 0.05); 
 
-  --ifm-color-nav: #231F40;
-  --ifm-background-color: #121027 !important;
+  --ifm-color-nav: #231F40 !important;
+  --ifm-background-color: #0f0e20 !important;
   --ifm-navbar-background-color: #231F40 !important;
 }
 
 [data-theme='dark'] .theme-code-block,
 [data-theme='dark'] pre.prism-code {
-  --prism-background-color: #231F40 !important;
+  --prism-background-color: #0b0a17 !important;
   background-color: #231F40 !important;
 }
 
@@ -56,6 +56,11 @@
 [data-theme='light'] pre.prism-code {
   --prism-background-color: #f5f5f7 !important;
   background-color: #f5f5f7 !important;
+}
+
+/* Lower the admonition background opacity in dark mode so the page shows through */
+[data-theme='dark'] .theme-admonition-note {
+  --ifm-alert-background-color: rgba(210, 203, 255, 0.06);
 }
 
 /* Custom styles for API documentation */
