@@ -320,7 +320,7 @@ yarn serve:docs    # Serve built documentation
 - **Multi-language Code Blocks** - Go, Python, TypeScript, Protobuf
 - **MDX Support** - React components in markdown
 - **Blog/News Section** - For updates and announcements
-- **Search** (Algolia ready - currently disabled)
+- **Search** - Local/offline full-text search via `@easyops-cn/docusaurus-search-local` (configured in the `themes` array of `docusaurus.config.ts`). Builds a Lunr.js index at build time; no external service or account required. The search UI is presented as a centered ⌘K modal (Algolia-style) via a swizzled SearchBar in `src/theme/SearchBar/` (a thin wrapper that renders the plugin's original SearchBar inside a portal modal — search behaviour is unchanged, only its presentation). Note: the search index is generated only on `yarn build:docs`, not on the `yarn start:docs` dev server.
 
 ### Theme Customization
 

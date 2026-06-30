@@ -199,6 +199,12 @@ html[data-theme='dark'] * {
     background-color: color-mix(in srgb, var(--ifm-color-nav) 90%, transparent);
     backdrop-filter: blur(6px);
   }
+
+  /* Positioned ancestor so the centered search CTA (see theme/SearchBar)
+     can be absolutely centered within the navbar. */
+  .navbar__inner {
+    position: relative;
+  }
 }
 
 footer.footer {

@@ -1,0 +1,310 @@
+/**
+ * Search: a centered navbar CTA button that opens a centered modal.
+ * The modal hosts the original @easyops-cn/docusaurus-search-local SearchBar,
+ * so all search behaviour (indexing, results, highlighting) is unchanged — we
+ * only restyle where it renders. The modal is portaled to <body>, escaping the
+ * navbar's backdrop-filter containing block.
+ */
+
+/* ------------------------------------------------------------------ */
+/* Navbar CTA button                                                   */
+/* ------------------------------------------------------------------ */
+
+.searchCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 2.25rem;
+  padding: 0 0.6rem 0 0.75rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 2rem;
+  background-color: var(--ifm-color-emphasis-100);
+  color: var(--ifm-color-emphasis-700);
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1;
+  cursor: pointer;
+  /* Prominent and centered, but scales with the window so it always clears the
+     left nav links and the right-hand icons (the left group is wider than the
+     right, so a navbar-centered button hits the left side first — hence 24vw). */
+  width: clamp(220px, 24vw, 440px);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.searchCta:hover {
+  border-color: var(--ifm-color-primary);
+  background-color: var(--ifm-color-emphasis-200);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--ifm-color-primary) 18%, transparent);
+}
+
+.searchCtaIcon {
+  flex: 0 0 auto;
+  opacity: 0.8;
+}
+
+.searchCtaText {
+  flex: 1 1 auto;
+  text-align: left;
+}
+
+.searchCtaHint {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.searchCtaKbd {
+  font-family: inherit;
+  font-size: 0.7rem;
+  line-height: 1.2;
+  padding: 1px 5px;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  background-color: var(--ifm-background-color);
+  color: var(--ifm-color-emphasis-600);
+}
+
+/* Center the button within the navbar on desktop. Pairs with the
+   `.navbar__inner { position: relative }` rule in custom.css. */
+@media (min-width: 997px) {
+  .searchCta {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* On small screens collapse to an icon-only button in normal flow. */
+@media (max-width: 996px) {
+  .searchCtaText,
+  .searchCtaHint {
+    display: none;
+  }
+  .searchCta {
+    gap: 0;
+    padding: 0;
+    width: 2.25rem;
+    min-width: 0;
+    justify-content: center;
+    border-radius: 50%;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Modal + backdrop                                                    */
+/* ------------------------------------------------------------------ */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--ifm-z-index-fixed, 200) + 10);
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0 1rem;
+  background-color: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(2px);
+}
+
+/* The modal stays mounted (so the query persists across opens); .open toggles
+   visibility and re-triggers the entrance animations. */
+.backdrop.open {
+  display: flex;
+  animation: searchFadeIn 0.15s ease;
+}
+
+.modal {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin-top: 9vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(
+    --ifm-background-surface-color,
+    var(--ifm-background-color)
+  );
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 12px;
+  box-shadow: 0 14px 48px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+}
+
+.backdrop.open .modal {
+  animation: searchPopIn 0.15s ease;
+}
+
+@keyframes searchFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes searchPopIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---- Reshape the wrapped SearchBar into the modal layout ---- */
+
+/* The SearchBar container fills the modal width without navbar margins. */
+.modal :global(.navbar__search) {
+  width: 100%;
+  margin: 0;
+}
+
+/* The autocomplete root (span.searchBar_xxxx) becomes a full-width block. */
+.modal :global([class*='searchBar_']) {
+  display: block;
+  width: 100%;
+}
+
+/* The input becomes the modal's header field. Reserve right-hand space for the
+   clear button and the close (✕) button. */
+.modal :global(.navbar__search-input) {
+  width: 100%;
+  height: 3.5rem;
+  padding-left: 3rem;
+  padding-right: 6rem;
+  font-size: 1.05rem;
+  border: none;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 0;
+  background-color: transparent;
+  background-position: 1.1rem center;
+  background-size: 1.15rem;
+}
+
+.modal :global(.navbar__search-input:focus) {
+  outline: none;
+}
+
+/* Hide the inline ⌘K hint inside the modal (redundant once open). */
+.modal :global([class*='searchHintContainer']) {
+  display: none;
+}
+
+/* The plugin's clear button: shown only when there is text. The plugin hard-
+   codes a "✕" glyph; hide it and render a "Clear search" text label instead
+   (its onClick clears the query — behaviour is unchanged). */
+.modal :global([class*='searchClearButton']) {
+  top: 1.75rem !important;
+  right: 3.25rem !important;
+  width: auto !important;
+  height: auto !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  padding: 0.3rem 0.5rem !important;
+  border-radius: 6px !important;
+  font-size: 0 !important; /* hide the hard-coded ✕ */
+  color: var(--ifm-color-emphasis-600);
+  white-space: nowrap;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.modal :global([class*='searchClearButton'])::after {
+  content: 'Clear search';
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+.modal :global([class*='searchClearButton']):hover {
+  background-color: var(--ifm-color-emphasis-200);
+  color: var(--ifm-color-emphasis-800);
+}
+
+/* Always-visible close button that dismisses the modal. */
+.closeButton {
+  position: absolute;
+  top: 0.95rem;
+  right: 0.9rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ifm-color-emphasis-600);
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.closeButton:hover {
+  background-color: var(--ifm-color-emphasis-200);
+  color: var(--ifm-color-emphasis-900);
+}
+
+/* Keep the loading spinner aligned with the input field too. */
+.modal :global([class*='searchBarLoadingRing']) {
+  top: 1.25rem !important;
+  left: 1.1rem !important;
+}
+
+/* The results dropdown becomes the modal body (in-flow, full width). */
+.modal :global([class*='dropdownMenu']) {
+  position: static !important;
+  left: auto !important;
+  right: auto !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0.75rem !important;
+  max-height: min(60vh, 28rem);
+  overflow-y: auto;
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+/* ---- Modal footer with keyboard hints ---- */
+
+.modalFooter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  padding: 0.6rem 0.9rem;
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+  font-size: 0.72rem;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.footerKbd {
+  font-family: inherit;
+  font-size: 0.68rem;
+  padding: 1px 5px;
+  margin-right: 2px;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 4px;
+  background-color: var(--ifm-color-emphasis-100);
+  color: var(--ifm-color-emphasis-700);
+}
+
+@media (max-width: 576px) {
+  .modal {
+    margin-top: 4vh;
+  }
+  .modalFooter {
+    display: none;
+  }
+}
