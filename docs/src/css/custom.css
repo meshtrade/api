@@ -41,9 +41,9 @@
   --ifm-color-primary-lightest: #d7caff;
   --docusaurus-highlighted-code-line-bg: rgba(255, 0, 0, 0.05); 
 
-  --ifm-color-nav: #231F40 !important;
-  --ifm-background-color: #0f0e20 !important;
-  --ifm-navbar-background-color: #231F40 !important;
+  --ifm-color-nav: #171433 !important;
+  --ifm-background-color: #121027 !important;
+  --ifm-navbar-background-color: #171433 !important;
 }
 
 [data-theme='dark'] .theme-code-block,
