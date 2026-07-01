@@ -27,7 +27,54 @@ const config: Config = {
     },
   },
 
-  themes: ['@docusaurus/theme-mermaid'],
+  themes: [
+    '@docusaurus/theme-mermaid',
+    // Local (offline) search. Builds a Lunr.js index at build time and serves a
+    // ⌘K / Ctrl+K search modal entirely from the static site — no external
+    // service, account, or API key required. See docs: https://github.com/easyops-cn/docusaurus-search-local
+    [
+      require.resolve('@easyops-cn/docusaurus-search-local'),
+      {
+        // Index hand-written guides + generated API reference (docs) and News (blog).
+        indexDocs: true,
+        indexBlog: true,
+        // The custom React pages (homepage, etc.) are navigational, not content —
+        // excluding them keeps results focused on documentation.
+        indexPages: false,
+        // Match this site's non-default blog route (`routeBasePath: 'news'`).
+        blogRouteBasePath: '/news',
+        docsRouteBasePath: '/docs',
+        // Cache-bust the generated index files via content hash for long-term caching.
+        hashed: true,
+        language: ['en'],
+        // Do not highlight/mark the matched terms on the destination page.
+        highlightSearchTermsOnTargetPage: false,
+        searchResultLimits: 8,
+      },
+    ],
+  ],
+
+  stylesheets: [
+    {
+      href: 'https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap',
+      type: 'text/css',
+    },
+  ],
+
+  headTags: [
+    {
+      tagName: 'link',
+      attributes: { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+    },
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'preconnect',
+        href: 'https://fonts.gstatic.com',
+        crossorigin: 'anonymous',
+      },
+    },
+  ],
 
   presets: [
     [
@@ -142,14 +189,8 @@ const config: Config = {
         darkTheme: prismThemes.dracula,
         additionalLanguages: ['protobuf', 'go', 'python', 'typescript', 'java'],
       },
-      // algolia: {
-      //   appId: 'YOUR_APP_ID',
-      //   apiKey: 'YOUR_SEARCH_API_KEY',
-      //   indexName: 'YOUR_INDEX_NAME',
-      //   contextualSearch: true,
-      //   searchParameters: {},
-      //   searchPagePath: 'search',
-      // },
+      // Search is provided by the local (offline) search theme configured in the
+      // top-level `themes` array above — no Algolia account required.
       mermaid: {
         theme: {light: 'neutral', dark: 'dark'},
       },

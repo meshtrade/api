@@ -9,6 +9,9 @@
 :root {
   --ifm-font-color-primary: #0c0c0c;
 
+  --ifm-font-family-base: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --ifm-heading-font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
   --ifm-color-primary: #43398d;          
   --ifm-color-primary-dark: #3a317d;      
   --ifm-color-primary-darker: #30286a;    
@@ -25,6 +28,12 @@
   --ifm-navbar-background-color: #fff;
 }
 
+/* Always reserve the scrollbar gutter so the layout doesn't shift between
+   short/long pages or when the search modal locks body scroll. */
+html {
+  scrollbar-gutter: stable;
+}
+
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
   --ifm-font-color-primary: #ffffff;
@@ -38,9 +47,26 @@
   --ifm-color-primary-lightest: #d7caff;
   --docusaurus-highlighted-code-line-bg: rgba(255, 0, 0, 0.05); 
 
-  --ifm-color-nav: #231F40;
+  --ifm-color-nav: #171433 !important;
   --ifm-background-color: #121027 !important;
-  --ifm-navbar-background-color: #231F40 !important;
+  --ifm-navbar-background-color: #171433 !important;
+}
+
+[data-theme='dark'] .theme-code-block,
+[data-theme='dark'] pre.prism-code {
+  --prism-background-color: #0b0a17 !important;
+  background-color: #231F40 !important;
+}
+
+[data-theme='light'] .theme-code-block,
+[data-theme='light'] pre.prism-code {
+  --prism-background-color: #f5f5f7 !important;
+  background-color: #f5f5f7 !important;
+}
+
+/* Lower the admonition background opacity in dark mode so the page shows through */
+[data-theme='dark'] .theme-admonition-note {
+  --ifm-alert-background-color: rgba(210, 203, 255, 0.06);
 }
 
 /* Custom styles for API documentation */
@@ -178,6 +204,12 @@ html[data-theme='dark'] * {
   .navbar {
     background-color: color-mix(in srgb, var(--ifm-color-nav) 90%, transparent);
     backdrop-filter: blur(6px);
+  }
+
+  /* Positioned ancestor so the centered search CTA (see theme/SearchBar)
+     can be absolutely centered within the navbar. */
+  .navbar__inner {
+    position: relative;
   }
 }
 

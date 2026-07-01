@@ -132,10 +132,10 @@ graph TD
     BrokerA --> ClientX
     ClientX --> Account
 
-    style Root fill:#e1f5fe
-    style BrokerA fill:#c8e6c9
-    style ClientX fill:#fff3e0
-    style Account fill:#fce4ec
+    style Root fill:#e1f5fe,color:#1a1a1a
+    style BrokerA fill:#c8e6c9,color:#1a1a1a
+    style ClientX fill:#fff3e0,color:#1a1a1a
+    style Account fill:#fce4ec,color:#1a1a1a
 ```
 
 ### Read vs Write Access
@@ -207,9 +207,9 @@ graph TD
         Group --> Account
     end
 
-    style Client fill:#e1f5fe
-    style APIUser fill:#c8e6c9
-    style Account fill:#fff3e0
+    style Client fill:#e1f5fe,color:#1a1a1a
+    style APIUser fill:#c8e6c9,color:#1a1a1a
+    style Account fill:#fff3e0,color:#1a1a1a
 ```
 
 The API User authenticates with `x-api-key` and `x-group: groups/MY_GROUP`. Since it has `TRADING_ADMIN` and `WALLET_VIEWER` roles in `MY_GROUP`, it can call any method that lists those roles, and can read and write resources owned by `MY_GROUP`.
@@ -247,9 +247,9 @@ graph TD
         Individual --> IndAccount
     end
 
-    style BrokerClient fill:#e1f5fe
-    style CorpClient fill:#e1f5fe
-    style IndClient fill:#e1f5fe
+    style BrokerClient fill:#e1f5fe,color:#1a1a1a
+    style CorpClient fill:#e1f5fe,color:#1a1a1a
+    style IndClient fill:#e1f5fe,color:#1a1a1a
 ```
 
 Each client entity starts a new legal entity boundary. The Corporate Client and Individual Client entities are both ultimately owned by the Broker Corp group hierarchy, but each defines its own compliance boundary.
